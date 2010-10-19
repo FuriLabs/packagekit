@@ -39,6 +39,9 @@ override_dh_auto_install:
 	
 	dh_install --list-missing --fail-missing
 
+override_dh_makeshlibs:
+	dh_makeshlibs -Xlibpk-gtk-module -Xlibpackagekit-action-lookup -Xlibpk_ -Xpackagekit-plugin
+
 override_dh_auto_clean:
 	dh_auto_clean
 	# Restore documentation
