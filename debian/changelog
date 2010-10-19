@@ -1,0 +1,5 @@
+packagekit (0.6.8-1) unstable; urgency=low
+
+  * Initial release (Closes: #468132)
+
+ -- Matthias Klumpp <matthias@nlinux.org>  Wed, 25 Aug 2010 19:40:12 +0200

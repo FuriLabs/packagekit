@@ -1,0 +1,4 @@
+etc/bash_completion.d/pk-completion.bash
+usr/lib/packagekit/pk-command-not-found
+etc/PackageKit/CommandNotFound.conf
+etc/profile.d/PackageKit.sh
