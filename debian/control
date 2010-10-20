@@ -116,7 +116,7 @@ Package: libpackagekit-qt14
 Architecture: any
 Section: libs
 Depends: ${misc:Depends}, ${shlibs:Depends}
-Conflicts: libpackagekit-qt-14 (<= 0.6.8-0)
+Conflicts: libpackagekit-qt-14 (>= 0.6.8-0)
 Replaces: libpackagekit-qt-14
 Description: Library for accessing PackageKit using Qt4
  PackageKit allows to perform simple software management tasks over a DBus 
@@ -180,8 +180,9 @@ Architecture: any
 Section: web
 Depends: ${misc:Depends}, ${shlibs:Depends},
 	 packagekit (= ${binary:Version}),
-	 firefox (>> 3.0) | iceweasel (>> 3.0) | www-browser
-Conflicts: mozilla-packagekit (<< 0.6.6)
+	 firefox (> 3.0) | iceweasel (> 3.0) | www-browser
+Conflicts: mozilla-packagekit (>> 0.6.6)
+Replaces: mozilla-packagekit
 Description: Plugin to install missing plugins using PackageKit
  PackageKit allows to perform simple software management tasks over a DBus 
  interface e.g refreshing the cache, updating, installing and removing 
