@@ -2,8 +2,6 @@ Source: packagekit
 Section: admin
 Priority: optional
 Maintainer: Matthias Klumpp <matthias@nlinux.org>
-Vcs-Bzr: https://code.launchpad.net/~packagekit/packagekit/debian
-Vcs-Browser: http://bazaar.launchpad.net/~packagekit/packagekit/debian/files
 Build-Depends: debhelper (>= 7.0.50~),
     autotools-dev (>=20100122.1),
     libtool,
@@ -183,7 +181,7 @@ Section: web
 Depends: ${misc:Depends}, ${shlibs:Depends},
 	 packagekit (= ${binary:Version}),
 	 firefox (>> 3.0) | iceweasel (>> 3.0) | www-browser
-Conflicts: mozilla-packagekit (>> 0.6.6)
+Conflicts: mozilla-packagekit
 Replaces: mozilla-packagekit
 Description: Plugin to install missing plugins using PackageKit
  PackageKit allows to perform simple software management tasks over a DBus 
