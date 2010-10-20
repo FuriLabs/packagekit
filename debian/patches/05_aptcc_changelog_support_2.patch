@@ -1,0 +1,135 @@
+From 4c449baa8e890093362f3e0a7249392da3ace0b3 Mon Sep 17 00:00:00 2001
+From: Daniel Nicoletti <dantti85-pk@yahoo.com.br>
+Date: Tue, 5 Oct 2010 04:15:03 -0300
+Subject: [PATCH] aptcc: Add a nicer string pointing to launchpad when the changelog is not available
+
+---
+ backends/aptcc/apt-utils.cpp |   35 +++++++++++++++++++++++------------
+ backends/aptcc/apt-utils.h   |    7 ++++++-
+ backends/aptcc/apt.cpp       |    9 +++++----
+ 3 files changed, 34 insertions(+), 17 deletions(-)
+
+diff --git a/backends/aptcc/apt-utils.cpp b/backends/aptcc/apt-utils.cpp
+index 52142a2..9065bc8 100644
+--- a/backends/aptcc/apt-utils.cpp
++++ b/backends/aptcc/apt-utils.cpp
+@@ -244,7 +244,12 @@ get_enum_group (string group)
+ 	}
+ }
+ 
+-string getChangelogFile(const string &name, const string &uri, pkgAcquire *fetcher)
++string getChangelogFile(const string &name,
++                        const string &origin,
++                        const string &verstr,
++                        const string &srcPkg,
++                        const string &uri,
++                        pkgAcquire *fetcher)
+ {
+    string descr("Changelog for ");
+    descr += name;
+@@ -253,9 +258,6 @@ string getChangelogFile(const string &name, const string &uri, pkgAcquire *fetch
+    string filename = "/tmp/aptcc_changelog";
+ 
+    new pkgAcqFileSane(fetcher, uri, descr, name, filename);
+-   //cerr << "**DEBUG** origin: " << origin() << endl;
+-   //cerr << "**DEBUG** uri: " << uri << endl;
+-   //cerr << "**DEBUG** filename: " << filename << endl;
+ 
+    ofstream out(filename.c_str());
+    if(fetcher->Run() == pkgAcquire::Failed) {
+@@ -263,14 +265,23 @@ string getChangelogFile(const string &name, const string &uri, pkgAcquire *fetch
+       out << "Please check your Internet connection." << endl;
+       // FIXME: Need to dequeue the item
+    } else {
+-      struct stat filestatus;
+-      stat(filename.c_str(), &filestatus );
+-      if (filestatus.st_size == 0) {
+-         out << "This change is not coming from a source that supports changelogs.\n" << endl;
+-         out << "Failed to fetch the changelog for " << name << endl;
+-         out << "URI was: " << uri << endl;
+-      }
+-   };
++        struct stat filestatus;
++        stat(filename.c_str(), &filestatus );
++
++        if (filestatus.st_size == 0) {
++            // FIXME: Use supportedOrigins
++            if (origin.compare("Ubuntu") == 0) {
++                out << "The list of changes is not available yet.\n" << endl;
++                out << "Please use http://launchpad.net/ubuntu/+source/"<< srcPkg <<
++                        "/" << verstr << "/+changelog" << endl;
++                out << "until the changes become available or try again later." << endl;
++            } else {
++                out << "This change is not coming from a source that supports changelogs.\n" << endl;
++                out << "Failed to fetch the changelog for " << name << endl;
++                out << "URI was: " << uri << endl;
++            }
++        }
++   }
+    out.close();
+ 
+    return filename;
+diff --git a/backends/aptcc/apt-utils.h b/backends/aptcc/apt-utils.h
+index 461e7ca..a38dcc9 100644
+--- a/backends/aptcc/apt-utils.h
++++ b/backends/aptcc/apt-utils.h
+@@ -106,7 +106,12 @@ PkGroupEnum get_enum_group(string group);
+ /**
+   * Return the changelog filename fetched
+   */
+-string getChangelogFile(const string &name, const string &uri, pkgAcquire *fetcher);
++string getChangelogFile(const string &name,
++                        const string &origin,
++                        const string &verstr,
++                        const string &srcPkg,
++                        const string &uri,
++                        pkgAcquire *fetcher);
+ 
+ /**
+   * Returns a list of links pairs url;description for CVEs
+diff --git a/backends/aptcc/apt.cpp b/backends/aptcc/apt.cpp
+index c0c58e2..e674be8 100644
+--- a/backends/aptcc/apt.cpp
++++ b/backends/aptcc/apt.cpp
+@@ -607,6 +607,7 @@ void aptcc::emit_update_detail(const pkgCache::PkgIterator &pkg)
+     // Build the changelogURI
+     char uri[512];
+     string srcpkg;
++    string verstr;
+ 
+     if (rec.SourcePkg().empty()) {
+         srcpkg = pkg.Name();
+@@ -623,18 +624,17 @@ void aptcc::emit_update_detail(const pkgCache::PkgIterator &pkg)
+             src_section = "main";
+         }
+ 
+-        prefix+=srcpkg[0];
++        prefix += srcpkg[0];
+         if(srcpkg.size() > 3 && srcpkg[0] == 'l' && srcpkg[1] == 'i' && srcpkg[2] == 'b') {
+             prefix = string("lib") + srcpkg[3];
+         }
+ 
+-        string verstr;
+         if(candver.VerStr() != NULL) {
+             verstr = candver.VerStr();
+         }
+ 
+         if(verstr.find(':') != verstr.npos) {
+-            verstr=string(verstr, verstr.find(':') + 1);
++            verstr = string(verstr, verstr.find(':') + 1);
+         }
+ 
+         if (origin.compare("Debian") == 0) {
+@@ -685,7 +685,8 @@ void aptcc::emit_update_detail(const pkgCache::PkgIterator &pkg)
+     fetcher.Setup(&Stat);
+ 
+     // fetch the changelog
+-    string filename = getChangelogFile(pkg.Name(), uri, &fetcher);
++    pk_backend_set_status(m_backend, PK_STATUS_ENUM_DOWNLOAD_CHANGELOG);
++    string filename = getChangelogFile(pkg.Name(), origin, verstr, srcpkg, uri, &fetcher);
+ 
+     string changelog;
+     string update_text;
+-- 
+1.6.1
+

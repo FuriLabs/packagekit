@@ -1,0 +1,68 @@
+From c79e2f6f705d45379c6fab9939681a3aa34daaa5 Mon Sep 17 00:00:00 2001
+From: Daniel Nicoletti <dantti85-pk@yahoo.com.br>
+Date: Fri, 17 Sep 2010 00:52:14 -0300
+Subject: [PATCH] aptcc: Updated calls not to use deprecated apt code
+
+---
+ backends/aptcc/apt.cpp              |    5 +++--
+ backends/aptcc/pk-backend-aptcc.cpp |    7 ++++---
+ 2 files changed, 7 insertions(+), 5 deletions(-)
+
+diff --git a/backends/aptcc/apt.cpp b/backends/aptcc/apt.cpp
+index a36145f..c4089de 100644
+--- a/backends/aptcc/apt.cpp
++++ b/backends/aptcc/apt.cpp
+@@ -1450,7 +1450,7 @@ bool aptcc::runTransaction(vector<pair<pkgCache::PkgIterator, pkgCache::VerItera
+ 	OpTextProgress Prog(*_config);
+ 	int timeout = 10;
+ 	// TODO test this
+-	while (Cache.Open(Prog, WithLock) == false) {
++	while (Cache.Open(&Prog, WithLock) == false) {
+ 		// failed to open cache, try checkDeps then..
+ 		// || Cache.CheckDeps(CmdL.FileSize() != 1) == false
+ 		if (WithLock == false || (timeout <= 0)) {
+@@ -1601,7 +1601,8 @@ bool aptcc::installPackages(pkgCacheFile &Cache)
+ 	AcqPackageKitStatus Stat(this, m_backend, _cancel);
+ 
+ 	// get a fetcher
+-	pkgAcquire fetcher(&Stat);
++	pkgAcquire fetcher;
++	fetcher.Setup(&Stat);
+ 
+ 	// Create the package manager and prepare to download
+ 	SPtr<pkgPackageManager> PM= _system->CreatePM(Cache);
+diff --git a/backends/aptcc/pk-backend-aptcc.cpp b/backends/aptcc/pk-backend-aptcc.cpp
+index 60c1274..f4f80d5 100644
+--- a/backends/aptcc/pk-backend-aptcc.cpp
++++ b/backends/aptcc/pk-backend-aptcc.cpp
+@@ -402,7 +402,7 @@ backend_get_or_update_system_thread (PkBackend *backend)
+ 	OpTextProgress Prog(*_config);
+ 	int timeout = 10;
+ 	// TODO test this
+-	while (Cache.Open(Prog, !getUpdates) == false) {
++	while (Cache.Open(&Prog, !getUpdates) == false) {
+ 		// failed to open cache, try checkDeps then..
+ 		// || Cache.CheckDeps(CmdL.FileSize() != 1) == false
+ 		if (getUpdates == true || (timeout <= 0)) {
+@@ -607,7 +607,8 @@ backend_download_packages_thread (PkBackend *backend)
+ 	AcqPackageKitStatus Stat(m_apt, backend, _cancel);
+ 
+ 	// get a fetcher
+-	pkgAcquire fetcher(&Stat);
++	pkgAcquire fetcher;
++	fetcher.Setup(&Stat);
+ 	string filelist;
+ 	gchar *pi;
+ 
+@@ -747,7 +748,7 @@ backend_refresh_cache_thread (PkBackend *backend)
+ 	// Rebuild the cache.
+ 	pkgCacheFile Cache;
+ 	OpTextProgress Prog(*_config);
+-	if (Cache.BuildCaches(Prog, true) == false) {
++	if (Cache.BuildCaches(&Prog, true) == false) {
+ 		if (_error->PendingError() == true) {
+ 			show_errors(backend, PK_ERROR_ENUM_CANNOT_GET_LOCK);
+ 		}
+-- 
+1.6.1
+
