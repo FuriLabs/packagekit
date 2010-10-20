@@ -2,6 +2,7 @@ packagekit (0.6.8-2) unstable; urgency=low
 
   * Make dh_makeshlibs ignore non-public libraries. This prevents it from
     including an useless shlibs-controlfile into the packages.
+  * Merged some patches from Ubuntu
 
  -- Matthias Klumpp <matthias@nlinux.org>  Tue, 19 Oct 2010 21:05:19 +0200
 

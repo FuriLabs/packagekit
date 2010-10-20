@@ -180,7 +180,7 @@ Architecture: any
 Section: web
 Depends: ${misc:Depends}, ${shlibs:Depends},
 	 packagekit (= ${binary:Version}),
-	 firefox (> 3.0) | iceweasel (> 3.0) | www-browser
+	 firefox (>> 3.0) | iceweasel (>> 3.0) | www-browser
 Conflicts: mozilla-packagekit (>> 0.6.6)
 Replaces: mozilla-packagekit
 Description: Plugin to install missing plugins using PackageKit
