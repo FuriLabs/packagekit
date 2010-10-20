@@ -1,3 +1,7 @@
-00_set_vendor.patch
-01_set_defaults.patch
-
+vendor.patch
+defaults.patch
+01_aptcc_fonts_group.diff
+02_packagekit_qt_set_hints.diff
+03_non_deprecated_apt_api.diff
+04_aptcc_changelog_support.patch
+05_aptcc_changelog_support_2.patch
