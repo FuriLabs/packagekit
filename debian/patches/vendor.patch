@@ -1,4 +1,4 @@
-Description: Set Debian as PackageKit vendor
+Description: Set Debian PackageKit vendor information
 Forwarded: not-needed
 Author: Matthias Klumpp <matthias@nlinux.org>
 Last-Update: 2010-08-26
