@@ -2,20 +2,19 @@
 #export DH_VERBOSE=1
 
 # Use this variable to set all required PackageKit configure flags
-# We set aptcc as default backend
+# We set aptcc as default backend and disable gobject-introspection
+# (pass --enable-introspection to enable it again)
 PK_CONFIGURE_FLAGS = --disable-static \
-		--enable-introspection \
+		--disable-tests \
 		--enable-gtk-doc \
 		--disable-cron \
 		--enable-apt --enable-aptcc --enable-smart \
 		--disable-local \
-		--disable-tests \
 		--with-default-backend=aptcc \
 		--enable-browser-plugin \
 		--enable-gtk-module \
 		--enable-gstreamer-plugin \
-		--enable-command-not-found \
-		--disable-dummy
+		--enable-command-not-found
 
 # Define install and build directory
 INSTALLDIR = $(CURDIR)/debian/tmp
@@ -38,7 +37,7 @@ override_dh_auto_install:
 	rm -f $(INSTALLDIR)/usr/bin/packagekit-bugreport.sh
 
 override_dh_install:
-	dh_install --fail-missing
+	dh_install --list-missing
 
 override_dh_makeshlibs:
 	dh_makeshlibs -Xlibpk-gtk-module -Xlibpackagekit-action-lookup -Xlibpk_ -Xpackagekit-plugin
