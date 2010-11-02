@@ -37,6 +37,9 @@ override_dh_auto_install:
 	rm -f $(INSTALLDIR)/usr/lib/polkit-1/extensions/libpackagekit-action-lookup.la
 	rm -f $(INSTALLDIR)/usr/bin/packagekit-bugreport.sh
 
+override_dh_install:
+	dh_install --fail-missing
+
 override_dh_makeshlibs:
 	dh_makeshlibs -Xlibpk-gtk-module -Xlibpackagekit-action-lookup -Xlibpk_ -Xpackagekit-plugin
 
