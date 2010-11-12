@@ -1,4 +1,4 @@
-packagekit (0.6.10-1) unstable; urgency=low
+packagekit (0.6.10-1) experimental; urgency=low
 
   * New upstream release
      - This is the first release of PackageKit to support session
