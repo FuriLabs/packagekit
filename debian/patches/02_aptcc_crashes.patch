@@ -1,0 +1,89 @@
+From 05ad4000c1110d49d1530db9a0589dd02147744b Mon Sep 17 00:00:00 2001
+From: Daniel Nicoletti <dantti85-pk@yahoo.com.br>
+Date: Tue, 9 Nov 2010 14:20:19 -0200
+Subject: [PATCH] aptcc: Fix crash due to NULL strings
+ packagekit-qt: emit transactionListChanged(empty) when daemon crashes
+
+---
+ backends/aptcc/apt.cpp                  |   17 ++++++++---------
+ lib/packagekit-qt/src/clientprivate.cpp |    3 +++
+ 2 files changed, 11 insertions(+), 9 deletions(-)
+
+diff --git a/backends/aptcc/apt.cpp b/backends/aptcc/apt.cpp
+index 71178b6..559496a 100644
+--- a/backends/aptcc/apt.cpp
++++ b/backends/aptcc/apt.cpp
+@@ -343,7 +343,7 @@ void aptcc::emit_package(const pkgCache::PkgIterator &pkg,
+ 	package_id = pk_package_id_build(pkg.Name(),
+ 					 ver.VerStr(),
+ 					 ver.Arch(),
+-					 vf.File().Archive());
++					 vf.File().Archive() == NULL ? "" : vf.File().Archive());
+ 	pk_backend_package(m_backend,
+ 			   state,
+ 			   package_id,
+@@ -398,9 +398,9 @@ void aptcc::emitUpdates(vector<pair<pkgCache::PkgIterator, pkgCache::VerIterator
+ 
+ 		// let find what kind of upgrade this is
+ 		pkgCache::VerFileIterator vf = i->second.FileList();
+-		std::string origin  = vf.File().Origin();
+-		std::string archive = vf.File().Archive();
+-		std::string label   = vf.File().Label();
++		std::string origin  = vf.File().Origin() == NULL ? "" : vf.File().Origin();
++		std::string archive = vf.File().Archive() == NULL ? "" : vf.File().Archive();
++		std::string label   = vf.File().Label() == NULL ? "" : vf.File().Label();
+ 		if (origin.compare("Debian") == 0 ||
+ 		    origin.compare("Ubuntu") == 0) {
+ 			if (ends_with(archive, "-security") ||
+@@ -567,7 +567,7 @@ void aptcc::emit_details(const pkgCache::PkgIterator &pkg)
+ 	package_id = pk_package_id_build(pkg.Name(),
+ 					 ver.VerStr(),
+ 					 ver.Arch(),
+-					 vf.File().Archive());
++					 vf.File().Archive() == NULL ? "" : vf.File().Archive());
+ 	pk_backend_details(m_backend,
+ 			   package_id,
+ 			   "unknown",
+@@ -588,14 +588,13 @@ void aptcc::emit_update_detail(const pkgCache::PkgIterator &pkg)
+     current_package_id = pk_package_id_build(pkg.Name(),
+                                              currver.VerStr(),
+                                              currver.Arch(),
+-                                             currvf.File().Archive());
++                                             currvf.File().Archive() == NULL ? "" : currvf.File().Archive());
+ 
+     // Get the update version
+     pkgCache::VerIterator candver = find_candidate_ver(pkg);
+ 
+     pkgCache::VerFileIterator vf = candver.FileList();
+-    pkgCache::PkgFileIterator pkgFile = vf.File();
+-    string origin = pkgFile.Origin();
++    string origin = vf.File().Origin() == NULL ? "" : vf.File().Origin();
+     pkgRecords::Parser &rec = packageRecords->Lookup(candver.FileList());
+ 
+     // Build the changelogURI
+@@ -795,7 +794,7 @@ void aptcc::emit_update_detail(const pkgCache::PkgIterator &pkg)
+     }
+ 
+     // Build a package_id from the update version
+-    string archive(vf.File().Archive());
++    string archive = vf.File().Archive() == NULL ? "" : vf.File().Archive();
+     gchar *package_id;
+     package_id = pk_package_id_build(pkg.Name(),
+                     candver.VerStr(),
+diff --git a/lib/packagekit-qt/src/clientprivate.cpp b/lib/packagekit-qt/src/clientprivate.cpp
+index 14e679c..5c18863 100644
+--- a/lib/packagekit-qt/src/clientprivate.cpp
++++ b/lib/packagekit-qt/src/clientprivate.cpp
+@@ -80,6 +80,9 @@ void ClientPrivate::serviceOwnerChanged (const QString& name, const QString& old
+         t->finished (Enum::ExitFailed, 0);
+         t->d_ptr->destroy ();
+     }
++
++    // We don't have more transactions running
++    c->transactionListChanged(QList<Transaction*>());
+ }
+ 
+ void ClientPrivate::destroyTransaction(const QString &tid)
+-- 
+1.6.1
+
