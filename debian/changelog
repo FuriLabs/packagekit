@@ -2,12 +2,14 @@ packagekit (0.6.10-1) unstable; urgency=low
 
   * New upstream release
      - This is the first release of PackageKit to support session
-       configuration helper support in the GLib and QT libraries.
+       configuration helper support in the GLib and Qt libraries.
      - This allows debconf to work when using PackageKit on Debian.
      - A formal transaction lifecyle is now in place, which allows future
        extensions to hook into the transaction at certain points.
   * Disabled introspection support
     (requires a more recent version of gobject-introspection)
+  * APTcc proxy patch from upstream (makes APTcc use APT proxy settings)
+  * Upstream patch for some APTcc crashes
 
  -- Matthias Klumpp <matthias@nlinux.org>  Tue, 02 Nov 2010 18:08:34 +0100
 

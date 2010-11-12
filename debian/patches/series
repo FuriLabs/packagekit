@@ -1,2 +1,4 @@
 vendor.patch
 defaults.patch
+01_aptcc_apt-proxy.patch
+02_aptcc_crashes.patch
