@@ -1,3 +1,10 @@
+packagekit (0.6.10-2) experimental; urgency=low
+
+  * Require privileges to install updates (Closes: #606092)
+  * Break old backends and depend on the new ones (Closes: #606133)
+
+ -- Matthias Klumpp <matthias@nlinux.org>  Mon, 06 Dec 2010 18:48:47 +0100
+
 packagekit (0.6.10-1) experimental; urgency=low
 
   * New upstream release
