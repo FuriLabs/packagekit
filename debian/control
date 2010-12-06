@@ -44,7 +44,9 @@ Architecture: any
 Depends: ${shlibs:Depends}, 
          ${misc:Depends},
 	 libpackagekit-glib2-14 (= ${binary:Version}),
-	 packagekit-backend-aptcc
+	 packagekit-backend-aptcc (= ${binary:Version})
+Breaks: packagekit-backend-apt (!= ${binary:Version}),
+	packagekit-backend-smart (!= ${binary:Version})
 Suggests: packagekit-backend-apt, packagekit-backend-smart
 Description: Provides a package management service
  PackageKit allows to perform simple software management tasks over a DBus 
