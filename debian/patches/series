@@ -1,4 +1,5 @@
-vendor.patch
-defaults.patch
+vendor.diff
+defaults.diff
+policy.diff
 01_aptcc_apt-proxy.patch
 02_aptcc_crashes.patch

@@ -1,0 +1,33 @@
+Set Debian PolKit policy for PackageKit
+Forwarded: not-needed
+Author: Matthias Klumpp <matthias@nlinux.org>
+Last-Update: 2010-12-06
+--- a/policy/org.freedesktop.packagekit.policy.in
++++ b/policy/org.freedesktop.packagekit.policy.in
+@@ -93,7 +93,7 @@
+     <defaults>
+       <allow_any>no</allow_any>
+       <allow_inactive>no</allow_inactive>
+-      <allow_active>yes</allow_active>
++      <allow_active>auth_admin_keep</allow_active>
+     </defaults>
+   </action>
+ 
+@@ -131,7 +131,7 @@
+     <defaults>
+       <allow_any>no</allow_any>
+       <allow_inactive>no</allow_inactive>
+-      <allow_active>yes</allow_active>
++      <allow_active>auth_admin_keep</allow_active>
+     </defaults>
+   </action>
+ 
+@@ -193,7 +193,7 @@
+     <defaults>
+       <allow_any>no</allow_any>
+       <allow_inactive>no</allow_inactive>
+-      <allow_active>yes</allow_active>
++      <allow_active>auth_admin_keep</allow_active>
+     </defaults>
+   </action>
+ 
