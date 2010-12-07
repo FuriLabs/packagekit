@@ -18,6 +18,7 @@
 
 
 
+
 VPATH = @srcdir@
 pkgdatadir = $(datadir)/@PACKAGE@
 pkgincludedir = $(includedir)/@PACKAGE@
@@ -37,21 +38,21 @@ PRE_UNINSTALL = :
 POST_UNINSTALL = :
 build_triplet = @build@
 host_triplet = @host@
+noinst_PROGRAMS = pk-socket-example$(EXEEXT)
 @EGG_BUILD_TESTS_TRUE@check_PROGRAMS = pk-self-test$(EXEEXT)
 @EGG_BUILD_TESTS_TRUE@TESTS = pk-self-test$(EXEEXT)
-@HAVE_INTROSPECTION_TRUE@am__append_1 = PackageKitGlib-1.0.gir
-@HAVE_INTROSPECTION_TRUE@am__append_2 = $(dist_gir_DATA) $(typelib_DATA)
+@HAVE_INTROSPECTION_TRUE@am__append_1 = $(gir_DATA) $(typelib_DATA)
 subdir = lib/packagekit-glib2
-DIST_COMMON = $(am__dist_gir_DATA_DIST) \
-	$(libpackagekit_glib2_include_HEADERS) $(srcdir)/Makefile.am \
-	$(srcdir)/Makefile.in $(srcdir)/packagekit-glib2.pc.in \
-	$(srcdir)/pk-version.h.in COPYING
+DIST_COMMON = $(libpackagekit_glib2_include_HEADERS) \
+	$(srcdir)/Makefile.am $(srcdir)/Makefile.in \
+	$(srcdir)/packagekit-glib2.pc.in $(srcdir)/pk-version.h.in \
+	COPYING
 ACLOCAL_M4 = $(top_srcdir)/aclocal.m4
 am__aclocal_m4_deps = $(top_srcdir)/m4/gtk-doc.m4 \
 	$(top_srcdir)/m4/intltool.m4 $(top_srcdir)/m4/libtool.m4 \
 	$(top_srcdir)/m4/ltoptions.m4 $(top_srcdir)/m4/ltsugar.m4 \
-	$(top_srcdir)/m4/ltversion.m4 $(top_srcdir)/m4/lt~obsolete.m4 \
-	$(top_srcdir)/acinclude.m4 $(top_srcdir)/configure.ac
+	$(top_srcdir)/m4/ltversion.m4 $(top_srcdir)/acinclude.m4 \
+	$(top_srcdir)/configure.ac
 am__configure_deps = $(am__aclocal_m4_deps) $(CONFIGURE_DEPENDENCIES) \
 	$(ACLOCAL_M4)
 mkinstalldirs = $(install_sh) -d
@@ -70,8 +71,6 @@ libpackagekitprivate_a_AR = $(AR) $(ARFLAGS)
 libpackagekitprivate_a_LIBADD =
 am__objects_1 =
 am_libpackagekitprivate_a_OBJECTS =  \
-	libpackagekitprivate_a-egg-debug.$(OBJEXT) \
-	libpackagekitprivate_a-egg-string.$(OBJEXT) \
 	libpackagekitprivate_a-pk-console-shared.$(OBJEXT) \
 	libpackagekitprivate_a-pk-progress-bar.$(OBJEXT) \
 	libpackagekitprivate_a-pk-task-sync.$(OBJEXT) \
@@ -110,16 +109,16 @@ libpackagekit_glib2_la_DEPENDENCIES = $(am__DEPENDENCIES_1) \
 	$(am__DEPENDENCIES_1) $(am__DEPENDENCIES_1) \
 	$(am__DEPENDENCIES_1)
 am_libpackagekit_glib2_la_OBJECTS =  \
-	libpackagekit_glib2_la-egg-debug.lo \
-	libpackagekit_glib2_la-egg-string.lo \
 	libpackagekit_glib2_la-pk-bitfield.lo \
 	libpackagekit_glib2_la-pk-catalog.lo \
 	libpackagekit_glib2_la-pk-category.lo \
 	libpackagekit_glib2_la-pk-client.lo \
+	libpackagekit_glib2_la-pk-client-helper.lo \
 	libpackagekit_glib2_la-pk-client-sync.lo \
 	libpackagekit_glib2_la-pk-common.lo \
 	libpackagekit_glib2_la-pk-control.lo \
 	libpackagekit_glib2_la-pk-control-sync.lo \
+	libpackagekit_glib2_la-pk-debug.lo \
 	libpackagekit_glib2_la-pk-desktop.lo \
 	libpackagekit_glib2_la-pk-details.lo \
 	libpackagekit_glib2_la-pk-distro-upgrade.lo \
@@ -154,6 +153,7 @@ libpackagekit_glib2_la_LINK = $(LIBTOOL) $(AM_V_lt) --tag=CC \
 	$(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=link $(CCLD) \
 	$(libpackagekit_glib2_la_CFLAGS) $(CFLAGS) \
 	$(libpackagekit_glib2_la_LDFLAGS) $(LDFLAGS) -o $@
+PROGRAMS = $(noinst_PROGRAMS)
 am__pk_self_test_SOURCES_DIST = pk-self-test.c
 @EGG_BUILD_TESTS_TRUE@am_pk_self_test_OBJECTS =  \
 @EGG_BUILD_TESTS_TRUE@	pk_self_test-pk-self-test.$(OBJEXT) \
@@ -171,6 +171,15 @@ pk_self_test_OBJECTS = $(am_pk_self_test_OBJECTS)
 pk_self_test_LINK = $(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) \
 	$(LIBTOOLFLAGS) --mode=link $(CCLD) $(pk_self_test_CFLAGS) \
 	$(CFLAGS) $(AM_LDFLAGS) $(LDFLAGS) -o $@
+am_pk_socket_example_OBJECTS =  \
+	pk_socket_example-pk-socket-example.$(OBJEXT)
+pk_socket_example_OBJECTS = $(am_pk_socket_example_OBJECTS)
+pk_socket_example_DEPENDENCIES = $(am__DEPENDENCIES_1) \
+	$(am__DEPENDENCIES_1)
+pk_socket_example_LINK = $(LIBTOOL) $(AM_V_lt) --tag=CC \
+	$(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=link $(CCLD) \
+	$(pk_socket_example_CFLAGS) $(CFLAGS) $(AM_LDFLAGS) $(LDFLAGS) \
+	-o $@
 DEFAULT_INCLUDES = -I.@am__isrc@ -I$(top_builddir)
 depcomp = $(SHELL) $(top_srcdir)/depcomp
 am__depfiles_maybe = depfiles
@@ -195,12 +204,12 @@ AM_V_GEN = $(am__v_GEN_$(V))
 am__v_GEN_ = $(am__v_GEN_$(AM_DEFAULT_VERBOSITY))
 am__v_GEN_0 = @echo "  GEN   " $@;
 SOURCES = $(libpackagekitprivate_a_SOURCES) \
-	$(libpackagekit_glib2_la_SOURCES) $(pk_self_test_SOURCES)
+	$(libpackagekit_glib2_la_SOURCES) $(pk_self_test_SOURCES) \
+	$(pk_socket_example_SOURCES)
 DIST_SOURCES = $(libpackagekitprivate_a_SOURCES) \
 	$(libpackagekit_glib2_la_SOURCES) \
-	$(am__pk_self_test_SOURCES_DIST)
-am__dist_gir_DATA_DIST = PackageKitGlib-1.0.gir
-DATA = $(dist_gir_DATA) $(pkgconfig_DATA) $(typelib_DATA)
+	$(am__pk_self_test_SOURCES_DIST) $(pk_socket_example_SOURCES)
+DATA = $(gir_DATA) $(pkgconfig_DATA) $(typelib_DATA)
 HEADERS = $(libpackagekit_glib2_include_HEADERS)
 ETAGS = etags
 CTAGS = ctags
@@ -256,13 +265,9 @@ ECHO_T = @ECHO_T@
 EGREP = @EGREP@
 EXEEXT = @EXEEXT@
 FGREP = @FGREP@
-GAPISHARP_CFLAGS = @GAPISHARP_CFLAGS@
-GAPISHARP_LIBS = @GAPISHARP_LIBS@
 GETTEXT_PACKAGE = @GETTEXT_PACKAGE@
 GIO_CFLAGS = @GIO_CFLAGS@
 GIO_LIBS = @GIO_LIBS@
-GLIBSHARP_CFLAGS = @GLIBSHARP_CFLAGS@
-GLIBSHARP_LIBS = @GLIBSHARP_LIBS@
 GLIB_CFLAGS = @GLIB_CFLAGS@
 GLIB_GENMARSHAL = @GLIB_GENMARSHAL@
 GLIB_LIBS = @GLIB_LIBS@
@@ -312,7 +317,6 @@ LT_AGE = @LT_AGE@
 LT_CURRENT = @LT_CURRENT@
 LT_REVISION = @LT_REVISION@
 MAKEINFO = @MAKEINFO@
-MCS = @MCS@
 MKDIR_P = @MKDIR_P@
 MKINSTALLDIRS = @MKINSTALLDIRS@
 MOC = @MOC@
@@ -470,12 +474,13 @@ top_build_prefix = @top_build_prefix@
 top_builddir = @top_builddir@
 top_srcdir = @top_srcdir@
 NULL = 
-INTROSPECTION_GIRS = $(am__append_1)
-INTROSPECTION_SCANNER_ARGS = --add-include-path=$(srcdir)
-INTROSPECTION_COMPILER_ARGS = --includedir=$(srcdir)
+@HAVE_INTROSPECTION_TRUE@INTROSPECTION_GIRS = PackageKitGlib-1.0.gir
+@HAVE_INTROSPECTION_TRUE@INTROSPECTION_SCANNER_ARGS = --add-include-path=$(srcdir)
+@HAVE_INTROSPECTION_TRUE@INTROSPECTION_COMPILER_ARGS = --includedir=$(srcdir)
 INCLUDES = \
 	$(GLIB_CFLAGS)						\
 	$(DBUS_CFLAGS)						\
+	$(GIO_CFLAGS)						\
 	$(POLKIT_CFLAGS)					\
 	$(SQLITE_CFLAGS)					\
 	-I$(top_srcdir)/lib					\
@@ -483,6 +488,7 @@ INCLUDES = \
 	-I.							\
 	-DPK_COMPILATION					\
 	-DPK_DB_DIR=\""$(PK_DB_DIR)"\" 				\
+	-DG_LOG_DOMAIN=\"PackageKit\"				\
 	-DLOCALSTATEDIR=\""$(localstatedir)"\" 			\
 	-DTESTDATADIR=\""$(top_srcdir)/data/tests"\"		\
 	-DPACKAGE_DATA_DIR=\""$(datadir)"\"			\
@@ -504,6 +510,7 @@ libpackagekit_glib2_include_HEADERS = \
 	pk-catalog.h						\
 	pk-category.h						\
 	pk-client.h						\
+	pk-client-helper.h					\
 	pk-client-sync.h					\
 	pk-common.h						\
 	pk-control.h						\
@@ -537,10 +544,6 @@ libpackagekit_glib2_include_HEADERS = \
 	$(NULL)
 
 libpackagekit_glib2_la_SOURCES = \
-	egg-debug.c						\
-	egg-debug.h						\
-	egg-string.c						\
-	egg-string.h						\
 	packagekit.h						\
 	pk-bitfield.c						\
 	pk-bitfield.h						\
@@ -550,6 +553,8 @@ libpackagekit_glib2_la_SOURCES = \
 	pk-category.h						\
 	pk-client.c						\
 	pk-client.h						\
+	pk-client-helper.c					\
+	pk-client-helper.h					\
 	pk-client-sync.c					\
 	pk-client-sync.h					\
 	pk-common.c						\
@@ -558,6 +563,8 @@ libpackagekit_glib2_la_SOURCES = \
 	pk-control.h						\
 	pk-control-sync.c					\
 	pk-control-sync.h					\
+	pk-debug.c						\
+	pk-debug.h						\
 	pk-desktop.c						\
 	pk-desktop.h						\
 	pk-details.c						\
@@ -634,10 +641,6 @@ libpackagekit_glib2_la_CFLAGS = \
 
 noinst_LIBRARIES = libpackagekitprivate.a
 libpackagekitprivate_a_SOURCES = \
-	egg-debug.c						\
-	egg-debug.h						\
-	egg-string.c						\
-	egg-string.h						\
 	packagekit-private.h					\
 	pk-console-shared.c					\
 	pk-console-shared.h					\
@@ -655,6 +658,9 @@ libpackagekitprivate_a_CFLAGS = \
 	$(WARNINGFLAGS_C)					\
 	$(NULL)
 
+pk_socket_example_SOURCES = pk-socket-example.c
+pk_socket_example_LDADD = $(GIO_LIBS) $(GLIB_LIBS)
+pk_socket_example_CFLAGS = $(WARNINGFLAGS_C)
 @EGG_BUILD_TESTS_TRUE@pk_self_test_SOURCES = \
 @EGG_BUILD_TESTS_TRUE@	pk-self-test.c						\
 @EGG_BUILD_TESTS_TRUE@	$(NULL)
@@ -681,14 +687,15 @@ BUILT_SOURCES = \
 	pk-marshal.h						\
 	$(NULL)
 
-CLEANFILES = $(BUILT_SOURCES) $(am__append_2)
+CLEANFILES = $(BUILT_SOURCES) $(am__append_1)
 @HAVE_INTROSPECTION_TRUE@introspection_sources = $(libpackagekit_glib2_la_SOURCES)
 @HAVE_INTROSPECTION_TRUE@PackageKitGlib_1_0_gir_INCLUDES = GObject-2.0 Gio-2.0
 @HAVE_INTROSPECTION_TRUE@PackageKitGlib_1_0_gir_CFLAGS = $(INCLUDES) -DI_KNOW_THE_PACKAGEKIT_GLIB2_API_IS_SUBJECT_TO_CHANGE
+@HAVE_INTROSPECTION_TRUE@PackageKitGlib_1_0_gir_SCANNERFLAGS = --identifier-prefix=Pk --symbol-prefix=pk_ --warn-all --add-include-path=$(srcdir)
 @HAVE_INTROSPECTION_TRUE@PackageKitGlib_1_0_gir_LIBS = libpackagekit-glib2.la
-@HAVE_INTROSPECTION_TRUE@PackageKitGlib_1_0_gir_FILES = $(addprefix $(srcdir)/,$(introspection_sources))
+@HAVE_INTROSPECTION_TRUE@PackageKitGlib_1_0_gir_FILES = $(introspection_sources)
 @HAVE_INTROSPECTION_TRUE@girdir = $(datadir)/gir-1.0
-@HAVE_INTROSPECTION_TRUE@dist_gir_DATA = $(INTROSPECTION_GIRS)
+@HAVE_INTROSPECTION_TRUE@gir_DATA = $(INTROSPECTION_GIRS)
 @HAVE_INTROSPECTION_TRUE@typelibdir = $(libdir)/girepository-1.0
 @HAVE_INTROSPECTION_TRUE@typelib_DATA = $(INTROSPECTION_GIRS:.gir=.typelib)
 all: $(BUILT_SOURCES)
@@ -779,9 +786,21 @@ clean-checkPROGRAMS:
 	list=`for p in $$list; do echo "$$p"; done | sed 's/$(EXEEXT)$$//'`; \
 	echo " rm -f" $$list; \
 	rm -f $$list
+
+clean-noinstPROGRAMS:
+	@list='$(noinst_PROGRAMS)'; test -n "$$list" || exit 0; \
+	echo " rm -f" $$list; \
+	rm -f $$list || exit $$?; \
+	test -n "$(EXEEXT)" || exit 0; \
+	list=`for p in $$list; do echo "$$p"; done | sed 's/$(EXEEXT)$$//'`; \
+	echo " rm -f" $$list; \
+	rm -f $$list
 pk-self-test$(EXEEXT): $(pk_self_test_OBJECTS) $(pk_self_test_DEPENDENCIES) 
 	@rm -f pk-self-test$(EXEEXT)
 	$(AM_V_CCLD)$(pk_self_test_LINK) $(pk_self_test_OBJECTS) $(pk_self_test_LDADD) $(LIBS)
+pk-socket-example$(EXEEXT): $(pk_socket_example_OBJECTS) $(pk_socket_example_DEPENDENCIES) 
+	@rm -f pk-socket-example$(EXEEXT)
+	$(AM_V_CCLD)$(pk_socket_example_LINK) $(pk_socket_example_OBJECTS) $(pk_socket_example_LDADD) $(LIBS)
 
 mostlyclean-compile:
 	-rm -f *.$(OBJEXT)
@@ -789,16 +808,16 @@ mostlyclean-compile:
 distclean-compile:
 	-rm -f *.tab.c
 
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libpackagekit_glib2_la-egg-debug.Plo@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libpackagekit_glib2_la-egg-string.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libpackagekit_glib2_la-pk-bitfield.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libpackagekit_glib2_la-pk-catalog.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libpackagekit_glib2_la-pk-category.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libpackagekit_glib2_la-pk-client-helper.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libpackagekit_glib2_la-pk-client-sync.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libpackagekit_glib2_la-pk-client.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libpackagekit_glib2_la-pk-common.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libpackagekit_glib2_la-pk-control-sync.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libpackagekit_glib2_la-pk-control.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libpackagekit_glib2_la-pk-debug.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libpackagekit_glib2_la-pk-desktop.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libpackagekit_glib2_la-pk-details.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libpackagekit_glib2_la-pk-distro-upgrade.Plo@am__quote@
@@ -825,14 +844,13 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libpackagekit_glib2_la-pk-transaction-list.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libpackagekit_glib2_la-pk-transaction-past.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libpackagekit_glib2_la-pk-update-detail.Plo@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libpackagekitprivate_a-egg-debug.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libpackagekitprivate_a-egg-string.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libpackagekitprivate_a-pk-console-shared.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libpackagekitprivate_a-pk-progress-bar.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libpackagekitprivate_a-pk-task-sync.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libpackagekitprivate_a-pk-task-text.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libpackagekitprivate_a-pk-task-wrapper.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/pk_self_test-pk-self-test.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/pk_socket_example-pk-socket-example.Po@am__quote@
 
 .c.o:
 @am__fastdepCC_TRUE@	$(AM_V_CC)$(COMPILE) -MT $@ -MD -MP -MF $(DEPDIR)/$*.Tpo -c -o $@ $<
@@ -857,38 +875,6 @@ distclean-compile:
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	source='$<' object='$@' libtool=yes @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCC_FALSE@	$(LTCOMPILE) -c -o $@ $<
-
-libpackagekitprivate_a-egg-debug.o: egg-debug.c
-@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libpackagekitprivate_a_CFLAGS) $(CFLAGS) -MT libpackagekitprivate_a-egg-debug.o -MD -MP -MF $(DEPDIR)/libpackagekitprivate_a-egg-debug.Tpo -c -o libpackagekitprivate_a-egg-debug.o `test -f 'egg-debug.c' || echo '$(srcdir)/'`egg-debug.c
-@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/libpackagekitprivate_a-egg-debug.Tpo $(DEPDIR)/libpackagekitprivate_a-egg-debug.Po
-@am__fastdepCC_FALSE@	$(AM_V_CC) @AM_BACKSLASH@
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='egg-debug.c' object='libpackagekitprivate_a-egg-debug.o' libtool=no @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libpackagekitprivate_a_CFLAGS) $(CFLAGS) -c -o libpackagekitprivate_a-egg-debug.o `test -f 'egg-debug.c' || echo '$(srcdir)/'`egg-debug.c
-
-libpackagekitprivate_a-egg-debug.obj: egg-debug.c
-@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libpackagekitprivate_a_CFLAGS) $(CFLAGS) -MT libpackagekitprivate_a-egg-debug.obj -MD -MP -MF $(DEPDIR)/libpackagekitprivate_a-egg-debug.Tpo -c -o libpackagekitprivate_a-egg-debug.obj `if test -f 'egg-debug.c'; then $(CYGPATH_W) 'egg-debug.c'; else $(CYGPATH_W) '$(srcdir)/egg-debug.c'; fi`
-@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/libpackagekitprivate_a-egg-debug.Tpo $(DEPDIR)/libpackagekitprivate_a-egg-debug.Po
-@am__fastdepCC_FALSE@	$(AM_V_CC) @AM_BACKSLASH@
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='egg-debug.c' object='libpackagekitprivate_a-egg-debug.obj' libtool=no @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libpackagekitprivate_a_CFLAGS) $(CFLAGS) -c -o libpackagekitprivate_a-egg-debug.obj `if test -f 'egg-debug.c'; then $(CYGPATH_W) 'egg-debug.c'; else $(CYGPATH_W) '$(srcdir)/egg-debug.c'; fi`
-
-libpackagekitprivate_a-egg-string.o: egg-string.c
-@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libpackagekitprivate_a_CFLAGS) $(CFLAGS) -MT libpackagekitprivate_a-egg-string.o -MD -MP -MF $(DEPDIR)/libpackagekitprivate_a-egg-string.Tpo -c -o libpackagekitprivate_a-egg-string.o `test -f 'egg-string.c' || echo '$(srcdir)/'`egg-string.c
-@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/libpackagekitprivate_a-egg-string.Tpo $(DEPDIR)/libpackagekitprivate_a-egg-string.Po
-@am__fastdepCC_FALSE@	$(AM_V_CC) @AM_BACKSLASH@
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='egg-string.c' object='libpackagekitprivate_a-egg-string.o' libtool=no @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libpackagekitprivate_a_CFLAGS) $(CFLAGS) -c -o libpackagekitprivate_a-egg-string.o `test -f 'egg-string.c' || echo '$(srcdir)/'`egg-string.c
-
-libpackagekitprivate_a-egg-string.obj: egg-string.c
-@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libpackagekitprivate_a_CFLAGS) $(CFLAGS) -MT libpackagekitprivate_a-egg-string.obj -MD -MP -MF $(DEPDIR)/libpackagekitprivate_a-egg-string.Tpo -c -o libpackagekitprivate_a-egg-string.obj `if test -f 'egg-string.c'; then $(CYGPATH_W) 'egg-string.c'; else $(CYGPATH_W) '$(srcdir)/egg-string.c'; fi`
-@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/libpackagekitprivate_a-egg-string.Tpo $(DEPDIR)/libpackagekitprivate_a-egg-string.Po
-@am__fastdepCC_FALSE@	$(AM_V_CC) @AM_BACKSLASH@
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='egg-string.c' object='libpackagekitprivate_a-egg-string.obj' libtool=no @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libpackagekitprivate_a_CFLAGS) $(CFLAGS) -c -o libpackagekitprivate_a-egg-string.obj `if test -f 'egg-string.c'; then $(CYGPATH_W) 'egg-string.c'; else $(CYGPATH_W) '$(srcdir)/egg-string.c'; fi`
 
 libpackagekitprivate_a-pk-console-shared.o: pk-console-shared.c
 @am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libpackagekitprivate_a_CFLAGS) $(CFLAGS) -MT libpackagekitprivate_a-pk-console-shared.o -MD -MP -MF $(DEPDIR)/libpackagekitprivate_a-pk-console-shared.Tpo -c -o libpackagekitprivate_a-pk-console-shared.o `test -f 'pk-console-shared.c' || echo '$(srcdir)/'`pk-console-shared.c
@@ -970,22 +956,6 @@ libpackagekitprivate_a-pk-task-wrapper.obj: pk-task-wrapper.c
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libpackagekitprivate_a_CFLAGS) $(CFLAGS) -c -o libpackagekitprivate_a-pk-task-wrapper.obj `if test -f 'pk-task-wrapper.c'; then $(CYGPATH_W) 'pk-task-wrapper.c'; else $(CYGPATH_W) '$(srcdir)/pk-task-wrapper.c'; fi`
 
-libpackagekit_glib2_la-egg-debug.lo: egg-debug.c
-@am__fastdepCC_TRUE@	$(AM_V_CC)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libpackagekit_glib2_la_CFLAGS) $(CFLAGS) -MT libpackagekit_glib2_la-egg-debug.lo -MD -MP -MF $(DEPDIR)/libpackagekit_glib2_la-egg-debug.Tpo -c -o libpackagekit_glib2_la-egg-debug.lo `test -f 'egg-debug.c' || echo '$(srcdir)/'`egg-debug.c
-@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/libpackagekit_glib2_la-egg-debug.Tpo $(DEPDIR)/libpackagekit_glib2_la-egg-debug.Plo
-@am__fastdepCC_FALSE@	$(AM_V_CC) @AM_BACKSLASH@
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='egg-debug.c' object='libpackagekit_glib2_la-egg-debug.lo' libtool=yes @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libpackagekit_glib2_la_CFLAGS) $(CFLAGS) -c -o libpackagekit_glib2_la-egg-debug.lo `test -f 'egg-debug.c' || echo '$(srcdir)/'`egg-debug.c
-
-libpackagekit_glib2_la-egg-string.lo: egg-string.c
-@am__fastdepCC_TRUE@	$(AM_V_CC)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libpackagekit_glib2_la_CFLAGS) $(CFLAGS) -MT libpackagekit_glib2_la-egg-string.lo -MD -MP -MF $(DEPDIR)/libpackagekit_glib2_la-egg-string.Tpo -c -o libpackagekit_glib2_la-egg-string.lo `test -f 'egg-string.c' || echo '$(srcdir)/'`egg-string.c
-@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/libpackagekit_glib2_la-egg-string.Tpo $(DEPDIR)/libpackagekit_glib2_la-egg-string.Plo
-@am__fastdepCC_FALSE@	$(AM_V_CC) @AM_BACKSLASH@
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='egg-string.c' object='libpackagekit_glib2_la-egg-string.lo' libtool=yes @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libpackagekit_glib2_la_CFLAGS) $(CFLAGS) -c -o libpackagekit_glib2_la-egg-string.lo `test -f 'egg-string.c' || echo '$(srcdir)/'`egg-string.c
-
 libpackagekit_glib2_la-pk-bitfield.lo: pk-bitfield.c
 @am__fastdepCC_TRUE@	$(AM_V_CC)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libpackagekit_glib2_la_CFLAGS) $(CFLAGS) -MT libpackagekit_glib2_la-pk-bitfield.lo -MD -MP -MF $(DEPDIR)/libpackagekit_glib2_la-pk-bitfield.Tpo -c -o libpackagekit_glib2_la-pk-bitfield.lo `test -f 'pk-bitfield.c' || echo '$(srcdir)/'`pk-bitfield.c
 @am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/libpackagekit_glib2_la-pk-bitfield.Tpo $(DEPDIR)/libpackagekit_glib2_la-pk-bitfield.Plo
@@ -1018,6 +988,14 @@ libpackagekit_glib2_la-pk-client.lo: pk-client.c
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCC_FALSE@	$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libpackagekit_glib2_la_CFLAGS) $(CFLAGS) -c -o libpackagekit_glib2_la-pk-client.lo `test -f 'pk-client.c' || echo '$(srcdir)/'`pk-client.c
 
+libpackagekit_glib2_la-pk-client-helper.lo: pk-client-helper.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libpackagekit_glib2_la_CFLAGS) $(CFLAGS) -MT libpackagekit_glib2_la-pk-client-helper.lo -MD -MP -MF $(DEPDIR)/libpackagekit_glib2_la-pk-client-helper.Tpo -c -o libpackagekit_glib2_la-pk-client-helper.lo `test -f 'pk-client-helper.c' || echo '$(srcdir)/'`pk-client-helper.c
+@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/libpackagekit_glib2_la-pk-client-helper.Tpo $(DEPDIR)/libpackagekit_glib2_la-pk-client-helper.Plo
+@am__fastdepCC_FALSE@	$(AM_V_CC) @AM_BACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='pk-client-helper.c' object='libpackagekit_glib2_la-pk-client-helper.lo' libtool=yes @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libpackagekit_glib2_la_CFLAGS) $(CFLAGS) -c -o libpackagekit_glib2_la-pk-client-helper.lo `test -f 'pk-client-helper.c' || echo '$(srcdir)/'`pk-client-helper.c
+
 libpackagekit_glib2_la-pk-client-sync.lo: pk-client-sync.c
 @am__fastdepCC_TRUE@	$(AM_V_CC)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libpackagekit_glib2_la_CFLAGS) $(CFLAGS) -MT libpackagekit_glib2_la-pk-client-sync.lo -MD -MP -MF $(DEPDIR)/libpackagekit_glib2_la-pk-client-sync.Tpo -c -o libpackagekit_glib2_la-pk-client-sync.lo `test -f 'pk-client-sync.c' || echo '$(srcdir)/'`pk-client-sync.c
 @am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/libpackagekit_glib2_la-pk-client-sync.Tpo $(DEPDIR)/libpackagekit_glib2_la-pk-client-sync.Plo
@@ -1049,6 +1027,14 @@ libpackagekit_glib2_la-pk-control-sync.lo: pk-control-sync.c
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	source='pk-control-sync.c' object='libpackagekit_glib2_la-pk-control-sync.lo' libtool=yes @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCC_FALSE@	$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libpackagekit_glib2_la_CFLAGS) $(CFLAGS) -c -o libpackagekit_glib2_la-pk-control-sync.lo `test -f 'pk-control-sync.c' || echo '$(srcdir)/'`pk-control-sync.c
+
+libpackagekit_glib2_la-pk-debug.lo: pk-debug.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libpackagekit_glib2_la_CFLAGS) $(CFLAGS) -MT libpackagekit_glib2_la-pk-debug.lo -MD -MP -MF $(DEPDIR)/libpackagekit_glib2_la-pk-debug.Tpo -c -o libpackagekit_glib2_la-pk-debug.lo `test -f 'pk-debug.c' || echo '$(srcdir)/'`pk-debug.c
+@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/libpackagekit_glib2_la-pk-debug.Tpo $(DEPDIR)/libpackagekit_glib2_la-pk-debug.Plo
+@am__fastdepCC_FALSE@	$(AM_V_CC) @AM_BACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='pk-debug.c' object='libpackagekit_glib2_la-pk-debug.lo' libtool=yes @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libpackagekit_glib2_la_CFLAGS) $(CFLAGS) -c -o libpackagekit_glib2_la-pk-debug.lo `test -f 'pk-debug.c' || echo '$(srcdir)/'`pk-debug.c
 
 libpackagekit_glib2_la-pk-desktop.lo: pk-desktop.c
 @am__fastdepCC_TRUE@	$(AM_V_CC)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libpackagekit_glib2_la_CFLAGS) $(CFLAGS) -MT libpackagekit_glib2_la-pk-desktop.lo -MD -MP -MF $(DEPDIR)/libpackagekit_glib2_la-pk-desktop.Tpo -c -o libpackagekit_glib2_la-pk-desktop.lo `test -f 'pk-desktop.c' || echo '$(srcdir)/'`pk-desktop.c
@@ -1274,15 +1260,31 @@ pk_self_test-pk-self-test.obj: pk-self-test.c
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(pk_self_test_CFLAGS) $(CFLAGS) -c -o pk_self_test-pk-self-test.obj `if test -f 'pk-self-test.c'; then $(CYGPATH_W) 'pk-self-test.c'; else $(CYGPATH_W) '$(srcdir)/pk-self-test.c'; fi`
 
+pk_socket_example-pk-socket-example.o: pk-socket-example.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(pk_socket_example_CFLAGS) $(CFLAGS) -MT pk_socket_example-pk-socket-example.o -MD -MP -MF $(DEPDIR)/pk_socket_example-pk-socket-example.Tpo -c -o pk_socket_example-pk-socket-example.o `test -f 'pk-socket-example.c' || echo '$(srcdir)/'`pk-socket-example.c
+@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/pk_socket_example-pk-socket-example.Tpo $(DEPDIR)/pk_socket_example-pk-socket-example.Po
+@am__fastdepCC_FALSE@	$(AM_V_CC) @AM_BACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='pk-socket-example.c' object='pk_socket_example-pk-socket-example.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(pk_socket_example_CFLAGS) $(CFLAGS) -c -o pk_socket_example-pk-socket-example.o `test -f 'pk-socket-example.c' || echo '$(srcdir)/'`pk-socket-example.c
+
+pk_socket_example-pk-socket-example.obj: pk-socket-example.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(pk_socket_example_CFLAGS) $(CFLAGS) -MT pk_socket_example-pk-socket-example.obj -MD -MP -MF $(DEPDIR)/pk_socket_example-pk-socket-example.Tpo -c -o pk_socket_example-pk-socket-example.obj `if test -f 'pk-socket-example.c'; then $(CYGPATH_W) 'pk-socket-example.c'; else $(CYGPATH_W) '$(srcdir)/pk-socket-example.c'; fi`
+@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/pk_socket_example-pk-socket-example.Tpo $(DEPDIR)/pk_socket_example-pk-socket-example.Po
+@am__fastdepCC_FALSE@	$(AM_V_CC) @AM_BACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='pk-socket-example.c' object='pk_socket_example-pk-socket-example.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(pk_socket_example_CFLAGS) $(CFLAGS) -c -o pk_socket_example-pk-socket-example.obj `if test -f 'pk-socket-example.c'; then $(CYGPATH_W) 'pk-socket-example.c'; else $(CYGPATH_W) '$(srcdir)/pk-socket-example.c'; fi`
+
 mostlyclean-libtool:
 	-rm -f *.lo
 
 clean-libtool:
 	-rm -rf .libs _libs
-install-dist_girDATA: $(dist_gir_DATA)
+install-girDATA: $(gir_DATA)
 	@$(NORMAL_INSTALL)
 	test -z "$(girdir)" || $(MKDIR_P) "$(DESTDIR)$(girdir)"
-	@list='$(dist_gir_DATA)'; test -n "$(girdir)" || list=; \
+	@list='$(gir_DATA)'; test -n "$(girdir)" || list=; \
 	for p in $$list; do \
 	  if test -f "$$p"; then d=; else d="$(srcdir)/"; fi; \
 	  echo "$$d$$p"; \
@@ -1292,9 +1294,9 @@ install-dist_girDATA: $(dist_gir_DATA)
 	  $(INSTALL_DATA) $$files "$(DESTDIR)$(girdir)" || exit $$?; \
 	done
 
-uninstall-dist_girDATA:
+uninstall-girDATA:
 	@$(NORMAL_UNINSTALL)
-	@list='$(dist_gir_DATA)'; test -n "$(girdir)" || list=; \
+	@list='$(gir_DATA)'; test -n "$(girdir)" || list=; \
 	files=`for p in $$list; do echo $$p; done | sed -e 's|^.*/||'`; \
 	test -n "$$files" || exit 0; \
 	echo " ( cd '$(DESTDIR)$(girdir)' && rm -f" $$files ")"; \
@@ -1539,7 +1541,8 @@ check-am: all-am
 	$(MAKE) $(AM_MAKEFLAGS) check-TESTS
 check: $(BUILT_SOURCES)
 	$(MAKE) $(AM_MAKEFLAGS) check-am
-all-am: Makefile $(LIBRARIES) $(LTLIBRARIES) $(DATA) $(HEADERS)
+all-am: Makefile $(LIBRARIES) $(LTLIBRARIES) $(PROGRAMS) $(DATA) \
+		$(HEADERS)
 installdirs:
 	for dir in "$(DESTDIR)$(libdir)" "$(DESTDIR)$(girdir)" "$(DESTDIR)$(pkgconfigdir)" "$(DESTDIR)$(typelibdir)" "$(DESTDIR)$(libpackagekit_glib2_includedir)"; do \
 	  test -z "$$dir" || $(MKDIR_P) "$$dir"; \
@@ -1575,7 +1578,8 @@ maintainer-clean-generic:
 clean: clean-am
 
 clean-am: clean-checkPROGRAMS clean-generic clean-libLTLIBRARIES \
-	clean-libtool clean-local clean-noinstLIBRARIES mostlyclean-am
+	clean-libtool clean-local clean-noinstLIBRARIES \
+	clean-noinstPROGRAMS mostlyclean-am
 
 distclean: distclean-am
 	-rm -rf ./$(DEPDIR)
@@ -1595,7 +1599,7 @@ info: info-am
 
 info-am:
 
-install-data-am: install-dist_girDATA \
+install-data-am: install-girDATA \
 	install-libpackagekit_glib2_includeHEADERS \
 	install-pkgconfigDATA install-typelibDATA
 
@@ -1643,7 +1647,7 @@ ps: ps-am
 
 ps-am:
 
-uninstall-am: uninstall-dist_girDATA uninstall-libLTLIBRARIES \
+uninstall-am: uninstall-girDATA uninstall-libLTLIBRARIES \
 	uninstall-libpackagekit_glib2_includeHEADERS \
 	uninstall-pkgconfigDATA uninstall-typelibDATA
 
@@ -1651,12 +1655,12 @@ uninstall-am: uninstall-dist_girDATA uninstall-libLTLIBRARIES \
 
 .PHONY: CTAGS GTAGS all all-am check check-TESTS check-am clean \
 	clean-checkPROGRAMS clean-generic clean-libLTLIBRARIES \
-	clean-libtool clean-local clean-noinstLIBRARIES ctags \
-	distclean distclean-compile distclean-generic \
-	distclean-libtool distclean-tags distdir dvi dvi-am html \
-	html-am info info-am install install-am install-data \
-	install-data-am install-dist_girDATA install-dvi \
-	install-dvi-am install-exec install-exec-am install-html \
+	clean-libtool clean-local clean-noinstLIBRARIES \
+	clean-noinstPROGRAMS ctags distclean distclean-compile \
+	distclean-generic distclean-libtool distclean-tags distdir dvi \
+	dvi-am html html-am info info-am install install-am \
+	install-data install-data-am install-dvi install-dvi-am \
+	install-exec install-exec-am install-girDATA install-html \
 	install-html-am install-info install-info-am \
 	install-libLTLIBRARIES \
 	install-libpackagekit_glib2_includeHEADERS install-man \
@@ -1665,13 +1669,13 @@ uninstall-am: uninstall-dist_girDATA uninstall-libLTLIBRARIES \
 	installcheck-am installdirs maintainer-clean \
 	maintainer-clean-generic mostlyclean mostlyclean-compile \
 	mostlyclean-generic mostlyclean-libtool pdf pdf-am ps ps-am \
-	tags uninstall uninstall-am uninstall-dist_girDATA \
+	tags uninstall uninstall-am uninstall-girDATA \
 	uninstall-libLTLIBRARIES \
 	uninstall-libpackagekit_glib2_includeHEADERS \
 	uninstall-pkgconfigDATA uninstall-typelibDATA
 
 
--include $(INTROSPECTION_MAKEFILE)
+@HAVE_INTROSPECTION_TRUE@-include $(INTROSPECTION_MAKEFILE)
 
 pk-marshal.c: pk-marshal.list
 	echo "#include \"pk-marshal.h\"" > $@ && \

@@ -3,7 +3,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>PkControl</title>
-<meta name="generator" content="DocBook XSL Stylesheets V1.75.2">
+<meta name="generator" content="DocBook XSL Stylesheets V1.76.0">
 <link rel="home" href="index.html" title="PackageKit Reference Manual">
 <link rel="up" href="libpackagekit-gobject.html" title="libpackagekit GObjects">
 <link rel="prev" href="PkClient.html" title="PkClient">
@@ -922,8 +922,7 @@ Gets the result from the asynchronous function.
 </tr>
 <tr>
 <td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
-<td> A GStrv list of transaction ID's, free with <a href="http://library.gnome.org/devel/glib/unstable/glib-String-Utility-Functions.html#g-strfreev"><code class="function">g_strfreev()</code></a>
-
+<td> A GStrv list of transaction ID's, free with <a href="http://library.gnome.org/devel/glib/unstable/glib-String-Utility-Functions.html#g-strfreev"><code class="function">g_strfreev()</code></a>. <span class="annotation">[<a href="http://foldoc.org/transfer%20full"><span class="acronym">transfer full</span></a>]</span>
 </td>
 </tr>
 </tbody>
@@ -1255,8 +1254,8 @@ do so, as old client tools may not be compatable with the new daemon.
 <div class="refsect2" title='The "transaction-list-changed" signal'>
 <a name="PkControl-transaction-list-changed"></a><h3>The <code class="literal">"transaction-list-changed"</code> signal</h3>
 <pre class="programlisting"><span class="returnvalue">void</span>                user_function                      (<a class="link" href="PkControl.html" title="PkControl"><span class="type">PkControl</span></a> *control,
-                                                        <a href="http://library.gnome.org/devel/gobject/unstable/gobject-Boxed-Types.html#GStrv"><span class="type">GStrv</span></a>     *arg1,
-                                                        <a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gpointer"><span class="type">gpointer</span></a>   user_data)      : Run Last</pre>
+                                                        <a href="http://library.gnome.org/devel/gobject/unstable/gobject-Boxed-Types.html#GStrv"><span class="type">GStrv</span></a>     *transaction_ids,
+                                                        <a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gpointer"><span class="type">gpointer</span></a>   user_data)            : Run Last</pre>
 <p>
 The ::transaction-list-changed signal is emitted when the list
 of transactions handled by the daemon is changed.
@@ -1267,6 +1266,11 @@ of transactions handled by the daemon is changed.
 <tr>
 <td><p><span class="term"><em class="parameter"><code>control</code></em> :</span></p></td>
 <td>the <a class="link" href="PkControl.html" title="PkControl"><span class="type">PkControl</span></a> instance that emitted the signal
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>transaction_ids</code></em> :</span></p></td>
+<td>an <a href="http://library.gnome.org/devel/gobject/unstable/gobject-Boxed-Types.html#GStrv"><span class="type">GStrv</span></a> array of transaction ID's
 </td>
 </tr>
 <tr>

@@ -43,8 +43,8 @@ ACLOCAL_M4 = $(top_srcdir)/aclocal.m4
 am__aclocal_m4_deps = $(top_srcdir)/m4/gtk-doc.m4 \
 	$(top_srcdir)/m4/intltool.m4 $(top_srcdir)/m4/libtool.m4 \
 	$(top_srcdir)/m4/ltoptions.m4 $(top_srcdir)/m4/ltsugar.m4 \
-	$(top_srcdir)/m4/ltversion.m4 $(top_srcdir)/m4/lt~obsolete.m4 \
-	$(top_srcdir)/acinclude.m4 $(top_srcdir)/configure.ac
+	$(top_srcdir)/m4/ltversion.m4 $(top_srcdir)/acinclude.m4 \
+	$(top_srcdir)/configure.ac
 am__configure_deps = $(am__aclocal_m4_deps) $(CONFIGURE_DEPENDENCIES) \
 	$(ACLOCAL_M4)
 mkinstalldirs = $(install_sh) -d
@@ -55,7 +55,6 @@ am__installdirs = "$(DESTDIR)$(libexecdir)" \
 	"$(DESTDIR)$(bashprofiledir)" "$(DESTDIR)$(confdir)"
 PROGRAMS = $(libexec_PROGRAMS)
 am_pk_command_not_found_OBJECTS =  \
-	pk_command_not_found-egg-debug.$(OBJEXT) \
 	pk_command_not_found-egg-string.$(OBJEXT) \
 	pk_command_not_found-pk-command-not-found.$(OBJEXT)
 pk_command_not_found_OBJECTS = $(am_pk_command_not_found_OBJECTS)
@@ -174,13 +173,9 @@ ECHO_T = @ECHO_T@
 EGREP = @EGREP@
 EXEEXT = @EXEEXT@
 FGREP = @FGREP@
-GAPISHARP_CFLAGS = @GAPISHARP_CFLAGS@
-GAPISHARP_LIBS = @GAPISHARP_LIBS@
 GETTEXT_PACKAGE = @GETTEXT_PACKAGE@
 GIO_CFLAGS = @GIO_CFLAGS@
 GIO_LIBS = @GIO_LIBS@
-GLIBSHARP_CFLAGS = @GLIBSHARP_CFLAGS@
-GLIBSHARP_LIBS = @GLIBSHARP_LIBS@
 GLIB_CFLAGS = @GLIB_CFLAGS@
 GLIB_GENMARSHAL = @GLIB_GENMARSHAL@
 GLIB_LIBS = @GLIB_LIBS@
@@ -230,7 +225,6 @@ LT_AGE = @LT_AGE@
 LT_CURRENT = @LT_CURRENT@
 LT_REVISION = @LT_REVISION@
 MAKEINFO = @MAKEINFO@
-MCS = @MCS@
 MKDIR_P = @MKDIR_P@
 MKINSTALLDIRS = @MKINSTALLDIRS@
 MOC = @MOC@
@@ -393,6 +387,8 @@ INCLUDES = \
 	$(DBUS_CFLAGS)					\
 	$(SQLITE_CFLAGS)				\
 	-DI_KNOW_THE_PACKAGEKIT_GLIB2_API_IS_SUBJECT_TO_CHANGE	\
+	-DG_LOG_DOMAIN=\"PackageKit\"			\
+	-DPK_COMPILATION				\
 	-DPACKAGE_LOCALE_DIR=\"$(localedir)\"		\
 	-DSYSCONFDIR=\""$(sysconfdir)"\" 		\
 	-I$(top_srcdir)/lib
@@ -403,8 +399,6 @@ PK_GLIB2_LIBS = \
 	$(NULL)
 
 pk_command_not_found_SOURCES = \
-	egg-debug.c					\
-	egg-debug.h					\
 	egg-string.c					\
 	egg-string.h					\
 	pk-command-not-found.c				\
@@ -513,7 +507,6 @@ mostlyclean-compile:
 distclean-compile:
 	-rm -f *.tab.c
 
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/pk_command_not_found-egg-debug.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/pk_command_not_found-egg-string.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/pk_command_not_found-pk-command-not-found.Po@am__quote@
 
@@ -540,22 +533,6 @@ distclean-compile:
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	source='$<' object='$@' libtool=yes @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCC_FALSE@	$(LTCOMPILE) -c -o $@ $<
-
-pk_command_not_found-egg-debug.o: egg-debug.c
-@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(pk_command_not_found_CFLAGS) $(CFLAGS) -MT pk_command_not_found-egg-debug.o -MD -MP -MF $(DEPDIR)/pk_command_not_found-egg-debug.Tpo -c -o pk_command_not_found-egg-debug.o `test -f 'egg-debug.c' || echo '$(srcdir)/'`egg-debug.c
-@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/pk_command_not_found-egg-debug.Tpo $(DEPDIR)/pk_command_not_found-egg-debug.Po
-@am__fastdepCC_FALSE@	$(AM_V_CC) @AM_BACKSLASH@
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='egg-debug.c' object='pk_command_not_found-egg-debug.o' libtool=no @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(pk_command_not_found_CFLAGS) $(CFLAGS) -c -o pk_command_not_found-egg-debug.o `test -f 'egg-debug.c' || echo '$(srcdir)/'`egg-debug.c
-
-pk_command_not_found-egg-debug.obj: egg-debug.c
-@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(pk_command_not_found_CFLAGS) $(CFLAGS) -MT pk_command_not_found-egg-debug.obj -MD -MP -MF $(DEPDIR)/pk_command_not_found-egg-debug.Tpo -c -o pk_command_not_found-egg-debug.obj `if test -f 'egg-debug.c'; then $(CYGPATH_W) 'egg-debug.c'; else $(CYGPATH_W) '$(srcdir)/egg-debug.c'; fi`
-@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/pk_command_not_found-egg-debug.Tpo $(DEPDIR)/pk_command_not_found-egg-debug.Po
-@am__fastdepCC_FALSE@	$(AM_V_CC) @AM_BACKSLASH@
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='egg-debug.c' object='pk_command_not_found-egg-debug.obj' libtool=no @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(pk_command_not_found_CFLAGS) $(CFLAGS) -c -o pk_command_not_found-egg-debug.obj `if test -f 'egg-debug.c'; then $(CYGPATH_W) 'egg-debug.c'; else $(CYGPATH_W) '$(srcdir)/egg-debug.c'; fi`
 
 pk_command_not_found-egg-string.o: egg-string.c
 @am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(pk_command_not_found_CFLAGS) $(CFLAGS) -MT pk_command_not_found-egg-string.o -MD -MP -MF $(DEPDIR)/pk_command_not_found-egg-string.Tpo -c -o pk_command_not_found-egg-string.o `test -f 'egg-string.c' || echo '$(srcdir)/'`egg-string.c

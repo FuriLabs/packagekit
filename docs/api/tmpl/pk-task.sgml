@@ -9,12 +9,10 @@ PkTask
 
 </para>
 
-
 <!-- ##### SECTION See_Also ##### -->
 <para>
 
 </para>
-
 
 <!-- ##### SECTION Stability_Level ##### -->
 
@@ -106,7 +104,7 @@ PkTask
 @cancellable: 
 @progress_callback: 
 @progress_user_data: 
-@callback: 
+@callback_ready: 
 @user_data: 
 
 

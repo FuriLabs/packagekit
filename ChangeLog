@@ -1,14 +1,1616 @@
+commit 8a88c258f168146361a473d42b44bbc4b95f7d43
+Author: Richard Hughes <richard@hughsie.com>
+Date:   2010-11-01
+
+    Release version 0.6.10
+
+M	NEWS
+M	configure.ac
+M	docs/html/pk-download.html
+
+commit 7503df97dfb4fdacced759fdac16201651a97b03
+Author: Richard Hughes <richard@hughsie.com>
+Date:	2010-11-01
+
+    trivial: don't spray the client helper process stderr on the
+    PackageKit console, just log it
+
+M	lib/packagekit-glib2/pk-client-helper.c
+
+commit d171be48499c5c4cb13990946c2d662ac38abd8f
+Author: Richard Hughes <richard@hughsie.com>
+Date:	2010-11-01
+
+    trivial: Set the debconf TERM environment so pkcon can work without
+    a DISPLAY
+
+M	lib/packagekit-glib2/pk-client.c
+
+commit 35a631480ab22657f23637ba75688a7c9ad1259f
+Author: Richard Hughes <richard@hughsie.com>
+Date:	2010-11-01
+
+    trivial: I need to setup a 64 bit machine here
+
+M	lib/packagekit-glib2/pk-socket-example.c
+
+commit 5c1c0e629deade85ae2385d8e78e957ea9724a50
+Author: Richard Hughes <richard@hughsie.com>
+Date:	2010-11-01
+
+    trivial: fix compile with 64 bit size_t, harder
+
+M	lib/packagekit-glib2/pk-client-helper.c
+
+commit 30efcf464395604a353670943ebdce3395c646dd
+Author: Richard Hughes <richard@hughsie.com>
+Date:	2010-11-01
+
+    trivial: fix compile with 64 bit size_t
+
+M	lib/packagekit-glib2/pk-client-helper.c
+
+commit 13d85b0308b44e7bcbb13883121789a21c0720f6
+Author: Richard Hughes <richard@hughsie.com>
+Date:	2010-10-31
+
+    Switch the default to UseUpdateCache=false now we are using a
+    cache-age
+
+M	etc/PackageKit.conf.in
+
+commit 2b3d77d5472af9e54b5ce975974e7a0b6882c7b8
+Author: Richard Hughes <richard@hughsie.com>
+Date:	2010-10-31
+
+    Add some C getters and setters for PkClient and PkTask
+
+M	lib/packagekit-glib2/pk-client.c
+M	lib/packagekit-glib2/pk-client.h
+M	lib/packagekit-glib2/pk-task.c
+M	lib/packagekit-glib2/pk-task.h
+
+commit 0af9993fe6cfb8509b33a38df02bad6b4543fb25
+Author: Richard Hughes <richard@hughsie.com>
+Date:	2010-10-31
+
+    yum: use the cache-age if set by the frontend
+
+M	backends/yum/pk-backend-yum.c
+M	backends/yum/yumBackend.py
+M	lib/python/packagekit/backend.py
+
+commit 8f15eb03c19c2af4c0b6d035da5547b2320c0f4a
+Author: Richard Hughes <richard@hughsie.com>
+Date:	2010-10-31
+
+    Add a new hint, 'cache-age' to allow the frontend to control the
+    maximum age of the metadata
+
+M	backends/yum/yumBackend.py
+M	client/pk-console.c
+M	contrib/command-not-found/pk-command-not-found.c
+M	lib/packagekit-glib2/pk-client.c
+M	lib/python/packagekit/backend.py
+M	src/org.freedesktop.PackageKit.Transaction.xml
+M	src/pk-backend-spawn.c
+M	src/pk-backend.c
+M	src/pk-backend.h
+M	src/pk-transaction.c
+
+commit 1997d1e583a3ce8122b8eb937ee82dcd608d915e
+Author: Richard Hughes <richard@hughsie.com>
+Date:	2010-10-30
+
+    trivial: Actually pass a UNIX socket to the helper process, rather
+    than a pipe
+
+M	backends/dummy/pk-backend-dummy.c
+M	configure.ac
+M	data/tests/pk-client-helper-test.py
+M	lib/packagekit-glib2/.gitignore
+M	lib/packagekit-glib2/Makefile.am
+M	lib/packagekit-glib2/pk-client-helper.c
+M	lib/packagekit-glib2/pk-self-test.c
+A	lib/packagekit-glib2/pk-socket-example.c
+
+commit 19d6e8824ba43fcece5de3248c5672b0fd6a00db
+Author: Richard Hughes <richard@hughsie.com>
+Date:	2010-10-29
+
+    Set the DISPLAY when using debconf-communicate
+
+M	lib/packagekit-glib2/pk-client.c
+
+commit 71bdef61b7bd8a6f4abf249e0ac9a7a29b5d5d4f
+Author: Richard Hughes <richard@hughsie.com>
+Date:	2010-10-29
+
+    dummy: Add a self test which uses the frontend-socket hint, and
+    plays ping-pong with the client
+
+M	backends/dummy/pk-backend-dummy.c
+M	lib/packagekit-glib2/pk-self-test.c
+
+commit a85a3087b3649cbba61f8eac9d9210ed70bb71aa
+Author: Richard Hughes <richard@hughsie.com>
+Date:	2010-10-29
+
+    Run the specified session helper for some transactions that may
+    interact with the user
+
+    This allows the user to interact with debconf on Debian, but it's
+    untested.
+
+M	lib/packagekit-glib2/pk-client.c
+
+commit 237d1d3294b0d43d9e3aa2142f9bf5b124c54d0e
+Author: Richard Hughes <richard@hughsie.com>
+Date:	2010-10-29
+
+    Add PkClientHelper, which allows a helper session program to be run
+    for a transaction
+
+M	data/tests/Makefile.am
+A	data/tests/pk-client-helper-test.py
+M	lib/packagekit-glib2/Makefile.am
+A	lib/packagekit-glib2/pk-client-helper.c
+A	lib/packagekit-glib2/pk-client-helper.h
+M	lib/packagekit-glib2/pk-self-test.c
+
+commit 1eba1c8e6cc8c523fd60305b4bbc61865df8bf33
+Author: Richard Hughes <richard@hughsie.com>
+Date:	2010-10-29
+
+    trivial: add pk_debug_set_verbose() so we can get pretty output from
+    the self test programs
+
+M	backends/dummy/Makefile.am
+M	lib/packagekit-glib2/pk-debug.c
+M	lib/packagekit-glib2/pk-debug.h
+M	lib/packagekit-glib2/pk-self-test.c
+
+commit dc734d6580eec9f7718bfc694dd99a118d5491cd
+Author: Richard Hughes <richard@hughsie.com>
+Date:	2010-10-27
+
+    yum: properly fix the Resolve(@category) search as pkcon needs this
+    to work to be able to install and remove groups
+
+    This also means you don't have to resort to using cat;;;meta on the
+    command line
+    to install groups.
+
+M	backends/yum/pk-backend-yum.c
+M	backends/yum/yumBackend.py
+M	backends/yum/yumFilter.py
+
+commit 77b33c0d5d615ddf9048adc7a22bf0fca443375c
+Author: Richard Hughes <richard@hughsie.com>
+Date:	2010-10-27
+
+    Document the @category resolve special case in the specification as
+    it's been used for at least a year now
+
+M	src/org.freedesktop.PackageKit.Transaction.xml
+
+commit ba71f01cb72cd1dcd104c1db57457eef14025065
+Author: Richard Hughes <richard@hughsie.com>
+Date:	2010-10-27
+
+    Document the @category search in the docs, as it's been used in a
+    few backends for over two years...
+
+M	src/org.freedesktop.PackageKit.Transaction.xml
+
+commit 4a1969d64907a1f7e412b6bb17124debce6d74fb
+Author: Richard Hughes <richard@hughsie.com>
+Date:	2010-10-27
+
+    trivial: fix up some syntax highlighting issues
+
+M	configure.ac
+
+commit b82ed41f65b56bcdef3616cb61dd5cb4c7d95ff9
+Author: Richard Hughes <richard@hughsie.com>
+Date:	2010-10-27
+
+    yum: add 'resolve' to the list of operations to try with Zif
+
+M	backends/yum/Yum.conf
+
+commit 0295872f763e369119cc92f0d5370d6db0893d3a
+Author: Richard Hughes <richard@hughsie.com>
+Date:	2010-10-27
+
+    trivial: remove zif from the error domain define to avoid me
+    confusing myself
+
+M	backends/yum/Makefile.am
+
+commit 60aee592e0bd40a14769ba04b2400f113a199e20
+Author: Richard Hughes <richard@hughsie.com>
+Date:	2010-10-27
+
+    Ensure we notice when a spawn command is invalid by printing it in
+    red on the command line
+
+M	lib/packagekit-glib2/pk-debug.c
+M	src/pk-backend-spawn.c
+M	src/pk-backend.c
+M	src/pk-transaction.c
+
+commit 3c71e3bf29c60329f4ec1fe6a40459711348224c
+Author: Richard Hughes <richard@hughsie.com>
+Date:	2010-10-25
+
+    l10n: Updated English (United Kingdom) (en_GB) translation to 18%
+
+    New status: 69 messages complete with 123 fuzzies and 178
+    untranslated.
+
+    Transmitted-via: Transifex (www.transifex.net).
+
+M	po/en_GB.po
+
+commit b250d0de9a25efc6a42a9d2cb02ebdba0b4641ca
+Author: Richard Hughes <richard@hughsie.com>
+Date:	2010-10-25
+
+    Introduce a 'ready' state for a PkTransaction for use when any commit
+    async methods have completed
+
+M	src/pk-self-test.c
+M	src/pk-transaction-list.c
+M	src/pk-transaction.c
+M	src/pk-transaction.h
+
+commit 3dbe4f9fe218fe83f1db111804244239a29bbf40
+Author: Richard Hughes <richard@hughsie.com>
+Date:	2010-10-22
+
+    yum: fix compile when not using Zif
+
+M	backends/yum/pk-backend-yum.c
+
+commit 0f9137fa54ded7959e0c4a1ed30348d7ab8662e3
+Author: Richard Hughes <richard@hughsie.com>
+Date:	2010-10-22
+
+    yum: when returning results from SearchGroup(collections) check if
+    the groups are installed
+
+M	backends/yum/pk-backend-yum.c
+
+commit 36c6bb50a5de3798377b107e5ba14c1dc305cb04
+Author: Richard Hughes <richard@hughsie.com>
+Date:	2010-10-22
+
+    yum: Add some initial code to support SearchGroup(collections)
+    when using the Zif backend
+
+M	backends/yum/pk-backend-yum.c
+
+commit d57fab6ee37b341368757f938ca62bfb1e0fe55b
+Author: Richard Hughes <richard@hughsie.com>
+Date:	2010-10-22
+
+    yum: support SearchGroup(newest) when using the Zif backend
+
+M	backends/yum/pk-backend-yum.c
+
+commit 15270ebec4419055294a2c8cfab70f139fb989d3
+Author: Richard Hughes <richard@hughsie.com>
+Date:	2010-10-22
+
+    Add the concept of a transaction lifecycle
+
+    This new lifecycle removes the committed, running and finished
+    booleans,
+    as keeping the bitfield sane was a waste of time when the lifecycle
+    only
+    went one way, and only ever had one state at a time. This allows us to
+    make the code simpler, and makes it much easier to in future split
+    up the
+    pre-running, running and post-running states.
+
+    Apologies for making your life harder Matthias.. :-)
+
+M	src/pk-self-test.c
+M	src/pk-transaction-list.c
+M	src/pk-transaction-list.h
+M	src/pk-transaction.c
+M	src/pk-transaction.h
+
+commit 8212e629a4794687fe67e52a891eee3d15c93d36
+Author: Richard Hughes <richard@hughsie.com>
+Date:	2010-10-22
+
+    Allow modules to be loaded which do not implement
+    pk_backend_get_author(), as this is optional
+
+M	src/pk-backend.c
+
+commit 402c316bf193f8c22e0151b7468afa51b69e5fbc
+Author: Richard Hughes <richard@hughsie.com>
+Date:	2010-10-22
+
+    Add a GError to pk_backend_set_name() to avoid spitting warnings in
+    the self check code
+
+M	src/pk-backend.c
+M	src/pk-backend.h
+M	src/pk-main.c
+M	src/pk-self-test.c
+
+commit 50a39e6c6505e3d37760e8c6b72c1f4a34489899
+Author: Richard Hughes <richard@hughsie.com>
+Date:	2010-10-22
+
+    Return with success if the database contained no proxy values for
+    a transaction, as this could be correct
+
+M	src/pk-transaction-db.c
+
+commit 6c20f39c2ad9197d1bc9d50651b60e4c5dd71cd4
+Author: Richard Hughes <richard@hughsie.com>
+Date:	2010-10-22
+
+    Always emit Message(BackendError) when there is a parsing error from
+    a spawned process
+
+M	src/pk-backend-spawn.c
+M	src/pk-backend-spawn.h
+M	src/pk-self-test.c
+
+commit b5076962b8b818bf87bd51d7506f4a2db082e30d
+Author: Richard Hughes <richard@hughsie.com>
+Date:	2010-10-22
+
+    Always emit the locked and unlocked signals even if HAL is not
+    available
+
+M	src/pk-inhibit.c
+
+commit 2d04ac423d87298045b7674375a233d7c5678504
+Author: Richard Hughes <richard@hughsie.com>
+Date:	2010-10-22
+
+    test: add a pk_backend_get_description() vfunc to allow the backends
+    to be loaded
+
+M	backends/test/pk-backend-test-spawn.c
+M	backends/test/pk-backend-test-succeed.c
+M	backends/test/pk-backend-test-thread.c
+
+commit 7c6b85edde69bc87d28ddaec5cbef71e6c3f49bd
+Author: Richard Hughes <richard@hughsie.com>
+Date:	2010-10-21
+
+    Remove two sanity checks which just generate warnings that can
+    be ignored
+
+M	src/pk-backend.c
+
+commit 230bd8c05dfc08b0771fd85abda3d2e78af51f74
+Author: Richard Hughes <richard@hughsie.com>
+Date:	2010-10-21
+
+    Add a special case of a DBus unique name of
+    :org.freedesktop.PackageKit which is used in the self check code
+
+M	src/pk-dbus.c
+
+commit 573c2fe4c61e41630d40297406729604cf040efc
+Author: Matthias Klumpp <matthias@nlinux.org>
+Date:	2010-10-21
+
+    Make PkLsof find lsof on Debian
+
+    Signed-off-by: Richard Hughes <richard@hughsie.com>
+
+M	src/pk-lsof.c
+
+commit aad7804a8d46771b96d5b74449f1726811b63c1d
+Author: Richard Hughes <richard@hughsie.com>
+Date:	2010-10-21
+
+    Fix packagekit-glib2 make check, g_warning() is now fatal in the
+    self check code
+
+M	lib/packagekit-glib2/pk-client.c
+M	lib/packagekit-glib2/pk-common.c
+M	lib/packagekit-glib2/pk-package-id.c
+M	lib/packagekit-glib2/pk-self-test.c
+M	src/pk-inhibit.c
+M	src/pk-proc.c
+M	src/pk-self-test.c
+M	src/pk-spawn.c
+
+commit 51cd5c8f47278fd224220010f14e3d81e3213d53
+Author: Richard Hughes <richard@hughsie.com>
+Date:	2010-10-21
+
+    trivial: allow adding log domains to the default debug framework
+
+M	backends/yum/Makefile.am
+M	backends/yum/pk-backend-yum.c
+M	lib/packagekit-glib2/pk-debug.c
+M	lib/packagekit-glib2/pk-debug.h
+
+commit ebdcd4b4dc897eb937443ff956b73db8a92aa129
+Author: Richard Hughes <richard@hughsie.com>
+Date:	2010-10-21
+
+    yum: use the Zif 'action-changed' signal to emit StatusChanged events
+    for the transaction
+
+M	backends/yum/pk-backend-yum.c
+M	configure.ac
+
+commit 9c0c9a4b81ea120e9a49237adf727132fcbc56ea
+Author: Richard Hughes <richard@hughsie.com>
+Date:	2010-10-20
+
+    Pass all arguments to comand-not-found so we open the newly installed
+    tool with existing argv
+
+M	contrib/command-not-found/PackageKit.sh.in
+
+commit e4e91add6572ee1586610994e2093ad20c7c0841
+Author: Richard Hughes <richard@hughsie.com>
+Date:	2010-10-20
+
+    trivial: Add suggested settings for a Zif speed boost
+
+M	backends/yum/Yum.conf
+
+commit 42319d3964aee5ccabd76d96cb33bfae0ba2be98
+Author: Richard Hughes <richard@hughsie.com>
+Date:	2010-10-20
+
+    yum: fix compile with libzif from git master, which has got a lot
+    more strict about invalid ZifState
+
+M	backends/yum/pk-backend-yum.c
+
+commit 694cb69c29c5b27a9de3726e3ba2329e6c663251
+Author: Richard Hughes <richard@hughsie.com>
+Date:	2010-10-20
+
+    trivial: ensure we use GOptionContext early in startup to avoid
+    spilling debugging onto the console without --verbose
+
+M	client/pk-console.c
+
+commit 2c62053ed70de4383658409f13b5e720bd2ecd0c
+Author: Richard Hughes <richard@hughsie.com>
+Date:	2010-10-20
+
+    Raise the default of StateChangedTimeoutPriority from 5 seconds to
+    30 seconds. Fixes rh#641691
+
+M	etc/PackageKit.conf.in
+
+commit f32aeb94811fdeb8bc9bf0f902eb7c2832fd6be0
+Author: Richard Hughes <richard@hughsie.com>
+Date:	2010-10-19
+
+    trivial: set G_LOG_DOMAIN in CNF
+
+M	contrib/command-not-found/Makefile.am
+
+commit 4833b02f8323de29e400629eaf3fec9189bcb503
+Author: Richard Hughes <richard@hughsie.com>
+Date:	2010-10-19
+
+    trivial: When not using --verbose, surpress warnings too
+
+M	lib/packagekit-glib2/pk-debug.c
+
+commit cc41575b7b1675d93d790ae8d668089ff428f151
+Author: Richard Hughes <richard@hughsie.com>
+Date:	2010-10-19
+
+    Revert "set allow_cancel default in init to match that in
+    pk_transaction_set_running ie. FALSE"
+
+    This reverts commit 7ecec05029c23ccd2e6c25e50474768db3eb5876.
+
+    We want to be able to cancel transactions that have not yet been run.
+
+M	src/pk-transaction.c
+
+commit 0b9268120b5f25b5f86705e0e9345d5143357a45
+Author: Richard Hughes <richard@hughsie.com>
+Date:	2010-10-18
+
+    Do not include egg-string in packagekit-glib2 to fix some
+    introspection warnings
+
+    It's only used in two places, and certainly doesn't belong in the
+    exported API at all.
+
+M	lib/packagekit-glib2/Makefile.am
+D	lib/packagekit-glib2/egg-string.c
+D	lib/packagekit-glib2/egg-string.h
+M	lib/packagekit-glib2/pk-catalog.c
+M	lib/packagekit-glib2/pk-common.c
+M	lib/packagekit-glib2/pk-desktop.c
+M	lib/packagekit-glib2/pk-enum.c
+M	lib/packagekit-glib2/pk-service-pack.c
+
+commit 2eaf141dd02783fcc2672c6673b58f548ffefe6d
+Author: Richard Hughes <richard@hughsie.com>
+Date:	2010-10-18
+
+    yum: set G_LOG_DOMAIN for pretty verbose output
+
+M	backends/yum/Makefile.am
+M	backends/yum/pk-backend-yum.c
+
+commit 6233d4bd350e21cf62dd269ba0680ef557f62034
+Author: Richard Hughes <richard@hughsie.com>
+Date:	2010-10-18
+
+    trivial: fix make distcheck
+
+M	lib/packagekit-glib2/Makefile.am
+
+commit 5684954d9bf1af36c5022353ebca883eb9be283e
+Author: Richard Hughes <richard@hughsie.com>
+Date:	2010-10-17
+
+    Switch from EggDebug to the GLib debugging framework
+
+M	backends/alpm/pk-backend-alpm.c
+M	backends/apt/pk-backend-apt.c
+M	backends/aptcc/apt.cpp
+M	backends/aptcc/pk-backend-aptcc.cpp
+M	backends/box/pk-backend-box.c
+M	backends/conary/pk-backend-conary.c
+M	backends/dummy/pk-backend-dummy.c
+M	backends/entropy/pk-backend-entropy.c
+M	backends/opkg/pk-backend-opkg.c
+M	backends/pacman/backend-groups.c
+M	backends/pacman/backend-pacman.c
+M	backends/pacman/backend-repos.c
+M	backends/pacman/backend-transaction.c
+M	backends/pacman/backend-update.c
+M	backends/pisi/pk-backend-pisi.c
+M	backends/poldek/pk-backend-poldek.c
+M	backends/portage/pk-backend-portage.c
+M	backends/ports/pk-backend-ports.c
+M	backends/razor/pk-backend-razor.c
+M	backends/smart/pk-backend-smart.c
+M	backends/test/pk-backend-test-spawn.c
+M	backends/test/pk-backend-test-thread.c
+M	backends/urpmi/pk-backend-urpmi.c
+M	backends/yum/pk-backend-yum.c
+M	backends/zypp/pk-backend-zypp.cpp
+M	backends/zypp/zypp-events.h
+M	backends/zypp/zypp-utils.cpp
+M	client/Makefile.am
+D	client/egg-debug.c
+D	client/egg-debug.h
+M	client/pk-console.c
+M	client/pk-generate-pack.c
+M	client/pk-monitor.c
+M	contrib/command-not-found/Makefile.am
+D	contrib/command-not-found/egg-debug.c
+D	contrib/command-not-found/egg-debug.h
+M	contrib/command-not-found/pk-command-not-found.c
+M	contrib/debuginfo-install/Makefile.am
+D	contrib/debuginfo-install/egg-debug.c
+D	contrib/debuginfo-install/egg-debug.h
+M	contrib/debuginfo-install/pk-debuginfo-install.c
+M	docs/api/PackageKit-docs.sgml
+M	lib/packagekit-glib2/Makefile.am
+D	lib/packagekit-glib2/egg-debug.c
+D	lib/packagekit-glib2/egg-debug.h
+M	lib/packagekit-glib2/packagekit.h
+M	lib/packagekit-glib2/pk-bitfield.c
+M	lib/packagekit-glib2/pk-catalog.c
+M	lib/packagekit-glib2/pk-category.c
+M	lib/packagekit-glib2/pk-client-sync.c
+M	lib/packagekit-glib2/pk-client.c
+M	lib/packagekit-glib2/pk-common.c
+M	lib/packagekit-glib2/pk-console-shared.c
+M	lib/packagekit-glib2/pk-control-sync.c
+M	lib/packagekit-glib2/pk-control.c
+A	lib/packagekit-glib2/pk-debug.c
+A	lib/packagekit-glib2/pk-debug.h
+M	lib/packagekit-glib2/pk-desktop.c
+M	lib/packagekit-glib2/pk-details.c
+M	lib/packagekit-glib2/pk-distro-upgrade.c
+M	lib/packagekit-glib2/pk-enum.c
+M	lib/packagekit-glib2/pk-error.c
+M	lib/packagekit-glib2/pk-eula-required.c
+M	lib/packagekit-glib2/pk-files.c
+M	lib/packagekit-glib2/pk-media-change-required.c
+M	lib/packagekit-glib2/pk-message.c
+M	lib/packagekit-glib2/pk-package-id.c
+M	lib/packagekit-glib2/pk-package-ids.c
+M	lib/packagekit-glib2/pk-package-sack-sync.c
+M	lib/packagekit-glib2/pk-package-sack.c
+M	lib/packagekit-glib2/pk-package.c
+M	lib/packagekit-glib2/pk-progress-bar.c
+M	lib/packagekit-glib2/pk-progress.c
+M	lib/packagekit-glib2/pk-repo-detail.c
+M	lib/packagekit-glib2/pk-repo-signature-required.c
+M	lib/packagekit-glib2/pk-require-restart.c
+M	lib/packagekit-glib2/pk-results.c
+M	lib/packagekit-glib2/pk-self-test.c
+M	lib/packagekit-glib2/pk-service-pack.c
+M	lib/packagekit-glib2/pk-source.c
+M	lib/packagekit-glib2/pk-task-sync.c
+M	lib/packagekit-glib2/pk-task-text.c
+M	lib/packagekit-glib2/pk-task-wrapper.c
+M	lib/packagekit-glib2/pk-task.c
+M	lib/packagekit-glib2/pk-transaction-list.c
+M	lib/packagekit-glib2/pk-transaction-past.c
+M	lib/packagekit-glib2/pk-update-detail.c
+M	po/POTFILES.in
+M	src/Makefile.am
+M	src/egg-dbus-monitor.c
+D	src/egg-debug.c
+D	src/egg-debug.h
+M	src/egg-string.c
+M	src/pk-backend-spawn.c
+M	src/pk-backend.c
+M	src/pk-backend.h
+M	src/pk-cache.c
+M	src/pk-conf.c
+M	src/pk-dbus.c
+M	src/pk-engine.c
+M	src/pk-file-monitor.c
+M	src/pk-inhibit.c
+M	src/pk-lsof.c
+M	src/pk-main.c
+M	src/pk-network-stack-connman.c
+M	src/pk-network-stack-nm.c
+M	src/pk-network-stack-unix.c
+M	src/pk-network.c
+M	src/pk-notify.c
+M	src/pk-proc.c
+M	src/pk-self-test.c
+M	src/pk-shared.c
+M	src/pk-spawn.c
+M	src/pk-store.c
+M	src/pk-syslog.c
+M	src/pk-time.c
+M	src/pk-transaction-db.c
+M	src/pk-transaction-extra.c
+M	src/pk-transaction-list.c
+M	src/pk-transaction.c
+
+commit e205afe7a3630fd607d731671d5e18897424fc7a
+Author: Richard Hughes <richard@hughsie.com>
+Date:	2010-10-17
+
+    Prevent a segfault when estimating the time when the backend issues
+    many ProgressChanged signals at one time. Fixes #30941
+
+M	src/pk-time.c
+
+commit 5c6f4b4ba90ba688736d07fdd33de8794b6aee8c
+Author: Anders F Bjorklund <afb@users.sourceforge.net>
+Date:	2010-10-15
+
+    smart: set PATH for FreeBSD (and Linux)
+
+M	backends/smart/smartBackend.py
+
+commit 1da914ca4e995b65e260bb721458efa4eeffe69a
+Author: Anders F Bjorklund <afb@users.sourceforge.net>
+Date:	2010-10-15
+
+    add missing os import
+
+M	backends/smart/smartBackend.py
+
+commit 2aa54af3d79ddc6637262e152cf8f2c69e8e4506
+Author: Anders F Bjorklund <afb@users.sourceforge.net>
+Date:	2010-10-14
+
+    smart: dpkg requires a PATH variable, so set it.
+
+M	backends/smart/smartBackend.py
+
+commit c23fc9733475437f16aa22e4ce2552ee762a87b3
+Author: Jason Woodward <woodwardj@jaos.org>
+Date:	2010-09-28
+
+    updated slapt backend for compatibility with slapt-get 0.10.2g
+
+    Signed-off-by: Jason Woodward <woodwardj@jaos.org>
+    Signed-off-by: Anders F Bjorklund <afb@users.sourceforge.net>
+
+M	backends/slapt/pk-backend-slapt.c
+
+commit 367fb624620cb803883cb547e4fbbee0c6a08fcc
+Author: Richard Hughes <richard@hughsie.com>
+Date:	2010-10-14
+
+    yum: Remove selinux-policy from InfrastructurePackages, it's updated
+    way too often
+
+M	backends/yum/Yum.conf
+
+commit 6086609be31097c67a60baaa43484600ebe7976c
+Author: Richard Hughes <richard@hughsie.com>
+Date:	2010-10-12
+
+    Do not dist the PackageKitGlib-1.0.gir file to fix building on F14
+
+M	Makefile.am
+M	lib/packagekit-glib2/Makefile.am
+
+commit d46c9a76a82fba6f6c948e8cb78c9b3fd63f05f3
+Author: Richard Hughes <richard@hughsie.com>
+Date:	2010-10-12
+
+    Do not strip the trailing plus when comparing licences, as GPL+
+    exists, but GPL does not
+
+M	lib/python/packagekit/package.py
+
+commit 8510b4307a7bacc54a12c6d53fafc4f8e7173f3f
+Author: Richard Hughes <richard@hughsie.com>
+Date:	2010-10-12
+
+    glib: Add several more FSF free licenses
+
+M	lib/packagekit-glib2/pk-enum.c
+M	lib/packagekit-glib2/pk-enum.h
+
+commit 762abc1f14b2c75bcaad94b8087289dec0b85611
+Author: Richard Hughes <richard@hughsie.com>
+Date:	2010-10-11
+
+    Make the output of command-not-found match the bash builtin. Fixes
+    rh#641311
+
+M	contrib/command-not-found/pk-command-not-found.c
+
+commit 9e71e2aa0194b5e44250ffcf415ed8b00e79c260
+Author: Zhang Qiang <qiang.z.zhang@intel.com>
+Date:	2010-10-09
+
+    zypp: Call zypp_build_pool() when searching with what_provides
+
+    Call zypp_build_pool correctly when searching with what_provides.
+
+    Without this patch, "pkcon what-provides" got nothing, as
+    zypp_build_pool is not called before resolving WhatProvides.
+
+M	backends/zypp/pk-backend-zypp.cpp
+
+commit ff9180656626ecb5e0e226d265ae57588d1a8285
+Author: Valeriy Lyasotskiy <onestep@ukr.net>
+Date:	2010-10-08
+
+    configure: fixed alpm detection code
+
+M	configure.ac
+
+commit 1bc229d6c9faf7bda279afac3c79ef7759285da3
+Merge: 9492376 55685b8
+Author: Richard Hughes <richard@hughsie.com>
+Date:	2010-10-07
+
+    Merge branch 'remove-pk-sharp'
+
+commit 9492376f17eb673470f945955b8eda6aea58e96d
+Author: Richard Hughes <richard@hughsie.com>
+Date:	2010-10-07
+
+    trivial: Only include the gobject-introspection Makefile if we are
+    compiling with support
+
+M	lib/packagekit-glib2/Makefile.am
+
+commit d3364bb4a895b41b64e1ff9e017ce35d6a0b537b
+Author: Richard Hughes <richard@hughsie.com>
+Date:	2010-10-07
+
+    trivial: show if gobject-introspection support was found
+
+M	configure.ac
+
+commit 55685b8d343ce8a282eb3f92c58d05320ac10b89
+Author: Richard Hughes <richard@hughsie.com>
+Date:	2010-10-07
+
+    Move the managed bindings to a seporate repo as they are very out
+    of date
+
+M	configure.ac
+M	lib/Makefile.am
+D	lib/packagekit-sharp/.gitignore
+D	lib/packagekit-sharp/Client.custom
+D	lib/packagekit-sharp/Makefile.am
+D	lib/packagekit-sharp/PackageKit.metadata
+D	lib/packagekit-sharp/PackageList.custom
+D	lib/packagekit-sharp/README
+D	lib/packagekit-sharp/TOOO
+D	lib/packagekit-sharp/generated/.gitignore
+D	lib/packagekit-sharp/packagekit-api.raw
+D	lib/packagekit-sharp/packagekit-api.xml
+D	lib/packagekit-sharp/packagekit-sharp-sources.xml
+D	lib/packagekit-sharp/samples/.gitignore
+D	lib/packagekit-sharp/samples/ListUpdates.cs
+D	lib/packagekit-sharp/samples/Makefile.am
+D	lib/packagekit-sharp/samples/UpdateSystem.cs
+D	lib/packagekit-sharp/samples/launcher.in
+D	lib/packagekit-sharp/test/Test.cs
+
+commit 3385d1c7cbf877cb38c42c0cea43311bc3ed5b63
+Author: Richard Hughes <richard@hughsie.com>
+Date:	2010-10-06
+
+    Only build with gobject-introspection when completely up to date
+
+M	configure.ac
+
+commit 67c101b9ba24e1a476a180023a3575911ee0c977
+Author: Richard Hughes <richard@hughsie.com>
+Date:	2010-10-05
+
+    Require GTK >= 2.91.0 for the GTK3 version of the PackageKit font
+    install module
+
+M	configure.ac
+
+commit ef6b4f104543ad1631f85e565d31b0db2d8d49ec
+Author: Richard Hughes <richard@hughsie.com>
+Date:	2010-10-05
+
+    glib: Fix up a lot of the gobject-introspection warnings
+
+M	lib/packagekit-glib2/Makefile.am
+M	lib/packagekit-glib2/pk-catalog.c
+M	lib/packagekit-glib2/pk-client-sync.c
+M	lib/packagekit-glib2/pk-client.c
+M	lib/packagekit-glib2/pk-common.c
+M	lib/packagekit-glib2/pk-control-sync.c
+M	lib/packagekit-glib2/pk-control.c
+M	lib/packagekit-glib2/pk-desktop.c
+M	lib/packagekit-glib2/pk-enum.c
+M	lib/packagekit-glib2/pk-enum.h
+M	lib/packagekit-glib2/pk-package-id.c
+M	lib/packagekit-glib2/pk-package-ids.c
+M	lib/packagekit-glib2/pk-package-sack.c
+M	lib/packagekit-glib2/pk-results.c
+M	lib/packagekit-glib2/pk-service-pack.c
+M	lib/packagekit-glib2/pk-task.c
+M	lib/packagekit-glib2/pk-task.h
+M	lib/packagekit-glib2/pk-transaction-list.c
+
+commit 4c449baa8e890093362f3e0a7249392da3ace0b3
+Author: Daniel Nicoletti <dantti85-pk@yahoo.com.br>
+Date:	2010-10-05
+
+    aptcc: Add a nicer string pointing to launchpad when the changelog
+    is not available
+
+M	backends/aptcc/apt-utils.cpp
+M	backends/aptcc/apt-utils.h
+M	backends/aptcc/apt.cpp
+
+commit 7a73a6fa2dace57450e30a996a2dc15d98d35b58
+Merge: 2d03c1e dd9a708
+Author: Daniel Nicoletti <dantti85-pk@yahoo.com.br>
+Date:	2010-10-05
+
+    Merge branch 'master' of gitorious.org:packagekit/packagekit
+
+commit 2d03c1ed2f710955de4814ddaf8b133da06f026b
+Author: Daniel Nicoletti <dantti85-pk@yahoo.com.br>
+Date:	2010-10-05
+
+    aptcc: Feature: added a fetcher/parser for updates changelogs
+
+M	backends/aptcc/Makefile.am
+M	backends/aptcc/apt-utils.cpp
+M	backends/aptcc/apt-utils.h
+M	backends/aptcc/apt.cpp
+M	backends/aptcc/pk-backend-aptcc.cpp
+M	backends/aptcc/pkg_acqfile.cpp
+M	backends/aptcc/pkg_acqfile.h
+
+commit dd9a708a54eb01f77307a7293b046ac2c95e84a4
+Author: Richard Hughes <richard@hughsie.com>
+Date:	2010-10-04
+
+    trivial: post release version bump
+
+M	RELEASE
+M	configure.ac
+
+commit b00a9ebfc26376e2848bc03cc7ae9b18b8fcd07d
+Author: Richard Hughes <richard@hughsie.com>
+Date:	2010-10-04
+
+    Release version 0.6.9
+
+M	NEWS
+M	configure.ac
+M	docs/html/pk-download.html
+
+commit 24ae9f186a3a63004b01c00dde85ee7407ac3f50
+Author: Richard Hughes <richard@hughsie.com>
+Date:	2010-10-04
+
+    trivial: require zif 0.1.1 for the new API we introduced
+
+M	configure.ac
+
+commit 00582c937543a749689f889526a330f69887306a
+Author: Matthias Clasen <mclasen@redhat.com>
+Date:	2010-10-04
+
+    Fix build with newer gobject-introspection
+
+    I had to experiment a bit to come up with the fix below, which
+    lets PackageKit
+    0.6.8 build against current gobject-introspection.
+
+    Signed-off-by: Richard Hughes <richard@hughsie.com>
+
+M	lib/packagekit-glib2/Makefile.am
+
+commit dad233a3384aa24220b0415dcfd480d8c3dd1d27
+Author: Richard Hughes <richard@hughsie.com>
+Date:	2010-10-04
+
+    Revert "glib: Fix build of introspection with gobject-introspection
+    0.9.9"
+
+    This reverts commit a04286d4a9b66703fc4c1a4a122251419f3bbbfc.
+
+M	lib/packagekit-glib2/Makefile.am
+
+commit ec10c22846bc75203bc59df783f97a5a3c1c7677
+Author: Fabio Erculiani <lxnay@sabayon.org>
+Date:	2010-10-02
+
+    entropy: add forward compatibility, use
+    EntropyRepositoryBase.listPackageIdsInCategory() if available.
+
+M	backends/entropy/entropyBackend.py
+
+commit a04286d4a9b66703fc4c1a4a122251419f3bbbfc
+Author: Vincent Untz <vuntz@gnome.org>
+Date:	2010-10-01
+
+    glib: Fix build of introspection with gobject-introspection 0.9.9
+
+    We need to tell g-it-scanner what prefix is used by the library.
+
+M	lib/packagekit-glib2/Makefile.am
+
+commit 9bacc0ea36a5c526193f455fdf3d413a8360a59a
+Author: Richard Hughes <richard@hughsie.com>
+Date:	2010-10-01
+
+    yum: use GetCategories also for using a zif GetGroups, as GetGroups
+    does not have a role enum
+
+M	backends/yum/pk-backend-yum.c
+
+commit b0e629d6d9b5c9e537f2804af2bf492bb25c0a57
+Author: Richard Hughes <richard@hughsie.com>
+Date:	2010-10-01
+
+    yum: remove RepoSetData, it's a NOOP
+
+M	backends/yum/pk-backend-yum.c
+
+commit 0665ac256ad4df06447afc605188264b963f7efd
+Author: Richard Hughes <richard@hughsie.com>
+Date:	2010-10-01
+
+    yum: allow SearchFiles and GetUpdateDetail to be processed using zif
+
+M	backends/yum/pk-backend-yum.c
+
+commit 3d55e6b226d0ff90f58ad758b7bbce635b581a34
+Author: Richard Hughes <richard@hughsie.com>
+Date:	2010-10-01
+
+    yum: Remove the set-proxy from get_distro_upgrades(), it's already
+    done in transaction_start()
+
+M	backends/yum/pk-backend-yum.c
+
+commit 4c5e7732520039cfbddd9424c622f5a89e571e7a
+Author: Richard Hughes <richard@hughsie.com>
+Date:	2010-10-01
+
+    yum: change the configuration value UseZif to a bitfield of roles
+
+M	backends/yum/Yum.conf
+M	backends/yum/pk-backend-yum.c
+
+commit 605edd826fa71cf75b2f41c939e54d2e8be6653d
+Author: Richard Hughes <richard@hughsie.com>
+Date:	2010-10-01
+
+    trivial: fix the yum backend compile if we are using zif, my sed
+    apologies
+
+M	backends/yum/pk-backend-yum.c
+
+commit 2474054245b21459084b2c9ee098538cf55c0fa3
+Author: Richard Hughes <richard@hughsie.com>
+Date:	2010-09-29
+
+    Add a nicer translated error when UpdatePackages has no packages to
+    update. Fixes fd#30459
+
+M	client/pk-console.c
+
+commit 9b89cefedb86d4f9ebd633ed1602768c51003993
+Author: Richard Hughes <richard@hughsie.com>
+Date:	2010-09-28
+
+    trivial: add Anjuta to the list of PK users
+
+A	docs/html/img/users-anjuta.png
+M	docs/html/pk-users.html
+
+commit 6b81039fac1f51b33f1e74d1bbc298ba70b92cf3
+Author: Richard Hughes <richard@hughsie.com>
+Date:	2010-09-28
+
+    Add a feature that allows external scripts to be run after certain
+    transactions
+
+M	contrib/PackageKit.spec.in
+M	etc/Makefile.am
+A	etc/README
+M	src/pk-transaction.c
+
+commit ec903806d6e98bf50c64a63fb72ff0755feaea4d
+Author: Jonathan Conder <jonno dot conder at gmail dot com>
+Date:	2010-09-17
+
+    trivial: pacman: fix build with new backend API
+
+M	backends/pacman/backend-pacman.c
+
+commit a1227392324437f59869ef312dff8017daed07db
+Author: Hedayat Vatankhah <hedayat@grad.com>
+Date:	2010-09-24
+
+    yum: select the repository with the higher priority when a package
+    exists in serveral repositories
+
+M	backends/yum/yumFilter.py
+
+commit 7c0620a32d83f3af2d73b409863b77917d1a3938
+Author: Richard Hughes <richard@hughsie.com>
+Date:	2010-09-21
+
+    trivial: ensure we include gmodule.h for backends that don't depend
+    on it explicitly
+
+M	src/pk-backend.h
+
+commit 10ab03423c892c06cd341e9629a5efb5050a7493
+Author: Richard Hughes <richard@hughsie.com>
+Date:	2010-09-21
+
+    yum: Remove the table-of-vfuncs from the yum backend
+
+M	backends/yum/pk-backend-yum.c
+
+commit d3b1558ef1ce71068ac57638c55a1932c31c3cb9
+Author: Richard Hughes <richard@hughsie.com>
+Date:	2010-09-21
+
+    dummy: Remove the table-of-vfuncs from the dummy backend
+
+M	backends/dummy/pk-backend-dummy.c
+
+commit 03f623c7608eedbd948664af205d1a0eab2a8ead
+Author: Richard Hughes <richard@hughsie.com>
+Date:	2010-09-21
+
+    test: Remove the table-of-vfuncs from the test backends
+
+M	backends/test/pk-backend-test-fail.c
+M	backends/test/pk-backend-test-nop.c
+M	backends/test/pk-backend-test-spawn.c
+M	backends/test/pk-backend-test-succeed.c
+M	backends/test/pk-backend-test-thread.c
+
+commit d9121d9192bc6347354bfd623cf0b24bbac3c582
+Author: Richard Hughes <richard@hughsie.com>
+Date:	2010-09-21
+
+    Allow backends to omit the table-of-vfuncs and use GModule
+    functionality to resolve backend functions
+
+M	src/pk-backend.c
+M	src/pk-backend.h
+
+commit 628a918c44a2a83bd25db25a339a17a643c1ab58
+Author: Richard Hughes <richard@hughsie.com>
+Date:	2010-09-21
+
+    Merge pk-backend-internal.h back into pk-backend.h
+
+M	src/Makefile.am
+D	src/pk-backend-internal.h
+M	src/pk-backend-spawn.c
+M	src/pk-backend.c
+M	src/pk-backend.h
+M	src/pk-engine.c
+M	src/pk-main.c
+M	src/pk-self-test.c
+M	src/pk-transaction-extra.c
+M	src/pk-transaction.c
+
+commit d576b3a6a12114aeead568023ceb247fd341d86b
+Author: Richard Hughes <richard@hughsie.com>
+Date:	2010-09-21
+
+    cnf: add a proper error message when the transaction was cancelled
+
+M	contrib/command-not-found/pk-command-not-found.c
+
+commit 05aa3f19090c1488071f79a4f6e16f4b20863ee8
+Author: Richard Hughes <richard@hughsie.com>
+Date:	2010-09-21
+
+    glib: Check the GCancellable is not already cancelled at startup in
+    PkClient and PkControl
+
+M	lib/packagekit-glib2/pk-client.c
+M	lib/packagekit-glib2/pk-control.c
+M	lib/packagekit-glib2/pk-self-test.c
+
+commit a519245b228d330c57719f4b52148877f94ae233
+Author: Richard Hughes <richard@hughsie.com>
+Date:	2010-09-21
+
+    yum: only cancel the GCancellable if we are using ZIF
+
+M	backends/yum/pk-backend-yum.c
+
+commit 2b3c13110a448ab1535716c0944e43a7e945ac98
+Author: Richard Hughes <richard@hughsie.com>
+Date:	2010-09-21
+
+    Ensure we set an error if the spawned backend gets cancelled
+
+    We can't assume the spawned backend gets a chance to set an error
+    when we SIGQUIT it
+    and so set a generic transaction cancelled error code when before
+    we send the signal.
+
+    This means we don't trigger the obnoxious internal error when
+    sometimes cancelling
+    tranasctions, e.g. '...This is a serious error as the spawned backend
+    did not...' and
+    we don't scare the user when there's nothing actually wrong.
+
+M	src/pk-backend-spawn.c
+
+commit b708fca56bcd88642da9e38ad3cddbaba7782fa3
+Author: Richard Hughes <richard@hughsie.com>
+Date:	2010-09-21
+
+    glib: ensure GCancellable values are valid, or NULL
+
+M	lib/packagekit-glib2/pk-client.c
+M	lib/packagekit-glib2/pk-control.c
+M	lib/packagekit-glib2/pk-task.c
+
+commit 8ad945da5819a967b926510ce1c960036d3c4342
+Author: Zhang Qiang <qiang.z.zhang@intel.com>
+Date:	2010-09-21
+
+    Send correct network state for connman end
+
+    Currently, packagekitd accept a bool type of connman network state,
+    and
+    this patch transfer the correct connman network state (offline/online)
+    to packagekitd. Without this patch packagekitd/application will
+    get the
+    incorrect network state notification.
+
+M	src/pk-network-stack-connman.c
+
+commit da4e08f88e97c3663dc1a186b435af905ee25704
+Author: Richard Hughes <richard@hughsie.com>
+Date:	2010-09-20
+
+    yum: for some reason yum needs to download the packagelists at init,
+    so mark the download as cancellable. Fixes fd#30276
+
+M	backends/yum/yumBackend.py
+
+commit 0c134d971b8d93ad8c768f706affab280bcbbde2
+Author: Richard Hughes <richard@hughsie.com>
+Date:	2010-09-20
+
+    glib: Do not return simulation failures as critical errors
+
+M	lib/packagekit-glib2/pk-task.c
+
+commit 39e15a5484af8ae110a72db6936675c6c7513d41
+Author: Richard Hughes <richard@hughsie.com>
+Date:	2010-09-20
+
+    glib: only return packages for catalogs that are _not_ installed
+
+M	lib/packagekit-glib2/pk-catalog.c
+
+commit e258ac2b920efb3d9aab14548907541711c30f68
+Author: Richard Hughes <richard@hughsie.com>
+Date:	2010-09-20
+
+    glib: do not crash the client if a catalog file has both file and
+    package sections
+
+M	lib/packagekit-glib2/pk-catalog.c
+
+commit dcb3369660a926f69f48ffa288163ae1505db11a
+Author: Hedayat Vatankhah <hedayat@grad.com>
+Date:	2010-09-20
+
+    yum: Fix the split media handling in PackageKit yum backend
+
+    Signed-off-by: Richard Hughes <richard@hughsie.com>
+
+M	backends/yum/yumBackend.py
+
+commit facb22c96a2dd6afa1bc80fbb5984affa3efb9be
+Author: Hedayat Vatankhah <hedayat@grad.com>
+Date:	2010-09-20
+
+    When prompting for media, include the disc number
+
+    Signed-off-by: Richard Hughes <richard@hughsie.com>
+
+M	backends/yum/yumBackend.py
+
+commit 1aea94019e010586aa4b39ad07f7f7fd8331a59b
+Author: Zhang Qiang <qiang.z.zhang@intel.com>
+Date:	2010-09-17
+
+    Enable proxy for zypp backend
+
+    Implement 'backend_transaction_start' and 'backend_transaction_stop'
+    for
+    zypp backend, where proxy info is set/unset for individual
+    transaction.
+    This proxy info can be used in zypp-backend->curl.
+
+M	backends/zypp/pk-backend-zypp.cpp
+
+commit 68eb126106c26d324645fe0a3d0f1d982ba661e5
+Author: Daniel Nicoletti <dantti85-pk@yahoo.com.br>
+Date:	2010-09-17
+
+    packagekit-qt: Forgot to setHints() on new constructor
+
+M	lib/packagekit-qt/src/transaction.cpp
+
+commit c79e2f6f705d45379c6fab9939681a3aa34daaa5
+Author: Daniel Nicoletti <dantti85-pk@yahoo.com.br>
+Date:	2010-09-17
+
+    aptcc: Updated calls not to use deprecated apt code
+
+M	backends/aptcc/apt.cpp
+M	backends/aptcc/pk-backend-aptcc.cpp
+
+commit d923f027e0f6c03de49887c9bdec5dad12def73c
+Author: Richard Hughes <richard@hughsie.com>
+Date:	2010-09-16
+
+    Don't call back into the daemon (from the daemon) when checking
+    service packs. Fixes rh#634628
+
+    This fixes a deadlock when the user tries to install a service pack.
+
+M	lib/packagekit-glib2/pk-common.c
+M	lib/packagekit-glib2/pk-common.h
+M	lib/packagekit-glib2/pk-service-pack.c
+M	src/pk-engine.c
+
+commit c0c417526f1cd3552971d41aecbc08b1317c41c3
+Author: Richard Hughes <richard@hughsie.com>
+Date:	2010-09-16
+
+    yum: don't assume yb.pkgSack.searchNevra() only returns one result
+    to fix service pack generation
+
+M	backends/yum/yumBackend.py
+
+commit 03a8d4bbf30361142043d3efd1ea95b1547e1ecb
+Author: Richard Hughes <richard@hughsie.com>
+Date:	2010-09-16
+
+    yum: get the changelog text using zif if it is available
+
+M	backends/yum/pk-backend-yum.c
+
+commit 28a3c08f4b8ee264710452f6a12bf3b442edc10c
+Author: Richard Hughes <richard@hughsie.com>
+Date:	2010-09-16
+
+    Fix generating an updates service pack using pkgenpack
+
+M	client/pk-generate-pack.c
+M	lib/packagekit-glib2/pk-service-pack.c
+
+commit 70730d16b711782a51d5f6c06a635c4879a066ce
+Author: Zhang Qiang <qiang.z.zhang@intel.com>
+Date:	2010-09-16
+
+    Refresh cache and sat solv pool data if necessary
+
+    In the original implementation, pkcon refresh only refresh/build
+    metadata, while solv file have not been refreshed properly. this patch
+    refresh solv data in solv pool while execute refresh operation.
+
+    Reference zypper's implementation, changed refreshMetadata flag from
+    RefreshIfNeeded to RefreshIfNeededIgnoreDelay, or refresh will not
+    work properly. This patch also check if the cache is up to date, which
+    reduce some unnecessay operations.
+
+M	backends/zypp/zypp-utils.cpp
+
+commit 9794bc1f6dbdaa4297f77ec673939cb11665affd
+Author: Zhang Qiang <qiang.z.zhang@intel.com>
+Date:	2010-09-16
+
+    Refresh cache before geting upgrade and installing
+
+    Refresh cache is necessary before executing get-updates and install
+    operations. With out this patch, pkcon get-updates/install would not
+    work after modifying rpmdb using rpm or changing repo.
+
+    Related bug: http://bugs.meego.com/show_bug.cgi?id=2434
+
+M	backends/zypp/pk-backend-zypp.cpp
+
+commit 1b39a57b9f61270e057829a4c3654be1d9337939
+Author: Zhang Qiang <qiang.z.zhang@intel.com>
+Date:	2010-09-16
+
+    Refresh system rpmdb while refresh cache
+
+    Refreshing rpmdb is necessary, which can let packagekitd get the
+    correct status of packages, even if you use rpm command to change the
+    status of rpmdb while packagekit is running.
+
+M	backends/zypp/zypp-utils.cpp
+
+commit 4be060ff28ea226dd13a133666f7f3bc53c7fbd3
+Author: Richard Hughes <richard@hughsie.com>
+Date:	2010-09-14
+
+    Fix g_time_val_from_iso8601() call in pk_iso8601_to_date()
+
+    It appears the semantics of g_time_val_from_iso8601() has changed in
+    new versions of GLib. Work around this until we can depend on
+    GDateTime
+    and remove a lot of the date/time insanity.
+
+M	lib/packagekit-glib2/pk-common.c
+
+commit fa6d8045d2fbe347da3986246c8fda7a2766830d
+Author: Richard Hughes <richard@hughsie.com>
+Date:	2010-09-14
+
+    trivial: pk_iso8601_to_date() is less strict than
+    g_time_val_from_iso8601() so relax the warning a little
+
+M	src/pk-backend.c
+
+commit dd9e7d1fcac2783d0add807863e78766da63e1a6
+Author: Richard Hughes <richard@hughsie.com>
+Date:	2010-09-14
+
+    yum: switch to using transaction_start() and transaction_stop()
+    to reduce backend complexity
+
+M	backends/yum/pk-backend-yum.c
+
+commit b4fec94949739667a2a81b5c2e829f02cc34354d
+Author: Richard Hughes <richard@hughsie.com>
+Date:	2010-09-14
+
+    trivial: fix up compile error with the last patch, cause by a lack
+    of ctrl-s
+
+M	src/pk-backend.c
+
+commit eb00ffb63672bb35dd4ad6ca486fb6e39b61c85c
+Author: Richard Hughes <richard@hughsie.com>
+Date:	2010-09-14
+
+    Add transaction_start() and transaction_stop() vfuncs to make
+    backends simpler
+
+    For threaded backends, there is a lot of copy and paste code in
+    just setting up and tearing down the packaging system for each
+    transaction. By making this common code we can make our lives
+    much easier.
+
+    The new vfuncs are optional, and nothing uses them yet.
+
+M	backends/alpm/pk-backend-alpm.c
+M	backends/apt/pk-backend-apt.c
+M	backends/aptcc/pk-backend-aptcc.cpp
+M	backends/box/pk-backend-box.c
+M	backends/conary/pk-backend-conary.c
+M	backends/dummy/pk-backend-dummy.c
+M	backends/entropy/pk-backend-entropy.c
+M	backends/opkg/pk-backend-opkg.c
+M	backends/pisi/pk-backend-pisi.c
+M	backends/poldek/pk-backend-poldek.c
+M	backends/portage/pk-backend-portage.c
+M	backends/ports/pk-backend-ports.c
+M	backends/razor/pk-backend-razor.c
+M	backends/slapt/pk-backend-slapt.c
+M	backends/smart/pk-backend-smart.c
+M	backends/test/pk-backend-test-fail.c
+M	backends/test/pk-backend-test-nop.c
+M	backends/test/pk-backend-test-spawn.c
+M	backends/test/pk-backend-test-succeed.c
+M	backends/test/pk-backend-test-thread.c
+M	backends/urpmi/pk-backend-urpmi.c
+M	backends/yum/pk-backend-yum.c
+M	backends/zypp/pk-backend-zypp.cpp
+M	src/pk-backend.c
+M	src/pk-backend.h
+
+commit fd0f734b8cc7a53c738acc891c801c08a910095d
+Author: Richard Hughes <richard@hughsie.com>
+Date:	2010-09-14
+
+    trivial: remove console warning that isn't valid anymore
+
+M	src/pk-backend.c
+
+commit a3aa63fc548511a670ac20533158b0a35ea5805d
+Author: Richard Hughes <richard@hughsie.com>
+Date:	2010-09-14
+
+    yum: Add an initial rough cut of zif compatible GetDepends()
+
+M	backends/yum/pk-backend-yum.c
+
+commit 2a68a6cd3ce8c24a18773da888411d0f135798c6
+Author: Richard Hughes <richard@hughsie.com>
+Date:	2010-09-13
+
+    browser-plugin: Do not query PkDesktop by default
+
+    By default, firefox is compiled with an internal version of sqlite
+    and when packagekit-glib sucks its own copy into the running
+    process, hilarity ensues. Icons are less important than a crashed
+    browser.
+
+M	contrib/browser-plugin/pk-plugin-install.c
+
+commit ff71dc0bbfda8071ef4fb6a86251dc67fda4c1c1
+Author: Richard Hughes <richard@hughsie.com>
+Date:	2010-09-13
+
+    browser-plugin: Fix up 2 small memory leaks in error paths
+
+M	contrib/browser-plugin/pk-plugin-install.c
+
+commit 58e5b2b56250d1a7580831ea17d6161f84b00ef7
+Author: Daniel Nicoletti <dantti85-pk@yahoo.com.br>
+Date:	2010-09-13
+
+    aptcc: Added Fonts group
+
+M	backends/aptcc/apt-utils.cpp
+M	backends/aptcc/pk-backend-aptcc.cpp
+
+commit c184d102997c2993b11c2654f9463c734b637232
+Author: Richard Hughes <richard@hughsie.com>
+Date:	2010-09-10
+
+    yum: Fix searching by category when using the zif backend
+
+M	backends/yum/pk-backend-yum.c
+
+commit 6114eccbee731b3b6b9e9d5b5b1289377ef5c81c
+Author: Fabio Erculiani <lxnay@sabayon.org>
+Date:	2010-09-08
+
+    portage: add compatibility with latest Portage 2.2 rc snapshots
+
+M	backends/portage/portageBackend.py
+
+commit ab37d0a7c95de3b6334ca1c4b511fa0bbba4e3f6
+Author: Michael Meeks <michael.meeks@novell.com>
+Date:	2010-09-07
+
+    cleanup get_packages_by_name callers.
+
+M	backends/zypp/pk-backend-zypp.cpp
+M	backends/zypp/zypp-utils.cpp
+M	backends/zypp/zypp-utils.h
+
+commit 4be91a61af938b60dda052e1f3a73b12725be0ef
+Author: Michael Meeks <michael.meeks@novell.com>
+Date:	2010-09-07
+
+    Include patches in 'resolve' results so we can:
+    $ pkcon update <patch>
+    Fixes bmc#2059, thanks to xiaoqiang0
+
+M	backends/zypp/pk-backend-zypp.cpp
+
+commit e2dbeaa07e1bc5b81459aeb8d841b357bc2898bb
+Author: Michael Meeks <michael.meeks@novell.com>
+Date:	2010-09-07
+
+    add development package support to filtering
+
+M	backends/zypp/zypp-utils.cpp
+
+commit 2f70f1c459cd9028b626a10b122b76dec2b0ae5a
+Author: Michael Meeks <michael.meeks@novell.com>
+Date:	2010-09-07
+
+    Calculate sizes for patches correctly: bmo#2281, bnc#559802,
+    Thanks to Gary Lin and xiaoqiang0
+
+M	backends/zypp/pk-backend-zypp.cpp
+
+commit b99f29f8b38ed6b6a5958e51cc70fcd4b69b9c1d
+Author: Michael Meeks <michael.meeks@novell.com>
+Date:	2010-09-07
+
+    rename to clarify zypp_check_restart method.
+    remove premature require_restart emission in update_packages_thread
+
+M	backends/zypp/pk-backend-zypp.cpp
+M	backends/zypp/zypp-utils.cpp
+M	backends/zypp/zypp-utils.h
+
+commit cddf170210ace28fa8046946456c4c28a4f80497
+Author: Richard Hughes <richard@hughsie.com>
+Date:	2010-09-06
+
+    trivial: post release version bump
+
+M	RELEASE
+M	configure.ac
+
+commit c3813c3f3ff57e9e1eb1f22a9c881b55b141c209
+Author: Richard Hughes <richard@hughsie.com>
+Date:	2010-09-06
+
+    Release version 0.6.8
+
+M	NEWS
+M	docs/html/pk-download.html
+
 commit 02a9bab2dbdd0a7be64cc1535df43226eb64c669
 Merge: 908006d 18042ac
 Author: Daniel Nicoletti <dantti85-pk@yahoo.com.br>
-Date:   2010-09-06
+Date:	2010-09-06
 
     Merge branch 'master' of
     git+ssh://git.packagekit.org/srv/git/PackageKit
 
 commit 908006dca23437a6025198bad126dc7f52352cdd
 Author: Daniel Nicoletti <dantti85-pk@yahoo.com.br>
-Date:   2010-09-06
+Date:	2010-09-06
 
     packagekit-qt: Fix compilation
 

@@ -42,8 +42,8 @@ ACLOCAL_M4 = $(top_srcdir)/aclocal.m4
 am__aclocal_m4_deps = $(top_srcdir)/m4/gtk-doc.m4 \
 	$(top_srcdir)/m4/intltool.m4 $(top_srcdir)/m4/libtool.m4 \
 	$(top_srcdir)/m4/ltoptions.m4 $(top_srcdir)/m4/ltsugar.m4 \
-	$(top_srcdir)/m4/ltversion.m4 $(top_srcdir)/m4/lt~obsolete.m4 \
-	$(top_srcdir)/acinclude.m4 $(top_srcdir)/configure.ac
+	$(top_srcdir)/m4/ltversion.m4 $(top_srcdir)/acinclude.m4 \
+	$(top_srcdir)/configure.ac
 am__configure_deps = $(am__aclocal_m4_deps) $(CONFIGURE_DEPENDENCIES) \
 	$(ACLOCAL_M4)
 mkinstalldirs = $(install_sh) -d
@@ -54,8 +54,7 @@ am__EXEEXT_1 =
 am__installdirs = "$(DESTDIR)$(bindir)" "$(DESTDIR)$(man1dir)"
 PROGRAMS = $(bin_PROGRAMS)
 am__objects_1 =
-am_pkcon_OBJECTS = pkcon-egg-debug.$(OBJEXT) \
-	pkcon-pk-console.$(OBJEXT) $(am__objects_1)
+am_pkcon_OBJECTS = pkcon-pk-console.$(OBJEXT) $(am__objects_1)
 pkcon_OBJECTS = $(am_pkcon_OBJECTS)
 am__DEPENDENCIES_1 =
 am__DEPENDENCIES_2 =  \
@@ -80,8 +79,7 @@ pkgenpack_DEPENDENCIES = $(am__DEPENDENCIES_1) $(am__DEPENDENCIES_1) \
 pkgenpack_LINK = $(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) \
 	$(LIBTOOLFLAGS) --mode=link $(CCLD) $(pkgenpack_CFLAGS) \
 	$(CFLAGS) $(AM_LDFLAGS) $(LDFLAGS) -o $@
-am_pkmon_OBJECTS = pkmon-egg-debug.$(OBJEXT) \
-	pkmon-pk-monitor.$(OBJEXT) $(am__objects_1)
+am_pkmon_OBJECTS = pkmon-pk-monitor.$(OBJEXT) $(am__objects_1)
 pkmon_OBJECTS = $(am_pkmon_OBJECTS)
 pkmon_DEPENDENCIES = $(am__DEPENDENCIES_1) $(am__DEPENDENCIES_1) \
 	$(am__DEPENDENCIES_1) $(am__DEPENDENCIES_2) \
@@ -193,13 +191,9 @@ ECHO_T = @ECHO_T@
 EGREP = @EGREP@
 EXEEXT = @EXEEXT@
 FGREP = @FGREP@
-GAPISHARP_CFLAGS = @GAPISHARP_CFLAGS@
-GAPISHARP_LIBS = @GAPISHARP_LIBS@
 GETTEXT_PACKAGE = @GETTEXT_PACKAGE@
 GIO_CFLAGS = @GIO_CFLAGS@
 GIO_LIBS = @GIO_LIBS@
-GLIBSHARP_CFLAGS = @GLIBSHARP_CFLAGS@
-GLIBSHARP_LIBS = @GLIBSHARP_LIBS@
 GLIB_CFLAGS = @GLIB_CFLAGS@
 GLIB_GENMARSHAL = @GLIB_GENMARSHAL@
 GLIB_LIBS = @GLIB_LIBS@
@@ -249,7 +243,6 @@ LT_AGE = @LT_AGE@
 LT_CURRENT = @LT_CURRENT@
 LT_REVISION = @LT_REVISION@
 MAKEINFO = @MAKEINFO@
-MCS = @MCS@
 MKDIR_P = @MKDIR_P@
 MKINSTALLDIRS = @MKINSTALLDIRS@
 MOC = @MOC@
@@ -434,6 +427,8 @@ INCLUDES = \
 	-DPK_DATA=\"$(pkgdatadir)\"			\
 	-DPK_DB_DIR=\""$(PK_DB_DIR)"\" 			\
 	-DI_KNOW_THE_PACKAGEKIT_GLIB2_API_IS_SUBJECT_TO_CHANGE	\
+	-DPK_COMPILATION				\
+	-DG_LOG_DOMAIN=\"PackageKit\"			\
 	-I$(top_srcdir)/lib				\
 	$(NULL)
 
@@ -443,8 +438,6 @@ PK_GLIB2_LIBS = \
 	$(NULL)
 
 pkcon_SOURCES = \
-	egg-debug.c					\
-	egg-debug.h					\
 	pk-console.c					\
 	$(NULL)
 
@@ -460,8 +453,6 @@ pkcon_CFLAGS = \
 	$(NULL)
 
 pkmon_SOURCES = \
-	egg-debug.c					\
-	egg-debug.h					\
 	pk-monitor.c					\
 	$(NULL)
 
@@ -594,10 +585,8 @@ mostlyclean-compile:
 distclean-compile:
 	-rm -f *.tab.c
 
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/pkcon-egg-debug.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/pkcon-pk-console.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/pkgenpack-pk-generate-pack.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/pkmon-egg-debug.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/pkmon-pk-monitor.Po@am__quote@
 
 .c.o:
@@ -623,22 +612,6 @@ distclean-compile:
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	source='$<' object='$@' libtool=yes @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCC_FALSE@	$(LTCOMPILE) -c -o $@ $<
-
-pkcon-egg-debug.o: egg-debug.c
-@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(pkcon_CFLAGS) $(CFLAGS) -MT pkcon-egg-debug.o -MD -MP -MF $(DEPDIR)/pkcon-egg-debug.Tpo -c -o pkcon-egg-debug.o `test -f 'egg-debug.c' || echo '$(srcdir)/'`egg-debug.c
-@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/pkcon-egg-debug.Tpo $(DEPDIR)/pkcon-egg-debug.Po
-@am__fastdepCC_FALSE@	$(AM_V_CC) @AM_BACKSLASH@
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='egg-debug.c' object='pkcon-egg-debug.o' libtool=no @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(pkcon_CFLAGS) $(CFLAGS) -c -o pkcon-egg-debug.o `test -f 'egg-debug.c' || echo '$(srcdir)/'`egg-debug.c
-
-pkcon-egg-debug.obj: egg-debug.c
-@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(pkcon_CFLAGS) $(CFLAGS) -MT pkcon-egg-debug.obj -MD -MP -MF $(DEPDIR)/pkcon-egg-debug.Tpo -c -o pkcon-egg-debug.obj `if test -f 'egg-debug.c'; then $(CYGPATH_W) 'egg-debug.c'; else $(CYGPATH_W) '$(srcdir)/egg-debug.c'; fi`
-@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/pkcon-egg-debug.Tpo $(DEPDIR)/pkcon-egg-debug.Po
-@am__fastdepCC_FALSE@	$(AM_V_CC) @AM_BACKSLASH@
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='egg-debug.c' object='pkcon-egg-debug.obj' libtool=no @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(pkcon_CFLAGS) $(CFLAGS) -c -o pkcon-egg-debug.obj `if test -f 'egg-debug.c'; then $(CYGPATH_W) 'egg-debug.c'; else $(CYGPATH_W) '$(srcdir)/egg-debug.c'; fi`
 
 pkcon-pk-console.o: pk-console.c
 @am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(pkcon_CFLAGS) $(CFLAGS) -MT pkcon-pk-console.o -MD -MP -MF $(DEPDIR)/pkcon-pk-console.Tpo -c -o pkcon-pk-console.o `test -f 'pk-console.c' || echo '$(srcdir)/'`pk-console.c
@@ -671,22 +644,6 @@ pkgenpack-pk-generate-pack.obj: pk-generate-pack.c
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	source='pk-generate-pack.c' object='pkgenpack-pk-generate-pack.obj' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(pkgenpack_CFLAGS) $(CFLAGS) -c -o pkgenpack-pk-generate-pack.obj `if test -f 'pk-generate-pack.c'; then $(CYGPATH_W) 'pk-generate-pack.c'; else $(CYGPATH_W) '$(srcdir)/pk-generate-pack.c'; fi`
-
-pkmon-egg-debug.o: egg-debug.c
-@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(pkmon_CFLAGS) $(CFLAGS) -MT pkmon-egg-debug.o -MD -MP -MF $(DEPDIR)/pkmon-egg-debug.Tpo -c -o pkmon-egg-debug.o `test -f 'egg-debug.c' || echo '$(srcdir)/'`egg-debug.c
-@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/pkmon-egg-debug.Tpo $(DEPDIR)/pkmon-egg-debug.Po
-@am__fastdepCC_FALSE@	$(AM_V_CC) @AM_BACKSLASH@
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='egg-debug.c' object='pkmon-egg-debug.o' libtool=no @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(pkmon_CFLAGS) $(CFLAGS) -c -o pkmon-egg-debug.o `test -f 'egg-debug.c' || echo '$(srcdir)/'`egg-debug.c
-
-pkmon-egg-debug.obj: egg-debug.c
-@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(pkmon_CFLAGS) $(CFLAGS) -MT pkmon-egg-debug.obj -MD -MP -MF $(DEPDIR)/pkmon-egg-debug.Tpo -c -o pkmon-egg-debug.obj `if test -f 'egg-debug.c'; then $(CYGPATH_W) 'egg-debug.c'; else $(CYGPATH_W) '$(srcdir)/egg-debug.c'; fi`
-@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/pkmon-egg-debug.Tpo $(DEPDIR)/pkmon-egg-debug.Po
-@am__fastdepCC_FALSE@	$(AM_V_CC) @AM_BACKSLASH@
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='egg-debug.c' object='pkmon-egg-debug.obj' libtool=no @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(pkmon_CFLAGS) $(CFLAGS) -c -o pkmon-egg-debug.obj `if test -f 'egg-debug.c'; then $(CYGPATH_W) 'egg-debug.c'; else $(CYGPATH_W) '$(srcdir)/egg-debug.c'; fi`
 
 pkmon-pk-monitor.o: pk-monitor.c
 @am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(pkmon_CFLAGS) $(CFLAGS) -MT pkmon-pk-monitor.o -MD -MP -MF $(DEPDIR)/pkmon-pk-monitor.Tpo -c -o pkmon-pk-monitor.o `test -f 'pk-monitor.c' || echo '$(srcdir)/'`pk-monitor.c

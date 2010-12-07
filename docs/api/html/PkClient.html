@@ -3,7 +3,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>PkClient</title>
-<meta name="generator" content="DocBook XSL Stylesheets V1.75.2">
+<meta name="generator" content="DocBook XSL Stylesheets V1.76.0">
 <link rel="home" href="index.html" title="PackageKit Reference Manual">
 <link rel="up" href="libpackagekit-gobject.html" title="libpackagekit GObjects">
 <link rel="prev" href="PkCategory.html" title="PkCategory">
@@ -339,6 +339,7 @@ enum                <a class="link" href="PkClient.html#PkClientError" title="en
 <a name="PkClient.properties"></a><h2>Properties</h2>
 <pre class="synopsis">
   "<a class="link" href="PkClient.html#PkClient--background" title='The "background" property'>background</a>"               <a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gboolean"><span class="type">gboolean</span></a>              : Read / Write
+  "<a class="link" href="PkClient.html#PkClient--cache-age" title='The "cache-age" property'>cache-age</a>"                <a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#guint"><span class="type">guint</span></a>                 : Read / Write
   "<a class="link" href="PkClient.html#PkClient--idle" title='The "idle" property'>idle</a>"                     <a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gboolean"><span class="type">gboolean</span></a>              : Read
   "<a class="link" href="PkClient.html#PkClient--interactive" title='The "interactive" property'>interactive</a>"              <a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gboolean"><span class="type">gboolean</span></a>              : Read / Write
   "<a class="link" href="PkClient.html#PkClient--locale" title='The "locale" property'>locale</a>"                   <a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a>*                : Read / Write
@@ -565,8 +566,7 @@ Gets the result from the asynchronous function.
 </tr>
 <tr>
 <td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
-<td> the <a class="link" href="PkResults.html" title="PkResults"><span class="type">PkResults</span></a>, or <a href="http://library.gnome.org/devel/glib/unstable/glib-Standard-Macros.html#NULL:CAPS"><code class="literal">NULL</code></a>. Free with <a href="http://library.gnome.org/devel/gobject/unstable/gobject-The-Base-Object-Type.html#g-object-unref"><code class="function">g_object_unref()</code></a>
-
+<td> the <a class="link" href="PkResults.html" title="PkResults"><span class="type">PkResults</span></a>, or <a href="http://library.gnome.org/devel/glib/unstable/glib-Standard-Macros.html#NULL:CAPS"><code class="literal">NULL</code></a>. Free with <a href="http://library.gnome.org/devel/gobject/unstable/gobject-The-Base-Object-Type.html#g-object-unref"><code class="function">g_object_unref()</code></a>. <span class="annotation">[<a href="http://foldoc.org/transfer%20full"><span class="acronym">transfer full</span></a>]</span>
 </td>
 </tr>
 </tbody>
@@ -614,7 +614,7 @@ or is available in a repository.
 </tr>
 <tr>
 <td><p><span class="term"><em class="parameter"><code>progress_callback</code></em> :</span></p></td>
-<td>the function to run when the progress changes
+<td> the function to run when the progress changes. <span class="annotation">[<a href="http://foldoc.org/scope%20call"><span class="acronym">scope call</span></a>]</span>
 </td>
 </tr>
 <tr>
@@ -676,7 +676,7 @@ that matches a specific name.
 </tr>
 <tr>
 <td><p><span class="term"><em class="parameter"><code>progress_callback</code></em> :</span></p></td>
-<td>the function to run when the progress changes
+<td> the function to run when the progress changes. <span class="annotation">[<a href="http://foldoc.org/scope%20call"><span class="acronym">scope call</span></a>]</span>
 </td>
 </tr>
 <tr>
@@ -739,7 +739,7 @@ taking longer.
 </tr>
 <tr>
 <td><p><span class="term"><em class="parameter"><code>progress_callback</code></em> :</span></p></td>
-<td>the function to run when the progress changes
+<td> the function to run when the progress changes. <span class="annotation">[<a href="http://foldoc.org/scope%20call"><span class="acronym">scope call</span></a>]</span>
 </td>
 </tr>
 <tr>
@@ -800,7 +800,7 @@ Return all packages in a specific group.
 </tr>
 <tr>
 <td><p><span class="term"><em class="parameter"><code>progress_callback</code></em> :</span></p></td>
-<td>the function to run when the progress changes
+<td> the function to run when the progress changes. <span class="annotation">[<a href="http://foldoc.org/scope%20call"><span class="acronym">scope call</span></a>]</span>
 </td>
 </tr>
 <tr>
@@ -861,7 +861,7 @@ Search for packages that provide a specific file.
 </tr>
 <tr>
 <td><p><span class="term"><em class="parameter"><code>progress_callback</code></em> :</span></p></td>
-<td>the function to run when the progress changes
+<td> the function to run when the progress changes. <span class="annotation">[<a href="http://foldoc.org/scope%20call"><span class="acronym">scope call</span></a>]</span>
 </td>
 </tr>
 <tr>
@@ -917,7 +917,7 @@ or command line tools.
 </tr>
 <tr>
 <td><p><span class="term"><em class="parameter"><code>progress_callback</code></em> :</span></p></td>
-<td>the function to run when the progress changes
+<td> the function to run when the progress changes. <span class="annotation">[<a href="http://foldoc.org/scope%20call"><span class="acronym">scope call</span></a>]</span>
 </td>
 </tr>
 <tr>
@@ -973,7 +973,7 @@ severity information.
 </tr>
 <tr>
 <td><p><span class="term"><em class="parameter"><code>progress_callback</code></em> :</span></p></td>
-<td>the function to run when the progress changes
+<td> the function to run when the progress changes. <span class="annotation">[<a href="http://foldoc.org/scope%20call"><span class="acronym">scope call</span></a>]</span>
 </td>
 </tr>
 <tr>
@@ -1034,7 +1034,7 @@ Downloads package files to a specified location.
 </tr>
 <tr>
 <td><p><span class="term"><em class="parameter"><code>progress_callback</code></em> :</span></p></td>
-<td>the function to run when the progress changes
+<td> the function to run when the progress changes. <span class="annotation">[<a href="http://foldoc.org/scope%20call"><span class="acronym">scope call</span></a>]</span>
 </td>
 </tr>
 <tr>
@@ -1089,7 +1089,7 @@ Get a list of all the packages that can be updated for all repositories.
 </tr>
 <tr>
 <td><p><span class="term"><em class="parameter"><code>progress_callback</code></em> :</span></p></td>
-<td>the function to run when the progress changes
+<td> the function to run when the progress changes. <span class="annotation">[<a href="http://foldoc.org/scope%20call"><span class="acronym">scope call</span></a>]</span>
 </td>
 </tr>
 <tr>
@@ -1145,7 +1145,7 @@ Get the old transaction list, mainly used for the rollback viewer.
 </tr>
 <tr>
 <td><p><span class="term"><em class="parameter"><code>progress_callback</code></em> :</span></p></td>
-<td>the function to run when the progress changes
+<td> the function to run when the progress changes. <span class="annotation">[<a href="http://foldoc.org/scope%20call"><span class="acronym">scope call</span></a>]</span>
 </td>
 </tr>
 <tr>
@@ -1205,7 +1205,7 @@ NOTE: you can't choose what repositories to update from, but you can do:
 </tr>
 <tr>
 <td><p><span class="term"><em class="parameter"><code>progress_callback</code></em> :</span></p></td>
-<td>the function to run when the progress changes
+<td> the function to run when the progress changes. <span class="annotation">[<a href="http://foldoc.org/scope%20call"><span class="acronym">scope call</span></a>]</span>
 </td>
 </tr>
 <tr>
@@ -1272,7 +1272,7 @@ Get the packages that depend this one, i.e. child-&gt;parent.
 </tr>
 <tr>
 <td><p><span class="term"><em class="parameter"><code>progress_callback</code></em> :</span></p></td>
-<td>the function to run when the progress changes
+<td> the function to run when the progress changes. <span class="annotation">[<a href="http://foldoc.org/scope%20call"><span class="acronym">scope call</span></a>]</span>
 </td>
 </tr>
 <tr>
@@ -1327,7 +1327,7 @@ Get the list of packages from the backend
 </tr>
 <tr>
 <td><p><span class="term"><em class="parameter"><code>progress_callback</code></em> :</span></p></td>
-<td>the function to run when the progress changes
+<td> the function to run when the progress changes. <span class="annotation">[<a href="http://foldoc.org/scope%20call"><span class="acronym">scope call</span></a>]</span>
 </td>
 </tr>
 <tr>
@@ -1394,7 +1394,7 @@ Get the packages that require this one, i.e. parent-&gt;child.
 </tr>
 <tr>
 <td><p><span class="term"><em class="parameter"><code>progress_callback</code></em> :</span></p></td>
-<td>the function to run when the progress changes
+<td> the function to run when the progress changes. <span class="annotation">[<a href="http://foldoc.org/scope%20call"><span class="acronym">scope call</span></a>]</span>
 </td>
 </tr>
 <tr>
@@ -1463,7 +1463,7 @@ or GStreamer codec string.
 </tr>
 <tr>
 <td><p><span class="term"><em class="parameter"><code>progress_callback</code></em> :</span></p></td>
-<td>the function to run when the progress changes
+<td> the function to run when the progress changes. <span class="annotation">[<a href="http://foldoc.org/scope%20call"><span class="acronym">scope call</span></a>]</span>
 </td>
 </tr>
 <tr>
@@ -1513,7 +1513,7 @@ It should not return updates, only major upgrades.
 </tr>
 <tr>
 <td><p><span class="term"><em class="parameter"><code>progress_callback</code></em> :</span></p></td>
-<td>the function to run when the progress changes
+<td> the function to run when the progress changes. <span class="annotation">[<a href="http://foldoc.org/scope%20call"><span class="acronym">scope call</span></a>]</span>
 </td>
 </tr>
 <tr>
@@ -1568,7 +1568,7 @@ Get the file list (i.e. a list of files installed) for the specified package.
 </tr>
 <tr>
 <td><p><span class="term"><em class="parameter"><code>progress_callback</code></em> :</span></p></td>
-<td>the function to run when the progress changes
+<td> the function to run when the progress changes. <span class="annotation">[<a href="http://foldoc.org/scope%20call"><span class="acronym">scope call</span></a>]</span>
 </td>
 </tr>
 <tr>
@@ -1617,7 +1617,7 @@ Get a list of all categories supported.
 </tr>
 <tr>
 <td><p><span class="term"><em class="parameter"><code>progress_callback</code></em> :</span></p></td>
-<td>the function to run when the progress changes
+<td> the function to run when the progress changes. <span class="annotation">[<a href="http://foldoc.org/scope%20call"><span class="acronym">scope call</span></a>]</span>
 </td>
 </tr>
 <tr>
@@ -1686,7 +1686,7 @@ then the transaction would fail.
 </tr>
 <tr>
 <td><p><span class="term"><em class="parameter"><code>progress_callback</code></em> :</span></p></td>
-<td>the function to run when the progress changes
+<td> the function to run when the progress changes. <span class="annotation">[<a href="http://foldoc.org/scope%20call"><span class="acronym">scope call</span></a>]</span>
 </td>
 </tr>
 <tr>
@@ -1744,7 +1744,7 @@ system are idle.
 </tr>
 <tr>
 <td><p><span class="term"><em class="parameter"><code>progress_callback</code></em> :</span></p></td>
-<td>the function to run when the progress changes
+<td> the function to run when the progress changes. <span class="annotation">[<a href="http://foldoc.org/scope%20call"><span class="acronym">scope call</span></a>]</span>
 </td>
 </tr>
 <tr>
@@ -1805,7 +1805,7 @@ Install a package of the newest and most correct version.
 </tr>
 <tr>
 <td><p><span class="term"><em class="parameter"><code>progress_callback</code></em> :</span></p></td>
-<td>the function to run when the progress changes
+<td> the function to run when the progress changes. <span class="annotation">[<a href="http://foldoc.org/scope%20call"><span class="acronym">scope call</span></a>]</span>
 </td>
 </tr>
 <tr>
@@ -1872,7 +1872,7 @@ Install a software source signature of the newest and most correct version.
 </tr>
 <tr>
 <td><p><span class="term"><em class="parameter"><code>progress_callback</code></em> :</span></p></td>
-<td>the function to run when the progress changes
+<td> the function to run when the progress changes. <span class="annotation">[<a href="http://foldoc.org/scope%20call"><span class="acronym">scope call</span></a>]</span>
 </td>
 </tr>
 <tr>
@@ -1933,7 +1933,7 @@ Update specific packages to the newest available versions.
 </tr>
 <tr>
 <td><p><span class="term"><em class="parameter"><code>progress_callback</code></em> :</span></p></td>
-<td>the function to run when the progress changes
+<td> the function to run when the progress changes. <span class="annotation">[<a href="http://foldoc.org/scope%20call"><span class="acronym">scope call</span></a>]</span>
 </td>
 </tr>
 <tr>
@@ -1995,7 +1995,7 @@ This is useful for double clicking on a .rpm or .deb file.
 </tr>
 <tr>
 <td><p><span class="term"><em class="parameter"><code>progress_callback</code></em> :</span></p></td>
-<td>the function to run when the progress changes
+<td> the function to run when the progress changes. <span class="annotation">[<a href="http://foldoc.org/scope%20call"><span class="acronym">scope call</span></a>]</span>
 </td>
 </tr>
 <tr>
@@ -2050,7 +2050,7 @@ We may want to agree to a EULA dialog if one is presented.
 </tr>
 <tr>
 <td><p><span class="term"><em class="parameter"><code>progress_callback</code></em> :</span></p></td>
-<td>the function to run when the progress changes
+<td> the function to run when the progress changes. <span class="annotation">[<a href="http://foldoc.org/scope%20call"><span class="acronym">scope call</span></a>]</span>
 </td>
 </tr>
 <tr>
@@ -2105,7 +2105,7 @@ We may want to agree to a EULA dialog if one is presented.
 </tr>
 <tr>
 <td><p><span class="term"><em class="parameter"><code>progress_callback</code></em> :</span></p></td>
-<td>the function to run when the progress changes
+<td> the function to run when the progress changes. <span class="annotation">[<a href="http://foldoc.org/scope%20call"><span class="acronym">scope call</span></a>]</span>
 </td>
 </tr>
 <tr>
@@ -2160,7 +2160,7 @@ Get the list of repositories installed on the system.
 </tr>
 <tr>
 <td><p><span class="term"><em class="parameter"><code>progress_callback</code></em> :</span></p></td>
-<td>the function to run when the progress changes
+<td> the function to run when the progress changes. <span class="annotation">[<a href="http://foldoc.org/scope%20call"><span class="acronym">scope call</span></a>]</span>
 </td>
 </tr>
 <tr>
@@ -2221,7 +2221,7 @@ Enable or disable the repository.
 </tr>
 <tr>
 <td><p><span class="term"><em class="parameter"><code>progress_callback</code></em> :</span></p></td>
-<td>the function to run when the progress changes
+<td> the function to run when the progress changes. <span class="annotation">[<a href="http://foldoc.org/scope%20call"><span class="acronym">scope call</span></a>]</span>
 </td>
 </tr>
 <tr>
@@ -2289,7 +2289,7 @@ NOTE: this is free text, and is left to the backend to define a format.
 </tr>
 <tr>
 <td><p><span class="term"><em class="parameter"><code>progress_callback</code></em> :</span></p></td>
-<td>the function to run when the progress changes
+<td> the function to run when the progress changes. <span class="annotation">[<a href="http://foldoc.org/scope%20call"><span class="acronym">scope call</span></a>]</span>
 </td>
 </tr>
 <tr>
@@ -2345,7 +2345,7 @@ Simulate an installation of files.
 </tr>
 <tr>
 <td><p><span class="term"><em class="parameter"><code>progress_callback</code></em> :</span></p></td>
-<td>the function to run when the progress changes
+<td> the function to run when the progress changes. <span class="annotation">[<a href="http://foldoc.org/scope%20call"><span class="acronym">scope call</span></a>]</span>
 </td>
 </tr>
 <tr>
@@ -2401,7 +2401,7 @@ Simulate an installation of packages.
 </tr>
 <tr>
 <td><p><span class="term"><em class="parameter"><code>progress_callback</code></em> :</span></p></td>
-<td>the function to run when the progress changes
+<td> the function to run when the progress changes. <span class="annotation">[<a href="http://foldoc.org/scope%20call"><span class="acronym">scope call</span></a>]</span>
 </td>
 </tr>
 <tr>
@@ -2463,7 +2463,7 @@ Simulate a removal of packages.
 </tr>
 <tr>
 <td><p><span class="term"><em class="parameter"><code>progress_callback</code></em> :</span></p></td>
-<td>the function to run when the progress changes
+<td> the function to run when the progress changes. <span class="annotation">[<a href="http://foldoc.org/scope%20call"><span class="acronym">scope call</span></a>]</span>
 </td>
 </tr>
 <tr>
@@ -2519,7 +2519,7 @@ Simulate an update of packages.
 </tr>
 <tr>
 <td><p><span class="term"><em class="parameter"><code>progress_callback</code></em> :</span></p></td>
-<td>the function to run when the progress changes
+<td> the function to run when the progress changes. <span class="annotation">[<a href="http://foldoc.org/scope%20call"><span class="acronym">scope call</span></a>]</span>
 </td>
 </tr>
 <tr>
@@ -2574,7 +2574,7 @@ Adopt a transaction which allows the caller to monitor the state or cancel it.
 </tr>
 <tr>
 <td><p><span class="term"><em class="parameter"><code>progress_callback</code></em> :</span></p></td>
-<td>the function to run when the progress changes
+<td> the function to run when the progress changes. <span class="annotation">[<a href="http://foldoc.org/scope%20call"><span class="acronym">scope call</span></a>]</span>
 </td>
 </tr>
 <tr>
@@ -2625,8 +2625,7 @@ Gets the result from the asynchronous function.
 </tr>
 <tr>
 <td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
-<td> the <a class="link" href="PkProgress.html" title="PkProgress"><span class="type">PkProgress</span></a>, or <a href="http://library.gnome.org/devel/glib/unstable/glib-Standard-Macros.html#NULL:CAPS"><code class="literal">NULL</code></a>. Free with <a href="http://library.gnome.org/devel/gobject/unstable/gobject-The-Base-Object-Type.html#g-object-unref"><code class="function">g_object_unref()</code></a>
-
+<td> the <a class="link" href="PkProgress.html" title="PkProgress"><span class="type">PkProgress</span></a>, or <a href="http://library.gnome.org/devel/glib/unstable/glib-Standard-Macros.html#NULL:CAPS"><code class="literal">NULL</code></a>. Free with <a href="http://library.gnome.org/devel/gobject/unstable/gobject-The-Base-Object-Type.html#g-object-unref"><code class="function">g_object_unref()</code></a>. <span class="annotation">[<a href="http://foldoc.org/transfer%20full"><span class="acronym">transfer full</span></a>]</span>
 </td>
 </tr>
 </tbody>
@@ -2685,6 +2684,14 @@ Find the current state of a transaction.
 <p></p>
 <p>Default value: FALSE</p>
 <p class="since">Since 0.5.3</p>
+</div>
+<hr>
+<div class="refsect2" title='The "cache-age" property'>
+<a name="PkClient--cache-age"></a><h3>The <code class="literal">"cache-age"</code> property</h3>
+<pre class="programlisting">  "cache-age"                <a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#guint"><span class="type">guint</span></a>                 : Read / Write</pre>
+<p></p>
+<p>Default value: 0</p>
+<p class="since">Since 0.6.10</p>
 </div>
 <hr>
 <div class="refsect2" title='The "idle" property'>

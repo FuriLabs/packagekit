@@ -136,7 +136,7 @@
 /* if we should use PolicyKit */
 #undef USE_SECURITY_POLKIT
 
-/* if we should use PolicyKit's new API */
+/* if we should use the new PolicyKit API */
 #undef USE_SECURITY_POLKIT_NEW
 
 /* Version number of package */

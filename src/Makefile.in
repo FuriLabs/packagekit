@@ -55,8 +55,8 @@ ACLOCAL_M4 = $(top_srcdir)/aclocal.m4
 am__aclocal_m4_deps = $(top_srcdir)/m4/gtk-doc.m4 \
 	$(top_srcdir)/m4/intltool.m4 $(top_srcdir)/m4/libtool.m4 \
 	$(top_srcdir)/m4/ltoptions.m4 $(top_srcdir)/m4/ltsugar.m4 \
-	$(top_srcdir)/m4/ltversion.m4 $(top_srcdir)/m4/lt~obsolete.m4 \
-	$(top_srcdir)/acinclude.m4 $(top_srcdir)/configure.ac
+	$(top_srcdir)/m4/ltversion.m4 $(top_srcdir)/acinclude.m4 \
+	$(top_srcdir)/configure.ac
 am__configure_deps = $(am__aclocal_m4_deps) $(CONFIGURE_DEPENDENCIES) \
 	$(ACLOCAL_M4)
 mkinstalldirs = $(install_sh) -d
@@ -113,28 +113,26 @@ libpackagekit_action_lookup_la_LINK = $(LIBTOOL) $(AM_V_lt) --tag=CC \
 @SECURITY_TYPE_POLKIT_TRUE@	-rpath $(polkitmodulesdir)
 am__EXEEXT_1 =
 PROGRAMS = $(libexec_PROGRAMS)
-am__packagekitd_SOURCES_DIST = pk-main.c egg-debug.c egg-debug.h \
-	egg-string.c egg-string.h egg-dbus-monitor.c \
-	egg-dbus-monitor.h pk-marshal.c pk-marshal.h pk-lsof.c \
-	pk-lsof.h pk-proc.c pk-proc.h pk-dbus.c pk-dbus.h \
-	pk-transaction.c pk-transaction.h pk-transaction-extra.c \
-	pk-transaction-extra.h pk-backend.c pk-backend.h \
-	pk-backend-internal.h pk-network.c pk-network.h pk-shared.c \
-	pk-shared.h pk-time.h pk-time.c pk-network-stack.h \
-	pk-network-stack.c pk-network-stack-unix.c \
-	pk-network-stack-unix.h pk-network-stack-nm.h \
-	pk-network-stack-connman.h pk-syslog.h pk-syslog.c pk-conf.c \
-	pk-conf.h pk-store.c pk-store.h pk-cache.c pk-cache.h \
-	pk-notify.c pk-notify.h pk-spawn.c pk-spawn.h pk-sysdep.h \
-	pk-sysdep.c pk-file-monitor.h pk-file-monitor.c pk-engine.h \
-	pk-engine.c pk-inhibit.h pk-inhibit.c pk-backend-spawn.h \
-	pk-backend-spawn.c pk-transaction-db.h pk-transaction-db.c \
-	pk-transaction-list.c pk-transaction-list.h \
-	pk-network-stack-nm.c pk-network-stack-connman.c
+am__packagekitd_SOURCES_DIST = pk-main.c egg-string.c egg-string.h \
+	egg-dbus-monitor.c egg-dbus-monitor.h pk-marshal.c \
+	pk-marshal.h pk-lsof.c pk-lsof.h pk-proc.c pk-proc.h pk-dbus.c \
+	pk-dbus.h pk-transaction.c pk-transaction.h \
+	pk-transaction-extra.c pk-transaction-extra.h pk-backend.c \
+	pk-backend.h pk-network.c pk-network.h pk-shared.c pk-shared.h \
+	pk-time.h pk-time.c pk-network-stack.h pk-network-stack.c \
+	pk-network-stack-unix.c pk-network-stack-unix.h \
+	pk-network-stack-nm.h pk-network-stack-connman.h pk-syslog.h \
+	pk-syslog.c pk-conf.c pk-conf.h pk-store.c pk-store.h \
+	pk-cache.c pk-cache.h pk-notify.c pk-notify.h pk-spawn.c \
+	pk-spawn.h pk-sysdep.h pk-sysdep.c pk-file-monitor.h \
+	pk-file-monitor.c pk-engine.h pk-engine.c pk-inhibit.h \
+	pk-inhibit.c pk-backend-spawn.h pk-backend-spawn.c \
+	pk-transaction-db.h pk-transaction-db.c pk-transaction-list.c \
+	pk-transaction-list.h pk-network-stack-nm.c \
+	pk-network-stack-connman.c
 @PK_BUILD_NETWORKMANAGER_TRUE@am__objects_2 = packagekitd-pk-network-stack-nm.$(OBJEXT)
 @PK_BUILD_CONNMAN_TRUE@am__objects_3 = packagekitd-pk-network-stack-connman.$(OBJEXT)
-am__objects_4 = packagekitd-egg-debug.$(OBJEXT) \
-	packagekitd-egg-string.$(OBJEXT) \
+am__objects_4 = packagekitd-egg-string.$(OBJEXT) \
 	packagekitd-egg-dbus-monitor.$(OBJEXT) \
 	packagekitd-pk-marshal.$(OBJEXT) packagekitd-pk-lsof.$(OBJEXT) \
 	packagekitd-pk-proc.$(OBJEXT) packagekitd-pk-dbus.$(OBJEXT) \
@@ -169,14 +167,13 @@ packagekitd_DEPENDENCIES = $(am__DEPENDENCIES_1) $(am__DEPENDENCIES_1) \
 packagekitd_LINK = $(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) \
 	$(LIBTOOLFLAGS) --mode=link $(CCLD) $(packagekitd_CFLAGS) \
 	$(CFLAGS) $(AM_LDFLAGS) $(LDFLAGS) -o $@
-am__pk_self_test_SOURCES_DIST = pk-self-test.c egg-debug.c egg-debug.h \
-	egg-string.c egg-string.h egg-dbus-monitor.c \
-	egg-dbus-monitor.h pk-marshal.c pk-marshal.h pk-lsof.c \
-	pk-lsof.h pk-proc.c pk-proc.h pk-dbus.c pk-dbus.h \
-	pk-transaction.c pk-transaction.h pk-transaction-extra.c \
-	pk-transaction-extra.h pk-backend.c pk-backend.h \
-	pk-backend-internal.h pk-network.c pk-network.h pk-shared.c \
-	pk-shared.h pk-time.h pk-time.c pk-network-stack.h \
+am__pk_self_test_SOURCES_DIST = pk-self-test.c egg-string.c \
+	egg-string.h egg-dbus-monitor.c egg-dbus-monitor.h \
+	pk-marshal.c pk-marshal.h pk-lsof.c pk-lsof.h pk-proc.c \
+	pk-proc.h pk-dbus.c pk-dbus.h pk-transaction.c \
+	pk-transaction.h pk-transaction-extra.c pk-transaction-extra.h \
+	pk-backend.c pk-backend.h pk-network.c pk-network.h \
+	pk-shared.c pk-shared.h pk-time.h pk-time.c pk-network-stack.h \
 	pk-network-stack.c pk-network-stack-unix.c \
 	pk-network-stack-unix.h pk-network-stack-nm.h \
 	pk-network-stack-connman.h pk-syslog.h pk-syslog.c pk-conf.c \
@@ -189,8 +186,7 @@ am__pk_self_test_SOURCES_DIST = pk-self-test.c egg-debug.c egg-debug.h \
 	pk-network-stack-nm.c pk-network-stack-connman.c
 @PK_BUILD_NETWORKMANAGER_TRUE@am__objects_5 = pk_self_test-pk-network-stack-nm.$(OBJEXT)
 @PK_BUILD_CONNMAN_TRUE@am__objects_6 = pk_self_test-pk-network-stack-connman.$(OBJEXT)
-am__objects_7 = pk_self_test-egg-debug.$(OBJEXT) \
-	pk_self_test-egg-string.$(OBJEXT) \
+am__objects_7 = pk_self_test-egg-string.$(OBJEXT) \
 	pk_self_test-egg-dbus-monitor.$(OBJEXT) \
 	pk_self_test-pk-marshal.$(OBJEXT) \
 	pk_self_test-pk-lsof.$(OBJEXT) pk_self_test-pk-proc.$(OBJEXT) \
@@ -321,13 +317,9 @@ ECHO_T = @ECHO_T@
 EGREP = @EGREP@
 EXEEXT = @EXEEXT@
 FGREP = @FGREP@
-GAPISHARP_CFLAGS = @GAPISHARP_CFLAGS@
-GAPISHARP_LIBS = @GAPISHARP_LIBS@
 GETTEXT_PACKAGE = @GETTEXT_PACKAGE@
 GIO_CFLAGS = @GIO_CFLAGS@
 GIO_LIBS = @GIO_LIBS@
-GLIBSHARP_CFLAGS = @GLIBSHARP_CFLAGS@
-GLIBSHARP_LIBS = @GLIBSHARP_LIBS@
 GLIB_CFLAGS = @GLIB_CFLAGS@
 GLIB_GENMARSHAL = @GLIB_GENMARSHAL@
 GLIB_LIBS = @GLIB_LIBS@
@@ -377,7 +369,6 @@ LT_AGE = @LT_AGE@
 LT_CURRENT = @LT_CURRENT@
 LT_REVISION = @LT_REVISION@
 MAKEINFO = @MAKEINFO@
-MCS = @MCS@
 MKDIR_P = @MKDIR_P@
 MKINSTALLDIRS = @MKINSTALLDIRS@
 MOC = @MOC@
@@ -564,6 +555,7 @@ INCLUDES = \
 	-DTESTDATADIR=\""$(top_srcdir)/data/tests"\"	\
 	-DPK_COMPILATION				\
 	-DPOLKIT_LOCAL_I_KNOW_API_IS_SUBJECT_TO_CHANGE	\
+	-DG_LOG_DOMAIN=\"PackageKit\"			\
 	-I$(top_srcdir)/lib				\
 	$(NULL)
 
@@ -573,14 +565,13 @@ pkbackendinclude_HEADERS = \
 	pk-backend-spawn.h				\
 	$(NULL)
 
-shared_SOURCES = egg-debug.c egg-debug.h egg-string.c egg-string.h \
-	egg-dbus-monitor.c egg-dbus-monitor.h pk-marshal.c \
-	pk-marshal.h pk-lsof.c pk-lsof.h pk-proc.c pk-proc.h pk-dbus.c \
-	pk-dbus.h pk-transaction.c pk-transaction.h \
-	pk-transaction-extra.c pk-transaction-extra.h pk-backend.c \
-	pk-backend.h pk-backend-internal.h pk-network.c pk-network.h \
-	pk-shared.c pk-shared.h pk-time.h pk-time.c pk-network-stack.h \
-	pk-network-stack.c pk-network-stack-unix.c \
+shared_SOURCES = egg-string.c egg-string.h egg-dbus-monitor.c \
+	egg-dbus-monitor.h pk-marshal.c pk-marshal.h pk-lsof.c \
+	pk-lsof.h pk-proc.c pk-proc.h pk-dbus.c pk-dbus.h \
+	pk-transaction.c pk-transaction.h pk-transaction-extra.c \
+	pk-transaction-extra.h pk-backend.c pk-backend.h pk-network.c \
+	pk-network.h pk-shared.c pk-shared.h pk-time.h pk-time.c \
+	pk-network-stack.h pk-network-stack.c pk-network-stack-unix.c \
 	pk-network-stack-unix.h pk-network-stack-nm.h \
 	pk-network-stack-connman.h pk-syslog.h pk-syslog.c pk-conf.c \
 	pk-conf.h pk-store.c pk-store.h pk-cache.c pk-cache.h \
@@ -623,7 +614,6 @@ BUILT_SOURCES = \
 
 @SECURITY_TYPE_POLKIT_TRUE@libpackagekit_action_lookup_la_CFLAGS = \
 @SECURITY_TYPE_POLKIT_TRUE@	-DPOLKIT_BACKEND_I_KNOW_API_IS_SUBJECT_TO_CHANGE	\
-@SECURITY_TYPE_POLKIT_TRUE@	-DG_LOG_DOMAIN=\"PackageKit-Action-Lookup\"		\
 @SECURITY_TYPE_POLKIT_TRUE@	$(POLKIT_BACKEND_1_CFLAGS)				\
 @SECURITY_TYPE_POLKIT_TRUE@	$(WARNINGFLAGS_C)					\
 @SECURITY_TYPE_POLKIT_TRUE@	$(NULL)
@@ -800,7 +790,6 @@ distclean-compile:
 
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libpackagekit_action_lookup_la-pk-polkit-action-lookup.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/packagekitd-egg-dbus-monitor.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/packagekitd-egg-debug.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/packagekitd-egg-string.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/packagekitd-pk-backend-spawn.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/packagekitd-pk-backend.Po@am__quote@
@@ -831,7 +820,6 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/packagekitd-pk-transaction-list.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/packagekitd-pk-transaction.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/pk_self_test-egg-dbus-monitor.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/pk_self_test-egg-debug.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/pk_self_test-egg-string.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/pk_self_test-pk-backend-spawn.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/pk_self_test-pk-backend.Po@am__quote@
@@ -909,22 +897,6 @@ packagekitd-pk-main.obj: pk-main.c
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	source='pk-main.c' object='packagekitd-pk-main.obj' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(packagekitd_CFLAGS) $(CFLAGS) -c -o packagekitd-pk-main.obj `if test -f 'pk-main.c'; then $(CYGPATH_W) 'pk-main.c'; else $(CYGPATH_W) '$(srcdir)/pk-main.c'; fi`
-
-packagekitd-egg-debug.o: egg-debug.c
-@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(packagekitd_CFLAGS) $(CFLAGS) -MT packagekitd-egg-debug.o -MD -MP -MF $(DEPDIR)/packagekitd-egg-debug.Tpo -c -o packagekitd-egg-debug.o `test -f 'egg-debug.c' || echo '$(srcdir)/'`egg-debug.c
-@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/packagekitd-egg-debug.Tpo $(DEPDIR)/packagekitd-egg-debug.Po
-@am__fastdepCC_FALSE@	$(AM_V_CC) @AM_BACKSLASH@
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='egg-debug.c' object='packagekitd-egg-debug.o' libtool=no @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(packagekitd_CFLAGS) $(CFLAGS) -c -o packagekitd-egg-debug.o `test -f 'egg-debug.c' || echo '$(srcdir)/'`egg-debug.c
-
-packagekitd-egg-debug.obj: egg-debug.c
-@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(packagekitd_CFLAGS) $(CFLAGS) -MT packagekitd-egg-debug.obj -MD -MP -MF $(DEPDIR)/packagekitd-egg-debug.Tpo -c -o packagekitd-egg-debug.obj `if test -f 'egg-debug.c'; then $(CYGPATH_W) 'egg-debug.c'; else $(CYGPATH_W) '$(srcdir)/egg-debug.c'; fi`
-@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/packagekitd-egg-debug.Tpo $(DEPDIR)/packagekitd-egg-debug.Po
-@am__fastdepCC_FALSE@	$(AM_V_CC) @AM_BACKSLASH@
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='egg-debug.c' object='packagekitd-egg-debug.obj' libtool=no @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(packagekitd_CFLAGS) $(CFLAGS) -c -o packagekitd-egg-debug.obj `if test -f 'egg-debug.c'; then $(CYGPATH_W) 'egg-debug.c'; else $(CYGPATH_W) '$(srcdir)/egg-debug.c'; fi`
 
 packagekitd-egg-string.o: egg-string.c
 @am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(packagekitd_CFLAGS) $(CFLAGS) -MT packagekitd-egg-string.o -MD -MP -MF $(DEPDIR)/packagekitd-egg-string.Tpo -c -o packagekitd-egg-string.o `test -f 'egg-string.c' || echo '$(srcdir)/'`egg-string.c
@@ -1405,22 +1377,6 @@ pk_self_test-pk-self-test.obj: pk-self-test.c
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	source='pk-self-test.c' object='pk_self_test-pk-self-test.obj' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(pk_self_test_CFLAGS) $(CFLAGS) -c -o pk_self_test-pk-self-test.obj `if test -f 'pk-self-test.c'; then $(CYGPATH_W) 'pk-self-test.c'; else $(CYGPATH_W) '$(srcdir)/pk-self-test.c'; fi`
-
-pk_self_test-egg-debug.o: egg-debug.c
-@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(pk_self_test_CFLAGS) $(CFLAGS) -MT pk_self_test-egg-debug.o -MD -MP -MF $(DEPDIR)/pk_self_test-egg-debug.Tpo -c -o pk_self_test-egg-debug.o `test -f 'egg-debug.c' || echo '$(srcdir)/'`egg-debug.c
-@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/pk_self_test-egg-debug.Tpo $(DEPDIR)/pk_self_test-egg-debug.Po
-@am__fastdepCC_FALSE@	$(AM_V_CC) @AM_BACKSLASH@
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='egg-debug.c' object='pk_self_test-egg-debug.o' libtool=no @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(pk_self_test_CFLAGS) $(CFLAGS) -c -o pk_self_test-egg-debug.o `test -f 'egg-debug.c' || echo '$(srcdir)/'`egg-debug.c
-
-pk_self_test-egg-debug.obj: egg-debug.c
-@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(pk_self_test_CFLAGS) $(CFLAGS) -MT pk_self_test-egg-debug.obj -MD -MP -MF $(DEPDIR)/pk_self_test-egg-debug.Tpo -c -o pk_self_test-egg-debug.obj `if test -f 'egg-debug.c'; then $(CYGPATH_W) 'egg-debug.c'; else $(CYGPATH_W) '$(srcdir)/egg-debug.c'; fi`
-@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/pk_self_test-egg-debug.Tpo $(DEPDIR)/pk_self_test-egg-debug.Po
-@am__fastdepCC_FALSE@	$(AM_V_CC) @AM_BACKSLASH@
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='egg-debug.c' object='pk_self_test-egg-debug.obj' libtool=no @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(pk_self_test_CFLAGS) $(CFLAGS) -c -o pk_self_test-egg-debug.obj `if test -f 'egg-debug.c'; then $(CYGPATH_W) 'egg-debug.c'; else $(CYGPATH_W) '$(srcdir)/egg-debug.c'; fi`
 
 pk_self_test-egg-string.o: egg-string.c
 @am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(pk_self_test_CFLAGS) $(CFLAGS) -MT pk_self_test-egg-string.o -MD -MP -MF $(DEPDIR)/pk_self_test-egg-string.Tpo -c -o pk_self_test-egg-string.o `test -f 'egg-string.c' || echo '$(srcdir)/'`egg-string.c

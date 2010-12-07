@@ -200,6 +200,7 @@
 <ANCHOR id="pk-client-get-progress-async" href="PackageKit/PkClient.html#pk-client-get-progress-async">
 <ANCHOR id="PkClient.property-details" href="PackageKit/PkClient.html#PkClient.property-details">
 <ANCHOR id="PkClient--background" href="PackageKit/PkClient.html#PkClient--background">
+<ANCHOR id="PkClient--cache-age" href="PackageKit/PkClient.html#PkClient--cache-age">
 <ANCHOR id="PkClient--idle" href="PackageKit/PkClient.html#PkClient--idle">
 <ANCHOR id="PkClient--interactive" href="PackageKit/PkClient.html#PkClient--interactive">
 <ANCHOR id="PkClient--locale" href="PackageKit/PkClient.html#PkClient--locale">
@@ -698,21 +699,6 @@
 <ANCHOR id="PkUpdateDetail--updated" href="PackageKit/PkUpdateDetail.html#PkUpdateDetail--updated">
 <ANCHOR id="PkUpdateDetail--updates" href="PackageKit/PkUpdateDetail.html#PkUpdateDetail--updates">
 <ANCHOR id="PkUpdateDetail--vendor-url" href="PackageKit/PkUpdateDetail.html#PkUpdateDetail--vendor-url">
-<ANCHOR id="PackageKit-egg-debug" href="PackageKit/PackageKit-egg-debug.html">
-<ANCHOR id="PackageKit-egg-debug.synopsis" href="PackageKit/PackageKit-egg-debug.html#PackageKit-egg-debug.synopsis">
-<ANCHOR id="PackageKit-egg-debug.description" href="PackageKit/PackageKit-egg-debug.html#PackageKit-egg-debug.description">
-<ANCHOR id="PackageKit-egg-debug.details" href="PackageKit/PackageKit-egg-debug.html#PackageKit-egg-debug.details">
-<ANCHOR id="egg-debug" href="PackageKit/PackageKit-egg-debug.html#egg-debug">
-<ANCHOR id="egg-warning" href="PackageKit/PackageKit-egg-debug.html#egg-warning">
-<ANCHOR id="egg-error" href="PackageKit/PackageKit-egg-debug.html#egg-error">
-<ANCHOR id="egg-debug-init" href="PackageKit/PackageKit-egg-debug.html#egg-debug-init">
-<ANCHOR id="egg-debug-get-option-group" href="PackageKit/PackageKit-egg-debug.html#egg-debug-get-option-group">
-<ANCHOR id="egg-debug-is-verbose" href="PackageKit/PackageKit-egg-debug.html#egg-debug-is-verbose">
-<ANCHOR id="egg-debug-backtrace" href="PackageKit/PackageKit-egg-debug.html#egg-debug-backtrace">
-<ANCHOR id="egg-debug-set-log-filename" href="PackageKit/PackageKit-egg-debug.html#egg-debug-set-log-filename">
-<ANCHOR id="egg-debug-real" href="PackageKit/PackageKit-egg-debug.html#egg-debug-real">
-<ANCHOR id="egg-warning-real" href="PackageKit/PackageKit-egg-debug.html#egg-warning-real">
-<ANCHOR id="egg-error-real" href="PackageKit/PackageKit-egg-debug.html#egg-error-real">
 <ANCHOR id="PackageKit-pk-bitfield" href="PackageKit/PackageKit-pk-bitfield.html">
 <ANCHOR id="PackageKit-pk-bitfield.synopsis" href="PackageKit/PackageKit-pk-bitfield.html#PackageKit-pk-bitfield.synopsis">
 <ANCHOR id="PackageKit-pk-bitfield.description" href="PackageKit/PackageKit-pk-bitfield.html#PackageKit-pk-bitfield.description">
@@ -787,6 +773,7 @@
 <ANCHOR id="pk-iso8601-present" href="PackageKit/PackageKit-pk-common.html#pk-iso8601-present">
 <ANCHOR id="pk-iso8601-from-date" href="PackageKit/PackageKit-pk-common.html#pk-iso8601-from-date">
 <ANCHOR id="pk-iso8601-to-date" href="PackageKit/PackageKit-pk-common.html#pk-iso8601-to-date">
+<ANCHOR id="pk-get-distro-id" href="PackageKit/PackageKit-pk-common.html#pk-get-distro-id">
 <ANCHOR id="PackageKit-pk-control-sync" href="PackageKit/PackageKit-pk-control-sync.html">
 <ANCHOR id="PackageKit-pk-control-sync.synopsis" href="PackageKit/PackageKit-pk-control-sync.html#PackageKit-pk-control-sync.synopsis">
 <ANCHOR id="PackageKit-pk-control-sync.description" href="PackageKit/PackageKit-pk-control-sync.html#PackageKit-pk-control-sync.description">

@@ -83,7 +83,7 @@
 #define HAVE_UNISTD_H 1
 
 /* If Zif support should be enabled */
-/* #undef HAVE_ZIF */
+#define HAVE_ZIF 1
 
 /* Define to the sub-directory in which libtool stores uninstalled libraries.
    */
@@ -105,7 +105,7 @@
 #define PACKAGE_NAME "PackageKit"
 
 /* Define to the full name and version of this package. */
-#define PACKAGE_STRING "PackageKit 0.6.8"
+#define PACKAGE_STRING "PackageKit 0.6.10"
 
 /* Define to the one symbol short name of this package. */
 #define PACKAGE_TARNAME "PackageKit"
@@ -114,7 +114,7 @@
 #define PACKAGE_URL ""
 
 /* Define to the version of this package. */
-#define PACKAGE_VERSION "0.6.8"
+#define PACKAGE_VERSION "0.6.10"
 
 /* define if Connection Manager is installed */
 /* #undef PK_BUILD_CONNMAN */
@@ -137,11 +137,11 @@
 /* if we should use PolicyKit */
 #define USE_SECURITY_POLKIT 1
 
-/* if we should use PolicyKit's new API */
+/* if we should use the new PolicyKit API */
 #define USE_SECURITY_POLKIT_NEW 1
 
 /* Version number of package */
-#define VERSION "0.6.8"
+#define VERSION "0.6.10"
 
 /* default security framework */
 #define security_framework "polkit"

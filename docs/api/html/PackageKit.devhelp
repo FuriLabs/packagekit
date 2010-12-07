@@ -56,7 +56,6 @@
       <sub name="PkUpdateDetail" link="PkUpdateDetail.html"/>
     </sub>
     <sub name="libpackagekit glib helpers" link="libpackagekit-helpers.html">
-      <sub name="egg-debug" link="PackageKit-egg-debug.html"/>
       <sub name="pk-bitfield" link="PackageKit-pk-bitfield.html"/>
       <sub name="pk-client-sync" link="PackageKit-pk-client-sync.html"/>
       <sub name="pk-common" link="PackageKit-pk-common.html"/>
@@ -242,6 +241,7 @@
     <function name="pk_client_get_progress_finish ()" link="PkClient.html#pk-client-get-progress-finish"/>
     <function name="pk_client_get_progress_async ()" link="PkClient.html#pk-client-get-progress-async"/>
     <function name="The &quot;background&quot; property" link="PkClient.html#PkClient--background"/>
+    <function name="The &quot;cache-age&quot; property" link="PkClient.html#PkClient--cache-age"/>
     <function name="The &quot;idle&quot; property" link="PkClient.html#PkClient--idle"/>
     <function name="The &quot;interactive&quot; property" link="PkClient.html#PkClient--interactive"/>
     <function name="The &quot;locale&quot; property" link="PkClient.html#PkClient--locale"/>
@@ -600,17 +600,6 @@
     <function name="The &quot;updated&quot; property" link="PkUpdateDetail.html#PkUpdateDetail--updated"/>
     <function name="The &quot;updates&quot; property" link="PkUpdateDetail.html#PkUpdateDetail--updates"/>
     <function name="The &quot;vendor-url&quot; property" link="PkUpdateDetail.html#PkUpdateDetail--vendor-url"/>
-    <function name="egg_debug()" link="PackageKit-egg-debug.html#egg-debug"/>
-    <function name="egg_warning()" link="PackageKit-egg-debug.html#egg-warning"/>
-    <function name="egg_error()" link="PackageKit-egg-debug.html#egg-error"/>
-    <function name="egg_debug_init ()" link="PackageKit-egg-debug.html#egg-debug-init"/>
-    <function name="egg_debug_get_option_group ()" link="PackageKit-egg-debug.html#egg-debug-get-option-group"/>
-    <function name="egg_debug_is_verbose ()" link="PackageKit-egg-debug.html#egg-debug-is-verbose"/>
-    <function name="egg_debug_backtrace ()" link="PackageKit-egg-debug.html#egg-debug-backtrace"/>
-    <function name="egg_debug_set_log_filename ()" link="PackageKit-egg-debug.html#egg-debug-set-log-filename"/>
-    <function name="egg_debug_real ()" link="PackageKit-egg-debug.html#egg-debug-real"/>
-    <function name="egg_warning_real ()" link="PackageKit-egg-debug.html#egg-warning-real"/>
-    <function name="egg_error_real ()" link="PackageKit-egg-debug.html#egg-error-real"/>
     <function name="PkBitfield" link="PackageKit-pk-bitfield.html#PkBitfield"/>
     <function name="PK_BITFIELD_FORMAT" link="PackageKit-pk-bitfield.html#PK-BITFIELD-FORMAT:CAPS"/>
     <function name="pk_bitfield_add()" link="PackageKit-pk-bitfield.html#pk-bitfield-add"/>
@@ -673,6 +662,7 @@
     <function name="pk_iso8601_present ()" link="PackageKit-pk-common.html#pk-iso8601-present"/>
     <function name="pk_iso8601_from_date ()" link="PackageKit-pk-common.html#pk-iso8601-from-date"/>
     <function name="pk_iso8601_to_date ()" link="PackageKit-pk-common.html#pk-iso8601-to-date"/>
+    <function name="pk_get_distro_id ()" link="PackageKit-pk-common.html#pk-get-distro-id"/>
     <function name="pk_control_get_properties ()" link="PackageKit-pk-control-sync.html#pk-control-get-properties"/>
     <function name="pk_control_get_transaction_list ()" link="PackageKit-pk-control-sync.html#pk-control-get-transaction-list"/>
     <function name="pk_control_suggest_daemon_quit ()" link="PackageKit-pk-control-sync.html#pk-control-suggest-daemon-quit"/>

@@ -1,6 +1,6 @@
 /* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*-
  *
- * Copyright (C) 2007-2008 Richard Hughes <richard@hughsie.com>
+ * Copyright (C) 2010 Richard Hughes <richard@hughsie.com>
  *
  * Licensed under the GNU General Public License Version 2
  *
@@ -19,30 +19,18 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
 
-#ifndef __EGG_STRING_H
-#define __EGG_STRING_H
+#if !defined (PK_COMPILATION)
+#error "Can only include this internally!"
+#endif
+
+#ifndef __PK_DEBUG_H__
+#define __PK_DEBUG_H__
 
 #include <glib.h>
 
-G_BEGIN_DECLS
+gboolean	 pk_debug_is_verbose		(void);
+GOptionGroup	*pk_debug_get_option_group	(void);
+void		 pk_debug_add_log_domain	(const gchar	*log_domain);
+void		 pk_debug_set_verbose		(gboolean	 verbose);
 
-guint		 egg_strlen				(const gchar	*text,
-							 guint		 len)
-							 G_GNUC_WARN_UNUSED_RESULT;
-gboolean	 egg_strzero				(const gchar	*text)
-							 G_GNUC_WARN_UNUSED_RESULT;
-gboolean	 egg_strvequal				(gchar		**id1,
-							 gchar		**id2)
-							 G_GNUC_WARN_UNUSED_RESULT;
-gboolean	 egg_strtoint				(const gchar	*text,
-							 gint		*value);
-gboolean	 egg_strtouint				(const gchar	*text,
-							 guint		*value);
-gchar		*egg_strreplace				(const gchar	*text,
-							 const gchar	*find,
-							 const gchar	*replace);
-void		 egg_string_test			(gpointer	 user_data);
-
-G_END_DECLS
-
-#endif /* __EGG_STRING_H */
+#endif /* __PK_DEBUG_H__ */
