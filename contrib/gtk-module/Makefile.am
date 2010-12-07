@@ -1,0 +1,14 @@
+SUBDIRS =
+
+if PK_BUILD_GTK_MODULE_GTK2
+SUBDIRS += gtk-2.0
+endif
+
+if PK_BUILD_GTK_MODULE_GTK3
+SUBDIRS += gtk-3.0
+endif
+
+EXTRA_DIST =						\
+	README						\
+	GLASS.txt
+

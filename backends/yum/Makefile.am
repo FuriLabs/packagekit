@@ -1,0 +1,37 @@
+helperdir = $(datadir)/PackageKit/helpers/yum
+dist_helper_DATA = 			\
+	yum-comps-groups.conf		\
+	licenses.txt			\
+	yumBackend.py			\
+	yumComps.py			\
+	yumFilter.py
+
+INCLUDES = \
+	-DI_KNOW_THE_PACKAGEKIT_GLIB2_API_IS_SUBJECT_TO_CHANGE	\
+	$(ZIF_CFLAGS)						\
+	-DSYSCONFDIR=\""$(sysconfdir)"\"
+
+plugindir = $(PK_PLUGIN_DIR)
+plugin_LTLIBRARIES = libpk_backend_yum.la
+libpk_backend_yum_la_SOURCES = pk-backend-yum.c
+libpk_backend_yum_la_LIBADD = $(PK_PLUGIN_LIBS)
+libpk_backend_yum_la_LDFLAGS = -module -avoid-version
+libpk_backend_yum_la_CFLAGS = $(PK_PLUGIN_CFLAGS) $(WARNINGFLAGS_C)
+
+libpk_backend_yum_la_LIBADD +=					\
+	$(ZIF_LIBS)						\
+	$(NULL)
+
+confdir = $(PK_CONF_DIR)
+conf_DATA = Yum.conf
+
+EXTRA_DIST =							\
+	$(conf_DATA)
+
+install-data-hook:
+	chmod a+rx $(DESTDIR)$(helperdir)/*.py
+
+clean-local:
+	rm -f *.gcno
+	rm -f *~
+
