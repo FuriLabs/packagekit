@@ -3,7 +3,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>pk-enum</title>
-<meta name="generator" content="DocBook XSL Stylesheets V1.75.2">
+<meta name="generator" content="DocBook XSL Stylesheets V1.76.0">
 <link rel="home" href="index.html" title="PackageKit Reference Manual">
 <link rel="up" href="libpackagekit-helpers.html" title="libpackagekit glib helpers">
 <link rel="prev" href="PackageKit-pk-control-sync.html" title="pk-control-sync">
@@ -126,8 +126,8 @@ const <a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.htm
 const <a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gchar"><span class="returnvalue">gchar</span></a> *       <a class="link" href="PackageKit-pk-enum.html#pk-distro-upgrade-enum-to-string" title="pk_distro_upgrade_enum_to_string ()">pk_distro_upgrade_enum_to_string</a>    (<em class="parameter"><code><a class="link" href="PackageKit-pk-enum.html#PkDistroUpgradeEnum" title="enum PkDistroUpgradeEnum"><span class="type">PkDistroUpgradeEnum</span></a> upgrade</code></em>);
 <a class="link" href="PackageKit-pk-enum.html#PkMediaTypeEnum" title="enum PkMediaTypeEnum"><span class="returnvalue">PkMediaTypeEnum</span></a>     <a class="link" href="PackageKit-pk-enum.html#pk-media-type-enum-from-string" title="pk_media_type_enum_from_string ()">pk_media_type_enum_from_string</a>      (<em class="parameter"><code>const <a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a> *media_type</code></em>);
 const <a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gchar"><span class="returnvalue">gchar</span></a> *       <a class="link" href="PackageKit-pk-enum.html#pk-media-type-enum-to-string" title="pk_media_type_enum_to_string ()">pk_media_type_enum_to_string</a>        (<em class="parameter"><code><a class="link" href="PackageKit-pk-enum.html#PkMediaTypeEnum" title="enum PkMediaTypeEnum"><span class="type">PkMediaTypeEnum</span></a> media_type</code></em>);
-<a class="link" href="PackageKit-pk-enum.html#PkAuthorizeEnum" title="enum PkAuthorizeEnum"><span class="returnvalue">PkAuthorizeEnum</span></a>     <a class="link" href="PackageKit-pk-enum.html#pk-authorize-type-enum-from-string" title="pk_authorize_type_enum_from_string ()">pk_authorize_type_enum_from_string</a>  (<em class="parameter"><code>const <a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a> *auth_type</code></em>);
-const <a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gchar"><span class="returnvalue">gchar</span></a> *       <a class="link" href="PackageKit-pk-enum.html#pk-authorize-type-enum-to-string" title="pk_authorize_type_enum_to_string ()">pk_authorize_type_enum_to_string</a>    (<em class="parameter"><code><a class="link" href="PackageKit-pk-enum.html#PkAuthorizeEnum" title="enum PkAuthorizeEnum"><span class="type">PkAuthorizeEnum</span></a> auth_type</code></em>);
+<a class="link" href="PackageKit-pk-enum.html#PkAuthorizeEnum" title="enum PkAuthorizeEnum"><span class="returnvalue">PkAuthorizeEnum</span></a>     <a class="link" href="PackageKit-pk-enum.html#pk-authorize-type-enum-from-string" title="pk_authorize_type_enum_from_string ()">pk_authorize_type_enum_from_string</a>  (<em class="parameter"><code>const <a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a> *authorize_type</code></em>);
+const <a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gchar"><span class="returnvalue">gchar</span></a> *       <a class="link" href="PackageKit-pk-enum.html#pk-authorize-type-enum-to-string" title="pk_authorize_type_enum_to_string ()">pk_authorize_type_enum_to_string</a>    (<em class="parameter"><code><a class="link" href="PackageKit-pk-enum.html#PkAuthorizeEnum" title="enum PkAuthorizeEnum"><span class="type">PkAuthorizeEnum</span></a> authorize_type</code></em>);
 </pre>
 </div>
 <div class="refsect1" title="Description">
@@ -880,6 +880,7 @@ The signature type type
 	PK_LICENSE_ENUM_AFL,
 	PK_LICENSE_ENUM_AGPLV1,
 	PK_LICENSE_ENUM_AMDPLPA,
+	PK_LICENSE_ENUM_AML,
 	PK_LICENSE_ENUM_AMPAS_BSD,
 	PK_LICENSE_ENUM_APSL_2_DOT_0,
 	PK_LICENSE_ENUM_ARL,
@@ -890,6 +891,7 @@ The signature type type
 	PK_LICENSE_ENUM_ASL_1_DOT_1,
 	PK_LICENSE_ENUM_ASL_2_DOT_0,
 	PK_LICENSE_ENUM_BAEKMUK,
+	PK_LICENSE_ENUM_BEOPEN,
 	PK_LICENSE_ENUM_BITTORRENT,
 	PK_LICENSE_ENUM_BOOST,
 	PK_LICENSE_ENUM_BSD,
@@ -962,6 +964,7 @@ The signature type type
 	PK_LICENSE_ENUM_JPYTHON,
 	PK_LICENSE_ENUM_KNUTH,
 	PK_LICENSE_ENUM_LBNL_BSD,
+	PK_LICENSE_ENUM_LDPL,
 	PK_LICENSE_ENUM_LGPLV2,
 	PK_LICENSE_ENUM_LGPLV2_PLUS,
 	PK_LICENSE_ENUM_LGPLV2_PLUS_OR_ARTISTIC,
@@ -987,6 +990,7 @@ The signature type type
 	PK_LICENSE_ENUM_MPLV1_DOT_0,
 	PK_LICENSE_ENUM_MPLV1_DOT_1,
 	PK_LICENSE_ENUM_MS_PL,
+	PK_LICENSE_ENUM_MS_RL,
 	PK_LICENSE_ENUM_NAUMEN,
 	PK_LICENSE_ENUM_NCSA,
 	PK_LICENSE_ENUM_NETCDF,
@@ -999,6 +1003,7 @@ The signature type type
 	PK_LICENSE_ENUM_OAL,
 	PK_LICENSE_ENUM_OFL,
 	PK_LICENSE_ENUM_OFSFDL,
+	PK_LICENSE_ENUM_OML,
 	PK_LICENSE_ENUM_OPENLDAP,
 	PK_LICENSE_ENUM_OPENPBS,
 	PK_LICENSE_ENUM_OPENSSL,
@@ -1011,6 +1016,7 @@ The signature type type
 	PK_LICENSE_ENUM_PHORUM,
 	PK_LICENSE_ENUM_PHP,
 	PK_LICENSE_ENUM_PLEXUS,
+	PK_LICENSE_ENUM_POSTGRESQL,
 	PK_LICENSE_ENUM_PSUTILS,
 	PK_LICENSE_ENUM_PTFL,
 	PK_LICENSE_ENUM_PUBLIC_DOMAIN,
@@ -1020,6 +1026,7 @@ The signature type type
 	PK_LICENSE_ENUM_QPL,
 	PK_LICENSE_ENUM_RDISC,
 	PK_LICENSE_ENUM_RICEBSD,
+	PK_LICENSE_ENUM_ROMIO,
 	PK_LICENSE_ENUM_RPSL,
 	PK_LICENSE_ENUM_RUBY,
 	PK_LICENSE_ENUM_SAXPATH,
@@ -1033,6 +1040,7 @@ The signature type type
 	PK_LICENSE_ENUM_SPL,
 	PK_LICENSE_ENUM_STIX,
 	PK_LICENSE_ENUM_TCL,
+	PK_LICENSE_ENUM_TEEWORLDS,
 	PK_LICENSE_ENUM_TMATE,
 	PK_LICENSE_ENUM_TOSL,
 	PK_LICENSE_ENUM_TPL,
@@ -1967,7 +1975,7 @@ Converts a enumerated type to its text representation
 <hr>
 <div class="refsect2" title="pk_authorize_type_enum_from_string ()">
 <a name="pk-authorize-type-enum-from-string"></a><h3>pk_authorize_type_enum_from_string ()</h3>
-<pre class="programlisting"><a class="link" href="PackageKit-pk-enum.html#PkAuthorizeEnum" title="enum PkAuthorizeEnum"><span class="returnvalue">PkAuthorizeEnum</span></a>     pk_authorize_type_enum_from_string  (<em class="parameter"><code>const <a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a> *auth_type</code></em>);</pre>
+<pre class="programlisting"><a class="link" href="PackageKit-pk-enum.html#PkAuthorizeEnum" title="enum PkAuthorizeEnum"><span class="returnvalue">PkAuthorizeEnum</span></a>     pk_authorize_type_enum_from_string  (<em class="parameter"><code>const <a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a> *authorize_type</code></em>);</pre>
 <p>
 Converts a text enumerated type to its unsigned integer representation
 </p>
@@ -1975,13 +1983,13 @@ Converts a text enumerated type to its unsigned integer representation
 <col align="left" valign="top">
 <tbody>
 <tr>
-<td><p><span class="term"><em class="parameter"><code>auth_type</code></em> :</span></p></td>
-<td>
+<td><p><span class="term"><em class="parameter"><code>authorize_type</code></em> :</span></p></td>
+<td>Text describing the enumerated type
 </td>
 </tr>
 <tr>
 <td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
-<td> the enumerated constant value, e.g. PK_AUTHORIZE_ENUM_YES
+<td> the enumerated constant value, e.g. <code class="literal">PK_AUTHORIZE_ENUM_YES</code>
 
 </td>
 </tr>
@@ -1992,7 +2000,7 @@ Converts a text enumerated type to its unsigned integer representation
 <hr>
 <div class="refsect2" title="pk_authorize_type_enum_to_string ()">
 <a name="pk-authorize-type-enum-to-string"></a><h3>pk_authorize_type_enum_to_string ()</h3>
-<pre class="programlisting">const <a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gchar"><span class="returnvalue">gchar</span></a> *       pk_authorize_type_enum_to_string    (<em class="parameter"><code><a class="link" href="PackageKit-pk-enum.html#PkAuthorizeEnum" title="enum PkAuthorizeEnum"><span class="type">PkAuthorizeEnum</span></a> auth_type</code></em>);</pre>
+<pre class="programlisting">const <a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gchar"><span class="returnvalue">gchar</span></a> *       pk_authorize_type_enum_to_string    (<em class="parameter"><code><a class="link" href="PackageKit-pk-enum.html#PkAuthorizeEnum" title="enum PkAuthorizeEnum"><span class="type">PkAuthorizeEnum</span></a> authorize_type</code></em>);</pre>
 <p>
 Converts a enumerated type to its text representation
 </p>
@@ -2000,8 +2008,8 @@ Converts a enumerated type to its text representation
 <col align="left" valign="top">
 <tbody>
 <tr>
-<td><p><span class="term"><em class="parameter"><code>auth_type</code></em> :</span></p></td>
-<td>
+<td><p><span class="term"><em class="parameter"><code>authorize_type</code></em> :</span></p></td>
+<td>The enumerated type value
 </td>
 </tr>
 <tr>

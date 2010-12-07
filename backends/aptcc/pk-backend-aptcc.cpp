@@ -47,12 +47,12 @@ static PkBackendSpawn *spawn;
 static void
 backend_initialize (PkBackend *backend)
 {
-	egg_debug ("APTcc Initializing");
+	g_debug ("APTcc Initializing");
 
 	if (pkgInitConfig(*_config) == false ||
 	    pkgInitSystem(*_config, _system) == false)
 	{
-		egg_debug ("ERROR initializing backend");
+		g_debug ("ERROR initializing backend");
 	}
 
 	spawn = pk_backend_spawn_new ();
@@ -65,7 +65,7 @@ backend_initialize (PkBackend *backend)
 static void
 backend_destroy (PkBackend *backend)
 {
-	egg_debug ("APTcc being destroyed");
+	g_debug ("APTcc being destroyed");
 }
 
 /**
@@ -83,6 +83,7 @@ backend_get_groups (PkBackend *backend)
 		PK_GROUP_ENUM_DESKTOP_KDE,
 		PK_GROUP_ENUM_DESKTOP_OTHER,
 		PK_GROUP_ENUM_ELECTRONICS,
+		PK_GROUP_ENUM_FONTS,
 		PK_GROUP_ENUM_GAMES,
 		PK_GROUP_ENUM_GRAPHICS,
 		PK_GROUP_ENUM_INTERNET,
@@ -150,7 +151,7 @@ backend_get_depends_or_requires_thread (PkBackend *backend)
 	aptcc *m_apt = new aptcc(backend, _cancel);
 	pk_backend_set_pointer(backend, "aptcc_obj", m_apt);
 	if (m_apt->init()) {
-		egg_debug ("Failed to create apt cache");
+		g_debug ("Failed to create apt cache");
 		delete m_apt;
 		pk_backend_finished (backend);
 		return false;
@@ -250,7 +251,7 @@ backend_get_files_thread (PkBackend *backend)
 	aptcc *m_apt = new aptcc(backend, _cancel);
 	pk_backend_set_pointer(backend, "aptcc_obj", m_apt);
 	if (m_apt->init()) {
-		egg_debug ("Failed to create apt cache");
+		g_debug ("Failed to create apt cache");
 		delete m_apt;
 		pk_backend_finished (backend);
 		return false;
@@ -314,11 +315,17 @@ backend_get_details_thread (PkBackend *backend)
 	aptcc *m_apt = new aptcc(backend, _cancel);
 	pk_backend_set_pointer(backend, "aptcc_obj", m_apt);
 	if (m_apt->init()) {
-		egg_debug ("Failed to create apt cache");
+		g_debug ("Failed to create apt cache");
 		delete m_apt;
 		pk_backend_finished (backend);
 		return false;
 	}
+
+    if (updateDetail) {
+        // this is needed to compare the changelog verstion to
+        // current package using DoCmpVersion()
+        pkgInitSystem(*_config, _system);
+    }
 
 	pk_backend_set_status (backend, PK_STATUS_ENUM_QUERY);
 	for (uint i = 0; i < g_strv_length(package_ids); i++) {
@@ -389,7 +396,7 @@ backend_get_or_update_system_thread (PkBackend *backend)
 	aptcc *m_apt = new aptcc(backend, _cancel);
 	pk_backend_set_pointer(backend, "aptcc_obj", m_apt);
 	if (m_apt->init()) {
-		egg_debug ("Failed to create apt cache");
+		g_debug ("Failed to create apt cache");
 		delete m_apt;
 		pk_backend_finished (backend);
 		return false;
@@ -401,7 +408,7 @@ backend_get_or_update_system_thread (PkBackend *backend)
 	OpTextProgress Prog(*_config);
 	int timeout = 10;
 	// TODO test this
-	while (Cache.Open(Prog, !getUpdates) == false) {
+	while (Cache.Open(&Prog, !getUpdates) == false) {
 		// failed to open cache, try checkDeps then..
 		// || Cache.CheckDeps(CmdL.FileSize() != 1) == false
 		if (getUpdates == true || (timeout <= 0)) {
@@ -420,7 +427,7 @@ backend_get_or_update_system_thread (PkBackend *backend)
 	if (pkgDistUpgrade(*Cache) == false)
 	{
 		show_broken(backend, Cache, false);
-		egg_debug ("Internal error, DistUpgrade broke stuff");
+		g_debug ("Internal error, DistUpgrade broke stuff");
 		delete m_apt;
 		pk_backend_finished (backend);
 		return false;
@@ -501,7 +508,7 @@ backend_what_provides_thread (PkBackend *backend)
 		aptcc *m_apt = new aptcc(backend, _cancel);
 		pk_backend_set_pointer(backend, "aptcc_obj", m_apt);
 		if (m_apt->init()) {
-			egg_debug ("Failed to create apt cache");
+			g_debug ("Failed to create apt cache");
 			g_strfreev (values);
 			delete m_apt;
 			pk_backend_finished (backend);
@@ -595,7 +602,7 @@ backend_download_packages_thread (PkBackend *backend)
 	aptcc *m_apt = new aptcc(backend, _cancel);
 	pk_backend_set_pointer(backend, "aptcc_obj", m_apt);
 	if (m_apt->init()) {
-		egg_debug ("Failed to create apt cache");
+		g_debug ("Failed to create apt cache");
 		delete m_apt;
 		pk_backend_finished (backend);
 		return false;
@@ -606,7 +613,8 @@ backend_download_packages_thread (PkBackend *backend)
 	AcqPackageKitStatus Stat(m_apt, backend, _cancel);
 
 	// get a fetcher
-	pkgAcquire fetcher(&Stat);
+	pkgAcquire fetcher;
+	fetcher.Setup(&Stat);
 	string filelist;
 	gchar *pi;
 
@@ -717,7 +725,7 @@ backend_refresh_cache_thread (PkBackend *backend)
 	aptcc *m_apt = new aptcc(backend, _cancel);
 	pk_backend_set_pointer(backend, "aptcc_obj", m_apt);
 	if (m_apt->init()) {
-		egg_debug ("Failed to create apt cache");
+		g_debug ("Failed to create apt cache");
 		delete m_apt;
 		pk_backend_finished (backend);
 		return false;
@@ -746,7 +754,7 @@ backend_refresh_cache_thread (PkBackend *backend)
 	// Rebuild the cache.
 	pkgCacheFile Cache;
 	OpTextProgress Prog(*_config);
-	if (Cache.BuildCaches(Prog, true) == false) {
+	if (Cache.BuildCaches(&Prog, true) == false) {
 		if (_error->PendingError() == true) {
 			show_errors(backend, PK_ERROR_ENUM_CANNOT_GET_LOCK);
 		}
@@ -789,7 +797,7 @@ backend_resolve_thread (PkBackend *backend)
 	aptcc *m_apt = new aptcc(backend, _cancel);
 	pk_backend_set_pointer(backend, "aptcc_obj", m_apt);
 	if (m_apt->init()) {
-		egg_debug ("Failed to create apt cache");
+		g_debug ("Failed to create apt cache");
 		delete m_apt;
 		pk_backend_finished (backend);
 		return false;
@@ -870,7 +878,7 @@ backend_search_files_thread (PkBackend *backend)
 		aptcc *m_apt = new aptcc(backend, _cancel);
 		pk_backend_set_pointer(backend, "aptcc_obj", m_apt);
 		if (m_apt->init()) {
-			egg_debug ("Failed to create apt cache");
+			g_debug ("Failed to create apt cache");
 			delete m_apt;
 			pk_backend_finished (backend);
 			return false;
@@ -939,7 +947,7 @@ backend_search_groups_thread (PkBackend *backend)
 	aptcc *m_apt = new aptcc(backend, _cancel);
 	pk_backend_set_pointer(backend, "aptcc_obj", m_apt);
 	if (m_apt->init()) {
-		egg_debug ("Failed to create apt cache");
+		g_debug ("Failed to create apt cache");
 		delete m_apt;
 		pk_backend_finished (backend);
 		return false;
@@ -1013,7 +1021,7 @@ backend_search_package_thread (PkBackend *backend)
 	matcher *m_matcher = new matcher(search);
 	g_free(search);
 	if (m_matcher->hasError()) {
-		egg_debug("Regex compilation error");
+		g_debug("Regex compilation error");
 		delete m_matcher;
 		pk_backend_finished (backend);
 		return false;
@@ -1022,7 +1030,7 @@ backend_search_package_thread (PkBackend *backend)
 	aptcc *m_apt = new aptcc(backend, _cancel);
 	pk_backend_set_pointer(backend, "aptcc_obj", m_apt);
 	if (m_apt->init()) {
-		egg_debug ("Failed to create apt cache");
+		g_debug ("Failed to create apt cache");
 		delete m_matcher;
 		delete m_apt;
 		pk_backend_finished (backend);
@@ -1184,7 +1192,7 @@ backend_manage_packages_thread (PkBackend *backend)
 	aptcc *m_apt = new aptcc(backend, _cancel);
 	pk_backend_set_pointer(backend, "aptcc_obj", m_apt);
 	if (m_apt->init()) {
-		egg_debug ("Failed to create apt cache");
+		g_debug ("Failed to create apt cache");
 		delete m_apt;
 		pk_backend_finished (backend);
 		return false;
@@ -1415,7 +1423,7 @@ backend_get_packages_thread (PkBackend *backend)
 	aptcc *m_apt = new aptcc(backend, _cancel);
 	pk_backend_set_pointer(backend, "aptcc_obj", m_apt);
 	if (m_apt->init()) {
-		egg_debug ("Failed to create apt cache");
+		g_debug ("Failed to create apt cache");
 		delete m_apt;
 		pk_backend_finished (backend);
 		return false;
@@ -1499,5 +1507,7 @@ extern "C" PK_BACKEND_OPTIONS (
 	NULL,						/* simulate_install_files */
 	backend_simulate_install_update_packages,	/* simulate_install_packages */
 	backend_simulate_remove_packages,		/* simulate_remove_packages */
-	backend_simulate_install_update_packages	/* simulate_update_packages */
+	backend_simulate_install_update_packages,	/* simulate_update_packages */
+	NULL,						/* transaction_start */
+	NULL						/* transaction_stop */
 );

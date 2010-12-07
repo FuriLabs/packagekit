@@ -18,7 +18,7 @@ command_not_found_handle () {
 
 	# run the command, or just print a warning
 	if [ $runcnf -eq 1 ]; then
-		/home/hughsie/.root/libexec/pk-command-not-found $1
+		/home/hughsie/.root/libexec/pk-command-not-found $@
 		retval=$?
 	else
 		echo "bash: $1: command not found"

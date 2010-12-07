@@ -9,12 +9,10 @@ PkClient
 
 </para>
 
-
 <!-- ##### SECTION See_Also ##### -->
 <para>
 
 </para>
-
 
 <!-- ##### SECTION Stability_Level ##### -->
 
@@ -66,6 +64,11 @@ PkClient
 
 
 <!-- ##### ARG PkClient:background ##### -->
+<para>
+
+</para>
+
+<!-- ##### ARG PkClient:cache-age ##### -->
 <para>
 
 </para>

@@ -182,10 +182,13 @@
             method can be sent, although some backends may only use the values
             that were set before the transaction was started.
           </para>
+          <para>
+            Each parameter value is optional.
+          </para>
         <variablelist role="params"><varlistentry><term><parameter>hints</parameter>:</term><listitem><simpara>
             
               The values as an array of strings, for example
-              ['locale=en_GB.utf8','idle=true','interactive=false'].
+              ['locale=en_GB.utf8','idle=true','interactive=false','cache-age=3600'].
             
             
               The following parameter values are understood:
@@ -213,6 +216,20 @@
                   If the method can ask interactive questions whilst running,
                   valid values are true and false,
                   and other values will result in an error.
+                
+              
+              
+                cache-age
+                
+                  This allows the frontend to set how fresh it needs the
+                  metadata used in the transaction.
+                  This allows fine control of the age of the returned results,
+                  but means the frontend probably has to query the updates
+                  check value and pass it this value for GetUpdates,
+                  and choose something sane otherwise.
+                  Most interactive clients will set this to intmaxdoc:tt&gt;
+                  which means "never download new metadata, unless required to return results".
+                  Most transactions will not have this value set.
                 
               
             
@@ -678,6 +695,15 @@
               The package names are case sensitive, so for instance:
               Resolve('Packagekit') would not match PackageKit.
             
+            
+              As a special case, if Resolve()doc:tt&gt; is called
+              with a name prefixed with @ then
+              this should be treated as a category, for example:
+              @web-development.
+              In this instance, a meta-package should be emitted, for example:
+              web-development;;;meta with the correct
+              installed status and summary for the category.
+            
           </simpara></listitem></varlistentry></variablelist><refsect2><title><anchor role="function" id="Transaction.Rollback"/>Rollback ()</title><indexterm><primary>Rollback</primary><secondary>Transaction</secondary></indexterm><programlisting>Rollback (in  's' transaction_id)</programlisting></refsect2>
           <para>
             This method rolls back the package database to a previous transaction.
@@ -802,8 +828,13 @@
             
           </simpara></listitem></varlistentry><varlistentry><term><parameter>values</parameter>:</term><listitem><simpara>
             
-              An enumerated group_type, or unknown. The search
-              can't contain spaces. It must contains only one group_type.
+              An enumerated group type, or unknown. The search
+              cannot contain spaces.
+            
+            
+              If the values strings are prefixed with @ then
+              this is treated as a category, for example:
+              @web-development.
             
           </simpara></listitem></varlistentry></variablelist><refsect2><title><anchor role="function" id="Transaction.SearchNames"/>SearchNames ()</title><indexterm><primary>SearchNames</primary><secondary>Transaction</secondary></indexterm><programlisting>SearchNames (in  's'  filter,
              in  'as' values)</programlisting></refsect2>

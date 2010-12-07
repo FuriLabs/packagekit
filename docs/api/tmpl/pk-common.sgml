@@ -9,12 +9,10 @@ pk-common
 
 </para>
 
-
 <!-- ##### SECTION See_Also ##### -->
 <para>
 
 </para>
-
 
 <!-- ##### SECTION Stability_Level ##### -->
 
@@ -105,6 +103,15 @@ pk-common
 </para>
 
 @iso_date: 
+@Returns: 
+
+
+<!-- ##### FUNCTION pk_get_distro_id ##### -->
+<para>
+
+</para>
+
+@void: 
 @Returns: 
 
 
