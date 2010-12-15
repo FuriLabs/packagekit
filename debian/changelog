@@ -2,6 +2,9 @@ packagekit (0.6.10-2) experimental; urgency=low
 
   * Require privileges to install updates (Closes: #606092)
   * Break old backends and depend on the new ones (Closes: #606133)
+  * Adjusted Vcs information to link to our new Git repository
+  * Added series file for Ubuntu to apply Ubuntu-specific patches
+     (like the vendor patch for example)
 
  -- Matthias Klumpp <matthias@nlinux.org>  Mon, 06 Dec 2010 18:48:47 +0100
 
