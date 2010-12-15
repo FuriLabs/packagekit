@@ -1,4 +1,4 @@
-vendor-debian.diff
+vendor-ubuntu.diff
 defaults.diff
 policy.diff
 01_aptcc_apt-proxy.patch
