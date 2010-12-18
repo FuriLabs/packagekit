@@ -4,7 +4,7 @@ Priority: optional
 Maintainer: Matthias Klumpp <matthias@nlinux.org>
 Vcs-Git: git://git.debian.org/pkg-packagekit/packagekit.git
 Vcs-Browser: http://git.debian.org/?p=pkg-packagekit/packagekit.git
-Build-Depends: debhelper (>= 7.0.50~),
+Build-Depends: debhelper (>= 8),
     autotools-dev (>=20100122.1),
     libtool,
     libpam0g-dev,
