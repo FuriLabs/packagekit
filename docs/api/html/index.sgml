@@ -62,6 +62,7 @@
 <ANCHOR id="Transaction.UpdatePackages" href="PackageKit/Transaction.html#Transaction.UpdatePackages">
 <ANCHOR id="Transaction.UpdateSystem" href="PackageKit/Transaction.html#Transaction.UpdateSystem">
 <ANCHOR id="Transaction.WhatProvides" href="PackageKit/Transaction.html#Transaction.WhatProvides">
+<ANCHOR id="Transaction.UpgradeSystem" href="PackageKit/Transaction.html#Transaction.UpgradeSystem">
 <ANCHOR id="Transaction::Category" href="PackageKit/Transaction.html#Transaction::Category">
 <ANCHOR id="Transaction::Details" href="PackageKit/Transaction.html#Transaction::Details">
 <ANCHOR id="Transaction::ErrorCode" href="PackageKit/Transaction.html#Transaction::ErrorCode">

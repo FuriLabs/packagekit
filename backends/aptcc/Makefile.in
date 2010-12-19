@@ -42,8 +42,8 @@ ACLOCAL_M4 = $(top_srcdir)/aclocal.m4
 am__aclocal_m4_deps = $(top_srcdir)/m4/gtk-doc.m4 \
 	$(top_srcdir)/m4/intltool.m4 $(top_srcdir)/m4/libtool.m4 \
 	$(top_srcdir)/m4/ltoptions.m4 $(top_srcdir)/m4/ltsugar.m4 \
-	$(top_srcdir)/m4/ltversion.m4 $(top_srcdir)/acinclude.m4 \
-	$(top_srcdir)/configure.ac
+	$(top_srcdir)/m4/ltversion.m4 $(top_srcdir)/m4/lt~obsolete.m4 \
+	$(top_srcdir)/acinclude.m4 $(top_srcdir)/configure.ac
 am__configure_deps = $(am__aclocal_m4_deps) $(CONFIGURE_DEPENDENCIES) \
 	$(ACLOCAL_M4)
 mkinstalldirs = $(install_sh) -d
@@ -83,6 +83,7 @@ am_libpk_backend_aptcc_la_OBJECTS =  \
 	libpk_backend_aptcc_la-apt-utils.lo \
 	libpk_backend_aptcc_la-acqprogress.lo \
 	libpk_backend_aptcc_la-matcher.lo \
+	libpk_backend_aptcc_la-gstMatcher.lo \
 	libpk_backend_aptcc_la-rsources.lo \
 	libpk_backend_aptcc_la-apt.lo \
 	libpk_backend_aptcc_la-pk-backend-aptcc.lo
@@ -186,7 +187,8 @@ GMODULE_LIBS = @GMODULE_LIBS@
 GMOFILES = @GMOFILES@
 GMSGFMT = @GMSGFMT@
 GREP = @GREP@
-GST_LIBS = @GST_LIBS@
+GSTREAMER_CFLAGS = @GSTREAMER_CFLAGS@
+GSTREAMER_LIBS = @GSTREAMER_LIBS@
 GTKDOC_CHECK = @GTKDOC_CHECK@
 GTKDOC_MKPDF = @GTKDOC_MKPDF@
 GTKDOC_REBASE = @GTKDOC_REBASE@
@@ -383,6 +385,9 @@ target_alias = @target_alias@
 top_build_prefix = @top_build_prefix@
 top_builddir = @top_builddir@
 top_srcdir = @top_srcdir@
+INCLUDES = \
+	-DG_LOG_DOMAIN=\"PackageKit-Aptcc\"
+
 plugindir = $(PK_PLUGIN_DIR)
 plugin_LTLIBRARIES = libpk_backend_aptcc.la
 libpk_backend_aptcc_la_SOURCES = pkg_acqfile.cpp \
@@ -391,19 +396,21 @@ libpk_backend_aptcc_la_SOURCES = pkg_acqfile.cpp \
 				 apt-utils.cpp \
 				 acqprogress.cpp \
 				 matcher.cpp \
+				 gstMatcher.cpp \
 				 rsources.cpp \
 				 apt.cpp \
 				 pk-backend-aptcc.cpp
 
 libpk_backend_aptcc_la_LIBADD = -lcrypt $(PK_PLUGIN_LIBS)
-libpk_backend_aptcc_la_LDFLAGS = -module -avoid-version $(APTCC_LIBS) $(GST_LIBS)
+libpk_backend_aptcc_la_LDFLAGS = -module -avoid-version $(APTCC_LIBS) $(GSTREAMER_LIBS)
 libpk_backend_aptcc_la_CFLAGS = $(PK_PLUGIN_CFLAGS)
-libpk_backend_aptcc_la_CPPFLAGS = $(PK_PLUGIN_CFLAGS) $(APTCC_CFLAGS)
+libpk_backend_aptcc_la_CPPFLAGS = $(PK_PLUGIN_CFLAGS) $(APTCC_CFLAGS) $(GSTREAMER_CFLAGS)
 aptconfdir = ${SYSCONFDIR}/apt/apt.conf.d
 aptconf_DATA = 20packagekit
 EXTRA_DIST = 20packagekit \
 	     apt.h \
 	     apt-utils.h \
+	     gstMatcher.h \
 	     matcher.h \
 	     aptcc_show_broken.h \
 	     acqprogress.h \
@@ -495,6 +502,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libpk_backend_aptcc_la-apt.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libpk_backend_aptcc_la-aptcc_show_broken.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libpk_backend_aptcc_la-aptcc_show_error.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libpk_backend_aptcc_la-gstMatcher.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libpk_backend_aptcc_la-matcher.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libpk_backend_aptcc_la-pk-backend-aptcc.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libpk_backend_aptcc_la-pkg_acqfile.Plo@am__quote@
@@ -571,6 +579,14 @@ libpk_backend_aptcc_la-matcher.lo: matcher.cpp
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='matcher.cpp' object='libpk_backend_aptcc_la-matcher.lo' libtool=yes @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCXX_FALSE@	$(LIBTOOL) $(AM_V_lt) --tag=CXX $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libpk_backend_aptcc_la_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o libpk_backend_aptcc_la-matcher.lo `test -f 'matcher.cpp' || echo '$(srcdir)/'`matcher.cpp
+
+libpk_backend_aptcc_la-gstMatcher.lo: gstMatcher.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(LIBTOOL) $(AM_V_lt) --tag=CXX $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libpk_backend_aptcc_la_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT libpk_backend_aptcc_la-gstMatcher.lo -MD -MP -MF $(DEPDIR)/libpk_backend_aptcc_la-gstMatcher.Tpo -c -o libpk_backend_aptcc_la-gstMatcher.lo `test -f 'gstMatcher.cpp' || echo '$(srcdir)/'`gstMatcher.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/libpk_backend_aptcc_la-gstMatcher.Tpo $(DEPDIR)/libpk_backend_aptcc_la-gstMatcher.Plo
+@am__fastdepCXX_FALSE@	$(AM_V_CXX) @AM_BACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='gstMatcher.cpp' object='libpk_backend_aptcc_la-gstMatcher.lo' libtool=yes @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(LIBTOOL) $(AM_V_lt) --tag=CXX $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libpk_backend_aptcc_la_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o libpk_backend_aptcc_la-gstMatcher.lo `test -f 'gstMatcher.cpp' || echo '$(srcdir)/'`gstMatcher.cpp
 
 libpk_backend_aptcc_la-rsources.lo: rsources.cpp
 @am__fastdepCXX_TRUE@	$(AM_V_CXX)$(LIBTOOL) $(AM_V_lt) --tag=CXX $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libpk_backend_aptcc_la_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT libpk_backend_aptcc_la-rsources.lo -MD -MP -MF $(DEPDIR)/libpk_backend_aptcc_la-rsources.Tpo -c -o libpk_backend_aptcc_la-rsources.lo `test -f 'rsources.cpp' || echo '$(srcdir)/'`rsources.cpp

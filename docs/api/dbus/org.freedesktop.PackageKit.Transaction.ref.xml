@@ -66,6 +66,8 @@
 <link linkend="Transaction.WhatProvides">WhatProvides</link>            (in  's'  filter,
                          in  's'  type,
                          in  'as' values)
+<link linkend="Transaction.UpgradeSystem">UpgradeSystem</link>           (in  's'  distro_id,
+                         in  's'  upgrade_kind)
 </synopsis>
   </refsynopsisdiv>
   <refsect1 role="signal_proto">
@@ -744,7 +746,8 @@
           <para>
             Package enumerated types should be
             available or installed.
-          </para>        <variablelist role="params"><varlistentry><term><parameter>filter</parameter>:</term><listitem><simpara>
+          </para>
+        <variablelist role="params"><varlistentry><term><parameter>filter</parameter>:</term><listitem><simpara>
             
               A correct filter, e.g. none or installed;~devel
             
@@ -779,7 +782,8 @@
           <para>
             Package enumerated types should be
             available or installed.
-          </para>        <variablelist role="params"><varlistentry><term><parameter>filter</parameter>:</term><listitem><simpara>
+          </para>
+        <variablelist role="params"><varlistentry><term><parameter>filter</parameter>:</term><listitem><simpara>
             
               A correct filter, e.g. none or installed;~devel
             
@@ -1021,6 +1025,32 @@
               The data to send to the backend to get the packages.
               Note: This is backend specific.
             
+          </simpara></listitem></varlistentry></variablelist><refsect2><title><anchor role="function" id="Transaction.UpgradeSystem"/>UpgradeSystem ()</title><indexterm><primary>UpgradeSystem</primary><secondary>Transaction</secondary></indexterm><programlisting>UpgradeSystem (in  's' distro_id,
+               in  's' upgrade_kind)</programlisting></refsect2>
+          <para>
+            This method perfoms a distribution upgrade to the specified
+            version.
+          </para>
+          <para>
+            This method typically emits
+            Progress,
+            Status and
+            Error and
+            Package.
+          </para>
+        <variablelist role="params"><varlistentry><term><parameter>distro_id</parameter>:</term><listitem><simpara>
+            
+              The distribution ID to upgrade to, e.g. fedora-14.
+            
+          </simpara></listitem></varlistentry><varlistentry><term><parameter>upgrade_kind</parameter>:</term><listitem><simpara>
+            
+              The type of upgrade, e.g. minimal, default or complete.
+              Minimal upgrades will download the smallest amount of data
+              before launching a installer.
+              The default is to download enough data to launch a full
+              graphical installer, but a complete upgrade will be
+              required if there is no internet access during install time.
+            
           </simpara></listitem></varlistentry></variablelist></refsect1>
   <refsect1 role="signals"><title role="signals.title">Signal Details</title><refsect2><title><anchor role="function" id="Transaction::Category"/>The Category signal</title><indexterm><primary>Category</primary><secondary>Transaction</secondary></indexterm><programlisting>Category ('s' parent_id,
           's' cat_id,
@@ -1187,7 +1217,32 @@
             
           </simpara></listitem></varlistentry><varlistentry><term><parameter>package_id</parameter>:</term><listitem><simpara>
             
-              A valid package ID string with as much data as known
+              This identifier is of the form name;version;arch;data
+              in a single string and is meant to represent a single package
+              unique across all local and remote data stores.
+            
+            
+              For a remote, not-installed package the data field should
+              be set as the repository identifier or repository name.
+            
+            
+              The data field for an installed package must be prefixed
+              with installed as this is used to identify
+              which packages are installable or installed in the client
+              tools.
+            
+            
+              As a special extension, if the package manager is able to
+              track which repository a package was originally installed
+              from, then the data field can be set to
+              installed:REPO-NAME which allows the
+              frontend client to advise the user of the package origin.
+            
+            
+              The data field for a non-installed local package must be
+              local as this signifies a repository name is
+              not available and that package resides locally on the
+              client system rather than in any specific repository.
             
           </simpara></listitem></varlistentry><varlistentry><term><parameter>summary</parameter>:</term><listitem><simpara>
             

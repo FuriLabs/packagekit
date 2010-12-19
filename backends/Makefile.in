@@ -49,17 +49,18 @@ host_triplet = @host@
 @BACKEND_TYPE_YUM_TRUE@am__append_14 = yum
 @BACKEND_TYPE_PISI_TRUE@am__append_15 = pisi
 @BACKEND_TYPE_ZYPP_TRUE@am__append_16 = zypp
-@BACKEND_TYPE_POLDEK_TRUE@am__append_17 = poldek
-@BACKEND_TYPE_PORTAGE_TRUE@am__append_18 = portage
-@BACKEND_TYPE_PORTS_TRUE@am__append_19 = ports
+@BACKEND_TYPE_ZIF_TRUE@am__append_17 = zif
+@BACKEND_TYPE_POLDEK_TRUE@am__append_18 = poldek
+@BACKEND_TYPE_PORTAGE_TRUE@am__append_19 = portage
+@BACKEND_TYPE_PORTS_TRUE@am__append_20 = ports
 subdir = backends
 DIST_COMMON = $(srcdir)/Makefile.am $(srcdir)/Makefile.in
 ACLOCAL_M4 = $(top_srcdir)/aclocal.m4
 am__aclocal_m4_deps = $(top_srcdir)/m4/gtk-doc.m4 \
 	$(top_srcdir)/m4/intltool.m4 $(top_srcdir)/m4/libtool.m4 \
 	$(top_srcdir)/m4/ltoptions.m4 $(top_srcdir)/m4/ltsugar.m4 \
-	$(top_srcdir)/m4/ltversion.m4 $(top_srcdir)/acinclude.m4 \
-	$(top_srcdir)/configure.ac
+	$(top_srcdir)/m4/ltversion.m4 $(top_srcdir)/m4/lt~obsolete.m4 \
+	$(top_srcdir)/acinclude.m4 $(top_srcdir)/configure.ac
 am__configure_deps = $(am__aclocal_m4_deps) $(CONFIGURE_DEPENDENCIES) \
 	$(ACLOCAL_M4)
 mkinstalldirs = $(install_sh) -d
@@ -89,8 +90,8 @@ AM_RECURSIVE_TARGETS = $(RECURSIVE_TARGETS:-recursive=) \
 ETAGS = etags
 CTAGS = ctags
 DIST_SUBDIRS = test alpm apt aptcc box conary dummy entropy opkg \
-	pacman razor slapt smart urpmi yum pisi zypp poldek portage \
-	ports
+	pacman razor slapt smart urpmi yum pisi zypp zif poldek \
+	portage ports
 DISTFILES = $(DIST_COMMON) $(DIST_SOURCES) $(TEXINFOS) $(EXTRA_DIST)
 am__relativize = \
   dir0=`pwd`; \
@@ -177,7 +178,8 @@ GMODULE_LIBS = @GMODULE_LIBS@
 GMOFILES = @GMOFILES@
 GMSGFMT = @GMSGFMT@
 GREP = @GREP@
-GST_LIBS = @GST_LIBS@
+GSTREAMER_CFLAGS = @GSTREAMER_CFLAGS@
+GSTREAMER_LIBS = @GSTREAMER_LIBS@
 GTKDOC_CHECK = @GTKDOC_CHECK@
 GTKDOC_MKPDF = @GTKDOC_MKPDF@
 GTKDOC_REBASE = @GTKDOC_REBASE@
@@ -380,7 +382,7 @@ SUBDIRS = test $(am__append_1) $(am__append_2) $(am__append_3) \
 	$(am__append_10) $(am__append_11) $(am__append_12) \
 	$(am__append_13) $(am__append_14) $(am__append_15) \
 	$(am__append_16) $(am__append_17) $(am__append_18) \
-	$(am__append_19)
+	$(am__append_19) $(am__append_20)
 all: all-recursive
 
 .SUFFIXES:

@@ -91,8 +91,6 @@ struct PkTransactionPrivate
 	guint			 remaining_time;
 	guint			 speed;
 	gboolean		 finished;
-	gboolean		 running;
-	gboolean		 has_been_run;
 	gboolean		 allow_cancel;
 	gboolean		 waiting_for_auth;
 	gboolean		 emit_eula_required;
@@ -689,7 +687,7 @@ pk_transaction_process_script (PkTransaction *transaction, const gchar *filename
 	GFile *file = NULL;
 	GFileInfo *info = NULL;
 	guint file_uid;
-	gchar *command;
+	gchar *command = NULL;
 	gint exit_status = 0;
 	gboolean ret;
 	GError *error = NULL;
@@ -791,6 +789,8 @@ pk_transaction_state_to_string (PkTransactionState state)
 {
 	if (state == PK_TRANSACTION_STATE_NEW)
 		return "new";
+	if (state == PK_TRANSACTION_STATE_WAITING_FOR_AUTH)
+		return "waiting-for-auth";
 	if (state == PK_TRANSACTION_STATE_COMMITTED)
 		return "committed";
 	if (state == PK_TRANSACTION_STATE_READY)
@@ -809,10 +809,11 @@ pk_transaction_state_to_string (PkTransactionState state)
  * Typically, these states will be:
  *
  * 1. 'new'
- * 2. 'committed'  <--- when the client sets the role
- * 3. 'ready'      <--- when the transaction is ready to be run
- * 4. 'running'    <--- where PkBackend gets used
- * 5. 'finished'
+ * 2. 'waiting for auth'  <--- waiting for PolicyKit (optional)
+ * 3. 'committed'         <--- when the client sets the role
+ * 4. 'ready'             <--- when the transaction is ready to be run
+ * 5. 'running'           <--- where PkBackend gets used
+ * 6. 'finished'
  *
  **/
 gboolean
@@ -832,6 +833,24 @@ pk_transaction_set_state (PkTransaction *transaction, PkTransactionState state)
 
 	g_debug ("transaction now %s", pk_transaction_state_to_string (state));
 	transaction->priv->state = state;
+
+	/* update GUI */
+	if (state == PK_TRANSACTION_STATE_WAITING_FOR_AUTH) {
+		pk_transaction_status_changed_emit (transaction,
+						    PK_STATUS_ENUM_WAITING_FOR_AUTH);
+		pk_transaction_progress_changed_emit (transaction,
+						      PK_BACKEND_PERCENTAGE_INVALID,
+						      PK_BACKEND_PERCENTAGE_INVALID,
+						      0, 0);
+
+	} else if (state == PK_TRANSACTION_STATE_READY) {
+		pk_transaction_status_changed_emit (transaction,
+						    PK_STATUS_ENUM_WAIT);
+		pk_transaction_progress_changed_emit (transaction,
+						      PK_BACKEND_PERCENTAGE_INVALID,
+						      PK_BACKEND_PERCENTAGE_INVALID,
+						      0, 0);
+	}
 
 	/* we have no actions to perform here, so go straight to running */
 	if (state == PK_TRANSACTION_STATE_COMMITTED) {
@@ -1029,9 +1048,6 @@ pk_transaction_finished_cb (PkBackend *backend, PkExitEnum exit_enum, PkTransact
 
 	/* we should get no more from the backend with this tid */
 	transaction->priv->finished = TRUE;
-
-	/* mark not running */
-	transaction->priv->running = FALSE;
 
 	/* if we did ::repo-signature-required or ::eula-required, change the error code */
 	if (transaction->priv->emit_signature_required)
@@ -1924,8 +1940,6 @@ pk_transaction_set_running (PkTransaction *transaction)
 				  G_CALLBACK (pk_transaction_speed_cb), transaction);
 
 	/* mark running */
-	priv->running = TRUE;
-	priv->has_been_run = TRUE;
 	priv->allow_cancel = FALSE;
 
 	/* reset after the pre-transaction checks */
@@ -2021,6 +2035,8 @@ pk_transaction_set_running (PkTransaction *transaction)
 			filters = pk_bitfield_from_enums (PK_FILTER_ENUM_NOT_INSTALLED, PK_FILTER_ENUM_NEWEST, -1);
 			pk_backend_get_depends (priv->backend, filters, priv->cached_package_ids, TRUE);
 		}
+	} else if (priv->role == PK_ROLE_ENUM_UPGRADE_SYSTEM) {
+		pk_backend_upgrade_system (priv->backend, priv->cached_value, priv->cached_provides);
 	} else {
 		g_error ("failed to run as role not assigned");
 		ret = FALSE;
@@ -2464,6 +2480,9 @@ pk_transaction_role_to_action_only_trusted (PkRoleEnum role)
 		case PK_ROLE_ENUM_CANCEL:
 			policy = "org.freedesktop.packagekit.cancel-foreign";
 			break;
+		case PK_ROLE_ENUM_UPGRADE_SYSTEM:
+			policy = "org.freedesktop.packagekit.upgrade-system";
+			break;
 		default:
 			break;
 	}
@@ -2532,9 +2551,9 @@ pk_transaction_obtain_authorization (PkTransaction *transaction, gboolean only_t
 	/* log */
 	pk_syslog_add (priv->syslog, PK_SYSLOG_TYPE_AUTH, "uid %i is trying to obtain %s auth (only_trusted:%i)", priv->uid, action_id, only_trusted);
 
-	/* emit status for GUIs */
-	pk_transaction_status_changed_emit (transaction, PK_STATUS_ENUM_WAITING_FOR_AUTH);
-	pk_transaction_progress_changed_emit (transaction, PK_BACKEND_PERCENTAGE_INVALID, PK_BACKEND_PERCENTAGE_INVALID, 0, 0);
+	/* set transaction state */
+	pk_transaction_set_state (transaction,
+				  PK_TRANSACTION_STATE_WAITING_FOR_AUTH);
 
 	/* check subject */
 	priv->waiting_for_auth = TRUE;
@@ -2764,16 +2783,6 @@ pk_transaction_cancel (PkTransaction *transaction, DBusGMethodInvocation *contex
 		goto out;
 	}
 
-	/* check if it's safe to kill */
-	if (!transaction->priv->allow_cancel) {
-		error = g_error_new (PK_TRANSACTION_ERROR, PK_TRANSACTION_ERROR_CANNOT_CANCEL,
-				     "Tried to cancel %s (%s) that is not safe to kill",
-				     transaction->priv->tid,
-				     pk_role_enum_to_string (transaction->priv->role));
-		pk_transaction_dbus_return_error (context, error);
-		goto out;
-	}
-
 	/* first, check the sender -- if it's the same we don't need to check the uid */
 	sender = dbus_g_method_get_sender (context);
 	ret = (g_strcmp0 (transaction->priv->sender, sender) == 0);
@@ -2810,7 +2819,7 @@ pk_transaction_cancel (PkTransaction *transaction, DBusGMethodInvocation *contex
 
 skip_uid:
 	/* if it's never been run, just remove this transaction from the list */
-	if (!transaction->priv->has_been_run) {
+	if (transaction->priv->state <= PK_TRANSACTION_STATE_READY) {
 		pk_transaction_progress_changed_emit (transaction, 100, 100, 0, 0);
 		pk_transaction_allow_cancel_emit (transaction, FALSE);
 		pk_transaction_status_changed_emit (transaction, PK_STATUS_ENUM_FINISHED);
@@ -5423,6 +5432,65 @@ pk_transaction_what_provides (PkTransaction *transaction, const gchar *filter, c
 }
 
 /**
+ * pk_transaction_upgrade_system:
+ **/
+void
+pk_transaction_upgrade_system (PkTransaction *transaction, const gchar *distro_id, const gchar *upgrade_kind_str, DBusGMethodInvocation *context)
+{
+	gboolean ret;
+	GError *error = NULL;
+	PkUpgradeKindEnum upgrade_kind;
+
+	g_return_if_fail (PK_IS_TRANSACTION (transaction));
+	g_return_if_fail (transaction->priv->tid != NULL);
+
+	g_debug ("UpgradeSystem method called: %s (%s)", distro_id, upgrade_kind_str);
+
+	/* not implemented yet */
+	if (!pk_backend_is_implemented (transaction->priv->backend, PK_ROLE_ENUM_UPGRADE_SYSTEM)) {
+		error = g_error_new (PK_TRANSACTION_ERROR, PK_TRANSACTION_ERROR_NOT_SUPPORTED,
+				     "UpgradeSystem not yet supported by backend");
+		pk_transaction_release_tid (transaction);
+		pk_transaction_dbus_return_error (context, error);
+		return;
+	}
+
+	/* check if the sender is the same */
+	ret = pk_transaction_verify_sender (transaction, context, &error);
+	if (!ret) {
+		/* don't release tid */
+		pk_transaction_dbus_return_error (context, error);
+		return;
+	}
+
+	/* check upgrade kind */
+	upgrade_kind = pk_upgrade_kind_enum_from_string (upgrade_kind_str);
+	if (upgrade_kind == PK_UPGRADE_KIND_ENUM_UNKNOWN) {
+		error = g_error_new (PK_TRANSACTION_ERROR, PK_TRANSACTION_ERROR_INVALID_PROVIDE,
+				     "upgrade kind '%s' not found", upgrade_kind_str);
+		pk_transaction_release_tid (transaction);
+		pk_transaction_dbus_return_error (context, error);
+		return;
+	}
+
+	/* save so we can run later */
+	transaction->priv->cached_value = g_strdup (distro_id);
+	transaction->priv->cached_provides = upgrade_kind;
+	pk_transaction_set_role (transaction, PK_ROLE_ENUM_UPGRADE_SYSTEM);
+
+	/* try to get authorization */
+	ret = pk_transaction_obtain_authorization (transaction, FALSE, PK_ROLE_ENUM_UPGRADE_SYSTEM, &error);
+	if (!ret) {
+		pk_transaction_release_tid (transaction);
+		pk_transaction_dbus_return_error (context, error);
+		return;
+	}
+
+	/* return from async with success */
+	pk_transaction_dbus_return (context);
+}
+
+/**
  * pk_transaction_get_property:
  **/
 static void
@@ -5691,8 +5759,6 @@ pk_transaction_init (PkTransaction *transaction)
 #endif
 	transaction->priv = PK_TRANSACTION_GET_PRIVATE (transaction);
 	transaction->priv->finished = FALSE;
-	transaction->priv->running = FALSE;
-	transaction->priv->has_been_run = FALSE;
 	transaction->priv->waiting_for_auth = FALSE;
 	transaction->priv->allow_cancel = TRUE;
 	transaction->priv->emit_eula_required = FALSE;

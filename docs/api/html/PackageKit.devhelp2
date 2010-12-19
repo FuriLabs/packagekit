@@ -133,6 +133,7 @@
     <keyword type="" name="UpdatePackages ()" link="Transaction.html#Transaction.UpdatePackages"/>
     <keyword type="" name="UpdateSystem ()" link="Transaction.html#Transaction.UpdateSystem"/>
     <keyword type="" name="WhatProvides ()" link="Transaction.html#Transaction.WhatProvides"/>
+    <keyword type="" name="UpgradeSystem ()" link="Transaction.html#Transaction.UpgradeSystem"/>
     <keyword type="" name="The Category signal" link="Transaction.html#Transaction::Category"/>
     <keyword type="" name="The Details signal" link="Transaction.html#Transaction::Details"/>
     <keyword type="" name="The ErrorCode signal" link="Transaction.html#Transaction::ErrorCode"/>

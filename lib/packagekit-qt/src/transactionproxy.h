@@ -8,8 +8,8 @@
  * Do not edit! All changes made to it will be lost.
  */
 
-#ifndef TRANSACTIONPROXY_H_1288607742
-#define TRANSACTIONPROXY_H_1288607742
+#ifndef TRANSACTIONPROXY_H_1292235794
+#define TRANSACTIONPROXY_H_1292235794
 
 #include <QtCore/QObject>
 #include <QtCore/QByteArray>
@@ -313,6 +313,13 @@ public Q_SLOTS: // METHODS
         QList<QVariant> argumentList;
         argumentList << qVariantFromValue(only_trusted);
         return asyncCallWithArgumentList(QLatin1String("UpdateSystem"), argumentList);
+    }
+
+    inline QDBusPendingReply<> UpgradeSystem(const QString &distro_id, const QString &upgrade_kind)
+    {
+        QList<QVariant> argumentList;
+        argumentList << qVariantFromValue(distro_id) << qVariantFromValue(upgrade_kind);
+        return asyncCallWithArgumentList(QLatin1String("UpgradeSystem"), argumentList);
     }
 
     inline QDBusPendingReply<> WhatProvides(const QString &filter, const QString &type, const QStringList &values)

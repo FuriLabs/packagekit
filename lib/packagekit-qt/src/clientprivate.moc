@@ -1,7 +1,7 @@
 /****************************************************************************
 ** Meta object code from reading C++ file 'clientprivate.h'
 **
-** Created: Mon Oct 25 12:41:11 2010
+** Created: Mon Dec 13 10:23:14 2010
 **      by: The Qt Meta Object Compiler version 62 (Qt 4.7.0)
 **
 ** WARNING! All changes made in this file will be lost!
@@ -31,7 +31,7 @@ static const uint qt_meta_data_PackageKit__ClientPrivate[] = {
 
  // slots: signature, parameters, type, tag, flags
       32,   27,   26,   26, 0x0a,
-      71,   68,   26,   26, 0x0a,
+      68,   26,   26,   26, 0x0a,
 
        0        // eod
 };
@@ -39,7 +39,7 @@ static const uint qt_meta_data_PackageKit__ClientPrivate[] = {
 static const char qt_meta_stringdata_PackageKit__ClientPrivate[] = {
     "PackageKit::ClientPrivate\0\0tids\0"
     "transactionListChanged(QStringList)\0"
-    ",,\0serviceOwnerChanged(QString,QString,QString)\0"
+    "serviceUnregistered()\0"
 };
 
 const QMetaObject PackageKit::ClientPrivate::staticMetaObject = {
@@ -72,7 +72,7 @@ int PackageKit::ClientPrivate::qt_metacall(QMetaObject::Call _c, int _id, void *
     if (_c == QMetaObject::InvokeMetaMethod) {
         switch (_id) {
         case 0: transactionListChanged((*reinterpret_cast< const QStringList(*)>(_a[1]))); break;
-        case 1: serviceOwnerChanged((*reinterpret_cast< const QString(*)>(_a[1])),(*reinterpret_cast< const QString(*)>(_a[2])),(*reinterpret_cast< const QString(*)>(_a[3]))); break;
+        case 1: serviceUnregistered(); break;
         default: ;
         }
         _id -= 2;

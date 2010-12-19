@@ -283,6 +283,13 @@
             This method typically emits
             <doc:tt>Categories</doc:tt> and <doc:tt>Error</doc:tt>.
           </doc:para>
+          <doc:para>
+            Note: Categories can be returned that represent groups of
+            packages in a specific repository.
+            These will have a category prefix of <doc:tt>repo:</doc:tt>
+            which should be understood by <doc:tt>SearchGroups</doc:tt>
+            if this feature is used.
+          </doc:para>
       </doc:doc>
     </method>
 
@@ -1063,7 +1070,8 @@
           <doc:para>
             <doc:tt>Package</doc:tt> enumerated types should be
             <doc:tt>available</doc:tt> or <doc:tt>installed</doc:tt>.
-          </doc:para>        </doc:description>
+          </doc:para>
+        </doc:description>
       </doc:doc>
       <arg type="s" name="filter" direction="in">
         <doc:doc>
@@ -1115,7 +1123,8 @@
           <doc:para>
             <doc:tt>Package</doc:tt> enumerated types should be
             <doc:tt>available</doc:tt> or <doc:tt>installed</doc:tt>.
-          </doc:para>        </doc:description>
+          </doc:para>
+        </doc:description>
       </doc:doc>
       <arg type="s" name="filter" direction="in">
         <doc:doc>
@@ -1192,11 +1201,24 @@
             <doc:para>
               An enumerated group type, or <doc:tt>unknown</doc:tt>. The search
               cannot contain spaces.
+              The following recommendations are made below:
             </doc:para>
             <doc:para>
-              If the values strings are prefixed with <doc:tt>@</doc:tt> then
-              this is treated as a category, for example:
-              <doc:tt>@web-development</doc:tt>.
+              If the values strings are prefixed with <doc:tt>category:</doc:tt> then
+              the request is treated as a 'category search', for example:
+              <doc:tt>category:web-development</doc:tt>.
+              Note: the old nomenclature for a 'category search' suggested
+              using a <doc:tt>@</doc:tt> prefix for the values options.
+              This is still supported, and backends should continue to support
+              category searches like <doc:tt>@web-development</doc:tt>.
+            </doc:para>
+            <doc:para>
+              If the values strings are prefixed with <doc:tt>repo:</doc:tt> then
+              the request is treated as a 'repository search', for example:
+              <doc:tt>repo:fedora-debuginfo</doc:tt>.
+              In this instance all packages that were either installed
+              from, or can be installed from the <doc:tt>fedora-debuginfo</doc:tt>
+              source would be returned.
             </doc:para>
           </doc:summary>
         </doc:doc>
@@ -1529,6 +1551,49 @@
     </method>
 
     <!--*****************************************************************************************-->
+    <method name="UpgradeSystem">
+      <annotation name="org.freedesktop.DBus.GLib.Async" value=""/>
+      <doc:doc>
+        <doc:description>
+          <doc:para>
+            This method perfoms a distribution upgrade to the specified
+            version.
+          </doc:para>
+          <doc:para>
+            This method typically emits
+            <doc:tt>Progress</doc:tt>,
+            <doc:tt>Status</doc:tt> and
+            <doc:tt>Error</doc:tt> and
+            <doc:tt>Package</doc:tt>.
+          </doc:para>
+        </doc:description>
+      </doc:doc>
+      <arg type="s" name="distro_id" direction="in">
+        <doc:doc>
+          <doc:summary>
+            <doc:para>
+              The distribution ID to upgrade to, e.g. <doc:tt>fedora-14</doc:tt>.
+            </doc:para>
+          </doc:summary>
+        </doc:doc>
+      </arg>
+      <arg type="s" name="upgrade_kind" direction="in">
+        <doc:doc>
+          <doc:summary>
+            <doc:para>
+              The type of upgrade, e.g. <doc:tt>minimal</doc:tt>, <doc:tt>default</doc:tt> or <doc:tt>complete</doc:tt>.
+              Minimal upgrades will download the smallest amount of data
+              before launching a installer.
+              The default is to download enough data to launch a full
+              graphical installer, but a complete upgrade will be
+              required if there is no internet access during install time.
+            </doc:para>
+          </doc:summary>
+        </doc:doc>
+      </arg>
+    </method>
+
+    <!--*****************************************************************************************-->
     <signal name="Category">
       <doc:doc>
         <doc:description>
@@ -1827,7 +1892,32 @@
         <doc:doc>
           <doc:summary>
             <doc:para>
-              A valid package ID string with as much data as known
+              This identifier is of the form <doc:tt>name;version;arch;data</doc:tt>
+              in a single string and is meant to represent a single package
+              unique across all local and remote data stores.
+            </doc:para>
+            <doc:para>
+              For a remote, not-installed package the data field should
+              be set as the repository identifier or repository name.
+            </doc:para>
+            <doc:para>
+              The data field for an installed package must be prefixed
+              with <doc:tt>installed</doc:tt> as this is used to identify
+              which packages are installable or installed in the client
+              tools.
+            </doc:para>
+            <doc:para>
+              As a special extension, if the package manager is able to
+              track which repository a package was originally installed
+              from, then the data field can be set to
+              <doc:tt>installed:REPO-NAME</doc:tt> which allows the
+              frontend client to advise the user of the package origin.
+            </doc:para>
+            <doc:para>
+              The data field for a non-installed local package must be
+              <doc:tt>local</doc:tt> as this signifies a repository name is
+              not available and that package resides locally on the
+              client system rather than in any specific repository.
             </doc:para>
           </doc:summary>
         </doc:doc>

@@ -1,6 +1,6 @@
 /* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*-
  *
- * Copyright (C) 2007-2008 Richard Hughes <richard@hughsie.com>
+ * Copyright (C) 2007-2010 Richard Hughes <richard@hughsie.com>
  *
  * Licensed under the GNU Lesser General Public License Version 2.1
  *
@@ -120,6 +120,7 @@ typedef enum {
 	PK_ROLE_ENUM_SIMULATE_INSTALL_PACKAGES,
 	PK_ROLE_ENUM_SIMULATE_REMOVE_PACKAGES,
 	PK_ROLE_ENUM_SIMULATE_UPDATE_PACKAGES,
+	PK_ROLE_ENUM_UPGRADE_SYSTEM,			/* Since: 0.6.11 */
 	PK_ROLE_ENUM_LAST
 } PkRoleEnum;
 
@@ -362,6 +363,7 @@ typedef enum {
 	PK_ERROR_ENUM_PACKAGE_DATABASE_CHANGED,
 	PK_ERROR_ENUM_PROVIDE_TYPE_NOT_SUPPORTED,
 	PK_ERROR_ENUM_INSTALL_ROOT_INVALID,
+	PK_ERROR_ENUM_CANNOT_FETCH_SOURCES,
 	PK_ERROR_ENUM_LAST
 } PkErrorEnum;
 
@@ -717,6 +719,19 @@ typedef enum {
 	PK_AUTHORIZE_ENUM_LAST
 } PkAuthorizeEnum;
 
+/**
+ * PkUpgradeKindEnum:
+ *
+ * The type of distribution upgrade to perform
+ **/
+typedef enum {
+	PK_UPGRADE_KIND_ENUM_UNKNOWN,
+	PK_UPGRADE_KIND_ENUM_MINIMAL,
+	PK_UPGRADE_KIND_ENUM_DEFAULT,
+	PK_UPGRADE_KIND_ENUM_COMPLETE,
+	PK_UPGRADE_KIND_ENUM_LAST
+} PkUpgradeKindEnum;
+
 /* general */
 void		 pk_enum_test				(gpointer	 user_data);
 guint		 pk_enum_find_value			(const PkEnumMatch *table,
@@ -776,6 +791,9 @@ const gchar	*pk_media_type_enum_to_string		(PkMediaTypeEnum media_type);
 
 PkAuthorizeEnum  pk_authorize_type_enum_from_string	(const gchar	*authorize_type);
 const gchar	*pk_authorize_type_enum_to_string	(PkAuthorizeEnum authorize_type);
+
+PkUpgradeKindEnum  pk_upgrade_kind_enum_from_string	(const gchar	*upgrade_kind);
+const gchar	*pk_upgrade_kind_enum_to_string		(PkUpgradeKindEnum upgrade_kind);
 
 G_END_DECLS
 

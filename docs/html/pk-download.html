@@ -34,6 +34,10 @@ your native package manager.
    Fedora: Yes, starting with 9, just run: <code>yum install PackageKit gnome-packagekit</code> (as root)
   </li>
   <li>
+   Debian: Yes, packages are available for Debian Sid.
+   Just install <code>packagekit</code> via APT. PackageKit frontends are not yet packaged for Debian.
+  </li>
+  <li>
    Ubuntu: Yes, starting with Hardy Heron (8.04), that ships an obsolete version (0.1.6) of PackageKit by default.
    Newer versions are used by more recent releases, but you can find the latest versions of PackageKit for all releases in this <a href="https://edge.launchpad.net/~packagekit/+archive">Personal Package Archive</a>.
    <a href="https://help.ubuntu.com/8.04/add-applications/C/extra-repositories-adding.html">Add</a>
@@ -68,6 +72,7 @@ Releases are normally on the first working Monday of each month.
 </p>
 <table>
 <tr><td><b>Version</b></td><td>&nbsp;&nbsp;</td><td><b>Date</b></td></tr>
+<tr><td>0.6.11</td><td></td><td>2010-12-13</td></tr>
 <tr><td>0.6.10</td><td></td><td>2010-11-01</td></tr>
 <tr><td>0.6.9</td><td></td><td>2010-10-04</td></tr>
 <tr><td>0.6.8</td><td></td><td>2010-09-06</td></tr>
@@ -174,11 +179,11 @@ Just make sure you install PackageKit before gnome-packagekit!
 <h2>Compiling the latest code</h2>
 <p>
 You can get the latest PackageKit daemon and GNOME frontend from the
-<a href="http://cgit.freedesktop.org/packagekit/">public git repositories</a>
-on <a href="http://www.freedesktop.org">freedesktop.org</a>:
+<a href="http://gitorious.org/packagekit/packagekit">public git repositories</a>
+on <a href="http://gitorious.org/">gitorious.org</a>:
 </p>
 <pre>
-git clone git://anongit.freedesktop.org/git/packagekit/PackageKit
+git clone git://gitorious.org/packagekit/packagekit.git
 git clone git://git.gnome.org/gnome-packagekit
 </pre>
 <p>

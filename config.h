@@ -105,7 +105,7 @@
 #define PACKAGE_NAME "PackageKit"
 
 /* Define to the full name and version of this package. */
-#define PACKAGE_STRING "PackageKit 0.6.10"
+#define PACKAGE_STRING "PackageKit 0.6.11"
 
 /* Define to the one symbol short name of this package. */
 #define PACKAGE_TARNAME "PackageKit"
@@ -114,7 +114,7 @@
 #define PACKAGE_URL ""
 
 /* Define to the version of this package. */
-#define PACKAGE_VERSION "0.6.10"
+#define PACKAGE_VERSION "0.6.11"
 
 /* define if Connection Manager is installed */
 /* #undef PK_BUILD_CONNMAN */
@@ -141,7 +141,7 @@
 #define USE_SECURITY_POLKIT_NEW 1
 
 /* Version number of package */
-#define VERSION "0.6.10"
+#define VERSION "0.6.11"
 
 /* default security framework */
 #define security_framework "polkit"
