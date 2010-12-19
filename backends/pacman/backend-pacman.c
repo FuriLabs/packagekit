@@ -42,6 +42,8 @@ pacman_message_cb (const gchar *domain, GLogLevelFlags level, const gchar *messa
 	g_return_if_fail (message != NULL);
 	g_return_if_fail (user_data != NULL);
 
+/* disable due to recursive logging, will fix via improving alpm backend */
+#if 0
 	/* report important output to PackageKit */
 	switch (level) {
 		case G_LOG_LEVEL_WARNING:
@@ -59,6 +61,7 @@ pacman_message_cb (const gchar *domain, GLogLevelFlags level, const gchar *messa
 			g_warning ("pacman: %s", message);
 			break;
 	}
+#endif
 }
 
 /**

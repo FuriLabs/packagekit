@@ -17,6 +17,7 @@
     <description xml:lang="bg">Отмяна на чуждата задача</description>
     <description xml:lang="bn_IN">বহিস্থিত কর্ম বাতিল করুন</description>
     <description xml:lang="ca">Cancel·la tasca externa</description>
+    <description xml:lang="cs">Zrušit cizí úkol</description>
     <description xml:lang="da">Annullér fremmed opgave</description>
     <description xml:lang="de">Externe Aufgabe abbrechen</description>
     <description xml:lang="el">Ακύρωση ενέργειας άλλου χρήστη</description>
@@ -54,6 +55,7 @@
     <message xml:lang="bg">Изисква се идентификация за отмяната на задача, която е стартирана от друг</message>
     <message xml:lang="bn_IN">আপনার দ্বারা আরম্ভ না করা কোনো কর্ম বন্ধ করার জন্য অনুমোদন প্রয়োজন</message>
     <message xml:lang="ca">Cal autenticació per a cancel·lar una tasca que no vau començar</message>
+    <message xml:lang="cs">Pro zrušení úlohy, kterou jste sám nespustil, je vyžádováno oprávnění</message>
     <message xml:lang="da">Godkendelse kræves for at annullere en opgave, der ikke er startet af dig selv</message>
     <message xml:lang="de">Legitimation ist zum Abbrechen einer Aufgabe erforderlich, die nicht von Ihnen initiiert wurde</message>
     <message xml:lang="el">Απαιτείται πιστοποίηση για την ακύρωση ενέργειας που δεν είχατε εκκινήσει εσείς</message>
@@ -139,6 +141,7 @@
     <message xml:lang="bg">За инсталирането на подписан пакет се изисква идентификация</message>
     <message xml:lang="bn_IN">স্বাক্ষরিত প্যাকেজ ইনস্টল করার জন্য অনুমোদন আবশ্যক</message>
     <message xml:lang="ca">Cal autenticació per a instal·lar un paquet signat</message>
+    <message xml:lang="cs">Pro instalaci podepsaného balíčku je vyžadováno oprávnění</message>
     <message xml:lang="da">Godkendelse kræves for at installere en signeret pakke</message>
     <message xml:lang="de">Legitimation ist zum Installieren eines signierten Paketes erforderlich</message>
     <message xml:lang="el">Απαιτείται πιστοποίηση για την εγκατάσταση υπογεγραμμένου πακέτου</message>
@@ -225,6 +228,7 @@
     <message xml:lang="bg">За инсталирането на недоверен пакет се изисква идентификация</message>
     <message xml:lang="bn_IN">অবিশ্বস্ত প্যাকেজ ইনস্টল করার জন্য অনুমোদন প্রয়োজন</message>
     <message xml:lang="ca">Cal autenticació per a instal·lar un paquet no confiable</message>
+    <message xml:lang="cs">Pro instalaci nedůvěryhodného balíčku je vyžadováno oprávnění</message>
     <message xml:lang="da">Godkendelse kræves for at installere en upålidelig pakke</message>
     <message xml:lang="de">Legitimation ist zum Installieren eines nicht vertrauenswürdigen Paketes erforderlich</message>
     <message xml:lang="el">Απαιτείται πιστοποίηση για την εγκατάσταση μη έμπιστου πακέτου</message>
@@ -272,6 +276,7 @@
     <description xml:lang="bg">Доверен ключ за подписването на пакети</description>
     <description xml:lang="bn_IN">প্যাকেজ স্বাক্ষর করার জন্য একটি কি-কে বিশ্বস্ত রূপে ধার্য করুন</description>
     <description xml:lang="ca">Confia en una clau usada per signar paquets</description>
+    <description xml:lang="cs">Důvěřovat klíči použitému k podepsání balíčků</description>
     <description xml:lang="da">Betro en nøgle brugt til signering af pakker</description>
     <description xml:lang="de">Einem Schlüssel zum Signieren von Paketen vertrauen</description>
     <description xml:lang="el">Ορισμός ως έμπιστου του κλειδιού για την υπογραφή πακέτων</description>
@@ -309,6 +314,7 @@
     <message xml:lang="bg">За приемането на ключ за подписване на пакети се изисква идентификация</message>
     <message xml:lang="bn_IN">প্যাকেজ স্বাক্ষর করার জন্য ব্যবহৃত কোনো কি-কে বিশ্বস্ত ধার্য করার জন্য অনুমোদন প্রয়োজন</message>
     <message xml:lang="ca">Cal autenticació per a considerar de confiança una clau usada per a signar paquets</message>
+    <message xml:lang="cs">Pro zvážení klíče použitého k podepsání balíčků je vyžadováno oprávnění</message>
     <message xml:lang="da">Godkendelse kræves for at overveje en nøgle brugt til signering af pakker som pålidelig</message>
     <message xml:lang="de">Legitimation ist zum Vertrauen eines Paketsignaturschlüssels erforderlich</message>
     <message xml:lang="el">Απαιτείται πιστοποίηση για να οριστούν ως έμπιστα τα κλειδιά για την υπογραφή πακέτων</message>
@@ -356,7 +362,7 @@
     <description xml:lang="bg">Приемане на EULA</description>
     <description xml:lang="bn_IN">EULA-র শর্তাবলী গ্রহণ করুন</description>
     <description xml:lang="ca">Accepta l'EULA</description>
-    <description xml:lang="cs">Přijmout licenční smlouvu</description>
+    <description xml:lang="cs">Přijmout licenční smlouvu (EULA)</description>
     <description xml:lang="da">Acceptér EULA</description>
     <description xml:lang="de">EULA annehmen</description>
     <description xml:lang="el">Αποδοχή άδειας χρήσης (EULA)</description>
@@ -396,7 +402,7 @@
     <message xml:lang="bg">За приемането на EULA се изисква идентификация</message>
     <message xml:lang="bn_IN">EULA-র শর্তাবলী গ্রহণ করার জন্য অনুমোদন প্রয়োজন</message>
     <message xml:lang="ca">Cal autenticació per a acceptar l'EULA</message>
-    <message xml:lang="cs">Pro přijetí licenční smlouvy je vyžadováno oprávnění</message>
+    <message xml:lang="cs">Pro přijetí licenční smlouvy (EULA) je vyžadováno oprávnění</message>
     <message xml:lang="da">Godkendelse kræves for at acceptere en EULA</message>
     <message xml:lang="de">Legitimation ist zum Annehmen der EULA erforderlich</message>
     <message xml:lang="el">Απαιτείται πιστοποίηση για την αποδοχή της άδειας χρήσης (EULA)</message>
@@ -446,7 +452,7 @@
     <description xml:lang="bg">Деинсталиране на пакeт</description>
     <description xml:lang="bn_IN">প্যাকেজ মুছে ফেলুন</description>
     <description xml:lang="ca">Suprimeix el paquet</description>
-    <description xml:lang="cs">Odstranit balík</description>
+    <description xml:lang="cs">Odstranit balíček</description>
     <description xml:lang="da">Fjern pakke</description>
     <description xml:lang="de">Paket entfernen</description>
     <description xml:lang="el">Αφαίρεση πακέτου</description>
@@ -486,7 +492,7 @@
     <message xml:lang="bg">За деинсталирането на пакет се изисква идентификация</message>
     <message xml:lang="bn_IN">প্যাকেজ অপসারণের জন্য অনুমোদন প্রয়োজন</message>
     <message xml:lang="ca">Cal autenticació per a suprimir paquets</message>
-    <message xml:lang="cs">K odstranění balíků je vyžadováno oprávnění</message>
+    <message xml:lang="cs">Pro odstranění balíků je vyžadováno oprávnění</message>
     <message xml:lang="da">Godkendelse kræves for at fjerne pakker</message>
     <message xml:lang="de">Legitimation ist zum Entfernen eines Paketes erforderlich</message>
     <message xml:lang="el">Απαιτείται πιστοποίηση για την αφαίρεση πακέτων</message>
@@ -536,7 +542,7 @@
     <description xml:lang="bg">Обновяване на пакети</description>
     <description xml:lang="bn_IN">প্যাকেজ আপডেট করুন</description>
     <description xml:lang="ca">Actualitza paquets</description>
-    <description xml:lang="cs">Aktualizovat balíky</description>
+    <description xml:lang="cs">Aktualizovat balíčky</description>
     <description xml:lang="da">Opdatér pakker</description>
     <description xml:lang="de">Pakete aktualisieren</description>
     <description xml:lang="el">Ενημέρωση πακέτων</description>
@@ -574,7 +580,7 @@
     <message xml:lang="bg">За обновяването на пакети се изисква идентификация</message>
     <message xml:lang="bn_IN">প্যাকেজ আপডেট করার জন্য অনুমোদন প্রয়োজন</message>
     <message xml:lang="ca">Cal autenticació per a actualitzar paquets</message>
-    <message xml:lang="cs">K aktualizaci balíků je vyžadováno oprávnění</message>
+    <message xml:lang="cs">Pro aktualizaci balíčků je vyžadováno oprávnění</message>
     <message xml:lang="da">Godkendelse kræves for at opdatere pakker</message>
     <message xml:lang="de">Legitimation ist zum Aktualisieren von Paketen erforderlich</message>
     <message xml:lang="el">Απαιτείται πιστοποίηση για την ενημέρωση πακέτων</message>
@@ -624,7 +630,7 @@
     <description xml:lang="bg">Връщане към минала транзакция</description>
     <description xml:lang="bn_IN">পূর্ববর্তী একটি ট্রানস্যাকশন রোল-ব্যাক করুন</description>
     <description xml:lang="ca">Torna a l'estat d'una transacció anterior</description>
-    <description xml:lang="cs">Vrátit poslední akci</description>
+    <description xml:lang="cs">Vrátit se k předchozí transakci</description>
     <description xml:lang="da">Rul tilbage til en tidligere overførsel</description>
     <description xml:lang="de">Eine vorhergehende Transaktion revidieren</description>
     <description xml:lang="el">Επαναφορά στην κατάσταση πριν από προηγούμενη εργασία</description>
@@ -664,7 +670,7 @@
     <message xml:lang="bg">За връщането на транзакция се изисква идентификация</message>
     <message xml:lang="bn_IN">ট্রানস্যাকশন রোল-ব্যাক করার জন্য অনুমোদন প্রয়োজন</message>
     <message xml:lang="ca">Cal autenticació per a desfer una transacció</message>
-    <message xml:lang="cs">K vrácení akce je vyžadováno oprávnění</message>
+    <message xml:lang="cs">Pro vrácení transakce je vyžadováno oprávnění</message>
     <message xml:lang="da">Godkendelse kræves for at rulle en transaktion tilbage</message>
     <message xml:lang="de">Legitimation ist zum Revidieren einer Transaktion erforderlich</message>
     <message xml:lang="el">Απαιτείται πιστοποίηση για την επαναφορά στην κατάσταση πριν από την εργασία</message>
@@ -714,7 +720,7 @@
     <description xml:lang="bg">Промяна на параметрите на хранилище</description>
     <description xml:lang="bn_IN">সফ্টওয়্যার উৎসের পরামিতি পরিবর্তন করুন</description>
     <description xml:lang="ca">Canvia els paràmetres de la font de programari</description>
-    <description xml:lang="cs">Změnit parametry zdrojů softwaru</description>
+    <description xml:lang="cs">Změnit parametry zdrojů programů</description>
     <description xml:lang="da">Ændr softwarekildeparametre</description>
     <description xml:lang="de">Einstellungen der Depotquelle ändern</description>
     <description xml:lang="el">Αλλαγή παραμέτρων πηγών λογισμικού</description>
@@ -754,7 +760,7 @@
     <message xml:lang="bg">За промяната на хранилищата се изисква идентификация</message>
     <message xml:lang="bn_IN">সফ্টওয়্যারের উৎস সংক্রান্ত পরামিতি পরিবর্তনের জন্য অনুমোদন প্রয়োজন</message>
     <message xml:lang="ca">Cal autenticació per canviar els paràmetres de la font del programari</message>
-    <message xml:lang="cs">Pro změnu parametrů zdrojů softwaru je vyžádováno oprávnění</message>
+    <message xml:lang="cs">Pro změnu parametrů zdrojů programů je vyžádováno oprávnění</message>
     <message xml:lang="da">Godkendelse kræves for at ændre softewarekildeparametre</message>
     <message xml:lang="de">Legitimation ist zur Änderung der Einstellungen zu den Softwarequellen erforderlich</message>
     <message xml:lang="el">Απαιτείται πιστοποίηση για την αλλαγή των παραμέτρων των πηγών λογισμικού</message>
@@ -842,6 +848,7 @@
     <message xml:lang="bg">За обновяването на системните хранилища се изисква идентификация</message>
     <message xml:lang="bn_IN">সিস্টেমের উৎস নতুন করে প্রদর্শনের জন্য অনুমোদন আবশ্যক</message>
     <message xml:lang="ca">Cal autenticació per a actualitzar les fonts del sistema</message>
+    <message xml:lang="cs">Pro obnovení systémových zdrojů je vyžadováno oprávnění</message>
     <message xml:lang="da">Godkendelse kræves for at opdatere systemkilderne</message>
     <message xml:lang="de">Legitimation ist zum Aktualisieren der Systemressourcen erforderlich</message>
     <message xml:lang="el">Απαιτείται πιστοποίηση για την ανανέωση των πηγών του συστήματος</message>
@@ -927,6 +934,7 @@
     <message xml:lang="bg">За задаването на сървър-посредник при изтеглянето на пакети се изисква идентификация</message>
     <message xml:lang="bn_IN">প্যাকেজ ডাউনলোড করার জন্য ব্যবহৃত নেটওয়ার্ক প্রক্সি নির্ধারণের জন্য অনুমোদন প্রয়োজন</message>
     <message xml:lang="ca">Cal autenticació per a establir el servidor intermediari per a baixar paquets</message>
+    <message xml:lang="cs">Pro nastavení síťové proxy používané ke stahování balíčků je vyžadováno oprávnění</message>
     <message xml:lang="da">Godkendelse kræves for at sætte netværksproxyen brugt til hentning af pakker</message>
     <message xml:lang="de">Legitimation ist zum Festlegen eines Netzwerk-Proxys zum Herunterladen von Paketen erforderlich</message>
     <message xml:lang="el">Απαιτείται πιστοποίηση για τον ορισμό διαμεσολαβητή δικτύου για τη λήψη πακέτων</message>
@@ -970,6 +978,7 @@
   <action id="org.freedesktop.packagekit.system-change-install-root">
     
     <description>Change location that packages are installed</description>
+    <description xml:lang="cs">Změnit místo, kam jsou balíčky instalovány</description>
     <description xml:lang="da">Ændr placeringen som pakkerne er installeret på</description>
     <description xml:lang="es">Modificar la ubicación en donde instalar los paquetes</description>
     <description xml:lang="fi">Vaihda sijaintia, johon paketit asennetaan</description>
@@ -986,6 +995,7 @@
     <description xml:lang="zh_CN">更改软件包安装位置</description>
     <description xml:lang="zh_TW">變更套件要安裝的位置</description>
     <message>Authentication is required to change the location used to decompress packages</message>
+    <message xml:lang="cs">Pro změnu místa používaného pro rozbalování balíčků je vyžadováno oprávnění</message>
     <message xml:lang="da">Godkendelse kræves for at ændre placeringen, som er brugt til at afkomprimere pakker</message>
     <message xml:lang="es">Es necesario autenticarse para modificar la ubicación utilizada para descomprimir paquetes</message>
     <message xml:lang="fi">Pakettien purkamiseen käytettävän sijainnin vaihtaminen vaatii tunnistautumisen</message>
@@ -1016,6 +1026,7 @@
     <description xml:lang="bg">Презареждане на устройство</description>
     <description xml:lang="bn_IN">ডিভাইস পুনরায় লোড করুন</description>
     <description xml:lang="ca">Recarrega un dispositiu</description>
+    <description xml:lang="cs">Nahrát zařízení znovu</description>
     <description xml:lang="da">Genindlæs en enhed</description>
     <description xml:lang="de">Ein Gerät neu laden</description>
     <description xml:lang="es">Recargar un dispositivo</description>
@@ -1052,6 +1063,7 @@
     <message xml:lang="bg">За презареждане на устройството с нов драйвер се изисква идентификация</message>
     <message xml:lang="bn_IN">নতুন ড্রাইভার সহ ডিভাইসটি পুনরায় লোড করার জন্য অনুমোদন প্রয়োজন</message>
     <message xml:lang="ca">Cal autenticació per a recarregar el dispositiu amb un nou controlador</message>
+    <message xml:lang="cs">Pro opětovné nahrání zařízení s novým ovladačem je vyžadováno oprávnění</message>
     <message xml:lang="da">Godkendelse kræves for at genindlæse enheden med en ny driver</message>
     <message xml:lang="de">Legitimation ist erforderlich, um das Gerät mit einem neuen Treiber zu laden</message>
     <message xml:lang="es">Es necesario autenticarse para recargar el dispositivo con un controlador nuevo</message>
@@ -1090,6 +1102,26 @@
       <allow_active>auth_admin_keep</allow_active>
     </defaults>
     <annotate key="org.freedesktop.policykit.exec.path">/usr/sbin/pk-device-rebind</annotate>
+  </action>
+
+  <action id="org.freedesktop.packagekit.upgrade-system">
+    
+    <description>Upgrade System</description>
+    <description xml:lang="cs">Povýšit systém</description>
+    <description xml:lang="pl">Aktualizacja systemu</description>
+    <description xml:lang="uk">Оновлення системи</description>
+    <description xml:lang="zh_TW">升級系統</description>
+    <message>Authentication is required to upgrade the operating system</message>
+    <message xml:lang="cs">Pro povýšení operačního systému je vyžadováno oprávnění</message>
+    <message xml:lang="pl">Wymagane jest uwierzytelnienie, aby zaktualizować system operacyjny</message>
+    <message xml:lang="uk">Для оновлення версії операційної системи слід пройти розпізнавання</message>
+    <message xml:lang="zh_TW">要升級作業系統需先通過身份認證</message>
+    <icon_name>package-x-generic</icon_name>
+    <defaults>
+      <allow_any>no</allow_any>
+      <allow_inactive>no</allow_inactive>
+      <allow_active>auth_admin</allow_active>
+    </defaults>
   </action>
 
 </policyconfig>

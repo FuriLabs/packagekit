@@ -189,6 +189,9 @@ void		pk_backend_simulate_remove_packages	(PkBackend	*backend,
 							 gboolean	 autoremove);
 void		pk_backend_simulate_update_packages	(PkBackend	*backend,
 							 gchar		**package_ids);
+void		pk_backend_upgrade_system		(PkBackend	*backend,
+							 const gchar	*distro_id,
+							 PkUpgradeKindEnum upgrade_kind);
 
 /* set the state */
 gboolean	 pk_backend_accept_eula			(PkBackend	*backend,
@@ -461,7 +464,10 @@ typedef struct {
 							 gchar		**package_ids);
 	void		(*transaction_start)		(PkBackend	*backend);
 	void		(*transaction_stop)		(PkBackend	*backend);
-	gpointer	padding[8];
+	void		(*upgrade_system)		(PkBackend	*backend,
+							 const gchar	*distro_id,
+							 PkUpgradeKindEnum upgrade_kind);
+	gpointer	padding[7];
 } PkBackendDesc;
 
 /* this is deprecated */
@@ -473,7 +479,7 @@ typedef struct {
 			   repo_enable, repo_set_data, resolve, rollback, search_details, search_file,	\
 			   search_group, search_name, update_packages, update_system, what_provides,	\
 			   simulate_install_files, simulate_install_packages, simulate_remove_packages,	\
-			   simulate_update_packages, transaction_start, transaction_stop )		\
+			   simulate_update_packages, upgrade_system, transaction_start, transaction_stop ) \
 	G_MODULE_EXPORT const PkBackendDesc pk_backend_desc = { 					\
 		description,			\
 		author,				\
@@ -515,6 +521,7 @@ typedef struct {
 		simulate_install_packages,	\
 		simulate_remove_packages,	\
 		simulate_update_packages,	\
+		upgrade_system,			\
 		transaction_start,		\
 		transaction_stop,		\
 		{0} 				\

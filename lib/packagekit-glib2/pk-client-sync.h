@@ -281,6 +281,14 @@ PkResults	*pk_client_simulate_update_packages	(PkClient		*client,
 							 gpointer		 progress_user_data,
 							 GError			**error);
 
+PkResults	*pk_client_upgrade_system		(PkClient		*client,
+							 const gchar		*distro_id,
+							 PkUpgradeKindEnum	 upgrade_kind,
+							 GCancellable		*cancellable,
+							 PkProgressCallback	 progress_callback,
+							 gpointer		 progress_user_data,
+							 GError			**error);
+
 PkResults	*pk_client_adopt 			(PkClient		*client,
 							 const gchar		*transaction_id,
 							 GCancellable		*cancellable,

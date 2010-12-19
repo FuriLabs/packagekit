@@ -1,6 +1,6 @@
 /* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*-
  *
- * Copyright (C) 2007-2008 Richard Hughes <richard@hughsie.com>
+ * Copyright (C) 2007-2010 Richard Hughes <richard@hughsie.com>
  *
  * Licensed under the GNU Lesser General Public License Version 2.1
  *
@@ -124,6 +124,7 @@ static const PkEnumMatch enum_role[] = {
 	{PK_ROLE_ENUM_SIMULATE_INSTALL_PACKAGES,	"simulate-install-packages"},
 	{PK_ROLE_ENUM_SIMULATE_REMOVE_PACKAGES,		"simulate-remove-packages"},
 	{PK_ROLE_ENUM_SIMULATE_UPDATE_PACKAGES,		"simulate-update-packages"},
+	{PK_ROLE_ENUM_UPGRADE_SYSTEM,			"upgrade-system"},
 	{0, NULL}
 };
 
@@ -192,6 +193,7 @@ static const PkEnumMatch enum_error[] = {
 	{PK_ERROR_ENUM_PACKAGE_DATABASE_CHANGED, "package-database-changed"},
 	{PK_ERROR_ENUM_PROVIDE_TYPE_NOT_SUPPORTED, "provide-type-not-supported"},
 	{PK_ERROR_ENUM_INSTALL_ROOT_INVALID,	"install-root-invalid"},
+	{PK_ERROR_ENUM_CANNOT_FETCH_SOURCES,	"cannot-fetch-sources"},
 	{0, NULL}
 };
 
@@ -576,6 +578,14 @@ static const PkEnumMatch enum_authorize_type[] = {
 	{PK_AUTHORIZE_ENUM_YES,			"yes"},
 	{PK_AUTHORIZE_ENUM_NO,			"no"},
 	{PK_AUTHORIZE_ENUM_INTERACTIVE,		"interactive"},
+	{0, NULL}
+};
+
+static const PkEnumMatch enum_upgrade_kind[] = {
+	{PK_UPGRADE_KIND_ENUM_UNKNOWN,		"unknown"},	/* fall though value */
+	{PK_UPGRADE_KIND_ENUM_MINIMAL,		"minimal"},
+	{PK_UPGRADE_KIND_ENUM_DEFAULT,		"default"},
+	{PK_UPGRADE_KIND_ENUM_COMPLETE,		"complete"},
 	{0, NULL}
 };
 
@@ -1176,4 +1186,36 @@ const gchar *
 pk_authorize_type_enum_to_string (PkAuthorizeEnum authorize_type)
 {
 	return pk_enum_find_string (enum_authorize_type, authorize_type);
+}
+
+/**
+ * pk_upgrade_kind_enum_from_string:
+ * @upgrade_kind: Text describing the enumerated type
+ *
+ * Converts a text enumerated type to its unsigned integer representation
+ *
+ * Return value: the enumerated constant value, e.g. %PK_UPGRADE_KIND_ENUM_MINIMAL
+ *
+ * Since: 0.6.11
+ **/
+PkUpgradeKindEnum
+pk_upgrade_kind_enum_from_string (const gchar *upgrade_kind)
+{
+	return pk_enum_find_value (enum_upgrade_kind, upgrade_kind);
+}
+
+/**
+ * pk_upgrade_kind_enum_to_string:
+ * @upgrade_kind: The enumerated type value
+ *
+ * Converts a enumerated type to its text representation
+ *
+ * Return value: the enumerated constant value, e.g. "minimal"
+ *
+ * Since: 0.6.11
+ **/
+const gchar *
+pk_upgrade_kind_enum_to_string (PkUpgradeKindEnum upgrade_kind)
+{
+	return pk_enum_find_string (enum_upgrade_kind, upgrade_kind);
 }

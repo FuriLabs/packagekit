@@ -99,8 +99,12 @@ get_zypp (PkBackend *backend)
 
 		        initialized = TRUE;
 	        }
+	} catch (const zypp::ZYppFactoryException &ex) {
+		pk_backend_error_code (backend, PK_ERROR_ENUM_FAILED_INITIALIZATION, ex.asUserString().c_str() );
+		return NULL;
         } catch (const zypp::Exception &ex) {
-		g_error ("%s", ex.asUserString ().c_str ());
+		pk_backend_error_code (backend, PK_ERROR_ENUM_INTERNAL_ERROR, ex.asUserString().c_str() );
+		return NULL;
         }
 
 	return zypp;
@@ -148,6 +152,35 @@ zypp_is_changeable_media (PkBackend *backend, const zypp::Url &url)
 	}
 
 	return is_cd;
+}
+
+gboolean
+zypp_is_development_repo (PkBackend *backend, zypp::RepoInfo repo)
+{
+	std::string repo_debuginfo("-debuginfo");
+	std::string repo_debug("-debug");
+	std::string repo_development("-development");
+	std::string repo_source ("-source");
+	
+	std::string repo_name(repo.name());
+
+	if (repo_name.length() > repo_debuginfo.length() && 
+	    repo_name.compare(repo_name.length() - repo_debuginfo.length(), repo_debuginfo.length(), repo_debuginfo) == 0)
+		return TRUE;
+
+	if (repo_name.length() > repo_debug.length() && 
+	    repo_name.compare(repo_name.length() - repo_debug.length(), repo_debug.length(), repo_debug) == 0)
+		return TRUE;
+
+	if (repo_name.length() > repo_development.length() && 
+	    repo_name.compare(repo_name.length() - repo_development.length(), repo_development.length(), repo_development) == 0)
+		return TRUE;
+
+	if (repo_name.length() > repo_source.length() && 
+	   repo_name.compare(repo_name.length() - repo_source.length(), repo_source.length(), repo_source) == 0)
+		return TRUE;
+
+	return FALSE;
 }
 
 zypp::ResPool
@@ -731,6 +764,20 @@ zypp_get_package_updates (std::string repo)
                 zypp::PoolItem candidate =  zypp_find_arch_update_item (pool, *it);
                 if (!candidate.resolvable ())
                         continue;
+
+		gboolean system = false;
+		for (zypp::ResPool::byName_iterator it = pool.byNameBegin (candidate->name());
+				it != pool.byNameEnd (candidate->name()); it++) {
+			if (!it->satSolvable().isSystem())
+				continue;
+			if (zypp_ver_and_arch_equal (it->satSolvable(), candidate->edition ().c_str (),candidate->arch ().c_str ())) {
+				system = true;
+				break;
+			}
+		}
+		if (system == true) 
+			continue;
+
 		if (repo.empty ()) {
 	                pks->insert (candidate);
 		} else {
@@ -1064,6 +1111,8 @@ zypp_refresh_cache (PkBackend *backend, gboolean force)
 {
 	// This call is needed as it calls initializeTarget which appears to properly setup the keyring
 	zypp::ZYpp::Ptr zypp = get_zypp (backend);
+        if (zypp == NULL)
+		return  FALSE;
 	zypp::filesystem::Pathname pathname(pk_backend_get_root (backend));
 	// This call is needed to refresh system rpmdb status while refresh cache
 	zypp->finishTarget ();
@@ -1113,8 +1162,7 @@ zypp_refresh_cache (PkBackend *backend, gboolean force)
 			// Refreshing metadata
 			g_free (_repoName);
 			_repoName = g_strdup (repo.alias ().c_str ());
-			if (zypp_refresh_meta_and_cache (manager, repo, force))
-				break;
+			zypp_refresh_meta_and_cache (manager, repo, force);
 		} catch (const zypp::Exception &ex) {
 			if (repo_messages == NULL) {
 				repo_messages = g_strdup_printf ("%s: %s%s", repo.alias ().c_str (), ex.asUserString ().c_str (), "\n");

@@ -3,7 +3,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>pk-enum</title>
-<meta name="generator" content="DocBook XSL Stylesheets V1.76.0">
+<meta name="generator" content="DocBook XSL Stylesheets V1.75.2">
 <link rel="home" href="index.html" title="PackageKit Reference Manual">
 <link rel="up" href="libpackagekit-helpers.html" title="libpackagekit glib helpers">
 <link rel="prev" href="PackageKit-pk-control-sync.html" title="pk-control-sync">
@@ -460,6 +460,7 @@ Matching an enumerated type to a string
 	PK_ROLE_ENUM_SIMULATE_INSTALL_PACKAGES,
 	PK_ROLE_ENUM_SIMULATE_REMOVE_PACKAGES,
 	PK_ROLE_ENUM_SIMULATE_UPDATE_PACKAGES,
+	PK_ROLE_ENUM_UPGRADE_SYSTEM,			/* Since: 0.6.11 */
 	PK_ROLE_ENUM_LAST
 } PkRoleEnum;
 </pre>
@@ -720,6 +721,7 @@ What message type we need to show
 	PK_ERROR_ENUM_PACKAGE_DATABASE_CHANGED,
 	PK_ERROR_ENUM_PROVIDE_TYPE_NOT_SUPPORTED,
 	PK_ERROR_ENUM_INSTALL_ROOT_INVALID,
+	PK_ERROR_ENUM_CANNOT_FETCH_SOURCES,
 	PK_ERROR_ENUM_LAST
 } PkErrorEnum;
 </pre>

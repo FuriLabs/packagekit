@@ -1,6 +1,6 @@
 /* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*-
  *
- * Copyright (C) 2008 Richard Hughes <richard@hughsie.com>
+ * Copyright (C) 2008-2010 Richard Hughes <richard@hughsie.com>
  *
  * Licensed under the GNU General Public License Version 2
  *
@@ -80,6 +80,7 @@ typedef enum
 /* these have to be kept in order */
 typedef enum {
 	PK_TRANSACTION_STATE_NEW,
+	PK_TRANSACTION_STATE_WAITING_FOR_AUTH,
 	PK_TRANSACTION_STATE_COMMITTED,
 	PK_TRANSACTION_STATE_READY,
 	PK_TRANSACTION_STATE_RUNNING,
@@ -235,6 +236,10 @@ void		 pk_transaction_what_provides			(PkTransaction	*transaction,
 								 const gchar	*filter,
 								 const gchar	*type,
 								 gchar		**values,
+								 DBusGMethodInvocation *context);
+void		 pk_transaction_upgrade_system			(PkTransaction	*transaction,
+								 const gchar	*distro_id,
+								 const gchar	*upgrade_kind_str,
 								 DBusGMethodInvocation *context);
 gboolean	 pk_transaction_filter_check			(const gchar	*filter,
 								 GError		**error);

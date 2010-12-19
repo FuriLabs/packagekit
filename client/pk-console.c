@@ -1,6 +1,6 @@
 /* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*-
  *
- * Copyright (C) 2007-2009 Richard Hughes <richard@hughsie.com>
+ * Copyright (C) 2007-2010 Richard Hughes <richard@hughsie.com>
  *
  * Licensed under the GNU General Public License Version 2
  *
@@ -1707,6 +1707,25 @@ main (int argc, char *argv[])
 		pk_task_get_packages_async (PK_TASK (task),filters, cancellable,
 					    (PkProgressCallback) pk_console_progress_cb, NULL,
 					    (GAsyncReadyCallback) pk_console_finished_cb, NULL);
+
+	} else if (strcmp (mode, "upgrade-system") == 0) {
+		if (value == NULL) {
+			/* TRANSLATORS: The user did not provide a distro name */
+			error = g_error_new (1, 0, "%s", _("A distribution name is required"));
+			retval = PK_EXIT_CODE_SYNTAX_INVALID;
+			goto out;
+		}
+		if (details == NULL) {
+			/* TRANSLATORS: The user did not provide an upgrade type */
+			error = g_error_new (1, 0, "%s", _("An upgrade type is required, e.g. 'minimal', 'default' or 'complete'"));
+			retval = PK_EXIT_CODE_SYNTAX_INVALID;
+			goto out;
+		}
+		pk_client_upgrade_system_async (PK_CLIENT (task), value,
+						pk_upgrade_kind_enum_from_string (details),
+						cancellable,
+						(PkProgressCallback) pk_console_progress_cb, NULL,
+						(GAsyncReadyCallback) pk_console_finished_cb, NULL);
 
 	} else if (strcmp (mode, "get-roles") == 0) {
 		text = pk_role_bitfield_to_string (roles);

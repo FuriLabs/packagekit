@@ -1,7 +1,7 @@
 /****************************************************************************
 ** Meta object code from reading C++ file 'transactionproxy.h'
 **
-** Created: Mon Nov 1 10:35:42 2010
+** Created: Sun Nov 7 17:56:57 2010
 **      by: The Qt Meta Object Compiler version 62 (Qt 4.7.0)
 **
 ** WARNING! All changes made in this file will be lost!
@@ -22,8 +22,8 @@ static const uint qt_meta_data_TransactionProxy[] = {
        5,       // revision
        0,       // classname
        0,    0, // classinfo
-      52,   14, // methods
-      11,  274, // properties
+      53,   14, // methods
+      11,  279, // properties
        0,    0, // enums/sets
        0,    0, // constructors
        0,       // flags
@@ -83,20 +83,21 @@ static const uint qt_meta_data_TransactionProxy[] = {
     2497, 1356, 1299,   17, 0x0a,
     2533, 1769, 1299,   17, 0x0a,
     2579, 2566, 1299,   17, 0x0a,
-    2617, 2598, 1299,   17, 0x0a,
+    2621, 2598, 1299,   17, 0x0a,
+    2671, 2652, 1299,   17, 0x0a,
 
  // properties: name, type, flags
-    2664, 2659, 0x01095001,
-    2676, 2659, 0x01095001,
-    2694, 2689, 0x03095001,
-    2714, 2706, 0x0a095001,
-    2726, 2689, 0x03095001,
-    2737, 2689, 0x03095001,
-    2751, 2706, 0x0a095001,
-    2756, 2689, 0x03095001,
-    2762, 2706, 0x0a095001,
-    2769, 2689, 0x03095001,
-    2783, 2689, 0x03095001,
+    2718, 2713, 0x01095001,
+    2730, 2713, 0x01095001,
+    2748, 2743, 0x03095001,
+    2768, 2760, 0x0a095001,
+    2780, 2743, 0x03095001,
+    2791, 2743, 0x03095001,
+    2805, 2760, 0x0a095001,
+    2810, 2743, 0x03095001,
+    2816, 2760, 0x0a095001,
+    2823, 2743, 0x03095001,
+    2837, 2743, 0x03095001,
 
        0        // eod
 };
@@ -169,6 +170,8 @@ static const char qt_meta_stringdata_TransactionProxy[] = {
     "SimulateUpdatePackages(QStringList)\0"
     "UpdatePackages(bool,QStringList)\0"
     "only_trusted\0UpdateSystem(bool)\0"
+    "distro_id,upgrade_kind\0"
+    "UpgradeSystem(QString,QString)\0"
     "filter,type,values\0"
     "WhatProvides(QString,QString,QStringList)\0"
     "bool\0AllowCancel\0CallerActive\0uint\0"
@@ -291,11 +294,13 @@ int TransactionProxy::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
             if (_a[0]) *reinterpret_cast< QDBusPendingReply<>*>(_a[0]) = _r; }  break;
         case 50: { QDBusPendingReply<> _r = UpdateSystem((*reinterpret_cast< bool(*)>(_a[1])));
             if (_a[0]) *reinterpret_cast< QDBusPendingReply<>*>(_a[0]) = _r; }  break;
-        case 51: { QDBusPendingReply<> _r = WhatProvides((*reinterpret_cast< const QString(*)>(_a[1])),(*reinterpret_cast< const QString(*)>(_a[2])),(*reinterpret_cast< const QStringList(*)>(_a[3])));
+        case 51: { QDBusPendingReply<> _r = UpgradeSystem((*reinterpret_cast< const QString(*)>(_a[1])),(*reinterpret_cast< const QString(*)>(_a[2])));
+            if (_a[0]) *reinterpret_cast< QDBusPendingReply<>*>(_a[0]) = _r; }  break;
+        case 52: { QDBusPendingReply<> _r = WhatProvides((*reinterpret_cast< const QString(*)>(_a[1])),(*reinterpret_cast< const QString(*)>(_a[2])),(*reinterpret_cast< const QStringList(*)>(_a[3])));
             if (_a[0]) *reinterpret_cast< QDBusPendingReply<>*>(_a[0]) = _r; }  break;
         default: ;
         }
-        _id -= 52;
+        _id -= 53;
     }
 #ifndef QT_NO_PROPERTIES
       else if (_c == QMetaObject::ReadProperty) {

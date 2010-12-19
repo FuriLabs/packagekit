@@ -1,6 +1,1026 @@
+commit 6e4b7e6de79891cdba9d10eed4ec7b326ebcb856
+Author: Richard Hughes <richard@hughsie.com>
+Date:   2010-12-13
+
+    Release version 0.6.11
+
+M	NEWS
+M	docs/html/pk-download.html
+
+commit 8be3967a18eda8928326a0e064674ddedfcc3290
+Merge: 02721af a0d3395
+Author: Matthias Klumpp <matthias@nlinux.org>
+Date:	2010-12-12
+
+    Merge branch 'master' of gitorious.org:packagekit/packagekit
+
+commit 02721af4f8302914227c18d0b3834191add6dabb
+Author: Matthias Klumpp <matthias@nlinux.org>
+Date:	2010-12-12
+
+    trivial: Fix compilation issue with GCC 4.5
+
+    For some reason, GCC throws an error cause the
+    "command" var might be not initialized.
+    So we initialize it now.
+
+M	src/pk-transaction.c
+
+commit a0d3395f6b3372dab3e516921dcdcec746ab8653
+Author: Anders F Bjorklund <afb@users.sourceforge.net>
+Date:	2010-12-10
+
+    smart: add origin to installed, if available
+
+M	backends/smart/smartBackend.py
+
+commit 34a11a9123d14155097c1f7f81b1f45f54da0bf4
+Author: Tim Waugh <twaugh@redhat.com>
+Date:	2010-12-10
+
+    python: use SetHints now instead of SetLocale.
+
+M	lib/python/packagekit/client.py
+
+commit 2ecb5fde0b9e14dcf897362f4e136b2f53331b6f
+Author: Zhang Qiang <qiang.z.zhang@intel.com>
+Date:	2010-12-10
+
+    zypp:use zypp::sat::SolvAttr::filelist in search file
+
+    Use zypp::sat::SolvAttr::filelist to instead of calling
+    zypp_get_packages_by_file to search file with full path.
+
+    Without this patch, 'pkcon search file' can only search files that has
+    already been installed.
+
+M	backends/zypp/pk-backend-zypp.cpp
+
+commit d10753a01553899e8e4f7659b6e6a4745d9a0275
+Author: Richard Hughes <richard@hughsie.com>
+Date:	2010-12-09
+
+    zif: add support for SearchGroup('repo:foo')
+
+M	backends/zif/pk-backend-zif.c
+
+commit 520752778559a4b2a6f14340febe7b82d89f1005
+Author: Matthias Klumpp <matthias@nlinux.org>
+Date:	2010-12-09
+
+    Spawn KDE Debconf frontend if KDE is running
+
+    Make pk-glib2 run a KDE frontend if it is installed
+    and KDE is running.
+    This will make it possible for KDE users to have nice
+    KDE dialogs displayed when using pkcon.
+
+M	lib/packagekit-glib2/pk-client-helper.c
+
+commit a53380b0846cfcf5cc263b2c1ee26220d9eec728
+Author: Richard Hughes <richard@hughsie.com>
+Date:	2010-12-09
+
+    yum: Support repo:foo virtual categories and searching using
+    SearchGroup
+
+M	backends/yum/yumBackend.py
+
+commit c1ddea497f0634acc393f15f554553403fbc5943
+Author: Richard Hughes <richard@hughsie.com>
+Date:	2010-12-09
+
+    Add 'repo:foo' to the specification to be able to return all packages
+    in a certain repository and to list them as categories
+
+M	src/org.freedesktop.PackageKit.Transaction.xml
+
+commit 2272147a6d0aa846da8aa3e41c099f4082ee43e3
+Author: Richard Hughes <richard@hughsie.com>
+Date:	2010-12-09
+
+    Change the spec to recommend 'category:web-development' rather than
+    '@web-development' as it's less magic
+
+M	src/org.freedesktop.PackageKit.Transaction.xml
+
+commit ef0f3ede40592650248db5673ede85ab66b5d841
+Author: Richard Hughes <richard@hughsie.com>
+Date:	2010-12-09
+
+    yum: support the optional origin extension for installed packages
+    by using the yumdb information
+
+M	backends/yum/yumBackend.py
+
+commit 07e6cd5ba15bd8c3f4553c5bdf748a7c7636c4fa
+Author: Richard Hughes <richard@hughsie.com>
+Date:	2010-12-09
+
+    Add an optional spec enhancement to allow backend to encode the
+    package origin in the package-id
+
+    This allow local package-id in the format
+    'hal;0.1;i386;installed:fedora'
+
+M	docs/api/spec/pk-concepts.xml
+M	src/org.freedesktop.PackageKit.Transaction.xml
+
+commit adbf3a705ff16d0b9d561aea210c8a7c5b9920e7
+Author: Richard Hughes <richard@hughsie.com>
+Date:	2010-12-07
+
+    trivial: remove some flags that are no longer needed now the
+    transaction has it's own state
+
+M	src/pk-transaction.c
+
+commit bdc9c0edf89817ef75f086c961a2f6164db33769
+Author: Richard Hughes <richard@hughsie.com>
+Date:	2010-12-07
+
+    Allow cancelling a transaction if it is not cancellable
+
+    Also, don't set an auto-cancel timeout as it's really not a safe thing
+    to do. Let the backend handle this always.
+
+M	src/pk-backend.c
+M	src/pk-transaction.c
+
+commit 512fb25514fa6926b46bb5734f3b55a533c1723d
+Author: Richard Hughes <richard@hughsie.com>
+Date:	2010-12-07
+
+    zif: try to use PK_ERROR_ENUM_INTERNAL_ERROR less by using the
+    correct PackageKit error code
+
+M	backends/zif/pk-backend-zif.c
+
+commit a7c7729279dd86c68784e08aaf98d23a5c3e9340
+Author: Daniel Nicoletti <dantti85-pk@yahoo.com.br>
+Date:	2010-12-02
+
+    aptcc: Use the new PK_ERROR_ENUM_CANNOT_GET_LOCK
+
+M	backends/aptcc/pk-backend-aptcc.cpp
+
+commit 47834d1be5a940ffa7aac1cdf0c0cbeca0e1536b
+Author: Daniel Nicoletti <dantti85-pk@yahoo.com.br>
+Date:	2010-12-02
+
+    Added PK_ERROR_ENUM_CANNOT_FETCH_SOURCES so when refreshing cache
+    fails to reach some source we have a proper message
+
+M	lib/packagekit-glib2/pk-enum.c
+M	lib/packagekit-glib2/pk-enum.h
+M	lib/packagekit-qt/src/enum.h
+
+commit e20ace7007b51c9f5f7a63d47e83ba9daf46ba73
+Author: Daniel Nicoletti <dantti85-pk@yahoo.com.br>
+Date:	2010-12-02
+
+    packagekit-qt: Updated enums and converted tabs to spaces
+
+M	lib/packagekit-qt/src/enum.h
+
+commit 18e7d80d5299be17c8baaf23f210332f9aa30180
+Author: Zhang Qiang <qiang.z.zhang@intel.com>
+Date:	2010-12-02
+
+    zypp:fix a logic error in refresh cache
+
+    without this patch, zypp backend only refresh one repo. This patch fix
+    this issue, and continue refresh other repo if one repo refresh fail.
+
+M	backends/zypp/zypp-utils.cpp
+
+commit 49a16fce832687d0ff61eb26b20b819ba72dd3cc
+Author: Richard Hughes <richard@hughsie.com>
+Date:	2010-12-01
+
+    yum: allow a cache refresh when offline to deal with networkless
+    setups
+
+M	backends/yum/pk-backend-yum.c
+
+commit 029fe0ae43b15de4f59b98d45218733feeddc458
+Author: Richard Hughes <richard@hughsie.com>
+Date:	2010-12-01
+
+    zif: don't emit a ZifState warning if an update does not have
+    update details
+
+M	backends/zif/pk-backend-zif.c
+
+commit 012f0920f633bf96e33e2ca310c263772db17fc9
+Author: Richard Hughes <richard@hughsie.com>
+Date:	2010-11-30
+
+    zif: get the update vendor string and send to the daemon
+
+M	backends/zif/pk-backend-zif.c
+
+commit 46a0483236916a77c7ea47e21c24c2898e2b806e
+Author: Richard Hughes <richard@hughsie.com>
+Date:	2010-11-30
+
+    zif: for updates without updateinfo, do not put '<none>' in the
+    translated display
+
+M	backends/zif/pk-backend-zif.c
+
+commit 0bd3a00a16c42cba319abf8705c69e31b607252f
+Author: Richard Hughes <richard@hughsie.com>
+Date:	2010-11-30
+
+    zif: fix changelog generation when there is no changeset version
+    available
+
+M	backends/zif/pk-backend-zif.c
+
+commit 20e96291969c2f759d863a2ae3b95bc352952ce0
+Author: Richard Hughes <richard@hughsie.com>
+Date:	2010-11-30
+
+    zif: If we are running in background mode, depsolve the update lists
+
+    This ensures the filelists are retrieved and the deps checked before
+    the user clicks
+    on the interactive dialog. It feels a lot snappier this way too.
+
+M	backends/zif/pk-backend-zif.c
+
+commit 050341d7000375a09d5fe9b8ea20c2d003403bb3
+Author: Richard Hughes <richard@hughsie.com>
+Date:	2010-11-30
+
+    Do not disable background mode if we are marked as interactive,
+    as the two are orthognal to one another
+
+M	src/pk-backend.c
+
+commit baf39274cb4295289439cdb55ec249fdc7c57a31
+Author: Richard Hughes <richard@hughsie.com>
+Date:	2010-11-29
+
+    Ensure we emit PK_STATUS_ENUM_WAIT when a transaction is in the
+    'ready' state
+
+M	src/pk-transaction-list.c
+M	src/pk-transaction.c
+M	src/pk-transaction.h
+
+commit bf7bd5fca467c043d10f48002895df9119d9f90c
+Merge: 75c99ee e16913c
+Author: Daniel Nicoletti <dantti85-pk@yahoo.com.br>
+Date:	2010-11-29
+
+    Merge branch 'master' of gitorious.org:packagekit/packagekit
+
+commit 75c99ee525bcf8c3d3c7ffbc12216db64d32d280
+Author: Daniel Nicoletti <dantti85-pk@yahoo.com.br>
+Date:	2010-11-29
+
+    packagekit-qt: use QDBusServiceWatcher instead of watching for
+    serviceOwnerChanged()
+
+M	lib/packagekit-qt/src/client.cpp
+M	lib/packagekit-qt/src/clientprivate.cpp
+M	lib/packagekit-qt/src/clientprivate.h
+
+commit e16913c86183551a2404ed689b0c1d748733f449
+Author: Richard Hughes <richard@hughsie.com>
+Date:	2010-11-29
+
+    trivial: update the fedora reference spec file
+
+M	contrib/PackageKit.spec.in
+
+commit f1e14657d354f9ebb9304fb3b0de53007f43c17f
+Merge: 24c06f4 763b500
+Author: Daniel Nicoletti <dantti85-pk@yahoo.com.br>
+Date:	2010-11-29
+
+    Merge branch 'master' of gitorious.org:packagekit/packagekit
+
+commit 24c06f49760cf56b97a7e844e356cb8c2fe8342a
+Author: Daniel Nicoletti <dantti85-pk@yahoo.com.br>
+Date:	2010-11-29
+
+    packagekit-qt: fix order of initialization
+
+M	lib/packagekit-qt/src/transactionprivate.cpp
+
+commit 763b500a2a5fc10e8cc91c9d421af5f304ff97ef
+Author: Richard Hughes <richard@hughsie.com>
+Date:	2010-11-29
+
+    zif: fix a few trivial bugs spotted by clang
+
+M	backends/zif/pk-backend-zif.c
+
+commit 6e4e816753c987d40be6ac1068aa3483e7d5624a
+Author: Richard Hughes <richard@hughsie.com>
+Date:	2010-11-29
+
+    dummy: fix a potential NULL dereference spotted by clang
+
+M	backends/dummy/pk-backend-dummy.c
+
+commit 537f4b2305bea757f35bf34d1463f3d502a2a994
+Author: Richard Hughes <richard@hughsie.com>
+Date:	2010-11-29
+
+    zif: Use zif_package_get_printable() to get easier to understand
+    error messages
+
+M	backends/zif/pk-backend-zif.c
+
+commit 2cb08f0c9aa3127a11b8985049f813ea01e4745b
+Author: Richard Hughes <richard@hughsie.com>
+Date:	2010-11-29
+
+    zif: Add a new backend, which uses Zif to interface with the rpmdb
+    and the Fedora metadata
+
+    This new backend should be considered experimental, and should not
+    be used
+    in production environments. It is often an order of magnitude
+    quicker then
+    the 'yum' backend as there is no need to spawn a process in python and
+    certainly no need to check the metadata on every access.
+
+    There will be bugs, so please test carefully. More information is at
+    https://github.com/hughsie/zif/raw/master/README.PackageKit for how
+    to switch to the new backend from yum.
+
+M	backends/.gitignore
+M	backends/Makefile.am
+M	backends/yum/Makefile.am
+M	backends/yum/Yum.conf
+M	backends/yum/pk-backend-yum.c
+A	backends/zif/.gitignore
+A	backends/zif/Makefile.am
+A	backends/zif/licenses.txt
+C050	backends/yum/pk-backend-yum.c	backends/zif/pk-backend-zif.c
+A	backends/zif/zif-comps-groups.conf
+M	configure.ac
+M	contrib/PackageKit.spec.in
+
+commit f55217c77383c3eaf1aa4bbf5cbae529dca2c32c
+Author: Matthias Klumpp <matthias@nlinux.org>
+Date:	2010-11-28
+
+    trivial: Point to Gitorious repo on download page
+
+    Set the new Gitorious repos as place for PackageKit
+    daemon development.
+
+M	docs/html/pk-download.html
+
+commit 3edf4f46e219372f8a73d572977565c443193c3e
+Author: Jonathan Conder <jonno.conder@gmail.com>
+Date:	2010-11-27
+
+    pacman: actually fix recursive logging
+
+M	backends/pacman/backend-pacman.c
+
+commit f99d2b4dfe0e51b0eb9c3579e8ed7b54a49ddbcb
+Author: Yuri Chornoivan <yurchor@ukr.net>
+Date:	2010-11-26
+
+    l10n: Updated Ukrainian (uk) translation to 100%
+
+    New status: 375 messages complete with 0 fuzzies and 0 untranslated.
+
+    Transmitted-via: Transifex (www.transifex.net).
+
+M	po/uk.po
+
+commit 3bbdfd61998e515672c7d27867708d859265e774
+Author: assar <asiersar@yahoo.com>
+Date:	2010-11-26
+
+    l10n: Updated Basque (eu) translation to 100%
+
+    New status: 375 messages complete with 0 fuzzies and 0 untranslated.
+
+    Transmitted-via: Transifex (www.transifex.net).
+
+M	po/eu.po
+
+commit 277acffc2e5adca25a31365cf73f8243b91651a5
+Author: Daniel Nicoletti <dantti85-pk@yahoo.com.br>
+Date:	2010-11-25
+
+    aptcc: Make sure the package is valid before some operations
+
+M	backends/aptcc/pk-backend-aptcc.cpp
+
+commit 2690c25e6a0ba51c7bd809a421f87ff98995d6b5
+Author: assar <asiersar@yahoo.com>
+Date:	2010-11-25
+
+    l10n: Updated Basque (eu) translation to 100%
+
+    New status: 374 messages complete with 0 fuzzies and 0 untranslated.
+
+    Transmitted-via: Transifex (www.transifex.net).
+
+M	po/eu.po
+
+commit 200dd20cf1d90699f8180be60babc1d2329902c5
+Author: assar <asiersar@yahoo.com>
+Date:	2010-11-25
+
+    l10n: Basque translation added to PackageKit
+
+    New status: 374 messages complete with 0 fuzzies and 0 untranslated.
+
+    Transmitted-via: Transifex (www.transifex.net).
+
+A	po/eu.po
+
+commit 9c90bac97926fb184bd8ecca5bf5ad5777746100
+Author: Daniel Nicoletti <dantti85-pk@yahoo.com.br>
+Date:	2010-11-24
+
+    aptcc: Fix regex not to match "()(64bit)" as we don't support
+    multiarch anyway
+
+M	backends/aptcc/gstMatcher.cpp
+
+commit 9dd6ad17f476c4e5f5248db1e84e34b3cf46cb6c
+Merge: 16170df 79153b6
+Author: Daniel Nicoletti <dantti85-pk@yahoo.com.br>
+Date:	2010-11-24
+
+    Merge branch 'master' of gitorious.org:packagekit/packagekit
+
+commit 16170df05a733e665896128d1f7fc520a60b2e45
+Author: Daniel Nicoletti <dantti85-pk@yahoo.com.br>
+Date:	2010-11-24
+
+    aptcc: Gstreamer search coded support finished
+
+M	backends/aptcc/apt.cpp
+M	backends/aptcc/gstMatcher.cpp
+M	backends/aptcc/gstMatcher.h
+M	backends/aptcc/pk-backend-aptcc.cpp
+
+commit 79153b6865ff806b58b7c5079fec2c2e7fbd5106
+Author: Piotr Drąg <piotrdrag@gmail.com>
+Date:	2010-11-24
+
+    l10n: Updated Polish (pl) translation to 100%
+
+    New status: 375 messages complete with 0 fuzzies and 0 untranslated.
+
+    Transmitted-via: Transifex (www.transifex.net).
+
+M	po/pl.po
+
+commit 56349d1e761f31f826cb6929cad1914c00f56a64
+Merge: c510a4d b5d0494
+Author: Daniel Nicoletti <dantti85-pk@yahoo.com.br>
+Date:	2010-11-24
+
+    Merge branch 'master' of gitorious.org:packagekit/packagekit
+
+commit b5d0494de6f77f14966420e71de8e30700d9b536
+Author: Richard Hughes <richard@hughsie.com>
+Date:	2010-11-24
+
+    trivial: add the transifex auth token
+
+A	README.transifex
+
+commit 7cab600964210064268950273bbeb4551052126f
+Author: Richard Hughes <richard@hughsie.com>
+Date:	2010-11-16
+
+    yum: disable the Zif get-updates until depsolving is faster
+
+M	backends/yum/pk-backend-yum.c
+
+commit 8a322097936458e4d90e6d6891a85641d4f9ee20
+Author: Zhang Qiang <qiang.z.zhang@intel.com>
+Date:	2010-11-24
+
+    zypp: Fix a typo in get_zypp
+
+M	backends/zypp/zypp-utils.cpp
+
+commit 9507d582fc62aad74a5835b09f27cee2a2b68ea6
+Author: Zhang Qiang <qiang.z.zhang@intel.com>
+Date:	2010-11-24
+
+    zypp:Catch ZYppFactoryException in get_zypp
+
+    This patch cache ZYppFactoryException in get_zypp, and sent init error
+    to client, but not exit. Also add some check code to prevent some
+    daemon
+    crash issue, which occures zypper is running and you also just want to
+    run packagekit at the same time.
+
+M	backends/zypp/pk-backend-zypp.cpp
+M	backends/zypp/zypp-utils.cpp
+
+commit 31ece5e07076383534ea2e2e10800e5f7038fdf4
+Author: Daniel Nicoletti <dantti85-pk@yahoo.com.br>
+Date:	2010-11-24
+
+    aptcc: first bits to a working gstreamer matcher
+
+M	backends/aptcc/Makefile.am
+M	backends/aptcc/apt.cpp
+A	backends/aptcc/gstMatcher.cpp
+A	backends/aptcc/gstMatcher.h
+M	backends/aptcc/pk-backend-aptcc.cpp
+
+commit 1abc688aed199cf91061ff614fd6d8bdbabffbb6
+Author: Daniel Nicoletti <dantti85-pk@yahoo.com.br>
+Date:	2010-11-23
+
+    aptcc: link aptcc to gstreamer
+
+M	backends/aptcc/Makefile.am
+M	configure.ac
+
+commit 493962f8a4e3fa368500b38574ea7f74bb107fa2
+Author: fri <pavelfric@seznam.cz>
+Date:	2010-11-23
+
+    l10n: Updated Czech (cs) translation to 100%
+
+    New status: 375 messages complete with 0 fuzzies and 0 untranslated.
+
+    Transmitted-via: Transifex (www.transifex.net).
+
+M	po/cs.po
+
+commit 1202584b683b58b8c37bcdc74ad4f80103bfb9cd
+Author: Cheng-Chia Tseng <pswo10680@gmail.com>
+Date:	2010-11-23
+
+    l10n: Updated Chinese (Taiwan) (zh_TW) translation to 100%
+
+    New status: 375 messages complete with 0 fuzzies and 0 untranslated.
+
+    Transmitted-via: Transifex (www.transifex.net).
+
+M	po/zh_TW.po
+
+commit 1159d027ea527aac94e338d0b8790dc2c6e41d28
+Author: fri <pavelfric@seznam.cz>
+Date:	2010-11-21
+
+    l10n: Updated Czech (cs) translation to 100%
+
+    New status: 375 messages complete with 0 fuzzies and 0 untranslated.
+
+    Transmitted-via: Transifex (www.transifex.net).
+
+M	po/cs.po
+
+commit 616d79ae450121c47c259113200dcacd14f26e60
+Author: Zhang Qiang <qiang.z.zhang@intel.com>
+Date:	2010-11-19
+
+    Transfer correct restart info while updating packages
+
+    PackageKit zypp backend have not send restart info to related
+    pacakges,
+    so application can't get any restart info.
+
+    zypp_get_updates can't be called to set _updating_self. As user just
+    want to update special pacakges, while zypp_get_updates will
+    detect all
+    the packages need to update.
+
+    The GUI tools(eg:gpk) call get-updates first to get the patches,
+    which need to restart, to upgrade.
+
+M	backends/zypp/pk-backend-zypp.cpp
+
+commit 413908a5e5776536645267416e3c156e71030eb3
+Author: Zhang Qiang <qiang.z.zhang@intel.com>
+Date:	2010-11-19
+
+    zypp:  filter installed packages to update
+
+    This patch ignore the installed packages to update with 'pkcon
+    get-updates'. eg:If you have multi-kernel packages installed and
+    in repo,
+    pkcon get-updates always show you need to update kernel.
+
+M	backends/zypp/zypp-utils.cpp
+
+commit 7be09afbb69621aabcb9d390ea403ea397d025c7
+Author: Matthias Klumpp <matthias@nlinux.org>
+Date:	2010-11-16
+
+    trivial: Select KDE Debconf frontend if KDE is running
+
+    This has no effect on the Debconf process at time,
+    since the official Debconf-KDE frontend is not yet
+    finished.
+    If dialog frontend is "kde", but the frontend was not
+    found, Debconf will automatically fallback to "gnome"
+    or "dialog".
+
+    This patch also adds a few more temp files which
+    are left by the APTcc backend to the gitignore list.
+
+M	.gitignore
+M	lib/packagekit-glib2/pk-client.c
+
+commit 589eab2986a18fbbfcc6ad18e5fa5e1bf878b14a
+Author: Richard Hughes <richard@hughsie.com>
+Date:	2010-11-15
+
+    trivial: yum: adjust to the Zif API de-jour
+
+M	backends/yum/pk-backend-yum.c
+
+commit ec2953e49025afe66451a7064bd111eda1ec8c79
+Author: Daniel Nicoletti <dantti85-pk@yahoo.com.br>
+Date:	2010-11-13
+
+    packagekit-qt: write the getCategories() code so we can use it
+
+M	lib/packagekit-qt/src/transaction.cpp
+
+commit fd9980ca72318d7e5e2787bd18b6abdd8cd5559d
+Author: Daniel Nicoletti <dantti85-pk@yahoo.com.br>
+Date:	2010-11-13
+
+    packagekit-qt: Add searchGroups methods that can take a string so
+    we can search on categories
+
+M	lib/packagekit-qt/src/transaction.cpp
+M	lib/packagekit-qt/src/transaction.h
+
+commit dad61396f39b3ae4e61485f4acf607f913222130
+Author: Sveinung Kvilhaugsvik <sveinung84@users.sourceforge.net>
+Date:	2010-11-12
+
+    Correct the description of org.freedesktop.packagekit.upgrade-system
+
+    Signed-off-by: Richard Hughes <richard@hughsie.com>
+
+M	policy/org.freedesktop.packagekit.policy.in
+
+commit b2b0b6d80c714765aa864f226b6b7f265fb45742
+Author: Richard Hughes <richard@hughsie.com>
+Date:	2010-11-12
+
+    trivial: yum: update to the Zif API de-jour
+
+M	backends/yum/pk-backend-yum.c
+
+commit 41b47cbe5fd7f33987301723c18f19a87a69e3ba
+Author: Richard Hughes <richard@hughsie.com>
+Date:	2010-11-12
+
+    yum: adjust to the Zif 0.1.3 API break
+
+M	backends/yum/pk-backend-yum.c
+
+commit 6de193a6f0fc8251070da37f8131253eb43872b4
+Author: Richard Hughes <richard@hughsie.com>
+Date:	2010-11-08
+
+    yum: Set the repository directory when doing a complete upgrade
+
+M	backends/yum/pk-backend-yum.c
+
+commit a0555999d9213981960806d928e1ab91fd0fd448
+Author: Matthias Klumpp <matthias@nlinux.org>
+Date:	2010-11-11
+
+    trivial: Added Debian to PK download page
+
+M	docs/html/pk-download.html
+
+commit 05ad4000c1110d49d1530db9a0589dd02147744b
+Author: Daniel Nicoletti <dantti85-pk@yahoo.com.br>
+Date:	2010-11-09
+
+    aptcc: Fix crash due to NULL strings
+    packagekit-qt: emit transactionListChanged(empty) when daemon crashes
+
+M	backends/aptcc/apt.cpp
+M	lib/packagekit-qt/src/clientprivate.cpp
+
+commit c510a4dc83821b97d803971175f37eb64ac80c86
+Merge: 34ef286 a9af8dc
+Author: Daniel Nicoletti <dantti85-pk@yahoo.com.br>
+Date:	2010-11-08
+
+    Merge branch 'master' of gitorious.org:packagekit/packagekit
+
+commit a9af8dcdb4933b0389b1b7a59124b6e4a5f48a74
+Author: Richard Hughes <richard@hughsie.com>
+Date:	2010-11-07
+
+    trivial: yum: do not use the deprecated zif_download_set_proxy()
+
+M	backends/yum/pk-backend-yum.c
+
+commit 791d4ded0f6a8f94e9474dedc30f12204cd73b9b
+Author: Richard Hughes <richard@hughsie.com>
+Date:	2010-11-06
+
+    yum: convert the ZifRelease error code into a suitable PK error enum
+
+M	backends/yum/pk-backend-yum.c
+
+commit e61350ec35b53d05c6532f4be234d5bd8f62a0e7
+Author: Richard Hughes <richard@hughsie.com>
+Date:	2010-11-06
+
+    Add an upgrade-kind parameter to UpgradeSystem()
+
+    This allows the frontend client to specify how much data is downloaded
+    before the upgrade is attempted.
+
+M	backends/dummy/pk-backend-dummy.c
+M	backends/test/pk-backend-test-fail.c
+M	backends/test/pk-backend-test-succeed.c
+M	backends/yum/pk-backend-yum.c
+M	client/pk-console.c
+M	configure.ac
+M	lib/packagekit-glib2/pk-client-sync.c
+M	lib/packagekit-glib2/pk-client-sync.h
+M	lib/packagekit-glib2/pk-client.c
+M	lib/packagekit-glib2/pk-client.h
+M	lib/packagekit-glib2/pk-enum.c
+M	lib/packagekit-glib2/pk-enum.h
+M	src/org.freedesktop.PackageKit.Transaction.xml
+M	src/pk-backend.c
+M	src/pk-backend.h
+M	src/pk-transaction.c
+M	src/pk-transaction.h
+
+commit 1db1066c962d5206595fb85290894075b2f576dd
+Author: Richard Hughes <richard@hughsie.com>
+Date:	2010-11-05
+
+    trivial: Add the python stub for upgrade-system
+
+M	lib/python/packagekit/backend.py
+
+commit 34ef28651238dfcf4e99b9cfa3279c79e67ca003
+Merge: 91364f6 53940d7
+Author: Daniel Nicoletti <dantti85-pk@yahoo.com.br>
+Date:	2010-11-04
+
+    Merge branch 'master' of gitorious.org:packagekit/packagekit
+
+commit 91364f689683b180f3d6df99bb65f6b0a0374b03
+Author: Daniel Nicoletti <dantti85-pk@yahoo.com.br>
+Date:	2010-11-04
+
+    aptcc: Ported away from PK_BACKEND_OPTIONS
+
+M	backends/aptcc/pk-backend-aptcc.cpp
+
+commit 53940d7011c4ae151874e5a5dbd46753de5d389b
+Author: Duncan Mac-Vicar P <dmacvicar@suse.de>
+Date:	2010-11-04
+
+    move away from PK_BACKEND_OPTIONS function table and use the
+    standard name convention that PK will resolve using GModule.
+
+    pkcon get-roles shows no changes
+
+M	backends/zypp/pk-backend-zypp.cpp
+
+commit 8205baee0dcfe1b742464ce22aa7329296e7339e
+Author: Zhang Qiang <qiang.z.zhang@intel.com>
+Date:	2010-11-04
+
+    zypp: support repo filter in geting repo list
+
+    This patch implement the repo filter feature for zypp backend.
+    Typically, repo filter can be used in gpk-repo.
+
+M	backends/zypp/pk-backend-zypp.cpp
+M	backends/zypp/zypp-utils.cpp
+M	backends/zypp/zypp-utils.h
+
+commit 5907efa0f3f73b7575d38d8fc86d1c87c0aa13b7
+Author: Zhang Qiang <qiang.z.zhang@intel.com>
+Date:	2010-11-04
+
+    Always show update a package even if already update
+
+    zypp backend: when execute pkcon update, pkcon update always show the
+    specified packages need to update, even if it's already updated. This
+    patch fix this issue, and check the package if it's needed to update.
+
+M	backends/zypp/pk-backend-zypp.cpp
+
+commit 3d8d74c6dfca3fd20fe72a788638bb4b59c23fd5
+Author: Jonathan Conder <jonno dot conder at gmail dot com>
+Date:	2010-11-04
+
+    pacman: prevent recursive logging
+
+M	backends/pacman/backend-pacman.c
+
+commit 379ca491309ac77de3b984822880fa016d0bcf9b
+Merge: 41b89ee 23910fe
+Author: Daniel Nicoletti <dantti85-pk@yahoo.com.br>
+Date:	2010-11-03
+
+    Merge branch 'master' of gitorious.org:packagekit/packagekit
+
+commit 41b89ee7febac04fa241acf59097cfa8d7835087
+Author: Daniel Nicoletti <dantti85-pk@yahoo.com.br>
+Date:	2010-11-03
+
+    aptcc: Set the env proxy vars so that Apt::Acquire is not overwritten,
+    fixes LP: #633008
+
+M	backends/aptcc/apt.cpp
+
+commit 23910fe014417114908d3cbb6b8dcce5bef5d151
+Author: Richard Hughes <richard@hughsie.com>
+Date:	2010-11-03
+
+    yum: fix compile with git master versions of Zif
+
+M	backends/yum/pk-backend-yum.c
+
+commit 237aaf7901b234fb4c45aa7dff273a77bff38a1e
+Author: Richard Hughes <richard@hughsie.com>
+Date:	2010-11-03
+
+    dummy: add a more realistic UpgradeSystem
+
+M	backends/dummy/pk-backend-dummy.c
+
+commit 644fa615935aeeaa905352312384d36abc794fef
+Author: Richard Hughes <richard@hughsie.com>
+Date:	2010-11-03
+
+    Use PolicyKit to restrict the UpgradeSystem method to administrators
+
+M	policy/org.freedesktop.packagekit.policy.in
+M	src/pk-transaction.c
+
+commit 8f93f1ae83f18c69bbcddb082067641c526e1ff4
+Author: Richard Hughes <richard@hughsie.com>
+Date:	2010-11-03
+
+    yum: do not claim to implement the RepoSetData method
+
+M	backends/yum/pk-backend-yum.c
+
+commit ada939e4ab5d4a3e018b69eedd4e00417851e23b
+Author: Richard Hughes <richard@hughsie.com>
+Date:	2010-11-03
+
+    trivial: add some asserts if backends can't do things they claim to do
+
+M	src/pk-backend.c
+
+commit de60e3755db6620fe34f7aa303e0822f24649e4e
+Author: Richard Hughes <richard@hughsie.com>
+Date:	2010-11-03
+
+    glib: Add some C getters to PkDistroUpgrade
+
+M	lib/packagekit-glib2/pk-distro-upgrade.c
+M	lib/packagekit-glib2/pk-distro-upgrade.h
+
+commit 42ca2064761bf415c76cf3eced3a6cabd56c1b87
+Author: Richard Hughes <richard@hughsie.com>
+Date:	2010-11-02
+
+    Ensure we can send a cache-age of maxuint to fix command-not-found
+
+M	lib/packagekit-glib2/pk-client.c
+M	src/egg-string.c
+
+commit 40e412f7db10c93a44d9098b17afa3a3f25a4a72
+Author: Richard Hughes <richard@hughsie.com>
+Date:	2010-11-02
+
+    Add a new backend role for updating the whole distro: UpgradeSystem
+
+M	backends/alpm/pk-backend-alpm.c
+M	backends/apt/pk-backend-apt.c
+M	backends/aptcc/pk-backend-aptcc.cpp
+M	backends/box/pk-backend-box.c
+M	backends/conary/pk-backend-conary.c
+M	backends/dummy/pk-backend-dummy.c
+M	backends/entropy/pk-backend-entropy.c
+M	backends/opkg/pk-backend-opkg.c
+M	backends/pisi/pk-backend-pisi.c
+M	backends/poldek/pk-backend-poldek.c
+M	backends/portage/pk-backend-portage.c
+M	backends/ports/pk-backend-ports.c
+M	backends/razor/pk-backend-razor.c
+M	backends/slapt/pk-backend-slapt.c
+M	backends/smart/pk-backend-smart.c
+M	backends/test/pk-backend-test-fail.c
+M	backends/test/pk-backend-test-succeed.c
+M	backends/urpmi/pk-backend-urpmi.c
+M	backends/yum/pk-backend-yum.c
+M	backends/zypp/pk-backend-zypp.cpp
+M	client/pk-console.c
+M	contrib/pk-completion.bash
+M	lib/packagekit-glib2/pk-client-sync.c
+M	lib/packagekit-glib2/pk-client-sync.h
+M	lib/packagekit-glib2/pk-client.c
+M	lib/packagekit-glib2/pk-client.h
+M	lib/packagekit-glib2/pk-enum.c
+M	lib/packagekit-glib2/pk-enum.h
+M	lib/packagekit-glib2/pk-self-test.c
+M	src/org.freedesktop.PackageKit.Transaction.xml
+M	src/pk-backend.c
+M	src/pk-backend.h
+M	src/pk-transaction.c
+M	src/pk-transaction.h
+
+commit 9aa2b6c78eda14df312889bfa895814f03efe9ae
+Author: Richard Hughes <richard@hughsie.com>
+Date:	2010-11-02
+
+    trivial: make the bash completion file match reality
+
+M	contrib/pk-completion.bash
+
+commit 04a0498465f377f79cf7d97ff8411d2c661597eb
+Author: Richard Hughes <richard@hughsie.com>
+Date:	2010-11-02
+
+    Ignore unknown entries in the pk_x_bitfield_from_string() to ensure
+    forwards compatibility
+
+M	lib/packagekit-glib2/pk-bitfield.c
+
+commit 44f3600ad8b1fbf6d4caf0b2c5b1d8d21abed97d
+Author: Richard Hughes <richard@hughsie.com>
+Date:	2010-11-01
+
+    Use G_LOG_DOMAIN in all the backends
+
+M	backends/alpm/Makefile.am
+M	backends/apt/Makefile.am
+M	backends/aptcc/Makefile.am
+M	backends/box/Makefile.am
+M	backends/conary/Makefile.am
+M	backends/entropy/Makefile.am
+M	backends/opkg/Makefile.am
+M	backends/pacman/Makefile.am
+M	backends/pisi/Makefile.am
+M	backends/poldek/Makefile.am
+M	backends/portage/Makefile.am
+M	backends/ports/Makefile.am
+M	backends/razor/Makefile.am
+M	backends/slapt/Makefile.am
+M	backends/smart/Makefile.am
+M	backends/test/Makefile.am
+M	backends/urpmi/Makefile.am
+M	backends/zypp/Makefile.am
+
+commit 29675adba5337ca8a00555a23759aabdf4a33c2a
+Author: Richard Hughes <richard@hughsie.com>
+Date:	2010-11-01
+
+    yum: fix compiling when not using Zif
+
+M	backends/yum/pk-backend-yum.c
+
+commit 3d4bd921ef159e32335ebd304d4e88d6bd272f85
+Author: Jorge González <aloriel@gmail.com>
+Date:	2010-11-01
+
+    l10n: Updated Spanish (Castilian) (es) translation to 100%
+
+    New status: 371 messages complete with 0 fuzzies and 0 untranslated.
+
+    Transmitted-via: Transifex (www.transifex.net).
+
+M	po/es.po
+
+commit 73d0c2ce5758bc16ee1672b97d0017e9916e5613
+Author: Richard Hughes <richard@hughsie.com>
+Date:	2010-11-01
+
+    trivial: post release version bump
+
+M	RELEASE
+M	configure.ac
+
 commit 8a88c258f168146361a473d42b44bbc4b95f7d43
 Author: Richard Hughes <richard@hughsie.com>
-Date:   2010-11-01
+Date:	2010-11-01
 
     Release version 0.6.10
 

@@ -42,8 +42,8 @@ ACLOCAL_M4 = $(top_srcdir)/aclocal.m4
 am__aclocal_m4_deps = $(top_srcdir)/m4/gtk-doc.m4 \
 	$(top_srcdir)/m4/intltool.m4 $(top_srcdir)/m4/libtool.m4 \
 	$(top_srcdir)/m4/ltoptions.m4 $(top_srcdir)/m4/ltsugar.m4 \
-	$(top_srcdir)/m4/ltversion.m4 $(top_srcdir)/acinclude.m4 \
-	$(top_srcdir)/configure.ac
+	$(top_srcdir)/m4/ltversion.m4 $(top_srcdir)/m4/lt~obsolete.m4 \
+	$(top_srcdir)/acinclude.m4 $(top_srcdir)/configure.ac
 am__configure_deps = $(am__aclocal_m4_deps) $(CONFIGURE_DEPENDENCIES) \
 	$(ACLOCAL_M4)
 mkinstalldirs = $(install_sh) -d
@@ -75,8 +75,7 @@ am__installdirs = "$(DESTDIR)$(plugindir)" "$(DESTDIR)$(confdir)" \
 	"$(DESTDIR)$(helperdir)"
 LTLIBRARIES = $(plugin_LTLIBRARIES)
 am__DEPENDENCIES_1 =
-libpk_backend_yum_la_DEPENDENCIES = $(am__DEPENDENCIES_1) \
-	$(am__DEPENDENCIES_1)
+libpk_backend_yum_la_DEPENDENCIES = $(am__DEPENDENCIES_1)
 am_libpk_backend_yum_la_OBJECTS =  \
 	libpk_backend_yum_la-pk-backend-yum.lo
 libpk_backend_yum_la_OBJECTS = $(am_libpk_backend_yum_la_OBJECTS)
@@ -179,7 +178,8 @@ GMODULE_LIBS = @GMODULE_LIBS@
 GMOFILES = @GMOFILES@
 GMSGFMT = @GMSGFMT@
 GREP = @GREP@
-GST_LIBS = @GST_LIBS@
+GSTREAMER_CFLAGS = @GSTREAMER_CFLAGS@
+GSTREAMER_LIBS = @GSTREAMER_LIBS@
 GTKDOC_CHECK = @GTKDOC_CHECK@
 GTKDOC_MKPDF = @GTKDOC_MKPDF@
 GTKDOC_REBASE = @GTKDOC_REBASE@
@@ -388,13 +388,12 @@ INCLUDES = \
 	-DI_KNOW_THE_PACKAGEKIT_GLIB2_API_IS_SUBJECT_TO_CHANGE	\
 	-DG_LOG_DOMAIN=\"PackageKit-Yum\"			\
 	-DPK_COMPILATION					\
-	$(ZIF_CFLAGS)						\
 	-DSYSCONFDIR=\""$(sysconfdir)"\"
 
 plugindir = $(PK_PLUGIN_DIR)
 plugin_LTLIBRARIES = libpk_backend_yum.la
 libpk_backend_yum_la_SOURCES = pk-backend-yum.c
-libpk_backend_yum_la_LIBADD = $(PK_PLUGIN_LIBS) $(ZIF_LIBS) $(NULL)
+libpk_backend_yum_la_LIBADD = $(PK_PLUGIN_LIBS)
 libpk_backend_yum_la_LDFLAGS = -module -avoid-version
 libpk_backend_yum_la_CFLAGS = $(PK_PLUGIN_CFLAGS) $(WARNINGFLAGS_C)
 confdir = $(PK_CONF_DIR)

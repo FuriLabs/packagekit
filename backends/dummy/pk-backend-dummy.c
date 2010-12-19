@@ -1,6 +1,6 @@
 /* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*-
  *
- * Copyright (C) 2007-2008 Richard Hughes <richard@hughsie.com>
+ * Copyright (C) 2007-2010 Richard Hughes <richard@hughsie.com>
  *
  * Licensed under the GNU General Public License Version 2
  *
@@ -1046,7 +1046,7 @@ pk_backend_socket_has_data_cb (GSocket *socket, GIOCondition condition, PkBacken
 	/* the helper process exited */
 	if ((condition & G_IO_HUP) > 0) {
 		pk_backend_error_code (backend, PK_ERROR_ENUM_INTERNAL_ERROR,
-				       "socket was disconnected: %s", error->message);
+				       "socket was disconnected");
 		pk_backend_finished (backend);
 		ret = FALSE;
 		goto out;
@@ -1373,6 +1373,64 @@ pk_backend_simulate_install_packages (PkBackend *backend, gchar **package_ids)
 			    "gtkhtml2;2.19.1-4.fc8;i386;fedora", "An HTML widget for GTK+ 2.0");
 
 	pk_backend_finished (backend);
+}
+
+
+static gboolean
+pk_backend_upgrade_system_timeout (gpointer data)
+{
+	PkBackend *backend = (PkBackend *) data;
+	if (_progress_percentage == 100) {
+		pk_backend_require_restart (backend, PK_RESTART_ENUM_SYSTEM, "kernel;2.6.23-0.115.rc3.git1.fc8;i386;installed");
+		pk_backend_finished (backend);
+		return FALSE;
+	}
+	if (_progress_percentage == 0) {
+		pk_backend_set_status (backend, PK_STATUS_ENUM_DOWNLOAD_UPDATEINFO);
+	}
+	if (_progress_percentage == 20) {
+		pk_backend_package (backend, PK_INFO_ENUM_DOWNLOADING,
+				    "kernel;2.6.23-0.115.rc3.git1.fc8;i386;installed",
+				    "The Linux kernel (the core of the Linux operating system)");
+	}
+	if (_progress_percentage == 30) {
+		pk_backend_package (backend, PK_INFO_ENUM_DOWNLOADING,
+				    "gtkhtml2;2.19.1-4.fc8;i386;fedora",
+				    "An HTML widget for GTK+ 2.0");
+	}
+	if (_progress_percentage == 40) {
+		pk_backend_set_allow_cancel (backend, FALSE);
+		pk_backend_package (backend, PK_INFO_ENUM_DOWNLOADING,
+				    "powertop;1.8-1.fc8;i386;fedora",
+				    "Power consumption monitor");
+	}
+	if (_progress_percentage == 60) {
+		pk_backend_set_allow_cancel (backend, TRUE);
+		pk_backend_package (backend, PK_INFO_ENUM_DOWNLOADING,
+				    "kernel;2.6.23-0.115.rc3.git1.fc8;i386;installed",
+				    "The Linux kernel (the core of the Linux operating system)");
+	}
+	if (_progress_percentage == 80) {
+		pk_backend_package (backend, PK_INFO_ENUM_DOWNLOADING,
+				    "powertop;1.8-1.fc8;i386;fedora",
+				    "Power consumption monitor");
+	}
+	_progress_percentage += 1;
+	pk_backend_set_percentage (backend, _progress_percentage);
+	pk_backend_set_sub_percentage (backend, (_progress_percentage % 10) * 10);
+	return TRUE;
+}
+
+/**
+ * pk_backend_upgrade_system:
+ */
+void
+pk_backend_upgrade_system (PkBackend *backend, const gchar *distro_id, PkUpgradeKindEnum upgrade_kind)
+{
+	pk_backend_set_status (backend, PK_STATUS_ENUM_DOWNLOAD);
+	pk_backend_set_allow_cancel (backend, TRUE);
+	_progress_percentage = 0;
+	_signal_timeout = g_timeout_add (100, pk_backend_upgrade_system_timeout, backend);
 }
 
 /**

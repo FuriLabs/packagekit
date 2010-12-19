@@ -133,6 +133,7 @@
     <function name="UpdatePackages ()" link="Transaction.html#Transaction.UpdatePackages"/>
     <function name="UpdateSystem ()" link="Transaction.html#Transaction.UpdateSystem"/>
     <function name="WhatProvides ()" link="Transaction.html#Transaction.WhatProvides"/>
+    <function name="UpgradeSystem ()" link="Transaction.html#Transaction.UpgradeSystem"/>
     <function name="The Category signal" link="Transaction.html#Transaction::Category"/>
     <function name="The Details signal" link="Transaction.html#Transaction::Details"/>
     <function name="The ErrorCode signal" link="Transaction.html#Transaction::ErrorCode"/>
