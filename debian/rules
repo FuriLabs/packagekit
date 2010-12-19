@@ -16,6 +16,8 @@ PK_CONFIGURE_FLAGS = --disable-static \
 		--enable-gstreamer-plugin \
 		--enable-command-not-found
 
+LDFLAGS += -Wl,--as-needed
+
 # Define install and build directory
 INSTALLDIR = $(CURDIR)/debian/tmp
 
