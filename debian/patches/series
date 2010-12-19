@@ -3,3 +3,4 @@ defaults.diff
 policy.diff
 01_aptcc_apt-proxy.patch
 02_aptcc_crashes.patch
+glib-2.24.diff
