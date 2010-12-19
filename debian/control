@@ -2,6 +2,7 @@ Source: packagekit
 Section: admin
 Priority: optional
 Maintainer: Matthias Klumpp <matthias@nlinux.org>
+Uploaders: Julian Andres Klode <jak@debian.org>
 Vcs-Git: git://git.debian.org/pkg-packagekit/packagekit.git
 Vcs-Browser: http://git.debian.org/?p=pkg-packagekit/packagekit.git
 Build-Depends: debhelper (>= 7.0.50~),
