@@ -1,3 +1,27 @@
+packagekit (0.6.11-1) unstable; urgency=low
+
+  * New upstream release
+     - Add a new backend role for updating the whole distro: UpgradeSystem
+        (Richard Hughes)
+     - Allow backend to encode the package origin in the package-id
+        (Richard Hughes)
+     - Added PK_ERROR_ENUM_CANNOT_FETCH_SOURCES when refreshing cache
+        fails (Daniel Nicoletti)
+     - Add recommendation repo:foo' to be able to return all packages in a
+        certain repository (Richard Hughes)
+     - Change the spec to recommend 'category:web-development' rather than
+        '@web-development' (Richard Hughes)
+     - Spawn KDE Debconf frontend if KDE is running (Matthias Klumpp)
+     - aptcc: Added GStreamer search (Daniel Nicoletti)
+     - aptcc: Fix regex not to match "()(64bit)" as we don't support
+        multiarch anyway (Daniel Nicoletti)
+     - aptcc: Port away from PK_BACKEND_OPTIONS (Daniel Nicoletti)
+     - aptcc: Set the env proxy vars so that Apt::Acquire is not
+        overwritten, fixes LP: #633008 (Daniel Nicoletti)
+     - aptcc: Use the new PK_ERROR_ENUM_CANNOT_GET_LOCK (Daniel Nicoletti)
+
+ -- Matthias Klumpp <matthias@nlinux.org>  Sun, 19 Dec 2010 23:15:44 +0100
+
 packagekit (0.6.10-3) unstable; urgency=low
 
   [ Matthias Klumpp ]
