@@ -1,7 +1,5 @@
 vendor-ubuntu.diff
 defaults.diff
 policy.diff
-01_aptcc_apt-proxy.patch
-02_aptcc_crashes.patch
-glib-2.24.diff
+01_glib-2.24.patch
 99_ltmain_as-needed.patch
