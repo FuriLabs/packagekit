@@ -5,7 +5,7 @@ Maintainer: Matthias Klumpp <matthias@nlinux.org>
 Uploaders: Julian Andres Klode <jak@debian.org>
 Vcs-Git: git://git.debian.org/pkg-packagekit/packagekit.git
 Vcs-Browser: http://git.debian.org/?p=pkg-packagekit/packagekit.git
-Build-Depends: debhelper (>= 7.0.50~),
+Build-Depends: debhelper (>= 8),
                autotools-dev (>=20100122.1),
                libtool,
                libpam0g-dev,
@@ -35,7 +35,8 @@ Build-Depends: debhelper (>= 7.0.50~),
                libcppunit-dev,
                libqt4-dev,
                libxt-dev,
-               pm-utils
+               pm-utils,
+               libnspr4-dev
 Standards-Version: 3.9.1
 XS-Python-Version: current
 Homepage: http://www.packagekit.org
