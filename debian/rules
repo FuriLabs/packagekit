@@ -22,7 +22,7 @@ LDFLAGS += -Wl,--as-needed
 INSTALLDIR = $(CURDIR)/debian/tmp
 
 %:
-	dh $@ --parallel --with autotools_dev --with python-central
+	dh $@ --parallel --with autotools_dev --with python2
 
 override_dh_auto_configure:
 	cp -dpr $(CURDIR)/docs/api $(CURDIR)/docs/api.orig
