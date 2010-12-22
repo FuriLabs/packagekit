@@ -22,15 +22,6 @@ Last-Update: 2010-12-06
      </defaults>
    </action>
  
-@@ -193,7 +193,7 @@
-     <defaults>
-       <allow_any>no</allow_any>
-       <allow_inactive>no</allow_inactive>
--      <allow_active>yes</allow_active>
-+      <allow_active>auth_admin_keep</allow_active>
-     </defaults>
-   </action>
- 
 --- a/po/POTFILES.skip
 +++ b/po/POTFILES.skip
 @@ -6,4 +6,4 @@
