@@ -6,7 +6,7 @@ Backport PackageKit to use only functionality found in GLib
 
 --- a/lib/packagekit-glib2/pk-client-helper.c
 +++ b/lib/packagekit-glib2/pk-client-helper.c
-@@ -471,7 +471,7 @@ pk_client_helper_start (PkClientHelper *
+@@ -488,7 +488,7 @@
  		goto out;
  
  	/* bind to the socket */
@@ -17,7 +17,7 @@ Backport PackageKit to use only functionality found in GLib
  		goto out;
 --- a/backends/dummy/pk-backend-dummy.c
 +++ b/backends/dummy/pk-backend-dummy.c
-@@ -1141,7 +1141,7 @@ pk_backend_update_system (PkBackend *bac
+@@ -1141,7 +1141,7 @@
  	g_socket_set_keepalive (_socket, TRUE);
  
  	/* connect to it */
@@ -28,7 +28,7 @@ Backport PackageKit to use only functionality found in GLib
  		pk_backend_error_code (backend, PK_ERROR_ENUM_INTERNAL_ERROR,
 --- a/lib/packagekit-glib2/pk-self-test.c
 +++ b/lib/packagekit-glib2/pk-self-test.c
-@@ -375,7 +375,7 @@ pk_test_client_helper_func (void)
+@@ -375,7 +375,7 @@
  	g_socket_set_keepalive (socket, TRUE);
  
  	/* connect to it */
@@ -39,7 +39,7 @@ Backport PackageKit to use only functionality found in GLib
  	g_assert (ret);
 --- a/lib/packagekit-glib2/pk-socket-example.c
 +++ b/lib/packagekit-glib2/pk-socket-example.c
-@@ -83,7 +83,7 @@ main (void)
+@@ -83,7 +83,7 @@
  	g_socket_set_keepalive (socket, TRUE);
  
  	/* connect to it */
@@ -50,7 +50,7 @@ Backport PackageKit to use only functionality found in GLib
  		g_warning ("failed to connect to socket: %s", error->message);
 --- a/backends/aptcc/apt.cpp
 +++ b/backends/aptcc/apt.cpp
-@@ -692,8 +692,7 @@ void aptcc::emit_update_detail(const pkg
+@@ -600,8 +600,7 @@
                             G_REGEX_MATCH_ANCHORED,
                             0);
      GRegex *regexDate;
@@ -60,7 +60,7 @@ Backport PackageKit to use only functionality found in GLib
                              G_REGEX_CASELESS,
                              G_REGEX_MATCH_ANCHORED,
                              0);
-@@ -745,39 +744,15 @@ void aptcc::emit_update_detail(const pkg
+@@ -653,39 +652,15 @@
              // and when it got updated
              GMatchInfo *match_info;
              if (g_regex_match(regexDate, str, G_REGEX_MATCH_ANCHORED, &match_info)) {
@@ -109,7 +109,7 @@ Backport PackageKit to use only functionality found in GLib
              g_match_info_free(match_info);
 --- a/backends/aptcc/apt-utils.cpp
 +++ b/backends/aptcc/apt-utils.cpp
-@@ -406,52 +406,6 @@ bool starts_with (const string &str, con
+@@ -406,52 +406,6 @@
  	return str.size() >= startSize && (strncmp(str.data(), start, startSize) == 0);
  }
  
@@ -164,7 +164,7 @@ Backport PackageKit to use only functionality found in GLib
     static char *_str = NULL;
 --- a/backends/aptcc/apt-utils.h
 +++ b/backends/aptcc/apt-utils.h
-@@ -139,13 +139,6 @@ bool ends_with(const string &str, const
+@@ -139,13 +139,6 @@
    */
  bool starts_with(const string &str, const char *end);
  

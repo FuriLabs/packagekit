@@ -1,6 +1,6 @@
 --- a/ltmain.sh
 +++ b/ltmain.sh
-@@ -5041,6 +5041,11 @@ func_mode_link ()
+@@ -5041,6 +5041,11 @@
  	arg=$func_stripname_result
  	;;
  
@@ -12,7 +12,7 @@
        -Wl,*)
  	func_stripname '-Wl,' '' "$arg"
  	args=$func_stripname_result
-@@ -5394,6 +5399,15 @@ func_mode_link ()
+@@ -5394,6 +5399,15 @@
  	lib=
  	found=no
  	case $deplib in
