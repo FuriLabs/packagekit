@@ -18,6 +18,12 @@ PK_CONFIGURE_FLAGS = --disable-static \
 
 LDFLAGS += -Wl,--as-needed
 
+ifeq ($(shell dpkg-vendor --derives-from Ubuntu && echo yes), yes)
+	SUBSTVARS = -Vdist:Browser="firefox (>> 3.0) | www-browser"
+else
+	SUBSTVARS = -Vdist:Browser="iceweasel (>> 3.0) | www-browser"
+endif
+
 # Define install and build directory
 INSTALLDIR = $(CURDIR)/debian/tmp
 
@@ -51,3 +57,6 @@ override_dh_auto_clean:
 		rm -rf $(CURDIR)/docs/api; \
 		mv $(CURDIR)/docs/api.orig $(CURDIR)/docs/api; \
 	fi
+
+override_dh_gencontrol:
+	dh_gencontrol -- $(SUBSTVARS)
