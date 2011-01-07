@@ -19,6 +19,13 @@ packagekit (0.6.11-1) unstable; urgency=low
      - aptcc: Set the env proxy vars so that Apt::Acquire is not
         overwritten, fixes LP: #633008 (Daniel Nicoletti)
      - aptcc: Use the new PK_ERROR_ENUM_CANNOT_GET_LOCK (Daniel Nicoletti)
+  * Added libnspr4-dev build-dependency
+  * Switch to dh_python2
+  * Allow every user to set proxy
+  * Refreshed patches
+  * Build-Depend on python >= 2.6.6-3+squeeze4
+  * Switched back to compat level 7
+  * Removed patches which were applied upstream
 
  -- Matthias Klumpp <matthias@nlinux.org>  Sun, 19 Dec 2010 23:15:44 +0100
 
