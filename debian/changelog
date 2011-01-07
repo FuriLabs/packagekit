@@ -27,7 +27,7 @@ packagekit (0.6.11-1) unstable; urgency=low
   * Switched back to compat level 7
   * Removed patches which were applied upstream
 
- -- Matthias Klumpp <matthias@nlinux.org>  Sun, 19 Dec 2010 23:15:44 +0100
+ -- Matthias Klumpp <matthias@nlinux.org>  Fri, 07 Jan 2011 19:58:26 +0100
 
 packagekit (0.6.10-3) unstable; urgency=low
 
