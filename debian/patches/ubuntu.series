@@ -2,4 +2,5 @@ vendor-ubuntu.diff
 defaults.diff
 policy.diff
 01_glib-2.24.patch
+02_aptcc-null_selection_crash.patch
 99_ltmain_as-needed.patch
