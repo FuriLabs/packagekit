@@ -3,4 +3,7 @@ defaults.diff
 policy.diff
 01_glib-2.24.patch
 02_aptcc-null_selection_crash.patch
+03_aptcc-sanitize-file-descriptor-handling.patch
+04_Set-client-locale-to-LC_MESSAGES-rather-than-LC_ALL.patch
+05_aptcc-Use-a-pty-rather-than-a-pipe-for-writing-to-ap.patch
 99_ltmain_as-needed.patch
