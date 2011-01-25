@@ -1,3 +1,12 @@
+packagekit (0.6.11-2) unstable; urgency=low
+
+  * Select right browser on Debian/Ubuntu
+  * Reformatted control file
+  * Fix crash if Section() of a package is NULL
+  * Fix falure of some postinst scripts when running using APTcc (LP: #680328)
+
+ -- Matthias Klumpp <matthias@nlinux.org>  Tue, 25 Jan 2011 15:54:54 +0100
+
 packagekit (0.6.11-1) unstable; urgency=low
 
   * New upstream release
