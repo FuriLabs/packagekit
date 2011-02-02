@@ -1,3 +1,28 @@
+packagekit (0.6.12-1) unstable; urgency=low
+
+  * Imported Upstream version 0.6.12
+     - Add speed python backend method (Anders F Bjorklund)
+     - Allow the user to specify a comma delimited list of default
+        backends (Richard Hughes)
+     - Do not enable command not found debugging by default. Fixes
+        rh#666254 (Richard Hughes)
+     - Explictly include GIO in LDADD to fix a compile error on Debian
+        (Matthias Klumpp, Richard Hughes)
+     - Fix calling pk_client_helper_start() with no environment set (Richard Hughes)
+     - Fix LP#591474 bug which caused a crash when the Section() of a
+        package was NULL (Daniel Nicoletti)
+     - Only try to populate the command list in pkcon after the PkControl
+        command has finished (Richard Hughes)
+     - pkcon: check PK error in pk_console_resolve_package (Zhang Qiang)
+     - Set client locale to LC_MESSAGES rather than LC_ALL (Colin Watson)
+     - Provide a hook so spawned backends can report speed (Richard Hughes)
+     - aptcc: Fix compile with GLib 2.24 (Matthias Klumpp)
+     - aptcc: Sanitize file descriptor handling (Matthias Klumpp)
+     - aptcc: Use a pty rather than a pipe for writing to apt (Colin Watson)
+  * Drop APTcc and PK bugfix patches: Applied upstream
+
+ -- Matthias Klumpp <matthias@nlinux.org>  Wed, 02 Feb 2011 17:09:14 +0100
+
 packagekit (0.6.11-2) unstable; urgency=low
 
   * Select right browser on Debian/Ubuntu
