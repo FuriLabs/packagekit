@@ -358,7 +358,7 @@ pk_backend_transaction_start (PkBackend *backend)
 	/* set cache age */
 	cache_age = pk_backend_get_cache_age (backend);
 	if (cache_age > 0)
-		zif_config_set_uint (priv->config, "max-age",
+		zif_config_set_uint (priv->config, "metadata_expire",
 				     cache_age, NULL);
 
 	/* set the proxy */
@@ -1577,6 +1577,20 @@ out:
 		pk_backend_set_status (backend, status);
 }
 
+#if ZIF_CHECK_VERSION(0,1,5)
+/**
+ * pk_backend_speed_changed_cb:
+ **/
+static void
+pk_backend_speed_changed_cb (ZifState *state,
+			     GParamSpec *pspec,
+			     PkBackend *backend)
+{
+	pk_backend_set_speed (backend,
+			      zif_state_get_speed (state));
+}
+#endif
+
 /**
  * pk_backend_initialize:
  * This should only be run once per backend load, i.e. not every transaction
@@ -1631,6 +1645,11 @@ pk_backend_initialize (PkBackend *backend)
 	g_signal_connect (priv->state, "action-changed",
 			  G_CALLBACK (pk_backend_state_action_changed_cb),
 			  backend);
+#if ZIF_CHECK_VERSION(0,1,5)
+	g_signal_connect (priv->state, "notify::speed",
+			  G_CALLBACK (pk_backend_speed_changed_cb),
+			  backend);
+#endif
 
 	/* we don't want to enable this for normal runtime */
 	//zif_state_set_enable_profile (priv->state, TRUE);
@@ -3580,8 +3599,8 @@ pk_backend_run_transaction (PkBackend *backend, ZifState *state)
 		state_local = zif_state_get_child (state);
 		pk_backend_emit_package_array (backend, simulate_array, state_local);
 
-		/* this section done */
-		ret = zif_state_done (state, &error);
+		/* this section finished */
+		ret = zif_state_finished (state, &error);
 		if (!ret) {
 			pk_backend_error_code (backend,
 					       PK_ERROR_ENUM_TRANSACTION_CANCELLED,
@@ -3615,11 +3634,11 @@ pk_backend_run_transaction (PkBackend *backend, ZifState *state)
 			package = g_ptr_array_index (install, i);
 			trust_kind = zif_package_get_trust_kind (package);
 			if (trust_kind != ZIF_PACKAGE_TRUST_KIND_PUBKEY) {
+				ret = FALSE;
 				pk_backend_error_code (backend,
-						       PK_ERROR_ENUM_NOT_AUTHORIZED,
+						       PK_ERROR_ENUM_MISSING_GPG_SIGNATURE,
 						       "package %s is untrusted",
 						       zif_package_get_printable (package));
-				g_error_free (error);
 				goto out;
 			}
 		}

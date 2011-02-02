@@ -978,6 +978,7 @@
   <action id="org.freedesktop.packagekit.system-change-install-root">
     
     <description>Change location that packages are installed</description>
+    <description xml:lang="bg">Промяна на папката за инсталация на пакети</description>
     <description xml:lang="cs">Změnit místo, kam jsou balíčky instalovány</description>
     <description xml:lang="da">Ændr placeringen som pakkerne er installeret på</description>
     <description xml:lang="es">Modificar la ubicación en donde instalar los paquetes</description>
@@ -995,6 +996,7 @@
     <description xml:lang="zh_CN">更改软件包安装位置</description>
     <description xml:lang="zh_TW">變更套件要安裝的位置</description>
     <message>Authentication is required to change the location used to decompress packages</message>
+    <message xml:lang="bg">За смяната на мястото за разархивиране на пакети се изисква идентификация</message>
     <message xml:lang="cs">Pro změnu místa používaného pro rozbalování balíčků je vyžadováno oprávnění</message>
     <message xml:lang="da">Godkendelse kræves for at ændre placeringen, som er brugt til at afkomprimere pakker</message>
     <message xml:lang="es">Es necesario autenticarse para modificar la ubicación utilizada para descomprimir paquetes</message>
@@ -1107,13 +1109,21 @@
   <action id="org.freedesktop.packagekit.upgrade-system">
     
     <description>Upgrade System</description>
+    <description xml:lang="bg">Надграждане на системата</description>
     <description xml:lang="cs">Povýšit systém</description>
+    <description xml:lang="es">Actualizar el sistema</description>
+    <description xml:lang="pa">ਸਿਸਟਮ ਅੱਪਗਰੇਡ ਕਰੋ</description>
     <description xml:lang="pl">Aktualizacja systemu</description>
+    <description xml:lang="sv">Uppgradera systemet</description>
     <description xml:lang="uk">Оновлення системи</description>
     <description xml:lang="zh_TW">升級系統</description>
     <message>Authentication is required to upgrade the operating system</message>
+    <message xml:lang="bg">За надграждането на дистрибуцията се изисква идентификация</message>
     <message xml:lang="cs">Pro povýšení operačního systému je vyžadováno oprávnění</message>
+    <message xml:lang="es">Se necesita autenticación para actualizar el sistema</message>
+    <message xml:lang="pa">ਓਪਰੇਟਿੰਗ ਸਿਸਟਮ ਅੱਪਗਰੇਡ ਕਰਨ ਲਈ ਪਰਮਾਣਿਤ ਹੋਣ ਦੀ ਲੋੜ ਹੈ</message>
     <message xml:lang="pl">Wymagane jest uwierzytelnienie, aby zaktualizować system operacyjny</message>
+    <message xml:lang="sv">Autentisering krävs för att uppgradera operativsystemet</message>
     <message xml:lang="uk">Для оновлення версії операційної системи слід пройти розпізнавання</message>
     <message xml:lang="zh_TW">要升級作業系統需先通過身份認證</message>
     <icon_name>package-x-generic</icon_name>

@@ -21,6 +21,7 @@
 
 #include "config.h"
 
+#include <string.h>
 #include <glib-object.h>
 #include <glib/gstdio.h>
 #include <gio/gunixsocketaddress.h>
@@ -320,7 +321,8 @@ pk_test_client_helper_output_cb (GSocket *socket, GIOCondition condition, gpoint
 		g_assert_cmpint (len, >, 0);
 
 		/* good for us */
-		if (g_strcmp0 (buffer, "pong\n") == 0) {
+		if (buffer != NULL &&
+		    strncmp (buffer, "pong\n", len) == 0) {
 			_g_test_loop_quit ();
 			goto out;
 		}
@@ -375,7 +377,7 @@ pk_test_client_helper_func (void)
 	g_socket_set_keepalive (socket, TRUE);
 
 	/* connect to it */
-	address = g_unix_socket_address_new_with_type (filename, -1, G_UNIX_SOCKET_ADDRESS_PATH);
+	address = g_unix_socket_address_new (filename);
 	ret = g_socket_connect (socket, address, NULL, &error);
 	g_assert_no_error (error);
 	g_assert (ret);
@@ -1707,9 +1709,13 @@ pk_test_service_pack_func (void)
 {
 	PkServicePack *pack;
 	gchar **package_ids;
+	gboolean ret;
 
 	pack = pk_service_pack_new ();
 	g_assert (pack != NULL);
+
+	ret = pk_service_pack_set_temp_directory (pack, NULL);
+	g_assert (ret);
 
 	/* install package */
 	package_ids = pk_package_ids_from_id ("glib2;2.14.0;i386;fedora");
@@ -2056,6 +2062,9 @@ main (int argc, char **argv)
 
 	pk_debug_set_verbose (TRUE);
 	pk_debug_add_log_domain (G_LOG_DOMAIN);
+
+	/* some libraries need to know */
+	g_setenv ("PK_SELF_TEST", "1", TRUE);
 
 	/* tests go here */
 	g_test_add_func ("/packagekit-glib2/common", pk_test_common_func);

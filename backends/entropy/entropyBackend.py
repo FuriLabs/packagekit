@@ -347,6 +347,9 @@ class PackageKitEntropyMixin(object):
         Return repository name (identifier) given an EntropyRepository
         instance.
         """
+        if hasattr(repo_db, "name"):
+            # new Entropy releases, >=1.0_alpha8
+            return repo_db.name
         repo_name = self._repo_name_cache.get(repo_db)
         if repo_name is None:
             repo_name = repo_db.get_plugins_metadata().get("repo_name")
@@ -417,7 +420,7 @@ class PackageKitEntropyMixin(object):
         for pkg_id, c_repo, pk_pkg in pkgs:
             if c_repo is not self._entropy.installed_repository():
                 self.error(ERROR_DEP_RESOLUTION_FAILED,
-                    "Cannot remove a package coming fro a repository: %s" % (
+                    "Cannot remove a package coming from a repository: %s" % (
                         pk_pkg,))
                 return
 
@@ -448,6 +451,11 @@ class PackageKitEntropyMixin(object):
 
         self.percentage(0)
         self.status(STATUS_REMOVE)
+        inst_repo = self._entropy.installed_repository()
+
+        def _generate_map_item(etp_pkg_id):
+            _etp_match = (etp_pkg_id, inst_repo)
+            return etp_pkg_id, inst_repo, self._etp_to_id(_etp_match)
 
         # remove
         max_count = len(run_queue)
@@ -457,11 +465,15 @@ class PackageKitEntropyMixin(object):
 
             percent = PackageKitEntropyMixin.get_percentage(count, max_count)
 
-            self._log_message(__name__, "get_packages: done %s/100" % (
-                percent,))
+            self._log_message(__name__,
+                "_execute_etp_pkgs_remove: done %s/100" % (
+                    percent,))
 
             self.percentage(percent)
-            pkg_id, pkg_c_repo, pk_pkg = match_map.get(pkg_id)
+            map_item = match_map.get(pkg_id)
+            if map_item is None:
+                map_item = _generate_map_item(pkg_id)
+            pkg_id, pkg_c_repo, pk_pkg = map_item
             pkg_desc = pkg_c_repo.retrieveDescription(pkg_id)
             self.package(pk_pkg, INFO_REMOVING, pkg_desc)
 
@@ -1168,8 +1180,8 @@ class PackageKitEntropyBackend(PackageKitBaseBackend, PackageKitEntropyMixin):
 
             updates = []
             keyslot = c_repo.retrieveKeySlotAggregated(pkg_id)
-            matches, m_rc = self._entropy.atom_match(keyslot, multiMatch = True,
-                multiRepo = True)
+            matches, m_rc = self._entropy.atom_match(keyslot, multi_match = True,
+                multi_repo = True)
             for m_pkg_id, m_repo_id in matches:
                 if (m_pkg_id, m_repo_id) == (pkg_id, repo_name):
                     continue # fliter myself

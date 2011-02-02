@@ -91,7 +91,7 @@ pk_iso8601_from_date (const GDate *date)
 GDate *
 pk_iso8601_to_date (const gchar *iso_date)
 {
-	gboolean ret;
+	gboolean ret = FALSE;
 	guint retval;
 	guint d = 0;
 	guint m = 0;
@@ -103,8 +103,10 @@ pk_iso8601_to_date (const gchar *iso_date)
 		goto out;
 
 	/* try to parse complete ISO8601 date */
-	ret = g_time_val_from_iso8601 (iso_date, &time_val);
+	if (g_strstr_len (iso_date, -1, " ") != NULL)
+		ret = g_time_val_from_iso8601 (iso_date, &time_val);
 	if (ret && time_val.tv_sec != 0) {
+		g_debug ("Parsed %s %i", iso_date, ret);
 		date = g_date_new ();
 		g_date_set_time_val (date, &time_val);
 		goto out;
@@ -218,6 +220,10 @@ pk_get_distro_id (void)
 	   For instance, x86_64 packages cannot be
 	   installed on a i386 machine.
 	*/
+
+	/* we don't want distro specific results in 'make check' */
+	if (g_getenv ("PK_SELF_TEST") != NULL)
+		return g_strdup ("selftest;11.91;i686");
 
 	/* we can't get arch from /etc */
 	arch = pk_get_distro_id_machine_type ();

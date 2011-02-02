@@ -834,11 +834,24 @@
             
               An enumerated group type, or unknown. The search
               cannot contain spaces.
+              The following recommendations are made below:
             
             
-              If the values strings are prefixed with @ then
-              this is treated as a category, for example:
-              @web-development.
+              If the values strings are prefixed with category: then
+              the request is treated as a 'category search', for example:
+              category:web-development.
+              Note: the old nomenclature for a 'category search' suggested
+              using a @ prefix for the values options.
+              This is still supported, and backends should continue to support
+              category searches like @web-development.
+            
+            
+              If the values strings are prefixed with repo: then
+              the request is treated as a 'repository search', for example:
+              repo:fedora-debuginfo.
+              In this instance all packages that were either installed
+              from, or can be installed from the fedora-debuginfo
+              source would be returned.
             
           </simpara></listitem></varlistentry></variablelist><refsect2><title><anchor role="function" id="Transaction.SearchNames"/>SearchNames ()</title><indexterm><primary>SearchNames</primary><secondary>Transaction</secondary></indexterm><programlisting>SearchNames (in  's'  filter,
              in  'as' values)</programlisting></refsect2>

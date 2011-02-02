@@ -40,13 +40,46 @@ def mapGroup(categorieList):
                     where[group] = 1
     return where
 #}}}
+
+def _in_list(lst, value):
+    '''Return True if value is a substring of any element in list @lst
+    '''
+    for i in lst:
+        if value in i:
+            return True
+    return False
+
+def _is_sub_list(lst, values):
+    '''Return True if all values appear as substrings in any element of @lst
+    '''
+    for s in values:
+        if not _in_list(lst, s):
+            return False
+    return True
+
 class XMLRepo:
-    xml_path = ""
-    repository = ""
-    def __init__(self, repo, path, pk):
+
+    # Let's only get XML data from things that we support.
+    # XXX We really should replace this with the Conary
+    #     RESTful API real soon now.
+    server = "http://packages.foresightlinux.org/cache/"
+    pregenerated_XML_labels = (
+        'conary.rpath.com@rpl:2-qa',
+        'foresight.rpath.org@fl:2',
+        'foresight.rpath.org@fl:2-qa',
+        'foresight.rpath.org@fl:2-devel',
+        'foresight.rpath.org@fl:2-kernel',
+        'foresight.rpath.org@fl:2-qa-kernel',
+        'foresight.rpath.org@fl:2-devel-kernel',
+    )
+
+    def __init__(self, label, path, pk):
         self.pk = pk
-        self.xml_path = path
-        self._setRepo(repo)
+        self.label = label
+        self.xml_file = "%s/%s.xml" % (path, label)
+
+        # Build up cache on first run
+        self.refresh_cache()
 
     def resolve(self, search_trove):
         """ resolve its a search with name """
@@ -71,21 +104,34 @@ class XMLRepo:
             return self._getAllPackages()
         return []
 
-    def _setRepo(self,repo):  
-        self.repo = repo
-        doc = self._open()
-        self.label = str( doc.get("label") )
+    def _fetchXML(self):
+        log.info("Updating XMLCache for label %s" % self.label)
+        if self.label in self.pregenerated_XML_labels:
+            wwwfile = "%s/%s.xml" % (self.server, self.label)
+            try:
+                wget = url.urlopen(wwwfile)
+                openfile = open(self.xml_file, 'w')
+                openfile.write(wget.read())
+                openfile.close()
+            except:
+                self.pk.error(ERROR_NO_NETWORK,"Failed to fetch %s." % wwwfile)
+        else:
+            generateXML.init(self.label, self.xml_file, self.conarypk)
+
+    def refresh_cache(self, force=False):
+        if force or not os.path.exists(self.xml_file):
+            self._fetchXML()
 
     def _open(self):
         try:
             return self._repo
         except AttributeError:
             try:
-                r = self.xml_path +self.repo
-                self._repo =   cElementTree.parse(r).getroot()
+                self._repo = cElementTree.parse(self.xml_file).getroot()
                 return self._repo
-            except:
-                self.pk.error(ERROR_REPO_CONFIGURATION_ERROR," The file %s not parsed submit a issue at http://issues.foresightlinux.org" % self.repo )
+            except SyntaxError as e:
+                self.pk.error(ERROR_REPO_CONFIGURATION_ERROR, "Failed to parse %s: %s. A cache refresh should fix this." %
+                        (self.xml_file, str(e)))
        
 
     def _generatePackage(self, package_node ): 
@@ -119,51 +165,52 @@ class XMLRepo:
                 r.append(pkg)
         return r
 
-    def _searchNamePackage(self, name):
+    def _searchNamePackage(self, searchlist):
+        '''Search in package name
+        '''
         doc = self._open()
         results = []
+        searchlist = [s.lower() for s in searchlist]
         for package in doc.findall("Package"):
-            if name.lower() in str(package.find("name").text).lower():
+            pn = str(package.find("name").text).lower()
+            if _is_sub_list([pn], searchlist):
                 results.append(self._generatePackage(package))
         return results
 
-    def _searchGroupPackage(self, name):
-        doc = self._open()
-        results_group = []
-        for package in doc.findall("Package"):
-            pkg = self._generatePackage(package)
-            if pkg.has_key("category"):
-                group = getGroup(pkg["category"])
-                if name.lower() == group:
-                    results_group.append(pkg)
-        return results_group
-
-
-    def _searchDetailsPackage(self, name):
-        return self._searchPackage(name)
-
-    def _searchPackage(self, name):
+    def _searchGroupPackage(self, searchlist):
+        '''Search in package category
+        '''
         doc = self._open()
         results = []
         for package in doc.findall("Package"):
-            # categoria
-            pkg = self._generatePackage(package)
-            for i in pkg.keys():
-                if i  == "label":
-                    continue
-                if i =='category':
-                    for j in pkg[i]:
-                        if name.lower() in j.lower():
-                            results.append(pkg)
-                
-                if type(pkg[i]) == str:
-                    check = pkg[i].lower()
-                else:
-                    check = pkg[i]
-                if name.lower() in check:
-                    results.append(pkg)
-            
+            category = package.findall("category")
+            if not category:
+                continue
+            for s in searchlist:
+                if s.lower() in mapGroup([c.text for c in category]):
+                    results.append(self._generatePackage(package))
+                    break
+
         return results
+
+    def _searchDetailsPackage(self, searchlist):
+        '''Search in package name, shortDesc, longDesc, and category
+        '''
+        doc = self._open()
+        results = []
+        searchlist = [s.lower() for s in searchlist]
+        for package in doc.findall("Package"):
+            info = (
+                package.find("name").text.lower(),
+                getattr(package.find("shortDesc"), "text", "").lower(),
+                getattr(package.find("longDesc"), "text", "").lower(),
+                getattr(package.find("category"), "text", "").lower(),
+            )
+            if _is_sub_list(info, searchlist):
+                results.append(self._generatePackage(package))
+
+        return results
+
     def _getAllPackages(self):
         doc = self._open()
         results = []
@@ -175,20 +222,6 @@ class XMLRepo:
 
 class XMLCache:
 
-    # Let's only get XML data from things that we support.
-    # XXX We really should replace this with the Conary
-    #     RESTful API real soon now.
-    pregenerated_XML_labels = (
-        'conary.rpath.com@rpl:2-qa',
-        'foresight.rpath.org@fl:2',
-        'foresight.rpath.org@fl:2-qa',
-        'foresight.rpath.org@fl:2-devel',
-        'foresight.rpath.org@fl:2-kernel',
-        'foresight.rpath.org@fl:2-qa-kernel',
-        'foresight.rpath.org@fl:2-devel-kernel',
-    )
-
-    server = "http://packages.foresightlinux.org/cache/"
     repos = []
     dbPath = '/var/cache/conary/'
     jobPath = dbPath + 'jobs'
@@ -207,9 +240,7 @@ class XMLCache:
             os.makedirs(self.xml_path )
 
         for label in self.labels:
-           if not os.path.exists( self.xml_path + label + ".xml"  ):
-                self._fetchXML(label)
-           self.repos.append(XMLRepo( label + ".xml", self.xml_path, self.pk ))
+            self.repos.append(XMLRepo(label, self.xml_path, self.pk))
 
     def _getJobCachePath(self, applyList):
         applyStr = '\0'.join(['%s=%s[%s]--%s[%s]%s' % (x[0], x[1][0], x[1][1], x[2][0], x[2][1], x[3]) for x in applyList])
@@ -248,8 +279,8 @@ class XMLCache:
         pass
 
     def refresh(self):
-        for label in self.labels:
-            self._fetchXML(label)
+        for repo in self.repos:
+            repo.refresh_cache(force=True)
 
     def resolve(self, name ):
         for repo in self.repos:
@@ -265,9 +296,7 @@ class XMLCache:
         """
         repositories_result = []
         for repo in self.repos:
-            results = repo.search(search , where )
-            for i in results:
-                repositories_result.append(i)
+            repositories_result.extend(repo.search(search, where))
         return self.list_set( repositories_result)
 
     def resolve_list(self, search_list ):
@@ -280,6 +309,9 @@ class XMLCache:
 
     def list_set(self, repositories_result ):
         names = set( [i["name"] for i in repositories_result] )
+        if len(repositories_result) == len(names):
+            return repositories_result
+
         #log.info("names>>>>>>>>>>>>>>>>>>>>><")
         #log.info(names)
         results = []
@@ -290,22 +322,6 @@ class XMLCache:
                 names.remove(i["name"])
         #log.debug([i["name"] for i in results ] )
         return results
-
-    def _fetchXML(self, label):
-        log.info("Updating XMLCache for label %s" % label)
-        filename = label + '.xml'
-        filepath = self.xml_path + filename
-        if label in self.pregenerated_XML_labels:
-            wwwfile = self.server + filename
-            try:
-                wget = url.urlopen( wwwfile )
-                openfile = open(filepath,'w')
-                openfile.writelines(wget.readlines())
-                openfile.close()
-            except:
-                self.pk.error(ERROR_NO_NETWORK,"%s can not open" % wwwfile)
-        else:
-            generateXML.init(label,filepath,self.conarypk)
 
     def getGroup(self,categorieList):
         return getGroup(categorieList)

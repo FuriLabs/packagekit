@@ -844,6 +844,8 @@ uninstall-am: uninstall-libLTLIBRARIES \
 
 include ${top_srcdir}/moc.mk
 
+.NOTPARALLEL:
+
 clean-local:
 	rm -f *~
 	rm -f $(CLEANFILES)

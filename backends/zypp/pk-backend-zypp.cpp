@@ -27,6 +27,7 @@
 #include <string>
 #include <set>
 #include <glib/gi18n.h>
+#include <sys/vfs.h>
 
 #include <zypp/ZYppFactory.h>
 #include <zypp/ResObject.h>
@@ -34,6 +35,7 @@
 #include <zypp/ui/Selectable.h>
 #include <zypp/Patch.h>
 #include <zypp/Package.h>
+#include <zypp/SrcPackage.h>
 #include <zypp/Pattern.h>
 #include <zypp/Product.h>
 #include <zypp/Repository.h>
@@ -51,6 +53,9 @@
 #include <zypp/base/Functional.h>
 #include <zypp/parser/ProductFileReader.h>
 #include <zypp/TmpPath.h>
+#include <zypp/PathInfo.h>
+#include <zypp/repo/PackageProvider.h>
+#include <zypp/repo/SrcPackageProvider.h>
 
 #include <zypp/sat/Solvable.h>
 
@@ -837,7 +842,7 @@ backend_install_files_thread (PkBackend *backend)
 
 		// look for the packages and set them to toBeInstalled
 		std::vector<zypp::sat::Solvable> *solvables = 0;
-		solvables = zypp_get_packages_by_name (backend, rpmHeader->tag_name ().c_str (), zypp::ResKind::package, FALSE);
+		solvables = zypp_get_packages_by_name (backend, rpmHeader->tag_name ().c_str (), zypp::ResKind::package, TRUE);
 		zypp::PoolItem *item = NULL;
 
 		gboolean found = FALSE;
@@ -1215,6 +1220,7 @@ pk_backend_install_signature (PkBackend *backend, PkSigTypeEnum type, const gcha
 static gboolean
 backend_remove_packages_thread (PkBackend *backend)
 {
+	gboolean autoremove;
 	gchar **package_ids;
 	std::vector<zypp::PoolItem> *items = new std::vector<zypp::PoolItem> ();
 
@@ -1228,6 +1234,8 @@ backend_remove_packages_thread (PkBackend *backend)
 		pk_backend_finished (backend);
 		return FALSE;
 	}
+	autoremove = pk_backend_get_bool (backend, "autoremove");
+	zypp->resolver()->setCleandepsOnRemove(autoremove);
 
 	target = zypp->target ();
 
@@ -1395,6 +1403,12 @@ backend_find_packages_thread (PkBackend *backend)
 
 	zypp = get_zypp (backend);
 	if (zypp == NULL){
+		pk_backend_finished (backend);
+		return FALSE;
+	}
+
+	// refresh the repos before searching
+	if (!zypp_refresh_cache (backend, FALSE)) {
 		pk_backend_finished (backend);
 		return FALSE;
 	}
@@ -2039,6 +2053,98 @@ gchar *
 pk_backend_get_mime_types (PkBackend *backend)
 {
 	return g_strdup ("application/x-rpm");
+}
+
+static gboolean
+backend_download_packages_thread (PkBackend *backend)
+{
+	gchar **package_ids;
+	gulong size = 0;
+	
+	if (!zypp_refresh_cache (backend, FALSE)) {
+		pk_backend_finished (backend);
+		return FALSE;
+	}
+
+	zypp::ZYpp::Ptr zypp;
+	zypp = get_zypp (backend);
+	if (zypp == NULL){
+		pk_backend_finished (backend);
+		return FALSE;
+	}
+
+	package_ids = pk_backend_get_strv (backend, "package_ids");
+	if (!pk_package_ids_check (package_ids)) {
+		return zypp_backend_finished_error (
+			backend, PK_ERROR_ENUM_PACKAGE_ID_INVALID, "invalid package id");
+	}
+	
+	try
+	{
+		zypp::ResPool pool = zypp_build_pool (backend, FALSE);
+		zypp::PoolItem item;
+
+		pk_backend_set_status (backend, PK_STATUS_ENUM_DOWNLOAD);
+		for (guint i = 0; package_ids[i]; i++) {
+			gchar **id_parts = pk_package_id_split (package_ids[i]);
+			std::string name = id_parts[PK_PACKAGE_ID_NAME];
+
+			for (zypp::ResPool::byName_iterator it = pool.byNameBegin (name); it != pool.byNameEnd (name); it++) {
+				if (zypp_ver_and_arch_equal (it->satSolvable(), id_parts[PK_PACKAGE_ID_VERSION],
+							     id_parts[PK_PACKAGE_ID_ARCH])) {
+					size += 2 * it->satSolvable().lookupNumAttribute (zypp::sat::SolvAttr::downloadsize);
+					item = *it;
+					break;
+				}
+			}
+
+			struct statfs stat;
+			statfs(pk_backend_get_root (backend), &stat);
+			if (size > stat.f_bavail * 4) {
+				g_strfreev (id_parts);
+				pk_backend_error_code (backend, PK_ERROR_ENUM_NO_SPACE_ON_DEVICE,
+					"Insufficient space in download directory '%s'.", pk_backend_get_root (backend));
+				pk_backend_finished (backend);
+				return FALSE;
+			}
+
+			zypp::sat::Solvable solvable = item.resolvable()->satSolvable();
+			zypp::filesystem::Pathname tmp_file;
+			zypp::repo::RepoMediaAccess access;
+			zypp::repo::DeltaCandidates deltas;
+			if (strcmp (id_parts[PK_PACKAGE_ID_ARCH], "source") == 0) {
+				zypp::SrcPackage::constPtr package = zypp::asKind<zypp::SrcPackage>(item.resolvable());
+				zypp::repo::SrcPackageProvider pkgProvider(access);
+				pkgProvider.provideSrcPackage(package);
+				tmp_file = solvable.repository().info().packagesPath()+ package->location().filename();
+			
+			} else {
+				zypp::Package::constPtr package = zypp::asKind<zypp::Package>(item.resolvable());
+				zypp::repo::PackageProvider pkgProvider(access, package, deltas);
+				pkgProvider.providePackage();
+				tmp_file = solvable.repository().info().packagesPath()+ package->location().filename();
+			}
+			pk_backend_files (backend, package_ids[i], tmp_file.c_str());
+			zypp_backend_package (backend, PK_INFO_ENUM_DOWNLOADING, solvable, item->summary ().c_str());
+
+			g_strfreev (id_parts);
+		}
+	} catch (const zypp::Exception &ex) {
+		return zypp_backend_finished_error (
+			backend, PK_ERROR_ENUM_PACKAGE_DOWNLOAD_FAILED, ex.asUserString().c_str());
+	}
+
+	pk_backend_finished (backend);
+	return TRUE;
+}
+
+/**
+ * pk_backend_download_packages:
+ */
+void
+pk_backend_download_packages (PkBackend *backend, gchar **package_ids, const gchar *directory)
+{
+	pk_backend_thread_create (backend, backend_download_packages_thread);
 }
 
 /**
