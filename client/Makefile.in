@@ -62,8 +62,8 @@ am__DEPENDENCIES_2 =  \
 	$(top_builddir)/lib/packagekit-glib2/libpackagekitprivate.a \
 	$(am__DEPENDENCIES_1)
 pkcon_DEPENDENCIES = $(am__DEPENDENCIES_1) $(am__DEPENDENCIES_1) \
-	$(am__DEPENDENCIES_1) $(am__DEPENDENCIES_2) \
-	$(am__DEPENDENCIES_1)
+	$(am__DEPENDENCIES_1) $(am__DEPENDENCIES_1) \
+	$(am__DEPENDENCIES_2) $(am__DEPENDENCIES_1)
 AM_V_lt = $(am__v_lt_$(V))
 am__v_lt_ = $(am__v_lt_$(AM_DEFAULT_VERBOSITY))
 am__v_lt_0 = --silent
@@ -75,15 +75,16 @@ am_pkgenpack_OBJECTS = pkgenpack-pk-generate-pack.$(OBJEXT) \
 pkgenpack_OBJECTS = $(am_pkgenpack_OBJECTS)
 pkgenpack_DEPENDENCIES = $(am__DEPENDENCIES_1) $(am__DEPENDENCIES_1) \
 	$(am__DEPENDENCIES_1) $(am__DEPENDENCIES_1) \
-	$(am__DEPENDENCIES_2) $(am__DEPENDENCIES_1)
+	$(am__DEPENDENCIES_1) $(am__DEPENDENCIES_2) \
+	$(am__DEPENDENCIES_1)
 pkgenpack_LINK = $(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) \
 	$(LIBTOOLFLAGS) --mode=link $(CCLD) $(pkgenpack_CFLAGS) \
 	$(CFLAGS) $(AM_LDFLAGS) $(LDFLAGS) -o $@
 am_pkmon_OBJECTS = pkmon-pk-monitor.$(OBJEXT) $(am__objects_1)
 pkmon_OBJECTS = $(am_pkmon_OBJECTS)
 pkmon_DEPENDENCIES = $(am__DEPENDENCIES_1) $(am__DEPENDENCIES_1) \
-	$(am__DEPENDENCIES_1) $(am__DEPENDENCIES_2) \
-	$(am__DEPENDENCIES_1)
+	$(am__DEPENDENCIES_1) $(am__DEPENDENCIES_1) \
+	$(am__DEPENDENCIES_2) $(am__DEPENDENCIES_1)
 pkmon_LINK = $(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) \
 	$(LIBTOOLFLAGS) --mode=link $(CCLD) $(pkmon_CFLAGS) $(CFLAGS) \
 	$(AM_LDFLAGS) $(LDFLAGS) -o $@
@@ -416,6 +417,7 @@ EXTRA_DIST = \
 
 INCLUDES = \
 	$(GLIB_CFLAGS)					\
+	$(GIO_CFLAGS)					\
 	$(DBUS_CFLAGS)					\
 	$(SQLITE_CFLAGS)				\
 	-DBINDIR=\"$(bindir)\"			 	\
@@ -444,6 +446,7 @@ pkcon_SOURCES = \
 
 pkcon_LDADD = \
 	$(GLIB_LIBS)					\
+	$(GIO_LIBS)					\
 	$(DBUS_LIBS)					\
 	$(SQLITE_LIBS)					\
 	$(PK_GLIB2_LIBS)				\
@@ -459,6 +462,7 @@ pkmon_SOURCES = \
 
 pkmon_LDADD = \
 	$(GLIB_LIBS)					\
+	$(GIO_LIBS)					\
 	$(DBUS_LIBS)					\
 	$(SQLITE_LIBS)					\
 	$(PK_GLIB2_LIBS)				\
@@ -475,6 +479,7 @@ pkgenpack_SOURCES = \
 pkgenpack_LDADD = \
 	$(ARCHIVE_LIBS)					\
 	$(GLIB_LIBS)					\
+	$(GIO_LIBS)					\
 	$(DBUS_LIBS)					\
 	$(SQLITE_LIBS)					\
 	$(PK_GLIB2_LIBS)				\

@@ -1,6 +1,894 @@
+commit 2dfcd20f9a2287d6e08edec549c9977352eef0fc
+Author: Richard Hughes <richard@hughsie.com>
+Date:   2011-02-01
+
+    Release version 0.6.12
+
+M	NEWS
+M	RELEASE
+M	configure.ac
+M	docs/html/pk-download.html
+M	po/as.po
+M	po/bn_IN.po
+M	po/ca.po
+M	po/el.po
+M	po/eu.po
+M	po/gu.po
+M	po/id.po
+M	po/it.po
+M	po/lt.po
+M	po/mr.po
+M	po/nb.po
+M	po/nl.po
+M	po/pt.po
+M	po/ru.po
+M	po/th.po
+M	po/tr.po
+
+commit 23b4d884fd446cdd557880944162c8aba657088a
+Author: aalam <apreet.alam@gmail.com>
+Date:	2011-02-01
+
+    Update Panjabi translation
+
+    Signed-off-by: Richard Hughes <richard@hughsie.com>
+
+M	po/pa.po
+
+commit 3ae779c53fe68b416f468d63a5333e310d18fc97
+Author: fri <pavelfric@seznam.cz>
+Date:	2011-02-01
+
+    Update Czech translation
+
+    Signed-off-by: Richard Hughes <richard@hughsie.com>
+
+M	po/cs.po
+
+commit c0fd3f893eb66f5a9d5c106dc57cc9a80b40ec8f
+Author: aloriel <aloriel@gmail.com>
+Date:	2011-02-01
+
+    Update Spanish translation
+
+    Signed-off-by: Richard Hughes <richard@hughsie.com>
+
+M	po/es.po
+
+commit 0300e100c91dca5140308bb2752c4f6d5be55a21
+Author: al_shopov <ash@kambanaria.org>
+Date:	2011-02-01
+
+    Update Bulgarian translation
+
+    Signed-off-by: Richard Hughes <richard@hughsie.com>
+
+M	po/bg.po
+
+commit f88df78390b36aa686513c21a59571b77c3deccf
+Author: yeager <po@danielnylander.se>
+Date:	2011-02-01
+
+    Update Swedish translation
+
+    Signed-off-by: Richard Hughes <richard@hughsie.com>
+
+M	po/sv.po
+
+commit bb43ac9197a0060237af7e5c8203ddbeece8feeb
+Author: Richard Hughes <richard@hughsie.com>
+Date:	2011-02-01
+
+    glib: allow the service pack self tests to run by setting the temp
+    directory
+
+M	lib/packagekit-glib2/pk-client.c
+M	lib/packagekit-glib2/pk-self-test.c
+
+commit 08f68c5b17a72120e1477fa2cf8060d4ef66b47a
+Author: Richard Hughes <richard@hughsie.com>
+Date:	2011-02-01
+
+    glib: only use g_time_val_from_iso8601() when we have a valid
+    ISO8601 value
+
+    The ABI of glib seems to have changed (or a bug has been fixed)
+    where values like g_time_val_from_iso8601('2008-08-23') used to
+    fail, and now passes (with invalid results).
+
+M	lib/packagekit-glib2/pk-common.c
+
+commit 1730723c5c35a7247f2efdb652881522cc2071d7
+Author: Jesse Zhang <zh.jesse@gmail.com>
+Date:	2011-02-01
+
+    conary: space means AND for search-name and search-details
+
+    As specified in the reference manual, "search can contain many words
+    separated by spaces. In this case, the search operator is AND."
+
+M	backends/conary/XMLCache.py
+M	backends/conary/test-label.xml
+M	backends/conary/test.py
+
+commit 5c4885233a72ea2b78fa9edc74c7db2b9b0ff1f5
+Author: Jesse Zhang <zh.jesse@gmail.com>
+Date:	2011-02-01
+
+    conary: fix get-files
+
+    capsules=False is needed for the iterFilesInTrove call.
+
+    Files are not contained in 'packages', but in components. So no
+    need to
+    do iterFilesInTrove on the package.
+
+    Also get_package_from_id doesn't have to do repoquery if package is
+    installed locally.
+
+M	backends/conary/conaryBackend.py
+
+commit 01b968029b98cf5f1b14ee3ac952f4a1f451fee1
+Author: Jesse Zhang <zh.jesse@gmail.com>
+Date:	2011-02-01
+
+    conary: fix resolve to show all versions of installed pkgs
+
+M	backends/conary/conaryBackend.py
+
+commit 8682a16fe30c478f179581ea6231fdc9c9ec4a4b
+Author: Jesse Zhang <zh.jesse@gmail.com>
+Date:	2011-01-31
+
+    conary: fix ~installed filter
+
+    Commit e8787ffd has a bug. If a package was installed locally,
+    a search
+    with '~installed' filter didn't return information about this package.
+
+M	backends/conary/conaryBackend.py
+
+commit 6c020d400417cc32c32036b8ed67368d7ea3ee9a
+Author: Jesse Zhang <zh.jesse@gmail.com>
+Date:	2011-01-31
+
+    conary: fix search to show all versions of installed pkgs
+
+    Remove unused function _edit_package.
+
+M	backends/conary/conaryBackend.py
+
+commit fdebe11e4dbeaa808727eaa7613ec8b717846b9a
+Author: Jesse Zhang <zh.jesse@gmail.com>
+Date:	2011-01-31
+
+    conary: add get_roles so pkcon correctly reports all supported
+    commands
+
+M	backends/conary/pk-backend-conary.c
+
+commit cf84e3ca9c59080d7a0edcaaac9f252e1b5f0f71
+Author: Jesse Zhang <zh.jesse@gmail.com>
+Date:	2011-01-31
+
+    conary: fix resolve to not do repo_query if trove is found locally
+
+    If package is found in local db, return it and don't have to do
+    repoquery.
+
+    Rename request_query to repo_query. 'conary rq' means repo_query, not
+    'request_query'.
+
+M	backends/conary/conaryBackend.py
+M	backends/conary/conarypk.py
+
+commit ae8787ffd6e4b3ab2dd52694e68ace1edc56b427
+Author: Jesse Zhang <zh.jesse@gmail.com>
+Date:	2011-01-31
+
+    conary: fix installed filter
+
+    ConaryFilter can't do proper filtering, since our list of troves
+    doesn't
+    contain information about whether a trove is installed.
+
+    Check filters manually before calling add_installed() and
+    add_available().
+
+M	backends/conary/conaryBackend.py
+
+commit d119e267223e97e2cff483b65fa7c9fc99a57eb1
+Author: Jesse Zhang <zh.jesse@gmail.com>
+Date:	2011-01-30
+
+    conary: clean up resolve_list
+
+    Give more staightforward names to variables and organize codes into
+    logical blocks.
+
+    _search_package doesn't need to return an index.
+
+M	backends/conary/conaryBackend.py
+
+commit 261ac5a3dc98652cb8aac3b04a8abe9d7c788c75
+Author: Jesse Zhang <zh.jesse@gmail.com>
+Date:	2011-01-30
+
+    conary: fix get-details to really output the licenses
+
+    Simplify the code a bit and don't filter through
+    PackageKitEnum.free_licenses.
+
+M	backends/conary/conaryBackend.py
+
+commit d05d4f28e6099cf3c5dc539e07a06d48b87cbc80
+Author: Jesse Zhang <zh.jesse@gmail.com>
+Date:	2011-01-29
+
+    conary: simplify a little
+
+M	backends/conary/XMLCache.py
+M	backends/conary/conaryBackend.py
+
+commit df2adcee7e7b6b5eec35c8aa817be9d048369866
+Author: Jesse Zhang <zh.jesse@gmail.com>
+Date:	2011-01-29
+
+    conary: add some test
+
+A	backends/conary/test-label.xml
+A	backends/conary/test.py
+
+commit cfb59cda1201c6cab34cff9f9c7935caedbbd5cd
+Author: Jesse Zhang <zh.jesse@gmail.com>
+Date:	2011-01-29
+
+    conary: fix refresh-cache
+
+    Stop trying to parse the XML file in __init__, or else refresh-cache
+    has
+    no way to continue.
+
+    Also need to put _fetch_XML in XMLRepo. Data about a single repo
+    should
+    be managed in XMLRepo instead of XMLCache.
+
+M	backends/conary/XMLCache.py
+
+commit 41a1cff532d114bd519b127c13a79609f29c0b31
+Author: Jesse Zhang <zh.jesse@gmail.com>
+Date:	2011-01-29
+
+    conary: fix search-details
+
+    search-details is now provided the values argument in a list.
+
+M	backends/conary/XMLCache.py
+
+commit 41eb2d4798ccd7c667f6e78be80a321d78aeb652
+Author: Jesse Zhang <zh.jesse@gmail.com>
+Date:	2011-01-29
+
+    conary: fix search-group
+
+    search-group is now provided the values argument in a list.
+
+M	backends/conary/XMLCache.py
+
+commit 9b839457d60a08bc347ceb58582a653a35a7336e
+Author: Jesse Zhang <zh.jesse@gmail.com>
+Date:	2011-01-29
+
+    conary: fix search-name
+
+    search-name is now provided the values argument in a list instead
+    of a str.
+
+M	backends/conary/XMLCache.py
+
+commit 7df4eb7270d390836aaff598e49b26dc4674cc65
+Author: Richard Hughes <richard@hughsie.com>
+Date:	2011-01-27
+
+    glib: do not return distro-specific id's whilst testing, to fix
+    'make check' on Debian
+
+M	data/tests/test.catalog
+M	lib/packagekit-glib2/pk-common.c
+M	lib/packagekit-glib2/pk-control.c
+
+commit 1466503bab00a316252bb1d951d7a3167da2d587
+Author: Richard Hughes <richard@hughsie.com>
+Date:	2011-01-27
+
+    glib: ensure we test for and always run the self-check-socket-program
+    in 'make check'
+
+M	lib/packagekit-glib2/pk-client.c
+M	lib/packagekit-glib2/pk-self-test.c
+
+commit 5f4857b53ad9209a5eb83612312cf8515389192a
+Author: Richard Hughes <richard@hughsie.com>
+Date:	2011-01-26
+
+    trivial: Use strncmp rather than strcmp when passing the buffer as
+    we can't rely on the data being NULL terminated
+
+M	lib/packagekit-glib2/pk-self-test.c
+
+commit 8cb9b2f022cfb920e78fb9c73adbdbba9fa29eb0
+Author: Richard Hughes <richard@hughsie.com>
+Date:	2011-01-26
+
+    Fix calling pk_client_helper_start() with no environment set
+
+M	lib/packagekit-glib2/pk-client-helper.c
+
+commit ebea77ef7c678daf3c993a0976c32ecd529c4809
+Author: Richard Hughes <richard@hughsie.com>
+Date:	2011-01-26
+
+    glib: Check sscanf() returned the correct number of items before
+    using the answer
+
+M	lib/packagekit-glib2/pk-console-shared.c
+
+commit 8be5cd1f326b34d4d0e911a14b0151fba5cb038b
+Merge: 9086620 c8d4cd0
+Author: Matthias Klumpp <matthias@nlinux.org>
+Date:	2011-01-25
+
+    Merge branch 'master' of gitorious.org:packagekit/packagekit
+
+commit 90866206886d635770a47047b54d65f776af9e8c
+Author: Colin Watson <cjwatson@canonical.com>
+Date:	2011-01-25
+
+    aptcc: Use a pty rather than a pipe for writing to apt
+
+    This works just as well for writing conffile prompt responses, and
+    allows apt to produce useful entries in /var/log/apt/term.log again.
+
+M	backends/aptcc/apt.cpp
+
+commit 481f5a1616c8d3c0f0ce1787baacd59ded9f4d70
+Author: Colin Watson <cjwatson@canonical.com>
+Date:	2011-01-25
+
+    Set client locale to LC_MESSAGES rather than LC_ALL
+
+    If some locale categories are set to different values (e.g.
+    LANG=en_GB.UTF-8 LC_COLLATE=C), then glibc's setlocale (LC_ALL, NULL)
+    will return a composite name, which looks something like this:
+
+      LC_CTYPE=en_GB.UTF-8;LC_NUMERIC=en_GB.UTF-8;LC_TIME=en_GB.UTF-8;LC_COLLATE=C;LC_MONETARY=en_GB.UTF-8;LC_MESSAGES=en_GB.UTF-8;LC_PAPER=en_GB.UTF-8;LC_NAME=en_GB.UTF-8;LC_ADDRESS=en_GB.UTF-8;LC_TELEPHONE=en_GB.UTF-8;LC_MEASUREMENT=en_GB.UTF-8;LC_IDENTIFICATION=en_GB.UTF-8
+
+    Setting LANG to this, as some backends do, will produce invalid
+    results;
+    the only thing that can validly be done with this string is to set the
+    LC_ALL locale category to it.
+
+    However, in some cases (e.g. the aptcc backend), we need to set the
+    locale in the environment rather than via setlocale.  Since some
+    programs have been known to look at locale environment variables
+    directly, passing a composite name through the environment is probably
+    not the most reliable approach.  Instead, fetch the LC_MESSAGES
+    category, since our uses of the client locale are generally for
+    message
+    localization.
+
+M	lib/packagekit-glib2/pk-client.c
+
+commit 2fcce8f5014a44e28d00c47e9f01c1b76c8abc5c
+Author: Matthias Klumpp <matthias@nlinux.org>
+Date:	2011-01-25
+
+    aptcc: sanitize file descriptor handling
+
+    Make sure that apt always has a stdout fd.	Running apt with no fd
+    1 is
+    invalid, and causes any maintainer script that writes to stdout
+    (not an
+    uncommon practice) to die with EBADF.
+
+    Close pipes we don't need before running apt.
+    (patch by Colin Watson <cjwatson@canonical.com>)
+
+M	backends/aptcc/apt.cpp
+
+commit c8d4cd05cfc9732765f1b5241f6c50927e1dc7ee
+Author: Richard Hughes <richard@hughsie.com>
+Date:	2011-01-25
+
+    yum: Update the cached comps group list when enabling of disabling
+    a repo. Fixes rh#629049
+
+M	backends/yum/yumBackend.py
+
+commit b136989d626b49f28181fee1dc599aaf2238b592
+Author: Richard Hughes <richard@hughsie.com>
+Date:	2011-01-25
+
+    yum: make a few trivial changes to keep pylint happy
+
+M	backends/yum/yumBackend.py
+
+commit 4fbf73124e83f90a952a951847c83e3df4fa954c
+Author: Richard Hughes <richard@hughsie.com>
+Date:	2011-01-25
+
+    yum: Correct three syntax errors that could cause a backtrace
+
+M	backends/yum/yumBackend.py
+
+commit 36d97933479400948d96a57c1a72921b219a505d
+Author: Richard Hughes <richard@hughsie.com>
+Date:	2011-01-25
+
+    yum: Do not attempt to call yum.repos twice when using RHN
+
+    If using PK+yum+RHN we can try to setup the prerepoconf stuff twice,
+    which explodes in an ugly python backtrace. Try to do something clever
+    in this case, to avoid the AttributeError.
+
+    Patch idea from James Antill, many thanks.
+
+M	backends/yum/yumBackend.py
+
+commit 8c385ed7a5b972d213ccef887d90065988c03e19
+Author: Richard Hughes <richard@hughsie.com>
+Date:	2011-01-25
+
+    trivial: fix up the pylint checker script to run with modern pylints
+
+M	lib/python/packagekit/pylint.sh
+
+commit d7a2d1e7b15c8d6f8c45bcdd1948d80cf3b6a423
+Author: Richard Hughes <richard@hughsie.com>
+Date:	2011-01-25
+
+    trivial: update the fedora spec file
+
+M	contrib/PackageKit.spec.in
+
+commit 466b53075e156e6584642aec7b4f084708c4e506
+Author: Fabio Erculiani <lxnay@sabayon.org>
+Date:	2011-01-24
+
+    trivial: fix typo in log messages
+
+M	backends/entropy/entropyBackend.py
+
+commit 920d81a0da57f8d1818b0a29d28e882ab31c1f12
+Author: Fabio Erculiani <lxnay@sabayon.org>
+Date:	2011-01-24
+
+    entropy: fix crash in dependencies removal calculation
+
+M	backends/entropy/entropyBackend.py
+
+commit 6ad33cf6e2e35756b089c35f34c8620c1fe08b9c
+Author: Fabio Erculiani <lxnay@sabayon.org>
+Date:	2011-01-21
+
+    entropy: restore compatibility with entropy >=1.0_alpha8
+
+M	backends/entropy/entropyBackend.py
+
+commit 9775f4a93bf91e4d541f8103733930e2962e8124
+Author: Zhang Qiang <qiang.z.zhang@intel.com>
+Date:	2011-01-21
+
+    zypp: consider autoremove in remove_packages
+
+    This patch enable the autoremove feature for zypp backend.
+
+M	backends/zypp/pk-backend-zypp.cpp
+
+commit 4440e5287ad680643e37cd2bb25ea2cda5c97f6a
+Merge: 1c090a3 79ccdfc
+Author: Anders F Bjorklund <afb@users.sourceforge.net>
+Date:	2011-01-15
+
+    Merge branch 'master' of gitorious.org:packagekit/packagekit
+
+commit 79ccdfc64120f0ec8e55561a8190d32cea804ef0
+Author: Zhang Qiang <qiang.z.zhang@intel.com>
+Date:	2011-01-11
+
+    zypp: include system repo when install local rpm
+
+    system repo is necessary to be considered when install local rpm.
+
+M	backends/zypp/pk-backend-zypp.cpp
+
+commit 9aa318baf3fed1b4c9b53d0271fe63dfe1aa6c1b
+Author: Jonathan Conder <jonno.conder@gmail.com>
+Date:	2011-01-11
+
+    trivial: pacman: fix compilation
+
+M	backends/pacman/backend-pacman.c
+
+commit 1c090a39d867bafb2f91c7a8487355d7faf37947
+Author: Anders F Bjorklund <afb@users.sourceforge.net>
+Date:	2011-01-10
+
+    add speed backend method
+
+M	lib/python/packagekit/backend.py
+
+commit 83a829d210a6af2f5f491dd2ab6085fce3b0d23f
+Author: Richard Hughes <richard@hughsie.com>
+Date:	2011-01-10
+
+    zif: Support the new speed property
+
+M	backends/zif/pk-backend-zif.c
+
+commit 6c0d5b00ee307b179033a8832c6758866e5ea457
+Author: Richard Hughes <richard@hughsie.com>
+Date:	2011-01-10
+
+    trivial: remove a debugging line that isn't actually true
+
+M	src/pk-backend.c
+
+commit 2993f04dbb094e390a60f9c06e56b139d6166d2b
+Author: Richard Hughes <richard@hughsie.com>
+Date:	2011-01-10
+
+    Provide a hook so spawned backends can report speed
+
+M	src/egg-string.c
+M	src/egg-string.h
+M	src/pk-backend-spawn.c
+
+commit a0fbcd305c1fe493e8724f4c73a60c11786d7677
+Author: Richard Hughes <richard@hughsie.com>
+Date:	2011-01-10
+
+    zif: ensure we set the correct key for the metadata_expire value
+
+M	backends/zif/pk-backend-zif.c
+
+commit 13bce887c16f4ade215c354ff69c3714a787cacc
+Author: Richard Hughes <richard@hughsie.com>
+Date:	2011-01-10
+
+    glib: avoid spamming lots of low level debugging to
+    .xsession-errors. Fixes rh#668303
+
+M	lib/packagekit-glib2/pk-client.c
+M	lib/packagekit-glib2/pk-control.c
+M	lib/packagekit-glib2/pk-progress.c
+
+commit aa613dde55f40f12182b9bfe475fc45fa2b7f7cc
+Author: Richard Hughes <richard@hughsie.com>
+Date:	2011-01-07
+
+    trivial: fix up loading the backends in order by breaking the loop
+    on success
+
+M	src/pk-main.c
+
+commit e96ffae47684d928eccc65759d124aa9aef24920
+Author: Richard Hughes <richard@hughsie.com>
+Date:	2011-01-07
+
+    Allow the user to specify a comma delimited list of backends to try
+    to load at daemon startup
+
+M	contrib/PackageKit.spec.in
+M	etc/PackageKit.conf.in
+M	src/pk-main.c
+
+commit ac3754273f6d5a24d735f022ca88ba4f56305738
+Author: Richard Hughes <richard@hughsie.com>
+Date:	2011-01-06
+
+    Only try to populate the command list in pkcon after the PkControl
+    command has finished
+
+M	client/pk-console.c
+
+commit 139237f20e4083a143d67e073e1b5438a12ea07a
+Author: Richard Hughes <richard@hughsie.com>
+Date:	2011-01-06
+
+    zif: Remove the trivial state warning when we simulate an update
+
+M	backends/zif/pk-backend-zif.c
+
+commit 6ca8d1a666665dfe9714a0e0567d5573765ca048
+Author: Richard Hughes <richard@hughsie.com>
+Date:	2011-01-06
+
+    zif: do not crash when returning the package untrusted error
+
+M	backends/zif/pk-backend-zif.c
+
+commit 8c1a59ae2e2941b917aa8a7969a6d79e6262c2a6
+Author: Richard Hughes <richard@hughsie.com>
+Date:	2011-01-06
+
+    zif: return the correct error when a transaction needs further
+    authorisation
+
+M	backends/zif/pk-backend-zif.c
+
+commit d7d6a6d50e54f658ed60ec18fc04b17919ba9000
+Author: Richard Hughes <richard@hughsie.com>
+Date:	2011-01-05
+
+    yum: Do not block the update list on InfrastructurePackages it breaks
+    auto-updating on security packages
+
+M	backends/yum/Yum.conf
+
+commit 73f3fd40952d2c2ca71b29af976d3044c211b980
+Author: Richard Hughes <richard@hughsie.com>
+Date:	2011-01-04
+
+    packagekit-qt: do not cause a build error when building with -j4
+
+M	lib/packagekit-qt/src/Makefile.am
+
+commit 7a92f842830e3ea9122463fe279f0b42150cbd63
+Author: Richard Hughes <richard@hughsie.com>
+Date:	2011-01-04
+
+    yum: Ensure the category data is valid UTF8
+
+M	backends/yum/yumBackend.py
+
+commit 0414a053c0e4f0ec361e86f6a57d43cf5f5ad948
+Author: Richard Hughes <richard@hughsie.com>
+Date:	2011-01-04
+
+    cnf: do not enable debugging unless VERBOSE is present in the
+    environment. Fixes rh#666254
+
+M	contrib/command-not-found/pk-command-not-found.c
+
+commit 37b95f785a1f5e342238a6295738622d624e7950
+Author: Fabio Erculiani <lxnay@sabayon.org>
+Date:	2010-12-29
+
+    entropy: fix compatibility with newer Entropy releases
+
+M	backends/entropy/entropyBackend.py
+
+commit ff04b5e9cdca4b50d5b652f6a78935a957182bc4
+Author: Zhang Qiang <qiang.z.zhang@intel.com>
+Date:	2010-12-27
+
+    pkcon: check PK error in pk_console_resolve_package
+
+    pk error should be checked first in pk_console_resolve_package,
+    or pkcon
+    can't report correct error info, and pkcon can't catch the error
+    occurs
+    in PK backend.
+
+M	lib/packagekit-glib2/pk-console-shared.c
+
+commit 36886ff2e6c8aacf049a50c9385d93015833ec5a
+Author: Zhang Qiang <qiang.z.zhang@intel.com>
+Date:	2010-12-27
+
+    zypp:support download source RPM packages
+
+    without this patch, zypp backend can't download source RPM.
+
+M	backends/zypp/pk-backend-zypp.cpp
+
+commit acd6cb4b68c21418a4cd7a8c4c121d86d6b57aa5
+Author: Daniel Nicoletti <dantti85-pk@yahoo.com.br>
+Date:	2010-12-19
+
+    Fix LP#591474 bug which caused a crash when the Section() of a
+    package was NULL
+
+M	backends/aptcc/apt.cpp
+M	backends/aptcc/pk-backend-aptcc.cpp
+
+commit 40b35fd2cda8a558b2ef2721ab67bb1c46861750
+Merge: 8b7d7b9 5147655
+Author: Matthias Klumpp <matthias@nlinux.org>
+Date:	2010-12-19
+
+    Merge branch 'master' of gitorious.org:packagekit/packagekit
+
+commit 8b7d7b9452e33c1a2e7f808b1b12e9d9e6c27ab0
+Author: Matthias Klumpp <matthias@nlinux.org>
+Date:	2010-12-19
+
+    trivial: Make PK compile for GLib 2.24
+
+    Replace g_unix_socket_address_new_with_type with
+    g_unix_socket_address_new whereever possible.
+
+M	backends/dummy/pk-backend-dummy.c
+M	lib/packagekit-glib2/pk-client-helper.c
+M	lib/packagekit-glib2/pk-self-test.c
+M	lib/packagekit-glib2/pk-socket-example.c
+
+commit 93bf0a760cf489764427234258b0bb57d76c7c5c
+Author: Matthias Klumpp <matthias@nlinux.org>
+Date:	2010-12-19
+
+    aptcc: Make it compile with GLib 2.24
+
+    This is a fix by Julian Andres Klode which
+    we ship in the Debian packaging of PK.
+    It also simplifies the date/time handing in APTcc.
+
+M	backends/aptcc/apt-utils.cpp
+M	backends/aptcc/apt-utils.h
+M	backends/aptcc/apt.cpp
+
+commit 51476559ce05b63bdf31184aeffdca46def33f8a
+Author: Zhang Qiang <qiang.z.zhang@intel.com>
+Date:	2010-12-14
+
+    zypp:implement download packages
+
+    This patch implemented download packages features for zypp backend.
+
+M	backends/zypp/pk-backend-zypp.cpp
+
+commit 731fb250588348125195788e9c89f0e2ac6b80ac
+Author: Zhang Qiang <qiang.z.zhang@intel.com>
+Date:	2010-12-14
+
+    zypp:erase system resolvables in zypp_build_pool
+
+    If we call zypp_build_pool without local, then the system resolvables
+    should be erased from pool. Just as the case of downloading packages,
+    and
+    we should search from the pool excluded the system resolvables.
+
+M	backends/zypp/zypp-utils.cpp
+
+commit b592797b17f0629264f8113ed319983580633f28
+Author: Zhang Qiang <qiang.z.zhang@intel.com>
+Date:	2010-12-14
+
+    zypp:dont send package signal in DownloadProgressReportReceiver
+
+    package signal should not be sent in
+    DownloadProgressReportReceiver. In
+    fact, we cant get the summary, and package signal should be sent in
+    backend_install_packages_thread, backend_download_packages_thread,
+    etc.
+
+M	backends/zypp/zypp-events.h
+
+commit c8a3e700778e3fe3e5d7086f8b277f611e4a4205
+Author: Zhang Qiang <qiang.z.zhang@intel.com>
+Date:	2010-12-14
+
+    zypp:Refresh cache before searching
+
+    refresh cache is necessary for searching to sync rpmdb and repo.
+
+    Related bug: http://bugs.meego.com/show_bug.cgi?id=11224
+
+M	README
+M	backends/zypp/pk-backend-zypp.cpp
+
+commit 4095a1f17eec9e9ed3b8e1be362bfc84f5f7c3ac
+Merge: d6d64e4 25c16c2
+Author: Matthias Klumpp <matthias@nlinux.org>
+Date:	2010-12-13
+
+    Merge branch 'master' of gitorious.org:packagekit/packagekit
+
+commit d6d64e41d2b3d7f7b701500931fd5d44c30148c1
+Author: Matthias Klumpp <matthias@nlinux.org>
+Date:	2010-12-13
+
+    Explictly include GIO in command-not-found too
+
+    Added GIO to LDADD to try and fix a weird
+    linker error on Debian.
+
+M	contrib/command-not-found/Makefile.am
+
+commit 25c16c2852612d79569380d3cd6d8b81c7519225
+Author: Richard Hughes <richard@hughsie.com>
+Date:	2010-12-13
+
+    trivial: update our release process to alight with Transifex 1.0
+
+A	.tx/config
+M	RELEASE
+M	po/.gitignore
+
+commit 3748a19fcfbd26f3b8d7ad16676c5f08a6b95c5c
+Author: Richard Hughes <richard@hughsie.com>
+Date:	2010-12-13
+
+    trivial: sync all the translations with the Transifex instance
+
+M	po/as.po
+M	po/bg.po
+M	po/bn_IN.po
+M	po/ca.po
+M	po/cs.po
+M	po/da.po
+M	po/de.po
+M	po/el.po
+M	po/en_GB.po
+M	po/es.po
+M	po/eu.po
+M	po/fi.po
+M	po/fr.po
+M	po/gu.po
+M	po/he.po
+M	po/hi.po
+M	po/hu.po
+M	po/id.po
+M	po/it.po
+M	po/ja.po
+M	po/kn.po
+M	po/ko.po
+M	po/lt.po
+M	po/ml.po
+M	po/mr.po
+M	po/ms.po
+M	po/nb.po
+M	po/nl.po
+M	po/or.po
+M	po/pa.po
+M	po/pl.po
+M	po/pt.po
+M	po/pt_BR.po
+M	po/ro.po
+M	po/ru.po
+M	po/sk.po
+M	po/sr.po
+M	po/sr@latin.po
+M	po/sv.po
+M	po/ta.po
+M	po/te.po
+M	po/th.po
+M	po/tr.po
+M	po/uk.po
+M	po/zh_CN.po
+M	po/zh_TW.po
+
+commit 8dcfd70b5f8efe3e764905eaafefb58f1dbd2c29
+Author: Richard Hughes <richard@hughsie.com>
+Date:	2010-12-13
+
+    Explictly include GIO in the command line tools LDADD to try and
+    fix a wierd compile error on Debian
+
+M	client/Makefile.am
+
+commit 5bfa8daeb4f65656fe55645ea23b5054f2cd9dc5
+Author: Richard Hughes <richard@hughsie.com>
+Date:	2010-12-13
+
+    trivial: Commit the pot file to make Transifex happy
+
+M	po/.gitignore
+A	po/PackageKit.pot
+
+commit 134f3653eb4cf6411f1f8ecaa86f9da45bc8a7ad
+Author: Richard Hughes <richard@hughsie.com>
+Date:	2010-12-13
+
+    trivial: post release version bump
+
+M	RELEASE
+M	configure.ac
+
 commit 6e4b7e6de79891cdba9d10eed4ec7b326ebcb856
 Author: Richard Hughes <richard@hughsie.com>
-Date:   2010-12-13
+Date:	2010-12-13
 
     Release version 0.6.11
 

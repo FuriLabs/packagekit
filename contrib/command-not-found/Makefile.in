@@ -63,7 +63,8 @@ am__DEPENDENCIES_2 =  \
 	$(top_builddir)/lib/packagekit-glib2/libpackagekit-glib2.la \
 	$(top_builddir)/lib/packagekit-glib2/libpackagekitprivate.a
 pk_command_not_found_DEPENDENCIES = $(am__DEPENDENCIES_1) \
-	$(am__DEPENDENCIES_1) $(am__DEPENDENCIES_2)
+	$(am__DEPENDENCIES_1) $(am__DEPENDENCIES_1) \
+	$(am__DEPENDENCIES_2)
 AM_V_lt = $(am__v_lt_$(V))
 am__v_lt_ = $(am__v_lt_$(AM_DEFAULT_VERBOSITY))
 am__v_lt_0 = --silent
@@ -385,6 +386,7 @@ top_srcdir = @top_srcdir@
 AUTOMAKE_OPTIONS = 1.7
 INCLUDES = \
 	$(GLIB_CFLAGS)					\
+	$(GIO_CFLAGS)					\
 	$(DBUS_CFLAGS)					\
 	$(SQLITE_CFLAGS)				\
 	-DI_KNOW_THE_PACKAGEKIT_GLIB2_API_IS_SUBJECT_TO_CHANGE	\
@@ -407,6 +409,7 @@ pk_command_not_found_SOURCES = \
 
 pk_command_not_found_LDADD = \
 	$(GLIB_LIBS)					\
+	$(GIO_LIBS)					\
 	$(DBUS_LIBS)					\
 	$(PK_GLIB2_LIBS)				\
 	$(NULL)

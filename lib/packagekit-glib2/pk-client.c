@@ -533,7 +533,7 @@ pk_client_cancel_cb (DBusGProxy *proxy, DBusGProxyCall *call, PkClientState *sta
 	}
 
 	/* finished this call */
-	g_debug ("cancelled %s, ended DBus call: %p", state->tid, state->call);
+	g_debug ("cancelled %s", state->tid);
 	state->call = NULL;
 }
 
@@ -552,13 +552,13 @@ pk_client_cancellable_cancel_cb (GCancellable *cancellable, PkClientState *state
 	/* dbus method is pending now, just cancel */
 	if (state->call != NULL) {
 		dbus_g_proxy_cancel_call (state->proxy, state->call);
-		g_debug ("cancelling %s, ended DBus call: %p", state->tid, state->call);
+		g_debug ("cancelling %s", state->tid);
 		state->call = NULL;
 		return;
 	}
 	if (state->call_interface_changed != NULL) {
 		dbus_g_proxy_cancel_call (state->proxy, state->call_interface_changed);
-		g_debug ("cancelling %s, ended DBus call: %p", state->tid, state->call_interface_changed);
+		g_debug ("cancelling %s", state->tid);
 		state->call_interface_changed = NULL;
 	}
 
@@ -568,7 +568,7 @@ pk_client_cancellable_cancel_cb (GCancellable *cancellable, PkClientState *state
 					       NULL, G_TYPE_INVALID);
 	if (state->call == NULL)
 		g_error ("failed to setup call, maybe OOM or no connection");
-	g_debug ("cancelling %s (%p)", state->tid, state->call);
+	g_debug ("cancelling %s", state->tid);
 }
 
 /**
@@ -579,7 +579,6 @@ pk_client_state_remove (PkClient *client, PkClientState *state)
 {
 	gboolean is_idle;
 	g_ptr_array_remove (client->priv->calls, state);
-	g_debug ("state array remove %p", state);
 
 	/* has the idle state changed? */
 	is_idle = (client->priv->calls->len == 0);
@@ -598,7 +597,6 @@ pk_client_state_add (PkClient *client, PkClientState *state)
 	gboolean is_idle;
 
 	g_ptr_array_add (client->priv->calls, state);
-	g_debug ("state array add %p", state);
 
 	/* has the idle state changed? */
 	is_idle = (client->priv->calls->len == 0);
@@ -854,7 +852,6 @@ pk_client_copy_downloaded (PkClientState *state)
 		state->refcount += g_strv_length (files);
 		g_strfreev (files);
 	}
-	g_debug ("%i files to copy", state->refcount);
 
 	/* get a cached value, as pk_client_copy_downloaded_file() adds items */
 	len = array->len;
@@ -890,8 +887,6 @@ pk_client_finished_cb (DBusGProxy *proxy, const gchar *exit_text, guint runtime,
 	GError *error = NULL;
 	PkExitEnum exit_enum;
 	PkError *error_code = NULL;
-
-	g_debug ("exit_text=%s", exit_text);
 
 	/* yay */
 	exit_enum = pk_exit_enum_from_string (exit_text);
@@ -936,7 +931,6 @@ pk_client_method_cb (DBusGProxy *proxy, DBusGProxyCall *call, PkClientState *sta
 	GError *error = NULL;
 
 	/* finished this call */
-	g_debug ("got reply to request, ended DBus call: %p (%p)", state, state->call);
 	state->call = NULL;
 
 	/* get the result */
@@ -1008,7 +1002,6 @@ pk_client_get_properties_cb (DBusGProxy *proxy, DBusGProxyCall *call, PkClientSt
 	GHashTable *hash;
 	gboolean ret;
 
-	g_debug ("got properties, ended DBus call: %p (%p)", state, state->call_interface_changed);
 	state->call_interface_changed = NULL;
 
 	/* get the result */
@@ -1029,7 +1022,6 @@ pk_client_get_properties_cb (DBusGProxy *proxy, DBusGProxyCall *call, PkClientSt
 
 out:
 	/* finished this call */
-	g_debug ("got property results, ended DBus call: %p (%p)", state, state->call);
 	state->call = NULL;
 }
 
@@ -1053,10 +1045,8 @@ pk_client_changed_cb (DBusGProxy *proxy, PkClientState *state)
 				         G_TYPE_INVALID);
 	if (state->call_interface_changed == NULL)
 		g_error ("failed to setup call, maybe OOM or no connection");
-	g_debug ("changed so checking properties, started DBus call: %p (%p)", state, state->call_interface_changed);
 
 	/* we've sent this async */
-	g_debug ("interface changed, started DBus call: %p (%p)", state, state->call_interface_changed);
 }
 
 /**
@@ -1562,7 +1552,6 @@ pk_client_set_hints_cb (DBusGProxy *proxy, DBusGProxyCall *call, PkClientState *
 	}
 
 	/* finished this call */
-	g_debug ("set hints, ended DBus call: %p (%p)", state, state->call);
 	state->call = NULL;
 
 	/* we'll have results from now on */
@@ -1803,8 +1792,6 @@ pk_client_set_hints_cb (DBusGProxy *proxy, DBusGProxyCall *call, PkClientState *
 		g_error ("failed to setup call, maybe OOM or no connection");
 
 	/* we've sent this async */
-	g_debug ("new method '%s', started DBus call: %p (%p)", pk_role_enum_to_string (state->role), state, state->call);
-
 out:
 	g_free (filters_text);
 	return;
@@ -1822,63 +1809,119 @@ pk_client_bool_to_string (gboolean value)
 }
 
 /**
+ * pk_client_create_helper_argv_envp_test:
+ **/
+static gboolean
+pk_client_create_helper_argv_envp_test (PkClientState *state,
+					gchar ***argv,
+					gchar ***envp)
+{
+	gboolean ret;
+
+	/* check we have the right file */
+	ret = g_file_test (TESTDATADIR "/pk-client-helper-test.py",
+			   G_FILE_TEST_EXISTS);
+	if (!ret) {
+		g_warning ("could not find the socket helper!");
+		goto out;
+	}
+
+	/* setup simple test socket */
+	*argv = g_new0 (gchar *, 2);
+	*argv[0] = g_build_filename (TESTDATADIR,
+				     "pk-client-helper-test.py",
+				     NULL);
+out:
+	return ret;
+}
+
+/**
+ * pk_client_create_helper_argv_envp:
+ **/
+static gboolean
+pk_client_create_helper_argv_envp (PkClientState *state,
+				   gchar ***argv,
+				   gchar ***envp)
+{
+	const gchar *dialog = NULL;
+	const gchar *display;
+	const gchar *term;
+	gboolean ret;
+	guint envpi = 0;
+
+	/* check we have the right file */
+	ret = g_file_test ("/usr/bin/debconf-communicate",
+			   G_FILE_TEST_EXISTS);
+	if (!ret)
+		goto out;
+
+	/* setup simple test socket */
+	*argv = g_new0 (gchar *, 2);
+	*argv[0] = g_strdup ("/usr/bin/debconf-communicate");
+
+	*envp = g_new0 (gchar *, 8);
+	*envp[envpi++] = g_strdup ("DEBCONF_DB_REPLACE=configdb");
+	*envp[envpi++] = g_strdup ("DEBCONF_DB_OVERRIDE=Pipe{infd:none outfd:none}");
+	if (pk_debug_is_verbose ())
+		*envp[envpi++] = g_strdup ("DEBCONF_DEBUG=.");
+
+	/* do we have an available terminal to use */
+	term = g_getenv ("TERM");
+	if (term != NULL) {
+		*envp[envpi++] = g_strdup_printf ("TERM=%s", term);
+		dialog = "dialog";
+	}
+
+	/* do we have access to the display */
+	display = g_getenv ("DISPLAY");
+	if (display != NULL) {
+		*envp[envpi++] = g_strdup_printf ("DISPLAY=%s", display);
+		if (g_strcmp0 (g_getenv ("KDE_FULL_SESSION"), "true") == 0)
+		  dialog = "kde";
+		else
+		  dialog = "gnome";
+	}
+
+	/* indicate a prefered frontend */
+	if (dialog != NULL) {
+		*envp[envpi++] = g_strdup_printf ("DEBIAN_FRONTEND=%s", dialog);
+		g_debug ("using frontend %s", dialog);
+	}
+out:
+	return ret;
+}
+
+/**
  * pk_client_create_helper_socket:
  **/
 static gchar *
 pk_client_create_helper_socket (PkClientState *state)
 {
+	gboolean ret = FALSE;
+	gchar **argv = NULL;
+	gchar **envp = NULL;
 	gchar *hint = NULL;
 	gchar *socket_filename = NULL;
 	gchar *socket_id = NULL;
 	GError *error = NULL;
-	gboolean ret;
-	gchar **argv = NULL;
-	gchar **envp = NULL;
-	guint argvi = 0;
-	guint envpi = 0;
-	const gchar *display;
-	const gchar *term;
-	const gchar *dialog = NULL;
 
-	/* do we have any supported clients */
-	if (g_file_test ("/usr/bin/debconf-communicate", G_FILE_TEST_EXISTS)) {
-		argv = g_new0 (gchar *, 2);
-		argv[argvi++] = g_strdup ("/usr/bin/debconf-communicate");
-		envp = g_new0 (gchar *, 8);
-		envp[envpi++] = g_strdup ("DEBCONF_DB_REPLACE=configdb");
-		envp[envpi++] = g_strdup ("DEBCONF_DB_OVERRIDE=Pipe{infd:none outfd:none}");
-		if (pk_debug_is_verbose ())
-			envp[envpi++] = g_strdup ("DEBCONF_DEBUG=.");
-
-		/* do we have an available terminal to use */
-		term = g_getenv ("TERM");
-		if (term != NULL) {
-			envp[envpi++] = g_strdup_printf ("TERM=%s", term);
-			dialog = "dialog";
-		}
-
-		/* do we have access to the display */
-		display = g_getenv ("DISPLAY");
-		if (display != NULL) {
-			envp[envpi++] = g_strdup_printf ("DISPLAY=%s", display);
-			if (g_strcmp0 (g_getenv ("KDE_FULL_SESSION"), "true") == 0)
-			  dialog = "kde";
-			else
-			  dialog = "gnome";
-		}
-
-		/* indicate a prefered frontend */
-		if (dialog != NULL) {
-			envp[envpi++] = g_strdup_printf ("DEBIAN_FRONTEND=%s", dialog);
-			g_debug ("using frontend %s", dialog);
-		}
-	} else if (g_file_test (TESTDATADIR "/pk-client-helper-test.py", G_FILE_TEST_EXISTS)) {
-		argv = g_new0 (gchar *, 2);
-		argv[argvi++] = g_build_filename (TESTDATADIR, "pk-client-helper-test.py", NULL);
-	} else {
-		g_debug ("no supported frontends available");
-		goto out;
+	/* use the test socket */
+	if (g_getenv ("PK_SELF_TEST") != NULL) {
+		ret = pk_client_create_helper_argv_envp_test (state,
+							      &argv,
+							      &envp);
 	}
+
+	/* either the self test failed, or we're not in self test */
+	if (!ret) {
+		ret = pk_client_create_helper_argv_envp (state,
+							 &argv,
+							 &envp);
+	}
+
+	/* no supported frontends available */
+	if (!ret)
+		goto out;
 
 	/* create object */
 	state->client_helper = pk_client_helper_new ();
@@ -1924,7 +1967,6 @@ pk_client_get_tid_cb (GObject *object, GAsyncResult *res, PkClientState *state)
 		return;
 	}
 
-	g_debug ("tid = %s", state->tid);
 	pk_progress_set_transaction_id (state->progress, state->tid);
 
 	/* get a connection to the transaction interface */
@@ -1985,11 +2027,9 @@ pk_client_get_tid_cb (GObject *object, GAsyncResult *res, PkClientState *state)
 					       G_TYPE_INVALID);
 	if (state->call == NULL)
 		g_error ("failed to setup call, maybe OOM or no connection");
-	g_debug ("sent locale request, started DBus call: %p (%p)", state, state->call);
 
 	/* track state */
 	g_ptr_array_add (state->client->priv->calls, state);
-	g_debug ("state array add %p", state);
 
 	/* we've sent this async */
 	g_ptr_array_unref (array);
@@ -2484,6 +2524,7 @@ pk_client_download_packages_async (PkClient *client, gchar **package_ids, const 
 	g_return_if_fail (callback_ready != NULL);
 	g_return_if_fail (cancellable == NULL || G_IS_CANCELLABLE (cancellable));
 	g_return_if_fail (package_ids != NULL);
+	g_return_if_fail (directory != NULL);
 
 	res = g_simple_async_result_new (G_OBJECT (client), callback_ready, user_data, pk_client_download_packages_async);
 
@@ -3449,12 +3490,7 @@ static void
 pk_client_copy_native_finished_cb (GFile *file, GAsyncResult *res, PkClientState *state)
 {
 	gboolean ret;
-	gchar *path;
 	GError *error = NULL;
-
-	/* debug */
-	path = g_file_get_path (file);
-	g_debug ("finished copy of %s", path);
 
 	/* get the result */
 	ret = g_file_copy_finish (file, res, &error);
@@ -3470,7 +3506,7 @@ pk_client_copy_native_finished_cb (GFile *file, GAsyncResult *res, PkClientState
 		pk_control_get_tid_async (state->client->priv->control, state->cancellable, (GAsyncReadyCallback) pk_client_get_tid_cb, state);
 	}
 out:
-	g_free (path);
+	return;
 }
 
 /**
@@ -4270,7 +4306,6 @@ pk_client_adopt_get_properties_cb (DBusGProxy *proxy, DBusGProxyCall *call, PkCl
 	}
 
 	/* finished this call */
-	g_debug ("coldplugged properties, ended DBus call: %p (%p)", state, state->call);
 	state->call = NULL;
 
 	/* setup the proxies ready for use */
@@ -4373,7 +4408,6 @@ pk_client_adopt_async (PkClient *client, const gchar *transaction_id, GCancellab
 					       G_TYPE_INVALID);
 	if (state->call == NULL)
 		g_error ("failed to setup call, maybe OOM or no connection");
-	g_debug ("coldplug adoptee, started DBus call: %p (%p)", state, state->call);
 
 	/* we'll have results from now on */
 	state->results = pk_results_new ();
@@ -4477,7 +4511,6 @@ pk_client_get_progress_cb (DBusGProxy *proxy, DBusGProxyCall *call, PkClientStat
 	}
 
 	/* finished this call */
-	g_debug ("coldplugged properties, ended DBus call: %p (%p)", state, state->call);
 	state->call = NULL;
 
 	/* process results */
@@ -4563,7 +4596,6 @@ pk_client_get_progress_async (PkClient *client, const gchar *transaction_id, GCa
 					       G_TYPE_INVALID);
 	if (state->call == NULL)
 		g_error ("failed to setup call, maybe OOM or no connection");
-	g_debug ("getting progress on %s, started DBus call: %p", state->tid, state->call);
 
 	/* track state */
 	pk_client_state_add (client, state);
@@ -4589,7 +4621,7 @@ pk_client_cancel_all_dbus_methods (PkClient *client)
 		state = g_ptr_array_index (array, i);
 		if (state->call == NULL)
 			continue;
-		g_debug ("cancel in flight call: %p (%p)", state, state->call);
+		g_debug ("cancel in flight call");
 		dbus_g_proxy_cancel_call (state->proxy, state->call);
 	}
 
@@ -4908,7 +4940,7 @@ pk_client_init (PkClient *client)
 					   G_TYPE_STRING, G_TYPE_STRING, G_TYPE_INVALID);
 
 	/* cache locale */
-	client->priv->locale = 	g_strdup (setlocale (LC_ALL, NULL));
+	client->priv->locale = 	g_strdup (setlocale (LC_MESSAGES, NULL));
 }
 
 /**
