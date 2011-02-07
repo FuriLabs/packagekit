@@ -15,8 +15,8 @@ Build-Depends: debhelper (>= 7.0.50~),
                network-manager-dev,
                libpolkit-gobject-1-dev,
                libpolkit-backend-1-dev,
-               gobject-introspection (>=0.6.14),
-               libgirepository1.0-dev (>=0.6.14),
+               gobject-introspection (>=0.10.1),
+               libgirepository1.0-dev (>=0.10.1),
                policykit-1,
                libapt-pkg-dev (>=0.7.26),
                libsqlite3-dev,
@@ -27,7 +27,7 @@ Build-Depends: debhelper (>= 7.0.50~),
                xmlto,
                xulrunner-dev (>=1.9.1),
                libgtk2.0-dev,
-               update-manager-core, 
+               update-manager-core,
                python-software-properties,
                libgstreamer-plugins-base0.10-dev,
                libarchive-dev,
@@ -42,7 +42,7 @@ Homepage: http://www.packagekit.org
 
 Package: packagekit
 Architecture: any
-Depends: ${shlibs:Depends}, 
+Depends: ${shlibs:Depends},
          ${misc:Depends},
          libpackagekit-glib2-14 (= ${binary:Version}),
          packagekit-backend-aptcc (= ${binary:Version})
@@ -75,7 +75,7 @@ Description: Offer to install missing programs automatically
  software packages or searching for multimedia codecs and file handlers.
  .
  A simple helper that offers to install missing packages on the command line
- using PackageKit. 
+ using PackageKit.
 
 Package: packagekit-docs
 Architecture: all
@@ -111,14 +111,31 @@ Description: Library for accessing PackageKit using GLib (development files)
  interface e.g. refreshing the cache, updating, installing and removing
  software packages or searching for multimedia codecs and file handlers.
  .
- This provides an advanced library to access PackageKit using GLib.
+ This package provides an advanced library to access PackageKit using GLib.
  It makes use of only async D-Bus calls and provides high level tasks which
  peform the "transaction dance".
  .
  This package provides the header files and documentation for the advanced
- PackageKit library based on GLib. It makes use of only async D-Bus calls 
+ PackageKit library based on GLib. It makes use of only async D-Bus calls
  and provides high level tasks which peform the "transaction dance".
- 
+
+Package: gir1.2-packagekitglib-1.0
+Section: libs
+Architecture: any
+Depends: ${gir:Depends},
+         ${shlibs:Depends},
+         ${misc:Depends}
+Description: GObject introspection data for the PackageKit GLib library
+ PackageKit allows to perform simple software management tasks over a DBus
+ interface e.g. refreshing the cache, updating, installing and removing
+ software packages or searching for multimedia codecs and file handlers.
+ .
+ This package contains introspection data for the PackageKit
+ GLib interface library.
+ .
+ It can be used by packages using the GIRepository format to generate
+ dynamic bindings.
+
 Package: libpackagekit-qt14
 Architecture: any
 Section: libs

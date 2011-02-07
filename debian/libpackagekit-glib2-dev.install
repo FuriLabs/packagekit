@@ -3,3 +3,4 @@ usr/include/PackageKit/backend/*
 usr/lib/libpackagekit-glib2.la
 usr/lib/libpackagekit-glib2.so
 usr/lib/pkgconfig/packagekit-glib2.pc
+usr/share/gir-1.0/

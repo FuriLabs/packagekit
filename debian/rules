@@ -1,13 +1,13 @@
 #!/usr/bin/make -f
 #export DH_VERBOSE=1
 
-# Use this variable to set all required PackageKit configure flags
-# We set aptcc as default backend and disable gobject-introspection
-# (pass --enable-introspection to enable it again)
+# Use this variable to set the PackageKit configure flags
+# We set aptcc as default backend
 PK_CONFIGURE_FLAGS = --disable-static \
 		--disable-tests \
 		--enable-gtk-doc \
 		--disable-cron \
+		--enable-introspection \
 		--enable-apt --enable-aptcc --enable-smart \
 		--disable-local \
 		--with-default-backend=aptcc \
@@ -33,7 +33,7 @@ INSTALLDIR = $(CURDIR)/debian/tmp
 override_dh_auto_configure:
 	cp -dpr $(CURDIR)/docs/api $(CURDIR)/docs/api.orig
 	dh_auto_configure -- $(PK_CONFIGURE_FLAGS)
-	
+
 override_dh_auto_install:
 	dh_auto_install --destdir=$(INSTALLDIR)
 
@@ -49,6 +49,7 @@ override_dh_install:
 
 override_dh_makeshlibs:
 	dh_makeshlibs -Xlibpk-gtk-module -Xlibpackagekit-action-lookup -Xlibpk_ -Xpackagekit-plugin
+	dh_girepository
 
 override_dh_auto_clean:
 	dh_auto_clean
