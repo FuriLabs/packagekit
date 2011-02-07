@@ -8,7 +8,8 @@ packagekit (0.6.12-1) unstable; urgency=low
         rh#666254 (Richard Hughes)
      - Explictly include GIO in LDADD to fix a compile error on Debian
         (Matthias Klumpp, Richard Hughes)
-     - Fix calling pk_client_helper_start() with no environment set (Richard Hughes)
+     - Fix calling pk_client_helper_start() with no environment set
+        (Richard Hughes)
      - Fix LP#591474 bug which caused a crash when the Section() of a
         package was NULL (Daniel Nicoletti)
      - Only try to populate the command list in pkcon after the PkControl
