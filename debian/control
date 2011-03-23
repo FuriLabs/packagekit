@@ -5,50 +5,50 @@ Maintainer: Matthias Klumpp <matthias@nlinux.org>
 Uploaders: Julian Andres Klode <jak@debian.org>
 Vcs-Git: git://git.debian.org/pkg-packagekit/packagekit.git
 Vcs-Browser: http://git.debian.org/?p=pkg-packagekit/packagekit.git
-Build-Depends: debhelper (>= 7.0.50~),
-               autotools-dev (>= 20100122.1),
-               libtool,
-               libpam0g-dev,
-               libglib2.0-dev (>= 2.24),
-               libdbus-glib-1-dev (>= 0.76),
-               libnm-glib-dev,
-               network-manager-dev,
-               libpolkit-gobject-1-dev,
-               libpolkit-backend-1-dev,
-               gobject-introspection (>= 0.10.1),
-               libgirepository1.0-dev (>= 0.10.1),
-               gir1.2-glib-2.0 (>= 0.10.1),
-               policykit-1,
-               libapt-pkg-dev (>= 0.7.26),
-               libsqlite3-dev,
-               python-dev (>= 2.6.6-3+squeeze4),
-               python-apt (>= 0.7.13.2),
+Build-Depends: autotools-dev (>= 20100122.1),
+               debhelper (>= 7.0.50~),
                docbook-utils,
+               gir1.2-glib-2.0 (>= 0.10.1),
+               gobject-introspection (>= 0.10.1),
                gtk-doc-tools,
-               xmlto,
-               libgtk2.0-dev,
-               update-manager-core,
-               python-software-properties,
-               xulrunner-dev | firefox-dev,
-               libnspr4-dev,
-               libgstreamer-plugins-base0.10-dev,
+               libapt-pkg-dev (>= 0.7.26),
                libarchive-dev,
                libcppunit-dev,
+               libdbus-glib-1-dev (>= 0.76),
+               libgirepository1.0-dev (>= 0.10.1),
+               libglib2.0-dev (>= 2.24),
+               libgstreamer-plugins-base0.10-dev,
+               libgtk2.0-dev,
+               libnm-glib-dev,
+               libnspr4-dev,
+               libpam0g-dev,
+               libpolkit-backend-1-dev,
+               libpolkit-gobject-1-dev,
                libqt4-dev,
+               libsqlite3-dev,
+               libtool,
                libxt-dev,
-               pm-utils
+               network-manager-dev,
+               pm-utils,
+               policykit-1,
+               python-apt (>= 0.7.13.2),
+               python-dev (>= 2.6.6-3+squeeze4),
+               python-software-properties,
+               update-manager-core,
+               xmlto,
+               xulrunner-dev | firefox-dev
 Standards-Version: 3.9.1
 XS-Python-Version: current
 Homepage: http://www.packagekit.org
 
 Package: packagekit
 Architecture: any
-Depends: ${shlibs:Depends},
+Depends: libpackagekit-glib2-14 (= ${binary:Version}),
+         packagekit-backend-aptcc (= ${binary:Version}),
          ${misc:Depends},
-         libpackagekit-glib2-14 (= ${binary:Version}),
-         packagekit-backend-aptcc (= ${binary:Version})
-Breaks: packagekit-backend-aptcc (<< ${binary:Version}),
-        packagekit-backend-apt (<< ${binary:Version}),
+         ${shlibs:Depends}
+Breaks: packagekit-backend-apt (<< ${binary:Version}),
+        packagekit-backend-aptcc (<< ${binary:Version}),
         packagekit-backend-smart (<< ${binary:Version})
 Suggests: packagekit-backend-apt, packagekit-backend-smart
 Description: Provides a package management service
@@ -68,8 +68,7 @@ Description: Provides a package management service
 Package: packagekit-bash-completion
 Architecture: any
 Section: libs
-Depends: ${misc:Depends}, ${shlibs:Depends},
-         packagekit (= ${binary:Version})
+Depends: packagekit (= ${binary:Version}), ${misc:Depends}, ${shlibs:Depends}
 Description: Offer to install missing programs automatically
  PackageKit allows to perform simple software management tasks over a DBus
  interface e.g. refreshing the cache, updating, installing and removing
@@ -105,8 +104,7 @@ Description: Library for accessing PackageKit using GLib
 Package: libpackagekit-glib2-dev
 Section: libdevel
 Architecture: any
-Depends: ${misc:Depends},
-         libpackagekit-glib2-14 (= ${binary:Version})
+Depends: libpackagekit-glib2-14 (= ${binary:Version}), ${misc:Depends}
 Description: Library for accessing PackageKit using GLib (development files)
  PackageKit allows to perform simple software management tasks over a DBus
  interface e.g. refreshing the cache, updating, installing and removing
@@ -123,9 +121,7 @@ Description: Library for accessing PackageKit using GLib (development files)
 Package: gir1.2-packagekitglib-1.0
 Section: libs
 Architecture: any
-Depends: ${gir:Depends},
-         ${shlibs:Depends},
-         ${misc:Depends}
+Depends: ${gir:Depends}, ${misc:Depends}, ${shlibs:Depends}
 Description: GObject introspection data for the PackageKit GLib library
  PackageKit allows to perform simple software management tasks over a DBus
  interface e.g. refreshing the cache, updating, installing and removing
@@ -153,8 +149,7 @@ Description: Library for accessing PackageKit using Qt4
 Package: libpackagekit-qt-dev
 Section: libdevel
 Architecture: any
-Depends: ${misc:Depends},
-         libpackagekit-qt14 (= ${binary:Version})
+Depends: libpackagekit-qt14 (= ${binary:Version}), ${misc:Depends}
 Description: Library for accessing PackageKit using Qt4 (development files)
  PackageKit allows to perform simple software management tasks over a DBus
  interface e.g. refreshing the cache, updating, installing and removing
@@ -165,9 +160,11 @@ Description: Library for accessing PackageKit using Qt4 (development files)
 Package: python-packagekit
 Architecture: all
 Section: python
-Depends: ${misc:Depends}, ${shlibs:Depends}, ${python:Depends},
+Depends: python-dbus,
          python-gobject,
-         python-dbus
+         ${misc:Depends},
+         ${python:Depends},
+         ${shlibs:Depends}
 XB-Python-Version: ${python:Versions}
 Description: PackageKit Python bindings
  PackageKit allows to perform simple software management tasks over a DBus
@@ -191,8 +188,7 @@ Description: Install fonts automatically using PackageKit
 Package: gstreamer0.10-packagekit
 Architecture: any
 Section: libs
-Depends: ${misc:Depends}, ${shlibs:Depends},
-         packagekit (= ${binary:Version})
+Depends: packagekit (= ${binary:Version}), ${misc:Depends}, ${shlibs:Depends}
 Description: GStreamer plugin to install codecs using PackageKit
  PackageKit allows to perform simple software management tasks over a DBus
  interface e.g refreshing the cache, updating, installing and removing
@@ -204,8 +200,10 @@ Description: GStreamer plugin to install codecs using PackageKit
 Package: browser-plugin-packagekit
 Architecture: any
 Section: web
-Depends: ${misc:Depends}, ${shlibs:Depends}, ${dist:Browser},
-         packagekit (= ${binary:Version})
+Depends: packagekit (= ${binary:Version}),
+         ${dist:Browser},
+         ${misc:Depends},
+         ${shlibs:Depends}
 Conflicts: mozilla-packagekit
 Replaces: mozilla-packagekit
 Description: Plugin to install missing plugins using PackageKit
@@ -217,13 +215,15 @@ Description: Plugin to install missing plugins using PackageKit
 
 Package: packagekit-backend-apt
 Architecture: any
-Depends: ${misc:Depends}, ${shlibs:Depends}, ${python:Depends},
-         python-packagekit (= ${source:Version}),
-         app-install-data,
+Depends: app-install-data,
          python-apt (>=0.7.13.2),
          python-gdbm,
+         python-packagekit (= ${source:Version}),
+         python-software-properties,
          update-manager-core,
-         python-software-properties
+         ${misc:Depends},
+         ${python:Depends},
+         ${shlibs:Depends}
 XB-Python-Version: ${python:Versions}
 Recommends: apt-xapian-index
 Description: Python APT backend for PackageKit
@@ -236,9 +236,11 @@ Description: Python APT backend for PackageKit
 
 Package: packagekit-backend-aptcc
 Architecture: any
-Depends: ${misc:Depends}, ${shlibs:Depends}, ${python:Depends},
+Depends: app-install-data,
          python-packagekit (= ${source:Version}),
-         app-install-data
+         ${misc:Depends},
+         ${python:Depends},
+         ${shlibs:Depends}
 XB-Python-Version: ${python:Versions}
 Recommends: apt-xapian-index
 Description: C++ APT backend for PackageKit
@@ -252,9 +254,11 @@ Description: C++ APT backend for PackageKit
 
 Package: packagekit-backend-smart
 Architecture: any
-Depends: ${misc:Depends}, ${shlibs:Depends}, ${python:Depends},
-         python-packagekit (= ${source:Version}),
-         smartpm-core
+Depends: python-packagekit (= ${source:Version}),
+         smartpm-core,
+         ${misc:Depends},
+         ${python:Depends},
+         ${shlibs:Depends}
 XB-Python-Version: ${python:Versions}
 Description: Smart backend for PackageKit
  PackageKit allows to perform simple software management tasks over a DBus
