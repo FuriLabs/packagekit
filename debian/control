@@ -266,3 +266,17 @@ Description: Smart backend for PackageKit
  software packages or searching for multimedia codecs and file handlers.
  .
  This package allows to use the smart package manager.
+
+Package: packagekit-dbg
+Architecture: any
+Section: debug
+Priority: extra
+Depends: packagekit (= ${binary:Version}), ${misc:Depends}
+Description: Debugging symbols for PackageKit
+ This package includes debugging symbols for PackageKit
+ libraries, backends and command-line tools.
+ PackageKit is a package management abstraction layer which
+ allows to perform simple software management tasks over a DBus
+ interface
+ .
+ Most people will not need this package.
