@@ -1,3 +1,14 @@
+packagekit (0.6.12-2) experimental; urgency=low
+
+  * Fixed changelog
+  * Enabled GObject introspection
+  * Build-depend on xulrunner or firefox
+  * Apply best practices for dpkg source format 3.0 (quilt)
+  * Add debug-info package
+  * Wipe out dependency_libs from .la files (Closes: #619544)
+
+ -- Matthias Klumpp <matthias@nlinux.org>  Fri, 25 Mar 2011 11:17:32 +0100
+
 packagekit (0.6.12-1) unstable; urgency=low
 
   * Imported Upstream version 0.6.12
