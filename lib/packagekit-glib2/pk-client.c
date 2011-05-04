@@ -910,7 +910,8 @@ pk_client_finished_cb (DBusGProxy *proxy, const gchar *exit_text, guint runtime,
 	}
 
 	/* do we have to copy results? */
-	if (state->role == PK_ROLE_ENUM_DOWNLOAD_PACKAGES) {
+	if (state->role == PK_ROLE_ENUM_DOWNLOAD_PACKAGES &&
+	    state->directory != NULL) {
 		pk_client_copy_downloaded (state);
 		goto out;
 	}
@@ -1621,6 +1622,7 @@ pk_client_set_hints_cb (DBusGProxy *proxy, DBusGProxyCall *call, PkClientState *
 	} else if (state->role == PK_ROLE_ENUM_DOWNLOAD_PACKAGES) {
 		state->call = dbus_g_proxy_begin_call (state->proxy, "DownloadPackages",
 						       (DBusGProxyCallNotify) pk_client_method_cb, state, NULL,
+						       G_TYPE_BOOLEAN, (state->directory == NULL),
 						       G_TYPE_STRV, state->package_ids,
 						       G_TYPE_INVALID);
 		g_object_set (state->results, "inputs", g_strv_length (state->package_ids), NULL);
@@ -1841,13 +1843,14 @@ out:
 static gboolean
 pk_client_create_helper_argv_envp (PkClientState *state,
 				   gchar ***argv,
-				   gchar ***envp)
+				   gchar ***envp_out)
 {
 	const gchar *dialog = NULL;
 	const gchar *display;
 	const gchar *term;
 	gboolean ret;
 	guint envpi = 0;
+	gchar **envp;
 
 	/* check we have the right file */
 	ret = g_file_test ("/usr/bin/debconf-communicate",
@@ -1859,23 +1862,24 @@ pk_client_create_helper_argv_envp (PkClientState *state,
 	*argv = g_new0 (gchar *, 2);
 	*argv[0] = g_strdup ("/usr/bin/debconf-communicate");
 
-	*envp = g_new0 (gchar *, 8);
-	*envp[envpi++] = g_strdup ("DEBCONF_DB_REPLACE=configdb");
-	*envp[envpi++] = g_strdup ("DEBCONF_DB_OVERRIDE=Pipe{infd:none outfd:none}");
+	*envp_out = g_new0 (gchar *, 8);
+	envp = *envp_out;
+	envp[envpi++] = g_strdup ("DEBCONF_DB_REPLACE=configdb");
+	envp[envpi++] = g_strdup ("DEBCONF_DB_OVERRIDE=Pipe{infd:none outfd:none}");
 	if (pk_debug_is_verbose ())
-		*envp[envpi++] = g_strdup ("DEBCONF_DEBUG=.");
+		envp[envpi++] = g_strdup ("DEBCONF_DEBUG=.");
 
 	/* do we have an available terminal to use */
 	term = g_getenv ("TERM");
 	if (term != NULL) {
-		*envp[envpi++] = g_strdup_printf ("TERM=%s", term);
+		envp[envpi++] = g_strdup_printf ("TERM=%s", term);
 		dialog = "dialog";
 	}
 
 	/* do we have access to the display */
 	display = g_getenv ("DISPLAY");
 	if (display != NULL) {
-		*envp[envpi++] = g_strdup_printf ("DISPLAY=%s", display);
+		envp[envpi++] = g_strdup_printf ("DISPLAY=%s", display);
 		if (g_strcmp0 (g_getenv ("KDE_FULL_SESSION"), "true") == 0)
 		  dialog = "kde";
 		else
@@ -1884,7 +1888,7 @@ pk_client_create_helper_argv_envp (PkClientState *state,
 
 	/* indicate a prefered frontend */
 	if (dialog != NULL) {
-		*envp[envpi++] = g_strdup_printf ("DEBIAN_FRONTEND=%s", dialog);
+		envp[envpi++] = g_strdup_printf ("DEBIAN_FRONTEND=%s", dialog);
 		g_debug ("using frontend %s", dialog);
 	}
 out:
@@ -2068,7 +2072,7 @@ pk_client_generic_finish (PkClient *client, GAsyncResult *res, GError **error)
  * pk_client_resolve_async:
  * @client: a valid #PkClient instance
  * @filters: a %PkBitfield such as %PK_FILTER_ENUM_GUI | %PK_FILTER_ENUM_FREE or %PK_FILTER_ENUM_NONE
- * @packages: an array of package names to resolve, e.g. "gnome-system-tools"
+ * @packages: (array zero-terminated=1): an array of package names to resolve, e.g. "gnome-system-tools"
  * @cancellable: a #GCancellable or %NULL
  * @progress_callback: (scope call): the function to run when the progress changes
  * @progress_user_data: data to pass to @progress_callback
@@ -2131,7 +2135,7 @@ out:
  * pk_client_search_names_async:
  * @client: a valid #PkClient instance
  * @filters: a %PkBitfield such as %PK_FILTER_ENUM_GUI | %PK_FILTER_ENUM_FREE or %PK_FILTER_ENUM_NONE
- * @values: free text to search for, for instance, "power"
+ * @values: (array zero-terminated=1): free text to search for, for instance, "power"
  * @cancellable: a #GCancellable or %NULL
  * @progress_callback: (scope call): the function to run when the progress changes
  * @progress_user_data: data to pass to @progress_callback
@@ -2193,7 +2197,7 @@ out:
  * pk_client_search_details_async:
  * @client: a valid #PkClient instance
  * @filters: a %PkBitfield such as %PK_FILTER_ENUM_GUI | %PK_FILTER_ENUM_FREE or %PK_FILTER_ENUM_NONE
- * @values: free text to search for, for instance, "power"
+ * @values: (array zero-terminated=1): free text to search for, for instance, "power"
  * @cancellable: a #GCancellable or %NULL
  * @progress_callback: (scope call): the function to run when the progress changes
  * @progress_user_data: data to pass to @progress_callback
@@ -2256,7 +2260,7 @@ out:
  * pk_client_search_groups_async:
  * @client: a valid #PkClient instance
  * @filters: a %PkBitfield such as %PK_FILTER_ENUM_GUI | %PK_FILTER_ENUM_FREE or %PK_FILTER_ENUM_NONE
- * @values: a group enum to search for, for instance, "system-tools"
+ * @values: (array zero-terminated=1): a group enum to search for, for instance, "system-tools"
  * @cancellable: a #GCancellable or %NULL
  * @progress_callback: (scope call): the function to run when the progress changes
  * @progress_user_data: data to pass to @progress_callback
@@ -2317,7 +2321,7 @@ out:
  * pk_client_search_files_async:
  * @client: a valid #PkClient instance
  * @filters: a %PkBitfield such as %PK_FILTER_ENUM_GUI | %PK_FILTER_ENUM_FREE or %PK_FILTER_ENUM_NONE
- * @values: file to search for, for instance, "/sbin/service"
+ * @values: (array zero-terminated=1): file to search for, for instance, "/sbin/service"
  * @cancellable: a #GCancellable or %NULL
  * @progress_callback: (scope call): the function to run when the progress changes
  * @progress_user_data: data to pass to @progress_callback
@@ -2524,7 +2528,6 @@ pk_client_download_packages_async (PkClient *client, gchar **package_ids, const 
 	g_return_if_fail (callback_ready != NULL);
 	g_return_if_fail (cancellable == NULL || G_IS_CANCELLABLE (cancellable));
 	g_return_if_fail (package_ids != NULL);
-	g_return_if_fail (directory != NULL);
 
 	res = g_simple_async_result_new (G_OBJECT (client), callback_ready, user_data, pk_client_download_packages_async);
 
@@ -2933,7 +2936,7 @@ out:
  * @client: a valid #PkClient instance
  * @filters: a %PkBitfield such as %PK_FILTER_ENUM_GUI | %PK_FILTER_ENUM_FREE or %PK_FILTER_ENUM_NONE
  * @provides: a #PkProvidesEnum value such as PK_PROVIDES_ENUM_CODEC
- * @values: a search term such as "sound/mp3"
+ * @values: (array zero-terminated=1): a search term such as "sound/mp3"
  * @cancellable: a #GCancellable or %NULL
  * @progress_callback: (scope call): the function to run when the progress changes
  * @progress_user_data: data to pass to @progress_callback

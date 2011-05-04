@@ -3,16 +3,10 @@ import cElementTree
 from xml.parsers.expat import ExpatError
 import urllib as url
 
-
-from conary.lib import sha1helper
-from conary.lib import util
-
 from packagekit.backend import *
 from packagekit.enums import ERROR_NO_CACHE,ERROR_REPO_CONFIGURATION_ERROR, ERROR_NO_NETWORK
 
-
 from pkConaryLog import log
-from conarypk import ConaryPk
 from conaryEnums import groupMap
 import generateXML
 
@@ -91,7 +85,7 @@ class XMLRepo:
 
     def resolve_list(self, searchList):
         return self._getPackages(searchList)
-        
+
     def search(self, search, where ):
         if where == "name":
             return self._searchNamePackage(search)
@@ -116,7 +110,7 @@ class XMLRepo:
             except:
                 self.pk.error(ERROR_NO_NETWORK,"Failed to fetch %s." % wwwfile)
         else:
-            generateXML.init(self.label, self.xml_file, self.conarypk)
+            generateXML.init(self.label, self.xml_file)
 
     def refresh_cache(self, force=False):
         if force or not os.path.exists(self.xml_file):
@@ -132,12 +126,12 @@ class XMLRepo:
             except SyntaxError as e:
                 self.pk.error(ERROR_REPO_CONFIGURATION_ERROR, "Failed to parse %s: %s. A cache refresh should fix this." %
                         (self.xml_file, str(e)))
-       
 
-    def _generatePackage(self, package_node ): 
+
+    def _generatePackage(self, package_node ):
         """ convert from package_node to dictionary """
         cat = [ cat for cat in package_node.findall("category") ]
-        pkg = dict( 
+        pkg = dict(
             name= package_node.find("name").text,
             label = self.label,
             version = package_node.find("version").text,
@@ -146,7 +140,7 @@ class XMLRepo:
             url = getattr( package_node.find("url"),"text","") ,
             category = [ i.text for i in cat ],
             licenses = eval( getattr( package_node.find("licenses"),"text", "str('')") )
-        ) 
+        )
         return pkg
 
     def _getPackage(self, name):
@@ -224,46 +218,18 @@ class XMLCache:
 
     repos = []
     dbPath = '/var/cache/conary/'
-    jobPath = dbPath + 'jobs'
     xml_path =  dbPath + "xmlrepo/"
 
-    def __init__(self):
-        self.conarypk = ConaryPk()
-        self.labels = ( x for x in self.conarypk.get_labels_from_config() )
+    def __init__(self, labels):
         self.pk = PackageKitBaseBackend("")
 
         if not os.path.isdir(self.dbPath):
             os.makedirs(self.dbPath)
-        if not os.path.isdir(self.jobPath):
-            os.mkdir(self.jobPath)
         if not os.path.isdir( self.xml_path ):
             os.makedirs(self.xml_path )
 
-        for label in self.labels:
+        for label in labels:
             self.repos.append(XMLRepo(label, self.xml_path, self.pk))
-
-    def _getJobCachePath(self, applyList):
-        applyStr = '\0'.join(['%s=%s[%s]--%s[%s]%s' % (x[0], x[1][0], x[1][1], x[2][0], x[2][1], x[3]) for x in applyList])
-        return self.jobPath + '/' + sha1helper.sha1ToString(sha1helper.sha1String(applyStr))
-
-    def checkCachedUpdateJob(self, applyList):
-        jobPath = self._getJobCachePath(applyList)
-        log.info("CheckjobPath %s" % jobPath)
-        if os.path.exists(jobPath):
-            return jobPath
-    
-    def cacheUpdateJob(self, applyList, updJob):
-        jobPath = self._getJobCachePath(applyList)
-        log.info("jobPath %s" % jobPath)
-        if os.path.exists(jobPath):
-            log.info("deleting the JobPath %s "% jobPath)
-            util.rmtree(jobPath)
-            log.info("end deleting the JobPath %s "% jobPath)
-        log.info("making the logPath ")
-        os.mkdir(jobPath)
-        log.info("freeze JobPath")
-        updJob.freeze(jobPath)
-        log.info("end freeze JobPath")
 
     def convertTroveToDict(self, troveTupleList):
         mList = []
@@ -271,10 +237,10 @@ class XMLCache:
             pkg = {}
             pkg["name"] = troveTuple[0]
             pkg["version"] = troveTuple[1].trailingRevision()
-            pkg["label"] = troveTuple[1].trailingLabel() 
+            pkg["label"] = troveTuple[1].trailingLabel()
             mList.append(pkg)
         return mList
-            
+
     def searchByGroups(self, groups):
         pass
 
@@ -291,7 +257,7 @@ class XMLCache:
             return None
 
     def search(self, search, where = "name" ):
-        """ 
+        """
             @where (string) values = name | details | group |
         """
         repositories_result = []
@@ -303,8 +269,7 @@ class XMLCache:
         r = []
         for repo in self.repos:
             res = repo.resolve_list( search_list )
-            for i in res:
-                r.append( i)
+            r.extend(res)
         return self.list_set( r )
 
     def list_set(self, repositories_result ):
@@ -325,7 +290,7 @@ class XMLCache:
 
     def getGroup(self,categorieList):
         return getGroup(categorieList)
-                
+
     def _getCategorieBase(self, mapDict, categorieList ):
         if not categorieList:
             return None
@@ -360,7 +325,6 @@ class XMLCache:
                         categories.append(cat)
         categories.sort()
         return set( categories )
-        
 
 if __name__ == '__main__':
   #  print ">>> name"

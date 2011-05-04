@@ -1,0 +1,154 @@
+/****************************************************************************
+** Meta object code from reading C++ file 'package.h'
+**
+** Created: Wed May 4 10:12:16 2011
+**      by: The Qt Meta Object Compiler version 62 (Qt 4.7.2)
+**
+** WARNING! All changes made in this file will be lost!
+*****************************************************************************/
+
+#if !defined(Q_MOC_OUTPUT_REVISION)
+#error "The header file 'package.h' doesn't include <QObject>."
+#elif Q_MOC_OUTPUT_REVISION != 62
+#error "This file was generated using the moc from 4.7.2. It"
+#error "cannot be used with the include files from this version of Qt."
+#error "(The moc has changed too much.)"
+#endif
+
+QT_BEGIN_MOC_NAMESPACE
+static const uint qt_meta_data_PackageKit__Package[] = {
+
+ // content:
+       5,       // revision
+       0,       // classname
+       0,    0, // classinfo
+       0,    0, // methods
+       0,    0, // properties
+       4,   14, // enums/sets
+       0,    0, // constructors
+       0,       // flags
+       0,       // signalCount
+
+ // enums: name, flags, count, data
+      20, 0x0,   23,   30,
+      25, 0x0,   35,   76,
+      31, 0x0,    4,  146,
+      43, 0x0,    7,  154,
+
+ // enum data: key, value
+      51, uint(PackageKit::Package::UnknownInfo),
+      63, uint(PackageKit::Package::InfoInstalled),
+      77, uint(PackageKit::Package::InfoAvailable),
+      91, uint(PackageKit::Package::InfoLow),
+      99, uint(PackageKit::Package::InfoEnhancement),
+     115, uint(PackageKit::Package::InfoNormal),
+     126, uint(PackageKit::Package::InfoBugfix),
+     137, uint(PackageKit::Package::InfoImportant),
+     151, uint(PackageKit::Package::InfoSecurity),
+     164, uint(PackageKit::Package::InfoBlocked),
+     176, uint(PackageKit::Package::InfoDownloading),
+     192, uint(PackageKit::Package::InfoUpdating),
+     205, uint(PackageKit::Package::InfoInstalling),
+     220, uint(PackageKit::Package::InfoRemoving),
+     233, uint(PackageKit::Package::InfoCleanup),
+     245, uint(PackageKit::Package::InfoObsoleting),
+     260, uint(PackageKit::Package::InfoCollectionInstalled),
+     284, uint(PackageKit::Package::InfoCollectionAvailable),
+     308, uint(PackageKit::Package::InfoFinished),
+     321, uint(PackageKit::Package::InfoReinstalling),
+     338, uint(PackageKit::Package::InfoDowngrading),
+     354, uint(PackageKit::Package::InfoPreparing),
+     368, uint(PackageKit::Package::InfoDecompressing),
+     386, uint(PackageKit::Package::UnknownGroup),
+     399, uint(PackageKit::Package::GroupAccessibility),
+     418, uint(PackageKit::Package::GroupAccessories),
+     435, uint(PackageKit::Package::GroupAdminTools),
+     451, uint(PackageKit::Package::GroupCommunication),
+     470, uint(PackageKit::Package::GroupDesktopGnome),
+     488, uint(PackageKit::Package::GroupDesktopKde),
+     504, uint(PackageKit::Package::GroupDesktopOther),
+     522, uint(PackageKit::Package::GroupDesktopXfce),
+     539, uint(PackageKit::Package::GroupEducation),
+     554, uint(PackageKit::Package::GroupFonts),
+     565, uint(PackageKit::Package::GroupGames),
+     576, uint(PackageKit::Package::GroupGraphics),
+     590, uint(PackageKit::Package::GroupInternet),
+     604, uint(PackageKit::Package::GroupLegacy),
+     616, uint(PackageKit::Package::GroupLocalization),
+     634, uint(PackageKit::Package::GroupMaps),
+     644, uint(PackageKit::Package::GroupMultimedia),
+     660, uint(PackageKit::Package::GroupNetwork),
+     673, uint(PackageKit::Package::GroupOffice),
+     685, uint(PackageKit::Package::GroupOther),
+     696, uint(PackageKit::Package::GroupPowerManagement),
+     717, uint(PackageKit::Package::GroupProgramming),
+     734, uint(PackageKit::Package::GroupPublishing),
+     750, uint(PackageKit::Package::GroupRepos),
+     761, uint(PackageKit::Package::GroupSecurity),
+     775, uint(PackageKit::Package::GroupServers),
+     788, uint(PackageKit::Package::GroupSystem),
+     800, uint(PackageKit::Package::GroupVirtualization),
+     820, uint(PackageKit::Package::GroupScience),
+     833, uint(PackageKit::Package::GroupDocumentation),
+     852, uint(PackageKit::Package::GroupElectronics),
+     869, uint(PackageKit::Package::GroupCollections),
+     886, uint(PackageKit::Package::GroupVendor),
+     898, uint(PackageKit::Package::GroupNewest),
+     910, uint(PackageKit::Package::UnknownUpdateState),
+     929, uint(PackageKit::Package::UpdateStateStable),
+     947, uint(PackageKit::Package::UpdateStateUnstable),
+     967, uint(PackageKit::Package::UpdateStateTesting),
+     986, uint(PackageKit::Package::UnknownRestart),
+    1001, uint(PackageKit::Package::RestartNone),
+    1013, uint(PackageKit::Package::RestartApplication),
+    1032, uint(PackageKit::Package::RestartSession),
+    1047, uint(PackageKit::Package::RestartSystem),
+    1061, uint(PackageKit::Package::RestartSecuritySession),
+    1084, uint(PackageKit::Package::RestartSecuritySystem),
+
+       0        // eod
+};
+
+static const char qt_meta_stringdata_PackageKit__Package[] = {
+    "PackageKit::Package\0Info\0Group\0"
+    "UpdateState\0Restart\0UnknownInfo\0"
+    "InfoInstalled\0InfoAvailable\0InfoLow\0"
+    "InfoEnhancement\0InfoNormal\0InfoBugfix\0"
+    "InfoImportant\0InfoSecurity\0InfoBlocked\0"
+    "InfoDownloading\0InfoUpdating\0"
+    "InfoInstalling\0InfoRemoving\0InfoCleanup\0"
+    "InfoObsoleting\0InfoCollectionInstalled\0"
+    "InfoCollectionAvailable\0InfoFinished\0"
+    "InfoReinstalling\0InfoDowngrading\0"
+    "InfoPreparing\0InfoDecompressing\0"
+    "UnknownGroup\0GroupAccessibility\0"
+    "GroupAccessories\0GroupAdminTools\0"
+    "GroupCommunication\0GroupDesktopGnome\0"
+    "GroupDesktopKde\0GroupDesktopOther\0"
+    "GroupDesktopXfce\0GroupEducation\0"
+    "GroupFonts\0GroupGames\0GroupGraphics\0"
+    "GroupInternet\0GroupLegacy\0GroupLocalization\0"
+    "GroupMaps\0GroupMultimedia\0GroupNetwork\0"
+    "GroupOffice\0GroupOther\0GroupPowerManagement\0"
+    "GroupProgramming\0GroupPublishing\0"
+    "GroupRepos\0GroupSecurity\0GroupServers\0"
+    "GroupSystem\0GroupVirtualization\0"
+    "GroupScience\0GroupDocumentation\0"
+    "GroupElectronics\0GroupCollections\0"
+    "GroupVendor\0GroupNewest\0UnknownUpdateState\0"
+    "UpdateStateStable\0UpdateStateUnstable\0"
+    "UpdateStateTesting\0UnknownRestart\0"
+    "RestartNone\0RestartApplication\0"
+    "RestartSession\0RestartSystem\0"
+    "RestartSecuritySession\0RestartSecuritySystem\0"
+};
+
+const QMetaObject PackageKit::Package::staticMetaObject = {
+    { 0, qt_meta_stringdata_PackageKit__Package,
+      qt_meta_data_PackageKit__Package, 0 }
+};
+
+#ifdef Q_NO_DATA_RELOCATION
+const QMetaObject &PackageKit::Package::getStaticMetaObject() { return staticMetaObject; }
+#endif //Q_NO_DATA_RELOCATION
+QT_END_MOC_NAMESPACE

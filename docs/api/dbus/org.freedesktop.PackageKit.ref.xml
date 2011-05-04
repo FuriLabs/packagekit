@@ -19,7 +19,11 @@
 <link linkend="PackageKit.SuggestDaemonQuit">SuggestDaemonQuit</link>  ()
 <link linkend="PackageKit.GetDaemonState">GetDaemonState</link>     (out 's'  state)
 <link linkend="PackageKit.SetProxy">SetProxy</link>           (in  's'  proxy_http,
-                    in  's'  proxy_ftp)
+                    in  's'  proxy_https,
+                    in  's'  proxy_ftp,
+                    in  's'  proxy_socks,
+                    in  's'  no_proxy,
+                    in  's'  pac)
 <link linkend="PackageKit.SetRoot">SetRoot</link>            (in  's'  root)
 </synopsis>
   </refsynopsisdiv>
@@ -135,7 +139,11 @@
               The state of the dameon at this specific moment.
             
           </simpara></listitem></varlistentry></variablelist><refsect2><title><anchor role="function" id="PackageKit.SetProxy"/>SetProxy ()</title><indexterm><primary>SetProxy</primary><secondary>PackageKit</secondary></indexterm><programlisting>SetProxy (in  's' proxy_http,
-          in  's' proxy_ftp)</programlisting></refsect2>
+          in  's' proxy_https,
+          in  's' proxy_ftp,
+          in  's' proxy_socks,
+          in  's' no_proxy,
+          in  's' pac)</programlisting></refsect2>
           <para>
             Sets the proxy used by the dameon.
           </para>
@@ -143,9 +151,28 @@
             
               The HTTP proxy, e.g. username:password@server:port.
             
+          </simpara></listitem></varlistentry><varlistentry><term><parameter>proxy_https</parameter>:</term><listitem><simpara>
+            
+              The HTTPS proxy, e.g. username:password@server:port.
+            
           </simpara></listitem></varlistentry><varlistentry><term><parameter>proxy_ftp</parameter>:</term><listitem><simpara>
             
               The FTP proxy, e.g. username:password@server:port.
+            
+          </simpara></listitem></varlistentry><varlistentry><term><parameter>proxy_socks</parameter>:</term><listitem><simpara>
+            
+              The SOCKS proxy, e.g. username:password@server:port.
+            
+          </simpara></listitem></varlistentry><varlistentry><term><parameter>no_proxy</parameter>:</term><listitem><simpara>
+            
+              The comma seporated list of sites to not use the proxy for, e.g.
+              127.0.0.1,localmirror.org.
+            
+          </simpara></listitem></varlistentry><varlistentry><term><parameter>pac</parameter>:</term><listitem><simpara>
+            
+              The PAC file for the proxy, e.g.
+              /etc/network/school.pac.
+              Note: Most backends will not be able to use a PAC file.
             
           </simpara></listitem></varlistentry></variablelist><para role="permission">Callers need the org.freedesktop.packagekit.set-proxy</para><refsect2><title><anchor role="function" id="PackageKit.SetRoot"/>SetRoot ()</title><indexterm><primary>SetRoot</primary><secondary>PackageKit</secondary></indexterm><programlisting>SetRoot (in  's' root)</programlisting></refsect2>
           <para>

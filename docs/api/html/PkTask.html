@@ -3,12 +3,12 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>PkTask</title>
-<meta name="generator" content="DocBook XSL Stylesheets V1.75.2">
+<meta name="generator" content="DocBook XSL Stylesheets V1.76.1">
 <link rel="home" href="index.html" title="PackageKit Reference Manual">
 <link rel="up" href="libpackagekit-gobject.html" title="libpackagekit GObjects">
 <link rel="prev" href="PkServicePack.html" title="PkServicePack">
 <link rel="next" href="PkTransactionPast.html" title="PkTransactionPast">
-<meta name="generator" content="GTK-Doc V1.15 (XML mode)">
+<meta name="generator" content="GTK-Doc V1.17 (XML mode)">
 <link rel="stylesheet" href="style.css" type="text/css">
 </head>
 <body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF">
@@ -30,7 +30,7 @@
                   <a href="#PkTask.properties" class="shortcut">Properties</a>
 </td></tr>
 </table>
-<div class="refentry" title="PkTask">
+<div class="refentry">
 <a name="PkTask"></a><div class="titlepage"></div>
 <div class="refnamediv"><table width="100%"><tr>
 <td valign="top">
@@ -40,12 +40,11 @@ transactions, GPG keys and EULA requests.</p>
 </td>
 <td valign="top" align="right"></td>
 </tr></table></div>
-<div class="refsynopsisdiv" title="Synopsis">
+<div class="refsynopsisdiv">
 <a name="PkTask.synopsis"></a><h2>Synopsis</h2>
 <pre class="synopsis">#define             <a class="link" href="PkTask.html#PK-TASK-TYPE-ERROR:CAPS" title="PK_TASK_TYPE_ERROR">PK_TASK_TYPE_ERROR</a>
-                    <a class="link" href="PkTask.html#PkTaskPrivate" title="PkTaskPrivate">PkTaskPrivate</a>;
-                    <a class="link" href="PkTask.html#PkTask-struct" title="PkTask">PkTask</a>;
-                    <a class="link" href="PkTask.html#PkTaskClass" title="PkTaskClass">PkTaskClass</a>;
+struct              <a class="link" href="PkTask.html#PkTask-struct" title="struct PkTask">PkTask</a>;
+struct              <a class="link" href="PkTask.html#PkTaskClass" title="struct PkTaskClass">PkTaskClass</a>;
 <a class="link" href="PkTask.html" title="PkTask"><span class="returnvalue">PkTask</span></a> *            <a class="link" href="PkTask.html#pk-task-new" title="pk_task_new ()">pk_task_new</a>                         (<em class="parameter"><code><span class="type">void</span></code></em>);
 <span class="returnvalue">void</span>                <a class="link" href="PkTask.html#pk-task-test" title="pk_task_test ()">pk_task_test</a>                        (<em class="parameter"><code><a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gpointer"><span class="type">gpointer</span></a> user_data</code></em>);
 <a class="link" href="PkResults.html" title="PkResults"><span class="returnvalue">PkResults</span></a> *         <a class="link" href="PkTask.html#pk-task-generic-finish" title="pk_task_generic_finish ()">pk_task_generic_finish</a>              (<em class="parameter"><code><a class="link" href="PkTask.html" title="PkTask"><span class="type">PkTask</span></a> *task</code></em>,
@@ -236,9 +235,16 @@ transactions, GPG keys and EULA requests.</p>
                                                          <em class="parameter"><code><a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#guint"><span class="type">guint</span></a> request</code></em>);
 <a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gboolean"><span class="returnvalue">gboolean</span></a>            <a class="link" href="PkTask.html#pk-task-user-declined" title="pk_task_user_declined ()">pk_task_user_declined</a>               (<em class="parameter"><code><a class="link" href="PkTask.html" title="PkTask"><span class="type">PkTask</span></a> *task</code></em>,
                                                          <em class="parameter"><code><a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#guint"><span class="type">guint</span></a> request</code></em>);
+<span class="returnvalue">void</span>                <a class="link" href="PkTask.html#pk-task-set-simulate" title="pk_task_set_simulate ()">pk_task_set_simulate</a>                (<em class="parameter"><code><a class="link" href="PkTask.html" title="PkTask"><span class="type">PkTask</span></a> *task</code></em>,
+                                                         <em class="parameter"><code><a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gboolean"><span class="type">gboolean</span></a> simulate</code></em>);
+<a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gboolean"><span class="returnvalue">gboolean</span></a>            <a class="link" href="PkTask.html#pk-task-get-simulate" title="pk_task_get_simulate ()">pk_task_get_simulate</a>                (<em class="parameter"><code><a class="link" href="PkTask.html" title="PkTask"><span class="type">PkTask</span></a> *task</code></em>);
+<span class="returnvalue">void</span>                <a class="link" href="PkTask.html#pk-task-set-interactive" title="pk_task_set_interactive ()">pk_task_set_interactive</a>             (<em class="parameter"><code><a class="link" href="PkTask.html" title="PkTask"><span class="type">PkTask</span></a> *task</code></em>,
+                                                         <em class="parameter"><code><a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gboolean"><span class="type">gboolean</span></a> interactive</code></em>);
+<a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gboolean"><span class="returnvalue">gboolean</span></a>            <a class="link" href="PkTask.html#pk-task-get-interactive" title="pk_task_get_interactive ()">pk_task_get_interactive</a>             (<em class="parameter"><code><a class="link" href="PkTask.html" title="PkTask"><span class="type">PkTask</span></a> *task</code></em>);
+                    <a class="link" href="PkTask.html#PkTaskPrivate" title="PkTaskPrivate">PkTaskPrivate</a>;
 </pre>
 </div>
-<div class="refsect1" title="Object Hierarchy">
+<div class="refsect1">
 <a name="PkTask.object-hierarchy"></a><h2>Object Hierarchy</h2>
 <pre class="synopsis">
   <a href="http://library.gnome.org/devel/gobject/unstable/gobject-The-Base-Object-Type.html#GObject">GObject</a>
@@ -248,19 +254,19 @@ transactions, GPG keys and EULA requests.</p>
                +----PkTaskWrapper
 </pre>
 </div>
-<div class="refsect1" title="Properties">
+<div class="refsect1">
 <a name="PkTask.properties"></a><h2>Properties</h2>
 <pre class="synopsis">
   "<a class="link" href="PkTask.html#PkTask--interactive" title='The "interactive" property'>interactive</a>"              <a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gboolean"><span class="type">gboolean</span></a>              : Read / Write
   "<a class="link" href="PkTask.html#PkTask--simulate" title='The "simulate" property'>simulate</a>"                 <a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gboolean"><span class="type">gboolean</span></a>              : Read / Write
 </pre>
 </div>
-<div class="refsect1" title="Description">
+<div class="refsect1">
 <a name="PkTask.description"></a><h2>Description</h2>
 </div>
-<div class="refsect1" title="Details">
+<div class="refsect1">
 <a name="PkTask.details"></a><h2>Details</h2>
-<div class="refsect2" title="PK_TASK_TYPE_ERROR">
+<div class="refsect2">
 <a name="PK-TASK-TYPE-ERROR:CAPS"></a><h3>PK_TASK_TYPE_ERROR</h3>
 <pre class="programlisting">#define PK_TASK_TYPE_ERROR (pk_task_error_get_type ())
 </pre>
@@ -268,24 +274,16 @@ transactions, GPG keys and EULA requests.</p>
 </p>
 </div>
 <hr>
-<div class="refsect2" title="PkTaskPrivate">
-<a name="PkTaskPrivate"></a><h3>PkTaskPrivate</h3>
-<pre class="programlisting">typedef struct _PkTaskPrivate PkTaskPrivate;</pre>
-<p>
-Private <a class="link" href="PkTask.html" title="PkTask"><span class="type">PkTask</span></a> data
-</p>
-</div>
-<hr>
-<div class="refsect2" title="PkTask">
-<a name="PkTask-struct"></a><h3>PkTask</h3>
-<pre class="programlisting">typedef struct _PkTask PkTask;</pre>
+<div class="refsect2">
+<a name="PkTask-struct"></a><h3>struct PkTask</h3>
+<pre class="programlisting">struct PkTask;</pre>
 <p>
 </p>
 </div>
 <hr>
-<div class="refsect2" title="PkTaskClass">
-<a name="PkTaskClass"></a><h3>PkTaskClass</h3>
-<pre class="programlisting">typedef struct {
+<div class="refsect2">
+<a name="PkTaskClass"></a><h3>struct PkTaskClass</h3>
+<pre class="programlisting">struct PkTaskClass {
 	PkClientClass		parent_class;
 	void	 (*untrusted_question)			(PkTask			*task,
 							 guint			 request,
@@ -308,43 +306,33 @@ Private <a class="link" href="PkTask.html" title="PkTask"><span class="type">PkT
 	void (*_pk_reserved3) (void);
 	void (*_pk_reserved4) (void);
 	void (*_pk_reserved5) (void);
-} PkTaskClass;
+};
 </pre>
 <p>
 </p>
 </div>
 <hr>
-<div class="refsect2" title="pk_task_new ()">
+<div class="refsect2">
 <a name="pk-task-new"></a><h3>pk_task_new ()</h3>
 <pre class="programlisting"><a class="link" href="PkTask.html" title="PkTask"><span class="returnvalue">PkTask</span></a> *            pk_task_new                         (<em class="parameter"><code><span class="type">void</span></code></em>);</pre>
 <div class="variablelist"><table border="0">
 <col align="left" valign="top">
 <tbody><tr>
 <td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
-<td> a new PkTask object.
-
-</td>
+<td>a new PkTask object.</td>
 </tr></tbody>
 </table></div>
 <p class="since">Since 0.5.2</p>
 </div>
 <hr>
-<div class="refsect2" title="pk_task_test ()">
+<div class="refsect2">
 <a name="pk-task-test"></a><h3>pk_task_test ()</h3>
 <pre class="programlisting"><span class="returnvalue">void</span>                pk_task_test                        (<em class="parameter"><code><a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gpointer"><span class="type">gpointer</span></a> user_data</code></em>);</pre>
 <p>
 </p>
-<div class="variablelist"><table border="0">
-<col align="left" valign="top">
-<tbody><tr>
-<td><p><span class="term"><em class="parameter"><code>user_data</code></em> :</span></p></td>
-<td>
-</td>
-</tr></tbody>
-</table></div>
 </div>
 <hr>
-<div class="refsect2" title="pk_task_generic_finish ()">
+<div class="refsect2">
 <a name="pk-task-generic-finish"></a><h3>pk_task_generic_finish ()</h3>
 <pre class="programlisting"><a class="link" href="PkResults.html" title="PkResults"><span class="returnvalue">PkResults</span></a> *         pk_task_generic_finish              (<em class="parameter"><code><a class="link" href="PkTask.html" title="PkTask"><span class="type">PkTask</span></a> *task</code></em>,
                                                          <em class="parameter"><code><a href="http://library.gnome.org/devel/gio/unstable/GAsyncResult.html"><span class="type">GAsyncResult</span></a> *res</code></em>,
@@ -357,8 +345,7 @@ Gets the result from the asynchronous function.
 <tbody>
 <tr>
 <td><p><span class="term"><em class="parameter"><code>task</code></em> :</span></p></td>
-<td>a valid <a class="link" href="PkTask.html" title="PkTask"><span class="type">PkTask</span></a> instance
-</td>
+<td>a valid <a class="link" href="PkTask.html" title="PkTask"><span class="type">PkTask</span></a> instance</td>
 </tr>
 <tr>
 <td><p><span class="term"><em class="parameter"><code>res</code></em> :</span></p></td>
@@ -372,7 +359,7 @@ Gets the result from the asynchronous function.
 </tr>
 <tr>
 <td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
-<td> The <a class="link" href="PkResults.html" title="PkResults"><span class="type">PkResults</span></a> of the transaction. <span class="annotation">[<a href="http://foldoc.org/transfer%20full"><span class="acronym">transfer full</span></a>]</span>
+<td>The <a class="link" href="PkResults.html" title="PkResults"><span class="type">PkResults</span></a> of the transaction. <span class="annotation">[<a href="http://foldoc.org/transfer%20full"><span class="acronym">transfer full</span></a>]</span>
 </td>
 </tr>
 </tbody>
@@ -380,7 +367,7 @@ Gets the result from the asynchronous function.
 <p class="since">Since 0.5.2</p>
 </div>
 <hr>
-<div class="refsect2" title="pk_task_install_packages_async ()">
+<div class="refsect2">
 <a name="pk-task-install-packages-async"></a><h3>pk_task_install_packages_async ()</h3>
 <pre class="programlisting"><span class="returnvalue">void</span>                pk_task_install_packages_async      (<em class="parameter"><code><a class="link" href="PkTask.html" title="PkTask"><span class="type">PkTask</span></a> *task</code></em>,
                                                          <em class="parameter"><code><a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a> **package_ids</code></em>,
@@ -397,13 +384,11 @@ Merges in details about packages using resolve.
 <tbody>
 <tr>
 <td><p><span class="term"><em class="parameter"><code>task</code></em> :</span></p></td>
-<td>a valid <a class="link" href="PkTask.html" title="PkTask"><span class="type">PkTask</span></a> instance
-</td>
+<td>a valid <a class="link" href="PkTask.html" title="PkTask"><span class="type">PkTask</span></a> instance</td>
 </tr>
 <tr>
 <td><p><span class="term"><em class="parameter"><code>package_ids</code></em> :</span></p></td>
-<td>a null terminated array of package_id structures such as "hal;0.0.1;i386;fedora"
-</td>
+<td>a null terminated array of package_id structures such as "hal;0.0.1;i386;fedora"</td>
 </tr>
 <tr>
 <td><p><span class="term"><em class="parameter"><code>cancellable</code></em> :</span></p></td>
@@ -412,7 +397,7 @@ Merges in details about packages using resolve.
 </tr>
 <tr>
 <td><p><span class="term"><em class="parameter"><code>progress_callback</code></em> :</span></p></td>
-<td> the function to run when the progress changes. <span class="annotation">[<a href="http://foldoc.org/scope%20call"><span class="acronym">scope call</span></a>]</span>
+<td>the function to run when the progress changes. <span class="annotation">[<a href="http://foldoc.org/scope%20call"><span class="acronym">scope call</span></a>]</span>
 </td>
 </tr>
 <tr>
@@ -422,8 +407,7 @@ Merges in details about packages using resolve.
 </tr>
 <tr>
 <td><p><span class="term"><em class="parameter"><code>callback_ready</code></em> :</span></p></td>
-<td>the function to run on completion
-</td>
+<td>the function to run on completion</td>
 </tr>
 <tr>
 <td><p><span class="term"><em class="parameter"><code>user_data</code></em> :</span></p></td>
@@ -435,7 +419,7 @@ Merges in details about packages using resolve.
 <p class="since">Since 0.5.2</p>
 </div>
 <hr>
-<div class="refsect2" title="pk_task_update_packages_async ()">
+<div class="refsect2">
 <a name="pk-task-update-packages-async"></a><h3>pk_task_update_packages_async ()</h3>
 <pre class="programlisting"><span class="returnvalue">void</span>                pk_task_update_packages_async       (<em class="parameter"><code><a class="link" href="PkTask.html" title="PkTask"><span class="type">PkTask</span></a> *task</code></em>,
                                                          <em class="parameter"><code><a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a> **package_ids</code></em>,
@@ -452,13 +436,11 @@ Update specific packages to the newest available versions.
 <tbody>
 <tr>
 <td><p><span class="term"><em class="parameter"><code>task</code></em> :</span></p></td>
-<td>a valid <a class="link" href="PkTask.html" title="PkTask"><span class="type">PkTask</span></a> instance
-</td>
+<td>a valid <a class="link" href="PkTask.html" title="PkTask"><span class="type">PkTask</span></a> instance</td>
 </tr>
 <tr>
 <td><p><span class="term"><em class="parameter"><code>package_ids</code></em> :</span></p></td>
-<td>a null terminated array of package_id structures such as "hal;0.0.1;i386;fedora"
-</td>
+<td>a null terminated array of package_id structures such as "hal;0.0.1;i386;fedora"</td>
 </tr>
 <tr>
 <td><p><span class="term"><em class="parameter"><code>cancellable</code></em> :</span></p></td>
@@ -467,7 +449,7 @@ Update specific packages to the newest available versions.
 </tr>
 <tr>
 <td><p><span class="term"><em class="parameter"><code>progress_callback</code></em> :</span></p></td>
-<td> the function to run when the progress changes. <span class="annotation">[<a href="http://foldoc.org/scope%20call"><span class="acronym">scope call</span></a>]</span>
+<td>the function to run when the progress changes. <span class="annotation">[<a href="http://foldoc.org/scope%20call"><span class="acronym">scope call</span></a>]</span>
 </td>
 </tr>
 <tr>
@@ -477,8 +459,7 @@ Update specific packages to the newest available versions.
 </tr>
 <tr>
 <td><p><span class="term"><em class="parameter"><code>callback_ready</code></em> :</span></p></td>
-<td>the function to run on completion
-</td>
+<td>the function to run on completion</td>
 </tr>
 <tr>
 <td><p><span class="term"><em class="parameter"><code>user_data</code></em> :</span></p></td>
@@ -490,7 +471,7 @@ Update specific packages to the newest available versions.
 <p class="since">Since 0.5.2</p>
 </div>
 <hr>
-<div class="refsect2" title="pk_task_remove_packages_async ()">
+<div class="refsect2">
 <a name="pk-task-remove-packages-async"></a><h3>pk_task_remove_packages_async ()</h3>
 <pre class="programlisting"><span class="returnvalue">void</span>                pk_task_remove_packages_async       (<em class="parameter"><code><a class="link" href="PkTask.html" title="PkTask"><span class="type">PkTask</span></a> *task</code></em>,
                                                          <em class="parameter"><code><a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a> **package_ids</code></em>,
@@ -511,23 +492,19 @@ then the transaction would fail.
 <tbody>
 <tr>
 <td><p><span class="term"><em class="parameter"><code>task</code></em> :</span></p></td>
-<td>a valid <a class="link" href="PkTask.html" title="PkTask"><span class="type">PkTask</span></a> instance
-</td>
+<td>a valid <a class="link" href="PkTask.html" title="PkTask"><span class="type">PkTask</span></a> instance</td>
 </tr>
 <tr>
 <td><p><span class="term"><em class="parameter"><code>package_ids</code></em> :</span></p></td>
-<td>a null terminated array of package_id structures such as "hal;0.0.1;i386;fedora"
-</td>
+<td>a null terminated array of package_id structures such as "hal;0.0.1;i386;fedora"</td>
 </tr>
 <tr>
 <td><p><span class="term"><em class="parameter"><code>allow_deps</code></em> :</span></p></td>
-<td>if other dependant packages are allowed to be removed from the computer
-</td>
+<td>if other dependant packages are allowed to be removed from the computer</td>
 </tr>
 <tr>
 <td><p><span class="term"><em class="parameter"><code>autoremove</code></em> :</span></p></td>
-<td>if other packages installed at the same time should be tried to remove
-</td>
+<td>if other packages installed at the same time should be tried to remove</td>
 </tr>
 <tr>
 <td><p><span class="term"><em class="parameter"><code>cancellable</code></em> :</span></p></td>
@@ -536,7 +513,7 @@ then the transaction would fail.
 </tr>
 <tr>
 <td><p><span class="term"><em class="parameter"><code>progress_callback</code></em> :</span></p></td>
-<td> the function to run when the progress changes. <span class="annotation">[<a href="http://foldoc.org/scope%20call"><span class="acronym">scope call</span></a>]</span>
+<td>the function to run when the progress changes. <span class="annotation">[<a href="http://foldoc.org/scope%20call"><span class="acronym">scope call</span></a>]</span>
 </td>
 </tr>
 <tr>
@@ -546,8 +523,7 @@ then the transaction would fail.
 </tr>
 <tr>
 <td><p><span class="term"><em class="parameter"><code>callback_ready</code></em> :</span></p></td>
-<td>the function to run on completion
-</td>
+<td>the function to run on completion</td>
 </tr>
 <tr>
 <td><p><span class="term"><em class="parameter"><code>user_data</code></em> :</span></p></td>
@@ -559,7 +535,7 @@ then the transaction would fail.
 <p class="since">Since 0.5.2</p>
 </div>
 <hr>
-<div class="refsect2" title="pk_task_install_files_async ()">
+<div class="refsect2">
 <a name="pk-task-install-files-async"></a><h3>pk_task_install_files_async ()</h3>
 <pre class="programlisting"><span class="returnvalue">void</span>                pk_task_install_files_async         (<em class="parameter"><code><a class="link" href="PkTask.html" title="PkTask"><span class="type">PkTask</span></a> *task</code></em>,
                                                          <em class="parameter"><code><a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a> **files</code></em>,
@@ -577,13 +553,11 @@ This is useful for double clicking on a .rpm or .deb file.
 <tbody>
 <tr>
 <td><p><span class="term"><em class="parameter"><code>task</code></em> :</span></p></td>
-<td>a valid <a class="link" href="PkTask.html" title="PkTask"><span class="type">PkTask</span></a> instance
-</td>
+<td>a valid <a class="link" href="PkTask.html" title="PkTask"><span class="type">PkTask</span></a> instance</td>
 </tr>
 <tr>
 <td><p><span class="term"><em class="parameter"><code>files</code></em> :</span></p></td>
-<td>a file such as "/home/hughsie/Desktop/hal-devel-0.10.0.rpm"
-</td>
+<td>a file such as "/home/hughsie/Desktop/hal-devel-0.10.0.rpm"</td>
 </tr>
 <tr>
 <td><p><span class="term"><em class="parameter"><code>cancellable</code></em> :</span></p></td>
@@ -592,7 +566,7 @@ This is useful for double clicking on a .rpm or .deb file.
 </tr>
 <tr>
 <td><p><span class="term"><em class="parameter"><code>progress_callback</code></em> :</span></p></td>
-<td> the function to run when the progress changes. <span class="annotation">[<a href="http://foldoc.org/scope%20call"><span class="acronym">scope call</span></a>]</span>
+<td>the function to run when the progress changes. <span class="annotation">[<a href="http://foldoc.org/scope%20call"><span class="acronym">scope call</span></a>]</span>
 </td>
 </tr>
 <tr>
@@ -602,8 +576,7 @@ This is useful for double clicking on a .rpm or .deb file.
 </tr>
 <tr>
 <td><p><span class="term"><em class="parameter"><code>callback_ready</code></em> :</span></p></td>
-<td>the function to run on completion
-</td>
+<td>the function to run on completion</td>
 </tr>
 <tr>
 <td><p><span class="term"><em class="parameter"><code>user_data</code></em> :</span></p></td>
@@ -615,7 +588,7 @@ This is useful for double clicking on a .rpm or .deb file.
 <p class="since">Since 0.5.2</p>
 </div>
 <hr>
-<div class="refsect2" title="pk_task_update_system_async ()">
+<div class="refsect2">
 <a name="pk-task-update-system-async"></a><h3>pk_task_update_system_async ()</h3>
 <pre class="programlisting"><span class="returnvalue">void</span>                pk_task_update_system_async         (<em class="parameter"><code><a class="link" href="PkTask.html" title="PkTask"><span class="type">PkTask</span></a> *task</code></em>,
                                                          <em class="parameter"><code><a href="http://library.gnome.org/devel/gio/unstable/GCancellable.html"><span class="type">GCancellable</span></a> *cancellable</code></em>,
@@ -636,8 +609,7 @@ NOTE: you can't choose what repositories to update from, but you can do:
 <tbody>
 <tr>
 <td><p><span class="term"><em class="parameter"><code>task</code></em> :</span></p></td>
-<td>a valid <a class="link" href="PkTask.html" title="PkTask"><span class="type">PkTask</span></a> instance
-</td>
+<td>a valid <a class="link" href="PkTask.html" title="PkTask"><span class="type">PkTask</span></a> instance</td>
 </tr>
 <tr>
 <td><p><span class="term"><em class="parameter"><code>cancellable</code></em> :</span></p></td>
@@ -646,7 +618,7 @@ NOTE: you can't choose what repositories to update from, but you can do:
 </tr>
 <tr>
 <td><p><span class="term"><em class="parameter"><code>progress_callback</code></em> :</span></p></td>
-<td> the function to run when the progress changes. <span class="annotation">[<a href="http://foldoc.org/scope%20call"><span class="acronym">scope call</span></a>]</span>
+<td>the function to run when the progress changes. <span class="annotation">[<a href="http://foldoc.org/scope%20call"><span class="acronym">scope call</span></a>]</span>
 </td>
 </tr>
 <tr>
@@ -656,8 +628,7 @@ NOTE: you can't choose what repositories to update from, but you can do:
 </tr>
 <tr>
 <td><p><span class="term"><em class="parameter"><code>callback_ready</code></em> :</span></p></td>
-<td>the function to run on completion
-</td>
+<td>the function to run on completion</td>
 </tr>
 <tr>
 <td><p><span class="term"><em class="parameter"><code>user_data</code></em> :</span></p></td>
@@ -669,7 +640,7 @@ NOTE: you can't choose what repositories to update from, but you can do:
 <p class="since">Since 0.5.2</p>
 </div>
 <hr>
-<div class="refsect2" title="pk_task_resolve_async ()">
+<div class="refsect2">
 <a name="pk-task-resolve-async"></a><h3>pk_task_resolve_async ()</h3>
 <pre class="programlisting"><span class="returnvalue">void</span>                pk_task_resolve_async               (<em class="parameter"><code><a class="link" href="PkTask.html" title="PkTask"><span class="type">PkTask</span></a> *task</code></em>,
                                                          <em class="parameter"><code><a class="link" href="PackageKit-pk-bitfield.html#PkBitfield" title="PkBitfield"><span class="type">PkBitfield</span></a> filters</code></em>,
@@ -687,18 +658,15 @@ Resolves a package name to a package-id.
 <tbody>
 <tr>
 <td><p><span class="term"><em class="parameter"><code>task</code></em> :</span></p></td>
-<td>a valid <a class="link" href="PkTask.html" title="PkTask"><span class="type">PkTask</span></a> instance
-</td>
+<td>a valid <a class="link" href="PkTask.html" title="PkTask"><span class="type">PkTask</span></a> instance</td>
 </tr>
 <tr>
 <td><p><span class="term"><em class="parameter"><code>filters</code></em> :</span></p></td>
-<td>a bitfield of filters that can be used to limit the results
-</td>
+<td>a bitfield of filters that can be used to limit the results</td>
 </tr>
 <tr>
 <td><p><span class="term"><em class="parameter"><code>packages</code></em> :</span></p></td>
-<td>package names to find
-</td>
+<td>package names to find</td>
 </tr>
 <tr>
 <td><p><span class="term"><em class="parameter"><code>cancellable</code></em> :</span></p></td>
@@ -707,7 +675,7 @@ Resolves a package name to a package-id.
 </tr>
 <tr>
 <td><p><span class="term"><em class="parameter"><code>progress_callback</code></em> :</span></p></td>
-<td> the function to run when the progress changes. <span class="annotation">[<a href="http://foldoc.org/scope%20call"><span class="acronym">scope call</span></a>]</span>
+<td>the function to run when the progress changes. <span class="annotation">[<a href="http://foldoc.org/scope%20call"><span class="acronym">scope call</span></a>]</span>
 </td>
 </tr>
 <tr>
@@ -717,8 +685,7 @@ Resolves a package name to a package-id.
 </tr>
 <tr>
 <td><p><span class="term"><em class="parameter"><code>callback_ready</code></em> :</span></p></td>
-<td>the function to run on completion
-</td>
+<td>the function to run on completion</td>
 </tr>
 <tr>
 <td><p><span class="term"><em class="parameter"><code>user_data</code></em> :</span></p></td>
@@ -730,7 +697,7 @@ Resolves a package name to a package-id.
 <p class="since">Since 0.6.5</p>
 </div>
 <hr>
-<div class="refsect2" title="pk_task_search_names_async ()">
+<div class="refsect2">
 <a name="pk-task-search-names-async"></a><h3>pk_task_search_names_async ()</h3>
 <pre class="programlisting"><span class="returnvalue">void</span>                pk_task_search_names_async          (<em class="parameter"><code><a class="link" href="PkTask.html" title="PkTask"><span class="type">PkTask</span></a> *task</code></em>,
                                                          <em class="parameter"><code><a class="link" href="PackageKit-pk-bitfield.html#PkBitfield" title="PkBitfield"><span class="type">PkBitfield</span></a> filters</code></em>,
@@ -748,18 +715,15 @@ Searches for a package name.
 <tbody>
 <tr>
 <td><p><span class="term"><em class="parameter"><code>task</code></em> :</span></p></td>
-<td>a valid <a class="link" href="PkTask.html" title="PkTask"><span class="type">PkTask</span></a> instance
-</td>
+<td>a valid <a class="link" href="PkTask.html" title="PkTask"><span class="type">PkTask</span></a> instance</td>
 </tr>
 <tr>
 <td><p><span class="term"><em class="parameter"><code>filters</code></em> :</span></p></td>
-<td>a bitfield of filters that can be used to limit the results
-</td>
+<td>a bitfield of filters that can be used to limit the results</td>
 </tr>
 <tr>
 <td><p><span class="term"><em class="parameter"><code>values</code></em> :</span></p></td>
-<td>search values
-</td>
+<td>search values</td>
 </tr>
 <tr>
 <td><p><span class="term"><em class="parameter"><code>cancellable</code></em> :</span></p></td>
@@ -768,7 +732,7 @@ Searches for a package name.
 </tr>
 <tr>
 <td><p><span class="term"><em class="parameter"><code>progress_callback</code></em> :</span></p></td>
-<td> the function to run when the progress changes. <span class="annotation">[<a href="http://foldoc.org/scope%20call"><span class="acronym">scope call</span></a>]</span>
+<td>the function to run when the progress changes. <span class="annotation">[<a href="http://foldoc.org/scope%20call"><span class="acronym">scope call</span></a>]</span>
 </td>
 </tr>
 <tr>
@@ -778,8 +742,7 @@ Searches for a package name.
 </tr>
 <tr>
 <td><p><span class="term"><em class="parameter"><code>callback_ready</code></em> :</span></p></td>
-<td>the function to run on completion
-</td>
+<td>the function to run on completion</td>
 </tr>
 <tr>
 <td><p><span class="term"><em class="parameter"><code>user_data</code></em> :</span></p></td>
@@ -791,7 +754,7 @@ Searches for a package name.
 <p class="since">Since 0.6.5</p>
 </div>
 <hr>
-<div class="refsect2" title="pk_task_search_details_async ()">
+<div class="refsect2">
 <a name="pk-task-search-details-async"></a><h3>pk_task_search_details_async ()</h3>
 <pre class="programlisting"><span class="returnvalue">void</span>                pk_task_search_details_async        (<em class="parameter"><code><a class="link" href="PkTask.html" title="PkTask"><span class="type">PkTask</span></a> *task</code></em>,
                                                          <em class="parameter"><code><a class="link" href="PackageKit-pk-bitfield.html#PkBitfield" title="PkBitfield"><span class="type">PkBitfield</span></a> filters</code></em>,
@@ -809,18 +772,15 @@ Searches for some package details.
 <tbody>
 <tr>
 <td><p><span class="term"><em class="parameter"><code>task</code></em> :</span></p></td>
-<td>a valid <a class="link" href="PkTask.html" title="PkTask"><span class="type">PkTask</span></a> instance
-</td>
+<td>a valid <a class="link" href="PkTask.html" title="PkTask"><span class="type">PkTask</span></a> instance</td>
 </tr>
 <tr>
 <td><p><span class="term"><em class="parameter"><code>filters</code></em> :</span></p></td>
-<td>a bitfield of filters that can be used to limit the results
-</td>
+<td>a bitfield of filters that can be used to limit the results</td>
 </tr>
 <tr>
 <td><p><span class="term"><em class="parameter"><code>values</code></em> :</span></p></td>
-<td>search values
-</td>
+<td>search values</td>
 </tr>
 <tr>
 <td><p><span class="term"><em class="parameter"><code>cancellable</code></em> :</span></p></td>
@@ -829,7 +789,7 @@ Searches for some package details.
 </tr>
 <tr>
 <td><p><span class="term"><em class="parameter"><code>progress_callback</code></em> :</span></p></td>
-<td> the function to run when the progress changes. <span class="annotation">[<a href="http://foldoc.org/scope%20call"><span class="acronym">scope call</span></a>]</span>
+<td>the function to run when the progress changes. <span class="annotation">[<a href="http://foldoc.org/scope%20call"><span class="acronym">scope call</span></a>]</span>
 </td>
 </tr>
 <tr>
@@ -839,8 +799,7 @@ Searches for some package details.
 </tr>
 <tr>
 <td><p><span class="term"><em class="parameter"><code>callback_ready</code></em> :</span></p></td>
-<td>the function to run on completion
-</td>
+<td>the function to run on completion</td>
 </tr>
 <tr>
 <td><p><span class="term"><em class="parameter"><code>user_data</code></em> :</span></p></td>
@@ -852,7 +811,7 @@ Searches for some package details.
 <p class="since">Since 0.6.5</p>
 </div>
 <hr>
-<div class="refsect2" title="pk_task_search_groups_async ()">
+<div class="refsect2">
 <a name="pk-task-search-groups-async"></a><h3>pk_task_search_groups_async ()</h3>
 <pre class="programlisting"><span class="returnvalue">void</span>                pk_task_search_groups_async         (<em class="parameter"><code><a class="link" href="PkTask.html" title="PkTask"><span class="type">PkTask</span></a> *task</code></em>,
                                                          <em class="parameter"><code><a class="link" href="PackageKit-pk-bitfield.html#PkBitfield" title="PkBitfield"><span class="type">PkBitfield</span></a> filters</code></em>,
@@ -870,18 +829,15 @@ Searches the group lists.
 <tbody>
 <tr>
 <td><p><span class="term"><em class="parameter"><code>task</code></em> :</span></p></td>
-<td>a valid <a class="link" href="PkTask.html" title="PkTask"><span class="type">PkTask</span></a> instance
-</td>
+<td>a valid <a class="link" href="PkTask.html" title="PkTask"><span class="type">PkTask</span></a> instance</td>
 </tr>
 <tr>
 <td><p><span class="term"><em class="parameter"><code>filters</code></em> :</span></p></td>
-<td>a bitfield of filters that can be used to limit the results
-</td>
+<td>a bitfield of filters that can be used to limit the results</td>
 </tr>
 <tr>
 <td><p><span class="term"><em class="parameter"><code>values</code></em> :</span></p></td>
-<td>search values
-</td>
+<td>search values</td>
 </tr>
 <tr>
 <td><p><span class="term"><em class="parameter"><code>cancellable</code></em> :</span></p></td>
@@ -890,7 +846,7 @@ Searches the group lists.
 </tr>
 <tr>
 <td><p><span class="term"><em class="parameter"><code>progress_callback</code></em> :</span></p></td>
-<td> the function to run when the progress changes. <span class="annotation">[<a href="http://foldoc.org/scope%20call"><span class="acronym">scope call</span></a>]</span>
+<td>the function to run when the progress changes. <span class="annotation">[<a href="http://foldoc.org/scope%20call"><span class="acronym">scope call</span></a>]</span>
 </td>
 </tr>
 <tr>
@@ -900,8 +856,7 @@ Searches the group lists.
 </tr>
 <tr>
 <td><p><span class="term"><em class="parameter"><code>callback_ready</code></em> :</span></p></td>
-<td>the function to run on completion
-</td>
+<td>the function to run on completion</td>
 </tr>
 <tr>
 <td><p><span class="term"><em class="parameter"><code>user_data</code></em> :</span></p></td>
@@ -913,7 +868,7 @@ Searches the group lists.
 <p class="since">Since 0.6.5</p>
 </div>
 <hr>
-<div class="refsect2" title="pk_task_search_files_async ()">
+<div class="refsect2">
 <a name="pk-task-search-files-async"></a><h3>pk_task_search_files_async ()</h3>
 <pre class="programlisting"><span class="returnvalue">void</span>                pk_task_search_files_async          (<em class="parameter"><code><a class="link" href="PkTask.html" title="PkTask"><span class="type">PkTask</span></a> *task</code></em>,
                                                          <em class="parameter"><code><a class="link" href="PackageKit-pk-bitfield.html#PkBitfield" title="PkBitfield"><span class="type">PkBitfield</span></a> filters</code></em>,
@@ -931,18 +886,15 @@ Searches for specific files.
 <tbody>
 <tr>
 <td><p><span class="term"><em class="parameter"><code>task</code></em> :</span></p></td>
-<td>a valid <a class="link" href="PkTask.html" title="PkTask"><span class="type">PkTask</span></a> instance
-</td>
+<td>a valid <a class="link" href="PkTask.html" title="PkTask"><span class="type">PkTask</span></a> instance</td>
 </tr>
 <tr>
 <td><p><span class="term"><em class="parameter"><code>filters</code></em> :</span></p></td>
-<td>a bitfield of filters that can be used to limit the results
-</td>
+<td>a bitfield of filters that can be used to limit the results</td>
 </tr>
 <tr>
 <td><p><span class="term"><em class="parameter"><code>values</code></em> :</span></p></td>
-<td>search values
-</td>
+<td>search values</td>
 </tr>
 <tr>
 <td><p><span class="term"><em class="parameter"><code>cancellable</code></em> :</span></p></td>
@@ -951,7 +903,7 @@ Searches for specific files.
 </tr>
 <tr>
 <td><p><span class="term"><em class="parameter"><code>progress_callback</code></em> :</span></p></td>
-<td> the function to run when the progress changes. <span class="annotation">[<a href="http://foldoc.org/scope%20call"><span class="acronym">scope call</span></a>]</span>
+<td>the function to run when the progress changes. <span class="annotation">[<a href="http://foldoc.org/scope%20call"><span class="acronym">scope call</span></a>]</span>
 </td>
 </tr>
 <tr>
@@ -961,8 +913,7 @@ Searches for specific files.
 </tr>
 <tr>
 <td><p><span class="term"><em class="parameter"><code>callback_ready</code></em> :</span></p></td>
-<td>the function to run on completion
-</td>
+<td>the function to run on completion</td>
 </tr>
 <tr>
 <td><p><span class="term"><em class="parameter"><code>user_data</code></em> :</span></p></td>
@@ -974,7 +925,7 @@ Searches for specific files.
 <p class="since">Since 0.6.5</p>
 </div>
 <hr>
-<div class="refsect2" title="pk_task_get_details_async ()">
+<div class="refsect2">
 <a name="pk-task-get-details-async"></a><h3>pk_task_get_details_async ()</h3>
 <pre class="programlisting"><span class="returnvalue">void</span>                pk_task_get_details_async           (<em class="parameter"><code><a class="link" href="PkTask.html" title="PkTask"><span class="type">PkTask</span></a> *task</code></em>,
                                                          <em class="parameter"><code><a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a> **package_ids</code></em>,
@@ -991,13 +942,11 @@ Gets details about packages.
 <tbody>
 <tr>
 <td><p><span class="term"><em class="parameter"><code>task</code></em> :</span></p></td>
-<td>a valid <a class="link" href="PkTask.html" title="PkTask"><span class="type">PkTask</span></a> instance
-</td>
+<td>a valid <a class="link" href="PkTask.html" title="PkTask"><span class="type">PkTask</span></a> instance</td>
 </tr>
 <tr>
 <td><p><span class="term"><em class="parameter"><code>package_ids</code></em> :</span></p></td>
-<td>a null terminated array of package_id structures such as "hal;0.0.1;i386;fedora"
-</td>
+<td>a null terminated array of package_id structures such as "hal;0.0.1;i386;fedora"</td>
 </tr>
 <tr>
 <td><p><span class="term"><em class="parameter"><code>cancellable</code></em> :</span></p></td>
@@ -1006,7 +955,7 @@ Gets details about packages.
 </tr>
 <tr>
 <td><p><span class="term"><em class="parameter"><code>progress_callback</code></em> :</span></p></td>
-<td> the function to run when the progress changes. <span class="annotation">[<a href="http://foldoc.org/scope%20call"><span class="acronym">scope call</span></a>]</span>
+<td>the function to run when the progress changes. <span class="annotation">[<a href="http://foldoc.org/scope%20call"><span class="acronym">scope call</span></a>]</span>
 </td>
 </tr>
 <tr>
@@ -1016,8 +965,7 @@ Gets details about packages.
 </tr>
 <tr>
 <td><p><span class="term"><em class="parameter"><code>callback_ready</code></em> :</span></p></td>
-<td>the function to run on completion
-</td>
+<td>the function to run on completion</td>
 </tr>
 <tr>
 <td><p><span class="term"><em class="parameter"><code>user_data</code></em> :</span></p></td>
@@ -1029,7 +977,7 @@ Gets details about packages.
 <p class="since">Since 0.6.5</p>
 </div>
 <hr>
-<div class="refsect2" title="pk_task_get_update_detail_async ()">
+<div class="refsect2">
 <a name="pk-task-get-update-detail-async"></a><h3>pk_task_get_update_detail_async ()</h3>
 <pre class="programlisting"><span class="returnvalue">void</span>                pk_task_get_update_detail_async     (<em class="parameter"><code><a class="link" href="PkTask.html" title="PkTask"><span class="type">PkTask</span></a> *task</code></em>,
                                                          <em class="parameter"><code><a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a> **package_ids</code></em>,
@@ -1046,13 +994,11 @@ Gets details about updates.
 <tbody>
 <tr>
 <td><p><span class="term"><em class="parameter"><code>task</code></em> :</span></p></td>
-<td>a valid <a class="link" href="PkTask.html" title="PkTask"><span class="type">PkTask</span></a> instance
-</td>
+<td>a valid <a class="link" href="PkTask.html" title="PkTask"><span class="type">PkTask</span></a> instance</td>
 </tr>
 <tr>
 <td><p><span class="term"><em class="parameter"><code>package_ids</code></em> :</span></p></td>
-<td>a null terminated array of package_id structures such as "hal;0.0.1;i386;fedora"
-</td>
+<td>a null terminated array of package_id structures such as "hal;0.0.1;i386;fedora"</td>
 </tr>
 <tr>
 <td><p><span class="term"><em class="parameter"><code>cancellable</code></em> :</span></p></td>
@@ -1061,7 +1007,7 @@ Gets details about updates.
 </tr>
 <tr>
 <td><p><span class="term"><em class="parameter"><code>progress_callback</code></em> :</span></p></td>
-<td> the function to run when the progress changes. <span class="annotation">[<a href="http://foldoc.org/scope%20call"><span class="acronym">scope call</span></a>]</span>
+<td>the function to run when the progress changes. <span class="annotation">[<a href="http://foldoc.org/scope%20call"><span class="acronym">scope call</span></a>]</span>
 </td>
 </tr>
 <tr>
@@ -1071,8 +1017,7 @@ Gets details about updates.
 </tr>
 <tr>
 <td><p><span class="term"><em class="parameter"><code>callback_ready</code></em> :</span></p></td>
-<td>the function to run on completion
-</td>
+<td>the function to run on completion</td>
 </tr>
 <tr>
 <td><p><span class="term"><em class="parameter"><code>user_data</code></em> :</span></p></td>
@@ -1084,7 +1029,7 @@ Gets details about updates.
 <p class="since">Since 0.6.5</p>
 </div>
 <hr>
-<div class="refsect2" title="pk_task_download_packages_async ()">
+<div class="refsect2">
 <a name="pk-task-download-packages-async"></a><h3>pk_task_download_packages_async ()</h3>
 <pre class="programlisting"><span class="returnvalue">void</span>                pk_task_download_packages_async     (<em class="parameter"><code><a class="link" href="PkTask.html" title="PkTask"><span class="type">PkTask</span></a> *task</code></em>,
                                                          <em class="parameter"><code><a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a> **package_ids</code></em>,
@@ -1102,18 +1047,15 @@ Downloads packages
 <tbody>
 <tr>
 <td><p><span class="term"><em class="parameter"><code>task</code></em> :</span></p></td>
-<td>a valid <a class="link" href="PkTask.html" title="PkTask"><span class="type">PkTask</span></a> instance
-</td>
+<td>a valid <a class="link" href="PkTask.html" title="PkTask"><span class="type">PkTask</span></a> instance</td>
 </tr>
 <tr>
 <td><p><span class="term"><em class="parameter"><code>package_ids</code></em> :</span></p></td>
-<td>a null terminated array of package_id structures such as "hal;0.0.1;i386;fedora"
-</td>
+<td>a null terminated array of package_id structures such as "hal;0.0.1;i386;fedora"</td>
 </tr>
 <tr>
 <td><p><span class="term"><em class="parameter"><code>directory</code></em> :</span></p></td>
-<td>the destination directory
-</td>
+<td>the destination directory</td>
 </tr>
 <tr>
 <td><p><span class="term"><em class="parameter"><code>cancellable</code></em> :</span></p></td>
@@ -1122,7 +1064,7 @@ Downloads packages
 </tr>
 <tr>
 <td><p><span class="term"><em class="parameter"><code>progress_callback</code></em> :</span></p></td>
-<td> the function to run when the progress changes. <span class="annotation">[<a href="http://foldoc.org/scope%20call"><span class="acronym">scope call</span></a>]</span>
+<td>the function to run when the progress changes. <span class="annotation">[<a href="http://foldoc.org/scope%20call"><span class="acronym">scope call</span></a>]</span>
 </td>
 </tr>
 <tr>
@@ -1132,8 +1074,7 @@ Downloads packages
 </tr>
 <tr>
 <td><p><span class="term"><em class="parameter"><code>callback_ready</code></em> :</span></p></td>
-<td>the function to run on completion
-</td>
+<td>the function to run on completion</td>
 </tr>
 <tr>
 <td><p><span class="term"><em class="parameter"><code>user_data</code></em> :</span></p></td>
@@ -1145,7 +1086,7 @@ Downloads packages
 <p class="since">Since 0.6.5</p>
 </div>
 <hr>
-<div class="refsect2" title="pk_task_get_updates_async ()">
+<div class="refsect2">
 <a name="pk-task-get-updates-async"></a><h3>pk_task_get_updates_async ()</h3>
 <pre class="programlisting"><span class="returnvalue">void</span>                pk_task_get_updates_async           (<em class="parameter"><code><a class="link" href="PkTask.html" title="PkTask"><span class="type">PkTask</span></a> *task</code></em>,
                                                          <em class="parameter"><code><a class="link" href="PackageKit-pk-bitfield.html#PkBitfield" title="PkBitfield"><span class="type">PkBitfield</span></a> filters</code></em>,
@@ -1162,13 +1103,11 @@ Gets the update lists.
 <tbody>
 <tr>
 <td><p><span class="term"><em class="parameter"><code>task</code></em> :</span></p></td>
-<td>a valid <a class="link" href="PkTask.html" title="PkTask"><span class="type">PkTask</span></a> instance
-</td>
+<td>a valid <a class="link" href="PkTask.html" title="PkTask"><span class="type">PkTask</span></a> instance</td>
 </tr>
 <tr>
 <td><p><span class="term"><em class="parameter"><code>filters</code></em> :</span></p></td>
-<td>a bitfield of filters that can be used to limit the results
-</td>
+<td>a bitfield of filters that can be used to limit the results</td>
 </tr>
 <tr>
 <td><p><span class="term"><em class="parameter"><code>cancellable</code></em> :</span></p></td>
@@ -1177,7 +1116,7 @@ Gets the update lists.
 </tr>
 <tr>
 <td><p><span class="term"><em class="parameter"><code>progress_callback</code></em> :</span></p></td>
-<td> the function to run when the progress changes. <span class="annotation">[<a href="http://foldoc.org/scope%20call"><span class="acronym">scope call</span></a>]</span>
+<td>the function to run when the progress changes. <span class="annotation">[<a href="http://foldoc.org/scope%20call"><span class="acronym">scope call</span></a>]</span>
 </td>
 </tr>
 <tr>
@@ -1187,8 +1126,7 @@ Gets the update lists.
 </tr>
 <tr>
 <td><p><span class="term"><em class="parameter"><code>callback_ready</code></em> :</span></p></td>
-<td>the function to run on completion
-</td>
+<td>the function to run on completion</td>
 </tr>
 <tr>
 <td><p><span class="term"><em class="parameter"><code>user_data</code></em> :</span></p></td>
@@ -1200,7 +1138,7 @@ Gets the update lists.
 <p class="since">Since 0.6.5</p>
 </div>
 <hr>
-<div class="refsect2" title="pk_task_get_depends_async ()">
+<div class="refsect2">
 <a name="pk-task-get-depends-async"></a><h3>pk_task_get_depends_async ()</h3>
 <pre class="programlisting"><span class="returnvalue">void</span>                pk_task_get_depends_async           (<em class="parameter"><code><a class="link" href="PkTask.html" title="PkTask"><span class="type">PkTask</span></a> *task</code></em>,
                                                          <em class="parameter"><code><a class="link" href="PackageKit-pk-bitfield.html#PkBitfield" title="PkBitfield"><span class="type">PkBitfield</span></a> filters</code></em>,
@@ -1219,23 +1157,19 @@ Get the list of dependant packages.
 <tbody>
 <tr>
 <td><p><span class="term"><em class="parameter"><code>task</code></em> :</span></p></td>
-<td>a valid <a class="link" href="PkTask.html" title="PkTask"><span class="type">PkTask</span></a> instance
-</td>
+<td>a valid <a class="link" href="PkTask.html" title="PkTask"><span class="type">PkTask</span></a> instance</td>
 </tr>
 <tr>
 <td><p><span class="term"><em class="parameter"><code>filters</code></em> :</span></p></td>
-<td>a bitfield of filters that can be used to limit the results
-</td>
+<td>a bitfield of filters that can be used to limit the results</td>
 </tr>
 <tr>
 <td><p><span class="term"><em class="parameter"><code>package_ids</code></em> :</span></p></td>
-<td>a null terminated array of package_id structures such as "hal;0.0.1;i386;fedora"
-</td>
+<td>a null terminated array of package_id structures such as "hal;0.0.1;i386;fedora"</td>
 </tr>
 <tr>
 <td><p><span class="term"><em class="parameter"><code>recursive</code></em> :</span></p></td>
-<td>if we should recurse to packages that depend on other packages
-</td>
+<td>if we should recurse to packages that depend on other packages</td>
 </tr>
 <tr>
 <td><p><span class="term"><em class="parameter"><code>cancellable</code></em> :</span></p></td>
@@ -1244,7 +1178,7 @@ Get the list of dependant packages.
 </tr>
 <tr>
 <td><p><span class="term"><em class="parameter"><code>progress_callback</code></em> :</span></p></td>
-<td> the function to run when the progress changes. <span class="annotation">[<a href="http://foldoc.org/scope%20call"><span class="acronym">scope call</span></a>]</span>
+<td>the function to run when the progress changes. <span class="annotation">[<a href="http://foldoc.org/scope%20call"><span class="acronym">scope call</span></a>]</span>
 </td>
 </tr>
 <tr>
@@ -1254,8 +1188,7 @@ Get the list of dependant packages.
 </tr>
 <tr>
 <td><p><span class="term"><em class="parameter"><code>callback_ready</code></em> :</span></p></td>
-<td>the function to run on completion
-</td>
+<td>the function to run on completion</td>
 </tr>
 <tr>
 <td><p><span class="term"><em class="parameter"><code>user_data</code></em> :</span></p></td>
@@ -1267,7 +1200,7 @@ Get the list of dependant packages.
 <p class="since">Since 0.6.5</p>
 </div>
 <hr>
-<div class="refsect2" title="pk_task_get_packages_async ()">
+<div class="refsect2">
 <a name="pk-task-get-packages-async"></a><h3>pk_task_get_packages_async ()</h3>
 <pre class="programlisting"><span class="returnvalue">void</span>                pk_task_get_packages_async          (<em class="parameter"><code><a class="link" href="PkTask.html" title="PkTask"><span class="type">PkTask</span></a> *task</code></em>,
                                                          <em class="parameter"><code><a class="link" href="PackageKit-pk-bitfield.html#PkBitfield" title="PkBitfield"><span class="type">PkBitfield</span></a> filters</code></em>,
@@ -1284,13 +1217,11 @@ Gets the list of packages.
 <tbody>
 <tr>
 <td><p><span class="term"><em class="parameter"><code>task</code></em> :</span></p></td>
-<td>a valid <a class="link" href="PkTask.html" title="PkTask"><span class="type">PkTask</span></a> instance
-</td>
+<td>a valid <a class="link" href="PkTask.html" title="PkTask"><span class="type">PkTask</span></a> instance</td>
 </tr>
 <tr>
 <td><p><span class="term"><em class="parameter"><code>filters</code></em> :</span></p></td>
-<td>a bitfield of filters that can be used to limit the results
-</td>
+<td>a bitfield of filters that can be used to limit the results</td>
 </tr>
 <tr>
 <td><p><span class="term"><em class="parameter"><code>cancellable</code></em> :</span></p></td>
@@ -1299,7 +1230,7 @@ Gets the list of packages.
 </tr>
 <tr>
 <td><p><span class="term"><em class="parameter"><code>progress_callback</code></em> :</span></p></td>
-<td> the function to run when the progress changes. <span class="annotation">[<a href="http://foldoc.org/scope%20call"><span class="acronym">scope call</span></a>]</span>
+<td>the function to run when the progress changes. <span class="annotation">[<a href="http://foldoc.org/scope%20call"><span class="acronym">scope call</span></a>]</span>
 </td>
 </tr>
 <tr>
@@ -1309,8 +1240,7 @@ Gets the list of packages.
 </tr>
 <tr>
 <td><p><span class="term"><em class="parameter"><code>callback_ready</code></em> :</span></p></td>
-<td>the function to run on completion
-</td>
+<td>the function to run on completion</td>
 </tr>
 <tr>
 <td><p><span class="term"><em class="parameter"><code>user_data</code></em> :</span></p></td>
@@ -1322,7 +1252,7 @@ Gets the list of packages.
 <p class="since">Since 0.6.5</p>
 </div>
 <hr>
-<div class="refsect2" title="pk_task_get_requires_async ()">
+<div class="refsect2">
 <a name="pk-task-get-requires-async"></a><h3>pk_task_get_requires_async ()</h3>
 <pre class="programlisting"><span class="returnvalue">void</span>                pk_task_get_requires_async          (<em class="parameter"><code><a class="link" href="PkTask.html" title="PkTask"><span class="type">PkTask</span></a> *task</code></em>,
                                                          <em class="parameter"><code><a class="link" href="PackageKit-pk-bitfield.html#PkBitfield" title="PkBitfield"><span class="type">PkBitfield</span></a> filters</code></em>,
@@ -1341,23 +1271,19 @@ Get the packages this package requires.
 <tbody>
 <tr>
 <td><p><span class="term"><em class="parameter"><code>task</code></em> :</span></p></td>
-<td>a valid <a class="link" href="PkTask.html" title="PkTask"><span class="type">PkTask</span></a> instance
-</td>
+<td>a valid <a class="link" href="PkTask.html" title="PkTask"><span class="type">PkTask</span></a> instance</td>
 </tr>
 <tr>
 <td><p><span class="term"><em class="parameter"><code>filters</code></em> :</span></p></td>
-<td>a bitfield of filters that can be used to limit the results
-</td>
+<td>a bitfield of filters that can be used to limit the results</td>
 </tr>
 <tr>
 <td><p><span class="term"><em class="parameter"><code>package_ids</code></em> :</span></p></td>
-<td>a null terminated array of package_id structures such as "hal;0.0.1;i386;fedora"
-</td>
+<td>a null terminated array of package_id structures such as "hal;0.0.1;i386;fedora"</td>
 </tr>
 <tr>
 <td><p><span class="term"><em class="parameter"><code>recursive</code></em> :</span></p></td>
-<td>if we should return packages that depend on the ones we do
-</td>
+<td>if we should return packages that depend on the ones we do</td>
 </tr>
 <tr>
 <td><p><span class="term"><em class="parameter"><code>cancellable</code></em> :</span></p></td>
@@ -1366,7 +1292,7 @@ Get the packages this package requires.
 </tr>
 <tr>
 <td><p><span class="term"><em class="parameter"><code>progress_callback</code></em> :</span></p></td>
-<td> the function to run when the progress changes. <span class="annotation">[<a href="http://foldoc.org/scope%20call"><span class="acronym">scope call</span></a>]</span>
+<td>the function to run when the progress changes. <span class="annotation">[<a href="http://foldoc.org/scope%20call"><span class="acronym">scope call</span></a>]</span>
 </td>
 </tr>
 <tr>
@@ -1376,8 +1302,7 @@ Get the packages this package requires.
 </tr>
 <tr>
 <td><p><span class="term"><em class="parameter"><code>callback_ready</code></em> :</span></p></td>
-<td>the function to run on completion
-</td>
+<td>the function to run on completion</td>
 </tr>
 <tr>
 <td><p><span class="term"><em class="parameter"><code>user_data</code></em> :</span></p></td>
@@ -1389,7 +1314,7 @@ Get the packages this package requires.
 <p class="since">Since 0.6.5</p>
 </div>
 <hr>
-<div class="refsect2" title="pk_task_what_provides_async ()">
+<div class="refsect2">
 <a name="pk-task-what-provides-async"></a><h3>pk_task_what_provides_async ()</h3>
 <pre class="programlisting"><span class="returnvalue">void</span>                pk_task_what_provides_async         (<em class="parameter"><code><a class="link" href="PkTask.html" title="PkTask"><span class="type">PkTask</span></a> *task</code></em>,
                                                          <em class="parameter"><code><a class="link" href="PackageKit-pk-bitfield.html#PkBitfield" title="PkBitfield"><span class="type">PkBitfield</span></a> filters</code></em>,
@@ -1408,23 +1333,19 @@ Find the package that provides some resource.
 <tbody>
 <tr>
 <td><p><span class="term"><em class="parameter"><code>task</code></em> :</span></p></td>
-<td>a valid <a class="link" href="PkTask.html" title="PkTask"><span class="type">PkTask</span></a> instance
-</td>
+<td>a valid <a class="link" href="PkTask.html" title="PkTask"><span class="type">PkTask</span></a> instance</td>
 </tr>
 <tr>
 <td><p><span class="term"><em class="parameter"><code>filters</code></em> :</span></p></td>
-<td>a bitfield of filters that can be used to limit the results
-</td>
+<td>a bitfield of filters that can be used to limit the results</td>
 </tr>
 <tr>
 <td><p><span class="term"><em class="parameter"><code>provides</code></em> :</span></p></td>
-<td>a <a class="link" href="PackageKit-pk-enum.html#PkProvidesEnum" title="enum PkProvidesEnum"><span class="type">PkProvidesEnum</span></a> type
-</td>
+<td>a <a class="link" href="PackageKit-pk-enum.html#PkProvidesEnum" title="enum PkProvidesEnum"><span class="type">PkProvidesEnum</span></a> type</td>
 </tr>
 <tr>
 <td><p><span class="term"><em class="parameter"><code>values</code></em> :</span></p></td>
-<td>values to search for
-</td>
+<td>values to search for</td>
 </tr>
 <tr>
 <td><p><span class="term"><em class="parameter"><code>cancellable</code></em> :</span></p></td>
@@ -1433,7 +1354,7 @@ Find the package that provides some resource.
 </tr>
 <tr>
 <td><p><span class="term"><em class="parameter"><code>progress_callback</code></em> :</span></p></td>
-<td> the function to run when the progress changes. <span class="annotation">[<a href="http://foldoc.org/scope%20call"><span class="acronym">scope call</span></a>]</span>
+<td>the function to run when the progress changes. <span class="annotation">[<a href="http://foldoc.org/scope%20call"><span class="acronym">scope call</span></a>]</span>
 </td>
 </tr>
 <tr>
@@ -1443,8 +1364,7 @@ Find the package that provides some resource.
 </tr>
 <tr>
 <td><p><span class="term"><em class="parameter"><code>callback_ready</code></em> :</span></p></td>
-<td>the function to run on completion
-</td>
+<td>the function to run on completion</td>
 </tr>
 <tr>
 <td><p><span class="term"><em class="parameter"><code>user_data</code></em> :</span></p></td>
@@ -1456,7 +1376,7 @@ Find the package that provides some resource.
 <p class="since">Since 0.6.5</p>
 </div>
 <hr>
-<div class="refsect2" title="pk_task_get_files_async ()">
+<div class="refsect2">
 <a name="pk-task-get-files-async"></a><h3>pk_task_get_files_async ()</h3>
 <pre class="programlisting"><span class="returnvalue">void</span>                pk_task_get_files_async             (<em class="parameter"><code><a class="link" href="PkTask.html" title="PkTask"><span class="type">PkTask</span></a> *task</code></em>,
                                                          <em class="parameter"><code><a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a> **package_ids</code></em>,
@@ -1473,13 +1393,11 @@ Get the files in a package.
 <tbody>
 <tr>
 <td><p><span class="term"><em class="parameter"><code>task</code></em> :</span></p></td>
-<td>a valid <a class="link" href="PkTask.html" title="PkTask"><span class="type">PkTask</span></a> instance
-</td>
+<td>a valid <a class="link" href="PkTask.html" title="PkTask"><span class="type">PkTask</span></a> instance</td>
 </tr>
 <tr>
 <td><p><span class="term"><em class="parameter"><code>package_ids</code></em> :</span></p></td>
-<td>a null terminated array of package_id structures such as "hal;0.0.1;i386;fedora"
-</td>
+<td>a null terminated array of package_id structures such as "hal;0.0.1;i386;fedora"</td>
 </tr>
 <tr>
 <td><p><span class="term"><em class="parameter"><code>cancellable</code></em> :</span></p></td>
@@ -1488,7 +1406,7 @@ Get the files in a package.
 </tr>
 <tr>
 <td><p><span class="term"><em class="parameter"><code>progress_callback</code></em> :</span></p></td>
-<td> the function to run when the progress changes. <span class="annotation">[<a href="http://foldoc.org/scope%20call"><span class="acronym">scope call</span></a>]</span>
+<td>the function to run when the progress changes. <span class="annotation">[<a href="http://foldoc.org/scope%20call"><span class="acronym">scope call</span></a>]</span>
 </td>
 </tr>
 <tr>
@@ -1498,8 +1416,7 @@ Get the files in a package.
 </tr>
 <tr>
 <td><p><span class="term"><em class="parameter"><code>callback_ready</code></em> :</span></p></td>
-<td>the function to run on completion
-</td>
+<td>the function to run on completion</td>
 </tr>
 <tr>
 <td><p><span class="term"><em class="parameter"><code>user_data</code></em> :</span></p></td>
@@ -1511,7 +1428,7 @@ Get the files in a package.
 <p class="since">Since 0.6.5</p>
 </div>
 <hr>
-<div class="refsect2" title="pk_task_get_categories_async ()">
+<div class="refsect2">
 <a name="pk-task-get-categories-async"></a><h3>pk_task_get_categories_async ()</h3>
 <pre class="programlisting"><span class="returnvalue">void</span>                pk_task_get_categories_async        (<em class="parameter"><code><a class="link" href="PkTask.html" title="PkTask"><span class="type">PkTask</span></a> *task</code></em>,
                                                          <em class="parameter"><code><a href="http://library.gnome.org/devel/gio/unstable/GCancellable.html"><span class="type">GCancellable</span></a> *cancellable</code></em>,
@@ -1527,8 +1444,7 @@ Get the categories available.
 <tbody>
 <tr>
 <td><p><span class="term"><em class="parameter"><code>task</code></em> :</span></p></td>
-<td>a valid <a class="link" href="PkTask.html" title="PkTask"><span class="type">PkTask</span></a> instance
-</td>
+<td>a valid <a class="link" href="PkTask.html" title="PkTask"><span class="type">PkTask</span></a> instance</td>
 </tr>
 <tr>
 <td><p><span class="term"><em class="parameter"><code>cancellable</code></em> :</span></p></td>
@@ -1537,7 +1453,7 @@ Get the categories available.
 </tr>
 <tr>
 <td><p><span class="term"><em class="parameter"><code>progress_callback</code></em> :</span></p></td>
-<td> the function to run when the progress changes. <span class="annotation">[<a href="http://foldoc.org/scope%20call"><span class="acronym">scope call</span></a>]</span>
+<td>the function to run when the progress changes. <span class="annotation">[<a href="http://foldoc.org/scope%20call"><span class="acronym">scope call</span></a>]</span>
 </td>
 </tr>
 <tr>
@@ -1547,8 +1463,7 @@ Get the categories available.
 </tr>
 <tr>
 <td><p><span class="term"><em class="parameter"><code>callback_ready</code></em> :</span></p></td>
-<td>the function to run on completion
-</td>
+<td>the function to run on completion</td>
 </tr>
 <tr>
 <td><p><span class="term"><em class="parameter"><code>user_data</code></em> :</span></p></td>
@@ -1560,7 +1475,7 @@ Get the categories available.
 <p class="since">Since 0.6.5</p>
 </div>
 <hr>
-<div class="refsect2" title="pk_task_refresh_cache_async ()">
+<div class="refsect2">
 <a name="pk-task-refresh-cache-async"></a><h3>pk_task_refresh_cache_async ()</h3>
 <pre class="programlisting"><span class="returnvalue">void</span>                pk_task_refresh_cache_async         (<em class="parameter"><code><a class="link" href="PkTask.html" title="PkTask"><span class="type">PkTask</span></a> *task</code></em>,
                                                          <em class="parameter"><code><a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gboolean"><span class="type">gboolean</span></a> force</code></em>,
@@ -1577,13 +1492,11 @@ Refresh the package cache.
 <tbody>
 <tr>
 <td><p><span class="term"><em class="parameter"><code>task</code></em> :</span></p></td>
-<td>a valid <a class="link" href="PkTask.html" title="PkTask"><span class="type">PkTask</span></a> instance
-</td>
+<td>a valid <a class="link" href="PkTask.html" title="PkTask"><span class="type">PkTask</span></a> instance</td>
 </tr>
 <tr>
 <td><p><span class="term"><em class="parameter"><code>force</code></em> :</span></p></td>
-<td>if the metadata should be deleted and re-downloaded even if it is correct
-</td>
+<td>if the metadata should be deleted and re-downloaded even if it is correct</td>
 </tr>
 <tr>
 <td><p><span class="term"><em class="parameter"><code>cancellable</code></em> :</span></p></td>
@@ -1592,7 +1505,7 @@ Refresh the package cache.
 </tr>
 <tr>
 <td><p><span class="term"><em class="parameter"><code>progress_callback</code></em> :</span></p></td>
-<td> the function to run when the progress changes. <span class="annotation">[<a href="http://foldoc.org/scope%20call"><span class="acronym">scope call</span></a>]</span>
+<td>the function to run when the progress changes. <span class="annotation">[<a href="http://foldoc.org/scope%20call"><span class="acronym">scope call</span></a>]</span>
 </td>
 </tr>
 <tr>
@@ -1602,8 +1515,7 @@ Refresh the package cache.
 </tr>
 <tr>
 <td><p><span class="term"><em class="parameter"><code>callback_ready</code></em> :</span></p></td>
-<td>the function to run on completion
-</td>
+<td>the function to run on completion</td>
 </tr>
 <tr>
 <td><p><span class="term"><em class="parameter"><code>user_data</code></em> :</span></p></td>
@@ -1615,7 +1527,7 @@ Refresh the package cache.
 <p class="since">Since 0.6.5</p>
 </div>
 <hr>
-<div class="refsect2" title="pk_task_rollback_async ()">
+<div class="refsect2">
 <a name="pk-task-rollback-async"></a><h3>pk_task_rollback_async ()</h3>
 <pre class="programlisting"><span class="returnvalue">void</span>                pk_task_rollback_async              (<em class="parameter"><code><a class="link" href="PkTask.html" title="PkTask"><span class="type">PkTask</span></a> *task</code></em>,
                                                          <em class="parameter"><code>const <a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a> *transaction_id</code></em>,
@@ -1632,13 +1544,11 @@ Rollback to a previous package state.
 <tbody>
 <tr>
 <td><p><span class="term"><em class="parameter"><code>task</code></em> :</span></p></td>
-<td>a valid <a class="link" href="PkTask.html" title="PkTask"><span class="type">PkTask</span></a> instance
-</td>
+<td>a valid <a class="link" href="PkTask.html" title="PkTask"><span class="type">PkTask</span></a> instance</td>
 </tr>
 <tr>
 <td><p><span class="term"><em class="parameter"><code>transaction_id</code></em> :</span></p></td>
-<td>The transaction ID of the old transaction
-</td>
+<td>The transaction ID of the old transaction</td>
 </tr>
 <tr>
 <td><p><span class="term"><em class="parameter"><code>cancellable</code></em> :</span></p></td>
@@ -1647,7 +1557,7 @@ Rollback to a previous package state.
 </tr>
 <tr>
 <td><p><span class="term"><em class="parameter"><code>progress_callback</code></em> :</span></p></td>
-<td> the function to run when the progress changes. <span class="annotation">[<a href="http://foldoc.org/scope%20call"><span class="acronym">scope call</span></a>]</span>
+<td>the function to run when the progress changes. <span class="annotation">[<a href="http://foldoc.org/scope%20call"><span class="acronym">scope call</span></a>]</span>
 </td>
 </tr>
 <tr>
@@ -1657,8 +1567,7 @@ Rollback to a previous package state.
 </tr>
 <tr>
 <td><p><span class="term"><em class="parameter"><code>callback_ready</code></em> :</span></p></td>
-<td>the function to run on completion
-</td>
+<td>the function to run on completion</td>
 </tr>
 <tr>
 <td><p><span class="term"><em class="parameter"><code>user_data</code></em> :</span></p></td>
@@ -1670,7 +1579,7 @@ Rollback to a previous package state.
 <p class="since">Since 0.6.5</p>
 </div>
 <hr>
-<div class="refsect2" title="pk_task_get_repo_list_async ()">
+<div class="refsect2">
 <a name="pk-task-get-repo-list-async"></a><h3>pk_task_get_repo_list_async ()</h3>
 <pre class="programlisting"><span class="returnvalue">void</span>                pk_task_get_repo_list_async         (<em class="parameter"><code><a class="link" href="PkTask.html" title="PkTask"><span class="type">PkTask</span></a> *task</code></em>,
                                                          <em class="parameter"><code><a class="link" href="PackageKit-pk-bitfield.html#PkBitfield" title="PkBitfield"><span class="type">PkBitfield</span></a> filters</code></em>,
@@ -1687,13 +1596,11 @@ Get the list of available repositories.
 <tbody>
 <tr>
 <td><p><span class="term"><em class="parameter"><code>task</code></em> :</span></p></td>
-<td>a valid <a class="link" href="PkTask.html" title="PkTask"><span class="type">PkTask</span></a> instance
-</td>
+<td>a valid <a class="link" href="PkTask.html" title="PkTask"><span class="type">PkTask</span></a> instance</td>
 </tr>
 <tr>
 <td><p><span class="term"><em class="parameter"><code>filters</code></em> :</span></p></td>
-<td>a bitfield of filters that can be used to limit the results
-</td>
+<td>a bitfield of filters that can be used to limit the results</td>
 </tr>
 <tr>
 <td><p><span class="term"><em class="parameter"><code>cancellable</code></em> :</span></p></td>
@@ -1702,7 +1609,7 @@ Get the list of available repositories.
 </tr>
 <tr>
 <td><p><span class="term"><em class="parameter"><code>progress_callback</code></em> :</span></p></td>
-<td> the function to run when the progress changes. <span class="annotation">[<a href="http://foldoc.org/scope%20call"><span class="acronym">scope call</span></a>]</span>
+<td>the function to run when the progress changes. <span class="annotation">[<a href="http://foldoc.org/scope%20call"><span class="acronym">scope call</span></a>]</span>
 </td>
 </tr>
 <tr>
@@ -1712,8 +1619,7 @@ Get the list of available repositories.
 </tr>
 <tr>
 <td><p><span class="term"><em class="parameter"><code>callback_ready</code></em> :</span></p></td>
-<td>the function to run on completion
-</td>
+<td>the function to run on completion</td>
 </tr>
 <tr>
 <td><p><span class="term"><em class="parameter"><code>user_data</code></em> :</span></p></td>
@@ -1725,7 +1631,7 @@ Get the list of available repositories.
 <p class="since">Since 0.6.5</p>
 </div>
 <hr>
-<div class="refsect2" title="pk_task_repo_enable_async ()">
+<div class="refsect2">
 <a name="pk-task-repo-enable-async"></a><h3>pk_task_repo_enable_async ()</h3>
 <pre class="programlisting"><span class="returnvalue">void</span>                pk_task_repo_enable_async           (<em class="parameter"><code><a class="link" href="PkTask.html" title="PkTask"><span class="type">PkTask</span></a> *task</code></em>,
                                                          <em class="parameter"><code>const <a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a> *repo_id</code></em>,
@@ -1743,13 +1649,11 @@ Enable or disable a specific repo.
 <tbody>
 <tr>
 <td><p><span class="term"><em class="parameter"><code>task</code></em> :</span></p></td>
-<td>a valid <a class="link" href="PkTask.html" title="PkTask"><span class="type">PkTask</span></a> instance
-</td>
+<td>a valid <a class="link" href="PkTask.html" title="PkTask"><span class="type">PkTask</span></a> instance</td>
 </tr>
 <tr>
 <td><p><span class="term"><em class="parameter"><code>repo_id</code></em> :</span></p></td>
-<td>The software source ID
-</td>
+<td>The software source ID</td>
 </tr>
 <tr>
 <td><p><span class="term"><em class="parameter"><code>enabled</code></em> :</span></p></td>
@@ -1764,7 +1668,7 @@ Enable or disable a specific repo.
 </tr>
 <tr>
 <td><p><span class="term"><em class="parameter"><code>progress_callback</code></em> :</span></p></td>
-<td> the function to run when the progress changes. <span class="annotation">[<a href="http://foldoc.org/scope%20call"><span class="acronym">scope call</span></a>]</span>
+<td>the function to run when the progress changes. <span class="annotation">[<a href="http://foldoc.org/scope%20call"><span class="acronym">scope call</span></a>]</span>
 </td>
 </tr>
 <tr>
@@ -1774,8 +1678,7 @@ Enable or disable a specific repo.
 </tr>
 <tr>
 <td><p><span class="term"><em class="parameter"><code>callback_ready</code></em> :</span></p></td>
-<td>the function to run on completion
-</td>
+<td>the function to run on completion</td>
 </tr>
 <tr>
 <td><p><span class="term"><em class="parameter"><code>user_data</code></em> :</span></p></td>
@@ -1787,63 +1690,124 @@ Enable or disable a specific repo.
 <p class="since">Since 0.6.5</p>
 </div>
 <hr>
-<div class="refsect2" title="pk_task_user_accepted ()">
+<div class="refsect2">
 <a name="pk-task-user-accepted"></a><h3>pk_task_user_accepted ()</h3>
 <pre class="programlisting"><a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gboolean"><span class="returnvalue">gboolean</span></a>            pk_task_user_accepted               (<em class="parameter"><code><a class="link" href="PkTask.html" title="PkTask"><span class="type">PkTask</span></a> *task</code></em>,
                                                          <em class="parameter"><code><a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#guint"><span class="type">guint</span></a> request</code></em>);</pre>
-<div class="variablelist"><table border="0">
-<col align="left" valign="top">
-<tbody>
-<tr>
-<td><p><span class="term"><em class="parameter"><code>task</code></em> :</span></p></td>
-<td>
-</td>
-</tr>
-<tr>
-<td><p><span class="term"><em class="parameter"><code>request</code></em> :</span></p></td>
-<td>
-</td>
-</tr>
-<tr>
-<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
-<td>
-</td>
-</tr>
-</tbody>
-</table></div>
 <p class="since">Since 0.5.2</p>
 </div>
 <hr>
-<div class="refsect2" title="pk_task_user_declined ()">
+<div class="refsect2">
 <a name="pk-task-user-declined"></a><h3>pk_task_user_declined ()</h3>
 <pre class="programlisting"><a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gboolean"><span class="returnvalue">gboolean</span></a>            pk_task_user_declined               (<em class="parameter"><code><a class="link" href="PkTask.html" title="PkTask"><span class="type">PkTask</span></a> *task</code></em>,
                                                          <em class="parameter"><code><a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#guint"><span class="type">guint</span></a> request</code></em>);</pre>
+<p class="since">Since 0.5.2</p>
+</div>
+<hr>
+<div class="refsect2">
+<a name="pk-task-set-simulate"></a><h3>pk_task_set_simulate ()</h3>
+<pre class="programlisting"><span class="returnvalue">void</span>                pk_task_set_simulate                (<em class="parameter"><code><a class="link" href="PkTask.html" title="PkTask"><span class="type">PkTask</span></a> *task</code></em>,
+                                                         <em class="parameter"><code><a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gboolean"><span class="type">gboolean</span></a> simulate</code></em>);</pre>
+<p>
+If the simulate step should be run without the actual transaction.
+</p>
 <div class="variablelist"><table border="0">
 <col align="left" valign="top">
 <tbody>
 <tr>
 <td><p><span class="term"><em class="parameter"><code>task</code></em> :</span></p></td>
-<td>
-</td>
+<td>a valid <a class="link" href="PkTask.html" title="PkTask"><span class="type">PkTask</span></a> instance</td>
 </tr>
 <tr>
-<td><p><span class="term"><em class="parameter"><code>request</code></em> :</span></p></td>
-<td>
-</td>
+<td><p><span class="term"><em class="parameter"><code>simulate</code></em> :</span></p></td>
+<td>the simulate mode</td>
+</tr>
+</tbody>
+</table></div>
+<p class="since">Since 0.6.10</p>
+</div>
+<hr>
+<div class="refsect2">
+<a name="pk-task-get-simulate"></a><h3>pk_task_get_simulate ()</h3>
+<pre class="programlisting"><a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gboolean"><span class="returnvalue">gboolean</span></a>            pk_task_get_simulate                (<em class="parameter"><code><a class="link" href="PkTask.html" title="PkTask"><span class="type">PkTask</span></a> *task</code></em>);</pre>
+<p>
+Gets if we are simulating.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>task</code></em> :</span></p></td>
+<td>a valid <a class="link" href="PkTask.html" title="PkTask"><span class="type">PkTask</span></a> instance</td>
 </tr>
 <tr>
 <td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
 <td>
-</td>
+<a href="http://library.gnome.org/devel/glib/unstable/glib-Standard-Macros.html#TRUE:CAPS"><code class="literal">TRUE</code></a> if we are simulating</td>
 </tr>
 </tbody>
 </table></div>
-<p class="since">Since 0.5.2</p>
+<p class="since">Since 0.6.10</p>
+</div>
+<hr>
+<div class="refsect2">
+<a name="pk-task-set-interactive"></a><h3>pk_task_set_interactive ()</h3>
+<pre class="programlisting"><span class="returnvalue">void</span>                pk_task_set_interactive             (<em class="parameter"><code><a class="link" href="PkTask.html" title="PkTask"><span class="type">PkTask</span></a> *task</code></em>,
+                                                         <em class="parameter"><code><a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gboolean"><span class="type">gboolean</span></a> interactive</code></em>);</pre>
+<p>
+Sets the interactive mode, i.e. if the user is allowed to ask
+questions.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>task</code></em> :</span></p></td>
+<td>a valid <a class="link" href="PkTask.html" title="PkTask"><span class="type">PkTask</span></a> instance</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>interactive</code></em> :</span></p></td>
+<td>if we are interactive</td>
+</tr>
+</tbody>
+</table></div>
+<p class="since">Since 0.6.10</p>
+</div>
+<hr>
+<div class="refsect2">
+<a name="pk-task-get-interactive"></a><h3>pk_task_get_interactive ()</h3>
+<pre class="programlisting"><a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gboolean"><span class="returnvalue">gboolean</span></a>            pk_task_get_interactive             (<em class="parameter"><code><a class="link" href="PkTask.html" title="PkTask"><span class="type">PkTask</span></a> *task</code></em>);</pre>
+<p>
+Gets if the transaction is interactive.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>task</code></em> :</span></p></td>
+<td>a valid <a class="link" href="PkTask.html" title="PkTask"><span class="type">PkTask</span></a> instance</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td>
+<a href="http://library.gnome.org/devel/glib/unstable/glib-Standard-Macros.html#TRUE:CAPS"><code class="literal">TRUE</code></a> for an interactive transaction.</td>
+</tr>
+</tbody>
+</table></div>
+<p class="since">Since 0.6.10</p>
+</div>
+<hr>
+<div class="refsect2">
+<a name="PkTaskPrivate"></a><h3>PkTaskPrivate</h3>
+<pre class="programlisting">typedef struct _PkTaskPrivate PkTaskPrivate;</pre>
+<p>
+Private <a class="link" href="PkTask.html" title="PkTask"><span class="type">PkTask</span></a> data
+</p>
 </div>
 </div>
-<div class="refsect1" title="Property Details">
+<div class="refsect1">
 <a name="PkTask.property-details"></a><h2>Property Details</h2>
-<div class="refsect2" title='The "interactive" property'>
+<div class="refsect2">
 <a name="PkTask--interactive"></a><h3>The <code class="literal">"interactive"</code> property</h3>
 <pre class="programlisting">  "interactive"              <a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gboolean"><span class="type">gboolean</span></a>              : Read / Write</pre>
 <p></p>
@@ -1851,7 +1815,7 @@ Enable or disable a specific repo.
 <p class="since">Since 0.6.7</p>
 </div>
 <hr>
-<div class="refsect2" title='The "simulate" property'>
+<div class="refsect2">
 <a name="PkTask--simulate"></a><h3>The <code class="literal">"simulate"</code> property</h3>
 <pre class="programlisting">  "simulate"                 <a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gboolean"><span class="type">gboolean</span></a>              : Read / Write</pre>
 <p></p>
@@ -1862,6 +1826,6 @@ Enable or disable a specific repo.
 </div>
 <div class="footer">
 <hr>
-          Generated by GTK-Doc V1.15</div>
+          Generated by GTK-Doc V1.17</div>
 </body>
 </html>

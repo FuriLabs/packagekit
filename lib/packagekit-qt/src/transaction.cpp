@@ -333,14 +333,14 @@ void Transaction::acceptEula(const Client::EulaInfo &info)
     RUN_TRANSACTION(AcceptEula(info.id))
 }
 
-void Transaction::downloadPackages(const QList<QSharedPointer<Package> > &packages)
+void Transaction::downloadPackages(const QList<QSharedPointer<Package> > &packages, bool storeInCache)
 {
-    RUN_TRANSACTION(DownloadPackages(Util::packageListToPids(packages)))
+    RUN_TRANSACTION(DownloadPackages(storeInCache, Util::packageListToPids(packages)))
 }
 
-void Transaction::downloadPackages(const QSharedPointer<Package> &package)
+void Transaction::downloadPackages(const QSharedPointer<Package> &package, bool storeInCache)
 {
-    downloadPackages(QList<QSharedPointer<Package> >() << package);
+    downloadPackages(QList<QSharedPointer<Package> >() << package, storeInCache);
 }
 
 void Transaction::getCategories()
@@ -528,7 +528,7 @@ void Transaction::searchGroups(Enum::Groups groups, Enum::Filters filters)
         groupsSL << Util::enumToString<Enum>(group, "Group", "Group");
     }
 
-    searchGroups(groups, filters);
+    searchGroups(groupsSL, filters);
 }
 
 void Transaction::searchGroups(Enum::Group group, Enum::Filters filters)

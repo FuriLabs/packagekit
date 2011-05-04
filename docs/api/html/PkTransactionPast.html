@@ -3,12 +3,12 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>PkTransactionPast</title>
-<meta name="generator" content="DocBook XSL Stylesheets V1.75.2">
+<meta name="generator" content="DocBook XSL Stylesheets V1.76.1">
 <link rel="home" href="index.html" title="PackageKit Reference Manual">
 <link rel="up" href="libpackagekit-gobject.html" title="libpackagekit GObjects">
 <link rel="prev" href="PkTask.html" title="PkTask">
 <link rel="next" href="PkUpdateDetail.html" title="PkUpdateDetail">
-<meta name="generator" content="GTK-Doc V1.15 (XML mode)">
+<meta name="generator" content="GTK-Doc V1.17 (XML mode)">
 <link rel="stylesheet" href="style.css" type="text/css">
 </head>
 <body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF">
@@ -30,7 +30,7 @@
                   <a href="#PkTransactionPast.properties" class="shortcut">Properties</a>
 </td></tr>
 </table>
-<div class="refentry" title="PkTransactionPast">
+<div class="refentry">
 <a name="PkTransactionPast"></a><div class="titlepage"></div>
 <div class="refnamediv"><table width="100%"><tr>
 <td valign="top">
@@ -39,15 +39,15 @@
 </td>
 <td valign="top" align="right"></td>
 </tr></table></div>
-<div class="refsynopsisdiv" title="Synopsis">
+<div class="refsynopsisdiv">
 <a name="PkTransactionPast.synopsis"></a><h2>Synopsis</h2>
-<pre class="synopsis">                    <a class="link" href="PkTransactionPast.html#PkTransactionPastPrivate" title="PkTransactionPastPrivate">PkTransactionPastPrivate</a>;
-                    <a class="link" href="PkTransactionPast.html#PkTransactionPast-struct" title="PkTransactionPast">PkTransactionPast</a>;
-                    <a class="link" href="PkTransactionPast.html#PkTransactionPastClass" title="PkTransactionPastClass">PkTransactionPastClass</a>;
+<pre class="synopsis">struct              <a class="link" href="PkTransactionPast.html#PkTransactionPast-struct" title="struct PkTransactionPast">PkTransactionPast</a>;
+struct              <a class="link" href="PkTransactionPast.html#PkTransactionPastClass" title="struct PkTransactionPastClass">PkTransactionPastClass</a>;
 <a class="link" href="PkTransactionPast.html" title="PkTransactionPast"><span class="returnvalue">PkTransactionPast</span></a> * <a class="link" href="PkTransactionPast.html#pk-transaction-past-new" title="pk_transaction_past_new ()">pk_transaction_past_new</a>             (<em class="parameter"><code><span class="type">void</span></code></em>);
+                    <a class="link" href="PkTransactionPast.html#PkTransactionPastPrivate" title="PkTransactionPastPrivate">PkTransactionPastPrivate</a>;
 </pre>
 </div>
-<div class="refsect1" title="Object Hierarchy">
+<div class="refsect1">
 <a name="PkTransactionPast.object-hierarchy"></a><h2>Object Hierarchy</h2>
 <pre class="synopsis">
   <a href="http://library.gnome.org/devel/gobject/unstable/gobject-The-Base-Object-Type.html#GObject">GObject</a>
@@ -55,7 +55,7 @@
          +----PkTransactionPast
 </pre>
 </div>
-<div class="refsect1" title="Properties">
+<div class="refsect1">
 <a name="PkTransactionPast.properties"></a><h2>Properties</h2>
 <pre class="synopsis">
   "<a class="link" href="PkTransactionPast.html#PkTransactionPast--cmdline" title='The "cmdline" property'>cmdline</a>"                  <a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a>*                : Read / Write
@@ -68,7 +68,7 @@
   "<a class="link" href="PkTransactionPast.html#PkTransactionPast--uid" title='The "uid" property'>uid</a>"                      <a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#guint"><span class="type">guint</span></a>                 : Read / Write
 </pre>
 </div>
-<div class="refsect1" title="Description">
+<div class="refsect1">
 <a name="PkTransactionPast.description"></a><h2>Description</h2>
 <p>
 This GObject represents a transaction_past from a transaction_past.
@@ -76,26 +76,18 @@ These objects represent single items of data from the transaction, and are
 often present in lists (<a class="link" href="PkResults.html" title="PkResults"><span class="type">PkResults</span></a>) or just refcounted in client programs.
 </p>
 </div>
-<div class="refsect1" title="Details">
+<div class="refsect1">
 <a name="PkTransactionPast.details"></a><h2>Details</h2>
-<div class="refsect2" title="PkTransactionPastPrivate">
-<a name="PkTransactionPastPrivate"></a><h3>PkTransactionPastPrivate</h3>
-<pre class="programlisting">typedef struct _PkTransactionPastPrivate PkTransactionPastPrivate;</pre>
-<p>
-Private <a class="link" href="PkTransactionPast.html" title="PkTransactionPast"><span class="type">PkTransactionPast</span></a> data
-</p>
-</div>
-<hr>
-<div class="refsect2" title="PkTransactionPast">
-<a name="PkTransactionPast-struct"></a><h3>PkTransactionPast</h3>
-<pre class="programlisting">typedef struct _PkTransactionPast PkTransactionPast;</pre>
+<div class="refsect2">
+<a name="PkTransactionPast-struct"></a><h3>struct PkTransactionPast</h3>
+<pre class="programlisting">struct PkTransactionPast;</pre>
 <p>
 </p>
 </div>
 <hr>
-<div class="refsect2" title="PkTransactionPastClass">
-<a name="PkTransactionPastClass"></a><h3>PkTransactionPastClass</h3>
-<pre class="programlisting">typedef struct {
+<div class="refsect2">
+<a name="PkTransactionPastClass"></a><h3>struct PkTransactionPastClass</h3>
+<pre class="programlisting">struct PkTransactionPastClass {
 	PkSourceClass parent_class;
 	/* padding for future expansion */
 	void (*_pk_reserved1) (void);
@@ -103,30 +95,36 @@ Private <a class="link" href="PkTransactionPast.html" title="PkTransactionPast">
 	void (*_pk_reserved3) (void);
 	void (*_pk_reserved4) (void);
 	void (*_pk_reserved5) (void);
-} PkTransactionPastClass;
+};
 </pre>
 <p>
 </p>
 </div>
 <hr>
-<div class="refsect2" title="pk_transaction_past_new ()">
+<div class="refsect2">
 <a name="pk-transaction-past-new"></a><h3>pk_transaction_past_new ()</h3>
 <pre class="programlisting"><a class="link" href="PkTransactionPast.html" title="PkTransactionPast"><span class="returnvalue">PkTransactionPast</span></a> * pk_transaction_past_new             (<em class="parameter"><code><span class="type">void</span></code></em>);</pre>
 <div class="variablelist"><table border="0">
 <col align="left" valign="top">
 <tbody><tr>
 <td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
-<td> a new PkTransactionPast object.
-
-</td>
+<td>a new PkTransactionPast object.</td>
 </tr></tbody>
 </table></div>
 <p class="since">Since 0.5.4</p>
 </div>
+<hr>
+<div class="refsect2">
+<a name="PkTransactionPastPrivate"></a><h3>PkTransactionPastPrivate</h3>
+<pre class="programlisting">typedef struct _PkTransactionPastPrivate PkTransactionPastPrivate;</pre>
+<p>
+Private <a class="link" href="PkTransactionPast.html" title="PkTransactionPast"><span class="type">PkTransactionPast</span></a> data
+</p>
 </div>
-<div class="refsect1" title="Property Details">
+</div>
+<div class="refsect1">
 <a name="PkTransactionPast.property-details"></a><h2>Property Details</h2>
-<div class="refsect2" title='The "cmdline" property'>
+<div class="refsect2">
 <a name="PkTransactionPast--cmdline"></a><h3>The <code class="literal">"cmdline"</code> property</h3>
 <pre class="programlisting">  "cmdline"                  <a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a>*                : Read / Write</pre>
 <p></p>
@@ -134,7 +132,7 @@ Private <a class="link" href="PkTransactionPast.html" title="PkTransactionPast">
 <p class="since">Since 0.5.4</p>
 </div>
 <hr>
-<div class="refsect2" title='The "data" property'>
+<div class="refsect2">
 <a name="PkTransactionPast--data"></a><h3>The <code class="literal">"data"</code> property</h3>
 <pre class="programlisting">  "data"                     <a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a>*                : Read / Write</pre>
 <p></p>
@@ -142,7 +140,7 @@ Private <a class="link" href="PkTransactionPast.html" title="PkTransactionPast">
 <p class="since">Since 0.5.4</p>
 </div>
 <hr>
-<div class="refsect2" title='The "duration" property'>
+<div class="refsect2">
 <a name="PkTransactionPast--duration"></a><h3>The <code class="literal">"duration"</code> property</h3>
 <pre class="programlisting">  "duration"                 <a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#guint"><span class="type">guint</span></a>                 : Read / Write</pre>
 <p></p>
@@ -150,7 +148,7 @@ Private <a class="link" href="PkTransactionPast.html" title="PkTransactionPast">
 <p class="since">Since 0.5.4</p>
 </div>
 <hr>
-<div class="refsect2" title='The "role" property'>
+<div class="refsect2">
 <a name="PkTransactionPast--role"></a><h3>The <code class="literal">"role"</code> property</h3>
 <pre class="programlisting">  "role"                     <a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#guint"><span class="type">guint</span></a>                 : Read / Write</pre>
 <p></p>
@@ -158,7 +156,7 @@ Private <a class="link" href="PkTransactionPast.html" title="PkTransactionPast">
 <p class="since">Since 0.5.4</p>
 </div>
 <hr>
-<div class="refsect2" title='The "succeeded" property'>
+<div class="refsect2">
 <a name="PkTransactionPast--succeeded"></a><h3>The <code class="literal">"succeeded"</code> property</h3>
 <pre class="programlisting">  "succeeded"                <a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gboolean"><span class="type">gboolean</span></a>              : Read / Write</pre>
 <p></p>
@@ -166,7 +164,7 @@ Private <a class="link" href="PkTransactionPast.html" title="PkTransactionPast">
 <p class="since">Since 0.5.4</p>
 </div>
 <hr>
-<div class="refsect2" title='The "tid" property'>
+<div class="refsect2">
 <a name="PkTransactionPast--tid"></a><h3>The <code class="literal">"tid"</code> property</h3>
 <pre class="programlisting">  "tid"                      <a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a>*                : Read / Write</pre>
 <p></p>
@@ -174,7 +172,7 @@ Private <a class="link" href="PkTransactionPast.html" title="PkTransactionPast">
 <p class="since">Since 0.5.4</p>
 </div>
 <hr>
-<div class="refsect2" title='The "timespec" property'>
+<div class="refsect2">
 <a name="PkTransactionPast--timespec"></a><h3>The <code class="literal">"timespec"</code> property</h3>
 <pre class="programlisting">  "timespec"                 <a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a>*                : Read / Write</pre>
 <p></p>
@@ -182,7 +180,7 @@ Private <a class="link" href="PkTransactionPast.html" title="PkTransactionPast">
 <p class="since">Since 0.5.4</p>
 </div>
 <hr>
-<div class="refsect2" title='The "uid" property'>
+<div class="refsect2">
 <a name="PkTransactionPast--uid"></a><h3>The <code class="literal">"uid"</code> property</h3>
 <pre class="programlisting">  "uid"                      <a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#guint"><span class="type">guint</span></a>                 : Read / Write</pre>
 <p></p>
@@ -193,6 +191,6 @@ Private <a class="link" href="PkTransactionPast.html" title="PkTransactionPast">
 </div>
 <div class="footer">
 <hr>
-          Generated by GTK-Doc V1.15</div>
+          Generated by GTK-Doc V1.17</div>
 </body>
 </html>

@@ -51,6 +51,9 @@
 /* Define to 1 if you have the <memory.h> header file. */
 #undef HAVE_MEMORY_H
 
+/* Define to 1 if you have the `polkit_authority_get_sync' function. */
+#undef HAVE_POLKIT_AUTHORITY_GET_SYNC
+
 /* "Meta release is available" */
 #undef HAVE_PYTHON_META_RELEASE
 

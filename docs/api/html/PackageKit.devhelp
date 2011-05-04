@@ -167,18 +167,17 @@
     <function name="PK_CATALOG_FILE_EXTENSION" link="PkCatalog.html#PK-CATALOG-FILE-EXTENSION:CAPS"/>
     <function name="PK_CATALOG_FILE_HEADER" link="PkCatalog.html#PK-CATALOG-FILE-HEADER:CAPS"/>
     <function name="enum PkCatalogError" link="PkCatalog.html#PkCatalogError"/>
-    <function name="PkCatalogPrivate" link="PkCatalog.html#PkCatalogPrivate"/>
-    <function name="PkCatalog" link="PkCatalog.html#PkCatalog-struct"/>
-    <function name="PkCatalogClass" link="PkCatalog.html#PkCatalogClass"/>
+    <function name="struct PkCatalog" link="PkCatalog.html#PkCatalog-struct"/>
+    <function name="struct PkCatalogClass" link="PkCatalog.html#PkCatalogClass"/>
     <function name="pk_catalog_error_quark ()" link="PkCatalog.html#pk-catalog-error-quark"/>
     <function name="pk_catalog_get_type ()" link="PkCatalog.html#pk-catalog-get-type"/>
     <function name="pk_catalog_new ()" link="PkCatalog.html#pk-catalog-new"/>
     <function name="pk_catalog_test ()" link="PkCatalog.html#pk-catalog-test"/>
     <function name="pk_catalog_lookup_finish ()" link="PkCatalog.html#pk-catalog-lookup-finish"/>
     <function name="pk_catalog_lookup_async ()" link="PkCatalog.html#pk-catalog-lookup-async"/>
-    <function name="PkCategoryPrivate" link="PkCategory.html#PkCategoryPrivate"/>
-    <function name="PkCategory" link="PkCategory.html#PkCategory-struct"/>
-    <function name="PkCategoryClass" link="PkCategory.html#PkCategoryClass"/>
+    <function name="PkCatalogPrivate" link="PkCatalog.html#PkCatalogPrivate"/>
+    <function name="struct PkCategory" link="PkCategory.html#PkCategory-struct"/>
+    <function name="struct PkCategoryClass" link="PkCategory.html#PkCategoryClass"/>
     <function name="pk_category_new ()" link="PkCategory.html#pk-category-new"/>
     <function name="pk_category_get_parent_id ()" link="PkCategory.html#pk-category-get-parent-id"/>
     <function name="pk_category_set_parent_id ()" link="PkCategory.html#pk-category-set-parent-id"/>
@@ -190,6 +189,7 @@
     <function name="pk_category_set_summary ()" link="PkCategory.html#pk-category-set-summary"/>
     <function name="pk_category_get_icon ()" link="PkCategory.html#pk-category-get-icon"/>
     <function name="pk_category_set_icon ()" link="PkCategory.html#pk-category-set-icon"/>
+    <function name="PkCategoryPrivate" link="PkCategory.html#PkCategoryPrivate"/>
     <function name="The &quot;cat-id&quot; property" link="PkCategory.html#PkCategory--cat-id"/>
     <function name="The &quot;icon&quot; property" link="PkCategory.html#PkCategory--icon"/>
     <function name="The &quot;name&quot; property" link="PkCategory.html#PkCategory--name"/>
@@ -198,9 +198,8 @@
     <function name="PK_CLIENT_ERROR" link="PkClient.html#PK-CLIENT-ERROR:CAPS"/>
     <function name="PK_CLIENT_TYPE_ERROR" link="PkClient.html#PK-CLIENT-TYPE-ERROR:CAPS"/>
     <function name="enum PkClientError" link="PkClient.html#PkClientError"/>
-    <function name="PkClientPrivate" link="PkClient.html#PkClientPrivate"/>
-    <function name="PkClient" link="PkClient.html#PkClient-struct"/>
-    <function name="PkClientClass" link="PkClient.html#PkClientClass"/>
+    <function name="struct PkClient" link="PkClient.html#PkClient-struct"/>
+    <function name="struct PkClientClass" link="PkClient.html#PkClientClass"/>
     <function name="pk_client_error_quark ()" link="PkClient.html#pk-client-error-quark"/>
     <function name="pk_client_new ()" link="PkClient.html#pk-client-new"/>
     <function name="pk_client_test ()" link="PkClient.html#pk-client-test"/>
@@ -238,9 +237,20 @@
     <function name="pk_client_simulate_install_packages_async ()" link="PkClient.html#pk-client-simulate-install-packages-async"/>
     <function name="pk_client_simulate_remove_packages_async ()" link="PkClient.html#pk-client-simulate-remove-packages-async"/>
     <function name="pk_client_simulate_update_packages_async ()" link="PkClient.html#pk-client-simulate-update-packages-async"/>
+    <function name="pk_client_upgrade_system_async ()" link="PkClient.html#pk-client-upgrade-system-async"/>
     <function name="pk_client_adopt_async ()" link="PkClient.html#pk-client-adopt-async"/>
     <function name="pk_client_get_progress_finish ()" link="PkClient.html#pk-client-get-progress-finish"/>
     <function name="pk_client_get_progress_async ()" link="PkClient.html#pk-client-get-progress-async"/>
+    <function name="pk_client_set_locale ()" link="PkClient.html#pk-client-set-locale"/>
+    <function name="pk_client_get_locale ()" link="PkClient.html#pk-client-get-locale"/>
+    <function name="pk_client_set_background ()" link="PkClient.html#pk-client-set-background"/>
+    <function name="pk_client_get_background ()" link="PkClient.html#pk-client-get-background"/>
+    <function name="pk_client_set_interactive ()" link="PkClient.html#pk-client-set-interactive"/>
+    <function name="pk_client_get_interactive ()" link="PkClient.html#pk-client-get-interactive"/>
+    <function name="pk_client_get_idle ()" link="PkClient.html#pk-client-get-idle"/>
+    <function name="pk_client_set_cache_age ()" link="PkClient.html#pk-client-set-cache-age"/>
+    <function name="pk_client_get_cache_age ()" link="PkClient.html#pk-client-get-cache-age"/>
+    <function name="PkClientPrivate" link="PkClient.html#PkClientPrivate"/>
     <function name="The &quot;background&quot; property" link="PkClient.html#PkClient--background"/>
     <function name="The &quot;cache-age&quot; property" link="PkClient.html#PkClient--cache-age"/>
     <function name="The &quot;idle&quot; property" link="PkClient.html#PkClient--idle"/>
@@ -248,10 +258,9 @@
     <function name="The &quot;locale&quot; property" link="PkClient.html#PkClient--locale"/>
     <function name="PK_CONTROL_ERROR" link="PkControl.html#PK-CONTROL-ERROR:CAPS"/>
     <function name="PK_CONTROL_TYPE_ERROR" link="PkControl.html#PK-CONTROL-TYPE-ERROR:CAPS"/>
-    <function name="PkControlPrivate" link="PkControl.html#PkControlPrivate"/>
-    <function name="PkControl" link="PkControl.html#PkControl-struct"/>
-    <function name="PkControlClass" link="PkControl.html#PkControlClass"/>
     <function name="enum PkControlError" link="PkControl.html#PkControlError"/>
+    <function name="struct PkControl" link="PkControl.html#PkControl-struct"/>
+    <function name="struct PkControlClass" link="PkControl.html#PkControlClass"/>
     <function name="pk_control_error_quark ()" link="PkControl.html#pk-control-error-quark"/>
     <function name="pk_control_new ()" link="PkControl.html#pk-control-new"/>
     <function name="pk_control_test ()" link="PkControl.html#pk-control-test"/>
@@ -262,6 +271,7 @@
     <function name="pk_control_get_daemon_state_async ()" link="PkControl.html#pk-control-get-daemon-state-async"/>
     <function name="pk_control_get_daemon_state_finish ()" link="PkControl.html#pk-control-get-daemon-state-finish"/>
     <function name="pk_control_set_proxy_async ()" link="PkControl.html#pk-control-set-proxy-async"/>
+    <function name="pk_control_set_proxy2_async ()" link="PkControl.html#pk-control-set-proxy2-async"/>
     <function name="pk_control_set_proxy_finish ()" link="PkControl.html#pk-control-set-proxy-finish"/>
     <function name="pk_control_set_root_async ()" link="PkControl.html#pk-control-set-root-async"/>
     <function name="pk_control_set_root_finish ()" link="PkControl.html#pk-control-set-root-finish"/>
@@ -275,6 +285,7 @@
     <function name="pk_control_can_authorize_finish ()" link="PkControl.html#pk-control-can-authorize-finish"/>
     <function name="pk_control_get_properties_async ()" link="PkControl.html#pk-control-get-properties-async"/>
     <function name="pk_control_get_properties_finish ()" link="PkControl.html#pk-control-get-properties-finish"/>
+    <function name="PkControlPrivate" link="PkControl.html#PkControlPrivate"/>
     <function name="The &quot;backend-author&quot; property" link="PkControl.html#PkControl--backend-author"/>
     <function name="The &quot;backend-description&quot; property" link="PkControl.html#PkControl--backend-description"/>
     <function name="The &quot;backend-name&quot; property" link="PkControl.html#PkControl--backend-name"/>
@@ -295,74 +306,75 @@
     <function name="The &quot;updates-changed&quot; signal" link="PkControl.html#PkControl-updates-changed"/>
     <function name="PK_DESKTOP_DEFAULT_DATABASE" link="PkDesktop.html#PK-DESKTOP-DEFAULT-DATABASE:CAPS"/>
     <function name="PK_DESKTOP_DEFAULT_APPLICATION_DIR" link="PkDesktop.html#PK-DESKTOP-DEFAULT-APPLICATION-DIR:CAPS"/>
-    <function name="PkDesktopPrivate" link="PkDesktop.html#PkDesktopPrivate"/>
-    <function name="PkDesktop" link="PkDesktop.html#PkDesktop-struct"/>
-    <function name="PkDesktopClass" link="PkDesktop.html#PkDesktopClass"/>
+    <function name="struct PkDesktop" link="PkDesktop.html#PkDesktop-struct"/>
+    <function name="struct PkDesktopClass" link="PkDesktop.html#PkDesktopClass"/>
     <function name="pk_desktop_new ()" link="PkDesktop.html#pk-desktop-new"/>
     <function name="pk_desktop_test ()" link="PkDesktop.html#pk-desktop-test"/>
     <function name="pk_desktop_open_database ()" link="PkDesktop.html#pk-desktop-open-database"/>
     <function name="pk_desktop_get_files_for_package ()" link="PkDesktop.html#pk-desktop-get-files-for-package"/>
     <function name="pk_desktop_get_shown_for_package ()" link="PkDesktop.html#pk-desktop-get-shown-for-package"/>
     <function name="pk_desktop_get_package_for_file ()" link="PkDesktop.html#pk-desktop-get-package-for-file"/>
-    <function name="PkDetailsPrivate" link="PkDetails.html#PkDetailsPrivate"/>
-    <function name="PkDetails" link="PkDetails.html#PkDetails-struct"/>
-    <function name="PkDetailsClass" link="PkDetails.html#PkDetailsClass"/>
+    <function name="PkDesktopPrivate" link="PkDesktop.html#PkDesktopPrivate"/>
+    <function name="struct PkDetails" link="PkDetails.html#PkDetails-struct"/>
+    <function name="struct PkDetailsClass" link="PkDetails.html#PkDetailsClass"/>
     <function name="pk_details_new ()" link="PkDetails.html#pk-details-new"/>
+    <function name="PkDetailsPrivate" link="PkDetails.html#PkDetailsPrivate"/>
     <function name="The &quot;description&quot; property" link="PkDetails.html#PkDetails--description"/>
     <function name="The &quot;group&quot; property" link="PkDetails.html#PkDetails--group"/>
     <function name="The &quot;license&quot; property" link="PkDetails.html#PkDetails--license"/>
     <function name="The &quot;package-id&quot; property" link="PkDetails.html#PkDetails--package-id"/>
     <function name="The &quot;size&quot; property" link="PkDetails.html#PkDetails--size"/>
     <function name="The &quot;url&quot; property" link="PkDetails.html#PkDetails--url"/>
-    <function name="PkDistroUpgradePrivate" link="PkDistroUpgrade.html#PkDistroUpgradePrivate"/>
-    <function name="PkDistroUpgrade" link="PkDistroUpgrade.html#PkDistroUpgrade-struct"/>
-    <function name="PkDistroUpgradeClass" link="PkDistroUpgrade.html#PkDistroUpgradeClass"/>
+    <function name="struct PkDistroUpgrade" link="PkDistroUpgrade.html#PkDistroUpgrade-struct"/>
+    <function name="struct PkDistroUpgradeClass" link="PkDistroUpgrade.html#PkDistroUpgradeClass"/>
     <function name="pk_distro_upgrade_new ()" link="PkDistroUpgrade.html#pk-distro-upgrade-new"/>
+    <function name="pk_distro_upgrade_get_id ()" link="PkDistroUpgrade.html#pk-distro-upgrade-get-id"/>
+    <function name="pk_distro_upgrade_get_summary ()" link="PkDistroUpgrade.html#pk-distro-upgrade-get-summary"/>
+    <function name="pk_distro_upgrade_get_state ()" link="PkDistroUpgrade.html#pk-distro-upgrade-get-state"/>
+    <function name="PkDistroUpgradePrivate" link="PkDistroUpgrade.html#PkDistroUpgradePrivate"/>
     <function name="The &quot;name&quot; property" link="PkDistroUpgrade.html#PkDistroUpgrade--name"/>
     <function name="The &quot;state&quot; property" link="PkDistroUpgrade.html#PkDistroUpgrade--state"/>
     <function name="The &quot;summary&quot; property" link="PkDistroUpgrade.html#PkDistroUpgrade--summary"/>
-    <function name="PkErrorPrivate" link="PkError.html#PkErrorPrivate"/>
-    <function name="PkError" link="PkError.html#PkError-struct"/>
-    <function name="PkErrorClass" link="PkError.html#PkErrorClass"/>
+    <function name="struct PkError" link="PkError.html#PkError-struct"/>
+    <function name="struct PkErrorClass" link="PkError.html#PkErrorClass"/>
     <function name="pk_error_new ()" link="PkError.html#pk-error-new"/>
     <function name="pk_error_get_code ()" link="PkError.html#pk-error-get-code"/>
     <function name="pk_error_get_details ()" link="PkError.html#pk-error-get-details"/>
+    <function name="PkErrorPrivate" link="PkError.html#PkErrorPrivate"/>
     <function name="The &quot;code&quot; property" link="PkError.html#PkError--code"/>
     <function name="The &quot;details&quot; property" link="PkError.html#PkError--details"/>
-    <function name="PkEulaRequiredPrivate" link="PkEulaRequired.html#PkEulaRequiredPrivate"/>
-    <function name="PkEulaRequired" link="PkEulaRequired.html#PkEulaRequired-struct"/>
-    <function name="PkEulaRequiredClass" link="PkEulaRequired.html#PkEulaRequiredClass"/>
+    <function name="struct PkEulaRequired" link="PkEulaRequired.html#PkEulaRequired-struct"/>
+    <function name="struct PkEulaRequiredClass" link="PkEulaRequired.html#PkEulaRequiredClass"/>
     <function name="pk_eula_required_new ()" link="PkEulaRequired.html#pk-eula-required-new"/>
+    <function name="PkEulaRequiredPrivate" link="PkEulaRequired.html#PkEulaRequiredPrivate"/>
     <function name="The &quot;eula-id&quot; property" link="PkEulaRequired.html#PkEulaRequired--eula-id"/>
     <function name="The &quot;license-agreement&quot; property" link="PkEulaRequired.html#PkEulaRequired--license-agreement"/>
     <function name="The &quot;package-id&quot; property" link="PkEulaRequired.html#PkEulaRequired--package-id"/>
     <function name="The &quot;vendor-name&quot; property" link="PkEulaRequired.html#PkEulaRequired--vendor-name"/>
-    <function name="PkFilesPrivate" link="PkFiles.html#PkFilesPrivate"/>
-    <function name="PkFiles" link="PkFiles.html#PkFiles-struct"/>
-    <function name="PkFilesClass" link="PkFiles.html#PkFilesClass"/>
+    <function name="struct PkFiles" link="PkFiles.html#PkFiles-struct"/>
+    <function name="struct PkFilesClass" link="PkFiles.html#PkFilesClass"/>
     <function name="pk_files_new ()" link="PkFiles.html#pk-files-new"/>
+    <function name="PkFilesPrivate" link="PkFiles.html#PkFilesPrivate"/>
     <function name="The &quot;files&quot; property" link="PkFiles.html#PkFiles--files"/>
     <function name="The &quot;package-id&quot; property" link="PkFiles.html#PkFiles--package-id"/>
-    <function name="PkMediaChangeRequiredPrivate" link="PkMediaChangeRequired.html#PkMediaChangeRequiredPrivate"/>
-    <function name="PkMediaChangeRequired" link="PkMediaChangeRequired.html#PkMediaChangeRequired-struct"/>
-    <function name="PkMediaChangeRequiredClass" link="PkMediaChangeRequired.html#PkMediaChangeRequiredClass"/>
+    <function name="struct PkMediaChangeRequired" link="PkMediaChangeRequired.html#PkMediaChangeRequired-struct"/>
+    <function name="struct PkMediaChangeRequiredClass" link="PkMediaChangeRequired.html#PkMediaChangeRequiredClass"/>
     <function name="pk_media_change_required_new ()" link="PkMediaChangeRequired.html#pk-media-change-required-new"/>
+    <function name="PkMediaChangeRequiredPrivate" link="PkMediaChangeRequired.html#PkMediaChangeRequiredPrivate"/>
     <function name="The &quot;media-id&quot; property" link="PkMediaChangeRequired.html#PkMediaChangeRequired--media-id"/>
     <function name="The &quot;media-text&quot; property" link="PkMediaChangeRequired.html#PkMediaChangeRequired--media-text"/>
     <function name="The &quot;media-type&quot; property" link="PkMediaChangeRequired.html#PkMediaChangeRequired--media-type"/>
-    <function name="PkMessagePrivate" link="PkMessage.html#PkMessagePrivate"/>
-    <function name="PkMessage" link="PkMessage.html#PkMessage-struct"/>
-    <function name="PkMessageClass" link="PkMessage.html#PkMessageClass"/>
+    <function name="struct PkMessage" link="PkMessage.html#PkMessage-struct"/>
+    <function name="struct PkMessageClass" link="PkMessage.html#PkMessageClass"/>
     <function name="pk_message_new ()" link="PkMessage.html#pk-message-new"/>
     <function name="pk_message_get_details ()" link="PkMessage.html#pk-message-get-details"/>
     <function name="pk_message_get_kind ()" link="PkMessage.html#pk-message-get-kind"/>
+    <function name="PkMessagePrivate" link="PkMessage.html#PkMessagePrivate"/>
     <function name="The &quot;details&quot; property" link="PkMessage.html#PkMessage--details"/>
     <function name="The &quot;type&quot; property" link="PkMessage.html#PkMessage--type"/>
     <function name="PK_PACKAGE_SACK_TYPE_ERROR" link="PkPackageSack.html#PK-PACKAGE-SACK-TYPE-ERROR:CAPS"/>
-    <function name="PkPackageSackPrivate" link="PkPackageSack.html#PkPackageSackPrivate"/>
-    <function name="PkPackageSack" link="PkPackageSack.html#PkPackageSack-struct"/>
-    <function name="PkPackageSackClass" link="PkPackageSack.html#PkPackageSackClass"/>
-    <function name="PkPackageSackResults" link="PkPackageSack.html#PkPackageSackResults"/>
+    <function name="struct PkPackageSack" link="PkPackageSack.html#PkPackageSack-struct"/>
+    <function name="struct PkPackageSackClass" link="PkPackageSack.html#PkPackageSackClass"/>
     <function name="enum PkPackageSackSortType" link="PkPackageSack.html#PkPackageSackSortType"/>
     <function name="pk_package_sack_new ()" link="PkPackageSack.html#pk-package-sack-new"/>
     <function name="pk_package_sack_test ()" link="PkPackageSack.html#pk-package-sack-test"/>
@@ -385,10 +397,11 @@
     <function name="pk_package_sack_resolve_async ()" link="PkPackageSack.html#pk-package-sack-resolve-async"/>
     <function name="pk_package_sack_get_details_async ()" link="PkPackageSack.html#pk-package-sack-get-details-async"/>
     <function name="pk_package_sack_get_update_detail_async ()" link="PkPackageSack.html#pk-package-sack-get-update-detail-async"/>
+    <function name="PkPackageSackResults" link="PkPackageSack.html#PkPackageSackResults"/>
+    <function name="PkPackageSackPrivate" link="PkPackageSack.html#PkPackageSackPrivate"/>
     <function name="PK_PACKAGE_TYPE_ERROR" link="PkPackage.html#PK-PACKAGE-TYPE-ERROR:CAPS"/>
-    <function name="PkPackagePrivate" link="PkPackage.html#PkPackagePrivate"/>
-    <function name="PkPackage" link="PkPackage.html#PkPackage-struct"/>
-    <function name="PkPackageClass" link="PkPackage.html#PkPackageClass"/>
+    <function name="struct PkPackage" link="PkPackage.html#PkPackage-struct"/>
+    <function name="struct PkPackageClass" link="PkPackage.html#PkPackageClass"/>
     <function name="pk_package_new ()" link="PkPackage.html#pk-package-new"/>
     <function name="pk_package_test ()" link="PkPackage.html#pk-package-test"/>
     <function name="pk_package_set_id ()" link="PkPackage.html#pk-package-set-id"/>
@@ -402,6 +415,7 @@
     <function name="pk_package_get_version ()" link="PkPackage.html#pk-package-get-version"/>
     <function name="pk_package_get_arch ()" link="PkPackage.html#pk-package-get-arch"/>
     <function name="pk_package_get_data ()" link="PkPackage.html#pk-package-get-data"/>
+    <function name="PkPackagePrivate" link="PkPackage.html#PkPackagePrivate"/>
     <function name="The &quot;description&quot; property" link="PkPackage.html#PkPackage--description"/>
     <function name="The &quot;group&quot; property" link="PkPackage.html#PkPackage--group"/>
     <function name="The &quot;info&quot; property" link="PkPackage.html#PkPackage--info"/>
@@ -423,9 +437,8 @@
     <function name="The &quot;url&quot; property" link="PkPackage.html#PkPackage--url"/>
     <function name="The &quot;changed&quot; signal" link="PkPackage.html#PkPackage-changed"/>
     <function name="PK_PROGRESS_TYPE_ERROR" link="PkProgress.html#PK-PROGRESS-TYPE-ERROR:CAPS"/>
-    <function name="PkProgressPrivate" link="PkProgress.html#PkProgressPrivate"/>
-    <function name="PkProgress" link="PkProgress.html#PkProgress-struct"/>
-    <function name="PkProgressClass" link="PkProgress.html#PkProgressClass"/>
+    <function name="struct PkProgress" link="PkProgress.html#PkProgress-struct"/>
+    <function name="struct PkProgressClass" link="PkProgress.html#PkProgressClass"/>
     <function name="pk_progress_new ()" link="PkProgress.html#pk-progress-new"/>
     <function name="pk_progress_test ()" link="PkProgress.html#pk-progress-test"/>
     <function name="enum PkProgressType" link="PkProgress.html#PkProgressType"/>
@@ -443,6 +456,7 @@
     <function name="pk_progress_set_speed ()" link="PkProgress.html#pk-progress-set-speed"/>
     <function name="pk_progress_set_uid ()" link="PkProgress.html#pk-progress-set-uid"/>
     <function name="pk_progress_set_package ()" link="PkProgress.html#pk-progress-set-package"/>
+    <function name="PkProgressPrivate" link="PkProgress.html#PkProgressPrivate"/>
     <function name="The &quot;allow-cancel&quot; property" link="PkProgress.html#PkProgress--allow-cancel"/>
     <function name="The &quot;caller-active&quot; property" link="PkProgress.html#PkProgress--caller-active"/>
     <function name="The &quot;elapsed-time&quot; property" link="PkProgress.html#PkProgress--elapsed-time"/>
@@ -456,17 +470,17 @@
     <function name="The &quot;subpercentage&quot; property" link="PkProgress.html#PkProgress--subpercentage"/>
     <function name="The &quot;transaction-id&quot; property" link="PkProgress.html#PkProgress--transaction-id"/>
     <function name="The &quot;uid&quot; property" link="PkProgress.html#PkProgress--uid"/>
-    <function name="PkRepoDetailPrivate" link="PkRepoDetail.html#PkRepoDetailPrivate"/>
-    <function name="PkRepoDetail" link="PkRepoDetail.html#PkRepoDetail-struct"/>
-    <function name="PkRepoDetailClass" link="PkRepoDetail.html#PkRepoDetailClass"/>
+    <function name="struct PkRepoDetail" link="PkRepoDetail.html#PkRepoDetail-struct"/>
+    <function name="struct PkRepoDetailClass" link="PkRepoDetail.html#PkRepoDetailClass"/>
     <function name="pk_repo_detail_new ()" link="PkRepoDetail.html#pk-repo-detail-new"/>
+    <function name="PkRepoDetailPrivate" link="PkRepoDetail.html#PkRepoDetailPrivate"/>
     <function name="The &quot;description&quot; property" link="PkRepoDetail.html#PkRepoDetail--description"/>
     <function name="The &quot;enabled&quot; property" link="PkRepoDetail.html#PkRepoDetail--enabled"/>
     <function name="The &quot;repo-id&quot; property" link="PkRepoDetail.html#PkRepoDetail--repo-id"/>
-    <function name="PkRepoSignatureRequiredPrivate" link="PkRepoSignatureRequired.html#PkRepoSignatureRequiredPrivate"/>
-    <function name="PkRepoSignatureRequired" link="PkRepoSignatureRequired.html#PkRepoSignatureRequired-struct"/>
-    <function name="PkRepoSignatureRequiredClass" link="PkRepoSignatureRequired.html#PkRepoSignatureRequiredClass"/>
+    <function name="struct PkRepoSignatureRequired" link="PkRepoSignatureRequired.html#PkRepoSignatureRequired-struct"/>
+    <function name="struct PkRepoSignatureRequiredClass" link="PkRepoSignatureRequired.html#PkRepoSignatureRequiredClass"/>
     <function name="pk_repo_signature_required_new ()" link="PkRepoSignatureRequired.html#pk-repo-signature-required-new"/>
+    <function name="PkRepoSignatureRequiredPrivate" link="PkRepoSignatureRequired.html#PkRepoSignatureRequiredPrivate"/>
     <function name="The &quot;key-fingerprint&quot; property" link="PkRepoSignatureRequired.html#PkRepoSignatureRequired--key-fingerprint"/>
     <function name="The &quot;key-id&quot; property" link="PkRepoSignatureRequired.html#PkRepoSignatureRequired--key-id"/>
     <function name="The &quot;key-timestamp&quot; property" link="PkRepoSignatureRequired.html#PkRepoSignatureRequired--key-timestamp"/>
@@ -475,16 +489,15 @@
     <function name="The &quot;package-id&quot; property" link="PkRepoSignatureRequired.html#PkRepoSignatureRequired--package-id"/>
     <function name="The &quot;repository-name&quot; property" link="PkRepoSignatureRequired.html#PkRepoSignatureRequired--repository-name"/>
     <function name="The &quot;type&quot; property" link="PkRepoSignatureRequired.html#PkRepoSignatureRequired--type"/>
-    <function name="PkRequireRestartPrivate" link="PkRequireRestart.html#PkRequireRestartPrivate"/>
-    <function name="PkRequireRestart" link="PkRequireRestart.html#PkRequireRestart-struct"/>
-    <function name="PkRequireRestartClass" link="PkRequireRestart.html#PkRequireRestartClass"/>
+    <function name="struct PkRequireRestart" link="PkRequireRestart.html#PkRequireRestart-struct"/>
+    <function name="struct PkRequireRestartClass" link="PkRequireRestart.html#PkRequireRestartClass"/>
     <function name="pk_require_restart_new ()" link="PkRequireRestart.html#pk-require-restart-new"/>
+    <function name="PkRequireRestartPrivate" link="PkRequireRestart.html#PkRequireRestartPrivate"/>
     <function name="The &quot;package-id&quot; property" link="PkRequireRestart.html#PkRequireRestart--package-id"/>
     <function name="The &quot;restart&quot; property" link="PkRequireRestart.html#PkRequireRestart--restart"/>
     <function name="PK_RESULTS_TYPE_ERROR" link="PkResults.html#PK-RESULTS-TYPE-ERROR:CAPS"/>
-    <function name="PkResultsPrivate" link="PkResults.html#PkResultsPrivate"/>
-    <function name="PkResults" link="PkResults.html#PkResults-struct"/>
-    <function name="PkResultsClass" link="PkResults.html#PkResultsClass"/>
+    <function name="struct PkResults" link="PkResults.html#PkResults-struct"/>
+    <function name="struct PkResultsClass" link="PkResults.html#PkResultsClass"/>
     <function name="pk_results_new ()" link="PkResults.html#pk-results-new"/>
     <function name="pk_results_test ()" link="PkResults.html#pk-results-test"/>
     <function name="pk_results_set_exit_code ()" link="PkResults.html#pk-results-set-exit-code"/>
@@ -519,6 +532,7 @@
     <function name="pk_results_get_media_change_required_array ()" link="PkResults.html#pk-results-get-media-change-required-array"/>
     <function name="pk_results_get_repo_detail_array ()" link="PkResults.html#pk-results-get-repo-detail-array"/>
     <function name="pk_results_get_message_array ()" link="PkResults.html#pk-results-get-message-array"/>
+    <function name="PkResultsPrivate" link="PkResults.html#PkResultsPrivate"/>
     <function name="The &quot;inputs&quot; property" link="PkResults.html#PkResults--inputs"/>
     <function name="The &quot;progress&quot; property" link="PkResults.html#PkResults--progress"/>
     <function name="The &quot;role&quot; property" link="PkResults.html#PkResults--role"/>
@@ -526,9 +540,8 @@
     <function name="PK_SERVICE_PACK_TYPE_ERROR" link="PkServicePack.html#PK-SERVICE-PACK-TYPE-ERROR:CAPS"/>
     <function name="PK_SERVICE_PACK_FILE_EXTENSION" link="PkServicePack.html#PK-SERVICE-PACK-FILE-EXTENSION:CAPS"/>
     <function name="enum PkServicePackError" link="PkServicePack.html#PkServicePackError"/>
-    <function name="PkServicePackPrivate" link="PkServicePack.html#PkServicePackPrivate"/>
-    <function name="PkServicePack" link="PkServicePack.html#PkServicePack-struct"/>
-    <function name="PkServicePackClass" link="PkServicePack.html#PkServicePackClass"/>
+    <function name="struct PkServicePack" link="PkServicePack.html#PkServicePack-struct"/>
+    <function name="struct PkServicePackClass" link="PkServicePack.html#PkServicePackClass"/>
     <function name="pk_service_pack_error_quark ()" link="PkServicePack.html#pk-service-pack-error-quark"/>
     <function name="pk_service_pack_get_type ()" link="PkServicePack.html#pk-service-pack-get-type"/>
     <function name="pk_service_pack_new ()" link="PkServicePack.html#pk-service-pack-new"/>
@@ -538,10 +551,10 @@
     <function name="pk_service_pack_generic_finish ()" link="PkServicePack.html#pk-service-pack-generic-finish"/>
     <function name="pk_service_pack_create_for_package_ids_async ()" link="PkServicePack.html#pk-service-pack-create-for-package-ids-async"/>
     <function name="pk_service_pack_create_for_updates_async ()" link="PkServicePack.html#pk-service-pack-create-for-updates-async"/>
+    <function name="PkServicePackPrivate" link="PkServicePack.html#PkServicePackPrivate"/>
     <function name="PK_TASK_TYPE_ERROR" link="PkTask.html#PK-TASK-TYPE-ERROR:CAPS"/>
-    <function name="PkTaskPrivate" link="PkTask.html#PkTaskPrivate"/>
-    <function name="PkTask" link="PkTask.html#PkTask-struct"/>
-    <function name="PkTaskClass" link="PkTask.html#PkTaskClass"/>
+    <function name="struct PkTask" link="PkTask.html#PkTask-struct"/>
+    <function name="struct PkTaskClass" link="PkTask.html#PkTaskClass"/>
     <function name="pk_task_new ()" link="PkTask.html#pk-task-new"/>
     <function name="pk_task_test ()" link="PkTask.html#pk-task-test"/>
     <function name="pk_task_generic_finish ()" link="PkTask.html#pk-task-generic-finish"/>
@@ -571,12 +584,17 @@
     <function name="pk_task_repo_enable_async ()" link="PkTask.html#pk-task-repo-enable-async"/>
     <function name="pk_task_user_accepted ()" link="PkTask.html#pk-task-user-accepted"/>
     <function name="pk_task_user_declined ()" link="PkTask.html#pk-task-user-declined"/>
+    <function name="pk_task_set_simulate ()" link="PkTask.html#pk-task-set-simulate"/>
+    <function name="pk_task_get_simulate ()" link="PkTask.html#pk-task-get-simulate"/>
+    <function name="pk_task_set_interactive ()" link="PkTask.html#pk-task-set-interactive"/>
+    <function name="pk_task_get_interactive ()" link="PkTask.html#pk-task-get-interactive"/>
+    <function name="PkTaskPrivate" link="PkTask.html#PkTaskPrivate"/>
     <function name="The &quot;interactive&quot; property" link="PkTask.html#PkTask--interactive"/>
     <function name="The &quot;simulate&quot; property" link="PkTask.html#PkTask--simulate"/>
-    <function name="PkTransactionPastPrivate" link="PkTransactionPast.html#PkTransactionPastPrivate"/>
-    <function name="PkTransactionPast" link="PkTransactionPast.html#PkTransactionPast-struct"/>
-    <function name="PkTransactionPastClass" link="PkTransactionPast.html#PkTransactionPastClass"/>
+    <function name="struct PkTransactionPast" link="PkTransactionPast.html#PkTransactionPast-struct"/>
+    <function name="struct PkTransactionPastClass" link="PkTransactionPast.html#PkTransactionPastClass"/>
     <function name="pk_transaction_past_new ()" link="PkTransactionPast.html#pk-transaction-past-new"/>
+    <function name="PkTransactionPastPrivate" link="PkTransactionPast.html#PkTransactionPastPrivate"/>
     <function name="The &quot;cmdline&quot; property" link="PkTransactionPast.html#PkTransactionPast--cmdline"/>
     <function name="The &quot;data&quot; property" link="PkTransactionPast.html#PkTransactionPast--data"/>
     <function name="The &quot;duration&quot; property" link="PkTransactionPast.html#PkTransactionPast--duration"/>
@@ -585,10 +603,10 @@
     <function name="The &quot;tid&quot; property" link="PkTransactionPast.html#PkTransactionPast--tid"/>
     <function name="The &quot;timespec&quot; property" link="PkTransactionPast.html#PkTransactionPast--timespec"/>
     <function name="The &quot;uid&quot; property" link="PkTransactionPast.html#PkTransactionPast--uid"/>
-    <function name="PkUpdateDetailPrivate" link="PkUpdateDetail.html#PkUpdateDetailPrivate"/>
-    <function name="PkUpdateDetail" link="PkUpdateDetail.html#PkUpdateDetail-struct"/>
-    <function name="PkUpdateDetailClass" link="PkUpdateDetail.html#PkUpdateDetailClass"/>
+    <function name="struct PkUpdateDetail" link="PkUpdateDetail.html#PkUpdateDetail-struct"/>
+    <function name="struct PkUpdateDetailClass" link="PkUpdateDetail.html#PkUpdateDetailClass"/>
     <function name="pk_update_detail_new ()" link="PkUpdateDetail.html#pk-update-detail-new"/>
+    <function name="PkUpdateDetailPrivate" link="PkUpdateDetail.html#PkUpdateDetailPrivate"/>
     <function name="The &quot;bugzilla-url&quot; property" link="PkUpdateDetail.html#PkUpdateDetail--bugzilla-url"/>
     <function name="The &quot;changelog&quot; property" link="PkUpdateDetail.html#PkUpdateDetail--changelog"/>
     <function name="The &quot;cve-url&quot; property" link="PkUpdateDetail.html#PkUpdateDetail--cve-url"/>
@@ -650,6 +668,7 @@
     <function name="pk_client_simulate_install_packages ()" link="PackageKit-pk-client-sync.html#pk-client-simulate-install-packages"/>
     <function name="pk_client_simulate_remove_packages ()" link="PackageKit-pk-client-sync.html#pk-client-simulate-remove-packages"/>
     <function name="pk_client_simulate_update_packages ()" link="PackageKit-pk-client-sync.html#pk-client-simulate-update-packages"/>
+    <function name="pk_client_upgrade_system ()" link="PackageKit-pk-client-sync.html#pk-client-upgrade-system"/>
     <function name="pk_client_adopt ()" link="PackageKit-pk-client-sync.html#pk-client-adopt"/>
     <function name="pk_client_get_progress ()" link="PackageKit-pk-client-sync.html#pk-client-get-progress"/>
     <function name="PK_DBUS_SERVICE" link="PackageKit-pk-common.html#PK-DBUS-SERVICE:CAPS"/>
@@ -669,6 +688,7 @@
     <function name="pk_control_suggest_daemon_quit ()" link="PackageKit-pk-control-sync.html#pk-control-suggest-daemon-quit"/>
     <function name="pk_control_set_root ()" link="PackageKit-pk-control-sync.html#pk-control-set-root"/>
     <function name="pk_control_set_proxy ()" link="PackageKit-pk-control-sync.html#pk-control-set-proxy"/>
+    <function name="pk_control_set_proxy2 ()" link="PackageKit-pk-control-sync.html#pk-control-set-proxy2"/>
     <function name="pk_sig_type_enum_from_text" link="PackageKit-pk-enum.html#pk-sig-type-enum-from-text"/>
     <function name="pk_sig_type_enum_to_text" link="PackageKit-pk-enum.html#pk-sig-type-enum-to-text"/>
     <function name="pk_distro_upgrade_enum_from_text" link="PackageKit-pk-enum.html#pk-distro-upgrade-enum-from-text"/>
@@ -721,6 +741,7 @@
     <function name="enum PkLicenseEnum" link="PackageKit-pk-enum.html#PkLicenseEnum"/>
     <function name="enum PkMediaTypeEnum" link="PackageKit-pk-enum.html#PkMediaTypeEnum"/>
     <function name="enum PkAuthorizeEnum" link="PackageKit-pk-enum.html#PkAuthorizeEnum"/>
+    <function name="enum PkUpgradeKindEnum" link="PackageKit-pk-enum.html#PkUpgradeKindEnum"/>
     <function name="pk_enum_test ()" link="PackageKit-pk-enum.html#pk-enum-test"/>
     <function name="pk_enum_find_value ()" link="PackageKit-pk-enum.html#pk-enum-find-value"/>
     <function name="pk_enum_find_string ()" link="PackageKit-pk-enum.html#pk-enum-find-string"/>
@@ -758,6 +779,8 @@
     <function name="pk_media_type_enum_to_string ()" link="PackageKit-pk-enum.html#pk-media-type-enum-to-string"/>
     <function name="pk_authorize_type_enum_from_string ()" link="PackageKit-pk-enum.html#pk-authorize-type-enum-from-string"/>
     <function name="pk_authorize_type_enum_to_string ()" link="PackageKit-pk-enum.html#pk-authorize-type-enum-to-string"/>
+    <function name="pk_upgrade_kind_enum_from_string ()" link="PackageKit-pk-enum.html#pk-upgrade-kind-enum-from-string"/>
+    <function name="pk_upgrade_kind_enum_to_string ()" link="PackageKit-pk-enum.html#pk-upgrade-kind-enum-to-string"/>
     <function name="PK_PACKAGE_IDS_DELIM" link="PackageKit-pk-package-ids.html#PK-PACKAGE-IDS-DELIM:CAPS"/>
     <function name="pk_package_ids_test ()" link="PackageKit-pk-package-ids.html#pk-package-ids-test"/>
     <function name="pk_package_ids_from_id ()" link="PackageKit-pk-package-ids.html#pk-package-ids-from-id"/>

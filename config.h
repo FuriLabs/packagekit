@@ -52,6 +52,9 @@
 /* Define to 1 if you have the <memory.h> header file. */
 #define HAVE_MEMORY_H 1
 
+/* Define to 1 if you have the `polkit_authority_get_sync' function. */
+#define HAVE_POLKIT_AUTHORITY_GET_SYNC 1
+
 /* "Meta release is available" */
 /* #undef HAVE_PYTHON_META_RELEASE */
 
@@ -105,7 +108,7 @@
 #define PACKAGE_NAME "PackageKit"
 
 /* Define to the full name and version of this package. */
-#define PACKAGE_STRING "PackageKit 0.6.12"
+#define PACKAGE_STRING "PackageKit 0.6.14"
 
 /* Define to the one symbol short name of this package. */
 #define PACKAGE_TARNAME "PackageKit"
@@ -114,7 +117,7 @@
 #define PACKAGE_URL ""
 
 /* Define to the version of this package. */
-#define PACKAGE_VERSION "0.6.12"
+#define PACKAGE_VERSION "0.6.14"
 
 /* define if Connection Manager is installed */
 /* #undef PK_BUILD_CONNMAN */
@@ -141,7 +144,7 @@
 #define USE_SECURITY_POLKIT_NEW 1
 
 /* Version number of package */
-#define VERSION "0.6.12"
+#define VERSION "0.6.14"
 
 /* default security framework */
 #define security_framework "polkit"

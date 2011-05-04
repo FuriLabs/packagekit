@@ -551,7 +551,8 @@ pk_transaction_files_cb (PkBackend *backend, PkFiles *item, PkTransaction *trans
 		      NULL);
 
 	/* ensure the files have the correct prefix */
-	if (transaction->priv->role == PK_ROLE_ENUM_DOWNLOAD_PACKAGES) {
+	if (transaction->priv->role == PK_ROLE_ENUM_DOWNLOAD_PACKAGES &&
+	    transaction->priv->cached_directory != NULL) {
 		for (i=0; files[i] != NULL; i++) {
 			if (!g_str_has_prefix (files[i], transaction->priv->cached_directory)) {
 				pk_backend_message (transaction->priv->backend, PK_MESSAGE_ENUM_BACKEND_ERROR,
@@ -1749,7 +1750,11 @@ pk_transaction_set_session_state (PkTransaction *transaction, GError **error)
 	gboolean ret = FALSE;
 	gchar *session = NULL;
 	gchar *proxy_http = NULL;
+	gchar *proxy_https = NULL;
 	gchar *proxy_ftp = NULL;
+	gchar *proxy_socks = NULL;
+	gchar *no_proxy = NULL;
+	gchar *pac = NULL;
 	gchar *root = NULL;
 	PkTransactionPrivate *priv = transaction->priv;
 
@@ -1761,14 +1766,27 @@ pk_transaction_set_session_state (PkTransaction *transaction, GError **error)
 	}
 
 	/* get from database */
-	ret = pk_transaction_db_get_proxy (priv->transaction_db, priv->uid, session, &proxy_http, &proxy_ftp);
+	ret = pk_transaction_db_get_proxy (priv->transaction_db, priv->uid, session,
+					   &proxy_http,
+					   &proxy_https,
+					   &proxy_ftp,
+					   &proxy_socks,
+					   &no_proxy,
+					   &pac);
 	if (!ret) {
-		g_set_error_literal (error, 1, 0, "failed to get the proxy from the database");
+		g_set_error_literal (error, 1, 0,
+				     "failed to get the proxy from the database");
 		goto out;
 	}
 
 	/* try to set the new proxy */
-	ret = pk_backend_set_proxy (priv->backend, proxy_http, proxy_ftp);
+	ret = pk_backend_set_proxy (priv->backend,
+				    proxy_http,
+				    proxy_https,
+				    proxy_ftp,
+				    proxy_socks,
+				    no_proxy,
+				    pac);
 	if (!ret) {
 		g_set_error_literal (error, 1, 0, "failed to set the proxy");
 		goto out;
@@ -1791,7 +1809,11 @@ pk_transaction_set_session_state (PkTransaction *transaction, GError **error)
 		   proxy_http, proxy_ftp, root, priv->uid, session);
 out:
 	g_free (proxy_http);
+	g_free (proxy_https);
 	g_free (proxy_ftp);
+	g_free (proxy_socks);
+	g_free (no_proxy);
+	g_free (pac);
 	g_free (session);
 	return ret;
 }
@@ -1853,8 +1875,9 @@ pk_transaction_set_running (PkTransaction *transaction)
 	/* set proxy */
 	ret = pk_transaction_set_session_state (transaction, &error);
 	if (!ret) {
-		g_debug ("failed to set the session state (non-fatal): %s", error->message);
-		g_error_free (error);
+		g_debug ("failed to set the session state (non-fatal): %s",
+			 error->message);
+		g_clear_error (&error);
 	}
 
 	/* we are no longer waiting, we are setting up */
@@ -2525,8 +2548,10 @@ pk_transaction_obtain_authorization (PkTransaction *transaction, gboolean only_t
 {
 	PolkitDetails *details;
 	const gchar *action_id;
+	const gchar *text;
 	gboolean ret = FALSE;
 	gchar *package_ids = NULL;
+	GString *string = NULL;
 	PkTransactionPrivate *priv = transaction->priv;
 
 	g_return_val_if_fail (priv->sender != NULL, FALSE);
@@ -2560,8 +2585,6 @@ pk_transaction_obtain_authorization (PkTransaction *transaction, gboolean only_t
 
 	/* insert details about the authorization */
 	details = polkit_details_new ();
-	polkit_details_insert (details, "role", pk_role_enum_to_string (priv->role));
-	polkit_details_insert (details, "only-trusted", priv->cached_only_trusted ? "true" : "false");
 
 	/* do we have package details? */
 	if (priv->cached_package_id != NULL)
@@ -2574,6 +2597,50 @@ pk_transaction_obtain_authorization (PkTransaction *transaction, gboolean only_t
 		polkit_details_insert (details, "package_ids", package_ids);
 	if (priv->cmdline != NULL)
 		polkit_details_insert (details, "cmdline", priv->cmdline);
+
+	/* do not use the default icon and wording for some roles */
+	if (!priv->cached_only_trusted) {
+
+		/* don't use the friendly PackageKit icon as this is
+		 * might be a ricky authorisation */
+		polkit_details_insert (details, "polkit.icon_name", "emblem-important");
+
+		string = g_string_new ("");
+
+		/* TRANSLATORS: is not GPG signed */
+		g_string_append (string, g_dgettext (GETTEXT_PACKAGE, N_("The software is not from a trusted source.")));
+		g_string_append (string, "\n");
+
+		/* UpdatePackages */
+		if (priv->role == PK_ROLE_ENUM_UPDATE_PACKAGES) {
+
+			/* TRANSLATORS: is not GPG signed */
+			g_string_append (string, g_dgettext (GETTEXT_PACKAGE, N_("The software is not from a trusted source.")));
+			g_string_append (string, "\n");
+
+			/* TRANSLATORS: user has to trust provider -- I know, this sucks */
+			text = g_dngettext (GETTEXT_PACKAGE,
+					    N_("Do not update this package unless you are sure it is safe to do so."),
+					    N_("Do not update these packages unless you are sure it is safe to do so."),
+					    g_strv_length (priv->cached_package_ids));
+			g_string_append (string, text);
+		}
+
+		/* InstallPackages */
+		if (priv->role == PK_ROLE_ENUM_INSTALL_PACKAGES) {
+
+			/* TRANSLATORS: user has to trust provider -- I know, this sucks */
+			text = g_dngettext (GETTEXT_PACKAGE,
+					    N_("Do not install this package unless you are sure it is safe to do so."),
+					    N_("Do not install these packages unless you are sure it is safe to do so."),
+					    g_strv_length (priv->cached_package_ids));
+			g_string_append (string, text);
+		}
+		if (string->len > 0) {
+			polkit_details_insert (details, "polkit.gettext_domain", GETTEXT_PACKAGE);
+			polkit_details_insert (details, "polkit.message", string->str);
+		}
+	}
 
 	/* do authorization async */
 	polkit_authority_check_authorization (priv->authority,
@@ -2591,6 +2658,8 @@ pk_transaction_obtain_authorization (PkTransaction *transaction, gboolean only_t
 	/* assume success, as this is async */
 	ret = TRUE;
 out:
+	if (string != NULL)
+		g_string_free (string, TRUE);
 	g_free (package_ids);
 	return ret;
 }
@@ -2744,6 +2813,45 @@ pk_transaction_accept_eula (PkTransaction *transaction, const gchar *eula_id, DB
 }
 
 /**
+ * pk_transaction_priv_cancel_bg:
+ **/
+void
+pk_transaction_priv_cancel_bg (PkTransaction *transaction)
+{
+	g_debug ("CancelBg method called on %s", transaction->priv->tid);
+
+	/* not implemented yet */
+	if (!pk_backend_is_implemented (transaction->priv->backend, PK_ROLE_ENUM_CANCEL)) {
+		g_warning ("Cancel not yet supported by backend");
+		goto out;
+	}
+
+	/* if it's never been run, just remove this transaction from the list */
+	if (transaction->priv->state <= PK_TRANSACTION_STATE_READY) {
+		pk_transaction_progress_changed_emit (transaction, 100, 100, 0, 0);
+		pk_transaction_allow_cancel_emit (transaction, FALSE);
+		pk_transaction_status_changed_emit (transaction, PK_STATUS_ENUM_FINISHED);
+		pk_transaction_finished_emit (transaction, PK_EXIT_ENUM_CANCELLED, 0);
+		pk_transaction_release_tid (transaction);
+		goto out;
+	}
+
+	/* set the state, as cancelling might take a few seconds */
+	pk_backend_set_status (transaction->priv->backend, PK_STATUS_ENUM_CANCEL);
+
+	/* we don't want to cancel twice */
+	pk_backend_set_allow_cancel (transaction->priv->backend, FALSE);
+
+	/* we need ::finished to not return success or failed */
+	pk_backend_set_exit_code (transaction->priv->backend, PK_EXIT_ENUM_CANCELLED_PRIORITY);
+
+	/* actually run the method */
+	pk_backend_cancel (transaction->priv->backend);
+out:
+	return;
+}
+
+/**
  * pk_transaction_cancel:
  **/
 void
@@ -2853,7 +2961,10 @@ out:
  * pk_transaction_download_packages:
  **/
 void
-pk_transaction_download_packages (PkTransaction *transaction, gchar **package_ids, DBusGMethodInvocation *context)
+pk_transaction_download_packages (PkTransaction *transaction,
+				  gboolean store_in_cache,
+				  gchar **package_ids,
+				  DBusGMethodInvocation *context)
 {
 	gboolean ret;
 	GError *error = NULL;
@@ -2908,15 +3019,17 @@ pk_transaction_download_packages (PkTransaction *transaction, gchar **package_id
 	}
 
 	/* create cache directory */
-	directory = g_build_filename (LOCALSTATEDIR, "cache", "PackageKit",
-				     "downloads", transaction->priv->tid, NULL);
-	/* rwxrwxr-x */
-	retval = g_mkdir (directory, 0775);
-	if (retval != 0) {
-		error = g_error_new (PK_TRANSACTION_ERROR, PK_TRANSACTION_ERROR_DENIED,
-				     "cannot create %s", directory);
-		pk_transaction_dbus_return_error (context, error);
-		goto out;
+	if (!store_in_cache) {
+		directory = g_build_filename (LOCALSTATEDIR, "cache", "PackageKit",
+					     "downloads", transaction->priv->tid, NULL);
+		/* rwxrwxr-x */
+		retval = g_mkdir (directory, 0775);
+		if (retval != 0) {
+			error = g_error_new (PK_TRANSACTION_ERROR, PK_TRANSACTION_ERROR_DENIED,
+					     "cannot create %s", directory);
+			pk_transaction_dbus_return_error (context, error);
+			goto out;
+		}
 	}
 
 	/* save so we can run later */
@@ -5754,7 +5867,7 @@ pk_transaction_class_init (PkTransactionClass *klass)
 static void
 pk_transaction_init (PkTransaction *transaction)
 {
-#ifdef USE_SECURITY_POLKIT_NEW
+#if defined(USE_SECURITY_POLKIT_NEW) && defined(HAVE_POLKIT_AUTHORITY_GET_SYNC)
 	GError *error = NULL;
 #endif
 	transaction->priv = PK_TRANSACTION_GET_PRIVATE (transaction);
@@ -5807,7 +5920,7 @@ pk_transaction_init (PkTransaction *transaction)
 	transaction->priv->dbus = pk_dbus_new ();
 	transaction->priv->results = pk_results_new ();
 #ifdef USE_SECURITY_POLKIT
-#ifdef USE_SECURITY_POLKIT_NEW
+#if defined(USE_SECURITY_POLKIT_NEW) && defined(HAVE_POLKIT_AUTHORITY_GET_SYNC)
 	transaction->priv->authority = polkit_authority_get_sync (NULL, &error);
 	if (transaction->priv->authority == NULL) {
 		g_error ("failed to get pokit authority: %s", error->message);

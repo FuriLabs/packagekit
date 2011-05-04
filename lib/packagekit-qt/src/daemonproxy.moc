@@ -1,8 +1,8 @@
 /****************************************************************************
 ** Meta object code from reading C++ file 'daemonproxy.h'
 **
-** Created: Tue Feb 1 09:22:58 2011
-**      by: The Qt Meta Object Compiler version 62 (Qt 4.7.1)
+** Created: Tue Apr 26 10:21:27 2011
+**      by: The Qt Meta Object Compiler version 62 (Qt 4.7.2)
 **
 ** WARNING! All changes made in this file will be lost!
 *****************************************************************************/
@@ -10,7 +10,7 @@
 #if !defined(Q_MOC_OUTPUT_REVISION)
 #error "The header file 'daemonproxy.h' doesn't include <QObject>."
 #elif Q_MOC_OUTPUT_REVISION != 62
-#error "This file was generated using the moc from 4.7.1. It"
+#error "This file was generated using the moc from 4.7.2. It"
 #error "cannot be used with the include files from this version of Qt."
 #error "(The moc has changed too much.)"
 #endif
@@ -42,25 +42,25 @@ static const uint qt_meta_data_DaemonProxy[] = {
      201,   12,  125,   12, 0x0a,
      239,  234,  210,   12, 0x0a,
      298,   12,  267,   12, 0x0a,
-     360,  339,  319,   12, 0x0a,
-     391,  386,  319,   12, 0x0a,
-     415,  408,  319,   12, 0x0a,
-     440,   12,  319,   12, 0x0a,
+     397,  339,  319,   12, 0x0a,
+     460,  455,  319,   12, 0x0a,
+     484,  477,  319,   12, 0x0a,
+     509,   12,  319,   12, 0x0a,
 
  // properties: name, type, flags
-     468,  460, 0x0a095001,
-     482,  460, 0x0a095001,
-     501,  460, 0x0a095001,
-     513,  460, 0x0a095001,
-     522,  460, 0x0a095001,
-     530,  460, 0x0a095001,
-     542,  537, 0x01095001,
-     549,  460, 0x0a095001,
-     559,  460, 0x0a095001,
-     572,  460, 0x0a095001,
-     583,  578, 0x03095001,
-     596,  578, 0x03095001,
-     609,  578, 0x03095001,
+     537,  529, 0x0a095001,
+     551,  529, 0x0a095001,
+     570,  529, 0x0a095001,
+     582,  529, 0x0a095001,
+     591,  529, 0x0a095001,
+     599,  529, 0x0a095001,
+     611,  606, 0x01095001,
+     618,  529, 0x0a095001,
+     628,  529, 0x0a095001,
+     641,  529, 0x0a095001,
+     652,  647, 0x03095001,
+     665,  647, 0x03095001,
+     678,  647, 0x03095001,
 
        0        // eod
 };
@@ -76,7 +76,8 @@ static const char qt_meta_stringdata_DaemonProxy[] = {
     "GetTimeSinceAction(QString)\0"
     "QDBusPendingReply<QStringList>\0"
     "GetTransactionList()\0QDBusPendingReply<>\0"
-    "proxy_http,proxy_ftp\0SetProxy(QString,QString)\0"
+    "proxy_http,proxy_https,proxy_ftp,proxy_socks,no_proxy,pac\0"
+    "SetProxy(QString,QString,QString,QString,QString,QString)\0"
     "root\0SetRoot(QString)\0reason\0"
     "StateHasChanged(QString)\0SuggestDaemonQuit()\0"
     "QString\0BackendAuthor\0BackendDescription\0"
@@ -130,7 +131,7 @@ int DaemonProxy::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
             if (_a[0]) *reinterpret_cast< QDBusPendingReply<uint>*>(_a[0]) = _r; }  break;
         case 9: { QDBusPendingReply<QStringList> _r = GetTransactionList();
             if (_a[0]) *reinterpret_cast< QDBusPendingReply<QStringList>*>(_a[0]) = _r; }  break;
-        case 10: { QDBusPendingReply<> _r = SetProxy((*reinterpret_cast< const QString(*)>(_a[1])),(*reinterpret_cast< const QString(*)>(_a[2])));
+        case 10: { QDBusPendingReply<> _r = SetProxy((*reinterpret_cast< const QString(*)>(_a[1])),(*reinterpret_cast< const QString(*)>(_a[2])),(*reinterpret_cast< const QString(*)>(_a[3])),(*reinterpret_cast< const QString(*)>(_a[4])),(*reinterpret_cast< const QString(*)>(_a[5])),(*reinterpret_cast< const QString(*)>(_a[6])));
             if (_a[0]) *reinterpret_cast< QDBusPendingReply<>*>(_a[0]) = _r; }  break;
         case 11: { QDBusPendingReply<> _r = SetRoot((*reinterpret_cast< const QString(*)>(_a[1])));
             if (_a[0]) *reinterpret_cast< QDBusPendingReply<>*>(_a[0]) = _r; }  break;

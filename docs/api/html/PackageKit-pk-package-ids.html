@@ -3,12 +3,12 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>pk-package-ids</title>
-<meta name="generator" content="DocBook XSL Stylesheets V1.75.2">
+<meta name="generator" content="DocBook XSL Stylesheets V1.76.1">
 <link rel="home" href="index.html" title="PackageKit Reference Manual">
 <link rel="up" href="libpackagekit-helpers.html" title="libpackagekit glib helpers">
 <link rel="prev" href="PackageKit-pk-enum.html" title="pk-enum">
 <link rel="next" href="PackageKit-pk-package-id.html" title="pk-package-id">
-<meta name="generator" content="GTK-Doc V1.15 (XML mode)">
+<meta name="generator" content="GTK-Doc V1.17 (XML mode)">
 <link rel="stylesheet" href="style.css" type="text/css">
 </head>
 <body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF">
@@ -26,7 +26,7 @@
                   <a href="#PackageKit-pk-package-ids.description" class="shortcut">Description</a>
 </td></tr>
 </table>
-<div class="refentry" title="pk-package-ids">
+<div class="refentry">
 <a name="PackageKit-pk-package-ids"></a><div class="titlepage"></div>
 <div class="refnamediv"><table width="100%"><tr>
 <td valign="top">
@@ -35,7 +35,7 @@
 </td>
 <td valign="top" align="right"></td>
 </tr></table></div>
-<div class="refsynopsisdiv" title="Synopsis">
+<div class="refsynopsisdiv">
 <a name="PackageKit-pk-package-ids.synopsis"></a><h2>Synopsis</h2>
 <pre class="synopsis">#define             <a class="link" href="PackageKit-pk-package-ids.html#PK-PACKAGE-IDS-DELIM:CAPS" title="PK_PACKAGE_IDS_DELIM">PK_PACKAGE_IDS_DELIM</a>
 <span class="returnvalue">void</span>                <a class="link" href="PackageKit-pk-package-ids.html#pk-package-ids-test" title="pk_package_ids_test ()">pk_package_ids_test</a>                 (<em class="parameter"><code><a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gpointer"><span class="type">gpointer</span></a> user_data</code></em>);
@@ -55,15 +55,15 @@
 #define             <a class="link" href="PackageKit-pk-package-ids.html#pk-package-ids-to-text" title="pk_package_ids_to_text">pk_package_ids_to_text</a>
 </pre>
 </div>
-<div class="refsect1" title="Description">
+<div class="refsect1">
 <a name="PackageKit-pk-package-ids.description"></a><h2>Description</h2>
 <p>
 Composite PackageId's are difficult to read and create.
 </p>
 </div>
-<div class="refsect1" title="Details">
+<div class="refsect1">
 <a name="PackageKit-pk-package-ids.details"></a><h2>Details</h2>
-<div class="refsect2" title="PK_PACKAGE_IDS_DELIM">
+<div class="refsect2">
 <a name="PK-PACKAGE-IDS-DELIM:CAPS"></a><h3>PK_PACKAGE_IDS_DELIM</h3>
 <pre class="programlisting">#define PK_PACKAGE_IDS_DELIM "&amp;"
 </pre>
@@ -71,22 +71,14 @@ Composite PackageId's are difficult to read and create.
 </p>
 </div>
 <hr>
-<div class="refsect2" title="pk_package_ids_test ()">
+<div class="refsect2">
 <a name="pk-package-ids-test"></a><h3>pk_package_ids_test ()</h3>
 <pre class="programlisting"><span class="returnvalue">void</span>                pk_package_ids_test                 (<em class="parameter"><code><a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gpointer"><span class="type">gpointer</span></a> user_data</code></em>);</pre>
 <p>
 </p>
-<div class="variablelist"><table border="0">
-<col align="left" valign="top">
-<tbody><tr>
-<td><p><span class="term"><em class="parameter"><code>user_data</code></em> :</span></p></td>
-<td>
-</td>
-</tr></tbody>
-</table></div>
 </div>
 <hr>
-<div class="refsect2" title="pk_package_ids_from_id ()">
+<div class="refsect2">
 <a name="pk-package-ids-from-id"></a><h3>pk_package_ids_from_id ()</h3>
 <pre class="programlisting"><a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gchar"><span class="returnvalue">gchar</span></a> **            pk_package_ids_from_id              (<em class="parameter"><code>const <a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a> *package_id</code></em>);</pre>
 <p>
@@ -98,12 +90,11 @@ a single package_id
 <tbody>
 <tr>
 <td><p><span class="term"><em class="parameter"><code>package_id</code></em> :</span></p></td>
-<td>A single package_id
-</td>
+<td>A single package_id</td>
 </tr>
 <tr>
 <td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
-<td> the string array, or <a href="http://library.gnome.org/devel/glib/unstable/glib-Standard-Macros.html#NULL:CAPS"><code class="literal">NULL</code></a> if invalid, free with <a href="http://library.gnome.org/devel/glib/unstable/glib-String-Utility-Functions.html#g-strfreev"><code class="function">g_strfreev()</code></a>. <span class="annotation">[<a href="http://foldoc.org/transfer%20full"><span class="acronym">transfer full</span></a>]</span>
+<td>the string array, or <a href="http://library.gnome.org/devel/glib/unstable/glib-Standard-Macros.html#NULL:CAPS"><code class="literal">NULL</code></a> if invalid, free with <a href="http://library.gnome.org/devel/glib/unstable/glib-String-Utility-Functions.html#g-strfreev"><code class="function">g_strfreev()</code></a>. <span class="annotation">[<a href="http://foldoc.org/transfer%20full"><span class="acronym">transfer full</span></a>]</span>
 </td>
 </tr>
 </tbody>
@@ -111,7 +102,7 @@ a single package_id
 <p class="since">Since 0.5.2</p>
 </div>
 <hr>
-<div class="refsect2" title="pk_package_ids_from_string ()">
+<div class="refsect2">
 <a name="pk-package-ids-from-string"></a><h3>pk_package_ids_from_string ()</h3>
 <pre class="programlisting"><a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gchar"><span class="returnvalue">gchar</span></a> **            pk_package_ids_from_string          (<em class="parameter"><code>const <a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a> *package_id</code></em>);</pre>
 <p>
@@ -123,12 +114,11 @@ a delimited string
 <tbody>
 <tr>
 <td><p><span class="term"><em class="parameter"><code>package_id</code></em> :</span></p></td>
-<td>A single package_id
-</td>
+<td>A single package_id</td>
 </tr>
 <tr>
 <td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
-<td> the string array, or <a href="http://library.gnome.org/devel/glib/unstable/glib-Standard-Macros.html#NULL:CAPS"><code class="literal">NULL</code></a> if invalid, free with <a href="http://library.gnome.org/devel/glib/unstable/glib-String-Utility-Functions.html#g-strfreev"><code class="function">g_strfreev()</code></a>. <span class="annotation">[<a href="http://foldoc.org/transfer%20full"><span class="acronym">transfer full</span></a>]</span>
+<td>the string array, or <a href="http://library.gnome.org/devel/glib/unstable/glib-Standard-Macros.html#NULL:CAPS"><code class="literal">NULL</code></a> if invalid, free with <a href="http://library.gnome.org/devel/glib/unstable/glib-String-Utility-Functions.html#g-strfreev"><code class="function">g_strfreev()</code></a>. <span class="annotation">[<a href="http://foldoc.org/transfer%20full"><span class="acronym">transfer full</span></a>]</span>
 </td>
 </tr>
 </tbody>
@@ -136,7 +126,7 @@ a delimited string
 <p class="since">Since 0.5.2</p>
 </div>
 <hr>
-<div class="refsect2" title="pk_package_ids_check ()">
+<div class="refsect2">
 <a name="pk-package-ids-check"></a><h3>pk_package_ids_check ()</h3>
 <pre class="programlisting"><a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gboolean"><span class="returnvalue">gboolean</span></a>            pk_package_ids_check                (<em class="parameter"><code><a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a> **package_ids</code></em>);</pre>
 <p>
@@ -147,21 +137,19 @@ Check the string array of package_id's for validity
 <tbody>
 <tr>
 <td><p><span class="term"><em class="parameter"><code>package_ids</code></em> :</span></p></td>
-<td>a string array of package_id's
-</td>
+<td>a string array of package_id's</td>
 </tr>
 <tr>
 <td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
-<td> <a href="http://library.gnome.org/devel/glib/unstable/glib-Standard-Macros.html#TRUE:CAPS"><code class="literal">TRUE</code></a> if the package_ids are all valid.
-
-</td>
+<td>
+<a href="http://library.gnome.org/devel/glib/unstable/glib-Standard-Macros.html#TRUE:CAPS"><code class="literal">TRUE</code></a> if the package_ids are all valid.</td>
 </tr>
 </tbody>
 </table></div>
 <p class="since">Since 0.5.2</p>
 </div>
 <hr>
-<div class="refsect2" title="pk_package_ids_to_string ()">
+<div class="refsect2">
 <a name="pk-package-ids-to-string"></a><h3>pk_package_ids_to_string ()</h3>
 <pre class="programlisting"><a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gchar"><span class="returnvalue">gchar</span></a> *             pk_package_ids_to_string            (<em class="parameter"><code><a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a> **package_ids</code></em>);</pre>
 <p>
@@ -172,21 +160,18 @@ Cats the string array of package_id's into one delimited string
 <tbody>
 <tr>
 <td><p><span class="term"><em class="parameter"><code>package_ids</code></em> :</span></p></td>
-<td>a string array of package_id's
-</td>
+<td>a string array of package_id's</td>
 </tr>
 <tr>
 <td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
-<td> a string representation of all the package_id's.
-
-</td>
+<td>a string representation of all the package_id's.</td>
 </tr>
 </tbody>
 </table></div>
 <p class="since">Since 0.5.2</p>
 </div>
 <hr>
-<div class="refsect2" title="pk_package_ids_present_id ()">
+<div class="refsect2">
 <a name="pk-package-ids-present-id"></a><h3>pk_package_ids_present_id ()</h3>
 <pre class="programlisting"><a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gboolean"><span class="returnvalue">gboolean</span></a>            pk_package_ids_present_id           (<em class="parameter"><code><a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a> **package_ids</code></em>,
                                                          <em class="parameter"><code>const <a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a> *package_id</code></em>);</pre>
@@ -198,26 +183,23 @@ Finds out if a package ID is present in the list.
 <tbody>
 <tr>
 <td><p><span class="term"><em class="parameter"><code>package_ids</code></em> :</span></p></td>
-<td>a string array of package_id's
-</td>
+<td>a string array of package_id's</td>
 </tr>
 <tr>
 <td><p><span class="term"><em class="parameter"><code>package_id</code></em> :</span></p></td>
-<td>a single package_id
-</td>
+<td>a single package_id</td>
 </tr>
 <tr>
 <td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
-<td> <a href="http://library.gnome.org/devel/glib/unstable/glib-Standard-Macros.html#TRUE:CAPS"><code class="literal">TRUE</code></a> if the package ID is present
-
-</td>
+<td>
+<a href="http://library.gnome.org/devel/glib/unstable/glib-Standard-Macros.html#TRUE:CAPS"><code class="literal">TRUE</code></a> if the package ID is present</td>
 </tr>
 </tbody>
 </table></div>
 <p class="since">Since 0.5.2</p>
 </div>
 <hr>
-<div class="refsect2" title="pk_package_ids_add_id ()">
+<div class="refsect2">
 <a name="pk-package-ids-add-id"></a><h3>pk_package_ids_add_id ()</h3>
 <pre class="programlisting"><a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gchar"><span class="returnvalue">gchar</span></a> **            pk_package_ids_add_id               (<em class="parameter"><code><a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a> **package_ids</code></em>,
                                                          <em class="parameter"><code>const <a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a> *package_id</code></em>);</pre>
@@ -229,17 +211,15 @@ Adds a package_id to an existing list.
 <tbody>
 <tr>
 <td><p><span class="term"><em class="parameter"><code>package_ids</code></em> :</span></p></td>
-<td>a string array of package_id's
-</td>
+<td>a string array of package_id's</td>
 </tr>
 <tr>
 <td><p><span class="term"><em class="parameter"><code>package_id</code></em> :</span></p></td>
-<td>a single package_id
-</td>
+<td>a single package_id</td>
 </tr>
 <tr>
 <td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
-<td> the new list, free <a href="http://library.gnome.org/devel/glib/unstable/glib-String-Utility-Functions.html#g-strfreev"><code class="function">g_strfreev()</code></a>. <span class="annotation">[<a href="http://foldoc.org/transfer%20full"><span class="acronym">transfer full</span></a>]</span>
+<td>the new list, free <a href="http://library.gnome.org/devel/glib/unstable/glib-String-Utility-Functions.html#g-strfreev"><code class="function">g_strfreev()</code></a>. <span class="annotation">[<a href="http://foldoc.org/transfer%20full"><span class="acronym">transfer full</span></a>]</span>
 </td>
 </tr>
 </tbody>
@@ -247,7 +227,7 @@ Adds a package_id to an existing list.
 <p class="since">Since 0.5.2</p>
 </div>
 <hr>
-<div class="refsect2" title="pk_package_ids_add_ids ()">
+<div class="refsect2">
 <a name="pk-package-ids-add-ids"></a><h3>pk_package_ids_add_ids ()</h3>
 <pre class="programlisting"><a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gchar"><span class="returnvalue">gchar</span></a> **            pk_package_ids_add_ids              (<em class="parameter"><code><a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a> **package_ids</code></em>,
                                                          <em class="parameter"><code><a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a> **package_ids_new</code></em>);</pre>
@@ -259,17 +239,15 @@ Adds a package_id to an existing list.
 <tbody>
 <tr>
 <td><p><span class="term"><em class="parameter"><code>package_ids</code></em> :</span></p></td>
-<td>a string array of package_id's
-</td>
+<td>a string array of package_id's</td>
 </tr>
 <tr>
 <td><p><span class="term"><em class="parameter"><code>package_ids_new</code></em> :</span></p></td>
-<td>a string array of package_id's
-</td>
+<td>a string array of package_id's</td>
 </tr>
 <tr>
 <td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
-<td> the new list, free <a href="http://library.gnome.org/devel/glib/unstable/glib-String-Utility-Functions.html#g-strfreev"><code class="function">g_strfreev()</code></a>. <span class="annotation">[<a href="http://foldoc.org/transfer%20full"><span class="acronym">transfer full</span></a>]</span>
+<td>the new list, free <a href="http://library.gnome.org/devel/glib/unstable/glib-String-Utility-Functions.html#g-strfreev"><code class="function">g_strfreev()</code></a>. <span class="annotation">[<a href="http://foldoc.org/transfer%20full"><span class="acronym">transfer full</span></a>]</span>
 </td>
 </tr>
 </tbody>
@@ -277,7 +255,7 @@ Adds a package_id to an existing list.
 <p class="since">Since 0.5.2</p>
 </div>
 <hr>
-<div class="refsect2" title="pk_package_ids_remove_id ()">
+<div class="refsect2">
 <a name="pk-package-ids-remove-id"></a><h3>pk_package_ids_remove_id ()</h3>
 <pre class="programlisting"><a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gchar"><span class="returnvalue">gchar</span></a> **            pk_package_ids_remove_id            (<em class="parameter"><code><a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a> **package_ids</code></em>,
                                                          <em class="parameter"><code>const <a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a> *package_id</code></em>);</pre>
@@ -289,17 +267,15 @@ Removes a package ID from the the list.
 <tbody>
 <tr>
 <td><p><span class="term"><em class="parameter"><code>package_ids</code></em> :</span></p></td>
-<td>a string array of package_id's
-</td>
+<td>a string array of package_id's</td>
 </tr>
 <tr>
 <td><p><span class="term"><em class="parameter"><code>package_id</code></em> :</span></p></td>
-<td>a single package_id
-</td>
+<td>a single package_id</td>
 </tr>
 <tr>
 <td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
-<td> the new list, free <a href="http://library.gnome.org/devel/glib/unstable/glib-String-Utility-Functions.html#g-strfreev"><code class="function">g_strfreev()</code></a>. <span class="annotation">[<a href="http://foldoc.org/transfer%20full"><span class="acronym">transfer full</span></a>]</span>
+<td>the new list, free <a href="http://library.gnome.org/devel/glib/unstable/glib-String-Utility-Functions.html#g-strfreev"><code class="function">g_strfreev()</code></a>. <span class="annotation">[<a href="http://foldoc.org/transfer%20full"><span class="acronym">transfer full</span></a>]</span>
 </td>
 </tr>
 </tbody>
@@ -307,7 +283,7 @@ Removes a package ID from the the list.
 <p class="since">Since 0.5.2</p>
 </div>
 <hr>
-<div class="refsect2" title="pk_package_ids_from_text">
+<div class="refsect2">
 <a name="pk-package-ids-from-text"></a><h3>pk_package_ids_from_text</h3>
 <pre class="programlisting">#define pk_package_ids_from_text pk_package_ids_from_string
 </pre>
@@ -315,7 +291,7 @@ Removes a package ID from the the list.
 </p>
 </div>
 <hr>
-<div class="refsect2" title="pk_package_ids_to_text">
+<div class="refsect2">
 <a name="pk-package-ids-to-text"></a><h3>pk_package_ids_to_text</h3>
 <pre class="programlisting">#define pk_package_ids_to_text		pk_package_ids_to_string
 </pre>
@@ -326,6 +302,6 @@ Removes a package ID from the the list.
 </div>
 <div class="footer">
 <hr>
-          Generated by GTK-Doc V1.15</div>
+          Generated by GTK-Doc V1.17</div>
 </body>
 </html>

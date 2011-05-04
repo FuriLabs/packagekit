@@ -1,6 +1,1873 @@
+commit 9d7f3263cf3ac9c4ad3fbf1017e2f2d950266f60
+Author: Richard Hughes <richard@hughsie.com>
+Date:   2011-05-04
+
+    Release version 0.6.14
+
+M	NEWS
+M	configure.ac
+M	docs/html/pk-download.html
+M	po/LINGUAS
+M	po/PackageKit.pot
+C099	po/ko.po	po/ar.po
+M	po/as.po
+M	po/bg.po
+C099	po/ko.po	po/bg_BG.po
+M	po/bn_IN.po
+M	po/ca.po
+C099	po/ko.po	po/ca@valencia.po
+M	po/cs.po
+M	po/da.po
+M	po/el.po
+M	po/en_GB.po
+M	po/es.po
+M	po/eu.po
+C099	po/ko.po	po/fa_IR.po
+M	po/fi.po
+M	po/fr.po
+C099	po/ko.po	po/ga.po
+M	po/gl.po
+M	po/gu.po
+M	po/he.po
+M	po/hi.po
+M	po/hu.po
+M	po/id.po
+M	po/it.po
+M	po/it_IT.po
+M	po/ja.po
+C099	po/ko.po	po/kk.po
+M	po/kn.po
+M	po/ko.po
+M	po/lt.po
+M	po/ml.po
+M	po/mr.po
+M	po/ms.po
+M	po/nb.po
+M	po/nl.po
+M	po/or.po
+M	po/pa.po
+M	po/pl.po
+M	po/pt.po
+M	po/pt_BR.po
+M	po/ro.po
+M	po/ru.po
+M	po/sk.po
+C099	po/ko.po	po/sl.po
+M	po/sr.po
+M	po/sr@latin.po
+M	po/sv.po
+M	po/ta.po
+M	po/te.po
+M	po/th.po
+M	po/tr.po
+M	po/uk.po
+C099	po/ko.po	po/wa.po
+M	po/zh_CN.po
+M	po/zh_TW.po
+
+commit c04d6924db938527a88b451b07b853c307def159
+Author: Daniel Nicoletti <dantti85-pk@yahoo.com.br>
+Date:	2011-05-03
+
+    HTML: updating the kpackagekit info and adding myself to authors
+
+A	docs/html/img/author-dantti.png
+M	docs/html/pk-authors.html
+M	docs/html/pk-download.html
+
+commit d1f1916678c4e5e1393366d54968d872ddbd0814
+Author: Daniel Nicoletti <dantti85-pk@yahoo.com.br>
+Date:	2011-05-03
+
+    packagekit-qt2: Updating enums and adding UpgradeSystem() method
+
+M	lib/packagekit-qt2/package.h
+M	lib/packagekit-qt2/signature.h
+M	lib/packagekit-qt2/transaction.cpp
+M	lib/packagekit-qt2/transaction.h
+
+commit ea04885f13b91d1dbcf762f2db2b595e38b4e1f6
+Merge: 5eb0ee7 b032a9e
+Author: Daniel Nicoletti <dantti85-pk@yahoo.com.br>
+Date:	2011-05-03
+
+    Merge branch 'master' of gitorious.org:packagekit/packagekit
+
+commit 5eb0ee7357b9ccc3adbfa5de9501c5a220d9d405
+Author: Daniel Nicoletti <dantti85-pk@yahoo.com.br>
+Date:	2011-05-03
+
+    packagekit-qt2: The Package crash was apparently a caching error on
+    apper build dir, including docs.
+
+M	lib/packagekit-qt2/Doxyfile
+M	lib/packagekit-qt2/daemon.h
+M	lib/packagekit-qt2/package.cpp
+M	lib/packagekit-qt2/package.h
+M	lib/packagekit-qt2/transaction.cpp
+M	lib/packagekit-qt2/transaction.h
+
+commit b032a9e71966d30cf31e4c6ad2d2042ce04c546a
+Author: Richard Hughes <richard@hughsie.com>
+Date:	2011-05-03
+
+    trivial: include the PackageKitQt2 header files in the Fedora
+    spec file
+
+M	contrib/PackageKit.spec.in
+
+commit 251152b162d437365ab50c4e21b96963327f0c5d
+Author: Matthias Klumpp <matthias@nlinux.org>
+Date:	2011-05-03
+
+    Add GIR annotations to make PK GIR usable
+
+    I only fixed the most obvious issues with GIR,
+    there might be other modifications needed until
+    the GIR is fully functional.
+
+M	lib/packagekit-glib2/pk-client-sync.c
+M	lib/packagekit-glib2/pk-client.c
+M	lib/packagekit-glib2/pk-common.c
+M	lib/packagekit-glib2/pk-control.c
+M	lib/packagekit-glib2/pk-debug.c
+M	lib/packagekit-glib2/pk-task-sync.c
+M	lib/packagekit-glib2/pk-task.c
+
+commit bc68754995d440b9567e9cf11394b88e6ab029b5
+Author: Daniel Nicoletti <dantti85-pk@yahoo.com.br>
+Date:	2011-05-03
+
+    packagekit-qt2: Fix Package class to not delete d, which fixes
+    crashes weirdly
+
+M	lib/packagekit-qt2/Doxyfile
+M	lib/packagekit-qt2/Makefile.am
+M	lib/packagekit-qt2/daemon.cpp
+M	lib/packagekit-qt2/daemon.h
+M	lib/packagekit-qt2/daemonprivate.h
+M	lib/packagekit-qt2/package.cpp
+M	lib/packagekit-qt2/package.h
+M	lib/packagekit-qt2/signature.h
+M	lib/packagekit-qt2/transaction.cpp
+M	lib/packagekit-qt2/transaction.h
+M	lib/packagekit-qt2/transactionprivate.cpp
+M	lib/packagekit-qt2/transactionprivate.h
+M	lib/packagekit-qt2/util.h
+
+commit 7606be5004d8bee99c3fd16f3c559f0643f030e4
+Author: Daniel Nicoletti <dantti85-pk@yahoo.com.br>
+Date:	2011-05-02
+
+    packagekit-qt2: change the Transaction constructor to be more
+    convinient
+
+M	lib/packagekit-qt2/daemonprivate.cpp
+M	lib/packagekit-qt2/transaction.cpp
+M	lib/packagekit-qt2/transaction.h
+
+commit b36d71a4bf61d07ad4433cda3f4b8952dee4ab4f
+Merge: d17fcd6 a275155
+Author: Daniel Nicoletti <dantti85-pk@yahoo.com.br>
+Date:	2011-05-02
+
+    Merge branch 'master' of gitorious.org:packagekit/packagekit
+
+commit d17fcd659f7d41c80ac0d452ce998497379a2a11
+Author: Daniel Nicoletti <dantti85-pk@yahoo.com.br>
+Date:	2011-05-02
+
+    packagekit-qt2: Include QSet in package.h so that Groups get defined
+
+M	lib/packagekit-qt2/package.h
+
+commit a275155b4d2dff3d49dc27d89ea287dd278500f2
+Author: Matthias Klumpp <matthias@nlinux.org>
+Date:	2011-05-02
+
+    trivial: Add gitigore file to qt-2 binding dir
+
+    Ignore some auto-generated files.
+
+A	lib/packagekit-qt2/.gitignore
+
+commit fd9a46eff894d3e45228d0b90ca0b11373d75cf8
+Author: Matthias Klumpp <matthias@nlinux.org>
+Date:	2011-05-02
+
+    Add header name to GIR and set export package
+
+    Without these changes, the GIR is not usable.
+
+M	lib/packagekit-glib2/Makefile.am
+
+commit 5819a3a9544c10835f5a4edca555ef93a7d304c4
+Author: Daniel Nicoletti <dantti85-pk@yahoo.com.br>
+Date:	2011-05-02
+
+    packagekit-qt2: As always adding Signature missing file
+
+A	lib/packagekit-qt2/Signature
+
+commit 8783a6bd29c4f8dab297def9b024b5a10d10aed6
+Author: Daniel Nicoletti <dantti85-pk@yahoo.com.br>
+Date:	2011-05-02
+
+    packagekit-qt2: Add Eula class to avoid API breaks in case pk changes
+
+A	lib/packagekit-qt2/Eula
+M	lib/packagekit-qt2/Makefile.am
+A	lib/packagekit-qt2/eula.cpp
+A	lib/packagekit-qt2/eula.h
+M	lib/packagekit-qt2/transaction.h
+M	lib/packagekit-qt2/transactionprivate.cpp
+
+commit 73ca225fba7d6781f96e1994c83d7c96892a73ef
+Author: Daniel Nicoletti <dantti85-pk@yahoo.com.br>
+Date:	2011-05-02
+
+    packagekit-qt2: Add Signature header and install Daemon header
+
+M	lib/packagekit-qt2/Makefile.am
+
+commit 9ba55e479e1d1b251aaa443b9304fef2b1374e74
+Merge: 03d8d9c 1213790
+Author: Daniel Nicoletti <dantti85-pk@yahoo.com.br>
+Date:	2011-05-01
+
+    Merge branch 'master' of gitorious.org:packagekit/packagekit
+
+commit 03d8d9c3fcc619ddf4950111990b69069a12c074
+Author: Daniel Nicoletti <dantti85-pk@yahoo.com.br>
+Date:	2011-05-01
+
+    aptcc: Fix configure.ac to avoid pk-qt linking against apt-pkg
+
+M	backends/aptcc/Makefile.am
+M	configure.ac
+
+commit de25cb865003dac7d9b233cd94b1da256f051785
+Author: Daniel Nicoletti <dantti85-pk@yahoo.com.br>
+Date:	2011-05-01
+
+    packagekit-qt2: Initial commit, brand new API, hardest of my life
+
+M	configure.ac
+M	lib/Makefile.am
+A	lib/packagekit-qt2/Daemon
+A	lib/packagekit-qt2/Doxyfile
+A	lib/packagekit-qt2/Makefile.am
+A	lib/packagekit-qt2/Package
+A	lib/packagekit-qt2/Transaction
+A	lib/packagekit-qt2/bitfield.cpp
+A	lib/packagekit-qt2/bitfield.h
+A	lib/packagekit-qt2/common.h
+A	lib/packagekit-qt2/daemon.cpp
+A	lib/packagekit-qt2/daemon.h
+A	lib/packagekit-qt2/daemonprivate.cpp
+A	lib/packagekit-qt2/daemonprivate.h
+A	lib/packagekit-qt2/modules/FindPackageKitQt2.cmake
+A	lib/packagekit-qt2/modules/Makefile.am
+A	lib/packagekit-qt2/package.cpp
+A	lib/packagekit-qt2/package.h
+A	lib/packagekit-qt2/packagekit-qt2.pc.in
+A	lib/packagekit-qt2/signature.cpp
+A	lib/packagekit-qt2/signature.h
+A	lib/packagekit-qt2/transaction.cpp
+A	lib/packagekit-qt2/transaction.h
+A	lib/packagekit-qt2/transactionprivate.cpp
+A	lib/packagekit-qt2/transactionprivate.h
+A	lib/packagekit-qt2/util.cpp
+A	lib/packagekit-qt2/util.h
+
+commit 12137903a3b088c0b4dca6860393eef22686986e
+Author: Marcin Banasiak <marcin.banasiak@gmail.com>
+Date:	2011-04-29
+
+    poldek: port away from PK_BACKEND_OPTIONS
+
+M	backends/poldek/pk-backend-poldek.c
+
+commit fc6710a4f9e0f78877e4c4131b3b1191a68e5b4b
+Author: Zhang Qiang <qiang.z.zhang@intel.com>
+Date:	2011-04-29
+
+    zypp: reset packages status in repo while removing packages
+
+    without this patch packages can't be removed success, which occurs you
+    execute remove operations immediatly after you install it.
+
+M	backends/zypp/pk-backend-zypp.cpp
+
+commit 3a5ccee5360162d12925c329af22c2a9c15a2e41
+Author: Jesse Zhang <zh.jesse@gmail.com>
+Date:	2011-04-29
+
+    conary: clear job cache at the right place
+
+    Only clear the cache when it's not a dry-run.
+
+M	backends/conary/conarypk.py
+
+commit e2cba833dff3ca59193f68416b2301024eaf2d5f
+Author: Og B. Maciel <ogmaciel@gnome.org>
+Date:	2011-04-28
+
+    conary: clear the job cache when updating through classical,
+    non-sysmodel pathway.
+
+M	backends/conary/conarypk.py
+
+commit 979535f16b6d82ac25c9ac6909f3dbbb1cc84638
+Author: Jonathan Conder <jonno.conder@gmail.com>
+Date:	2011-04-28
+
+    alpm: trivial: fix compile warning
+
+M	backends/alpm/pk-backend-sync.c
+
+commit 4585036373f4f72fda92ab7ff172d779ea6853cd
+Merge: 4f40759 b11231a
+Author: Jonathan Conder <jonno.conder@gmail.com>
+Date:	2011-04-28
+
+    Merge remote-tracking branch 'origin/master'
+
+commit b11231a9f084385ad3d715e399bb245306a2b87c
+Author: Richard Hughes <richard@hughsie.com>
+Date:	2011-04-28
+
+    Use the new threadsafe signal handling support in GLib
+
+    If the version of Glib is too old, we continue to use the old
+    non-threadsafe version.
+
+M	src/pk-main.c
+
+commit 57bedddc2d0eec1c6efd7ff6305431b5b9000e6b
+Author: Duncan Mac-Vicar P <dmacvicar@suse.de>
+Date:	2011-04-27
+
+    Report download speed (bnc#663069)
+
+M	backends/zypp/zypp-events.h
+
+commit f21741b6c5567affcbd234fc6dc792c227815edc
+Author: Duncan Mac-Vicar P <dmacvicar@suse.de>
+Date:	2011-04-27
+
+    remove unused function
+
+M	backends/zypp/zypp-utils.cpp
+M	backends/zypp/zypp-utils.h
+
+commit a144d513553fa9f011a354d6e1362370b96bc249
+Author: Duncan Mac-Vicar P <dmacvicar@suse.de>
+Date:	2011-04-27
+
+    typo
+
+M	backends/zypp/zypp-utils.cpp
+
+commit 2352d5c46f7c5c9d98b8b7033139e97f8ffc121f
+Author: Duncan Mac-Vicar P <dmacvicar@suse.de>
+Date:	2011-04-27
+
+    Use const string &
+
+M	backends/zypp/zypp-utils.cpp
+M	backends/zypp/zypp-utils.h
+
+commit e0d33905cfe7bd130f5d37a2cbfeefe421684dc9
+Author: Duncan Mac-Vicar P <dmacvicar@suse.de>
+Date:	2011-04-27
+
+    use std:: and zypp:: namespace once to remove the hundred ocurrences
+    of
+    namespace noise.
+
+M	backends/zypp/pk-backend-zypp.cpp
+M	backends/zypp/zypp-utils.cpp
+
+commit f408787d8562089ba283ec251e74bd618ae54267
+Author: Duncan Mac-Vicar P <dmacvicar@suse.de>
+Date:	2011-04-27
+
+    Use output parameters (references) for containers instead of
+    pointers. ZYpp throws exceptions and therefore it is safer to
+    have objects allocated on the stack if you are not protecting them
+    with a guard or smart pointer.
+
+M	backends/zypp/pk-backend-zypp.cpp
+M	backends/zypp/zypp-utils.cpp
+M	backends/zypp/zypp-utils.h
+
+commit f524ce6a59fb3c01da726b57194ab7dc5e1987e4
+Author: Duncan Mac-Vicar P <dmacvicar@suse.de>
+Date:	2011-04-27
+
+    Patch::Content is returned by value, so we should not iterate
+    using two different copies. Fixes crash on get-updates (bnc#685831)
+
+M	backends/zypp/zypp-utils.cpp
+
+commit d9c5a352b9e7cc013c37608828e43392bb0c1676
+Author: Jesse Zhang <zh.jesse@gmail.com>
+Date:	2011-04-23
+
+    conary: fix call of deleted method in conaryCallback
+
+    PackageKitConaryBackend no longer has get_package_id.
+
+    And some other trivial fixes.
+
+M	backends/conary/conaryBackend.py
+M	backends/conary/conaryCallback.py
+M	backends/conary/conarypk.py
+
+commit 7247193b2f90bdf918314d99977c107ecb2cb96a
+Author: Richard Hughes <richard@hughsie.com>
+Date:	2011-04-26
+
+    Do not abort in pk_catalog_init() if PackageKit is not
+    available. Fixes rh#688280
+
+M	lib/packagekit-glib2/pk-catalog.c
+
+commit ff50fbc35f2d912535cf2e78831134c1ddfed20d
+Author: ElleUca <elle.uca@libero.it>
+Date:	2011-04-26
+
+    Added Italian translation
+
+    Signed-off-by: Richard Hughes <richard@hughsie.com>
+
+A	po/it_IT.po
+
+commit 375a8c9040242d50a5f1c95be650aad359fc861f
+Author: mbouzada <mbouzada@gmail.com>
+Date:	2011-04-26
+
+    Added Galician translation
+
+    Signed-off-by: Richard Hughes <richard@hughsie.com>
+
+A	po/gl.po
+
+commit eacba4badf8b31c5f341b541605cba942fbbfd5c
+Author: Jesse Zhang <zh.jesse@gmail.com>
+Date:	2011-04-26
+
+    docs: update Feature Matrix for conary
+
+    The conary backend can SimulateInstallPackages/SimulateRemovePackages
+    and can't UpdatePackages.
+
+M	docs/html/pk-matrix.html
+
+commit 31a4493d95d78bfa12850a60ee11781fd362b56e
+Author: Zhang Qiang <qiang.z.zhang@intel.com>
+Date:	2011-04-25
+
+    Backend Matrix:Set zypp backend can downloadPackages
+
+M	docs/html/pk-matrix.html
+
+commit 5333e6be752e83c2080b43473ec5f38b6b0fc7f0
+Author: Richard Hughes <richard@hughsie.com>
+Date:	2011-04-24
+
+    trivial: Update linguas file after I broke it in
+    f983ebe658d596cc7847e31feb3ef4894338ecac
+
+    Apologies.
+
+M	po/LINGUAS
+
+commit 5508438eb0ac0e105d4bb6ae51c66e4a1b4b39a2
+Merge: 02779ba 37c46a2
+Author: Matthias Klumpp <matthias@nlinux.org>
+Date:	2011-04-24
+
+    Merge branch 'master' of gitorious.org:packagekit/packagekit
+
+commit 02779bae76041f2cdec9b7c936ac5f35d1d3c008
+Author: Matthias Klumpp <matthias@nlinux.org>
+Date:	2011-04-24
+
+    browser-plugin: Remove deprecated symbols
+
+    Compile with GSEAL_ENABLE to remove all
+    deprecated symbols.
+    This might also fix an implicit pointer conversion,
+    which causes Debian builds with GCC 4.6 to fail.
+
+M	contrib/browser-plugin/Makefile.am
+M	contrib/browser-plugin/pk-main.c
+
+commit 37c46a2d5f53b82660f64fcc7489614ab227ed88
+Author: Zhang Qiang <qiang.z.zhang@intel.com>
+Date:	2011-04-21
+
+    Creat transaction db properly if it's not exist
+
+    This commit creat transaction db proxy table properly even if it's not
+    exist.
+
+M	src/pk-transaction-db.c
+
+commit f983ebe658d596cc7847e31feb3ef4894338ecac
+Author: Richard Hughes <richard@hughsie.com>
+Date:	2011-04-21
+
+    trivial: update the LINGUAS file
+
+M	po/LINGUAS
+
+commit cc52ca053ed3faf03a97a114674934d8ceb9685d
+Author: Jonny Lamb <jonnylamb@gnome.org>
+Date:	2011-04-20
+
+    client: fix precedence when assigning strings to a *GStrv
+
+    Signed-off-by: Jonny Lamb <jonnylamb@gnome.org>
+    Signed-off-by: Richard Hughes <richard@hughsie.com>
+
+M	lib/packagekit-glib2/pk-client.c
+
+commit 78cea15a1fbde767ed21395715084507bbb267d8
+Author: Jesse Zhang <zh.jesse@gmail.com>
+Date:	2011-04-18
+
+    conary: make pylint happier
+
+M	backends/conary/conaryBackend.py
+
+commit 0cadd836f1adeb3ec52b18184550a3c39f3da0a5
+Author: Jesse Zhang <zh.jesse@gmail.com>
+Date:	2011-04-18
+
+    conary: use ExceptionHandler again
+
+    ExceptionHandler was made a no-op by the immediate 'return
+    func'. Enable
+    it again and put the exception handling from _do_conary_update and
+    _do_conary_updateall here together.
+
+M	backends/conary/conaryBackend.py
+
+commit 6644913042ea904332a6ab3eeed8a857f9b52c4e
+Author: Zhang Qiang <qiang.z.zhang@intel.com>
+Date:	2011-04-18
+
+    Get more proxy info after the new proxy parameters was introduced
+
+M	src/pk-transaction-db.c
+
+commit 130514d642e2e54d813789a1427fd701af433c0d
+Author: Zhang Qiang <qiang.z.zhang@intel.com>
+Date:	2011-04-18
+
+    zypp:fix memory leak in pk_backend_transaction_start
+
+    'locale' variable is alloced but not freed. This patch fix this memory
+    leak issue.
+
+M	backends/zypp/pk-backend-zypp.cpp
+
+commit 2c9e6c2a71072be26e7c566ac67c6e8902751b96
+Author: Zhang Qiang <qiang.z.zhang@intel.com>
+Date:	2011-04-18
+
+    zypp: support proxy_https,proxy_socks,no_proxy
+
+    This commit adds the proxy_https, proxy_socks, no_proxy and pac
+    supporting for zypp backend.
+
+M	backends/zypp/pk-backend-zypp.cpp
+
+commit ca30e6152a09b35f0ff28a1f2c5ca3c128d877a6
+Author: Zhang Qiang <qiang.z.zhang@intel.com>
+Date:	2011-04-16
+
+    Fix a typo in pk_transaction_db_get_proxy
+
+M	src/pk-transaction-db.c
+
+commit 54e608a4391cb1bebd661d6d44ab8a6e06e795fa
+Author: Zhang Qiang <qiang.z.zhang@intel.com>
+Date:	2011-04-16
+
+    zypp:Set locale info at the begin of transaction
+
+    Set locale for each transaction for zypp backend.
+
+M	backends/zypp/pk-backend-zypp.cpp
+
+commit 9d213b812c6141443dba5264153387f272dd5c9a
+Author: Jesse Zhang <zh.jesse@gmail.com>
+Date:	2011-04-14
+
+    conary: update TODO
+
+M	backends/conary/TODO
+
+commit d1bd4b9a357e838730ca795f805fe968d262b7ec
+Author: Og B. Maciel <ogmaciel@gnome.org>
+Date:	2011-04-13
+
+    conary: handle stale jobs for updateall
+
+    And using a better error description.
+
+M	backends/conary/conaryBackend.py
+
+commit 1b4d716f8753034f7e2f3f81fe37fce8b341a760
+Author: Jesse Zhang <zh.jesse@gmail.com>
+Date:	2011-04-12
+
+    conary: fix typo of conary operation
+
+    remove -> erase
+
+M	backends/conary/TODO
+M	backends/conary/conaryBackend.py
+
+commit bb2d4534a847bcfc563415e7ae952055b23f94ab
+Author: Jesse Zhang <zh.jesse@gmail.com>
+Date:	2011-04-11
+
+    conary: fix generating XMLCache for custom labels
+
+    Don't pass instance of a class (conarypk) around, esp. across modules.
+
+M	backends/conary/XMLCache.py
+M	backends/conary/conaryBackend.py
+M	backends/conary/conarypk.py
+M	backends/conary/generateXML.py
+
+commit 7fd365ef0bf32538d5eaa9da4b6ea6164d6586ec
+Author: Jesse Zhang <zh.jesse@gmail.com>
+Date:	2011-04-11
+
+    conary: use makedirs instead of mkdir
+
+    ConaryPk should be initialized after XMLCache, since the later
+    creates a
+    dir that ConaryPk uses. But in order not introduce coupling,
+    simply use
+    makedirs instead of mkdir.
+
+M	backends/conary/conarypk.py
+
+commit d286eaddb92540aad76271e5b88cf0c1237758e2
+Author: Jesse Zhang <zh.jesse@gmail.com>
+Date:	2011-04-11
+
+    docs: fix path of packagekitd
+
+    packagekitd is now in /usr/libexec.
+
+M	docs/html/pk-bugs.html
+
+commit e2e91d4b38af338c986aa10c4e043fc8c179d997
+Author: Jesse Zhang <zh.jesse@gmail.com>
+Date:	2011-04-11
+
+    pkcon: add missing {} around if
+
+M	client/pk-console.c
+
+commit 41b4d17c01fc67400b4a6737c135c9c545e4cf89
+Author: Jesse Zhang <zh.jesse@gmail.com>
+Date:	2011-04-11
+
+    conary: port away from PK_BACKEND_OPTIONS
+
+    And some minor cleanup in Makefile.am
+
+    Fix the prototype of pk_backend_simulate_remove_packages. There
+    was one
+    argument missing.
+
+    Fix the name of pk_backend_search_names/groups/files.
+
+M	backends/conary/Makefile.am
+M	backends/conary/pk-backend-conary.c
+
+commit 6a2c17abdf9a3ad58090a16dc599c5ee2d58c10d
+Author: Fabio Erculiani <lxnay@sabayon.org>
+Date:	2011-04-11
+
+    entropy: restore compatibility with newer releases
+
+M	backends/entropy/entropyBackend.py
+
+commit bec17c432f666d6ed8aabc5056cac8318b0f6a23
+Author: Fabio Erculiani <lxnay@sabayon.org>
+Date:	2011-04-11
+
+    entropy: make use of the new Entropy Web Services interfaces
+
+M	backends/entropy/entropyBackend.py
+
+commit 7ed083bda2090bd1218f6104e84686a9d2d119a0
+Merge: 27ca81a dc9af32
+Author: Matthias Klumpp <matthias@nlinux.org>
+Date:	2011-04-10
+
+    Merge branch 'master' of gitorious.org:packagekit/packagekit
+
+commit 27ca81a196343946fa7574ed693221eecdebb350
+Author: Matthias Klumpp <matthias@nlinux.org>
+Date:	2011-04-10
+
+    trivial: Inform about GNOME-PackageKit in Debian
+
+    GPK can now be fetched from Debian Sid.
+
+M	docs/html/pk-download.html
+
+commit dc9af3229438ef12b6abbdfa5965954e62331cb0
+Author: Og B. Maciel <ogmaciel@gnome.org>
+Date:	2011-04-09
+
+    Minor typo
+
+M	backends/conary/generateXML.py
+
+commit 1394da3430643d583d4a6c24747922f5bec4bf30
+Author: Jesse Zhang <zh.jesse@gmail.com>
+Date:	2011-04-09
+
+    conary: assorted fixes
+
+M	backends/conary/conaryBackend.py
+M	backends/conary/conarypk.py
+M	backends/conary/pk-backend-conary.c
+
+commit 11da590ed8e51f3d219ee24555dfa03eb8551643
+Merge: 66bc1e1 317128c
+Author: Jesse Zhang <zh.jesse@gmail.com>
+Date:	2011-04-08
+
+    Merge branch 'conary'
+
+commit 317128cc9d26f3790fd0413d85337005a235f4f3
+Author: Jesse Zhang <zh.jesse@gmail.com>
+Date:	2011-04-08
+
+    conary: remove some code duplication
+
+M	backends/conary/TODO
+M	backends/conary/conaryBackend.py
+
+commit f4f9c008ebfbddad4b18e0cc9887b49ce7369c4f
+Author: Jesse Zhang <zh.jesse@gmail.com>
+Date:	2011-04-08
+
+    conary: move the get-files function into conarypk
+
+    Hide implementation details from conaryBackend
+
+M	backends/conary/conaryBackend.py
+M	backends/conary/conarypk.py
+
+commit 43ebfd8f9fb40fd01eabab580d3dcd08104ea9f4
+Author: Jesse Zhang <zh.jesse@gmail.com>
+Date:	2011-04-08
+
+    conary: simplify and remove needless functions
+
+M	backends/conary/conaryBackend.py
+
+commit 3b32510ab0e1681d45dcb687f2dbd13122080bd5
+Author: Jesse Zhang <zh.jesse@gmail.com>
+Date:	2011-04-08
+
+    conary: simplify _resolve_list
+
+M	backends/conary/conaryBackend.py
+
+commit 376bfc8724227c043171ca9a9676a043eb5d102f
+Author: Jesse Zhang <zh.jesse@gmail.com>
+Date:	2011-04-08
+
+    conary: clean up
+
+M	backends/conary/TODO
+M	backends/conary/conaryBackend.py
+M	backends/conary/conarypk.py
+
+commit 66bc1e180259f0ae95c806ce40bcdc9673e98f90
+Author: Zhang Qiang <qiang.z.zhang@intel.com>
+Date:	2011-04-07
+
+    zypp:reload RpmDB before removing packages
+
+    This patch reload RpmDB before removing packages, as RpmDB can't be
+    reloaded immediately  while finish installation.
+
+    This patch also fix a bug in perform_execution, and without this
+    patch,
+    some error information would be reported.
+
+M	backends/zypp/pk-backend-zypp.cpp
+M	backends/zypp/zypp-utils.cpp
+
+commit fb8ff8dcce9b406276dfe87b5cf522e9c94f5e48
+Author: Zhang Qiang <qiang.z.zhang@intel.com>
+Date:	2011-04-07
+
+    zypp:consider only_trusted option while installing packages
+
+    This patch consider only_trusted option to enable user to install
+    un-signed packages if possible.
+
+M	backends/zypp/zypp-utils.cpp
+
+commit bfdcda1d317c05940360e6b704a179ef79040fbc
+Author: Mikel Olasagasti Uranga <mikel@olasagasti.info>
+Date:	2011-04-03
+
+    Add missing languages to LINGUAS file
+
+    Signed-off-by: Richard Hughes <richard@hughsie.com>
+
+M	po/LINGUAS
+
+commit 1fe7c5034a8d16233b2a7a4a50fb6822449747fb
+Merge: abc434a 36389ca
+Author: Jesse Zhang <zh.jesse@gmail.com>
+Date:	2011-04-01
+
+    Merge branch 'conary'
+
+commit 36389ca02a66e3f7ae842851f484502108f7f52a
+Author: Jesse Zhang <zh.jesse@gmail.com>
+Date:	2011-03-31
+
+    conary: implement install/remove for system model
+
+M	backends/conary/TODO
+M	backends/conary/conaryBackend.py
+M	backends/conary/conarypk.py
+
+commit 0fd9684aadff5ae4f6587fb6c27701b307794683
+Author: Jesse Zhang <zh.jesse@gmail.com>
+Date:	2011-03-31
+
+    conary: trivial fix
+
+    _apply_update_job doesn't have to return anything.
+
+M	backends/conary/TODO
+M	backends/conary/conaryBackend.py
+
+commit 2effdf1fa6c83830277b3efafa522313813a1add
+Author: Jesse Zhang <zh.jesse@gmail.com>
+Date:	2011-03-31
+
+    conary: add exception handling around get_updateall_job
+
+M	backends/conary/conaryBackend.py
+
+commit e7f06a23d8f5740e2383db2e1913a720f848f8e6
+Author: Jesse Zhang <zh.jesse@gmail.com>
+Date:	2011-03-31
+
+    conary: fix get-updates
+
+    The original implementation didn't understand what's returned by
+    UpdateJobs.getJobs(). Some jobs were missing in the displayed update
+    list, since it only considered the first job in each jobs list:
+	    for job in jobs_list:
+		job = job[0][:3]
+
+M	backends/conary/conaryBackend.py
+
+commit 320118cf065f3977857dffa652841296c39063d7
+Author: Jesse Zhang <zh.jesse@gmail.com>
+Date:	2011-03-31
+
+    conary: remove broken GetDepends implementation
+
+    It makes no sense to get dependencies by try installing the package
+    and
+    see what conary wants to install.
+
+    And it doesn't even have an entry in pk-backend-conary.c
+
+M	backends/conary/TODO
+M	backends/conary/conaryBackend.py
+
+commit d8efc5fe42e163b440cf860035099077308a9d7a
+Author: Jesse Zhang <zh.jesse@gmail.com>
+Date:	2011-03-30
+
+    conary: implement get-updates for system model
+
+M	backends/conary/conarypk.py
+
+commit 1677e9f7832c837382d2e889e92af809e4ccc5d3
+Author: Jesse Zhang <zh.jesse@gmail.com>
+Date:	2011-03-30
+
+    conary: move more code to conarypk
+
+    Move get_package_update and get_updateall_job to conarypk.py, to get
+    ready for supporting system model.
+
+M	backends/conary/TODO
+M	backends/conary/conaryBackend.py
+M	backends/conary/conarypk.py
+
+commit 86c8d0f94b3c81473053e7a1d077f39e2ffdab50
+Author: Jesse Zhang <zh.jesse@gmail.com>
+Date:	2011-03-30
+
+    conary: remove unused methods
+
+M	backends/conary/conaryBackend.py
+
+commit bff5d7ec99a5883eccdee5539a4e52a66712dc2d
+Author: Jesse Zhang <zh.jesse@gmail.com>
+Date:	2011-03-30
+
+    conary: don't support UpdatePackages
+
+    It doesn't make sense for conary.
+
+M	backends/conary/conaryBackend.py
+M	backends/conary/pk-backend-conary.c
+
+commit 4f407598615b67ff000b3124c688ec075f5d7da5
+Author: Jonathan Conder <jonno.conder@gmail.com>
+Date:	2011-04-01
+
+    alpm: download packages to the system cache if no directory is
+    specified
+
+M	backends/alpm/pk-backend-sync.c
+
+commit 2bf4f209995d57462e7f5e207b3ed1de14f44750
+Merge: abc434a fd0f5a1
+Author: Jonathan Conder <jonno.conder@gmail.com>
+Date:	2011-04-01
+
+    Merge branch 'alpm'
+
+commit fd0f5a158ae27253a99bde0a3bfe77320b8ce048
+Author: Jonathan Conder <jonno.conder@gmail.com>
+Date:	2011-04-01
+
+    alpm: update for libalpm 6
+
+M	backends/alpm/pk-backend-alpm.c
+M	backends/alpm/pk-backend-alpm.h
+M	backends/alpm/pk-backend-config.c
+M	backends/alpm/pk-backend-databases.c
+M	backends/alpm/pk-backend-databases.h
+M	backends/alpm/pk-backend-depends.c
+M	backends/alpm/pk-backend-error.c
+M	backends/alpm/pk-backend-install.c
+M	backends/alpm/pk-backend-packages.c
+M	backends/alpm/pk-backend-remove.c
+M	backends/alpm/pk-backend-search.c
+M	backends/alpm/pk-backend-sync.c
+M	backends/alpm/pk-backend-transaction.c
+M	backends/alpm/pk-backend-update.c
+
+commit 35070d60ac860bcb1d749173e2e507fc5b7e1cb0
+Author: Jesse Zhang <zh.jesse@gmail.com>
+Date:	2011-03-30
+
+    conary: bring back exception handling around build_update_job
+
+M	backends/conary/conaryBackend.py
+M	backends/conary/conarypk.py
+
+commit f814d9c1a6a6b252a7bdede69d55a28ff5cfc950
+Author: Jesse Zhang <zh.jesse@gmail.com>
+Date:	2011-03-30
+
+    conary: show update jobs correctly
+
+    Update jobs are different from updates.
+
+M	backends/conary/conaryBackend.py
+M	backends/conary/conarypk.py
+
+commit cefa2e8e3a267d35c1ac154b6f8b471233a7d50b
+Author: Jesse Zhang <zh.jesse@gmail.com>
+Date:	2011-03-30
+
+    conary: fix exception processing of applyUpdateJob
+
+M	backends/conary/conaryBackend.py
+M	backends/conary/conarypk.py
+
+commit 8a87c7e66fa22b543e812d7a1c7ff169ba2c03b9
+Author: Jesse Zhang <zh.jesse@gmail.com>
+Date:	2011-03-30
+
+    conary: move build_update_job to where it belongs
+
+    * build_update_job should be part of conarypk.py.
+    * also move UpdateJobCache to conarypk.py
+    * did some cleanup in the meantime. Removed unused method
+    _show_package.
+
+M	backends/conary/TODO
+M	backends/conary/XMLCache.py
+M	backends/conary/conaryBackend.py
+M	backends/conary/conarypk.py
+
+commit abc434a5845cf3c55bde066e003906320c277f07
+Author: Richard Hughes <richard@hughsie.com>
+Date:	2011-03-30
+
+    yum: implement _pkg_compare() and use get_package_list()
+
+    This fixes the backend after 3d740a67ba48c65bc6711bb035a96d6344925941
+    broke it.
+
+M	backends/yum/yumBackend.py
+M	backends/yum/yumFilter.py
+
+commit 3d740a67ba48c65bc6711bb035a96d6344925941
+Author: Richard Hughes <richard@hughsie.com>
+Date:	2011-03-30
+
+    Do not allow backends to output duplicate older packages when
+    searching with newest
+
+    Python backends should implement _pkg_compare() rather than
+    _pkg_get_unique() and use
+    fliter.get_package_list() rather than using filter.post_process()
+    directly.
+
+M	lib/python/packagekit/filter.py
+
+commit f8238c9ea2c6b2b7bc09c15cc6b80346a9789546
+Author: Daniel Nicoletti <dantti85-pk@yahoo.com.br>
+Date:	2011-03-30
+
+    Add storeInCache parameter to downloadPackages to cover new API
+
+M	lib/packagekit-qt/src/client.cpp
+M	lib/packagekit-qt/src/client.h
+M	lib/packagekit-qt/src/transaction.cpp
+M	lib/packagekit-qt/src/transaction.h
+
+commit 9a315cc5263ca1bae9f66fc62f19f39a9e76c905
+Author: Richard Hughes <richard@hughsie.com>
+Date:	2011-03-30
+
+    yum: fix DownloadPackages to save to the system cache if there is
+    no directory passed to it
+
+M	backends/yum/yumBackend.py
+
+commit c1ee03fb4c29922acd69d33e8cbe5aa85aad8d30
+Author: Richard Hughes <richard@hughsie.com>
+Date:	2011-03-30
+
+    Add a 'store_in_cache' attribute to the DownloadPackages method
+
+    This is so we know whether to copy them into a new directory, or
+    leave them in
+    the package manager cache.
+
+    Note: this does not change the API of the client libraries as we
+    can test if the
+    download directory is not NULL and set the boolean value accordingly.
+
+M	lib/packagekit-glib2/pk-client.c
+M	src/org.freedesktop.PackageKit.Transaction.xml
+M	src/pk-transaction.c
+M	src/pk-transaction.h
+
+commit c50bc7fe87a0d7c929c10e6a858bebf971fa1399
+Author: Jesse Zhang <zh.jesse@gmail.com>
+Date:	2011-03-29
+
+    conary: remove class scope variable
+
+    Make logic clearer.
+
+M	backends/conary/conaryBackend.py
+
+commit 445c15a900e00520a642929b43a32e1e3705f0db
+Author: Jesse Zhang <zh.jesse@gmail.com>
+Date:	2011-03-29
+
+    conary: really implement simulate* and don't rely on conary --test
+
+M	backends/conary/conaryBackend.py
+
+commit 0f86471a1a609132b45b62305eea7a96c53e2801
+Author: Jesse Zhang <zh.jesse@gmail.com>
+Date:	2011-03-29
+
+    conary: process packages update/erase in a single job
+
+    Don't process N packages in N jobs.
+
+M	backends/conary/conaryBackend.py
+
+commit bca698fae727382b6ae71427370b8a13fcc3ce7e
+Author: Jesse Zhang <zh.jesse@gmail.com>
+Date:	2011-03-29
+
+    conary: remove unnecessary method
+
+M	backends/conary/conaryBackend.py
+
+commit 56d79587e0d132bed5f56d9c41b76edf79d726b3
+Author: Jesse Zhang <zh.jesse@gmail.com>
+Date:	2011-03-29
+
+    conary: reduce code duplication between get_updates and update_system
+
+    Extract common code into methods
+
+M	backends/conary/XMLCache.py
+M	backends/conary/conaryBackend.py
+
+commit 7c19db7e6fc32777298f444b3f6ad4f01f7ded6b
+Author: Jesse Zhang <zh.jesse@gmail.com>
+Date:	2011-03-29
+
+    conary: add a method to reset callback
+
+M	backends/conary/conaryBackend.py
+
+commit a55666118b36b63e62689fc2aad62a69c5f9dd20
+Author: Jesse Zhang <zh.jesse@gmail.com>
+Date:	2011-03-29
+
+    conary: move job caching methods to UpdateJobCache
+
+    Split job caching methods out from XMLCache
+
+M	backends/conary/XMLCache.py
+M	backends/conary/conaryBackend.py
+
+commit 4a22a6cf72574ec15e0a35b45da3dfe40015bc52
+Author: Jesse Zhang <zh.jesse@gmail.com>
+Date:	2011-03-29
+
+    conary: add a TODO
+
+A	backends/conary/TODO
+
+commit 216da925fe9b50720de8459515c004c3ae79d242
+Author: Jesse Zhang <zh.jesse@gmail.com>
+Date:	2011-03-25
+
+    conary: rename variables to better reflect the return type
+
+M	backends/conary/conaryBackend.py
+
+commit 2750b6dc86f521ce1b97ddfbaf76b95f8fd01bd9
+Author: Jesse Zhang <zh.jesse@gmail.com>
+Date:	2011-03-25
+
+    conary: move get_arch to conarypk.py
+
+    Moving conary api away from conaryBackend.py
+
+M	backends/conary/conaryBackend.py
+M	backends/conary/conaryFilter.py
+M	backends/conary/conarypk.py
+
+commit 5cad22fae74f946a1b8e457f936bbae7784534e3
+Author: Jesse Zhang <zh.jesse@gmail.com>
+Date:	2011-03-25
+
+    conary: remove abundant imports
+
+M	backends/conary/conaryBackend.py
+
+commit 49ae911b4714b4aa23348375ee8f438b55a0afaf
+Author: Jesse Zhang <zh.jesse@gmail.com>
+Date:	2011-03-25
+
+    conary: clean up trailing spaces
+
+M	backends/conary/XMLCache.py
+M	backends/conary/conaryBackend.py
+M	backends/conary/conaryCallback.py
+M	backends/conary/conaryEnums.py
+M	backends/conary/conarypk.py
+M	backends/conary/generateXML.py
+
+commit b505b70005160e7ff112274193459eb6639d813a
+Author: Jesse Zhang <zh.jesse@gmail.com>
+Date:	2011-03-25
+
+    conary: rename _get_update to _build_update_job
+
+    Use a more descriptive name.
+
+M	backends/conary/conaryBackend.py
+
+commit ff247546d7d10236927b1238ae44a4e78f637620
+Author: Jesse Zhang <zh.jesse@gmail.com>
+Date:	2011-03-24
+
+    conary: initialize local variable before using it
+
+    When using a previously cached update job, suggMap can be null
+    when it's
+    referenced in the return statement.
+
+M	backends/conary/conaryBackend.py
+
+commit 3371da61cef9fdc4985d8a473f346dba25a263b5
+Author: Jesse Zhang <zh.jesse@gmail.com>
+Date:	2011-03-24
+
+    conary: remove duplicated code
+
+    Remove the duplication between _do_package_update and
+    _get_package_update.
+
+M	backends/conary/conaryBackend.py
+
+commit 3724366eef78b4d9adbcf05a706211ca7a9c6cb9
+Author: Jesse Zhang <zh.jesse@gmail.com>
+Date:	2011-03-24
+
+    conary: remove unused parameter
+
+    _do_update doesn't need the applyList.
+
+M	backends/conary/conaryBackend.py
+
+commit befa51c17b77ce53262fb050948f059043b8d456
+Author: Richard Hughes <richard@hughsie.com>
+Date:	2011-03-15
+
+    trivial: fix up the Fedora spec file
+
+M	contrib/PackageKit.spec.in
+
+commit 61ec66a10c6ecc42e58f759ab93049a717be26a5
+Author: Richard Hughes <richard@hughsie.com>
+Date:	2011-03-14
+
+    Clear the pending queue and cancel any background transactions when
+    we get SuggestDaemonQuit
+
+M	src/pk-engine.c
+M	src/pk-transaction-list.c
+M	src/pk-transaction-list.h
+M	src/pk-transaction.c
+
+commit 67b241b30906052dacf921c5f4419e53732d41ec
+Author: Richard Hughes <richard@hughsie.com>
+Date:	2011-03-14
+
+    Automatically cancel running background transactions if a foreground
+    transaction is committed
+
+    This allows us to have session agents automatically using PackageKit,
+    and for any
+    in-flight requests to be cancelled and automatically requeued if
+    a high-priority
+    transaction is added.
+
+    This option can be disabled in PackageKit.conf by setting the key
+    CancelBackgroundTransactions to false.
+
+M	etc/PackageKit.conf.in
+M	lib/packagekit-glib2/pk-enum.c
+M	lib/packagekit-glib2/pk-enum.h
+M	lib/packagekit-glib2/pk-task.c
+M	src/pk-backend.c
+M	src/pk-transaction-list.c
+M	src/pk-transaction.c
+M	src/pk-transaction.h
+
+commit 11872c12358cb3ec1491c5309280f548d04aa00e
+Author: Richard Hughes <richard@hughsie.com>
+Date:	2011-03-15
+
+    Fix a crash where the error code was pointing to freed memory. Fixes
+    rh#684464
+
+M	src/pk-transaction.c
+
+commit bc3d338c7f4c842a494f805b99ad8d45f5572eca
+Author: Richard Hughes <richard@hughsie.com>
+Date:	2011-03-14
+
+    trivial: fix make check after the new proxy parameters was introduced
+
+M	src/pk-self-test.c
+M	src/pk-transaction-db.c
+
+commit a32482c30d3760ed5a158d4cad7c1f2a569b49ae
+Author: Dimitar Popov <dimitar.georgiev.popov@googlemail.com>
+Date:	2011-03-14
+
+    qt: Fix typo in SearchGroups
+
+    Signed-off-by: Richard Hughes <richard@hughsie.com>
+
+M	lib/packagekit-qt/src/transaction.cpp
+
+commit fb1dca938389972793c3e392f0309eead0578e88
+Author: Richard Hughes <richard@hughsie.com>
+Date:	2011-03-14
+
+    Honour ACLOCAL_FLAGS in Makefile.am. Fixes fd#35237
+
+    Thanks to hummerbliss@gmail.com for the fix.
+
+M	Makefile.am
+
+commit b3c6db3834ce6f1bc7d2a3d7ba45af0eb2f82f8c
+Author: Zhang Qiang <qiang.z.zhang@intel.com>
+Date:	2011-03-11
+
+    zypp: check repo file before using it
+
+    The format of repo file should be checked before using it, which can
+    prevent crash issue when modify/refresh repo.
+
+M	backends/zypp/pk-backend-zypp.cpp
+M	backends/zypp/zypp-utils.cpp
+M	backends/zypp/zypp-utils.h
+
+commit 1c07c5495e4b250f5d21aa5c9db4f7ab4d067c55
+Author: Zhang Qiang <qiang.z.zhang@intel.com>
+Date:	2011-03-11
+
+    pk-debuginfo-install:fix typo of using PK_FILTER
+
+    PkFilterEnum can't be passed to pk_client_get_repo_list directlly,
+    and PkFilterEnum should be transfered using pk_bitfield_value first.
+
+M	contrib/debuginfo-install/pk-debuginfo-install.c
+
+commit 0d9258e2faddf2fd87efcba491dae74403e0bd6b
+Author: Richard Hughes <richard@hughsie.com>
+Date:	2011-03-04
+
+    Introduce other attributes in the SetProxy() method
+
+    This commit adds the proxy_https, proxy_socks, no_proxy and pac
+    attributes to the
+    DBus method. It breaks DBus interface API, but is careful to maintain
+    packagekit-glib
+    and packagekit-qt API and ABI compatibility.
+
+M	etc/PackageKit.conf.in
+M	lib/packagekit-glib2/pk-control-sync.c
+M	lib/packagekit-glib2/pk-control-sync.h
+M	lib/packagekit-glib2/pk-control.c
+M	lib/packagekit-glib2/pk-control.h
+M	lib/packagekit-qt/src/client.cpp
+M	lib/packagekit-qt/src/client.h
+M	src/org.freedesktop.PackageKit.xml
+M	src/pk-backend-spawn.c
+M	src/pk-backend.c
+M	src/pk-backend.h
+M	src/pk-engine.c
+M	src/pk-engine.h
+M	src/pk-self-test.c
+M	src/pk-transaction-db.c
+M	src/pk-transaction-db.h
+M	src/pk-transaction.c
+
+commit a1edaa30b3df51ad3c5fc52548aef6b8aed8d693
+Author: Fabio Erculiani <lxnay@sabayon.org>
+Date:	2011-03-09
+
+    entropy: drop entropy.tools deprecated functions usage
+
+M	backends/entropy/entropyBackend.py
+
+commit 26670fcfa4e6e2b634b880cac5e8a34324528aaa
+Author: Richard Hughes <richard@hughsie.com>
+Date:	2011-03-07
+
+    trivial: post release version bump
+
+M	RELEASE
+M	configure.ac
+
+commit 24033e17cb263ae98fab9f0339b6c779782f2995
+Author: Richard Hughes <richard@hughsie.com>
+Date:	2011-03-07
+
+    Release version 0.6.13
+
+M	NEWS
+M	RELEASE
+M	docs/html/pk-download.html
+M	po/as.po
+M	po/bg.po
+M	po/bn_IN.po
+M	po/ca.po
+M	po/cs.po
+M	po/da.po
+M	po/de.po
+M	po/el.po
+M	po/en_GB.po
+M	po/es.po
+M	po/eu.po
+M	po/fi.po
+M	po/fr.po
+M	po/gu.po
+M	po/he.po
+M	po/hi.po
+M	po/hu.po
+M	po/id.po
+M	po/it.po
+M	po/ja.po
+M	po/kn.po
+M	po/ko.po
+M	po/lt.po
+M	po/ml.po
+M	po/mr.po
+M	po/ms.po
+M	po/nb.po
+M	po/nl.po
+M	po/or.po
+M	po/pa.po
+M	po/pl.po
+M	po/pt.po
+M	po/pt_BR.po
+M	po/ro.po
+M	po/ru.po
+M	po/sk.po
+M	po/sr.po
+M	po/sr@latin.po
+M	po/sv.po
+M	po/ta.po
+M	po/te.po
+M	po/th.po
+M	po/tr.po
+M	po/uk.po
+M	po/zh_CN.po
+M	po/zh_TW.po
+
+commit d8635bf6f54af8bcccfc06ccee9bd9d2e485d508
+Author: Richard Hughes <richard@hughsie.com>
+Date:	2011-03-07
+
+    zif: fix up a trivial bug which the new GCC warns about
+
+M	backends/zif/pk-backend-zif.c
+
+commit 9469e7c7a079ba1a91eb360b689e6c2318d37c99
+Author: Richard Hughes <richard@hughsie.com>
+Date:	2011-03-04
+
+    Port away from PolkitBackendActionLookup to support new versions
+    of PolicyKit
+
+M	po/POTFILES.in
+M	src/Makefile.am
+M	src/pk-engine.c
+D	src/pk-polkit-action-lookup.c
+M	src/pk-transaction.c
+
+commit 8c8b741701ba3dec367f9bc8f5e7cddc5c6c634c
+Author: Richard Hughes <richard@hughsie.com>
+Date:	2011-03-03
+
+    glib: allow pk_client_download_packages_async() to be called with
+    no target directory
+
+M	docs/planned-api-changes.txt
+M	lib/packagekit-glib2/pk-client.c
+
+commit bc795379399a7315fe9a1d3c3ffc03ecbbcbe904
+Author: Dan Williams <dcbw@redhat.com>
+Date:	2011-03-02
+
+    network: update for NetworkManager 0.9 snapshots
+
+    NM 0.9 consolidates modem devices as the hard separation between
+    access technology families is not flexible enough with all the
+    new multi-mode devices starting to show up.
+
+    Also, add support for WiMAX mobile broadband.
+
+    Signed-off-by: Richard Hughes <richard@hughsie.com>
+
+M	src/pk-network-stack-nm.c
+
+commit 891a5a49d8c7c34d31f7646d7da9cf897979aa3d
+Author: Richard Hughes <richard@hughsie.com>
+Date:	2011-03-03
+
+    Revert "Work with NetworkManager >= 0.8.992 which has removed two
+    enumerated types"
+
+    This reverts commit a9babc28659365f1c127f588b18c0ebad19d0f1a.
+
+M	configure.ac
+M	src/pk-network-stack-nm.c
+
+commit 0b1ca77320db9a55e6aa6b231a12fb3c171eec40
+Author: Panu Matilainen <pmatilai@laiskiainen.org>
+Date:	2011-03-01
+
+    Enable use of new callback mode on yum versions that support it
+
+    The new callback mode saves (tens of) megabytes of memory on
+    larger transactions as it avoids keeping rpm headers loaded in
+    memory needlessly. This enables the new mode on yum versions that
+    support it, on older versions it does nothing at all. As PK callback
+    is inherited from yum.rpmtrans.RPMBaseCallback, it's shielded from the
+    underlying changes so no further modifications are needed for the new
+    callback mode.
+
+    Signed-off-by: Richard Hughes <richard@hughsie.com>
+
+M	backends/yum/yumBackend.py
+
+commit a9babc28659365f1c127f588b18c0ebad19d0f1a
+Author: Richard Hughes <richard@hughsie.com>
+Date:	2011-02-28
+
+    Work with NetworkManager >= 0.8.992 which has removed two enumerated
+    types
+
+M	configure.ac
+M	src/pk-network-stack-nm.c
+
+commit 3ab29e709f7313221c2c5cac9d46c0f026671781
+Author: Fabio Erculiani <lxnay@sabayon.org>
+Date:	2011-02-26
+
+    entropy: update handled mime types
+
+M	backends/entropy/pk-backend-entropy.c
+
+commit 7d66146b24f6550896e8ddb79090fd931f627f7b
+Author: Duncan Mac-Vicar P <dmacvicar@suse.de>
+Date:	2011-02-18
+
+    zypp: uses the standard system update algorithm from ZYpp, which
+    honours user policies. (bnc#637764)
+
+    zypp: Configurable HidePackages=true in [Updates] section in
+    /etc/PackageKit/ZYpp.conf to show only maintenance patches
+    instead of all packages with update candidates.
+
+M	backends/zypp/zypp-utils.cpp
+M	backends/zypp/zypp-utils.h
+
+commit f6c639abc0794850c18927913c6f3b254e0c896b
+Author: Richard Hughes <richard@hughsie.com>
+Date:	2011-02-18
+
+    trivial: increase the allowed time for cleanup in the self test
+    programs to prevent an intermittent failure
+
+M	src/pk-self-test.c
+M	src/pk-transaction-list.c
+
+commit a96d18cb8316ad1766a5c3eedc1ae2afce49ceab
+Author: Zhang Qiang <qiang.z.zhang@intel.com>
+Date:	2011-02-18
+
+    zypp: remove check online in refresh cache
+
+    check online is not neccesary while refreshing cache, as local
+    repo also
+    can be used while offline.
+
+M	backends/zypp/zypp-utils.cpp
+
+commit 0bd4c77fa29043ac6d513175d5c533625ba6c5e7
+Author: Zhang Qiang <qiang.z.zhang@intel.com>
+Date:	2011-02-18
+
+    connman: Change the connman dbus name
+
+    connman dbus name is changed as 'net.connman', and this patch sync
+    connmand dbus name with upstream.
+
+M	src/pk-network-stack-connman.c
+
+commit f4329839ed8f60a4daa828678663661946cb5b97
+Author: Richard Hughes <richard@hughsie.com>
+Date:	2011-02-17
+
+    trivial: make the error checks more strict in the
+    pk_backend_set_name() tests
+
+M	src/pk-backend.c
+M	src/pk-self-test.c
+
+commit 5a7f6f912eaf8dd5cf7d4e468f57c83c23b93f8a
+Author: Richard Hughes <richard@hughsie.com>
+Date:	2011-02-17
+
+    trivial: show different warning messages for the different databases
+
+M	src/pk-transaction-db.c
+M	src/pk-transaction-extra.c
+
+commit 6b54fa7ab7765b2e6e7bf52e67b6e44fb7245436
+Merge: 4eb4ab9 99a53c7
+Author: Matthias Klumpp <matthias@nlinux.org>
+Date:	2011-02-17
+
+    Merge branch 'master' of gitorious.org:packagekit/packagekit
+
+commit 4eb4ab9a483c590989b3edcc8d851a8e8da12d5e
+Author: Matthias Klumpp <matthias@nlinux.org>
+Date:	2011-02-17
+
+    trivial: Increase loop timeout in engine self-test
+
+    1000ms is a too fast timeout for slower computers,
+    so we increase it to 1500ms.
+
+M	src/pk-self-test.c
+
+commit 99a53c71df78b6ba22db4c54f28aa7c9b1c58bb7
+Author: Richard Hughes <richard@hughsie.com>
+Date:	2011-02-17
+
+    trivial: remove the get-updates cached results test, we're testing
+    code that no longer exists
+
+M	src/pk-self-test.c
+
+commit f78eb22f4c142b35b149ef2ea5cbdd88b6b41ec8
+Author: Richard Hughes <richard@hughsie.com>
+Date:	2011-02-17
+
+    trivial: fix make check for 64bit debian systems that only have
+    /lib/libglib-2.0.so.0.2800.0 rather than /lib/libglib-2.0.so
+
+M	src/pk-self-test.c
+
+commit a164364b0eedb56217c23085f39b77b3fa1c98e3
+Author: Richard Hughes <richard@hughsie.com>
+Date:	2011-02-17
+
+    trivial: require --enable-local for make check support in src/
+
+M	src/pk-self-test.c
+
+commit 017a4464524e29389893e13514bf78212903bd5b
+Author: Jesse Zhang <zh.jesse@gmail.com>
+Date:	2011-02-10
+
+    conary: not need to call _get_package_update before _do_package_update
+
+M	backends/conary/conaryBackend.py
+
+commit 73c5dc7634bdac721ac36fafd49a143643f3f831
+Author: Jesse Zhang <zh.jesse@gmail.com>
+Date:	2011-02-10
+
+    conary: make update-system faster
+
+    Avoid duplicate call to _get_update().
+
+M	backends/conary/conaryBackend.py
+
+commit 8411417f2844c7283589b5994deddeeeb9f1f1ed
+Author: Jesse Zhang <zh.jesse@gmail.com>
+Date:	2011-02-10
+
+    conary: fix get-updates
+
+    _get_update should return a tuple of UpdateJob and suggest map.
+
+M	backends/conary/conaryBackend.py
+M	backends/conary/pk-backend-conary.c
+
+commit 938f54cb228a29588bc232747bf8f1c7294943ad
+Author: Richard Hughes <richard@hughsie.com>
+Date:	2011-02-10
+
+    zif: fix compile with libzif upstream as there was a small API change
+    in zif_store_remote_set_enabled()
+
+M	backends/zif/pk-backend-zif.c
+
+commit ebf4043216afacc206a845614d7e97be31082ef1
+Author: Fabio Erculiani <lxnay@sabayon.org>
+Date:	2011-02-09
+
+    entropy: do not switch UrlFetcher using a Client property (forward
+    compatibility)
+
+M	backends/entropy/entropyBackend.py
+
+commit fbbbcaad86c17dfe5b5b403ccd88efd16b0876fc
+Author: Fabio Erculiani <lxnay@sabayon.org>
+Date:	2011-02-07
+
+    entropy: add forward compatibility with newer Entropy (exposing
+    Client.PackageFileUpdates())
+
+M	backends/entropy/entropyBackend.py
+
+commit 39d88e39b43aa7839d2c7f3eb0792c3696d00f7d
+Author: Anders F Bjorklund <afb@users.sourceforge.net>
+Date:	2011-02-05
+
+    slapt: use hash for catgroup
+
+M	backends/slapt/pk-backend-slapt.c
+
+commit 1c57b3408533db37f9db9e0ed46cfbc67b4e1286
+Author: Anders F Bjorklund <afb@users.sourceforge.net>
+Date:	2011-02-05
+
+    trivial: refactor category to group
+
+M	backends/slapt/pk-backend-slapt.c
+
+commit a0c998ba18dd47314d671be1f1992c904cb58d55
+Author: Anders F Bjorklund <afb@users.sourceforge.net>
+Date:	2011-02-05
+
+    slapt: update to new slapt
+
+M	backends/slapt/pk-backend-slapt.c
+
+commit cfb62db61b2f8f0681372c98bb54de69b53338cd
+Author: Anders F Bjorklund <afb@users.sourceforge.net>
+Date:	2011-02-05
+
+    slapt: update to new api
+
+M	backends/slapt/pk-backend-slapt.c
+
+commit 6ab611f87632218b78bb70303701b1a5649f77ff
+Author: Anders F Bjorklund <afb@users.sourceforge.net>
+Date:	2011-02-05
+
+    slapt: update to glib2 types
+
+M	backends/slapt/pk-backend-slapt.c
+
+commit f6543f9e6d510919e5710b7fb24b01643e2b8cdc
+Author: Anders F Bjorklund <afb@users.sourceforge.net>
+Date:	2011-02-05
+
+    check for polkit_authority_get_sync symbol
+
+M	configure.ac
+M	src/pk-engine.c
+M	src/pk-transaction.c
+
+commit 07a83e7c7011b856c0d75d71a6d90d87f75e4d22
+Author: Jonathan Conder <jonno.conder@gmail.com>
+Date:	2011-02-05
+
+    Remove pacman backend
+
+M	backends/Makefile.am
+D	backends/pacman/Makefile.am
+D	backends/pacman/backend-depends.c
+D	backends/pacman/backend-depends.h
+D	backends/pacman/backend-error.c
+D	backends/pacman/backend-error.h
+D	backends/pacman/backend-groups.c
+D	backends/pacman/backend-groups.h
+D	backends/pacman/backend-install.c
+D	backends/pacman/backend-install.h
+D	backends/pacman/backend-packages.c
+D	backends/pacman/backend-packages.h
+D	backends/pacman/backend-pacman.c
+D	backends/pacman/backend-pacman.h
+D	backends/pacman/backend-remove.c
+D	backends/pacman/backend-remove.h
+D	backends/pacman/backend-repos.c
+D	backends/pacman/backend-repos.h
+D	backends/pacman/backend-search.c
+D	backends/pacman/backend-search.h
+D	backends/pacman/backend-transaction.c
+D	backends/pacman/backend-transaction.h
+D	backends/pacman/backend-update.c
+D	backends/pacman/backend-update.h
+D	backends/pacman/groups.list
+D	backends/pacman/pacman.conf
+M	configure.ac
+M	docs/html/pk-matrix.html
+
+commit 9a448ce737d327a16b6c034081f83e458befc1ca
+Author: Jonathan Conder <jonno.conder@gmail.com>
+Date:	2011-02-05
+
+    alpm: Port features from the pacman backend
+
+M	backends/alpm/Makefile.am
+D	backends/alpm/TODO
+A	backends/alpm/groups.list
+A	backends/alpm/pacman.conf
+M	backends/alpm/pk-backend-alpm.c
+A	backends/alpm/pk-backend-alpm.h
+A	backends/alpm/pk-backend-config.c
+A	backends/alpm/pk-backend-config.h
+A	backends/alpm/pk-backend-databases.c
+A	backends/alpm/pk-backend-databases.h
+A	backends/alpm/pk-backend-depends.c
+A	backends/alpm/pk-backend-depends.h
+A	backends/alpm/pk-backend-error.c
+A	backends/alpm/pk-backend-error.h
+A	backends/alpm/pk-backend-groups.c
+A	backends/alpm/pk-backend-groups.h
+A	backends/alpm/pk-backend-install.c
+A	backends/alpm/pk-backend-install.h
+A	backends/alpm/pk-backend-packages.c
+A	backends/alpm/pk-backend-packages.h
+A	backends/alpm/pk-backend-remove.c
+A	backends/alpm/pk-backend-remove.h
+A	backends/alpm/pk-backend-search.c
+A	backends/alpm/pk-backend-search.h
+A	backends/alpm/pk-backend-sync.c
+A	backends/alpm/pk-backend-sync.h
+A	backends/alpm/pk-backend-transaction.c
+A	backends/alpm/pk-backend-transaction.h
+A	backends/alpm/pk-backend-update.c
+A	backends/alpm/pk-backend-update.h
+A	backends/alpm/repos.list
+M	docs/html/pk-matrix.html
+
+commit ec528e95f74dfb473b864680aed0ab6f1a65ea5d
+Author: Anders F Bjorklund <afb@users.sourceforge.net>
+Date:	2011-02-02
+
+    add missing python(gio) requirement
+
+M	contrib/PackageKit.spec.in
+
+commit ae71842f5c5d9a38575eb3319aff17c30c8f740f
+Merge: 3a68e23 ebf0e3b
+Author: Anders F Bjorklund <afb@users.sourceforge.net>
+Date:	2011-02-02
+
+    Merge branch 'master' of gitorious.org:packagekit/packagekit
+
+commit ebf0e3bb180d95889f49ab604bd9c6be18ec0832
+Author: Richard Hughes <richard@hughsie.com>
+Date:	2011-02-01
+
+    trivial: post release version bump
+
+M	RELEASE
+M	configure.ac
+
 commit 2dfcd20f9a2287d6e08edec549c9977352eef0fc
 Author: Richard Hughes <richard@hughsie.com>
-Date:   2011-02-01
+Date:	2011-02-01
 
     Release version 0.6.12
 
@@ -95,6 +1962,14 @@ Date:	2011-02-01
     The ABI of glib seems to have changed (or a bug has been fixed)
     where values like g_time_val_from_iso8601('2008-08-23') used to
     fail, and now passes (with invalid results).
+
+M	lib/packagekit-glib2/pk-common.c
+
+commit 3a68e2302ec2554db13f7a06bf211dd831ba4f6d
+Author: Anders F Bjorklund <afb@users.sourceforge.net>
+Date:	2011-01-27
+
+    trivial: add missing slackware-version
 
 M	lib/packagekit-glib2/pk-common.c
 
@@ -8729,7 +10604,7 @@ Date:	2010-02-04
 
 M	lib/packagekit-qt/src/Makefile.am
 A	lib/packagekit-qt/src/enum.cpp
-A	lib/packagekit-qt/src/enum.h
+C053	lib/packagekit-qt/src/package.h lib/packagekit-qt/src/enum.h
 M	lib/packagekit-qt/src/package.cpp
 M	lib/packagekit-qt/src/package.h
 

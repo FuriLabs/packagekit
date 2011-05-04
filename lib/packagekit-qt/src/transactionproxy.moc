@@ -1,8 +1,8 @@
 /****************************************************************************
 ** Meta object code from reading C++ file 'transactionproxy.h'
 **
-** Created: Tue Feb 1 09:22:58 2011
-**      by: The Qt Meta Object Compiler version 62 (Qt 4.7.1)
+** Created: Tue Apr 26 10:21:27 2011
+**      by: The Qt Meta Object Compiler version 62 (Qt 4.7.2)
 **
 ** WARNING! All changes made in this file will be lost!
 *****************************************************************************/
@@ -10,7 +10,7 @@
 #if !defined(Q_MOC_OUTPUT_REVISION)
 #error "The header file 'transactionproxy.h' doesn't include <QObject>."
 #elif Q_MOC_OUTPUT_REVISION != 62
-#error "This file was generated using the moc from 4.7.1. It"
+#error "This file was generated using the moc from 4.7.2. It"
 #error "cannot be used with the include files from this version of Qt."
 #error "(The moc has changed too much.)"
 #endif
@@ -51,53 +51,53 @@ static const uint qt_meta_data_TransactionProxy[] = {
  // slots: signature, parameters, type, tag, flags
     1327, 1319, 1299,   17, 0x0a,
     1347,   17, 1299,   17, 0x0a,
-    1368, 1356, 1299,   17, 0x0a,
-    1398,   17, 1299,   17, 0x0a,
-    1443, 1414, 1299,   17, 0x0a,
-    1480, 1356, 1299,   17, 0x0a,
-    1504,   17, 1299,   17, 0x0a,
-    1524, 1356, 1299,   17, 0x0a,
-    1553, 1546, 1299,   17, 0x0a,
+    1383, 1356, 1299,   17, 0x0a,
+    1418,   17, 1299,   17, 0x0a,
+    1463, 1434, 1299,   17, 0x0a,
+    1512, 1500, 1299,   17, 0x0a,
+    1536,   17, 1299,   17, 0x0a,
+    1556, 1500, 1299,   17, 0x0a,
     1585, 1578, 1299,   17, 0x0a,
-    1606, 1578, 1299,   17, 0x0a,
-    1627, 1414, 1299,   17, 0x0a,
-    1665, 1356, 1299,   17, 0x0a,
-    1694, 1578, 1299,   17, 0x0a,
-    1738, 1714, 1299,   17, 0x0a,
-    1794, 1769, 1299,   17, 0x0a,
-    1855, 1828, 1299,   17, 0x0a,
-    1903, 1897, 1299,   17, 0x0a,
-    1956, 1922, 1299,   17, 0x0a,
-    2010, 1994, 1299,   17, 0x0a,
-    2059, 2035, 1299,   17, 0x0a,
-    2112, 2096, 1299,   17, 0x0a,
-    2156, 2141, 1299,   17, 0x0a,
-    2188, 2174, 1299,   17, 0x0a,
-    2223, 2174, 1299,   17, 0x0a,
-    2256, 2174, 1299,   17, 0x0a,
-    2290, 2174, 1299,   17, 0x0a,
-    2329, 2323, 1299,   17, 0x0a,
-    2362, 2351, 1299,   17, 0x0a,
-    2396, 1356, 1299,   17, 0x0a,
-    2456, 2433, 1299,   17, 0x0a,
-    2497, 1356, 1299,   17, 0x0a,
-    2533, 1769, 1299,   17, 0x0a,
-    2579, 2566, 1299,   17, 0x0a,
-    2621, 2598, 1299,   17, 0x0a,
-    2671, 2652, 1299,   17, 0x0a,
+    1617, 1610, 1299,   17, 0x0a,
+    1638, 1610, 1299,   17, 0x0a,
+    1659, 1434, 1299,   17, 0x0a,
+    1697, 1500, 1299,   17, 0x0a,
+    1726, 1610, 1299,   17, 0x0a,
+    1770, 1746, 1299,   17, 0x0a,
+    1826, 1801, 1299,   17, 0x0a,
+    1887, 1860, 1299,   17, 0x0a,
+    1935, 1929, 1299,   17, 0x0a,
+    1988, 1954, 1299,   17, 0x0a,
+    2042, 2026, 1299,   17, 0x0a,
+    2091, 2067, 1299,   17, 0x0a,
+    2144, 2128, 1299,   17, 0x0a,
+    2188, 2173, 1299,   17, 0x0a,
+    2220, 2206, 1299,   17, 0x0a,
+    2255, 2206, 1299,   17, 0x0a,
+    2288, 2206, 1299,   17, 0x0a,
+    2322, 2206, 1299,   17, 0x0a,
+    2361, 2355, 1299,   17, 0x0a,
+    2394, 2383, 1299,   17, 0x0a,
+    2428, 1500, 1299,   17, 0x0a,
+    2488, 2465, 1299,   17, 0x0a,
+    2529, 1500, 1299,   17, 0x0a,
+    2565, 1801, 1299,   17, 0x0a,
+    2611, 2598, 1299,   17, 0x0a,
+    2653, 2630, 1299,   17, 0x0a,
+    2703, 2684, 1299,   17, 0x0a,
 
  // properties: name, type, flags
-    2718, 2713, 0x01095001,
-    2730, 2713, 0x01095001,
-    2748, 2743, 0x03095001,
-    2768, 2760, 0x0a095001,
-    2780, 2743, 0x03095001,
-    2791, 2743, 0x03095001,
-    2805, 2760, 0x0a095001,
-    2810, 2743, 0x03095001,
-    2816, 2760, 0x0a095001,
-    2823, 2743, 0x03095001,
-    2837, 2743, 0x03095001,
+    2750, 2745, 0x01095001,
+    2762, 2745, 0x01095001,
+    2780, 2775, 0x03095001,
+    2800, 2792, 0x0a095001,
+    2812, 2775, 0x03095001,
+    2823, 2775, 0x03095001,
+    2837, 2792, 0x0a095001,
+    2842, 2775, 0x03095001,
+    2848, 2792, 0x0a095001,
+    2855, 2775, 0x03095001,
+    2869, 2775, 0x03095001,
 
        0        // eod
 };
@@ -134,13 +134,14 @@ static const char qt_meta_stringdata_TransactionProxy[] = {
     "UpdateDetail(QString,QString,QString,QString,QString,QString,QString,Q"
     "String,QString,QString,QString,QString)\0"
     "QDBusPendingReply<>\0eula_id\0"
-    "AcceptEula(QString)\0Cancel()\0package_ids\0"
-    "DownloadPackages(QStringList)\0"
+    "AcceptEula(QString)\0Cancel()\0"
+    "store_in_cache,package_ids\0"
+    "DownloadPackages(bool,QStringList)\0"
     "GetCategories()\0filter,package_ids,recursive\0"
     "GetDepends(QString,QStringList,bool)\0"
-    "GetDetails(QStringList)\0GetDistroUpgrades()\0"
-    "GetFiles(QStringList)\0number\0"
-    "GetOldTransactions(uint)\0filter\0"
+    "package_ids\0GetDetails(QStringList)\0"
+    "GetDistroUpgrades()\0GetFiles(QStringList)\0"
+    "number\0GetOldTransactions(uint)\0filter\0"
     "GetPackages(QString)\0GetRepoList(QString)\0"
     "GetRequires(QString,QStringList,bool)\0"
     "GetUpdateDetail(QStringList)\0"
@@ -230,7 +231,7 @@ int TransactionProxy::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
             if (_a[0]) *reinterpret_cast< QDBusPendingReply<>*>(_a[0]) = _r; }  break;
         case 18: { QDBusPendingReply<> _r = Cancel();
             if (_a[0]) *reinterpret_cast< QDBusPendingReply<>*>(_a[0]) = _r; }  break;
-        case 19: { QDBusPendingReply<> _r = DownloadPackages((*reinterpret_cast< const QStringList(*)>(_a[1])));
+        case 19: { QDBusPendingReply<> _r = DownloadPackages((*reinterpret_cast< bool(*)>(_a[1])),(*reinterpret_cast< const QStringList(*)>(_a[2])));
             if (_a[0]) *reinterpret_cast< QDBusPendingReply<>*>(_a[0]) = _r; }  break;
         case 20: { QDBusPendingReply<> _r = GetCategories();
             if (_a[0]) *reinterpret_cast< QDBusPendingReply<>*>(_a[0]) = _r; }  break;
