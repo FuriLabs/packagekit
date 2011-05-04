@@ -149,7 +149,7 @@ Description: Library for accessing PackageKit using Qt4
 Package: libpackagekit-qt2-dev
 Section: libdevel
 Architecture: any
-Depends: libpackagekit-qt2 (= ${binary:Version}), ${misc:Depends}
+Depends: libpackagekit-qt2-2 (= ${binary:Version}), ${misc:Depends}
 Description: Library for accessing PackageKit using Qt4 (development files)
  PackageKit allows performing simple software management tasks over a DBus
  interface e.g. refreshing the cache, updating, installing and removing
