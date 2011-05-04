@@ -133,7 +133,7 @@ Description: GObject introspection data for the PackageKit GLib library
  It can be used by packages using the GIRepository format to generate
  dynamic bindings.
 
-Package: libpackagekit-qt2
+Package: libpackagekit-qt2-2
 Architecture: any
 Section: libs
 Depends: ${misc:Depends}, ${shlibs:Depends}
@@ -231,7 +231,7 @@ Description: Python APT backend for PackageKit
  interface e.g. refreshing the cache, updating, installing and removing
  software packages or searching for multimedia codecs and file handlers.
  .
- This package allows to use APT over a Python-based PackageKit backend.
+ This package allows using APT over a Python-based PackageKit backend.
  APT is the default package management tool of Debian and Ubuntu.
 
 Package: packagekit-backend-aptcc
@@ -248,7 +248,7 @@ Description: C++ APT backend for PackageKit
  interface e.g. refreshing the cache, updating, installing and removing
  software packages or searching for multimedia codecs and file handlers.
  .
- This package allows to use APT over a C++-based PackageKit backend to
+ This package allows using APT over a C++-based PackageKit backend to
  target systems with low memory.
  APT is the default package management tool of Debian and Ubuntu.
 
@@ -265,7 +265,7 @@ Description: Smart backend for PackageKit
  interface  e.g. refreshing the cache, updating, installing and removing
  software packages or searching for multimedia codecs and file handlers.
  .
- This package allows to use the smart package manager.
+ This package allows using the smart package manager.
 
 Package: packagekit-dbg
 Architecture: any
