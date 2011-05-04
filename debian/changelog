@@ -1,5 +1,6 @@
-packagekit (0.6.14-1) UNRELEASED; urgency=low
+packagekit (0.6.14-1) unstable; urgency=low
 
+  * Upload to unstable
   * Make PK compile on non-linux archs
     (Thanks to Pino Toscano) (Closes: #623125)
   * Imported Upstream version 0.6.14
@@ -19,7 +20,10 @@ packagekit (0.6.14-1) UNRELEASED; urgency=low
        packages when searching with newest (Richard Hughes)
      - Use the new threadsafe signal handling support in GLib
        (Richard Hughes)
-  * BReplace qt package with qt2 package
+  * Replace qt package with qt2 package
+  * Fix some spelling errors in description
+  * Remove PackageKit PolKit extension (has been removed upstream too)
+  * Build GTK+3 module
 
  -- Matthias Klumpp <matthias@nlinux.org>  Wed, 04 May 2011 14:23:05 +0200
 
