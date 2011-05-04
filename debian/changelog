@@ -1,3 +1,28 @@
+packagekit (0.6.14-1) UNRELEASED; urgency=low
+
+  * Make PK compile on non-linux archs
+    (Thanks to Pino Toscano) (Closes: #623125)
+  * Imported Upstream version 0.6.14
+     - glib: Add GIR annotations to make PK GIR usable
+             (Matthias Klumpp)
+     - qt2: Add Qt2 library (Daniel Nicoletti)
+     - qt: Fix typo in SearchGroups (Dimitar Popov)
+     - aptcc: Fix configure.ac to avoid pk-qt linking
+             against apt-pkg (Daniel Nicoletti)
+     - browser-plugin: Remove deprecated symbols
+             (Matthias Klumpp) (LP: #766046)
+     - Fix precedence when assigning strings to a *GStrv
+             (Jonny Lamb) (Closes: #622605)
+     - Create transaction db properly if it's not exist
+             (Zhang Qiang)
+     - Do not allow backends to output duplicate older
+       packages when searching with newest (Richard Hughes)
+     - Use the new threadsafe signal handling support in GLib
+       (Richard Hughes)
+  * BReplace qt package with qt2 package
+
+ -- Matthias Klumpp <matthias@nlinux.org>  Wed, 04 May 2011 14:23:05 +0200
+
 packagekit (0.6.12-2) experimental; urgency=low
 
   * Fixed changelog
