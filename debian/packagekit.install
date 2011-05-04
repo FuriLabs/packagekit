@@ -11,7 +11,6 @@ usr/lib/packagekit-backend/libpk_backend_dummy.so
 usr/lib/packagekit-backend/libpk_backend_test_*.so
 usr/lib/packagekit/packagekitd
 usr/lib/pm-utils/sleep.d/95packagekit
-usr/lib/polkit-1/extensions/libpackagekit-action-lookup.so
 usr/share/PackageKit/helpers/test_spawn/*
 usr/share/PackageKit/pk-upgrade-distro.sh
 usr/share/dbus-1/system-services/org.freedesktop.PackageKit.service
