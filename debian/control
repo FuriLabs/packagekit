@@ -133,12 +133,12 @@ Description: GObject introspection data for the PackageKit GLib library
  It can be used by packages using the GIRepository format to generate
  dynamic bindings.
 
-Package: libpackagekit-qt14
+Package: libpackagekit-qt2
 Architecture: any
 Section: libs
 Depends: ${misc:Depends}, ${shlibs:Depends}
 Conflicts: libpackagekit-qt-14 (>= 0.6.8-0)
-Replaces: libpackagekit-qt-14
+Replaces: libpackagekit-qt-14, libpackagekit-qt14
 Description: Library for accessing PackageKit using Qt4
  PackageKit allows to perform simple software management tasks over a DBus
  interface e.g. refreshing the cache, updating, installing and removing
@@ -146,10 +146,10 @@ Description: Library for accessing PackageKit using Qt4
  .
  This package provides a library to access PackageKit using Qt.
 
-Package: libpackagekit-qt-dev
+Package: libpackagekit-qt2-dev
 Section: libdevel
 Architecture: any
-Depends: libpackagekit-qt14 (= ${binary:Version}), ${misc:Depends}
+Depends: libpackagekit-qt2 (= ${binary:Version}), ${misc:Depends}
 Description: Library for accessing PackageKit using Qt4 (development files)
  PackageKit allows to perform simple software management tasks over a DBus
  interface e.g. refreshing the cache, updating, installing and removing

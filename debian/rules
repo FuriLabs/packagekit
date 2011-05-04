@@ -18,7 +18,7 @@ PK_CONFIGURE_FLAGS = --disable-static \
 		--enable-gstreamer-plugin \
 		--enable-command-not-found
 
-ifneq ($(DEB_HOST_ARCH_OS),linux)
+ifneq ($(DEB_HOST_ARCH_OS), linux)
 	PK_CONFIGURE_FLAGS += --disable-networkmanager \
 		--disable-connman
 endif
@@ -53,8 +53,8 @@ override_dh_auto_install:
 	rm -f $(INSTALLDIR)/usr/lib/packagekit-backend/*.la
 	rm -f $(INSTALLDIR)/usr/lib/mozilla/plugins/packagekit-plugin.la
 	rm -f $(INSTALLDIR)/usr/lib/gtk-?.0/modules/*.la
-	rm -f $(INSTALLDIR)/usr/lib/polkit-1/extensions/libpackagekit-action-lookup.la
 	rm -f $(INSTALLDIR)/usr/bin/packagekit-bugreport.sh
+	rm -f $(INSTALLDIR)/usr/lib/libpackagekit-qt.*
 	# These files should be cleaned to remove dependency_libs
 	for file in $(INSTALLDIR)/usr/lib/*.la; do \
 		sed -i "/dependency_libs/ s/'.*'/''/" $$file ; \
@@ -64,7 +64,7 @@ override_dh_install: extrainstallfiles-stamp
 	dh_install --list-missing
 
 override_dh_makeshlibs:
-	dh_makeshlibs -Xlibpk-gtk-module -Xlibpackagekit-action-lookup -Xlibpk_ -Xpackagekit-plugin
+	dh_makeshlibs -Xlibpk-gtk-module -Xlibpk_ -Xpackagekit-plugin
 	dh_girepository
 
 override_dh_auto_clean:
