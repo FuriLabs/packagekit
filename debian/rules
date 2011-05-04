@@ -49,14 +49,15 @@ override_dh_auto_configure:
 override_dh_auto_install:
 	dh_auto_install --destdir=$(INSTALLDIR)
 
-	# Those files do not need to be installed
-	rm -f $(INSTALLDIR)/usr/lib/packagekit-backend/*.la
-	rm -f $(INSTALLDIR)/usr/lib/mozilla/plugins/packagekit-plugin.la
-	rm -f $(INSTALLDIR)/usr/lib/gtk-?.0/modules/*.la
-	rm -f $(INSTALLDIR)/usr/bin/packagekit-bugreport.sh
-	rm -f $(INSTALLDIR)/usr/lib/libpackagekit-qt.*
+	# These files do not need to be installed
+	rm -f  $(INSTALLDIR)/usr/lib/packagekit-backend/*.la
+	rm -f  $(INSTALLDIR)/usr/lib/mozilla/plugins/packagekit-plugin.la
+	rm -f  $(INSTALLDIR)/usr/lib/gtk-?.0/modules/*.la
+	rm -rf $(INSTALLDIR)/usr/lib/gtk-2.0
+	rm -f  $(INSTALLDIR)/usr/bin/packagekit-bugreport.sh
+	rm -f  $(INSTALLDIR)/usr/lib/libpackagekit-qt.*
 	rm -rf $(INSTALLDIR)/usr/include/PackageKit/packagekit-qt
-	rm -f $(INSTALLDIR)/usr/lib/pkgconfig/packagekit-qt.pc
+	rm -f  $(INSTALLDIR)/usr/lib/pkgconfig/packagekit-qt.pc
 	# These files should be cleaned to remove dependency_libs
 	for file in $(INSTALLDIR)/usr/lib/*.la; do \
 		sed -i "/dependency_libs/ s/'.*'/''/" $$file ; \
