@@ -37,7 +37,7 @@ build_triplet = @build@
 host_triplet = @host@
 subdir = backends/conary
 DIST_COMMON = $(dist_helper_DATA) $(srcdir)/Makefile.am \
-	$(srcdir)/Makefile.in
+	$(srcdir)/Makefile.in TODO
 ACLOCAL_M4 = $(top_srcdir)/aclocal.m4
 am__aclocal_m4_deps = $(top_srcdir)/m4/gtk-doc.m4 \
 	$(top_srcdir)/m4/intltool.m4 $(top_srcdir)/m4/libtool.m4 \
@@ -159,6 +159,7 @@ DBUS_SYS_DIR = @DBUS_SYS_DIR@
 DEFAULT_BACKEND = @DEFAULT_BACKEND@
 DEFS = @DEFS@
 DEPDIR = @DEPDIR@
+DLLTOOL = @DLLTOOL@
 DSYMUTIL = @DSYMUTIL@
 DUMPBIN = @DUMPBIN@
 ECHO_C = @ECHO_C@
@@ -218,8 +219,12 @@ LOCALSTATEDIR = @LOCALSTATEDIR@
 LTLIBOBJS = @LTLIBOBJS@
 LT_AGE = @LT_AGE@
 LT_CURRENT = @LT_CURRENT@
+LT_QT_AGE = @LT_QT_AGE@
+LT_QT_CURRENT = @LT_QT_CURRENT@
+LT_QT_REVISION = @LT_QT_REVISION@
 LT_REVISION = @LT_REVISION@
 MAKEINFO = @MAKEINFO@
+MANIFEST_TOOL = @MANIFEST_TOOL@
 MKDIR_P = @MKDIR_P@
 MKINSTALLDIRS = @MKINSTALLDIRS@
 MOC = @MOC@
@@ -245,8 +250,6 @@ PACKAGE_STRING = @PACKAGE_STRING@
 PACKAGE_TARNAME = @PACKAGE_TARNAME@
 PACKAGE_URL = @PACKAGE_URL@
 PACKAGE_VERSION = @PACKAGE_VERSION@
-PACMAN_CFLAGS = @PACMAN_CFLAGS@
-PACMAN_LIBS = @PACMAN_LIBS@
 PATH_SEPARATOR = @PATH_SEPARATOR@
 PKG_CONFIG = @PKG_CONFIG@
 PKG_CONFIG_LIBDIR = @PKG_CONFIG_LIBDIR@
@@ -323,6 +326,7 @@ abs_builddir = @abs_builddir@
 abs_srcdir = @abs_srcdir@
 abs_top_builddir = @abs_top_builddir@
 abs_top_srcdir = @abs_top_srcdir@
+ac_ct_AR = @ac_ct_AR@
 ac_ct_CC = @ac_ct_CC@
 ac_ct_CXX = @ac_ct_CXX@
 ac_ct_DUMPBIN = @ac_ct_DUMPBIN@
@@ -385,11 +389,11 @@ dist_helper_DATA = \
 	conaryFilter.py			\
 	conaryCallback.py		\
 	conaryInit.py			\
-	XMLCache.py			    \
-	generateXML.py			    \
+	XMLCache.py			\
+	generateXML.py			\
 	pkConaryLog.py			\
-	conarypk.py			    \
-    conaryProgress.py       \
+	conarypk.py			\
+	conaryProgress.py		\
 	conaryEnums.py
 
 plugindir = $(PK_PLUGIN_DIR)

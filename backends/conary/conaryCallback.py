@@ -17,10 +17,17 @@
 #
 # Copyright (C) 2007 Elliot Peele <elliot@bentlogic.net>
 # Copyright (C) 2008 Richard Hughes <richard@hughsie.com>
+
 from conary import callbacks
-from packagekit.backend import *
+
+from packagekit.backend import get_package_id
+from packagekit.enums import (INFO_INSTALLING, INFO_REMOVING, INFO_UPDATING,
+        STATUS_COMMIT, STATUS_DEP_RESOLVE, STATUS_DOWNLOAD, STATUS_INSTALL,
+        STATUS_REMOVE, STATUS_REQUEST, STATUS_UPDATE)
+
 from conaryProgress import PackagekitProgress
 from pkConaryLog import log
+import conarypk
 
 MEGA = 1048576.0
 
@@ -92,27 +99,33 @@ class BasePKConaryCallback(callbacks.UpdateCallback):
         # Don't do anything unless we actually rollback
         pass
 
-    def preparingUpdate(self, troveNum, troveCount, add=0):
+    def preparingUpdate(self, troveNum, troveCount):
+
+        def _get_package_id(name, v, f):
+            version = str(v.trailingRevision())
+            label = str(v.trailingLabel())
+            arch = conarypk.get_arch(f)
+            package_id = get_package_id(name, version, arch, label)
+            return package_id
+
         if not self.currentJob or len(self.currentJob) == 0 or troveNum > troveCount:
             return
 
         self.backend.percentage(self.progress.percent)
         job = self.currentJob[troveNum-1]
-        name = job[0]
-        oldVersion, oldFlavor = job[1]
-        newVersion, newFlavor = job[2]
+        name, (oldVersion, oldFlavor), (newVersion, newFlavor) = job[:3]
         if oldVersion and newVersion:
-            package_id = self.backend.get_package_id(name, newVersion, newFlavor)
+            package_id = _get_package_id(name, newVersion, newFlavor)
             log.info("Preparing Update %d out of %d: %s" % (troveNum, troveCount, package_id))
             self.backend.status(STATUS_UPDATE)
             self.backend.package(package_id, INFO_UPDATING, '')
         elif oldVersion and not newVersion:
-            package_id = self.backend.get_package_id(name, oldVersion, oldFlavor)
+            package_id = _get_package_id(name, oldVersion, oldFlavor)
             log.info("Preparing Remove %d out of %d: %s" % (troveNum, troveCount, package_id))
             self.backend.status(STATUS_REMOVE)
             self.backend.package(package_id, INFO_REMOVING, '')
         elif not oldVersion and newVersion:
-            package_id = self.backend.get_package_id(name, newVersion, newFlavor)
+            package_id = _get_package_id(name, newVersion, newFlavor)
             log.info("Preparing Install %d out of %d: %s" % (troveNum, troveCount, package_id))
             self.backend.status(STATUS_INSTALL)
             self.backend.package(package_id, INFO_INSTALLING, '')
@@ -149,16 +162,16 @@ class BasePKConaryCallback(callbacks.UpdateCallback):
 
     def done(self):
         log.info("Done.")
- 
+
     def warning(self, msg, *args, **kwargs):
         e = msg %args
         log.warning(e)
 
     def tagHandlerOutput(self, tag, msg, stderr = False):
-        log.info("Tag Handler Output: [%s] %s" % (tag, msg)) 
+        log.info("Tag Handler Output: [%s] %s" % (tag, msg))
 
     def troveScriptOutput(self, typ, msg):
-        log.info("Trove Script Output [%s] %s" % (typ, msg)) 
+        log.info("Trove Script Output [%s] %s" % (typ, msg))
 
 
 class UpdateSystemCallback(BasePKConaryCallback):
@@ -176,7 +189,7 @@ class GetUpdateCallback(BasePKConaryCallback):
 class UpdateCallback(BasePKConaryCallback):
     def __init__(self, backend, cfg=None):
         BasePKConaryCallback.__init__(self, backend, cfg)
-        self.progress.set_steps([ 
+        self.progress.set_steps([
             1, # requestingChangeSet 1
             50, # resolveDeps2
             51, # SetChangesetHunk3

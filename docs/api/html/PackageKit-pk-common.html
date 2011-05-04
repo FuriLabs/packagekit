@@ -3,12 +3,12 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>pk-common</title>
-<meta name="generator" content="DocBook XSL Stylesheets V1.75.2">
+<meta name="generator" content="DocBook XSL Stylesheets V1.76.1">
 <link rel="home" href="index.html" title="PackageKit Reference Manual">
 <link rel="up" href="libpackagekit-helpers.html" title="libpackagekit glib helpers">
 <link rel="prev" href="PackageKit-pk-client-sync.html" title="pk-client-sync">
 <link rel="next" href="PackageKit-pk-control-sync.html" title="pk-control-sync">
-<meta name="generator" content="GTK-Doc V1.15 (XML mode)">
+<meta name="generator" content="GTK-Doc V1.17 (XML mode)">
 <link rel="stylesheet" href="style.css" type="text/css">
 </head>
 <body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF">
@@ -26,7 +26,7 @@
                   <a href="#PackageKit-pk-common.description" class="shortcut">Description</a>
 </td></tr>
 </table>
-<div class="refentry" title="pk-common">
+<div class="refentry">
 <a name="PackageKit-pk-common"></a><div class="titlepage"></div>
 <div class="refnamediv"><table width="100%"><tr>
 <td valign="top">
@@ -35,7 +35,7 @@
 </td>
 <td valign="top" align="right"></td>
 </tr></table></div>
-<div class="refsynopsisdiv" title="Synopsis">
+<div class="refsynopsisdiv">
 <a name="PackageKit-pk-common.synopsis"></a><h2>Synopsis</h2>
 <pre class="synopsis">#define             <a class="link" href="PackageKit-pk-common.html#PK-DBUS-SERVICE:CAPS" title="PK_DBUS_SERVICE">PK_DBUS_SERVICE</a>
 #define             <a class="link" href="PackageKit-pk-common.html#PK-DBUS-PATH:CAPS" title="PK_DBUS_PATH">PK_DBUS_PATH</a>
@@ -51,15 +51,15 @@
 <a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gchar"><span class="returnvalue">gchar</span></a> *             <a class="link" href="PackageKit-pk-common.html#pk-get-distro-id" title="pk_get_distro_id ()">pk_get_distro_id</a>                    (<em class="parameter"><code><span class="type">void</span></code></em>);
 </pre>
 </div>
-<div class="refsect1" title="Description">
+<div class="refsect1">
 <a name="PackageKit-pk-common.description"></a><h2>Description</h2>
 <p>
 This file contains functions that may be useful.
 </p>
 </div>
-<div class="refsect1" title="Details">
+<div class="refsect1">
 <a name="PackageKit-pk-common.details"></a><h2>Details</h2>
-<div class="refsect2" title="PK_DBUS_SERVICE">
+<div class="refsect2">
 <a name="PK-DBUS-SERVICE:CAPS"></a><h3>PK_DBUS_SERVICE</h3>
 <pre class="programlisting">#define PK_DBUS_SERVICE			"org.freedesktop.PackageKit"
 </pre>
@@ -68,7 +68,7 @@ The SYSTEM service DBUS name
 </p>
 </div>
 <hr>
-<div class="refsect2" title="PK_DBUS_PATH">
+<div class="refsect2">
 <a name="PK-DBUS-PATH:CAPS"></a><h3>PK_DBUS_PATH</h3>
 <pre class="programlisting">#define PK_DBUS_PATH			"/org/freedesktop/PackageKit"
 </pre>
@@ -77,7 +77,7 @@ The DBUS path
 </p>
 </div>
 <hr>
-<div class="refsect2" title="PK_DBUS_INTERFACE">
+<div class="refsect2">
 <a name="PK-DBUS-INTERFACE:CAPS"></a><h3>PK_DBUS_INTERFACE</h3>
 <pre class="programlisting">#define PK_DBUS_INTERFACE		"org.freedesktop.PackageKit"
 </pre>
@@ -86,7 +86,7 @@ The DBUS interface
 </p>
 </div>
 <hr>
-<div class="refsect2" title="PK_DBUS_INTERFACE_TRANSACTION">
+<div class="refsect2">
 <a name="PK-DBUS-INTERFACE-TRANSACTION:CAPS"></a><h3>PK_DBUS_INTERFACE_TRANSACTION</h3>
 <pre class="programlisting">#define PK_DBUS_INTERFACE_TRANSACTION "org.freedesktop.PackageKit.Transaction"
 </pre>
@@ -95,7 +95,7 @@ The DBUS interface for the transactions
 </p>
 </div>
 <hr>
-<div class="refsect2" title="PK_SERVICE_PACK_GROUP_NAME">
+<div class="refsect2">
 <a name="PK-SERVICE-PACK-GROUP-NAME:CAPS"></a><h3>PK_SERVICE_PACK_GROUP_NAME</h3>
 <pre class="programlisting">#define PK_SERVICE_PACK_GROUP_NAME "PackageKit Service Pack"
 </pre>
@@ -104,7 +104,7 @@ The group name of the Service Pack config file
 </p>
 </div>
 <hr>
-<div class="refsect2" title="PK_SYSTEM_PACKAGE_LIST_FILENAME">
+<div class="refsect2">
 <a name="PK-SYSTEM-PACKAGE-LIST-FILENAME:CAPS"></a><h3>PK_SYSTEM_PACKAGE_LIST_FILENAME</h3>
 <pre class="programlisting">#define PK_SYSTEM_PACKAGE_LIST_FILENAME "/var/lib/PackageKit/system.package-list"
 </pre>
@@ -112,22 +112,14 @@ The group name of the Service Pack config file
 </p>
 </div>
 <hr>
-<div class="refsect2" title="pk_common_test ()">
+<div class="refsect2">
 <a name="pk-common-test"></a><h3>pk_common_test ()</h3>
 <pre class="programlisting"><span class="returnvalue">void</span>                pk_common_test                      (<em class="parameter"><code><a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gpointer"><span class="type">gpointer</span></a> user_data</code></em>);</pre>
 <p>
 </p>
-<div class="variablelist"><table border="0">
-<col align="left" valign="top">
-<tbody><tr>
-<td><p><span class="term"><em class="parameter"><code>user_data</code></em> :</span></p></td>
-<td>
-</td>
-</tr></tbody>
-</table></div>
 </div>
 <hr>
-<div class="refsect2" title="pk_ptr_array_to_strv ()">
+<div class="refsect2">
 <a name="pk-ptr-array-to-strv"></a><h3>pk_ptr_array_to_strv ()</h3>
 <pre class="programlisting"><a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gchar"><span class="returnvalue">gchar</span></a> **            pk_ptr_array_to_strv                (<em class="parameter"><code><a href="http://library.gnome.org/devel/glib/unstable/glib-Pointer-Arrays.html#GPtrArray"><span class="type">GPtrArray</span></a> *array</code></em>);</pre>
 <p>
@@ -139,12 +131,11 @@ The data in the GPtrArray is copied.
 <tbody>
 <tr>
 <td><p><span class="term"><em class="parameter"><code>array</code></em> :</span></p></td>
-<td>the GPtrArray of strings
-</td>
+<td>the GPtrArray of strings</td>
 </tr>
 <tr>
 <td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
-<td> the string array, or <a href="http://library.gnome.org/devel/glib/unstable/glib-Standard-Macros.html#NULL:CAPS"><code class="literal">NULL</code></a> if invalid. <span class="annotation">[<a href="http://foldoc.org/transfer%20full"><span class="acronym">transfer full</span></a>]</span>
+<td>the string array, or <a href="http://library.gnome.org/devel/glib/unstable/glib-Standard-Macros.html#NULL:CAPS"><code class="literal">NULL</code></a> if invalid. <span class="annotation">[<a href="http://foldoc.org/transfer%20full"><span class="acronym">transfer full</span></a>]</span>
 </td>
 </tr>
 </tbody>
@@ -152,22 +143,20 @@ The data in the GPtrArray is copied.
 <p class="since">Since 0.5.2</p>
 </div>
 <hr>
-<div class="refsect2" title="pk_iso8601_present ()">
+<div class="refsect2">
 <a name="pk-iso8601-present"></a><h3>pk_iso8601_present ()</h3>
 <pre class="programlisting"><a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gchar"><span class="returnvalue">gchar</span></a> *             pk_iso8601_present                  (<em class="parameter"><code><span class="type">void</span></code></em>);</pre>
 <div class="variablelist"><table border="0">
 <col align="left" valign="top">
 <tbody><tr>
 <td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
-<td> The current iso8601 date and time
-
-</td>
+<td>The current iso8601 date and time</td>
 </tr></tbody>
 </table></div>
 <p class="since">Since 0.5.2</p>
 </div>
 <hr>
-<div class="refsect2" title="pk_iso8601_from_date ()">
+<div class="refsect2">
 <a name="pk-iso8601-from-date"></a><h3>pk_iso8601_from_date ()</h3>
 <pre class="programlisting"><a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gchar"><span class="returnvalue">gchar</span></a> *             pk_iso8601_from_date                (<em class="parameter"><code>const <a href="http://library.gnome.org/devel/glib/unstable/glib-Date-and-Time-Functions.html#GDate"><span class="type">GDate</span></a> *date</code></em>);</pre>
 <div class="variablelist"><table border="0">
@@ -175,21 +164,18 @@ The data in the GPtrArray is copied.
 <tbody>
 <tr>
 <td><p><span class="term"><em class="parameter"><code>date</code></em> :</span></p></td>
-<td>a <a href="http://library.gnome.org/devel/glib/unstable/glib-Date-and-Time-Functions.html#GDate"><code class="literal">GDate</code></a> to convert
-</td>
+<td>a <a href="http://library.gnome.org/devel/glib/unstable/glib-Date-and-Time-Functions.html#GDate"><code class="literal">GDate</code></a> to convert</td>
 </tr>
 <tr>
 <td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
-<td> If valid then a new ISO8601 date, else NULL
-
-</td>
+<td>If valid then a new ISO8601 date, else NULL</td>
 </tr>
 </tbody>
 </table></div>
 <p class="since">Since 0.5.2</p>
 </div>
 <hr>
-<div class="refsect2" title="pk_iso8601_to_date ()">
+<div class="refsect2">
 <a name="pk-iso8601-to-date"></a><h3>pk_iso8601_to_date ()</h3>
 <pre class="programlisting"><a href="http://library.gnome.org/devel/glib/unstable/glib-Date-and-Time-Functions.html#GDate"><span class="returnvalue">GDate</span></a> *             pk_iso8601_to_date                  (<em class="parameter"><code>const <a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a> *iso_date</code></em>);</pre>
 <div class="variablelist"><table border="0">
@@ -197,29 +183,25 @@ The data in the GPtrArray is copied.
 <tbody>
 <tr>
 <td><p><span class="term"><em class="parameter"><code>iso_date</code></em> :</span></p></td>
-<td>The ISO8601 date to convert
-</td>
+<td>The ISO8601 date to convert</td>
 </tr>
 <tr>
 <td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
-<td> If valid then a new <a href="http://library.gnome.org/devel/glib/unstable/glib-Date-and-Time-Functions.html#GDate"><code class="literal">GDate</code></a>, else NULL
-
-</td>
+<td>If valid then a new <a href="http://library.gnome.org/devel/glib/unstable/glib-Date-and-Time-Functions.html#GDate"><code class="literal">GDate</code></a>, else NULL</td>
 </tr>
 </tbody>
 </table></div>
 <p class="since">Since 0.5.2</p>
 </div>
 <hr>
-<div class="refsect2" title="pk_get_distro_id ()">
+<div class="refsect2">
 <a name="pk-get-distro-id"></a><h3>pk_get_distro_id ()</h3>
 <pre class="programlisting"><a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gchar"><span class="returnvalue">gchar</span></a> *             pk_get_distro_id                    (<em class="parameter"><code><span class="type">void</span></code></em>);</pre>
 <div class="variablelist"><table border="0">
 <col align="left" valign="top">
 <tbody><tr>
 <td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
-<td> the distro-id, typically "distro;version;arch"
-</td>
+<td>the distro-id, typically "distro;version;arch"</td>
 </tr></tbody>
 </table></div>
 </div>
@@ -227,6 +209,6 @@ The data in the GPtrArray is copied.
 </div>
 <div class="footer">
 <hr>
-          Generated by GTK-Doc V1.15</div>
+          Generated by GTK-Doc V1.17</div>
 </body>
 </html>

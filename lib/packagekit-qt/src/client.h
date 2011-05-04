@@ -180,6 +180,7 @@ public:
 	 * Sets a proxy to be used for all the network operations
 	 */
 	bool setProxy(const QString& http_proxy, const QString& ftp_proxy);
+	bool setProxy(const QString& http_proxy, const QString& https_proxy, const QString& ftp_proxy, const QString& socks_proxy, const QString& no_proxy, const QString& pac);
 
 	/**
 	 * \brief Tells the daemon that the system state has changed, to make it reload its cache
@@ -309,17 +310,18 @@ public:
 	 */
 	Transaction* Q_DECL_DEPRECATED acceptEula(EulaInfo info);
 
-	/**
+    /**
      * DEPRECATED
-	 * Download the given \p packages to a temp dir
-	 */
-	Transaction* Q_DECL_DEPRECATED downloadPackages(const QList<QSharedPointer<Package> >& packages);
+     * Download the given \p packages to a temp dir, if \p storeInCache is true
+     * the download will be stored in the package manager cache
+     */
+    Transaction* Q_DECL_DEPRECATED downloadPackages(const QList<QSharedPointer<Package> > &packages, bool storeInCache = false);
 
-	/**
+    /**
      * DEPRECATED
-	 * This is a convenience function
-	 */
-	Transaction* Q_DECL_DEPRECATED downloadPackages(QSharedPointer<Package> package);
+     * This is a convenience function
+     */
+    Transaction* Q_DECL_DEPRECATED downloadPackages(QSharedPointer<Package> package, bool storeInCache = false);
 
 	/**
      * DEPRECATED

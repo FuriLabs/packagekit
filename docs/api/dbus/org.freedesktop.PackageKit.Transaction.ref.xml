@@ -12,7 +12,8 @@
     <synopsis><link linkend="Transaction.SetHints">SetHints</link>                (in  'as' hints)
 <link linkend="Transaction.AcceptEula">AcceptEula</link>              (in  's'  eula_id)
 <link linkend="Transaction.Cancel">Cancel</link>                  ()
-<link linkend="Transaction.DownloadPackages">DownloadPackages</link>        (in  'as' package_ids)
+<link linkend="Transaction.DownloadPackages">DownloadPackages</link>        (in  'b'  store_in_cache,
+                         in  'as' package_ids)
 <link linkend="Transaction.GetCategories">GetCategories</link>           ()
 <link linkend="Transaction.GetDepends">GetDepends</link>              (in  's'  filter,
                          in  'as' package_ids,
@@ -252,7 +253,8 @@
           <para>
             This method cancels a transaction that is already running
           </para>
-        <variablelist role="params"/><refsect2><title><anchor role="function" id="Transaction.DownloadPackages"/>DownloadPackages ()</title><indexterm><primary>DownloadPackages</primary><secondary>Transaction</secondary></indexterm><programlisting>DownloadPackages (in  'as' package_ids)</programlisting></refsect2>
+        <variablelist role="params"/><refsect2><title><anchor role="function" id="Transaction.DownloadPackages"/>DownloadPackages ()</title><indexterm><primary>DownloadPackages</primary><secondary>Transaction</secondary></indexterm><programlisting>DownloadPackages (in  'b'  store_in_cache,
+                  in  'as' package_ids)</programlisting></refsect2>
           <para>
             This method downloads packages into a temporary directory.
           </para>
@@ -269,7 +271,18 @@
             and
             Files('hal-info;2009-09-07;no-arch;updates', '/tmp/hal-info-2009-09-07.noarch.rpm').
           </para>
-        <variablelist role="params"><varlistentry><term><parameter>package_ids</parameter>:</term><listitem><simpara>
+        <variablelist role="params"><varlistentry><term><parameter>store_in_cache</parameter>:</term><listitem><simpara>
+            
+              If the downloaded files should be stored in the system
+              package cache rather than copied into a newly created
+              directory.
+            
+            
+              See 
+              the developer docs for more details on how
+              this is supposed to work.
+            
+          </simpara></listitem></varlistentry><varlistentry><term><parameter>package_ids</parameter>:</term><listitem><simpara>
             
               An array of package IDs.
             

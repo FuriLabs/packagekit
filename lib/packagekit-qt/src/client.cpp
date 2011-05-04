@@ -226,7 +226,20 @@ void Client::setHints(const QString& hints)
 bool Client::setProxy(const QString& http_proxy, const QString& ftp_proxy)
 {
 	Q_D(Client);
-	QDBusPendingReply<> r = d->daemon->SetProxy(http_proxy, ftp_proxy);
+	QDBusPendingReply<> r = d->daemon->SetProxy(http_proxy, NULL, ftp_proxy, NULL, NULL, NULL);
+	r.waitForFinished ();
+	if (r.isError ()) {
+		setLastError (daemonErrorFromDBusReply (r));
+		return false;
+	} else {
+		return true;
+	}
+}
+
+bool Client::setProxy(const QString& http_proxy, const QString& https_proxy, const QString& ftp_proxy, const QString& socks_proxy, const QString& no_proxy, const QString& pac)
+{
+	Q_D(Client);
+	QDBusPendingReply<> r = d->daemon->SetProxy(http_proxy, https_proxy, ftp_proxy, socks_proxy, no_proxy, pac);
 	r.waitForFinished ();
 	if (r.isError ()) {
 		setLastError (daemonErrorFromDBusReply (r));
@@ -279,14 +292,14 @@ Transaction* Client::acceptEula(EulaInfo info)
 	RUN_TRANSACTION(acceptEula(info))
 }
 
-Transaction* Client::downloadPackages(const QList<QSharedPointer<Package> >& packages)
+Transaction* Client::downloadPackages(const QList<QSharedPointer<Package> > &packages, bool storeInCache)
 {
-	RUN_TRANSACTION(downloadPackages(packages))
+    RUN_TRANSACTION(downloadPackages(packages, storeInCache))
 }
 
-Transaction* Client::downloadPackages(QSharedPointer<Package> package)
+Transaction* Client::downloadPackages(QSharedPointer<Package> package, bool storeInCache)
 {
-	return downloadPackages(QList<QSharedPointer<Package> >() << package);
+    return downloadPackages(QList<QSharedPointer<Package> >() << package, storeInCache);
 }
 
 Transaction* Client::getDepends(const QList<QSharedPointer<Package> >& packages, Enum::Filters filters, bool recursive)

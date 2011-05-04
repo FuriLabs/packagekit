@@ -3,12 +3,12 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>PkPackageSack</title>
-<meta name="generator" content="DocBook XSL Stylesheets V1.75.2">
+<meta name="generator" content="DocBook XSL Stylesheets V1.76.1">
 <link rel="home" href="index.html" title="PackageKit Reference Manual">
 <link rel="up" href="libpackagekit-gobject.html" title="libpackagekit GObjects">
 <link rel="prev" href="PkMessage.html" title="PkMessage">
 <link rel="next" href="PkPackage.html" title="PkPackage">
-<meta name="generator" content="GTK-Doc V1.15 (XML mode)">
+<meta name="generator" content="GTK-Doc V1.17 (XML mode)">
 <link rel="stylesheet" href="style.css" type="text/css">
 </head>
 <body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF">
@@ -28,7 +28,7 @@
                   <a href="#PkPackageSack.object-hierarchy" class="shortcut">Object Hierarchy</a>
 </td></tr>
 </table>
-<div class="refentry" title="PkPackageSack">
+<div class="refentry">
 <a name="PkPackageSack"></a><div class="titlepage"></div>
 <div class="refnamediv"><table width="100%"><tr>
 <td valign="top">
@@ -37,13 +37,11 @@
 </td>
 <td valign="top" align="right"></td>
 </tr></table></div>
-<div class="refsynopsisdiv" title="Synopsis">
+<div class="refsynopsisdiv">
 <a name="PkPackageSack.synopsis"></a><h2>Synopsis</h2>
 <pre class="synopsis">#define             <a class="link" href="PkPackageSack.html#PK-PACKAGE-SACK-TYPE-ERROR:CAPS" title="PK_PACKAGE_SACK_TYPE_ERROR">PK_PACKAGE_SACK_TYPE_ERROR</a>
-                    <a class="link" href="PkPackageSack.html#PkPackageSackPrivate" title="PkPackageSackPrivate">PkPackageSackPrivate</a>;
-                    <a class="link" href="PkPackageSack.html#PkPackageSack-struct" title="PkPackageSack">PkPackageSack</a>;
-                    <a class="link" href="PkPackageSack.html#PkPackageSackClass" title="PkPackageSackClass">PkPackageSackClass</a>;
-                    <a class="link" href="PkPackageSack.html#PkPackageSackResults" title="PkPackageSackResults">PkPackageSackResults</a>;
+struct              <a class="link" href="PkPackageSack.html#PkPackageSack-struct" title="struct PkPackageSack">PkPackageSack</a>;
+struct              <a class="link" href="PkPackageSack.html#PkPackageSackClass" title="struct PkPackageSackClass">PkPackageSackClass</a>;
 enum                <a class="link" href="PkPackageSack.html#PkPackageSackSortType" title="enum PkPackageSackSortType">PkPackageSackSortType</a>;
 <a class="link" href="PkPackageSack.html" title="PkPackageSack"><span class="returnvalue">PkPackageSack</span></a> *     <a class="link" href="PkPackageSack.html#pk-package-sack-new" title="pk_package_sack_new ()">pk_package_sack_new</a>                 (<em class="parameter"><code><span class="type">void</span></code></em>);
 <span class="returnvalue">void</span>                <a class="link" href="PkPackageSack.html#pk-package-sack-test" title="pk_package_sack_test ()">pk_package_sack_test</a>                (<em class="parameter"><code><a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gpointer"><span class="type">gpointer</span></a> user_data</code></em>);
@@ -99,16 +97,18 @@ enum                <a class="link" href="PkPackageSack.html#PkPackageSackSortTy
                                                          <em class="parameter"><code><a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gpointer"><span class="type">gpointer</span></a> progress_user_data</code></em>,
                                                          <em class="parameter"><code><a href="http://library.gnome.org/devel/gio/unstable/GAsyncResult.html#GAsyncReadyCallback"><span class="type">GAsyncReadyCallback</span></a> callback</code></em>,
                                                          <em class="parameter"><code><a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gpointer"><span class="type">gpointer</span></a> user_data</code></em>);
+                    <a class="link" href="PkPackageSack.html#PkPackageSackResults" title="PkPackageSackResults">PkPackageSackResults</a>;
+                    <a class="link" href="PkPackageSack.html#PkPackageSackPrivate" title="PkPackageSackPrivate">PkPackageSackPrivate</a>;
 </pre>
 </div>
-<div class="refsect1" title="Object Hierarchy">
+<div class="refsect1">
 <a name="PkPackageSack.object-hierarchy"></a><h2>Object Hierarchy</h2>
 <pre class="synopsis">
   <a href="http://library.gnome.org/devel/gobject/unstable/gobject-The-Base-Object-Type.html#GObject">GObject</a>
    +----PkPackageSack
 </pre>
 </div>
-<div class="refsect1" title="Description">
+<div class="refsect1">
 <a name="PkPackageSack.description"></a><h2>Description</h2>
 <p>
 A package sack is a set of packages that can have operations done on them
@@ -116,9 +116,9 @@ in parallel. This might be adding summary text for bare package ID's, or
 to add package or update details.
 </p>
 </div>
-<div class="refsect1" title="Details">
+<div class="refsect1">
 <a name="PkPackageSack.details"></a><h2>Details</h2>
-<div class="refsect2" title="PK_PACKAGE_SACK_TYPE_ERROR">
+<div class="refsect2">
 <a name="PK-PACKAGE-SACK-TYPE-ERROR:CAPS"></a><h3>PK_PACKAGE_SACK_TYPE_ERROR</h3>
 <pre class="programlisting">#define PK_PACKAGE_SACK_TYPE_ERROR (pk_package_sack_error_get_type ())
 </pre>
@@ -126,24 +126,16 @@ to add package or update details.
 </p>
 </div>
 <hr>
-<div class="refsect2" title="PkPackageSackPrivate">
-<a name="PkPackageSackPrivate"></a><h3>PkPackageSackPrivate</h3>
-<pre class="programlisting">typedef struct _PkPackageSackPrivate PkPackageSackPrivate;</pre>
-<p>
-Private <a class="link" href="PkPackageSack.html" title="PkPackageSack"><span class="type">PkPackageSack</span></a> data
-</p>
-</div>
-<hr>
-<div class="refsect2" title="PkPackageSack">
-<a name="PkPackageSack-struct"></a><h3>PkPackageSack</h3>
-<pre class="programlisting">typedef struct _PkPackageSack PkPackageSack;</pre>
+<div class="refsect2">
+<a name="PkPackageSack-struct"></a><h3>struct PkPackageSack</h3>
+<pre class="programlisting">struct PkPackageSack;</pre>
 <p>
 </p>
 </div>
 <hr>
-<div class="refsect2" title="PkPackageSackClass">
-<a name="PkPackageSackClass"></a><h3>PkPackageSackClass</h3>
-<pre class="programlisting">typedef struct {
+<div class="refsect2">
+<a name="PkPackageSackClass"></a><h3>struct PkPackageSackClass</h3>
+<pre class="programlisting">struct PkPackageSackClass {
 	GObjectClass parent_class;
 
 	/* signals */
@@ -154,20 +146,13 @@ Private <a class="link" href="PkPackageSack.html" title="PkPackageSack"><span cl
 	void (*_pk_reserved3) (void);
 	void (*_pk_reserved4) (void);
 	void (*_pk_reserved5) (void);
-} PkPackageSackClass;
+};
 </pre>
 <p>
 </p>
 </div>
 <hr>
-<div class="refsect2" title="PkPackageSackResults">
-<a name="PkPackageSackResults"></a><h3>PkPackageSackResults</h3>
-<pre class="programlisting">typedef struct _PkPackageSackResults PkPackageSackResults;</pre>
-<p>
-</p>
-</div>
-<hr>
-<div class="refsect2" title="enum PkPackageSackSortType">
+<div class="refsect2">
 <a name="PkPackageSackSortType"></a><h3>enum PkPackageSackSortType</h3>
 <pre class="programlisting">typedef enum {
 	PK_PACKAGE_SACK_SORT_TYPE_NAME,
@@ -181,65 +166,35 @@ Private <a class="link" href="PkPackageSack.html" title="PkPackageSack"><span cl
 </p>
 </div>
 <hr>
-<div class="refsect2" title="pk_package_sack_new ()">
+<div class="refsect2">
 <a name="pk-package-sack-new"></a><h3>pk_package_sack_new ()</h3>
 <pre class="programlisting"><a class="link" href="PkPackageSack.html" title="PkPackageSack"><span class="returnvalue">PkPackageSack</span></a> *     pk_package_sack_new                 (<em class="parameter"><code><span class="type">void</span></code></em>);</pre>
 <div class="variablelist"><table border="0">
 <col align="left" valign="top">
 <tbody><tr>
 <td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
-<td> a new PkPackageSack object.
-
-</td>
+<td>a new PkPackageSack object.</td>
 </tr></tbody>
 </table></div>
 <p class="since">Since 0.5.2</p>
 </div>
 <hr>
-<div class="refsect2" title="pk_package_sack_test ()">
+<div class="refsect2">
 <a name="pk-package-sack-test"></a><h3>pk_package_sack_test ()</h3>
 <pre class="programlisting"><span class="returnvalue">void</span>                pk_package_sack_test                (<em class="parameter"><code><a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gpointer"><span class="type">gpointer</span></a> user_data</code></em>);</pre>
 <p>
 </p>
-<div class="variablelist"><table border="0">
-<col align="left" valign="top">
-<tbody><tr>
-<td><p><span class="term"><em class="parameter"><code>user_data</code></em> :</span></p></td>
-<td>
-</td>
-</tr></tbody>
-</table></div>
 </div>
 <hr>
-<div class="refsect2" title="PkPackageSackFilterFunc ()">
+<div class="refsect2">
 <a name="PkPackageSackFilterFunc"></a><h3>PkPackageSackFilterFunc ()</h3>
 <pre class="programlisting"><a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gboolean"><span class="returnvalue">gboolean</span></a>            (*PkPackageSackFilterFunc)          (<em class="parameter"><code><a class="link" href="PkPackage.html" title="PkPackage"><span class="type">PkPackage</span></a> *package</code></em>,
                                                          <em class="parameter"><code><a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gpointer"><span class="type">gpointer</span></a> user_data</code></em>);</pre>
 <p>
 </p>
-<div class="variablelist"><table border="0">
-<col align="left" valign="top">
-<tbody>
-<tr>
-<td><p><span class="term"><em class="parameter"><code>package</code></em> :</span></p></td>
-<td>
-</td>
-</tr>
-<tr>
-<td><p><span class="term"><em class="parameter"><code>user_data</code></em> :</span></p></td>
-<td>
-</td>
-</tr>
-<tr>
-<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
-<td>
-</td>
-</tr>
-</tbody>
-</table></div>
 </div>
 <hr>
-<div class="refsect2" title="pk_package_sack_clear ()">
+<div class="refsect2">
 <a name="pk-package-sack-clear"></a><h3>pk_package_sack_clear ()</h3>
 <pre class="programlisting"><span class="returnvalue">void</span>                pk_package_sack_clear               (<em class="parameter"><code><a class="link" href="PkPackageSack.html" title="PkPackageSack"><span class="type">PkPackageSack</span></a> *sack</code></em>);</pre>
 <p>
@@ -249,14 +204,13 @@ Empty all the packages from the sack
 <col align="left" valign="top">
 <tbody><tr>
 <td><p><span class="term"><em class="parameter"><code>sack</code></em> :</span></p></td>
-<td>a valid <a class="link" href="PkPackageSack.html" title="PkPackageSack"><span class="type">PkPackageSack</span></a> instance
-</td>
+<td>a valid <a class="link" href="PkPackageSack.html" title="PkPackageSack"><span class="type">PkPackageSack</span></a> instance</td>
 </tr></tbody>
 </table></div>
 <p class="since">Since 0.5.2</p>
 </div>
 <hr>
-<div class="refsect2" title="pk_package_sack_get_ids ()">
+<div class="refsect2">
 <a name="pk-package-sack-get-ids"></a><h3>pk_package_sack_get_ids ()</h3>
 <pre class="programlisting"><a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gchar"><span class="returnvalue">gchar</span></a> **            pk_package_sack_get_ids             (<em class="parameter"><code><a class="link" href="PkPackageSack.html" title="PkPackageSack"><span class="type">PkPackageSack</span></a> *sack</code></em>);</pre>
 <p>
@@ -267,12 +221,11 @@ Returns all the Package IDs in the sack
 <tbody>
 <tr>
 <td><p><span class="term"><em class="parameter"><code>sack</code></em> :</span></p></td>
-<td>a valid <a class="link" href="PkPackageSack.html" title="PkPackageSack"><span class="type">PkPackageSack</span></a> instance
-</td>
+<td>a valid <a class="link" href="PkPackageSack.html" title="PkPackageSack"><span class="type">PkPackageSack</span></a> instance</td>
 </tr>
 <tr>
 <td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
-<td> the number of packages in the sack, free with <a href="http://library.gnome.org/devel/glib/unstable/glib-String-Utility-Functions.html#g-strfreev"><code class="function">g_strfreev()</code></a>. <span class="annotation">[<a href="http://foldoc.org/transfer%20full"><span class="acronym">transfer full</span></a>]</span>
+<td>the number of packages in the sack, free with <a href="http://library.gnome.org/devel/glib/unstable/glib-String-Utility-Functions.html#g-strfreev"><code class="function">g_strfreev()</code></a>. <span class="annotation">[<a href="http://foldoc.org/transfer%20full"><span class="acronym">transfer full</span></a>]</span>
 </td>
 </tr>
 </tbody>
@@ -280,7 +233,7 @@ Returns all the Package IDs in the sack
 <p class="since">Since 0.5.3</p>
 </div>
 <hr>
-<div class="refsect2" title="pk_package_sack_get_size ()">
+<div class="refsect2">
 <a name="pk-package-sack-get-size"></a><h3>pk_package_sack_get_size ()</h3>
 <pre class="programlisting"><a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#guint"><span class="returnvalue">guint</span></a>               pk_package_sack_get_size            (<em class="parameter"><code><a class="link" href="PkPackageSack.html" title="PkPackageSack"><span class="type">PkPackageSack</span></a> *sack</code></em>);</pre>
 <p>
@@ -291,21 +244,18 @@ Gets the number of packages in the sack
 <tbody>
 <tr>
 <td><p><span class="term"><em class="parameter"><code>sack</code></em> :</span></p></td>
-<td>a valid <a class="link" href="PkPackageSack.html" title="PkPackageSack"><span class="type">PkPackageSack</span></a> instance
-</td>
+<td>a valid <a class="link" href="PkPackageSack.html" title="PkPackageSack"><span class="type">PkPackageSack</span></a> instance</td>
 </tr>
 <tr>
 <td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
-<td> the number of packages in the sack
-
-</td>
+<td>the number of packages in the sack</td>
 </tr>
 </tbody>
 </table></div>
 <p class="since">Since 0.5.2</p>
 </div>
 <hr>
-<div class="refsect2" title="pk_package_sack_get_array ()">
+<div class="refsect2">
 <a name="pk-package-sack-get-array"></a><h3>pk_package_sack_get_array ()</h3>
 <pre class="programlisting"><a href="http://library.gnome.org/devel/glib/unstable/glib-Pointer-Arrays.html#GPtrArray"><span class="returnvalue">GPtrArray</span></a> *         pk_package_sack_get_array           (<em class="parameter"><code><a class="link" href="PkPackageSack.html" title="PkPackageSack"><span class="type">PkPackageSack</span></a> *sack</code></em>);</pre>
 <p>
@@ -316,12 +266,11 @@ Gets the package array from the sack
 <tbody>
 <tr>
 <td><p><span class="term"><em class="parameter"><code>sack</code></em> :</span></p></td>
-<td>a valid <a class="link" href="PkPackageSack.html" title="PkPackageSack"><span class="type">PkPackageSack</span></a> instance
-</td>
+<td>a valid <a class="link" href="PkPackageSack.html" title="PkPackageSack"><span class="type">PkPackageSack</span></a> instance</td>
 </tr>
 <tr>
 <td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
-<td> a <a href="http://library.gnome.org/devel/glib/unstable/glib-Pointer-Arrays.html#GPtrArray"><span class="type">GPtrArray</span></a>, free with <a href="http://library.gnome.org/devel/glib/unstable/glib-Pointer-Arrays.html#g-ptr-array-unref"><code class="function">g_ptr_array_unref()</code></a>. <span class="annotation">[<a href="http://foldoc.org/transfer%20full"><span class="acronym">transfer full</span></a>]</span>
+<td>a <a href="http://library.gnome.org/devel/glib/unstable/glib-Pointer-Arrays.html#GPtrArray"><span class="type">GPtrArray</span></a>, free with <a href="http://library.gnome.org/devel/glib/unstable/glib-Pointer-Arrays.html#g-ptr-array-unref"><code class="function">g_ptr_array_unref()</code></a>. <span class="annotation">[<a href="http://foldoc.org/transfer%20full"><span class="acronym">transfer full</span></a>]</span>
 </td>
 </tr>
 </tbody>
@@ -329,30 +278,15 @@ Gets the package array from the sack
 <p class="since">Since 0.6.1</p>
 </div>
 <hr>
-<div class="refsect2" title="pk_package_sack_sort ()">
+<div class="refsect2">
 <a name="pk-package-sack-sort"></a><h3>pk_package_sack_sort ()</h3>
 <pre class="programlisting"><span class="returnvalue">void</span>                pk_package_sack_sort                (<em class="parameter"><code><a class="link" href="PkPackageSack.html" title="PkPackageSack"><span class="type">PkPackageSack</span></a> *sack</code></em>,
                                                          <em class="parameter"><code><a class="link" href="PkPackageSack.html#PkPackageSackSortType" title="enum PkPackageSackSortType"><span class="type">PkPackageSackSortType</span></a> type</code></em>);</pre>
 <p>
 </p>
-<div class="variablelist"><table border="0">
-<col align="left" valign="top">
-<tbody>
-<tr>
-<td><p><span class="term"><em class="parameter"><code>sack</code></em> :</span></p></td>
-<td>
-</td>
-</tr>
-<tr>
-<td><p><span class="term"><em class="parameter"><code>type</code></em> :</span></p></td>
-<td>
-</td>
-</tr>
-</tbody>
-</table></div>
 </div>
 <hr>
-<div class="refsect2" title="pk_package_sack_add_package ()">
+<div class="refsect2">
 <a name="pk-package-sack-add-package"></a><h3>pk_package_sack_add_package ()</h3>
 <pre class="programlisting"><a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gboolean"><span class="returnvalue">gboolean</span></a>            pk_package_sack_add_package         (<em class="parameter"><code><a class="link" href="PkPackageSack.html" title="PkPackageSack"><span class="type">PkPackageSack</span></a> *sack</code></em>,
                                                          <em class="parameter"><code><a class="link" href="PkPackage.html" title="PkPackage"><span class="type">PkPackage</span></a> *package</code></em>);</pre>
@@ -364,26 +298,23 @@ Adds a package to the sack.
 <tbody>
 <tr>
 <td><p><span class="term"><em class="parameter"><code>sack</code></em> :</span></p></td>
-<td>a valid <a class="link" href="PkPackageSack.html" title="PkPackageSack"><span class="type">PkPackageSack</span></a> instance
-</td>
+<td>a valid <a class="link" href="PkPackageSack.html" title="PkPackageSack"><span class="type">PkPackageSack</span></a> instance</td>
 </tr>
 <tr>
 <td><p><span class="term"><em class="parameter"><code>package</code></em> :</span></p></td>
-<td>a valid <a class="link" href="PkPackage.html" title="PkPackage"><span class="type">PkPackage</span></a> instance
-</td>
+<td>a valid <a class="link" href="PkPackage.html" title="PkPackage"><span class="type">PkPackage</span></a> instance</td>
 </tr>
 <tr>
 <td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
-<td> <a href="http://library.gnome.org/devel/glib/unstable/glib-Standard-Macros.html#TRUE:CAPS"><code class="literal">TRUE</code></a> if the package was added to the sack
-
-</td>
+<td>
+<a href="http://library.gnome.org/devel/glib/unstable/glib-Standard-Macros.html#TRUE:CAPS"><code class="literal">TRUE</code></a> if the package was added to the sack</td>
 </tr>
 </tbody>
 </table></div>
 <p class="since">Since 0.5.2</p>
 </div>
 <hr>
-<div class="refsect2" title="pk_package_sack_add_package_by_id ()">
+<div class="refsect2">
 <a name="pk-package-sack-add-package-by-id"></a><h3>pk_package_sack_add_package_by_id ()</h3>
 <pre class="programlisting"><a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gboolean"><span class="returnvalue">gboolean</span></a>            pk_package_sack_add_package_by_id   (<em class="parameter"><code><a class="link" href="PkPackageSack.html" title="PkPackageSack"><span class="type">PkPackageSack</span></a> *sack</code></em>,
                                                          <em class="parameter"><code>const <a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a> *package_id</code></em>,
@@ -396,13 +327,11 @@ Adds a package reference to the sack.
 <tbody>
 <tr>
 <td><p><span class="term"><em class="parameter"><code>sack</code></em> :</span></p></td>
-<td>a valid <a class="link" href="PkPackageSack.html" title="PkPackageSack"><span class="type">PkPackageSack</span></a> instance
-</td>
+<td>a valid <a class="link" href="PkPackageSack.html" title="PkPackageSack"><span class="type">PkPackageSack</span></a> instance</td>
 </tr>
 <tr>
 <td><p><span class="term"><em class="parameter"><code>package_id</code></em> :</span></p></td>
-<td>a package_id descriptor
-</td>
+<td>a package_id descriptor</td>
 </tr>
 <tr>
 <td><p><span class="term"><em class="parameter"><code>error</code></em> :</span></p></td>
@@ -411,16 +340,15 @@ Adds a package reference to the sack.
 </tr>
 <tr>
 <td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
-<td> <a href="http://library.gnome.org/devel/glib/unstable/glib-Standard-Macros.html#TRUE:CAPS"><code class="literal">TRUE</code></a> if the package was added to the sack
-
-</td>
+<td>
+<a href="http://library.gnome.org/devel/glib/unstable/glib-Standard-Macros.html#TRUE:CAPS"><code class="literal">TRUE</code></a> if the package was added to the sack</td>
 </tr>
 </tbody>
 </table></div>
 <p class="since">Since 0.5.2</p>
 </div>
 <hr>
-<div class="refsect2" title="pk_package_sack_remove_package ()">
+<div class="refsect2">
 <a name="pk-package-sack-remove-package"></a><h3>pk_package_sack_remove_package ()</h3>
 <pre class="programlisting"><a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gboolean"><span class="returnvalue">gboolean</span></a>            pk_package_sack_remove_package      (<em class="parameter"><code><a class="link" href="PkPackageSack.html" title="PkPackageSack"><span class="type">PkPackageSack</span></a> *sack</code></em>,
                                                          <em class="parameter"><code><a class="link" href="PkPackage.html" title="PkPackage"><span class="type">PkPackage</span></a> *package</code></em>);</pre>
@@ -432,26 +360,23 @@ Removes a package reference from the sack. The pointers have to match exactly.
 <tbody>
 <tr>
 <td><p><span class="term"><em class="parameter"><code>sack</code></em> :</span></p></td>
-<td>a valid <a class="link" href="PkPackageSack.html" title="PkPackageSack"><span class="type">PkPackageSack</span></a> instance
-</td>
+<td>a valid <a class="link" href="PkPackageSack.html" title="PkPackageSack"><span class="type">PkPackageSack</span></a> instance</td>
 </tr>
 <tr>
 <td><p><span class="term"><em class="parameter"><code>package</code></em> :</span></p></td>
-<td>a valid <a class="link" href="PkPackage.html" title="PkPackage"><span class="type">PkPackage</span></a> instance
-</td>
+<td>a valid <a class="link" href="PkPackage.html" title="PkPackage"><span class="type">PkPackage</span></a> instance</td>
 </tr>
 <tr>
 <td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
-<td> <a href="http://library.gnome.org/devel/glib/unstable/glib-Standard-Macros.html#TRUE:CAPS"><code class="literal">TRUE</code></a> if the package was removed from the sack
-
-</td>
+<td>
+<a href="http://library.gnome.org/devel/glib/unstable/glib-Standard-Macros.html#TRUE:CAPS"><code class="literal">TRUE</code></a> if the package was removed from the sack</td>
 </tr>
 </tbody>
 </table></div>
 <p class="since">Since 0.5.2</p>
 </div>
 <hr>
-<div class="refsect2" title="pk_package_sack_remove_package_by_id ()">
+<div class="refsect2">
 <a name="pk-package-sack-remove-package-by-id"></a><h3>pk_package_sack_remove_package_by_id ()</h3>
 <pre class="programlisting"><a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gboolean"><span class="returnvalue">gboolean</span></a>            pk_package_sack_remove_package_by_id
                                                         (<em class="parameter"><code><a class="link" href="PkPackageSack.html" title="PkPackageSack"><span class="type">PkPackageSack</span></a> *sack</code></em>,
@@ -465,26 +390,23 @@ the search is stopped.
 <tbody>
 <tr>
 <td><p><span class="term"><em class="parameter"><code>sack</code></em> :</span></p></td>
-<td>a valid <a class="link" href="PkPackageSack.html" title="PkPackageSack"><span class="type">PkPackageSack</span></a> instance
-</td>
+<td>a valid <a class="link" href="PkPackageSack.html" title="PkPackageSack"><span class="type">PkPackageSack</span></a> instance</td>
 </tr>
 <tr>
 <td><p><span class="term"><em class="parameter"><code>package_id</code></em> :</span></p></td>
-<td>a package_id descriptor
-</td>
+<td>a package_id descriptor</td>
 </tr>
 <tr>
 <td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
-<td> <a href="http://library.gnome.org/devel/glib/unstable/glib-Standard-Macros.html#TRUE:CAPS"><code class="literal">TRUE</code></a> if the package was removed from the sack
-
-</td>
+<td>
+<a href="http://library.gnome.org/devel/glib/unstable/glib-Standard-Macros.html#TRUE:CAPS"><code class="literal">TRUE</code></a> if the package was removed from the sack</td>
 </tr>
 </tbody>
 </table></div>
 <p class="since">Since 0.5.2</p>
 </div>
 <hr>
-<div class="refsect2" title="pk_package_sack_remove_by_filter ()">
+<div class="refsect2">
 <a name="pk-package-sack-remove-by-filter"></a><h3>pk_package_sack_remove_by_filter ()</h3>
 <pre class="programlisting"><a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gboolean"><span class="returnvalue">gboolean</span></a>            pk_package_sack_remove_by_filter    (<em class="parameter"><code><a class="link" href="PkPackageSack.html" title="PkPackageSack"><span class="type">PkPackageSack</span></a> *sack</code></em>,
                                                          <em class="parameter"><code><a class="link" href="PkPackageSack.html#PkPackageSackFilterFunc" title="PkPackageSackFilterFunc ()"><span class="type">PkPackageSackFilterFunc</span></a> filter_cb</code></em>,
@@ -498,12 +420,11 @@ function.
 <tbody>
 <tr>
 <td><p><span class="term"><em class="parameter"><code>sack</code></em> :</span></p></td>
-<td>a valid <a class="link" href="PkPackageSack.html" title="PkPackageSack"><span class="type">PkPackageSack</span></a> instance
-</td>
+<td>a valid <a class="link" href="PkPackageSack.html" title="PkPackageSack"><span class="type">PkPackageSack</span></a> instance</td>
 </tr>
 <tr>
 <td><p><span class="term"><em class="parameter"><code>filter_cb</code></em> :</span></p></td>
-<td> a <a class="link" href="PkPackageSack.html#PkPackageSackFilterFunc" title="PkPackageSackFilterFunc ()"><span class="type">PkPackageSackFilterFunc</span></a>, which returns <a href="http://library.gnome.org/devel/glib/unstable/glib-Standard-Macros.html#TRUE:CAPS"><code class="literal">TRUE</code></a> for the <a class="link" href="PkPackage.html" title="PkPackage"><span class="type">PkPackage</span></a>'s to retain. <span class="annotation">[<a href="http://foldoc.org/scope%20call"><span class="acronym">scope call</span></a>]</span>
+<td>a <a class="link" href="PkPackageSack.html#PkPackageSackFilterFunc" title="PkPackageSackFilterFunc ()"><span class="type">PkPackageSackFilterFunc</span></a>, which returns <a href="http://library.gnome.org/devel/glib/unstable/glib-Standard-Macros.html#TRUE:CAPS"><code class="literal">TRUE</code></a> for the <a class="link" href="PkPackage.html" title="PkPackage"><span class="type">PkPackage</span></a>'s to retain. <span class="annotation">[<a href="http://foldoc.org/scope%20call"><span class="acronym">scope call</span></a>]</span>
 </td>
 </tr>
 <tr>
@@ -513,16 +434,15 @@ function.
 </tr>
 <tr>
 <td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
-<td> <a href="http://library.gnome.org/devel/glib/unstable/glib-Standard-Macros.html#TRUE:CAPS"><code class="literal">TRUE</code></a> if a package was removed from the sack
-
-</td>
+<td>
+<a href="http://library.gnome.org/devel/glib/unstable/glib-Standard-Macros.html#TRUE:CAPS"><code class="literal">TRUE</code></a> if a package was removed from the sack</td>
 </tr>
 </tbody>
 </table></div>
 <p class="since">Since 0.6.3</p>
 </div>
 <hr>
-<div class="refsect2" title="pk_package_sack_find_by_id ()">
+<div class="refsect2">
 <a name="pk-package-sack-find-by-id"></a><h3>pk_package_sack_find_by_id ()</h3>
 <pre class="programlisting"><a class="link" href="PkPackage.html" title="PkPackage"><span class="returnvalue">PkPackage</span></a> *         pk_package_sack_find_by_id          (<em class="parameter"><code><a class="link" href="PkPackageSack.html" title="PkPackageSack"><span class="type">PkPackageSack</span></a> *sack</code></em>,
                                                          <em class="parameter"><code>const <a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a> *package_id</code></em>);</pre>
@@ -535,17 +455,15 @@ the search is stopped.
 <tbody>
 <tr>
 <td><p><span class="term"><em class="parameter"><code>sack</code></em> :</span></p></td>
-<td>a valid <a class="link" href="PkPackageSack.html" title="PkPackageSack"><span class="type">PkPackageSack</span></a> instance
-</td>
+<td>a valid <a class="link" href="PkPackageSack.html" title="PkPackageSack"><span class="type">PkPackageSack</span></a> instance</td>
 </tr>
 <tr>
 <td><p><span class="term"><em class="parameter"><code>package_id</code></em> :</span></p></td>
-<td>a package_id descriptor
-</td>
+<td>a package_id descriptor</td>
 </tr>
 <tr>
 <td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
-<td> the <a class="link" href="PkPackage.html" title="PkPackage"><span class="type">PkPackage</span></a> object, or <a href="http://library.gnome.org/devel/glib/unstable/glib-Standard-Macros.html#NULL:CAPS"><code class="literal">NULL</code></a> if unfound. Free with <a href="http://library.gnome.org/devel/gobject/unstable/gobject-The-Base-Object-Type.html#g-object-unref"><code class="function">g_object_unref()</code></a>. <span class="annotation">[<a href="http://foldoc.org/transfer%20full"><span class="acronym">transfer full</span></a>]</span>
+<td>the <a class="link" href="PkPackage.html" title="PkPackage"><span class="type">PkPackage</span></a> object, or <a href="http://library.gnome.org/devel/glib/unstable/glib-Standard-Macros.html#NULL:CAPS"><code class="literal">NULL</code></a> if unfound. Free with <a href="http://library.gnome.org/devel/gobject/unstable/gobject-The-Base-Object-Type.html#g-object-unref"><code class="function">g_object_unref()</code></a>. <span class="annotation">[<a href="http://foldoc.org/transfer%20full"><span class="acronym">transfer full</span></a>]</span>
 </td>
 </tr>
 </tbody>
@@ -553,7 +471,7 @@ the search is stopped.
 <p class="since">Since 0.5.2</p>
 </div>
 <hr>
-<div class="refsect2" title="pk_package_sack_filter_by_info ()">
+<div class="refsect2">
 <a name="pk-package-sack-filter-by-info"></a><h3>pk_package_sack_filter_by_info ()</h3>
 <pre class="programlisting"><a class="link" href="PkPackageSack.html" title="PkPackageSack"><span class="returnvalue">PkPackageSack</span></a> *     pk_package_sack_filter_by_info      (<em class="parameter"><code><a class="link" href="PkPackageSack.html" title="PkPackageSack"><span class="type">PkPackageSack</span></a> *sack</code></em>,
                                                          <em class="parameter"><code><a class="link" href="PackageKit-pk-enum.html#PkInfoEnum" title="enum PkInfoEnum"><span class="type">PkInfoEnum</span></a> info</code></em>);</pre>
@@ -566,17 +484,15 @@ specified info enum value.
 <tbody>
 <tr>
 <td><p><span class="term"><em class="parameter"><code>sack</code></em> :</span></p></td>
-<td>a valid <a class="link" href="PkPackageSack.html" title="PkPackageSack"><span class="type">PkPackageSack</span></a> instance
-</td>
+<td>a valid <a class="link" href="PkPackageSack.html" title="PkPackageSack"><span class="type">PkPackageSack</span></a> instance</td>
 </tr>
 <tr>
 <td><p><span class="term"><em class="parameter"><code>info</code></em> :</span></p></td>
-<td>a <a class="link" href="PackageKit-pk-enum.html#PkInfoEnum" title="enum PkInfoEnum"><code class="literal">PkInfoEnum</code></a> value to match
-</td>
+<td>a <a class="link" href="PackageKit-pk-enum.html#PkInfoEnum" title="enum PkInfoEnum"><code class="literal">PkInfoEnum</code></a> value to match</td>
 </tr>
 <tr>
 <td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
-<td> a new <a class="link" href="PkPackageSack.html" title="PkPackageSack"><span class="type">PkPackageSack</span></a>, free with <a href="http://library.gnome.org/devel/gobject/unstable/gobject-The-Base-Object-Type.html#g-object-unref"><code class="function">g_object_unref()</code></a>. <span class="annotation">[<a href="http://foldoc.org/transfer%20full"><span class="acronym">transfer full</span></a>]</span>
+<td>a new <a class="link" href="PkPackageSack.html" title="PkPackageSack"><span class="type">PkPackageSack</span></a>, free with <a href="http://library.gnome.org/devel/gobject/unstable/gobject-The-Base-Object-Type.html#g-object-unref"><code class="function">g_object_unref()</code></a>. <span class="annotation">[<a href="http://foldoc.org/transfer%20full"><span class="acronym">transfer full</span></a>]</span>
 </td>
 </tr>
 </tbody>
@@ -584,7 +500,7 @@ specified info enum value.
 <p class="since">Since 0.6.2</p>
 </div>
 <hr>
-<div class="refsect2" title="pk_package_sack_filter ()">
+<div class="refsect2">
 <a name="pk-package-sack-filter"></a><h3>pk_package_sack_filter ()</h3>
 <pre class="programlisting"><a class="link" href="PkPackageSack.html" title="PkPackageSack"><span class="returnvalue">PkPackageSack</span></a> *     pk_package_sack_filter              (<em class="parameter"><code><a class="link" href="PkPackageSack.html" title="PkPackageSack"><span class="type">PkPackageSack</span></a> *sack</code></em>,
                                                          <em class="parameter"><code><a class="link" href="PkPackageSack.html#PkPackageSackFilterFunc" title="PkPackageSackFilterFunc ()"><span class="type">PkPackageSackFilterFunc</span></a> filter_cb</code></em>,
@@ -598,12 +514,11 @@ from the filter function.
 <tbody>
 <tr>
 <td><p><span class="term"><em class="parameter"><code>sack</code></em> :</span></p></td>
-<td>a valid <a class="link" href="PkPackageSack.html" title="PkPackageSack"><span class="type">PkPackageSack</span></a> instance
-</td>
+<td>a valid <a class="link" href="PkPackageSack.html" title="PkPackageSack"><span class="type">PkPackageSack</span></a> instance</td>
 </tr>
 <tr>
 <td><p><span class="term"><em class="parameter"><code>filter_cb</code></em> :</span></p></td>
-<td> a <a class="link" href="PkPackageSack.html#PkPackageSackFilterFunc" title="PkPackageSackFilterFunc ()"><span class="type">PkPackageSackFilterFunc</span></a>, which returns <a href="http://library.gnome.org/devel/glib/unstable/glib-Standard-Macros.html#TRUE:CAPS"><code class="literal">TRUE</code></a> for the <a class="link" href="PkPackage.html" title="PkPackage"><span class="type">PkPackage</span></a>'s to add. <span class="annotation">[<a href="http://foldoc.org/scope%20call"><span class="acronym">scope call</span></a>]</span>
+<td>a <a class="link" href="PkPackageSack.html#PkPackageSackFilterFunc" title="PkPackageSackFilterFunc ()"><span class="type">PkPackageSackFilterFunc</span></a>, which returns <a href="http://library.gnome.org/devel/glib/unstable/glib-Standard-Macros.html#TRUE:CAPS"><code class="literal">TRUE</code></a> for the <a class="link" href="PkPackage.html" title="PkPackage"><span class="type">PkPackage</span></a>'s to add. <span class="annotation">[<a href="http://foldoc.org/scope%20call"><span class="acronym">scope call</span></a>]</span>
 </td>
 </tr>
 <tr>
@@ -613,7 +528,7 @@ from the filter function.
 </tr>
 <tr>
 <td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
-<td> a new <a class="link" href="PkPackageSack.html" title="PkPackageSack"><span class="type">PkPackageSack</span></a>, free with <a href="http://library.gnome.org/devel/gobject/unstable/gobject-The-Base-Object-Type.html#g-object-unref"><code class="function">g_object_unref()</code></a>. <span class="annotation">[<a href="http://foldoc.org/transfer%20full"><span class="acronym">transfer full</span></a>]</span>
+<td>a new <a class="link" href="PkPackageSack.html" title="PkPackageSack"><span class="type">PkPackageSack</span></a>, free with <a href="http://library.gnome.org/devel/gobject/unstable/gobject-The-Base-Object-Type.html#g-object-unref"><code class="function">g_object_unref()</code></a>. <span class="annotation">[<a href="http://foldoc.org/transfer%20full"><span class="acronym">transfer full</span></a>]</span>
 </td>
 </tr>
 </tbody>
@@ -621,7 +536,7 @@ from the filter function.
 <p class="since">Since 0.6.3</p>
 </div>
 <hr>
-<div class="refsect2" title="pk_package_sack_get_total_bytes ()">
+<div class="refsect2">
 <a name="pk-package-sack-get-total-bytes"></a><h3>pk_package_sack_get_total_bytes ()</h3>
 <pre class="programlisting"><a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#guint64"><span class="returnvalue">guint64</span></a>             pk_package_sack_get_total_bytes     (<em class="parameter"><code><a class="link" href="PkPackageSack.html" title="PkPackageSack"><span class="type">PkPackageSack</span></a> *sack</code></em>);</pre>
 <p>
@@ -632,21 +547,18 @@ Gets the total size of the package sack in bytes.
 <tbody>
 <tr>
 <td><p><span class="term"><em class="parameter"><code>sack</code></em> :</span></p></td>
-<td>a valid <a class="link" href="PkPackageSack.html" title="PkPackageSack"><span class="type">PkPackageSack</span></a> instance
-</td>
+<td>a valid <a class="link" href="PkPackageSack.html" title="PkPackageSack"><span class="type">PkPackageSack</span></a> instance</td>
 </tr>
 <tr>
 <td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
-<td> the size in bytes
-
-</td>
+<td>the size in bytes</td>
 </tr>
 </tbody>
 </table></div>
 <p class="since">Since 0.5.2</p>
 </div>
 <hr>
-<div class="refsect2" title="pk_package_sack_merge_generic_finish ()">
+<div class="refsect2">
 <a name="pk-package-sack-merge-generic-finish"></a><h3>pk_package_sack_merge_generic_finish ()</h3>
 <pre class="programlisting"><a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gboolean"><span class="returnvalue">gboolean</span></a>            pk_package_sack_merge_generic_finish
                                                         (<em class="parameter"><code><a class="link" href="PkPackageSack.html" title="PkPackageSack"><span class="type">PkPackageSack</span></a> *sack</code></em>,
@@ -660,8 +572,7 @@ Gets the result from the asynchronous function.
 <tbody>
 <tr>
 <td><p><span class="term"><em class="parameter"><code>sack</code></em> :</span></p></td>
-<td>a valid <a class="link" href="PkPackageSack.html" title="PkPackageSack"><span class="type">PkPackageSack</span></a> instance
-</td>
+<td>a valid <a class="link" href="PkPackageSack.html" title="PkPackageSack"><span class="type">PkPackageSack</span></a> instance</td>
 </tr>
 <tr>
 <td><p><span class="term"><em class="parameter"><code>res</code></em> :</span></p></td>
@@ -675,16 +586,15 @@ Gets the result from the asynchronous function.
 </tr>
 <tr>
 <td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
-<td> <a href="http://library.gnome.org/devel/glib/unstable/glib-Standard-Macros.html#TRUE:CAPS"><code class="literal">TRUE</code></a> for success
-
-</td>
+<td>
+<a href="http://library.gnome.org/devel/glib/unstable/glib-Standard-Macros.html#TRUE:CAPS"><code class="literal">TRUE</code></a> for success</td>
 </tr>
 </tbody>
 </table></div>
 <p class="since">Since 0.5.2</p>
 </div>
 <hr>
-<div class="refsect2" title="pk_package_sack_resolve_async ()">
+<div class="refsect2">
 <a name="pk-package-sack-resolve-async"></a><h3>pk_package_sack_resolve_async ()</h3>
 <pre class="programlisting"><span class="returnvalue">void</span>                pk_package_sack_resolve_async       (<em class="parameter"><code><a class="link" href="PkPackageSack.html" title="PkPackageSack"><span class="type">PkPackageSack</span></a> *sack</code></em>,
                                                          <em class="parameter"><code><a href="http://library.gnome.org/devel/gio/unstable/GCancellable.html"><span class="type">GCancellable</span></a> *cancellable</code></em>,
@@ -700,8 +610,7 @@ Merges in details about packages using resolve.
 <tbody>
 <tr>
 <td><p><span class="term"><em class="parameter"><code>sack</code></em> :</span></p></td>
-<td>a valid <a class="link" href="PkPackageSack.html" title="PkPackageSack"><span class="type">PkPackageSack</span></a> instance
-</td>
+<td>a valid <a class="link" href="PkPackageSack.html" title="PkPackageSack"><span class="type">PkPackageSack</span></a> instance</td>
 </tr>
 <tr>
 <td><p><span class="term"><em class="parameter"><code>cancellable</code></em> :</span></p></td>
@@ -710,7 +619,7 @@ Merges in details about packages using resolve.
 </tr>
 <tr>
 <td><p><span class="term"><em class="parameter"><code>progress_callback</code></em> :</span></p></td>
-<td> the function to run when the progress changes. <span class="annotation">[<a href="http://foldoc.org/scope%20call"><span class="acronym">scope call</span></a>]</span>
+<td>the function to run when the progress changes. <span class="annotation">[<a href="http://foldoc.org/scope%20call"><span class="acronym">scope call</span></a>]</span>
 </td>
 </tr>
 <tr>
@@ -720,8 +629,7 @@ Merges in details about packages using resolve.
 </tr>
 <tr>
 <td><p><span class="term"><em class="parameter"><code>callback</code></em> :</span></p></td>
-<td>the function to run on completion
-</td>
+<td>the function to run on completion</td>
 </tr>
 <tr>
 <td><p><span class="term"><em class="parameter"><code>user_data</code></em> :</span></p></td>
@@ -733,7 +641,7 @@ Merges in details about packages using resolve.
 <p class="since">Since 0.5.2</p>
 </div>
 <hr>
-<div class="refsect2" title="pk_package_sack_get_details_async ()">
+<div class="refsect2">
 <a name="pk-package-sack-get-details-async"></a><h3>pk_package_sack_get_details_async ()</h3>
 <pre class="programlisting"><span class="returnvalue">void</span>                pk_package_sack_get_details_async   (<em class="parameter"><code><a class="link" href="PkPackageSack.html" title="PkPackageSack"><span class="type">PkPackageSack</span></a> *sack</code></em>,
                                                          <em class="parameter"><code><a href="http://library.gnome.org/devel/gio/unstable/GCancellable.html"><span class="type">GCancellable</span></a> *cancellable</code></em>,
@@ -749,8 +657,7 @@ Merges in details about packages.
 <tbody>
 <tr>
 <td><p><span class="term"><em class="parameter"><code>sack</code></em> :</span></p></td>
-<td>a valid <a class="link" href="PkPackageSack.html" title="PkPackageSack"><span class="type">PkPackageSack</span></a> instance
-</td>
+<td>a valid <a class="link" href="PkPackageSack.html" title="PkPackageSack"><span class="type">PkPackageSack</span></a> instance</td>
 </tr>
 <tr>
 <td><p><span class="term"><em class="parameter"><code>cancellable</code></em> :</span></p></td>
@@ -759,7 +666,7 @@ Merges in details about packages.
 </tr>
 <tr>
 <td><p><span class="term"><em class="parameter"><code>progress_callback</code></em> :</span></p></td>
-<td> the function to run when the progress changes. <span class="annotation">[<a href="http://foldoc.org/scope%20call"><span class="acronym">scope call</span></a>]</span>
+<td>the function to run when the progress changes. <span class="annotation">[<a href="http://foldoc.org/scope%20call"><span class="acronym">scope call</span></a>]</span>
 </td>
 </tr>
 <tr>
@@ -769,8 +676,7 @@ Merges in details about packages.
 </tr>
 <tr>
 <td><p><span class="term"><em class="parameter"><code>callback</code></em> :</span></p></td>
-<td>the function to run on completion
-</td>
+<td>the function to run on completion</td>
 </tr>
 <tr>
 <td><p><span class="term"><em class="parameter"><code>user_data</code></em> :</span></p></td>
@@ -781,7 +687,7 @@ Merges in details about packages.
 </table></div>
 </div>
 <hr>
-<div class="refsect2" title="pk_package_sack_get_update_detail_async ()">
+<div class="refsect2">
 <a name="pk-package-sack-get-update-detail-async"></a><h3>pk_package_sack_get_update_detail_async ()</h3>
 <pre class="programlisting"><span class="returnvalue">void</span>                pk_package_sack_get_update_detail_async
                                                         (<em class="parameter"><code><a class="link" href="PkPackageSack.html" title="PkPackageSack"><span class="type">PkPackageSack</span></a> *sack</code></em>,
@@ -798,8 +704,7 @@ Merges in update details about packages.
 <tbody>
 <tr>
 <td><p><span class="term"><em class="parameter"><code>sack</code></em> :</span></p></td>
-<td>a valid <a class="link" href="PkPackageSack.html" title="PkPackageSack"><span class="type">PkPackageSack</span></a> instance
-</td>
+<td>a valid <a class="link" href="PkPackageSack.html" title="PkPackageSack"><span class="type">PkPackageSack</span></a> instance</td>
 </tr>
 <tr>
 <td><p><span class="term"><em class="parameter"><code>cancellable</code></em> :</span></p></td>
@@ -808,7 +713,7 @@ Merges in update details about packages.
 </tr>
 <tr>
 <td><p><span class="term"><em class="parameter"><code>progress_callback</code></em> :</span></p></td>
-<td> the function to run when the progress changes. <span class="annotation">[<a href="http://foldoc.org/scope%20call"><span class="acronym">scope call</span></a>]</span>
+<td>the function to run when the progress changes. <span class="annotation">[<a href="http://foldoc.org/scope%20call"><span class="acronym">scope call</span></a>]</span>
 </td>
 </tr>
 <tr>
@@ -818,8 +723,7 @@ Merges in update details about packages.
 </tr>
 <tr>
 <td><p><span class="term"><em class="parameter"><code>callback</code></em> :</span></p></td>
-<td>the function to run on completion
-</td>
+<td>the function to run on completion</td>
 </tr>
 <tr>
 <td><p><span class="term"><em class="parameter"><code>user_data</code></em> :</span></p></td>
@@ -830,10 +734,25 @@ Merges in update details about packages.
 </table></div>
 <p class="since">Since 0.5.2</p>
 </div>
+<hr>
+<div class="refsect2">
+<a name="PkPackageSackResults"></a><h3>PkPackageSackResults</h3>
+<pre class="programlisting">typedef struct _PkPackageSackResults PkPackageSackResults;</pre>
+<p>
+</p>
+</div>
+<hr>
+<div class="refsect2">
+<a name="PkPackageSackPrivate"></a><h3>PkPackageSackPrivate</h3>
+<pre class="programlisting">typedef struct _PkPackageSackPrivate PkPackageSackPrivate;</pre>
+<p>
+Private <a class="link" href="PkPackageSack.html" title="PkPackageSack"><span class="type">PkPackageSack</span></a> data
+</p>
+</div>
 </div>
 </div>
 <div class="footer">
 <hr>
-          Generated by GTK-Doc V1.15</div>
+          Generated by GTK-Doc V1.17</div>
 </body>
 </html>

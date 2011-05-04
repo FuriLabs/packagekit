@@ -179,6 +179,7 @@ pk_test_backend_func (void)
 	gboolean ret;
 	const gchar *filename;
 	gboolean developer_mode;
+	GError *error = NULL;
 
 	/* get an backend */
 	backend = pk_backend_new ();
@@ -228,16 +229,21 @@ pk_test_backend_func (void)
 	g_assert (!ret);
 
 	/* load an invalid backend */
-	ret = pk_backend_set_name (backend, "invalid", NULL);
+	ret = pk_backend_set_name (backend, "invalid", &error);
+	g_assert_error (error, 1, 0);
 	g_assert (!ret);
+	g_clear_error (&error);
 
 	/* try to load a valid backend */
-	ret = pk_backend_set_name (backend, "dummy", NULL);
+	ret = pk_backend_set_name (backend, "dummy", &error);
+	g_assert_no_error (error);
 	g_assert (ret);
 
 	/* load an valid backend again */
-	ret = pk_backend_set_name (backend, "dummy", NULL);
+	ret = pk_backend_set_name (backend, "dummy", &error);
+	g_assert_error (error, 1, 0);
 	g_assert (!ret);
+	g_clear_error (&error);
 
 	/* lock an valid backend */
 	ret = pk_backend_lock (backend);
@@ -720,7 +726,7 @@ pk_test_engine_func (void)
 	/* force test notify wait updates-changed */
 	g_test_timer_start ();
 	pk_notify_wait_updates_changed (notify, 500);
-	_g_test_loop_run_with_timeout (1000);
+	_g_test_loop_run_with_timeout (1500);
 	elapsed = g_test_timer_elapsed ();
 	g_assert_cmpfloat (elapsed, >, 0.4);
 	g_assert_cmpfloat (elapsed, <, 0.6);
@@ -818,12 +824,47 @@ pk_test_inhibit_func (void)
 }
 
 static void
+pk_test_lsof_get_files_for_directory (GPtrArray *files, const gchar *dirname)
+{
+	GDir *dir;
+	const gchar *filename;
+	dir = g_dir_open (dirname, 0, NULL);
+	if (dir == NULL)
+		return;
+	filename = g_dir_read_name (dir);
+	while (filename != NULL) {
+		if (g_str_has_prefix (filename, "libglib-2.0.so"))
+			g_ptr_array_add (files,
+					 g_build_filename (dirname, filename, NULL));
+		filename = g_dir_read_name (dir);
+	}
+	g_dir_close (dir);
+}
+
+static gchar **
+pk_test_lsof_get_files (void)
+{
+	GPtrArray *files;
+	gchar **retval;
+
+	files = g_ptr_array_new_with_free_func (g_free);
+	pk_test_lsof_get_files_for_directory (files, "/lib");
+	pk_test_lsof_get_files_for_directory (files, "/usr/lib");
+	pk_test_lsof_get_files_for_directory (files, "/usr/lib64");
+
+	/* convert to gchar ** */
+	retval = pk_ptr_array_to_strv (files);
+	g_ptr_array_unref (files);
+	return retval;
+}
+
+static void
 pk_test_lsof_func (void)
 {
 	gboolean ret;
 	PkLsof *lsof;
 	GPtrArray *pids;
-	gchar *files[] = { "/usr/lib/libssl3.so", NULL };
+	gchar **files;
 
 	lsof = pk_lsof_new ();
 	g_assert (lsof != NULL);
@@ -832,11 +873,14 @@ pk_test_lsof_func (void)
 	ret = pk_lsof_refresh (lsof);
 	g_assert (ret);
 
-	/* get pids for files */
+	/* get pids for some test files */
+	files = pk_test_lsof_get_files ();
+	g_assert_cmpint (g_strv_length (files), >, 0);
 	pids = pk_lsof_get_pids_for_filenames (lsof, files);
 	g_assert_cmpint (pids->len, >, 0);
 	g_ptr_array_unref (pids);
 
+	g_strfreev (files);
 	g_object_unref (lsof);
 }
 
@@ -1407,29 +1451,59 @@ pk_test_transaction_db_func (void)
 	g_assert_cmpint (value, <=, 4);
 
 	/* can we set the proxies */
-	ret = pk_transaction_db_set_proxy (db, 500, "session1", "127.0.0.1:80", "127.0.0.1:21");
+	ret = pk_transaction_db_set_proxy (db, 500, "session1",
+					   "127.0.0.1:80",
+					   NULL,
+					   "127.0.0.1:21",
+					   NULL,
+					   NULL,
+					   NULL);
 	g_assert (ret);
 
 	/* can we set the proxies (overwrite) */
-	ret = pk_transaction_db_set_proxy (db, 500, "session1", "127.0.0.1:8000", "127.0.0.1:21");
+	ret = pk_transaction_db_set_proxy (db, 500, "session1",
+					   "127.0.0.1:80",
+					   NULL,
+					   "127.0.0.1:21",
+					   NULL,
+					   NULL,
+					   NULL);
 	g_assert (ret);
 
 	/* can we get the proxies (non-existant user) */
-	ret = pk_transaction_db_get_proxy (db, 501, "session1", &proxy_http, &proxy_ftp);
+	ret = pk_transaction_db_get_proxy (db, 501, "session1",
+					   &proxy_http,
+					   NULL,
+					   &proxy_ftp,
+					   NULL,
+					   NULL,
+					   NULL);
 	g_assert (!ret);
 	g_assert_cmpstr (proxy_http, ==, NULL);
 	g_assert_cmpstr (proxy_ftp, ==, NULL);
 
 	/* can we get the proxies (non-existant session) */
-	ret = pk_transaction_db_get_proxy (db, 500, "session2", &proxy_http, &proxy_ftp);
+	ret = pk_transaction_db_get_proxy (db, 500, "session2",
+					   &proxy_http,
+					   NULL,
+					   &proxy_ftp,
+					   NULL,
+					   NULL,
+					   NULL);
 	g_assert (!ret);
 	g_assert_cmpstr (proxy_http, ==, NULL);
 	g_assert_cmpstr (proxy_ftp, ==, NULL);
 
 	/* can we get the proxies (match) */
-	ret = pk_transaction_db_get_proxy (db, 500, "session1", &proxy_http, &proxy_ftp);
+	ret = pk_transaction_db_get_proxy (db, 500, "session1",
+					   &proxy_http,
+					   NULL,
+					   &proxy_ftp,
+					   NULL,
+					   NULL,
+					   NULL);
 	g_assert (ret);
-	g_assert_cmpstr (proxy_http, ==, "127.0.0.1:8000");
+	g_assert_cmpstr (proxy_http, ==, "127.0.0.1:80");
 	g_assert_cmpstr (proxy_ftp, ==, "127.0.0.1:21");
 
 	/* can we set the root */
@@ -1507,6 +1581,7 @@ pk_test_transaction_list_func (void)
 	gchar *tid_item1;
 	gchar *tid_item2;
 	gchar *tid_item3;
+	PkBackend *backend;
 
 	/* remove the self check file */
 #if PK_BUILD_LOCAL
@@ -1570,7 +1645,6 @@ pk_test_transaction_list_func (void)
 	ret = pk_transaction_list_create (tlist, tid, ":org.freedesktop.PackageKit", NULL);
 	g_assert (ret);
 
-	PkBackend *backend;
 	backend = pk_backend_new ();
 	/* try to load a valid backend */
 	ret = pk_backend_set_name (backend, "dummy", NULL);
@@ -1636,42 +1710,6 @@ pk_test_transaction_list_func (void)
 	g_assert_cmpint (size, ==, 0);
 
 	g_free (tid);
-
-	tid = pk_test_transaction_list_create_transaction (tlist);
-	transaction = pk_transaction_list_get_transaction (tlist, tid);
-	g_signal_connect (transaction, "finished",
-			  G_CALLBACK (pk_test_transaction_list_finished_cb), NULL);
-
-	pk_transaction_get_updates (transaction, "none", NULL);
-
-	/* wait for cached results*/
-	_g_test_loop_run_with_timeout (1000);
-
-	/* make sure transaction has correct flags */
-	g_assert_cmpint (pk_transaction_get_state (transaction), ==, PK_TRANSACTION_STATE_FINISHED);
-
-	/* get transactions (committed, not finished) in progress (none, as cached) */
-	array = pk_transaction_list_get_array (tlist);
-	size = g_strv_length (array);
-	g_assert_cmpint (size, ==, 0);
-	g_strfreev (array);
-
-	/* get size we have in queue */
-	size = pk_transaction_list_get_size (tlist);
-	g_assert_cmpint (size, ==, 1);
-
-	/* wait for Cleanup */
-	_g_test_loop_wait (10000);
-
-	/* get transactions (committed, not finished) in progress (none, as cached) */
-	array = pk_transaction_list_get_array (tlist);
-	size = g_strv_length (array);
-	g_assert_cmpint (size, ==, 0);
-	g_strfreev (array);
-
-	/* get size we have in queue */
-	size = pk_transaction_list_get_size (tlist);
-	g_assert_cmpint (size, ==, 0);
 
 	/* create three instances in list */
 	tid_item1 = pk_test_transaction_list_create_transaction (tlist);
@@ -1798,7 +1836,7 @@ pk_test_transaction_list_func (void)
 	g_assert_cmpint (pk_transaction_get_state (transaction), ==, PK_TRANSACTION_STATE_FINISHED);
 
 	/* wait for Cleanup */
-	_g_test_loop_wait (5000);
+	_g_test_loop_wait (10000);
 
 	/* get transactions in queue */
 	size = pk_transaction_list_get_size (tlist);
@@ -1823,6 +1861,10 @@ main (int argc, char **argv)
 		g_thread_init (NULL);
 	g_type_init ();
 	g_test_init (&argc, &argv, NULL);
+
+#ifndef PK_BUILD_LOCAL
+	g_warning ("you need to compile with --enable-local for make check support");
+#endif
 
 	/* components */
 	g_test_add_func ("/packagekit/notify", pk_test_proc_func);

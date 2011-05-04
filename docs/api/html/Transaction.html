@@ -3,12 +3,12 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>org.freedesktop.PackageKit.Transaction</title>
-<meta name="generator" content="DocBook XSL Stylesheets V1.75.2">
+<meta name="generator" content="DocBook XSL Stylesheets V1.76.1">
 <link rel="home" href="index.html" title="PackageKit Reference Manual">
 <link rel="up" href="api-reference.html" title="D-Bus API Reference">
 <link rel="prev" href="PackageKit.html" title="org.freedesktop.PackageKit">
 <link rel="next" href="libpackagekit-gobject.html" title="libpackagekit GObjects">
-<meta name="generator" content="GTK-Doc V1.15 (XML mode)">
+<meta name="generator" content="GTK-Doc V1.17 (XML mode)">
 <link rel="stylesheet" href="style.css" type="text/css">
 </head>
 <body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF">
@@ -32,7 +32,7 @@
                   <a href="#Transaction.signals" class="shortcut">Signals</a>
 </td></tr>
 </table>
-<div class="refentry" title="org.freedesktop.PackageKit.Transaction">
+<div class="refentry">
 <a name="Transaction"></a><div class="titlepage"></div>
 <div class="refnamediv"><table width="100%"><tr>
 <td valign="top">
@@ -41,12 +41,13 @@
 </td>
 <td valign="top" align="right"></td>
 </tr></table></div>
-<div class="refsynopsisdiv" title="Methods">
+<div class="refsynopsisdiv">
 <h2>Methods</h2>
 <pre class="synopsis"><a class="link" href="Transaction.html#Transaction.SetHints">SetHints</a>                (in  'as' hints)
 <a class="link" href="Transaction.html#Transaction.AcceptEula">AcceptEula</a>              (in  's'  eula_id)
 <a class="link" href="Transaction.html#Transaction.Cancel">Cancel</a>                  ()
-<a class="link" href="Transaction.html#Transaction.DownloadPackages">DownloadPackages</a>        (in  'as' package_ids)
+<a class="link" href="Transaction.html#Transaction.DownloadPackages">DownloadPackages</a>        (in  'b'  store_in_cache,
+                         in  'as' package_ids)
 <a class="link" href="Transaction.html#Transaction.GetCategories">GetCategories</a>           ()
 <a class="link" href="Transaction.html#Transaction.GetDepends">GetDepends</a>              (in  's'  filter,
                          in  'as' package_ids,
@@ -104,8 +105,8 @@
                          in  's'  upgrade_kind)
 </pre>
 </div>
-<div class="refsect1" title="Signals">
-<a name="id481577"></a><h2>Signals</h2>
+<div class="refsect1">
+<a name="id401579"></a><h2>Signals</h2>
 <pre class="synopsis"><a class="link" href="Transaction.html#Transaction::Category">Category</a>              ('s' parent_id,
                        's' cat_id,
                        's' name,
@@ -175,15 +176,15 @@
 <a class="link" href="Transaction.html#Transaction::Destroy">Destroy</a>               ()
 </pre>
 </div>
-<div class="refsect1" title="Implemented Interfaces">
-<a name="id481709"></a><h2>Implemented Interfaces</h2>
+<div class="refsect1">
+<a name="id437929"></a><h2>Implemented Interfaces</h2>
 <p>org.freedesktop.PackageKit.Transaction implements
     org.freedesktop.DBus.Introspectable,
     org.freedesktop.DBus.Properties
     </p>
 </div>
-<div class="refsect1" title="Properties">
-<a name="id487125"></a><h2>Properties</h2>
+<div class="refsect1">
+<a name="id437946"></a><h2>Properties</h2>
 <pre class="synopsis"><a class="link" href="Transaction.html#Transaction:Role">'Role'</a>          read      's'
 <a class="link" href="Transaction.html#Transaction:Status">'Status'</a>        read      's'
 <a class="link" href="Transaction.html#Transaction:LastPackage">'LastPackage'</a>   read      's'
@@ -197,8 +198,8 @@
 <a class="link" href="Transaction.html#Transaction:Speed">'Speed'</a>         read      'u'
 </pre>
 </div>
-<div class="refsect1" title="Description">
-<a name="id487208"></a><h2>Description</h2>
+<div class="refsect1">
+<a name="id419482"></a><h2>Description</h2>
 <p>
       
         </p>
@@ -209,10 +210,10 @@
       
     </p>
 </div>
-<div class="refsect1" title="Details">
-<a name="id487228"></a><h2>Details</h2>
-<div class="refsect2" title="SetHints ()">
-<a name="id487236"></a><h3>
+<div class="refsect1">
+<a name="id419502"></a><h2>Details</h2>
+<div class="refsect2">
+<a name="id419510"></a><h3>
 <a name="Transaction.SetHints"></a>SetHints ()</h3>
 <pre class="programlisting">SetHints (in  'as' hints)</pre>
 </div>
@@ -290,8 +291,8 @@
 </tr></tbody>
 </table></div>
 <hr>
-<div class="refsect2" title="AcceptEula ()">
-<a name="id500140"></a><h3>
+<div class="refsect2">
+<a name="id419581"></a><h3>
 <a name="Transaction.AcceptEula"></a>AcceptEula ()</h3>
 <pre class="programlisting">AcceptEula (in  's' eula_id)</pre>
 </div>
@@ -311,8 +312,8 @@
 </table></div>
 <p class="permission">Callers need the org.freedesktop.packagekit.accept-eula</p>
 <hr>
-<div class="refsect2" title="Cancel ()">
-<a name="id500188"></a><h3>
+<div class="refsect2">
+<a name="id419629"></a><h3>
 <a name="Transaction.Cancel"></a>Cancel ()</h3>
 <pre class="programlisting">Cancel ()</pre>
 </div>
@@ -324,10 +325,11 @@
 <tbody></tbody>
 </table></div>
 <hr>
-<div class="refsect2" title="DownloadPackages ()">
-<a name="id500219"></a><h3>
+<div class="refsect2">
+<a name="id419659"></a><h3>
 <a name="Transaction.DownloadPackages"></a>DownloadPackages ()</h3>
-<pre class="programlisting">DownloadPackages (in  'as' package_ids)</pre>
+<pre class="programlisting">DownloadPackages (in  'b'  store_in_cache,
+                  in  'as' package_ids)</pre>
 </div>
 <p>
             This method downloads packages into a temporary directory.
@@ -347,18 +349,35 @@
           </p>
 <div class="variablelist"><table border="0">
 <col align="left" valign="top">
-<tbody><tr>
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>store_in_cache</code></em>:</span></p></td>
+<td>
+            
+              If the downloaded files should be stored in the system
+              package cache rather than copied into a newly created
+              directory.
+            
+            
+              See 
+              the developer docs for more details on how
+              this is supposed to work.
+            
+          </td>
+</tr>
+<tr>
 <td><p><span class="term"><em class="parameter"><code>package_ids</code></em>:</span></p></td>
 <td>
             
               An array of package IDs.
             
           </td>
-</tr></tbody>
+</tr>
+</tbody>
 </table></div>
 <hr>
-<div class="refsect2" title="GetCategories ()">
-<a name="id500274"></a><h3>
+<div class="refsect2">
+<a name="id419730"></a><h3>
 <a name="Transaction.GetCategories"></a>GetCategories ()</h3>
 <pre class="programlisting">GetCategories ()</pre>
 </div>
@@ -370,8 +389,8 @@
 <tbody></tbody>
 </table></div>
 <hr>
-<div class="refsect2" title="GetDepends ()">
-<a name="id500305"></a><h3>
+<div class="refsect2">
+<a name="id419761"></a><h3>
 <a name="Transaction.GetDepends"></a>GetDepends ()</h3>
 <pre class="programlisting">GetDepends (in  's'  filter,
             in  'as' package_ids,
@@ -425,8 +444,8 @@
 </tbody>
 </table></div>
 <hr>
-<div class="refsect2" title="GetDetails ()">
-<a name="id500385"></a><h3>
+<div class="refsect2">
+<a name="id443071"></a><h3>
 <a name="Transaction.GetDetails"></a>GetDetails ()</h3>
 <pre class="programlisting">GetDetails (in  'as' package_ids)</pre>
 </div>
@@ -453,8 +472,8 @@
 </tr></tbody>
 </table></div>
 <hr>
-<div class="refsect2" title="GetFiles ()">
-<a name="id523627"></a><h3>
+<div class="refsect2">
+<a name="id443119"></a><h3>
 <a name="Transaction.GetFiles"></a>GetFiles ()</h3>
 <pre class="programlisting">GetFiles (in  'as' package_ids)</pre>
 </div>
@@ -480,8 +499,8 @@
 </tr></tbody>
 </table></div>
 <hr>
-<div class="refsect2" title="GetOldTransactions ()">
-<a name="id523675"></a><h3>
+<div class="refsect2">
+<a name="id443167"></a><h3>
 <a name="Transaction.GetOldTransactions"></a>GetOldTransactions ()</h3>
 <pre class="programlisting">GetOldTransactions (in  'u' number)</pre>
 </div>
@@ -500,8 +519,8 @@
 </tr></tbody>
 </table></div>
 <hr>
-<div class="refsect2" title="GetPackages ()">
-<a name="id523719"></a><h3>
+<div class="refsect2">
+<a name="id443211"></a><h3>
 <a name="Transaction.GetPackages"></a>GetPackages ()</h3>
 <pre class="programlisting">GetPackages (in  's' filter)</pre>
 </div>
@@ -530,8 +549,8 @@
 </tr></tbody>
 </table></div>
 <hr>
-<div class="refsect2" title="GetRepoList ()">
-<a name="id523772"></a><h3>
+<div class="refsect2">
+<a name="id443263"></a><h3>
 <a name="Transaction.GetRepoList"></a>GetRepoList ()</h3>
 <pre class="programlisting">GetRepoList (in  's' filter)</pre>
 </div>
@@ -553,8 +572,8 @@
 </tr></tbody>
 </table></div>
 <hr>
-<div class="refsect2" title="GetRequires ()">
-<a name="id523819"></a><h3>
+<div class="refsect2">
+<a name="id443311"></a><h3>
 <a name="Transaction.GetRequires"></a>GetRequires ()</h3>
 <pre class="programlisting">GetRequires (in  's'  filter,
              in  'as' package_ids,
@@ -610,8 +629,8 @@
 </tbody>
 </table></div>
 <hr>
-<div class="refsect2" title="GetUpdateDetail ()">
-<a name="id523900"></a><h3>
+<div class="refsect2">
+<a name="id443392"></a><h3>
 <a name="Transaction.GetUpdateDetail"></a>GetUpdateDetail ()</h3>
 <pre class="programlisting">GetUpdateDetail (in  'as' package_ids)</pre>
 </div>
@@ -635,8 +654,8 @@
 </tr></tbody>
 </table></div>
 <hr>
-<div class="refsect2" title="GetUpdates ()">
-<a name="id523948"></a><h3>
+<div class="refsect2">
+<a name="id443440"></a><h3>
 <a name="Transaction.GetUpdates"></a>GetUpdates ()</h3>
 <pre class="programlisting">GetUpdates (in  's' filter)</pre>
 </div>
@@ -689,8 +708,8 @@
 </tr></tbody>
 </table></div>
 <hr>
-<div class="refsect2" title="GetDistroUpgrades ()">
-<a name="id524017"></a><h3>
+<div class="refsect2">
+<a name="id443509"></a><h3>
 <a name="Transaction.GetDistroUpgrades"></a>GetDistroUpgrades ()</h3>
 <pre class="programlisting">GetDistroUpgrades ()</pre>
 </div>
@@ -709,8 +728,8 @@
 <tbody></tbody>
 </table></div>
 <hr>
-<div class="refsect2" title="InstallFiles ()">
-<a name="id524054"></a><h3>
+<div class="refsect2">
+<a name="id443546"></a><h3>
 <a name="Transaction.InstallFiles"></a>InstallFiles ()</h3>
 <pre class="programlisting">InstallFiles (in  'b'  only_trusted,
               in  'as' full_paths)</pre>
@@ -765,8 +784,8 @@
 </table></div>
 <p class="permission">Callers need the org.freedesktop.packagekit.localinstall-untrusted</p>
 <hr>
-<div class="refsect2" title="InstallPackages ()">
-<a name="id524133"></a><h3>
+<div class="refsect2">
+<a name="id443625"></a><h3>
 <a name="Transaction.InstallPackages"></a>InstallPackages ()</h3>
 <pre class="programlisting">InstallPackages (in  'b'  only_trusted,
                  in  'as' package_ids)</pre>
@@ -823,8 +842,8 @@
 </table></div>
 <p class="permission">Callers need the org.freedesktop.packagekit.install-untrusted</p>
 <hr>
-<div class="refsect2" title="InstallSignature ()">
-<a name="id524213"></a><h3>
+<div class="refsect2">
+<a name="id443705"></a><h3>
 <a name="Transaction.InstallSignature"></a>InstallSignature ()</h3>
 <pre class="programlisting">InstallSignature (in  's' sig_type,
                   in  's' key_id,
@@ -864,8 +883,8 @@
 </table></div>
 <p class="permission">Callers need the org.freedesktop.packagekit.install-signature</p>
 <hr>
-<div class="refsect2" title="RefreshCache ()">
-<a name="id524287"></a><h3>
+<div class="refsect2">
+<a name="id443779"></a><h3>
 <a name="Transaction.RefreshCache"></a>RefreshCache ()</h3>
 <pre class="programlisting">RefreshCache (in  'b' force)</pre>
 </div>
@@ -896,8 +915,8 @@
 </table></div>
 <p class="permission">Callers need the org.freedesktop.packagekit.refresh-cache</p>
 <hr>
-<div class="refsect2" title="RemovePackages ()">
-<a name="id524343"></a><h3>
+<div class="refsect2">
+<a name="id443836"></a><h3>
 <a name="Transaction.RemovePackages"></a>RemovePackages ()</h3>
 <pre class="programlisting">RemovePackages (in  'as' package_ids,
                 in  'b'  allow_deps,
@@ -961,8 +980,8 @@
 </table></div>
 <p class="permission">Callers need the org.freedesktop.packagekit.remove</p>
 <hr>
-<div class="refsect2" title="RepoEnable ()">
-<a name="id524432"></a><h3>
+<div class="refsect2">
+<a name="id443925"></a><h3>
 <a name="Transaction.RepoEnable"></a>RepoEnable ()</h3>
 <pre class="programlisting">RepoEnable (in  's' repo_id,
             in  'b' enabled)</pre>
@@ -993,8 +1012,8 @@
 </table></div>
 <p class="permission">Callers need the org.freedesktop.packagekit.repo-change</p>
 <hr>
-<div class="refsect2" title="RepoSetData ()">
-<a name="id524493"></a><h3>
+<div class="refsect2">
+<a name="id443985"></a><h3>
 <a name="Transaction.RepoSetData"></a>RepoSetData ()</h3>
 <pre class="programlisting">RepoSetData (in  's' repo_id,
              in  's' parameter,
@@ -1034,8 +1053,8 @@
 </table></div>
 <p class="permission">Callers need the org.freedesktop.packagekit.repo-change</p>
 <hr>
-<div class="refsect2" title="Resolve ()">
-<a name="id524566"></a><h3>
+<div class="refsect2">
+<a name="id444058"></a><h3>
 <a name="Transaction.Resolve"></a>Resolve ()</h3>
 <pre class="programlisting">Resolve (in  's'  filter,
          in  'as' packages)</pre>
@@ -1093,8 +1112,8 @@
 </tbody>
 </table></div>
 <hr>
-<div class="refsect2" title="Rollback ()">
-<a name="id524641"></a><h3>
+<div class="refsect2">
+<a name="id444133"></a><h3>
 <a name="Transaction.Rollback"></a>Rollback ()</h3>
 <pre class="programlisting">Rollback (in  's' transaction_id)</pre>
 </div>
@@ -1114,8 +1133,8 @@
 </table></div>
 <p class="permission">Callers need the org.freedesktop.packagekit.rollback</p>
 <hr>
-<div class="refsect2" title="SearchDetails ()">
-<a name="id524688"></a><h3>
+<div class="refsect2">
+<a name="id444181"></a><h3>
 <a name="Transaction.SearchDetails"></a>SearchDetails ()</h3>
 <pre class="programlisting">SearchDetails (in  's'  filter,
                in  'as' values)</pre>
@@ -1181,8 +1200,8 @@
 </tbody>
 </table></div>
 <hr>
-<div class="refsect2" title="SearchFiles ()">
-<a name="id524774"></a><h3>
+<div class="refsect2">
+<a name="id444267"></a><h3>
 <a name="Transaction.SearchFiles"></a>SearchFiles ()</h3>
 <pre class="programlisting">SearchFiles (in  's'  filter,
              in  'as' values)</pre>
@@ -1232,8 +1251,8 @@
 </tbody>
 </table></div>
 <hr>
-<div class="refsect2" title="SearchGroups ()">
-<a name="id524848"></a><h3>
+<div class="refsect2">
+<a name="id444341"></a><h3>
 <a name="Transaction.SearchGroups"></a>SearchGroups ()</h3>
 <pre class="programlisting">SearchGroups (in  's'  filter,
               in  'as' values)</pre>
@@ -1307,8 +1326,8 @@
 </tbody>
 </table></div>
 <hr>
-<div class="refsect2" title="SearchNames ()">
-<a name="id524937"></a><h3>
+<div class="refsect2">
+<a name="id444429"></a><h3>
 <a name="Transaction.SearchNames"></a>SearchNames ()</h3>
 <pre class="programlisting">SearchNames (in  's'  filter,
              in  'as' values)</pre>
@@ -1377,8 +1396,8 @@
 </tbody>
 </table></div>
 <hr>
-<div class="refsect2" title="SimulateInstallFiles ()">
-<a name="id525026"></a><h3>
+<div class="refsect2">
+<a name="id444519"></a><h3>
 <a name="Transaction.SimulateInstallFiles"></a>SimulateInstallFiles ()</h3>
 <pre class="programlisting">SimulateInstallFiles (in  'as' full_paths)</pre>
 </div>
@@ -1398,8 +1417,8 @@
 </tr></tbody>
 </table></div>
 <hr>
-<div class="refsect2" title="SimulateInstallPackages ()">
-<a name="id525070"></a><h3>
+<div class="refsect2">
+<a name="id444563"></a><h3>
 <a name="Transaction.SimulateInstallPackages"></a>SimulateInstallPackages ()</h3>
 <pre class="programlisting">SimulateInstallPackages (in  'as' package_ids)</pre>
 </div>
@@ -1419,8 +1438,8 @@
 </tr></tbody>
 </table></div>
 <hr>
-<div class="refsect2" title="SimulateRemovePackages ()">
-<a name="id525114"></a><h3>
+<div class="refsect2">
+<a name="id444606"></a><h3>
 <a name="Transaction.SimulateRemovePackages"></a>SimulateRemovePackages ()</h3>
 <pre class="programlisting">SimulateRemovePackages (in  'as' package_ids,
                         in  'b'  autoremove)</pre>
@@ -1458,8 +1477,8 @@
 </tbody>
 </table></div>
 <hr>
-<div class="refsect2" title="SimulateUpdatePackages ()">
-<a name="id525175"></a><h3>
+<div class="refsect2">
+<a name="id444668"></a><h3>
 <a name="Transaction.SimulateUpdatePackages"></a>SimulateUpdatePackages ()</h3>
 <pre class="programlisting">SimulateUpdatePackages (in  'as' package_ids)</pre>
 </div>
@@ -1479,8 +1498,8 @@
 </tr></tbody>
 </table></div>
 <hr>
-<div class="refsect2" title="UpdatePackages ()">
-<a name="id525219"></a><h3>
+<div class="refsect2">
+<a name="id444712"></a><h3>
 <a name="Transaction.UpdatePackages"></a>UpdatePackages ()</h3>
 <pre class="programlisting">UpdatePackages (in  'b'  only_trusted,
                 in  'as' package_ids)</pre>
@@ -1531,8 +1550,8 @@
 </table></div>
 <p class="permission">Callers need the org.freedesktop.packagekit.update-package</p>
 <hr>
-<div class="refsect2" title="UpdateSystem ()">
-<a name="id525299"></a><h3>
+<div class="refsect2">
+<a name="id444791"></a><h3>
 <a name="Transaction.UpdateSystem"></a>UpdateSystem ()</h3>
 <pre class="programlisting">UpdateSystem (in  'b' only_trusted)</pre>
 </div>
@@ -1564,8 +1583,8 @@
 </table></div>
 <p class="permission">Callers need the org.freedesktop.packagekit.update-system</p>
 <hr>
-<div class="refsect2" title="WhatProvides ()">
-<a name="id525356"></a><h3>
+<div class="refsect2">
+<a name="id444849"></a><h3>
 <a name="Transaction.WhatProvides"></a>WhatProvides ()</h3>
 <pre class="programlisting">WhatProvides (in  's'  filter,
               in  's'  type,
@@ -1618,8 +1637,8 @@
 </tbody>
 </table></div>
 <hr>
-<div class="refsect2" title="UpgradeSystem ()">
-<a name="id525436"></a><h3>
+<div class="refsect2">
+<a name="id444928"></a><h3>
 <a name="Transaction.UpgradeSystem"></a>UpgradeSystem ()</h3>
 <pre class="programlisting">UpgradeSystem (in  's' distro_id,
                in  's' upgrade_kind)</pre>
@@ -1662,10 +1681,10 @@
 </tbody>
 </table></div>
 </div>
-<div class="refsect1" title="Signal Details">
-<a name="id525502"></a><h2>Signal Details</h2>
-<div class="refsect2" title="The Category signal">
-<a name="id525510"></a><h3>
+<div class="refsect1">
+<a name="id444994"></a><h2>Signal Details</h2>
+<div class="refsect2">
+<a name="id445002"></a><h3>
 <a name="Transaction::Category"></a>The Category signal</h3>
 <pre class="programlisting">Category ('s' parent_id,
           's' cat_id,
@@ -1734,8 +1753,8 @@
 </tbody>
 </table></div>
 <hr>
-<div class="refsect2" title="The Details signal">
-<a name="id525610"></a><h3>
+<div class="refsect2">
+<a name="id445922"></a><h3>
 <a name="Transaction::Details"></a>The Details signal</h3>
 <pre class="programlisting">Details ('s' package_id,
          's' license,
@@ -1812,8 +1831,8 @@
 </tbody>
 </table></div>
 <hr>
-<div class="refsect2" title="The ErrorCode signal">
-<a name="id526539"></a><h3>
+<div class="refsect2">
+<a name="id446032"></a><h3>
 <a name="Transaction::ErrorCode"></a>The ErrorCode signal</h3>
 <pre class="programlisting">ErrorCode ('s' code,
            's' details)</pre>
@@ -1846,8 +1865,8 @@
 </tbody>
 </table></div>
 <hr>
-<div class="refsect2" title="The Files signal">
-<a name="id526599"></a><h3>
+<div class="refsect2">
+<a name="id446092"></a><h3>
 <a name="Transaction::Files"></a>The Files signal</h3>
 <pre class="programlisting">Files ('s' package_id,
        's' file_list)</pre>
@@ -1877,8 +1896,8 @@
 </tbody>
 </table></div>
 <hr>
-<div class="refsect2" title="The Finished signal">
-<a name="id526654"></a><h3>
+<div class="refsect2">
+<a name="id446147"></a><h3>
 <a name="Transaction::Finished"></a>The Finished signal</h3>
 <pre class="programlisting">Finished ('s' exit,
           'u' runtime)</pre>
@@ -1908,8 +1927,8 @@
 </tbody>
 </table></div>
 <hr>
-<div class="refsect2" title="The Message signal">
-<a name="id526710"></a><h3>
+<div class="refsect2">
+<a name="id446203"></a><h3>
 <a name="Transaction::Message"></a>The Message signal</h3>
 <pre class="programlisting">Message ('s' type,
          's' details)</pre>
@@ -1944,8 +1963,8 @@
 </tbody>
 </table></div>
 <hr>
-<div class="refsect2" title="The Package signal">
-<a name="id526770"></a><h3>
+<div class="refsect2">
+<a name="id446263"></a><h3>
 <a name="Transaction::Package"></a>The Package signal</h3>
 <pre class="programlisting">Package ('s' info,
          's' package_id,
@@ -2018,8 +2037,8 @@
 </tbody>
 </table></div>
 <hr>
-<div class="refsect2" title="The RepoDetail signal">
-<a name="id526858"></a><h3>
+<div class="refsect2">
+<a name="id446351"></a><h3>
 <a name="Transaction::RepoDetail"></a>The RepoDetail signal</h3>
 <pre class="programlisting">RepoDetail ('s' repo_id,
             's' description,
@@ -2058,8 +2077,8 @@
 </tbody>
 </table></div>
 <hr>
-<div class="refsect2" title="The RepoSignatureRequired signal">
-<a name="id526926"></a><h3>
+<div class="refsect2">
+<a name="id446419"></a><h3>
 <a name="Transaction::RepoSignatureRequired"></a>The RepoSignatureRequired signal</h3>
 <pre class="programlisting">RepoSignatureRequired ('s' package_id,
                        's' repository_name,
@@ -2157,8 +2176,8 @@
 </tbody>
 </table></div>
 <hr>
-<div class="refsect2" title="The EulaRequired signal">
-<a name="id527070"></a><h3>
+<div class="refsect2">
+<a name="id446563"></a><h3>
 <a name="Transaction::EulaRequired"></a>The EulaRequired signal</h3>
 <pre class="programlisting">EulaRequired ('s' eula_id,
               's' package_id,
@@ -2213,8 +2232,8 @@
 </tbody>
 </table></div>
 <hr>
-<div class="refsect2" title="The MediaChangeRequired signal">
-<a name="id527159"></a><h3>
+<div class="refsect2">
+<a name="id446652"></a><h3>
 <a name="Transaction::MediaChangeRequired"></a>The MediaChangeRequired signal</h3>
 <pre class="programlisting">MediaChangeRequired ('s' media_type,
                      's' media_id,
@@ -2262,8 +2281,8 @@
 </tbody>
 </table></div>
 <hr>
-<div class="refsect2" title="The RequireRestart signal">
-<a name="id527236"></a><h3>
+<div class="refsect2">
+<a name="id446728"></a><h3>
 <a name="Transaction::RequireRestart"></a>The RequireRestart signal</h3>
 <pre class="programlisting">RequireRestart ('s' type,
                 's' package_id)</pre>
@@ -2302,8 +2321,8 @@
 </tbody>
 </table></div>
 <hr>
-<div class="refsect2" title="The Transaction signal">
-<a name="id527302"></a><h3>
+<div class="refsect2">
+<a name="id446795"></a><h3>
 <a name="Transaction::Transaction"></a>The Transaction signal</h3>
 <pre class="programlisting">Transaction ('s' old_tid,
              's' timespec,
@@ -2388,8 +2407,8 @@
 </tbody>
 </table></div>
 <hr>
-<div class="refsect2" title="The UpdateDetail signal">
-<a name="id527434"></a><h3>
+<div class="refsect2">
+<a name="id446927"></a><h3>
 <a name="Transaction::UpdateDetail"></a>The UpdateDetail signal</h3>
 <pre class="programlisting">UpdateDetail ('s' package_id,
               's' updates,
@@ -2520,8 +2539,8 @@
 </tbody>
 </table></div>
 <hr>
-<div class="refsect2" title="The DistroUpgrade signal">
-<a name="id527620"></a><h3>
+<div class="refsect2">
+<a name="id447113"></a><h3>
 <a name="Transaction::DistroUpgrade"></a>The DistroUpgrade signal</h3>
 <pre class="programlisting">DistroUpgrade ('s' type,
                's' name,
@@ -2562,8 +2581,8 @@
 </tbody>
 </table></div>
 <hr>
-<div class="refsect2" title="The Changed signal">
-<a name="id527689"></a><h3>
+<div class="refsect2">
+<a name="id447182"></a><h3>
 <a name="Transaction::Changed"></a>The Changed signal</h3>
 <pre class="programlisting">Changed ()</pre>
 </div>
@@ -2575,8 +2594,8 @@
 <tbody></tbody>
 </table></div>
 <hr>
-<div class="refsect2" title="The Destroy signal">
-<a name="id527721"></a><h3>
+<div class="refsect2">
+<a name="id447214"></a><h3>
 <a name="Transaction::Destroy"></a>The Destroy signal</h3>
 <pre class="programlisting">Destroy ()</pre>
 </div>
@@ -2589,10 +2608,10 @@
 <tbody></tbody>
 </table></div>
 </div>
-<div class="refsect1" title="Property Details">
-<a name="id527753"></a><h2>Property Details</h2>
-<div class="refsect2" title='The "Role" property'>
-<a name="id527761"></a><h3>
+<div class="refsect1">
+<a name="id447246"></a><h2>Property Details</h2>
+<div class="refsect2">
+<a name="id447254"></a><h3>
 <a name="Transaction:Role"></a>The "Role" property</h3>
 <pre class="programlisting">'Role'  read      's'
 </pre>
@@ -2605,8 +2624,8 @@
 <tbody></tbody>
 </table></div>
 <hr>
-<div class="refsect2" title='The "Status" property'>
-<a name="id527792"></a><h3>
+<div class="refsect2">
+<a name="id447285"></a><h3>
 <a name="Transaction:Status"></a>The "Status" property</h3>
 <pre class="programlisting">'Status'  read      's'
 </pre>
@@ -2619,8 +2638,8 @@
 <tbody></tbody>
 </table></div>
 <hr>
-<div class="refsect2" title='The "LastPackage" property'>
-<a name="id527823"></a><h3>
+<div class="refsect2">
+<a name="id447316"></a><h3>
 <a name="Transaction:LastPackage"></a>The "LastPackage" property</h3>
 <pre class="programlisting">'LastPackage'  read      's'
 </pre>
@@ -2633,8 +2652,8 @@
 <tbody></tbody>
 </table></div>
 <hr>
-<div class="refsect2" title='The "Uid" property'>
-<a name="id527855"></a><h3>
+<div class="refsect2">
+<a name="id447348"></a><h3>
 <a name="Transaction:Uid"></a>The "Uid" property</h3>
 <pre class="programlisting">'Uid'  read      'u'
 </pre>
@@ -2647,8 +2666,8 @@
 <tbody></tbody>
 </table></div>
 <hr>
-<div class="refsect2" title='The "Percentage" property'>
-<a name="id527886"></a><h3>
+<div class="refsect2">
+<a name="id447379"></a><h3>
 <a name="Transaction:Percentage"></a>The "Percentage" property</h3>
 <pre class="programlisting">'Percentage'  read      'u'
 </pre>
@@ -2664,8 +2683,8 @@
 <tbody></tbody>
 </table></div>
 <hr>
-<div class="refsect2" title='The "Subpercentage" property'>
-<a name="id527922"></a><h3>
+<div class="refsect2">
+<a name="id447415"></a><h3>
 <a name="Transaction:Subpercentage"></a>The "Subpercentage" property</h3>
 <pre class="programlisting">'Subpercentage'  read      'u'
 </pre>
@@ -2681,8 +2700,8 @@
 <tbody></tbody>
 </table></div>
 <hr>
-<div class="refsect2" title='The "AllowCancel" property'>
-<a name="id527958"></a><h3>
+<div class="refsect2">
+<a name="id447451"></a><h3>
 <a name="Transaction:AllowCancel"></a>The "AllowCancel" property</h3>
 <pre class="programlisting">'AllowCancel'  read      'b'
 </pre>
@@ -2695,8 +2714,8 @@
 <tbody></tbody>
 </table></div>
 <hr>
-<div class="refsect2" title='The "CallerActive" property'>
-<a name="id527989"></a><h3>
+<div class="refsect2">
+<a name="id447482"></a><h3>
 <a name="Transaction:CallerActive"></a>The "CallerActive" property</h3>
 <pre class="programlisting">'CallerActive'  read      'b'
 </pre>
@@ -2711,8 +2730,8 @@
 <tbody></tbody>
 </table></div>
 <hr>
-<div class="refsect2" title='The "ElapsedTime" property'>
-<a name="id528022"></a><h3>
+<div class="refsect2">
+<a name="id447515"></a><h3>
 <a name="Transaction:ElapsedTime"></a>The "ElapsedTime" property</h3>
 <pre class="programlisting">'ElapsedTime'  read      'u'
 </pre>
@@ -2725,8 +2744,8 @@
 <tbody></tbody>
 </table></div>
 <hr>
-<div class="refsect2" title='The "RemainingTime" property'>
-<a name="id528053"></a><h3>
+<div class="refsect2">
+<a name="id447546"></a><h3>
 <a name="Transaction:RemainingTime"></a>The "RemainingTime" property</h3>
 <pre class="programlisting">'RemainingTime'  read      'u'
 </pre>
@@ -2739,8 +2758,8 @@
 <tbody></tbody>
 </table></div>
 <hr>
-<div class="refsect2" title='The "Speed" property'>
-<a name="id528085"></a><h3>
+<div class="refsect2">
+<a name="id447578"></a><h3>
 <a name="Transaction:Speed"></a>The "Speed" property</h3>
 <pre class="programlisting">'Speed'  read      'u'
 </pre>
@@ -2756,6 +2775,6 @@
 </div>
 <div class="footer">
 <hr>
-          Generated by GTK-Doc V1.15</div>
+          Generated by GTK-Doc V1.17</div>
 </body>
 </html>

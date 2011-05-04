@@ -41,18 +41,17 @@ host_triplet = @host@
 @BACKEND_TYPE_DUMMY_TRUE@am__append_6 = dummy
 @BACKEND_TYPE_ENTROPY_TRUE@am__append_7 = entropy
 @BACKEND_TYPE_OPKG_TRUE@am__append_8 = opkg
-@BACKEND_TYPE_PACMAN_TRUE@am__append_9 = pacman
-@BACKEND_TYPE_RAZOR_TRUE@am__append_10 = razor
-@BACKEND_TYPE_SLAPT_TRUE@am__append_11 = slapt
-@BACKEND_TYPE_SMART_TRUE@am__append_12 = smart
-@BACKEND_TYPE_URPMI_TRUE@am__append_13 = urpmi
-@BACKEND_TYPE_YUM_TRUE@am__append_14 = yum
-@BACKEND_TYPE_PISI_TRUE@am__append_15 = pisi
-@BACKEND_TYPE_ZYPP_TRUE@am__append_16 = zypp
-@BACKEND_TYPE_ZIF_TRUE@am__append_17 = zif
-@BACKEND_TYPE_POLDEK_TRUE@am__append_18 = poldek
-@BACKEND_TYPE_PORTAGE_TRUE@am__append_19 = portage
-@BACKEND_TYPE_PORTS_TRUE@am__append_20 = ports
+@BACKEND_TYPE_RAZOR_TRUE@am__append_9 = razor
+@BACKEND_TYPE_SLAPT_TRUE@am__append_10 = slapt
+@BACKEND_TYPE_SMART_TRUE@am__append_11 = smart
+@BACKEND_TYPE_URPMI_TRUE@am__append_12 = urpmi
+@BACKEND_TYPE_YUM_TRUE@am__append_13 = yum
+@BACKEND_TYPE_PISI_TRUE@am__append_14 = pisi
+@BACKEND_TYPE_ZYPP_TRUE@am__append_15 = zypp
+@BACKEND_TYPE_ZIF_TRUE@am__append_16 = zif
+@BACKEND_TYPE_POLDEK_TRUE@am__append_17 = poldek
+@BACKEND_TYPE_PORTAGE_TRUE@am__append_18 = portage
+@BACKEND_TYPE_PORTS_TRUE@am__append_19 = ports
 subdir = backends
 DIST_COMMON = $(srcdir)/Makefile.am $(srcdir)/Makefile.in
 ACLOCAL_M4 = $(top_srcdir)/aclocal.m4
@@ -89,9 +88,8 @@ AM_RECURSIVE_TARGETS = $(RECURSIVE_TARGETS:-recursive=) \
 	distdir
 ETAGS = etags
 CTAGS = ctags
-DIST_SUBDIRS = test alpm apt aptcc box conary dummy entropy opkg \
-	pacman razor slapt smart urpmi yum pisi zypp zif poldek \
-	portage ports
+DIST_SUBDIRS = test alpm apt aptcc box conary dummy entropy opkg razor \
+	slapt smart urpmi yum pisi zypp zif poldek portage ports
 DISTFILES = $(DIST_COMMON) $(DIST_SOURCES) $(TEXINFOS) $(EXTRA_DIST)
 am__relativize = \
   dir0=`pwd`; \
@@ -159,6 +157,7 @@ DBUS_SYS_DIR = @DBUS_SYS_DIR@
 DEFAULT_BACKEND = @DEFAULT_BACKEND@
 DEFS = @DEFS@
 DEPDIR = @DEPDIR@
+DLLTOOL = @DLLTOOL@
 DSYMUTIL = @DSYMUTIL@
 DUMPBIN = @DUMPBIN@
 ECHO_C = @ECHO_C@
@@ -218,8 +217,12 @@ LOCALSTATEDIR = @LOCALSTATEDIR@
 LTLIBOBJS = @LTLIBOBJS@
 LT_AGE = @LT_AGE@
 LT_CURRENT = @LT_CURRENT@
+LT_QT_AGE = @LT_QT_AGE@
+LT_QT_CURRENT = @LT_QT_CURRENT@
+LT_QT_REVISION = @LT_QT_REVISION@
 LT_REVISION = @LT_REVISION@
 MAKEINFO = @MAKEINFO@
+MANIFEST_TOOL = @MANIFEST_TOOL@
 MKDIR_P = @MKDIR_P@
 MKINSTALLDIRS = @MKINSTALLDIRS@
 MOC = @MOC@
@@ -245,8 +248,6 @@ PACKAGE_STRING = @PACKAGE_STRING@
 PACKAGE_TARNAME = @PACKAGE_TARNAME@
 PACKAGE_URL = @PACKAGE_URL@
 PACKAGE_VERSION = @PACKAGE_VERSION@
-PACMAN_CFLAGS = @PACMAN_CFLAGS@
-PACMAN_LIBS = @PACMAN_LIBS@
 PATH_SEPARATOR = @PATH_SEPARATOR@
 PKG_CONFIG = @PKG_CONFIG@
 PKG_CONFIG_LIBDIR = @PKG_CONFIG_LIBDIR@
@@ -323,6 +324,7 @@ abs_builddir = @abs_builddir@
 abs_srcdir = @abs_srcdir@
 abs_top_builddir = @abs_top_builddir@
 abs_top_srcdir = @abs_top_srcdir@
+ac_ct_AR = @ac_ct_AR@
 ac_ct_CC = @ac_ct_CC@
 ac_ct_CXX = @ac_ct_CXX@
 ac_ct_DUMPBIN = @ac_ct_DUMPBIN@
@@ -382,7 +384,7 @@ SUBDIRS = test $(am__append_1) $(am__append_2) $(am__append_3) \
 	$(am__append_10) $(am__append_11) $(am__append_12) \
 	$(am__append_13) $(am__append_14) $(am__append_15) \
 	$(am__append_16) $(am__append_17) $(am__append_18) \
-	$(am__append_19) $(am__append_20)
+	$(am__append_19)
 all: all-recursive
 
 .SUFFIXES:

@@ -3,12 +3,12 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>PkPackage</title>
-<meta name="generator" content="DocBook XSL Stylesheets V1.75.2">
+<meta name="generator" content="DocBook XSL Stylesheets V1.76.1">
 <link rel="home" href="index.html" title="PackageKit Reference Manual">
 <link rel="up" href="libpackagekit-gobject.html" title="libpackagekit GObjects">
 <link rel="prev" href="PkPackageSack.html" title="PkPackageSack">
 <link rel="next" href="PkProgress.html" title="PkProgress">
-<meta name="generator" content="GTK-Doc V1.15 (XML mode)">
+<meta name="generator" content="GTK-Doc V1.17 (XML mode)">
 <link rel="stylesheet" href="style.css" type="text/css">
 </head>
 <body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF">
@@ -32,7 +32,7 @@
                   <a href="#PkPackage.signals" class="shortcut">Signals</a>
 </td></tr>
 </table>
-<div class="refentry" title="PkPackage">
+<div class="refentry">
 <a name="PkPackage"></a><div class="titlepage"></div>
 <div class="refnamediv"><table width="100%"><tr>
 <td valign="top">
@@ -41,12 +41,11 @@
 </td>
 <td valign="top" align="right"></td>
 </tr></table></div>
-<div class="refsynopsisdiv" title="Synopsis">
+<div class="refsynopsisdiv">
 <a name="PkPackage.synopsis"></a><h2>Synopsis</h2>
 <pre class="synopsis">#define             <a class="link" href="PkPackage.html#PK-PACKAGE-TYPE-ERROR:CAPS" title="PK_PACKAGE_TYPE_ERROR">PK_PACKAGE_TYPE_ERROR</a>
-                    <a class="link" href="PkPackage.html#PkPackagePrivate" title="PkPackagePrivate">PkPackagePrivate</a>;
-                    <a class="link" href="PkPackage.html#PkPackage-struct" title="PkPackage">PkPackage</a>;
-                    <a class="link" href="PkPackage.html#PkPackageClass" title="PkPackageClass">PkPackageClass</a>;
+struct              <a class="link" href="PkPackage.html#PkPackage-struct" title="struct PkPackage">PkPackage</a>;
+struct              <a class="link" href="PkPackage.html#PkPackageClass" title="struct PkPackageClass">PkPackageClass</a>;
 <a class="link" href="PkPackage.html" title="PkPackage"><span class="returnvalue">PkPackage</span></a> *         <a class="link" href="PkPackage.html#pk-package-new" title="pk_package_new ()">pk_package_new</a>                      (<em class="parameter"><code><span class="type">void</span></code></em>);
 <span class="returnvalue">void</span>                <a class="link" href="PkPackage.html#pk-package-test" title="pk_package_test ()">pk_package_test</a>                     (<em class="parameter"><code><a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gpointer"><span class="type">gpointer</span></a> user_data</code></em>);
 <a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gboolean"><span class="returnvalue">gboolean</span></a>            <a class="link" href="PkPackage.html#pk-package-set-id" title="pk_package_set_id ()">pk_package_set_id</a>                   (<em class="parameter"><code><a class="link" href="PkPackage.html" title="PkPackage"><span class="type">PkPackage</span></a> *package</code></em>,
@@ -64,9 +63,10 @@ const <a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.htm
 const <a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gchar"><span class="returnvalue">gchar</span></a> *       <a class="link" href="PkPackage.html#pk-package-get-version" title="pk_package_get_version ()">pk_package_get_version</a>              (<em class="parameter"><code><a class="link" href="PkPackage.html" title="PkPackage"><span class="type">PkPackage</span></a> *package</code></em>);
 const <a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gchar"><span class="returnvalue">gchar</span></a> *       <a class="link" href="PkPackage.html#pk-package-get-arch" title="pk_package_get_arch ()">pk_package_get_arch</a>                 (<em class="parameter"><code><a class="link" href="PkPackage.html" title="PkPackage"><span class="type">PkPackage</span></a> *package</code></em>);
 const <a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gchar"><span class="returnvalue">gchar</span></a> *       <a class="link" href="PkPackage.html#pk-package-get-data" title="pk_package_get_data ()">pk_package_get_data</a>                 (<em class="parameter"><code><a class="link" href="PkPackage.html" title="PkPackage"><span class="type">PkPackage</span></a> *package</code></em>);
+                    <a class="link" href="PkPackage.html#PkPackagePrivate" title="PkPackagePrivate">PkPackagePrivate</a>;
 </pre>
 </div>
-<div class="refsect1" title="Object Hierarchy">
+<div class="refsect1">
 <a name="PkPackage.object-hierarchy"></a><h2>Object Hierarchy</h2>
 <pre class="synopsis">
   <a href="http://library.gnome.org/devel/gobject/unstable/gobject-The-Base-Object-Type.html#GObject">GObject</a>
@@ -74,7 +74,7 @@ const <a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.htm
          +----PkPackage
 </pre>
 </div>
-<div class="refsect1" title="Properties">
+<div class="refsect1">
 <a name="PkPackage.properties"></a><h2>Properties</h2>
 <pre class="synopsis">
   "<a class="link" href="PkPackage.html#PkPackage--description" title='The "description" property'>description</a>"              <a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a>*                : Read / Write
@@ -98,13 +98,13 @@ const <a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.htm
   "<a class="link" href="PkPackage.html#PkPackage--url" title='The "url" property'>url</a>"                      <a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a>*                : Read / Write
 </pre>
 </div>
-<div class="refsect1" title="Signals">
+<div class="refsect1">
 <a name="PkPackage.signals"></a><h2>Signals</h2>
 <pre class="synopsis">
-  "<a class="link" href="PkPackage.html#PkPackage-changed" title='The "changed" signal'>changed</a>"                                        : Run Last
+  "<a class="link" href="PkPackage.html#PkPackage-changed" title='The "changed" signal'>changed</a>"                                        : <a href="http://library.gnome.org/devel/gobject/unstable/gobject-Signals.html#G-SIGNAL-RUN-LAST:CAPS"><code class="literal">Run Last</code></a>
 </pre>
 </div>
-<div class="refsect1" title="Description">
+<div class="refsect1">
 <a name="PkPackage.description"></a><h2>Description</h2>
 <p>
 This GObject represents a package from a transaction.
@@ -112,9 +112,9 @@ These objects represent single items of data from the transaction, and are
 often present in lists (<a class="link" href="PkResults.html" title="PkResults"><span class="type">PkResults</span></a>) or just refcounted in client programs.
 </p>
 </div>
-<div class="refsect1" title="Details">
+<div class="refsect1">
 <a name="PkPackage.details"></a><h2>Details</h2>
-<div class="refsect2" title="PK_PACKAGE_TYPE_ERROR">
+<div class="refsect2">
 <a name="PK-PACKAGE-TYPE-ERROR:CAPS"></a><h3>PK_PACKAGE_TYPE_ERROR</h3>
 <pre class="programlisting">#define PK_PACKAGE_TYPE_ERROR (pk_package_error_get_type ())
 </pre>
@@ -122,24 +122,16 @@ often present in lists (<a class="link" href="PkResults.html" title="PkResults">
 </p>
 </div>
 <hr>
-<div class="refsect2" title="PkPackagePrivate">
-<a name="PkPackagePrivate"></a><h3>PkPackagePrivate</h3>
-<pre class="programlisting">typedef struct _PkPackagePrivate PkPackagePrivate;</pre>
-<p>
-Private <a class="link" href="PkPackage.html" title="PkPackage"><span class="type">PkPackage</span></a> data
-</p>
-</div>
-<hr>
-<div class="refsect2" title="PkPackage">
-<a name="PkPackage-struct"></a><h3>PkPackage</h3>
-<pre class="programlisting">typedef struct _PkPackage PkPackage;</pre>
+<div class="refsect2">
+<a name="PkPackage-struct"></a><h3>struct PkPackage</h3>
+<pre class="programlisting">struct PkPackage;</pre>
 <p>
 </p>
 </div>
 <hr>
-<div class="refsect2" title="PkPackageClass">
-<a name="PkPackageClass"></a><h3>PkPackageClass</h3>
-<pre class="programlisting">typedef struct {
+<div class="refsect2">
+<a name="PkPackageClass"></a><h3>struct PkPackageClass</h3>
+<pre class="programlisting">struct PkPackageClass {
 	PkSourceClass parent_class;
 
 	/* signals */
@@ -150,43 +142,33 @@ Private <a class="link" href="PkPackage.html" title="PkPackage"><span class="typ
 	void (*_pk_reserved3) (void);
 	void (*_pk_reserved4) (void);
 	void (*_pk_reserved5) (void);
-} PkPackageClass;
+};
 </pre>
 <p>
 </p>
 </div>
 <hr>
-<div class="refsect2" title="pk_package_new ()">
+<div class="refsect2">
 <a name="pk-package-new"></a><h3>pk_package_new ()</h3>
 <pre class="programlisting"><a class="link" href="PkPackage.html" title="PkPackage"><span class="returnvalue">PkPackage</span></a> *         pk_package_new                      (<em class="parameter"><code><span class="type">void</span></code></em>);</pre>
 <div class="variablelist"><table border="0">
 <col align="left" valign="top">
 <tbody><tr>
 <td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
-<td> a new PkPackage object.
-
-</td>
+<td>a new PkPackage object.</td>
 </tr></tbody>
 </table></div>
 <p class="since">Since 0.5.4</p>
 </div>
 <hr>
-<div class="refsect2" title="pk_package_test ()">
+<div class="refsect2">
 <a name="pk-package-test"></a><h3>pk_package_test ()</h3>
 <pre class="programlisting"><span class="returnvalue">void</span>                pk_package_test                     (<em class="parameter"><code><a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gpointer"><span class="type">gpointer</span></a> user_data</code></em>);</pre>
 <p>
 </p>
-<div class="variablelist"><table border="0">
-<col align="left" valign="top">
-<tbody><tr>
-<td><p><span class="term"><em class="parameter"><code>user_data</code></em> :</span></p></td>
-<td>
-</td>
-</tr></tbody>
-</table></div>
 </div>
 <hr>
-<div class="refsect2" title="pk_package_set_id ()">
+<div class="refsect2">
 <a name="pk-package-set-id"></a><h3>pk_package_set_id ()</h3>
 <pre class="programlisting"><a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gboolean"><span class="returnvalue">gboolean</span></a>            pk_package_set_id                   (<em class="parameter"><code><a class="link" href="PkPackage.html" title="PkPackage"><span class="type">PkPackage</span></a> *package</code></em>,
                                                          <em class="parameter"><code>const <a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a> *package_id</code></em>,
@@ -199,13 +181,11 @@ Sets the package object to have the given ID
 <tbody>
 <tr>
 <td><p><span class="term"><em class="parameter"><code>package</code></em> :</span></p></td>
-<td>a valid <a class="link" href="PkPackage.html" title="PkPackage"><span class="type">PkPackage</span></a> instance
-</td>
+<td>a valid <a class="link" href="PkPackage.html" title="PkPackage"><span class="type">PkPackage</span></a> instance</td>
 </tr>
 <tr>
 <td><p><span class="term"><em class="parameter"><code>package_id</code></em> :</span></p></td>
-<td>the valid package_id
-</td>
+<td>the valid package_id</td>
 </tr>
 <tr>
 <td><p><span class="term"><em class="parameter"><code>error</code></em> :</span></p></td>
@@ -214,16 +194,15 @@ Sets the package object to have the given ID
 </tr>
 <tr>
 <td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
-<td> <a href="http://library.gnome.org/devel/glib/unstable/glib-Standard-Macros.html#TRUE:CAPS"><code class="literal">TRUE</code></a> if the package_id was set
-
-</td>
+<td>
+<a href="http://library.gnome.org/devel/glib/unstable/glib-Standard-Macros.html#TRUE:CAPS"><code class="literal">TRUE</code></a> if the package_id was set</td>
 </tr>
 </tbody>
 </table></div>
 <p class="since">Since 0.5.4</p>
 </div>
 <hr>
-<div class="refsect2" title="pk_package_print ()">
+<div class="refsect2">
 <a name="pk-package-print"></a><h3>pk_package_print ()</h3>
 <pre class="programlisting"><span class="returnvalue">void</span>                pk_package_print                    (<em class="parameter"><code><a class="link" href="PkPackage.html" title="PkPackage"><span class="type">PkPackage</span></a> *package</code></em>);</pre>
 <p>
@@ -233,14 +212,13 @@ Prints details about the package to standard out.
 <col align="left" valign="top">
 <tbody><tr>
 <td><p><span class="term"><em class="parameter"><code>package</code></em> :</span></p></td>
-<td>a valid <a class="link" href="PkPackage.html" title="PkPackage"><span class="type">PkPackage</span></a> instance
-</td>
+<td>a valid <a class="link" href="PkPackage.html" title="PkPackage"><span class="type">PkPackage</span></a> instance</td>
 </tr></tbody>
 </table></div>
 <p class="since">Since 0.5.4</p>
 </div>
 <hr>
-<div class="refsect2" title="pk_package_equal ()">
+<div class="refsect2">
 <a name="pk-package-equal"></a><h3>pk_package_equal ()</h3>
 <pre class="programlisting"><a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gboolean"><span class="returnvalue">gboolean</span></a>            pk_package_equal                    (<em class="parameter"><code><a class="link" href="PkPackage.html" title="PkPackage"><span class="type">PkPackage</span></a> *package1</code></em>,
                                                          <em class="parameter"><code><a class="link" href="PkPackage.html" title="PkPackage"><span class="type">PkPackage</span></a> *package2</code></em>);</pre>
@@ -252,26 +230,23 @@ Do the <a class="link" href="PkPackage.html" title="PkPackage"><span class="type
 <tbody>
 <tr>
 <td><p><span class="term"><em class="parameter"><code>package1</code></em> :</span></p></td>
-<td>a valid <a class="link" href="PkPackage.html" title="PkPackage"><span class="type">PkPackage</span></a> instance
-</td>
+<td>a valid <a class="link" href="PkPackage.html" title="PkPackage"><span class="type">PkPackage</span></a> instance</td>
 </tr>
 <tr>
 <td><p><span class="term"><em class="parameter"><code>package2</code></em> :</span></p></td>
-<td>a valid <a class="link" href="PkPackage.html" title="PkPackage"><span class="type">PkPackage</span></a> instance
-</td>
+<td>a valid <a class="link" href="PkPackage.html" title="PkPackage"><span class="type">PkPackage</span></a> instance</td>
 </tr>
 <tr>
 <td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
-<td> <a href="http://library.gnome.org/devel/glib/unstable/glib-Standard-Macros.html#TRUE:CAPS"><code class="literal">TRUE</code></a> if the packages have the same package_id, info and summary.
-
-</td>
+<td>
+<a href="http://library.gnome.org/devel/glib/unstable/glib-Standard-Macros.html#TRUE:CAPS"><code class="literal">TRUE</code></a> if the packages have the same package_id, info and summary.</td>
 </tr>
 </tbody>
 </table></div>
 <p class="since">Since 0.5.4</p>
 </div>
 <hr>
-<div class="refsect2" title="pk_package_equal_id ()">
+<div class="refsect2">
 <a name="pk-package-equal-id"></a><h3>pk_package_equal_id ()</h3>
 <pre class="programlisting"><a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gboolean"><span class="returnvalue">gboolean</span></a>            pk_package_equal_id                 (<em class="parameter"><code><a class="link" href="PkPackage.html" title="PkPackage"><span class="type">PkPackage</span></a> *package1</code></em>,
                                                          <em class="parameter"><code><a class="link" href="PkPackage.html" title="PkPackage"><span class="type">PkPackage</span></a> *package2</code></em>);</pre>
@@ -283,26 +258,23 @@ Do the <a class="link" href="PkPackage.html" title="PkPackage"><span class="type
 <tbody>
 <tr>
 <td><p><span class="term"><em class="parameter"><code>package1</code></em> :</span></p></td>
-<td>a valid <a class="link" href="PkPackage.html" title="PkPackage"><span class="type">PkPackage</span></a> instance
-</td>
+<td>a valid <a class="link" href="PkPackage.html" title="PkPackage"><span class="type">PkPackage</span></a> instance</td>
 </tr>
 <tr>
 <td><p><span class="term"><em class="parameter"><code>package2</code></em> :</span></p></td>
-<td>a valid <a class="link" href="PkPackage.html" title="PkPackage"><span class="type">PkPackage</span></a> instance
-</td>
+<td>a valid <a class="link" href="PkPackage.html" title="PkPackage"><span class="type">PkPackage</span></a> instance</td>
 </tr>
 <tr>
 <td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
-<td> <a href="http://library.gnome.org/devel/glib/unstable/glib-Standard-Macros.html#TRUE:CAPS"><code class="literal">TRUE</code></a> if the packages have the same package_id.
-
-</td>
+<td>
+<a href="http://library.gnome.org/devel/glib/unstable/glib-Standard-Macros.html#TRUE:CAPS"><code class="literal">TRUE</code></a> if the packages have the same package_id.</td>
 </tr>
 </tbody>
 </table></div>
 <p class="since">Since 0.5.4</p>
 </div>
 <hr>
-<div class="refsect2" title="pk_package_get_id ()">
+<div class="refsect2">
 <a name="pk-package-get-id"></a><h3>pk_package_get_id ()</h3>
 <pre class="programlisting">const <a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gchar"><span class="returnvalue">gchar</span></a> *       pk_package_get_id                   (<em class="parameter"><code><a class="link" href="PkPackage.html" title="PkPackage"><span class="type">PkPackage</span></a> *package</code></em>);</pre>
 <p>
@@ -313,21 +285,18 @@ Gets the package object ID
 <tbody>
 <tr>
 <td><p><span class="term"><em class="parameter"><code>package</code></em> :</span></p></td>
-<td>a valid <a class="link" href="PkPackage.html" title="PkPackage"><span class="type">PkPackage</span></a> instance
-</td>
+<td>a valid <a class="link" href="PkPackage.html" title="PkPackage"><span class="type">PkPackage</span></a> instance</td>
 </tr>
 <tr>
 <td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
-<td> the ID, or <a href="http://library.gnome.org/devel/glib/unstable/glib-Standard-Macros.html#NULL:CAPS"><code class="literal">NULL</code></a> if unset
-
-</td>
+<td>the ID, or <a href="http://library.gnome.org/devel/glib/unstable/glib-Standard-Macros.html#NULL:CAPS"><code class="literal">NULL</code></a> if unset</td>
 </tr>
 </tbody>
 </table></div>
 <p class="since">Since 0.5.4</p>
 </div>
 <hr>
-<div class="refsect2" title="pk_package_get_info ()">
+<div class="refsect2">
 <a name="pk-package-get-info"></a><h3>pk_package_get_info ()</h3>
 <pre class="programlisting"><a class="link" href="PackageKit-pk-enum.html#PkInfoEnum" title="enum PkInfoEnum"><span class="returnvalue">PkInfoEnum</span></a>          pk_package_get_info                 (<em class="parameter"><code><a class="link" href="PkPackage.html" title="PkPackage"><span class="type">PkPackage</span></a> *package</code></em>);</pre>
 <p>
@@ -338,13 +307,11 @@ Gets the package object ID
 <tbody>
 <tr>
 <td><p><span class="term"><em class="parameter"><code>package</code></em> :</span></p></td>
-<td>a valid <a class="link" href="PkPackage.html" title="PkPackage"><span class="type">PkPackage</span></a> instance
-</td>
+<td>a valid <a class="link" href="PkPackage.html" title="PkPackage"><span class="type">PkPackage</span></a> instance</td>
 </tr>
 <tr>
 <td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
-<td> the <a class="link" href="PackageKit-pk-enum.html#PkInfoEnum" title="enum PkInfoEnum"><code class="literal">PkInfoEnum</code></a>
-
+<td>the <a class="link" href="PackageKit-pk-enum.html#PkInfoEnum" title="enum PkInfoEnum"><code class="literal">PkInfoEnum</code></a>
 </td>
 </tr>
 </tbody>
@@ -352,7 +319,7 @@ Gets the package object ID
 <p class="since">Since 0.5.4</p>
 </div>
 <hr>
-<div class="refsect2" title="pk_package_get_summary ()">
+<div class="refsect2">
 <a name="pk-package-get-summary"></a><h3>pk_package_get_summary ()</h3>
 <pre class="programlisting">const <a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gchar"><span class="returnvalue">gchar</span></a> *       pk_package_get_summary              (<em class="parameter"><code><a class="link" href="PkPackage.html" title="PkPackage"><span class="type">PkPackage</span></a> *package</code></em>);</pre>
 <p>
@@ -363,21 +330,18 @@ Gets the package object ID
 <tbody>
 <tr>
 <td><p><span class="term"><em class="parameter"><code>package</code></em> :</span></p></td>
-<td>a valid <a class="link" href="PkPackage.html" title="PkPackage"><span class="type">PkPackage</span></a> instance
-</td>
+<td>a valid <a class="link" href="PkPackage.html" title="PkPackage"><span class="type">PkPackage</span></a> instance</td>
 </tr>
 <tr>
 <td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
-<td> the summary, or <a href="http://library.gnome.org/devel/glib/unstable/glib-Standard-Macros.html#NULL:CAPS"><code class="literal">NULL</code></a> if unset
-
-</td>
+<td>the summary, or <a href="http://library.gnome.org/devel/glib/unstable/glib-Standard-Macros.html#NULL:CAPS"><code class="literal">NULL</code></a> if unset</td>
 </tr>
 </tbody>
 </table></div>
 <p class="since">Since 0.5.4</p>
 </div>
 <hr>
-<div class="refsect2" title="pk_package_get_name ()">
+<div class="refsect2">
 <a name="pk-package-get-name"></a><h3>pk_package_get_name ()</h3>
 <pre class="programlisting">const <a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gchar"><span class="returnvalue">gchar</span></a> *       pk_package_get_name                 (<em class="parameter"><code><a class="link" href="PkPackage.html" title="PkPackage"><span class="type">PkPackage</span></a> *package</code></em>);</pre>
 <p>
@@ -388,21 +352,18 @@ Gets the package name.
 <tbody>
 <tr>
 <td><p><span class="term"><em class="parameter"><code>package</code></em> :</span></p></td>
-<td>a valid <a class="link" href="PkPackage.html" title="PkPackage"><span class="type">PkPackage</span></a> instance
-</td>
+<td>a valid <a class="link" href="PkPackage.html" title="PkPackage"><span class="type">PkPackage</span></a> instance</td>
 </tr>
 <tr>
 <td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
-<td> the name, or <a href="http://library.gnome.org/devel/glib/unstable/glib-Standard-Macros.html#NULL:CAPS"><code class="literal">NULL</code></a> if unset
-
-</td>
+<td>the name, or <a href="http://library.gnome.org/devel/glib/unstable/glib-Standard-Macros.html#NULL:CAPS"><code class="literal">NULL</code></a> if unset</td>
 </tr>
 </tbody>
 </table></div>
 <p class="since">Since 0.6.4</p>
 </div>
 <hr>
-<div class="refsect2" title="pk_package_get_version ()">
+<div class="refsect2">
 <a name="pk-package-get-version"></a><h3>pk_package_get_version ()</h3>
 <pre class="programlisting">const <a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gchar"><span class="returnvalue">gchar</span></a> *       pk_package_get_version              (<em class="parameter"><code><a class="link" href="PkPackage.html" title="PkPackage"><span class="type">PkPackage</span></a> *package</code></em>);</pre>
 <p>
@@ -413,21 +374,18 @@ Gets the package version.
 <tbody>
 <tr>
 <td><p><span class="term"><em class="parameter"><code>package</code></em> :</span></p></td>
-<td>a valid <a class="link" href="PkPackage.html" title="PkPackage"><span class="type">PkPackage</span></a> instance
-</td>
+<td>a valid <a class="link" href="PkPackage.html" title="PkPackage"><span class="type">PkPackage</span></a> instance</td>
 </tr>
 <tr>
 <td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
-<td> the version, or <a href="http://library.gnome.org/devel/glib/unstable/glib-Standard-Macros.html#NULL:CAPS"><code class="literal">NULL</code></a> if unset
-
-</td>
+<td>the version, or <a href="http://library.gnome.org/devel/glib/unstable/glib-Standard-Macros.html#NULL:CAPS"><code class="literal">NULL</code></a> if unset</td>
 </tr>
 </tbody>
 </table></div>
 <p class="since">Since 0.6.4</p>
 </div>
 <hr>
-<div class="refsect2" title="pk_package_get_arch ()">
+<div class="refsect2">
 <a name="pk-package-get-arch"></a><h3>pk_package_get_arch ()</h3>
 <pre class="programlisting">const <a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gchar"><span class="returnvalue">gchar</span></a> *       pk_package_get_arch                 (<em class="parameter"><code><a class="link" href="PkPackage.html" title="PkPackage"><span class="type">PkPackage</span></a> *package</code></em>);</pre>
 <p>
@@ -438,21 +396,18 @@ Gets the package arch.
 <tbody>
 <tr>
 <td><p><span class="term"><em class="parameter"><code>package</code></em> :</span></p></td>
-<td>a valid <a class="link" href="PkPackage.html" title="PkPackage"><span class="type">PkPackage</span></a> instance
-</td>
+<td>a valid <a class="link" href="PkPackage.html" title="PkPackage"><span class="type">PkPackage</span></a> instance</td>
 </tr>
 <tr>
 <td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
-<td> the arch, or <a href="http://library.gnome.org/devel/glib/unstable/glib-Standard-Macros.html#NULL:CAPS"><code class="literal">NULL</code></a> if unset
-
-</td>
+<td>the arch, or <a href="http://library.gnome.org/devel/glib/unstable/glib-Standard-Macros.html#NULL:CAPS"><code class="literal">NULL</code></a> if unset</td>
 </tr>
 </tbody>
 </table></div>
 <p class="since">Since 0.6.4</p>
 </div>
 <hr>
-<div class="refsect2" title="pk_package_get_data ()">
+<div class="refsect2">
 <a name="pk-package-get-data"></a><h3>pk_package_get_data ()</h3>
 <pre class="programlisting">const <a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gchar"><span class="returnvalue">gchar</span></a> *       pk_package_get_data                 (<em class="parameter"><code><a class="link" href="PkPackage.html" title="PkPackage"><span class="type">PkPackage</span></a> *package</code></em>);</pre>
 <p>
@@ -465,23 +420,28 @@ for local packages that exist on disk but not in a repoitory.
 <tbody>
 <tr>
 <td><p><span class="term"><em class="parameter"><code>package</code></em> :</span></p></td>
-<td>a valid <a class="link" href="PkPackage.html" title="PkPackage"><span class="type">PkPackage</span></a> instance
-</td>
+<td>a valid <a class="link" href="PkPackage.html" title="PkPackage"><span class="type">PkPackage</span></a> instance</td>
 </tr>
 <tr>
 <td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
-<td> the data, or <a href="http://library.gnome.org/devel/glib/unstable/glib-Standard-Macros.html#NULL:CAPS"><code class="literal">NULL</code></a> if unset
-
-</td>
+<td>the data, or <a href="http://library.gnome.org/devel/glib/unstable/glib-Standard-Macros.html#NULL:CAPS"><code class="literal">NULL</code></a> if unset</td>
 </tr>
 </tbody>
 </table></div>
 <p class="since">Since 0.6.4</p>
 </div>
+<hr>
+<div class="refsect2">
+<a name="PkPackagePrivate"></a><h3>PkPackagePrivate</h3>
+<pre class="programlisting">typedef struct _PkPackagePrivate PkPackagePrivate;</pre>
+<p>
+Private <a class="link" href="PkPackage.html" title="PkPackage"><span class="type">PkPackage</span></a> data
+</p>
 </div>
-<div class="refsect1" title="Property Details">
+</div>
+<div class="refsect1">
 <a name="PkPackage.property-details"></a><h2>Property Details</h2>
-<div class="refsect2" title='The "description" property'>
+<div class="refsect2">
 <a name="PkPackage--description"></a><h3>The <code class="literal">"description"</code> property</h3>
 <pre class="programlisting">  "description"              <a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a>*                : Read / Write</pre>
 <p>The package description.</p>
@@ -489,7 +449,7 @@ for local packages that exist on disk but not in a repoitory.
 <p class="since">Since 0.5.4</p>
 </div>
 <hr>
-<div class="refsect2" title='The "group" property'>
+<div class="refsect2">
 <a name="PkPackage--group"></a><h3>The <code class="literal">"group"</code> property</h3>
 <pre class="programlisting">  "group"                    <a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#guint"><span class="type">guint</span></a>                 : Read / Write</pre>
 <p>The package group.</p>
@@ -498,7 +458,7 @@ for local packages that exist on disk but not in a repoitory.
 <p class="since">Since 0.5.4</p>
 </div>
 <hr>
-<div class="refsect2" title='The "info" property'>
+<div class="refsect2">
 <a name="PkPackage--info"></a><h3>The <code class="literal">"info"</code> property</h3>
 <pre class="programlisting">  "info"                     <a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#guint"><span class="type">guint</span></a>                 : Read / Write</pre>
 <p>The PkInfoEnum package type, e.g. PK_INFO_ENUM_NORMAL.</p>
@@ -506,7 +466,7 @@ for local packages that exist on disk but not in a repoitory.
 <p class="since">Since 0.5.4</p>
 </div>
 <hr>
-<div class="refsect2" title='The "license" property'>
+<div class="refsect2">
 <a name="PkPackage--license"></a><h3>The <code class="literal">"license"</code> property</h3>
 <pre class="programlisting">  "license"                  <a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a>*                : Read / Write</pre>
 <p>The package license.</p>
@@ -514,7 +474,7 @@ for local packages that exist on disk but not in a repoitory.
 <p class="since">Since 0.5.4</p>
 </div>
 <hr>
-<div class="refsect2" title='The "package-id" property'>
+<div class="refsect2">
 <a name="PkPackage--package-id"></a><h3>The <code class="literal">"package-id"</code> property</h3>
 <pre class="programlisting">  "package-id"               <a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a>*                : Read / Write</pre>
 <p>The full package_id, e.g. 'gnome-power-manager;0.1.2;i386;fedora'.</p>
@@ -522,7 +482,7 @@ for local packages that exist on disk but not in a repoitory.
 <p class="since">Since 0.5.4</p>
 </div>
 <hr>
-<div class="refsect2" title='The "size" property'>
+<div class="refsect2">
 <a name="PkPackage--size"></a><h3>The <code class="literal">"size"</code> property</h3>
 <pre class="programlisting">  "size"                     <a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#guint64"><span class="type">guint64</span></a>               : Read / Write</pre>
 <p>The package size.</p>
@@ -530,7 +490,7 @@ for local packages that exist on disk but not in a repoitory.
 <p class="since">Since 0.5.4</p>
 </div>
 <hr>
-<div class="refsect2" title='The "summary" property'>
+<div class="refsect2">
 <a name="PkPackage--summary"></a><h3>The <code class="literal">"summary"</code> property</h3>
 <pre class="programlisting">  "summary"                  <a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a>*                : Read / Write</pre>
 <p>The package summary.</p>
@@ -538,7 +498,7 @@ for local packages that exist on disk but not in a repoitory.
 <p class="since">Since 0.5.4</p>
 </div>
 <hr>
-<div class="refsect2" title='The "update-bugzilla-url" property'>
+<div class="refsect2">
 <a name="PkPackage--update-bugzilla-url"></a><h3>The <code class="literal">"update-bugzilla-url"</code> property</h3>
 <pre class="programlisting">  "update-bugzilla-url"      <a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a>*                : Read / Write</pre>
 <p>The update bugzilla URL.</p>
@@ -546,7 +506,7 @@ for local packages that exist on disk but not in a repoitory.
 <p class="since">Since 0.5.4</p>
 </div>
 <hr>
-<div class="refsect2" title='The "update-changelog" property'>
+<div class="refsect2">
 <a name="PkPackage--update-changelog"></a><h3>The <code class="literal">"update-changelog"</code> property</h3>
 <pre class="programlisting">  "update-changelog"         <a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a>*                : Read / Write</pre>
 <p>The update ChangeLog.</p>
@@ -554,7 +514,7 @@ for local packages that exist on disk but not in a repoitory.
 <p class="since">Since 0.5.4</p>
 </div>
 <hr>
-<div class="refsect2" title='The "update-cve-url" property'>
+<div class="refsect2">
 <a name="PkPackage--update-cve-url"></a><h3>The <code class="literal">"update-cve-url"</code> property</h3>
 <pre class="programlisting">  "update-cve-url"           <a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a>*                : Read / Write</pre>
 <p>The update CVE URL.</p>
@@ -562,7 +522,7 @@ for local packages that exist on disk but not in a repoitory.
 <p class="since">Since 0.5.4</p>
 </div>
 <hr>
-<div class="refsect2" title='The "update-issued" property'>
+<div class="refsect2">
 <a name="PkPackage--update-issued"></a><h3>The <code class="literal">"update-issued"</code> property</h3>
 <pre class="programlisting">  "update-issued"            <a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a>*                : Read / Write</pre>
 <p>When the update was issued.</p>
@@ -570,7 +530,7 @@ for local packages that exist on disk but not in a repoitory.
 <p class="since">Since 0.5.4</p>
 </div>
 <hr>
-<div class="refsect2" title='The "update-obsoletes" property'>
+<div class="refsect2">
 <a name="PkPackage--update-obsoletes"></a><h3>The <code class="literal">"update-obsoletes"</code> property</h3>
 <pre class="programlisting">  "update-obsoletes"         <a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a>*                : Read / Write</pre>
 <p>The update packages that are obsoleted.</p>
@@ -578,7 +538,7 @@ for local packages that exist on disk but not in a repoitory.
 <p class="since">Since 0.5.4</p>
 </div>
 <hr>
-<div class="refsect2" title='The "update-restart" property'>
+<div class="refsect2">
 <a name="PkPackage--update-restart"></a><h3>The <code class="literal">"update-restart"</code> property</h3>
 <pre class="programlisting">  "update-restart"           <a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#guint"><span class="type">guint</span></a>                 : Read / Write</pre>
 <p>The update restart type.</p>
@@ -587,7 +547,7 @@ for local packages that exist on disk but not in a repoitory.
 <p class="since">Since 0.5.4</p>
 </div>
 <hr>
-<div class="refsect2" title='The "update-state" property'>
+<div class="refsect2">
 <a name="PkPackage--update-state"></a><h3>The <code class="literal">"update-state"</code> property</h3>
 <pre class="programlisting">  "update-state"             <a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#guint"><span class="type">guint</span></a>                 : Read / Write</pre>
 <p>The update state.</p>
@@ -596,7 +556,7 @@ for local packages that exist on disk but not in a repoitory.
 <p class="since">Since 0.5.4</p>
 </div>
 <hr>
-<div class="refsect2" title='The "update-text" property'>
+<div class="refsect2">
 <a name="PkPackage--update-text"></a><h3>The <code class="literal">"update-text"</code> property</h3>
 <pre class="programlisting">  "update-text"              <a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a>*                : Read / Write</pre>
 <p>The update description.</p>
@@ -604,7 +564,7 @@ for local packages that exist on disk but not in a repoitory.
 <p class="since">Since 0.5.4</p>
 </div>
 <hr>
-<div class="refsect2" title='The "update-updated" property'>
+<div class="refsect2">
 <a name="PkPackage--update-updated"></a><h3>The <code class="literal">"update-updated"</code> property</h3>
 <pre class="programlisting">  "update-updated"           <a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a>*                : Read / Write</pre>
 <p>When the update was last updated.</p>
@@ -612,7 +572,7 @@ for local packages that exist on disk but not in a repoitory.
 <p class="since">Since 0.5.4</p>
 </div>
 <hr>
-<div class="refsect2" title='The "update-updates" property'>
+<div class="refsect2">
 <a name="PkPackage--update-updates"></a><h3>The <code class="literal">"update-updates"</code> property</h3>
 <pre class="programlisting">  "update-updates"           <a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a>*                : Read / Write</pre>
 <p>The update packages.</p>
@@ -620,7 +580,7 @@ for local packages that exist on disk but not in a repoitory.
 <p class="since">Since 0.5.4</p>
 </div>
 <hr>
-<div class="refsect2" title='The "update-vendor-url" property'>
+<div class="refsect2">
 <a name="PkPackage--update-vendor-url"></a><h3>The <code class="literal">"update-vendor-url"</code> property</h3>
 <pre class="programlisting">  "update-vendor-url"        <a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a>*                : Read / Write</pre>
 <p>The update vendor URL.</p>
@@ -628,7 +588,7 @@ for local packages that exist on disk but not in a repoitory.
 <p class="since">Since 0.5.4</p>
 </div>
 <hr>
-<div class="refsect2" title='The "url" property'>
+<div class="refsect2">
 <a name="PkPackage--url"></a><h3>The <code class="literal">"url"</code> property</h3>
 <pre class="programlisting">  "url"                      <a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a>*                : Read / Write</pre>
 <p>The package homepage URL.</p>
@@ -636,12 +596,12 @@ for local packages that exist on disk but not in a repoitory.
 <p class="since">Since 0.5.4</p>
 </div>
 </div>
-<div class="refsect1" title="Signal Details">
+<div class="refsect1">
 <a name="PkPackage.signal-details"></a><h2>Signal Details</h2>
-<div class="refsect2" title='The "changed" signal'>
+<div class="refsect2">
 <a name="PkPackage-changed"></a><h3>The <code class="literal">"changed"</code> signal</h3>
 <pre class="programlisting"><span class="returnvalue">void</span>                user_function                      (<a class="link" href="PkPackage.html" title="PkPackage"><span class="type">PkPackage</span></a> *package,
-                                                        <a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gpointer"><span class="type">gpointer</span></a>   user_data)      : Run Last</pre>
+                                                        <a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gpointer"><span class="type">gpointer</span></a>   user_data)      : <a href="http://library.gnome.org/devel/gobject/unstable/gobject-Signals.html#G-SIGNAL-RUN-LAST:CAPS"><code class="literal">Run Last</code></a></pre>
 <p>
 The ::changed signal is emitted when the package data may have changed.
 </p>
@@ -650,8 +610,7 @@ The ::changed signal is emitted when the package data may have changed.
 <tbody>
 <tr>
 <td><p><span class="term"><em class="parameter"><code>package</code></em> :</span></p></td>
-<td>the <a class="link" href="PkPackage.html" title="PkPackage"><span class="type">PkPackage</span></a> instance that emitted the signal
-</td>
+<td>the <a class="link" href="PkPackage.html" title="PkPackage"><span class="type">PkPackage</span></a> instance that emitted the signal</td>
 </tr>
 <tr>
 <td><p><span class="term"><em class="parameter"><code>user_data</code></em> :</span></p></td>
@@ -664,6 +623,6 @@ The ::changed signal is emitted when the package data may have changed.
 </div>
 <div class="footer">
 <hr>
-          Generated by GTK-Doc V1.15</div>
+          Generated by GTK-Doc V1.17</div>
 </body>
 </html>

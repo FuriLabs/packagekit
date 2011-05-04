@@ -97,6 +97,7 @@ PkTransaction	*pk_transaction_new				(void);
 gboolean	 pk_transaction_run				(PkTransaction      *transaction)
 								 G_GNUC_WARN_UNUSED_RESULT;
 /* internal status */
+void		 pk_transaction_priv_cancel_bg			(PkTransaction	*transaction);
 PkRoleEnum	 pk_transaction_priv_get_role			(PkTransaction	*transaction);
 PkTransactionState pk_transaction_get_state			(PkTransaction	*transaction);
 gboolean	 pk_transaction_set_state			(PkTransaction	*transaction,
@@ -119,6 +120,7 @@ void		 pk_transaction_accept_eula			(PkTransaction	*transaction,
 void		 pk_transaction_cancel				(PkTransaction	*transaction,
 								 DBusGMethodInvocation *context);
 void		 pk_transaction_download_packages		(PkTransaction  *transaction,
+								 gboolean	 copy_files,
 								 gchar		**package_ids,
 								 DBusGMethodInvocation *context);
 void		 pk_transaction_get_categories			(PkTransaction	*transaction,

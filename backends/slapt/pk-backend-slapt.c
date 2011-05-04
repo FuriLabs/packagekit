@@ -37,7 +37,7 @@ struct category_map {
     PkGroupEnum group;
 };
 
-static struct category_map CATGROUP[] = { /* TODO: load into hashmap */
+static struct category_map CATGROUP[] = {
 /* Slackware */
 {          "a", PK_GROUP_ENUM_SYSTEM /* The base Slackware system. */ },
 {         "ap", PK_GROUP_ENUM_OTHER /* Linux applications. */ },
@@ -95,6 +95,7 @@ static struct category_map CATGROUP[] = { /* TODO: load into hashmap */
 /* Sentinel */
 {         NULL, PK_GROUP_ENUM_UNKNOWN }
 };
+static GHashTable *_cathash = NULL;
 
 static PkBackend *_backend = NULL;
 
@@ -126,9 +127,17 @@ double dltotal, double dlnow, double ultotal, double ulnow)
 static void
 backend_initialize (PkBackend *backend)
 {
+	struct category_map *catgroup;
+
 	_config = slapt_read_rc_config(_config_file);
 	if (_config == NULL)
 	    _config = slapt_init_config();
+
+	_cathash = g_hash_table_new_full(g_str_hash, g_str_equal, NULL, NULL);
+	for (catgroup = CATGROUP; catgroup->category != NULL; catgroup++) {
+	     g_hash_table_insert(_cathash,
+	         (gpointer) catgroup->category, (gpointer) catgroup->group);
+	}
 
 	_backend = backend;
 	if (_backend != NULL)
@@ -145,6 +154,7 @@ static void
 backend_destroy (PkBackend *backend)
 {
 	slapt_free_rc_config(_config);
+	g_hash_table_destroy(_cathash);
 }
 
 /**
@@ -223,22 +233,25 @@ backend_cancel (PkBackend *backend)
 {
 }
 
-static slapt_pkg_info_t* _get_pkg_from_id(PkPackageId *pi,
+static slapt_pkg_info_t* _get_pkg_from_id(gchar *pi,
                             slapt_pkg_list_t *avail_pkgs,
                             slapt_pkg_list_t *installed_pkgs)
 {
+	gchar **pis;
 	slapt_pkg_info_t *pkg;
 	gchar **fields;
 	const gchar *version;
 
-	fields = g_strsplit(pi->version, "-", 2);
-	version = g_strdup_printf("%s-%s-%s", fields[0], pi->arch, fields[1]);
-	pkg = slapt_get_exact_pkg(avail_pkgs, pi->name, version);
+	pis = pk_package_id_split(pi);
+	fields = g_strsplit(pis[PK_PACKAGE_ID_VERSION], "-", 2);
+	version = g_strdup_printf("%s-%s-%s", fields[0], pis[PK_PACKAGE_ID_ARCH], fields[1]);
+	pkg = slapt_get_exact_pkg(avail_pkgs, pis[PK_PACKAGE_ID_NAME], version);
 	if (pkg == NULL && installed_pkgs != NULL) {
-		pkg = slapt_get_exact_pkg(installed_pkgs, pi->name, version);
+		pkg = slapt_get_exact_pkg(installed_pkgs, pis[PK_PACKAGE_ID_NAME], version);
 	}
 	g_free((gpointer) version);
 	g_strfreev(fields);
+	g_strfreev(pis);
 
 	return pkg;
 }
@@ -247,20 +260,12 @@ static slapt_pkg_info_t* _get_pkg_from_string(const gchar *package_id,
                             slapt_pkg_list_t *avail_pkgs,
                             slapt_pkg_list_t *installed_pkgs)
 {
-	PkPackageId *pi;
-	slapt_pkg_info_t *pkg;
-
-	pi = pk_package_id_new_from_string (package_id);
-	if (pi == NULL)
-	    return NULL;
-	pkg = _get_pkg_from_id(pi, avail_pkgs, installed_pkgs);
-	pk_package_id_free (pi);
-	return pkg;
+	return _get_pkg_from_id((gchar *) package_id, avail_pkgs, installed_pkgs);
 }
 
-static PkPackageId* _get_id_from_pkg(slapt_pkg_info_t *pkg)
+static gchar* _get_id_from_pkg(slapt_pkg_info_t *pkg)
 {
-	PkPackageId *pi;
+	gchar *pi;
 	gchar **fields;
 	const gchar *version;
 	const char *data;
@@ -268,7 +273,7 @@ static PkPackageId* _get_id_from_pkg(slapt_pkg_info_t *pkg)
 	fields = g_strsplit(pkg->version, "-", 3);
 	version = g_strdup_printf("%s-%s", fields[0], fields[2]);
 	data = pkg->installed ? "installed" : "available"; /* TODO: source */
-	pi = pk_package_id_new_from_list(pkg->name, version, fields[1], data);
+	pi = pk_package_id_build(pkg->name, version, fields[1], data);
 	g_free((gpointer) version);
 	g_strfreev(fields);
 
@@ -277,15 +282,7 @@ static PkPackageId* _get_id_from_pkg(slapt_pkg_info_t *pkg)
 
 static const gchar* _get_string_from_pkg(slapt_pkg_info_t *pkg)
 {
-	PkPackageId *pi;
-	const gchar *package_id;
-
-	pi = _get_id_from_pkg(pkg);
-	if (pi == NULL)
-	    return NULL;
-	package_id = pk_package_id_to_string(pi);
-	pk_package_id_free(pi);
-	return package_id;
+	return (const gchar *) _get_id_from_pkg(pkg);
 }
 
 /* return the last item of the pkg->location, after the slash */
@@ -298,6 +295,18 @@ static const char *_get_pkg_category(slapt_pkg_info_t *pkg)
 	    return "";
 	else
 	    return (const char *) p + 1;
+}
+
+/* return the PackageKit group matching the Slackware category */
+static PkGroupEnum _get_pkg_group(const char *category)
+{
+	gpointer value;
+
+	value = g_hash_table_lookup(_cathash, category);
+	if (value == NULL)
+	    value = PK_GROUP_ENUM_UNKNOWN;
+
+	return (PkGroupEnum) value;
 }
 
 /* return the first line of the pkg->description, without the prefix */
@@ -349,7 +358,7 @@ backend_get_depends (PkBackend *backend, PkBitfield filters, gchar **package_ids
 	guint i;
 	guint len;
 	const gchar *package_id;
-	PkPackageId *pi;
+	gchar *pi;
 
 	slapt_pkg_info_t *pkg;
 	int ret;
@@ -375,15 +384,13 @@ backend_get_depends (PkBackend *backend, PkBitfield filters, gchar **package_ids
 
 	len = g_strv_length (package_ids);
 	for (i=0; i<len; i++) {
-	    package_id = package_ids[i];
-	    pi = pk_package_id_new_from_string (package_id);
+	    pi = package_ids[i];
 	    if (pi == NULL) {
 		pk_backend_error_code (backend, PK_ERROR_ENUM_PACKAGE_ID_INVALID, "invalid package id");
 		pk_backend_finished (backend);
 		return;
 	    }
 	    pkg = _get_pkg_from_id(pi, available, installed);
-	    pk_package_id_free (pi);
 	    if (pkg == NULL) {
 		pk_backend_error_code (backend, PK_ERROR_ENUM_PACKAGE_NOT_FOUND, "package not found");
 		continue;
@@ -426,7 +433,7 @@ backend_get_details (PkBackend *backend, gchar **package_ids)
 	guint i;
 	guint len;
 	const gchar *package_id;
-	PkPackageId *pi;
+	gchar *pi;
 	const gchar *license = "";
 	const gchar *homepage = "";
 	const gchar *description;
@@ -436,7 +443,6 @@ backend_get_details (PkBackend *backend, gchar **package_ids)
 	slapt_pkg_list_t *available;
 	slapt_pkg_info_t *pkg;
 	const char *category;
-	struct category_map *catgroup;
 
 	pk_backend_set_status (backend, PK_STATUS_ENUM_QUERY);
 	pk_backend_set_percentage (backend, 0);
@@ -446,35 +452,29 @@ backend_get_details (PkBackend *backend, gchar **package_ids)
 
 	len = g_strv_length (package_ids);
 	for (i=0; i<len; i++) {
-	    package_id = package_ids[i];
-	    pi = pk_package_id_new_from_string (package_id);
+	    pi = package_ids[i];
 	    if (pi == NULL) {
 		pk_backend_error_code (backend, PK_ERROR_ENUM_PACKAGE_ID_INVALID, "invalid package id");
 		pk_backend_finished (backend);
 		return;
 	    }
 	    pkg = _get_pkg_from_id(pi, available, installed);
-	    pk_package_id_free (pi);
 	    if (pkg == NULL) {
 		pk_backend_error_code (backend, PK_ERROR_ENUM_PACKAGE_NOT_FOUND, "package not found");
 		continue;
 	    }
 
 	    category = _get_pkg_category(pkg);
-	    group = PK_GROUP_ENUM_UNKNOWN;
-	    for (catgroup = CATGROUP; catgroup->category != NULL; catgroup++) {
-		if (strcmp(catgroup->category, category) == 0) {
-		    group = catgroup->group;
-		    break;
-		}
-	    }
+	    group = _get_pkg_group(category);
 
+	    package_id = _get_string_from_pkg(pkg);
 	    description = g_strstrip((gchar*) _get_pkg_description(pkg));
 
 	    pk_backend_details (backend, package_id,
 		license, group, description, homepage, pkg->size_c * 1024);
 
 	    g_free((gpointer) description);
+	    g_free((gpointer) package_id);
 	}
 
 	slapt_free_pkg_list(available);
@@ -493,12 +493,14 @@ backend_get_requires (PkBackend *backend, PkBitfield filters, gchar **package_id
 	guint i;
 	guint len;
 	const gchar *package_id;
-	PkPackageId *pi;
+	gchar *pi;
 
 	slapt_pkg_info_t *pkg;
 
 	slapt_pkg_list_t *installed;
 	slapt_pkg_list_t *available;
+	slapt_pkg_list_t *to_install;
+	slapt_pkg_list_t *to_remove;
 
 	slapt_pkg_list_t *requires;
 
@@ -507,26 +509,26 @@ backend_get_requires (PkBackend *backend, PkBitfield filters, gchar **package_id
 
 	installed = slapt_get_installed_pkgs();
 	available = slapt_get_available_pkgs();
+	to_install = slapt_init_pkg_list();
+	to_remove = slapt_init_pkg_list();
 
 	pk_backend_set_status (backend, PK_STATUS_ENUM_QUERY);
 
 	len = g_strv_length (package_ids);
 	for (i=0; i<len; i++) {
-	    package_id = package_ids[i];
-	    pi = pk_package_id_new_from_string (package_id);
+	    pi = package_ids[i];
 	    if (pi == NULL) {
 		pk_backend_error_code (backend, PK_ERROR_ENUM_PACKAGE_ID_INVALID, "invalid package id");
 		pk_backend_finished (backend);
 		return;
 	    }
 	    pkg = _get_pkg_from_id(pi, available, installed);
-	    pk_package_id_free (pi);
 	    if (pkg == NULL) {
 		pk_backend_error_code (backend, PK_ERROR_ENUM_PACKAGE_NOT_FOUND, "package not found");
 		continue;
 	    }
 
-	    requires = slapt_is_required_by(_config, available, pkg);
+	    requires = slapt_is_required_by(_config, available, installed, to_install, to_remove, pkg);
 
 	    for (i = 0; i < requires->pkg_count; i++) {
 		pkg = requires->pkgs[i];
@@ -544,6 +546,8 @@ backend_get_requires (PkBackend *backend, PkBitfield filters, gchar **package_id
 
 	slapt_free_pkg_list(available);
 	slapt_free_pkg_list(installed);
+	slapt_free_pkg_list(to_install);
+	slapt_free_pkg_list(to_remove);
 
 	pk_backend_finished (backend);
 }
@@ -558,7 +562,7 @@ backend_get_update_detail (PkBackend *backend, gchar **package_ids)
 	guint len;
 	const gchar *package_id;
 	const gchar *old_package_id;
-	PkPackageId *pi;
+	gchar *pi;
 
 	slapt_pkg_list_t *installed;
 	slapt_pkg_list_t *available;
@@ -578,15 +582,13 @@ backend_get_update_detail (PkBackend *backend, gchar **package_ids)
 
 	len = g_strv_length (package_ids);
 	for (i=0; i<len; i++) {
-	    package_id = package_ids[i];
-	    pi = pk_package_id_new_from_string (package_id);
+	    pi = package_ids[i];
 	    if (pi == NULL) {
 		pk_backend_error_code (backend, PK_ERROR_ENUM_PACKAGE_ID_INVALID, "invalid package id");
 		pk_backend_finished (backend);
 		return;
 	    }
 	    pkg = _get_pkg_from_id(pi, available, installed);
-	    pk_package_id_free (pi);
 	    if (pkg == NULL) {
 		pk_backend_error_code (backend, PK_ERROR_ENUM_PACKAGE_NOT_FOUND, "package not found");
 		continue;
@@ -690,8 +692,7 @@ backend_install_packages (PkBackend *backend, gboolean only_trusted, gchar **pac
 {
 	guint i;
 	guint len;
-	const gchar *package_id;
-	PkPackageId *pi;
+	gchar *pi;
 	int ret;
 
 	slapt_pkg_list_t *installed;
@@ -711,15 +712,13 @@ backend_install_packages (PkBackend *backend, gboolean only_trusted, gchar **pac
 
 	len = g_strv_length (package_ids);
 	for (i=0; i<len; i++) {
-	    package_id = package_ids[i];
-	    pi = pk_package_id_new_from_string (package_id);
+	    pi = package_ids[i];
 	    if (pi == NULL) {
 		pk_backend_error_code (backend, PK_ERROR_ENUM_PACKAGE_ID_INVALID, "invalid package id");
 		pk_backend_finished (backend);
 		return;
 	    }
 	    pkg = _get_pkg_from_id(pi, available, installed);
-	    pk_package_id_free (pi);
 	    if (pkg == NULL) {
 		pk_backend_error_code (backend, PK_ERROR_ENUM_PACKAGE_NOT_FOUND, "package not found");
 		continue;
@@ -828,8 +827,7 @@ backend_remove_packages (PkBackend *backend, gchar **package_ids, gboolean allow
 {
 	guint i;
 	guint len;
-	const gchar *package_id;
-	PkPackageId *pi;
+	gchar *pi;
 	int ret;
 
 	slapt_pkg_list_t *installed;
@@ -849,15 +847,13 @@ backend_remove_packages (PkBackend *backend, gchar **package_ids, gboolean allow
 
 	len = g_strv_length (package_ids);
 	for (i=0; i<len; i++) {
-	    package_id = package_ids[i];
-	    pi = pk_package_id_new_from_string (package_id);
+	    pi = package_ids[i];
 	    if (pi == NULL) {
 		pk_backend_error_code (backend, PK_ERROR_ENUM_PACKAGE_ID_INVALID, "invalid package id");
 		pk_backend_finished (backend);
 		return;
 	    }
 	    pkg = _get_pkg_from_id(pi, installed, NULL);
-	    pk_package_id_free (pi);
 	    if (pkg == NULL) {
 		pk_backend_error_code (backend, PK_ERROR_ENUM_PACKAGE_NOT_FOUND, "package not found");
 		continue;
@@ -891,9 +887,10 @@ backend_remove_packages (PkBackend *backend, gchar **package_ids, gboolean allow
  * backend_search_details:
  */
 static void
-backend_search_details (PkBackend *backend, PkBitfield filters, const gchar *search)
+backend_search_details (PkBackend *backend, PkBitfield filters, gchar **values)
 {
 	guint i;
+	gchar *search;
 
 	const gchar *package_id;
 	slapt_pkg_list_t *pkglist;
@@ -905,6 +902,8 @@ backend_search_details (PkBackend *backend, PkBitfield filters, const gchar *sea
 
 	pk_backend_set_status (backend, PK_STATUS_ENUM_QUERY);
 	pk_backend_set_percentage (backend, 0);
+
+	search = g_strjoinv ("&", values);
 
 	if (pk_bitfield_contain (filters, PK_FILTER_ENUM_INSTALLED)) {
 		pkglist = slapt_get_installed_pkgs();
@@ -929,17 +928,20 @@ backend_search_details (PkBackend *backend, PkBitfield filters, const gchar *sea
 
 	slapt_free_pkg_list(pkglist);
 
+	g_free (search);
+
 	pk_backend_set_percentage (backend, 100);
 	pk_backend_finished (backend);
 }
 
 /**
- * backend_search_group:
+ * backend_search_groups:
  */
 static void
-backend_search_group (PkBackend *backend, PkBitfield filters, const gchar *search)
+backend_search_groups (PkBackend *backend, PkBitfield filters, gchar **values)
 {
 	guint i;
+	gchar *search;
 
 	const gchar *package_id;
 	slapt_pkg_list_t *pkglist;
@@ -947,13 +949,14 @@ backend_search_group (PkBackend *backend, PkBitfield filters, const gchar *searc
 	PkGroupEnum group;
 	PkGroupEnum search_group;
 	const char *category;
-	struct category_map *catgroup;
 
 	PkInfoEnum state;
 	const char *summary;
 
 	pk_backend_set_status (backend, PK_STATUS_ENUM_QUERY);
 	pk_backend_set_percentage (backend, 0);
+
+	search = g_strjoinv ("&", values);
 
 	if (pk_bitfield_contain (filters, PK_FILTER_ENUM_INSTALLED)) {
 		pkglist = slapt_get_installed_pkgs();
@@ -969,13 +972,7 @@ backend_search_group (PkBackend *backend, PkBitfield filters, const gchar *searc
 		pkg = pkglist->pkgs[i];
 
 		category = _get_pkg_category(pkg);
-		    group = PK_GROUP_ENUM_UNKNOWN;
-		    for (catgroup = CATGROUP; catgroup->category != NULL; catgroup++) {
-			if (strcmp(catgroup->category, category) == 0) {
-			    group = catgroup->group;
-			    break;
-			}
-		    }
+		group = _get_pkg_group(category);
 
 		if (group == search_group) {
 
@@ -990,17 +987,20 @@ backend_search_group (PkBackend *backend, PkBitfield filters, const gchar *searc
 
 	slapt_free_pkg_list(pkglist);
 
+	g_free (search);
+
 	pk_backend_set_percentage (backend, 100);
 	pk_backend_finished (backend);
 }
 
 /**
- * backend_search_name:
+ * backend_search_names:
  */
 static void
-backend_search_name (PkBackend *backend, PkBitfield filters, const gchar *search)
+backend_search_names (PkBackend *backend, PkBitfield filters, gchar **values)
 {
 	unsigned int i;
+	gchar *search;
 
 	const gchar *package_id;
 	slapt_pkg_list_t *pkglist;
@@ -1012,6 +1012,8 @@ backend_search_name (PkBackend *backend, PkBitfield filters, const gchar *search
 
 	pk_backend_set_status (backend, PK_STATUS_ENUM_QUERY);
 	pk_backend_set_percentage (backend, 0);
+
+	search = g_strjoinv ("&", values);
 
 	if (pk_bitfield_contain (filters, PK_FILTER_ENUM_INSTALLED)) {
 		pkglist = slapt_get_installed_pkgs();
@@ -1042,6 +1044,8 @@ backend_search_name (PkBackend *backend, PkBitfield filters, const gchar *search
 
 out:
 	slapt_free_pkg_list(pkglist);
+
+	g_free (search);
 
 	pk_backend_set_percentage (backend, 100);
 	pk_backend_finished (backend);
@@ -1360,9 +1364,9 @@ PK_BACKEND_OPTIONS (
 	backend_resolve,			/* resolve */
 	NULL,					/* rollback */
 	backend_search_details,			/* search_details */
-	NULL,					/* search_file */
-	backend_search_group,			/* search_group */
-	backend_search_name,			/* search_name */
+	NULL,					/* search_files */
+	backend_search_groups,			/* search_groups */
+	backend_search_names,			/* search_names */
 	backend_update_packages,		/* update_packages */
 	NULL,					/* update_system */
 	NULL,					/* what_provides */

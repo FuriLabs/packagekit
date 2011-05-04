@@ -15,6 +15,7 @@
 
 @SET_MAKE@
 
+
 VPATH = @srcdir@
 pkgdatadir = $(datadir)/@PACKAGE@
 pkgincludedir = $(includedir)/@PACKAGE@
@@ -35,7 +36,7 @@ POST_UNINSTALL = :
 build_triplet = @build@
 host_triplet = @host@
 subdir = backends/alpm
-DIST_COMMON = $(srcdir)/Makefile.am $(srcdir)/Makefile.in TODO
+DIST_COMMON = $(srcdir)/Makefile.am $(srcdir)/Makefile.in
 ACLOCAL_M4 = $(top_srcdir)/aclocal.m4
 am__aclocal_m4_deps = $(top_srcdir)/m4/gtk-doc.m4 \
 	$(top_srcdir)/m4/intltool.m4 $(top_srcdir)/m4/libtool.m4 \
@@ -69,12 +70,24 @@ am__nobase_list = $(am__nobase_strip_setup); \
 am__base_list = \
   sed '$$!N;$$!N;$$!N;$$!N;$$!N;$$!N;$$!N;s/\n/ /g' | \
   sed '$$!N;$$!N;$$!N;$$!N;s/\n/ /g'
-am__installdirs = "$(DESTDIR)$(plugindir)"
+am__installdirs = "$(DESTDIR)$(plugindir)" "$(DESTDIR)$(confdir)"
 LTLIBRARIES = $(plugin_LTLIBRARIES)
 am__DEPENDENCIES_1 =
 libpk_backend_alpm_la_DEPENDENCIES = $(am__DEPENDENCIES_1)
 am_libpk_backend_alpm_la_OBJECTS =  \
-	libpk_backend_alpm_la-pk-backend-alpm.lo
+	libpk_backend_alpm_la-pk-backend-alpm.lo \
+	libpk_backend_alpm_la-pk-backend-config.lo \
+	libpk_backend_alpm_la-pk-backend-databases.lo \
+	libpk_backend_alpm_la-pk-backend-depends.lo \
+	libpk_backend_alpm_la-pk-backend-error.lo \
+	libpk_backend_alpm_la-pk-backend-groups.lo \
+	libpk_backend_alpm_la-pk-backend-install.lo \
+	libpk_backend_alpm_la-pk-backend-packages.lo \
+	libpk_backend_alpm_la-pk-backend-remove.lo \
+	libpk_backend_alpm_la-pk-backend-search.lo \
+	libpk_backend_alpm_la-pk-backend-sync.lo \
+	libpk_backend_alpm_la-pk-backend-transaction.lo \
+	libpk_backend_alpm_la-pk-backend-update.lo
 libpk_backend_alpm_la_OBJECTS = $(am_libpk_backend_alpm_la_OBJECTS)
 AM_V_lt = $(am__v_lt_$(V))
 am__v_lt_ = $(am__v_lt_$(AM_DEFAULT_VERBOSITY))
@@ -111,6 +124,7 @@ am__v_GEN_ = $(am__v_GEN_$(AM_DEFAULT_VERBOSITY))
 am__v_GEN_0 = @echo "  GEN   " $@;
 SOURCES = $(libpk_backend_alpm_la_SOURCES)
 DIST_SOURCES = $(libpk_backend_alpm_la_SOURCES)
+DATA = $(conf_DATA)
 ETAGS = etags
 CTAGS = ctags
 DISTFILES = $(DIST_COMMON) $(DIST_SOURCES) $(TEXINFOS) $(EXTRA_DIST)
@@ -153,8 +167,20 @@ DBUS_LIBS = @DBUS_LIBS@
 DBUS_SERVICES_DIR = @DBUS_SERVICES_DIR@
 DBUS_SYS_DIR = @DBUS_SYS_DIR@
 DEFAULT_BACKEND = @DEFAULT_BACKEND@
-DEFS = @DEFS@
+DEFS = -DPK_BACKEND_CONFIG_FILE=\"$(PK_BACKEND_CONFIG_FILE)\" \
+       -DPK_BACKEND_GROUP_FILE=\"$(PK_BACKEND_GROUP_FILE)\" \
+       -DPK_BACKEND_REPO_FILE=\"$(PK_BACKEND_REPO_FILE)\" \
+       -DPK_BACKEND_DEFAULT_PATH=\"$(PK_BACKEND_DEFAULT_PATH)\" \
+       -DPK_BACKEND_DEFAULT_ROOT=\"$(PK_BACKEND_DEFAULT_ROOT)\" \
+       -DPK_BACKEND_DEFAULT_DBPATH=\"$(PK_BACKEND_DEFAULT_DBPATH)\" \
+       -DPK_BACKEND_DEFAULT_CACHEDIR=\"$(PK_BACKEND_DEFAULT_CACHEDIR)\" \
+       -DPK_BACKEND_DEFAULT_LOGFILE=\"$(PK_BACKEND_DEFAULT_LOGFILE)\" \
+       -DALPM_CACHE_PATH=\"$(ALPM_CACHE_PATH)\" \
+       -DALPM_PACKAGE_URL=\"$(ALPM_PACKAGE_URL)\" \
+       -DG_LOG_DOMAIN=\"PackageKit-alpm\"
+
 DEPDIR = @DEPDIR@
+DLLTOOL = @DLLTOOL@
 DSYMUTIL = @DSYMUTIL@
 DUMPBIN = @DUMPBIN@
 ECHO_C = @ECHO_C@
@@ -214,8 +240,12 @@ LOCALSTATEDIR = @LOCALSTATEDIR@
 LTLIBOBJS = @LTLIBOBJS@
 LT_AGE = @LT_AGE@
 LT_CURRENT = @LT_CURRENT@
+LT_QT_AGE = @LT_QT_AGE@
+LT_QT_CURRENT = @LT_QT_CURRENT@
+LT_QT_REVISION = @LT_QT_REVISION@
 LT_REVISION = @LT_REVISION@
 MAKEINFO = @MAKEINFO@
+MANIFEST_TOOL = @MANIFEST_TOOL@
 MKDIR_P = @MKDIR_P@
 MKINSTALLDIRS = @MKINSTALLDIRS@
 MOC = @MOC@
@@ -241,8 +271,6 @@ PACKAGE_STRING = @PACKAGE_STRING@
 PACKAGE_TARNAME = @PACKAGE_TARNAME@
 PACKAGE_URL = @PACKAGE_URL@
 PACKAGE_VERSION = @PACKAGE_VERSION@
-PACMAN_CFLAGS = @PACMAN_CFLAGS@
-PACMAN_LIBS = @PACMAN_LIBS@
 PATH_SEPARATOR = @PATH_SEPARATOR@
 PKG_CONFIG = @PKG_CONFIG@
 PKG_CONFIG_LIBDIR = @PKG_CONFIG_LIBDIR@
@@ -319,6 +347,7 @@ abs_builddir = @abs_builddir@
 abs_srcdir = @abs_srcdir@
 abs_top_builddir = @abs_top_builddir@
 abs_top_srcdir = @abs_top_srcdir@
+ac_ct_AR = @ac_ct_AR@
 ac_ct_CC = @ac_ct_CC@
 ac_ct_CXX = @ac_ct_CXX@
 ac_ct_DUMPBIN = @ac_ct_DUMPBIN@
@@ -372,15 +401,47 @@ target_alias = @target_alias@
 top_build_prefix = @top_build_prefix@
 top_builddir = @top_builddir@
 top_srcdir = @top_srcdir@
-INCLUDES = \
-	-DG_LOG_DOMAIN=\"PackageKit-Alpm\"
+PK_BACKEND_CONFIG_FILE = $(confdir)/pacman.conf
+PK_BACKEND_GROUP_FILE = $(confdir)/groups.list
+PK_BACKEND_REPO_FILE = $(confdir)/repos.list
+PK_BACKEND_DEFAULT_PATH = "/bin:/usr/bin:/sbin:/usr/sbin"
+PK_BACKEND_DEFAULT_ROOT = "/"
+PK_BACKEND_DEFAULT_DBPATH = $(localstatedir)/lib/pacman
+PK_BACKEND_DEFAULT_CACHEDIR = $(localstatedir)/cache/pacman/pkg
+PK_BACKEND_DEFAULT_LOGFILE = $(localstatedir)/log/pacman.log
+ALPM_CACHE_PATH = $(localstatedir)/lib/pacman/sync
+ALPM_PACKAGE_URL = "http://www.archlinux.org/packages/%s/%s/%s/"
+confdir = $(PK_CONF_DIR)/alpm.d
+conf_DATA = groups.list \
+	    pacman.conf \
+	    repos.list
 
 plugindir = $(PK_PLUGIN_DIR)
 plugin_LTLIBRARIES = libpk_backend_alpm.la
-libpk_backend_alpm_la_SOURCES = pk-backend-alpm.c
-libpk_backend_alpm_la_LIBADD = $(PK_PLUGIN_LIBS) -lalpm
-libpk_backend_alpm_la_LDFLAGS = -module -avoid-version
-libpk_backend_alpm_la_CFLAGS = $(PK_PLUGIN_CFLAGS) $(WARNINGFLAGS_C)
+libpk_backend_alpm_la_SOURCES = pk-backend-alpm.c \
+				pk-backend-config.c \
+				pk-backend-databases.c \
+				pk-backend-depends.c \
+				pk-backend-error.c \
+				pk-backend-groups.c \
+				pk-backend-install.c \
+				pk-backend-packages.c \
+				pk-backend-remove.c \
+				pk-backend-search.c \
+				pk-backend-sync.c \
+				pk-backend-transaction.c \
+				pk-backend-update.c
+
+libpk_backend_alpm_la_LIBADD = $(PK_PLUGIN_LIBS) \
+			       -lalpm
+
+libpk_backend_alpm_la_LDFLAGS = -module \
+				-avoid-version
+
+libpk_backend_alpm_la_CFLAGS = $(PK_PLUGIN_CFLAGS) \
+			       $(WARNINGFLAGS_C)
+
+EXTRA_DIST = $(conf_DATA) $(libpk_backend_alpm_la_SOURCES:.c=.h)
 all: all-am
 
 .SUFFIXES:
@@ -456,6 +517,18 @@ distclean-compile:
 	-rm -f *.tab.c
 
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libpk_backend_alpm_la-pk-backend-alpm.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libpk_backend_alpm_la-pk-backend-config.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libpk_backend_alpm_la-pk-backend-databases.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libpk_backend_alpm_la-pk-backend-depends.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libpk_backend_alpm_la-pk-backend-error.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libpk_backend_alpm_la-pk-backend-groups.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libpk_backend_alpm_la-pk-backend-install.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libpk_backend_alpm_la-pk-backend-packages.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libpk_backend_alpm_la-pk-backend-remove.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libpk_backend_alpm_la-pk-backend-search.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libpk_backend_alpm_la-pk-backend-sync.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libpk_backend_alpm_la-pk-backend-transaction.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libpk_backend_alpm_la-pk-backend-update.Plo@am__quote@
 
 .c.o:
 @am__fastdepCC_TRUE@	$(AM_V_CC)$(COMPILE) -MT $@ -MD -MP -MF $(DEPDIR)/$*.Tpo -c -o $@ $<
@@ -489,11 +562,127 @@ libpk_backend_alpm_la-pk-backend-alpm.lo: pk-backend-alpm.c
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCC_FALSE@	$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libpk_backend_alpm_la_CFLAGS) $(CFLAGS) -c -o libpk_backend_alpm_la-pk-backend-alpm.lo `test -f 'pk-backend-alpm.c' || echo '$(srcdir)/'`pk-backend-alpm.c
 
+libpk_backend_alpm_la-pk-backend-config.lo: pk-backend-config.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libpk_backend_alpm_la_CFLAGS) $(CFLAGS) -MT libpk_backend_alpm_la-pk-backend-config.lo -MD -MP -MF $(DEPDIR)/libpk_backend_alpm_la-pk-backend-config.Tpo -c -o libpk_backend_alpm_la-pk-backend-config.lo `test -f 'pk-backend-config.c' || echo '$(srcdir)/'`pk-backend-config.c
+@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/libpk_backend_alpm_la-pk-backend-config.Tpo $(DEPDIR)/libpk_backend_alpm_la-pk-backend-config.Plo
+@am__fastdepCC_FALSE@	$(AM_V_CC) @AM_BACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='pk-backend-config.c' object='libpk_backend_alpm_la-pk-backend-config.lo' libtool=yes @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libpk_backend_alpm_la_CFLAGS) $(CFLAGS) -c -o libpk_backend_alpm_la-pk-backend-config.lo `test -f 'pk-backend-config.c' || echo '$(srcdir)/'`pk-backend-config.c
+
+libpk_backend_alpm_la-pk-backend-databases.lo: pk-backend-databases.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libpk_backend_alpm_la_CFLAGS) $(CFLAGS) -MT libpk_backend_alpm_la-pk-backend-databases.lo -MD -MP -MF $(DEPDIR)/libpk_backend_alpm_la-pk-backend-databases.Tpo -c -o libpk_backend_alpm_la-pk-backend-databases.lo `test -f 'pk-backend-databases.c' || echo '$(srcdir)/'`pk-backend-databases.c
+@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/libpk_backend_alpm_la-pk-backend-databases.Tpo $(DEPDIR)/libpk_backend_alpm_la-pk-backend-databases.Plo
+@am__fastdepCC_FALSE@	$(AM_V_CC) @AM_BACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='pk-backend-databases.c' object='libpk_backend_alpm_la-pk-backend-databases.lo' libtool=yes @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libpk_backend_alpm_la_CFLAGS) $(CFLAGS) -c -o libpk_backend_alpm_la-pk-backend-databases.lo `test -f 'pk-backend-databases.c' || echo '$(srcdir)/'`pk-backend-databases.c
+
+libpk_backend_alpm_la-pk-backend-depends.lo: pk-backend-depends.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libpk_backend_alpm_la_CFLAGS) $(CFLAGS) -MT libpk_backend_alpm_la-pk-backend-depends.lo -MD -MP -MF $(DEPDIR)/libpk_backend_alpm_la-pk-backend-depends.Tpo -c -o libpk_backend_alpm_la-pk-backend-depends.lo `test -f 'pk-backend-depends.c' || echo '$(srcdir)/'`pk-backend-depends.c
+@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/libpk_backend_alpm_la-pk-backend-depends.Tpo $(DEPDIR)/libpk_backend_alpm_la-pk-backend-depends.Plo
+@am__fastdepCC_FALSE@	$(AM_V_CC) @AM_BACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='pk-backend-depends.c' object='libpk_backend_alpm_la-pk-backend-depends.lo' libtool=yes @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libpk_backend_alpm_la_CFLAGS) $(CFLAGS) -c -o libpk_backend_alpm_la-pk-backend-depends.lo `test -f 'pk-backend-depends.c' || echo '$(srcdir)/'`pk-backend-depends.c
+
+libpk_backend_alpm_la-pk-backend-error.lo: pk-backend-error.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libpk_backend_alpm_la_CFLAGS) $(CFLAGS) -MT libpk_backend_alpm_la-pk-backend-error.lo -MD -MP -MF $(DEPDIR)/libpk_backend_alpm_la-pk-backend-error.Tpo -c -o libpk_backend_alpm_la-pk-backend-error.lo `test -f 'pk-backend-error.c' || echo '$(srcdir)/'`pk-backend-error.c
+@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/libpk_backend_alpm_la-pk-backend-error.Tpo $(DEPDIR)/libpk_backend_alpm_la-pk-backend-error.Plo
+@am__fastdepCC_FALSE@	$(AM_V_CC) @AM_BACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='pk-backend-error.c' object='libpk_backend_alpm_la-pk-backend-error.lo' libtool=yes @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libpk_backend_alpm_la_CFLAGS) $(CFLAGS) -c -o libpk_backend_alpm_la-pk-backend-error.lo `test -f 'pk-backend-error.c' || echo '$(srcdir)/'`pk-backend-error.c
+
+libpk_backend_alpm_la-pk-backend-groups.lo: pk-backend-groups.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libpk_backend_alpm_la_CFLAGS) $(CFLAGS) -MT libpk_backend_alpm_la-pk-backend-groups.lo -MD -MP -MF $(DEPDIR)/libpk_backend_alpm_la-pk-backend-groups.Tpo -c -o libpk_backend_alpm_la-pk-backend-groups.lo `test -f 'pk-backend-groups.c' || echo '$(srcdir)/'`pk-backend-groups.c
+@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/libpk_backend_alpm_la-pk-backend-groups.Tpo $(DEPDIR)/libpk_backend_alpm_la-pk-backend-groups.Plo
+@am__fastdepCC_FALSE@	$(AM_V_CC) @AM_BACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='pk-backend-groups.c' object='libpk_backend_alpm_la-pk-backend-groups.lo' libtool=yes @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libpk_backend_alpm_la_CFLAGS) $(CFLAGS) -c -o libpk_backend_alpm_la-pk-backend-groups.lo `test -f 'pk-backend-groups.c' || echo '$(srcdir)/'`pk-backend-groups.c
+
+libpk_backend_alpm_la-pk-backend-install.lo: pk-backend-install.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libpk_backend_alpm_la_CFLAGS) $(CFLAGS) -MT libpk_backend_alpm_la-pk-backend-install.lo -MD -MP -MF $(DEPDIR)/libpk_backend_alpm_la-pk-backend-install.Tpo -c -o libpk_backend_alpm_la-pk-backend-install.lo `test -f 'pk-backend-install.c' || echo '$(srcdir)/'`pk-backend-install.c
+@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/libpk_backend_alpm_la-pk-backend-install.Tpo $(DEPDIR)/libpk_backend_alpm_la-pk-backend-install.Plo
+@am__fastdepCC_FALSE@	$(AM_V_CC) @AM_BACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='pk-backend-install.c' object='libpk_backend_alpm_la-pk-backend-install.lo' libtool=yes @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libpk_backend_alpm_la_CFLAGS) $(CFLAGS) -c -o libpk_backend_alpm_la-pk-backend-install.lo `test -f 'pk-backend-install.c' || echo '$(srcdir)/'`pk-backend-install.c
+
+libpk_backend_alpm_la-pk-backend-packages.lo: pk-backend-packages.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libpk_backend_alpm_la_CFLAGS) $(CFLAGS) -MT libpk_backend_alpm_la-pk-backend-packages.lo -MD -MP -MF $(DEPDIR)/libpk_backend_alpm_la-pk-backend-packages.Tpo -c -o libpk_backend_alpm_la-pk-backend-packages.lo `test -f 'pk-backend-packages.c' || echo '$(srcdir)/'`pk-backend-packages.c
+@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/libpk_backend_alpm_la-pk-backend-packages.Tpo $(DEPDIR)/libpk_backend_alpm_la-pk-backend-packages.Plo
+@am__fastdepCC_FALSE@	$(AM_V_CC) @AM_BACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='pk-backend-packages.c' object='libpk_backend_alpm_la-pk-backend-packages.lo' libtool=yes @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libpk_backend_alpm_la_CFLAGS) $(CFLAGS) -c -o libpk_backend_alpm_la-pk-backend-packages.lo `test -f 'pk-backend-packages.c' || echo '$(srcdir)/'`pk-backend-packages.c
+
+libpk_backend_alpm_la-pk-backend-remove.lo: pk-backend-remove.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libpk_backend_alpm_la_CFLAGS) $(CFLAGS) -MT libpk_backend_alpm_la-pk-backend-remove.lo -MD -MP -MF $(DEPDIR)/libpk_backend_alpm_la-pk-backend-remove.Tpo -c -o libpk_backend_alpm_la-pk-backend-remove.lo `test -f 'pk-backend-remove.c' || echo '$(srcdir)/'`pk-backend-remove.c
+@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/libpk_backend_alpm_la-pk-backend-remove.Tpo $(DEPDIR)/libpk_backend_alpm_la-pk-backend-remove.Plo
+@am__fastdepCC_FALSE@	$(AM_V_CC) @AM_BACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='pk-backend-remove.c' object='libpk_backend_alpm_la-pk-backend-remove.lo' libtool=yes @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libpk_backend_alpm_la_CFLAGS) $(CFLAGS) -c -o libpk_backend_alpm_la-pk-backend-remove.lo `test -f 'pk-backend-remove.c' || echo '$(srcdir)/'`pk-backend-remove.c
+
+libpk_backend_alpm_la-pk-backend-search.lo: pk-backend-search.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libpk_backend_alpm_la_CFLAGS) $(CFLAGS) -MT libpk_backend_alpm_la-pk-backend-search.lo -MD -MP -MF $(DEPDIR)/libpk_backend_alpm_la-pk-backend-search.Tpo -c -o libpk_backend_alpm_la-pk-backend-search.lo `test -f 'pk-backend-search.c' || echo '$(srcdir)/'`pk-backend-search.c
+@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/libpk_backend_alpm_la-pk-backend-search.Tpo $(DEPDIR)/libpk_backend_alpm_la-pk-backend-search.Plo
+@am__fastdepCC_FALSE@	$(AM_V_CC) @AM_BACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='pk-backend-search.c' object='libpk_backend_alpm_la-pk-backend-search.lo' libtool=yes @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libpk_backend_alpm_la_CFLAGS) $(CFLAGS) -c -o libpk_backend_alpm_la-pk-backend-search.lo `test -f 'pk-backend-search.c' || echo '$(srcdir)/'`pk-backend-search.c
+
+libpk_backend_alpm_la-pk-backend-sync.lo: pk-backend-sync.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libpk_backend_alpm_la_CFLAGS) $(CFLAGS) -MT libpk_backend_alpm_la-pk-backend-sync.lo -MD -MP -MF $(DEPDIR)/libpk_backend_alpm_la-pk-backend-sync.Tpo -c -o libpk_backend_alpm_la-pk-backend-sync.lo `test -f 'pk-backend-sync.c' || echo '$(srcdir)/'`pk-backend-sync.c
+@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/libpk_backend_alpm_la-pk-backend-sync.Tpo $(DEPDIR)/libpk_backend_alpm_la-pk-backend-sync.Plo
+@am__fastdepCC_FALSE@	$(AM_V_CC) @AM_BACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='pk-backend-sync.c' object='libpk_backend_alpm_la-pk-backend-sync.lo' libtool=yes @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libpk_backend_alpm_la_CFLAGS) $(CFLAGS) -c -o libpk_backend_alpm_la-pk-backend-sync.lo `test -f 'pk-backend-sync.c' || echo '$(srcdir)/'`pk-backend-sync.c
+
+libpk_backend_alpm_la-pk-backend-transaction.lo: pk-backend-transaction.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libpk_backend_alpm_la_CFLAGS) $(CFLAGS) -MT libpk_backend_alpm_la-pk-backend-transaction.lo -MD -MP -MF $(DEPDIR)/libpk_backend_alpm_la-pk-backend-transaction.Tpo -c -o libpk_backend_alpm_la-pk-backend-transaction.lo `test -f 'pk-backend-transaction.c' || echo '$(srcdir)/'`pk-backend-transaction.c
+@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/libpk_backend_alpm_la-pk-backend-transaction.Tpo $(DEPDIR)/libpk_backend_alpm_la-pk-backend-transaction.Plo
+@am__fastdepCC_FALSE@	$(AM_V_CC) @AM_BACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='pk-backend-transaction.c' object='libpk_backend_alpm_la-pk-backend-transaction.lo' libtool=yes @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libpk_backend_alpm_la_CFLAGS) $(CFLAGS) -c -o libpk_backend_alpm_la-pk-backend-transaction.lo `test -f 'pk-backend-transaction.c' || echo '$(srcdir)/'`pk-backend-transaction.c
+
+libpk_backend_alpm_la-pk-backend-update.lo: pk-backend-update.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libpk_backend_alpm_la_CFLAGS) $(CFLAGS) -MT libpk_backend_alpm_la-pk-backend-update.lo -MD -MP -MF $(DEPDIR)/libpk_backend_alpm_la-pk-backend-update.Tpo -c -o libpk_backend_alpm_la-pk-backend-update.lo `test -f 'pk-backend-update.c' || echo '$(srcdir)/'`pk-backend-update.c
+@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/libpk_backend_alpm_la-pk-backend-update.Tpo $(DEPDIR)/libpk_backend_alpm_la-pk-backend-update.Plo
+@am__fastdepCC_FALSE@	$(AM_V_CC) @AM_BACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='pk-backend-update.c' object='libpk_backend_alpm_la-pk-backend-update.lo' libtool=yes @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libpk_backend_alpm_la_CFLAGS) $(CFLAGS) -c -o libpk_backend_alpm_la-pk-backend-update.lo `test -f 'pk-backend-update.c' || echo '$(srcdir)/'`pk-backend-update.c
+
 mostlyclean-libtool:
 	-rm -f *.lo
 
 clean-libtool:
 	-rm -rf .libs _libs
+install-confDATA: $(conf_DATA)
+	@$(NORMAL_INSTALL)
+	test -z "$(confdir)" || $(MKDIR_P) "$(DESTDIR)$(confdir)"
+	@list='$(conf_DATA)'; test -n "$(confdir)" || list=; \
+	for p in $$list; do \
+	  if test -f "$$p"; then d=; else d="$(srcdir)/"; fi; \
+	  echo "$$d$$p"; \
+	done | $(am__base_list) | \
+	while read files; do \
+	  echo " $(INSTALL_DATA) $$files '$(DESTDIR)$(confdir)'"; \
+	  $(INSTALL_DATA) $$files "$(DESTDIR)$(confdir)" || exit $$?; \
+	done
+
+uninstall-confDATA:
+	@$(NORMAL_UNINSTALL)
+	@list='$(conf_DATA)'; test -n "$(confdir)" || list=; \
+	files=`for p in $$list; do echo $$p; done | sed -e 's|^.*/||'`; \
+	test -n "$$files" || exit 0; \
+	echo " ( cd '$(DESTDIR)$(confdir)' && rm -f" $$files ")"; \
+	cd "$(DESTDIR)$(confdir)" && rm -f $$files
 
 ID: $(HEADERS) $(SOURCES) $(LISP) $(TAGS_FILES)
 	list='$(SOURCES) $(HEADERS) $(LISP) $(TAGS_FILES)'; \
@@ -579,9 +768,9 @@ distdir: $(DISTFILES)
 	done
 check-am: all-am
 check: check-am
-all-am: Makefile $(LTLIBRARIES)
+all-am: Makefile $(LTLIBRARIES) $(DATA)
 installdirs:
-	for dir in "$(DESTDIR)$(plugindir)"; do \
+	for dir in "$(DESTDIR)$(plugindir)" "$(DESTDIR)$(confdir)"; do \
 	  test -z "$$dir" || $(MKDIR_P) "$$dir"; \
 	done
 install: install-am
@@ -632,7 +821,7 @@ info: info-am
 
 info-am:
 
-install-data-am: install-pluginLTLIBRARIES
+install-data-am: install-confDATA install-pluginLTLIBRARIES
 
 install-dvi: install-dvi-am
 
@@ -678,7 +867,7 @@ ps: ps-am
 
 ps-am:
 
-uninstall-am: uninstall-pluginLTLIBRARIES
+uninstall-am: uninstall-confDATA uninstall-pluginLTLIBRARIES
 
 .MAKE: install-am install-strip
 
@@ -686,15 +875,16 @@ uninstall-am: uninstall-pluginLTLIBRARIES
 	clean-libtool clean-pluginLTLIBRARIES ctags distclean \
 	distclean-compile distclean-generic distclean-libtool \
 	distclean-tags distdir dvi dvi-am html html-am info info-am \
-	install install-am install-data install-data-am install-dvi \
-	install-dvi-am install-exec install-exec-am install-html \
-	install-html-am install-info install-info-am install-man \
-	install-pdf install-pdf-am install-pluginLTLIBRARIES \
-	install-ps install-ps-am install-strip installcheck \
-	installcheck-am installdirs maintainer-clean \
-	maintainer-clean-generic mostlyclean mostlyclean-compile \
-	mostlyclean-generic mostlyclean-libtool pdf pdf-am ps ps-am \
-	tags uninstall uninstall-am uninstall-pluginLTLIBRARIES
+	install install-am install-confDATA install-data \
+	install-data-am install-dvi install-dvi-am install-exec \
+	install-exec-am install-html install-html-am install-info \
+	install-info-am install-man install-pdf install-pdf-am \
+	install-pluginLTLIBRARIES install-ps install-ps-am \
+	install-strip installcheck installcheck-am installdirs \
+	maintainer-clean maintainer-clean-generic mostlyclean \
+	mostlyclean-compile mostlyclean-generic mostlyclean-libtool \
+	pdf pdf-am ps ps-am tags uninstall uninstall-am \
+	uninstall-confDATA uninstall-pluginLTLIBRARIES
 
 
 # Tell versions [3.59,3.63) of GNU make to not export all variables.

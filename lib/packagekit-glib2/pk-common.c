@@ -81,7 +81,7 @@ pk_iso8601_from_date (const GDate *date)
 }
 
 /**
- * pk_iso8601_to_date:
+ * pk_iso8601_to_date: (skip)
  * @iso_date: The ISO8601 date to convert
  *
  * Return value: If valid then a new %GDate, else NULL
@@ -331,6 +331,19 @@ pk_get_distro_id (void)
 
 		/* complete! */
 		distro_id = g_strdup_printf ("debian;%s;%s", contents, arch);
+		goto out;
+	}
+
+	/* check for Slackware */
+	ret = g_file_get_contents ("/etc/slackware-version", &contents, NULL, NULL);
+	if (ret) {
+		/* Slackware 13.0 */
+		split = g_strsplit (contents, " ", 0);
+		if (split == NULL)
+			goto out;
+
+		/* complete! */
+		distro_id = g_strdup_printf ("slackware;%s;%s", split[1], arch);
 		goto out;
 	}
 
