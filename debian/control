@@ -38,7 +38,7 @@ Build-Depends: autotools-dev (>= 20100122.1),
                update-manager-core,
                xmlto,
                xulrunner-dev | firefox-dev
-Standards-Version: 3.9.1
+Standards-Version: 3.9.2
 XS-Python-Version: current
 Homepage: http://www.packagekit.org
 
