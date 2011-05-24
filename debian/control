@@ -62,7 +62,7 @@ Description: Provides a package management service
  .
  The main benefits are:
   - unified interface on several distributions
-  - fine grained privilleges by using PolicyKit
+  - fine grained privileges by using PolicyKit
   - independecy from a running desktop session during the processing
 
 Package: packagekit-bash-completion
