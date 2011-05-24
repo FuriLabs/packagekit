@@ -3,8 +3,8 @@ Section: admin
 Priority: optional
 Maintainer: Matthias Klumpp <matthias@nlinux.org>
 Uploaders: Julian Andres Klode <jak@debian.org>
-Vcs-Git: git://git.debian.org/pkg-packagekit/packagekit.git
-Vcs-Browser: http://git.debian.org/?p=pkg-packagekit/packagekit.git
+Vcs-Git: git://anonscm.debian.org/pkg-packagekit/packagekit.git
+Vcs-Browser: http://anonscm.debian.org/gitweb/?p=pkg-packagekit/packagekit.git
 Build-Depends: autotools-dev (>= 20100122.1),
                debhelper (>= 7.0.50~),
                docbook-utils,
