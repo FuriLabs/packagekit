@@ -104,7 +104,8 @@ Description: Library for accessing PackageKit using GLib
 Package: libpackagekit-glib2-dev
 Section: libdevel
 Architecture: any
-Depends: libglib2.0-dev (>= 2.24),
+Depends: libdbus-1-dev,
+         libglib2.0-dev (>= 2.24),
          libpackagekit-glib2-14 (= ${binary:Version}),
          libsqlite3-dev,
          ${misc:Depends}
@@ -152,7 +153,7 @@ Description: Library for accessing PackageKit using Qt4
 Package: libpackagekit-qt2-dev
 Section: libdevel
 Architecture: any
-Depends: libpackagekit-qt2-2 (= ${binary:Version}), ${misc:Depends}
+Depends: libpackagekit-qt2-2 (= ${binary:Version}), libqt4-dev, ${misc:Depends}
 Description: Library for accessing PackageKit using Qt4 (development files)
  PackageKit allows performing simple software management tasks over a DBus
  interface e.g. refreshing the cache, updating, installing and removing
