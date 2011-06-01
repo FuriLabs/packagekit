@@ -5,8 +5,8 @@ Maintainer: Matthias Klumpp <matthias@nlinux.org>
 Uploaders: Julian Andres Klode <jak@debian.org>
 Vcs-Git: git://anonscm.debian.org/pkg-packagekit/packagekit.git
 Vcs-Browser: http://anonscm.debian.org/gitweb/?p=pkg-packagekit/packagekit.git
-Build-Depends: autotools-dev (>= 20100122.1),
-               debhelper (>= 7.0.50~),
+Build-Depends: debhelper (>= 7.0.50~),
+               autotools-dev (>= 20100122.1),
                docbook-utils,
                gir1.2-glib-2.0 (>= 0.10.1),
                gobject-introspection (>= 0.10.1),
@@ -18,8 +18,8 @@ Build-Depends: autotools-dev (>= 20100122.1),
                libgirepository1.0-dev (>= 0.10.1),
                libglib2.0-dev (>= 2.24),
                libgstreamer-plugins-base0.10-dev,
-               libgtk2.0-dev (>= 2.24),
                libgtk-3-dev (>= 3.0.8),
+               libgtk2.0-dev (>= 2.24),
                libnm-glib-dev [linux-any],
                libnspr4-dev,
                libpam0g-dev,
@@ -104,7 +104,10 @@ Description: Library for accessing PackageKit using GLib
 Package: libpackagekit-glib2-dev
 Section: libdevel
 Architecture: any
-Depends: libpackagekit-glib2-14 (= ${binary:Version}), ${misc:Depends}, libsqlite3-dev
+Depends: libglib2.0-dev (>= 2.24),
+         libpackagekit-glib2-14 (= ${binary:Version}),
+         libsqlite3-dev,
+         ${misc:Depends}
 Description: Library for accessing PackageKit using GLib (development files)
  PackageKit allows performing simple software management tasks over a DBus
  interface e.g. refreshing the cache, updating, installing and removing
