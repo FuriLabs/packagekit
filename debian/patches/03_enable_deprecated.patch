@@ -1,0 +1,33 @@
+Description: Enable building with deprecated symbols in PK
+Forwarded: not-needed
+Author: Matthias Klumpp <matthias@nlinux.org>
+Last-Update: 2011-07-14
+--- a/configure.ac
++++ b/configure.ac
+@@ -81,7 +81,7 @@
+ dnl - Extra verbose warning switches
+ dnl ---------------------------------------------------------------------------
+ CPPFLAGS="$CPPFLAGS -DG_DISABLE_SINGLE_INCLUDES -DGTK_DISABLE_SINGLE_INCLUDES"
+-CPPFLAGS="$CPPFLAGS -DG_DISABLE_DEPRECATED -DGTK_DISABLE_DEPRECATED -DGDK_DISABLE_DEPRECATED"
++ # CPPFLAGS="$CPPFLAGS -DG_DISABLE_DEPRECATED -DGTK_DISABLE_DEPRECATED -DGDK_DISABLE_DEPRECATED"
+ CPPFLAGS="$CPPFLAGS -DGDK_MULTIHEAD_SAFE -DGTK_MULTIHEAD_SAFE"
+ CPPFLAGS="$CPPFLAGS -DGSEAL_ENABLE"
+ 
+@@ -670,7 +670,7 @@
+ 	PY_CHECK_MOD([apt_pkg],,,AC_MSG_ERROR([Apt backend needs python-apt]))
+ 	PY_CHECK_MOD([UpdateManager.Core.MetaRelease],,
+ 		     AC_DEFINE(HAVE_PYTHON_META_RELEASE, 1,
+-			       "Meta release is available"), 
++			       "Meta release is available"),
+ 		     AC_MSG_WARN([Distro upgrade notification not supported]))
+ 	PY_CHECK_MOD([softwareproperties.SoftwareProperties],,
+ 		     AC_DEFINE(HAVE_PYTHON_SOFTWARE_PROPERTIES, 1,
+@@ -706,7 +706,7 @@
+ 			  AC_MSG_RESULT([yes]),
+ 			  AC_MSG_FAILURE([need libapt-pkg 0.7 or later]))
+ 
+-	AC_MSG_CHECKING([whether apt supports ddtp]) 
++	AC_MSG_CHECKING([whether apt supports ddtp])
+ 
+ 	AC_COMPILE_IFELSE(AC_LANG_PROGRAM([[#include <apt-pkg/pkgcache.h>]],
+ 					  [[pkgCache::DescIterator d;]]),
