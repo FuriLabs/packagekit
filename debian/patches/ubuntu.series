@@ -1,4 +1,6 @@
 vendor-ubuntu.diff
 defaults.diff
 policy.diff
+01_bug628835.patch
+02_bug606135.patch
 99_ltmain_as-needed.patch
