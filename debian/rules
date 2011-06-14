@@ -1,8 +1,6 @@
 #!/usr/bin/make -f
 #export DH_VERBOSE=1
 
-export LIBTOOLIZE = true
-
 DEB_HOST_ARCH_OS ?= $(shell dpkg-architecture -qDEB_HOST_ARCH_OS)
 
 # Use this variable to set the PackageKit configure flags
@@ -88,3 +86,6 @@ override_dh_gencontrol:
 
 override_dh_strip:
 	dh_strip --dbg-package=packagekit-dbg
+
+override_dh_autoreconf:
+	dh_autoreconf --as-needed
