@@ -18,6 +18,7 @@ packagekit (0.6.15-1) unstable; urgency=low
         (Richard Hughes)
   * Set env var in aptcc to disable apt-listbugs (Closes: #628835)
   * Fix aptcc getDetails method (Closes: #606135)
+  * Enabled build with deprecated symbols
 
  -- Matthias Klumpp <matthias@nlinux.org>  Tue, 14 Jun 2011 14:06:41 +0200
 
