@@ -35,7 +35,7 @@ endif
 INSTALLDIR = $(CURDIR)/debian/tmp
 
 %:
-	dh $@ --parallel --with autotools_dev --with python2
+	dh $@ --parallel --with python2 --with autoreconf
 
 extrainstallfiles-stamp:
 	cat debian/packagekit.install | grep -v '/pm-utils/' > debian/packagekit.install.kfreebsd
