@@ -1,6 +1,6 @@
 --- a/ltmain.sh
 +++ b/ltmain.sh
-@@ -5041,6 +5041,11 @@
+@@ -5787,6 +5787,11 @@
  	arg=$func_stripname_result
  	;;
  
@@ -12,7 +12,7 @@
        -Wl,*)
  	func_stripname '-Wl,' '' "$arg"
  	args=$func_stripname_result
-@@ -5394,6 +5399,15 @@
+@@ -6147,6 +6152,15 @@
  	lib=
  	found=no
  	case $deplib in
