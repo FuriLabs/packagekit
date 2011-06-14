@@ -1201,6 +1201,7 @@
     <description xml:lang="fi">Tee käyttöjärjestelmäpäivitys</description>
     <description xml:lang="fr">Mettre à niveau le système</description>
     <description xml:lang="gl">Actualizar sistema</description>
+    <description xml:lang="id">Tingkatkan Sistem</description>
     <description xml:lang="pa">ਸਿਸਟਮ ਅੱਪਗਰੇਡ ਕਰੋ</description>
     <description xml:lang="pl">Aktualizacja systemu</description>
     <description xml:lang="ru">Обновление системы</description>
@@ -1217,6 +1218,7 @@
     <message xml:lang="fi">Käyttöjärjestelmän päivittäminen vaatii tunnistautumisen</message>
     <message xml:lang="fr">Authentification requise pour mettre à niveau le système d'exploitation</message>
     <message xml:lang="gl">Requírese a autenticación para actualizar o sistema operativo</message>
+    <message xml:lang="id">Otentikasi diperlukan untuk meningkatkan sistem operasi</message>
     <message xml:lang="pa">ਓਪਰੇਟਿੰਗ ਸਿਸਟਮ ਅੱਪਗਰੇਡ ਕਰਨ ਲਈ ਪਰਮਾਣਿਤ ਹੋਣ ਦੀ ਲੋੜ ਹੈ</message>
     <message xml:lang="pl">Wymagane jest uwierzytelnienie, aby zaktualizować system operacyjny</message>
     <message xml:lang="ru">Требуется проверка подлинности для обновления операционной системы</message>
