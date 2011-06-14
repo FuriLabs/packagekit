@@ -1,6 +1,281 @@
+commit e7a83c706d3c8bee1a55bdb3720639638169dcef
+Author: Richard Hughes <richard@hughsie.com>
+Date:   2011-06-07
+
+    Release version 0.6.15
+
+M	NEWS
+M	docs/html/pk-download.html
+M	po/ar.po
+M	po/as.po
+M	po/bg.po
+M	po/bg_BG.po
+M	po/bn_IN.po
+M	po/ca.po
+M	po/ca@valencia.po
+M	po/cs.po
+M	po/da.po
+M	po/de.po
+M	po/el.po
+M	po/en_GB.po
+M	po/es.po
+M	po/eu.po
+M	po/fa_IR.po
+M	po/fi.po
+M	po/fr.po
+M	po/ga.po
+M	po/gl.po
+M	po/gu.po
+M	po/he.po
+M	po/hi.po
+M	po/hu.po
+M	po/id.po
+M	po/it.po
+M	po/it_IT.po
+M	po/ja.po
+M	po/kk.po
+M	po/kn.po
+M	po/ko.po
+M	po/lt.po
+M	po/ml.po
+M	po/mr.po
+M	po/ms.po
+M	po/nb.po
+M	po/nl.po
+M	po/or.po
+M	po/pa.po
+M	po/pl.po
+M	po/pt.po
+M	po/pt_BR.po
+M	po/ro.po
+M	po/ru.po
+M	po/sk.po
+M	po/sl.po
+M	po/sr.po
+M	po/sr@latin.po
+M	po/sv.po
+M	po/ta.po
+M	po/te.po
+M	po/th.po
+M	po/tr.po
+M	po/uk.po
+M	po/wa.po
+M	po/zh_CN.po
+M	po/zh_TW.po
+
+commit 5f10a512cbddc23c1c7c299659d5fa26fcecd8d8
+Author: Matthias Klumpp <matthias@nlinux.org>
+Date:	2011-06-05
+
+    gir: Annotations for file arrays
+
+M	lib/packagekit-glib2/pk-client-sync.c
+M	lib/packagekit-glib2/pk-client.c
+M	lib/packagekit-glib2/pk-task-sync.c
+M	lib/packagekit-glib2/pk-task.c
+
+commit b68a7fc23e0694654b5ab5242cb410803780f4b9
+Merge: d936938 6dd0be5
+Author: Matthias Klumpp <matthias@nlinux.org>
+Date:	2011-06-03
+
+    Merge branch 'master' of gitorious.org:packagekit/packagekit
+
+commit d936938779067399f17fec637b341dd545c25722
+Author: Matthias Klumpp <matthias@nlinux.org>
+Date:	2011-06-03
+
+    gir: Some more annotation updates
+
+M	lib/packagekit-glib2/pk-catalog.c
+M	lib/packagekit-glib2/pk-package-sack.c
+M	lib/packagekit-glib2/pk-results.c
+
+commit 6dd0be5ad2aa5ef96016ff200fb05548bc9a9147
+Author: Richard Hughes <richard@hughsie.com>
+Date:	2011-06-01
+
+    yum: Allow the 'any' WhatProvides kind to match already formatted
+    provide strings
+
+M	backends/yum/yumBackend.py
+
+commit a3dcb4793a8338aa3a78ee05dfd5bfb42a0d1232
+Author: Daniel Nicoletti <dantti85-pk@yahoo.com.br>
+Date:	2011-05-26
+
+    API: when refreshing cache backends should emit RepoDetail as
+    frontends will be able to present extra details.
+
+M	src/org.freedesktop.PackageKit.Transaction.xml
+
+commit fe7eb0d122e53adab53b6349a9c410e7e14908d2
+Author: Daniel Nicoletti <dantti85-pk@yahoo.com.br>
+Date:	2011-05-26
+
+    API: fix typo
+
+M	src/org.freedesktop.PackageKit.Transaction.xml
+
+commit d1eb615298ab208f9589faf6364bd163e5d956dd
+Author: Daniel Nicoletti <dantti85-pk@yahoo.com.br>
+Date:	2011-05-25
+
+    API: Adding PK_INFO_ENUM_UNTRUSTED so that simulate methods can tell
+    which packages are untrusted
+
+M	lib/packagekit-glib2/pk-enum.c
+M	lib/packagekit-glib2/pk-enum.h
+M	lib/packagekit-qt2/package.h
+M	lib/packagekit-qt2/transaction.h
+M	src/org.freedesktop.PackageKit.Transaction.xml
+
+commit f8771f7ab15f297ad38ce8ee03b0566ff76dafbc
+Author: Richard Hughes <richard@hughsie.com>
+Date:	2011-05-25
+
+    Only include glib-unix.h if the GLib version is >= 2.29.4
+
+M	src/pk-main.c
+
+commit df2aa6a31f6488eb28b8d97ea3822e6561da53c3
+Author: Richard Hughes <richard@hughsie.com>
+Date:	2011-05-23
+
+    Do not prevent updating when firefox is running, we don't have all
+    the client UI ready yet
+
+M	etc/PackageKit.conf.in
+
+commit f444d83032edf97bbc55d21bd41effcb4dc26289
+Author: Daniel Nicoletti <dantti85-pk@yahoo.com.br>
+Date:	2011-05-15
+
+    aptcc: Fix the way we emit repos, now it emits the string more
+    human readable
+
+M	backends/aptcc/acqprogress.cpp
+
+commit f00ecd0574bc7ea3c44f3d4f20e2212efe4bd9e5
+Author: Daniel Nicoletti <dantti85-pk@yahoo.com.br>
+Date:	2011-05-15
+
+    aptcc: Emit repos while refreshing cache, and speed up searchDetails
+    a bit
+
+M	backends/aptcc/acqprogress.cpp
+M	backends/aptcc/pk-backend-aptcc.cpp
+
+commit e82097ef821c56b1fe76b0f54b530550c3fad88d
+Merge: 9a0add7 e9ed000
+Author: Jonathan Conder <jonno.conder@gmail.com>
+Date:	2011-05-14
+
+    Merge branch 'master' of gitorious.org:packagekit/packagekit
+
+commit 9a0add7488694ab02c057609fdb354ea807cddb9
+Author: Jonathan Conder <jonno.conder@gmail.com>
+Date:	2011-05-14
+
+    alpm: fix package cache location
+
+M	backends/alpm/Makefile.am
+
+commit e9ed00089de47e64090af65f42c9eba1e8eee0d4
+Author: Duncan Mac-Vicar P <dmacvicar@suse.de>
+Date:	2011-05-06
+
+    zypp: fix deletion of package locks (bnc#690038)
+
+    Save and restore Pool status when doing calculations like
+    in get_depends and get_requires.
+
+    Fixes bug introduced by commit:
+    "zypp: reset packages status in repo while removing packages" which
+    resetted the status of an item, including its locks.
+
+    So if you browse a locked package, see if requires, the reset done
+    after removed the locks, and if you installed a package later,
+    this was
+    saved.
+
+M	backends/zypp/pk-backend-zypp.cpp
+
+commit ad3ce3e90b50c2b6e50306831cb4c502eb870c34
+Author: Duncan Mac-Vicar P <dmacvicar@suse.de>
+Date:	2011-05-06
+
+    zypp: log to ZYpp's log the start of a PK backend function to ease
+    debugging
+
+M	backends/zypp/pk-backend-zypp.cpp
+
+commit df6eef34178c3e68663861ec32dede330495081a
+Author: Jonathan Conder <jonno.conder@gmail.com>
+Date:	2011-05-07
+
+    alpm: improve backend messages
+
+M	backends/alpm/pk-backend-alpm.c
+M	backends/alpm/pk-backend-error.c
+M	backends/alpm/pk-backend-error.h
+M	backends/alpm/pk-backend-transaction.c
+M	backends/alpm/pk-backend-transaction.h
+
+commit 953c0980265b2b0120bc1337d1a2061f47a1373d
+Author: Richard Hughes <richard@hughsie.com>
+Date:	2011-05-05
+
+    yum: fix a failure to get updates caused by using the rename of
+    pre_process
+
+M	backends/yum/yumBackend.py
+
+commit d92016c9329dc1c5ea6fff4bfc3dadaa738e3bc8
+Author: Richard Hughes <richard@hughsie.com>
+Date:	2011-05-04
+
+    trivial: fix up the Fedora spec file from upstream
+
+M	contrib/PackageKit.spec.in
+
+commit 264df93fbdfe85808e3f94dc88f410d8d5d710bc
+Author: Matthias Klumpp <matthias@nlinux.org>
+Date:	2011-05-04
+
+    Some more GIR annotations
+
+M	lib/packagekit-glib2/pk-client-sync.c
+M	lib/packagekit-glib2/pk-client.c
+
+commit aaf248f16135cf5b6af3880a98bcc2f044e52510
+Merge: 48a1775 6f2c444
+Author: Daniel Nicoletti <dantti85-pk@yahoo.com.br>
+Date:	2011-05-04
+
+    Merge branch 'master' of gitorious.org:packagekit/packagekit
+
+commit 48a1775cb409609d766901038f6c9ae53f6e94fb
+Author: Daniel Nicoletti <dantti85-pk@yahoo.com.br>
+Date:	2011-05-04
+
+    packagekit-qt2: Remove package caching as we use const Packages now
+
+M	lib/packagekit-qt2/transaction.cpp
+M	lib/packagekit-qt2/transactionprivate.h
+
+commit 6f2c444049e1772529fcb37712125f2e30bbae1b
+Author: Richard Hughes <richard@hughsie.com>
+Date:	2011-05-04
+
+    trivial: post release version bump
+
+M	RELEASE
+M	configure.ac
+
 commit 9d7f3263cf3ac9c4ad3fbf1017e2f2d950266f60
 Author: Richard Hughes <richard@hughsie.com>
-Date:   2011-05-04
+Date:	2011-05-04
 
     Release version 0.6.14
 

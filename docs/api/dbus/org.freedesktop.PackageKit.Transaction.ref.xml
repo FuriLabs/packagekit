@@ -921,7 +921,13 @@
           </simpara></listitem></varlistentry></variablelist><refsect2><title><anchor role="function" id="Transaction.SimulateInstallFiles"/>SimulateInstallFiles ()</title><indexterm><primary>SimulateInstallFiles</primary><secondary>Transaction</secondary></indexterm><programlisting>SimulateInstallFiles (in  'as' full_paths)</programlisting></refsect2>
           <para>
             This method simulates a package file instalation emitting packages required to be
-            installed, removed, reinstalled or updated.
+            installed, removed, updated, reinstalled, downgraded, obsoleted or untrusted.
+            The later is used to present the user untrusted packages that are about to be installed.
+          </para>
+          <para>
+            This method typically emits
+            Error and
+            Package.
           </para>
         <variablelist role="params"><varlistentry><term><parameter>full_paths</parameter>:</term><listitem><simpara>
             
@@ -930,7 +936,13 @@
           </simpara></listitem></varlistentry></variablelist><refsect2><title><anchor role="function" id="Transaction.SimulateInstallPackages"/>SimulateInstallPackages ()</title><indexterm><primary>SimulateInstallPackages</primary><secondary>Transaction</secondary></indexterm><programlisting>SimulateInstallPackages (in  'as' package_ids)</programlisting></refsect2>
           <para>
             This method simulates a package instalation emitting packages required to be
-            installed, removed, reinstalled or updated.
+            installed, removed, updated, reinstalled, downgraded, obsoleted or untrusted.
+            The later is used to present the user untrusted packages that are about to be installed.
+          </para>
+          <para>
+            This method typically emits
+            Error and
+            Package.
           </para>
         <variablelist role="params"><varlistentry><term><parameter>package_ids</parameter>:</term><listitem><simpara>
             
@@ -940,7 +952,13 @@
                         in  'b'  autoremove)</programlisting></refsect2>
           <para>
             This method simulates a package removal emitting packages required to be
-            installed, removed, reinstalled or updated.
+            installed, removed, updated, reinstalled, downgraded, obsoleted or untrusted.
+            The later is used to present the user untrusted packages that are about to be installed.
+          </para>
+          <para>
+            This method typically emits
+            Error and
+            Package.
           </para>
         <variablelist role="params"><varlistentry><term><parameter>package_ids</parameter>:</term><listitem><simpara>
             
@@ -960,7 +978,13 @@
           </simpara></listitem></varlistentry></variablelist><refsect2><title><anchor role="function" id="Transaction.SimulateUpdatePackages"/>SimulateUpdatePackages ()</title><indexterm><primary>SimulateUpdatePackages</primary><secondary>Transaction</secondary></indexterm><programlisting>SimulateUpdatePackages (in  'as' package_ids)</programlisting></refsect2>
           <para>
             This method simulates a package update emitting packages required to be
-            installed, removed, reinstalled or updated.
+            installed, removed, updated, reinstalled, downgraded, obsoleted or untrusted.
+            The later is used to present the user untrusted packages that are about to be installed.
+          </para>
+          <para>
+            This method typically emits
+            Error and
+            Package.
           </para>
         <variablelist role="params"><varlistentry><term><parameter>package_ids</parameter>:</term><listitem><simpara>
             

@@ -1,7 +1,7 @@
 /****************************************************************************
 ** Meta object code from reading C++ file 'package.h'
 **
-** Created: Wed May 4 10:12:16 2011
+** Created: Thu May 26 08:23:10 2011
 **      by: The Qt Meta Object Compiler version 62 (Qt 4.7.2)
 **
 ** WARNING! All changes made in this file will be lost!
@@ -30,10 +30,10 @@ static const uint qt_meta_data_PackageKit__Package[] = {
        0,       // signalCount
 
  // enums: name, flags, count, data
-      20, 0x0,   23,   30,
-      25, 0x0,   35,   76,
-      31, 0x0,    4,  146,
-      43, 0x0,    7,  154,
+      20, 0x0,   25,   30,
+      25, 0x0,   35,   80,
+      31, 0x0,    4,  150,
+      43, 0x0,    7,  158,
 
  // enum data: key, value
       51, uint(PackageKit::Package::UnknownInfo),
@@ -59,52 +59,54 @@ static const uint qt_meta_data_PackageKit__Package[] = {
      338, uint(PackageKit::Package::InfoDowngrading),
      354, uint(PackageKit::Package::InfoPreparing),
      368, uint(PackageKit::Package::InfoDecompressing),
-     386, uint(PackageKit::Package::UnknownGroup),
-     399, uint(PackageKit::Package::GroupAccessibility),
-     418, uint(PackageKit::Package::GroupAccessories),
-     435, uint(PackageKit::Package::GroupAdminTools),
-     451, uint(PackageKit::Package::GroupCommunication),
-     470, uint(PackageKit::Package::GroupDesktopGnome),
-     488, uint(PackageKit::Package::GroupDesktopKde),
-     504, uint(PackageKit::Package::GroupDesktopOther),
-     522, uint(PackageKit::Package::GroupDesktopXfce),
-     539, uint(PackageKit::Package::GroupEducation),
-     554, uint(PackageKit::Package::GroupFonts),
-     565, uint(PackageKit::Package::GroupGames),
-     576, uint(PackageKit::Package::GroupGraphics),
-     590, uint(PackageKit::Package::GroupInternet),
-     604, uint(PackageKit::Package::GroupLegacy),
-     616, uint(PackageKit::Package::GroupLocalization),
-     634, uint(PackageKit::Package::GroupMaps),
-     644, uint(PackageKit::Package::GroupMultimedia),
-     660, uint(PackageKit::Package::GroupNetwork),
-     673, uint(PackageKit::Package::GroupOffice),
-     685, uint(PackageKit::Package::GroupOther),
-     696, uint(PackageKit::Package::GroupPowerManagement),
-     717, uint(PackageKit::Package::GroupProgramming),
-     734, uint(PackageKit::Package::GroupPublishing),
-     750, uint(PackageKit::Package::GroupRepos),
-     761, uint(PackageKit::Package::GroupSecurity),
-     775, uint(PackageKit::Package::GroupServers),
-     788, uint(PackageKit::Package::GroupSystem),
-     800, uint(PackageKit::Package::GroupVirtualization),
-     820, uint(PackageKit::Package::GroupScience),
-     833, uint(PackageKit::Package::GroupDocumentation),
-     852, uint(PackageKit::Package::GroupElectronics),
-     869, uint(PackageKit::Package::GroupCollections),
-     886, uint(PackageKit::Package::GroupVendor),
-     898, uint(PackageKit::Package::GroupNewest),
-     910, uint(PackageKit::Package::UnknownUpdateState),
-     929, uint(PackageKit::Package::UpdateStateStable),
-     947, uint(PackageKit::Package::UpdateStateUnstable),
-     967, uint(PackageKit::Package::UpdateStateTesting),
-     986, uint(PackageKit::Package::UnknownRestart),
-    1001, uint(PackageKit::Package::RestartNone),
-    1013, uint(PackageKit::Package::RestartApplication),
-    1032, uint(PackageKit::Package::RestartSession),
-    1047, uint(PackageKit::Package::RestartSystem),
-    1061, uint(PackageKit::Package::RestartSecuritySession),
-    1084, uint(PackageKit::Package::RestartSecuritySystem),
+     386, uint(PackageKit::Package::InfoUntrusted),
+     400, uint(PackageKit::Package::InfoTrusted),
+     412, uint(PackageKit::Package::UnknownGroup),
+     425, uint(PackageKit::Package::GroupAccessibility),
+     444, uint(PackageKit::Package::GroupAccessories),
+     461, uint(PackageKit::Package::GroupAdminTools),
+     477, uint(PackageKit::Package::GroupCommunication),
+     496, uint(PackageKit::Package::GroupDesktopGnome),
+     514, uint(PackageKit::Package::GroupDesktopKde),
+     530, uint(PackageKit::Package::GroupDesktopOther),
+     548, uint(PackageKit::Package::GroupDesktopXfce),
+     565, uint(PackageKit::Package::GroupEducation),
+     580, uint(PackageKit::Package::GroupFonts),
+     591, uint(PackageKit::Package::GroupGames),
+     602, uint(PackageKit::Package::GroupGraphics),
+     616, uint(PackageKit::Package::GroupInternet),
+     630, uint(PackageKit::Package::GroupLegacy),
+     642, uint(PackageKit::Package::GroupLocalization),
+     660, uint(PackageKit::Package::GroupMaps),
+     670, uint(PackageKit::Package::GroupMultimedia),
+     686, uint(PackageKit::Package::GroupNetwork),
+     699, uint(PackageKit::Package::GroupOffice),
+     711, uint(PackageKit::Package::GroupOther),
+     722, uint(PackageKit::Package::GroupPowerManagement),
+     743, uint(PackageKit::Package::GroupProgramming),
+     760, uint(PackageKit::Package::GroupPublishing),
+     776, uint(PackageKit::Package::GroupRepos),
+     787, uint(PackageKit::Package::GroupSecurity),
+     801, uint(PackageKit::Package::GroupServers),
+     814, uint(PackageKit::Package::GroupSystem),
+     826, uint(PackageKit::Package::GroupVirtualization),
+     846, uint(PackageKit::Package::GroupScience),
+     859, uint(PackageKit::Package::GroupDocumentation),
+     878, uint(PackageKit::Package::GroupElectronics),
+     895, uint(PackageKit::Package::GroupCollections),
+     912, uint(PackageKit::Package::GroupVendor),
+     924, uint(PackageKit::Package::GroupNewest),
+     936, uint(PackageKit::Package::UnknownUpdateState),
+     955, uint(PackageKit::Package::UpdateStateStable),
+     973, uint(PackageKit::Package::UpdateStateUnstable),
+     993, uint(PackageKit::Package::UpdateStateTesting),
+    1012, uint(PackageKit::Package::UnknownRestart),
+    1027, uint(PackageKit::Package::RestartNone),
+    1039, uint(PackageKit::Package::RestartApplication),
+    1058, uint(PackageKit::Package::RestartSession),
+    1073, uint(PackageKit::Package::RestartSystem),
+    1087, uint(PackageKit::Package::RestartSecuritySession),
+    1110, uint(PackageKit::Package::RestartSecuritySystem),
 
        0        // eod
 };
@@ -121,18 +123,18 @@ static const char qt_meta_stringdata_PackageKit__Package[] = {
     "InfoCollectionAvailable\0InfoFinished\0"
     "InfoReinstalling\0InfoDowngrading\0"
     "InfoPreparing\0InfoDecompressing\0"
-    "UnknownGroup\0GroupAccessibility\0"
-    "GroupAccessories\0GroupAdminTools\0"
-    "GroupCommunication\0GroupDesktopGnome\0"
-    "GroupDesktopKde\0GroupDesktopOther\0"
-    "GroupDesktopXfce\0GroupEducation\0"
-    "GroupFonts\0GroupGames\0GroupGraphics\0"
-    "GroupInternet\0GroupLegacy\0GroupLocalization\0"
-    "GroupMaps\0GroupMultimedia\0GroupNetwork\0"
-    "GroupOffice\0GroupOther\0GroupPowerManagement\0"
-    "GroupProgramming\0GroupPublishing\0"
-    "GroupRepos\0GroupSecurity\0GroupServers\0"
-    "GroupSystem\0GroupVirtualization\0"
+    "InfoUntrusted\0InfoTrusted\0UnknownGroup\0"
+    "GroupAccessibility\0GroupAccessories\0"
+    "GroupAdminTools\0GroupCommunication\0"
+    "GroupDesktopGnome\0GroupDesktopKde\0"
+    "GroupDesktopOther\0GroupDesktopXfce\0"
+    "GroupEducation\0GroupFonts\0GroupGames\0"
+    "GroupGraphics\0GroupInternet\0GroupLegacy\0"
+    "GroupLocalization\0GroupMaps\0GroupMultimedia\0"
+    "GroupNetwork\0GroupOffice\0GroupOther\0"
+    "GroupPowerManagement\0GroupProgramming\0"
+    "GroupPublishing\0GroupRepos\0GroupSecurity\0"
+    "GroupServers\0GroupSystem\0GroupVirtualization\0"
     "GroupScience\0GroupDocumentation\0"
     "GroupElectronics\0GroupCollections\0"
     "GroupVendor\0GroupNewest\0UnknownUpdateState\0"

@@ -8,8 +8,8 @@
  * Do not edit! All changes made to it will be lost.
  */
 
-#ifndef TRANSACTIONPROXY_H_1304413112
-#define TRANSACTIONPROXY_H_1304413112
+#ifndef TRANSACTIONPROXY_H_1307434500
+#define TRANSACTIONPROXY_H_1307434500
 
 #include <QtCore/QObject>
 #include <QtCore/QByteArray>
