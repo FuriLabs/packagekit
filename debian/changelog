@@ -1,3 +1,26 @@
+packagekit (0.6.15-1) unstable; urgency=low
+
+  * New upstream release 0.6.15
+    - gir: More gir annotations (Matthias Klumpp)
+    - packagekit-qt2: Remove package caching as we use const Packages now
+        (Daniel Nicoletti)
+    - aptcc: Emit repos while refreshing cache, and speed up
+        searchDetails a bit (Daniel Nicoletti)
+    - aptcc: Fix the way we emit repos, now it emits the string more
+        human readable (Daniel Nicoletti)
+    - Added PK_INFO_ENUM_UNTRUSTED so we can tell which packages are
+        trusted (Daniel Nicoletti)
+    - When refreshing cache backends should emit RepoDetail as frontends
+        will be able to present extra details (Daniel Nicoletti)
+    - Do not prevent updating when firefox is running, we don't have all
+        the client UI ready yet (Richard Hughes)
+    - Only include glib-unix.h if the GLib version is >= 2.29.4
+        (Richard Hughes)
+  * Set env var in aptcc to disable apt-listbugs (Closes: #628835)
+  * Fix aptcc getDetails method (Closes: #606135)
+
+ -- Matthias Klumpp <matthias@nlinux.org>  Tue, 14 Jun 2011 14:06:41 +0200
+
 packagekit (0.6.14-2) unstable; urgency=low
 
   * Removed XS-Python-Version line (Closes: #626104)
