@@ -53,15 +53,12 @@ override_dh_auto_install:
 	rm -f  $(INSTALLDIR)/usr/lib/packagekit-backend/*.la
 	rm -f  $(INSTALLDIR)/usr/lib/mozilla/plugins/packagekit-plugin.la
 	rm -f  $(INSTALLDIR)/usr/lib/gtk-?.0/modules/*.la
+	rm -f  $(INSTALLDIR)/usr/lib/*.la
 	rm -rf $(INSTALLDIR)/usr/lib/gtk-2.0
 	rm -f  $(INSTALLDIR)/usr/bin/packagekit-bugreport.sh
 	rm -f  $(INSTALLDIR)/usr/lib/libpackagekit-qt.*
 	rm -rf $(INSTALLDIR)/usr/include/PackageKit/packagekit-qt
 	rm -f  $(INSTALLDIR)/usr/lib/pkgconfig/packagekit-qt.pc
-	# These files should be cleaned to remove dependency_libs
-	for file in $(INSTALLDIR)/usr/lib/*.la; do \
-		sed -i "/dependency_libs/ s/'.*'/''/" $$file ; \
-	done
 
 override_dh_install: extrainstallfiles-stamp
 	dh_install --list-missing
