@@ -1,4 +1,5 @@
 INCLUDES = \
+	-DDATADIR=\"$(datadir)\"			\
 	-DG_LOG_DOMAIN=\"PackageKit-Aptcc\"
 
 plugindir = $(PK_PLUGIN_DIR)
@@ -35,11 +36,15 @@ EXTRA_DIST = 20packagekit \
 helperdir = $(datadir)/PackageKit/helpers/aptcc
 dist_helper_DATA =					\
 	get-distro-upgrade.py				\
+	pkconffile					\
+	pkconffile.nodiff				\
 	$(NULL)
 
 install-data-hook:
-	chmod +x $(DESTDIR)$(helperdir)/*.py
+	chmod +x $(DESTDIR)$(helperdir)/*.py $(DESTDIR)$(helperdir)/pkconffile
 
 clean-local :
 	rm -f *~
 	rm -f *.pyc
+
+-include $(top_srcdir)/git.mk

@@ -1,6 +1,440 @@
+commit 84fb796a49ad86e0aefa5a8318ca6bb77df4f846
+Author: Richard Hughes <richard@hughsie.com>
+Date:   2011-07-04
+
+    Release version 0.6.16
+
+M	NEWS
+M	configure.ac
+M	docs/html/pk-download.html
+M	po/ar.po
+M	po/bg_BG.po
+M	po/ca@valencia.po
+M	po/fa_IR.po
+M	po/ga.po
+M	po/kk.po
+M	po/ko.po
+M	po/sl.po
+M	po/wa.po
+
+commit 7daec14f84ebfc25ab82b7063ca7d2998e0ef343
+Author: Richard Hughes <richard@hughsie.com>
+Date:	2011-07-04
+
+    zif: trivially update to the actual released version of
+    zif_store_array_get_updates()
+
+M	backends/zif/pk-backend-zif.c
+
+commit b5971144135b477896211e72555891514ec8c693
+Author: Richard Hughes <richard@hughsie.com>
+Date:	2011-07-01
+
+    Fix CVE-2011-2515 which affects the YUM backend
+
+    In commit 290933489b1aaeb1017d10fb59ccf3231e309115, YUM changed
+    the behaviour
+    when checking signatures on a package. The commit added a new
+    configuration key
+    'localpkg_gpgcheck' which only affects local packages, but the key
+    was set by
+    default to False, unlike 'gpgcheck' which was used for local and
+    remote
+    packages before this commit.
+
+    This meant that an end user could install a local unsigned rpm
+    package using
+    PackageKit without a GPG trust check, and the user would be told
+    the untrusted
+    package is itself trusted. This would cause PackageKit to use
+    a different
+    (weaker) PolicyKit authentication that what would be required of
+    an unsigned
+    package.
+
+    To exploit this low-impact vulnerability, a user would have to
+    manually
+    download an unsigned package file and would still be required to
+    authenticate
+    to install the package unless this has been changed by an
+    administrator.
+
+    Now, PackageKit sets internaly 'localpkg_gpgcheck' to match 'gpgcheck'
+    for all
+    versions of yum with this new feature to match the expected behaviour.
+
+    Red Hat would like to thank Peter Robinson for reporting this issue.
+
+    See http://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2011-2515 for
+    more details.
+
+    Fixes https://bugzilla.redhat.com/show_bug.cgi?id=717566
+
+M	backends/yum/yumBackend.py
+
+commit 534c7b587d0b9032c34f49218b898fab70b4412c
+Author: Richard Hughes <richard@hughsie.com>
+Date:	2011-06-29
+
+    zif: Implement UpdateSystem() by adding all the results from
+    GetUpdates to a transaction
+
+M	backends/zif/pk-backend-zif.c
+
+commit 8cb69128cd85d630cbac45fc9d593e22420ce3ba
+Author: Richard Hughes <richard@hughsie.com>
+Date:	2011-06-28
+
+    Do not hardcode the UID_MIN as 500. Fixes rh#717110
+
+M	src/pk-transaction-extra.c
+
+commit a74ad8ea111bd01771280ce6028eb69b3bb6dc4f
+Author: Richard Hughes <richard@hughsie.com>
+Date:	2011-06-28
+
+    Ensure we save the updates cache for the pre-transaction checks
+
+    We need to save this regardless of the UseUpdateCache config value.
+
+M	src/pk-cache.c
+M	src/pk-transaction.c
+
+commit 5a8c9067452fe103791c53c9790325953d814fd2
+Author: Richard Hughes <richard@hughsie.com>
+Date:	2011-06-28
+
+    zif: Fix a critical warning when getting details about a package
+
+M	backends/zif/pk-backend-zif.c
+
+commit ab05a1fcf83ba2668dcdb4b7d9618baae88f3b05
+Author: Robert Xu <robxu9@gmail.com>
+Date:	2011-06-23
+
+    Update the PackageKit matrix webpage to reflect current backends.
+
+M	docs/html/pk-matrix.html
+
+commit 9524579555da3cc546a165fda89352098db38539
+Author: Jesse Zhang <zh.jesse@gmail.com>
+Date:	2011-06-20
+
+    conary: simplify _resolve_list
+
+M	backends/conary/TODO
+M	backends/conary/conaryBackend.py
+
+commit ecd27739cd8e4d63e50d7b8bfd92aeaca4035807
+Author: Jesse Zhang <zh.jesse@gmail.com>
+Date:	2011-06-17
+
+    conary: don't show redirected packages
+
+M	backends/conary/TODO
+M	backends/conary/conaryBackend.py
+
+commit 9345191c9041b9cafd5ecdf89d1f84772a92adb7
+Author: Kevin Kofler <kevin.kofler@chello.at>
+Date:	2011-06-20
+
+    Support looking up Plasma services (yum and zif backends only
+    for now).
+
+    Add a PK_PROVIDES_ENUM_PLASMA_SERVICE enum entry.
+    Handle it in the yum and zif backends.
+
+    Signed-off-by: Richard Hughes <richard@hughsie.com>
+
+M	backends/yum/yumBackend.py
+M	backends/zif/pk-backend-zif.c
+M	lib/packagekit-glib2/pk-enum.c
+M	lib/packagekit-glib2/pk-enum.h
+M	lib/packagekit-qt/src/enum.h
+M	lib/packagekit-qt2/transaction.h
+
+commit c35a405946beacaaebacdb48eb7b4bd9c0ffe7ca
+Author: Richard Hughes <richard@hughsie.com>
+Date:	2011-06-18
+
+    Use pk_package_set_id() in the daemon now we cannot write to
+    PkPackage:package-id
+
+M	src/pk-backend.c
+
+commit 0305a4ec631fdcbe34586415d62b0d988f0feac1
+Author: Richard Hughes <richard@hughsie.com>
+Date:	2011-06-17
+
+    yum: Emit RepoDetail when refreshing a repository
+
+M	backends/yum/yumBackend.py
+
+commit de58b8c9972efb4c8e393ad67e97c8ee657b0d78
+Author: Richard Hughes <richard@hughsie.com>
+Date:	2011-06-17
+
+    Do not try to parse any arguments in command-not-found
+
+M	contrib/command-not-found/pk-command-not-found.c
+
+commit 02ef9094e7d6b7ed59f61cc5e988d06db4cafc8f
+Author: Richard Hughes <richard@hughsie.com>
+Date:	2011-06-16
+
+    Fix a build error in the browser plugin when using old versions of gdk
+
+M	contrib/browser-plugin/pk-main.c
+
+commit a6a527f8e117d3b8758a30975e87931b8f75d9d5
+Author: Richard Hughes <richard@hughsie.com>
+Date:	2011-06-16
+
+    glib: Ensure packages emitted from the progress handler have the
+    package_id assigned correctly
+
+    Using g_object_set(pkg,package-id,id) meant that the package_id
+    wasn't being
+    checked, nor was the package_id_split[] array being allocated.
+    The result was that any client trying to do pk_package_get_name()
+    on the
+    PkPackage from the progress handler would segfault.
+
+    The fix is to disallow setting the package-id property using
+    g_object_set(),
+    and to force users to call pk_package_set_id() which handles errors
+    and does
+    the right thing.
+
+    Many thanks to Alex Eftimie for spotting the problem and testing
+    this patch.
+
+M	lib/packagekit-glib2/pk-client.c
+M	lib/packagekit-glib2/pk-package.c
+
+commit 101ced7d38b6ac522080d27a1e80ff91c5d33161
+Author: Richard Hughes <richard@hughsie.com>
+Date:	2011-06-15
+
+    Do not hardcode G_DISABLE_DEPRECATED as it breaks with GTK+-2 and GLib
+
+    Also remove the other CPPFLAGS as they are making building PackageKit
+    more fragile.
+
+M	configure.ac
+
+commit 0cd337cf60a7dea654bd3b1802bf3a6f6caf393b
+Author: Richard Hughes <richard@hughsie.com>
+Date:	2011-06-14
+
+    Remove PackageKit.pot as it's autogenerated and is breaking buildbot
+
+D	po/PackageKit.pot
+
+commit c015c4d5596e89cfbe15ed6957751da68d1a1a46
+Author: Richard Hughes <richard@hughsie.com>
+Date:	2011-06-13
+
+    Generate .tar.gz release tarballs
+
+    This brings us into the current decade, with a fast and efficient
+    compression format.
+    It will also reduce the amount of storage we require for each release.
+
+M	configure.ac
+M	contrib/PackageKit.spec.in
+
+commit d8775da1854734e4670d452a384141f7a2f14fe7
+Author: Richard Hughes <richard@hughsie.com>
+Date:	2011-06-13
+
+    Autogenerate the .gitignore files using git.mk
+
+D	.gitignore
+M	Makefile.am
+D	backends/.gitignore
+M	backends/Makefile.am
+D	backends/alpm/.gitignore
+M	backends/alpm/Makefile.am
+D	backends/apt/.gitignore
+M	backends/apt/Makefile.am
+D	backends/aptcc/.gitignore
+M	backends/aptcc/Makefile.am
+D	backends/box/.gitignore
+M	backends/box/Makefile.am
+D	backends/conary/.gitignore
+M	backends/conary/Makefile.am
+D	backends/dummy/.gitignore
+M	backends/dummy/Makefile.am
+M	backends/entropy/Makefile.am
+D	backends/opkg/.gitignore
+M	backends/opkg/Makefile.am
+D	backends/pisi/.gitignore
+M	backends/pisi/Makefile.am
+D	backends/poldek/.gitignore
+M	backends/poldek/Makefile.am
+D	backends/portage/.gitignore
+M	backends/portage/Makefile.am
+D	backends/ports/.gitignore
+M	backends/ports/Makefile.am
+M	backends/ports/helpers/Makefile.am
+M	backends/ports/ruby_packagekit/Makefile.am
+D	backends/razor/.gitignore
+M	backends/razor/Makefile.am
+D	backends/slapt/.gitignore
+M	backends/slapt/Makefile.am
+D	backends/smart/.gitignore
+M	backends/smart/Makefile.am
+D	backends/test/.gitignore
+M	backends/test/Makefile.am
+D	backends/test/helpers/.gitignore
+M	backends/test/helpers/Makefile.am
+D	backends/urpmi/.gitignore
+M	backends/urpmi/Makefile.am
+M	backends/urpmi/helpers/Makefile.am
+M	backends/urpmi/helpers/perl_packagekit/Makefile.am
+M	backends/urpmi/helpers/urpmi_backend/Makefile.am
+D	backends/yum/.gitignore
+M	backends/yum/Makefile.am
+D	backends/zif/.gitignore
+M	backends/zif/Makefile.am
+D	backends/zypp/.gitignore
+M	backends/zypp/Makefile.am
+D	client/.gitignore
+M	client/Makefile.am
+M	contrib/Makefile.am
+D	contrib/browser-plugin/.gitignore
+M	contrib/browser-plugin/Makefile.am
+D	contrib/command-not-found/.gitignore
+M	contrib/command-not-found/Makefile.am
+D	contrib/cron/.gitignore
+M	contrib/cron/Makefile.am
+D	contrib/debuginfo-install/.gitignore
+M	contrib/debuginfo-install/Makefile.am
+D	contrib/device-rebind/.gitignore
+M	contrib/device-rebind/Makefile.am
+D	contrib/gstreamer-plugin/.gitignore
+M	contrib/gstreamer-plugin/Makefile.am
+D	contrib/gtk-module/.gitignore
+M	contrib/gtk-module/Makefile.am
+M	contrib/gtk-module/gtk-2.0/Makefile.am
+M	contrib/gtk-module/gtk-3.0/Makefile.am
+M	contrib/pm-utils/Makefile.am
+M	contrib/yum-packagekit/Makefile.am
+D	data/.gitignore
+M	data/Makefile.am
+D	data/tests/.gitignore
+M	data/tests/Makefile.am
+D	docs/.gitignore
+M	docs/Makefile.am
+D	docs/api/.gitignore
+M	docs/api/Makefile.am
+D	docs/api/dbus/.gitignore
+M	docs/api/dbus/Makefile.am
+D	docs/html/.gitignore
+M	docs/html/Makefile.am
+M	docs/html/img/Makefile.am
+D	docs/html/img/thumbnails/.gitignore
+M	docs/html/img/thumbnails/Makefile.am
+M	docs/html/videos/Makefile.am
+D	etc/.gitignore
+M	etc/Makefile.am
+A	git.mk
+D	lib/.gitignore
+M	lib/Makefile.am
+D	lib/packagekit-glib2/.gitignore
+M	lib/packagekit-glib2/Makefile.am
+D	lib/packagekit-qt/.gitignore
+M	lib/packagekit-qt/Makefile.am
+D	lib/packagekit-qt/modules/.gitignore
+M	lib/packagekit-qt/modules/Makefile.am
+D	lib/packagekit-qt/src/.gitignore
+M	lib/packagekit-qt/src/Makefile.am
+D	lib/packagekit-qt/test/.gitignore
+M	lib/packagekit-qt/test/Makefile.am
+D	lib/packagekit-qt2/.gitignore
+M	lib/packagekit-qt2/Makefile.am
+M	lib/packagekit-qt2/modules/Makefile.am
+D	lib/python/.gitignore
+M	lib/python/Makefile.am
+D	lib/python/packagekit/.gitignore
+M	lib/python/packagekit/Makefile.am
+D	policy/.gitignore
+M	policy/Makefile.am
+D	src/.gitignore
+M	src/Makefile.am
+D	tools/.gitignore
+M	tools/Makefile.am
+
+commit 42e6c5f0d96abcc209dfb502f7c907dc0cb2f02f
+Author: Daniel Nicoletti <dantti85-pk@yahoo.com.br>
+Date:	2011-06-12
+
+    aptcc: Better put last fix in pk_backend_initialize
+
+M	backends/aptcc/apt.cpp
+M	backends/aptcc/pk-backend-aptcc.cpp
+
+commit 374837411a99cea618fb59152eb62ae4981cc2df
+Author: Daniel Nicoletti <dantti85-pk@yahoo.com.br>
+Date:	2011-06-12
+
+    aptcc: set env var to disable apt-listbugs closes debian bug #628835
+
+M	backends/aptcc/apt.cpp
+
+commit 1c1e990351ddefef77e27e68b5f915e06ce30163
+Author: Daniel Nicoletti <dantti85-pk@yahoo.com.br>
+Date:	2011-06-12
+
+    aptcc: Fix bug that resolved packages were emited as installed when
+    they were updates
+
+M	backends/aptcc/apt.cpp
+
+commit 8a09c32f2530267a2b7969cb50521186be0be84e
+Author: Daniel Nicoletti <dantti85-pk@yahoo.com.br>
+Date:	2011-06-12
+
+    aptcc: Fix getDetails to actually use the resolved version when
+    displaying info, fixed debian bug #606135
+
+M	backends/aptcc/apt.cpp
+M	backends/aptcc/apt.h
+M	backends/aptcc/pk-backend-aptcc.cpp
+
+commit c2016d35d33a03c481fd0586af26426184dfd758
+Author: Alex Eftimie <alex@eftimie.ro>
+Date:	2011-06-10
+
+    glib: Added element-type annotations for each function returning a
+    GPtrArray*, see  #652287 in gnome bugzilla
+
+M	lib/packagekit-glib2/pk-results.c
+
+commit aaa57efb80f3bd69d45b4d489cb7c42237a95a42
+Author: Daniel Nicoletti <dantti85-pk@yahoo.com.br>
+Date:	2011-06-09
+
+    aptcc: Initial support to conffile handling still not reliable
+
+M	backends/aptcc/Makefile.am
+M	backends/aptcc/apt.cpp
+A	backends/aptcc/pkconffile
+A	backends/aptcc/pkconffile.nodiff
+
+commit 8d2b64c02d1389a520780bdf10872c5ba16fb318
+Author: Richard Hughes <richard@hughsie.com>
+Date:	2011-06-07
+
+    trivial: post release version bump
+
+M	RELEASE
+M	configure.ac
+
 commit e7a83c706d3c8bee1a55bdb3720639638169dcef
 Author: Richard Hughes <richard@hughsie.com>
-Date:   2011-06-07
+Date:	2011-06-07
 
     Release version 0.6.15
 

@@ -639,7 +639,7 @@ Gets a package sack from the transaction.
 </tr>
 <tr>
 <td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
-<td>A <a class="link" href="PkPackageSack.html" title="PkPackageSack"><span class="type">PkPackageSack</span></a> of data, <a href="http://library.gnome.org/devel/gobject/unstable/gobject-The-Base-Object-Type.html#g-object-unref"><code class="function">g_object_unref()</code></a> to free. <span class="annotation">[<a href="http://foldoc.org/transfer%20full"><span class="acronym">transfer full</span></a>]</span>
+<td>A <a class="link" href="PkPackageSack.html" title="PkPackageSack"><span class="type">PkPackageSack</span></a> of data, <a href="http://library.gnome.org/devel/gobject/unstable/gobject-The-Base-Object-Type.html#g-object-unref"><code class="function">g_object_unref()</code></a> to free. <span class="annotation">[<a href="http://foldoc.org/transfer%20container"><span class="acronym">transfer container</span></a>]</span>
 </td>
 </tr>
 </tbody>
@@ -715,7 +715,7 @@ Gets the packages from the transaction.
 </tr>
 <tr>
 <td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
-<td>A <a href="http://library.gnome.org/devel/glib/unstable/glib-Pointer-Arrays.html#GPtrArray"><span class="type">GPtrArray</span></a> array of <a class="link" href="PkDetails.html" title="PkDetails"><span class="type">PkDetails</span></a>'s, free with <a href="http://library.gnome.org/devel/glib/unstable/glib-Pointer-Arrays.html#g-ptr-array-unref"><code class="function">g_ptr_array_unref()</code></a>. <span class="annotation">[<a href="http://foldoc.org/transfer%20full"><span class="acronym">transfer full</span></a>]</span>
+<td>A <a href="http://library.gnome.org/devel/glib/unstable/glib-Pointer-Arrays.html#GPtrArray"><span class="type">GPtrArray</span></a> array of <a class="link" href="PkPackage.html" title="PkPackage"><span class="type">PkPackage</span></a>'s, free with <a href="http://library.gnome.org/devel/glib/unstable/glib-Pointer-Arrays.html#g-ptr-array-unref"><code class="function">g_ptr_array_unref()</code></a>. <span class="annotation">[<a href="http://foldoc.org/element-type"><span class="acronym">element-type</span></a> PkPackage][<a href="http://foldoc.org/transfer%20full"><span class="acronym">transfer full</span></a>]</span>
 </td>
 </tr>
 </tbody>
@@ -738,7 +738,7 @@ Gets the package details from the transaction.
 </tr>
 <tr>
 <td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
-<td>A <a href="http://library.gnome.org/devel/glib/unstable/glib-Pointer-Arrays.html#GPtrArray"><span class="type">GPtrArray</span></a> array of <a class="link" href="PkPackage.html" title="PkPackage"><span class="type">PkPackage</span></a>'s, free with <a href="http://library.gnome.org/devel/glib/unstable/glib-Pointer-Arrays.html#g-ptr-array-unref"><code class="function">g_ptr_array_unref()</code></a>. <span class="annotation">[<a href="http://foldoc.org/transfer%20full"><span class="acronym">transfer full</span></a>]</span>
+<td>A <a href="http://library.gnome.org/devel/glib/unstable/glib-Pointer-Arrays.html#GPtrArray"><span class="type">GPtrArray</span></a> array of <a class="link" href="PkDetails.html" title="PkDetails"><span class="type">PkDetails</span></a>'s, free with <a href="http://library.gnome.org/devel/glib/unstable/glib-Pointer-Arrays.html#g-ptr-array-unref"><code class="function">g_ptr_array_unref()</code></a>. <span class="annotation">[<a href="http://foldoc.org/element-type"><span class="acronym">element-type</span></a> PkDetails][<a href="http://foldoc.org/transfer%20container"><span class="acronym">transfer container</span></a>]</span>
 </td>
 </tr>
 </tbody>
@@ -761,7 +761,7 @@ Gets the update details from the transaction.
 </tr>
 <tr>
 <td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
-<td>A <a href="http://library.gnome.org/devel/glib/unstable/glib-Pointer-Arrays.html#GPtrArray"><span class="type">GPtrArray</span></a> array of <a class="link" href="PkUpdateDetail.html" title="PkUpdateDetail"><span class="type">PkUpdateDetail</span></a>'s, free with <a href="http://library.gnome.org/devel/glib/unstable/glib-Pointer-Arrays.html#g-ptr-array-unref"><code class="function">g_ptr_array_unref()</code></a>. <span class="annotation">[<a href="http://foldoc.org/transfer%20full"><span class="acronym">transfer full</span></a>]</span>
+<td>A <a href="http://library.gnome.org/devel/glib/unstable/glib-Pointer-Arrays.html#GPtrArray"><span class="type">GPtrArray</span></a> array of <a class="link" href="PkUpdateDetail.html" title="PkUpdateDetail"><span class="type">PkUpdateDetail</span></a>'s, free with <a href="http://library.gnome.org/devel/glib/unstable/glib-Pointer-Arrays.html#g-ptr-array-unref"><code class="function">g_ptr_array_unref()</code></a>. <span class="annotation">[<a href="http://foldoc.org/element-type"><span class="acronym">element-type</span></a> PkUpdateDetail][<a href="http://foldoc.org/transfer%20container"><span class="acronym">transfer container</span></a>]</span>
 </td>
 </tr>
 </tbody>
@@ -784,7 +784,7 @@ Gets the categories from the transaction.
 </tr>
 <tr>
 <td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
-<td>A <a href="http://library.gnome.org/devel/glib/unstable/glib-Pointer-Arrays.html#GPtrArray"><span class="type">GPtrArray</span></a> array of <a class="link" href="PkCategory.html" title="PkCategory"><span class="type">PkCategory</span></a>'s, free with <a href="http://library.gnome.org/devel/glib/unstable/glib-Pointer-Arrays.html#g-ptr-array-unref"><code class="function">g_ptr_array_unref()</code></a>. <span class="annotation">[<a href="http://foldoc.org/transfer%20full"><span class="acronym">transfer full</span></a>]</span>
+<td>A <a href="http://library.gnome.org/devel/glib/unstable/glib-Pointer-Arrays.html#GPtrArray"><span class="type">GPtrArray</span></a> array of <a class="link" href="PkCategory.html" title="PkCategory"><span class="type">PkCategory</span></a>'s, free with <a href="http://library.gnome.org/devel/glib/unstable/glib-Pointer-Arrays.html#g-ptr-array-unref"><code class="function">g_ptr_array_unref()</code></a>. <span class="annotation">[<a href="http://foldoc.org/element-type"><span class="acronym">element-type</span></a> PkCategory][<a href="http://foldoc.org/transfer%20container"><span class="acronym">transfer container</span></a>]</span>
 </td>
 </tr>
 </tbody>
@@ -807,7 +807,7 @@ Gets the distribution upgrades from the transaction.
 </tr>
 <tr>
 <td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
-<td>A <a href="http://library.gnome.org/devel/glib/unstable/glib-Pointer-Arrays.html#GPtrArray"><span class="type">GPtrArray</span></a> array of <a class="link" href="PkDistroUpgrade.html" title="PkDistroUpgrade"><span class="type">PkDistroUpgrade</span></a>'s, free with <a href="http://library.gnome.org/devel/glib/unstable/glib-Pointer-Arrays.html#g-ptr-array-unref"><code class="function">g_ptr_array_unref()</code></a>. <span class="annotation">[<a href="http://foldoc.org/transfer%20full"><span class="acronym">transfer full</span></a>]</span>
+<td>A <a href="http://library.gnome.org/devel/glib/unstable/glib-Pointer-Arrays.html#GPtrArray"><span class="type">GPtrArray</span></a> array of <a class="link" href="PkDistroUpgrade.html" title="PkDistroUpgrade"><span class="type">PkDistroUpgrade</span></a>'s, free with <a href="http://library.gnome.org/devel/glib/unstable/glib-Pointer-Arrays.html#g-ptr-array-unref"><code class="function">g_ptr_array_unref()</code></a>. <span class="annotation">[<a href="http://foldoc.org/element-type"><span class="acronym">element-type</span></a> PkDistroUpgrade][<a href="http://foldoc.org/transfer%20container"><span class="acronym">transfer container</span></a>]</span>
 </td>
 </tr>
 </tbody>
@@ -831,7 +831,7 @@ Gets the require restarts from the transaction.
 </tr>
 <tr>
 <td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
-<td>A <a href="http://library.gnome.org/devel/glib/unstable/glib-Pointer-Arrays.html#GPtrArray"><span class="type">GPtrArray</span></a> array of <a class="link" href="PkRequireRestart.html" title="PkRequireRestart"><span class="type">PkRequireRestart</span></a>'s, free with <a href="http://library.gnome.org/devel/glib/unstable/glib-Pointer-Arrays.html#g-ptr-array-unref"><code class="function">g_ptr_array_unref()</code></a>. <span class="annotation">[<a href="http://foldoc.org/transfer%20full"><span class="acronym">transfer full</span></a>]</span>
+<td>A <a href="http://library.gnome.org/devel/glib/unstable/glib-Pointer-Arrays.html#GPtrArray"><span class="type">GPtrArray</span></a> array of <a class="link" href="PkRequireRestart.html" title="PkRequireRestart"><span class="type">PkRequireRestart</span></a>'s, free with <a href="http://library.gnome.org/devel/glib/unstable/glib-Pointer-Arrays.html#g-ptr-array-unref"><code class="function">g_ptr_array_unref()</code></a>. <span class="annotation">[<a href="http://foldoc.org/element-type"><span class="acronym">element-type</span></a> PkRequireRestart][<a href="http://foldoc.org/transfer%20container"><span class="acronym">transfer container</span></a>]</span>
 </td>
 </tr>
 </tbody>
@@ -854,7 +854,7 @@ Gets the transactions from the transaction.
 </tr>
 <tr>
 <td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
-<td>A <a href="http://library.gnome.org/devel/glib/unstable/glib-Pointer-Arrays.html#GPtrArray"><span class="type">GPtrArray</span></a> array of <a class="link" href="PkTransactionPast.html" title="PkTransactionPast"><span class="type">PkTransactionPast</span></a>'s, free with <a href="http://library.gnome.org/devel/glib/unstable/glib-Pointer-Arrays.html#g-ptr-array-unref"><code class="function">g_ptr_array_unref()</code></a>. <span class="annotation">[<a href="http://foldoc.org/transfer%20full"><span class="acronym">transfer full</span></a>]</span>
+<td>A <a href="http://library.gnome.org/devel/glib/unstable/glib-Pointer-Arrays.html#GPtrArray"><span class="type">GPtrArray</span></a> array of <a class="link" href="PkTransactionPast.html" title="PkTransactionPast"><span class="type">PkTransactionPast</span></a>'s, free with <a href="http://library.gnome.org/devel/glib/unstable/glib-Pointer-Arrays.html#g-ptr-array-unref"><code class="function">g_ptr_array_unref()</code></a>. <span class="annotation">[<a href="http://foldoc.org/element-type"><span class="acronym">element-type</span></a> PkTransactionPast][<a href="http://foldoc.org/transfer%20container"><span class="acronym">transfer container</span></a>]</span>
 </td>
 </tr>
 </tbody>
@@ -877,7 +877,7 @@ Gets the files from the transaction.
 </tr>
 <tr>
 <td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
-<td>A <a href="http://library.gnome.org/devel/glib/unstable/glib-Pointer-Arrays.html#GPtrArray"><span class="type">GPtrArray</span></a> array of <a class="link" href="PkFiles.html" title="PkFiles"><span class="type">PkFiles</span></a>'s, free with <a href="http://library.gnome.org/devel/glib/unstable/glib-Pointer-Arrays.html#g-ptr-array-unref"><code class="function">g_ptr_array_unref()</code></a>. <span class="annotation">[<a href="http://foldoc.org/transfer%20full"><span class="acronym">transfer full</span></a>]</span>
+<td>A <a href="http://library.gnome.org/devel/glib/unstable/glib-Pointer-Arrays.html#GPtrArray"><span class="type">GPtrArray</span></a> array of <a class="link" href="PkFiles.html" title="PkFiles"><span class="type">PkFiles</span></a>'s, free with <a href="http://library.gnome.org/devel/glib/unstable/glib-Pointer-Arrays.html#g-ptr-array-unref"><code class="function">g_ptr_array_unref()</code></a>. <span class="annotation">[<a href="http://foldoc.org/element-type"><span class="acronym">element-type</span></a> PkFiles][<a href="http://foldoc.org/transfer%20container"><span class="acronym">transfer container</span></a>]</span>
 </td>
 </tr>
 </tbody>
@@ -901,7 +901,7 @@ Gets the repository signatures required from the transaction.
 </tr>
 <tr>
 <td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
-<td>A <a href="http://library.gnome.org/devel/glib/unstable/glib-Pointer-Arrays.html#GPtrArray"><span class="type">GPtrArray</span></a> array of <a class="link" href="PkRepoSignatureRequired.html" title="PkRepoSignatureRequired"><span class="type">PkRepoSignatureRequired</span></a>'s, free with <a href="http://library.gnome.org/devel/glib/unstable/glib-Pointer-Arrays.html#g-ptr-array-unref"><code class="function">g_ptr_array_unref()</code></a>. <span class="annotation">[<a href="http://foldoc.org/transfer%20full"><span class="acronym">transfer full</span></a>]</span>
+<td>A <a href="http://library.gnome.org/devel/glib/unstable/glib-Pointer-Arrays.html#GPtrArray"><span class="type">GPtrArray</span></a> array of <a class="link" href="PkRepoSignatureRequired.html" title="PkRepoSignatureRequired"><span class="type">PkRepoSignatureRequired</span></a>'s, free with <a href="http://library.gnome.org/devel/glib/unstable/glib-Pointer-Arrays.html#g-ptr-array-unref"><code class="function">g_ptr_array_unref()</code></a>. <span class="annotation">[<a href="http://foldoc.org/element-type"><span class="acronym">element-type</span></a> PkRepoSignatureRequired][<a href="http://foldoc.org/transfer%20container"><span class="acronym">transfer container</span></a>]</span>
 </td>
 </tr>
 </tbody>
@@ -924,7 +924,7 @@ Gets the eulas required from the transaction.
 </tr>
 <tr>
 <td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
-<td>A <a href="http://library.gnome.org/devel/glib/unstable/glib-Pointer-Arrays.html#GPtrArray"><span class="type">GPtrArray</span></a> array of <a class="link" href="PkEulaRequired.html" title="PkEulaRequired"><span class="type">PkEulaRequired</span></a>'s, free with <a href="http://library.gnome.org/devel/glib/unstable/glib-Pointer-Arrays.html#g-ptr-array-unref"><code class="function">g_ptr_array_unref()</code></a>. <span class="annotation">[<a href="http://foldoc.org/transfer%20full"><span class="acronym">transfer full</span></a>]</span>
+<td>A <a href="http://library.gnome.org/devel/glib/unstable/glib-Pointer-Arrays.html#GPtrArray"><span class="type">GPtrArray</span></a> array of <a class="link" href="PkEulaRequired.html" title="PkEulaRequired"><span class="type">PkEulaRequired</span></a>'s, free with <a href="http://library.gnome.org/devel/glib/unstable/glib-Pointer-Arrays.html#g-ptr-array-unref"><code class="function">g_ptr_array_unref()</code></a>. <span class="annotation">[<a href="http://foldoc.org/element-type"><span class="acronym">element-type</span></a> PkEulaRequired][<a href="http://foldoc.org/transfer%20container"><span class="acronym">transfer container</span></a>]</span>
 </td>
 </tr>
 </tbody>
@@ -948,7 +948,7 @@ Gets the media changes required from the transaction.
 </tr>
 <tr>
 <td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
-<td>A <a href="http://library.gnome.org/devel/glib/unstable/glib-Pointer-Arrays.html#GPtrArray"><span class="type">GPtrArray</span></a> array of <a class="link" href="PkMediaChangeRequired.html" title="PkMediaChangeRequired"><span class="type">PkMediaChangeRequired</span></a>'s, free with <a href="http://library.gnome.org/devel/glib/unstable/glib-Pointer-Arrays.html#g-ptr-array-unref"><code class="function">g_ptr_array_unref()</code></a>. <span class="annotation">[<a href="http://foldoc.org/transfer%20full"><span class="acronym">transfer full</span></a>]</span>
+<td>A <a href="http://library.gnome.org/devel/glib/unstable/glib-Pointer-Arrays.html#GPtrArray"><span class="type">GPtrArray</span></a> array of <a class="link" href="PkMediaChangeRequired.html" title="PkMediaChangeRequired"><span class="type">PkMediaChangeRequired</span></a>'s, free with <a href="http://library.gnome.org/devel/glib/unstable/glib-Pointer-Arrays.html#g-ptr-array-unref"><code class="function">g_ptr_array_unref()</code></a>. <span class="annotation">[<a href="http://foldoc.org/element-type"><span class="acronym">element-type</span></a> PkMediaChangeRequired][<a href="http://foldoc.org/transfer%20container"><span class="acronym">transfer container</span></a>]</span>
 </td>
 </tr>
 </tbody>
@@ -971,7 +971,7 @@ Gets the repository details from the transaction.
 </tr>
 <tr>
 <td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
-<td>A <a href="http://library.gnome.org/devel/glib/unstable/glib-Pointer-Arrays.html#GPtrArray"><span class="type">GPtrArray</span></a> array of <a class="link" href="PkRepoDetail.html" title="PkRepoDetail"><span class="type">PkRepoDetail</span></a>'s, free with <a href="http://library.gnome.org/devel/glib/unstable/glib-Pointer-Arrays.html#g-ptr-array-unref"><code class="function">g_ptr_array_unref()</code></a>. <span class="annotation">[<a href="http://foldoc.org/transfer%20full"><span class="acronym">transfer full</span></a>]</span>
+<td>A <a href="http://library.gnome.org/devel/glib/unstable/glib-Pointer-Arrays.html#GPtrArray"><span class="type">GPtrArray</span></a> array of <a class="link" href="PkRepoDetail.html" title="PkRepoDetail"><span class="type">PkRepoDetail</span></a>'s, free with <a href="http://library.gnome.org/devel/glib/unstable/glib-Pointer-Arrays.html#g-ptr-array-unref"><code class="function">g_ptr_array_unref()</code></a>. <span class="annotation">[<a href="http://foldoc.org/element-type"><span class="acronym">element-type</span></a> PkRepoDetail][<a href="http://foldoc.org/transfer%20container"><span class="acronym">transfer container</span></a>]</span>
 </td>
 </tr>
 </tbody>
@@ -994,7 +994,7 @@ Gets the messages from the transaction.
 </tr>
 <tr>
 <td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
-<td>A <a href="http://library.gnome.org/devel/glib/unstable/glib-Pointer-Arrays.html#GPtrArray"><span class="type">GPtrArray</span></a> array of <a class="link" href="PkMessage.html" title="PkMessage"><span class="type">PkMessage</span></a>'s, free with <a href="http://library.gnome.org/devel/glib/unstable/glib-Pointer-Arrays.html#g-ptr-array-unref"><code class="function">g_ptr_array_unref()</code></a>. <span class="annotation">[<a href="http://foldoc.org/transfer%20full"><span class="acronym">transfer full</span></a>]</span>
+<td>A <a href="http://library.gnome.org/devel/glib/unstable/glib-Pointer-Arrays.html#GPtrArray"><span class="type">GPtrArray</span></a> array of <a class="link" href="PkMessage.html" title="PkMessage"><span class="type">PkMessage</span></a>'s, free with <a href="http://library.gnome.org/devel/glib/unstable/glib-Pointer-Arrays.html#g-ptr-array-unref"><code class="function">g_ptr_array_unref()</code></a>. <span class="annotation">[<a href="http://foldoc.org/element-type"><span class="acronym">element-type</span></a> PkMessage][<a href="http://foldoc.org/transfer%20container"><span class="acronym">transfer container</span></a>]</span>
 </td>
 </tr>
 </tbody>

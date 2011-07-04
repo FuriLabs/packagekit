@@ -1,7 +1,7 @@
 /****************************************************************************
 ** Meta object code from reading C++ file 'transaction.h'
 **
-** Created: Thu May 26 08:23:10 2011
+** Created: Tue Jun 28 10:52:09 2011
 **      by: The Qt Meta Object Compiler version 62 (Qt 4.7.2)
 **
 ** WARNING! All changes made in this file will be lost!
@@ -71,8 +71,8 @@ static const uint qt_meta_data_PackageKit__Transaction[] = {
     1909, 0x0,   17,  478,
     1917, 0x0,   37,  512,
     1924, 0x0,    4,  586,
-    1934, 0x0,    8,  594,
-    1943, 0x0,    3,  610,
+    1934, 0x0,    9,  594,
+    1943, 0x0,    3,  612,
 
  // enum data: key, value
     1957, uint(PackageKit::Transaction::UnknownRole),
@@ -280,9 +280,10 @@ static const uint qt_meta_data_PackageKit__Transaction[] = {
     5914, uint(PackageKit::Transaction::ProvidesFont),
     5927, uint(PackageKit::Transaction::ProvidesHardwareDriver),
     5950, uint(PackageKit::Transaction::ProvidesPostscriptDriver),
-    5975, uint(PackageKit::Transaction::UnknownDistroUpgrade),
-    5996, uint(PackageKit::Transaction::DistroUpgradeStable),
-    6016, uint(PackageKit::Transaction::DistroUpgradeUnstable),
+    5975, uint(PackageKit::Transaction::ProvidesPlasmaService),
+    5997, uint(PackageKit::Transaction::UnknownDistroUpgrade),
+    6018, uint(PackageKit::Transaction::DistroUpgradeStable),
+    6038, uint(PackageKit::Transaction::DistroUpgradeUnstable),
 
        0        // eod
 };
@@ -451,8 +452,8 @@ static const char qt_meta_stringdata_PackageKit__Transaction[] = {
     "ProvidesModalias\0ProvidesCodec\0"
     "ProvidesMimetype\0ProvidesFont\0"
     "ProvidesHardwareDriver\0ProvidesPostscriptDriver\0"
-    "UnknownDistroUpgrade\0DistroUpgradeStable\0"
-    "DistroUpgradeUnstable\0"
+    "ProvidesPlasmaService\0UnknownDistroUpgrade\0"
+    "DistroUpgradeStable\0DistroUpgradeUnstable\0"
 };
 
 const QMetaObject PackageKit::Transaction::staticMetaObject = {

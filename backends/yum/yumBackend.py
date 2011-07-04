@@ -902,12 +902,15 @@ class PackageKitYumBackend(PackageKitBaseBackend, PackagekitPackage):
             return [ "mimehandler(%s)" % value ]
         if provides_type == PROVIDES_POSTSCRIPT_DRIVER:
             return [ "postscriptdriver(%s)" % value ]
+        if provides_type == PROVIDES_PLASMA_SERVICE:
+            return [ "plasma4(%s)" % value ]
         if provides_type == PROVIDES_ANY:
             provides = []
             provides.append(self._get_provides_query(PROVIDES_CODEC, value)[0])
             provides.append(self._get_provides_query(PROVIDES_FONT, value)[0])
             provides.append(self._get_provides_query(PROVIDES_MIMETYPE, value)[0])
             provides.append(self._get_provides_query(PROVIDES_POSTSCRIPT_DRIVER, value)[0])
+            provides.append(self._get_provides_query(PROVIDES_PLASMA_SERVICE, value)[0])
             provides.append(value)
             return provides
 
@@ -1729,8 +1732,12 @@ class PackageKitYumBackend(PackageKitBaseBackend, PackagekitPackage):
         # if only_trusted is true, it means that we will only update signed files
         if only_trusted:
             self.yumbase.conf.gpgcheck = 1
+            if hasattr(self.yumbase.conf, 'localpkg_gpgcheck'):
+                self.yumbase.conf.localpkg_gpgcheck = 1
         else:
             self.yumbase.conf.gpgcheck = 0
+            if hasattr(self.yumbase.conf, 'localpkg_gpgcheck'):
+                self.yumbase.conf.localpkg_gpgcheck = 0
 
         self.yumbase.conf.throttle = "60%" # Set bandwidth throttle to 60%
                                            # to avoid taking all the system's bandwidth.
@@ -1797,6 +1804,10 @@ class PackageKitYumBackend(PackageKitBaseBackend, PackagekitPackage):
             bump = (95/len(self.yumbase.repos.listEnabled()))/2
 
             for repo in self.yumbase.repos.listEnabled():
+
+                # emit details for UI
+                self.repo_detail(repo.id, repo.name, True)
+
                 # is physical media
                 if repo.mediaid:
                     continue
@@ -1949,8 +1960,12 @@ class PackageKitYumBackend(PackageKitBaseBackend, PackagekitPackage):
         # if only_trusted is true, it means that we will only update signed files
         if only_trusted:
             self.yumbase.conf.gpgcheck = 1
+            if hasattr(self.yumbase.conf, 'localpkg_gpgcheck'):
+                self.yumbase.conf.localpkg_gpgcheck = 1
         else:
             self.yumbase.conf.gpgcheck = 0
+            if hasattr(self.yumbase.conf, 'localpkg_gpgcheck'):
+                self.yumbase.conf.localpkg_gpgcheck = 0
 
         for package_id in package_ids:
             grp = self._is_meta_package(package_id)
@@ -2142,8 +2157,12 @@ class PackageKitYumBackend(PackageKitBaseBackend, PackagekitPackage):
         # If only_trusted is true, it means that we will only install trusted files
         if only_trusted or simulate:
             self.yumbase.conf.gpgcheck = 1
+            if hasattr(self.yumbase.conf, 'localpkg_gpgcheck'):
+                self.yumbase.conf.localpkg_gpgcheck = 1
         else:
             self.yumbase.conf.gpgcheck = 0
+            if hasattr(self.yumbase.conf, 'localpkg_gpgcheck'):
+                self.yumbase.conf.localpkg_gpgcheck = 0
 
         # self.yumbase.installLocal fails for unsigned packages when self.yumbase.conf.gpgcheck = 1
         # This means we don't run runYumTransaction, and don't get the GPG failure in
@@ -2297,8 +2316,12 @@ class PackageKitYumBackend(PackageKitBaseBackend, PackagekitPackage):
         # if only_trusted is true, it means that we will only update signed files
         if only_trusted:
             self.yumbase.conf.gpgcheck = 1
+            if hasattr(self.yumbase.conf, 'localpkg_gpgcheck'):
+                self.yumbase.conf.localpkg_gpgcheck = 1
         else:
             self.yumbase.conf.gpgcheck = 0
+            if hasattr(self.yumbase.conf, 'localpkg_gpgcheck'):
+                self.yumbase.conf.localpkg_gpgcheck = 0
 
         txmbrs = []
         try:

@@ -280,6 +280,8 @@ GREP = @GREP@
 GSTREAMER_CFLAGS = @GSTREAMER_CFLAGS@
 GSTREAMER_LIBS = @GSTREAMER_LIBS@
 GTKDOC_CHECK = @GTKDOC_CHECK@
+GTKDOC_DEPS_CFLAGS = @GTKDOC_DEPS_CFLAGS@
+GTKDOC_DEPS_LIBS = @GTKDOC_DEPS_LIBS@
 GTKDOC_MKPDF = @GTKDOC_MKPDF@
 GTKDOC_REBASE = @GTKDOC_REBASE@
 GUDEV_CFLAGS = @GUDEV_CFLAGS@
@@ -692,7 +694,7 @@ BUILT_SOURCES = \
 	pk-marshal.h						\
 	$(NULL)
 
-CLEANFILES = $(BUILT_SOURCES) $(am__append_1)
+CLEANFILES = $(BUILT_SOURCES) *.a $(am__append_1)
 @HAVE_INTROSPECTION_TRUE@introspection_sources = $(libpackagekit_glib2_la_SOURCES)
 @HAVE_INTROSPECTION_TRUE@PackageKitGlib_1_0_gir_INCLUDES = GObject-2.0 Gio-2.0
 @HAVE_INTROSPECTION_TRUE@PackageKitGlib_1_0_gir_CFLAGS = $(INCLUDES) -DI_KNOW_THE_PACKAGEKIT_GLIB2_API_IS_SUBJECT_TO_CHANGE
@@ -1700,6 +1702,8 @@ pk-marshal.h: pk-marshal.list
 clean-local:
 	rm -f *~
 	rm -f $(CLEANFILES)
+
+-include $(top_srcdir)/git.mk
 
 # Tell versions [3.59,3.63) of GNU make to not export all variables.
 # Otherwise a system limit (for SysV at least) may be exceeded.

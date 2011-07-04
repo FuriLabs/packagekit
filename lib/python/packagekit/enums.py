@@ -13,7 +13,7 @@ class PackageKitEnum:
 	info = ( "unknown", "installed", "available", "low", "normal", "important", "security", "bugfix", "enhancement", "blocked", "downloading", "updating", "installing", "removing", "cleanup", "obsoleting", "collection-installed", "collection-available", "finished", "reinstalling", "downgrading", "preparing", "decompressing", "untrusted", "trusted", )
 	sig_type = ( "unknown", "gpg", )
 	upgrade = ( "unknown", "stable", "unstable", )
-	provides = ( "unknown", "any", "modalias", "codec", "mimetype", "driver", "font", "postscript-driver", )
+	provides = ( "unknown", "any", "modalias", "codec", "mimetype", "driver", "font", "postscript-driver", "plasma-service", )
 	network = ( "unknown", "offline", "online", "wired", "wifi", "mobile", )
 	free_licenses = ( "unknown", "AAL", "Adobe", "ADSL", "AFL", "AGPLv1", "AMDPLPA", "AML", "AMPAS BSD", "APSL 2.0", "ARL", "Arphic", "Artistic 2.0", "Artistic clarified", "ASL 1.0", "ASL 1.1", "ASL 2.0", "Baekmuk", "BeOpen", "BitTorrent", "Boost", "BSD", "BSD Protection", "BSD with advertising", "CATOSL", "CC0", "CC-BY", "CC-BY-SA", "CDDL", "CDL", "CeCILL", "CeCILL-B", "CeCILL-C", "CNRI", "Condor", "Copyright only", "CPAL", "CPL", "Crystal Stacker", "DOC", "DSL", "dvipdfm", "ECL 1.0", "ECL 2.0", "eCos", "EFL 2.0", "Entessa", "EPL", "ERPL", "EUPL 1.1", "Eurosym", "EU Datagrid", "Fair", "FBSDDL", "Free Art", "FTL", "GeoGratis", "GFDL", "Giftware", "GL2PS", "Glide", "gnuplot", "GPLv1", "GPLv2", "GPLv2 or Artistic", "GPLv2+", "GPLv2+ or Artistic", "GPLv2+ with exceptions", "GPLv2 with exceptions", "GPLv3", "GPLv3+", "GPLv3+ with exceptions", "GPLv3 with exceptions", "GPL+", "GPL+ or Artistic", "GPL+ with exceptions", "IBM", "IEEE", "IJG", "ImageMagick", "iMatix", "Imlib2", "Intel ACPI", "Interbase", "IPA", "ISC", "Jabber", "JasPer", "JPython", "Knuth", "LBNL BSD", "LDPL", "LGPLv2", "LGPLv2+", "LGPLv2+ or Artistic", "LGPLv2+ with exceptions", "LGPLv2 with exceptions", "LGPLv3", "LGPLv3+", "LGPLv3+ with exceptions", "LGPLv3 with exceptions", "Liberation", "libtiff", "LLGPL", "Logica", "LPL", "LPPL", "mecab-ipadic", "MirOS", "MIT", "MIT with advertising", "mod_macro", "Motosoto", "mplus", "MPLv1.0", "MPLv1.1", "MS-PL", "MS-RL", "Naumen", "NCSA", "NetCDF", "Netscape", "Newmat", "NGPL", "Nokia", "NOSL", "Noweb", "OAL", "OFL", "OFSFDL", "OML", "OpenLDAP", "OpenPBS", "OpenSSL", "OReilly", "OSL 1.0", "OSL 1.1", "OSL 2.0", "OSL 2.1", "OSL 3.0", "Phorum", "PHP", "Plexus", "PostgreSQL", "psutils", "PTFL", "Public Domain", "Public Use", "Python", "Qhull", "QPL", "Rdisc", "RiceBSD", "Romio", "RPSL", "Ruby", "Saxpath", "SCEA", "SCRIP", "Sendmail", "SISSL", "Sleepycat", "SLIB", "SNIA", "SPL", "STIX", "TCL", "Teeworlds", "TMate", "TOSL", "TPL", "UCD", "Vim", "VNLSL", "VOSTROM", "VSL", "W3C", "Wadalab", "Webmin", "WTFPL", "wxWidgets", "XANO", "Xerox", "xinetd", "XSkat", "YPLv1.1", "Zend", "zlib", "zlib with acknowledgement", "ZPLv1.0", "ZPLv2.0", "ZPLv2.1", )
 	media_type = ( "unknown", "cd", "dvd", "disc", )
@@ -416,6 +416,7 @@ PROVIDES_FONT = "font"
 PROVIDES_HARDWARE_DRIVER = "driver"
 PROVIDES_MIMETYPE = "mimetype"
 PROVIDES_MODALIAS = "modalias"
+PROVIDES_PLASMA_SERVICE = "plasma-service"
 PROVIDES_POSTSCRIPT_DRIVER = "postscript-driver"
 PROVIDES_UNKNOWN = "unknown"
 RESTART_APPLICATION = "application"
