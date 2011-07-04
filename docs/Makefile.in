@@ -160,6 +160,8 @@ GREP = @GREP@
 GSTREAMER_CFLAGS = @GSTREAMER_CFLAGS@
 GSTREAMER_LIBS = @GSTREAMER_LIBS@
 GTKDOC_CHECK = @GTKDOC_CHECK@
+GTKDOC_DEPS_CFLAGS = @GTKDOC_DEPS_CFLAGS@
+GTKDOC_DEPS_LIBS = @GTKDOC_DEPS_LIBS@
 GTKDOC_MKPDF = @GTKDOC_MKPDF@
 GTKDOC_REBASE = @GTKDOC_REBASE@
 GUDEV_CFLAGS = @GUDEV_CFLAGS@
@@ -361,8 +363,10 @@ top_srcdir = @top_srcdir@
 NULL = 
 SUBDIRS = \
 	api						\
-	html						\
-	$(NULL)
+	html
+
+MAINTAINERCLEANFILES = \
+	packagekit-qt
 
 all: all-recursive
 
@@ -627,6 +631,7 @@ distclean-generic:
 maintainer-clean-generic:
 	@echo "This command is intended for maintainers to use"
 	@echo "it deletes files that may require special tools to rebuild."
+	-test -z "$(MAINTAINERCLEANFILES)" || rm -f $(MAINTAINERCLEANFILES)
 clean: clean-recursive
 
 clean-am: clean-generic clean-libtool mostlyclean-am
@@ -710,6 +715,8 @@ uninstall-am:
 	mostlyclean-libtool pdf pdf-am ps ps-am tags tags-recursive \
 	uninstall uninstall-am
 
+
+-include $(top_srcdir)/git.mk
 
 # Tell versions [3.59,3.63) of GNU make to not export all variables.
 # Otherwise a system limit (for SysV at least) may be exceeded.

@@ -144,6 +144,8 @@ GREP = @GREP@
 GSTREAMER_CFLAGS = @GSTREAMER_CFLAGS@
 GSTREAMER_LIBS = @GSTREAMER_LIBS@
 GTKDOC_CHECK = @GTKDOC_CHECK@
+GTKDOC_DEPS_CFLAGS = @GTKDOC_DEPS_CFLAGS@
+GTKDOC_DEPS_LIBS = @GTKDOC_DEPS_LIBS@
 GTKDOC_MKPDF = @GTKDOC_MKPDF@
 GTKDOC_REBASE = @GTKDOC_REBASE@
 GUDEV_CFLAGS = @GUDEV_CFLAGS@
@@ -359,6 +361,9 @@ packagekitpython_PYTHON = \
 	misc.py						\
 	$(NULL)
 
+MAINTAINERCLEANFILES = \
+	*.pyc
+
 all: $(BUILT_SOURCES)
 	$(MAKE) $(AM_MAKEFLAGS) all-am
 
@@ -509,6 +514,7 @@ maintainer-clean-generic:
 	@echo "This command is intended for maintainers to use"
 	@echo "it deletes files that may require special tools to rebuild."
 	-test -z "$(BUILT_SOURCES)" || rm -f $(BUILT_SOURCES)
+	-test -z "$(MAINTAINERCLEANFILES)" || rm -f $(MAINTAINERCLEANFILES)
 clean: clean-am
 
 clean-am: clean-generic clean-libtool clean-local mostlyclean-am
@@ -597,6 +603,8 @@ enums.py: $(top_srcdir)/lib/python/enum-convertor.py $(top_srcdir)/lib/packageki
 clean-local :
 	rm -f *.pyc
 	rm -f *~
+
+-include $(top_srcdir)/git.mk
 
 # Tell versions [3.59,3.63) of GNU make to not export all variables.
 # Otherwise a system limit (for SysV at least) may be exceeded.

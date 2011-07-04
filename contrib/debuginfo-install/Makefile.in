@@ -186,6 +186,8 @@ GREP = @GREP@
 GSTREAMER_CFLAGS = @GSTREAMER_CFLAGS@
 GSTREAMER_LIBS = @GSTREAMER_LIBS@
 GTKDOC_CHECK = @GTKDOC_CHECK@
+GTKDOC_DEPS_CFLAGS = @GTKDOC_DEPS_CFLAGS@
+GTKDOC_DEPS_LIBS = @GTKDOC_DEPS_LIBS@
 GTKDOC_MKPDF = @GTKDOC_MKPDF@
 GTKDOC_REBASE = @GTKDOC_REBASE@
 GUDEV_CFLAGS = @GUDEV_CFLAGS@
@@ -422,6 +424,7 @@ pk_debuginfo_install_CFLAGS = \
 	$(WARNINGFLAGS_C)				\
 	$(NULL)
 
+CLEANFILES = $(man_MANS)
 all: all-am
 
 .SUFFIXES:
@@ -714,6 +717,7 @@ install-strip:
 mostlyclean-generic:
 
 clean-generic:
+	-test -z "$(CLEANFILES)" || rm -f $(CLEANFILES)
 
 distclean-generic:
 	-test -z "$(CONFIG_CLEAN_FILES)" || rm -f $(CONFIG_CLEAN_FILES)
@@ -821,6 +825,8 @@ clean-local:
 	rm -f *.1
 	rm -f manpage.*
 	rm -f *.out
+
+-include $(top_srcdir)/git.mk
 
 # Tell versions [3.59,3.63) of GNU make to not export all variables.
 # Otherwise a system limit (for SysV at least) may be exceeded.

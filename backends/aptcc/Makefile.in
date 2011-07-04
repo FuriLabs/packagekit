@@ -191,6 +191,8 @@ GREP = @GREP@
 GSTREAMER_CFLAGS = @GSTREAMER_CFLAGS@
 GSTREAMER_LIBS = @GSTREAMER_LIBS@
 GTKDOC_CHECK = @GTKDOC_CHECK@
+GTKDOC_DEPS_CFLAGS = @GTKDOC_DEPS_CFLAGS@
+GTKDOC_DEPS_LIBS = @GTKDOC_DEPS_LIBS@
 GTKDOC_MKPDF = @GTKDOC_MKPDF@
 GTKDOC_REBASE = @GTKDOC_REBASE@
 GUDEV_CFLAGS = @GUDEV_CFLAGS@
@@ -390,6 +392,7 @@ top_build_prefix = @top_build_prefix@
 top_builddir = @top_builddir@
 top_srcdir = @top_srcdir@
 INCLUDES = \
+	-DDATADIR=\"$(datadir)\"			\
 	-DG_LOG_DOMAIN=\"PackageKit-Aptcc\"
 
 plugindir = $(PK_PLUGIN_DIR)
@@ -425,6 +428,8 @@ EXTRA_DIST = 20packagekit \
 helperdir = $(datadir)/PackageKit/helpers/aptcc
 dist_helper_DATA = \
 	get-distro-upgrade.py				\
+	pkconffile					\
+	pkconffile.nodiff				\
 	$(NULL)
 
 all: all-am
@@ -871,11 +876,13 @@ uninstall-am: uninstall-aptconfDATA uninstall-dist_helperDATA \
 
 
 install-data-hook:
-	chmod +x $(DESTDIR)$(helperdir)/*.py
+	chmod +x $(DESTDIR)$(helperdir)/*.py $(DESTDIR)$(helperdir)/pkconffile
 
 clean-local :
 	rm -f *~
 	rm -f *.pyc
+
+-include $(top_srcdir)/git.mk
 
 # Tell versions [3.59,3.63) of GNU make to not export all variables.
 # Otherwise a system limit (for SysV at least) may be exceeded.

@@ -45,6 +45,7 @@
     <description xml:lang="pt_BR">Cancelar tarefa externa</description>
     <description xml:lang="ru">Остановить внешнюю задачу</description>
     <description xml:lang="sk">Zrušiť cudziu úlohu</description>
+    <description xml:lang="sl">Prekliči tujo nalogo</description>
     <description xml:lang="sr">Откажи страни посао</description>
     <description xml:lang="sr@latin">Otkaži strani posao</description>
     <description xml:lang="sv">Avbryt främmande åtgärd</description>
@@ -86,6 +87,7 @@
     <message xml:lang="pt_BR">É necessário autenticar para cancelar uma tarefa que não foi iniciada por você</message>
     <message xml:lang="ru">Требуются права на отмену задачи, запущенной не Вами</message>
     <message xml:lang="sk">Na zrušenie úlohy, ktorú ste sami nespustili, je potrebné overenie totožnosti</message>
+    <message xml:lang="sl">Za preklic opravila, ki ga niste začeli sami, je zahtevana overitev.</message>
     <message xml:lang="sr">Неопходна је аутентификација за отказивање посла којег нисте ви покренули</message>
     <message xml:lang="sr@latin">Neophodna je autentifikacija za otkazivanje posla kojeg niste vi pokrenuli</message>
     <message xml:lang="sv">Autentisering krävs för att avbryta en åtgärd som inte startades av dig själv</message>
@@ -137,6 +139,7 @@
     <description xml:lang="pt_BR">Instalar pacote assinado</description>
     <description xml:lang="ru">Установить подписанный пакет</description>
     <description xml:lang="sk">Inštalovať podpísaný balík</description>
+    <description xml:lang="sl">Namesti podpisan paket</description>
     <description xml:lang="sr">Инсталирај потписани пакет</description>
     <description xml:lang="sr@latin">Instaliraj potpisani paket</description>
     <description xml:lang="sv">Installera signerat paket</description>
@@ -178,6 +181,7 @@
     <message xml:lang="pt_BR">É necessário autenticar para instalar um pacote assinado</message>
     <message xml:lang="ru">Требуются права на установку подписанных пакетов</message>
     <message xml:lang="sk">Na inštalovanie podpísaného balíka je potrebné overenie totožnosti</message>
+    <message xml:lang="sl">Za namestitev podpisanega paketa je zahtevana overitev</message>
     <message xml:lang="sr">Неопходна је аутентификација за инсталацију потписаног пакета</message>
     <message xml:lang="sr@latin">Neophodna je autentifikacija za instalaciju potpisanog paketa</message>
     <message xml:lang="sv">Autentisering krävs för att installera ett signerat paket</message>
@@ -229,6 +233,7 @@
     <description xml:lang="pt_BR">Instalar arquivo local não confiável</description>
     <description xml:lang="ru">Установить недоверяемый локальный файл</description>
     <description xml:lang="sk">Inštalovať nedôveryhodný lokálny súbor</description>
+    <description xml:lang="sl">Namesti krajevno datoteko, ki ni zaupanja vredna</description>
     <description xml:lang="sr">Инсталирај неповерљиву локалну датотеку</description>
     <description xml:lang="sr@latin">Instaliraj nepoverljivu lokalnu datoteku</description>
     <description xml:lang="sv">Installera opålitlig lokal fil</description>
@@ -271,6 +276,7 @@
     <message xml:lang="pt_BR">É necessário autenticar para instalar um pacote não confiável</message>
     <message xml:lang="ru">Перед установкой ненадежных пакетов необходимо авторизоваться</message>
     <message xml:lang="sk">Na inštaláciu nedôveryhodného balíka je potrebné overenie totožnosti</message>
+    <message xml:lang="sl">Za namestitev paketa, ki ni zaupanja vreden, je zahtevana overitev</message>
     <message xml:lang="sr">Неопходна је аутентификација за инсталацију пакета из неповерљивог извора</message>
     <message xml:lang="sr@latin">Neophodna je autentifikacija za instalaciju paketa iz nepoverljivog izvora</message>
     <message xml:lang="sv">Autentisering krävs för att installera ett opålitligt paket</message>
@@ -322,6 +328,7 @@
     <description xml:lang="pt_BR">Confiar numa chave usada para assinar pacotes</description>
     <description xml:lang="ru">Доверять ключу в подписях пакетов</description>
     <description xml:lang="sk">Dôverovať kľúču na podpisovanie balíkov</description>
+    <description xml:lang="sl">Zaupaj ključu za podpisovanje paketov</description>
     <description xml:lang="sr">Веруј кључу коришћеном за потписивање пакета</description>
     <description xml:lang="sr@latin">Veruj ključu korišćenom za potpisivanje paketa</description>
     <description xml:lang="sv">Lita på en nyckel som används för signering av paket</description>
@@ -363,6 +370,7 @@
     <message xml:lang="pt_BR">É necessário autenticar para considerar uma chave usada para assinar pacotes como confiáveis</message>
     <message xml:lang="ru">Чтобы пометить ключ для подписи пакетов как доверенный, нужно авторизоваться</message>
     <message xml:lang="sk">Na vyjadrenie dôvery kľúču používaného na podpisovanie balíkov je potrebné overenie totožnosti</message>
+    <message xml:lang="sl">Za upoštevanje ključa za podpisovanje paketov kot zaupanja vredne je zahtevana overitev</message>
     <message xml:lang="sr">Неопходна је аутентификација да би се кључ коришћен за потписивање пакета сматрао поверљивим</message>
     <message xml:lang="sr@latin">Neophodna je autentifikacija da bi se ključ korišćen za potpisivanje paketa smatrao poverljivim</message>
     <message xml:lang="sv">Autentisering krävs för att anse att en nyckel som används för paketsignering ska vara pålitlig</message>
@@ -415,6 +423,7 @@
     <description xml:lang="pt_BR">Aceitar a licença EULA</description>
     <description xml:lang="ru">Примите EULA</description>
     <description xml:lang="sk">Prijať licenčné podmienky</description>
+    <description xml:lang="sl">Sprejmi EULA</description>
     <description xml:lang="sr">Прихвати лиценцу</description>
     <description xml:lang="sr@latin">Prihvati licencu</description>
     <description xml:lang="sv">Acceptera slutanvändaravtal</description>
@@ -458,6 +467,7 @@
     <message xml:lang="pt_BR">É necessário autenticar para aceitar uma licença EULA</message>
     <message xml:lang="ru">Для принятия EULA необходимо авторизоваться</message>
     <message xml:lang="sk">Na prijatie licenčných podmienok je potrebné overenie totožnosti</message>
+    <message xml:lang="sl">Za sprejetje EULA je zahtevana overitev</message>
     <message xml:lang="sr">Неопходна је аутентификација за прихватање лиценце</message>
     <message xml:lang="sr@latin">Neophodna je autentifikacija za prihvatanje licence</message>
     <message xml:lang="sv">Autentisering krävs för att acceptera ett slutanvändaravtal</message>
@@ -511,6 +521,7 @@
     <description xml:lang="pt_BR">Remover pacote</description>
     <description xml:lang="ru">Удалить пакет</description>
     <description xml:lang="sk">Odstrániť balík</description>
+    <description xml:lang="sl">Odstrani paket</description>
     <description xml:lang="sr">Уклони пакет</description>
     <description xml:lang="sr@latin">Ukloni paket</description>
     <description xml:lang="sv">Ta bort paket</description>
@@ -554,6 +565,7 @@
     <message xml:lang="pt_BR">É necessário autenticar para remover pacotes</message>
     <message xml:lang="ru">Перед удалением пакетов нужно авторизоваться</message>
     <message xml:lang="sk">Na odstránenie balíkov je potrebné overenie totožnosti</message>
+    <message xml:lang="sl">Za odstranitev paketov je zahtevana overitev</message>
     <message xml:lang="sr">Неопходна је аутентификација за уклањање пакета</message>
     <message xml:lang="sr@latin">Neophodna je autentifikacija za uklanjanje paketa</message>
     <message xml:lang="sv">Autentisering krävs för att ta bort paket</message>
@@ -606,6 +618,7 @@
     <description xml:lang="pt_BR">Atualizar pacotes</description>
     <description xml:lang="ru">Обновить пакеты</description>
     <description xml:lang="sk">Aktualizovať balíky</description>
+    <description xml:lang="sl">Posodobi pakete</description>
     <description xml:lang="sr">Ажурирај пакете</description>
     <description xml:lang="sr@latin">Ažuriraj pakete</description>
     <description xml:lang="sv">Uppdatera paket</description>
@@ -648,6 +661,7 @@
     <message xml:lang="pt_BR">É necessário autenticar para atualizar os pacotes</message>
     <message xml:lang="ru">Для обновления пакетов нужно авторизоваться</message>
     <message xml:lang="sk">Na aktualizáciu balíkov je potrebné overenie totožnosti</message>
+    <message xml:lang="sl">Za posodobitev paketov je zahtevana overitev</message>
     <message xml:lang="sr">Неопходна је аутентификација за ажурирање пакета</message>
     <message xml:lang="sr@latin">Neophodna je autentifikacija za ažuriranje paketa</message>
     <message xml:lang="sv">Autentisering krävs för att uppdatera paket</message>
@@ -701,6 +715,7 @@
     <description xml:lang="pt_BR">Retroceder para uma transação anterior</description>
     <description xml:lang="ru">Откатиться до предыдущего действия</description>
     <description xml:lang="sk">Navrátiť sa k stavu pred transakciou</description>
+    <description xml:lang="sl">Povrni na predhodno transakcijo</description>
     <description xml:lang="sr">Врати се на стање претходне промене</description>
     <description xml:lang="sr@latin">Vrati se na stanje prethodne promene</description>
     <description xml:lang="sv">Rulla tillbaka till en tidigare transaktion</description>
@@ -744,6 +759,7 @@
     <message xml:lang="pt_BR">É necessário autenticar para retroceder uma transação</message>
     <message xml:lang="ru">Для отмены действия необходимо разрешение</message>
     <message xml:lang="sk">Na vrátenie transakcie je potrebné overenie totožnosti</message>
+    <message xml:lang="sl">Za povrnitev transakcije je zahtevana overitev</message>
     <message xml:lang="sr">Неопходна је аутентификација за поништавање све-или-ништа промена</message>
     <message xml:lang="sr@latin">Neophodna je autentifikacija za poništavanje sve-ili-ništa promena</message>
     <message xml:lang="sv">Autentisering krävs för att rulla tillbaka en transaktion</message>
@@ -797,6 +813,7 @@
     <description xml:lang="pt_BR">Altere parâmetros das fontes de programas</description>
     <description xml:lang="ru">Настроить источники программ</description>
     <description xml:lang="sk">Zmeniť parametre zdrojov softvéru</description>
+    <description xml:lang="sl">Spremeni parametre programskih virov</description>
     <description xml:lang="sr">Измени параметре извора софтвера</description>
     <description xml:lang="sr@latin">Izmeni parametre izvora softvera</description>
     <description xml:lang="sv">Ändra parametrar för programvarukällor</description>
@@ -840,6 +857,7 @@
     <message xml:lang="pt_BR">É necessário autenticar para alterar os parâmetros das fontes de programas</message>
     <message xml:lang="ru">Для настройки источников программ необходимо авторизоваться</message>
     <message xml:lang="sk">Na zmenu parametrov softvérového zdroja je potrebné overenie totožnosti</message>
+    <message xml:lang="sl">Za spremembo parametrov programskih virov je zahtevana overitev</message>
     <message xml:lang="sr">Неопходна је аутентификација за измену параметара извора софтвера</message>
     <message xml:lang="sr@latin">Neophodna je autentifikacija za izmenu parametara izvora softvera</message>
     <message xml:lang="sv">Autentisering krävs för att ändra parametrar för programvarukällor</message>
@@ -892,6 +910,7 @@
     <description xml:lang="pt_BR">Recarregar fontes do sistema</description>
     <description xml:lang="ru">Обновить список пакетов</description>
     <description xml:lang="sk">Obnoviť zdroje pre systém</description>
+    <description xml:lang="sl">Osveži sistemske vire</description>
     <description xml:lang="sr">Освежи системске ризнице</description>
     <description xml:lang="sr@latin">Osveži sistemske riznice</description>
     <description xml:lang="sv">Uppdatera systemkällor</description>
@@ -933,6 +952,7 @@
     <message xml:lang="pt_BR">É necessário autenticar para recarregar as fontes do sistema</message>
     <message xml:lang="ru">Чтобы обновить список пакетов, необходимо авторизоваться</message>
     <message xml:lang="sk">Na obnovenie zdrojov systému je potrebné overenie totožnosti</message>
+    <message xml:lang="sl">Za osvežitev sistemskih virov je zahtevana overitev</message>
     <message xml:lang="sr">Неопходна је аутентификација за освежавање системских ризница</message>
     <message xml:lang="sr@latin">Neophodna je autentifikacija za osvežavanje sistemskih riznica</message>
     <message xml:lang="sv">Autentisering krävs för att uppdatera systemkällorna</message>
@@ -984,6 +1004,7 @@
     <description xml:lang="pt_BR">Definir um proxy de rede</description>
     <description xml:lang="ru">Задать прокси-сервер</description>
     <description xml:lang="sk">Nastaviť proxy server</description>
+    <description xml:lang="sl">Nastavi omrežni posredniški strežnik</description>
     <description xml:lang="sr">Постави мрежног посредника</description>
     <description xml:lang="sr@latin">Postavi mrežnog posrednika</description>
     <description xml:lang="sv">Ange nätverksproxyserver</description>
@@ -1025,6 +1046,7 @@
     <message xml:lang="pt_BR">É necessário autenticar para definir o proxy de rede usado para baixar pacotes</message>
     <message xml:lang="ru">Настройка прокси-сервера для загрузки пакетов требует авторизации</message>
     <message xml:lang="sk">Na nastavenie proxy servera na získavanie balíkov je potrebné overenie totožnosti</message>
+    <message xml:lang="sl">Za nastavitev omrežnega posredniškega strežnika, uporabljenega za prejem paketov je zahtevana overitev</message>
     <message xml:lang="sr">Неопходна је аутентификација како би се наместио мрежни посредник коришћен за преузимање пакета</message>
     <message xml:lang="sr@latin">Neophodna je autentifikacija kako bi se namestio mrežni posrednik korišćen za preuzimanje paketa</message>
     <message xml:lang="sv">Autentisering krävs för att ange nätverksproxyservern som ska användas för hämtning av paket</message>
@@ -1061,6 +1083,7 @@
     <description xml:lang="pt">Mudar a localização onde os pacotes são instalados</description>
     <description xml:lang="ru">Измените место установки пакетов</description>
     <description xml:lang="sk">Zmeniť miesto, kam sa inštalujú balíky</description>
+    <description xml:lang="sl">Spremeni mesto namestitve paketov</description>
     <description xml:lang="sr">Измени локацију инсталације пакета</description>
     <description xml:lang="sr@latin">Izmeni lokaciju instalacije paketa</description>
     <description xml:lang="sv">Ändra platsen för var paketen installeras</description>
@@ -1085,6 +1108,7 @@
     <message xml:lang="pt">A autenticação é necessária para alterar a localização utilizada para descomprimir pacotes</message>
     <message xml:lang="ru">Требуется проверка подлинности для изменения места, используемого для распаковки пакетов</message>
     <message xml:lang="sk">Na zmenu adresára, kde sa rozbaľujú balíky je potrebné overenie totožnosti</message>
+    <message xml:lang="sl">Za spremembo mesta za razširitev paketov je zahtevana overitev</message>
     <message xml:lang="sr">Неопходна је аутентификација за измену локације употребљене за распакивање пакета</message>
     <message xml:lang="sr@latin">Neophodna je autentifikacija za izmenu lokacije upotrebljene za raspakivanje paketa</message>
     <message xml:lang="sv">Autentisering krävs för att ändra platsen som används för att dekomprimera paket</message>
@@ -1133,6 +1157,7 @@
     <description xml:lang="pt_BR">Recarregar um dispositivo</description>
     <description xml:lang="ru">Перезагрузка устройства</description>
     <description xml:lang="sk">Obnoviť zariadenie</description>
+    <description xml:lang="sl">Ponovno naloži napravo</description>
     <description xml:lang="sr">Поново учитај уређај</description>
     <description xml:lang="sr@latin">Ponovo učitaj uređaj</description>
     <description xml:lang="sv">Uppdatera en enhet</description>
@@ -1173,6 +1198,7 @@
     <message xml:lang="pt_BR">É necessário autenticar para recarregar o dispositivo com o novo driver</message>
     <message xml:lang="ru">Требуется разрешение на перезагрузку устройства с новым драйвером</message>
     <message xml:lang="sk">Na načítanie nového ovládača zariadenia je potrebné overenie totožnosti</message>
+    <message xml:lang="sl">Za ponovno nalaganje naprave z novim gonilnikom je zahtevana overitev</message>
     <message xml:lang="sr">Неопходна је аутентификација за поновно учитавање уређаја са новим управљачким програмом</message>
     <message xml:lang="sr@latin">Neophodna je autentifikacija za ponovno učitavanje uređaja sa novim upravljačkim programom</message>
     <message xml:lang="sv">Autentisering krävs för att uppdatera enheten med en ny drivrutin</message>
@@ -1206,6 +1232,7 @@
     <description xml:lang="pl">Aktualizacja systemu</description>
     <description xml:lang="ru">Обновление системы</description>
     <description xml:lang="sk">Aktualizovať systém</description>
+    <description xml:lang="sl">Nadgradi sistem</description>
     <description xml:lang="sv">Uppgradera systemet</description>
     <description xml:lang="uk">Оновлення системи</description>
     <description xml:lang="zh_TW">升級系統</description>
@@ -1223,6 +1250,7 @@
     <message xml:lang="pl">Wymagane jest uwierzytelnienie, aby zaktualizować system operacyjny</message>
     <message xml:lang="ru">Требуется проверка подлинности для обновления операционной системы</message>
     <message xml:lang="sk">Na aktualizáciu operačného systému je potrebné overenie totožnosti</message>
+    <message xml:lang="sl">Za nadgradnjo operacijskega sistema je zahtevana overitev</message>
     <message xml:lang="sv">Autentisering krävs för att uppgradera operativsystemet</message>
     <message xml:lang="uk">Для оновлення версії операційної системи слід пройти розпізнавання</message>
     <message xml:lang="zh_TW">要升級作業系統需先通過身份認證</message>

@@ -147,6 +147,8 @@ GREP = @GREP@
 GSTREAMER_CFLAGS = @GSTREAMER_CFLAGS@
 GSTREAMER_LIBS = @GSTREAMER_LIBS@
 GTKDOC_CHECK = @GTKDOC_CHECK@
+GTKDOC_DEPS_CFLAGS = @GTKDOC_DEPS_CFLAGS@
+GTKDOC_DEPS_LIBS = @GTKDOC_DEPS_LIBS@
 GTKDOC_MKPDF = @GTKDOC_MKPDF@
 GTKDOC_REBASE = @GTKDOC_REBASE@
 GUDEV_CFLAGS = @GUDEV_CFLAGS@
@@ -641,6 +643,8 @@ uninstall-am: uninstall-confDATA uninstall-eventspostransDATA \
 
 $(conf_DATA): $(conf_in_files) Makefile
 	@sed -e "s|\@defaultbackend\@|$(DEFAULT_BACKEND)|" $< > $@
+
+-include $(top_srcdir)/git.mk
 
 # Tell versions [3.59,3.63) of GNU make to not export all variables.
 # Otherwise a system limit (for SysV at least) may be exceeded.

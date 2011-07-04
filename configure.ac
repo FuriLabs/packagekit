@@ -3,13 +3,13 @@ AC_PREREQ(2.63)
 
 m4_define([pk_major_version], [0])
 m4_define([pk_minor_version], [6])
-m4_define([pk_micro_version], [15])
+m4_define([pk_micro_version], [16])
 m4_define([pk_version],
           [pk_major_version.pk_minor_version.pk_micro_version])
 
 AC_INIT([PackageKit],[pk_version],[richard@hughsie.com],[PackageKit])
 AC_CONFIG_SRCDIR(src)
-AM_INIT_AUTOMAKE([1.9 tar-ustar dist-bzip2])
+AM_INIT_AUTOMAKE([1.9 no-dist-gzip dist-xz tar-ustar])
 AC_CONFIG_HEADERS([config.h])
 AC_CONFIG_MACRO_DIR([m4])
 
@@ -37,7 +37,7 @@ AC_SUBST(PK_VERSION)
 # AGE		If libpackagekit can be linked into executables which can be
 # 		built with previous versions of this library. Don't use.
 LT_CURRENT=14
-LT_REVISION=7
+LT_REVISION=8
 LT_AGE=0
 AC_SUBST(LT_CURRENT)
 AC_SUBST(LT_REVISION)
@@ -75,15 +75,6 @@ AC_PATH_PROG(GLIB_GENMARSHAL, glib-genmarshal)
 AM_PATH_PYTHON
 PYTHON_PACKAGE_DIR=${pythondir}/packagekit
 AC_SUBST(PYTHON_PACKAGE_DIR)
-
-
-dnl ---------------------------------------------------------------------------
-dnl - Extra verbose warning switches
-dnl ---------------------------------------------------------------------------
-CPPFLAGS="$CPPFLAGS -DG_DISABLE_SINGLE_INCLUDES -DGTK_DISABLE_SINGLE_INCLUDES"
-CPPFLAGS="$CPPFLAGS -DG_DISABLE_DEPRECATED -DGTK_DISABLE_DEPRECATED -DGDK_DISABLE_DEPRECATED"
-CPPFLAGS="$CPPFLAGS -DGDK_MULTIHEAD_SAFE -DGTK_MULTIHEAD_SAFE"
-CPPFLAGS="$CPPFLAGS -DGSEAL_ENABLE"
 
 dnl ---------------------------------------------------------------------------
 dnl - Use strict options (default enabled for devs, disabled in releases)
