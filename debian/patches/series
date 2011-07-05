@@ -1,3 +1,4 @@
 vendor-debian.diff
 defaults.diff
 policy.diff
+99_ltmain-as-needed.patch
