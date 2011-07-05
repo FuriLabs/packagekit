@@ -1,6 +1,3 @@
 vendor-debian.diff
 defaults.diff
 policy.diff
-01_bug628835.patch
-02_bug606135.patch
-03_enable_deprecated.patch
