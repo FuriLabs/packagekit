@@ -6,7 +6,6 @@ Uploaders: Julian Andres Klode <jak@debian.org>
 Vcs-Git: git://anonscm.debian.org/pkg-packagekit/packagekit.git
 Vcs-Browser: http://anonscm.debian.org/gitweb/?p=pkg-packagekit/packagekit.git
 Build-Depends: debhelper (>= 7.0.50~),
-               dh-autoreconf (>= 4~),
                docbook-utils,
                gir1.2-glib-2.0 (>= 0.10.1),
                gobject-introspection (>= 0.10.1),

@@ -35,7 +35,7 @@ endif
 INSTALLDIR = $(CURDIR)/debian/tmp
 
 %:
-	dh $@ --parallel --with python2 --with autoreconf
+	dh $@ --parallel --with python2
 
 extrainstallfiles-stamp:
 	cat debian/packagekit.install | grep -v '/pm-utils/' > debian/packagekit.install.kfreebsd
@@ -83,6 +83,3 @@ override_dh_gencontrol:
 
 override_dh_strip:
 	dh_strip --dbg-package=packagekit-dbg
-
-override_dh_autoreconf:
-	dh_autoreconf --as-needed
