@@ -1,7 +1,7 @@
 Source: packagekit
 Section: admin
 Priority: optional
-Maintainer: Matthias Klumpp <matthias@nlinux.org>
+Maintainer: Matthias Klumpp <matthias@tenstral.net>
 Uploaders: Julian Andres Klode <jak@debian.org>
 Vcs-Git: git://anonscm.debian.org/pkg-packagekit/packagekit.git
 Vcs-Browser: http://anonscm.debian.org/gitweb/?p=pkg-packagekit/packagekit.git
