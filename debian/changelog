@@ -1,3 +1,16 @@
+packagekit (0.6.17-1) unstable; urgency=low
+
+  * New upstream release: 0.6.17
+     - Actually use the value from /etc/login.defs (Richard Hughes)
+     - Ignore local packages when calculating the simulate list
+        (Richard Hughes)
+     - Ignore untrusted packages when calculating the simulate list
+        (Richard Hughes)
+     - Add an untrusted section header when using console applications
+        (Richard Hughes)
+
+ -- Matthias Klumpp <matthias@tenstral.net>  Sat, 20 Aug 2011 15:12:22 +0200
+
 packagekit (0.6.16-1) unstable; urgency=low
 
   * New upstream release: 0.6.16
@@ -29,7 +42,7 @@ packagekit (0.6.16-1) unstable; urgency=low
   * Drop dependency on dh_autoreconf
   * Update my mailadress
 
- -- Matthias Klumpp <matthias@nlinux.org>  Mon, 04 Jul 2011 23:00:54 +0200
+ -- Matthias Klumpp <matthias@tenstral.net>  Mon, 04 Jul 2011 23:00:54 +0200
 
 packagekit (0.6.15-1) unstable; urgency=low
 
