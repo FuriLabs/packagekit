@@ -2624,7 +2624,9 @@ class PackageKitYumBackend(PackageKitBaseBackend, PackagekitPackage):
 
         pkgver = _get_package_ver(pkg)
         package_id = self.get_package_id(pkg.name, pkgver, pkg.arch, pkg.repo)
-        desc = pkg.description
+        desc = _to_unicode(pkg.description)
+        url = _to_unicode(pkg.url)
+        license = _to_unicode(pkg.license)
 
         # some RPM's (especially from google) have no description
         if desc:
@@ -2639,7 +2641,7 @@ class PackageKitYumBackend(PackageKitBaseBackend, PackagekitPackage):
             size = 0
 
         group = self.comps.get_group(pkg.name)
-        self.details(package_id, pkg.license, group, desc, pkg.url, size)
+        self.details(package_id, license, group, desc, url, size)
 
     def get_files(self, package_ids):
         try:
@@ -3512,7 +3514,7 @@ class PackageKitYumBase(yum.YumBase):
             else:
                 raise PkError(ERROR_INTERNAL_ERROR, _format_str(traceback.format_exc()))
 
-    def _media_find_root(self, media_id, disc_number=-1):
+    def _media_find_root(self, media_id):
         """ returns the root "/media/Fedora Extras" or None """
 
         # search all the disks
@@ -3533,7 +3535,7 @@ class PackageKitYumBase(yum.YumBase):
             f.close()
 
             # not enough lines to be a valid .discinfo
-            if len(lines) < 4:
+            if len(lines) < 3:
                 continue
 
             # check this is the right disk
@@ -3541,15 +3543,6 @@ class PackageKitYumBase(yum.YumBase):
             if cmp(media_id_tmp, media_id) != 0:
                 continue
 
-            # disc number can be random things like 'ALL'
-            if disc_number != -1:
-                disc_number_tmp = 1
-                try:
-                    disc_number_tmp = int(lines[3].strip())
-                except ValueError, e:
-                    pass
-                if disc_number_tmp != disc_number:
-                    continue
             return root
 
         # nothing remaining
@@ -3559,7 +3552,7 @@ class PackageKitYumBase(yum.YumBase):
         """
         Handle physical media.
         """
-        root = self._media_find_root(kwargs["mediaid"], kwargs["discnum"])
+        root = self._media_find_root(kwargs["mediaid"])
         if root:
             # the actual copying is done by URLGrabber
             ug = URLGrabber(checkfunc = kwargs["checkfunc"])

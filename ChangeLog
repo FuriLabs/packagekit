@@ -1,6 +1,145 @@
+commit ae8e9eba8d2073388f6c019b645aab5e1b82895d
+Author: Richard Hughes <richard@hughsie.com>
+Date:   2011-08-01
+
+    Release version 0.6.17
+
+M	NEWS
+M	configure.ac
+M	docs/html/pk-download.html
+M	po/ar.po
+M	po/bg_BG.po
+M	po/ca@valencia.po
+M	po/fa_IR.po
+M	po/ga.po
+M	po/kk.po
+M	po/wa.po
+
+commit d946010613e91df11aabeb393f574eab93f2b031
+Author: Richard Hughes <richard@hughsie.com>
+Date:	2011-07-28
+
+    zif: Emit Message(UntrustedPackage) to sometimes skip the trusted
+    authentication
+
+    This means we go straight to the untrusted authentication after
+    the simulate
+    has completed.
+
+M	backends/zif/pk-backend-zif.c
+
+commit 46c1f9216da3462dd2c561f378d8cf6e8d236318
+Author: Richard Hughes <richard@hughsie.com>
+Date:	2011-07-28
+
+    zif: Use the shared version for newest filtering
+
+M	backends/zif/pk-backend-zif.c
+
+commit 27cdd07ee1b79b2afb0587d000a02c81b8d4cf71
+Author: Richard Hughes <richard@hughsie.com>
+Date:	2011-07-28
+
+    Add an untrusted section header when using console applications
+
+M	lib/packagekit-glib2/pk-task-text.c
+
+commit 7f0e6622a1ddd8b6a6098f58e4f89a502c193ea3
+Author: Richard Hughes <richard@hughsie.com>
+Date:	2011-07-19
+
+    trivial: Fix the libpackagekit-glib self tests now
+    PkPackage:package-id isn't directly writable
+
+M	lib/packagekit-glib2/pk-self-test.c
+
+commit 5e9b25f6ddeb306cb02094a77cdebfdcadcd0a7b
+Author: Adam Jackson <ajax@redhat.com>
+Date:	2011-07-19
+
+    pk-command-not-found: An ellipsis has three dots, not two
+
+    Signed-off-by: Adam Jackson <ajax@redhat.com>
+    Signed-off-by: Richard Hughes <richard@hughsie.com>
+
+M	contrib/command-not-found/pk-command-not-found.c
+
+commit fd07851c9c4e35d299c0be20d01320e536c847b7
+Author: Richard Hughes <richard@hughsie.com>
+Date:	2011-07-28
+
+    Ignore local packages when calculating the simulate list
+
+M	lib/packagekit-glib2/pk-task.c
+
+commit cead3d4e23b547b3483743f44bfa4c8bc9db2273
+Author: Richard Hughes <richard@hughsie.com>
+Date:	2011-07-28
+
+    Ignore untrusted packages when calculating the simulate list
+
+M	lib/packagekit-glib2/pk-task.c
+
+commit c0f4244f3bad0cb25185b4b4a9ee9f46d2c84aa7
+Author: Duncan Mac-Vicar P <dmacvicar@suse.de>
+Date:	2011-07-23
+
+    Do not rebuild the pool on every call to find package by name
+    causing slowness when getting the update list (bnc#679650)
+
+M	backends/zypp/zypp-utils.cpp
+
+commit b12ea372e3b9c76c1dc7641a6daf654447a835eb
+Author: Chris Lumens <clumens@redhat.com>
+Date:	2011-07-19
+
+    yum: Parse the new style .discinfo files for F15
+
+    Signed-off-by: Richard Hughes <richard@hughsie.com>
+
+M	backends/yum/yumBackend.py
+
+commit 1ee3743363e13ed2a33be443d1f097e0a8847f9a
+Author: Richard Hughes <richard@hughsie.com>
+Date:	2011-07-12
+
+    Actually use the value from /etc/login.defs
+
+M	src/pk-transaction-extra.c
+
+commit af01c7011e5fc3b716b00f276c5a3bca524e751d
+Author: Richard Hughes <richard@hughsie.com>
+Date:	2011-07-12
+
+    yum: Add a document detailing the yum API we're using
+
+    This might help avoid security bugs in the future if the yum guys
+    know what
+    we're using.
+
+A	backends/yum/yum-api-search.txt
+
+commit 66a0c63b78bfbf347a8e4ba5d40d84e4bb8e940b
+Author: Richard Hughes <richard@hughsie.com>
+Date:	2011-07-08
+
+    yum: Manually convert the results of GetDetails to unicode. Fixes
+    rh#719916
+
+M	backends/yum/yumBackend.py
+
+commit 54fe916971a6810e5868c93fbb6813e4a1fc6c92
+Author: Richard Hughes <richard@hughsie.com>
+Date:	2011-07-04
+
+    trivial: post release version bump
+
+M	RELEASE
+M	configure.ac
+
 commit 84fb796a49ad86e0aefa5a8318ca6bb77df4f846
 Author: Richard Hughes <richard@hughsie.com>
-Date:   2011-07-04
+Date:	2011-07-04
 
     Release version 0.6.16
 
