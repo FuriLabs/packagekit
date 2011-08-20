@@ -1,6 +1,6 @@
 Description: Set Ubuntu PackageKit vendor information
 Forwarded: not-needed
-Author: Matthias Klumpp <matthias@nlinux.org>
+Author: Matthias Klumpp <matthias@tenstral.net>
 Last-Update: 2010-11-24
 --- a/etc/Vendor.conf
 +++ b/etc/Vendor.conf

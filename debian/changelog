@@ -1,4 +1,4 @@
-packagekit (0.6.16-1) UNRELEASED; urgency=low
+packagekit (0.6.16-1) unstable; urgency=low
 
   * New upstream release: 0.6.16
      - glib: Added element-type annotations for each function returning a
@@ -25,6 +25,9 @@ packagekit (0.6.16-1) UNRELEASED; urgency=low
         (Richard Hughes)
      - Fix a build error in the browser plugin when using old versions of
         gdk (Richard Hughes)
+  * Remove patches which were applied upstream
+  * Drop dependency on dh_autoreconf
+  * Update my mailadress
 
  -- Matthias Klumpp <matthias@nlinux.org>  Mon, 04 Jul 2011 23:00:54 +0200
 

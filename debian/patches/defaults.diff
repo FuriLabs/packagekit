@@ -1,6 +1,6 @@
 Description: Set PackageKit default config
 Forwarded: not-needed
-Author: Matthias Klumpp <matthias@nlinux.org>
+Author: Matthias Klumpp <matthias@tenstral.net>
 Last-Update: 2011-07-14
 --- a/etc/PackageKit.conf.in
 +++ b/etc/PackageKit.conf.in

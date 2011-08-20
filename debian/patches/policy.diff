@@ -1,6 +1,6 @@
 Set Debian PolKit policy for PackageKit
 Forwarded: not-needed
-Author: Matthias Klumpp <matthias@nlinux.org>
+Author: Matthias Klumpp <matthias@tenstral.net>
 Last-Update: 2010-12-06
 --- a/policy/org.freedesktop.packagekit.policy.in
 +++ b/policy/org.freedesktop.packagekit.policy.in

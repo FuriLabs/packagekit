@@ -1,4 +1,4 @@
-This package was debianized by Matthias Klumpp <matthias@nlinux.org> on
+This package was debianized by Matthias Klumpp <matthias@tenstral.net> on
 Mon, 24 May 2010 18:21:14 +0200.
 
 It was downloaded from http://www.packagekit.org/releases/
@@ -74,7 +74,7 @@ License:
     License along with this library; if not, write to the Free Software
     Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
 
-The Debian packaging is © 2010, Matthias Klumpp <matthias@nlinux.org> and
+The Debian packaging is © 2010, Matthias Klumpp <matthias@tenstral.net> and
 is licensed under the GPL-2, see `/usr/share/common-licenses/GPL-2'.
 
 Files: contrib/*

@@ -1,6 +1,6 @@
 Description: Set Debian PackageKit vendor information
 Forwarded: not-needed
-Author: Matthias Klumpp <matthias@nlinux.org>
+Author: Matthias Klumpp <matthias@tenstral.net>
 Last-Update: 2010-08-26
 --- a/etc/Vendor.conf
 +++ b/etc/Vendor.conf
