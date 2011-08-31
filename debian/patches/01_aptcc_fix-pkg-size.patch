@@ -1,0 +1,77 @@
+From 3faed3376e835b83b09a46915fd8f94d77b195ab Mon Sep 17 00:00:00 2001
+From: Daniel Nicoletti <dantti85-pk@yahoo.com.br>
+Date: Tue, 23 Aug 2011 12:16:49 -0300
+Subject: [PATCH] aptcc: Fix the size of the packages by emitting installedSize when installed and download size when available.
+
+---
+ backends/aptcc/apt.cpp |   46 +++++++++++++++++++++++++++-------------------
+ 1 files changed, 27 insertions(+), 19 deletions(-)
+
+diff --git a/backends/aptcc/apt.cpp b/backends/aptcc/apt.cpp
+index 694b098..e971133 100644
+--- a/backends/aptcc/apt.cpp
++++ b/backends/aptcc/apt.cpp
+@@ -466,33 +466,41 @@ void aptcc::povidesCodec(vector<pair<pkgCache::PkgIterator, pkgCache::VerIterato
+ // used to emit packages it collects all the needed info
+ void aptcc::emit_details(const pkgCache::PkgIterator &pkg, const pkgCache::VerIterator &version)
+ {
+-	pkgCache::VerIterator ver;
++    pkgCache::VerIterator ver;
+     if (version.end() == false) {
+         ver = version;
+     } else {
+         ver = find_ver(pkg);
+     }
+-	std::string section = ver.Section() == NULL ? "" : ver.Section();
++    std::string section = ver.Section() == NULL ? "" : ver.Section();
+ 
+-	size_t found;
+-	found = section.find_last_of("/");
+-	section = section.substr(found + 1);
++    size_t found;
++    found = section.find_last_of("/");
++    section = section.substr(found + 1);
+ 
+-	pkgCache::VerFileIterator vf = ver.FileList();
+-	pkgRecords::Parser &rec = packageRecords->Lookup(vf);
++    pkgCache::VerFileIterator vf = ver.FileList();
++    pkgRecords::Parser &rec = packageRecords->Lookup(vf);
+ 
+-	gchar *package_id;
+-	package_id = pk_package_id_build(pkg.Name(),
+-					 ver.VerStr(),
+-					 ver.Arch(),
+-					 vf.File().Archive() == NULL ? "" : vf.File().Archive());
+-	pk_backend_details(m_backend,
+-			   package_id,
+-			   "unknown",
+-			   get_enum_group(section),
+-			   get_long_description_parsed(ver, packageRecords).c_str(),
+-			   rec.Homepage().c_str(),
+-			   ver->Size);
++    long size;
++    if (pkg->CurrentState == pkgCache::State::Installed && pkg.CurrentVer() == ver) {
++        // if the package is installed emit the installed size
++        size = ver->InstalledSize;
++    } else {
++        size = ver->Size;
++    }
++
++    gchar *package_id;
++    package_id = pk_package_id_build(pkg.Name(),
++                                     ver.VerStr(),
++                                     ver.Arch(),
++                                     vf.File().Archive() == NULL ? "" : vf.File().Archive());
++    pk_backend_details(m_backend,
++                       package_id,
++                       "unknown",
++                       get_enum_group(section),
++                       get_long_description_parsed(ver, packageRecords).c_str(),
++                       rec.Homepage().c_str(),
++                       size);
+ }
+ 
+ // used to emit packages it collects all the needed info
+-- 
+1.6.1
+
