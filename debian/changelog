@@ -8,6 +8,10 @@ packagekit (0.6.17-1) unstable; urgency=low
         (Richard Hughes)
      - Add an untrusted section header when using console applications
         (Richard Hughes)
+  * aptcc: Fix crash when long description blow char buffer,
+     remove some mem leaks too
+  * aptcc: Fix the size of the packages by emitting installedSize
+     when installed and download size when available.
 
  -- Matthias Klumpp <matthias@tenstral.net>  Sat, 20 Aug 2011 15:12:22 +0200
 
