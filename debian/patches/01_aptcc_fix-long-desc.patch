@@ -8,8 +8,6 @@ Subject: [PATCH] aptcc: Fix crash when long description blow char buffer, remove
  backends/aptcc/apt.cpp       |   12 +++++++++---
  2 files changed, 13 insertions(+), 10 deletions(-)
 
-diff --git a/backends/aptcc/apt-utils.cpp b/backends/aptcc/apt-utils.cpp
-index 8005b58..546b75a 100644
 --- a/backends/aptcc/apt-utils.cpp
 +++ b/backends/aptcc/apt-utils.cpp
 @@ -26,10 +26,7 @@
@@ -24,7 +22,7 @@ index 8005b58..546b75a 100644
  
  string get_default_short_description(const pkgCache::VerIterator &ver,
  				    pkgRecords *records)
-@@ -113,7 +110,7 @@ string get_default_long_description(const pkgCache::VerIterator &ver,
+@@ -113,7 +110,7 @@
  	}
  }
  
@@ -33,7 +31,7 @@ index 8005b58..546b75a 100644
  {
  	// Policy page on package descriptions
  	// http://www.debian.org/doc/debian-policy/ch-controlfields.html#s-f-Description
-@@ -158,8 +155,8 @@ static char *debParser(string descr)
+@@ -158,8 +155,8 @@
  		removedFullStop = false;
  		nlpos++;
  	}
@@ -44,11 +42,9 @@ index 8005b58..546b75a 100644
  }
  
  PkGroupEnum
-diff --git a/backends/aptcc/apt.cpp b/backends/aptcc/apt.cpp
-index a4d0e3d..57cd607 100644
 --- a/backends/aptcc/apt.cpp
 +++ b/backends/aptcc/apt.cpp
-@@ -352,6 +352,7 @@ void aptcc::emit_package(const pkgCache::PkgIterator &pkg,
+@@ -351,6 +351,7 @@
  			   state,
  			   package_id,
  			   get_short_description(ver, packageRecords).c_str());
@@ -56,7 +52,7 @@ index a4d0e3d..57cd607 100644
  }
  
  void aptcc::emit_packages(vector<pair<pkgCache::PkgIterator, pkgCache::VerIterator> > &output,
-@@ -567,6 +568,7 @@ void aptcc::emit_details(const pkgCache::PkgIterator &pkg, const pkgCache::VerIt
+@@ -494,6 +495,7 @@
                                       ver.VerStr(),
                                       ver.Arch(),
                                       vf.File().Archive() == NULL ? "" : vf.File().Archive());
@@ -64,7 +60,7 @@ index a4d0e3d..57cd607 100644
      pk_backend_details(m_backend,
                         package_id,
                         "unknown",
-@@ -574,6 +576,8 @@ void aptcc::emit_details(const pkgCache::PkgIterator &pkg, const pkgCache::VerIt
+@@ -501,6 +503,8 @@
                         get_long_description_parsed(ver, packageRecords).c_str(),
                         rec.Homepage().c_str(),
                         size);
@@ -73,7 +69,7 @@ index a4d0e3d..57cd607 100644
  }
  
  // used to emit packages it collects all the needed info
-@@ -776,9 +780,9 @@ void aptcc::emit_update_detail(const pkgCache::PkgIterator &pkg, const pkgCache:
+@@ -703,9 +707,9 @@
      string archive = vf.File().Archive() == NULL ? "" : vf.File().Archive();
      gchar *package_id;
      package_id = pk_package_id_build(pkg.Name(),
@@ -86,7 +82,7 @@ index a4d0e3d..57cd607 100644
  
      PkUpdateStateEnum updateState = PK_UPDATE_STATE_ENUM_UNKNOWN;
      if (archive.compare("stable") == 0) {
-@@ -813,6 +817,8 @@ void aptcc::emit_update_detail(const pkgCache::PkgIterator &pkg, const pkgCache:
+@@ -740,6 +744,8 @@
                               issued.c_str(), //const gchar *issued_text
                               updated.c_str() //const gchar *updated_text
                               );
@@ -95,6 +91,3 @@ index a4d0e3d..57cd607 100644
  }
  
  void aptcc::get_depends(vector<pair<pkgCache::PkgIterator, pkgCache::VerIterator> > &output,
--- 
-1.6.1
-

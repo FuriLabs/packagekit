@@ -1,6 +1,5 @@
 vendor-ubuntu.diff
 defaults.diff
 policy.diff
-01_aptcc_fix-pkg-size.patch
-02_aptcc_fix-long-desc.patch
+01_aptcc_fix-long-desc.patch
 99_ltmain-as-needed.patch
