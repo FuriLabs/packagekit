@@ -480,12 +480,11 @@ libpackagekit_qt_la_LDFLAGS = \
 
 CLEANFILES = $(BUILT_SOURCES)
 EXTRA_DIST = \
-	$(MOCFILES)							\
-	dbus_proxies.stamp                  \
+	dbus_proxies.stamp					\
 	daemonproxy.h						\
 	daemonproxy.cpp						\
 	transactionproxy.h					\
-	transactionproxy.cpp				\
+	transactionproxy.cpp					\
 	$(NULL)
 
 MAINTAINERCLEANFILES = \
