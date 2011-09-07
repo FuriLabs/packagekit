@@ -1,6 +1,103 @@
+commit 95f804aadf5bc763e80bf55beefdef4b7447a190
+Author: Frederic Crozat <fcrozat@suse.com>
+Date:   2011-09-02
+
+    browser-plugin: Fix build with GTK+ < 2.24
+
+M	contrib/browser-plugin/pk-main.c
+
+commit 3faed3376e835b83b09a46915fd8f94d77b195ab
+Author: Daniel Nicoletti <dantti85-pk@yahoo.com.br>
+Date:	2011-08-23
+
+    aptcc: Fix the size of the packages by emitting installedSize when
+    installed and download size when available.
+
+M	backends/aptcc/apt.cpp
+
+commit 29994e6512b78f9ab15e2ed65cda5c11a61c4a0d
+Author: Richard Hughes <richard@hughsie.com>
+Date:	2011-08-12
+
+    plugin: Make lsof use the '-n' option to avoid looking up hostnames
+
+    This makes running lsof a couple of orders of magnitude quicker.
+
+M	src/pk-lsof.c
+
+commit 21bc7ef6e881f2b825248432995822b4708f066e
+Author: Richard Hughes <richard@hughsie.com>
+Date:	2011-08-12
+
+    Make the lsof plugin code support distros such as Fedora with /lib64
+
+M	src/pk-lsof.c
+
+commit 0eab40e8213a40bb25677bdff53a75fe4d01c387
+Author: Richard Hughes <richard@hughsie.com>
+Date:	2011-08-16
+
+    Remove the duplicate 'The software is not from a trusted source'
+    authentication line when updating
+
+M	src/pk-transaction.c
+
+commit c24bd97a8a3f2018375bbeecd727e5814b0d5ff7
+Author: Richard Hughes <richard@hughsie.com>
+Date:	2011-08-16
+
+    zif: Fix a fatal error when doing 'pkcon repo-list --filter=~devel'
+
+M	backends/zif/pk-backend-zif.c
+
+commit da6f6b3119376eba08c126f143b4a000fa351914
+Author: Garrett Regier <garrettregier@gmail.com>
+Date:	2011-08-22
+
+    Free the PkProgress' package
+
+    Signed-off-by: Richard Hughes <richard@hughsie.com>
+
+M	lib/packagekit-glib2/pk-progress.c
+
+commit df31de293c20c9cce1324ceab91d9e6e9cdc371c
+Author: Richard Hughes <richard@hughsie.com>
+Date:	2011-08-04
+
+    yum: Ignore missing obsoleted updates rather than failing the update
+
+    This should fix upgrading packages that both provide a subpackage
+    and obsolete
+    the very same subpackage as well.
+
+    It appears yum also treats this as a non-fatal error, so turn the
+    error into a
+    message (which is ignored by the frontends by default).
+
+M	backends/yum/yumBackend.py
+
+commit 76fb98ed4a80888a0a961452b9da5e21b6145347
+Author: Richard Hughes <richard@hughsie.com>
+Date:	2011-08-02
+
+    qt: Do not dist the moc files, as this causes build failures with
+    newer versions of QT
+
+M	lib/packagekit-qt/src/Makefile.am
+M	lib/packagekit-qt2/Makefile.am
+
+commit 899dcef7133bc220b65bb33cd063be7ec4973eef
+Author: Richard Hughes <richard@hughsie.com>
+Date:	2011-08-01
+
+    trivial: post release version bump
+
+M	RELEASE
+M	configure.ac
+
 commit ae8e9eba8d2073388f6c019b645aab5e1b82895d
 Author: Richard Hughes <richard@hughsie.com>
-Date:   2011-08-01
+Date:	2011-08-01
 
     Release version 0.6.17
 

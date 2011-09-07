@@ -1,16 +1,16 @@
 /****************************************************************************
 ** Meta object code from reading C++ file 'client.h'
 **
-** Created: Wed Jul 20 14:47:34 2011
-**      by: The Qt Meta Object Compiler version 62 (Qt 4.7.2)
+** Created: Wed Aug 31 15:14:15 2011
+**      by: The Qt Meta Object Compiler version 63 (Qt 4.8.0)
 **
 ** WARNING! All changes made in this file will be lost!
 *****************************************************************************/
 
 #if !defined(Q_MOC_OUTPUT_REVISION)
 #error "The header file 'client.h' doesn't include <QObject>."
-#elif Q_MOC_OUTPUT_REVISION != 62
-#error "This file was generated using the moc from 4.7.2. It"
+#elif Q_MOC_OUTPUT_REVISION != 63
+#error "This file was generated using the moc from 4.8.0. It"
 #error "cannot be used with the include files from this version of Qt."
 #error "(The moc has changed too much.)"
 #endif
@@ -19,7 +19,7 @@ QT_BEGIN_MOC_NAMESPACE
 static const uint qt_meta_data_PackageKit__Client[] = {
 
  // content:
-       5,       // revision
+       6,       // revision
        0,       // classname
        0,    0, // classinfo
        6,   14, // methods
@@ -71,9 +71,30 @@ static const char qt_meta_stringdata_PackageKit__Client[] = {
     "ErrorDaemonUnreachable\0LastDaemonError\0"
 };
 
+void PackageKit::Client::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id, void **_a)
+{
+    if (_c == QMetaObject::InvokeMetaMethod) {
+        Q_ASSERT(staticMetaObject.cast(_o));
+        Client *_t = static_cast<Client *>(_o);
+        switch (_id) {
+        case 0: _t->changed(); break;
+        case 1: _t->error((*reinterpret_cast< PackageKit::Client::DaemonError(*)>(_a[1]))); break;
+        case 2: _t->repoListChanged(); break;
+        case 3: _t->restartScheduled(); break;
+        case 4: _t->transactionListChanged((*reinterpret_cast< const QList<PackageKit::Transaction*>(*)>(_a[1]))); break;
+        case 5: _t->updatesChanged(); break;
+        default: ;
+        }
+    }
+}
+
+const QMetaObjectExtraData PackageKit::Client::staticMetaObjectExtraData = {
+    0,  qt_static_metacall 
+};
+
 const QMetaObject PackageKit::Client::staticMetaObject = {
     { &QObject::staticMetaObject, qt_meta_stringdata_PackageKit__Client,
-      qt_meta_data_PackageKit__Client, 0 }
+      qt_meta_data_PackageKit__Client, &staticMetaObjectExtraData }
 };
 
 #ifdef Q_NO_DATA_RELOCATION
@@ -99,15 +120,8 @@ int PackageKit::Client::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
     if (_id < 0)
         return _id;
     if (_c == QMetaObject::InvokeMetaMethod) {
-        switch (_id) {
-        case 0: changed(); break;
-        case 1: error((*reinterpret_cast< PackageKit::Client::DaemonError(*)>(_a[1]))); break;
-        case 2: repoListChanged(); break;
-        case 3: restartScheduled(); break;
-        case 4: transactionListChanged((*reinterpret_cast< const QList<PackageKit::Transaction*>(*)>(_a[1]))); break;
-        case 5: updatesChanged(); break;
-        default: ;
-        }
+        if (_id < 6)
+            qt_static_metacall(this, _c, _id, _a);
         _id -= 6;
     }
     return _id;

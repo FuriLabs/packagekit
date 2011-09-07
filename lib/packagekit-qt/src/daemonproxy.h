@@ -8,8 +8,8 @@
  * Do not edit! All changes made to it will be lost.
  */
 
-#ifndef DAEMONPROXY_H_1311169654
-#define DAEMONPROXY_H_1311169654
+#ifndef DAEMONPROXY_H_1315228996
+#define DAEMONPROXY_H_1315228996
 
 #include <QtCore/QObject>
 #include <QtCore/QByteArray>
@@ -91,7 +91,7 @@ public Q_SLOTS: // METHODS
     inline QDBusPendingReply<QString> CanAuthorize(const QString &action_id)
     {
         QList<QVariant> argumentList;
-        argumentList << qVariantFromValue(action_id);
+        argumentList << QVariant::fromValue(action_id);
         return asyncCallWithArgumentList(QLatin1String("CanAuthorize"), argumentList);
     }
 
@@ -110,7 +110,7 @@ public Q_SLOTS: // METHODS
     inline QDBusPendingReply<uint> GetTimeSinceAction(const QString &role)
     {
         QList<QVariant> argumentList;
-        argumentList << qVariantFromValue(role);
+        argumentList << QVariant::fromValue(role);
         return asyncCallWithArgumentList(QLatin1String("GetTimeSinceAction"), argumentList);
     }
 
@@ -123,21 +123,21 @@ public Q_SLOTS: // METHODS
     inline QDBusPendingReply<> SetProxy(const QString &proxy_http, const QString &proxy_https, const QString &proxy_ftp, const QString &proxy_socks, const QString &no_proxy, const QString &pac)
     {
         QList<QVariant> argumentList;
-        argumentList << qVariantFromValue(proxy_http) << qVariantFromValue(proxy_https) << qVariantFromValue(proxy_ftp) << qVariantFromValue(proxy_socks) << qVariantFromValue(no_proxy) << qVariantFromValue(pac);
+        argumentList << QVariant::fromValue(proxy_http) << QVariant::fromValue(proxy_https) << QVariant::fromValue(proxy_ftp) << QVariant::fromValue(proxy_socks) << QVariant::fromValue(no_proxy) << QVariant::fromValue(pac);
         return asyncCallWithArgumentList(QLatin1String("SetProxy"), argumentList);
     }
 
     inline QDBusPendingReply<> SetRoot(const QString &root)
     {
         QList<QVariant> argumentList;
-        argumentList << qVariantFromValue(root);
+        argumentList << QVariant::fromValue(root);
         return asyncCallWithArgumentList(QLatin1String("SetRoot"), argumentList);
     }
 
     inline QDBusPendingReply<> StateHasChanged(const QString &reason)
     {
         QList<QVariant> argumentList;
-        argumentList << qVariantFromValue(reason);
+        argumentList << QVariant::fromValue(reason);
         return asyncCallWithArgumentList(QLatin1String("StateHasChanged"), argumentList);
     }
 

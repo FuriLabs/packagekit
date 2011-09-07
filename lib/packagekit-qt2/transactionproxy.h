@@ -8,8 +8,8 @@
  * Do not edit! All changes made to it will be lost.
  */
 
-#ifndef TRANSACTIONPROXY_H_1311169678
-#define TRANSACTIONPROXY_H_1311169678
+#ifndef TRANSACTIONPROXY_H_1315229029
+#define TRANSACTIONPROXY_H_1315229029
 
 #include <QtCore/QObject>
 #include <QtCore/QByteArray>
@@ -83,7 +83,7 @@ public Q_SLOTS: // METHODS
     inline QDBusPendingReply<> AcceptEula(const QString &eula_id)
     {
         QList<QVariant> argumentList;
-        argumentList << qVariantFromValue(eula_id);
+        argumentList << QVariant::fromValue(eula_id);
         return asyncCallWithArgumentList(QLatin1String("AcceptEula"), argumentList);
     }
 
@@ -96,7 +96,7 @@ public Q_SLOTS: // METHODS
     inline QDBusPendingReply<> DownloadPackages(bool store_in_cache, const QStringList &package_ids)
     {
         QList<QVariant> argumentList;
-        argumentList << qVariantFromValue(store_in_cache) << qVariantFromValue(package_ids);
+        argumentList << QVariant::fromValue(store_in_cache) << QVariant::fromValue(package_ids);
         return asyncCallWithArgumentList(QLatin1String("DownloadPackages"), argumentList);
     }
 
@@ -109,14 +109,14 @@ public Q_SLOTS: // METHODS
     inline QDBusPendingReply<> GetDepends(const QString &filter, const QStringList &package_ids, bool recursive)
     {
         QList<QVariant> argumentList;
-        argumentList << qVariantFromValue(filter) << qVariantFromValue(package_ids) << qVariantFromValue(recursive);
+        argumentList << QVariant::fromValue(filter) << QVariant::fromValue(package_ids) << QVariant::fromValue(recursive);
         return asyncCallWithArgumentList(QLatin1String("GetDepends"), argumentList);
     }
 
     inline QDBusPendingReply<> GetDetails(const QStringList &package_ids)
     {
         QList<QVariant> argumentList;
-        argumentList << qVariantFromValue(package_ids);
+        argumentList << QVariant::fromValue(package_ids);
         return asyncCallWithArgumentList(QLatin1String("GetDetails"), argumentList);
     }
 
@@ -129,203 +129,203 @@ public Q_SLOTS: // METHODS
     inline QDBusPendingReply<> GetFiles(const QStringList &package_ids)
     {
         QList<QVariant> argumentList;
-        argumentList << qVariantFromValue(package_ids);
+        argumentList << QVariant::fromValue(package_ids);
         return asyncCallWithArgumentList(QLatin1String("GetFiles"), argumentList);
     }
 
     inline QDBusPendingReply<> GetOldTransactions(uint number)
     {
         QList<QVariant> argumentList;
-        argumentList << qVariantFromValue(number);
+        argumentList << QVariant::fromValue(number);
         return asyncCallWithArgumentList(QLatin1String("GetOldTransactions"), argumentList);
     }
 
     inline QDBusPendingReply<> GetPackages(const QString &filter)
     {
         QList<QVariant> argumentList;
-        argumentList << qVariantFromValue(filter);
+        argumentList << QVariant::fromValue(filter);
         return asyncCallWithArgumentList(QLatin1String("GetPackages"), argumentList);
     }
 
     inline QDBusPendingReply<> GetRepoList(const QString &filter)
     {
         QList<QVariant> argumentList;
-        argumentList << qVariantFromValue(filter);
+        argumentList << QVariant::fromValue(filter);
         return asyncCallWithArgumentList(QLatin1String("GetRepoList"), argumentList);
     }
 
     inline QDBusPendingReply<> GetRequires(const QString &filter, const QStringList &package_ids, bool recursive)
     {
         QList<QVariant> argumentList;
-        argumentList << qVariantFromValue(filter) << qVariantFromValue(package_ids) << qVariantFromValue(recursive);
+        argumentList << QVariant::fromValue(filter) << QVariant::fromValue(package_ids) << QVariant::fromValue(recursive);
         return asyncCallWithArgumentList(QLatin1String("GetRequires"), argumentList);
     }
 
     inline QDBusPendingReply<> GetUpdateDetail(const QStringList &package_ids)
     {
         QList<QVariant> argumentList;
-        argumentList << qVariantFromValue(package_ids);
+        argumentList << QVariant::fromValue(package_ids);
         return asyncCallWithArgumentList(QLatin1String("GetUpdateDetail"), argumentList);
     }
 
     inline QDBusPendingReply<> GetUpdates(const QString &filter)
     {
         QList<QVariant> argumentList;
-        argumentList << qVariantFromValue(filter);
+        argumentList << QVariant::fromValue(filter);
         return asyncCallWithArgumentList(QLatin1String("GetUpdates"), argumentList);
     }
 
     inline QDBusPendingReply<> InstallFiles(bool only_trusted, const QStringList &full_paths)
     {
         QList<QVariant> argumentList;
-        argumentList << qVariantFromValue(only_trusted) << qVariantFromValue(full_paths);
+        argumentList << QVariant::fromValue(only_trusted) << QVariant::fromValue(full_paths);
         return asyncCallWithArgumentList(QLatin1String("InstallFiles"), argumentList);
     }
 
     inline QDBusPendingReply<> InstallPackages(bool only_trusted, const QStringList &package_ids)
     {
         QList<QVariant> argumentList;
-        argumentList << qVariantFromValue(only_trusted) << qVariantFromValue(package_ids);
+        argumentList << QVariant::fromValue(only_trusted) << QVariant::fromValue(package_ids);
         return asyncCallWithArgumentList(QLatin1String("InstallPackages"), argumentList);
     }
 
     inline QDBusPendingReply<> InstallSignature(const QString &sig_type, const QString &key_id, const QString &package_id)
     {
         QList<QVariant> argumentList;
-        argumentList << qVariantFromValue(sig_type) << qVariantFromValue(key_id) << qVariantFromValue(package_id);
+        argumentList << QVariant::fromValue(sig_type) << QVariant::fromValue(key_id) << QVariant::fromValue(package_id);
         return asyncCallWithArgumentList(QLatin1String("InstallSignature"), argumentList);
     }
 
     inline QDBusPendingReply<> RefreshCache(bool force)
     {
         QList<QVariant> argumentList;
-        argumentList << qVariantFromValue(force);
+        argumentList << QVariant::fromValue(force);
         return asyncCallWithArgumentList(QLatin1String("RefreshCache"), argumentList);
     }
 
     inline QDBusPendingReply<> RemovePackages(const QStringList &package_ids, bool allow_deps, bool autoremove)
     {
         QList<QVariant> argumentList;
-        argumentList << qVariantFromValue(package_ids) << qVariantFromValue(allow_deps) << qVariantFromValue(autoremove);
+        argumentList << QVariant::fromValue(package_ids) << QVariant::fromValue(allow_deps) << QVariant::fromValue(autoremove);
         return asyncCallWithArgumentList(QLatin1String("RemovePackages"), argumentList);
     }
 
     inline QDBusPendingReply<> RepoEnable(const QString &repo_id, bool enabled)
     {
         QList<QVariant> argumentList;
-        argumentList << qVariantFromValue(repo_id) << qVariantFromValue(enabled);
+        argumentList << QVariant::fromValue(repo_id) << QVariant::fromValue(enabled);
         return asyncCallWithArgumentList(QLatin1String("RepoEnable"), argumentList);
     }
 
     inline QDBusPendingReply<> RepoSetData(const QString &repo_id, const QString &parameter, const QString &value)
     {
         QList<QVariant> argumentList;
-        argumentList << qVariantFromValue(repo_id) << qVariantFromValue(parameter) << qVariantFromValue(value);
+        argumentList << QVariant::fromValue(repo_id) << QVariant::fromValue(parameter) << QVariant::fromValue(value);
         return asyncCallWithArgumentList(QLatin1String("RepoSetData"), argumentList);
     }
 
     inline QDBusPendingReply<> Resolve(const QString &filter, const QStringList &packages)
     {
         QList<QVariant> argumentList;
-        argumentList << qVariantFromValue(filter) << qVariantFromValue(packages);
+        argumentList << QVariant::fromValue(filter) << QVariant::fromValue(packages);
         return asyncCallWithArgumentList(QLatin1String("Resolve"), argumentList);
     }
 
     inline QDBusPendingReply<> Rollback(const QString &transaction_id)
     {
         QList<QVariant> argumentList;
-        argumentList << qVariantFromValue(transaction_id);
+        argumentList << QVariant::fromValue(transaction_id);
         return asyncCallWithArgumentList(QLatin1String("Rollback"), argumentList);
     }
 
     inline QDBusPendingReply<> SearchDetails(const QString &filter, const QStringList &values)
     {
         QList<QVariant> argumentList;
-        argumentList << qVariantFromValue(filter) << qVariantFromValue(values);
+        argumentList << QVariant::fromValue(filter) << QVariant::fromValue(values);
         return asyncCallWithArgumentList(QLatin1String("SearchDetails"), argumentList);
     }
 
     inline QDBusPendingReply<> SearchFiles(const QString &filter, const QStringList &values)
     {
         QList<QVariant> argumentList;
-        argumentList << qVariantFromValue(filter) << qVariantFromValue(values);
+        argumentList << QVariant::fromValue(filter) << QVariant::fromValue(values);
         return asyncCallWithArgumentList(QLatin1String("SearchFiles"), argumentList);
     }
 
     inline QDBusPendingReply<> SearchGroups(const QString &filter, const QStringList &values)
     {
         QList<QVariant> argumentList;
-        argumentList << qVariantFromValue(filter) << qVariantFromValue(values);
+        argumentList << QVariant::fromValue(filter) << QVariant::fromValue(values);
         return asyncCallWithArgumentList(QLatin1String("SearchGroups"), argumentList);
     }
 
     inline QDBusPendingReply<> SearchNames(const QString &filter, const QStringList &values)
     {
         QList<QVariant> argumentList;
-        argumentList << qVariantFromValue(filter) << qVariantFromValue(values);
+        argumentList << QVariant::fromValue(filter) << QVariant::fromValue(values);
         return asyncCallWithArgumentList(QLatin1String("SearchNames"), argumentList);
     }
 
     inline QDBusPendingReply<> SetHints(const QStringList &hints)
     {
         QList<QVariant> argumentList;
-        argumentList << qVariantFromValue(hints);
+        argumentList << QVariant::fromValue(hints);
         return asyncCallWithArgumentList(QLatin1String("SetHints"), argumentList);
     }
 
     inline QDBusPendingReply<> SimulateInstallFiles(const QStringList &full_paths)
     {
         QList<QVariant> argumentList;
-        argumentList << qVariantFromValue(full_paths);
+        argumentList << QVariant::fromValue(full_paths);
         return asyncCallWithArgumentList(QLatin1String("SimulateInstallFiles"), argumentList);
     }
 
     inline QDBusPendingReply<> SimulateInstallPackages(const QStringList &package_ids)
     {
         QList<QVariant> argumentList;
-        argumentList << qVariantFromValue(package_ids);
+        argumentList << QVariant::fromValue(package_ids);
         return asyncCallWithArgumentList(QLatin1String("SimulateInstallPackages"), argumentList);
     }
 
     inline QDBusPendingReply<> SimulateRemovePackages(const QStringList &package_ids, bool autoremove)
     {
         QList<QVariant> argumentList;
-        argumentList << qVariantFromValue(package_ids) << qVariantFromValue(autoremove);
+        argumentList << QVariant::fromValue(package_ids) << QVariant::fromValue(autoremove);
         return asyncCallWithArgumentList(QLatin1String("SimulateRemovePackages"), argumentList);
     }
 
     inline QDBusPendingReply<> SimulateUpdatePackages(const QStringList &package_ids)
     {
         QList<QVariant> argumentList;
-        argumentList << qVariantFromValue(package_ids);
+        argumentList << QVariant::fromValue(package_ids);
         return asyncCallWithArgumentList(QLatin1String("SimulateUpdatePackages"), argumentList);
     }
 
     inline QDBusPendingReply<> UpdatePackages(bool only_trusted, const QStringList &package_ids)
     {
         QList<QVariant> argumentList;
-        argumentList << qVariantFromValue(only_trusted) << qVariantFromValue(package_ids);
+        argumentList << QVariant::fromValue(only_trusted) << QVariant::fromValue(package_ids);
         return asyncCallWithArgumentList(QLatin1String("UpdatePackages"), argumentList);
     }
 
     inline QDBusPendingReply<> UpdateSystem(bool only_trusted)
     {
         QList<QVariant> argumentList;
-        argumentList << qVariantFromValue(only_trusted);
+        argumentList << QVariant::fromValue(only_trusted);
         return asyncCallWithArgumentList(QLatin1String("UpdateSystem"), argumentList);
     }
 
     inline QDBusPendingReply<> UpgradeSystem(const QString &distro_id, const QString &upgrade_kind)
     {
         QList<QVariant> argumentList;
-        argumentList << qVariantFromValue(distro_id) << qVariantFromValue(upgrade_kind);
+        argumentList << QVariant::fromValue(distro_id) << QVariant::fromValue(upgrade_kind);
         return asyncCallWithArgumentList(QLatin1String("UpgradeSystem"), argumentList);
     }
 
     inline QDBusPendingReply<> WhatProvides(const QString &filter, const QString &type, const QStringList &values)
     {
         QList<QVariant> argumentList;
-        argumentList << qVariantFromValue(filter) << qVariantFromValue(type) << qVariantFromValue(values);
+        argumentList << QVariant::fromValue(filter) << QVariant::fromValue(type) << QVariant::fromValue(values);
         return asyncCallWithArgumentList(QLatin1String("WhatProvides"), argumentList);
     }
 

@@ -62,7 +62,7 @@
 </pre>
 </div>
 <div class="refsect1">
-<a name="id448698"></a><h2>Signals</h2>
+<a name="id477097"></a><h2>Signals</h2>
 <pre class="synopsis"><a class="link" href="PackageKit.html#PackageKit::TransactionListChanged">TransactionListChanged</a> ('as' transactions)
 <a class="link" href="PackageKit.html#PackageKit::RestartSchedule">RestartSchedule</a>        ()
 <a class="link" href="PackageKit.html#PackageKit::RepoListChanged">RepoListChanged</a>        ()
@@ -71,14 +71,14 @@
 </pre>
 </div>
 <div class="refsect1">
-<a name="id437862"></a><h2>Implemented Interfaces</h2>
+<a name="id466261"></a><h2>Implemented Interfaces</h2>
 <p>org.freedesktop.PackageKit implements
     org.freedesktop.DBus.Introspectable,
     org.freedesktop.DBus.Properties
     </p>
 </div>
 <div class="refsect1">
-<a name="id437879"></a><h2>Properties</h2>
+<a name="id466278"></a><h2>Properties</h2>
 <pre class="synopsis"><a class="link" href="PackageKit.html#PackageKit:VersionMajor">'VersionMajor'</a>       read      'u'
 <a class="link" href="PackageKit.html#PackageKit:VersionMinor">'VersionMinor'</a>       read      'u'
 <a class="link" href="PackageKit.html#PackageKit:VersionMicro">'VersionMicro'</a>       read      'u'
@@ -95,7 +95,7 @@
 </pre>
 </div>
 <div class="refsect1">
-<a name="id433446"></a><h2>Description</h2>
+<a name="id461845"></a><h2>Description</h2>
 <p>
       
         </p>
@@ -107,9 +107,9 @@
     </p>
 </div>
 <div class="refsect1">
-<a name="id458382"></a><h2>Details</h2>
+<a name="id486781"></a><h2>Details</h2>
 <div class="refsect2">
-<a name="id458390"></a><h3>
+<a name="id486789"></a><h3>
 <a name="PackageKit.CanAuthorize"></a>CanAuthorize ()</h3>
 <pre class="programlisting">CanAuthorize (in  's' action_id,
               out 's' result)</pre>
@@ -140,7 +140,7 @@
 </table></div>
 <hr>
 <div class="refsect2">
-<a name="id426607"></a><h3>
+<a name="id455006"></a><h3>
 <a name="PackageKit.GetTid"></a>GetTid ()</h3>
 <pre class="programlisting">GetTid (out 's' tid)</pre>
 </div>
@@ -160,7 +160,7 @@
 </table></div>
 <hr>
 <div class="refsect2">
-<a name="id426649"></a><h3>
+<a name="id455048"></a><h3>
 <a name="PackageKit.GetTimeSinceAction"></a>GetTimeSinceAction ()</h3>
 <pre class="programlisting">GetTimeSinceAction (in  's' role,
                     out 'u' seconds)</pre>
@@ -191,7 +191,7 @@
 </table></div>
 <hr>
 <div class="refsect2">
-<a name="id426704"></a><h3>
+<a name="id455102"></a><h3>
 <a name="PackageKit.GetTransactionList"></a>GetTransactionList ()</h3>
 <pre class="programlisting">GetTransactionList (out 'as' transactions)</pre>
 </div>
@@ -211,7 +211,7 @@
 </table></div>
 <hr>
 <div class="refsect2">
-<a name="id422467"></a><h3>
+<a name="id450866"></a><h3>
 <a name="PackageKit.StateHasChanged"></a>StateHasChanged ()</h3>
 <pre class="programlisting">StateHasChanged (in  's' reason)</pre>
 </div>
@@ -235,7 +235,7 @@
 </table></div>
 <hr>
 <div class="refsect2">
-<a name="id422512"></a><h3>
+<a name="id450911"></a><h3>
 <a name="PackageKit.SuggestDaemonQuit"></a>SuggestDaemonQuit ()</h3>
 <pre class="programlisting">SuggestDaemonQuit ()</pre>
 </div>
@@ -249,7 +249,7 @@
 </table></div>
 <hr>
 <div class="refsect2">
-<a name="id422545"></a><h3>
+<a name="id450944"></a><h3>
 <a name="PackageKit.GetDaemonState"></a>GetDaemonState ()</h3>
 <pre class="programlisting">GetDaemonState (out 's' state)</pre>
 </div>
@@ -270,7 +270,7 @@
 </table></div>
 <hr>
 <div class="refsect2">
-<a name="id415776"></a><h3>
+<a name="id444175"></a><h3>
 <a name="PackageKit.SetProxy"></a>SetProxy ()</h3>
 <pre class="programlisting">SetProxy (in  's' proxy_http,
           in  's' proxy_https,
@@ -341,7 +341,7 @@
 <p class="permission">Callers need the org.freedesktop.packagekit.set-proxy</p>
 <hr>
 <div class="refsect2">
-<a name="id415887"></a><h3>
+<a name="id444286"></a><h3>
 <a name="PackageKit.SetRoot"></a>SetRoot ()</h3>
 <pre class="programlisting">SetRoot (in  's' root)</pre>
 </div>
@@ -362,9 +362,9 @@
 <p class="permission">Callers need the org.freedesktop.packagekit.system-change-install-root</p>
 </div>
 <div class="refsect1">
-<a name="id415935"></a><h2>Signal Details</h2>
+<a name="id444334"></a><h2>Signal Details</h2>
 <div class="refsect2">
-<a name="id415943"></a><h3>
+<a name="id444342"></a><h3>
 <a name="PackageKit::TransactionListChanged"></a>The TransactionListChanged signal</h3>
 <pre class="programlisting">TransactionListChanged ('as' transactions)</pre>
 </div>
@@ -385,7 +385,7 @@
 </table></div>
 <hr>
 <div class="refsect2">
-<a name="id418539"></a><h3>
+<a name="id446938"></a><h3>
 <a name="PackageKit::RestartSchedule"></a>The RestartSchedule signal</h3>
 <pre class="programlisting">RestartSchedule ()</pre>
 </div>
@@ -398,7 +398,7 @@
 </table></div>
 <hr>
 <div class="refsect2">
-<a name="id418570"></a><h3>
+<a name="id446969"></a><h3>
 <a name="PackageKit::RepoListChanged"></a>The RepoListChanged signal</h3>
 <pre class="programlisting">RepoListChanged ()</pre>
 </div>
@@ -411,7 +411,7 @@
 </table></div>
 <hr>
 <div class="refsect2">
-<a name="id418600"></a><h3>
+<a name="id446999"></a><h3>
 <a name="PackageKit::UpdatesChanged"></a>The UpdatesChanged signal</h3>
 <pre class="programlisting">UpdatesChanged ()</pre>
 </div>
@@ -424,7 +424,7 @@
 </table></div>
 <hr>
 <div class="refsect2">
-<a name="id418632"></a><h3>
+<a name="id447031"></a><h3>
 <a name="PackageKit::Changed"></a>The Changed signal</h3>
 <pre class="programlisting">Changed ()</pre>
 </div>
@@ -437,9 +437,9 @@
 </table></div>
 </div>
 <div class="refsect1">
-<a name="id418664"></a><h2>Property Details</h2>
+<a name="id447063"></a><h2>Property Details</h2>
 <div class="refsect2">
-<a name="id418672"></a><h3>
+<a name="id447071"></a><h3>
 <a name="PackageKit:VersionMajor"></a>The "VersionMajor" property</h3>
 <pre class="programlisting">'VersionMajor'  read      'u'
 </pre>
@@ -453,7 +453,7 @@
 </table></div>
 <hr>
 <div class="refsect2">
-<a name="id418703"></a><h3>
+<a name="id447102"></a><h3>
 <a name="PackageKit:VersionMinor"></a>The "VersionMinor" property</h3>
 <pre class="programlisting">'VersionMinor'  read      'u'
 </pre>
@@ -467,7 +467,7 @@
 </table></div>
 <hr>
 <div class="refsect2">
-<a name="id418733"></a><h3>
+<a name="id447132"></a><h3>
 <a name="PackageKit:VersionMicro"></a>The "VersionMicro" property</h3>
 <pre class="programlisting">'VersionMicro'  read      'u'
 </pre>
@@ -481,7 +481,7 @@
 </table></div>
 <hr>
 <div class="refsect2">
-<a name="id426240"></a><h3>
+<a name="id454639"></a><h3>
 <a name="PackageKit:BackendName"></a>The "BackendName" property</h3>
 <pre class="programlisting">'BackendName'  read      's'
 </pre>
@@ -495,7 +495,7 @@
 </table></div>
 <hr>
 <div class="refsect2">
-<a name="id426270"></a><h3>
+<a name="id454669"></a><h3>
 <a name="PackageKit:BackendDescription"></a>The "BackendDescription" property</h3>
 <pre class="programlisting">'BackendDescription'  read      's'
 </pre>
@@ -509,7 +509,7 @@
 </table></div>
 <hr>
 <div class="refsect2">
-<a name="id426301"></a><h3>
+<a name="id454700"></a><h3>
 <a name="PackageKit:BackendAuthor"></a>The "BackendAuthor" property</h3>
 <pre class="programlisting">'BackendAuthor'  read      's'
 </pre>
@@ -523,7 +523,7 @@
 </table></div>
 <hr>
 <div class="refsect2">
-<a name="id426333"></a><h3>
+<a name="id454732"></a><h3>
 <a name="PackageKit:Roles"></a>The "Roles" property</h3>
 <pre class="programlisting">'Roles'  read      's'
 </pre>
@@ -537,7 +537,7 @@
 </table></div>
 <hr>
 <div class="refsect2">
-<a name="id426364"></a><h3>
+<a name="id454763"></a><h3>
 <a name="PackageKit:Groups"></a>The "Groups" property</h3>
 <pre class="programlisting">'Groups'  read      's'
 </pre>
@@ -551,7 +551,7 @@
 </table></div>
 <hr>
 <div class="refsect2">
-<a name="id426395"></a><h3>
+<a name="id454794"></a><h3>
 <a name="PackageKit:Filters"></a>The "Filters" property</h3>
 <pre class="programlisting">'Filters'  read      's'
 </pre>
@@ -565,7 +565,7 @@
 </table></div>
 <hr>
 <div class="refsect2">
-<a name="id426426"></a><h3>
+<a name="id454825"></a><h3>
 <a name="PackageKit:MimeTypes"></a>The "MimeTypes" property</h3>
 <pre class="programlisting">'MimeTypes'  read      's'
 </pre>
@@ -579,7 +579,7 @@
 </table></div>
 <hr>
 <div class="refsect2">
-<a name="id421660"></a><h3>
+<a name="id450059"></a><h3>
 <a name="PackageKit:Locked"></a>The "Locked" property</h3>
 <pre class="programlisting">'Locked'  read      'b'
 </pre>
@@ -593,7 +593,7 @@
 </table></div>
 <hr>
 <div class="refsect2">
-<a name="id421692"></a><h3>
+<a name="id450090"></a><h3>
 <a name="PackageKit:NetworkState"></a>The "NetworkState" property</h3>
 <pre class="programlisting">'NetworkState'  read      's'
 </pre>
@@ -617,7 +617,7 @@
 </table></div>
 <hr>
 <div class="refsect2">
-<a name="id421731"></a><h3>
+<a name="id450130"></a><h3>
 <a name="PackageKit:DistroId"></a>The "DistroId" property</h3>
 <pre class="programlisting">'DistroId'  read      's'
 </pre>

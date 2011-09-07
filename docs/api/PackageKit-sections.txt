@@ -507,6 +507,7 @@ pk_progress_test
 PkProgressType
 PkProgressCallback
 pk_progress_set_package_id
+pk_progress_set_item_progress
 pk_progress_set_transaction_id
 pk_progress_set_percentage
 pk_progress_set_subpercentage
