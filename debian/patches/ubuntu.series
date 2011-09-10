@@ -2,4 +2,5 @@ vendor-ubuntu.diff
 defaults.diff
 policy.diff
 01_aptcc_fix-long-desc.patch
+02_glib-signal.patch
 99_ltmain-as-needed.patch
