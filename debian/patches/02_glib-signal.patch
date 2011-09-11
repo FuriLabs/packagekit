@@ -1,7 +1,6 @@
-diff -up PackageKit-0.6.18/src/pk-main.c.signal PackageKit-0.6.18/src/pk-main.c
---- PackageKit-0.6.18/src/pk-main.c.signal	2011-09-08 20:17:51.479976840 -0400
-+++ PackageKit-0.6.18/src/pk-main.c	2011-09-08 20:20:33.134971062 -0400
-@@ -271,13 +271,13 @@ main (int argc, char *argv[])
+--- a/src/pk-main.c
++++ b/src/pk-main.c
+@@ -271,13 +271,13 @@
  		goto exit_program;
  	}
  
@@ -21,3 +20,10 @@ diff -up PackageKit-0.6.18/src/pk-main.c.signal PackageKit-0.6.18/src/pk-main.c
  #else
  	signal (SIGINT, pk_main_sigint_handler);
  #endif
+--- a/po/POTFILES.skip
++++ b/po/POTFILES.skip
+@@ -7,3 +7,4 @@
+ lib/packagekit-glib2/egg-debug.c
+ backends/yum/libzif/egg-debug.c
+ .pc/policy.diff/policy/org.freedesktop.packagekit.policy.in
++.pc/02_glib-signal.patch/src/pk-main.c
