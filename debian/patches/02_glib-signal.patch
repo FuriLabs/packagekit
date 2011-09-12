@@ -1,0 +1,29 @@
+--- a/src/pk-main.c
++++ b/src/pk-main.c
+@@ -271,13 +271,13 @@
+ 		goto exit_program;
+ 	}
+ 
+-#if GLIB_CHECK_VERSION(2,29,4)
++#if GLIB_CHECK_VERSION(2,29,90)
+ 	/* do stuff on ctrl-c */
+-	g_unix_signal_add_watch_full (SIGINT,
+-				      G_PRIORITY_DEFAULT,
+-				      pk_main_sigint_cb,
+-				      loop,
+-				      NULL);
++	g_unix_signal_add_full (G_PRIORITY_DEFAULT,
++                                SIGINT,
++			        pk_main_sigint_cb,
++			        loop,
++			        NULL);
+ #else
+ 	signal (SIGINT, pk_main_sigint_handler);
+ #endif
+--- a/po/POTFILES.skip
++++ b/po/POTFILES.skip
+@@ -7,3 +7,4 @@
+ lib/packagekit-glib2/egg-debug.c
+ backends/yum/libzif/egg-debug.c
+ .pc/policy.diff/policy/org.freedesktop.packagekit.policy.in
++.pc/02_glib-signal.patch/src/pk-main.c
