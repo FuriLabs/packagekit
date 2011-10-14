@@ -5,7 +5,7 @@ Maintainer: Matthias Klumpp <matthias@tenstral.net>
 Uploaders: Julian Andres Klode <jak@debian.org>
 Vcs-Git: git://anonscm.debian.org/pkg-packagekit/packagekit.git
 Vcs-Browser: http://anonscm.debian.org/gitweb/?p=pkg-packagekit/packagekit.git
-Build-Depends: debhelper (>= 7.0.50~),
+Build-Depends: debhelper (>= 8.0.0),
                docbook-utils,
                gir1.2-glib-2.0 (>= 0.10.1),
                gobject-introspection (>= 0.10.1),
@@ -49,7 +49,7 @@ Depends: libpackagekit-glib2-14 (= ${binary:Version}),
 Breaks: packagekit-backend-apt (<< ${binary:Version}),
         packagekit-backend-aptcc (<< ${binary:Version}),
         packagekit-backend-smart (<< ${binary:Version})
-Suggests: packagekit-backend-apt, packagekit-backend-smart
+Suggests: packagekit-backend-smart
 Description: Provides a package management service
  PackageKit allows performing simple software management tasks over a DBus
  interface e.g. refreshing the cache, updating, installing and removing
@@ -216,27 +216,6 @@ Description: Plugin to install missing plugins using PackageKit
  .
  This package provides a browser plugin.
 
-Package: packagekit-backend-apt
-Architecture: any
-Depends: app-install-data,
-         python-apt (>=0.7.13.2),
-         python-gdbm,
-         python-packagekit (= ${source:Version}),
-         python-software-properties,
-         update-manager-core,
-         ${misc:Depends},
-         ${python:Depends},
-         ${shlibs:Depends}
-XB-Python-Version: ${python:Versions}
-Recommends: apt-xapian-index
-Description: Python APT backend for PackageKit
- PackageKit allows performing simple software management tasks over a DBus
- interface e.g. refreshing the cache, updating, installing and removing
- software packages or searching for multimedia codecs and file handlers.
- .
- This package allows using APT over a Python-based PackageKit backend.
- APT is the default package management tool of Debian and Ubuntu.
-
 Package: packagekit-backend-aptcc
 Architecture: any
 Depends: app-install-data,
@@ -246,7 +225,7 @@ Depends: app-install-data,
          ${shlibs:Depends}
 XB-Python-Version: ${python:Versions}
 Recommends: apt-xapian-index
-Description: C++ APT backend for PackageKit
+Description: APT backend for PackageKit
  PackageKit allows performing simple software management tasks over a DBus
  interface e.g. refreshing the cache, updating, installing and removing
  software packages or searching for multimedia codecs and file handlers.

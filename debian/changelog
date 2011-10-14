@@ -1,3 +1,9 @@
+packagekit (0.7.0-1) UNRELEASED; urgency=low
+
+  * ...
+
+ -- Matthias Klumpp <matthias@tenstral.net>  Fri, 14 Oct 2011 19:44:48 +0200
+
 packagekit (0.6.18-1) unstable; urgency=low
 
   * New upstream release: 0.6.18
