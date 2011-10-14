@@ -64,6 +64,7 @@ override_dh_auto_install:
 	rm -rf $(INSTALLDIR)/usr/include/PackageKit/packagekit-qt
 	rm -f  $(INSTALLDIR)/usr/lib/pkgconfig/packagekit-qt.pc
 	rm -f  $(INSTALLDIR)/usr/share/cmake/Modules/FindQPackageKit.cmake
+	rm -rf $(INSTALLDIR)/usr/lib/python2.*
 
 override_dh_install: extrainstallfiles-stamp
 	dh_install --list-missing

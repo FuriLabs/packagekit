@@ -48,7 +48,8 @@ Depends: libpackagekit-glib2-14 (= ${binary:Version}),
          ${shlibs:Depends}
 Breaks: packagekit-backend-apt (<< ${binary:Version}),
         packagekit-backend-aptcc (<< ${binary:Version}),
-        packagekit-backend-smart (<< ${binary:Version})
+        packagekit-backend-smart (<< ${binary:Version}),
+        python-packagekit (<< ${binary:Version})
 Suggests: packagekit-backend-smart
 Description: Provides a package management service
  PackageKit allows performing simple software management tasks over a DBus
@@ -124,7 +125,7 @@ Description: Library for accessing PackageKit using GLib (development files)
 Package: gir1.2-packagekitglib-1.0
 Section: libs
 Architecture: any
-Depends: ${gir:Depends}, ${misc:Depends}, ${shlibs:Depends}
+Depends: ${gir:Depends}, ${misc:Depends}
 Description: GObject introspection data for the PackageKit GLib library
  PackageKit allows performing simple software management tasks over a DBus
  interface e.g. refreshing the cache, updating, installing and removing
@@ -159,22 +160,6 @@ Description: Library for accessing PackageKit using Qt4 (development files)
  software packages or searching for multimedia codecs and file handlers.
  .
  This package provides the header files for Qt.
-
-Package: python-packagekit
-Architecture: all
-Section: python
-Depends: python-dbus,
-         python-gobject,
-         ${misc:Depends},
-         ${python:Depends},
-         ${shlibs:Depends}
-XB-Python-Version: ${python:Versions}
-Description: PackageKit Python bindings
- PackageKit allows performing simple software management tasks over a DBus
- interface e.g refreshing the cache, updating, installing and removing
- software packages or searching for multimedia codecs and file handlers.
- .
- This package provides Python bindings for PackageKit
 
 Package: packagekit-gtk3-module
 Architecture: any
