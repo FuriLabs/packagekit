@@ -9,10 +9,12 @@ usr/bin/pkgenpack
 usr/bin/pkmon
 usr/lib/packagekit-backend/libpk_backend_dummy.so
 usr/lib/packagekit-backend/libpk_backend_test_*.so
+usr/lib/packagekit-plugins/
 usr/lib/packagekit/packagekitd
 usr/lib/pm-utils/sleep.d/95packagekit
 usr/share/PackageKit/helpers/test_spawn/*
 usr/share/PackageKit/pk-upgrade-distro.sh
+usr/share/dbus-1/interfaces
 usr/share/dbus-1/system-services/org.freedesktop.PackageKit.service
 usr/share/locale/*/LC_MESSAGES/PackageKit.mo
 usr/share/man/man1/pk-debuginfo-install.1
