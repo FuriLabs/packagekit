@@ -10,7 +10,7 @@ PK_CONFIGURE_FLAGS = --disable-static \
 		--enable-gtk-doc \
 		--disable-cron \
 		--enable-introspection \
-		--enable-apt --enable-aptcc --enable-smart \
+		--enable-aptcc --enable-smart \
 		--disable-local \
 		--with-default-backend=aptcc \
 		--enable-browser-plugin \
@@ -46,6 +46,7 @@ override_dh_auto_configure:
 	cp -dpr $(CURDIR)/docs/api $(CURDIR)/docs/api.orig
 	# Remove Qt .moc-files, which break build
 	rm $(CURDIR)/lib/packagekit-qt/src/*.moc
+	rm $(CURDIR)/lib/packagekit-qt2/*.moc
 	dh_auto_configure -- $(PK_CONFIGURE_FLAGS)
 
 override_dh_auto_install:
@@ -70,6 +71,7 @@ override_dh_makeshlibs:
 	dh_girepository
 	# Remove Qt .moc-files, which break build
 	rm $(CURDIR)/lib/packagekit-qt/src/*.moc
+	rm $(CURDIR)/lib/packagekit-qt2/*.moc
 
 override_dh_auto_clean:
 	dh_auto_clean
