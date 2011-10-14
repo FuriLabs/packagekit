@@ -149,6 +149,7 @@
     <keyword type="" name="The Transaction signal" link="Transaction.html#Transaction::Transaction"/>
     <keyword type="" name="The UpdateDetail signal" link="Transaction.html#Transaction::UpdateDetail"/>
     <keyword type="" name="The DistroUpgrade signal" link="Transaction.html#Transaction::DistroUpgrade"/>
+    <keyword type="" name="The ItemProgress signal" link="Transaction.html#Transaction::ItemProgress"/>
     <keyword type="" name="The Changed signal" link="Transaction.html#Transaction::Changed"/>
     <keyword type="" name="The Destroy signal" link="Transaction.html#Transaction::Destroy"/>
     <keyword type="" name="The &quot;Role&quot; property" link="Transaction.html#Transaction:Role"/>
@@ -444,6 +445,7 @@
     <keyword type="enum" name="enum PkProgressType" link="PkProgress.html#PkProgressType"/>
     <keyword type="function" name="PkProgressCallback ()" link="PkProgress.html#PkProgressCallback"/>
     <keyword type="function" name="pk_progress_set_package_id ()" link="PkProgress.html#pk-progress-set-package-id" since="0.5.2"/>
+    <keyword type="function" name="pk_progress_set_item_progress ()" link="PkProgress.html#pk-progress-set-item-progress" since="0.7.0"/>
     <keyword type="function" name="pk_progress_set_transaction_id ()" link="PkProgress.html#pk-progress-set-transaction-id" since="0.5.3"/>
     <keyword type="function" name="pk_progress_set_percentage ()" link="PkProgress.html#pk-progress-set-percentage" since="0.5.2"/>
     <keyword type="function" name="pk_progress_set_subpercentage ()" link="PkProgress.html#pk-progress-set-subpercentage" since="0.5.2"/>
@@ -460,6 +462,8 @@
     <keyword type="property" name="The &quot;allow-cancel&quot; property" link="PkProgress.html#PkProgress--allow-cancel"/>
     <keyword type="property" name="The &quot;caller-active&quot; property" link="PkProgress.html#PkProgress--caller-active"/>
     <keyword type="property" name="The &quot;elapsed-time&quot; property" link="PkProgress.html#PkProgress--elapsed-time"/>
+    <keyword type="property" name="The &quot;item-progress-id&quot; property" link="PkProgress.html#PkProgress--item-progress-id"/>
+    <keyword type="property" name="The &quot;item-progress-value&quot; property" link="PkProgress.html#PkProgress--item-progress-value"/>
     <keyword type="property" name="The &quot;package&quot; property" link="PkProgress.html#PkProgress--package"/>
     <keyword type="property" name="The &quot;package-id&quot; property" link="PkProgress.html#PkProgress--package-id"/>
     <keyword type="property" name="The &quot;percentage&quot; property" link="PkProgress.html#PkProgress--percentage"/>

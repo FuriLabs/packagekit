@@ -2559,7 +2559,7 @@ pk_backend_get_details_thread (PkBackend *backend)
 				   error->message);
 			g_clear_error (&error);
 		}
-		group = pk_group_enum_from_text (group_str);
+		group = pk_group_enum_from_string (group_str);
 
 		/* this section done */
 		ret = zif_state_done (state_loop, &error);
@@ -3468,6 +3468,7 @@ pk_backend_run_transaction (PkBackend *backend, ZifState *state)
 	gboolean simulate;
 	GError *error = NULL;
 	GPtrArray *array_tmp;
+	GPtrArray *untrusted_array = NULL;
 	GPtrArray *install = NULL;
 	GPtrArray *simulate_array = NULL;
 	guint i, j;
@@ -3530,10 +3531,17 @@ pk_backend_run_transaction (PkBackend *backend, ZifState *state)
 
 	/* mark any untrusted packages */
 	install = zif_transaction_get_install (priv->transaction);
+	untrusted_array = g_ptr_array_new ();
 	for (i=0; i<install->len; i++) {
 		package = g_ptr_array_index (install, i);
 		trust_kind = zif_package_get_trust_kind (package);
 		if (trust_kind != ZIF_PACKAGE_TRUST_KIND_PUBKEY) {
+			/* TODO: make a proper property */
+			g_object_set_data (G_OBJECT(package),
+					   "kind",
+					   (gpointer)pk_info_enum_to_string (PK_INFO_ENUM_UNTRUSTED));
+			g_ptr_array_add (untrusted_array,
+					 package);
 
 			/* ignore the trusted auth step */
 			pk_backend_message (backend,
@@ -3542,6 +3550,10 @@ pk_backend_run_transaction (PkBackend *backend, ZifState *state)
 					    zif_package_get_printable (package));
 		}
 	}
+	state_local = zif_state_get_child (state);
+	pk_backend_emit_package_array (backend,
+				       untrusted_array,
+				       state_local);
 
 	/* this section done */
 	ret = zif_state_done (state, &error);
@@ -3654,6 +3666,8 @@ pk_backend_run_transaction (PkBackend *backend, ZifState *state)
 		goto out;
 	}
 out:
+	if (untrusted_array != NULL)
+		g_ptr_array_unref (untrusted_array);
 	if (simulate_array != NULL)
 		g_ptr_array_unref (simulate_array);
 	if (install != NULL)

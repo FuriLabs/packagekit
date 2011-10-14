@@ -78,6 +78,7 @@
 <ANCHOR id="Transaction::Transaction" href="PackageKit/Transaction.html#Transaction::Transaction">
 <ANCHOR id="Transaction::UpdateDetail" href="PackageKit/Transaction.html#Transaction::UpdateDetail">
 <ANCHOR id="Transaction::DistroUpgrade" href="PackageKit/Transaction.html#Transaction::DistroUpgrade">
+<ANCHOR id="Transaction::ItemProgress" href="PackageKit/Transaction.html#Transaction::ItemProgress">
 <ANCHOR id="Transaction::Changed" href="PackageKit/Transaction.html#Transaction::Changed">
 <ANCHOR id="Transaction::Destroy" href="PackageKit/Transaction.html#Transaction::Destroy">
 <ANCHOR id="Transaction:Role" href="PackageKit/Transaction.html#Transaction:Role">
@@ -489,6 +490,7 @@
 <ANCHOR id="PkProgressType" href="PackageKit/PkProgress.html#PkProgressType">
 <ANCHOR id="PkProgressCallback" href="PackageKit/PkProgress.html#PkProgressCallback">
 <ANCHOR id="pk-progress-set-package-id" href="PackageKit/PkProgress.html#pk-progress-set-package-id">
+<ANCHOR id="pk-progress-set-item-progress" href="PackageKit/PkProgress.html#pk-progress-set-item-progress">
 <ANCHOR id="pk-progress-set-transaction-id" href="PackageKit/PkProgress.html#pk-progress-set-transaction-id">
 <ANCHOR id="pk-progress-set-percentage" href="PackageKit/PkProgress.html#pk-progress-set-percentage">
 <ANCHOR id="pk-progress-set-subpercentage" href="PackageKit/PkProgress.html#pk-progress-set-subpercentage">
@@ -506,6 +508,8 @@
 <ANCHOR id="PkProgress--allow-cancel" href="PackageKit/PkProgress.html#PkProgress--allow-cancel">
 <ANCHOR id="PkProgress--caller-active" href="PackageKit/PkProgress.html#PkProgress--caller-active">
 <ANCHOR id="PkProgress--elapsed-time" href="PackageKit/PkProgress.html#PkProgress--elapsed-time">
+<ANCHOR id="PkProgress--item-progress-id" href="PackageKit/PkProgress.html#PkProgress--item-progress-id">
+<ANCHOR id="PkProgress--item-progress-value" href="PackageKit/PkProgress.html#PkProgress--item-progress-value">
 <ANCHOR id="PkProgress--package" href="PackageKit/PkProgress.html#PkProgress--package">
 <ANCHOR id="PkProgress--package-id" href="PackageKit/PkProgress.html#PkProgress--package-id">
 <ANCHOR id="PkProgress--percentage" href="PackageKit/PkProgress.html#PkProgress--percentage">

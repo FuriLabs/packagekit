@@ -1,12 +1,123 @@
-commit 95f804aadf5bc763e80bf55beefdef4b7447a190
+commit dd21ff1f1766a7faa81d3f8802b2fa705be20cd7
+Author: Richard Hughes <richard@hughsie.com>
+Date:   2011-09-05
+
+    trivial: update the NEWS file, arggggghh
+
+M	NEWS
+
+commit 9e1a014f5b8b4ee582bd341302e1be14ebd8ad4b
+Author: Richard Hughes <richard@hughsie.com>
+Date:	2011-09-05
+
+    Release version 0.7.0
+
+M	RELEASE
+M	configure.ac
+M	docs/html/pk-download.html
+M	po/ar.po
+M	po/bg_BG.po
+M	po/ca@valencia.po
+M	po/fa_IR.po
+M	po/ga.po
+M	po/gl.po
+M	po/kk.po
+M	po/pa.po
+M	po/wa.po
+M	po/zh_TW.po
+
+commit 06fbfb3c01417019c1739e209120c76426ecea14
 Author: Frederic Crozat <fcrozat@suse.com>
-Date:   2011-09-02
+Date:	2011-09-02
 
     browser-plugin: Fix build with GTK+ < 2.24
 
 M	contrib/browser-plugin/pk-main.c
 
-commit 3faed3376e835b83b09a46915fd8f94d77b195ab
+commit 81d91f4217b7ca561fe1b3f89b7523ac324574c6
+Author: Richard Hughes <richard@hughsie.com>
+Date:	2011-09-01
+
+    trivial: add a description for POSTSCRIPT_DRIVER to the docs
+
+M	docs/provides-component-naming.txt
+
+commit 8b3573d08851b8607e8ffd84c379127a27caa64b
+Author: Denis Washington <denisw@online.de>
+Date:	2011-08-31
+
+    Use g_unix_signal_add_full() which has been renamed in the unstable
+    GLib branch
+
+    Signed-off-by: Richard Hughes <richard@hughsie.com>
+
+M	src/pk-main.c
+
+commit 8bd17abce4b742e52447d1b6f7f873b8262a97fd
+Author: Richard Hughes <richard@hughsie.com>
+Date:	2011-08-31
+
+    trivial: fix up the Fedora spec file now we install the cmake files
+    in the right place
+
+M	contrib/PackageKit.spec.in
+
+commit 8e5ccae41cbae39f886f0ffef18972d26ff918e9
+Author: Matthias Klumpp <matthias@nlinux.org>
+Date:	2011-08-26
+
+    trivial: Add missing files from last commit
+
+    Sorry, I forgot to add these files in my last commit...
+
+A	lib/packagekit-qt2/modules/packagekit-qt2-config-version.cmake.in
+A	lib/packagekit-qt2/modules/packagekit-qt2-config.cmake.in
+
+commit 95ff042d5d45478d8faf929cd94cc261c554b1d3
+Author: Matthias Klumpp <matthias@nlinux.org>
+Date:	2011-08-26
+
+    qt2: Use cmake package config instead of Find* module
+
+    CMake package config is the preferred way for 3rd-party
+    packages to install package config.
+
+M	configure.ac
+M	lib/packagekit-qt2/modules/Makefile.am
+
+commit faf345a90d27e1481daf51167cc3c28c5806abca
+Author: Matthias Klumpp <matthias@nlinux.org>
+Date:	2011-08-25
+
+    Add a "Python" type to PkProvidesEnum and document how the
+    provided components should be named.
+
+    Also renamed the "LIBRARY" type to "SHARED_LIB", as we don't
+    search for all libraries but only for shared libs.
+    (This change is possible because there hasn't been a PK release
+    with this change yet, so this doesn't break existing API)
+
+    The component naming shemes are documented in
+    docs/provides-component-naming.txt. This file is still incomplete
+    and needs to be extended.
+    Also, I'm not really happy with it's content (yet).
+
+M	backends/aptcc/pk-backend-aptcc.cpp
+A	docs/provides-component-naming.txt
+M	lib/packagekit-glib2/pk-enum.c
+M	lib/packagekit-glib2/pk-enum.h
+
+commit 04b2660b48216eff77eb9815590f12af0a04d360
+Author: Daniel Nicoletti <dantti12@gmail.com>
+Date:	2011-08-24
+
+    aptcc: Fix crash when long description blow char buffer, remove some
+    mem leaks too
+
+M	backends/aptcc/apt-utils.cpp
+M	backends/aptcc/apt.cpp
+
+commit fa92a0897e210afae64326578f6e54859585c0bf
 Author: Daniel Nicoletti <dantti85-pk@yahoo.com.br>
 Date:	2011-08-23
 
@@ -15,42 +126,56 @@ Date:	2011-08-23
 
 M	backends/aptcc/apt.cpp
 
-commit 29994e6512b78f9ab15e2ed65cda5c11a61c4a0d
+commit 79fe858f895f0fa37f21ea2a475f7c7f8f210a90
 Author: Richard Hughes <richard@hughsie.com>
-Date:	2011-08-12
+Date:	2011-08-22
 
-    plugin: Make lsof use the '-n' option to avoid looking up hostnames
+    Make percentage, subpercentage and remaining proper GObject properties
+    on the PkBackend object
 
-    This makes running lsof a couple of orders of magnitude quicker.
-
-M	src/pk-lsof.c
-
-commit 21bc7ef6e881f2b825248432995822b4708f066e
-Author: Richard Hughes <richard@hughsie.com>
-Date:	2011-08-12
-
-    Make the lsof plugin code support distros such as Fedora with /lib64
-
-M	src/pk-lsof.c
-
-commit 0eab40e8213a40bb25677bdff53a75fe4d01c387
-Author: Richard Hughes <richard@hughsie.com>
-Date:	2011-08-16
-
-    Remove the duplicate 'The software is not from a trusted source'
-    authentication line when updating
-
+M	src/pk-backend.c
 M	src/pk-transaction.c
 
-commit c24bd97a8a3f2018375bbeecd727e5814b0d5ff7
+commit 89ae922305d5aeb77a8d3107dcd8a78f23cbcb03
 Author: Richard Hughes <richard@hughsie.com>
-Date:	2011-08-16
+Date:	2011-08-22
 
-    zif: Fix a fatal error when doing 'pkcon repo-list --filter=~devel'
+    trivial: remove the unused pk_backend_get_progress()
 
-M	backends/zif/pk-backend-zif.c
+M	src/pk-backend.c
+M	src/pk-backend.h
 
-commit da6f6b3119376eba08c126f143b4a000fa351914
+commit bda3016e0728c15518288834cabf5018da0ea0fb
+Author: Richard Hughes <richard@hughsie.com>
+Date:	2011-08-22
+
+    Add an ItemProgress signal designed to eventually replace
+    SubPercentage
+
+    Most GUI's try to link the SubPercentage with a package, in order
+    to do sane
+    per-package completion reports. This is a hacky heuristic that just
+    works around
+    a deficiency in the public API. The ItemProgress is a new signal
+    that's designed
+    to be emitted by backends tying the package to the percentage and
+    should make
+    all the evil hacks go away.
+
+    We've not going to drop SubPercentage just yet, as the client code
+    will need
+    time to convert to the new world order.
+
+M	lib/packagekit-glib2/pk-client.c
+M	lib/packagekit-glib2/pk-progress.c
+M	lib/packagekit-glib2/pk-progress.h
+M	src/org.freedesktop.PackageKit.Transaction.xml
+M	src/pk-backend-spawn.c
+M	src/pk-backend.c
+M	src/pk-backend.h
+M	src/pk-transaction.c
+
+commit 0ccb8672d9a157ba77f9671fb09ab27720675ab2
 Author: Garrett Regier <garrettregier@gmail.com>
 Date:	2011-08-22
 
@@ -60,7 +185,100 @@ Date:	2011-08-22
 
 M	lib/packagekit-glib2/pk-progress.c
 
-commit df31de293c20c9cce1324ceab91d9e6e9cdc371c
+commit 4295e147cc7a4769ede8468ee9c3ccefdab16ce8
+Author: Richard Hughes <richard@hughsie.com>
+Date:	2011-08-16
+
+    zif: Fix a fatal error when doing 'pkcon repo-list --filter=~devel'
+
+M	backends/zif/pk-backend-zif.c
+
+commit 8864e4b3256ca08006fe6c7f0b7a0cbfe3af967c
+Author: Richard Hughes <richard@hughsie.com>
+Date:	2011-08-16
+
+    Remove the duplicate 'The software is not from a trusted source'
+    authentication line when updating
+
+M	src/pk-transaction.c
+
+commit fe7538feb0877737415dd13a5110b0b14501d490
+Author: Richard Hughes <richard@hughsie.com>
+Date:	2011-08-12
+
+    trivial: Fix the daemon self test program
+
+M	src/Makefile.am
+M	src/pk-self-test.c
+M	src/pk-transaction-list.c
+A	src/pk-transaction-private.h
+M	src/pk-transaction.c
+M	src/pk-transaction.h
+
+commit 3be719a27e2fea4596dd9e30cfcf0c70f28c20bd
+Author: Richard Hughes <richard@hughsie.com>
+Date:	2011-08-12
+
+    trivial: The D-Bus connection is unset in the self test program
+
+M	src/pk-transaction.c
+
+commit cb72d03a68d8ec89fa8e99bc4cdef03a91adf758
+Author: Richard Hughes <richard@hughsie.com>
+Date:	2011-08-12
+
+    Setting the plugin list is optional
+
+    The self test program does not do this.
+
+M	src/pk-transaction-list.c
+M	src/pk-transaction.c
+
+commit 71d31481afdcbf191ef9678e860ecc0cb7bc9b75
+Author: Richard Hughes <richard@hughsie.com>
+Date:	2011-08-12
+
+    trivial: Remove some dead code from the self test code
+
+M	src/pk-self-test.c
+
+commit 58b2409227b9e59b96227bbcc75b22a5fd3428f3
+Author: Richard Hughes <richard@hughsie.com>
+Date:	2011-08-12
+
+    Make the lsof plugin code support distros such as Fedora with /lib64
+
+M	src/plugins/pk-lsof.c
+
+commit 6d3bd0daf1b7209c51f688d069ed3cb3c1e49854
+Author: Richard Hughes <richard@hughsie.com>
+Date:	2011-08-12
+
+    plugin: Make lsof use the '-n' option to avoid looking up hostnames
+
+    This makes running lsof a couple of orders of magnitude quicker.
+
+M	src/plugins/pk-lsof.c
+
+commit 5d6419ac83883e4d2161032f65d565df8eb007ac
+Author: Fabio Erculiani <lxnay@sabayon.org>
+Date:	2011-08-09
+
+    entropy: properly account package size when "extra" downloads are
+    available
+
+M	backends/entropy/entropyBackend.py
+
+commit 5759bd093cb35c3ef0e57370e3ec474438f845bb
+Author: Richard Hughes <richard@hughsie.com>
+Date:	2011-08-05
+
+    Add an 'auto' string for the --with-default-backend= configure option
+
+M	configure.ac
+M	src/pk-backend.c
+
+commit b54d06b3f126af05b625efc4fc23d97c9fc48f4c
 Author: Richard Hughes <richard@hughsie.com>
 Date:	2011-08-04
 
@@ -76,7 +294,7 @@ Date:	2011-08-04
 
 M	backends/yum/yumBackend.py
 
-commit 76fb98ed4a80888a0a961452b9da5e21b6145347
+commit f9f250b0d46ee5833fa35117a295e380550d1bf0
 Author: Richard Hughes <richard@hughsie.com>
 Date:	2011-08-02
 
@@ -86,33 +304,59 @@ Date:	2011-08-02
 M	lib/packagekit-qt/src/Makefile.am
 M	lib/packagekit-qt2/Makefile.am
 
-commit 899dcef7133bc220b65bb33cd063be7ec4973eef
-Author: Richard Hughes <richard@hughsie.com>
-Date:	2011-08-01
+commit ad275648841ab1e3f7537edb0fbab6efc03373ae
+Author: Daniel Nicoletti <dantti85-pk@yahoo.com.br>
+Date:	2011-07-28
 
-    trivial: post release version bump
+    remove cppunit check as packagekit-qt2 does not use it
 
-M	RELEASE
 M	configure.ac
 
-commit ae8e9eba8d2073388f6c019b645aab5e1b82895d
+commit e0a2907f96a5058eacc28ae946b07215488a4e27
 Author: Richard Hughes <richard@hughsie.com>
-Date:	2011-08-01
+Date:	2011-07-28
 
-    Release version 0.6.17
+    trivial: Remove some redundant code when filtering the simulate lists
 
-M	NEWS
-M	configure.ac
-M	docs/html/pk-download.html
-M	po/ar.po
-M	po/bg_BG.po
-M	po/ca@valencia.po
-M	po/fa_IR.po
-M	po/ga.po
-M	po/kk.po
-M	po/wa.po
+M	lib/packagekit-glib2/pk-task.c
 
-commit d946010613e91df11aabeb393f574eab93f2b031
+commit 13eb70467a69c12f7feed47c7f53ffd8fb0de24e
+Author: Richard Hughes <richard@hughsie.com>
+Date:	2011-07-28
+
+    Ignore local packages when calculating the simulate list
+
+M	lib/packagekit-glib2/pk-task.c
+
+commit 8d823ff9da7c5718207ac2cabf4dfe0e234072b3
+Author: Richard Hughes <richard@hughsie.com>
+Date:	2011-07-28
+
+    Ignore untrusted packages when calculating the simulate list
+
+M	lib/packagekit-glib2/pk-task.c
+
+commit 8fbffc243570f2692f5aaa39b153b571cbe4abad
+Author: Richard Hughes <richard@hughsie.com>
+Date:	2011-07-28
+
+    yum: Emit Package(Untrusted) for each package that is untrusted in
+    the transaction
+
+M	backends/yum/yumBackend.py
+
+commit ec3f39a80d2ee94e13584e2a5b33c6dd45da2c4f
+Author: Richard Hughes <richard@hughsie.com>
+Date:	2011-07-28
+
+    zif: Emit Package(Untrusted) for each package that is untrusted in
+    the transaction
+
+    This will allow us to show the packages that are unsigned in any UI.
+
+M	backends/zif/pk-backend-zif.c
+
+commit 366cd5694e28397e139bff7752ed63a68fc337db
 Author: Richard Hughes <richard@hughsie.com>
 Date:	2011-07-28
 
@@ -125,7 +369,7 @@ Date:	2011-07-28
 
 M	backends/zif/pk-backend-zif.c
 
-commit 46c1f9216da3462dd2c561f378d8cf6e8d236318
+commit bd0e9628cc623176b26119a0bcc60878cfbd2872
 Author: Richard Hughes <richard@hughsie.com>
 Date:	2011-07-28
 
@@ -133,7 +377,7 @@ Date:	2011-07-28
 
 M	backends/zif/pk-backend-zif.c
 
-commit 27cdd07ee1b79b2afb0587d000a02c81b8d4cf71
+commit 6d953614436d0b2d3faf0087aa0636b055a21286
 Author: Richard Hughes <richard@hughsie.com>
 Date:	2011-07-28
 
@@ -141,16 +385,164 @@ Date:	2011-07-28
 
 M	lib/packagekit-glib2/pk-task-text.c
 
-commit 7f0e6622a1ddd8b6a6098f58e4f89a502c193ea3
+commit eff456e80014ef8ce5de03a4c5c5941b296cb383
 Author: Richard Hughes <richard@hughsie.com>
-Date:	2011-07-19
+Date:	2011-07-28
 
-    trivial: Fix the libpackagekit-glib self tests now
-    PkPackage:package-id isn't directly writable
+    Do not try to assign a GVariant string with NULL
 
-M	lib/packagekit-glib2/pk-self-test.c
+    This won't work until we have 'maybe' types, but that's not possible
+    until we
+    have https://bugs.freedesktop.org/show_bug.cgi?id=27857 fixed in
+    DBus and then
+    rolled out to distros.
 
-commit 5e9b25f6ddeb306cb02094a77cdebfdcadcd0a7b
+M	src/pk-transaction.c
+
+commit 1b2db06aab8a5d8475ad02f46f0952e7ad5b503d
+Author: Duncan Mac-Vicar P <dmacvicar@suse.de>
+Date:	2011-07-23
+
+    Just use the iterator instead of so many temps
+
+M	backends/zypp/zypp-utils.cpp
+
+commit cf65ba285d546e4bbe981d364b0b111fc142bc89
+Author: Duncan Mac-Vicar P <dmacvicar@suse.de>
+Date:	2011-07-23
+
+    Do not rebuild the pool on every call to find package by name
+    causing slowness when getting the update list (bnc#679650)
+
+M	backends/zypp/zypp-utils.cpp
+
+commit 260cd58da6689115a377aa44381892777e9c7381
+Author: Duncan Mac-Vicar P <dmacvicar@suse.de>
+Date:	2011-07-23
+
+    Replace egg-string.h with pk-shared.h functions
+
+M	backends/zypp/pk-backend-zypp.cpp
+
+commit 2daa103ef836ec767daf839da7298f2b94a74988
+Author: Richard Hughes <richard@hughsie.com>
+Date:	2011-07-22
+
+    trivial: fix the PackageKit build on Debian by not relying on implicit
+    linking of gio-2.0
+
+M	configure.ac
+
+commit 1f8289d256e07e89d09fc7a0d20c4f3ef9da7bb1
+Author: Richard Hughes <richard@hughsie.com>
+Date:	2011-07-20
+
+    Require a new version of automake, and make configure.in sane again
+
+M	Makefile.am
+M	configure.ac
+
+commit 2b02db28d82bcbe36846183fdf02cd3da68cfba5
+Author: Richard Hughes <richard@hughsie.com>
+Date:	2011-07-20
+
+    Raise the PolicyKit required version to 0.98 and drop the compat code
+
+M	configure.ac
+M	src/pk-engine.c
+M	src/pk-transaction.c
+
+commit 13773e44d0d44c2e00a865d4dbab2af328c098bd
+Author: Richard Hughes <richard@hughsie.com>
+Date:	2011-07-20
+
+    trivial: add the output of the self test programs to CLEANFILES
+
+M	lib/packagekit-glib2/Makefile.am
+M	src/Makefile.am
+
+commit 23f5f29396a4586f6e7ef870d7e1b287ff705fe9
+Author: Richard Hughes <richard@hughsie.com>
+Date:	2011-07-20
+
+    trivial: get rid of some spurious dbus/dbus-glib.h includes
+
+M	contrib/command-not-found/Makefile.am
+M	contrib/command-not-found/pk-command-not-found.c
+M	contrib/debuginfo-install/Makefile.am
+M	src/Makefile.am
+
+commit 4d0728b6cb55c26878f673f8e4020378ae7bcd8b
+Author: Richard Hughes <richard@hughsie.com>
+Date:	2011-07-20
+
+    gtk-module: Port from dbus-glib to GDBus
+
+M	configure.ac
+M	contrib/gtk-module/pk-gtk-module.c
+
+commit bbfe95216d47bd3789e67b2868d029d1bb69e184
+Author: Richard Hughes <richard@hughsie.com>
+Date:	2011-07-20
+
+    gstreamer-plugin: Port from dbus-glib to GDBus
+
+M	configure.ac
+M	contrib/gstreamer-plugin/pk-gstreamer-install.c
+
+commit 6bf6d9f0f65376635f06cba6be6505df23f80626
+Author: Richard Hughes <richard@hughsie.com>
+Date:	2011-07-20
+
+    browser-plugin: Port from dbus-glib to GDBus
+
+M	configure.ac
+M	contrib/browser-plugin/Makefile.am
+M	contrib/browser-plugin/pk-main.c
+D	contrib/browser-plugin/pk-main.h
+M	contrib/browser-plugin/pk-plugin-install.c
+M	contrib/browser-plugin/pk-plugin.c
+
+commit 57b70bc1db440a5ff4f4d24d4f401d4fe26077e5
+Author: Richard Hughes <richard@hughsie.com>
+Date:	2011-07-15
+
+    Convert the daemon to use GDBus rather than dbus-glib
+
+M	configure.ac
+M	contrib/PackageKit.spec.in
+M	src/Makefile.am
+M	src/pk-backend.c
+M	src/pk-dbus.c
+M	src/pk-engine.c
+M	src/pk-engine.h
+M	src/pk-main.c
+M	src/pk-network-stack-connman.c
+M	src/pk-network-stack-nm.c
+M	src/pk-network-stack.h
+M	src/pk-notify.c
+M	src/pk-shared.c
+M	src/pk-shared.h
+M	src/pk-spawn.c
+D	src/pk-transaction-dbus.h
+M	src/pk-transaction-list.c
+M	src/pk-transaction.c
+M	src/pk-transaction.h
+
+commit 8e6785a110a36c5a62c77749848fcaf13b0ebfa6
+Author: Richard Hughes <richard@hughsie.com>
+Date:	2011-07-20
+
+    Remove the HAL integration code
+
+M	src/Makefile.am
+M	src/pk-backend-spawn.c
+M	src/pk-engine.c
+D	src/pk-inhibit.c
+D	src/pk-inhibit.h
+M	src/pk-transaction.c
+
+commit 1cd36ae7f895c17c837c17ef4847d88af78624d3
 Author: Adam Jackson <ajax@redhat.com>
 Date:	2011-07-19
 
@@ -161,32 +553,49 @@ Date:	2011-07-19
 
 M	contrib/command-not-found/pk-command-not-found.c
 
-commit fd07851c9c4e35d299c0be20d01320e536c847b7
+commit d4f68acccef08689e40729f048eed70505fe29db
 Author: Richard Hughes <richard@hughsie.com>
-Date:	2011-07-28
+Date:	2011-07-19
 
-    Ignore local packages when calculating the simulate list
+    trivial: Fix the libpackagekit-glib self tests now
+    PkPackage:package-id isn't directly writable
 
-M	lib/packagekit-glib2/pk-task.c
+M	lib/packagekit-glib2/pk-self-test.c
 
-commit cead3d4e23b547b3483743f44bfa4c8bc9db2273
+commit 0232e3f096cc87fab3f556cdfd2d2febbf9d93a2
 Author: Richard Hughes <richard@hughsie.com>
-Date:	2011-07-28
+Date:	2011-07-19
 
-    Ignore untrusted packages when calculating the simulate list
+    trivial: fix the compile of the self tests
 
-M	lib/packagekit-glib2/pk-task.c
+M	lib/packagekit-glib2/pk-self-test.c
 
-commit c0f4244f3bad0cb25185b4b4a9ee9f46d2c84aa7
-Author: Duncan Mac-Vicar P <dmacvicar@suse.de>
-Date:	2011-07-23
+commit 1d2e2a8893d346368bbd10eb18387fd8209f7497
+Author: Richard Hughes <richard@hughsie.com>
+Date:	2011-07-19
 
-    Do not rebuild the pool on every call to find package by name
-    causing slowness when getting the update list (bnc#679650)
+    dummy: Implement SimulateUpdatePackages and SimulateRemovePackages
 
-M	backends/zypp/zypp-utils.cpp
+M	backends/dummy/pk-backend-dummy.c
 
-commit b12ea372e3b9c76c1dc7641a6daf654447a835eb
+commit 63a67d153192b10117b5e5bfb90a8b5ace466a07
+Author: Matthias Klumpp <matthias@nlinux.org>
+Date:	2011-07-19
+
+    aptcc: Implement provides-library
+
+    aptcc can now search for packages providing
+    a shared-library.
+    This function is very limited, as it relies on
+    package maintainers creating policy-compliant
+    library packages.
+
+M	backends/aptcc/apt.cpp
+M	backends/aptcc/apt.h
+M	backends/aptcc/gstMatcher.cpp
+M	backends/aptcc/pk-backend-aptcc.cpp
+
+commit ebd4283951d222d57a296fe18c7ae08a46d60e80
 Author: Chris Lumens <clumens@redhat.com>
 Date:	2011-07-19
 
@@ -196,15 +605,259 @@ Date:	2011-07-19
 
 M	backends/yum/yumBackend.py
 
-commit 1ee3743363e13ed2a33be443d1f097e0a8847f9a
+commit 27c7bf7f14ce7d585fcd38b498e26b2aeb8664b0
+Author: Richard Hughes <richard@hughsie.com>
+Date:	2011-07-18
+
+    Do not do the compatibility fallbacks
+
+    Backends should just implement SimulateX() as using a heuristic
+    is buggy.
+
+M	src/pk-engine.c
+M	src/pk-transaction.c
+
+commit 09866107f3e258094e336e7dcdcba38c178b29fd
+Author: Ladislav Slezak <lslezak@novell.com>
+Date:	2011-07-19
+
+    zypp: do not install locked (taboo) patches
+
+    ignore patches in status "taboo" (never install),
+    fixes https://bugzilla.novell.com/show_bug.cgi?id=627316
+
+M	backends/zypp/zypp-utils.cpp
+
+commit 711a8320e6fc314948adb00fbaa80e0543cfff2b
+Author: Matthias Klumpp <matthias@nlinux.org>
+Date:	2011-07-18
+
+    Add a PK_PROVIDES_ENUM_LIBRARY entry
+
+    This entry can be used to limit search to libraries only.
+
+M	lib/packagekit-glib2/pk-enum.c
+M	lib/packagekit-glib2/pk-enum.h
+
+commit 0325b003ee2d1662e88aea20c6155c192b960d20
+Author: Richard Hughes <richard@hughsie.com>
+Date:	2011-07-18
+
+    Don't ship all the valid licences as enums anymore
+
+    They really shouldn't be a part of our ABI. Use the text file instead.
+
+M	backends/yum/licenses.txt
+M	lib/packagekit-glib2/pk-enum.c
+M	lib/packagekit-glib2/pk-enum.h
+M	lib/python/packagekit/package.py
+M	tools/pk-refresh-licenses.c
+
+commit f049c447d7d6c9687fc1d4db6215818a3eea53b6
+Author: Richard Hughes <richard@hughsie.com>
+Date:	2011-07-15
+
+    trivial: remove some #ifdef code that is always TRUE
+
+D	client/egg-string.c
+D	client/egg-string.h
+M	contrib/browser-plugin/pk-plugin-install.c
+M	contrib/command-not-found/pk-command-not-found.c
+M	contrib/gtk-module/pk-gtk-module.c
+M	lib/packagekit-glib2/pk-control.c
+M	lib/packagekit-glib2/pk-progress-bar.c
+M	lib/packagekit-glib2/pk-task.c
+M	src/pk-backend-spawn.c
+M	src/pk-backend.c
+M	src/pk-engine.c
+M	src/pk-notify.c
+M	src/pk-spawn.c
+M	src/pk-transaction-db.c
+M	src/pk-transaction-list.c
+M	src/pk-transaction.c
+
+commit 6bb439e39d270ebdaf8345e03048b5861e7d30b4
+Author: Richard Hughes <richard@hughsie.com>
+Date:	2011-07-14
+
+    trivial: disable the smart backend until it compiles
+
+M	contrib/PackageKit.spec.in
+
+commit 19a0a0f48b3dcd024899bdb40bcbfafc474e6575
+Author: Richard Hughes <richard@hughsie.com>
+Date:	2011-07-13
+
+    trivial: Remove egg-string and move the shared stuff to pk-shared
+
+M	contrib/command-not-found/Makefile.am
+D	contrib/command-not-found/egg-string.c
+D	contrib/command-not-found/egg-string.h
+M	contrib/command-not-found/pk-command-not-found.c
+M	src/Makefile.am
+D	src/egg-string.c
+D	src/egg-string.h
+M	src/pk-backend-spawn.c
+M	src/pk-backend.c
+M	src/pk-engine.c
+M	src/pk-network-stack-unix.c
+M	src/pk-shared.c
+M	src/pk-shared.h
+M	src/pk-spawn.c
+M	src/pk-store.c
+M	src/pk-transaction-db.c
+M	src/pk-transaction-list.c
+M	src/pk-transaction.c
+M	src/plugins/pk-proc.c
+
+commit 4b74f496ad4d4e2243caae9a841450aa59350489
+Author: Richard Hughes <richard@hughsie.com>
+Date:	2011-07-13
+
+    Remove PkFileMonitor, we can now use GFileMonitor
+
+M	src/Makefile.am
+M	src/pk-backend.c
+M	src/pk-engine.c
+D	src/pk-file-monitor.c
+D	src/pk-file-monitor.h
+M	src/pk-network-stack-unix.c
+M	src/pk-self-test.c
+
+commit 4b69f158f83f8a5555f7b669208d44eff8212208
 Author: Richard Hughes <richard@hughsie.com>
 Date:	2011-07-12
 
-    Actually use the value from /etc/login.defs
+    Remove the deprecated PK_BACKEND_OPTIONS
 
-M	src/pk-transaction-extra.c
+M	src/pk-backend.h
 
-commit af01c7011e5fc3b716b00f276c5a3bca524e751d
+commit 98a729ffeb57864cff02abd5b1f93d3815910b1e
+Author: Richard Hughes <richard@hughsie.com>
+Date:	2011-07-12
+
+    trivial: fix up the self test compile
+
+M	src/pk-self-test.c
+
+commit ffe931200ccdd2cc4c18f8631d51e326056e9109
+Author: Richard Hughes <richard@hughsie.com>
+Date:	2011-07-12
+
+    Use g_bus_watch_name() and remove the homegrown EggDbusMonitor
+
+M	configure.ac
+M	src/Makefile.am
+D	src/egg-dbus-monitor.c
+D	src/egg-dbus-monitor.h
+M	src/pk-main.c
+M	src/pk-network-stack-connman.c
+M	src/pk-network-stack-nm.c
+M	src/pk-network.c
+M	src/pk-transaction.c
+
+commit 789264ffa8250fb6b6f4d94e82802aa560152ec0
+Author: Richard Hughes <richard@hughsie.com>
+Date:	2011-07-12
+
+    Remove the GTK+2 pango module and only support GTK+3
+
+M	configure.ac
+M	contrib/PackageKit.spec.in
+M	contrib/gtk-module/Makefile.am
+D	contrib/gtk-module/gtk-2.0/Makefile.am
+D	contrib/gtk-module/gtk-3.0/Makefile.am
+
+commit 920311f22ac419334586334eeb6f47e7d1113770
+Author: Richard Hughes <richard@hughsie.com>
+Date:	2011-07-12
+
+    glib: Remove the foo_from_text() compatibility defines
+
+M	backends/zif/pk-backend-zif.c
+M	lib/packagekit-glib2/pk-enum.h
+
+commit 996d5488dc7951875dcbe1034ef489084686af8a
+Author: Richard Hughes <richard@hughsie.com>
+Date:	2011-07-12
+
+    razor: Remove the razor backend, upstream razor is dead
+
+    Razor could have been so great, but alas, it's dead.
+
+M	backends/Makefile.am
+D	backends/razor/Makefile.am
+D	backends/razor/pk-backend-razor.c
+M	configure.ac
+
+commit 0c811a55414684f3f2dd5e3f2a1672c2fcce3a98
+Author: Richard Hughes <richard@hughsie.com>
+Date:	2011-07-12
+
+    apt: Remove the python apt backend, and leave the aptcc backend
+
+    It's been more than a year since the last commit, and it's limping
+    along.
+    I think aptcc is much better maintained these days.
+
+M	backends/Makefile.am
+D	backends/apt/20packagekit
+D	backends/apt/HACKING.apt
+D	backends/apt/Makefile.am
+D	backends/apt/README.apt
+D	backends/apt/TODO.apt
+D	backends/apt/aptBackend.py
+D	backends/apt/data/Packages
+D	backends/apt/data/status
+D	backends/apt/data/xterm.list
+D	backends/apt/hotshot-analyze.py
+D	backends/apt/packagekit
+D	backends/apt/pk-backend-apt.c
+D	backends/apt/profiler.py
+D	backends/apt/test.sh
+D	backends/apt/tests.py
+D	backends/apt/update-packagekit-app-data
+M	configure.ac
+
+commit b416e5ded6fbf2973095b49e17b61598e689039a
+Author: Richard Hughes <richard@hughsie.com>
+Date:	2011-07-12
+
+    python: Remove the native python library
+
+    It's bitrotted as it's unused, and soon we'll have the GIR
+    auto-generated binding.
+
+M	lib/python/packagekit/Makefile.am
+D	lib/python/packagekit/client.py
+D	lib/python/packagekit/frontend.py
+D	lib/python/packagekit/pkdbus.py
+D	lib/python/packagekit/pkexceptions.py
+D	lib/python/pk-frontend-test.py
+D	lib/python/wrapper-test.py
+
+commit d64808ce6d7b5bf7cd607619179539fdd7d760f0
+Author: Richard Hughes <richard@hughsie.com>
+Date:	2011-07-12
+
+    trivial: Post branch version bump
+
+M	configure.ac
+
+commit 0e5c2d88a4e9f955e491c950d7c35e222a1815bd
+Author: Richard Hughes <richard@hughsie.com>
+Date:	2011-07-12
+
+    trivial: Move PkProc to plugins/ since it's only used there
+
+M	src/Makefile.am
+M	src/pk-self-test.c
+M	src/plugins/Makefile.am
+R094	src/pk-proc.c	src/plugins/pk-proc.c
+R100	src/pk-proc.h	src/plugins/pk-proc.h
+M	src/plugins/pk-self-test.c
+
+commit c338669ba8e6cb4a7645f89e6ff65b155bd8c55d
 Author: Richard Hughes <richard@hughsie.com>
 Date:	2011-07-12
 
@@ -216,7 +869,448 @@ Date:	2011-07-12
 
 A	backends/yum/yum-api-search.txt
 
-commit 66a0c63b78bfbf347a8e4ba5d40d84e4bb8e940b
+commit 5456681c29753439766700f5dc431a4a1cf72a2e
+Author: Richard Hughes <richard@hughsie.com>
+Date:	2011-07-12
+
+    Actually use the value from /etc/login.defs
+
+M	src/plugins/pk-plugin-check-shared-libraries-in-use.c
+
+commit a04c976ad294f79ae8221f71493d39d6d905e535
+Author: Richard Hughes <richard@hughsie.com>
+Date:	2011-07-12
+
+    trivial: Use the PkBackend in the PkPlugin structure
+
+M	src/pk-transaction.c
+M	src/pk-transaction.h
+M	src/plugins/pk-plugin-check-shared-libraries-in-use.c
+M	src/plugins/pk-plugin-example.c
+M	src/plugins/pk-plugin-no-update-process.c
+M	src/plugins/pk-plugin-scan-desktop-files.c
+M	src/plugins/pk-plugin-update-check-processes.c
+M	src/plugins/pk-plugin-update-package-list.c
+
+commit 44f4129c6d561554ca57cfa2b349c5250d6c9f85
+Author: Richard Hughes <richard@hughsie.com>
+Date:	2011-07-12
+
+    trivial: Add the PkBackend in the PkPlugin struct
+
+    Most of the plugins need this, and it's easy to provide.
+
+M	src/pk-engine.c
+M	src/pk-plugin.h
+
+commit 6f4e16094532afc4adab44a1d6da5ffb9d595026
+Author: Richard Hughes <richard@hughsie.com>
+Date:	2011-07-12
+
+    trivial: Add a method for a plugin to register a role implementation
+
+M	src/pk-backend.c
+M	src/pk-backend.h
+
+commit 69ea6dc0601f3826da2d2f56798168fa226af4d7
+Author: Richard Hughes <richard@hughsie.com>
+Date:	2011-07-12
+
+    trivial: Do not continue to the native backend if the plugin serviced
+    the request completely
+
+M	src/pk-backend.c
+M	src/pk-backend.h
+M	src/pk-transaction.c
+
+commit 15fde4371d047fd5bdf5b01c4143c0e5b1034486
+Author: Richard Hughes <richard@hughsie.com>
+Date:	2011-07-12
+
+    Add plugin API so that plugins can modify the internal array state
+
+M	src/pk-transaction.c
+M	src/pk-transaction.h
+
+commit c24f5c38f5424f6596d4f7f6c936b0742de3377c
+Author: Richard Hughes <richard@hughsie.com>
+Date:	2011-07-11
+
+    trivial: add another plugin phase for adding content types
+
+M	src/pk-plugin.h
+M	src/pk-transaction.c
+M	src/pk-transaction.h
+
+commit abd83790abfa5f46d2d9c8c861ea3fac28f1d722
+Author: Richard Hughes <richard@hughsie.com>
+Date:	2011-07-11
+
+    trivial: log when no plugins provide a phase hook
+
+M	src/pk-transaction.c
+
+commit 64e123ead3552c6f7d0d1d9df3c447db74e4867b
+Author: Richard Hughes <richard@hughsie.com>
+Date:	2011-07-11
+
+    trivial: only call initialize and destroy on the plugins once,
+    not every transaction
+
+M	src/pk-engine.c
+M	src/pk-plugin.h
+M	src/pk-transaction-list.c
+M	src/pk-transaction-list.h
+M	src/pk-transaction.c
+M	src/pk-transaction.h
+M	src/plugins/pk-plugin-check-shared-libraries-in-use.c
+M	src/plugins/pk-plugin-no-update-process.c
+M	src/plugins/pk-plugin-scan-desktop-files.c
+M	src/plugins/pk-plugin-update-check-processes.c
+M	src/plugins/pk-plugin-update-package-list.c
+
+commit 736237694671ec8fd2b498e016d8d2cf0cd45cbc
+Author: Richard Hughes <richard@hughsie.com>
+Date:	2011-07-11
+
+    trivial: change the plugin API to be shorter and not use static
+    variables
+
+M	contrib/pk-plugin-external.c
+M	src/Makefile.am
+M	src/packagekit-plugin.h
+A	src/pk-plugin.h
+M	src/pk-transaction.c
+M	src/pk-transaction.h
+M	src/plugins/pk-plugin-check-shared-libraries-in-use.c
+M	src/plugins/pk-plugin-clear-firmware-requests.c
+M	src/plugins/pk-plugin-example.c
+M	src/plugins/pk-plugin-no-update-process.c
+M	src/plugins/pk-plugin-scan-desktop-files.c
+M	src/plugins/pk-plugin-scripts.c
+M	src/plugins/pk-plugin-update-check-processes.c
+M	src/plugins/pk-plugin-update-package-list.c
+
+commit 0872988cc1e43f04dacc08e5d8be62bcdebcacef
+Author: Richard Hughes <richard@hughsie.com>
+Date:	2011-07-11
+
+    trivial: ensure all the plugins get built
+
+M	src/plugins/Makefile.am
+
+commit b1c58c9cccf5f50205f75622cb41392e78652709
+Author: Richard Hughes <richard@hughsie.com>
+Date:	2011-07-11
+
+    trivial: Move PkLsof to the plugin directory
+
+M	src/Makefile.am
+M	src/pk-self-test.c
+M	src/plugins/Makefile.am
+R093	src/pk-lsof.c	src/plugins/pk-lsof.c
+R100	src/pk-lsof.h	src/plugins/pk-lsof.h
+M	src/plugins/pk-self-test.c
+
+commit ca4b404c870ceb682e6f3ad3e6c1298780f86419
+Author: Richard Hughes <richard@hughsie.com>
+Date:	2011-07-11
+
+    Add an example to contrib to show how to build an out-of-tree plugin
+
+A	contrib/pk-plugin-external.c
+
+commit 7cd5b68e4427ebe03d393193234e48f4aef6d0a9
+Author: Richard Hughes <richard@hughsie.com>
+Date:	2011-07-11
+
+    trivial: move the plugins to thier own directory
+
+M	configure.ac
+M	src/Makefile.am
+A	src/plugins/Makefile.am
+R100	src/packagekit-plugin.pc.in
+src/plugins/packagekit-plugin.pc.in
+R100	src/pk-plugin-check-shared-libraries-in-use.c
+src/plugins/pk-plugin-check-shared-libraries-in-use.c
+C100	src/pk-plugin-clear-firmware-requests.c
+src/plugins/pk-plugin-clear-firmware-requests.c
+R100	src/pk-plugin-example.c src/plugins/pk-plugin-example.c
+R100	src/pk-plugin-no-update-process.c
+src/plugins/pk-plugin-no-update-process.c
+R100	src/pk-plugin-scan-desktop-files.c
+src/plugins/pk-plugin-scan-desktop-files.c
+R100	src/pk-plugin-scripts.c src/plugins/pk-plugin-scripts.c
+R100	src/pk-plugin-update-check-processes.c
+src/plugins/pk-plugin-update-check-processes.c
+R100	src/pk-plugin-update-package-list.c
+src/plugins/pk-plugin-update-package-list.c
+R050	src/pk-plugin-clear-firmware-requests.c src/plugins/pk-self-test.c
+
+commit 7ad2d8f186e773ed46192aaab569f78f1353f349
+Author: Richard Hughes <richard@hughsie.com>
+Date:	2011-07-11
+
+    Ensure the example plugin is included in the tarball and built,
+    but not installed
+
+M	src/Makefile.am
+M	src/pk-plugin-example.c
+
+commit 014d570376e5999b483aa25a4ce3cd32c6d232ce
+Author: Richard Hughes <richard@hughsie.com>
+Date:	2011-07-11
+
+    trivial: unexport more stuff in PkTransaction
+
+M	src/pk-plugin-check-shared-libraries-in-use.c
+M	src/pk-plugin-clear-firmware-requests.c
+M	src/pk-plugin-example.c
+M	src/pk-plugin-no-update-process.c
+M	src/pk-plugin-scan-desktop-files.c
+M	src/pk-plugin-scripts.c
+M	src/pk-plugin-update-check-processes.c
+M	src/pk-plugin-update-package-list.c
+M	src/pk-self-test.c
+M	src/pk-transaction-dbus.h
+M	src/pk-transaction-list.c
+M	src/pk-transaction.c
+M	src/pk-transaction.h
+
+commit 09943505d10b337405d6fafb40caad74f6830805
+Author: Richard Hughes <richard@hughsie.com>
+Date:	2011-07-11
+
+    trivial: split out the DBus method prototypes into a new header,
+    we don't need to export those
+
+M	src/Makefile.am
+M	src/pk-engine.c
+C057	src/pk-transaction.h	src/pk-transaction-dbus.h
+M	src/pk-transaction-list.c
+M	src/pk-transaction.c
+M	src/pk-transaction.h
+
+commit 43f3d26fc46eed0b8b4cc1033129ff186439bb7b
+Author: Richard Hughes <richard@hughsie.com>
+Date:	2011-07-11
+
+    trivial: add two more hooks for plugins to use
+
+M	src/pk-transaction.c
+M	src/pk-transaction.h
+
+commit f8612afebb1d74a3abebda4a0f4556c4b9d1a25d
+Author: Richard Hughes <richard@hughsie.com>
+Date:	2011-07-11
+
+    trivial: Add another transaction phase for plugins to use
+
+M	src/pk-transaction.c
+M	src/pk-transaction.h
+
+commit a9e6f745e69e82d1e5f1b846a9d93f7dbb460992
+Author: Richard Hughes <richard@hughsie.com>
+Date:	2011-07-11
+
+    trivial: don't use egg_strtoint() in plugins, just use
+    g_ascii_strtoull() directly
+
+M	src/pk-plugin-check-shared-libraries-in-use.c
+
+commit 8ea3dcda5543af119ccf32dc80cf65633cb78ad7
+Author: Richard Hughes <richard@hughsie.com>
+Date:	2011-07-10
+
+    Install a pkgconfig file so external projects can build plugins
+
+M	configure.ac
+M	contrib/PackageKit.spec.in
+M	src/Makefile.am
+A	src/packagekit-plugin.h
+A	src/packagekit-plugin.pc.in
+M	src/pk-backend.h
+
+commit 804e525126fb364ba6ae23eca7469f4cc22b9577
+Author: Richard Hughes <richard@hughsie.com>
+Date:	2011-07-10
+
+    trivial: fix make check
+
+M	src/pk-self-test.c
+
+commit 9e47f5708d017d02e193c5dad8eb242cab3a43c7
+Author: Richard Hughes <richard@hughsie.com>
+Date:	2011-07-10
+
+    Allow plugins to add supported content types
+
+M	src/pk-transaction.c
+M	src/pk-transaction.h
+
+commit 5ebf3117590ee8cd6511218dd2cf2e5829e9aa04
+Author: Richard Hughes <richard@hughsie.com>
+Date:	2011-07-10
+
+    Call destroy for each plugin when the transaction is destroyed
+
+M	src/pk-plugin-check-shared-libraries-in-use.c
+M	src/pk-plugin-example.c
+M	src/pk-plugin-no-update-process.c
+M	src/pk-plugin-scan-desktop-files.c
+M	src/pk-plugin-update-check-processes.c
+M	src/pk-plugin-update-package-list.c
+M	src/pk-transaction.c
+
+commit 5bbb92bb06cd2263da82c5c593d3c199f3eeffed
+Author: Richard Hughes <richard@hughsie.com>
+Date:	2011-07-10
+
+    Move the check for libraries in use for security updates functionality
+    to a plugin
+
+M	src/Makefile.am
+A	src/pk-plugin-check-shared-libraries-in-use.c
+D	src/pk-transaction-extra.c
+D	src/pk-transaction-extra.h
+M	src/pk-transaction.c
+
+commit 3052bce4046cc6e2b77f3473f59d64f4a62bd846
+Author: Richard Hughes <richard@hughsie.com>
+Date:	2011-07-10
+
+    Move the update check for running processes into a plugin
+
+M	src/Makefile.am
+A	src/pk-plugin-update-check-processes.c
+M	src/pk-transaction-extra.c
+M	src/pk-transaction-extra.h
+M	src/pk-transaction.c
+
+commit 889e02dc75b18942e2cdf78f4151fadd1a2ab30d
+Author: Richard Hughes <richard@hughsie.com>
+Date:	2011-07-10
+
+    Move the desktop database rescan functionality into a plugin
+
+M	src/Makefile.am
+A	src/pk-plugin-scan-desktop-files.c
+M	src/pk-transaction-extra.c
+M	src/pk-transaction-extra.h
+M	src/pk-transaction.c
+M	src/pk-transaction.h
+
+commit d82244ffbd4166fa73f135927e88a09619bef84a
+Author: Richard Hughes <richard@hughsie.com>
+Date:	2011-07-10
+
+    trivial: flesh out the example plugin a little more
+
+M	src/pk-plugin-example.c
+
+commit 61d869dc067d0a31638f8fb9ccc2e15712feffe9
+Author: Richard Hughes <richard@hughsie.com>
+Date:	2011-07-10
+
+    trivial: initialize plugins in order in one phase
+
+M	src/pk-transaction.c
+
+commit d37ed83285160115b54e3a2ef77fbce3e2708e11
+Author: Richard Hughes <richard@hughsie.com>
+Date:	2011-07-09
+
+    Move the checking for running processes before update to a plugin
+
+M	src/Makefile.am
+A	src/pk-plugin-no-update-process.c
+M	src/pk-transaction-extra.c
+M	src/pk-transaction-extra.h
+M	src/pk-transaction.c
+M	src/pk-transaction.h
+
+commit ead279b92414d6c4a2fd3d9cdd0bab47108a22c6
+Author: Richard Hughes <richard@hughsie.com>
+Date:	2011-07-09
+
+    Move the updating of the package list into a plugin
+
+M	src/Makefile.am
+A	src/pk-plugin-update-package-list.c
+M	src/pk-transaction-extra.c
+M	src/pk-transaction-extra.h
+M	src/pk-transaction.c
+
+commit 36857a1381d31ff56b67d9fcedcda68515b19036
+Author: Richard Hughes <richard@hughsie.com>
+Date:	2011-07-09
+
+    Split the post-transaction plugin phase into 3 phases
+
+    This allows us to grab the various transaction objects before we
+    destroy them in
+    other plugins.
+
+M	src/pk-plugin-clear-firmware-requests.c
+M	src/pk-plugin-example.c
+M	src/pk-plugin-scripts.c
+M	src/pk-transaction.c
+M	src/pk-transaction.h
+
+commit 75ef6ac1f6bf489e08f4dd2144b2f94e8d9915da
+Author: Richard Hughes <richard@hughsie.com>
+Date:	2011-07-09
+
+    trivial: Add some accessors for different objects from plugins
+
+M	src/pk-transaction.c
+M	src/pk-transaction.h
+
+commit 6d118111e3e11116d339ac4339eea9aefcf74fb7
+Author: Richard Hughes <richard@hughsie.com>
+Date:	2011-07-08
+
+    Move the clearing firmware functionality into a plugin
+
+M	src/Makefile.am
+A	src/pk-plugin-clear-firmware-requests.c
+M	src/pk-transaction-extra.c
+M	src/pk-transaction-extra.h
+M	src/pk-transaction.c
+
+commit 77f6dbd75e31313f3f1ddddef3951a1505d81b17
+Author: Richard Hughes <richard@hughsie.com>
+Date:	2011-07-08
+
+    Add an example plugin that saves private state
+
+A	src/pk-plugin-example.c
+
+commit 1915b0586cd24329a72a93c525c713b0a35ee1d2
+Author: Richard Hughes <richard@hughsie.com>
+Date:	2011-07-08
+
+    Move the pre-transaction.d and post-transaction.d functionality into
+    a plugin
+
+M	src/Makefile.am
+A	src/pk-plugin-scripts.c
+M	src/pk-transaction.c
+
+commit f8c316e8b471d9720a963a02b80dcb819936f93e
+Author: Richard Hughes <richard@hughsie.com>
+Date:	2011-07-08
+
+    Add a transaction plugin infrastructure to packagekitd
+
+    The plan is to move the PkTransactionExtra hacks to proper plugins.
+    This also allows out-of-tree projects to add extensions to PackageKit.
+
+M	contrib/PackageKit.spec.in
+M	src/pk-transaction.c
+M	src/pk-transaction.h
+
+commit 7f752fe0241dde3c42ddda18ec93fed3977290e4
 Author: Richard Hughes <richard@hughsie.com>
 Date:	2011-07-08
 

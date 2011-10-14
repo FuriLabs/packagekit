@@ -4,10 +4,6 @@ if BACKEND_TYPE_ALPM
 SUBDIRS += alpm
 endif
 
-if BACKEND_TYPE_APT
-SUBDIRS += apt
-endif
-
 if BACKEND_TYPE_APTCC
 SUBDIRS += aptcc
 endif
@@ -30,10 +26,6 @@ endif
 
 if BACKEND_TYPE_OPKG
 SUBDIRS += opkg
-endif
-
-if BACKEND_TYPE_RAZOR
-SUBDIRS += razor
 endif
 
 if BACKEND_TYPE_SLAPT

@@ -8,8 +8,8 @@
  * Do not edit! All changes made to it will be lost.
  */
 
-#ifndef TRANSACTIONPROXY_H_1315229029
-#define TRANSACTIONPROXY_H_1315229029
+#ifndef TRANSACTIONPROXY_H_1315231245
+#define TRANSACTIONPROXY_H_1315231245
 
 #include <QtCore/QObject>
 #include <QtCore/QByteArray>
@@ -339,6 +339,7 @@ Q_SIGNALS: // SIGNALS
     void EulaRequired(const QString &eula_id, const QString &package_id, const QString &vendor_name, const QString &license_agreement);
     void Files(const QString &package_id, const QString &file_list);
     void Finished(const QString &exit, uint runtime);
+    void ItemProgress(const QString &id, uint percentage);
     void MediaChangeRequired(const QString &media_type, const QString &media_id, const QString &media_text);
     void Message(const QString &type, const QString &details);
     void Package(const QString &info, const QString &package_id, const QString &summary);

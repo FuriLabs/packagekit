@@ -52,6 +52,9 @@ enum                <a class="link" href="PkProgress.html#PkProgressType" title=
                                                          <em class="parameter"><code><a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gpointer"><span class="type">gpointer</span></a> user_data</code></em>);
 <a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gboolean"><span class="returnvalue">gboolean</span></a>            <a class="link" href="PkProgress.html#pk-progress-set-package-id" title="pk_progress_set_package_id ()">pk_progress_set_package_id</a>          (<em class="parameter"><code><a class="link" href="PkProgress.html" title="PkProgress"><span class="type">PkProgress</span></a> *progress</code></em>,
                                                          <em class="parameter"><code>const <a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a> *package_id</code></em>);
+<a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gboolean"><span class="returnvalue">gboolean</span></a>            <a class="link" href="PkProgress.html#pk-progress-set-item-progress" title="pk_progress_set_item_progress ()">pk_progress_set_item_progress</a>       (<em class="parameter"><code><a class="link" href="PkProgress.html" title="PkProgress"><span class="type">PkProgress</span></a> *progress</code></em>,
+                                                         <em class="parameter"><code>const <a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a> *package_id</code></em>,
+                                                         <em class="parameter"><code><a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#guint"><span class="type">guint</span></a> percentage</code></em>);
 <a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gboolean"><span class="returnvalue">gboolean</span></a>            <a class="link" href="PkProgress.html#pk-progress-set-transaction-id" title="pk_progress_set_transaction_id ()">pk_progress_set_transaction_id</a>      (<em class="parameter"><code><a class="link" href="PkProgress.html" title="PkProgress"><span class="type">PkProgress</span></a> *progress</code></em>,
                                                          <em class="parameter"><code>const <a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a> *package_id</code></em>);
 <a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gboolean"><span class="returnvalue">gboolean</span></a>            <a class="link" href="PkProgress.html#pk-progress-set-percentage" title="pk_progress_set_percentage ()">pk_progress_set_percentage</a>          (<em class="parameter"><code><a class="link" href="PkProgress.html" title="PkProgress"><span class="type">PkProgress</span></a> *progress</code></em>,
@@ -92,6 +95,8 @@ enum                <a class="link" href="PkProgress.html#PkProgressType" title=
   "<a class="link" href="PkProgress.html#PkProgress--allow-cancel" title='The "allow-cancel" property'>allow-cancel</a>"             <a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gboolean"><span class="type">gboolean</span></a>              : Read / Write
   "<a class="link" href="PkProgress.html#PkProgress--caller-active" title='The "caller-active" property'>caller-active</a>"            <a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gboolean"><span class="type">gboolean</span></a>              : Read / Write
   "<a class="link" href="PkProgress.html#PkProgress--elapsed-time" title='The "elapsed-time" property'>elapsed-time</a>"             <a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#guint"><span class="type">guint</span></a>                 : Read / Write
+  "<a class="link" href="PkProgress.html#PkProgress--item-progress-id" title='The "item-progress-id" property'>item-progress-id</a>"         <a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a>*                : Read / Write
+  "<a class="link" href="PkProgress.html#PkProgress--item-progress-value" title='The "item-progress-value" property'>item-progress-value</a>"      <a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gint"><span class="type">gint</span></a>                  : Read / Write
   "<a class="link" href="PkProgress.html#PkProgress--package" title='The "package" property'>package</a>"                  <a class="link" href="PkPackage.html" title="PkPackage"><span class="type">PkPackage</span></a>*            : Read / Write
   "<a class="link" href="PkProgress.html#PkProgress--package-id" title='The "package-id" property'>package-id</a>"               <a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a>*                : Read / Write
   "<a class="link" href="PkProgress.html#PkProgress--percentage" title='The "percentage" property'>percentage</a>"               <a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gint"><span class="type">gint</span></a>                  : Read / Write
@@ -184,6 +189,7 @@ frontends easy.
 	PK_PROGRESS_TYPE_SPEED,
 	PK_PROGRESS_TYPE_UID,
 	PK_PROGRESS_TYPE_PACKAGE,
+	PK_PROGRESS_TYPE_ITEM_PROGRESS,
 	PK_PROGRESS_TYPE_INVALID
 } PkProgressType;
 </pre>
@@ -212,6 +218,21 @@ frontends easy.
 </tr></tbody>
 </table></div>
 <p class="since">Since 0.5.2</p>
+</div>
+<hr>
+<div class="refsect2">
+<a name="pk-progress-set-item-progress"></a><h3>pk_progress_set_item_progress ()</h3>
+<pre class="programlisting"><a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gboolean"><span class="returnvalue">gboolean</span></a>            pk_progress_set_item_progress       (<em class="parameter"><code><a class="link" href="PkProgress.html" title="PkProgress"><span class="type">PkProgress</span></a> *progress</code></em>,
+                                                         <em class="parameter"><code>const <a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a> *package_id</code></em>,
+                                                         <em class="parameter"><code><a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#guint"><span class="type">guint</span></a> percentage</code></em>);</pre>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody><tr>
+<td><p><span class="term"><em class="parameter"><code>progress</code></em> :</span></p></td>
+<td>a valid <a class="link" href="PkProgress.html" title="PkProgress"><span class="type">PkProgress</span></a> instance</td>
+</tr></tbody>
+</table></div>
+<p class="since">Since 0.7.0</p>
 </div>
 <hr>
 <div class="refsect2">
@@ -335,6 +356,23 @@ Private <a class="link" href="PkProgress.html" title="PkProgress"><span class="t
 <p></p>
 <p>Default value: 0</p>
 <p class="since">Since 0.5.2</p>
+</div>
+<hr>
+<div class="refsect2">
+<a name="PkProgress--item-progress-id"></a><h3>The <code class="literal">"item-progress-id"</code> property</h3>
+<pre class="programlisting">  "item-progress-id"         <a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a>*                : Read / Write</pre>
+<p></p>
+<p>Default value: NULL</p>
+<p class="since">Since 0.7.0</p>
+</div>
+<hr>
+<div class="refsect2">
+<a name="PkProgress--item-progress-value"></a><h3>The <code class="literal">"item-progress-value"</code> property</h3>
+<pre class="programlisting">  "item-progress-value"      <a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gint"><span class="type">gint</span></a>                  : Read / Write</pre>
+<p></p>
+<p>Allowed values: &gt;= G_MAXULONG</p>
+<p>Default value: -1</p>
+<p class="since">Since 0.7.0</p>
 </div>
 <hr>
 <div class="refsect2">

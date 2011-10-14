@@ -138,6 +138,8 @@
 <link linkend="Transaction::DistroUpgrade">DistroUpgrade</link>         ('s' type,
                        's' name,
                        's' summary)
+<link linkend="Transaction::ItemProgress">ItemProgress</link>          ('s' id,
+                       'u' percentage)
 <link linkend="Transaction::Changed">Changed</link>               ()
 <link linkend="Transaction::Destroy">Destroy</link>               ()
 </synopsis>
@@ -1595,6 +1597,24 @@
           </simpara></listitem></varlistentry><varlistentry><term><parameter>summary</parameter>:</term><listitem><simpara>
             
               The multi-line description of the release.
+            
+          </simpara></listitem></varlistentry></variablelist><refsect2><title><anchor role="function" id="Transaction::ItemProgress"/>The ItemProgress signal</title><indexterm><primary>ItemProgress</primary><secondary>Transaction</secondary></indexterm><programlisting>ItemProgress ('s' id,
+              'u' percentage)</programlisting></refsect2>
+          <para>
+            This signal allows the backend to send infomation about
+            package or repository progress when using Simultanous mode.
+          </para>
+        <variablelist role="params"><varlistentry><term><parameter>id</parameter>:</term><listitem><simpara>
+            
+              A valid package_id, e.g. hal;0.1.0;i386;fedora
+              or a repo_id.
+            
+            
+              A repo_id may only be used when running RefreshCache.
+            
+          </simpara></listitem></varlistentry><varlistentry><term><parameter>percentage</parameter>:</term><listitem><simpara>
+            
+              The percentage of this package action is completed.
             
           </simpara></listitem></varlistentry></variablelist><refsect2><title><anchor role="function" id="Transaction::Changed"/>The Changed signal</title><indexterm><primary>Changed</primary><secondary>Transaction</secondary></indexterm><programlisting>Changed ()</programlisting></refsect2>
           <para>

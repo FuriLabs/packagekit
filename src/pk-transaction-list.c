@@ -35,15 +35,12 @@
 #endif /* HAVE_UNISTD_H */
 
 #include <glib/gi18n.h>
-#include <dbus/dbus-glib.h>
-#include <dbus/dbus-glib-lowlevel.h>
 #include <packagekit-glib2/pk-common.h>
 
-#include "egg-string.h"
-
 #include "pk-conf.h"
+#include "pk-transaction.h"
+#include "pk-transaction-private.h"
 #include "pk-transaction-list.h"
-#include "org.freedesktop.PackageKit.Transaction.h"
 
 static void     pk_transaction_list_finalize	(GObject        *object);
 
@@ -58,6 +55,7 @@ struct PkTransactionListPrivate
 	guint			 unwedge1_id;
 	guint			 unwedge2_id;
 	PkConf			*conf;
+	GPtrArray		*plugins;
 };
 
 typedef struct {
@@ -148,7 +146,7 @@ pk_transaction_list_role_present (PkTransactionList *tlist, PkRoleEnum role)
 		/* we might have recently finished this, but not removed it */
 		if (pk_transaction_get_state (item->transaction) == PK_TRANSACTION_STATE_FINISHED)
 			continue;
-		role_temp = pk_transaction_priv_get_role (item->transaction);
+		role_temp = pk_transaction_get_role (item->transaction);
 		if (role_temp == role)
 			return TRUE;
 	}
@@ -308,9 +306,7 @@ pk_transaction_list_run_item (PkTransactionList *tlist, PkTransactionItem *item)
 
 	/* add this idle, so that we don't have a deep out-of-order callchain */
 	item->idle_id = g_idle_add ((GSourceFunc) pk_transaction_list_run_idle_cb, item);
-#if GLIB_CHECK_VERSION(2,25,8)
 	g_source_set_name_by_id (item->idle_id, "[PkTransactionList] run");
-#endif
 }
 
 /**
@@ -350,7 +346,8 @@ out:
  * pk_transaction_list_transaction_finished_cb:
  **/
 static void
-pk_transaction_list_transaction_finished_cb (PkTransaction *transaction, const gchar *exit_text, guint time_ms, PkTransactionList *tlist)
+pk_transaction_list_transaction_finished_cb (PkTransaction *transaction,
+					     PkTransactionList *tlist)
 {
 	gboolean ret;
 	guint timeout;
@@ -392,9 +389,7 @@ pk_transaction_list_transaction_finished_cb (PkTransaction *transaction, const g
 	/* give the client a few seconds to still query the runner */
 	timeout = pk_conf_get_int (tlist->priv->conf, "TransactionKeepFinishedTimeout");
 	item->remove_id = g_timeout_add_seconds (timeout, (GSourceFunc) pk_transaction_list_remove_item_cb, item);
-#if GLIB_CHECK_VERSION(2,25,8)
 	g_source_set_name_by_id (item->remove_id, "[PkTransactionList] remove");
-#endif
 
 	/* do the next transaction now if we have another queued */
 	item = pk_transaction_list_get_next_item (tlist);
@@ -444,14 +439,16 @@ pk_transaction_list_get_number_transactions_for_uid (PkTransactionList *tlist, g
  * pk_transaction_list_create:
  **/
 gboolean
-pk_transaction_list_create (PkTransactionList *tlist, const gchar *tid, const gchar *sender, GError **error)
+pk_transaction_list_create (PkTransactionList *tlist,
+			    const gchar *tid,
+			    const gchar *sender,
+			    GError **error)
 {
 	guint count;
 	guint max_count;
 	guint timeout;
 	gboolean ret = FALSE;
 	PkTransactionItem *item;
-	DBusGConnection *connection;
 
 	g_return_val_if_fail (PK_IS_TRANSACTION_LIST (tlist), FALSE);
 	g_return_val_if_fail (tid != NULL, FALSE);
@@ -467,16 +464,16 @@ pk_transaction_list_create (PkTransactionList *tlist, const gchar *tid, const gc
 	item = g_new0 (PkTransactionItem, 1);
 	item->list = g_object_ref (tlist);
 	item->tid = g_strdup (tid);
-
-	/* get another connection */
-	connection = dbus_g_bus_get (DBUS_BUS_SYSTEM, NULL);
-	if (connection == NULL)
-		g_error ("no connection");
-
 	item->transaction = pk_transaction_new ();
 	item->finished_id =
 		g_signal_connect_after (item->transaction, "finished",
 					G_CALLBACK (pk_transaction_list_transaction_finished_cb), tlist);
+
+	/* set plugins */
+	if (tlist->priv->plugins != NULL) {
+		pk_transaction_set_plugins (item->transaction,
+					    tlist->priv->plugins);
+	}
 
 	/* set transaction state */
 	ret = pk_transaction_set_state (item->transaction, PK_TRANSACTION_STATE_NEW);
@@ -500,9 +497,7 @@ pk_transaction_list_create (PkTransactionList *tlist, const gchar *tid, const gc
 	}
 
 	/* get the uid for the transaction */
-	g_object_get (item->transaction,
-		      "uid", &item->uid,
-		      NULL);
+	item->uid = pk_transaction_get_uid (item->transaction);
 
 	/* find out the number of transactions this uid already has in progress */
 	count = pk_transaction_list_get_number_transactions_for_uid (tlist, item->uid);
@@ -521,16 +516,10 @@ pk_transaction_list_create (PkTransactionList *tlist, const gchar *tid, const gc
 		goto out;
 	}
 
-	/* put on the bus */
-	dbus_g_object_type_install_info (PK_TYPE_TRANSACTION, &dbus_glib_pk_transaction_object_info);
-	dbus_g_connection_register_g_object (connection, item->tid, G_OBJECT (item->transaction));
-
 	/* the client only has a finite amount of time to use the object, else it's destroyed */
 	timeout = pk_conf_get_int (tlist->priv->conf, "TransactionCreateCommitTimeout");
 	item->commit_id = g_timeout_add_seconds (timeout, (GSourceFunc) pk_transaction_list_no_commit_cb, item);
-#if GLIB_CHECK_VERSION(2,25,8)
 	g_source_set_name_by_id (item->commit_id, "[PkTransactionList] commit");
-#endif
 
 	g_debug ("adding transaction %p, item %p", item->transaction, item);
 	g_ptr_array_add (tlist->priv->array, item);
@@ -582,7 +571,7 @@ pk_transaction_list_cancel_background (PkTransactionList *tlist)
 			continue;
 		g_debug ("cancelling pending transaction %s",
 			 item->tid);
-		pk_transaction_priv_cancel_bg (item->transaction);
+		pk_transaction_cancel_bg (item->transaction);
 	}
 
 	/* cancel any running transactions */
@@ -595,7 +584,7 @@ pk_transaction_list_cancel_background (PkTransactionList *tlist)
 			continue;
 		g_debug ("cancelling running background transaction %s",
 			 item->tid);
-		pk_transaction_priv_cancel_bg (item->transaction);
+		pk_transaction_cancel_bg (item->transaction);
 	}
 }
 
@@ -660,7 +649,7 @@ pk_transaction_list_commit (PkTransactionList *tlist, const gchar *tid)
 		g_debug ("cancelling running background transaction %s "
 			 "and instead running %s",
 			 item_active->tid, item->tid);
-		pk_transaction_priv_cancel_bg (item_active->transaction);
+		pk_transaction_cancel_bg (item_active->transaction);
 		goto out;
 	}
 out:
@@ -746,7 +735,7 @@ pk_transaction_list_get_state (PkTransactionList *tlist)
 			waiting++;
 		if (state == PK_TRANSACTION_STATE_NEW)
 			no_commit++;
-		role = pk_transaction_priv_get_role (item->transaction);
+		role = pk_transaction_get_role (item->transaction);
 		g_string_append_printf (string, "%0i\t%s\t%s\tstate[%s] background[%i]\n", i,
 					pk_role_enum_to_string (role), item->tid,
 					pk_transaction_state_to_string (state),
@@ -816,7 +805,7 @@ pk_transaction_list_is_consistent (PkTransactionList *tlist)
 			waiting++;
 		if (state == PK_TRANSACTION_STATE_NEW)
 			no_commit++;
-		role = pk_transaction_priv_get_role (item->transaction);
+		role = pk_transaction_get_role (item->transaction);
 		if (role == PK_ROLE_ENUM_UNKNOWN)
 			unknown_role++;
 	}
@@ -887,13 +876,21 @@ pk_transaction_list_wedge_check1 (PkTransactionList *tlist)
 		/* we have to do this twice, as we might idle add inbetween a transition */
 		g_warning ("list is consistent, scheduling another check");
 		tlist->priv->unwedge2_id = g_timeout_add (500, (GSourceFunc) pk_transaction_list_wedge_check2, tlist);
-#if GLIB_CHECK_VERSION(2,25,8)
 		g_source_set_name_by_id (tlist->priv->unwedge2_id, "[PkTransactionList] wedge-check");
-#endif
 	}
 
 	/* always repeat */
 	return TRUE;
+}
+
+/**
+ * pk_transaction_list_set_plugins:
+ */
+void
+pk_transaction_list_set_plugins (PkTransactionList *tlist,
+				 GPtrArray *plugins)
+{
+	tlist->priv->plugins = g_ptr_array_ref (plugins);
 }
 
 /**
@@ -929,9 +926,7 @@ pk_transaction_list_init (PkTransactionList *tlist)
 	tlist->priv->unwedge2_id = 0;
 	tlist->priv->unwedge1_id = g_timeout_add_seconds (PK_TRANSACTION_WEDGE_CHECK,
 							  (GSourceFunc) pk_transaction_list_wedge_check1, tlist);
-#if GLIB_CHECK_VERSION(2,25,8)
 	g_source_set_name_by_id (tlist->priv->unwedge1_id, "[PkTransactionList] wedge-check (main)");
-#endif
 }
 
 /**
@@ -957,6 +952,8 @@ pk_transaction_list_finalize (GObject *object)
 	g_ptr_array_foreach (tlist->priv->array, (GFunc) pk_transaction_list_item_free, NULL);
 	g_ptr_array_free (tlist->priv->array, TRUE);
 	g_object_unref (tlist->priv->conf);
+	if (tlist->priv->plugins != NULL)
+		g_ptr_array_unref (tlist->priv->plugins);
 
 	G_OBJECT_CLASS (pk_transaction_list_parent_class)->finalize (object);
 }

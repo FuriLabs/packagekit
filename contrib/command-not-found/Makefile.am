@@ -4,7 +4,6 @@ AUTOMAKE_OPTIONS = 1.7
 INCLUDES =						\
 	$(GLIB_CFLAGS)					\
 	$(GIO_CFLAGS)					\
-	$(DBUS_CFLAGS)					\
 	$(SQLITE_CFLAGS)				\
 	-DI_KNOW_THE_PACKAGEKIT_GLIB2_API_IS_SUBJECT_TO_CHANGE	\
 	-DG_LOG_DOMAIN=\"PackageKit\"			\
@@ -21,15 +20,12 @@ PK_GLIB2_LIBS =						\
 	$(NULL)
 
 pk_command_not_found_SOURCES =				\
-	egg-string.c					\
-	egg-string.h					\
 	pk-command-not-found.c				\
 	$(NULL)
 
 pk_command_not_found_LDADD =				\
 	$(GLIB_LIBS)					\
 	$(GIO_LIBS)					\
-	$(DBUS_LIBS)					\
 	$(PK_GLIB2_LIBS)				\
 	$(NULL)
 
