@@ -149,6 +149,7 @@
     <function name="The Transaction signal" link="Transaction.html#Transaction::Transaction"/>
     <function name="The UpdateDetail signal" link="Transaction.html#Transaction::UpdateDetail"/>
     <function name="The DistroUpgrade signal" link="Transaction.html#Transaction::DistroUpgrade"/>
+    <function name="The ItemProgress signal" link="Transaction.html#Transaction::ItemProgress"/>
     <function name="The Changed signal" link="Transaction.html#Transaction::Changed"/>
     <function name="The Destroy signal" link="Transaction.html#Transaction::Destroy"/>
     <function name="The &quot;Role&quot; property" link="Transaction.html#Transaction:Role"/>
@@ -444,6 +445,7 @@
     <function name="enum PkProgressType" link="PkProgress.html#PkProgressType"/>
     <function name="PkProgressCallback ()" link="PkProgress.html#PkProgressCallback"/>
     <function name="pk_progress_set_package_id ()" link="PkProgress.html#pk-progress-set-package-id"/>
+    <function name="pk_progress_set_item_progress ()" link="PkProgress.html#pk-progress-set-item-progress"/>
     <function name="pk_progress_set_transaction_id ()" link="PkProgress.html#pk-progress-set-transaction-id"/>
     <function name="pk_progress_set_percentage ()" link="PkProgress.html#pk-progress-set-percentage"/>
     <function name="pk_progress_set_subpercentage ()" link="PkProgress.html#pk-progress-set-subpercentage"/>
@@ -460,6 +462,8 @@
     <function name="The &quot;allow-cancel&quot; property" link="PkProgress.html#PkProgress--allow-cancel"/>
     <function name="The &quot;caller-active&quot; property" link="PkProgress.html#PkProgress--caller-active"/>
     <function name="The &quot;elapsed-time&quot; property" link="PkProgress.html#PkProgress--elapsed-time"/>
+    <function name="The &quot;item-progress-id&quot; property" link="PkProgress.html#PkProgress--item-progress-id"/>
+    <function name="The &quot;item-progress-value&quot; property" link="PkProgress.html#PkProgress--item-progress-value"/>
     <function name="The &quot;package&quot; property" link="PkProgress.html#PkProgress--package"/>
     <function name="The &quot;package-id&quot; property" link="PkProgress.html#PkProgress--package-id"/>
     <function name="The &quot;percentage&quot; property" link="PkProgress.html#PkProgress--percentage"/>

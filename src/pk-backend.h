@@ -34,10 +34,7 @@
 #include <packagekit-glib2/pk-package-ids.h>
 #include <packagekit-glib2/pk-bitfield.h>
 
-#include "pk-store.h"
 #include "pk-backend.h"
-
-#include "egg-string.h"
 
 G_BEGIN_DECLS
 
@@ -103,6 +100,8 @@ PkBitfield	 pk_backend_get_roles			(PkBackend	*backend);
 gchar		*pk_backend_get_mime_types		(PkBackend	*backend);
 gboolean	 pk_backend_has_set_error_code		(PkBackend	*backend);
 gboolean	 pk_backend_is_implemented		(PkBackend	*backend,
+							 PkRoleEnum	 role);
+void		 pk_backend_implement			(PkBackend	*backend,
 							 PkRoleEnum	 role);
 gchar		*pk_backend_get_accepted_eula_string	(PkBackend	*backend);
 void		pk_backend_cancel			(PkBackend	*backend);
@@ -205,11 +204,15 @@ gboolean	 pk_backend_is_eula_valid		(PkBackend	*backend,
 gboolean	 pk_backend_set_role			(PkBackend	*backend,
 							 PkRoleEnum	 role);
 PkRoleEnum	 pk_backend_get_role			(PkBackend	*backend);
+PkExitEnum	 pk_backend_get_exit_code		(PkBackend	*backend);
 gboolean	 pk_backend_set_status			(PkBackend	*backend,
 							 PkStatusEnum	 status);
 gboolean	 pk_backend_set_allow_cancel		(PkBackend	*backend,
 							 gboolean	 allow_cancel);
 gboolean	 pk_backend_set_percentage		(PkBackend	*backend,
+							 guint		 percentage);
+gboolean	 pk_backend_set_item_progress		(PkBackend	*backend,
+							 const gchar	*package_id,
 							 guint		 percentage);
 gboolean	 pk_backend_set_sub_percentage		(PkBackend	*backend,
 							 guint		 percentage);
@@ -231,11 +234,6 @@ void		 pk_backend_set_cache_age		(PkBackend	*backend,
 /* get the state */
 gboolean	 pk_backend_get_allow_cancel		(PkBackend	*backend);
 gboolean         pk_backend_get_is_error_set		(PkBackend	*backend);
-gboolean	 pk_backend_get_progress		(PkBackend	*backend,
-							 guint		*percentage,
-							 guint		*subpercentage,
-							 guint		*elapsed,
-							 guint		*remaining);
 guint		 pk_backend_get_runtime			(PkBackend	*backend);
 gchar		*pk_backend_get_proxy_ftp		(PkBackend	*backend);
 gchar		*pk_backend_get_proxy_http		(PkBackend	*backend);
@@ -478,63 +476,6 @@ typedef struct {
 							 PkUpgradeKindEnum upgrade_kind);
 	gpointer	padding[7];
 } PkBackendDesc;
-
-/* this is deprecated */
-#define PK_BACKEND_OPTIONS(description, author, initialize, destroy, get_groups, get_filters, get_roles, \
-			   get_mime_types, cancel, download_packages, get_categories, get_depends,	\
-			   get_details, get_distro_upgrades, get_files, get_packages, get_repo_list,	\
-			   get_requires, get_update_detail, get_updates, install_files,			\
-			   install_packages, install_signature, refresh_cache, remove_packages,		\
-			   repo_enable, repo_set_data, resolve, rollback, search_details, search_file,	\
-			   search_group, search_name, update_packages, update_system, what_provides,	\
-			   simulate_install_files, simulate_install_packages, simulate_remove_packages,	\
-			   simulate_update_packages, upgrade_system, transaction_start, transaction_stop ) \
-	G_MODULE_EXPORT const PkBackendDesc pk_backend_desc = { 					\
-		description,			\
-		author,				\
-		initialize,			\
-		destroy,			\
-		get_groups,			\
-		get_filters,			\
-		get_roles,			\
-		get_mime_types,			\
-		cancel,				\
-		download_packages,		\
-		get_categories,			\
-		get_depends,			\
-		get_details,			\
-		get_distro_upgrades,		\
-		get_files,			\
-		get_packages,			\
-		get_repo_list,			\
-		get_requires,			\
-		get_update_detail,		\
-		get_updates,			\
-		install_files,			\
-		install_packages,		\
-		install_signature,		\
-		refresh_cache,			\
-		remove_packages,		\
-		repo_enable,			\
-		repo_set_data,			\
-		resolve,			\
-		rollback,			\
-		search_details,			\
-		search_file,			\
-		search_group,			\
-		search_name,			\
-		update_packages,		\
-		update_system,			\
-		what_provides,			\
-		simulate_install_files,		\
-		simulate_install_packages,	\
-		simulate_remove_packages,	\
-		simulate_update_packages,	\
-		upgrade_system,			\
-		transaction_start,		\
-		transaction_stop,		\
-		{0} 				\
-	}
 
 G_END_DECLS
 

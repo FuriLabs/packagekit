@@ -52,15 +52,6 @@
 /* Define to 1 if you have the <memory.h> header file. */
 #define HAVE_MEMORY_H 1
 
-/* Define to 1 if you have the `polkit_authority_get_sync' function. */
-#define HAVE_POLKIT_AUTHORITY_GET_SYNC 1
-
-/* "Meta release is available" */
-/* #undef HAVE_PYTHON_META_RELEASE */
-
-/* "Python software properties is available" */
-/* #undef HAVE_PYTHON_SOFTWARE_PROPERTIES */
-
 /* Define to 1 if you have the `setpriority' function. */
 #define HAVE_SETPRIORITY 1
 
@@ -108,16 +99,16 @@
 #define PACKAGE_NAME "PackageKit"
 
 /* Define to the full name and version of this package. */
-#define PACKAGE_STRING "PackageKit 0.6.18"
+#define PACKAGE_STRING "PackageKit 0.7.0"
 
 /* Define to the one symbol short name of this package. */
 #define PACKAGE_TARNAME "PackageKit"
 
 /* Define to the home page for this package. */
-#define PACKAGE_URL ""
+#define PACKAGE_URL "http://www.packagekit.org/"
 
 /* Define to the version of this package. */
-#define PACKAGE_VERSION "0.6.18"
+#define PACKAGE_VERSION "0.7.0"
 
 /* define if Connection Manager is installed */
 /* #undef PK_BUILD_CONNMAN */
@@ -140,11 +131,8 @@
 /* if we should use PolicyKit */
 #define USE_SECURITY_POLKIT 1
 
-/* if we should use the new PolicyKit API */
-#define USE_SECURITY_POLKIT_NEW 1
-
 /* Version number of package */
-#define VERSION "0.6.18"
+#define VERSION "0.7.0"
 
 /* default security framework */
 #define security_framework "polkit"

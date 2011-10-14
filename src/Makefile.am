@@ -1,6 +1,8 @@
 ## We require new-style dependency handling.
 AUTOMAKE_OPTIONS = 1.7
 
+SUBDIRS = plugins
+
 NULL =
 
 PK_GLIB2_LIBS =						\
@@ -10,7 +12,6 @@ PK_GLIB2_LIBS =						\
 INCLUDES =						\
 	$(GIO_CFLAGS)					\
 	$(GLIB_CFLAGS)					\
-	$(DBUS_CFLAGS)					\
 	$(SQLITE_CFLAGS)				\
 	$(POLKIT_CFLAGS)				\
 	$(PYTHON_CFLAGS)				\
@@ -36,29 +37,26 @@ INCLUDES =						\
 	$(NULL)
 
 pkbackendincludedir=$(includedir)/PackageKit/backend
-
 pkbackendinclude_HEADERS =				\
 	pk-backend.h					\
-	pk-backend-spawn.h				\
-	$(NULL)
+	pk-backend-spawn.h
+
+pluginincludedir=$(includedir)/PackageKit/plugin
+plugininclude_HEADERS =					\
+	packagekit-plugin.h				\
+	pk-backend.h					\
+	pk-conf.h					\
+	pk-plugin.h					\
+	pk-transaction.h
 
 shared_SOURCES =					\
-	egg-string.c					\
-	egg-string.h					\
-	egg-dbus-monitor.c				\
-	egg-dbus-monitor.h				\
 	pk-marshal.c					\
 	pk-marshal.h					\
-	pk-lsof.c					\
-	pk-lsof.h					\
-	pk-proc.c					\
-	pk-proc.h					\
 	pk-dbus.c					\
 	pk-dbus.h					\
 	pk-transaction.c				\
 	pk-transaction.h				\
-	pk-transaction-extra.c				\
-	pk-transaction-extra.h				\
+	pk-transaction-private.h			\
 	pk-backend.c					\
 	pk-backend.h					\
 	pk-network.c					\
@@ -87,12 +85,8 @@ shared_SOURCES =					\
 	pk-spawn.h					\
 	pk-sysdep.h					\
 	pk-sysdep.c					\
-	pk-file-monitor.h				\
-	pk-file-monitor.c				\
 	pk-engine.h					\
 	pk-engine.c					\
-	pk-inhibit.h					\
-	pk-inhibit.c					\
 	pk-backend-spawn.h				\
 	pk-backend-spawn.c				\
 	pk-transaction-db.h				\
@@ -125,7 +119,6 @@ packagekitd_LDADD =					\
 	$(GMODULE_LIBS)					\
 	$(NETWORK_MANAGER_LIBS)				\
 	$(CONNMAN_LIBS)					\
-	$(DBUS_LIBS)					\
 	$(SQLITE_LIBS)					\
 	$(PK_GLIB2_LIBS)				\
 	$(PYTHON_LIBS)					\
@@ -147,10 +140,7 @@ endif
 
 BUILT_SOURCES =						\
 	pk-marshal.c					\
-	pk-marshal.h					\
-	org.freedesktop.PackageKit.h			\
-	org.freedesktop.PackageKit.Transaction.h	\
-	$(NULL)
+	pk-marshal.h
 
 pk-marshal.c: pk-marshal.list
 	echo "#include \"pk-marshal.h\"" > $@ && \
@@ -158,20 +148,6 @@ pk-marshal.c: pk-marshal.list
 
 pk-marshal.h: pk-marshal.list
 	glib-genmarshal $< --prefix=pk_marshal --header > $@
-
-org.freedesktop.PackageKit.h: org.freedesktop.PackageKit.xml
-	$(LIBTOOL) --mode=execute dbus-binding-tool	\
-		--prefix=pk_engine			\
-		--mode=glib-server			\
-		--output=org.freedesktop.PackageKit.h	\
-		$(srcdir)/org.freedesktop.PackageKit.xml
-
-org.freedesktop.PackageKit.Transaction.h: org.freedesktop.PackageKit.Transaction.xml
-	$(LIBTOOL) --mode=execute dbus-binding-tool	\
-		--prefix=pk_transaction			\
-		--mode=glib-server			\
-		--output=org.freedesktop.PackageKit.Transaction.h	\
-		$(srcdir)/org.freedesktop.PackageKit.Transaction.xml
 
 if EGG_BUILD_TESTS
 
@@ -186,7 +162,6 @@ pk_self_test_SOURCES =					\
 pk_self_test_LDADD =					\
 	$(GLIB_LIBS)					\
 	$(GMODULE_LIBS)					\
-	$(DBUS_LIBS)					\
 	$(SQLITE_LIBS)					\
 	$(NETWORK_MANAGER_LIBS)				\
 	$(CONNMAN_LIBS)					\
@@ -207,18 +182,21 @@ install-data-hook:
 		mkdir -p $(DESTDIR)$(PK_LOG_DIR); \
 	fi
 
-EXTRA_DIST =						\
-	pk-marshal.list					\
+introspectiondir = $(datadir)/dbus-1/interfaces
+dist_introspection_DATA = 				\
 	org.freedesktop.PackageKit.xml			\
-	org.freedesktop.PackageKit.Transaction.xml	\
-	$(NULL)
+	org.freedesktop.PackageKit.Transaction.xml
+
+EXTRA_DIST =						\
+	pk-marshal.list
 
 clean-local:
 	rm -f *~
-	rm -f transactions.db
-	rm -f pk-marshal.c pk-marshal.h
 
-CLEANFILES = *~ $(BUILT_SOURCES)
-
+CLEANFILES =						\
+	$(BUILT_SOURCES)				\
+	pk-marshal.c					\
+	pk-marshal.h					\
+	transactions.db
 
 -include $(top_srcdir)/git.mk

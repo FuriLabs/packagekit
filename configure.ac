@@ -1,22 +1,30 @@
-# Copyright (C) 2007-2009 Richard Hughes <richard@hughsie.com>
-AC_PREREQ(2.63)
+# Copyright (C) 2007-2011 Richard Hughes <richard@hughsie.com>
 
 m4_define([pk_major_version], [0])
-m4_define([pk_minor_version], [6])
-m4_define([pk_micro_version], [18])
+m4_define([pk_minor_version], [7])
+m4_define([pk_micro_version], [0])
 m4_define([pk_version],
           [pk_major_version.pk_minor_version.pk_micro_version])
 
-AC_INIT([PackageKit],[pk_version],[richard@hughsie.com],[PackageKit])
-AC_CONFIG_SRCDIR(src)
-AM_INIT_AUTOMAKE([1.9 no-dist-gzip dist-xz tar-ustar])
-AC_CONFIG_HEADERS([config.h])
-AC_CONFIG_MACRO_DIR([m4])
+AC_PREREQ(2.63)
+AC_INIT([PackageKit],
+        [pk_version],
+        [richard@hughsie.com],
+        [PackageKit],
+        [http://www.packagekit.org/])
 
-GOBJECT_INTROSPECTION_CHECK([0.9.8])
+AC_CONFIG_HEADERS([config.h])
+AC_CONFIG_SRCDIR([src])
+AC_CONFIG_MACRO_DIR([m4])
+AC_CONFIG_AUX_DIR([build-aux])
+
+AM_INIT_AUTOMAKE([1.11 -Wno-portability no-dist-gzip dist-xz tar-ustar])
+AM_MAINTAINER_MODE([enable])
 
 # enable nice build output on automake1.11
-m4_ifdef([AM_SILENT_RULES],[AM_SILENT_RULES([yes])])
+AM_SILENT_RULES([yes])
+
+GOBJECT_INTROSPECTION_CHECK([0.9.9])
 
 PK_MAJOR_VERSION=pk_major_version
 PK_MINOR_VERSION=pk_minor_version
@@ -37,7 +45,7 @@ AC_SUBST(PK_VERSION)
 # AGE		If libpackagekit can be linked into executables which can be
 # 		built with previous versions of this library. Don't use.
 LT_CURRENT=14
-LT_REVISION=10
+LT_REVISION=9
 LT_AGE=0
 AC_SUBST(LT_CURRENT)
 AC_SUBST(LT_REVISION)
@@ -57,8 +65,10 @@ AC_PROG_CXX
 AC_PROG_INSTALL
 AC_SEARCH_LIBS([strerror],[cposix])
 AC_HEADER_STDC
-LT_INIT
 AM_PROG_CC_C_O
+
+# Initialize libtool
+LT_INIT
 
 # Internationalisation
 IT_PROG_INTLTOOL([0.35.0])
@@ -68,7 +78,7 @@ AM_GLIB_GNU_GETTEXT
 AC_DEFINE_UNQUOTED([GETTEXT_PACKAGE],["$GETTEXT_PACKAGE"],[gettext domain])
 
 # set up gtk-doc
-GTK_DOC_CHECK(1.9)
+GTK_DOC_CHECK([1.11],[--flavour no-tmpl])
 
 AC_PATH_PROG(GLIB_GENMARSHAL, glib-genmarshal)
 
@@ -144,12 +154,12 @@ AM_GLIB_GNU_GETTEXT
 dnl ---------------------------------------------------------------------------
 dnl - Library dependencies
 dnl ---------------------------------------------------------------------------
-GLIB_REQUIRED=2.22.0
+GLIB_REQUIRED=2.26.0
 GIO_REQUIRED=2.16.1
 DBUS_REQUIRED=1.1.1
 DBUS_GLIB_REQUIRED=0.74
 NETWORK_MANAGER_REQUIRED=0.6.4
-POLKIT_GOBJECT_REQUIRED=0.92
+POLKIT_GOBJECT_REQUIRED=0.98
 QTCORE_REQUIRED=4.4.0
 QTDBUS_REQUIRED=4.4.0
 QTSQL_REQUIRED=4.4.0
@@ -325,17 +335,6 @@ AC_ARG_ENABLE(tests, AS_HELP_STRING([--enable-tests],[enable unit test code]),
 AM_CONDITIONAL(EGG_BUILD_TESTS, test x$enable_tests = xyes)
 if test x$enable_tests = xyes; then
 	AC_DEFINE(EGG_BUILD_TESTS,1,[Build test code])
-
-	# packagekit-qt needs cppunit and QtGui for tests
-	if test x$build_qt = xyes; then
-		PKG_CHECK_MODULES(CPPUNIT, cppunit)
-		AC_SUBST(CPPUNIT_CFLAGS)
-		AC_SUBST(CPPUNIT_LIBS)
-
-		PKG_CHECK_MODULES(QTGUI, QtGui >= 4.4.0)
-		AC_SUBST(QTGUI_CFLAGS)
-		AC_SUBST(QTGUI_LIBS)
-	fi
 fi
 
 dnl ---------------------------------------------------------------------------
@@ -360,8 +359,7 @@ if test x$enable_browser_plugin = xyes; then
 			  nspr \
 			  cairo			\
 			  pango			\
-			  gtk+-2.0 >= 2.14.0	\
-			  dbus-glib-1,
+			  gtk+-2.0 >= 2.14.0,
 			  build_browser_plugin=yes, build_browser_plugin=no)
 	if test $build_browser_plugin = "yes"; then
 
@@ -399,7 +397,7 @@ dnl ---------------------------------------------------------------------------
 AC_ARG_ENABLE(gstreamer_plugin, AS_HELP_STRING([--enable-gstreamer-plugin],[Build gstreamer plugin functionality]),
 	      enable_gstreamer_plugin=$enableval,enable_gstreamer_plugin=yes)
 if test x$enable_gstreamer_plugin = xyes; then
-	PKG_CHECK_MODULES(PK_GSTREAMER_PLUGIN, gstreamer-0.10 gstreamer-plugins-base-0.10 glib-2.0 dbus-glib-1,
+	PKG_CHECK_MODULES(PK_GSTREAMER_PLUGIN, gstreamer-0.10 gstreamer-plugins-base-0.10 glib-2.0 gio-2.0,
 	                  build_gstreamer_plugin=yes, build_gstreamer_plugin=no)
 else
 	build_gstreamer_plugin=no
@@ -409,27 +407,15 @@ AM_CONDITIONAL(PK_BUILD_GSTREAMER_PLUGIN, test $build_gstreamer_plugin = "yes")
 dnl ---------------------------------------------------------------------------
 dnl - Able to build GTK module
 dnl ---------------------------------------------------------------------------
-AC_ARG_ENABLE(gtk_module, AS_HELP_STRING([--enable-gtk-module],[Build GTK module functionality]),
+AC_ARG_ENABLE(gtk_module, AS_HELP_STRING([--enable-gtk-module],[Build GTK+-3 module functionality]),
 	      enable_gtk_module=$enableval,enable_gtk_module=yes)
 if test x$enable_gtk_module = xyes; then
-	PKG_CHECK_MODULES(PK_GTK_MODULE_GTK2, gtk+-2.0 >= 2.14.0 pangoft2 fontconfig dbus-glib-1,
-	                  build_gtk_module_gtk2=yes, build_gtk_module_gtk2=no)
-	PKG_CHECK_MODULES(PK_GTK_MODULE_GTK3, gtk+-3.0 >= 2.91.0 pangoft2 fontconfig dbus-glib-1,
-	                  build_gtk_module_gtk3=yes, build_gtk_module_gtk3=no)
-	# if either are true, visit the gtk-module directory
-	if test $build_gtk_module_gtk2 = "yes" -o $build_gtk_module_gtk3 = "yes"; then
-		build_gtk_module=yes
-	else
-		build_gtk_module=no
-	fi
+	PKG_CHECK_MODULES(PK_GTK_MODULE, gtk+-3.0 >= 3.0.0 pangoft2 fontconfig gio-2.0,
+	                  build_gtk_module=yes, build_gtk_module=no)
 else
 	build_gtk_module=no
-	build_gtk_module_gtk2=no
-	build_gtk_module_gtk3=no
 fi
 AM_CONDITIONAL(PK_BUILD_GTK_MODULE, test $build_gtk_module = "yes")
-AM_CONDITIONAL(PK_BUILD_GTK_MODULE_GTK2, test $build_gtk_module_gtk2 = "yes")
-AM_CONDITIONAL(PK_BUILD_GTK_MODULE_GTK3, test $build_gtk_module_gtk3 = "yes")
 
 dnl ---------------------------------------------------------------------------
 dnl - Able to build BASH command-not-found functionality
@@ -480,7 +466,6 @@ AM_CONDITIONAL(PK_BUILD_PM_UTILS, test $build_pm_utils = "yes")
 
 # backends
 AC_ARG_ENABLE(alpm, AS_HELP_STRING([--enable-alpm],[use the ALPM backend]),enable_alpm=$enableval,enable_alpm=no)
-AC_ARG_ENABLE(apt, AS_HELP_STRING([--enable-apt],[use the APT backend]),enable_apt=$enableval,enable_apt=no)
 AC_ARG_ENABLE(aptcc, AS_HELP_STRING([--enable-aptcc],[use the APTcc backend]),enable_aptcc=$enableval,enable_aptcc=no)
 AC_ARG_ENABLE(box, AS_HELP_STRING([--enable-box],[use the BOX backend]),enable_box=$enableval,enable_box=no)
 AC_ARG_ENABLE(conary, AS_HELP_STRING([--enable-conary],[use the CONARY backend]),enable_conary=$enableval,enable_conary=no)
@@ -491,7 +476,6 @@ AC_ARG_ENABLE(pisi, AS_HELP_STRING([--enable-pisi],[use the PiSi backend]),enabl
 AC_ARG_ENABLE(poldek, AS_HELP_STRING([--enable-poldek],[use the poldek backend]),enable_poldek=$enableval,enable_poldek=no)
 AC_ARG_ENABLE(portage, AS_HELP_STRING([--enable-portage],[use the portage backend]),enable_portage=$enableval,enable_portage=no)
 AC_ARG_ENABLE(ports, AS_HELP_STRING([--enable-ports],[use the ports backend]),enable_ports=$enableval,enable_ports=no)
-AC_ARG_ENABLE(razor, AS_HELP_STRING([--enable-razor],[use the razor backend]),enable_razor=$enableval,enable_razor=no)
 AC_ARG_ENABLE(slapt, AS_HELP_STRING([--enable-slapt],[use the slapt backend]),enable_slapt=$enableval,enable_slapt=no)
 AC_ARG_ENABLE(smart, AS_HELP_STRING([--enable-smart],[use the SMART backend]),enable_smart=$enableval,enable_smart=no)
 AC_ARG_ENABLE(urpmi, AS_HELP_STRING([--enable-urpmi],[use the URPMI backend]),enable_urpmi=$enableval,enable_urpmi=no)
@@ -501,7 +485,6 @@ AC_ARG_ENABLE(zypp, AS_HELP_STRING([--enable-zypp],[use the Zypp backend]),enabl
 
 # export to Makefile.am's
 AM_CONDITIONAL(BACKEND_TYPE_ALPM, [test x$enable_alpm = xyes])
-AM_CONDITIONAL(BACKEND_TYPE_APT, [test x$enable_apt = xyes])
 AM_CONDITIONAL(BACKEND_TYPE_APTCC, [test x$enable_aptcc = xyes])
 AM_CONDITIONAL(BACKEND_TYPE_BOX, [test x$enable_box = xyes])
 AM_CONDITIONAL(BACKEND_TYPE_CONARY, [test x$enable_conary = xyes])
@@ -512,7 +495,6 @@ AM_CONDITIONAL(BACKEND_TYPE_PISI, [test x$enable_pisi = xyes])
 AM_CONDITIONAL(BACKEND_TYPE_POLDEK, [test x$enable_poldek = xyes])
 AM_CONDITIONAL(BACKEND_TYPE_PORTAGE, [test x$enable_portage = xyes])
 AM_CONDITIONAL(BACKEND_TYPE_PORTS, [test x$enable_ports = xyes])
-AM_CONDITIONAL(BACKEND_TYPE_RAZOR, [test x$enable_razor = xyes])
 AM_CONDITIONAL(BACKEND_TYPE_SLAPT, [test x$enable_slapt = xyes])
 AM_CONDITIONAL(BACKEND_TYPE_SMART, [test x$enable_smart = xyes])
 AM_CONDITIONAL(BACKEND_TYPE_URPMI, [test x$enable_urpmi = xyes])
@@ -559,28 +541,9 @@ AC_DEFINE_UNQUOTED(security_framework, "$with_security_framework", [default secu
 AC_SUBST(security_framework, "$with_security_framework")
 
 if test x$with_security_framework = xpolkit; then
-	# polkit >= 0.97 uses polkit_authority_get_sync() rather than
-	# polkit_authority_get
 	PKG_CHECK_MODULES(POLKIT, \
 			  polkit-backend-1 \
-			  polkit-gobject-1 >= 0.97,
-			  has_new_polkit=yes,
-			  has_new_polkit=no)
-	if test x$has_new_polkit = xno; then
-		PKG_CHECK_MODULES(POLKIT, \
-				  polkit-backend-1 \
-				  polkit-gobject-1 >= $POLKIT_GOBJECT_REQUIRED)
-	else
-		AC_DEFINE(USE_SECURITY_POLKIT_NEW, 1, [if we should use the new PolicyKit API])
-		save_CFLAGS="$CFLAGS"
-		save_LIBS="$LIBS"
-		CFLAGS="$CFLAGS $POLKIT_CFLAGS"
-		LIBS="$LIBS $POLKIT_LIBS"
-		# check for symbol, if using a pre-release polkit 0.97
-		AC_CHECK_FUNCS(polkit_authority_get_sync)
-		CFLAGS="$save_CFLAGS"
-		LIBS="$save_LIBS"
-	fi
+			  polkit-gobject-1 >= $POLKIT_GOBJECT_REQUIRED)
 	AC_DEFINE(USE_SECURITY_POLKIT, 1, [if we should use PolicyKit])
 elif test x$with_security_framework = xdummy; then
 	AC_DEFINE(USE_SECURITY_DUMMY, 1, [if we should use a dummy security framework])
@@ -597,7 +560,7 @@ dnl ---------------------------------------------------------------------------
 AC_ARG_WITH([default_backend],
 	    AS_HELP_STRING([--with-default-backend=<option>],
 			   [Default backend to use
-                           alpm,apt,aptcc,box,conary,dummy,entropy,opkg,pisi,portage,ports,razor,slapt,smart,urpmi,yum,zif,zypp (dummy)]))
+                           auto,alpm,aptcc,box,conary,dummy,entropy,opkg,pisi,portage,ports,slapt,smart,urpmi,yum,zif,zypp (dummy)]))
 # default to a sane option for the installed tool
 if test x$with_default_backend = x; then
 	if test -f /usr/bin/yum ; then
@@ -607,7 +570,7 @@ if test x$with_default_backend = x; then
 	elif test -f /usr/lib/libalpm.so; then
 		with_default_backend=alpm
 	elif test -f /usr/bin/apt-get ; then
-		with_default_backend=apt
+		with_default_backend=aptcc
 	elif test -f /usr/bin/conary ; then
 		with_default_backend=conary
 	elif test -f /usr/bin/box-repos ; then
@@ -618,8 +581,6 @@ if test x$with_default_backend = x; then
 		with_default_backend=smart
 	elif test -f /usr/bin/pisi ; then
 		with_default_backend=pisi
-	elif test -f /usr/bin/razor ; then
-		with_default_backend=razor
 	elif test -f /usr/bin/poldek ; then
 		with_default_backend=poldek
 	elif test -f /usr/bin/urpmq ; then
@@ -657,18 +618,6 @@ if test x$enable_zif = xyes; then
 fi
 AM_CONDITIONAL(PK_BUILD_ZIF, test $build_zif = "yes")
 
-if test x$enable_apt = xyes; then
-	PY_CHECK_MOD([apt_pkg],,,AC_MSG_ERROR([Apt backend needs python-apt]))
-	PY_CHECK_MOD([UpdateManager.Core.MetaRelease],,
-		     AC_DEFINE(HAVE_PYTHON_META_RELEASE, 1,
-			       "Meta release is available"), 
-		     AC_MSG_WARN([Distro upgrade notification not supported]))
-	PY_CHECK_MOD([softwareproperties.SoftwareProperties],,
-		     AC_DEFINE(HAVE_PYTHON_SOFTWARE_PROPERTIES, 1,
-			       "Python software properties is available"),
-		     AC_MSG_WARN([Repository handling not supported]))
-fi
-
 if test x$enable_aptcc = xyes; then
 	dnl Use C++
 	AC_LANG([C++])
@@ -697,7 +646,7 @@ if test x$enable_aptcc = xyes; then
 			  AC_MSG_RESULT([yes]),
 			  AC_MSG_FAILURE([need libapt-pkg 0.7 or later]))
 
-	AC_MSG_CHECKING([whether apt supports ddtp]) 
+	AC_MSG_CHECKING([whether apt supports ddtp])
 
 	AC_COMPILE_IFELSE(AC_LANG_PROGRAM([[#include <apt-pkg/pkgcache.h>]],
 					  [[pkgCache::DescIterator d;]]),
@@ -736,10 +685,6 @@ if test x$enable_zypp = xyes; then
 	PKG_CHECK_MODULES(ZYPP, libzypp >= 6.16.0)
 fi
 
-if test x$enable_razor = xyes; then
-	PKG_CHECK_MODULES(RAZOR, razor >= 0.1)
-fi
-
 if test x$enable_slapt = xyes; then
 	with_default_backend=dummy
 	AC_CHECK_HEADER([slapt.h],
@@ -765,8 +710,8 @@ AC_SUBST(PK_YUM_PLUGIN_DIR, "\$(prefix)/lib/yum-plugins")
 AC_SUBST(PK_DB_DIR, "\$(localstatedir)/lib/PackageKit")
 AC_SUBST(PK_LOG_DIR, "\$(localstatedir)/log")
 AC_SUBST(PK_PLUGIN_DIR, "\$(libdir)/packagekit-backend")
-AC_SUBST(PK_PLUGIN_CFLAGS, "-I\$(top_srcdir)/src -I\$(top_srcdir)/lib -DPK_COMPILATION $GLIB_CFLAGS $DBUS_CFLAGS $GMODULE_CFLAGS $GIO_CFLAGS")
-AC_SUBST(PK_PLUGIN_LIBS, "$GLIB_LIBS $DBUS_LIBS $GMODULE_LIBS $GIO_LIBS")
+AC_SUBST(PK_PLUGIN_CFLAGS, "-I\$(top_srcdir)/src -I\$(top_srcdir)/lib -DPK_COMPILATION $GLIB_CFLAGS $GMODULE_CFLAGS $GIO_CFLAGS")
+AC_SUBST(PK_PLUGIN_LIBS, "$GLIB_LIBS $GMODULE_LIBS $GIO_LIBS")
 
 dnl ---------------------------------------------------------------------------
 dnl - Makefiles, etc.
@@ -786,8 +731,6 @@ contrib/Makefile
 contrib/browser-plugin/Makefile
 contrib/gstreamer-plugin/Makefile
 contrib/gtk-module/Makefile
-contrib/gtk-module/gtk-2.0/Makefile
-contrib/gtk-module/gtk-3.0/Makefile
 contrib/yum-packagekit/Makefile
 contrib/command-not-found/Makefile
 contrib/cron/Makefile
@@ -796,7 +739,6 @@ contrib/device-rebind/Makefile
 contrib/pm-utils/Makefile
 backends/Makefile
 backends/alpm/Makefile
-backends/apt/Makefile
 backends/aptcc/Makefile
 backends/box/Makefile
 backends/conary/Makefile
@@ -811,7 +753,6 @@ backends/urpmi/Makefile
 backends/urpmi/helpers/Makefile
 backends/urpmi/helpers/perl_packagekit/Makefile
 backends/urpmi/helpers/urpmi_backend/Makefile
-backends/razor/Makefile
 backends/yum/Makefile
 backends/zif/Makefile
 backends/pisi/Makefile
@@ -834,11 +775,15 @@ lib/packagekit-qt/test/Makefile
 lib/packagekit-qt/packagekit-qt.pc
 lib/packagekit-qt2/Makefile
 lib/packagekit-qt2/modules/Makefile
+lib/packagekit-qt2/modules/packagekit-qt2-config.cmake
+lib/packagekit-qt2/modules/packagekit-qt2-config-version.cmake
 lib/packagekit-qt2/packagekit-qt2.pc
 lib/python/Makefile
 lib/python/packagekit/Makefile
 policy/Makefile
 src/Makefile
+src/plugins/Makefile
+src/plugins/packagekit-plugin.pc
 client/Makefile
 tools/Makefile
 po/Makefile.in
@@ -861,8 +806,7 @@ echo "
         Networking stacks:         ${networking_apis}
         Browser plugin:            ${build_browser_plugin}
         GStreamer plugin:          ${build_gstreamer_plugin}
-        Pango module (GTK2):       ${build_gtk_module_gtk2}
-        Pango module (GTK3):       ${build_gtk_module_gtk3}
+        Pango module (GTK+3):      ${build_gtk_module}
         gobject-introspection:     ${found_introspection}
         BASH Command not found:    ${build_command_not_found}
         Cron scripts:              ${build_cron}
@@ -873,14 +817,12 @@ echo "
 
         Backends:
         ALPM backend:              ${enable_alpm}
-        APT backend:               ${enable_apt}
         APTcc backend:             ${enable_aptcc}
         BOX backend:               ${enable_box}
         CONARY backend:            ${enable_conary}
         dummy backend:             ${enable_dummy}
         Entropy backend:           ${enable_entropy}
         OPKG backend:              ${enable_opkg}
-        Razor backend:             ${enable_razor}
         PiSi backend:              ${enable_pisi}
         poldek backend:            ${enable_poldek}
         Portage backend:           ${enable_portage}

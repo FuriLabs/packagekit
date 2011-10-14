@@ -51,15 +51,6 @@
 /* Define to 1 if you have the <memory.h> header file. */
 #undef HAVE_MEMORY_H
 
-/* Define to 1 if you have the `polkit_authority_get_sync' function. */
-#undef HAVE_POLKIT_AUTHORITY_GET_SYNC
-
-/* "Meta release is available" */
-#undef HAVE_PYTHON_META_RELEASE
-
-/* "Python software properties is available" */
-#undef HAVE_PYTHON_SOFTWARE_PROPERTIES
-
 /* Define to 1 if you have the `setpriority' function. */
 #undef HAVE_SETPRIORITY
 
@@ -138,9 +129,6 @@
 
 /* if we should use PolicyKit */
 #undef USE_SECURITY_POLKIT
-
-/* if we should use the new PolicyKit API */
-#undef USE_SECURITY_POLKIT_NEW
 
 /* Version number of package */
 #undef VERSION

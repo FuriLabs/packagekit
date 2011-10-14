@@ -37,8 +37,11 @@ subdir = .
 DIST_COMMON = README $(am__configure_deps) $(srcdir)/Makefile.am \
 	$(srcdir)/Makefile.in $(srcdir)/config.h.in \
 	$(top_srcdir)/configure AUTHORS COPYING ChangeLog INSTALL NEWS \
-	TODO compile config.guess config.sub depcomp install-sh \
-	ltmain.sh missing py-compile
+	TODO build-aux/compile build-aux/config.guess \
+	build-aux/config.sub build-aux/depcomp build-aux/install-sh \
+	build-aux/ltmain.sh build-aux/missing build-aux/py-compile \
+	compile config.guess config.sub depcomp install-sh ltmain.sh \
+	missing py-compile
 ACLOCAL_M4 = $(top_srcdir)/aclocal.m4
 am__aclocal_m4_deps = $(top_srcdir)/m4/gtk-doc.m4 \
 	$(top_srcdir)/m4/intltool.m4 $(top_srcdir)/m4/libtool.m4 \
@@ -137,8 +140,6 @@ CONNMAN_LIBS = @CONNMAN_LIBS@
 CONSOLEKIT_DAEMON = @CONSOLEKIT_DAEMON@
 CPP = @CPP@
 CPPFLAGS = @CPPFLAGS@
-CPPUNIT_CFLAGS = @CPPUNIT_CFLAGS@
-CPPUNIT_LIBS = @CPPUNIT_LIBS@
 CXX = @CXX@
 CXXCPP = @CXXCPP@
 CXXDEPMODE = @CXXDEPMODE@
@@ -217,6 +218,7 @@ LT_QT_AGE = @LT_QT_AGE@
 LT_QT_CURRENT = @LT_QT_CURRENT@
 LT_QT_REVISION = @LT_QT_REVISION@
 LT_REVISION = @LT_REVISION@
+MAINT = @MAINT@
 MAKEINFO = @MAKEINFO@
 MANIFEST_TOOL = @MANIFEST_TOOL@
 MKDIR_P = @MKDIR_P@
@@ -254,10 +256,8 @@ PK_CONF_DIR = @PK_CONF_DIR@
 PK_DB_DIR = @PK_DB_DIR@
 PK_GSTREAMER_PLUGIN_CFLAGS = @PK_GSTREAMER_PLUGIN_CFLAGS@
 PK_GSTREAMER_PLUGIN_LIBS = @PK_GSTREAMER_PLUGIN_LIBS@
-PK_GTK_MODULE_GTK2_CFLAGS = @PK_GTK_MODULE_GTK2_CFLAGS@
-PK_GTK_MODULE_GTK2_LIBS = @PK_GTK_MODULE_GTK2_LIBS@
-PK_GTK_MODULE_GTK3_CFLAGS = @PK_GTK_MODULE_GTK3_CFLAGS@
-PK_GTK_MODULE_GTK3_LIBS = @PK_GTK_MODULE_GTK3_LIBS@
+PK_GTK_MODULE_CFLAGS = @PK_GTK_MODULE_CFLAGS@
+PK_GTK_MODULE_LIBS = @PK_GTK_MODULE_LIBS@
 PK_LOG_DIR = @PK_LOG_DIR@
 PK_MAJOR_VERSION = @PK_MAJOR_VERSION@
 PK_MICRO_VERSION = @PK_MICRO_VERSION@
@@ -287,15 +287,11 @@ QTCORE_CFLAGS = @QTCORE_CFLAGS@
 QTCORE_LIBS = @QTCORE_LIBS@
 QTDBUS_CFLAGS = @QTDBUS_CFLAGS@
 QTDBUS_LIBS = @QTDBUS_LIBS@
-QTGUI_CFLAGS = @QTGUI_CFLAGS@
-QTGUI_LIBS = @QTGUI_LIBS@
 QTSQL_CFLAGS = @QTSQL_CFLAGS@
 QTSQL_LIBS = @QTSQL_LIBS@
 QTXML_CFLAGS = @QTXML_CFLAGS@
 QTXML_LIBS = @QTXML_LIBS@
 RANLIB = @RANLIB@
-RAZOR_CFLAGS = @RAZOR_CFLAGS@
-RAZOR_LIBS = @RAZOR_LIBS@
 SBINDIR = @SBINDIR@
 SED = @SED@
 SET_MAKE = @SET_MAKE@
@@ -397,22 +393,15 @@ MAINTAINERCLEANFILES = \
 	$(srcdir)/ABOUT-NLS				\
 	$(srcdir)/aclocal.m4				\
 	$(srcdir)/autoscan.log				\
-	$(srcdir)/compile				\
-	$(srcdir)/config.guess				\
+	$(srcdir)/build-aux				\
 	$(srcdir)/config.rpath				\
 	$(srcdir)/config.h.in				\
-	$(srcdir)/config.sub				\
 	$(srcdir)/configure.scan			\
-	$(srcdir)/depcomp				\
-	$(srcdir)/install-sh				\
-	$(srcdir)/ltmain.sh				\
-	$(srcdir)/missing				\
 	$(srcdir)/mkinstalldirs				\
 	$(srcdir)/omf.make				\
 	$(srcdir)/xmldocs.make				\
 	$(srcdir)/gtk-doc.make				\
 	$(srcdir)/ChangeLog				\
-	$(srcdir)/py-compile				\
 	`find "$(srcdir)" -type f -name Makefile -print` \
 	`find "$(srcdir)" -type f -name Makefile.in -print` \
 	`find "$(srcdir)" -type f -name *.pyc -print`
@@ -445,7 +434,7 @@ all: config.h
 .SUFFIXES:
 am--refresh:
 	@:
-$(srcdir)/Makefile.in:  $(srcdir)/Makefile.am  $(am__configure_deps)
+$(srcdir)/Makefile.in: @MAINTAINER_MODE_TRUE@ $(srcdir)/Makefile.am  $(am__configure_deps)
 	@for dep in $?; do \
 	  case '$(am__configure_deps)' in \
 	    *$$dep*) \
@@ -472,9 +461,9 @@ Makefile: $(srcdir)/Makefile.in $(top_builddir)/config.status
 $(top_builddir)/config.status: $(top_srcdir)/configure $(CONFIG_STATUS_DEPENDENCIES)
 	$(SHELL) ./config.status --recheck
 
-$(top_srcdir)/configure:  $(am__configure_deps)
+$(top_srcdir)/configure: @MAINTAINER_MODE_TRUE@ $(am__configure_deps)
 	$(am__cd) $(srcdir) && $(AUTOCONF)
-$(ACLOCAL_M4):  $(am__aclocal_m4_deps)
+$(ACLOCAL_M4): @MAINTAINER_MODE_TRUE@ $(am__aclocal_m4_deps)
 	$(am__cd) $(srcdir) && $(ACLOCAL) $(ACLOCAL_AMFLAGS)
 $(am__aclocal_m4_deps):
 
@@ -487,7 +476,7 @@ config.h: stamp-h1
 stamp-h1: $(srcdir)/config.h.in $(top_builddir)/config.status
 	@rm -f stamp-h1
 	cd $(top_builddir) && $(SHELL) ./config.status config.h
-$(srcdir)/config.h.in:  $(am__configure_deps) 
+$(srcdir)/config.h.in: @MAINTAINER_MODE_TRUE@ $(am__configure_deps) 
 	($(am__cd) $(top_srcdir) && $(AUTOHEADER))
 	rm -f stamp-h1
 	touch $@

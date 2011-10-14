@@ -35,8 +35,6 @@
 #include <packagekit-glib2/pk-results.h>
 #include <packagekit-glib2/pk-common.h>
 
-#include "egg-string.h"
-
 #include "pk-conf.h"
 #include "pk-network.h"
 #include "pk-marshal.h"
@@ -45,7 +43,6 @@
 #include "pk-store.h"
 #include "pk-shared.h"
 #include "pk-time.h"
-#include "pk-file-monitor.h"
 #include "pk-notify.h"
 
 #define PK_BACKEND_GET_PRIVATE(o) (G_TYPE_INSTANCE_GET_PRIVATE ((o), PK_TYPE_BACKEND, PkBackendPrivate))
@@ -112,9 +109,9 @@ struct PkBackendPrivate
 	gchar			*root;
 	gpointer		 file_changed_data;
 	guint			 download_files;
-	guint			 last_percentage;
-	guint			 last_remaining;
-	guint			 last_subpercentage;
+	guint			 percentage;
+	guint			 remaining;
+	guint			 subpercentage;
 	guint			 signal_error_timeout;
 	guint			 signal_finished;
 	guint			 speed;
@@ -129,7 +126,7 @@ struct PkBackendPrivate
 	PkBitfield		 roles;
 	PkConf			*conf;
 	PkExitEnum		 exit;
-	PkFileMonitor		*file_monitor;
+	GFileMonitor		*monitor;
 	PkPackage		*last_package;
 	PkNetwork		*network;
 	PkResults		*results;
@@ -145,7 +142,6 @@ static gpointer pk_backend_object = NULL;
 
 enum {
 	SIGNAL_STATUS_CHANGED,
-	SIGNAL_PROGRESS_CHANGED,
 	SIGNAL_DETAILS,
 	SIGNAL_FILES,
 	SIGNAL_DISTRO_UPGRADE,
@@ -162,6 +158,7 @@ enum {
 	SIGNAL_REPO_DETAIL,
 	SIGNAL_CATEGORY,
 	SIGNAL_MEDIA_CHANGE_REQUIRED,
+	SIGNAL_ITEM_PROGRESS,
 	SIGNAL_LAST
 };
 
@@ -173,6 +170,9 @@ enum {
 	PROP_ROLE,
 	PROP_TRANSACTION_ID,
 	PROP_SPEED,
+	PROP_PERCENTAGE,
+	PROP_SUBPERCENTAGE,
+	PROP_REMAINING,
 	PROP_LAST
 };
 
@@ -335,8 +335,20 @@ gboolean
 pk_backend_is_implemented (PkBackend *backend, PkRoleEnum role)
 {
 	PkBitfield roles;
+	g_return_val_if_fail (PK_IS_BACKEND (backend), FALSE);
 	roles = pk_backend_get_roles (backend);
 	return pk_bitfield_contain (roles, role);
+}
+
+/**
+ * pk_backend_implement:
+ **/
+void
+pk_backend_implement (PkBackend *backend, PkRoleEnum role)
+{
+	g_return_if_fail (PK_IS_BACKEND (backend));
+	g_return_if_fail (role != PK_ROLE_ENUM_UNKNOWN);
+	pk_bitfield_add (backend->priv->roles, role);
 }
 
 /**
@@ -497,6 +509,57 @@ pk_backend_build_library_path (PkBackend *backend, const gchar *name)
 }
 
 /**
+ * pk_backend_sort_backends_cb:
+ **/
+static gint
+pk_backend_sort_backends_cb (const gchar **store1,
+			     const gchar **store2)
+{
+	return g_strcmp0 (*store2, *store1);
+}
+
+/**
+ * pk_backend_get_auto_array:
+ **/
+static GPtrArray *
+pk_backend_get_auto_array (GError **error)
+{
+	const gchar *tmp;
+	GDir *dir = NULL;
+	GPtrArray *array = NULL;
+
+	dir = g_dir_open (LIBDIR "/packagekit-backend", 0, error);
+	if (dir == NULL)
+		goto out;
+	array = g_ptr_array_new_with_free_func (g_free);
+	do {
+		tmp = g_dir_read_name (dir);
+		if (tmp == NULL)
+			break;
+		if (!g_str_has_suffix (tmp, G_MODULE_SUFFIX))
+			continue;
+		if (g_strstr_len (tmp, -1, "pk_backend_dummy"))
+			continue;
+		if (g_strstr_len (tmp, -1, "pk_backend_test"))
+			continue;
+		g_ptr_array_add (array,
+				 g_build_filename (LIBDIR,
+						   "packagekit-backend",
+						   tmp,
+						   NULL));
+	} while (1);
+
+	/* need to sort by id predictably */
+	g_ptr_array_sort (array,
+			  (GCompareFunc) pk_backend_sort_backends_cb);
+
+out:
+	if (dir != NULL)
+		g_dir_close (dir);
+	return array;
+}
+
+/**
  * pk_backend_set_name:
  **/
 gboolean
@@ -506,6 +569,7 @@ pk_backend_set_name (PkBackend *backend, const gchar *backend_name, GError **err
 	gchar *path = NULL;
 	gboolean ret = FALSE;
 	gpointer func = NULL;
+	GPtrArray *auto_backends = NULL;
 
 	g_return_val_if_fail (PK_IS_BACKEND (backend), FALSE);
 	g_return_val_if_fail (backend_name != NULL, FALSE);
@@ -516,9 +580,26 @@ pk_backend_set_name (PkBackend *backend, const gchar *backend_name, GError **err
 		goto out;
 	}
 
-	/* can we load it? */
+	/* deal with auto */
 	g_debug ("Trying to load : %s", backend_name);
-	path = pk_backend_build_library_path (backend, backend_name);
+	if (g_strcmp0 (backend_name, "auto")  == 0) {
+		auto_backends = pk_backend_get_auto_array (error);
+		if (auto_backends == NULL)
+			goto out;
+		if (auto_backends->len == 0) {
+			g_set_error (error, 1, 0,
+				     "failed to find any files in %s",
+				     LIBDIR "/packagekit-backend");
+			goto out;
+		}
+		/* just pick the last to avoid 'dummy' */
+		path = g_strdup (g_ptr_array_index (auto_backends, 0));
+		g_debug ("using backend 'auto'=>'%s'", path);
+	} else {
+		path = pk_backend_build_library_path (backend, backend_name);
+	}
+
+	/* can we load it? */
 	handle = g_module_open (path, 0);
 	if (handle == NULL) {
 		g_set_error (error, 1, 0, "opening module %s failed : %s",
@@ -605,6 +686,8 @@ pk_backend_set_name (PkBackend *backend, const gchar *backend_name, GError **err
 	backend->priv->name = g_strdup (backend_name);
 	backend->priv->handle = handle;
 out:
+	if (auto_backends != NULL)
+		g_ptr_array_unref (auto_backends);
 	g_free (path);
 	return ret;
 }
@@ -799,34 +882,6 @@ pk_backend_unlock (PkBackend *backend)
 }
 
 /**
- * pk_backend_emit_progress_changed:
- **/
-static gboolean
-pk_backend_emit_progress_changed (PkBackend *backend)
-{
-	guint percentage;
-	guint subpercentage;
-	guint elapsed;
-	guint remaining;
-
-	g_return_val_if_fail (PK_IS_BACKEND (backend), FALSE);
-
-	percentage = backend->priv->last_percentage;
-
-	/* have not ever set any value? */
-	if (percentage == PK_BACKEND_PERCENTAGE_DEFAULT)
-		percentage = PK_BACKEND_PERCENTAGE_INVALID;
-	subpercentage = backend->priv->last_subpercentage;
-	elapsed = pk_time_get_elapsed (backend->priv->time);
-	remaining = backend->priv->last_remaining;
-
-	/* emit */
-	g_signal_emit (backend, signals[SIGNAL_PROGRESS_CHANGED], 0,
-		       percentage, subpercentage, elapsed, remaining);
-	return TRUE;
-}
-
-/**
  * pk_backend_set_percentage:
  **/
 gboolean
@@ -844,7 +899,7 @@ pk_backend_set_percentage (PkBackend *backend, guint percentage)
 	}
 
 	/* set the same twice? */
-	if (backend->priv->last_percentage == percentage) {
+	if (backend->priv->percentage == percentage) {
 		g_debug ("duplicate set of %i", percentage);
 		return FALSE;
 	}
@@ -858,16 +913,17 @@ pk_backend_set_percentage (PkBackend *backend, guint percentage)
 
 	/* check under */
 	if (percentage < 100 &&
-	    backend->priv->last_percentage < 100 &&
-	    percentage < backend->priv->last_percentage) {
+	    backend->priv->percentage < 100 &&
+	    percentage < backend->priv->percentage) {
 		pk_backend_message (backend, PK_MESSAGE_ENUM_BACKEND_ERROR,
 				    "percentage value is going down to %i from %i",
-				    percentage, backend->priv->last_percentage);
+				    percentage, backend->priv->percentage);
 		return FALSE;
 	}
 
 	/* save in case we need this from coldplug */
-	backend->priv->last_percentage = percentage;
+	backend->priv->percentage = percentage;
+	g_object_notify (G_OBJECT (backend), "percentage");
 
 	/* only compute time if we have data */
 	if (percentage != PK_BACKEND_PERCENTAGE_INVALID) {
@@ -880,11 +936,10 @@ pk_backend_set_percentage (PkBackend *backend, guint percentage)
 
 		/* value cached from config file */
 		if (backend->priv->use_time)
-			backend->priv->last_remaining = remaining;
+			backend->priv->remaining = remaining;
+		g_object_notify (G_OBJECT (backend), "remaining");
 	}
 
-	/* emit the progress changed signal */
-	pk_backend_emit_progress_changed (backend);
 	return TRUE;
 }
 
@@ -929,6 +984,35 @@ pk_backend_get_runtime (PkBackend *backend)
 }
 
 /**
+ * pk_backend_set_item_progress:
+ **/
+gboolean
+pk_backend_set_item_progress (PkBackend *backend,
+			      const gchar *package_id,
+			      guint percentage)
+{
+	g_return_val_if_fail (PK_IS_BACKEND (backend), FALSE);
+	g_return_val_if_fail (backend->priv->locked != FALSE, FALSE);
+
+	/* have we already set an error? */
+	if (backend->priv->set_error) {
+		g_warning ("already set error, cannot process: item-percentage %i", percentage);
+		return FALSE;
+	}
+
+	/* invalid number? */
+	if (percentage > 100 && percentage != PK_BACKEND_PERCENTAGE_INVALID) {
+		g_debug ("invalid number %i", percentage);
+		return FALSE;
+	}
+
+	/* emit */
+	g_signal_emit (backend, signals[SIGNAL_ITEM_PROGRESS], 0,
+		       package_id, percentage);
+	return TRUE;
+}
+
+/**
  * pk_backend_set_sub_percentage:
  **/
 gboolean
@@ -944,7 +1028,7 @@ pk_backend_set_sub_percentage (PkBackend *backend, guint percentage)
 	}
 
 	/* set the same twice? */
-	if (backend->priv->last_subpercentage == percentage) {
+	if (backend->priv->subpercentage == percentage) {
 		g_debug ("duplicate set of %i", percentage);
 		return FALSE;
 	}
@@ -956,10 +1040,10 @@ pk_backend_set_sub_percentage (PkBackend *backend, guint percentage)
 	}
 
 	/* save in case we need this from coldplug */
-	backend->priv->last_subpercentage = percentage;
+	backend->priv->subpercentage = percentage;
 
 	/* emit the progress changed signal */
-	pk_backend_emit_progress_changed (backend);
+	g_object_notify (G_OBJECT (backend), "subpercentage");
 	return TRUE;
 }
 
@@ -1304,28 +1388,6 @@ out:
 		g_object_unref (item);
 	g_free (update_text_safe);
 	return ret;
-}
-
-/**
- * pk_backend_get_progress:
- **/
-gboolean
-pk_backend_get_progress (PkBackend *backend,
-			 guint *percentage, guint *subpercentage,
-			 guint *elapsed, guint *remaining)
-{
-	g_return_val_if_fail (PK_IS_BACKEND (backend), FALSE);
-	g_return_val_if_fail (backend->priv->locked != FALSE, FALSE);
-
-	*percentage = backend->priv->last_percentage;
-	/* have not ever set any value? */
-	if (*percentage == PK_BACKEND_PERCENTAGE_DEFAULT) {
-		*percentage = PK_BACKEND_PERCENTAGE_INVALID;
-	}
-	*subpercentage = backend->priv->last_subpercentage;
-	*elapsed = pk_time_get_elapsed (backend->priv->time);
-	*remaining = backend->priv->last_remaining;
-	return TRUE;
 }
 
 /**
@@ -2056,9 +2118,7 @@ pk_backend_error_code (PkBackend *backend, PkErrorEnum error_code, const gchar *
 	/* we only allow a short time to send finished after error_code */
 	backend->priv->signal_error_timeout = g_timeout_add (PK_BACKEND_FINISHED_ERROR_TIMEOUT,
 							     pk_backend_error_timeout_delay_cb, backend);
-#if GLIB_CHECK_VERSION(2,25,8)
 	g_source_set_name_by_id (backend->priv->signal_error_timeout, "[PkBackend] error-code");
-#endif
 
 	/* some error codes have a different exit code */
 	need_untrusted = pk_backend_error_code_is_need_untrusted (error_code);
@@ -2207,6 +2267,16 @@ pk_backend_set_exit_code (PkBackend *backend, PkExitEnum exit_enum)
 	/* new value */
 	backend->priv->exit = exit_enum;
 	return TRUE;
+}
+
+/**
+ * pk_backend_get_exit_code:
+ **/
+PkExitEnum
+pk_backend_get_exit_code (PkBackend *backend)
+{
+	g_return_val_if_fail (PK_IS_BACKEND (backend), PK_EXIT_ENUM_UNKNOWN);
+	return backend->priv->exit;
 }
 
 /**
@@ -2392,9 +2462,7 @@ pk_backend_finished (PkBackend *backend)
 	g_debug ("adding finished %p to timeout loop", backend);
 	backend->priv->signal_finished = g_timeout_add (PK_BACKEND_FINISHED_TIMEOUT_GRACE,
 							pk_backend_finished_delay, backend);
-#if GLIB_CHECK_VERSION(2,25,8)
 	g_source_set_name_by_id (backend->priv->signal_finished, "[PkBackend] finished");
-#endif
 	return TRUE;
 }
 
@@ -2416,9 +2484,7 @@ pk_backend_thread_finished (PkBackend *backend)
 {
 	guint idle_id;
 	idle_id = g_idle_add ((GSourceFunc) pk_backend_thread_finished_cb, backend);
-#if GLIB_CHECK_VERSION(2,25,8)
 	g_source_set_name_by_id (idle_id, "[PkBackend] finished");
-#endif
 }
 
 /**
@@ -2544,7 +2610,7 @@ pk_backend_thread_create (PkBackend *backend, PkBackendThreadFunc func)
 		return FALSE;
 	}
 
-	/* DBus-Glib isn't threadsafe */
+	/* backend isn't threadsafe */
 	if (!backend->priv->use_threads) {
 		g_warning ("not using threads, so daemon will block");
 		ret = func (backend);
@@ -2672,12 +2738,32 @@ out:
 }
 
 /**
+ * pk_backend_file_monitor_changed_cb:
+ **/
+static void
+pk_backend_file_monitor_changed_cb (GFileMonitor *monitor,
+				    GFile *file,
+				    GFile *other_file,
+				    GFileMonitorEvent event_type,
+				    PkBackend *backend)
+{
+	g_return_if_fail (PK_IS_BACKEND (backend));
+	g_debug ("config file changed");
+	backend->priv->file_changed_func (backend, backend->priv->file_changed_data);
+}
+
+/**
  * pk_backend_watch_file:
  */
 gboolean
-pk_backend_watch_file (PkBackend *backend, const gchar *filename, PkBackendFileChanged func, gpointer data)
+pk_backend_watch_file (PkBackend *backend,
+		       const gchar *filename,
+		       PkBackendFileChanged func,
+		       gpointer data)
 {
-	gboolean ret;
+	gboolean ret = FALSE;
+	GError *error = NULL;
+	GFile *file = NULL;
 
 	g_return_val_if_fail (PK_IS_BACKEND (backend), FALSE);
 	g_return_val_if_fail (filename != NULL, FALSE);
@@ -2685,27 +2771,33 @@ pk_backend_watch_file (PkBackend *backend, const gchar *filename, PkBackendFileC
 
 	if (backend->priv->file_changed_func != NULL) {
 		g_warning ("already set");
-		return FALSE;
+		goto out;
 	}
-	ret = pk_file_monitor_set_file (backend->priv->file_monitor, filename);;
 
-	/* if we set it up, set the function callback */
-	if (ret) {
-		backend->priv->file_changed_func = func;
-		backend->priv->file_changed_data = data;
+	/* monitor config files for changes */
+	file = g_file_new_for_path (filename);
+	backend->priv->monitor = g_file_monitor_file (file,
+						      G_FILE_MONITOR_NONE,
+						      NULL,
+						      &error);
+	if (backend->priv->monitor == NULL) {
+		g_warning ("Failed to set watch on %s: %s",
+			   filename,
+			   error->message);
+		g_error_free (error);
+		goto out;
 	}
+
+	/* success */
+	ret = TRUE;
+	g_signal_connect (backend->priv->monitor, "changed",
+			  G_CALLBACK (pk_backend_file_monitor_changed_cb), backend);
+	backend->priv->file_changed_func = func;
+	backend->priv->file_changed_data = data;
+out:
+	if (file != NULL)
+		g_object_unref (file);
 	return ret;
-}
-
-/**
- * pk_backend_file_monitor_changed_cb:
- **/
-static void
-pk_backend_file_monitor_changed_cb (PkFileMonitor *file_monitor, PkBackend *backend)
-{
-	g_return_if_fail (PK_IS_BACKEND (backend));
-	g_debug ("config file changed");
-	backend->priv->file_changed_func (backend, backend->priv->file_changed_data);
 }
 
 /**
@@ -2735,6 +2827,15 @@ pk_backend_get_property (GObject *object, guint prop_id, GValue *value, GParamSp
 		break;
 	case PROP_SPEED:
 		g_value_set_uint (value, priv->speed);
+		break;
+	case PROP_PERCENTAGE:
+		g_value_set_uint (value, priv->percentage);
+		break;
+	case PROP_SUBPERCENTAGE:
+		g_value_set_uint (value, priv->subpercentage);
+		break;
+	case PROP_REMAINING:
+		g_value_set_uint (value, priv->remaining);
 		break;
 	default:
 		G_OBJECT_WARN_INVALID_PROPERTY_ID (object, prop_id, pspec);
@@ -2771,6 +2872,15 @@ pk_backend_set_property (GObject *object, guint prop_id, const GValue *value, GP
 		break;
 	case PROP_SPEED:
 		priv->speed = g_value_get_uint (value);
+		break;
+	case PROP_PERCENTAGE:
+		priv->percentage = g_value_get_uint (value);
+		break;
+	case PROP_SUBPERCENTAGE:
+		priv->subpercentage = g_value_get_uint (value);
+		break;
+	case PROP_REMAINING:
+		priv->remaining = g_value_get_uint (value);
 		break;
 	default:
 		G_OBJECT_WARN_INVALID_PROPERTY_ID (object, prop_id, pspec);
@@ -2869,9 +2979,33 @@ pk_backend_class_init (PkBackendClass *klass)
 	 * PkBackend:speed:
 	 */
 	pspec = g_param_spec_uint ("speed", NULL, NULL,
-				   0, G_MAXUINT, PK_STATUS_ENUM_UNKNOWN,
+				   0, G_MAXUINT, 0,
 				   G_PARAM_READWRITE);
 	g_object_class_install_property (object_class, PROP_SPEED, pspec);
+
+	/**
+	 * PkBackend:percentage:
+	 */
+	pspec = g_param_spec_uint ("percentage", NULL, NULL,
+				   0, G_MAXUINT, 0,
+				   G_PARAM_READWRITE);
+	g_object_class_install_property (object_class, PROP_PERCENTAGE, pspec);
+
+	/**
+	 * PkBackend:subpercentage:
+	 */
+	pspec = g_param_spec_uint ("subpercentage", NULL, NULL,
+				   0, G_MAXUINT, 0,
+				   G_PARAM_READWRITE);
+	g_object_class_install_property (object_class, PROP_SUBPERCENTAGE, pspec);
+
+	/**
+	 * PkBackend:remaining:
+	 */
+	pspec = g_param_spec_uint ("remaining", NULL, NULL,
+				   0, G_MAXUINT, 0,
+				   G_PARAM_READWRITE);
+	g_object_class_install_property (object_class, PROP_REMAINING, pspec);
 
 	/* properties */
 	signals[SIGNAL_STATUS_CHANGED] =
@@ -2879,11 +3013,6 @@ pk_backend_class_init (PkBackendClass *klass)
 			      G_TYPE_FROM_CLASS (object_class), G_SIGNAL_RUN_LAST,
 			      0, NULL, NULL, g_cclosure_marshal_VOID__UINT,
 			      G_TYPE_NONE, 1, G_TYPE_UINT);
-	signals[SIGNAL_PROGRESS_CHANGED] =
-		g_signal_new ("progress-changed",
-			      G_TYPE_FROM_CLASS (object_class), G_SIGNAL_RUN_LAST,
-			      0, NULL, NULL, pk_marshal_VOID__UINT_UINT_UINT_UINT,
-			      G_TYPE_NONE, 4, G_TYPE_UINT, G_TYPE_UINT, G_TYPE_UINT, G_TYPE_UINT);
 	signals[SIGNAL_CHANGE_TRANSACTION_DATA] =
 		g_signal_new ("change-transaction-data",
 			      G_TYPE_FROM_CLASS (object_class), G_SIGNAL_RUN_LAST,
@@ -2966,6 +3095,12 @@ pk_backend_class_init (PkBackendClass *klass)
 			      G_TYPE_FROM_CLASS (object_class), G_SIGNAL_RUN_LAST,
 			      0, NULL, NULL, g_cclosure_marshal_VOID__POINTER,
 			      G_TYPE_NONE, 1, G_TYPE_POINTER);
+	signals[SIGNAL_ITEM_PROGRESS] =
+		g_signal_new ("item-progress",
+			      G_TYPE_FROM_CLASS (object_class), G_SIGNAL_RUN_LAST,
+			      0, NULL, NULL, pk_marshal_VOID__STRING_UINT,
+			      G_TYPE_NONE, 2, G_TYPE_STRING, G_TYPE_UINT);
+
 	g_type_class_add_private (klass, sizeof (PkBackendPrivate));
 }
 
@@ -3013,9 +3148,9 @@ pk_backend_reset (PkBackend *backend)
 	backend->priv->exit = PK_EXIT_ENUM_UNKNOWN;
 	backend->priv->role = PK_ROLE_ENUM_UNKNOWN;
 	backend->priv->transaction_role = PK_ROLE_ENUM_UNKNOWN;
-	backend->priv->last_remaining = 0;
-	backend->priv->last_percentage = PK_BACKEND_PERCENTAGE_DEFAULT;
-	backend->priv->last_subpercentage = PK_BACKEND_PERCENTAGE_INVALID;
+	backend->priv->remaining = 0;
+	backend->priv->percentage = PK_BACKEND_PERCENTAGE_DEFAULT;
+	backend->priv->subpercentage = PK_BACKEND_PERCENTAGE_DEFAULT;
 	backend->priv->speed = 0;
 	pk_store_reset (backend->priv->store);
 	pk_time_reset (backend->priv->time);
@@ -3024,6 +3159,12 @@ pk_backend_reset (PkBackend *backend)
 	 * might have a reference on the data */
 	g_object_unref (backend->priv->results);
 	backend->priv->results = pk_results_new ();
+
+	/* clear monitor */
+	if (backend->priv->monitor != NULL) {
+		g_object_unref (backend->priv->monitor);
+		backend->priv->monitor = NULL;
+	}
 
 	return TRUE;
 }
@@ -3495,35 +3636,12 @@ pk_backend_init (PkBackend *backend)
 	PkConf *conf;
 
 	backend->priv = PK_BACKEND_GET_PRIVATE (backend);
-	backend->priv->handle = NULL;
-	backend->priv->name = NULL;
-	backend->priv->locale = NULL;
-	backend->priv->frontend_socket = NULL;
-	backend->priv->cache_age = 0;
-	backend->priv->transaction_id = NULL;
-	backend->priv->root = NULL;
-	backend->priv->file_changed_func = NULL;
-	backend->priv->file_changed_data = NULL;
-	backend->priv->last_package = NULL;
-	backend->priv->locked = FALSE;
-	backend->priv->use_threads = FALSE;
-	backend->priv->signal_finished = 0;
-	backend->priv->speed = 0;
-	backend->priv->signal_error_timeout = 0;
-	backend->priv->during_initialize = FALSE;
-	backend->priv->simultaneous = FALSE;
-	backend->priv->roles = 0;
 	backend->priv->conf = pk_conf_new ();
 	backend->priv->results = pk_results_new ();
 	backend->priv->store = pk_store_new ();
 	backend->priv->time = pk_time_new ();
 	backend->priv->network = pk_network_new ();
 	backend->priv->eulas = g_hash_table_new_full (g_str_hash, g_str_equal, g_free, NULL);
-
-	/* monitor config files for changes */
-	backend->priv->file_monitor = pk_file_monitor_new ();
-	g_signal_connect (backend->priv->file_monitor, "file-changed",
-			  G_CALLBACK (pk_backend_file_monitor_changed_cb), backend);
 
 	/* do we use time estimation? */
 	conf = pk_conf_new ();

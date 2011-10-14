@@ -28,11 +28,8 @@
 #include <unistd.h>
 #include <signal.h>
 #include <glib/gi18n.h>
-#include <dbus/dbus-glib.h>
 #include <packagekit-glib2/packagekit.h>
 #include <packagekit-glib2/packagekit-private.h>
-
-#include "egg-string.h"
 
 #define PK_MAX_PATH_LEN 1023
 
@@ -429,9 +426,7 @@ pk_cnf_find_available (const gchar *cmd, guint max_search_time)
 	cancel_id = g_timeout_add (max_search_time,
 				   (GSourceFunc) pk_cnf_cancel_cb,
 				   cancellable);
-#if GLIB_CHECK_VERSION(2,25,8)
 	g_source_set_name_by_id (cancel_id, "[PkCommandNotFound] cancel");
-#endif
 
 	/* do search */
 	filters = pk_bitfield_from_enums (PK_FILTER_ENUM_NOT_INSTALLED,
@@ -693,7 +688,6 @@ main (int argc, char *argv[])
 
 	if (! g_thread_supported ())
 		g_thread_init (NULL);
-	dbus_g_thread_init ();
 	g_type_init ();
 
 	/* don't show debugging, unless VERBOSE is specified */
@@ -717,7 +711,7 @@ main (int argc, char *argv[])
 	cancellable = g_cancellable_new ();
 
 	/* get length */
-	len = egg_strlen (argv[1], 1024);
+	len = strlen (argv[1]);
 	if (len < 1) {
 		retval = EXIT_COMMAND_NOT_FOUND;
 		goto out;

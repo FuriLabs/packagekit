@@ -47,6 +47,7 @@
 #include <fstream>
 #include <dirent.h>
 #include <assert.h>
+#include <regex.h>
 
 aptcc::aptcc(PkBackend *backend, bool &cancel)
 	:
@@ -351,6 +352,7 @@ void aptcc::emit_package(const pkgCache::PkgIterator &pkg,
 			   state,
 			   package_id,
 			   get_short_description(ver, packageRecords).c_str());
+        g_free(package_id);
 }
 
 void aptcc::emit_packages(vector<pair<pkgCache::PkgIterator, pkgCache::VerIterator> > &output,
@@ -421,7 +423,8 @@ void aptcc::emitUpdates(vector<pair<pkgCache::PkgIterator, pkgCache::VerIterator
 	}
 }
 
-void aptcc::povidesCodec(vector<pair<pkgCache::PkgIterator, pkgCache::VerIterator> > &output,
+// search packages which provide a codec (specified in "values")
+void aptcc::providesCodec(vector<pair<pkgCache::PkgIterator, pkgCache::VerIterator> > &output,
                          gchar **values)
 {
     GstMatcher *matcher = new GstMatcher(values);
@@ -463,6 +466,77 @@ void aptcc::povidesCodec(vector<pair<pkgCache::PkgIterator, pkgCache::VerIterato
     delete matcher;
 }
 
+// search packages which provide the libraries specified in "values"
+void aptcc::providesLibrary(vector<pair<pkgCache::PkgIterator, pkgCache::VerIterator> > &output,
+                         gchar **values)
+{
+	bool ret = false;
+	// Quick-check for library names
+	for (uint i = 0; i < g_strv_length(values); i++)
+		if (g_str_has_prefix (values[i], "lib")) {
+			ret = true;
+			break;
+		}
+	if (!ret)
+		return;
+
+	const char *libreg_str = "^\\(lib.*\\)\\.so\\.[0-9]*";
+	g_debug ("RegStr: %s", libreg_str);
+	regex_t libreg;
+	if(regcomp(&libreg, libreg_str, 0) != 0) {
+		g_debug("Regex compilation error: ", libreg);
+		return;
+	}
+
+	gchar *value;
+	for (uint i = 0; i < g_strv_length(values); i++) {
+		value = values[i];
+		regmatch_t matches[2];
+		if (regexec(&libreg, value, 2, matches, 0) != REG_NOMATCH) {
+			string libPkgName = string(value, matches[1].rm_so, matches[1].rm_eo - matches[1].rm_so);
+
+			string strvalue = string(value);
+			ssize_t pos = strvalue.find (".so.");
+			if ((pos != string::npos) && (pos > 0)) {
+				// If last char is a number, add a "-" (to be policy-compliant)
+				if (g_ascii_isdigit (libPkgName.at (libPkgName.length () - 1)))
+					libPkgName.append ("-");
+
+				libPkgName.append (strvalue.substr (pos + 4));
+			}
+
+			g_debug ("pkg-name: %s", libPkgName.c_str ());
+
+			for (pkgCache::PkgIterator pkg = packageCache->PkgBegin(); !pkg.end(); ++pkg) {
+				// Ignore packages that exist only due to dependencies.
+				if (pkg.VersionList().end() && pkg.ProvidesList().end()) {
+				continue;
+				}
+
+				// TODO: Ignore virtual packages
+				pkgCache::VerIterator ver = find_ver (pkg);
+				if (ver.end() == true) {
+					ver = find_candidate_ver(pkg);
+					if (ver.end() == true) {
+						continue;
+					}
+				}
+
+				// Make everything lower-case
+				std::transform(libPkgName.begin(), libPkgName.end(), libPkgName.begin(), ::tolower);
+
+				if (g_strcmp0 (pkg.Name (), libPkgName.c_str ()) == 0) {
+					output.push_back(pair<pkgCache::PkgIterator, pkgCache::VerIterator>(pkg, ver));
+				}
+			}
+
+		} else {
+			g_debug("libmatcher: Did not match: %s", value);
+		}
+	}
+
+}
+
 // used to emit packages it collects all the needed info
 void aptcc::emit_details(const pkgCache::PkgIterator &pkg, const pkgCache::VerIterator &version)
 {
@@ -494,6 +568,7 @@ void aptcc::emit_details(const pkgCache::PkgIterator &pkg, const pkgCache::VerIt
                                      ver.VerStr(),
                                      ver.Arch(),
                                      vf.File().Archive() == NULL ? "" : vf.File().Archive());
+
     pk_backend_details(m_backend,
                        package_id,
                        "unknown",
@@ -501,6 +576,8 @@ void aptcc::emit_details(const pkgCache::PkgIterator &pkg, const pkgCache::VerIt
                        get_long_description_parsed(ver, packageRecords).c_str(),
                        rec.Homepage().c_str(),
                        size);
+
+    g_free(package_id);
 }
 
 // used to emit packages it collects all the needed info
@@ -703,9 +780,9 @@ void aptcc::emit_update_detail(const pkgCache::PkgIterator &pkg, const pkgCache:
     string archive = vf.File().Archive() == NULL ? "" : vf.File().Archive();
     gchar *package_id;
     package_id = pk_package_id_build(pkg.Name(),
-                    candver.VerStr(),
-                    candver.Arch(),
-                    archive.c_str());
+                                     candver.VerStr(),
+                                     candver.Arch(),
+                                     archive.c_str());
 
     PkUpdateStateEnum updateState = PK_UPDATE_STATE_ENUM_UNKNOWN;
     if (archive.compare("stable") == 0) {
@@ -740,6 +817,8 @@ void aptcc::emit_update_detail(const pkgCache::PkgIterator &pkg, const pkgCache:
                              issued.c_str(), //const gchar *issued_text
                              updated.c_str() //const gchar *updated_text
                              );
+    g_free(current_package_id);
+    g_free(package_id);
 }
 
 void aptcc::get_depends(vector<pair<pkgCache::PkgIterator, pkgCache::VerIterator> > &output,

@@ -42,15 +42,12 @@
 #include <packagekit-glib2/pk-common.h>
 #include <packagekit-glib2/pk-package-id.h>
 
-#include "egg-string.h"
-
 #include "pk-backend.h"
 #include "pk-backend-spawn.h"
 #include "pk-marshal.h"
 #include "pk-spawn.h"
 #include "pk-shared.h"
 #include "pk-time.h"
-#include "pk-inhibit.h"
 #include "pk-conf.h"
 
 #define PK_BACKEND_SPAWN_GET_PRIVATE(o) (G_TYPE_INSTANCE_GET_PRIVATE ((o), PK_TYPE_BACKEND_SPAWN, PkBackendSpawnPrivate))
@@ -147,9 +144,7 @@ pk_backend_spawn_start_kill_timer (PkBackendSpawn *backend_spawn)
 
 	/* close down the dispatcher if it is still open after this much time */
 	priv->kill_id = g_timeout_add_seconds (timeout, (GSourceFunc) pk_backend_spawn_exit_timeout_cb, backend_spawn);
-#if GLIB_CHECK_VERSION(2,25,8)
 	g_source_set_name_by_id (priv->kill_id, "[PkBackendSpawn] exit");
-#endif
 }
 
 /**
@@ -291,7 +286,7 @@ pk_backend_spawn_parse_stdout (PkBackendSpawn *backend_spawn, const gchar *line,
 			ret = FALSE;
 			goto out;
 		}
-		ret = egg_strtoint (sections[1], &percentage);
+		ret = pk_strtoint (sections[1], &percentage);
 		if (!ret) {
 			g_set_error (error, 1, 0, "invalid percentage value %s", sections[1]);
 			ret = FALSE;
@@ -307,7 +302,7 @@ pk_backend_spawn_parse_stdout (PkBackendSpawn *backend_spawn, const gchar *line,
 			ret = FALSE;
 			goto out;
 		}
-		ret = egg_strtoint (sections[1], &percentage);
+		ret = pk_strtoint (sections[1], &percentage);
 		if (!ret) {
 			g_set_error (error, 1, 0, "invalid subpercentage value %s", sections[1]);
 			ret = FALSE;
@@ -316,6 +311,29 @@ pk_backend_spawn_parse_stdout (PkBackendSpawn *backend_spawn, const gchar *line,
 			ret = FALSE;
 		} else {
 			pk_backend_set_sub_percentage (priv->backend, percentage);
+		}
+	} else if (g_strcmp0 (command, "item-percentage") == 0) {
+		if (size != 2) {
+			g_set_error (error, 1, 0, "invalid command'%s', size %i", command, size);
+			ret = FALSE;
+			goto out;
+		}
+		if (!pk_package_id_check (sections[1])) {
+			g_set_error (error, 1, 0, "invalid package_id");
+			ret = FALSE;
+			goto out;
+		}
+		ret = pk_strtoint (sections[2], &percentage);
+		if (!ret) {
+			g_set_error (error, 1, 0, "invalid item-percentage value %s", sections[1]);
+			ret = FALSE;
+		} else if (percentage < 0 || percentage > 100) {
+			g_set_error (error, 1, 0, "invalid item-percentage value %i", percentage);
+			ret = FALSE;
+		} else {
+			pk_backend_set_item_progress (priv->backend,
+							sections[1],
+							percentage);
 		}
 	} else if (g_strcmp0 (command, "error") == 0) {
 		if (size != 3) {
@@ -401,7 +419,7 @@ pk_backend_spawn_parse_stdout (PkBackendSpawn *backend_spawn, const gchar *line,
 			ret = FALSE;
 			goto out;
 		}
-		ret = egg_strtouint64 (sections[1], &speed);
+		ret = pk_strtouint64 (sections[1], &speed);
 		if (!ret) {
 			g_set_error (error, 1, 0,
 				     "failed to parse speed: '%s'",
@@ -446,12 +464,12 @@ pk_backend_spawn_parse_stdout (PkBackendSpawn *backend_spawn, const gchar *line,
 			ret = FALSE;
 			goto out;
 		}
-		if (egg_strzero (sections[1])) {
+		if (pk_strzero (sections[1])) {
 			g_set_error (error, 1, 0, "package_id blank, and hence ignored: '%s'", sections[1]);
 			ret = FALSE;
 			goto out;
 		}
-		if (egg_strzero (sections[2])) {
+		if (pk_strzero (sections[2])) {
 			g_set_error (error, 1, 0, "repository name blank, and hence ignored: '%s'", sections[2]);
 			ret = FALSE;
 			goto out;
@@ -471,19 +489,19 @@ pk_backend_spawn_parse_stdout (PkBackendSpawn *backend_spawn, const gchar *line,
 			goto out;
 		}
 
-		if (egg_strzero (sections[1])) {
+		if (pk_strzero (sections[1])) {
 			g_set_error (error, 1, 0, "eula_id blank, and hence ignored: '%s'", sections[1]);
 			ret = FALSE;
 			goto out;
 		}
 
-		if (egg_strzero (sections[2])) {
+		if (pk_strzero (sections[2])) {
 			g_set_error (error, 1, 0, "package_id blank, and hence ignored: '%s'", sections[2]);
 			ret = FALSE;
 			goto out;
 		}
 
-		if (egg_strzero (sections[4])) {
+		if (pk_strzero (sections[4])) {
 			g_set_error (error, 1, 0, "agreement name blank, and hence ignored: '%s'", sections[4]);
 			ret = FALSE;
 			goto out;
@@ -538,17 +556,17 @@ pk_backend_spawn_parse_stdout (PkBackendSpawn *backend_spawn, const gchar *line,
 			ret = FALSE;
 			goto out;
 		}
-		if (egg_strzero (sections[2])) {
+		if (pk_strzero (sections[2])) {
 			g_set_error_literal (error, 1, 0, "cat_id cannot not blank");
 			ret = FALSE;
 			goto out;
 		}
-		if (egg_strzero (sections[3])) {
+		if (pk_strzero (sections[3])) {
 			g_set_error_literal (error, 1, 0, "name cannot not blank");
 			ret = FALSE;
 			goto out;
 		}
-		if (egg_strzero (sections[5])) {
+		if (pk_strzero (sections[5])) {
 			g_set_error_literal (error, 1, 0, "icon cannot not blank");
 			ret = FALSE;
 			goto out;
@@ -739,7 +757,7 @@ pk_backend_spawn_get_envp (PkBackendSpawn *backend_spawn)
 
 	/* http_proxy */
 	proxy_http = pk_backend_get_proxy_http (priv->backend);
-	if (!egg_strzero (proxy_http)) {
+	if (!pk_strzero (proxy_http)) {
 		uri = pk_backend_spawn_convert_uri (proxy_http);
 		line = g_strdup_printf ("%s=%s", "http_proxy", uri);
 		g_ptr_array_add (array, line);
@@ -748,7 +766,7 @@ pk_backend_spawn_get_envp (PkBackendSpawn *backend_spawn)
 
 	/* https_proxy */
 	proxy_https = pk_backend_get_proxy_https (priv->backend);
-	if (!egg_strzero (proxy_https)) {
+	if (!pk_strzero (proxy_https)) {
 		uri = pk_backend_spawn_convert_uri (proxy_https);
 		line = g_strdup_printf ("%s=%s", "https_proxy", uri);
 		g_ptr_array_add (array, line);
@@ -757,7 +775,7 @@ pk_backend_spawn_get_envp (PkBackendSpawn *backend_spawn)
 
 	/* ftp_proxy */
 	proxy_ftp = pk_backend_get_proxy_ftp (priv->backend);
-	if (!egg_strzero (proxy_ftp)) {
+	if (!pk_strzero (proxy_ftp)) {
 		uri = pk_backend_spawn_convert_uri (proxy_ftp);
 		line = g_strdup_printf ("%s=%s", "ftp_proxy", uri);
 		g_ptr_array_add (array, line);
@@ -766,7 +784,7 @@ pk_backend_spawn_get_envp (PkBackendSpawn *backend_spawn)
 
 	/* socks_proxy */
 	proxy_socks = pk_backend_get_proxy_socks (priv->backend);
-	if (!egg_strzero (proxy_socks)) {
+	if (!pk_strzero (proxy_socks)) {
 		uri = pk_backend_spawn_convert_uri (proxy_socks);
 		line = g_strdup_printf ("%s=%s", "socks_proxy", uri);
 		g_ptr_array_add (array, line);
@@ -775,7 +793,7 @@ pk_backend_spawn_get_envp (PkBackendSpawn *backend_spawn)
 
 	/* no_proxy */
 	no_proxy = pk_backend_get_no_proxy (priv->backend);
-	if (!egg_strzero (no_proxy)) {
+	if (!pk_strzero (no_proxy)) {
 		uri = pk_backend_spawn_convert_uri (no_proxy);
 		line = g_strdup_printf ("%s=%s", "no_proxy", uri);
 		g_ptr_array_add (array, line);
@@ -784,7 +802,7 @@ pk_backend_spawn_get_envp (PkBackendSpawn *backend_spawn)
 
 	/* pac */
 	pac = pk_backend_get_pac (priv->backend);
-	if (!egg_strzero (pac)) {
+	if (!pk_strzero (pac)) {
 		uri = pk_backend_spawn_convert_uri (pac);
 		line = g_strdup_printf ("%s=%s", "pac", uri);
 		g_ptr_array_add (array, line);
@@ -793,14 +811,14 @@ pk_backend_spawn_get_envp (PkBackendSpawn *backend_spawn)
 
 	/* LANG */
 	locale = pk_backend_get_locale (priv->backend);
-	if (!egg_strzero (locale)) {
+	if (!pk_strzero (locale)) {
 		line = g_strdup_printf ("%s=%s", "LANG", locale);
 		g_ptr_array_add (array, line);
 	}
 
 	/* ROOT */
 	value = pk_backend_get_root (priv->backend);
-	if (!egg_strzero (value)) {
+	if (!pk_strzero (value)) {
 		line = g_strdup_printf ("%s=%s", "ROOT", value);
 		g_ptr_array_add (array, line);
 	}
