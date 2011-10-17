@@ -2,4 +2,5 @@ vendor-debian.diff
 defaults.diff
 policy.diff
 01_smart-vfuncs.patch
+02_gnuhurd-comp.patch
 99_ltmain-as-needed.patch

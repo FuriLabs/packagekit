@@ -1,0 +1,29 @@
+--- ./lib/packagekit-glib2/pk-service-pack.c.orig	2011-10-16 22:08:13.000000000 +0000
++++ ./lib/packagekit-glib2/pk-service-pack.c	2011-10-16 22:09:33.000000000 +0000
+@@ -212,10 +212,16 @@
+ 	int r;
+ 	int retval;
+ 	gchar *retcwd;
++
++#ifdef __GLIBC__
++	/* save the PWD as we chdir to extract */
++	gchar *buf = getcwd (NULL, 0);
++#else
+ 	gchar buf[PATH_MAX];
+ 
+ 	/* save the PWD as we chdir to extract */
+ 	retcwd = getcwd (buf, PATH_MAX);
++#endif
+ 	if (retcwd == NULL) {
+ 		g_set_error_literal (error, PK_SERVICE_PACK_ERROR, PK_SERVICE_PACK_ERROR_FAILED_SETUP,
+ 				      "failed to get cwd");
+@@ -273,6 +279,9 @@
+ 	retval = chdir (buf);
+ 	if (retval != 0)
+ 		g_warning ("cannot chdir back!");
++#ifdef __GLIBC__
++	free(buf);
++#endif
+ 
+ 	return ret;
+ }
