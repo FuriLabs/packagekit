@@ -1,5 +1,4 @@
 vendor-ubuntu.diff
 defaults.diff
 policy.diff
-01_smart-vfuncs.patch
 99_ltmain-as-needed.patch
