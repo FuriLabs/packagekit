@@ -1,6 +1,69 @@
-packagekit (0.7.0-1) UNRELEASED; urgency=low
+packagekit (0.7.1-1) UNRELEASED; urgency=low
 
-  * ...
+  * New upstream release: 0.7.1
+    - qt2: Remove old Find* macro
+       (Matthias Klumpp) (Closes: #635981)
+    - qt: Drop packagekit-qt1 which is obsolete in favor of
+       packagekit-qt2 (Daniel Nicoletti)
+    - aptcc: Don't wrap sys.stdout with codecs.getwriter(...)
+       (Nils Philippsen)
+    - python: Add initial Python3 compatibility (keeping Python2.7
+       support) (Fabio Erculiani)
+    - python: Implement and use utf8 stream writer for stdout, stderr
+       (Nils Philippsen)
+    - python: Require at least Python 2.7 (Fabio Erculiani)
+    - python: Update exception code syntax, make it work with both
+       Python2 and Python3 (Fabio Erculiani)
+    - python: Use print() as function (Fabio Erculiani)
+    - smart: Implement the simulate methods (Anders F Bjorklund)
+    - smart: Make sure that data=installed is honored
+       (Anders F Bjorklund)
+    - smart: Remove the vfuncs table (Anders F Bjorklund)
+    - Add command line option to keep environment (Nils Philippsen)
+    - Add introspection support for PK-Plugins (Matthias Klumpp)
+    - Add possibility for backends/plugins to skip transactions
+       (Matthias Klumpp)
+    - Add 'uid' and 'cmdline' properties to PkBackend (Richard Hughes)
+    - Use the new g_thread_new() for new versions of GLib (Richard Hughes)
+    - Check if a transaction should be skipped after it has started too
+       (Matthias Klumpp)
+    - Don't use the deprecated g_thread_supported() in the dameon code
+       (Richard Hughes)
+    - Fix the role of the EULA transaction (Daniel Nicoletti)
+    - Make PK compile on GNU Hurd (Matthias Klumpp)
+    - Move the gtk-module extra files to the PK tarball
+       (Richard Hughes) (Closes: #642910)
+    - Offset the cache age by 30 minutes (Richard Hughes)
+    - plugin: Add a few GIR annotations (Matthias Klumpp)
+    - Remove the implemented checks for the simulate methods
+       (Richard Hughes)
+    - Require exactly 'y<enter>' or 'yes<enter>' before running a
+       transaction (Richard Hughes)
+    - Use the newest filter when resolving for new packages to install
+       (Richard Hughes)
+
+ -- Matthias Klumpp <matthias@tenstral.net>  Thu, 10 Nov 2011 21:11:48 +0100
+
+packagekit (0.7.0-1) unstable; urgency=low
+
+  * New upstream release: 0.7.0
+    - This is the first release of the unstable 0.7.x series.
+    - This code removes a lot of deprecated code and compatibility shims
+       compared to the previous branch.
+    - Highlights of this release is the new transaction plugin interface
+       that allows external projects to add modules for interfacing with
+       PackageKit. This allows projects such as Listaller to interface with
+       PackageKit to install self contained software blobs.
+       See http://listaller.tenstral.net/ for more information.
+    - The daemon code is now using GDBus rather than dbus-glib, but the
+       libpackagekit-glib library is still using the latter. It'll be
+       converted hopefully in time for 0.7.1.
+    - The changelog of this release is very long. You can look at the
+      NEWS file in the release tarball if you want more information.
+  * Remove the old apt backend, please use aptcc instead (which works
+     much better)
+  * Fix FTBFS on hurd-i386 (Closes: #645553)
+  * Fix Python package dependencies
 
  -- Matthias Klumpp <matthias@tenstral.net>  Fri, 14 Oct 2011 19:44:48 +0200
 
