@@ -140,7 +140,7 @@ Package: libpackagekit-qt2-2
 Architecture: any
 Section: libs
 Depends: ${misc:Depends}, ${shlibs:Depends}
-Conflicts: libpackagekit-qt-14 (>= 0.6.8-0)
+Breaks: libpackagekit-qt-14 (>= 0.6.8-0)
 Replaces: libpackagekit-qt-14, libpackagekit-qt14
 Description: Library for accessing PackageKit using Qt4
  PackageKit allows performing simple software management tasks over a DBus
@@ -203,11 +203,7 @@ Description: Plugin to install missing plugins using PackageKit
 Package: python-packagekit
 Architecture: all
 Section: python
-Depends: packagekit (= ${binary:Version}),
-         python-dbus,
-         python-gobject,
-         ${misc:Depends},
-         ${python:Depends}
+Depends: python-dbus, python-gobject, ${misc:Depends}, ${python:Depends}
 XB-Python-Version: ${python:Versions}
 Description: PackageKit Python bindings
  PackageKit allows performing simple software management tasks over a DBus
@@ -219,7 +215,7 @@ Description: PackageKit Python bindings
 Package: packagekit-backend-aptcc
 Architecture: any
 Depends: app-install-data,
-         python-packagekit (= ${source:Version}),
+         python-packagekit,
          ${misc:Depends},
          ${python:Depends},
          ${shlibs:Depends}
@@ -236,7 +232,8 @@ Description: APT backend for PackageKit
 
 Package: packagekit-backend-smart
 Architecture: any
-Depends: python-packagekit (= ${source:Version}),
+Depends: packagekit (= ${binary:Version}),
+         python-packagekit (= ${source:Version}),
          smartpm-core,
          ${misc:Depends},
          ${python:Depends},

@@ -58,9 +58,6 @@ override_dh_auto_install:
 	rm -rf $(INSTALLDIR)/usr/lib/gtk-2.0
 	rm -f  $(INSTALLDIR)/usr/bin/packagekit-bugreport.sh
 	rm -f  $(INSTALLDIR)/usr/lib/libpackagekit-qt.*
-	rm -rf $(INSTALLDIR)/usr/include/PackageKit/packagekit-qt
-	rm -f  $(INSTALLDIR)/usr/lib/pkgconfig/packagekit-qt.pc
-	rm -f  $(INSTALLDIR)/usr/share/cmake/Modules/FindQPackageKit.cmake
 
 override_dh_install: extrainstallfiles-stamp
 	dh_install --list-missing
