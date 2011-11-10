@@ -15,6 +15,7 @@
 
 @SET_MAKE@
 
+
 VPATH = @srcdir@
 pkgdatadir = $(datadir)/@PACKAGE@
 pkgincludedir = $(includedir)/@PACKAGE@
@@ -35,7 +36,8 @@ POST_UNINSTALL = :
 build_triplet = @build@
 host_triplet = @host@
 subdir = contrib/gtk-module
-DIST_COMMON = README $(srcdir)/Makefile.am $(srcdir)/Makefile.in
+DIST_COMMON = README $(am__dist_gtkmodule_DATA_DIST) \
+	$(srcdir)/Makefile.am $(srcdir)/Makefile.in
 ACLOCAL_M4 = $(top_srcdir)/aclocal.m4
 am__aclocal_m4_deps = $(top_srcdir)/m4/gtk-doc.m4 \
 	$(top_srcdir)/m4/intltool.m4 $(top_srcdir)/m4/libtool.m4 \
@@ -69,7 +71,7 @@ am__nobase_list = $(am__nobase_strip_setup); \
 am__base_list = \
   sed '$$!N;$$!N;$$!N;$$!N;$$!N;$$!N;$$!N;s/\n/ /g' | \
   sed '$$!N;$$!N;$$!N;$$!N;s/\n/ /g'
-am__installdirs = "$(DESTDIR)$(moduledir)"
+am__installdirs = "$(DESTDIR)$(moduledir)" "$(DESTDIR)$(gtkmoduledir)"
 LTLIBRARIES = $(module_LTLIBRARIES)
 am__DEPENDENCIES_1 =
 @PK_BUILD_GTK_MODULE_TRUE@libpk_gtk_module_la_DEPENDENCIES =  \
@@ -114,6 +116,8 @@ am__v_GEN_ = $(am__v_GEN_$(AM_DEFAULT_VERBOSITY))
 am__v_GEN_0 = @echo "  GEN   " $@;
 SOURCES = $(libpk_gtk_module_la_SOURCES)
 DIST_SOURCES = $(am__libpk_gtk_module_la_SOURCES_DIST)
+am__dist_gtkmodule_DATA_DIST = pk-gtk-module.desktop
+DATA = $(dist_gtkmodule_DATA)
 ETAGS = etags
 CTAGS = ctags
 DISTFILES = $(DIST_COMMON) $(DIST_SOURCES) $(TEXINFOS) $(EXTRA_DIST)
@@ -169,6 +173,7 @@ GETTEXT_PACKAGE = @GETTEXT_PACKAGE@
 GIO_CFLAGS = @GIO_CFLAGS@
 GIO_LIBS = @GIO_LIBS@
 GLIB_CFLAGS = @GLIB_CFLAGS@
+GLIB_COMPILE_SCHEMAS = @GLIB_COMPILE_SCHEMAS@
 GLIB_GENMARSHAL = @GLIB_GENMARSHAL@
 GLIB_LIBS = @GLIB_LIBS@
 GMODULE_CFLAGS = @GMODULE_CFLAGS@
@@ -176,9 +181,12 @@ GMODULE_LIBS = @GMODULE_LIBS@
 GMOFILES = @GMOFILES@
 GMSGFMT = @GMSGFMT@
 GREP = @GREP@
+GSETTINGS_DISABLE_SCHEMAS_COMPILE = @GSETTINGS_DISABLE_SCHEMAS_COMPILE@
 GSTREAMER_CFLAGS = @GSTREAMER_CFLAGS@
 GSTREAMER_LIBS = @GSTREAMER_LIBS@
 GTKDOC_CHECK = @GTKDOC_CHECK@
+GTKDOC_DEPS_CFLAGS = @GTKDOC_DEPS_CFLAGS@
+GTKDOC_DEPS_LIBS = @GTKDOC_DEPS_LIBS@
 GTKDOC_MKPDF = @GTKDOC_MKPDF@
 GTKDOC_REBASE = @GTKDOC_REBASE@
 GUDEV_CFLAGS = @GUDEV_CFLAGS@
@@ -339,6 +347,7 @@ datarootdir = @datarootdir@
 docdir = @docdir@
 dvidir = @dvidir@
 exec_prefix = @exec_prefix@
+gsettingsschemadir = @gsettingsschemadir@
 host = @host@
 host_alias = @host_alias@
 host_cpu = @host_cpu@
@@ -379,7 +388,11 @@ top_srcdir = @top_srcdir@
 @PK_BUILD_GTK_MODULE_TRUE@libpk_gtk_module_la_LIBADD = $(PK_GTK_MODULE_LIBS)
 @PK_BUILD_GTK_MODULE_TRUE@libpk_gtk_module_la_LDFLAGS = -module -avoid-version
 @PK_BUILD_GTK_MODULE_TRUE@libpk_gtk_module_la_CFLAGS = $(PK_GTK_MODULE_CFLAGS) $(WARNINGFLAGS_C)
+@PK_BUILD_GTK_MODULE_TRUE@gtkmoduledir = $(libdir)/gnome-settings-daemon-3.0/gtk-modules
+@PK_BUILD_GTK_MODULE_TRUE@dist_gtkmodule_DATA = pk-gtk-module.desktop
+@PK_BUILD_GTK_MODULE_TRUE@gsettings_SCHEMAS = org.gnome.setttings-daemon.gtk-modules-packagekit.gschema.xml
 EXTRA_DIST = \
+	$(gsettings_SCHEMAS)				\
 	README						\
 	GLASS.txt
 
@@ -496,6 +509,26 @@ mostlyclean-libtool:
 
 clean-libtool:
 	-rm -rf .libs _libs
+install-dist_gtkmoduleDATA: $(dist_gtkmodule_DATA)
+	@$(NORMAL_INSTALL)
+	test -z "$(gtkmoduledir)" || $(MKDIR_P) "$(DESTDIR)$(gtkmoduledir)"
+	@list='$(dist_gtkmodule_DATA)'; test -n "$(gtkmoduledir)" || list=; \
+	for p in $$list; do \
+	  if test -f "$$p"; then d=; else d="$(srcdir)/"; fi; \
+	  echo "$$d$$p"; \
+	done | $(am__base_list) | \
+	while read files; do \
+	  echo " $(INSTALL_DATA) $$files '$(DESTDIR)$(gtkmoduledir)'"; \
+	  $(INSTALL_DATA) $$files "$(DESTDIR)$(gtkmoduledir)" || exit $$?; \
+	done
+
+uninstall-dist_gtkmoduleDATA:
+	@$(NORMAL_UNINSTALL)
+	@list='$(dist_gtkmodule_DATA)'; test -n "$(gtkmoduledir)" || list=; \
+	files=`for p in $$list; do echo $$p; done | sed -e 's|^.*/||'`; \
+	test -n "$$files" || exit 0; \
+	echo " ( cd '$(DESTDIR)$(gtkmoduledir)' && rm -f" $$files ")"; \
+	cd "$(DESTDIR)$(gtkmoduledir)" && rm -f $$files
 
 ID: $(HEADERS) $(SOURCES) $(LISP) $(TAGS_FILES)
 	list='$(SOURCES) $(HEADERS) $(LISP) $(TAGS_FILES)'; \
@@ -581,9 +614,9 @@ distdir: $(DISTFILES)
 	done
 check-am: all-am
 check: check-am
-all-am: Makefile $(LTLIBRARIES)
+all-am: Makefile $(LTLIBRARIES) $(DATA)
 installdirs:
-	for dir in "$(DESTDIR)$(moduledir)"; do \
+	for dir in "$(DESTDIR)$(moduledir)" "$(DESTDIR)$(gtkmoduledir)"; do \
 	  test -z "$$dir" || $(MKDIR_P) "$$dir"; \
 	done
 install: install-am
@@ -635,7 +668,7 @@ info: info-am
 
 info-am:
 
-install-data-am: install-moduleLTLIBRARIES
+install-data-am: install-dist_gtkmoduleDATA install-moduleLTLIBRARIES
 
 install-dvi: install-dvi-am
 
@@ -681,7 +714,7 @@ ps: ps-am
 
 ps-am:
 
-uninstall-am: uninstall-moduleLTLIBRARIES
+uninstall-am: uninstall-dist_gtkmoduleDATA uninstall-moduleLTLIBRARIES
 
 .MAKE: install-am install-strip
 
@@ -690,16 +723,19 @@ uninstall-am: uninstall-moduleLTLIBRARIES
 	distclean distclean-compile distclean-generic \
 	distclean-libtool distclean-tags distdir dvi dvi-am html \
 	html-am info info-am install install-am install-data \
-	install-data-am install-dvi install-dvi-am install-exec \
-	install-exec-am install-html install-html-am install-info \
-	install-info-am install-man install-moduleLTLIBRARIES \
-	install-pdf install-pdf-am install-ps install-ps-am \
-	install-strip installcheck installcheck-am installdirs \
-	maintainer-clean maintainer-clean-generic mostlyclean \
-	mostlyclean-compile mostlyclean-generic mostlyclean-libtool \
-	pdf pdf-am ps ps-am tags uninstall uninstall-am \
+	install-data-am install-dist_gtkmoduleDATA install-dvi \
+	install-dvi-am install-exec install-exec-am install-html \
+	install-html-am install-info install-info-am install-man \
+	install-moduleLTLIBRARIES install-pdf install-pdf-am \
+	install-ps install-ps-am install-strip installcheck \
+	installcheck-am installdirs maintainer-clean \
+	maintainer-clean-generic mostlyclean mostlyclean-compile \
+	mostlyclean-generic mostlyclean-libtool pdf pdf-am ps ps-am \
+	tags uninstall uninstall-am uninstall-dist_gtkmoduleDATA \
 	uninstall-moduleLTLIBRARIES
 
+
+@PK_BUILD_GTK_MODULE_TRUE@@GSETTINGS_RULES@
 
 @PK_BUILD_GTK_MODULE_TRUE@clean-local:
 @PK_BUILD_GTK_MODULE_TRUE@	rm -f *~

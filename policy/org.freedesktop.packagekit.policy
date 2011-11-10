@@ -1107,7 +1107,7 @@
     <message xml:lang="pl">Wymagane jest uwierzytelnienie, aby ustawić położenie używane do dekompresowania pakietów</message>
     <message xml:lang="pt">A autenticação é necessária para alterar a localização utilizada para descomprimir pacotes</message>
     <message xml:lang="ru">Требуется проверка подлинности для изменения места, используемого для распаковки пакетов</message>
-    <message xml:lang="sk">Na zmenu adresára, kde sa rozbaľujú balíky je potrebné overenie totožnosti</message>
+    <message xml:lang="sk">Na zmenu adresára, kam sa rozbaľujú balíky, je potrebné overenie totožnosti</message>
     <message xml:lang="sl">Za spremembo mesta za razširitev paketov je zahtevana overitev</message>
     <message xml:lang="sr">Неопходна је аутентификација за измену локације употребљене за распакивање пакета</message>
     <message xml:lang="sr@latin">Neophodna je autentifikacija za izmenu lokacije upotrebljene za raspakivanje paketa</message>

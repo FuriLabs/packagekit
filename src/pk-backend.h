@@ -85,6 +85,12 @@ gboolean	 pk_backend_set_proxy			(PkBackend	*backend,
 							 const gchar	*pac);
 gboolean	 pk_backend_set_root			(PkBackend	*backend,
 							 const gchar	*root);
+gboolean	 pk_backend_set_uid			(PkBackend	*backend,
+							 guint		 uid);
+gboolean	 pk_backend_set_cmdline			(PkBackend	*backend,
+							 const gchar	*cmdline);
+gboolean	 pk_backend_set_keep_environment (PkBackend	*backend,
+							 gboolean keep_environment);
 gchar		*pk_backend_get_name			(PkBackend	*backend)
 							 G_GNUC_WARN_UNUSED_RESULT;
 gboolean	 pk_backend_get_is_finished		(PkBackend	*backend);
@@ -93,6 +99,8 @@ gchar		*pk_backend_get_description		(PkBackend	*backend)
 							 G_GNUC_WARN_UNUSED_RESULT;
 gchar		*pk_backend_get_author			(PkBackend	*backend)
 							 G_GNUC_WARN_UNUSED_RESULT;
+gboolean	 pk_backend_get_keep_environment (PkBackend	*backend);
+
 typedef gchar	*(*PkBackendGetCompatStringFunc)	(PkBackend	*backend);
 PkBitfield	 pk_backend_get_groups			(PkBackend	*backend);
 PkBitfield	 pk_backend_get_filters			(PkBackend	*backend);
@@ -241,7 +249,6 @@ gchar		*pk_backend_get_proxy_https		(PkBackend	*backend);
 gchar		*pk_backend_get_proxy_socks		(PkBackend	*backend);
 gchar		*pk_backend_get_no_proxy		(PkBackend	*backend);
 gchar		*pk_backend_get_pac			(PkBackend	*backend);
-gchar		*pk_backend_get_proxy_http		(PkBackend	*backend);
 const gchar	*pk_backend_get_root			(PkBackend	*backend);
 gchar		*pk_backend_get_locale			(PkBackend	*backend);
 gchar		*pk_backend_get_frontend_socket		(PkBackend	*backend);

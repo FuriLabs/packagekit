@@ -56,6 +56,7 @@ from packagekit.backend import PackageKitBaseBackend, get_package_id, \
 from packagekit.package import PackagekitPackage
 
 sys.path.insert(0, '/usr/lib/entropy/libraries')
+sys.path.insert(0, '/usr/lib/entropy/lib')
 from entropy.output import decolorize
 from entropy.i18n import _, _LOCALE
 from entropy.const import etpConst, const_convert_to_rawstring, \
@@ -64,7 +65,8 @@ from entropy.client.interfaces import Client
 from entropy.core.settings.base import SystemSettings
 from entropy.misc import LogFile
 from entropy.cache import EntropyCacher
-from entropy.exceptions import SystemDatabaseError
+from entropy.exceptions import SystemDatabaseError, DependenciesNotFound, \
+    DependenciesCollision
 from entropy.db.exceptions import Error as EntropyRepositoryError
 try:
     from entropy.exceptions import DependenciesNotRemovable
@@ -589,18 +591,32 @@ class PackageKitEntropyMixin(object):
         if calculate_deps:
             self.status(STATUS_DEP_RESOLVE)
             empty_deps, deep_deps = False, False
-            run_queue, removal_queue, status = self._entropy.get_install_queue(
-                matches, empty_deps, deep_deps)
+            try:
+                queue_obj = self._entropy.get_install_queue(
+                    matches, empty_deps, deep_deps)
+                if len(queue_obj) == 2:
+                    # new api
+                    run_queue, removal_queue = queue_obj
+                else:
+                    # old api
+                    run_queue, removal_queue, status = queue_obj
+                    if status == -2:
+                        raise DependenciesNotFound(run_queue)
+                    elif status == -3:
+                        raise DependenciesCollision(run_queue)
+            except DependenciesNotFound as exc:
+                self.error(ERROR_DEP_RESOLUTION_FAILED,
+                    "Cannot find the following dependencies: %s" % (
+                    ', '.join(sorted(exc.value)),))
+                return
+            except DependenciesCollision:
+                self.error(ERROR_DEP_RESOLUTION_FAILED,
+                           "Dependencies collisions, cannot continue")
+                return
+
         else:
             run_queue = matches
             removal_queue = []
-            status = 0
-
-        if status == -2:
-            self.error(ERROR_DEP_RESOLUTION_FAILED,
-                "Cannot find the following dependencies: %s" % (
-                    ', '.join(run_queue),))
-            return
 
         self.percentage(0)
         self.status(STATUS_DOWNLOAD)
@@ -934,12 +950,26 @@ class PackageKitEntropyBackend(PackageKitBaseBackend, PackageKitEntropyMixin):
 
         empty = False
         deep = False
-        install, removal, deps_not_f = self._entropy.get_install_queue(matches,
-            empty, deep, recursive = recursive)
-
-        if deps_not_f == -2:
+        try:
+            queue_obj = self._entropy.get_install_queue(matches,
+                empty, deep, recursive = recursive)
+            if len(queue_obj) == 2:
+                # new api
+                install, removal = queue_obj
+            else:
+                # old api
+                install, removal, status = queue_obj
+                if status == -2:
+                    raise DependenciesNotFound(install)
+                elif status == -3:
+                    raise DependenciesCollision(install)
+        except DependenciesNotFound as exc:
             self.error(ERROR_DEP_RESOLUTION_FAILED,
-                "Dependencies not found: %s" % (sorted(install),))
+                "Dependencies not found: %s" % (sorted(exc.value),))
+            return
+        except DependenciesCollision:
+            self.error(ERROR_DEP_RESOLUTION_FAILED,
+                "Dependencies collisions, cannot continue")
             return
 
         # transform install into (repo, pkg_id, c_repo) list

@@ -2,7 +2,7 @@
 
 m4_define([pk_major_version], [0])
 m4_define([pk_minor_version], [7])
-m4_define([pk_micro_version], [0])
+m4_define([pk_micro_version], [1])
 m4_define([pk_version],
           [pk_major_version.pk_minor_version.pk_micro_version])
 
@@ -45,7 +45,7 @@ AC_SUBST(PK_VERSION)
 # AGE		If libpackagekit can be linked into executables which can be
 # 		built with previous versions of this library. Don't use.
 LT_CURRENT=14
-LT_REVISION=9
+LT_REVISION=10
 LT_AGE=0
 AC_SUBST(LT_CURRENT)
 AC_SUBST(LT_REVISION)
@@ -82,7 +82,7 @@ GTK_DOC_CHECK([1.11],[--flavour no-tmpl])
 
 AC_PATH_PROG(GLIB_GENMARSHAL, glib-genmarshal)
 
-AM_PATH_PYTHON
+AM_PATH_PYTHON([2.7])
 PYTHON_PACKAGE_DIR=${pythondir}/packagekit
 AC_SUBST(PYTHON_PACKAGE_DIR)
 
@@ -414,6 +414,9 @@ if test x$enable_gtk_module = xyes; then
 	                  build_gtk_module=yes, build_gtk_module=no)
 else
 	build_gtk_module=no
+fi
+if test x$build_gtk_module = xyes; then
+	GLIB_GSETTINGS
 fi
 AM_CONDITIONAL(PK_BUILD_GTK_MODULE, test $build_gtk_module = "yes")
 
@@ -768,11 +771,6 @@ lib/Makefile
 lib/packagekit-glib2/pk-version.h
 lib/packagekit-glib2/Makefile
 lib/packagekit-glib2/packagekit-glib2.pc
-lib/packagekit-qt/Makefile
-lib/packagekit-qt/modules/Makefile
-lib/packagekit-qt/src/Makefile
-lib/packagekit-qt/test/Makefile
-lib/packagekit-qt/packagekit-qt.pc
 lib/packagekit-qt2/Makefile
 lib/packagekit-qt2/modules/Makefile
 lib/packagekit-qt2/modules/packagekit-qt2-config.cmake

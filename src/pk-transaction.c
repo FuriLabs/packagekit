@@ -937,6 +937,8 @@ out:
 
 /**
  * pk_transaction_get_conf:
+ *
+ * Returns: (transfer none): PkConf of this transaction
  **/
 PkConf *
 pk_transaction_get_conf (PkTransaction *transaction)
@@ -947,6 +949,8 @@ pk_transaction_get_conf (PkTransaction *transaction)
 
 /**
  * pk_transaction_get_results:
+ *
+ * Returns: (transfer none): Results of the transaction
  **/
 PkResults *
 pk_transaction_get_results (PkTransaction *transaction)
@@ -957,6 +961,8 @@ pk_transaction_get_results (PkTransaction *transaction)
 
 /**
  * pk_transaction_get_package_ids:
+ *
+ * Returns: (transfer none): Cached package-ids
  **/
 gchar **
 pk_transaction_get_package_ids (PkTransaction *transaction)
@@ -979,6 +985,8 @@ pk_transaction_set_package_ids (PkTransaction *transaction,
 
 /**
  * pk_transaction_get_values:
+ *
+ * Returns: (transfer none): Cached values
  **/
 gchar **
 pk_transaction_get_values (PkTransaction *transaction)
@@ -989,6 +997,8 @@ pk_transaction_get_values (PkTransaction *transaction)
 
 /**
  * pk_transaction_get_full_paths:
+ *
+ * Returns: (transfer none): Cached paths
  **/
 gchar **
 pk_transaction_get_full_paths (PkTransaction *transaction)
@@ -1773,6 +1783,7 @@ pk_transaction_set_session_state (PkTransaction *transaction,
 	gchar *no_proxy = NULL;
 	gchar *pac = NULL;
 	gchar *root = NULL;
+	gchar *cmdline = NULL;
 	PkTransactionPrivate *priv = transaction->priv;
 
 	/* get session */
@@ -1824,7 +1835,14 @@ pk_transaction_set_session_state (PkTransaction *transaction,
 	}
 	g_debug ("using http_proxy=%s, ftp_proxy=%s, root=%s for %i:%s",
 		   proxy_http, proxy_ftp, root, priv->uid, session);
+
+	/* try to set the new uid and cmdline */
+	cmdline = g_strdup_printf ("PackageKit: %s",
+				   pk_role_enum_to_string (priv->role));
+	pk_backend_set_uid (priv->backend, priv->uid);
+	pk_backend_set_cmdline (priv->backend, cmdline);
 out:
+	g_free (cmdline);
 	g_free (proxy_http);
 	g_free (proxy_https);
 	g_free (proxy_ftp);
@@ -1953,9 +1971,19 @@ pk_transaction_run (PkTransaction *transaction)
 
 	/* is an error code set? */
 	if (pk_backend_get_is_error_set (priv->backend)) {
-		pk_transaction_finished_emit (transaction, PK_EXIT_ENUM_FAILED, 0);
+		exit_status = pk_backend_get_exit_code (priv->backend);
+		pk_transaction_finished_emit (transaction, exit_status, 0);
 
-		/* do not fail the tranaction */
+		/* do not fail the transaction */
+		ret = TRUE;
+		goto out;
+	}
+
+	/* check if we should skip this transaction */
+	if (pk_backend_get_exit_code (priv->backend) == PK_EXIT_ENUM_SKIP_TRANSACTION) {
+		pk_transaction_finished_emit (transaction, PK_EXIT_ENUM_SUCCESS, 0);
+
+		/* do not fail the transaction */
 		ret = TRUE;
 		goto out;
 	}
@@ -2039,8 +2067,17 @@ pk_transaction_run (PkTransaction *transaction)
 	pk_transaction_plugin_phase (transaction,
 				     PK_PLUGIN_PHASE_TRANSACTION_STARTED);
 
-	/* did the plugin finish or abort the transaction */
+	/* check again if we should skip this transaction */
 	exit_status = pk_backend_get_exit_code (priv->backend);
+	if (exit_status == PK_EXIT_ENUM_SKIP_TRANSACTION) {
+		pk_transaction_finished_emit (transaction, PK_EXIT_ENUM_SUCCESS, 0);
+
+		/* do not fail the transaction */
+		ret = TRUE;
+		goto out;
+	}
+
+	/* did the plugin finish or abort the transaction? */
 	if (exit_status != PK_EXIT_ENUM_UNKNOWN)  {
 		pk_transaction_finished_emit (transaction, exit_status, 0);
 		ret = TRUE;
@@ -2777,6 +2814,7 @@ pk_transaction_accept_eula (PkTransaction *transaction,
 
 	g_return_if_fail (PK_IS_TRANSACTION (transaction));
 	g_return_if_fail (transaction->priv->tid != NULL);
+	pk_transaction_set_role (transaction, PK_ROLE_ENUM_ACCEPT_EULA);
 
 	g_variant_get (params, "(&s)",
 		       &eula_id);
@@ -4998,8 +5036,7 @@ pk_transaction_simulate_install_packages (PkTransaction *transaction,
 
 	/* not implemented yet */
 	if (!pk_backend_is_implemented (transaction->priv->backend,
-					PK_ROLE_ENUM_SIMULATE_INSTALL_PACKAGES) &&
-	    !pk_backend_is_implemented (transaction->priv->backend, PK_ROLE_ENUM_GET_DEPENDS)) {
+					PK_ROLE_ENUM_SIMULATE_INSTALL_PACKAGES)) {
 		error = g_error_new (PK_TRANSACTION_ERROR, PK_TRANSACTION_ERROR_NOT_SUPPORTED,
 				     "SimulateInstallPackages not supported by backend");
 		pk_transaction_release_tid (transaction);
@@ -5071,8 +5108,7 @@ pk_transaction_simulate_remove_packages (PkTransaction *transaction,
 
 	/* not implemented yet */
 	if (!pk_backend_is_implemented (transaction->priv->backend,
-					PK_ROLE_ENUM_SIMULATE_REMOVE_PACKAGES) &&
-	    !pk_backend_is_implemented (transaction->priv->backend, PK_ROLE_ENUM_GET_REQUIRES)) {
+					PK_ROLE_ENUM_SIMULATE_REMOVE_PACKAGES)) {
 		error = g_error_new (PK_TRANSACTION_ERROR, PK_TRANSACTION_ERROR_NOT_SUPPORTED,
 				     "SimulateRemovePackages not supported by backend");
 		pk_transaction_release_tid (transaction);
@@ -5142,8 +5178,7 @@ pk_transaction_simulate_update_packages (PkTransaction *transaction,
 
 	/* not implemented yet */
 	if (!pk_backend_is_implemented (transaction->priv->backend,
-					PK_ROLE_ENUM_SIMULATE_UPDATE_PACKAGES) &&
-	    !pk_backend_is_implemented (transaction->priv->backend, PK_ROLE_ENUM_GET_DEPENDS)) {
+					PK_ROLE_ENUM_SIMULATE_UPDATE_PACKAGES)) {
 		error = g_error_new (PK_TRANSACTION_ERROR, PK_TRANSACTION_ERROR_NOT_SUPPORTED,
 				     "SimulateUpdatePackages not supported by backend");
 		pk_transaction_release_tid (transaction);
