@@ -164,6 +164,7 @@ Package: packagekit-gtk3-module
 Architecture: any
 Section: libs
 Depends: ${misc:Depends}, ${shlibs:Depends}
+Breaks: gnome-packagekit (<< 3.2.1-1)
 Description: Install fonts automatically using PackageKit
  PackageKit allows performing simple software management tasks over a DBus
  interface e.g. refreshing the cache, updating, installing and removing
