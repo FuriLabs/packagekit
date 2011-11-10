@@ -39,9 +39,7 @@ DIST_COMMON = README $(am__configure_deps) $(srcdir)/Makefile.am \
 	$(top_srcdir)/configure AUTHORS COPYING ChangeLog INSTALL NEWS \
 	TODO build-aux/compile build-aux/config.guess \
 	build-aux/config.sub build-aux/depcomp build-aux/install-sh \
-	build-aux/ltmain.sh build-aux/missing build-aux/py-compile \
-	compile config.guess config.sub depcomp install-sh ltmain.sh \
-	missing py-compile
+	build-aux/ltmain.sh build-aux/missing build-aux/py-compile
 ACLOCAL_M4 = $(top_srcdir)/aclocal.m4
 am__aclocal_m4_deps = $(top_srcdir)/m4/gtk-doc.m4 \
 	$(top_srcdir)/m4/intltool.m4 $(top_srcdir)/m4/libtool.m4 \
@@ -167,6 +165,7 @@ GETTEXT_PACKAGE = @GETTEXT_PACKAGE@
 GIO_CFLAGS = @GIO_CFLAGS@
 GIO_LIBS = @GIO_LIBS@
 GLIB_CFLAGS = @GLIB_CFLAGS@
+GLIB_COMPILE_SCHEMAS = @GLIB_COMPILE_SCHEMAS@
 GLIB_GENMARSHAL = @GLIB_GENMARSHAL@
 GLIB_LIBS = @GLIB_LIBS@
 GMODULE_CFLAGS = @GMODULE_CFLAGS@
@@ -174,9 +173,12 @@ GMODULE_LIBS = @GMODULE_LIBS@
 GMOFILES = @GMOFILES@
 GMSGFMT = @GMSGFMT@
 GREP = @GREP@
+GSETTINGS_DISABLE_SCHEMAS_COMPILE = @GSETTINGS_DISABLE_SCHEMAS_COMPILE@
 GSTREAMER_CFLAGS = @GSTREAMER_CFLAGS@
 GSTREAMER_LIBS = @GSTREAMER_LIBS@
 GTKDOC_CHECK = @GTKDOC_CHECK@
+GTKDOC_DEPS_CFLAGS = @GTKDOC_DEPS_CFLAGS@
+GTKDOC_DEPS_LIBS = @GTKDOC_DEPS_LIBS@
 GTKDOC_MKPDF = @GTKDOC_MKPDF@
 GTKDOC_REBASE = @GTKDOC_REBASE@
 GUDEV_CFLAGS = @GUDEV_CFLAGS@
@@ -337,6 +339,7 @@ datarootdir = @datarootdir@
 docdir = @docdir@
 dvidir = @dvidir@
 exec_prefix = @exec_prefix@
+gsettingsschemadir = @gsettingsschemadir@
 host = @host@
 host_alias = @host_alias@
 host_cpu = @host_cpu@

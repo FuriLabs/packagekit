@@ -8,7 +8,7 @@
 <link rel="up" href="libpackagekit-helpers.html" title="libpackagekit glib helpers">
 <link rel="prev" href="PackageKit-pk-client-sync.html" title="pk-client-sync">
 <link rel="next" href="PackageKit-pk-control-sync.html" title="pk-control-sync">
-<meta name="generator" content="GTK-Doc V1.17 (XML mode)">
+<meta name="generator" content="GTK-Doc V1.18 (XML mode)">
 <link rel="stylesheet" href="style.css" type="text/css">
 </head>
 <body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF">
@@ -37,18 +37,18 @@
 </tr></table></div>
 <div class="refsynopsisdiv">
 <a name="PackageKit-pk-common.synopsis"></a><h2>Synopsis</h2>
-<pre class="synopsis">#define             <a class="link" href="PackageKit-pk-common.html#PK-DBUS-SERVICE:CAPS" title="PK_DBUS_SERVICE">PK_DBUS_SERVICE</a>
-#define             <a class="link" href="PackageKit-pk-common.html#PK-DBUS-PATH:CAPS" title="PK_DBUS_PATH">PK_DBUS_PATH</a>
-#define             <a class="link" href="PackageKit-pk-common.html#PK-DBUS-INTERFACE:CAPS" title="PK_DBUS_INTERFACE">PK_DBUS_INTERFACE</a>
+<pre class="synopsis">#define             <a class="link" href="PackageKit-pk-common.html#PK-DBUS-INTERFACE:CAPS" title="PK_DBUS_INTERFACE">PK_DBUS_INTERFACE</a>
 #define             <a class="link" href="PackageKit-pk-common.html#PK-DBUS-INTERFACE-TRANSACTION:CAPS" title="PK_DBUS_INTERFACE_TRANSACTION">PK_DBUS_INTERFACE_TRANSACTION</a>
+#define             <a class="link" href="PackageKit-pk-common.html#PK-DBUS-PATH:CAPS" title="PK_DBUS_PATH">PK_DBUS_PATH</a>
+#define             <a class="link" href="PackageKit-pk-common.html#PK-DBUS-SERVICE:CAPS" title="PK_DBUS_SERVICE">PK_DBUS_SERVICE</a>
 #define             <a class="link" href="PackageKit-pk-common.html#PK-SERVICE-PACK-GROUP-NAME:CAPS" title="PK_SERVICE_PACK_GROUP_NAME">PK_SERVICE_PACK_GROUP_NAME</a>
 #define             <a class="link" href="PackageKit-pk-common.html#PK-SYSTEM-PACKAGE-LIST-FILENAME:CAPS" title="PK_SYSTEM_PACKAGE_LIST_FILENAME">PK_SYSTEM_PACKAGE_LIST_FILENAME</a>
 <span class="returnvalue">void</span>                <a class="link" href="PackageKit-pk-common.html#pk-common-test" title="pk_common_test ()">pk_common_test</a>                      (<em class="parameter"><code><a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gpointer"><span class="type">gpointer</span></a> user_data</code></em>);
-<a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gchar"><span class="returnvalue">gchar</span></a> **            <a class="link" href="PackageKit-pk-common.html#pk-ptr-array-to-strv" title="pk_ptr_array_to_strv ()">pk_ptr_array_to_strv</a>                (<em class="parameter"><code><a href="http://library.gnome.org/devel/glib/unstable/glib-Pointer-Arrays.html#GPtrArray"><span class="type">GPtrArray</span></a> *array</code></em>);
-<a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gchar"><span class="returnvalue">gchar</span></a> *             <a class="link" href="PackageKit-pk-common.html#pk-iso8601-present" title="pk_iso8601_present ()">pk_iso8601_present</a>                  (<em class="parameter"><code><span class="type">void</span></code></em>);
-<a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gchar"><span class="returnvalue">gchar</span></a> *             <a class="link" href="PackageKit-pk-common.html#pk-iso8601-from-date" title="pk_iso8601_from_date ()">pk_iso8601_from_date</a>                (<em class="parameter"><code>const <a href="http://library.gnome.org/devel/glib/unstable/glib-Date-and-Time-Functions.html#GDate"><span class="type">GDate</span></a> *date</code></em>);
-<a href="http://library.gnome.org/devel/glib/unstable/glib-Date-and-Time-Functions.html#GDate"><span class="returnvalue">GDate</span></a> *             <a class="link" href="PackageKit-pk-common.html#pk-iso8601-to-date" title="pk_iso8601_to_date ()">pk_iso8601_to_date</a>                  (<em class="parameter"><code>const <a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a> *iso_date</code></em>);
 <a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gchar"><span class="returnvalue">gchar</span></a> *             <a class="link" href="PackageKit-pk-common.html#pk-get-distro-id" title="pk_get_distro_id ()">pk_get_distro_id</a>                    (<em class="parameter"><code><span class="type">void</span></code></em>);
+<a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gchar"><span class="returnvalue">gchar</span></a> *             <a class="link" href="PackageKit-pk-common.html#pk-iso8601-from-date" title="pk_iso8601_from_date ()">pk_iso8601_from_date</a>                (<em class="parameter"><code>const <a href="http://library.gnome.org/devel/glib/unstable/glib-Date-and-Time-Functions.html#GDate"><span class="type">GDate</span></a> *date</code></em>);
+<a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gchar"><span class="returnvalue">gchar</span></a> *             <a class="link" href="PackageKit-pk-common.html#pk-iso8601-present" title="pk_iso8601_present ()">pk_iso8601_present</a>                  (<em class="parameter"><code><span class="type">void</span></code></em>);
+<a href="http://library.gnome.org/devel/glib/unstable/glib-Date-and-Time-Functions.html#GDate"><span class="returnvalue">GDate</span></a> *             <a class="link" href="PackageKit-pk-common.html#pk-iso8601-to-date" title="pk_iso8601_to_date ()">pk_iso8601_to_date</a>                  (<em class="parameter"><code>const <a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a> *iso_date</code></em>);
+<a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gchar"><span class="returnvalue">gchar</span></a> **            <a class="link" href="PackageKit-pk-common.html#pk-ptr-array-to-strv" title="pk_ptr_array_to_strv ()">pk_ptr_array_to_strv</a>                (<em class="parameter"><code><a href="http://library.gnome.org/devel/glib/unstable/glib-Pointer-Arrays.html#GPtrArray"><span class="type">GPtrArray</span></a> *array</code></em>);
 </pre>
 </div>
 <div class="refsect1">
@@ -59,24 +59,6 @@ This file contains functions that may be useful.
 </div>
 <div class="refsect1">
 <a name="PackageKit-pk-common.details"></a><h2>Details</h2>
-<div class="refsect2">
-<a name="PK-DBUS-SERVICE:CAPS"></a><h3>PK_DBUS_SERVICE</h3>
-<pre class="programlisting">#define PK_DBUS_SERVICE			"org.freedesktop.PackageKit"
-</pre>
-<p>
-The SYSTEM service DBUS name
-</p>
-</div>
-<hr>
-<div class="refsect2">
-<a name="PK-DBUS-PATH:CAPS"></a><h3>PK_DBUS_PATH</h3>
-<pre class="programlisting">#define PK_DBUS_PATH			"/org/freedesktop/PackageKit"
-</pre>
-<p>
-The DBUS path
-</p>
-</div>
-<hr>
 <div class="refsect2">
 <a name="PK-DBUS-INTERFACE:CAPS"></a><h3>PK_DBUS_INTERFACE</h3>
 <pre class="programlisting">#define PK_DBUS_INTERFACE		"org.freedesktop.PackageKit"
@@ -96,6 +78,24 @@ The DBUS interface for the transactions
 </div>
 <hr>
 <div class="refsect2">
+<a name="PK-DBUS-PATH:CAPS"></a><h3>PK_DBUS_PATH</h3>
+<pre class="programlisting">#define PK_DBUS_PATH			"/org/freedesktop/PackageKit"
+</pre>
+<p>
+The DBUS path
+</p>
+</div>
+<hr>
+<div class="refsect2">
+<a name="PK-DBUS-SERVICE:CAPS"></a><h3>PK_DBUS_SERVICE</h3>
+<pre class="programlisting">#define PK_DBUS_SERVICE			"org.freedesktop.PackageKit"
+</pre>
+<p>
+The SYSTEM service DBUS name
+</p>
+</div>
+<hr>
+<div class="refsect2">
 <a name="PK-SERVICE-PACK-GROUP-NAME:CAPS"></a><h3>PK_SERVICE_PACK_GROUP_NAME</h3>
 <pre class="programlisting">#define PK_SERVICE_PACK_GROUP_NAME "PackageKit Service Pack"
 </pre>
@@ -108,15 +108,74 @@ The group name of the Service Pack config file
 <a name="PK-SYSTEM-PACKAGE-LIST-FILENAME:CAPS"></a><h3>PK_SYSTEM_PACKAGE_LIST_FILENAME</h3>
 <pre class="programlisting">#define PK_SYSTEM_PACKAGE_LIST_FILENAME "/var/lib/PackageKit/system.package-list"
 </pre>
-<p>
-</p>
 </div>
 <hr>
 <div class="refsect2">
 <a name="pk-common-test"></a><h3>pk_common_test ()</h3>
 <pre class="programlisting"><span class="returnvalue">void</span>                pk_common_test                      (<em class="parameter"><code><a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gpointer"><span class="type">gpointer</span></a> user_data</code></em>);</pre>
-<p>
-</p>
+</div>
+<hr>
+<div class="refsect2">
+<a name="pk-get-distro-id"></a><h3>pk_get_distro_id ()</h3>
+<pre class="programlisting"><a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gchar"><span class="returnvalue">gchar</span></a> *             pk_get_distro_id                    (<em class="parameter"><code><span class="type">void</span></code></em>);</pre>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody><tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td>the distro-id, typically "distro;version;arch"</td>
+</tr></tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="pk-iso8601-from-date"></a><h3>pk_iso8601_from_date ()</h3>
+<pre class="programlisting"><a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gchar"><span class="returnvalue">gchar</span></a> *             pk_iso8601_from_date                (<em class="parameter"><code>const <a href="http://library.gnome.org/devel/glib/unstable/glib-Date-and-Time-Functions.html#GDate"><span class="type">GDate</span></a> *date</code></em>);</pre>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>date</code></em> :</span></p></td>
+<td>a <a href="http://library.gnome.org/devel/glib/unstable/glib-Date-and-Time-Functions.html#GDate"><code class="literal">GDate</code></a> to convert</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td>If valid then a new ISO8601 date, else NULL</td>
+</tr>
+</tbody>
+</table></div>
+<p class="since">Since 0.5.2</p>
+</div>
+<hr>
+<div class="refsect2">
+<a name="pk-iso8601-present"></a><h3>pk_iso8601_present ()</h3>
+<pre class="programlisting"><a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gchar"><span class="returnvalue">gchar</span></a> *             pk_iso8601_present                  (<em class="parameter"><code><span class="type">void</span></code></em>);</pre>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody><tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td>The current iso8601 date and time</td>
+</tr></tbody>
+</table></div>
+<p class="since">Since 0.5.2</p>
+</div>
+<hr>
+<div class="refsect2">
+<a name="pk-iso8601-to-date"></a><h3>pk_iso8601_to_date ()</h3>
+<pre class="programlisting"><a href="http://library.gnome.org/devel/glib/unstable/glib-Date-and-Time-Functions.html#GDate"><span class="returnvalue">GDate</span></a> *             pk_iso8601_to_date                  (<em class="parameter"><code>const <a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a> *iso_date</code></em>);</pre>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>iso_date</code></em> :</span></p></td>
+<td>The ISO8601 date to convert</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td>If valid then a new <a href="http://library.gnome.org/devel/glib/unstable/glib-Date-and-Time-Functions.html#GDate"><code class="literal">GDate</code></a>, else NULL</td>
+</tr>
+</tbody>
+</table></div>
+<p class="since">Since 0.5.2</p>
 </div>
 <hr>
 <div class="refsect2">
@@ -142,73 +201,10 @@ The data in the GPtrArray is copied.
 </table></div>
 <p class="since">Since 0.5.2</p>
 </div>
-<hr>
-<div class="refsect2">
-<a name="pk-iso8601-present"></a><h3>pk_iso8601_present ()</h3>
-<pre class="programlisting"><a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gchar"><span class="returnvalue">gchar</span></a> *             pk_iso8601_present                  (<em class="parameter"><code><span class="type">void</span></code></em>);</pre>
-<div class="variablelist"><table border="0">
-<col align="left" valign="top">
-<tbody><tr>
-<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
-<td>The current iso8601 date and time</td>
-</tr></tbody>
-</table></div>
-<p class="since">Since 0.5.2</p>
-</div>
-<hr>
-<div class="refsect2">
-<a name="pk-iso8601-from-date"></a><h3>pk_iso8601_from_date ()</h3>
-<pre class="programlisting"><a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gchar"><span class="returnvalue">gchar</span></a> *             pk_iso8601_from_date                (<em class="parameter"><code>const <a href="http://library.gnome.org/devel/glib/unstable/glib-Date-and-Time-Functions.html#GDate"><span class="type">GDate</span></a> *date</code></em>);</pre>
-<div class="variablelist"><table border="0">
-<col align="left" valign="top">
-<tbody>
-<tr>
-<td><p><span class="term"><em class="parameter"><code>date</code></em> :</span></p></td>
-<td>a <a href="http://library.gnome.org/devel/glib/unstable/glib-Date-and-Time-Functions.html#GDate"><code class="literal">GDate</code></a> to convert</td>
-</tr>
-<tr>
-<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
-<td>If valid then a new ISO8601 date, else NULL</td>
-</tr>
-</tbody>
-</table></div>
-<p class="since">Since 0.5.2</p>
-</div>
-<hr>
-<div class="refsect2">
-<a name="pk-iso8601-to-date"></a><h3>pk_iso8601_to_date ()</h3>
-<pre class="programlisting"><a href="http://library.gnome.org/devel/glib/unstable/glib-Date-and-Time-Functions.html#GDate"><span class="returnvalue">GDate</span></a> *             pk_iso8601_to_date                  (<em class="parameter"><code>const <a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a> *iso_date</code></em>);</pre>
-<div class="variablelist"><table border="0">
-<col align="left" valign="top">
-<tbody>
-<tr>
-<td><p><span class="term"><em class="parameter"><code>iso_date</code></em> :</span></p></td>
-<td>The ISO8601 date to convert</td>
-</tr>
-<tr>
-<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
-<td>If valid then a new <a href="http://library.gnome.org/devel/glib/unstable/glib-Date-and-Time-Functions.html#GDate"><code class="literal">GDate</code></a>, else NULL</td>
-</tr>
-</tbody>
-</table></div>
-<p class="since">Since 0.5.2</p>
-</div>
-<hr>
-<div class="refsect2">
-<a name="pk-get-distro-id"></a><h3>pk_get_distro_id ()</h3>
-<pre class="programlisting"><a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gchar"><span class="returnvalue">gchar</span></a> *             pk_get_distro_id                    (<em class="parameter"><code><span class="type">void</span></code></em>);</pre>
-<div class="variablelist"><table border="0">
-<col align="left" valign="top">
-<tbody><tr>
-<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
-<td>the distro-id, typically "distro;version;arch"</td>
-</tr></tbody>
-</table></div>
-</div>
 </div>
 </div>
 <div class="footer">
 <hr>
-          Generated by GTK-Doc V1.17</div>
+          Generated by GTK-Doc V1.18</div>
 </body>
 </html>

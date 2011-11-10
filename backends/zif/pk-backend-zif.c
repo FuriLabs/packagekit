@@ -25,6 +25,9 @@
 #include <string.h>
 #include <packagekit-glib2/pk-debug.h>
 #include <zif.h>
+#if ZIF_CHECK_VERSION(0,2,5)
+#include <zif-private.h>
+#endif
 
 #define PACKAGE_MEDIA_REPO_FILENAME		"/etc/yum.repos.d/packagekit-media.repo"
 
@@ -214,27 +217,6 @@ pk_backend_convert_error (const GError *error)
 		default:
 			error_code = PK_ERROR_ENUM_INTERNAL_ERROR;
 		}
-	} else if (error->domain == ZIF_MD_ERROR) {
-		switch (error->code) {
-		case ZIF_MD_ERROR_NO_SUPPORT:
-			error_code = PK_ERROR_ENUM_NOT_SUPPORTED;
-			break;
-		case ZIF_MD_ERROR_FAILED_AS_OFFLINE:
-			error_code = PK_ERROR_ENUM_NO_NETWORK;
-			break;
-		case ZIF_MD_ERROR_FAILED_DOWNLOAD:
-			error_code = PK_ERROR_ENUM_PACKAGE_DOWNLOAD_FAILED;
-			break;
-		case ZIF_MD_ERROR_BAD_SQL:
-		case ZIF_MD_ERROR_FAILED_TO_LOAD:
-		case ZIF_MD_ERROR_FILE_TOO_OLD:
-		case ZIF_MD_ERROR_FAILED:
-		case ZIF_MD_ERROR_NO_FILENAME:
-			error_code = PK_ERROR_ENUM_INTERNAL_ERROR;
-			break;
-		default:
-			error_code = PK_ERROR_ENUM_INTERNAL_ERROR;
-		}
 	} else if (error->domain == ZIF_RELEASE_ERROR) {
 		switch (error->code) {
 		case ZIF_RELEASE_ERROR_DOWNLOAD_FAILED:
@@ -286,6 +268,10 @@ pk_backend_transaction_start (PkBackend *backend)
 	guint lock_delay;
 	guint lock_retries;
 	guint pid = 0;
+#if ZIF_CHECK_VERSION(0,2,4)
+	guint uid;
+	gchar *cmdline = NULL;
+#endif
 
 	/* only try a finite number of times */
 	lock_retries = zif_config_get_uint (priv->config, "lock_retries", NULL);
@@ -385,8 +371,21 @@ pk_backend_transaction_start (PkBackend *backend)
 	g_cancellable_reset (priv->cancellable);
 
 	/* start with a new transaction */
+#if ZIF_CHECK_VERSION(0,2,4)
+	g_object_get (backend,
+		      "uid", &uid,
+		      NULL);
+	zif_transaction_set_euid (priv->transaction, uid);
+	g_object_get (backend,
+		      "cmdline", &cmdline,
+		      NULL);
+	zif_transaction_set_cmdline (priv->transaction, cmdline);
+#endif
 	zif_transaction_reset (priv->transaction);
 out:
+#if ZIF_CHECK_VERSION(0,2,4)
+	g_free (cmdline);
+#endif
 	g_free (http_proxy);
 	return;
 }
@@ -417,15 +416,36 @@ out:
 static GPtrArray *
 pk_backend_filter_package_array (GPtrArray *array, PkBitfield filters)
 {
+	GHashTable *hash_installed;
+	gpointer found;
 	GPtrArray *result = NULL;
 	guint i;
 	ZifPackage *package;
 
+	hash_installed = g_hash_table_new_full (g_str_hash, g_str_equal, NULL, NULL);
 	result = g_ptr_array_new_with_free_func ((GDestroyNotify) g_object_unref);
+
+	/* do not show a remote package if the same version is installed */
+	for (i=0;i<array->len;i++) {
+		package = g_ptr_array_index (array, i);
+		if (!zif_package_is_installed (package))
+			continue;
+		g_hash_table_insert (hash_installed,
+				     (gpointer) zif_package_get_name_version_arch (package),
+				     GINT_TO_POINTER (1));
+	}
 
 	/* pre-result */
 	for (i=0;i<array->len;i++) {
 		package = g_ptr_array_index (array, i);
+
+		/* is installed package existing? */
+		if (!zif_package_is_installed (package)) {
+			found = g_hash_table_lookup (hash_installed,
+						     zif_package_get_name_version_arch (package));
+			if (found != NULL)
+				continue;
+		}
 
 		/* installed */
 		if (pk_bitfield_contain (filters,
@@ -490,6 +510,7 @@ pk_backend_filter_package_array (GPtrArray *array, PkBitfield filters)
 	if (pk_bitfield_contain (filters, PK_FILTER_ENUM_NEWEST))
 		zif_package_array_filter_newest (result);
 
+	g_hash_table_destroy (hash_installed);
 	return result;
 }
 
@@ -520,7 +541,7 @@ pk_backend_emit_package_array (PkBackend *backend,
 	for (i=0; i<array->len; i++) {
 		package = g_ptr_array_index (array, i);
 		installed = zif_package_is_installed (package);
-		package_id = zif_package_get_package_id (package);
+		package_id = zif_package_get_id (package);
 
 		/* should be quick as shouldn't be doing any action */
 		state_loop = zif_state_get_child (state_local);
@@ -1053,21 +1074,13 @@ pk_backend_what_provides_helper (GPtrArray *store_array,
 	g_assert (ret);
 
 	/* resolve all the depends */
-	state_local = zif_state_get_child (state);
-	zif_state_set_number_steps (state_local, g_strv_length (search));
 	depend_array = g_ptr_array_new_with_free_func ((GDestroyNotify) g_object_unref);
 	for (i=0; search[i] != NULL; i++) {
-		state_local = zif_state_get_child (state);
 
 		/* parse this depend */
 		depend = zif_depend_new ();
 		g_ptr_array_add (depend_array, depend);
 		ret = zif_depend_parse_description (depend, search[i], error);
-		if (!ret)
-			goto out;
-
-		/* this part done */
-		ret = zif_state_done (state_local, error);
 		if (!ret)
 			goto out;
 	}
@@ -1246,7 +1259,20 @@ pk_backend_search_thread (PkBackend *backend)
 				/* this is a group */
 				array = pk_backend_resolve_groups (store_array, search, state_local, &error);
 			} else {
-				array = zif_store_array_resolve (store_array, search, state_local, &error);
+#if ZIF_CHECK_VERSION(0,2,4)
+				array = zif_store_array_resolve_full (store_array,
+								      search,
+								      ZIF_STORE_RESOLVE_FLAG_USE_ALL |
+								      ZIF_STORE_RESOLVE_FLAG_PREFER_NATIVE |
+								      ZIF_STORE_RESOLVE_FLAG_USE_GLOB,
+								      state_local,
+								      &error);
+#else
+				array = zif_store_array_resolve (store_array,
+								 search,
+								 state_local,
+								 &error);
+#endif
 			}
 		} else if (role == PK_ROLE_ENUM_WHAT_PROVIDES) {
 			array = pk_backend_what_provides_helper (store_array, search, state_local, &error);
@@ -1423,23 +1449,28 @@ pk_backend_status_changed_cb (PkBackend *backend, PkStatusEnum status, gpointer 
  * pk_backend_state_action_changed_cb:
  **/
 static void
-pk_backend_state_action_changed_cb (ZifState *state, ZifStateAction action, const gchar *action_hint, PkBackend *backend)
+pk_backend_state_action_changed_cb (ZifState *state,
+				    ZifStateAction action,
+				    const gchar *action_hint,
+				    PkBackend *backend)
 {
 	PkStatusEnum status = PK_STATUS_ENUM_UNKNOWN;
 
-	/* ignore this */
-	if (action == ZIF_STATE_ACTION_UNKNOWN)
-		goto out;
+	g_debug ("got state %s with hint %s",
+		 zif_state_action_to_string (action),
+		 action_hint);
 
-	/* try to map the ZifStateAction to a PkStatusEnum */
-	if (action == ZIF_STATE_ACTION_DOWNLOADING) {
+	switch (action) {
+	case ZIF_STATE_ACTION_UNKNOWN:
+		/* ignore this */
+		break;
+	case ZIF_STATE_ACTION_DOWNLOADING:
+		/* try to map the ZifStateAction to a PkStatusEnum */
 		if (zif_package_id_check (action_hint)) {
-			status = PK_STATUS_ENUM_DOWNLOAD;
 			pk_backend_package (backend,
 					    PK_INFO_ENUM_DOWNLOADING,
 					    action_hint,
 					    "");
-			goto out;
 		}
 		if (g_strrstr (action_hint, "repomd") != NULL)
 			status = PK_STATUS_ENUM_DOWNLOAD_REPOSITORY;
@@ -1453,73 +1484,64 @@ pk_backend_state_action_changed_cb (ZifState *state, ZifStateAction action, cons
 			status = PK_STATUS_ENUM_DOWNLOAD_GROUP;
 		else if (g_strrstr (action_hint, "updatinfo") != NULL)
 			status = PK_STATUS_ENUM_DOWNLOAD_UPDATEINFO;
-		goto out;
-	}
-
-	/* general cache loading */
-	if (action == ZIF_STATE_ACTION_CHECKING ||
-	    action == ZIF_STATE_ACTION_LOADING_REPOS ||
-	    action == ZIF_STATE_ACTION_DECOMPRESSING) {
+		else
+			status = PK_STATUS_ENUM_DOWNLOAD;
+		break;
+	case ZIF_STATE_ACTION_CHECKING:
+	case ZIF_STATE_ACTION_LOADING_REPOS:
+	case ZIF_STATE_ACTION_DECOMPRESSING:
+#if ZIF_CHECK_VERSION(0,2,4)
+	case ZIF_STATE_ACTION_LOADING_RPMDB:
+#endif
+		/* general cache loading */
 		status = PK_STATUS_ENUM_LOADING_CACHE;
-		goto out;
-	}
-
-	/* package install */
-	if (action == ZIF_STATE_ACTION_INSTALLING) {
+		break;
+	case ZIF_STATE_ACTION_INSTALLING:
+		/* package install */
 		status = PK_STATUS_ENUM_INSTALL;
 		pk_backend_package (backend,
 				    PK_INFO_ENUM_INSTALLING,
 				    action_hint,
 				    "");
-		goto out;
-	}
-
-	/* package remove */
-	if (action == ZIF_STATE_ACTION_REMOVING) {
+		break;
+	case ZIF_STATE_ACTION_REMOVING:
 		status = PK_STATUS_ENUM_REMOVE;
 		pk_backend_package (backend,
 				    PK_INFO_ENUM_REMOVING,
 				    action_hint,
 				    "");
-		goto out;
-	}
-
-	/* package update */
-	if (action == ZIF_STATE_ACTION_UPDATING) {
+		break;
+	case ZIF_STATE_ACTION_UPDATING:
 		status = PK_STATUS_ENUM_UPDATE;
 		pk_backend_package (backend,
 				    PK_INFO_ENUM_UPDATING,
 				    action_hint,
 				    "");
-		goto out;
-	}
-
-	/* package update */
-	if (action == ZIF_STATE_ACTION_CLEANING) {
+		break;
+	case ZIF_STATE_ACTION_CLEANING:
 		status = PK_STATUS_ENUM_CLEANUP;
 		pk_backend_package (backend,
 				    PK_INFO_ENUM_CLEANUP,
 				    action_hint,
 				    "");
-		goto out;
-	}
-
-	/* rpm test commit */
-	if (action == ZIF_STATE_ACTION_TEST_COMMIT) {
+		break;
+	case ZIF_STATE_ACTION_TEST_COMMIT:
 		status = PK_STATUS_ENUM_TEST_COMMIT;
-		goto out;
-	}
-
-	/* depsolving */
-	if (action == ZIF_STATE_ACTION_DEPSOLVING_CONFLICTS ||
-	    action == ZIF_STATE_ACTION_DEPSOLVING_INSTALL ||
-	    action == ZIF_STATE_ACTION_DEPSOLVING_REMOVE ||
-	    action == ZIF_STATE_ACTION_DEPSOLVING_UPDATE) {
+		break;
+	case ZIF_STATE_ACTION_DEPSOLVING_CONFLICTS:
+	case ZIF_STATE_ACTION_DEPSOLVING_INSTALL:
+	case ZIF_STATE_ACTION_DEPSOLVING_REMOVE:
+	case ZIF_STATE_ACTION_DEPSOLVING_UPDATE:
+#if ZIF_CHECK_VERSION(0,2,4)
+	case ZIF_STATE_ACTION_CHECKING_UPDATES:
+#endif
 		status = PK_STATUS_ENUM_DEP_RESOLVE;
-		goto out;
+		break;
+	case ZIF_STATE_ACTION_PREPARING:
+		status = PK_STATUS_ENUM_TEST_COMMIT;
+	/* deliberately no "default:" as we want to be notified of
+	 * unhandled enums by the compiler */
 	}
-
-out:
 	if (status != PK_STATUS_ENUM_UNKNOWN)
 		pk_backend_set_status (backend, status);
 }
@@ -1574,8 +1596,10 @@ pk_backend_initialize (PkBackend *backend)
 	g_list_foreach (mounts, (GFunc) g_object_unref, NULL);
 	g_list_free (mounts);
 
+#if !ZIF_CHECK_VERSION(0,2,6)
 	/* init rpm */
 	zif_init ();
+#endif
 
 	/* TODO: hook up errors */
 	priv->cancellable = g_cancellable_new ();
@@ -3115,10 +3139,19 @@ pk_backend_get_updates_thread (PkBackend *backend)
 		state_local = zif_state_get_child (priv->state);
 		ret = zif_transaction_resolve (priv->transaction, state_local, &error);
 		if (!ret) {
-			pk_backend_error_code (backend,
-					       PK_ERROR_ENUM_DEP_RESOLUTION_FAILED,
-					       "cannot resolve transaction: %s",
-					       error->message);
+			if (g_error_matches (error,
+					     ZIF_TRANSACTION_ERROR,
+					     ZIF_TRANSACTION_ERROR_NOTHING_TO_DO)) {
+				pk_backend_error_code (backend,
+						       PK_ERROR_ENUM_NO_PACKAGES_TO_UPDATE,
+						       "No transaction to process: %s",
+						       error->message);
+			} else {
+				pk_backend_error_code (backend,
+						       PK_ERROR_ENUM_DEP_RESOLUTION_FAILED,
+						       "Cannot resolve transaction: %s",
+						       error->message);
+			}
 			g_error_free (error);
 			goto out;
 		}
@@ -3203,6 +3236,16 @@ pk_backend_get_changelog_text (GPtrArray *changesets)
 }
 
 /**
+ * pk_backend_sort_stores_cb:
+ **/
+static gint
+pk_backend_sort_stores_cb (ZifStore **a, ZifStore **b)
+{
+	return g_strcmp0 (zif_store_get_id (*b),
+			  zif_store_get_id (*a));
+}
+
+/**
  * pk_backend_get_update_detail_thread:
  */
 static gboolean
@@ -3243,6 +3286,12 @@ pk_backend_get_update_detail_thread (PkBackend *backend)
 		g_error_free (error);
 		goto out;
 	}
+
+	/* sort the store array so updates repos are listed first, for
+	 * when the exact same package version is present in 'updates'
+	 * -and- 'fedora' */
+	g_ptr_array_sort (store_array,
+			  (GCompareFunc) pk_backend_sort_stores_cb);
 
 	/* this section done */
 	ret = zif_state_done (priv->state, &error);
@@ -3339,18 +3388,18 @@ pk_backend_get_update_detail_thread (PkBackend *backend)
 				switch (zif_update_info_get_kind (info)) {
 				case ZIF_UPDATE_INFO_KIND_CVE:
 					g_string_append_printf (string_cve, "%s;%s;",
-								zif_update_info_get_title (info),
-								zif_update_info_get_url (info));
+								zif_update_info_get_url (info),
+								zif_update_info_get_title (info));
 					break;
 				case ZIF_UPDATE_INFO_KIND_BUGZILLA:
 					g_string_append_printf (string_bugzilla, "%s;%s;",
-								zif_update_info_get_title (info),
-								zif_update_info_get_url (info));
+								zif_update_info_get_url (info),
+								zif_update_info_get_title (info));
 					break;
 				case ZIF_UPDATE_INFO_KIND_VENDOR:
 					g_string_append_printf (string_vendor, "%s;%s;",
-								zif_update_info_get_title (info),
-								zif_update_info_get_url (info));
+								zif_update_info_get_url (info),
+								zif_update_info_get_title (info));
 					break;
 				default:
 					break;
@@ -3451,6 +3500,13 @@ pk_backend_convert_transaction_reason_to_info_enum (ZifTransactionReason reason)
 	case ZIF_TRANSACTION_REASON_UPDATE_DEPEND:
 	case ZIF_TRANSACTION_REASON_UPDATE_FOR_CONFLICT:
 	case ZIF_TRANSACTION_REASON_UPDATE_USER_ACTION:
+#if ZIF_CHECK_VERSION(0,2,4)
+	case ZIF_TRANSACTION_REASON_UPDATE_SYSTEM:
+	case ZIF_TRANSACTION_REASON_DOWNGRADE_USER_ACTION:
+#endif
+#if ZIF_CHECK_VERSION(0,2,5)
+	case ZIF_TRANSACTION_REASON_DOWNGRADE_FOR_DEP:
+#endif
 		return PK_INFO_ENUM_UPDATING;
 	default:
 		return PK_INFO_ENUM_AVAILABLE;
@@ -3476,6 +3532,9 @@ pk_backend_run_transaction (PkBackend *backend, ZifState *state)
 	ZifPackage *package;
 	ZifPackageTrustKind trust_kind;
 	ZifState *state_local;
+#if ZIF_CHECK_VERSION(0,2,5)
+	ZifTransactionFlags flags;
+#endif
 
 	/* set steps */
 	simulate = pk_backend_get_bool (backend, "hint:simulate");
@@ -3529,13 +3588,16 @@ pk_backend_run_transaction (PkBackend *backend, ZifState *state)
 		goto out;
 	}
 
-	/* mark any untrusted packages */
+	/* mark any explicitly-untrusted packages so that the
+	 * transaction skips straight to only_trusted=FALSE after
+	 * simulate */
 	install = zif_transaction_get_install (priv->transaction);
 	untrusted_array = g_ptr_array_new ();
 	for (i=0; i<install->len; i++) {
 		package = g_ptr_array_index (install, i);
 		trust_kind = zif_package_get_trust_kind (package);
-		if (trust_kind != ZIF_PACKAGE_TRUST_KIND_PUBKEY) {
+		if (trust_kind == ZIF_PACKAGE_TRUST_KIND_NONE ||
+		    trust_kind == ZIF_PACKAGE_TRUST_KIND_UNKNOWN) {
 			/* TODO: make a proper property */
 			g_object_set_data (G_OBJECT(package),
 					   "kind",
@@ -3546,8 +3608,9 @@ pk_backend_run_transaction (PkBackend *backend, ZifState *state)
 			/* ignore the trusted auth step */
 			pk_backend_message (backend,
 					    PK_MESSAGE_ENUM_UNTRUSTED_PACKAGE,
-					    "The package %s is untrusted",
-					    zif_package_get_printable (package));
+					    "The package %s has trust %s",
+					    zif_package_get_printable (package),
+					    zif_package_trust_kind_to_string (trust_kind));
 		}
 	}
 	state_local = zif_state_get_child (state);
@@ -3643,9 +3706,17 @@ pk_backend_run_transaction (PkBackend *backend, ZifState *state)
 
 	/* commit the transaction */
 	state_local = zif_state_get_child (state);
+#if ZIF_CHECK_VERSION(0,2,5)
+	flags = only_trusted ? 0 : ZIF_TRANSACTION_FLAG_ALLOW_UNTRUSTED;
+	ret = zif_transaction_commit_full (priv->transaction,
+					   flags,
+					   state_local,
+					   &error);
+#else
 	ret = zif_transaction_commit (priv->transaction,
 				      state_local,
 				      &error);
+#endif
 	if (!ret) {
 		pk_backend_error_code (backend,
 				       pk_backend_convert_error (error),
@@ -4345,19 +4416,13 @@ pk_backend_refresh_cache_thread (PkBackend *backend)
 	/* set steps */
 	ret = zif_state_set_steps (priv->state,
 				   NULL,
-				   50, /* get stores */
-				   50, /* refresh them */
+				   5, /* get stores */
+				   95, /* refresh them */
 				   -1);
 	g_assert (ret);
 
 	pk_backend_set_status (backend, PK_STATUS_ENUM_QUERY);
 	pk_backend_set_percentage (backend, 0);
-
-	/* don't nuke the metadata */
-	if (!force) {
-		g_debug ("not supported yet");
-		goto out;
-	}
 
 	/* get a store_array of remote stores */
 	store_array = zif_store_array_new ();
@@ -4385,17 +4450,29 @@ pk_backend_refresh_cache_thread (PkBackend *backend)
 		goto out;
 	}
 
-	/* clean all the repos */
+	/* refresh all the repos */
 	state_local = zif_state_get_child (priv->state);
 	zif_state_set_error_handler (priv->state, (ZifStateErrorHandlerCb) pk_backend_error_handler_cb, backend);
-	ret = zif_store_array_clean (store_array, state_local, &error);
+	ret = zif_store_array_refresh (store_array, force, state_local, &error);
 	if (!ret) {
 		pk_backend_error_code (backend,
 				       pk_backend_convert_error (error),
-				       "failed to clean: %s", error->message);
+				       "failed to refresh: %s", error->message);
 		g_error_free (error);
 		goto out;
 	}
+
+	/* this section done */
+	ret = zif_state_done (priv->state, &error);
+	if (!ret) {
+		pk_backend_error_code (backend,
+				       PK_ERROR_ENUM_TRANSACTION_CANCELLED,
+				       "cancelled: %s",
+				       error->message);
+		g_error_free (error);
+		goto out;
+	}
+
 out:
 	pk_backend_finished (backend);
 	if (store_array != NULL)

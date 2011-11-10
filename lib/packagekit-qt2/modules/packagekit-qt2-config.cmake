@@ -4,10 +4,6 @@
 #  PACKAGEKIT_QT2_INCLUDE_DIR - the PackageKitQt2 include directory
 #  PACKAGEKIT_QT2_LIBRARIES - Link these to use PackageKitQt2
 
-# Copyright (c) 2011, Matthias Klumpp <matthias@tenstral.net>
-#
-# Redistribution and use is allowed according to the terms of the GPLv2+ license.
-
 SET(prefix "/home/hughsie/.root")
 SET(exec_prefix "${prefix}")
 SET(PACKAGEKIT_QT2_LIBRARIES "${exec_prefix}/lib/libpackagekit-qt2.so" CACHE FILEPATH "Libraries for PackageKit-Qt2")
