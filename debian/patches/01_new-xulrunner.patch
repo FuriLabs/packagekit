@@ -1,0 +1,17 @@
+Make PK browser plugin compile with new Xulrunner.
+--- a/contrib/browser-plugin/pk-main.c
++++ b/contrib/browser-plugin/pk-main.c
+@@ -503,11 +503,11 @@
+ /**
+  * NP_GetMIMEDescription:
+  **/
+-char *
++const char *
+ NP_GetMIMEDescription (void)
+ {
+ 	g_debug ("NP_GetMIMEDescription");
+-	return (gchar*) "application/x-packagekit-plugin:bsc:PackageKit Plugin";
++	return (const gchar*) "application/x-packagekit-plugin:bsc:PackageKit Plugin";
+ }
+ 
+ /**
