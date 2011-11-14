@@ -41,6 +41,7 @@ packagekit (0.7.1-1) unstable; urgency=low
        transaction (Richard Hughes)
     - Use the newest filter when resolving for new packages to install
        (Richard Hughes)
+  * Make browser-plugin compile with newer Xulrunner versions
 
  -- Matthias Klumpp <matthias@tenstral.net>  Thu, 10 Nov 2011 21:11:48 +0100
 
