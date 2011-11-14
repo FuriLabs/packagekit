@@ -1,4 +1,4 @@
-packagekit (0.7.1-1) UNRELEASED; urgency=low
+packagekit (0.7.1-1) unstable; urgency=low
 
   * New upstream release: 0.7.1
     - qt2: Remove old Find* macro
