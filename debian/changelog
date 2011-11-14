@@ -42,6 +42,9 @@ packagekit (0.7.1-1) unstable; urgency=low
     - Use the newest filter when resolving for new packages to install
        (Richard Hughes)
   * Make browser-plugin compile with newer Xulrunner versions
+  * Drop ltmain-as-needed patch: Doesn't work anymore
+  * Drop all aptcc patches: Applied upstream
+  * Drop Hurd patch: Applied upstream
 
  -- Matthias Klumpp <matthias@tenstral.net>  Thu, 10 Nov 2011 21:11:48 +0100
 
