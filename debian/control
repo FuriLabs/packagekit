@@ -205,6 +205,7 @@ Package: python-packagekit
 Architecture: all
 Section: python
 Depends: python-dbus, python-gobject, ${misc:Depends}, ${python:Depends}
+Recommends: packagekit
 XB-Python-Version: ${python:Versions}
 Description: PackageKit Python bindings
  PackageKit allows performing simple software management tasks over a DBus
@@ -221,7 +222,7 @@ Depends: app-install-data,
          ${python:Depends},
          ${shlibs:Depends}
 XB-Python-Version: ${python:Versions}
-Recommends: apt-xapian-index
+Recommends: apt-xapian-index, packagekit (= ${binary:Version})
 Description: APT backend for PackageKit
  PackageKit allows performing simple software management tasks over a DBus
  interface e.g. refreshing the cache, updating, installing and removing
