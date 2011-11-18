@@ -36,7 +36,7 @@ Build-Depends: debhelper (>= 8.0.0),
                python-software-properties,
                update-manager-core,
                xmlto,
-               xulrunner-dev | firefox-dev
+               xulrunner-dev (>= 8.0) | firefox-dev (>= 8.0)
 Standards-Version: 3.9.2
 Homepage: http://www.packagekit.org
 
