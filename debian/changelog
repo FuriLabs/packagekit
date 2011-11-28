@@ -1,3 +1,12 @@
+packagekit (0.7.1-2) unstable; urgency=low
+
+  * Remove /var/lib/PackageKit on purge (Closes: #648455)
+  * Make aptcc backend recommend PackageKit daemon
+  * Make xulrunner dependency stronger (Closes: #649604)
+  * Allow DM upload
+
+ -- Matthias Klumpp <matthias@tenstral.net>  Mon, 28 Nov 2011 15:37:55 +0100
+
 packagekit (0.7.1-1) unstable; urgency=low
 
   * New upstream release: 0.7.1
