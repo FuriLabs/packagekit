@@ -218,9 +218,9 @@ Description: PackageKit Python bindings
 Package: packagekit-backend-aptcc
 Architecture: any
 Depends: app-install-data,
+         python,
          python-packagekit,
          ${misc:Depends},
-         ${python:Depends},
          ${shlibs:Depends}
 XB-Python-Version: ${python:Versions}
 Recommends: apt-xapian-index, packagekit (= ${binary:Version})
@@ -236,10 +236,10 @@ Description: APT backend for PackageKit
 Package: packagekit-backend-smart
 Architecture: any
 Depends: packagekit (= ${binary:Version}),
+         python,
          python-packagekit (= ${source:Version}),
          smartpm-core,
          ${misc:Depends},
-         ${python:Depends},
          ${shlibs:Depends}
 XB-Python-Version: ${python:Versions}
 Description: Smart backend for PackageKit
