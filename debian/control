@@ -123,7 +123,7 @@ Description: Library for accessing PackageKit using GLib (development files)
  and provides high level tasks which peform the "transaction dance".
 
 Package: gir1.2-packagekitglib-1.0
-Section: libs
+Section: introspection
 Architecture: any
 Depends: ${gir:Depends}, ${misc:Depends}
 Description: GObject introspection data for the PackageKit GLib library
