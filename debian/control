@@ -220,6 +220,7 @@ Architecture: any
 Depends: app-install-data,
          python,
          python-packagekit,
+         gdebi-core (>= 0.8.2),
          ${misc:Depends},
          ${shlibs:Depends}
 XB-Python-Version: ${python:Versions}
