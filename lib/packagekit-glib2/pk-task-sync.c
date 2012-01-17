@@ -109,7 +109,7 @@ pk_task_update_system_sync (PkTask *task, GCancellable *cancellable,
  * pk_task_remove_packages_sync:
  * @task: a valid #PkTask instance
  * @package_ids: (array zero-terminated=1): a null terminated array of package_id structures such as "hal;0.0.1;i386;fedora"
- * @allow_deps: if other dependant packages are allowed to be removed from the computer
+ * @allow_deps: if other dependent packages are allowed to be removed from the computer
  * @autoremove: if other packages installed at the same time should be tried to remove
  * @cancellable: a #GCancellable or %NULL
  * @progress_callback: the function to run when the progress changes
@@ -715,7 +715,7 @@ pk_task_get_updates_sync (PkTask *task, PkBitfield filters, GCancellable *cancel
  * @progress_user_data: data to pass to @progress_callback
  * @error: the #GError to store any failure, or %NULL
  *
- * Get the list of dependant packages.
+ * Get the list of dependent packages.
  *
  * Since: 0.6.5
  **/
@@ -1150,3 +1150,52 @@ pk_task_repo_enable_sync (PkTask *task, const gchar *repo_id, gboolean enabled, 
 	return results;
 }
 
+/**
+ * pk_task_repair_system_sync:
+ * @task: a valid #PkTask instance
+ * @cancellable: a #GCancellable or %NULL
+ * @progress_callback: the function to run when the progress changes
+ * @progress_user_data: data to pass to @progress_callback
+ * @error: the #GError to store any failure, or %NULL
+ *
+ * Recover from broken dependencies of installed packages or incomplete
+ * installations.
+ *
+ * Warning: this function is synchronous, and may block. Do not use it in GUI
+ * applications.
+ *
+ * Return value: a %PkResults object, or NULL for error
+ *
+ * Since: 0.7.2
+ **/
+PkResults *
+pk_task_repair_system_sync (PkTask *task, GCancellable *cancellable,
+                            PkProgressCallback progress_callback, gpointer progress_user_data,
+                            GError **error)
+{
+	PkTaskHelper *helper;
+	PkResults *results;
+
+	g_return_val_if_fail (PK_IS_TASK (task), NULL);
+	g_return_val_if_fail (error == NULL || *error == NULL, NULL);
+
+	/* create temp object */
+	helper = g_new0 (PkTaskHelper, 1);
+	helper->loop = g_main_loop_new (NULL, FALSE);
+	helper->error = error;
+
+	/* run async method */
+	pk_task_repair_system_async (task, cancellable, progress_callback, progress_user_data,
+	                             (GAsyncReadyCallback) pk_task_generic_finish_sync,
+	                             helper);
+
+	g_main_loop_run (helper->loop);
+
+	results = helper->results;
+
+	/* free temp object */
+	g_main_loop_unref (helper->loop);
+	g_free (helper);
+
+	return results;
+}

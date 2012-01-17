@@ -39,7 +39,9 @@ DIST_COMMON = README $(am__configure_deps) $(srcdir)/Makefile.am \
 	$(top_srcdir)/configure AUTHORS COPYING ChangeLog INSTALL NEWS \
 	TODO build-aux/compile build-aux/config.guess \
 	build-aux/config.sub build-aux/depcomp build-aux/install-sh \
-	build-aux/ltmain.sh build-aux/missing build-aux/py-compile
+	build-aux/ltmain.sh build-aux/missing build-aux/py-compile \
+	compile config.guess config.sub depcomp install-sh ltmain.sh \
+	missing py-compile
 ACLOCAL_M4 = $(top_srcdir)/aclocal.m4
 am__aclocal_m4_deps = $(top_srcdir)/m4/gtk-doc.m4 \
 	$(top_srcdir)/m4/intltool.m4 $(top_srcdir)/m4/libtool.m4 \
@@ -145,8 +147,6 @@ CXXFLAGS = @CXXFLAGS@
 CYGPATH_W = @CYGPATH_W@
 DATADIR = @DATADIR@
 DATADIRNAME = @DATADIRNAME@
-DBUS_CFLAGS = @DBUS_CFLAGS@
-DBUS_LIBS = @DBUS_LIBS@
 DBUS_SERVICES_DIR = @DBUS_SERVICES_DIR@
 DBUS_SYS_DIR = @DBUS_SYS_DIR@
 DEFAULT_BACKEND = @DEFAULT_BACKEND@
@@ -387,6 +387,9 @@ SUBDIRS = \
 	backends					\
 	contrib						\
 	docs
+
+GITIGNOREFILES = \
+	.moc.version
 
 DISTCLEANFILES = \
 	PackageKit-*.tar.*

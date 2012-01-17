@@ -106,8 +106,7 @@ LTLIBRARIES = $(lib_LTLIBRARIES)
 am__DEPENDENCIES_1 =
 libpackagekit_glib2_la_DEPENDENCIES = $(am__DEPENDENCIES_1) \
 	$(am__DEPENDENCIES_1) $(am__DEPENDENCIES_1) \
-	$(am__DEPENDENCIES_1) $(am__DEPENDENCIES_1) \
-	$(am__DEPENDENCIES_1)
+	$(am__DEPENDENCIES_1) $(am__DEPENDENCIES_1)
 am_libpackagekit_glib2_la_OBJECTS =  \
 	libpackagekit_glib2_la-pk-bitfield.lo \
 	libpackagekit_glib2_la-pk-catalog.lo \
@@ -162,7 +161,6 @@ pk_self_test_OBJECTS = $(am_pk_self_test_OBJECTS)
 @EGG_BUILD_TESTS_TRUE@pk_self_test_DEPENDENCIES =  \
 @EGG_BUILD_TESTS_TRUE@	libpackagekit-glib2.la \
 @EGG_BUILD_TESTS_TRUE@	libpackagekitprivate.a \
-@EGG_BUILD_TESTS_TRUE@	$(am__DEPENDENCIES_1) \
 @EGG_BUILD_TESTS_TRUE@	$(am__DEPENDENCIES_1) \
 @EGG_BUILD_TESTS_TRUE@	$(am__DEPENDENCIES_1) \
 @EGG_BUILD_TESTS_TRUE@	$(am__DEPENDENCIES_1) \
@@ -248,8 +246,6 @@ CXXFLAGS = @CXXFLAGS@
 CYGPATH_W = @CYGPATH_W@
 DATADIR = @DATADIR@
 DATADIRNAME = @DATADIRNAME@
-DBUS_CFLAGS = @DBUS_CFLAGS@
-DBUS_LIBS = @DBUS_LIBS@
 DBUS_SERVICES_DIR = @DBUS_SERVICES_DIR@
 DBUS_SYS_DIR = @DBUS_SYS_DIR@
 DEFAULT_BACKEND = @DEFAULT_BACKEND@
@@ -482,7 +478,6 @@ NULL =
 @HAVE_INTROSPECTION_TRUE@INTROSPECTION_COMPILER_ARGS = --includedir=$(srcdir)
 INCLUDES = \
 	$(GLIB_CFLAGS)						\
-	$(DBUS_CFLAGS)						\
 	$(GIO_CFLAGS)						\
 	$(POLKIT_CFLAGS)					\
 	$(SQLITE_CFLAGS)					\
@@ -626,7 +621,6 @@ libpackagekit_glib2_la_SOURCES = \
 libpackagekit_glib2_la_LIBADD = \
 	$(GLIB_LIBS)						\
 	$(GIO_LIBS)						\
-	$(DBUS_LIBS)						\
 	$(ARCHIVE_LIBS)						\
 	$(SQLITE_LIBS)						\
 	$(NULL)
@@ -672,7 +666,6 @@ pk_socket_example_CFLAGS = $(WARNINGFLAGS_C)
 @EGG_BUILD_TESTS_TRUE@	libpackagekit-glib2.la					\
 @EGG_BUILD_TESTS_TRUE@	libpackagekitprivate.a					\
 @EGG_BUILD_TESTS_TRUE@	$(GLIB_LIBS)						\
-@EGG_BUILD_TESTS_TRUE@	$(DBUS_LIBS)						\
 @EGG_BUILD_TESTS_TRUE@	$(SELFTEST_LIBS)					\
 @EGG_BUILD_TESTS_TRUE@	$(POLKIT_LIBS)						\
 @EGG_BUILD_TESTS_TRUE@	$(SQLITE_LIBS)						\

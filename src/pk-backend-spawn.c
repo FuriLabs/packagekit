@@ -313,7 +313,7 @@ pk_backend_spawn_parse_stdout (PkBackendSpawn *backend_spawn, const gchar *line,
 			pk_backend_set_sub_percentage (priv->backend, percentage);
 		}
 	} else if (g_strcmp0 (command, "item-percentage") == 0) {
-		if (size != 2) {
+		if (size != 3) {
 			g_set_error (error, 1, 0, "invalid command'%s', size %i", command, size);
 			ret = FALSE;
 			goto out;
@@ -824,6 +824,11 @@ pk_backend_spawn_get_envp (PkBackendSpawn *backend_spawn)
 	locale = pk_backend_get_locale (priv->backend);
 	if (!pk_strzero (locale))
 		g_hash_table_replace (env_table, g_strdup ("LANG"), g_strdup (locale));
+
+	/* FRONTEND SOCKET */
+	value = pk_backend_get_frontend_socket (priv->backend);
+	if (!pk_strzero (value))
+		g_hash_table_replace (env_table, g_strdup ("FRONTEND_SOCKET"), g_strdup (value));
 
 	/* ROOT */
 	value = pk_backend_get_root (priv->backend);

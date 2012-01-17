@@ -26,7 +26,6 @@
 #include <glib.h>
 #include <glib/gi18n.h>
 #include <packagekit-glib2/packagekit.h>
-#include <dbus/dbus-glib.h>
 
 static PkClient *client = NULL;
 
@@ -377,10 +376,11 @@ main (int argc, char *argv[])
 	bind_textdomain_codeset (GETTEXT_PACKAGE, "UTF-8");
 	textdomain (GETTEXT_PACKAGE);
 
+#if (GLIB_MAJOR_VERSION == 2 && GLIB_MINOR_VERSION < 31)
 	if (! g_thread_supported ())
 		g_thread_init (NULL);
+#endif
 	g_type_init ();
-	dbus_g_thread_init ();
 
 	context = g_option_context_new (NULL);
 	/* TRANSLATORS: this is a program that monitors PackageKit */

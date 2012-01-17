@@ -26,7 +26,6 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <glib/gi18n.h>
-#include <dbus/dbus-glib.h>
 #include <packagekit-glib2/packagekit.h>
 #include <packagekit-glib2/packagekit-private.h>
 #include <sys/types.h>
@@ -1220,6 +1219,8 @@ pk_console_get_summary (void)
 		g_string_append_printf (string, "  %s\n", "accept-eula [eula-id]");
 	if (pk_bitfield_contain (roles, PK_ROLE_ENUM_GET_CATEGORIES))
 		g_string_append_printf (string, "  %s\n", "get-categories");
+	if (pk_bitfield_contain (roles, PK_ROLE_ENUM_REPAIR_SYSTEM))
+		g_string_append_printf (string, "  %s\n", "repair");
 	return g_string_free (string, FALSE);
 }
 
@@ -1312,10 +1313,11 @@ main (int argc, char *argv[])
 	bind_textdomain_codeset (GETTEXT_PACKAGE, "UTF-8");
 	textdomain (GETTEXT_PACKAGE);
 
+#if (GLIB_MAJOR_VERSION == 2 && GLIB_MINOR_VERSION < 31)
 	if (! g_thread_supported ())
 		g_thread_init (NULL);
+#endif
 	g_type_init ();
-	dbus_g_thread_init ();
 
 	/* do stuff on ctrl-c */
 	signal (SIGINT, pk_console_sigint_cb);
@@ -1782,6 +1784,11 @@ main (int argc, char *argv[])
 		pk_task_refresh_cache_async (PK_TASK (task), force, cancellable,
 					     (PkProgressCallback) pk_console_progress_cb, NULL,
 					     (GAsyncReadyCallback) pk_console_finished_cb, NULL);
+
+	} else if (strcmp (mode, "repair") == 0) {
+		pk_task_repair_system_async (PK_TASK(task), cancellable,
+		                             (PkProgressCallback) pk_console_progress_cb, NULL,
+		                             (GAsyncReadyCallback) pk_console_finished_cb, NULL);
 
 	} else {
 		/* TRANSLATORS: The user tried to use an unsupported option on the command line */

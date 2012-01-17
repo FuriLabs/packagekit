@@ -171,6 +171,15 @@ class PackageKitBaseBackend:
         print("speed\t%i" % (bps))
         sys.stdout.flush()
 
+    def item_percentage(self, package_id, percent=None):
+        '''
+        send 'itemprogress' signal
+        @param package_id: The package ID name, e.g. openoffice-clipart;2.6.22;ppc64;fedora
+        @param percent: percentage of the current item (int preferred)
+        '''
+        print("item-percentage\t%s\t%i" % (package_id, percent))
+        sys.stdout.flush()
+
     def sub_percentage(self, percent=None):
         '''
         send 'subpercentage' signal : subprogress percentage
@@ -612,6 +621,22 @@ class PackageKitBaseBackend:
         '''
         self.error(ERROR_NOT_SUPPORTED, "This function is not implemented in this backend", exit=False)
 
+    def repair_system(self, only_trusted):
+        '''
+        Implement the {backend}-repair-system functionality
+        Needed to be implemented in a sub class
+        '''
+        self.error(ERROR_NOT_SUPPORTED, "This function is not implemented in this backend",
+                   exit=False)
+
+    def simulate_repair_system(self):
+        '''
+        Implement the {backend}-simulate-repair-system functionality
+        Needed to be implemented in a sub class
+        '''
+        self.error(ERROR_NOT_SUPPORTED, "This function is not implemented in this backend",
+                   exit=False)
+
     def customTracebackHandler(self, tb):
         '''
         Custom Traceback Handler
@@ -783,6 +808,12 @@ class PackageKitBaseBackend:
             self.finished()
         elif cmd == 'upgrade-system':
             self.upgrade_system(args[0])
+            self.finished()
+        elif cmd == 'repair-system':
+            self.repair_system(args[0])
+            self.finished()
+        elif cmd == 'simulate-repair-system':
+            self.simulate_repair_system()
             self.finished()
         else:
             errmsg = "command '%s' is not known" % cmd

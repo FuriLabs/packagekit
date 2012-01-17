@@ -27,6 +27,8 @@
 #include "acqprogress.h"
 #include "pkg_acqfile.h"
 #include "aptcc_show_error.h"
+#include "deb-file.h"
+#include "dpkgpm.h"
 
 #include <apt-pkg/error.h>
 #include <apt-pkg/tagfile.h>
@@ -35,6 +37,7 @@
 #include <apt-pkg/sptr.h>
 #include <apt-pkg/pkgsystem.h>
 #include <apt-pkg/version.h>
+#include <apt-pkg/aptconfiguration.h>
 
 #include <sys/statvfs.h>
 #include <sys/statfs.h>
@@ -70,6 +73,8 @@ bool aptcc::init()
 	gchar *locale;
 	gchar *http_proxy;
 	gchar *ftp_proxy;
+
+    m_isMultiArch = APT::Configuration::getArchitectures(false).size() > 1;
 
 	// Set PackageKit status
 	pk_backend_set_status(m_backend, PK_STATUS_ENUM_LOADING_CACHE);
@@ -166,6 +171,8 @@ aptcc::~aptcc()
 		delete packageSourceList;
 	}
 
+    pk_backend_finished(m_backend);
+
 	delete Map;
 }
 
@@ -190,7 +197,10 @@ pair<pkgCache::PkgIterator, pkgCache::VerIterator>
     found = true;
 
 	parts = pk_package_id_split (package_id);
-	pkg_ver.first = packageCache->FindPkg(parts[PK_PACKAGE_ID_NAME]);
+    gchar *pkgNameArch;
+    pkgNameArch = g_strdup_printf("%s:%s", parts[PK_PACKAGE_ID_NAME], parts[PK_PACKAGE_ID_ARCH]);
+    pkg_ver.first = packageCache->FindPkg(pkgNameArch);
+    g_free(pkgNameArch);
 
 	// Ignore packages that could not be found or that exist only due to dependencies.
 	if (pkg_ver.first.end() == true ||
@@ -264,6 +274,17 @@ void aptcc::emit_package(const pkgCache::PkgIterator &pkg,
 			state = PK_INFO_ENUM_AVAILABLE;
 		}
 	}
+
+    if (m_isMultiArch &&
+        (pk_bitfield_contain(filters, PK_FILTER_ENUM_ARCH) &&
+         state == PK_INFO_ENUM_AVAILABLE)) {
+        // don't emit the package if it does not match
+        // the native architecture
+        if (strcmp(ver.Arch(), "all") != 0 &&
+            strcmp(ver.Arch(), _config->Find("APT::Architecture").c_str()) != 0) {
+            return;
+        }
+    }
 
 	if (filters != 0) {
 		std::string str = ver.Section() == NULL ? "" : ver.Section();
@@ -355,7 +376,7 @@ void aptcc::emit_package(const pkgCache::PkgIterator &pkg,
         g_free(package_id);
 }
 
-void aptcc::emit_packages(vector<pair<pkgCache::PkgIterator, pkgCache::VerIterator> > &output,
+void aptcc::emit_packages(PkgList &output,
 			  PkBitfield filters,
 			  PkInfoEnum state)
 {
@@ -377,8 +398,7 @@ void aptcc::emit_packages(vector<pair<pkgCache::PkgIterator, pkgCache::VerIterat
 	}
 }
 
-void aptcc::emitUpdates(vector<pair<pkgCache::PkgIterator, pkgCache::VerIterator> > &output,
-			 PkBitfield filters)
+void aptcc::emitUpdates(PkgList &output, PkBitfield filters)
 {
 	PkInfoEnum state;
 	// Sort so we can remove the duplicated entries
@@ -424,8 +444,7 @@ void aptcc::emitUpdates(vector<pair<pkgCache::PkgIterator, pkgCache::VerIterator
 }
 
 // search packages which provide a codec (specified in "values")
-void aptcc::providesCodec(vector<pair<pkgCache::PkgIterator, pkgCache::VerIterator> > &output,
-                         gchar **values)
+void aptcc::providesCodec(PkgList &output, gchar **values)
 {
     GstMatcher *matcher = new GstMatcher(values);
     if (!matcher->hasMatches()) {
@@ -467,8 +486,7 @@ void aptcc::providesCodec(vector<pair<pkgCache::PkgIterator, pkgCache::VerIterat
 }
 
 // search packages which provide the libraries specified in "values"
-void aptcc::providesLibrary(vector<pair<pkgCache::PkgIterator, pkgCache::VerIterator> > &output,
-                         gchar **values)
+void aptcc::providesLibrary(PkgList &output, gchar **values)
 {
 	bool ret = false;
 	// Quick-check for library names
@@ -538,7 +556,7 @@ void aptcc::providesLibrary(vector<pair<pkgCache::PkgIterator, pkgCache::VerIter
 }
 
 // used to emit packages it collects all the needed info
-void aptcc::emit_details(const pkgCache::PkgIterator &pkg, const pkgCache::VerIterator &version)
+void aptcc::emitDetails(const pkgCache::PkgIterator &pkg, const pkgCache::VerIterator &version)
 {
     pkgCache::VerIterator ver;
     if (version.end() == false) {
@@ -580,8 +598,26 @@ void aptcc::emit_details(const pkgCache::PkgIterator &pkg, const pkgCache::VerIt
     g_free(package_id);
 }
 
+void aptcc::emitDetails(PkgList &pkgs)
+{
+    // Sort so we can remove the duplicated entries
+    sort(pkgs.begin(), pkgs.end(), compare());
+    // Remove the duplicated entries
+    pkgs.erase(unique(pkgs.begin(), pkgs.end(), result_equality()),
+               pkgs.end());
+
+    for(PkgList::iterator i = pkgs.begin(); i != pkgs.end(); ++i)
+    {
+        if (_cancel) {
+            break;
+        }
+
+        emitDetails(i->first, i->second);
+    }
+}
+
 // used to emit packages it collects all the needed info
-void aptcc::emit_update_detail(const pkgCache::PkgIterator &pkg, const pkgCache::VerIterator &version)
+void aptcc::emitUpdateDetails(const pkgCache::PkgIterator &pkg, const pkgCache::VerIterator &version)
 {
     // Get the version of the current package
     pkgCache::VerIterator currver = find_ver(pkg);
@@ -821,7 +857,19 @@ void aptcc::emit_update_detail(const pkgCache::PkgIterator &pkg, const pkgCache:
     g_free(package_id);
 }
 
-void aptcc::get_depends(vector<pair<pkgCache::PkgIterator, pkgCache::VerIterator> > &output,
+void aptcc::emitUpdateDetails(PkgList &pkgs)
+{
+    for(PkgList::iterator i = pkgs.begin(); i != pkgs.end(); ++i)
+    {
+        if (_cancel) {
+            break;
+        }
+
+        emitUpdateDetails(i->first, i->second);
+    }
+}
+
+void aptcc::get_depends(PkgList &output,
 			pkgCache::PkgIterator pkg,
 			bool recursive)
 {
@@ -849,7 +897,7 @@ void aptcc::get_depends(vector<pair<pkgCache::PkgIterator, pkgCache::VerIterator
 	}
 }
 
-void aptcc::get_requires(vector<pair<pkgCache::PkgIterator, pkgCache::VerIterator> > &output,
+void aptcc::get_requires(PkgList &output,
 			pkgCache::PkgIterator pkg,
 			bool recursive)
 {
@@ -1005,7 +1053,7 @@ vector<string> searchMimeType (PkBackend *backend, gchar **values, bool &error, 
 }
 
 // used to emit files it reads the info directly from the files
-void emit_files (PkBackend *backend, const gchar *pi)
+void aptcc::emitFiles(PkBackend *backend, const gchar *pi)
 {
 	static string filelist;
 	string line;
@@ -1014,13 +1062,22 @@ void emit_files (PkBackend *backend, const gchar *pi)
 	parts = pk_package_id_split (pi);
 	filelist.erase(filelist.begin(), filelist.end());
 
-	string f = "/var/lib/dpkg/info/" +
-		   string(parts[PK_PACKAGE_ID_NAME]) +
-		   ".list";
-	g_strfreev (parts);
+    string fName;
+    if (m_isMultiArch) {
+         fName = "/var/lib/dpkg/info/" +
+                 string(parts[PK_PACKAGE_ID_NAME]) +
+                 ":" +
+                 string(parts[PK_PACKAGE_ID_ARCH]) +
+                 ".list";
+    } else {
+        fName = "/var/lib/dpkg/info/" +
+                string(parts[PK_PACKAGE_ID_NAME]) +
+                ".list";
+    }
+    g_strfreev (parts);
 
-	if (FileExists(f)) {
-		ifstream in(f.c_str());
+	if (FileExists(fName)) {
+		ifstream in(fName.c_str());
 		if (!in != 0) {
 			return;
 		}
@@ -1370,7 +1427,6 @@ void aptcc::updateInterface(int fd, int writeFd)
 
                 gchar *filename;
                 filename = g_build_filename(DATADIR, "PackageKit", "helpers", "aptcc", "pkconffile", NULL);
-                gint exit_code;
                 gchar **argv;
                 gchar **envp;
                 GError *error = NULL;
@@ -1395,6 +1451,7 @@ void aptcc::updateInterface(int fd, int writeFd)
                 }
 
                 gboolean ret;
+                gint exitStatus;
                 ret = g_spawn_sync(NULL, // working dir
                              argv, // argv
                              envp, // envp
@@ -1403,9 +1460,10 @@ void aptcc::updateInterface(int fd, int writeFd)
                              NULL, // user_data
                              NULL, // standard_output
                              NULL, // standard_error
-                             &exit_code,
+                             &exitStatus,
                              &error);
 
+                int exit_code = WEXITSTATUS(exitStatus);
                 cout << filename << " " << exit_code << " ret: "<< ret << endl;
 
                 if (exit_code == 10) {
@@ -1621,9 +1679,119 @@ bool aptcc::DoAutomaticRemove(pkgCacheFile &Cache)
 	return true;
 }
 
-bool aptcc::runTransaction(vector<pair<pkgCache::PkgIterator, pkgCache::VerIterator> > &pkgs,
-			   bool simulate,
-			   bool remove)
+PkgList aptcc::resolvePI(gchar **package_ids)
+{
+    gchar *pi;
+    PkgList ret;
+
+    pk_backend_set_status (m_backend, PK_STATUS_ENUM_QUERY);
+    for (uint i = 0; i < g_strv_length(package_ids); i++) {
+        if (_cancel) {
+            break;
+        }
+
+        PkgPair pair;
+        pi = package_ids[i];
+
+        if (pk_package_id_check(pi) == false) {
+            pair.first = packageCache->FindPkg(pi);
+            // Ignore packages that could not be found or that exist only due to dependencies.
+            if (pair.first.end() == true ||
+                (pair.first.VersionList().end() && pair.first.ProvidesList().end())) {
+                continue;
+            }
+
+            pair.second = find_ver(pair.first);
+            // check to see if the provided package isn't virtual too
+            if (pair.second.end() == false) {
+                ret.push_back(pair);
+            }
+
+            pair.second = find_candidate_ver(pair.first);
+            // check to see if the provided package isn't virtual too
+            if (pair.second.end() == false) {
+                ret.push_back(pair);
+            }
+        } else {
+            bool found;
+            pair = find_package_id(pi, found);
+            // check to see if we found the package
+            if (found) {
+                ret.push_back(pair);
+            }
+        }
+    }
+    return ret;
+}
+
+bool aptcc::markDebFileForInstall(const gchar *file, PkgList &install, PkgList &remove)
+{
+    // We call gdebi to tell us what do we need to install/remove
+    // in order to be able to install this package
+    gint status;
+    gchar **argv;
+    gchar **envp;
+    gchar *std_out;
+    gchar *std_err;
+    GError *gerror = NULL;
+    argv = (gchar **) g_malloc(5 * sizeof(gchar *));
+    argv[0] = g_strdup("/usr/bin/gdebi");
+    argv[1] = g_strdup("-q");
+    argv[2] = g_strdup("--apt-line");
+    argv[3] = g_strdup(file);
+    argv[4] = NULL;
+
+    gboolean ret;
+    ret = g_spawn_sync(NULL, // working dir
+                    argv, // argv
+                    envp, // envp
+                    G_SPAWN_LEAVE_DESCRIPTORS_OPEN,
+                    NULL, // child_setup
+                    NULL, // user_data
+                    &std_out, // standard_output
+                    &std_err, // standard_error
+                    &status,
+                    &gerror);
+    int exit_code = WEXITSTATUS(status);
+//     cout << "DebStatus " << exit_code << " WEXITSTATUS " << WEXITSTATUS(status) << " ret: "<< ret << endl;
+    cout << "std_out " << strlen(std_out) << std_out << endl;
+    cout << "std_err " << strlen(std_err) << std_err << endl;
+
+    PkgList pkgs;
+    if (exit_code == 1) {
+        if (strlen(std_out) == 0) {
+            pk_backend_error_code(m_backend, PK_ERROR_ENUM_TRANSACTION_ERROR, std_err);
+        } else {
+            pk_backend_error_code(m_backend, PK_ERROR_ENUM_TRANSACTION_ERROR, std_out);
+        }
+        return false;
+    } else {
+        // GDebi outputs two lines
+        gchar **lines = g_strsplit(std_out, "\n", 3);
+
+        // The first line contains the packages to install
+        gchar **installPkgs = g_strsplit(lines[0], " ", 0);
+
+        // The second line contains the packages to remove with '-' appended to
+        // the end of the package name
+        gchar *removeStr = g_strndup(lines[1], strlen(lines[1]) - 1);
+        gchar **removePkgs = g_strsplit(removeStr, "- ", 0);
+
+        // Store the changes
+        install = resolvePI(installPkgs);
+        remove = resolvePI(removePkgs);
+        m_localDebFile = file;
+        
+        g_free(removeStr);
+        g_strfreev(lines);
+        g_strfreev(installPkgs);
+        g_strfreev(removePkgs);
+    }
+
+    return true;
+}
+
+bool aptcc::runTransaction(PkgList &install, PkgList &remove, bool simulate)
 {
 	//cout << "runTransaction" << simulate << remove << endl;
 	bool WithLock = !simulate; // Check to see if we are just simulating,
@@ -1660,24 +1828,37 @@ bool aptcc::runTransaction(vector<pair<pkgCache::PkgIterator, pkgCache::VerItera
 	// new scope for the ActionGroup
 	{
 		pkgDepCache::ActionGroup group(Cache);
-		for(vector<pair<pkgCache::PkgIterator, pkgCache::VerIterator> >::iterator i=pkgs.begin();
-		    i != pkgs.end();
-		    ++i)
-		{
-			pkgCache::PkgIterator Pkg = i->first;
-			if (_cancel) {
-				break;
-			}
+        for(PkgList::iterator i = install.begin(); i != install.end(); ++i) {
+            pkgCache::PkgIterator Pkg = i->first;
+            if (_cancel) {
+                break;
+            }
 
-			if (TryToInstall(Pkg,
-					 Cache,
-					 Fix,
-					 remove,
-					 BrokenFix,
-					 ExpectedInst) == false) {
-				return false;
-			}
-		}
+            if (TryToInstall(Pkg,
+                     Cache,
+                     Fix,
+                     false, // remove
+                     BrokenFix,
+                     ExpectedInst) == false) {
+                return false;
+            }
+        }
+        
+        for(PkgList::iterator i = remove.begin(); i != remove.end(); ++i) {
+            pkgCache::PkgIterator Pkg = i->first;
+            if (_cancel) {
+                break;
+            }
+
+            if (TryToInstall(Pkg,
+                     Cache,
+                     Fix,
+                     true, // remove
+                     BrokenFix,
+                     ExpectedInst) == false) {
+                return false;
+            }
+        }
 
 		// Call the scored problem resolver
 		Fix.InstallProtect();
@@ -1788,7 +1969,8 @@ bool aptcc::installPackages(pkgCacheFile &Cache)
 	fetcher.Setup(&Stat);
 
 	// Create the package manager and prepare to download
-	SPtr<pkgPackageManager> PM= _system->CreatePM(Cache);
+//     SPtr<pkgPackageManager> PM= _system->CreatePM(Cache);
+    SPtr<pkgPackageManager> PM = new pkgDebDPkgPM(Cache);
 	if (PM->GetArchives(&fetcher, packageSourceList, &Recs) == false ||
 	    _error->PendingError() == true) {
 		return false;
@@ -1909,6 +2091,12 @@ cout << "How odd.. The sizes didn't match, email apt@packages.debian.org";
 	// we could try to see if this is the case
 	setenv("PATH", "/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin", 1);
 	_system->UnLock();
+
+    if (!m_localDebFile.empty()) {
+        // add the local file name to be proccessed by the PM queue
+        pkgDebDPkgPM *pm = static_cast<pkgDebDPkgPM*>(&*PM);
+        pm->addDebFile(m_localDebFile);
+    }
 
 	pkgPackageManager::OrderResult res;
 	res = PM->DoInstallPreFork();

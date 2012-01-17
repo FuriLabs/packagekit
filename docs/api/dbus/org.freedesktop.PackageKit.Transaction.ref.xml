@@ -69,6 +69,8 @@
                          in  'as' values)
 <link linkend="Transaction.UpgradeSystem">UpgradeSystem</link>           (in  's'  distro_id,
                          in  's'  upgrade_kind)
+<link linkend="Transaction.SimulateRepairSystem">SimulateRepairSystem</link>    ()
+<link linkend="Transaction.RepairSystem">RepairSystem</link>            (in  'b'  only_trusted)
 </synopsis>
   </refsynopsisdiv>
   <refsect1 role="signal_proto">
@@ -1108,6 +1110,43 @@
               The default is to download enough data to launch a full
               graphical installer, but a complete upgrade will be
               required if there is no internet access during install time.
+            
+          </simpara></listitem></varlistentry></variablelist><refsect2><title><anchor role="function" id="Transaction.SimulateRepairSystem"/>SimulateRepairSystem ()</title><indexterm><primary>SimulateRepairSystem</primary><secondary>Transaction</secondary></indexterm><programlisting>SimulateRepairSystem ()</programlisting></refsect2>
+          <para>
+            This method simulates recovering the package management system from e.g.
+            unsatisfied dependencies of installed packages emitting packages required to be
+            installed, removed, updated, reinstalled, downgraded, obsoleted or untrusted.
+            The latter is used to present the user untrusted packages that are about to be installed.
+          </para>
+          <para>
+            This method typically emits
+            Progress,
+            Status and
+            Error and
+            Package.
+          </para>
+        <variablelist role="params"/><refsect2><title><anchor role="function" id="Transaction.RepairSystem"/>RepairSystem ()</title><indexterm><primary>RepairSystem</primary><secondary>Transaction</secondary></indexterm><programlisting>RepairSystem (in  'b' only_trusted)</programlisting></refsect2>
+          <para>
+            This method recovers the package management system from e.g.
+            unsatisfied dependencies of installed packages.
+          </para>
+          <para>
+            This method typically emits
+            Progress,
+            Status and
+            Error and
+            Package.
+          </para>
+        <variablelist role="params"><varlistentry><term><parameter>only_trusted</parameter>:</term><listitem><simpara>
+            
+              If the transaction is only allowed to install trusted packages.
+              Unsigned packages should not be installed if this parameter is TRUE.
+            
+            
+              If this method is can only install trusted packages, and the packages are unsigned, then
+              the backend will send a ErrorCode(missing-gpg-signature).
+              On recieving this error, the client may choose to retry with only_trusted FALSE
+              after gaining further authentication.
             
           </simpara></listitem></varlistentry></variablelist></refsect1>
   <refsect1 role="signals"><title role="signals.title">Signal Details</title><refsect2><title><anchor role="function" id="Transaction::Category"/>The Category signal</title><indexterm><primary>Category</primary><secondary>Transaction</secondary></indexterm><programlisting>Category ('s' parent_id,

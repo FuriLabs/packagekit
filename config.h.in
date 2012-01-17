@@ -42,6 +42,9 @@
 /* Define if your <locale.h> file defines LC_MESSAGES. */
 #undef HAVE_LC_MESSAGES
 
+/* Define to 1 if you have the `apt-inst' library (-lapt-inst). */
+#undef HAVE_LIBAPT_INST
+
 /* Define to 1 if you have the `apt-pkg' library (-lapt-pkg). */
 #undef HAVE_LIBAPT_PKG
 
@@ -50,6 +53,12 @@
 
 /* Define to 1 if you have the <memory.h> header file. */
 #undef HAVE_MEMORY_H
+
+/* "Meta release is available" */
+#undef HAVE_PYTHON_META_RELEASE
+
+/* "Python software properties is available" */
+#undef HAVE_PYTHON_SOFTWARE_PROPERTIES
 
 /* Define to 1 if you have the `setpriority' function. */
 #undef HAVE_SETPRIORITY

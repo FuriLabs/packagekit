@@ -82,6 +82,8 @@ am_libpk_backend_aptcc_la_OBJECTS =  \
 	libpk_backend_aptcc_la-aptcc_show_error.lo \
 	libpk_backend_aptcc_la-apt-utils.lo \
 	libpk_backend_aptcc_la-acqprogress.lo \
+	libpk_backend_aptcc_la-deb-file.lo \
+	libpk_backend_aptcc_la-dpkgpm.lo \
 	libpk_backend_aptcc_la-matcher.lo \
 	libpk_backend_aptcc_la-gstMatcher.lo \
 	libpk_backend_aptcc_la-rsources.lo \
@@ -159,8 +161,6 @@ CXXFLAGS = @CXXFLAGS@
 CYGPATH_W = @CYGPATH_W@
 DATADIR = @DATADIR@
 DATADIRNAME = @DATADIRNAME@
-DBUS_CFLAGS = @DBUS_CFLAGS@
-DBUS_LIBS = @DBUS_LIBS@
 DBUS_SERVICES_DIR = @DBUS_SERVICES_DIR@
 DBUS_SYS_DIR = @DBUS_SYS_DIR@
 DEFAULT_BACKEND = @DEFAULT_BACKEND@
@@ -398,13 +398,15 @@ libpk_backend_aptcc_la_SOURCES = pkg_acqfile.cpp \
 				 aptcc_show_error.cpp \
 				 apt-utils.cpp \
 				 acqprogress.cpp \
+				 deb-file.cpp \
+				 dpkgpm.cpp \
 				 matcher.cpp \
 				 gstMatcher.cpp \
 				 rsources.cpp \
 				 apt.cpp \
 				 pk-backend-aptcc.cpp
 
-libpk_backend_aptcc_la_LIBADD = -lcrypt -lapt-pkg $(PK_PLUGIN_LIBS)
+libpk_backend_aptcc_la_LIBADD = -lcrypt -lapt-pkg -lapt-inst $(PK_PLUGIN_LIBS)
 libpk_backend_aptcc_la_LDFLAGS = -module -avoid-version $(APTCC_LIBS) $(GSTREAMER_LIBS)
 libpk_backend_aptcc_la_CFLAGS = $(PK_PLUGIN_CFLAGS)
 libpk_backend_aptcc_la_CPPFLAGS = $(PK_PLUGIN_CFLAGS) $(APTCC_CFLAGS) $(GSTREAMER_CFLAGS)
@@ -415,6 +417,8 @@ EXTRA_DIST = 20packagekit \
 	     apt-utils.h \
 	     gstMatcher.h \
 	     matcher.h \
+	     deb-file.h \
+	     dpkgpm.h \
 	     aptcc_show_broken.h \
 	     acqprogress.h \
 	     aptcc_show_error.h \
@@ -507,6 +511,8 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libpk_backend_aptcc_la-apt.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libpk_backend_aptcc_la-aptcc_show_broken.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libpk_backend_aptcc_la-aptcc_show_error.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libpk_backend_aptcc_la-deb-file.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libpk_backend_aptcc_la-dpkgpm.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libpk_backend_aptcc_la-gstMatcher.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libpk_backend_aptcc_la-matcher.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libpk_backend_aptcc_la-pk-backend-aptcc.Plo@am__quote@
@@ -576,6 +582,22 @@ libpk_backend_aptcc_la-acqprogress.lo: acqprogress.cpp
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='acqprogress.cpp' object='libpk_backend_aptcc_la-acqprogress.lo' libtool=yes @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCXX_FALSE@	$(LIBTOOL) $(AM_V_lt) --tag=CXX $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libpk_backend_aptcc_la_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o libpk_backend_aptcc_la-acqprogress.lo `test -f 'acqprogress.cpp' || echo '$(srcdir)/'`acqprogress.cpp
+
+libpk_backend_aptcc_la-deb-file.lo: deb-file.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(LIBTOOL) $(AM_V_lt) --tag=CXX $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libpk_backend_aptcc_la_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT libpk_backend_aptcc_la-deb-file.lo -MD -MP -MF $(DEPDIR)/libpk_backend_aptcc_la-deb-file.Tpo -c -o libpk_backend_aptcc_la-deb-file.lo `test -f 'deb-file.cpp' || echo '$(srcdir)/'`deb-file.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/libpk_backend_aptcc_la-deb-file.Tpo $(DEPDIR)/libpk_backend_aptcc_la-deb-file.Plo
+@am__fastdepCXX_FALSE@	$(AM_V_CXX) @AM_BACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='deb-file.cpp' object='libpk_backend_aptcc_la-deb-file.lo' libtool=yes @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(LIBTOOL) $(AM_V_lt) --tag=CXX $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libpk_backend_aptcc_la_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o libpk_backend_aptcc_la-deb-file.lo `test -f 'deb-file.cpp' || echo '$(srcdir)/'`deb-file.cpp
+
+libpk_backend_aptcc_la-dpkgpm.lo: dpkgpm.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(LIBTOOL) $(AM_V_lt) --tag=CXX $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libpk_backend_aptcc_la_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT libpk_backend_aptcc_la-dpkgpm.lo -MD -MP -MF $(DEPDIR)/libpk_backend_aptcc_la-dpkgpm.Tpo -c -o libpk_backend_aptcc_la-dpkgpm.lo `test -f 'dpkgpm.cpp' || echo '$(srcdir)/'`dpkgpm.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/libpk_backend_aptcc_la-dpkgpm.Tpo $(DEPDIR)/libpk_backend_aptcc_la-dpkgpm.Plo
+@am__fastdepCXX_FALSE@	$(AM_V_CXX) @AM_BACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='dpkgpm.cpp' object='libpk_backend_aptcc_la-dpkgpm.lo' libtool=yes @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(LIBTOOL) $(AM_V_lt) --tag=CXX $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libpk_backend_aptcc_la_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o libpk_backend_aptcc_la-dpkgpm.lo `test -f 'dpkgpm.cpp' || echo '$(srcdir)/'`dpkgpm.cpp
 
 libpk_backend_aptcc_la-matcher.lo: matcher.cpp
 @am__fastdepCXX_TRUE@	$(AM_V_CXX)$(LIBTOOL) $(AM_V_lt) --tag=CXX $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libpk_backend_aptcc_la_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT libpk_backend_aptcc_la-matcher.lo -MD -MP -MF $(DEPDIR)/libpk_backend_aptcc_la-matcher.Tpo -c -o libpk_backend_aptcc_la-matcher.lo `test -f 'matcher.cpp' || echo '$(srcdir)/'`matcher.cpp

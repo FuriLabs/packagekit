@@ -364,12 +364,6 @@ pk_backend_transaction_start (PkBackend *backend)
 	zif_config_set_boolean (priv->config, "background",
 				pk_backend_use_background (backend), NULL);
 
-	/* setup state */
-	zif_state_reset (priv->state);
-
-	/* allow cancelling again */
-	g_cancellable_reset (priv->cancellable);
-
 	/* start with a new transaction */
 #if ZIF_CHECK_VERSION(0,2,4)
 	g_object_get (backend,
@@ -388,6 +382,19 @@ out:
 #endif
 	g_free (http_proxy);
 	return;
+}
+
+/**
+ * pk_backend_transaction_reset:
+ */
+void
+pk_backend_transaction_reset (PkBackend *backend)
+{
+	/* setup state */
+	zif_state_reset (priv->state);
+
+	/* allow cancelling again */
+	g_cancellable_reset (priv->cancellable);
 }
 
 /**
@@ -5347,13 +5354,25 @@ pk_backend_what_provides (PkBackend *backend, PkBitfield filters,
 		} else if (provides == PK_PROVIDES_ENUM_POSTSCRIPT_DRIVER) {
 			g_ptr_array_add (array, g_strdup_printf ("postscriptdriver(%s)", values[i]));
 		} else if (provides == PK_PROVIDES_ENUM_PLASMA_SERVICE) {
-			g_ptr_array_add (array, g_strdup_printf ("plasma4(%s)", values[i]));
+			/* We need to allow the Plasma version to be specified. */
+			if (g_str_has_prefix (values[i], "plasma")) {
+				g_ptr_array_add (array, g_strdup (values[i]));
+			} else {
+				/* For compatibility, we default to plasma4. */
+				g_ptr_array_add (array, g_strdup_printf ("plasma4(%s)", values[i]));
+			}
 		} else if (provides == PK_PROVIDES_ENUM_ANY) {
-			g_ptr_array_add (array, g_strdup_printf ("gstreamer0.10(%s)", values[i]));
-			g_ptr_array_add (array, g_strdup_printf ("font(%s)", values[i]));
-			g_ptr_array_add (array, g_strdup_printf ("mimehandler(%s)", values[i]));
-			g_ptr_array_add (array, g_strdup_printf ("postscriptdriver(%s)", values[i]));
-			g_ptr_array_add (array, g_strdup_printf ("plasma4(%s)", values[i]));
+			/* We need to allow the Plasma version to be specified. */
+			if (g_str_has_prefix (values[i], "plasma")) {
+				g_ptr_array_add (array, g_strdup (values[i]));
+			} else {
+				g_ptr_array_add (array, g_strdup_printf ("gstreamer0.10(%s)", values[i]));
+				g_ptr_array_add (array, g_strdup_printf ("font(%s)", values[i]));
+				g_ptr_array_add (array, g_strdup_printf ("mimehandler(%s)", values[i]));
+				g_ptr_array_add (array, g_strdup_printf ("postscriptdriver(%s)", values[i]));
+				g_ptr_array_add (array, g_strdup_printf ("plasma4(%s)", values[i]));
+				g_ptr_array_add (array, g_strdup_printf ("plasma5(%s)", values[i]));
+			}
 		} else {
 			pk_backend_error_code (backend,
 				       PK_ERROR_ENUM_PROVIDE_TYPE_NOT_SUPPORTED,
