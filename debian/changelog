@@ -34,6 +34,7 @@ packagekit (0.7.2-1) unstable; urgency=low
        spawned backend (Sebastian Heinlein)
   * Fix typo in package description (Closes: #655443)
   * Make backends depend on Python again
+  * Remove patch 01_new_xulrunner: Applied upstream
 
  -- Matthias Klumpp <matthias@tenstral.net>  Tue, 17 Jan 2012 19:02:38 +0100
 
