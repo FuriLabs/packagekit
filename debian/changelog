@@ -1,3 +1,42 @@
+packagekit (0.7.2-1) unstable; urgency=low
+
+  * New upstream release: 0.7.2
+    Highlights of this release (for Debian):
+    - glib: Convert libpackagekit-glib2 from dbus-glib to GDBus
+       (Richard Hughes)
+    - apt: Reintroduce apt backend (Sebastian Heinlein)
+    - aptcc: Add Multi-Arch support (Daniel Nicoletti)
+    - aptcc: Fix crash on get-categories, backend does not support that
+       (Matthias Klumpp)
+    - aptcc: Support for InstallPackageFiles by using gdebi
+       (Daniel Nicoletti) (Closes: #606131)
+    - aptcc: Basic conffile support (Closes: #606025)
+    - Add a new repair-system policy and use it by the corresponding
+       RepairSystem method (Sebastian Heinlein)
+    - Add a transaction_reset backend hook (Richard Hughes)
+    - Add new roles SimulateRepairSystem and RepairSystem
+       (Sebastian Heinlein)
+    - Add possibility to connect/disconnect backend signals (Matthias Klumpp)
+    - Add PropertiesChanged signals to the main and transaction
+       interfaces (Richard Hughes)
+    - Allow the Plasma version to be specified for
+       PK_PROVIDES_ENUM_PLASMA_SERVICE (Kevin Kofler)
+    - browser-plugin: Make it compile with newest xulrunner
+       (Matthias Klumpp)
+    - Fix a critical warning in the client tools when a simulation
+       is cancelled (Richard Hughes)
+    - Fix item-percentage call in the spawned backend (Sebastian Heinlein)
+    - gtk-plugin: Fix name of GTK plugin schema file
+       (Matthias Klumpp) (Closes: #649377)
+    - Make PkProc part of the daemon (Matthias Klumpp) (LP: #898891)
+    - Remove deprecated g_thread_init() on GLib < 2.31 (Per Øyvind Karlsen)
+    - Set the frontend socket as environment variable in the
+       spawned backend (Sebastian Heinlein)
+  * Fix typo in package description (Closes: #655443)
+  * Make backends depend on Python again
+
+ -- Matthias Klumpp <matthias@tenstral.net>  Tue, 17 Jan 2012 19:02:38 +0100
+
 packagekit (0.7.1-2) unstable; urgency=low
 
   * Remove /var/lib/PackageKit on purge (Closes: #648455)
