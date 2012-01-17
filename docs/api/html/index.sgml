@@ -63,6 +63,8 @@
 <ANCHOR id="Transaction.UpdateSystem" href="PackageKit/Transaction.html#Transaction.UpdateSystem">
 <ANCHOR id="Transaction.WhatProvides" href="PackageKit/Transaction.html#Transaction.WhatProvides">
 <ANCHOR id="Transaction.UpgradeSystem" href="PackageKit/Transaction.html#Transaction.UpgradeSystem">
+<ANCHOR id="Transaction.SimulateRepairSystem" href="PackageKit/Transaction.html#Transaction.SimulateRepairSystem">
+<ANCHOR id="Transaction.RepairSystem" href="PackageKit/Transaction.html#Transaction.RepairSystem">
 <ANCHOR id="Transaction::Category" href="PackageKit/Transaction.html#Transaction::Category">
 <ANCHOR id="Transaction::Details" href="PackageKit/Transaction.html#Transaction::Details">
 <ANCHOR id="Transaction::ErrorCode" href="PackageKit/Transaction.html#Transaction::ErrorCode">
@@ -185,6 +187,7 @@
 <ANCHOR id="pk-client-new" href="PackageKit/PkClient.html#pk-client-new">
 <ANCHOR id="pk-client-refresh-cache-async" href="PackageKit/PkClient.html#pk-client-refresh-cache-async">
 <ANCHOR id="pk-client-remove-packages-async" href="PackageKit/PkClient.html#pk-client-remove-packages-async">
+<ANCHOR id="pk-client-repair-system-async" href="PackageKit/PkClient.html#pk-client-repair-system-async">
 <ANCHOR id="pk-client-repo-enable-async" href="PackageKit/PkClient.html#pk-client-repo-enable-async">
 <ANCHOR id="pk-client-repo-set-data-async" href="PackageKit/PkClient.html#pk-client-repo-set-data-async">
 <ANCHOR id="pk-client-resolve-async" href="PackageKit/PkClient.html#pk-client-resolve-async">
@@ -200,6 +203,7 @@
 <ANCHOR id="pk-client-simulate-install-files-async" href="PackageKit/PkClient.html#pk-client-simulate-install-files-async">
 <ANCHOR id="pk-client-simulate-install-packages-async" href="PackageKit/PkClient.html#pk-client-simulate-install-packages-async">
 <ANCHOR id="pk-client-simulate-remove-packages-async" href="PackageKit/PkClient.html#pk-client-simulate-remove-packages-async">
+<ANCHOR id="pk-client-simulate-repair-system-async" href="PackageKit/PkClient.html#pk-client-simulate-repair-system-async">
 <ANCHOR id="pk-client-simulate-update-packages-async" href="PackageKit/PkClient.html#pk-client-simulate-update-packages-async">
 <ANCHOR id="pk-client-test" href="PackageKit/PkClient.html#pk-client-test">
 <ANCHOR id="pk-client-update-packages-async" href="PackageKit/PkClient.html#pk-client-update-packages-async">
@@ -639,6 +643,7 @@
 <ANCHOR id="pk-task-new" href="PackageKit/PkTask.html#pk-task-new">
 <ANCHOR id="pk-task-refresh-cache-async" href="PackageKit/PkTask.html#pk-task-refresh-cache-async">
 <ANCHOR id="pk-task-remove-packages-async" href="PackageKit/PkTask.html#pk-task-remove-packages-async">
+<ANCHOR id="pk-task-repair-system-async" href="PackageKit/PkTask.html#pk-task-repair-system-async">
 <ANCHOR id="pk-task-repo-enable-async" href="PackageKit/PkTask.html#pk-task-repo-enable-async">
 <ANCHOR id="pk-task-resolve-async" href="PackageKit/PkTask.html#pk-task-resolve-async">
 <ANCHOR id="pk-task-rollback-async" href="PackageKit/PkTask.html#pk-task-rollback-async">
@@ -741,6 +746,7 @@
 <ANCHOR id="pk-client-install-signature" href="PackageKit/PackageKit-pk-client-sync.html#pk-client-install-signature">
 <ANCHOR id="pk-client-refresh-cache" href="PackageKit/PackageKit-pk-client-sync.html#pk-client-refresh-cache">
 <ANCHOR id="pk-client-remove-packages" href="PackageKit/PackageKit-pk-client-sync.html#pk-client-remove-packages">
+<ANCHOR id="pk-client-repair-system" href="PackageKit/PackageKit-pk-client-sync.html#pk-client-repair-system">
 <ANCHOR id="pk-client-repo-enable" href="PackageKit/PackageKit-pk-client-sync.html#pk-client-repo-enable">
 <ANCHOR id="pk-client-repo-set-data" href="PackageKit/PackageKit-pk-client-sync.html#pk-client-repo-set-data">
 <ANCHOR id="pk-client-resolve" href="PackageKit/PackageKit-pk-client-sync.html#pk-client-resolve">
@@ -752,6 +758,7 @@
 <ANCHOR id="pk-client-simulate-install-files" href="PackageKit/PackageKit-pk-client-sync.html#pk-client-simulate-install-files">
 <ANCHOR id="pk-client-simulate-install-packages" href="PackageKit/PackageKit-pk-client-sync.html#pk-client-simulate-install-packages">
 <ANCHOR id="pk-client-simulate-remove-packages" href="PackageKit/PackageKit-pk-client-sync.html#pk-client-simulate-remove-packages">
+<ANCHOR id="pk-client-simulate-repair-system" href="PackageKit/PackageKit-pk-client-sync.html#pk-client-simulate-repair-system">
 <ANCHOR id="pk-client-simulate-update-packages" href="PackageKit/PackageKit-pk-client-sync.html#pk-client-simulate-update-packages">
 <ANCHOR id="pk-client-update-packages" href="PackageKit/PackageKit-pk-client-sync.html#pk-client-update-packages">
 <ANCHOR id="pk-client-update-system" href="PackageKit/PackageKit-pk-client-sync.html#pk-client-update-system">
@@ -821,6 +828,8 @@
 <ANCHOR id="pk-group-enum-from-string" href="PackageKit/PackageKit-pk-enum.html#pk-group-enum-from-string">
 <ANCHOR id="pk-group-enum-to-string" href="PackageKit/PackageKit-pk-enum.html#pk-group-enum-to-string">
 <ANCHOR id="pk-info-enum-from-string" href="PackageKit/PackageKit-pk-enum.html#pk-info-enum-from-string">
+<ANCHOR id="pk-info-enum-to-localised-past" href="PackageKit/PackageKit-pk-enum.html#pk-info-enum-to-localised-past">
+<ANCHOR id="pk-info-enum-to-localised-present" href="PackageKit/PackageKit-pk-enum.html#pk-info-enum-to-localised-present">
 <ANCHOR id="pk-info-enum-to-string" href="PackageKit/PackageKit-pk-enum.html#pk-info-enum-to-string">
 <ANCHOR id="pk-media-type-enum-from-string" href="PackageKit/PackageKit-pk-enum.html#pk-media-type-enum-from-string">
 <ANCHOR id="pk-media-type-enum-to-string" href="PackageKit/PackageKit-pk-enum.html#pk-media-type-enum-to-string">
@@ -833,10 +842,12 @@
 <ANCHOR id="pk-restart-enum-from-string" href="PackageKit/PackageKit-pk-enum.html#pk-restart-enum-from-string">
 <ANCHOR id="pk-restart-enum-to-string" href="PackageKit/PackageKit-pk-enum.html#pk-restart-enum-to-string">
 <ANCHOR id="pk-role-enum-from-string" href="PackageKit/PackageKit-pk-enum.html#pk-role-enum-from-string">
+<ANCHOR id="pk-role-enum-to-localised-present" href="PackageKit/PackageKit-pk-enum.html#pk-role-enum-to-localised-present">
 <ANCHOR id="pk-role-enum-to-string" href="PackageKit/PackageKit-pk-enum.html#pk-role-enum-to-string">
 <ANCHOR id="pk-sig-type-enum-from-string" href="PackageKit/PackageKit-pk-enum.html#pk-sig-type-enum-from-string">
 <ANCHOR id="pk-sig-type-enum-to-string" href="PackageKit/PackageKit-pk-enum.html#pk-sig-type-enum-to-string">
 <ANCHOR id="pk-status-enum-from-string" href="PackageKit/PackageKit-pk-enum.html#pk-status-enum-from-string">
+<ANCHOR id="pk-status-enum-to-localised-text" href="PackageKit/PackageKit-pk-enum.html#pk-status-enum-to-localised-text">
 <ANCHOR id="pk-status-enum-to-string" href="PackageKit/PackageKit-pk-enum.html#pk-status-enum-to-string">
 <ANCHOR id="pk-update-state-enum-from-string" href="PackageKit/PackageKit-pk-enum.html#pk-update-state-enum-from-string">
 <ANCHOR id="pk-update-state-enum-to-string" href="PackageKit/PackageKit-pk-enum.html#pk-update-state-enum-to-string">

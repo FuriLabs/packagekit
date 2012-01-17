@@ -155,6 +155,12 @@ struct              <a class="link" href="PkTask.html#PkTaskClass" title="struct
                                                          <em class="parameter"><code><a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gpointer"><span class="type">gpointer</span></a> progress_user_data</code></em>,
                                                          <em class="parameter"><code><a href="http://library.gnome.org/devel/gio/unstable/GAsyncResult.html#GAsyncReadyCallback"><span class="type">GAsyncReadyCallback</span></a> callback_ready</code></em>,
                                                          <em class="parameter"><code><a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gpointer"><span class="type">gpointer</span></a> user_data</code></em>);
+<span class="returnvalue">void</span>                <a class="link" href="PkTask.html#pk-task-repair-system-async" title="pk_task_repair_system_async ()">pk_task_repair_system_async</a>         (<em class="parameter"><code><a class="link" href="PkTask.html" title="PkTask"><span class="type">PkTask</span></a> *task</code></em>,
+                                                         <em class="parameter"><code><a href="http://library.gnome.org/devel/gio/unstable/GCancellable.html"><span class="type">GCancellable</span></a> *cancellable</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="PkProgress.html#PkProgressCallback" title="PkProgressCallback ()"><span class="type">PkProgressCallback</span></a> progress_callback</code></em>,
+                                                         <em class="parameter"><code><a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gpointer"><span class="type">gpointer</span></a> progress_user_data</code></em>,
+                                                         <em class="parameter"><code><a href="http://library.gnome.org/devel/gio/unstable/GAsyncResult.html#GAsyncReadyCallback"><span class="type">GAsyncReadyCallback</span></a> callback_ready</code></em>,
+                                                         <em class="parameter"><code><a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gpointer"><span class="type">gpointer</span></a> user_data</code></em>);
 <span class="returnvalue">void</span>                <a class="link" href="PkTask.html#pk-task-repo-enable-async" title="pk_task_repo_enable_async ()">pk_task_repo_enable_async</a>           (<em class="parameter"><code><a class="link" href="PkTask.html" title="PkTask"><span class="type">PkTask</span></a> *task</code></em>,
                                                          <em class="parameter"><code>const <a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a> *repo_id</code></em>,
                                                          <em class="parameter"><code><a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gboolean"><span class="type">gboolean</span></a> enabled</code></em>,
@@ -269,11 +275,15 @@ struct              <a class="link" href="PkTask.html#PkTaskClass" title="struct
 <a name="PK-TASK-TYPE-ERROR:CAPS"></a><h3>PK_TASK_TYPE_ERROR</h3>
 <pre class="programlisting">#define PK_TASK_TYPE_ERROR (pk_task_error_get_type ())
 </pre>
+<p>
+</p>
 </div>
 <hr>
 <div class="refsect2">
 <a name="PkTask-struct"></a><h3>struct PkTask</h3>
 <pre class="programlisting">struct PkTask;</pre>
+<p>
+</p>
 </div>
 <hr>
 <div class="refsect2">
@@ -303,6 +313,8 @@ struct              <a class="link" href="PkTask.html#PkTaskClass" title="struct
 	void (*_pk_reserved5) (void);
 };
 </pre>
+<p>
+</p>
 </div>
 <hr>
 <div class="refsect2">
@@ -1170,6 +1182,17 @@ then the transaction would fail.
 </div>
 <hr>
 <div class="refsect2">
+<a name="pk-task-repair-system-async"></a><h3>pk_task_repair_system_async ()</h3>
+<pre class="programlisting"><span class="returnvalue">void</span>                pk_task_repair_system_async         (<em class="parameter"><code><a class="link" href="PkTask.html" title="PkTask"><span class="type">PkTask</span></a> *task</code></em>,
+                                                         <em class="parameter"><code><a href="http://library.gnome.org/devel/gio/unstable/GCancellable.html"><span class="type">GCancellable</span></a> *cancellable</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="PkProgress.html#PkProgressCallback" title="PkProgressCallback ()"><span class="type">PkProgressCallback</span></a> progress_callback</code></em>,
+                                                         <em class="parameter"><code><a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gpointer"><span class="type">gpointer</span></a> progress_user_data</code></em>,
+                                                         <em class="parameter"><code><a href="http://library.gnome.org/devel/gio/unstable/GAsyncResult.html#GAsyncReadyCallback"><span class="type">GAsyncReadyCallback</span></a> callback_ready</code></em>,
+                                                         <em class="parameter"><code><a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gpointer"><span class="type">gpointer</span></a> user_data</code></em>);</pre>
+<p class="since">Since 0.7.2</p>
+</div>
+<hr>
+<div class="refsect2">
 <a name="pk-task-repo-enable-async"></a><h3>pk_task_repo_enable_async ()</h3>
 <pre class="programlisting"><span class="returnvalue">void</span>                pk_task_repo_enable_async           (<em class="parameter"><code><a class="link" href="PkTask.html" title="PkTask"><span class="type">PkTask</span></a> *task</code></em>,
                                                          <em class="parameter"><code>const <a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a> *repo_id</code></em>,
@@ -1619,6 +1642,8 @@ If the simulate step should be run without the actual transaction.
 <div class="refsect2">
 <a name="pk-task-test"></a><h3>pk_task_test ()</h3>
 <pre class="programlisting"><span class="returnvalue">void</span>                pk_task_test                        (<em class="parameter"><code><a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gpointer"><span class="type">gpointer</span></a> user_data</code></em>);</pre>
+<p>
+</p>
 </div>
 <hr>
 <div class="refsect2">

@@ -8,8 +8,8 @@
  * Do not edit! All changes made to it will be lost.
  */
 
-#ifndef TRANSACTIONPROXY_H_1320953863
-#define TRANSACTIONPROXY_H_1320953863
+#ifndef TRANSACTIONPROXY_H_1326713020
+#define TRANSACTIONPROXY_H_1326713020
 
 #include <QtCore/QObject>
 #include <QtCore/QByteArray>
@@ -210,6 +210,13 @@ public Q_SLOTS: // METHODS
         return asyncCallWithArgumentList(QLatin1String("RemovePackages"), argumentList);
     }
 
+    inline QDBusPendingReply<> RepairSystem(bool only_trusted)
+    {
+        QList<QVariant> argumentList;
+        argumentList << QVariant::fromValue(only_trusted);
+        return asyncCallWithArgumentList(QLatin1String("RepairSystem"), argumentList);
+    }
+
     inline QDBusPendingReply<> RepoEnable(const QString &repo_id, bool enabled)
     {
         QList<QVariant> argumentList;
@@ -292,6 +299,12 @@ public Q_SLOTS: // METHODS
         QList<QVariant> argumentList;
         argumentList << QVariant::fromValue(package_ids) << QVariant::fromValue(autoremove);
         return asyncCallWithArgumentList(QLatin1String("SimulateRemovePackages"), argumentList);
+    }
+
+    inline QDBusPendingReply<> SimulateRepairSystem()
+    {
+        QList<QVariant> argumentList;
+        return asyncCallWithArgumentList(QLatin1String("SimulateRepairSystem"), argumentList);
     }
 
     inline QDBusPendingReply<> SimulateUpdatePackages(const QStringList &package_ids)

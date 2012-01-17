@@ -153,8 +153,6 @@ CXXFLAGS = @CXXFLAGS@
 CYGPATH_W = @CYGPATH_W@
 DATADIR = @DATADIR@
 DATADIRNAME = @DATADIRNAME@
-DBUS_CFLAGS = @DBUS_CFLAGS@
-DBUS_LIBS = @DBUS_LIBS@
 DBUS_SERVICES_DIR = @DBUS_SERVICES_DIR@
 DBUS_SYS_DIR = @DBUS_SYS_DIR@
 DEFAULT_BACKEND = @DEFAULT_BACKEND@
@@ -390,7 +388,7 @@ top_srcdir = @top_srcdir@
 @PK_BUILD_GTK_MODULE_TRUE@libpk_gtk_module_la_CFLAGS = $(PK_GTK_MODULE_CFLAGS) $(WARNINGFLAGS_C)
 @PK_BUILD_GTK_MODULE_TRUE@gtkmoduledir = $(libdir)/gnome-settings-daemon-3.0/gtk-modules
 @PK_BUILD_GTK_MODULE_TRUE@dist_gtkmodule_DATA = pk-gtk-module.desktop
-@PK_BUILD_GTK_MODULE_TRUE@gsettings_SCHEMAS = org.gnome.setttings-daemon.gtk-modules-packagekit.gschema.xml
+@PK_BUILD_GTK_MODULE_TRUE@gsettings_SCHEMAS = org.gnome.settings-daemon.gtk-modules-packagekit.gschema.xml
 EXTRA_DIST = \
 	$(gsettings_SCHEMAS)				\
 	README						\

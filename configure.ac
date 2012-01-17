@@ -2,7 +2,7 @@
 
 m4_define([pk_major_version], [0])
 m4_define([pk_minor_version], [7])
-m4_define([pk_micro_version], [1])
+m4_define([pk_micro_version], [2])
 m4_define([pk_version],
           [pk_major_version.pk_minor_version.pk_micro_version])
 
@@ -45,7 +45,7 @@ AC_SUBST(PK_VERSION)
 # AGE		If libpackagekit can be linked into executables which can be
 # 		built with previous versions of this library. Don't use.
 LT_CURRENT=14
-LT_REVISION=10
+LT_REVISION=11
 LT_AGE=0
 AC_SUBST(LT_CURRENT)
 AC_SUBST(LT_REVISION)
@@ -156,8 +156,6 @@ dnl - Library dependencies
 dnl ---------------------------------------------------------------------------
 GLIB_REQUIRED=2.26.0
 GIO_REQUIRED=2.16.1
-DBUS_REQUIRED=1.1.1
-DBUS_GLIB_REQUIRED=0.74
 NETWORK_MANAGER_REQUIRED=0.6.4
 POLKIT_GOBJECT_REQUIRED=0.98
 QTCORE_REQUIRED=4.4.0
@@ -171,10 +169,6 @@ dnl ---------------------------------------------------------------------------
 PKG_CHECK_MODULES(GLIB, glib-2.0 >= $GLIB_REQUIRED gobject-2.0)
 PKG_CHECK_MODULES(GMODULE, gmodule-2.0)
 PKG_CHECK_MODULES(SQLITE, sqlite3)
-PKG_CHECK_MODULES(DBUS, \
- dbus-glib-1 >= $DBUS_GLIB_REQUIRED \
- dbus-1 >= $DBUS_REQUIRED \
- gthread-2.0)
 PKG_CHECK_MODULES(GIO, \
  gio-2.0 >= $GIO_REQUIRED \
  gio-unix-2.0 >= $GIO_REQUIRED)
@@ -354,9 +348,9 @@ AC_ARG_ENABLE(browser_plugin, AS_HELP_STRING([--enable-browser-plugin],[Build br
 	      enable_browser_plugin=$enableval,enable_browser_plugin=yes)
 if test x$enable_browser_plugin = xyes; then
 	PKG_CHECK_MODULES(PK_BROWSER_PLUGIN,	\
-			  mozilla-plugin	\
+			  mozilla-plugin >= 8.0	\
 			  gio-unix-2.0		\
-			  nspr \
+			  nspr >= 4.8		\
 			  cairo			\
 			  pango			\
 			  gtk+-2.0 >= 2.14.0,
@@ -469,6 +463,7 @@ AM_CONDITIONAL(PK_BUILD_PM_UTILS, test $build_pm_utils = "yes")
 
 # backends
 AC_ARG_ENABLE(alpm, AS_HELP_STRING([--enable-alpm],[use the ALPM backend]),enable_alpm=$enableval,enable_alpm=no)
+AC_ARG_ENABLE(apt, AS_HELP_STRING([--enable-apt],[use the APT backend]),enable_apt=$enableval,enable_apt=no)
 AC_ARG_ENABLE(aptcc, AS_HELP_STRING([--enable-aptcc],[use the APTcc backend]),enable_aptcc=$enableval,enable_aptcc=no)
 AC_ARG_ENABLE(box, AS_HELP_STRING([--enable-box],[use the BOX backend]),enable_box=$enableval,enable_box=no)
 AC_ARG_ENABLE(conary, AS_HELP_STRING([--enable-conary],[use the CONARY backend]),enable_conary=$enableval,enable_conary=no)
@@ -488,6 +483,7 @@ AC_ARG_ENABLE(zypp, AS_HELP_STRING([--enable-zypp],[use the Zypp backend]),enabl
 
 # export to Makefile.am's
 AM_CONDITIONAL(BACKEND_TYPE_ALPM, [test x$enable_alpm = xyes])
+AM_CONDITIONAL(BACKEND_TYPE_APT, [test x$enable_apt = xyes])
 AM_CONDITIONAL(BACKEND_TYPE_APTCC, [test x$enable_aptcc = xyes])
 AM_CONDITIONAL(BACKEND_TYPE_BOX, [test x$enable_box = xyes])
 AM_CONDITIONAL(BACKEND_TYPE_CONARY, [test x$enable_conary = xyes])
@@ -563,7 +559,7 @@ dnl ---------------------------------------------------------------------------
 AC_ARG_WITH([default_backend],
 	    AS_HELP_STRING([--with-default-backend=<option>],
 			   [Default backend to use
-                           auto,alpm,aptcc,box,conary,dummy,entropy,opkg,pisi,portage,ports,slapt,smart,urpmi,yum,zif,zypp (dummy)]))
+                           auto,alpm,apt,aptcc,box,conary,dummy,entropy,opkg,pisi,portage,ports,slapt,smart,urpmi,yum,zif,zypp (dummy)]))
 # default to a sane option for the installed tool
 if test x$with_default_backend = x; then
 	if test -f /usr/bin/yum ; then
@@ -573,7 +569,7 @@ if test x$with_default_backend = x; then
 	elif test -f /usr/lib/libalpm.so; then
 		with_default_backend=alpm
 	elif test -f /usr/bin/apt-get ; then
-		with_default_backend=aptcc
+		with_default_backend=apt
 	elif test -f /usr/bin/conary ; then
 		with_default_backend=conary
 	elif test -f /usr/bin/box-repos ; then
@@ -621,6 +617,18 @@ if test x$enable_zif = xyes; then
 fi
 AM_CONDITIONAL(PK_BUILD_ZIF, test $build_zif = "yes")
 
+if test x$enable_apt = xyes; then
+	PY_CHECK_MOD([apt_pkg],,,AC_MSG_ERROR([Apt backend needs python-apt]))
+	PY_CHECK_MOD([UpdateManager.Core.MetaRelease],,
+		     AC_DEFINE(HAVE_PYTHON_META_RELEASE, 1,
+			       "Meta release is available"), 
+		     AC_MSG_WARN([Distro upgrade notification not supported]))
+	PY_CHECK_MOD([softwareproperties.SoftwareProperties],,
+		     AC_DEFINE(HAVE_PYTHON_SOFTWARE_PROPERTIES, 1,
+			       "Python software properties is available"),
+		     AC_MSG_WARN([Repository handling not supported]))
+fi
+
 if test x$enable_aptcc = xyes; then
 	dnl Use C++
 	AC_LANG([C++])
@@ -636,6 +644,10 @@ if test x$enable_aptcc = xyes; then
 
 	AC_SUBST(APTCC_CFLAGS)
 	AC_SUBST(APTCC_LIBS)
+
+    AC_CHECK_LIB(apt-inst, main, , [AC_MSG_ERROR([Can't find the APT libraries -- please install libapt-pkg-dev])])
+    AC_SUBST(APTCC_CFLAGS)
+    AC_SUBST(APTCC_LIBS)
 
 	PKG_CHECK_MODULES(GSTREAMER, gstreamer-0.10 gstreamer-base-0.10 gstreamer-plugins-base-0.10,,
 					[AC_MSG_ERROR([Can't find the gstreamer libraries -- please install libgstreamermm-0.10-dev])])
@@ -742,6 +754,7 @@ contrib/device-rebind/Makefile
 contrib/pm-utils/Makefile
 backends/Makefile
 backends/alpm/Makefile
+backends/apt/Makefile
 backends/aptcc/Makefile
 backends/box/Makefile
 backends/conary/Makefile
@@ -815,6 +828,7 @@ echo "
 
         Backends:
         ALPM backend:              ${enable_alpm}
+        APT backend:               ${enable_apt}
         APTcc backend:             ${enable_aptcc}
         BOX backend:               ${enable_box}
         CONARY backend:            ${enable_conary}

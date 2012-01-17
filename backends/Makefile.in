@@ -34,22 +34,23 @@ POST_UNINSTALL = :
 build_triplet = @build@
 host_triplet = @host@
 @BACKEND_TYPE_ALPM_TRUE@am__append_1 = alpm
-@BACKEND_TYPE_APTCC_TRUE@am__append_2 = aptcc
-@BACKEND_TYPE_BOX_TRUE@am__append_3 = box
-@BACKEND_TYPE_CONARY_TRUE@am__append_4 = conary
-@BACKEND_TYPE_DUMMY_TRUE@am__append_5 = dummy
-@BACKEND_TYPE_ENTROPY_TRUE@am__append_6 = entropy
-@BACKEND_TYPE_OPKG_TRUE@am__append_7 = opkg
-@BACKEND_TYPE_SLAPT_TRUE@am__append_8 = slapt
-@BACKEND_TYPE_SMART_TRUE@am__append_9 = smart
-@BACKEND_TYPE_URPMI_TRUE@am__append_10 = urpmi
-@BACKEND_TYPE_YUM_TRUE@am__append_11 = yum
-@BACKEND_TYPE_PISI_TRUE@am__append_12 = pisi
-@BACKEND_TYPE_ZYPP_TRUE@am__append_13 = zypp
-@BACKEND_TYPE_ZIF_TRUE@am__append_14 = zif
-@BACKEND_TYPE_POLDEK_TRUE@am__append_15 = poldek
-@BACKEND_TYPE_PORTAGE_TRUE@am__append_16 = portage
-@BACKEND_TYPE_PORTS_TRUE@am__append_17 = ports
+@BACKEND_TYPE_APT_TRUE@am__append_2 = apt
+@BACKEND_TYPE_APTCC_TRUE@am__append_3 = aptcc
+@BACKEND_TYPE_BOX_TRUE@am__append_4 = box
+@BACKEND_TYPE_CONARY_TRUE@am__append_5 = conary
+@BACKEND_TYPE_DUMMY_TRUE@am__append_6 = dummy
+@BACKEND_TYPE_ENTROPY_TRUE@am__append_7 = entropy
+@BACKEND_TYPE_OPKG_TRUE@am__append_8 = opkg
+@BACKEND_TYPE_SLAPT_TRUE@am__append_9 = slapt
+@BACKEND_TYPE_SMART_TRUE@am__append_10 = smart
+@BACKEND_TYPE_URPMI_TRUE@am__append_11 = urpmi
+@BACKEND_TYPE_YUM_TRUE@am__append_12 = yum
+@BACKEND_TYPE_PISI_TRUE@am__append_13 = pisi
+@BACKEND_TYPE_ZYPP_TRUE@am__append_14 = zypp
+@BACKEND_TYPE_ZIF_TRUE@am__append_15 = zif
+@BACKEND_TYPE_POLDEK_TRUE@am__append_16 = poldek
+@BACKEND_TYPE_PORTAGE_TRUE@am__append_17 = portage
+@BACKEND_TYPE_PORTS_TRUE@am__append_18 = ports
 subdir = backends
 DIST_COMMON = $(srcdir)/Makefile.am $(srcdir)/Makefile.in
 ACLOCAL_M4 = $(top_srcdir)/aclocal.m4
@@ -86,7 +87,7 @@ AM_RECURSIVE_TARGETS = $(RECURSIVE_TARGETS:-recursive=) \
 	distdir
 ETAGS = etags
 CTAGS = ctags
-DIST_SUBDIRS = test alpm aptcc box conary dummy entropy opkg slapt \
+DIST_SUBDIRS = test alpm apt aptcc box conary dummy entropy opkg slapt \
 	smart urpmi yum pisi zypp zif poldek portage ports
 DISTFILES = $(DIST_COMMON) $(DIST_SOURCES) $(TEXINFOS) $(EXTRA_DIST)
 am__relativize = \
@@ -146,8 +147,6 @@ CXXFLAGS = @CXXFLAGS@
 CYGPATH_W = @CYGPATH_W@
 DATADIR = @DATADIR@
 DATADIRNAME = @DATADIRNAME@
-DBUS_CFLAGS = @DBUS_CFLAGS@
-DBUS_LIBS = @DBUS_LIBS@
 DBUS_SERVICES_DIR = @DBUS_SERVICES_DIR@
 DBUS_SYS_DIR = @DBUS_SYS_DIR@
 DEFAULT_BACKEND = @DEFAULT_BACKEND@
@@ -379,7 +378,7 @@ SUBDIRS = test $(am__append_1) $(am__append_2) $(am__append_3) \
 	$(am__append_7) $(am__append_8) $(am__append_9) \
 	$(am__append_10) $(am__append_11) $(am__append_12) \
 	$(am__append_13) $(am__append_14) $(am__append_15) \
-	$(am__append_16) $(am__append_17)
+	$(am__append_16) $(am__append_17) $(am__append_18)
 all: all-recursive
 
 .SUFFIXES:

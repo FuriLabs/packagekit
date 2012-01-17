@@ -119,6 +119,7 @@ pk_client_install_signature_async
 pk_client_new
 pk_client_refresh_cache_async
 pk_client_remove_packages_async
+pk_client_repair_system_async
 pk_client_repo_enable_async
 pk_client_repo_set_data_async
 pk_client_resolve_async
@@ -134,6 +135,7 @@ pk_client_set_locale
 pk_client_simulate_install_files_async
 pk_client_simulate_install_packages_async
 pk_client_simulate_remove_packages_async
+pk_client_simulate_repair_system_async
 pk_client_simulate_update_packages_async
 pk_client_test
 pk_client_update_packages_async
@@ -192,6 +194,7 @@ pk_client_install_packages
 pk_client_install_signature
 pk_client_refresh_cache
 pk_client_remove_packages
+pk_client_repair_system
 pk_client_repo_enable
 pk_client_repo_set_data
 pk_client_resolve
@@ -203,6 +206,7 @@ pk_client_search_names
 pk_client_simulate_install_files
 pk_client_simulate_install_packages
 pk_client_simulate_remove_packages
+pk_client_simulate_repair_system
 pk_client_simulate_update_packages
 pk_client_update_packages
 pk_client_update_system
@@ -233,10 +237,6 @@ pk_console_get_prompt
 pk_console_resolve_package
 pk_console_resolve_packages
 pk_console_test
-pk_info_enum_to_localised_past
-pk_info_enum_to_localised_present
-pk_role_enum_to_localised_present
-pk_status_enum_to_localised_text
 </SECTION>
 
 <SECTION>
@@ -397,6 +397,8 @@ pk_filter_enum_to_string
 pk_group_enum_from_string
 pk_group_enum_to_string
 pk_info_enum_from_string
+pk_info_enum_to_localised_past
+pk_info_enum_to_localised_present
 pk_info_enum_to_string
 pk_media_type_enum_from_string
 pk_media_type_enum_to_string
@@ -409,10 +411,12 @@ pk_provides_enum_to_string
 pk_restart_enum_from_string
 pk_restart_enum_to_string
 pk_role_enum_from_string
+pk_role_enum_to_localised_present
 pk_role_enum_to_string
 pk_sig_type_enum_from_string
 pk_sig_type_enum_to_string
 pk_status_enum_from_string
+pk_status_enum_to_localised_text
 pk_status_enum_to_string
 pk_update_state_enum_from_string
 pk_update_state_enum_to_string
@@ -842,6 +846,7 @@ pk_task_install_packages_async
 pk_task_new
 pk_task_refresh_cache_async
 pk_task_remove_packages_async
+pk_task_repair_system_async
 pk_task_repo_enable_async
 pk_task_resolve_async
 pk_task_rollback_async
@@ -884,6 +889,7 @@ pk_task_install_files_sync
 pk_task_install_packages_sync
 pk_task_refresh_cache_sync
 pk_task_remove_packages_sync
+pk_task_repair_system_sync
 pk_task_repo_enable_sync
 pk_task_resolve_sync
 pk_task_rollback_sync

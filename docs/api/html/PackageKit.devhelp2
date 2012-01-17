@@ -134,6 +134,8 @@
     <keyword type="" name="UpdateSystem ()" link="Transaction.html#Transaction.UpdateSystem"/>
     <keyword type="" name="WhatProvides ()" link="Transaction.html#Transaction.WhatProvides"/>
     <keyword type="" name="UpgradeSystem ()" link="Transaction.html#Transaction.UpgradeSystem"/>
+    <keyword type="" name="SimulateRepairSystem ()" link="Transaction.html#Transaction.SimulateRepairSystem"/>
+    <keyword type="" name="RepairSystem ()" link="Transaction.html#Transaction.RepairSystem"/>
     <keyword type="" name="The Category signal" link="Transaction.html#Transaction::Category"/>
     <keyword type="" name="The Details signal" link="Transaction.html#Transaction::Details"/>
     <keyword type="" name="The ErrorCode signal" link="Transaction.html#Transaction::ErrorCode"/>
@@ -226,6 +228,7 @@
     <keyword type="function" name="pk_client_new ()" link="PkClient.html#pk-client-new" since="0.5.2"/>
     <keyword type="function" name="pk_client_refresh_cache_async ()" link="PkClient.html#pk-client-refresh-cache-async" since="0.5.2"/>
     <keyword type="function" name="pk_client_remove_packages_async ()" link="PkClient.html#pk-client-remove-packages-async" since="0.5.2"/>
+    <keyword type="function" name="pk_client_repair_system_async ()" link="PkClient.html#pk-client-repair-system-async" since="0.7.2"/>
     <keyword type="function" name="pk_client_repo_enable_async ()" link="PkClient.html#pk-client-repo-enable-async" since="0.5.2"/>
     <keyword type="function" name="pk_client_repo_set_data_async ()" link="PkClient.html#pk-client-repo-set-data-async" since="0.5.2"/>
     <keyword type="function" name="pk_client_resolve_async ()" link="PkClient.html#pk-client-resolve-async" since="0.5.2"/>
@@ -241,6 +244,7 @@
     <keyword type="function" name="pk_client_simulate_install_files_async ()" link="PkClient.html#pk-client-simulate-install-files-async" since="0.5.2"/>
     <keyword type="function" name="pk_client_simulate_install_packages_async ()" link="PkClient.html#pk-client-simulate-install-packages-async" since="0.5.2"/>
     <keyword type="function" name="pk_client_simulate_remove_packages_async ()" link="PkClient.html#pk-client-simulate-remove-packages-async" since="0.5.2"/>
+    <keyword type="function" name="pk_client_simulate_repair_system_async ()" link="PkClient.html#pk-client-simulate-repair-system-async" since="0.7.2"/>
     <keyword type="function" name="pk_client_simulate_update_packages_async ()" link="PkClient.html#pk-client-simulate-update-packages-async" since="0.5.2"/>
     <keyword type="function" name="pk_client_test ()" link="PkClient.html#pk-client-test"/>
     <keyword type="function" name="pk_client_update_packages_async ()" link="PkClient.html#pk-client-update-packages-async" since="0.5.2"/>
@@ -553,6 +557,7 @@
     <keyword type="function" name="pk_task_new ()" link="PkTask.html#pk-task-new" since="0.5.2"/>
     <keyword type="function" name="pk_task_refresh_cache_async ()" link="PkTask.html#pk-task-refresh-cache-async" since="0.6.5"/>
     <keyword type="function" name="pk_task_remove_packages_async ()" link="PkTask.html#pk-task-remove-packages-async" since="0.5.2"/>
+    <keyword type="function" name="pk_task_repair_system_async ()" link="PkTask.html#pk-task-repair-system-async" since="0.7.2"/>
     <keyword type="function" name="pk_task_repo_enable_async ()" link="PkTask.html#pk-task-repo-enable-async" since="0.6.5"/>
     <keyword type="function" name="pk_task_resolve_async ()" link="PkTask.html#pk-task-resolve-async" since="0.6.5"/>
     <keyword type="function" name="pk_task_rollback_async ()" link="PkTask.html#pk-task-rollback-async" since="0.6.5"/>
@@ -632,6 +637,7 @@
     <keyword type="function" name="pk_client_install_signature ()" link="PackageKit-pk-client-sync.html#pk-client-install-signature" since="0.5.3"/>
     <keyword type="function" name="pk_client_refresh_cache ()" link="PackageKit-pk-client-sync.html#pk-client-refresh-cache" since="0.5.3"/>
     <keyword type="function" name="pk_client_remove_packages ()" link="PackageKit-pk-client-sync.html#pk-client-remove-packages" since="0.5.3"/>
+    <keyword type="function" name="pk_client_repair_system ()" link="PackageKit-pk-client-sync.html#pk-client-repair-system" since="0.7.2"/>
     <keyword type="function" name="pk_client_repo_enable ()" link="PackageKit-pk-client-sync.html#pk-client-repo-enable" since="0.5.3"/>
     <keyword type="function" name="pk_client_repo_set_data ()" link="PackageKit-pk-client-sync.html#pk-client-repo-set-data" since="0.5.3"/>
     <keyword type="function" name="pk_client_resolve ()" link="PackageKit-pk-client-sync.html#pk-client-resolve" since="0.5.3"/>
@@ -643,6 +649,7 @@
     <keyword type="function" name="pk_client_simulate_install_files ()" link="PackageKit-pk-client-sync.html#pk-client-simulate-install-files" since="0.5.3"/>
     <keyword type="function" name="pk_client_simulate_install_packages ()" link="PackageKit-pk-client-sync.html#pk-client-simulate-install-packages" since="0.5.3"/>
     <keyword type="function" name="pk_client_simulate_remove_packages ()" link="PackageKit-pk-client-sync.html#pk-client-simulate-remove-packages" since="0.5.3"/>
+    <keyword type="function" name="pk_client_simulate_repair_system ()" link="PackageKit-pk-client-sync.html#pk-client-simulate-repair-system" since="0.7.2"/>
     <keyword type="function" name="pk_client_simulate_update_packages ()" link="PackageKit-pk-client-sync.html#pk-client-simulate-update-packages" since="0.5.3"/>
     <keyword type="function" name="pk_client_update_packages ()" link="PackageKit-pk-client-sync.html#pk-client-update-packages" since="0.5.3"/>
     <keyword type="function" name="pk_client_update_system ()" link="PackageKit-pk-client-sync.html#pk-client-update-system" since="0.5.3"/>
@@ -700,6 +707,8 @@
     <keyword type="function" name="pk_group_enum_from_string ()" link="PackageKit-pk-enum.html#pk-group-enum-from-string" since="0.5.0"/>
     <keyword type="function" name="pk_group_enum_to_string ()" link="PackageKit-pk-enum.html#pk-group-enum-to-string" since="0.5.0"/>
     <keyword type="function" name="pk_info_enum_from_string ()" link="PackageKit-pk-enum.html#pk-info-enum-from-string" since="0.5.0"/>
+    <keyword type="function" name="pk_info_enum_to_localised_past ()" link="PackageKit-pk-enum.html#pk-info-enum-to-localised-past" since="0.7.2"/>
+    <keyword type="function" name="pk_info_enum_to_localised_present ()" link="PackageKit-pk-enum.html#pk-info-enum-to-localised-present" since="0.7.2"/>
     <keyword type="function" name="pk_info_enum_to_string ()" link="PackageKit-pk-enum.html#pk-info-enum-to-string" since="0.5.0"/>
     <keyword type="function" name="pk_media_type_enum_from_string ()" link="PackageKit-pk-enum.html#pk-media-type-enum-from-string" since="0.5.0"/>
     <keyword type="function" name="pk_media_type_enum_to_string ()" link="PackageKit-pk-enum.html#pk-media-type-enum-to-string" since="0.5.0"/>
@@ -712,10 +721,12 @@
     <keyword type="function" name="pk_restart_enum_from_string ()" link="PackageKit-pk-enum.html#pk-restart-enum-from-string" since="0.5.0"/>
     <keyword type="function" name="pk_restart_enum_to_string ()" link="PackageKit-pk-enum.html#pk-restart-enum-to-string" since="0.5.0"/>
     <keyword type="function" name="pk_role_enum_from_string ()" link="PackageKit-pk-enum.html#pk-role-enum-from-string" since="0.5.0"/>
+    <keyword type="function" name="pk_role_enum_to_localised_present ()" link="PackageKit-pk-enum.html#pk-role-enum-to-localised-present" since="0.7.2"/>
     <keyword type="function" name="pk_role_enum_to_string ()" link="PackageKit-pk-enum.html#pk-role-enum-to-string" since="0.5.0"/>
     <keyword type="function" name="pk_sig_type_enum_from_string ()" link="PackageKit-pk-enum.html#pk-sig-type-enum-from-string"/>
     <keyword type="function" name="pk_sig_type_enum_to_string ()" link="PackageKit-pk-enum.html#pk-sig-type-enum-to-string" since="0.5.0"/>
     <keyword type="function" name="pk_status_enum_from_string ()" link="PackageKit-pk-enum.html#pk-status-enum-from-string" since="0.5.0"/>
+    <keyword type="function" name="pk_status_enum_to_localised_text ()" link="PackageKit-pk-enum.html#pk-status-enum-to-localised-text"/>
     <keyword type="function" name="pk_status_enum_to_string ()" link="PackageKit-pk-enum.html#pk-status-enum-to-string" since="0.5.0"/>
     <keyword type="function" name="pk_update_state_enum_from_string ()" link="PackageKit-pk-enum.html#pk-update-state-enum-from-string" since="0.5.0"/>
     <keyword type="function" name="pk_update_state_enum_to_string ()" link="PackageKit-pk-enum.html#pk-update-state-enum-to-string" since="0.5.0"/>

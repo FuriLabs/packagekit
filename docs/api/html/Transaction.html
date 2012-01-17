@@ -103,10 +103,12 @@
                          in  'as' values)
 <a class="link" href="Transaction.html#Transaction.UpgradeSystem">UpgradeSystem</a>           (in  's'  distro_id,
                          in  's'  upgrade_kind)
+<a class="link" href="Transaction.html#Transaction.SimulateRepairSystem">SimulateRepairSystem</a>    ()
+<a class="link" href="Transaction.html#Transaction.RepairSystem">RepairSystem</a>            (in  'b'  only_trusted)
 </pre>
 </div>
 <div class="refsect1">
-<a name="id406089"></a><h2>Signals</h2>
+<a name="id363633"></a><h2>Signals</h2>
 <pre class="synopsis"><a class="link" href="Transaction.html#Transaction::Category">Category</a>              ('s' parent_id,
                        's' cat_id,
                        's' name,
@@ -179,14 +181,14 @@
 </pre>
 </div>
 <div class="refsect1">
-<a name="id411716"></a><h2>Implemented Interfaces</h2>
+<a name="id358913"></a><h2>Implemented Interfaces</h2>
 <p>org.freedesktop.PackageKit.Transaction implements
     org.freedesktop.DBus.Introspectable,
     org.freedesktop.DBus.Properties
     </p>
 </div>
 <div class="refsect1">
-<a name="id411732"></a><h2>Properties</h2>
+<a name="id358930"></a><h2>Properties</h2>
 <pre class="synopsis"><a class="link" href="Transaction.html#Transaction:Role">'Role'</a>          read      's'
 <a class="link" href="Transaction.html#Transaction:Status">'Status'</a>        read      's'
 <a class="link" href="Transaction.html#Transaction:LastPackage">'LastPackage'</a>   read      's'
@@ -201,7 +203,7 @@
 </pre>
 </div>
 <div class="refsect1">
-<a name="id419902"></a><h2>Description</h2>
+<a name="id355239"></a><h2>Description</h2>
 <p>
       
         </p>
@@ -213,9 +215,9 @@
     </p>
 </div>
 <div class="refsect1">
-<a name="id419922"></a><h2>Details</h2>
+<a name="id355259"></a><h2>Details</h2>
 <div class="refsect2">
-<a name="id419930"></a><h3>
+<a name="id355267"></a><h3>
 <a name="Transaction.SetHints"></a>SetHints ()</h3>
 <pre class="programlisting">SetHints (in  'as' hints)</pre>
 </div>
@@ -294,7 +296,7 @@
 </table></div>
 <hr>
 <div class="refsect2">
-<a name="id420001"></a><h3>
+<a name="id355338"></a><h3>
 <a name="Transaction.AcceptEula"></a>AcceptEula ()</h3>
 <pre class="programlisting">AcceptEula (in  's' eula_id)</pre>
 </div>
@@ -315,7 +317,7 @@
 <p class="permission">Callers need the org.freedesktop.packagekit.accept-eula</p>
 <hr>
 <div class="refsect2">
-<a name="id420049"></a><h3>
+<a name="id387204"></a><h3>
 <a name="Transaction.Cancel"></a>Cancel ()</h3>
 <pre class="programlisting">Cancel ()</pre>
 </div>
@@ -328,7 +330,7 @@
 </table></div>
 <hr>
 <div class="refsect2">
-<a name="id420079"></a><h3>
+<a name="id387236"></a><h3>
 <a name="Transaction.DownloadPackages"></a>DownloadPackages ()</h3>
 <pre class="programlisting">DownloadPackages (in  'b'  store_in_cache,
                   in  'as' package_ids)</pre>
@@ -379,7 +381,7 @@
 </table></div>
 <hr>
 <div class="refsect2">
-<a name="id443609"></a><h3>
+<a name="id387306"></a><h3>
 <a name="Transaction.GetCategories"></a>GetCategories ()</h3>
 <pre class="programlisting">GetCategories ()</pre>
 </div>
@@ -392,7 +394,7 @@
 </table></div>
 <hr>
 <div class="refsect2">
-<a name="id443640"></a><h3>
+<a name="id387337"></a><h3>
 <a name="Transaction.GetDepends"></a>GetDepends ()</h3>
 <pre class="programlisting">GetDepends (in  's'  filter,
             in  'as' package_ids,
@@ -447,7 +449,7 @@
 </table></div>
 <hr>
 <div class="refsect2">
-<a name="id443720"></a><h3>
+<a name="id387417"></a><h3>
 <a name="Transaction.GetDetails"></a>GetDetails ()</h3>
 <pre class="programlisting">GetDetails (in  'as' package_ids)</pre>
 </div>
@@ -475,7 +477,7 @@
 </table></div>
 <hr>
 <div class="refsect2">
-<a name="id443768"></a><h3>
+<a name="id387465"></a><h3>
 <a name="Transaction.GetFiles"></a>GetFiles ()</h3>
 <pre class="programlisting">GetFiles (in  'as' package_ids)</pre>
 </div>
@@ -502,7 +504,7 @@
 </table></div>
 <hr>
 <div class="refsect2">
-<a name="id443817"></a><h3>
+<a name="id387514"></a><h3>
 <a name="Transaction.GetOldTransactions"></a>GetOldTransactions ()</h3>
 <pre class="programlisting">GetOldTransactions (in  'u' number)</pre>
 </div>
@@ -522,7 +524,7 @@
 </table></div>
 <hr>
 <div class="refsect2">
-<a name="id443861"></a><h3>
+<a name="id387558"></a><h3>
 <a name="Transaction.GetPackages"></a>GetPackages ()</h3>
 <pre class="programlisting">GetPackages (in  's' filter)</pre>
 </div>
@@ -552,7 +554,7 @@
 </table></div>
 <hr>
 <div class="refsect2">
-<a name="id443913"></a><h3>
+<a name="id387610"></a><h3>
 <a name="Transaction.GetRepoList"></a>GetRepoList ()</h3>
 <pre class="programlisting">GetRepoList (in  's' filter)</pre>
 </div>
@@ -575,7 +577,7 @@
 </table></div>
 <hr>
 <div class="refsect2">
-<a name="id443961"></a><h3>
+<a name="id387658"></a><h3>
 <a name="Transaction.GetRequires"></a>GetRequires ()</h3>
 <pre class="programlisting">GetRequires (in  's'  filter,
              in  'as' package_ids,
@@ -632,7 +634,7 @@
 </table></div>
 <hr>
 <div class="refsect2">
-<a name="id444042"></a><h3>
+<a name="id387739"></a><h3>
 <a name="Transaction.GetUpdateDetail"></a>GetUpdateDetail ()</h3>
 <pre class="programlisting">GetUpdateDetail (in  'as' package_ids)</pre>
 </div>
@@ -657,7 +659,7 @@
 </table></div>
 <hr>
 <div class="refsect2">
-<a name="id444090"></a><h3>
+<a name="id387787"></a><h3>
 <a name="Transaction.GetUpdates"></a>GetUpdates ()</h3>
 <pre class="programlisting">GetUpdates (in  's' filter)</pre>
 </div>
@@ -711,7 +713,7 @@
 </table></div>
 <hr>
 <div class="refsect2">
-<a name="id444157"></a><h3>
+<a name="id387856"></a><h3>
 <a name="Transaction.GetDistroUpgrades"></a>GetDistroUpgrades ()</h3>
 <pre class="programlisting">GetDistroUpgrades ()</pre>
 </div>
@@ -731,7 +733,7 @@
 </table></div>
 <hr>
 <div class="refsect2">
-<a name="id444194"></a><h3>
+<a name="id387893"></a><h3>
 <a name="Transaction.InstallFiles"></a>InstallFiles ()</h3>
 <pre class="programlisting">InstallFiles (in  'b'  only_trusted,
               in  'as' full_paths)</pre>
@@ -787,7 +789,7 @@
 <p class="permission">Callers need the org.freedesktop.packagekit.localinstall-untrusted</p>
 <hr>
 <div class="refsect2">
-<a name="id444273"></a><h3>
+<a name="id387972"></a><h3>
 <a name="Transaction.InstallPackages"></a>InstallPackages ()</h3>
 <pre class="programlisting">InstallPackages (in  'b'  only_trusted,
                  in  'as' package_ids)</pre>
@@ -845,7 +847,7 @@
 <p class="permission">Callers need the org.freedesktop.packagekit.install-untrusted</p>
 <hr>
 <div class="refsect2">
-<a name="id444354"></a><h3>
+<a name="id388052"></a><h3>
 <a name="Transaction.InstallSignature"></a>InstallSignature ()</h3>
 <pre class="programlisting">InstallSignature (in  's' sig_type,
                   in  's' key_id,
@@ -886,7 +888,7 @@
 <p class="permission">Callers need the org.freedesktop.packagekit.install-signature</p>
 <hr>
 <div class="refsect2">
-<a name="id444427"></a><h3>
+<a name="id388126"></a><h3>
 <a name="Transaction.RefreshCache"></a>RefreshCache ()</h3>
 <pre class="programlisting">RefreshCache (in  'b' force)</pre>
 </div>
@@ -924,7 +926,7 @@
 <p class="permission">Callers need the org.freedesktop.packagekit.refresh-cache</p>
 <hr>
 <div class="refsect2">
-<a name="id444490"></a><h3>
+<a name="id388188"></a><h3>
 <a name="Transaction.RemovePackages"></a>RemovePackages ()</h3>
 <pre class="programlisting">RemovePackages (in  'as' package_ids,
                 in  'b'  allow_deps,
@@ -989,7 +991,7 @@
 <p class="permission">Callers need the org.freedesktop.packagekit.remove</p>
 <hr>
 <div class="refsect2">
-<a name="id444579"></a><h3>
+<a name="id388277"></a><h3>
 <a name="Transaction.RepoEnable"></a>RepoEnable ()</h3>
 <pre class="programlisting">RepoEnable (in  's' repo_id,
             in  'b' enabled)</pre>
@@ -1021,7 +1023,7 @@
 <p class="permission">Callers need the org.freedesktop.packagekit.repo-change</p>
 <hr>
 <div class="refsect2">
-<a name="id444639"></a><h3>
+<a name="id388338"></a><h3>
 <a name="Transaction.RepoSetData"></a>RepoSetData ()</h3>
 <pre class="programlisting">RepoSetData (in  's' repo_id,
              in  's' parameter,
@@ -1062,7 +1064,7 @@
 <p class="permission">Callers need the org.freedesktop.packagekit.repo-change</p>
 <hr>
 <div class="refsect2">
-<a name="id444713"></a><h3>
+<a name="id388411"></a><h3>
 <a name="Transaction.Resolve"></a>Resolve ()</h3>
 <pre class="programlisting">Resolve (in  's'  filter,
          in  'as' packages)</pre>
@@ -1121,7 +1123,7 @@
 </table></div>
 <hr>
 <div class="refsect2">
-<a name="id444788"></a><h3>
+<a name="id388486"></a><h3>
 <a name="Transaction.Rollback"></a>Rollback ()</h3>
 <pre class="programlisting">Rollback (in  's' transaction_id)</pre>
 </div>
@@ -1142,7 +1144,7 @@
 <p class="permission">Callers need the org.freedesktop.packagekit.rollback</p>
 <hr>
 <div class="refsect2">
-<a name="id444835"></a><h3>
+<a name="id388534"></a><h3>
 <a name="Transaction.SearchDetails"></a>SearchDetails ()</h3>
 <pre class="programlisting">SearchDetails (in  's'  filter,
                in  'as' values)</pre>
@@ -1209,7 +1211,7 @@
 </table></div>
 <hr>
 <div class="refsect2">
-<a name="id444921"></a><h3>
+<a name="id388620"></a><h3>
 <a name="Transaction.SearchFiles"></a>SearchFiles ()</h3>
 <pre class="programlisting">SearchFiles (in  's'  filter,
              in  'as' values)</pre>
@@ -1260,7 +1262,7 @@
 </table></div>
 <hr>
 <div class="refsect2">
-<a name="id444995"></a><h3>
+<a name="id388693"></a><h3>
 <a name="Transaction.SearchGroups"></a>SearchGroups ()</h3>
 <pre class="programlisting">SearchGroups (in  's'  filter,
               in  'as' values)</pre>
@@ -1335,7 +1337,7 @@
 </table></div>
 <hr>
 <div class="refsect2">
-<a name="id445084"></a><h3>
+<a name="id388782"></a><h3>
 <a name="Transaction.SearchNames"></a>SearchNames ()</h3>
 <pre class="programlisting">SearchNames (in  's'  filter,
              in  'as' values)</pre>
@@ -1405,7 +1407,7 @@
 </table></div>
 <hr>
 <div class="refsect2">
-<a name="id445173"></a><h3>
+<a name="id388871"></a><h3>
 <a name="Transaction.SimulateInstallFiles"></a>SimulateInstallFiles ()</h3>
 <pre class="programlisting">SimulateInstallFiles (in  'as' full_paths)</pre>
 </div>
@@ -1432,7 +1434,7 @@
 </table></div>
 <hr>
 <div class="refsect2">
-<a name="id445222"></a><h3>
+<a name="id388921"></a><h3>
 <a name="Transaction.SimulateInstallPackages"></a>SimulateInstallPackages ()</h3>
 <pre class="programlisting">SimulateInstallPackages (in  'as' package_ids)</pre>
 </div>
@@ -1459,7 +1461,7 @@
 </table></div>
 <hr>
 <div class="refsect2">
-<a name="id445272"></a><h3>
+<a name="id388970"></a><h3>
 <a name="Transaction.SimulateRemovePackages"></a>SimulateRemovePackages ()</h3>
 <pre class="programlisting">SimulateRemovePackages (in  'as' package_ids,
                         in  'b'  autoremove)</pre>
@@ -1504,7 +1506,7 @@
 </table></div>
 <hr>
 <div class="refsect2">
-<a name="id445339"></a><h3>
+<a name="id389037"></a><h3>
 <a name="Transaction.SimulateUpdatePackages"></a>SimulateUpdatePackages ()</h3>
 <pre class="programlisting">SimulateUpdatePackages (in  'as' package_ids)</pre>
 </div>
@@ -1531,7 +1533,7 @@
 </table></div>
 <hr>
 <div class="refsect2">
-<a name="id445388"></a><h3>
+<a name="id389086"></a><h3>
 <a name="Transaction.UpdatePackages"></a>UpdatePackages ()</h3>
 <pre class="programlisting">UpdatePackages (in  'b'  only_trusted,
                 in  'as' package_ids)</pre>
@@ -1583,7 +1585,7 @@
 <p class="permission">Callers need the org.freedesktop.packagekit.update-package</p>
 <hr>
 <div class="refsect2">
-<a name="id445467"></a><h3>
+<a name="id389166"></a><h3>
 <a name="Transaction.UpdateSystem"></a>UpdateSystem ()</h3>
 <pre class="programlisting">UpdateSystem (in  'b' only_trusted)</pre>
 </div>
@@ -1616,7 +1618,7 @@
 <p class="permission">Callers need the org.freedesktop.packagekit.update-system</p>
 <hr>
 <div class="refsect2">
-<a name="id445525"></a><h3>
+<a name="id390043"></a><h3>
 <a name="Transaction.WhatProvides"></a>WhatProvides ()</h3>
 <pre class="programlisting">WhatProvides (in  's'  filter,
               in  's'  type,
@@ -1670,7 +1672,7 @@
 </table></div>
 <hr>
 <div class="refsect2">
-<a name="id445605"></a><h3>
+<a name="id390123"></a><h3>
 <a name="Transaction.UpgradeSystem"></a>UpgradeSystem ()</h3>
 <pre class="programlisting">UpgradeSystem (in  's' distro_id,
                in  's' upgrade_kind)</pre>
@@ -1712,11 +1714,69 @@
 </tr>
 </tbody>
 </table></div>
+<hr>
+<div class="refsect2">
+<a name="id390187"></a><h3>
+<a name="Transaction.SimulateRepairSystem"></a>SimulateRepairSystem ()</h3>
+<pre class="programlisting">SimulateRepairSystem ()</pre>
+</div>
+<p>
+            This method simulates recovering the package management system from e.g.
+            unsatisfied dependencies of installed packages emitting packages required to be
+            installed, removed, updated, reinstalled, downgraded, obsoleted or untrusted.
+            The latter is used to present the user untrusted packages that are about to be installed.
+          </p>
+<p>
+            This method typically emits
+            Progress,
+            Status and
+            Error and
+            Package.
+          </p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody></tbody>
+</table></div>
+<hr>
+<div class="refsect2">
+<a name="id390226"></a><h3>
+<a name="Transaction.RepairSystem"></a>RepairSystem ()</h3>
+<pre class="programlisting">RepairSystem (in  'b' only_trusted)</pre>
+</div>
+<p>
+            This method recovers the package management system from e.g.
+            unsatisfied dependencies of installed packages.
+          </p>
+<p>
+            This method typically emits
+            Progress,
+            Status and
+            Error and
+            Package.
+          </p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody><tr>
+<td><p><span class="term"><em class="parameter"><code>only_trusted</code></em>:</span></p></td>
+<td>
+            
+              If the transaction is only allowed to install trusted packages.
+              Unsigned packages should not be installed if this parameter is TRUE.
+            
+            
+              If this method is can only install trusted packages, and the packages are unsigned, then
+              the backend will send a ErrorCode(missing-gpg-signature).
+              On recieving this error, the client may choose to retry with only_trusted FALSE
+              after gaining further authentication.
+            
+          </td>
+</tr></tbody>
+</table></div>
 </div>
 <div class="refsect1">
-<a name="id446490"></a><h2>Signal Details</h2>
+<a name="id390280"></a><h2>Signal Details</h2>
 <div class="refsect2">
-<a name="id446498"></a><h3>
+<a name="id390288"></a><h3>
 <a name="Transaction::Category"></a>The Category signal</h3>
 <pre class="programlisting">Category ('s' parent_id,
           's' cat_id,
@@ -1786,7 +1846,7 @@
 </table></div>
 <hr>
 <div class="refsect2">
-<a name="id446598"></a><h3>
+<a name="id390388"></a><h3>
 <a name="Transaction::Details"></a>The Details signal</h3>
 <pre class="programlisting">Details ('s' package_id,
          's' license,
@@ -1864,7 +1924,7 @@
 </table></div>
 <hr>
 <div class="refsect2">
-<a name="id446708"></a><h3>
+<a name="id390498"></a><h3>
 <a name="Transaction::ErrorCode"></a>The ErrorCode signal</h3>
 <pre class="programlisting">ErrorCode ('s' code,
            's' details)</pre>
@@ -1898,7 +1958,7 @@
 </table></div>
 <hr>
 <div class="refsect2">
-<a name="id446768"></a><h3>
+<a name="id390558"></a><h3>
 <a name="Transaction::Files"></a>The Files signal</h3>
 <pre class="programlisting">Files ('s' package_id,
        's' file_list)</pre>
@@ -1929,7 +1989,7 @@
 </table></div>
 <hr>
 <div class="refsect2">
-<a name="id446823"></a><h3>
+<a name="id390613"></a><h3>
 <a name="Transaction::Finished"></a>The Finished signal</h3>
 <pre class="programlisting">Finished ('s' exit,
           'u' runtime)</pre>
@@ -1960,7 +2020,7 @@
 </table></div>
 <hr>
 <div class="refsect2">
-<a name="id446879"></a><h3>
+<a name="id390669"></a><h3>
 <a name="Transaction::Message"></a>The Message signal</h3>
 <pre class="programlisting">Message ('s' type,
          's' details)</pre>
@@ -1996,7 +2056,7 @@
 </table></div>
 <hr>
 <div class="refsect2">
-<a name="id446939"></a><h3>
+<a name="id390729"></a><h3>
 <a name="Transaction::Package"></a>The Package signal</h3>
 <pre class="programlisting">Package ('s' info,
          's' package_id,
@@ -2070,7 +2130,7 @@
 </table></div>
 <hr>
 <div class="refsect2">
-<a name="id447027"></a><h3>
+<a name="id390817"></a><h3>
 <a name="Transaction::RepoDetail"></a>The RepoDetail signal</h3>
 <pre class="programlisting">RepoDetail ('s' repo_id,
             's' description,
@@ -2110,7 +2170,7 @@
 </table></div>
 <hr>
 <div class="refsect2">
-<a name="id447095"></a><h3>
+<a name="id390885"></a><h3>
 <a name="Transaction::RepoSignatureRequired"></a>The RepoSignatureRequired signal</h3>
 <pre class="programlisting">RepoSignatureRequired ('s' package_id,
                        's' repository_name,
@@ -2209,7 +2269,7 @@
 </table></div>
 <hr>
 <div class="refsect2">
-<a name="id447239"></a><h3>
+<a name="id391030"></a><h3>
 <a name="Transaction::EulaRequired"></a>The EulaRequired signal</h3>
 <pre class="programlisting">EulaRequired ('s' eula_id,
               's' package_id,
@@ -2265,7 +2325,7 @@
 </table></div>
 <hr>
 <div class="refsect2">
-<a name="id447328"></a><h3>
+<a name="id391118"></a><h3>
 <a name="Transaction::MediaChangeRequired"></a>The MediaChangeRequired signal</h3>
 <pre class="programlisting">MediaChangeRequired ('s' media_type,
                      's' media_id,
@@ -2314,7 +2374,7 @@
 </table></div>
 <hr>
 <div class="refsect2">
-<a name="id447404"></a><h3>
+<a name="id391195"></a><h3>
 <a name="Transaction::RequireRestart"></a>The RequireRestart signal</h3>
 <pre class="programlisting">RequireRestart ('s' type,
                 's' package_id)</pre>
@@ -2354,7 +2414,7 @@
 </table></div>
 <hr>
 <div class="refsect2">
-<a name="id447470"></a><h3>
+<a name="id391261"></a><h3>
 <a name="Transaction::Transaction"></a>The Transaction signal</h3>
 <pre class="programlisting">Transaction ('s' old_tid,
              's' timespec,
@@ -2440,7 +2500,7 @@
 </table></div>
 <hr>
 <div class="refsect2">
-<a name="id447603"></a><h3>
+<a name="id391393"></a><h3>
 <a name="Transaction::UpdateDetail"></a>The UpdateDetail signal</h3>
 <pre class="programlisting">UpdateDetail ('s' package_id,
               's' updates,
@@ -2572,7 +2632,7 @@
 </table></div>
 <hr>
 <div class="refsect2">
-<a name="id447789"></a><h3>
+<a name="id391580"></a><h3>
 <a name="Transaction::DistroUpgrade"></a>The DistroUpgrade signal</h3>
 <pre class="programlisting">DistroUpgrade ('s' type,
                's' name,
@@ -2614,7 +2674,7 @@
 </table></div>
 <hr>
 <div class="refsect2">
-<a name="id447858"></a><h3>
+<a name="id391649"></a><h3>
 <a name="Transaction::ItemProgress"></a>The ItemProgress signal</h3>
 <pre class="programlisting">ItemProgress ('s' id,
               'u' percentage)</pre>
@@ -2650,7 +2710,7 @@
 </table></div>
 <hr>
 <div class="refsect2">
-<a name="id447916"></a><h3>
+<a name="id391706"></a><h3>
 <a name="Transaction::Changed"></a>The Changed signal</h3>
 <pre class="programlisting">Changed ()</pre>
 </div>
@@ -2663,7 +2723,7 @@
 </table></div>
 <hr>
 <div class="refsect2">
-<a name="id447947"></a><h3>
+<a name="id391737"></a><h3>
 <a name="Transaction::Destroy"></a>The Destroy signal</h3>
 <pre class="programlisting">Destroy ()</pre>
 </div>
@@ -2677,9 +2737,9 @@
 </table></div>
 </div>
 <div class="refsect1">
-<a name="id447980"></a><h2>Property Details</h2>
+<a name="id391770"></a><h2>Property Details</h2>
 <div class="refsect2">
-<a name="id447988"></a><h3>
+<a name="id391778"></a><h3>
 <a name="Transaction:Role"></a>The "Role" property</h3>
 <pre class="programlisting">'Role'  read      's'
 </pre>
@@ -2693,7 +2753,7 @@
 </table></div>
 <hr>
 <div class="refsect2">
-<a name="id448019"></a><h3>
+<a name="id391809"></a><h3>
 <a name="Transaction:Status"></a>The "Status" property</h3>
 <pre class="programlisting">'Status'  read      's'
 </pre>
@@ -2707,7 +2767,7 @@
 </table></div>
 <hr>
 <div class="refsect2">
-<a name="id448049"></a><h3>
+<a name="id391840"></a><h3>
 <a name="Transaction:LastPackage"></a>The "LastPackage" property</h3>
 <pre class="programlisting">'LastPackage'  read      's'
 </pre>
@@ -2721,7 +2781,7 @@
 </table></div>
 <hr>
 <div class="refsect2">
-<a name="id448081"></a><h3>
+<a name="id391871"></a><h3>
 <a name="Transaction:Uid"></a>The "Uid" property</h3>
 <pre class="programlisting">'Uid'  read      'u'
 </pre>
@@ -2735,7 +2795,7 @@
 </table></div>
 <hr>
 <div class="refsect2">
-<a name="id448112"></a><h3>
+<a name="id391902"></a><h3>
 <a name="Transaction:Percentage"></a>The "Percentage" property</h3>
 <pre class="programlisting">'Percentage'  read      'u'
 </pre>
@@ -2752,7 +2812,7 @@
 </table></div>
 <hr>
 <div class="refsect2">
-<a name="id448148"></a><h3>
+<a name="id391938"></a><h3>
 <a name="Transaction:Subpercentage"></a>The "Subpercentage" property</h3>
 <pre class="programlisting">'Subpercentage'  read      'u'
 </pre>
@@ -2769,7 +2829,7 @@
 </table></div>
 <hr>
 <div class="refsect2">
-<a name="id448184"></a><h3>
+<a name="id391974"></a><h3>
 <a name="Transaction:AllowCancel"></a>The "AllowCancel" property</h3>
 <pre class="programlisting">'AllowCancel'  read      'b'
 </pre>
@@ -2783,7 +2843,7 @@
 </table></div>
 <hr>
 <div class="refsect2">
-<a name="id448215"></a><h3>
+<a name="id392005"></a><h3>
 <a name="Transaction:CallerActive"></a>The "CallerActive" property</h3>
 <pre class="programlisting">'CallerActive'  read      'b'
 </pre>
@@ -2799,7 +2859,7 @@
 </table></div>
 <hr>
 <div class="refsect2">
-<a name="id448248"></a><h3>
+<a name="id392038"></a><h3>
 <a name="Transaction:ElapsedTime"></a>The "ElapsedTime" property</h3>
 <pre class="programlisting">'ElapsedTime'  read      'u'
 </pre>
@@ -2813,7 +2873,7 @@
 </table></div>
 <hr>
 <div class="refsect2">
-<a name="id448279"></a><h3>
+<a name="id392070"></a><h3>
 <a name="Transaction:RemainingTime"></a>The "RemainingTime" property</h3>
 <pre class="programlisting">'RemainingTime'  read      'u'
 </pre>
@@ -2827,7 +2887,7 @@
 </table></div>
 <hr>
 <div class="refsect2">
-<a name="id448311"></a><h3>
+<a name="id392101"></a><h3>
 <a name="Transaction:Speed"></a>The "Speed" property</h3>
 <pre class="programlisting">'Speed'  read      'u'
 </pre>
