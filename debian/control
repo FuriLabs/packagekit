@@ -218,9 +218,9 @@ Description: PackageKit Python bindings
 Package: packagekit-backend-aptcc
 Architecture: any
 Depends: app-install-data,
+         gdebi-core (>= 0.8.2),
          python,
          python-packagekit,
-         gdebi-core (>= 0.8.2),
          ${misc:Depends},
          ${shlibs:Depends}
 XB-Python-Version: ${python:Versions}
