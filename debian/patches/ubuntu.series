@@ -2,3 +2,4 @@ vendor-ubuntu.diff
 defaults.diff
 policy.diff
 01_aptcc-disable-installfiles.patch
+99_ltmain_as-needed.patch
