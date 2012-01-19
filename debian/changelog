@@ -1,3 +1,14 @@
+packagekit (0.7.2-2) unstable; urgency=low
+
+  * Solve override disparity for GIR
+  * Disable InstallFiles() in aptcc again, function isn't ready yet
+  * Compile with --as-needed again
+  * Make libs recommend installation of the PackageKit daemon
+  * Fix segfault if there are no cached properties (Closes: #656376)
+  * Make GStreamer- and browser plugin suggest a PK frontend
+
+ -- Matthias Klumpp <matthias@tenstral.net>  Thu, 19 Jan 2012 11:51:41 +0100
+
 packagekit (0.7.2-1) unstable; urgency=low
 
   * New upstream release: 0.7.2
