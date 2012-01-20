@@ -43,7 +43,8 @@ Homepage: http://www.packagekit.org
 
 Package: packagekit
 Architecture: any
-Depends: libpackagekit-glib2-14 (= ${binary:Version}),
+Depends: libglib2.0-bin,
+         libpackagekit-glib2-14 (= ${binary:Version}),
          packagekit-backend-aptcc (= ${binary:Version}),
          ${misc:Depends},
          ${shlibs:Depends}
