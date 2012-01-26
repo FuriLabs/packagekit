@@ -1,0 +1,63 @@
+From c2514488db6ed18d0f16d9f77ee1b785a4f42ca8 Mon Sep 17 00:00:00 2001
+From: Matthias Clasen <mclasen@redhat.com>
+Date: Fri, 20 Jan 2012 10:00:00 +0000
+Subject: [PATCH] Fix a critical warning when starting gnome-settings-daemon
+
+NULL is not a valid string, as far as GLib is concerned.
+
+Signed-off-by: Richard Hughes <richard@hughsie.com>
+---
+ lib/packagekit-glib2/pk-client.c  |    4 ++--
+ lib/packagekit-glib2/pk-control.c |   14 +++++++-------
+ 2 files changed, 9 insertions(+), 9 deletions(-)
+
+diff --git a/lib/packagekit-glib2/pk-client.c b/lib/packagekit-glib2/pk-client.c
+index 19e3bfd..9acb1ba 100644
+--- a/lib/packagekit-glib2/pk-client.c
++++ b/lib/packagekit-glib2/pk-client.c
+@@ -1844,8 +1844,8 @@ pk_client_set_hints_cb (GObject *source_object,
+ 		g_dbus_proxy_call (state->proxy, "RepoSetData",
+ 				   g_variant_new ("(sss)",
+ 						  state->repo_id,
+-						  state->parameter,
+-						  state->value),
++						  state->parameter ? state->parameter : "",
++						  state->value ? state->value : ""),
+ 				   G_DBUS_CALL_FLAGS_NONE,
+ 				   PK_CLIENT_DBUS_METHOD_TIMEOUT,
+ 				   state->cancellable,
+diff --git a/lib/packagekit-glib2/pk-control.c b/lib/packagekit-glib2/pk-control.c
+index 83c3c72..6676c4a 100644
+--- a/lib/packagekit-glib2/pk-control.c
++++ b/lib/packagekit-glib2/pk-control.c
+@@ -1175,12 +1175,12 @@ pk_control_set_proxy2_async (PkControl *control,
+ 	state->res = g_object_ref (res);
+ 	state->control = g_object_ref (control);
+ 	state->parameters = g_variant_new ("(ssssss)",
+-					   proxy_http,
+-					   proxy_https,
+-					   proxy_ftp,
+-					   proxy_socks,
+-					   no_proxy,
+-					   pac);
++					   proxy_http ? proxy_http : "",
++					   proxy_https ? proxy_https : "",
++					   proxy_ftp ? proxy_ftp : "",
++					   proxy_socks ? proxy_socks : "",
++					   no_proxy ? no_proxy : "",
++					   pac ? pac : "");
+ 	if (cancellable != NULL)
+ 		state->cancellable = g_object_ref (cancellable);
+ 
+@@ -1425,7 +1425,7 @@ pk_control_set_root_async (PkControl *control,
+ 	state = g_slice_new0 (PkControlState);
+ 	state->res = g_object_ref (res);
+ 	state->control = g_object_ref (control);
+-	state->parameters = g_variant_new ("(s)", root);
++	state->parameters = g_variant_new ("(s)", root ? root : "");
+ 	if (cancellable != NULL)
+ 		state->cancellable = g_object_ref (cancellable);
+ 
+-- 
+1.7.6
+

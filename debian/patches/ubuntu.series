@@ -3,4 +3,6 @@ defaults.diff
 policy.diff
 01_aptcc-disable-installfiles.patch
 02_fix-no-cached-props.patch
+03_gsd-warnings-1.patch
+04_gsd-warnings-2.patch
 99_ltmain_as-needed.patch
