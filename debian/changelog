@@ -1,3 +1,11 @@
+packagekit (0.7.2-3) unstable; urgency=low
+
+  * Depend on GLib tools, so gdbus is available (Closes: #656559)
+  * Fix warnings when running GSD with PackageKit enabled
+  * aptcc: Don't hang on long transactions (LP: #905415)
+
+ -- Matthias Klumpp <matthias@tenstral.net>  Fri, 27 Jan 2012 23:26:32 +0100
+
 packagekit (0.7.2-2) unstable; urgency=low
 
   * Solve override disparity for GIR
