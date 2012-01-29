@@ -10,6 +10,7 @@ if [ "$1" = "purge" ]; then
 
         # Remove PK transaction db and desktop cache
         rm -rf /var/lib/PackageKit
+        rm -rf /var/cache/PackageKit
 
 fi
 
