@@ -69,7 +69,9 @@ Description: Provides a package management service
 Package: packagekit-bash-completion
 Architecture: any
 Section: libs
-Depends: packagekit (= ${binary:Version}), ${misc:Depends}, ${shlibs:Depends}
+Depends: packagekit (= ${binary:Version}),
+         ${misc:Depends},
+         ${shlibs:Depends}
 Description: Offer to install missing programs automatically
  PackageKit allows performing simple software management tasks over a DBus
  interface e.g. refreshing the cache, updating, installing and removing
@@ -92,7 +94,8 @@ Description: Documentation for PackageKit
 Package: libpackagekit-glib2-14
 Architecture: any
 Section: libs
-Depends: ${misc:Depends}, ${shlibs:Depends}
+Depends: ${misc:Depends},
+         ${shlibs:Depends}
 Recommends: packagekit (= ${binary:Version})
 Description: Library for accessing PackageKit using GLib
  PackageKit allows performing simple software management tasks over a DBus
@@ -127,7 +130,8 @@ Description: Library for accessing PackageKit using GLib (development files)
 Package: gir1.2-packagekitglib-1.0
 Section: introspection
 Architecture: any
-Depends: ${gir:Depends}, ${misc:Depends}
+Depends: ${gir:Depends},
+         ${misc:Depends}
 Description: GObject introspection data for the PackageKit GLib library
  PackageKit allows performing simple software management tasks over a DBus
  interface e.g. refreshing the cache, updating, installing and removing
@@ -142,10 +146,12 @@ Description: GObject introspection data for the PackageKit GLib library
 Package: libpackagekit-qt2-2
 Architecture: any
 Section: libs
-Depends: ${misc:Depends}, ${shlibs:Depends}
+Depends: ${misc:Depends},
+         ${shlibs:Depends}
 Recommends: packagekit (= ${binary:Version})
 Breaks: libpackagekit-qt-14 (>= 0.6.8-0)
-Replaces: libpackagekit-qt-14, libpackagekit-qt14
+Replaces: libpackagekit-qt-14,
+          libpackagekit-qt14
 Description: Library for accessing PackageKit using Qt4
  PackageKit allows performing simple software management tasks over a DBus
  interface e.g. refreshing the cache, updating, installing and removing
@@ -156,7 +162,9 @@ Description: Library for accessing PackageKit using Qt4
 Package: libpackagekit-qt2-dev
 Section: libdevel
 Architecture: any
-Depends: libpackagekit-qt2-2 (= ${binary:Version}), libqt4-dev, ${misc:Depends}
+Depends: libpackagekit-qt2-2 (= ${binary:Version}),
+         libqt4-dev,
+         ${misc:Depends}
 Description: Library for accessing PackageKit using Qt4 (development files)
  PackageKit allows performing simple software management tasks over a DBus
  interface e.g. refreshing the cache, updating, installing and removing
@@ -167,7 +175,8 @@ Description: Library for accessing PackageKit using Qt4 (development files)
 Package: packagekit-gtk3-module
 Architecture: any
 Section: libs
-Depends: ${misc:Depends}, ${shlibs:Depends}
+Depends: ${misc:Depends},
+         ${shlibs:Depends}
 Breaks: gnome-packagekit (<< 3.2.1-1)
 Description: Install fonts automatically using PackageKit
  PackageKit allows performing simple software management tasks over a DBus
@@ -180,7 +189,9 @@ Description: Install fonts automatically using PackageKit
 Package: gstreamer0.10-packagekit
 Architecture: any
 Section: libs
-Depends: packagekit (= ${binary:Version}), ${misc:Depends}, ${shlibs:Depends}
+Depends: packagekit (= ${binary:Version}),
+         ${misc:Depends},
+         ${shlibs:Depends}
 Suggests: gnome-packagekit | apper
 Description: GStreamer plugin to install codecs using PackageKit
  PackageKit allows performing simple software management tasks over a DBus
@@ -210,7 +221,10 @@ Description: Plugin to install missing plugins using PackageKit
 Package: python-packagekit
 Architecture: all
 Section: python
-Depends: python-dbus, python-gobject, ${misc:Depends}, ${python:Depends}
+Depends: python-dbus,
+         python-gobject,
+         ${misc:Depends},
+         ${python:Depends}
 Recommends: packagekit
 XB-Python-Version: ${python:Versions}
 Description: PackageKit Python bindings
@@ -229,7 +243,8 @@ Depends: app-install-data,
          ${misc:Depends},
          ${shlibs:Depends}
 XB-Python-Version: ${python:Versions}
-Recommends: apt-xapian-index, packagekit (= ${binary:Version})
+Recommends: apt-xapian-index,
+            packagekit (= ${binary:Version})
 Description: APT backend for PackageKit
  PackageKit allows performing simple software management tasks over a DBus
  interface e.g. refreshing the cache, updating, installing and removing
@@ -259,7 +274,8 @@ Package: packagekit-dbg
 Architecture: any
 Section: debug
 Priority: extra
-Depends: packagekit (= ${binary:Version}), ${misc:Depends}
+Depends: packagekit (= ${binary:Version}),
+         ${misc:Depends}
 Description: Debugging symbols for PackageKit
  This package includes debugging symbols for PackageKit
  libraries, backends and command-line tools.
