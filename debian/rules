@@ -58,6 +58,7 @@ override_dh_auto_install:
 	rm -rf $(INSTALLDIR)/usr/lib/gtk-2.0
 	rm -f  $(INSTALLDIR)/usr/bin/packagekit-bugreport.sh
 	rm -f  $(INSTALLDIR)/usr/lib/libpackagekit-qt.*
+	rm -f  $(INSTALLDIR)/var/lib/PackageKit/transactions.db
 
 override_dh_install: extrainstallfiles-stamp
 	dh_install --list-missing
