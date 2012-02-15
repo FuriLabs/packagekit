@@ -1,0 +1,4 @@
+backends/apt/README.apt usr/share/doc/packagekit-backend-apt/
+usr/lib/packagekit-backend/libpk_backend_apt.so
+usr/sbin/update-packagekit-app-data
+usr/share/PackageKit/helpers/apt/*

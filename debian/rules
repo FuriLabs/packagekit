@@ -10,7 +10,7 @@ PK_CONFIGURE_FLAGS = --disable-static \
 		--enable-gtk-doc \
 		--disable-cron \
 		--enable-introspection \
-		--enable-aptcc --enable-smart \
+		--enable-aptcc --enable-apt --enable-smart \
 		--disable-local \
 		--with-default-backend=aptcc \
 		--enable-browser-plugin \

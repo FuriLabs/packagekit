@@ -254,6 +254,27 @@ Description: APT backend for PackageKit
  target systems with low memory.
  APT is the default package management tool of Debian and Ubuntu.
 
+Package: packagekit-backend-apt
+Architecture: any
+Depends: app-install-data,
+         python-apt (>=0.8.2),
+         python-gdbm,
+         python-packagekit (= ${source:Version}),
+         python-software-properties,
+         update-manager-core,
+         ${misc:Depends},
+         ${python:Depends},
+         ${shlibs:Depends}
+XB-Python-Version: ${python:Versions}
+Recommends: apt-xapian-index
+Description: Python APT backend for PackageKit
+ PackageKit allows performing simple software management tasks over a DBus
+ interface e.g. refreshing the cache, updating, installing and removing
+ software packages or searching for multimedia codecs and file handlers.
+ .
+ This package allows using APT over a Python-based PackageKit backend.
+ APT is the default package management tool of Debian and Ubuntu.
+
 Package: packagekit-backend-smart
 Architecture: any
 Depends: packagekit (= ${binary:Version}),
