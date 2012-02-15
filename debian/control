@@ -96,7 +96,7 @@ Architecture: any
 Section: libs
 Depends: ${misc:Depends},
          ${shlibs:Depends}
-Recommends: packagekit (= ${binary:Version})
+Recommends: packagekit (= ${binary:Version}) | python-aptdaemon.pkcompat
 Description: Library for accessing PackageKit using GLib
  PackageKit allows performing simple software management tasks over a DBus
  interface e.g. refreshing the cache, updating, installing and removing
@@ -148,7 +148,7 @@ Architecture: any
 Section: libs
 Depends: ${misc:Depends},
          ${shlibs:Depends}
-Recommends: packagekit (= ${binary:Version})
+Recommends: packagekit (= ${binary:Version}) | python-aptdaemon.pkcompat
 Breaks: libpackagekit-qt-14 (>= 0.6.8-0)
 Replaces: libpackagekit-qt-14,
           libpackagekit-qt14
