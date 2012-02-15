@@ -225,7 +225,7 @@ Depends: python-dbus,
          python-gobject,
          ${misc:Depends},
          ${python:Depends}
-Recommends: packagekit
+Recommends: packagekit | python-aptdaemon.pkcompat
 XB-Python-Version: ${python:Versions}
 Description: PackageKit Python bindings
  PackageKit allows performing simple software management tasks over a DBus
