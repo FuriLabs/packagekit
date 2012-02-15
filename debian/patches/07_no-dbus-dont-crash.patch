@@ -1,0 +1,33 @@
+From 01935469067747e6c0093988780d8a593837fee3 Mon Sep 17 00:00:00 2001
+From: Richard Hughes <richard@hughsie.com>
+Date: Thu, 2 Feb 2012 14:31:28 +0000
+Subject: [PATCH] Don't crash when the system bus isn't available, just abort
+ with an error
+
+---
+ src/pk-dbus.c |    9 ++++++++-
+ 1 files changed, 8 insertions(+), 1 deletions(-)
+
+diff --git a/src/pk-dbus.c b/src/pk-dbus.c
+index 6ea4bf1..dde437f 100644
+--- a/src/pk-dbus.c
++++ b/src/pk-dbus.c
+@@ -296,7 +296,14 @@ pk_dbus_init (PkDbus *dbus)
+ 	dbus->priv = PK_DBUS_GET_PRIVATE (dbus);
+ 
+ 	/* use the bus to get the uid */
+-	dbus->priv->connection = g_bus_get_sync (G_BUS_TYPE_SYSTEM, NULL, NULL);
++	dbus->priv->connection = g_bus_get_sync (G_BUS_TYPE_SYSTEM,
++						 NULL, &error);
++	if (dbus->priv->connection == NULL) {
++		g_warning ("cannot connect to the system bus: %s",
++			   error->message);
++		g_error_free (error);
++		return;
++	}
+ 
+ 	/* connect to DBus so we can get the pid */
+ 	dbus->priv->proxy_pid =
+-- 
+1.7.6
+

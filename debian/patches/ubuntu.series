@@ -6,5 +6,6 @@ policy.diff
 03_gsd-warnings-1.patch
 04_gsd-warnings-2.patch
 05_aptcc_dont-hang.patch
-06_add_provides_language_support.patch
+06_add-provides-language-support.patch
+07_no-dbus-dont-crash.patch
 99_ltmain_as-needed.patch
