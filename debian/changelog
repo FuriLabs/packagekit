@@ -1,3 +1,13 @@
+packagekit (0.7.2-4) unstable; urgency=low
+
+  * Don't ship transactions.db with PK package (Closes: #657831)
+  * Add APTd PackageKit compat layer as alternative to the original daemon
+  * Add Python APT backend again
+  * Add language-support what-provides type
+  * Don't crash if D-Bus is not available
+
+ -- Matthias Klumpp <matthias@tenstral.net>  Wed, 15 Feb 2012 16:12:10 +0100
+
 packagekit (0.7.2-3) unstable; urgency=low
 
   * Depend on GLib tools, so gdbus is available (Closes: #656559)
