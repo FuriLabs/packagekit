@@ -13,7 +13,7 @@ class PackageKitEnum:
 	info = ( "unknown", "installed", "available", "low", "normal", "important", "security", "bugfix", "enhancement", "blocked", "downloading", "updating", "installing", "removing", "cleanup", "obsoleting", "collection-installed", "collection-available", "finished", "reinstalling", "downgrading", "preparing", "decompressing", "untrusted", "trusted", )
 	sig_type = ( "unknown", "gpg", )
 	upgrade = ( "unknown", "stable", "unstable", )
-	provides = ( "unknown", "any", "modalias", "codec", "mimetype", "driver", "font", "postscript-driver", "plasma-service", "shared-library", "python-module", )
+	provides = ( "unknown", "any", "modalias", "codec", "mimetype", "driver", "font", "postscript-driver", "plasma-service", "shared-library", "python-module", "language-support", )
 	network = ( "unknown", "offline", "online", "wired", "wifi", "mobile", )
 	media_type = ( "unknown", "cd", "dvd", "disc", )
 	authorize_type = ( "unknown", "yes", "no", "interactive", )
@@ -222,6 +222,7 @@ PROVIDES_ANY = "any"
 PROVIDES_CODEC = "codec"
 PROVIDES_FONT = "font"
 PROVIDES_HARDWARE_DRIVER = "driver"
+PROVIDES_LANGUAGE_SUPPORT = "language-support"
 PROVIDES_MIMETYPE = "mimetype"
 PROVIDES_MODALIAS = "modalias"
 PROVIDES_PLASMA_SERVICE = "plasma-service"

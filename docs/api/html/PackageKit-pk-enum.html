@@ -439,6 +439,7 @@ What message type we need to show
 	PK_PROVIDES_ENUM_PLASMA_SERVICE,
 	PK_PROVIDES_ENUM_SHARED_LIB,
 	PK_PROVIDES_ENUM_PYTHON,
+	PK_PROVIDES_ENUM_LANGUAGE_SUPPORT,
 	PK_PROVIDES_ENUM_LAST
 } PkProvidesEnum;
 </pre>
@@ -773,8 +774,6 @@ Search for a string value in a table of constants.
 <div class="refsect2">
 <a name="pk-enum-test"></a><h3>pk_enum_test ()</h3>
 <pre class="programlisting"><span class="returnvalue">void</span>                pk_enum_test                        (<em class="parameter"><code><a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gpointer"><span class="type">gpointer</span></a> user_data</code></em>);</pre>
-<p>
-</p>
 </div>
 <hr>
 <div class="refsect2">
@@ -978,12 +977,44 @@ Converts a text enumerated type to its unsigned integer representation
 <div class="refsect2">
 <a name="pk-info-enum-to-localised-past"></a><h3>pk_info_enum_to_localised_past ()</h3>
 <pre class="programlisting">const <a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gchar"><span class="returnvalue">gchar</span></a> *       pk_info_enum_to_localised_past      (<em class="parameter"><code><a class="link" href="PackageKit-pk-enum.html#PkInfoEnum" title="enum PkInfoEnum"><span class="type">PkInfoEnum</span></a> info</code></em>);</pre>
+<p>
+Converts a enumerated type to its localized description
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>info</code></em> :</span></p></td>
+<td>The enumerated type value</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td>the translated text</td>
+</tr>
+</tbody>
+</table></div>
 <p class="since">Since 0.7.2</p>
 </div>
 <hr>
 <div class="refsect2">
 <a name="pk-info-enum-to-localised-present"></a><h3>pk_info_enum_to_localised_present ()</h3>
 <pre class="programlisting">const <a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gchar"><span class="returnvalue">gchar</span></a> *       pk_info_enum_to_localised_present   (<em class="parameter"><code><a class="link" href="PackageKit-pk-enum.html#PkInfoEnum" title="enum PkInfoEnum"><span class="type">PkInfoEnum</span></a> info</code></em>);</pre>
+<p>
+Converts a enumerated type to its localized description
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>info</code></em> :</span></p></td>
+<td>The enumerated type value</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td>the translated text</td>
+</tr>
+</tbody>
+</table></div>
 <p class="since">Since 0.7.2</p>
 </div>
 <hr>
@@ -1254,6 +1285,22 @@ Converts a text enumerated type to its unsigned integer representation
 <div class="refsect2">
 <a name="pk-role-enum-to-localised-present"></a><h3>pk_role_enum_to_localised_present ()</h3>
 <pre class="programlisting">const <a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gchar"><span class="returnvalue">gchar</span></a> *       pk_role_enum_to_localised_present   (<em class="parameter"><code><a class="link" href="PackageKit-pk-enum.html#PkRoleEnum" title="enum PkRoleEnum"><span class="type">PkRoleEnum</span></a> role</code></em>);</pre>
+<p>
+Converts a enumerated type to its localized description
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>role</code></em> :</span></p></td>
+<td>The enumerated type value</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td>the translated text</td>
+</tr>
+</tbody>
+</table></div>
 <p class="since">Since 0.7.2</p>
 </div>
 <hr>

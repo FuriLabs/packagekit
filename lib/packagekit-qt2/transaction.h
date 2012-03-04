@@ -338,7 +338,10 @@ public:
         ProvidesFont,
         ProvidesHardwareDriver,
         ProvidesPostscriptDriver,
-        ProvidesPlasmaService
+        ProvidesPlasmaService,
+        ProvidesSharedLib,
+        ProvidesPythonModule,
+        ProvidesLanguageSupport
     } Provides;
 
     /**

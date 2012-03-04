@@ -377,7 +377,7 @@ pk_control_proxy_connect (PkControlState *state)
 
 	/* coldplug properties */
 	props = g_dbus_proxy_get_cached_property_names (state->proxy);
-	for (i = 0; props[i] != NULL; i++) {
+	for (i = 0; props != NULL && props[i] != NULL; i++) {
 		value_tmp = g_dbus_proxy_get_cached_property (state->proxy,
 							      props[i]);
 		pk_control_set_property_value (state->control,
@@ -1175,12 +1175,13 @@ pk_control_set_proxy2_async (PkControl *control,
 	state->res = g_object_ref (res);
 	state->control = g_object_ref (control);
 	state->parameters = g_variant_new ("(ssssss)",
-					   proxy_http,
-					   proxy_https,
-					   proxy_ftp,
-					   proxy_socks,
-					   no_proxy,
-					   pac);
+					   proxy_http ? proxy_http : "",
+					   proxy_https ? proxy_https : "",
+					   proxy_ftp ? proxy_ftp : "",
+					   proxy_socks ? proxy_socks : "",
+					   no_proxy ? no_proxy : "",
+					   pac ? pac : "");
+	g_variant_ref_sink (state->parameters);
 	if (cancellable != NULL)
 		state->cancellable = g_object_ref (cancellable);
 
@@ -1425,7 +1426,8 @@ pk_control_set_root_async (PkControl *control,
 	state = g_slice_new0 (PkControlState);
 	state->res = g_object_ref (res);
 	state->control = g_object_ref (control);
-	state->parameters = g_variant_new ("(s)", root);
+	state->parameters = g_variant_new ("(s)", root ? root : "");
+	g_variant_ref_sink (state->parameters);
 	if (cancellable != NULL)
 		state->cancellable = g_object_ref (cancellable);
 
@@ -1862,6 +1864,7 @@ pk_control_get_time_since_action_async (PkControl *control,
 	state->res = g_object_ref (res);
 	state->control = g_object_ref (control);
 	state->parameters = g_variant_new ("(s)", pk_role_enum_to_string (role));
+	g_variant_ref_sink (state->parameters);
 	if (cancellable != NULL)
 		state->cancellable = g_object_ref (cancellable);
 
@@ -2081,6 +2084,7 @@ pk_control_can_authorize_async (PkControl *control,
 	state->res = g_object_ref (res);
 	state->control = g_object_ref (control);
 	state->parameters = g_variant_new ("(s)", action_id);
+	g_variant_ref_sink (state->parameters);
 	if (cancellable != NULL)
 		state->cancellable = g_object_ref (cancellable);
 

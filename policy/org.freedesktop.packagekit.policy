@@ -303,6 +303,7 @@
       <allow_inactive>no</allow_inactive>
       <allow_active>auth_admin</allow_active>
     </defaults>
+    <annotate key="org.freedesktop.policykit.imply">org.freedesktop.packagekit.package-install</annotate>
   </action>
 
   <action id="org.freedesktop.packagekit.system-trust-signing-key">
@@ -606,6 +607,7 @@
       <allow_inactive>no</allow_inactive>
       <allow_active>auth_admin_keep</allow_active>
     </defaults>
+    <annotate key="org.freedesktop.policykit.imply">org.freedesktop.packagekit.package-install</annotate>
   </action>
 
   <action id="org.freedesktop.packagekit.system-update">
@@ -1340,7 +1342,13 @@
   <action id="org.freedesktop.packagekit.repair-system">
     
     <description>Repair System</description>
+    <description xml:lang="nl">Repareer Systeem</description>
+    <description xml:lang="pa">ਸਿਸਟਮ ਰਿਪੇਅਰ</description>
+    <description xml:lang="ru">Восстановление системы</description>
     <message>Authentication is required to repair the installed software</message>
+    <message xml:lang="nl">Authenticatie is vereist om de geïnstalleerde software te kunnen repareren</message>
+    <message xml:lang="pa">ਇੰਸਟਾਲ ਹੋਏ ਸਾਫਟਵੇਅਰ ਨੂੰ ਰਿਪੇਅਰ ਕਰਨ ਲਈ ਪਰਮਾਣਕਿਤਾ ਚਾਹੀਦੀ ਹੈ</message>
+    <message xml:lang="ru">Для переустановки ПО необходима проверка подлинности</message>
     <icon_name>package-x-generic</icon_name>
     <defaults>
       <allow_any>no</allow_any>
