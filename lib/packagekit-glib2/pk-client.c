@@ -50,7 +50,7 @@ static void     pk_client_finalize	(GObject     *object);
 
 #define PK_CLIENT_GET_PRIVATE(o) (G_TYPE_INSTANCE_GET_PRIVATE ((o), PK_TYPE_CLIENT, PkClientPrivate))
 
-#define PK_CLIENT_DBUS_METHOD_TIMEOUT	1500 /* ms */
+#define PK_CLIENT_DBUS_METHOD_TIMEOUT	G_MAXINT /* ms */
 
 /**
  * PkClientPrivate:
@@ -522,7 +522,7 @@ pk_client_set_property_value (PkClientState *state,
 	/* remaining-time */
 	if (g_strcmp0 (key, "RemainingTime") == 0) {
 		ret = pk_progress_set_elapsed_time (state->progress,
-						  g_variant_get_uint32 (value));
+						    g_variant_get_uint32 (value));
 		if (ret && state->progress_callback != NULL) {
 			state->progress_callback (state->progress,
 						  PK_PROGRESS_TYPE_REMAINING_TIME,
@@ -534,7 +534,7 @@ pk_client_set_property_value (PkClientState *state,
 	/* speed */
 	if (g_strcmp0 (key, "Speed") == 0) {
 		ret = pk_progress_set_speed (state->progress,
-						  g_variant_get_uint32 (value));
+					     g_variant_get_uint32 (value));
 		if (ret && state->progress_callback != NULL) {
 			state->progress_callback (state->progress,
 						  PK_PROGRESS_TYPE_SPEED,
@@ -784,20 +784,34 @@ pk_client_signal_package (PkClientState *state,
 	if (state->results != NULL && info_enum != PK_INFO_ENUM_FINISHED)
 		pk_results_add_package (state->results, package);
 
-	/* save package-id */
-	ret = pk_progress_set_package_id (state->progress, package_id);
-	if (state->progress_callback != NULL && ret) {
-		state->progress_callback (state->progress,
-					  PK_PROGRESS_TYPE_PACKAGE_ID,
-					  state->progress_user_data);
-	}
-
-	/* save package object */
-	ret = pk_progress_set_package (state->progress, package);
-	if (state->progress_callback != NULL && ret) {
-		state->progress_callback (state->progress,
-					  PK_PROGRESS_TYPE_PACKAGE,
-					  state->progress_user_data);
+	/* only emit progress for verb packages */
+	switch (info_enum) {
+	case PK_INFO_ENUM_DOWNLOADING:
+	case PK_INFO_ENUM_UPDATING:
+	case PK_INFO_ENUM_INSTALLING:
+	case PK_INFO_ENUM_REMOVING:
+	case PK_INFO_ENUM_CLEANUP:
+	case PK_INFO_ENUM_OBSOLETING:
+	case PK_INFO_ENUM_REINSTALLING:
+	case PK_INFO_ENUM_DOWNGRADING:
+	case PK_INFO_ENUM_PREPARING:
+	case PK_INFO_ENUM_DECOMPRESSING:
+	case PK_INFO_ENUM_FINISHED:
+		ret = pk_progress_set_package_id (state->progress, package_id);
+		if (state->progress_callback != NULL && ret) {
+			state->progress_callback (state->progress,
+						  PK_PROGRESS_TYPE_PACKAGE_ID,
+						  state->progress_user_data);
+		}
+		ret = pk_progress_set_package (state->progress, package);
+		if (state->progress_callback != NULL && ret) {
+			state->progress_callback (state->progress,
+						  PK_PROGRESS_TYPE_PACKAGE,
+						  state->progress_user_data);
+		}
+		break;
+	default:
+		break;
 	}
 out:
 	g_object_unref (package);
@@ -1426,7 +1440,7 @@ pk_client_proxy_connect (PkClientState *state)
 
 	/* coldplug properties */
 	props = g_dbus_proxy_get_cached_property_names (state->proxy);
-	for (i = 0; props[i] != NULL; i++) {
+	for (i = 0; props != NULL && props[i] != NULL; i++) {
 		value_tmp = g_dbus_proxy_get_cached_property (state->proxy,
 							      props[i]);
 		pk_client_set_property_value (state,
@@ -1844,8 +1858,8 @@ pk_client_set_hints_cb (GObject *source_object,
 		g_dbus_proxy_call (state->proxy, "RepoSetData",
 				   g_variant_new ("(sss)",
 						  state->repo_id,
-						  state->parameter,
-						  state->value),
+						  state->parameter ? state->parameter : "",
+						  state->value ? state->value : ""),
 				   G_DBUS_CALL_FLAGS_NONE,
 				   PK_CLIENT_DBUS_METHOD_TIMEOUT,
 				   state->cancellable,

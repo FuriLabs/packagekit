@@ -2748,6 +2748,15 @@ out:
 }
 
 /**
+ * pk_backend_sort_string_cb:
+ **/
+static gint
+pk_backend_sort_string_cb (const gchar **a, const gchar **b)
+{
+	return g_strcmp0 (*a, *b);
+}
+
+/**
  * pk_backend_get_files_thread:
  */
 static gboolean
@@ -2857,6 +2866,9 @@ pk_backend_get_files_thread (PkBackend *backend)
 			goto out;
 		}
 
+		/* sort these by name and add to list */
+		g_ptr_array_sort (files,
+				  (GCompareFunc) pk_backend_sort_string_cb);
 		files_str = g_string_new ("");
 		for (j=0; j<files->len; j++) {
 			file = g_ptr_array_index (files, j);
@@ -3334,7 +3346,7 @@ pk_backend_get_update_detail_thread (PkBackend *backend)
 			pk_backend_error_code (backend,
 					       PK_ERROR_ENUM_PACKAGE_NOT_FOUND,
 					       "failed to find package %s: %s",
-					       zif_package_get_printable (package),
+					       package_ids[i],
 					       error->message);
 			g_error_free (error);
 			goto out;
@@ -3503,6 +3515,9 @@ pk_backend_convert_transaction_reason_to_info_enum (ZifTransactionReason reason)
 	case ZIF_TRANSACTION_REASON_REMOVE_FOR_UPDATE:
 	case ZIF_TRANSACTION_REASON_REMOVE_OBSOLETE:
 	case ZIF_TRANSACTION_REASON_REMOVE_USER_ACTION:
+#if ZIF_CHECK_VERSION(0,2,8)
+	case ZIF_TRANSACTION_REASON_REMOVE_AUTO_DEP:
+#endif
 		return PK_INFO_ENUM_REMOVING;
 	case ZIF_TRANSACTION_REASON_UPDATE_DEPEND:
 	case ZIF_TRANSACTION_REASON_UPDATE_FOR_CONFLICT:
@@ -3759,6 +3774,9 @@ out:
 static gboolean
 pk_backend_remove_packages_thread (PkBackend *backend)
 {
+#if ZIF_CHECK_VERSION(0,2,8)
+	gboolean autoremove;
+#endif
 	gboolean ret;
 	gchar **package_ids;
 	GError *error = NULL;
@@ -3779,6 +3797,14 @@ pk_backend_remove_packages_thread (PkBackend *backend)
 				   -1);
 	g_assert (ret);
 
+#if ZIF_CHECK_VERSION(0,2,8)
+	/* setup autoremove */
+	autoremove = pk_backend_get_bool (backend, "autoremove");
+	zif_config_set_boolean (priv->config,
+				"clean_requirements_on_remove",
+				autoremove, NULL);
+#endif
+
 	state_local = zif_state_get_child (priv->state);
 	package_ids = pk_backend_get_strv (backend, "package_ids");
 	zif_state_set_number_steps (state_local, g_strv_length (package_ids));
@@ -3793,7 +3819,8 @@ pk_backend_remove_packages_thread (PkBackend *backend)
 		if (package == NULL) {
 			pk_backend_error_code (backend,
 					       PK_ERROR_ENUM_PACKAGE_NOT_FOUND,
-					       "failed to find package: %s",
+					       "failed to find package %s: %s",
+					       package_ids[i],
 					       error->message);
 			g_error_free (error);
 			goto out;
@@ -3930,7 +3957,8 @@ pk_backend_update_packages_thread (PkBackend *backend)
 		if (package == NULL) {
 			pk_backend_error_code (backend,
 					       PK_ERROR_ENUM_PACKAGE_NOT_FOUND,
-					       "failed to find package: %s",
+					       "failed to find package %s: %s",
+					       package_ids[i],
 					       error->message);
 			g_error_free (error);
 			goto out;
@@ -4206,7 +4234,8 @@ pk_backend_install_packages_thread (PkBackend *backend)
 		if (package == NULL) {
 			pk_backend_error_code (backend,
 					       PK_ERROR_ENUM_PACKAGE_NOT_FOUND,
-					       "failed to find package: %s",
+					       "failed to find package %s: %s",
+					       package_ids[i],
 					       error->message);
 			g_error_free (error);
 			goto out;

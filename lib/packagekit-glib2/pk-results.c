@@ -536,7 +536,7 @@ pk_results_get_error_code (PkResults *results)
  *
  * Gets the packages from the transaction.
  *
- * Return value: (element-type PkPackage) (transfer full): A #GPtrArray array of #PkPackage's, free with g_ptr_array_unref().
+ * Return value: (element-type PkPackage) (transfer container): A #GPtrArray array of #PkPackage's, free with g_ptr_array_unref().
  *
  * Since: 0.5.2
  **/
@@ -554,7 +554,7 @@ pk_results_get_package_array (PkResults *results)
  *
  * Gets a package sack from the transaction.
  *
- * Return value: (transfer container): A #PkPackageSack of data, g_object_unref() to free.
+ * Return value: (transfer full): A #PkPackageSack of data, g_object_unref() to free.
  *
  * Since: 0.5.2
  **/

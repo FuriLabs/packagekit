@@ -5,6 +5,7 @@
 Copyright (C) 2007 Ali Sabil <ali.sabil@gmail.com>
 Copyright (C) 2007 Tom Parker <palfrey@tevp.net>
 Copyright (C) 2008-2009 Sebastian Heinlein <glatzor@ubuntu.com>
+Copyright (C) 2012 Martin Pitt <martin.pitt@ubuntu.com>
 
 Licensed under the GNU General Public License Version 2
 
@@ -35,10 +36,17 @@ import string
 import subprocess
 import sys
 import time
+import fnmatch
 
 import apt
 import apt.debfile
 import apt_pkg
+
+try:
+    import pkg_resources
+except ImportError:
+    # no plugin support available
+    pkg_resources = None
 
 from packagekit.backend import (PackageKitBaseBackend, format_string)
 from packagekit import enums
@@ -622,6 +630,8 @@ class PackageKitAptBackend(PackageKitBaseBackend):
         apt_pkg.config.set("DPkg::Options::", '--force-confdef')
         apt_pkg.config.set("DPkg::Options::", '--force-confold')
         PackageKitBaseBackend.__init__(self, cmds)
+
+        self._init_plugins()
 
     # Methods ( client -> engine -> backend )
 
@@ -1782,20 +1792,8 @@ class PackageKitAptBackend(PackageKitBaseBackend):
             appropriate error message
             """
             if not os.access(path, os.R_OK):
-                if ("app-install-data" in self._cache and
-                    not self._cache["app-install-data"].is_installed):
-                    raise PKError(enums.ERROR_INTERNAL_ERROR,
-                                  "Please install the package "
-                                  "app-install data for a list of "
-                                  "applications that can handle files of "
-                                  "the given type")
-                else:
-                    raise PKError(enums.ERROR_INTERNAL_ERROR,
-                                  "The list of applications that can handle "
-                                  "files of the given type cannot be opened.\n"
-                                  "Try to reinstall the package "
-                                  "app-install-data.")
-                return
+                pklog.warning("list of applications that can handle files of the given type %s does not exist")
+                return None
             try:
                 db = gdbm.open(path)
             except:
@@ -1816,7 +1814,7 @@ class PackageKitAptBackend(PackageKitBaseBackend):
                              search)
             caps = None
             if not match:
-                raise PKError(enums.ERROR_INTERNAL_ERROR,
+                raise PKError(enums.ERROR_NOT_SUPPORTED,
                               "The search term is invalid: %s" % search)
             if match.group("opt"):
                 caps_str = "%s, %s" % (match.group("data"), match.group("opt"))
@@ -1828,7 +1826,10 @@ class PackageKitAptBackend(PackageKitBaseBackend):
         self.percentage(None)
         self._check_init(progress=False)
         self.allow_cancel(False)
-        if provides_type == enums.PROVIDES_CODEC:
+        supported_type = False
+        if provides_type in (enums.PROVIDES_CODEC, enums.PROVIDES_ANY):
+            supported_type = True
+
             # Search for privided gstreamer plugins using the package
             # metadata
             import gst
@@ -1837,51 +1838,124 @@ class PackageKitAptBackend(PackageKitBaseBackend):
                                     "urisource": "Gstreamer-Uri-Sources",
                                     "urisink": "Gstreamer-Uri-Sinks",
                                     "element": "Gstreamer-Elements"}
-            for pkg in self._cache:
-                if pkg.installed:
-                    version = pkg.installed
-                elif pkg.candidate:
-                    version = pkg.candidate
-                else:
-                    continue
-                if not "Gstreamer-Version" in version.record:
-                    continue
-                gst_version, gst_record, gst_data, gst_caps = \
-                        extract_gstreamer_request(search)
-                if version.record["Gstreamer-Version"] != gst_version:
-                    continue
-                if gst_caps:
-                    try:
-                        pkg_caps = gst.Caps(version.record[gst_record])
-                    except KeyError:
+            for search_item in search:
+                try:
+                    gst_version, gst_record, gst_data, gst_caps = \
+                            extract_gstreamer_request(search_item)
+                except PKError:
+                    if provides_type == enums.PROVIDES_ANY:
+                        break # ignore invalid codec query, probably for other types
+                    else:
+                        raise
+                for pkg in self._cache:
+                    if pkg.installed:
+                        version = pkg.installed
+                    elif pkg.candidate:
+                        version = pkg.candidate
+                    else:
                         continue
-                    if gst_caps.intersect(pkg_caps):
-                        self._emit_visible_package(filters, pkg)
-                else:
-                    try:
-                        elements = version.record[gst_record]
-                    except KeyError:
+                    if not "Gstreamer-Version" in version.record:
                         continue
-                    if gst_data in elements:
-                        self._emit_visible_package(filters, pkg)
+                    if version.record["Gstreamer-Version"] != gst_version:
+                        continue
+                    if gst_caps:
+                        try:
+                            pkg_caps = gst.Caps(version.record[gst_record])
+                        except KeyError:
+                            continue
+                        if gst_caps.intersect(pkg_caps):
+                            self._emit_visible_package(filters, pkg)
+                    else:
+                        try:
+                            elements = version.record[gst_record]
+                        except KeyError:
+                            continue
+                        if gst_data in elements:
+                            self._emit_visible_package(filters, pkg)
 
-        elif provides_type == enums.PROVIDES_MIMETYPE:
+        if provides_type in (enums.PROVIDES_MIMETYPE, enums.PROVIDES_ANY):
+            supported_type = True
             # Emit packages that contain an application that can handle
             # the given mime type
-            handlers = set()
-            db = get_mapping_db("/var/lib/PackageKit/mime-map.gdbm")
-            if db == None:
-                return
-            if search in db:
-                pklog.debug("Mime type is registered: %s" % db[search])
-                # The mime type handler db stores the packages as a string
-                # separated by spaces. Each package has its section
-                # prefixed and separated by a slash
-                # FIXME: Should make use of the section and emit a 
-                #        RepositoryRequired signal if the package does not exist
-                handlers = [s.split("/")[1] for s in db[search].split(" ")]
-                self._emit_visible_packages_by_name(filters, handlers)
-        else:
+            for search_item in search:
+                handlers = set()
+                db = get_mapping_db("/var/lib/PackageKit/mime-map.gdbm")
+                if db == None:
+                    if provides_type != enums.PROVIDES_ANY:
+                        raise PKError(enums.ERROR_INTERNAL_ERROR,
+                                      "The list of applications that can handle "
+                                      "files of the given type cannot be opened.")
+                    else:
+                        break
+                if search_item in db:
+                    pklog.debug("Mime type is registered: %s" % db[search_item])
+                    # The mime type handler db stores the packages as a string
+                    # separated by spaces. Each package has its section
+                    # prefixed and separated by a slash
+                    # FIXME: Should make use of the section and emit a 
+                    #        RepositoryRequired signal if the package does not exist
+                    handlers = [s.split("/")[1] for s in db[search_item].split(" ")]
+                    self._emit_visible_packages_by_name(filters, handlers)
+
+        if provides_type in (enums.PROVIDES_MODALIAS, enums.PROVIDES_ANY):
+            supported_type = True
+            system_architecture = apt_pkg.get_architectures()[0]
+
+            # Emit packages that contain an application that can handle
+            # the given mime type
+            for search_item in search:
+                if not search_item.startswith('modalias(') or not search_item.endswith(')'):
+                    if provides_type != enums.PROVIDES_ANY:
+                        raise PKError(enums.ERROR_NOT_SUPPORTED,
+                                      "The search term is invalid: %s" % search_item)
+                    else:
+                        continue
+
+                # strip off modalias(...) wrapper
+                search_item = search_item.split('(')[1][:-1]
+
+                for package in self._cache:
+                    # skip foreign architectures, we usually only want native
+                    # driver packages
+                    if package.architecture() != system_architecture:
+                        continue
+
+                    try:
+                        m = package.candidate.record['Modaliases']
+                    except (KeyError, AttributeError):
+                        continue
+
+                    try:
+                        pkg_matches = False
+                        for part in m.split(')'):
+                            part = part.strip(', ')
+                            if not part:
+                                continue
+                            module, lst = part.split('(')
+                            for alias in lst.split(','):
+                                alias = alias.strip()
+                                if fnmatch.fnmatch(search_item, alias):
+                                    self._emit_visible_package(filters, package)
+                                    pkg_matches = True
+                                    break
+                            if pkg_matches:
+                                break
+                    except ValueError:
+                        pklog.warning("Package %s has invalid modalias header: %s" % (
+                            package.name, m))
+
+        # run plugins
+        for plugin in self.plugins.get("what_provides", []):
+            pklog.debug("calling what_provides plugin %s" % str(plugin))
+            for search_item in search:
+                try:
+                    for package in plugin(self._cache, provides_type, search_item):
+                        self._emit_visible_package(filters, package)
+                    supported_type = True
+                except NotImplementedError:
+                    pass # keep supported_type as False
+
+        if not supported_type and provides_type != enums.PROVIDES_ANY:
             raise PKError(enums.ERROR_NOT_SUPPORTED,
                           "This function is not implemented in this backend")
 
@@ -1900,6 +1974,31 @@ class PackageKitAptBackend(PackageKitBaseBackend):
             self.files(id, files)
 
     # Helpers
+
+    def _init_plugins(self):
+        """Initialize plugins."""
+
+        self.plugins = {} # plugin_name -> [plugin_fn1, ...]
+
+        if not pkg_resources:
+            return
+
+        # just look in standard Python paths for now
+        dists, errors = pkg_resources.working_set.find_plugins(pkg_resources.Environment())
+        for dist in dists:
+            pkg_resources.working_set.add(dist)
+        for plugin_name in ["what_provides"]:
+            for entry_point in pkg_resources.iter_entry_points(
+                    "packagekit.apt.plugins", plugin_name):
+                try:
+                    plugin = entry_point.load()
+                except Exception as e:
+                    pklog.warning("Failed to load %s from plugin %s: %s" % (
+                        plugin_name, str(entry_point.dist), str(e)))
+                    continue
+                pklog.debug("Loaded %s from plugin %s" % (
+                    plugin_name, str(entry_point.dist)))
+                self.plugins.setdefault(plugin_name, []).append(plugin)
 
     def _unlock_cache(self):
         """Unlock the system package cache."""

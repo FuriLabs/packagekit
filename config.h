@@ -2,7 +2,7 @@
 /* config.h.in.  Generated from configure.ac by autoheader.  */
 
 /* default backend prefix */
-#define DEFAULT_BACKEND "yum"
+#define DEFAULT_BACKEND "auto"
 
 /* Build test code */
 #define EGG_BUILD_TESTS 1
@@ -108,7 +108,7 @@
 #define PACKAGE_NAME "PackageKit"
 
 /* Define to the full name and version of this package. */
-#define PACKAGE_STRING "PackageKit 0.7.2"
+#define PACKAGE_STRING "PackageKit 0.7.3"
 
 /* Define to the one symbol short name of this package. */
 #define PACKAGE_TARNAME "PackageKit"
@@ -117,7 +117,7 @@
 #define PACKAGE_URL "http://www.packagekit.org/"
 
 /* Define to the version of this package. */
-#define PACKAGE_VERSION "0.7.2"
+#define PACKAGE_VERSION "0.7.3"
 
 /* define if Connection Manager is installed */
 /* #undef PK_BUILD_CONNMAN */
@@ -141,7 +141,7 @@
 #define USE_SECURITY_POLKIT 1
 
 /* Version number of package */
-#define VERSION "0.7.2"
+#define VERSION "0.7.3"
 
 /* default security framework */
 #define security_framework "polkit"
