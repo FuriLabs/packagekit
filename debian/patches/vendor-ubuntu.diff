@@ -22,7 +22,7 @@ Last-Update: 2010-11-24
  
  # The URL which is shown to the user when hardware drivers could not be found.
  # It should explain why some hardware is not supported, and links to futher
-@@ -54,10 +54,9 @@
+@@ -54,9 +54,9 @@
  # The vendor name shown for the 'vendor' group
  #
  # default=My Vendor
@@ -33,5 +33,4 @@ Last-Update: 2010-11-24
  #
  # default=emblem-favorite
 -VendorIcon=emblem-favorite
--
 +VendorIcon=distributor-logo
