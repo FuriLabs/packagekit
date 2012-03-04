@@ -33,6 +33,11 @@ packagekit (0.7.3-1) unstable; urgency=low
         (Richard Hughes)
      - Imply the install trusted polkit auth when we get the untrusted
        auth (Richard Hughes)
+  * Bump standards version to 3.9.3
+  * Only suggest gdebi, it's not a requirement
+  * Drop patches: Everything is applied upstream now
+  * Disable as-needed patch again, no ltmain is shipped
+  * Refreshed vendor patches
 
  -- Matthias Klumpp <matthias@tenstral.net>  Sun, 04 Mar 2012 17:26:21 +0100
 
