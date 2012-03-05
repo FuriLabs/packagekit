@@ -35,7 +35,6 @@ Build-Depends: debhelper (>= 8.0.0),
                python-apt (>= 0.8),
                python-dev (>= 2.7.2-6),
                python-software-properties,
-               update-manager-core,
                xmlto,
                xulrunner-dev (>= 8.0) | firefox-dev (>= 8.0)
 Standards-Version: 3.9.3
@@ -261,7 +260,6 @@ Depends: app-install-data,
          python-gdbm,
          python-packagekit (= ${source:Version}),
          python-software-properties,
-         update-manager-core,
          ${misc:Depends},
          ${python:Depends},
          ${shlibs:Depends}
