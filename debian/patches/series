@@ -1,3 +1,5 @@
 vendor-debian.diff
 defaults.diff
 policy.diff
+01_fix-invalid-version-crash.patch
+02_fix-multiarch-resolve.patch
