@@ -1,3 +1,11 @@
+packagekit (0.7.3-2) unstable; urgency=low
+
+  * Drop dependency on update-manager-core: Not required
+  * aptcc: Fix crash if we got a package with an invalid version
+  * aptcc: Fix a multiarch bug which prevented resolving packages
+
+ -- Matthias Klumpp <matthias@tenstral.net>  Sat, 10 Mar 2012 14:07:35 +0100
+
 packagekit (0.7.3-1) unstable; urgency=low
 
   * New upstream release: 0.7.3
