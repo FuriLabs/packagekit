@@ -34,7 +34,6 @@ Build-Depends: debhelper (>= 8.0.0),
                policykit-1,
                python-apt (>= 0.8),
                python-dev (>= 2.7.2-6),
-               python-software-properties,
                xmlto,
                xulrunner-dev (>= 8.0) | firefox-dev (>= 8.0)
 Standards-Version: 3.9.3
@@ -221,7 +220,6 @@ Package: python-packagekit
 Architecture: all
 Section: python
 Depends: python-dbus,
-         python-gobject,
          ${misc:Depends},
          ${python:Depends}
 Recommends: packagekit | python-aptdaemon.pkcompat
