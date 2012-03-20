@@ -22,12 +22,12 @@ Last-Update: 2011-07-14
  
  # How long the transaction is valid before it's destroyed, in seconds
  #
-@@ -275,7 +275,7 @@
+@@ -275,6 +275,8 @@
  # Seporate entries can be seporated with the ';' character.
  #
  # default=/usr/lib*/*/firefox
--NoUpdateProcessList=
-+NoUpdateProcessList=/usr/lib/*/firefox;/usr/lib/*/iceweasel
++# NOTE: On Debian, updating of Firefox/Iceweasel while running should work.
++#       If it does not, please file a bug report.
+ NoUpdateProcessList=
  
  # If the backend should use threads to avoid blocking the daemon for other users
- #
