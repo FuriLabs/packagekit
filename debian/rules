@@ -5,7 +5,8 @@ DEB_HOST_ARCH_OS ?= $(shell dpkg-architecture -qDEB_HOST_ARCH_OS)
 
 # Use this variable to set the PackageKit configure flags
 # We set aptcc as default backend
-PK_CONFIGURE_FLAGS = --disable-static \
+PK_CONFIGURE_FLAGS = --libexecdir=/usr/lib/packagekit \
+		--disable-static \
 		--disable-tests \
 		--enable-gtk-doc \
 		--disable-cron \

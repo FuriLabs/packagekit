@@ -92,6 +92,7 @@ Description: Documentation for PackageKit
 Package: libpackagekit-glib2-14
 Architecture: any
 Section: libs
+Multi-Arch: same
 Depends: ${misc:Depends},
          ${shlibs:Depends}
 Recommends: packagekit (= ${binary:Version})
@@ -144,6 +145,7 @@ Description: GObject introspection data for the PackageKit GLib library
 Package: libpackagekit-qt2-2
 Architecture: any
 Section: libs
+Multi-Arch: same
 Depends: ${misc:Depends},
          ${shlibs:Depends}
 Recommends: packagekit (= ${binary:Version})

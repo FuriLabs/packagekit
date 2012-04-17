@@ -1,1 +1,1 @@
-usr/lib/libpackagekit-glib2.so.*
+usr/lib/*/libpackagekit-glib2.so.*

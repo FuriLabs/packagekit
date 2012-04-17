@@ -7,9 +7,9 @@ usr/bin/pk-debuginfo-install
 usr/bin/pkcon
 usr/bin/pkgenpack
 usr/bin/pkmon
-usr/lib/packagekit-backend/libpk_backend_dummy.so
-usr/lib/packagekit-backend/libpk_backend_test_*.so
-usr/lib/packagekit-plugins/
+usr/lib/*/packagekit-backend/libpk_backend_dummy.so
+usr/lib/*/packagekit-backend/libpk_backend_test_*.so
+usr/lib/*/packagekit-plugins/
 usr/lib/packagekit/packagekitd
 usr/lib/pm-utils/sleep.d/95packagekit
 usr/share/PackageKit/helpers/test_spawn/*
