@@ -1,3 +1,15 @@
+packagekit (0.7.3-3) unstable; urgency=low
+
+  * Drop dependency on python-gobject (Closes: #663742)
+  * Update links to Debian wiki
+  * Allow upgrading Firefox/Iceweasel while running (LP: #958609)
+  * Don't suggest aptd as alternative to PK
+  * Switch to compat-level 9
+  * Make library packages multiarch-compatible
+  * Don't ship PackageKit website
+
+ -- Matthias Klumpp <matthias@tenstral.net>  Tue, 17 Apr 2012 20:48:00 +0200
+
 packagekit (0.7.3-2) unstable; urgency=low
 
   * Drop dependency on update-manager-core: Not required
