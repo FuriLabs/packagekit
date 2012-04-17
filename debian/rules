@@ -2,6 +2,7 @@
 #export DH_VERBOSE=1
 
 DEB_HOST_ARCH_OS ?= $(shell dpkg-architecture -qDEB_HOST_ARCH_OS)
+DEB_HOST_MULTIARCH ?= $(shell dpkg-architecture -qDEB_HOST_MULTIARCH)
 
 # Use this variable to set the PackageKit configure flags
 # We set aptcc as default backend
@@ -51,14 +52,14 @@ override_dh_auto_install:
 	dh_auto_install --destdir=$(INSTALLDIR)
 
 	# These files do not need to be installed
-	rm -f  $(INSTALLDIR)/usr/lib/packagekit-backend/*.la
-	rm -f  $(INSTALLDIR)/usr/lib/mozilla/plugins/packagekit-plugin.la
-	rm -f  $(INSTALLDIR)/usr/lib/gtk-?.0/modules/*.la
-	rm -f  $(INSTALLDIR)/usr/lib/packagekit-plugins/*.la
-	rm -f  $(INSTALLDIR)/usr/lib/*.la
-	rm -rf $(INSTALLDIR)/usr/lib/gtk-2.0
+	rm -f  $(INSTALLDIR)/usr/lib/$(DEB_HOST_MULTIARCH)/packagekit-backend/*.la
+	rm -f  $(INSTALLDIR)/usr/lib/$(DEB_HOST_MULTIARCH)/mozilla/plugins/packagekit-plugin.la
+	rm -f  $(INSTALLDIR)/usr/lib/$(DEB_HOST_MULTIARCH)/gtk-?.0/modules/*.la
+	rm -f  $(INSTALLDIR)/usr/lib/$(DEB_HOST_MULTIARCH)/packagekit-plugins/*.la
+	rm -f  $(INSTALLDIR)/usr/lib/$(DEB_HOST_MULTIARCH)/*.la
+	rm -rf $(INSTALLDIR)/usr/lib/$(DEB_HOST_MULTIARCH)/gtk-2.0
 	rm -f  $(INSTALLDIR)/usr/bin/packagekit-bugreport.sh
-	rm -f  $(INSTALLDIR)/usr/lib/libpackagekit-qt.*
+	rm -f  $(INSTALLDIR)/usr/lib/$(DEB_HOST_MULTIARCH)/libpackagekit-qt.*
 	rm -f  $(INSTALLDIR)/var/lib/PackageKit/transactions.db
 
 override_dh_install: extrainstallfiles-stamp
