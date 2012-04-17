@@ -1,2 +1,2 @@
-usr/lib/packagekit-backend/libpk_backend_smart.so
+usr/lib/*/packagekit-backend/libpk_backend_smart.so
 usr/share/PackageKit/helpers/smart/*
