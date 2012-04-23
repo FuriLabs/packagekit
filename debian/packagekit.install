@@ -3,24 +3,16 @@ etc/PackageKit/Vendor.conf
 etc/PackageKit/events/
 etc/apt/apt.conf.d/20packagekit
 etc/dbus-1/system.d/org.freedesktop.PackageKit.conf
-usr/bin/pk-debuginfo-install
-usr/bin/pkcon
-usr/bin/pkgenpack
-usr/bin/pkmon
 usr/lib/*/packagekit-backend/libpk_backend_dummy.so
 usr/lib/*/packagekit-backend/libpk_backend_test_*.so
 usr/lib/*/packagekit-plugins/
-usr/lib/packagekit/packagekitd
 usr/lib/*/pm-utils/sleep.d/95packagekit usr/lib/pm-utils/sleep.d/95packagekit
+usr/lib/packagekit/packagekitd
 usr/share/PackageKit/helpers/test_spawn/*
 usr/share/PackageKit/pk-upgrade-distro.sh
 usr/share/dbus-1/interfaces
 usr/share/dbus-1/system-services/org.freedesktop.PackageKit.service
 usr/share/locale/*/LC_MESSAGES/PackageKit.mo
-usr/share/man/man1/pk-debuginfo-install.1
-usr/share/man/man1/pkcon.1
-usr/share/man/man1/pkgenpack.1
-usr/share/man/man1/pkmon.1
 usr/share/mime/packages/packagekit-*.xml
 usr/share/mime/packages/packagekit-catalog.xml
 usr/share/mime/packages/packagekit-package-list.xml
