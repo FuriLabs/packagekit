@@ -40,6 +40,7 @@
 #include <packagekit-glib2/pk-details.h>
 #include <packagekit-glib2/pk-distro-upgrade.h>
 #include <packagekit-glib2/pk-enum.h>
+#include <packagekit-glib2/pk-enum-types.h>
 #include <packagekit-glib2/pk-error.h>
 #include <packagekit-glib2/pk-eula-required.h>
 #include <packagekit-glib2/pk-files.h>
@@ -56,6 +57,7 @@
 #include <packagekit-glib2/pk-results.h>
 #include <packagekit-glib2/pk-service-pack.h>
 #include <packagekit-glib2/pk-task.h>
+#include <packagekit-glib2/pk-task-sync.h>
 #include <packagekit-glib2/pk-transaction-past.h>
 #include <packagekit-glib2/pk-transaction-list.h>
 #include <packagekit-glib2/pk-update-detail.h>

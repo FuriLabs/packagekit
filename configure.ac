@@ -2,7 +2,7 @@
 
 m4_define([pk_major_version], [0])
 m4_define([pk_minor_version], [7])
-m4_define([pk_micro_version], [3])
+m4_define([pk_micro_version], [4])
 m4_define([pk_version],
           [pk_major_version.pk_minor_version.pk_micro_version])
 
@@ -45,7 +45,7 @@ AC_SUBST(PK_VERSION)
 # AGE		If libpackagekit can be linked into executables which can be
 # 		built with previous versions of this library. Don't use.
 LT_CURRENT=14
-LT_REVISION=12
+LT_REVISION=13
 LT_AGE=0
 AC_SUBST(LT_CURRENT)
 AC_SUBST(LT_REVISION)
@@ -55,7 +55,7 @@ AC_SUBST(LT_AGE)
 #
 LT_QT_CURRENT=2
 LT_QT_REVISION=0
-LT_QT_AGE=0
+LT_QT_AGE=1
 AC_SUBST(LT_QT_CURRENT)
 AC_SUBST(LT_QT_REVISION)
 AC_SUBST(LT_QT_AGE)
@@ -81,6 +81,7 @@ AC_DEFINE_UNQUOTED([GETTEXT_PACKAGE],["$GETTEXT_PACKAGE"],[gettext domain])
 GTK_DOC_CHECK([1.11],[--flavour no-tmpl])
 
 AC_PATH_PROG(GLIB_GENMARSHAL, glib-genmarshal)
+AC_PATH_PROG(GLIB_MKENUMS, glib-mkenums)
 
 AM_PATH_PYTHON([2.7])
 PYTHON_PACKAGE_DIR=${pythondir}/packagekit
@@ -735,10 +736,6 @@ AC_CONFIG_FILES([
 Makefile
 etc/Makefile
 docs/Makefile
-docs/html/Makefile
-docs/html/img/Makefile
-docs/html/img/thumbnails/Makefile
-docs/html/videos/Makefile
 docs/api/Makefile
 docs/api/dbus/Makefile
 docs/api/version.xml

@@ -73,7 +73,6 @@ am__objects_1 =
 am_libpackagekitprivate_a_OBJECTS =  \
 	libpackagekitprivate_a-pk-console-shared.$(OBJEXT) \
 	libpackagekitprivate_a-pk-progress-bar.$(OBJEXT) \
-	libpackagekitprivate_a-pk-task-sync.$(OBJEXT) \
 	libpackagekitprivate_a-pk-task-text.$(OBJEXT) \
 	libpackagekitprivate_a-pk-task-wrapper.$(OBJEXT) \
 	$(am__objects_1)
@@ -128,6 +127,7 @@ am_libpackagekit_glib2_la_OBJECTS =  \
 	libpackagekit_glib2_la-pk-details.lo \
 	libpackagekit_glib2_la-pk-distro-upgrade.lo \
 	libpackagekit_glib2_la-pk-enum.lo \
+	libpackagekit_glib2_la-pk-enum-types.lo \
 	libpackagekit_glib2_la-pk-error.lo \
 	libpackagekit_glib2_la-pk-eula-required.lo \
 	libpackagekit_glib2_la-pk-files.lo \
@@ -147,6 +147,7 @@ am_libpackagekit_glib2_la_OBJECTS =  \
 	libpackagekit_glib2_la-pk-service-pack.lo \
 	libpackagekit_glib2_la-pk-source.lo \
 	libpackagekit_glib2_la-pk-task.lo \
+	libpackagekit_glib2_la-pk-task-sync.lo \
 	libpackagekit_glib2_la-pk-transaction-past.lo \
 	libpackagekit_glib2_la-pk-transaction-list.lo \
 	libpackagekit_glib2_la-pk-update-detail.lo $(am__objects_1)
@@ -273,6 +274,7 @@ GLIB_CFLAGS = @GLIB_CFLAGS@
 GLIB_COMPILE_SCHEMAS = @GLIB_COMPILE_SCHEMAS@
 GLIB_GENMARSHAL = @GLIB_GENMARSHAL@
 GLIB_LIBS = @GLIB_LIBS@
+GLIB_MKENUMS = @GLIB_MKENUMS@
 GMODULE_CFLAGS = @GMODULE_CFLAGS@
 GMODULE_LIBS = @GMODULE_LIBS@
 GMOFILES = @GMOFILES@
@@ -300,6 +302,10 @@ INTLTOOL_EXTRACT = @INTLTOOL_EXTRACT@
 INTLTOOL_MERGE = @INTLTOOL_MERGE@
 INTLTOOL_PERL = @INTLTOOL_PERL@
 INTLTOOL_UPDATE = @INTLTOOL_UPDATE@
+INTLTOOL_V_MERGE = @INTLTOOL_V_MERGE@
+INTLTOOL_V_MERGE_OPTIONS = @INTLTOOL_V_MERGE_OPTIONS@
+INTLTOOL__v_MERGE_ = @INTLTOOL__v_MERGE_@
+INTLTOOL__v_MERGE_0 = @INTLTOOL__v_MERGE_0@
 INTROSPECTION_CFLAGS = @INTROSPECTION_CFLAGS@
 INTROSPECTION_COMPILER = @INTROSPECTION_COMPILER@
 INTROSPECTION_GENERATE = @INTROSPECTION_GENERATE@
@@ -454,6 +460,8 @@ htmldir = @htmldir@
 includedir = @includedir@
 infodir = @infodir@
 install_sh = @install_sh@
+intltool__v_merge_options_ = @intltool__v_merge_options_@
+intltool__v_merge_options_0 = @intltool__v_merge_options_0@
 libdir = @libdir@
 libexecdir = @libexecdir@
 localedir = @localedir@
@@ -508,7 +516,7 @@ lib_LTLIBRARIES = \
 	$(NULL)
 
 libpackagekit_glib2_includedir = $(includedir)/PackageKit/packagekit-glib2
-libpackagekit_glib2_include_HEADERS = \
+HEADER_FILES = \
 	packagekit.h						\
 	pk-bitfield.h						\
 	pk-catalog.h						\
@@ -541,10 +549,16 @@ libpackagekit_glib2_include_HEADERS = \
 	pk-service-pack.h					\
 	pk-source.h						\
 	pk-task.h						\
+	pk-task-sync.h						\
 	pk-transaction-past.h					\
 	pk-transaction-list.h					\
 	pk-update-detail.h					\
 	pk-version.h						\
+	$(NULL)
+
+libpackagekit_glib2_include_HEADERS = \
+	$(HEADER_FILES)						\
+	pk-enum-types.h						\
 	$(NULL)
 
 libpackagekit_glib2_la_SOURCES = \
@@ -577,6 +591,8 @@ libpackagekit_glib2_la_SOURCES = \
 	pk-distro-upgrade.h					\
 	pk-enum.c						\
 	pk-enum.h						\
+	pk-enum-types.c						\
+	pk-enum-types.h						\
 	pk-error.c						\
 	pk-error.h						\
 	pk-eula-required.c					\
@@ -615,6 +631,8 @@ libpackagekit_glib2_la_SOURCES = \
 	pk-source.h						\
 	pk-task.c						\
 	pk-task.h						\
+	pk-task-sync.c						\
+	pk-task-sync.h						\
 	pk-transaction-past.c					\
 	pk-transaction-past.h					\
 	pk-transaction-list.c					\
@@ -649,8 +667,6 @@ libpackagekitprivate_a_SOURCES = \
 	pk-console-shared.h					\
 	pk-progress-bar.c					\
 	pk-progress-bar.h					\
-	pk-task-sync.c						\
-	pk-task-sync.h						\
 	pk-task-text.c						\
 	pk-task-text.h						\
 	pk-task-wrapper.c					\
@@ -682,11 +698,16 @@ pk_socket_example_CFLAGS = $(WARNINGFLAGS_C)
 EXTRA_DIST = \
 	packagekit-glib2.pc.in					\
 	pk-version.h.in						\
-	pk-marshal.list
+	pk-marshal.list						\
+	pk-enum-types.h.template				\
+	pk-enum-types.c.template				\
+	$(NULL)
 
 BUILT_SOURCES = \
 	pk-marshal.c						\
 	pk-marshal.h						\
+	pk-enum-types.h						\
+	pk-enum-types.c						\
 	$(NULL)
 
 CLEANFILES = $(BUILT_SOURCES) *.a *.servicepack $(am__append_1)
@@ -829,6 +850,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libpackagekit_glib2_la-pk-desktop.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libpackagekit_glib2_la-pk-details.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libpackagekit_glib2_la-pk-distro-upgrade.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libpackagekit_glib2_la-pk-enum-types.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libpackagekit_glib2_la-pk-enum.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libpackagekit_glib2_la-pk-error.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libpackagekit_glib2_la-pk-eula-required.Plo@am__quote@
@@ -848,13 +870,13 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libpackagekit_glib2_la-pk-results.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libpackagekit_glib2_la-pk-service-pack.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libpackagekit_glib2_la-pk-source.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libpackagekit_glib2_la-pk-task-sync.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libpackagekit_glib2_la-pk-task.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libpackagekit_glib2_la-pk-transaction-list.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libpackagekit_glib2_la-pk-transaction-past.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libpackagekit_glib2_la-pk-update-detail.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libpackagekitprivate_a-pk-console-shared.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libpackagekitprivate_a-pk-progress-bar.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libpackagekitprivate_a-pk-task-sync.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libpackagekitprivate_a-pk-task-text.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libpackagekitprivate_a-pk-task-wrapper.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/pk_self_test-pk-self-test.Po@am__quote@
@@ -908,20 +930,6 @@ libpackagekitprivate_a-pk-progress-bar.obj: pk-progress-bar.c
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='pk-progress-bar.c' object='libpackagekitprivate_a-pk-progress-bar.obj' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libpackagekitprivate_a_CFLAGS) $(CFLAGS) -c -o libpackagekitprivate_a-pk-progress-bar.obj `if test -f 'pk-progress-bar.c'; then $(CYGPATH_W) 'pk-progress-bar.c'; else $(CYGPATH_W) '$(srcdir)/pk-progress-bar.c'; fi`
-
-libpackagekitprivate_a-pk-task-sync.o: pk-task-sync.c
-@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libpackagekitprivate_a_CFLAGS) $(CFLAGS) -MT libpackagekitprivate_a-pk-task-sync.o -MD -MP -MF $(DEPDIR)/libpackagekitprivate_a-pk-task-sync.Tpo -c -o libpackagekitprivate_a-pk-task-sync.o `test -f 'pk-task-sync.c' || echo '$(srcdir)/'`pk-task-sync.c
-@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/libpackagekitprivate_a-pk-task-sync.Tpo $(DEPDIR)/libpackagekitprivate_a-pk-task-sync.Po
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='pk-task-sync.c' object='libpackagekitprivate_a-pk-task-sync.o' libtool=no @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libpackagekitprivate_a_CFLAGS) $(CFLAGS) -c -o libpackagekitprivate_a-pk-task-sync.o `test -f 'pk-task-sync.c' || echo '$(srcdir)/'`pk-task-sync.c
-
-libpackagekitprivate_a-pk-task-sync.obj: pk-task-sync.c
-@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libpackagekitprivate_a_CFLAGS) $(CFLAGS) -MT libpackagekitprivate_a-pk-task-sync.obj -MD -MP -MF $(DEPDIR)/libpackagekitprivate_a-pk-task-sync.Tpo -c -o libpackagekitprivate_a-pk-task-sync.obj `if test -f 'pk-task-sync.c'; then $(CYGPATH_W) 'pk-task-sync.c'; else $(CYGPATH_W) '$(srcdir)/pk-task-sync.c'; fi`
-@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/libpackagekitprivate_a-pk-task-sync.Tpo $(DEPDIR)/libpackagekitprivate_a-pk-task-sync.Po
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='pk-task-sync.c' object='libpackagekitprivate_a-pk-task-sync.obj' libtool=no @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libpackagekitprivate_a_CFLAGS) $(CFLAGS) -c -o libpackagekitprivate_a-pk-task-sync.obj `if test -f 'pk-task-sync.c'; then $(CYGPATH_W) 'pk-task-sync.c'; else $(CYGPATH_W) '$(srcdir)/pk-task-sync.c'; fi`
 
 libpackagekitprivate_a-pk-task-text.o: pk-task-text.c
 @am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libpackagekitprivate_a_CFLAGS) $(CFLAGS) -MT libpackagekitprivate_a-pk-task-text.o -MD -MP -MF $(DEPDIR)/libpackagekitprivate_a-pk-task-text.Tpo -c -o libpackagekitprivate_a-pk-task-text.o `test -f 'pk-task-text.c' || echo '$(srcdir)/'`pk-task-text.c
@@ -1048,6 +1056,13 @@ libpackagekit_glib2_la-pk-enum.lo: pk-enum.c
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='pk-enum.c' object='libpackagekit_glib2_la-pk-enum.lo' libtool=yes @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libpackagekit_glib2_la_CFLAGS) $(CFLAGS) -c -o libpackagekit_glib2_la-pk-enum.lo `test -f 'pk-enum.c' || echo '$(srcdir)/'`pk-enum.c
+
+libpackagekit_glib2_la-pk-enum-types.lo: pk-enum-types.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libpackagekit_glib2_la_CFLAGS) $(CFLAGS) -MT libpackagekit_glib2_la-pk-enum-types.lo -MD -MP -MF $(DEPDIR)/libpackagekit_glib2_la-pk-enum-types.Tpo -c -o libpackagekit_glib2_la-pk-enum-types.lo `test -f 'pk-enum-types.c' || echo '$(srcdir)/'`pk-enum-types.c
+@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/libpackagekit_glib2_la-pk-enum-types.Tpo $(DEPDIR)/libpackagekit_glib2_la-pk-enum-types.Plo
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='pk-enum-types.c' object='libpackagekit_glib2_la-pk-enum-types.lo' libtool=yes @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libpackagekit_glib2_la_CFLAGS) $(CFLAGS) -c -o libpackagekit_glib2_la-pk-enum-types.lo `test -f 'pk-enum-types.c' || echo '$(srcdir)/'`pk-enum-types.c
 
 libpackagekit_glib2_la-pk-error.lo: pk-error.c
 @am__fastdepCC_TRUE@	$(AM_V_CC)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libpackagekit_glib2_la_CFLAGS) $(CFLAGS) -MT libpackagekit_glib2_la-pk-error.lo -MD -MP -MF $(DEPDIR)/libpackagekit_glib2_la-pk-error.Tpo -c -o libpackagekit_glib2_la-pk-error.lo `test -f 'pk-error.c' || echo '$(srcdir)/'`pk-error.c
@@ -1181,6 +1196,13 @@ libpackagekit_glib2_la-pk-task.lo: pk-task.c
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='pk-task.c' object='libpackagekit_glib2_la-pk-task.lo' libtool=yes @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libpackagekit_glib2_la_CFLAGS) $(CFLAGS) -c -o libpackagekit_glib2_la-pk-task.lo `test -f 'pk-task.c' || echo '$(srcdir)/'`pk-task.c
+
+libpackagekit_glib2_la-pk-task-sync.lo: pk-task-sync.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libpackagekit_glib2_la_CFLAGS) $(CFLAGS) -MT libpackagekit_glib2_la-pk-task-sync.lo -MD -MP -MF $(DEPDIR)/libpackagekit_glib2_la-pk-task-sync.Tpo -c -o libpackagekit_glib2_la-pk-task-sync.lo `test -f 'pk-task-sync.c' || echo '$(srcdir)/'`pk-task-sync.c
+@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/libpackagekit_glib2_la-pk-task-sync.Tpo $(DEPDIR)/libpackagekit_glib2_la-pk-task-sync.Plo
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='pk-task-sync.c' object='libpackagekit_glib2_la-pk-task-sync.lo' libtool=yes @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libpackagekit_glib2_la_CFLAGS) $(CFLAGS) -c -o libpackagekit_glib2_la-pk-task-sync.lo `test -f 'pk-task-sync.c' || echo '$(srcdir)/'`pk-task-sync.c
 
 libpackagekit_glib2_la-pk-transaction-past.lo: pk-transaction-past.c
 @am__fastdepCC_TRUE@	$(AM_V_CC)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libpackagekit_glib2_la_CFLAGS) $(CFLAGS) -MT libpackagekit_glib2_la-pk-transaction-past.lo -MD -MP -MF $(DEPDIR)/libpackagekit_glib2_la-pk-transaction-past.Tpo -c -o libpackagekit_glib2_la-pk-transaction-past.lo `test -f 'pk-transaction-past.c' || echo '$(srcdir)/'`pk-transaction-past.c
@@ -1636,6 +1658,12 @@ pk-marshal.c: pk-marshal.list
 
 pk-marshal.h: pk-marshal.list
 	@GLIB_GENMARSHAL@ $< --prefix=pk_marshal --header > $@
+
+pk-enum-types.h: pk-enum-types.h.template $(HEADER_FILES)
+	$(AM_V_GEN) $(GLIB_MKENUMS) --template $^ > $@
+
+pk-enum-types.c: pk-enum-types.c.template $(HEADER_FILES)
+	$(AM_V_GEN) $(GLIB_MKENUMS) --template $^ > $@
 
 @HAVE_INTROSPECTION_TRUE@PackageKitGlib-1.0.gir: libpackagekit-glib2.la
 

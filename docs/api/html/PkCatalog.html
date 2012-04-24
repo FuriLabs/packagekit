@@ -39,7 +39,8 @@
 </tr></table></div>
 <div class="refsynopsisdiv">
 <a name="PkCatalog.synopsis"></a><h2>Synopsis</h2>
-<a name="PkCatalogError"></a><pre class="synopsis">#define             <a class="link" href="PkCatalog.html#PK-CATALOG-FILE-EXTENSION:CAPS" title="PK_CATALOG_FILE_EXTENSION">PK_CATALOG_FILE_EXTENSION</a>
+<a name="PkCatalogError"></a><pre class="synopsis">#define             <a class="link" href="PkCatalog.html#PK-CATALOG-ERROR:CAPS" title="PK_CATALOG_ERROR">PK_CATALOG_ERROR</a>
+#define             <a class="link" href="PkCatalog.html#PK-CATALOG-FILE-EXTENSION:CAPS" title="PK_CATALOG_FILE_EXTENSION">PK_CATALOG_FILE_EXTENSION</a>
 #define             <a class="link" href="PkCatalog.html#PK-CATALOG-FILE-HEADER:CAPS" title="PK_CATALOG_FILE_HEADER">PK_CATALOG_FILE_HEADER</a>
 #define             <a class="link" href="PkCatalog.html#PK-CATALOG-TYPE-ERROR:CAPS" title="PK_CATALOG_TYPE_ERROR">PK_CATALOG_TYPE_ERROR</a>
 struct              <a class="link" href="PkCatalog.html#PkCatalog-struct" title="struct PkCatalog">PkCatalog</a>;
@@ -79,6 +80,12 @@ Clients can use this GObject for installing catalog files.
 </div>
 <div class="refsect1">
 <a name="PkCatalog.details"></a><h2>Details</h2>
+<div class="refsect2">
+<a name="PK-CATALOG-ERROR:CAPS"></a><h3>PK_CATALOG_ERROR</h3>
+<pre class="programlisting">#define PK_CATALOG_ERROR (pk_catalog_error_quark ())
+</pre>
+</div>
+<hr>
 <div class="refsect2">
 <a name="PK-CATALOG-FILE-EXTENSION:CAPS"></a><h3>PK_CATALOG_FILE_EXTENSION</h3>
 <pre class="programlisting">#define PK_CATALOG_FILE_EXTENSION "catalog"

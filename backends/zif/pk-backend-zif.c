@@ -1216,7 +1216,7 @@ pk_backend_search_thread (PkBackend *backend)
 
 			/* if the search temp is prefixed with '@' then it is a
 			 * category search, and we have to strip it */
-			if (search[0][0] == '@') {
+			if (search[0] != NULL && search[0][0] == '@') {
 				search_entries = g_strv_length (search);
 				search_stripped = g_new0 (gchar *, search_entries + 1);
 				for (i=0; i < search_entries; i++)
@@ -1262,7 +1262,7 @@ pk_backend_search_thread (PkBackend *backend)
 		} else if (role == PK_ROLE_ENUM_SEARCH_FILE) {
 			array = zif_store_array_search_file (store_array, search, state_local, &error);
 		} else if (role == PK_ROLE_ENUM_RESOLVE) {
-			if (search[0][0] == '@') {
+			if (search[0] != NULL && search[0][0] == '@') {
 				/* this is a group */
 				array = pk_backend_resolve_groups (store_array, search, state_local, &error);
 			} else {
@@ -3626,13 +3626,6 @@ pk_backend_run_transaction (PkBackend *backend, ZifState *state)
 					   (gpointer)pk_info_enum_to_string (PK_INFO_ENUM_UNTRUSTED));
 			g_ptr_array_add (untrusted_array,
 					 package);
-
-			/* ignore the trusted auth step */
-			pk_backend_message (backend,
-					    PK_MESSAGE_ENUM_UNTRUSTED_PACKAGE,
-					    "The package %s has trust %s",
-					    zif_package_get_printable (package),
-					    zif_package_trust_kind_to_string (trust_kind));
 		}
 	}
 	state_local = zif_state_get_child (state);

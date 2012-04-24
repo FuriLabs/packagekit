@@ -39,13 +39,13 @@
 </tr></table></div>
 <div class="refsynopsisdiv">
 <a name="PkPackageSack.synopsis"></a><h2>Synopsis</h2>
-<pre class="synopsis">#define             <a class="link" href="PkPackageSack.html#PK-PACKAGE-SACK-TYPE-ERROR:CAPS" title="PK_PACKAGE_SACK_TYPE_ERROR">PK_PACKAGE_SACK_TYPE_ERROR</a>
+<a name="PkPackageSackSortType"></a><pre class="synopsis">#define             <a class="link" href="PkPackageSack.html#PK-PACKAGE-SACK-TYPE-ERROR:CAPS" title="PK_PACKAGE_SACK_TYPE_ERROR">PK_PACKAGE_SACK_TYPE_ERROR</a>
 struct              <a class="link" href="PkPackageSack.html#PkPackageSack-struct" title="struct PkPackageSack">PkPackageSack</a>;
 struct              <a class="link" href="PkPackageSack.html#PkPackageSackClass" title="struct PkPackageSackClass">PkPackageSackClass</a>;
 <a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gboolean"><span class="returnvalue">gboolean</span></a>            (<a class="link" href="PkPackageSack.html#PkPackageSackFilterFunc" title="PkPackageSackFilterFunc ()">*PkPackageSackFilterFunc</a>)          (<em class="parameter"><code><a class="link" href="PkPackage.html" title="PkPackage"><span class="type">PkPackage</span></a> *package</code></em>,
                                                          <em class="parameter"><code><a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gpointer"><span class="type">gpointer</span></a> user_data</code></em>);
                     <a class="link" href="PkPackageSack.html#PkPackageSackResults" title="PkPackageSackResults">PkPackageSackResults</a>;
-enum                <a class="link" href="PkPackageSack.html#PkPackageSackSortType" title="enum PkPackageSackSortType">PkPackageSackSortType</a>;
+enum                <a class="link" href="PkPackageSack.html#PkPackageSackSortType-enum" title="enum PkPackageSackSortType">PkPackageSackSortType</a>;
 <a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gboolean"><span class="returnvalue">gboolean</span></a>            <a class="link" href="PkPackageSack.html#pk-package-sack-add-package" title="pk_package_sack_add_package ()">pk_package_sack_add_package</a>         (<em class="parameter"><code><a class="link" href="PkPackageSack.html" title="PkPackageSack"><span class="type">PkPackageSack</span></a> *sack</code></em>,
                                                          <em class="parameter"><code><a class="link" href="PkPackage.html" title="PkPackage"><span class="type">PkPackage</span></a> *package</code></em>);
 <a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gboolean"><span class="returnvalue">gboolean</span></a>            <a class="link" href="PkPackageSack.html#pk-package-sack-add-package-by-id" title="pk_package_sack_add_package_by_id ()">pk_package_sack_add_package_by_id</a>   (<em class="parameter"><code><a class="link" href="PkPackageSack.html" title="PkPackageSack"><span class="type">PkPackageSack</span></a> *sack</code></em>,
@@ -56,7 +56,7 @@ enum                <a class="link" href="PkPackageSack.html#PkPackageSackSortTy
                                                          <em class="parameter"><code><a class="link" href="PkPackageSack.html#PkPackageSackFilterFunc" title="PkPackageSackFilterFunc ()"><span class="type">PkPackageSackFilterFunc</span></a> filter_cb</code></em>,
                                                          <em class="parameter"><code><a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gpointer"><span class="type">gpointer</span></a> user_data</code></em>);
 <a class="link" href="PkPackageSack.html" title="PkPackageSack"><span class="returnvalue">PkPackageSack</span></a> *     <a class="link" href="PkPackageSack.html#pk-package-sack-filter-by-info" title="pk_package_sack_filter_by_info ()">pk_package_sack_filter_by_info</a>      (<em class="parameter"><code><a class="link" href="PkPackageSack.html" title="PkPackageSack"><span class="type">PkPackageSack</span></a> *sack</code></em>,
-                                                         <em class="parameter"><code><a class="link" href="PackageKit-pk-enum.html#PkInfoEnum" title="enum PkInfoEnum"><span class="type">PkInfoEnum</span></a> info</code></em>);
+                                                         <em class="parameter"><code><a class="link" href="PackageKit-pk-enum.html#PkInfoEnum"><span class="type">PkInfoEnum</span></a> info</code></em>);
 <a class="link" href="PkPackage.html" title="PkPackage"><span class="returnvalue">PkPackage</span></a> *         <a class="link" href="PkPackageSack.html#pk-package-sack-find-by-id" title="pk_package_sack_find_by_id ()">pk_package_sack_find_by_id</a>          (<em class="parameter"><code><a class="link" href="PkPackageSack.html" title="PkPackageSack"><span class="type">PkPackageSack</span></a> *sack</code></em>,
                                                          <em class="parameter"><code>const <a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a> *package_id</code></em>);
 <a href="http://library.gnome.org/devel/glib/unstable/glib-Pointer-Arrays.html#GPtrArray"><span class="returnvalue">GPtrArray</span></a> *         <a class="link" href="PkPackageSack.html#pk-package-sack-get-array" title="pk_package_sack_get_array ()">pk_package_sack_get_array</a>           (<em class="parameter"><code><a class="link" href="PkPackageSack.html" title="PkPackageSack"><span class="type">PkPackageSack</span></a> *sack</code></em>);
@@ -96,7 +96,7 @@ enum                <a class="link" href="PkPackageSack.html#PkPackageSackSortTy
                                                          <em class="parameter"><code><a href="http://library.gnome.org/devel/gio/unstable/GAsyncResult.html#GAsyncReadyCallback"><span class="type">GAsyncReadyCallback</span></a> callback</code></em>,
                                                          <em class="parameter"><code><a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gpointer"><span class="type">gpointer</span></a> user_data</code></em>);
 <span class="returnvalue">void</span>                <a class="link" href="PkPackageSack.html#pk-package-sack-sort" title="pk_package_sack_sort ()">pk_package_sack_sort</a>                (<em class="parameter"><code><a class="link" href="PkPackageSack.html" title="PkPackageSack"><span class="type">PkPackageSack</span></a> *sack</code></em>,
-                                                         <em class="parameter"><code><a class="link" href="PkPackageSack.html#PkPackageSackSortType" title="enum PkPackageSackSortType"><span class="type">PkPackageSackSortType</span></a> type</code></em>);
+                                                         <em class="parameter"><code><a class="link" href="PkPackageSack.html#PkPackageSackSortType"><span class="type">PkPackageSackSortType</span></a> type</code></em>);
 <span class="returnvalue">void</span>                <a class="link" href="PkPackageSack.html#pk-package-sack-test" title="pk_package_sack_test ()">pk_package_sack_test</a>                (<em class="parameter"><code><a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gpointer"><span class="type">gpointer</span></a> user_data</code></em>);
 </pre>
 </div>
@@ -105,6 +105,10 @@ enum                <a class="link" href="PkPackageSack.html#PkPackageSackSortTy
 <pre class="synopsis">
   <a href="http://library.gnome.org/devel/gobject/unstable/gobject-The-Base-Object-Type.html#GObject">GObject</a>
    +----PkPackageSack
+</pre>
+<pre class="synopsis">
+  GEnum
+   +----PkPackageSackSortType
 </pre>
 </div>
 <div class="refsect1">
@@ -157,7 +161,7 @@ to add package or update details.
 </div>
 <hr>
 <div class="refsect2">
-<a name="PkPackageSackSortType"></a><h3>enum PkPackageSackSortType</h3>
+<a name="PkPackageSackSortType-enum"></a><h3>enum PkPackageSackSortType</h3>
 <pre class="programlisting">typedef enum {
 	PK_PACKAGE_SACK_SORT_TYPE_NAME,
 	PK_PACKAGE_SACK_SORT_TYPE_INFO,
@@ -285,7 +289,7 @@ from the filter function.
 <div class="refsect2">
 <a name="pk-package-sack-filter-by-info"></a><h3>pk_package_sack_filter_by_info ()</h3>
 <pre class="programlisting"><a class="link" href="PkPackageSack.html" title="PkPackageSack"><span class="returnvalue">PkPackageSack</span></a> *     pk_package_sack_filter_by_info      (<em class="parameter"><code><a class="link" href="PkPackageSack.html" title="PkPackageSack"><span class="type">PkPackageSack</span></a> *sack</code></em>,
-                                                         <em class="parameter"><code><a class="link" href="PackageKit-pk-enum.html#PkInfoEnum" title="enum PkInfoEnum"><span class="type">PkInfoEnum</span></a> info</code></em>);</pre>
+                                                         <em class="parameter"><code><a class="link" href="PackageKit-pk-enum.html#PkInfoEnum"><span class="type">PkInfoEnum</span></a> info</code></em>);</pre>
 <p>
 Returns a new package sack which only matches packages that match the
 specified info enum value.
@@ -299,7 +303,7 @@ specified info enum value.
 </tr>
 <tr>
 <td><p><span class="term"><em class="parameter"><code>info</code></em> :</span></p></td>
-<td>a <a class="link" href="PackageKit-pk-enum.html#PkInfoEnum" title="enum PkInfoEnum"><code class="literal">PkInfoEnum</code></a> value to match</td>
+<td>a <a class="link" href="PackageKit-pk-enum.html#PkInfoEnum"><code class="literal">PkInfoEnum</code></a> value to match</td>
 </tr>
 <tr>
 <td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
@@ -717,7 +721,7 @@ Merges in details about packages using resolve.
 <div class="refsect2">
 <a name="pk-package-sack-sort"></a><h3>pk_package_sack_sort ()</h3>
 <pre class="programlisting"><span class="returnvalue">void</span>                pk_package_sack_sort                (<em class="parameter"><code><a class="link" href="PkPackageSack.html" title="PkPackageSack"><span class="type">PkPackageSack</span></a> *sack</code></em>,
-                                                         <em class="parameter"><code><a class="link" href="PkPackageSack.html#PkPackageSackSortType" title="enum PkPackageSackSortType"><span class="type">PkPackageSackSortType</span></a> type</code></em>);</pre>
+                                                         <em class="parameter"><code><a class="link" href="PkPackageSack.html#PkPackageSackSortType"><span class="type">PkPackageSackSortType</span></a> type</code></em>);</pre>
 </div>
 <hr>
 <div class="refsect2">

@@ -41,13 +41,13 @@
 </tr></table></div>
 <div class="refsynopsisdiv">
 <a name="PkProgress.synopsis"></a><h2>Synopsis</h2>
-<pre class="synopsis">#define             <a class="link" href="PkProgress.html#PK-PROGRESS-TYPE-ERROR:CAPS" title="PK_PROGRESS_TYPE_ERROR">PK_PROGRESS_TYPE_ERROR</a>
+<a name="PkProgressType"></a><pre class="synopsis">#define             <a class="link" href="PkProgress.html#PK-PROGRESS-TYPE-ERROR:CAPS" title="PK_PROGRESS_TYPE_ERROR">PK_PROGRESS_TYPE_ERROR</a>
 struct              <a class="link" href="PkProgress.html#PkProgress-struct" title="struct PkProgress">PkProgress</a>;
 <span class="returnvalue">void</span>                (<a class="link" href="PkProgress.html#PkProgressCallback" title="PkProgressCallback ()">*PkProgressCallback</a>)               (<em class="parameter"><code><a class="link" href="PkProgress.html" title="PkProgress"><span class="type">PkProgress</span></a> *progress</code></em>,
-                                                         <em class="parameter"><code><a class="link" href="PkProgress.html#PkProgressType" title="enum PkProgressType"><span class="type">PkProgressType</span></a> type</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="PkProgress.html#PkProgressType"><span class="type">PkProgressType</span></a> type</code></em>,
                                                          <em class="parameter"><code><a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gpointer"><span class="type">gpointer</span></a> user_data</code></em>);
 struct              <a class="link" href="PkProgress.html#PkProgressClass" title="struct PkProgressClass">PkProgressClass</a>;
-enum                <a class="link" href="PkProgress.html#PkProgressType" title="enum PkProgressType">PkProgressType</a>;
+enum                <a class="link" href="PkProgress.html#PkProgressType-enum" title="enum PkProgressType">PkProgressType</a>;
 <a class="link" href="PkProgress.html" title="PkProgress"><span class="returnvalue">PkProgress</span></a> *        <a class="link" href="PkProgress.html#pk-progress-new" title="pk_progress_new ()">pk_progress_new</a>                     (<em class="parameter"><code><span class="type">void</span></code></em>);
 <a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gboolean"><span class="returnvalue">gboolean</span></a>            <a class="link" href="PkProgress.html#pk-progress-set-allow-cancel" title="pk_progress_set_allow_cancel ()">pk_progress_set_allow_cancel</a>        (<em class="parameter"><code><a class="link" href="PkProgress.html" title="PkProgress"><span class="type">PkProgress</span></a> *progress</code></em>,
                                                          <em class="parameter"><code><a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gboolean"><span class="type">gboolean</span></a> allow_cancel</code></em>);
@@ -67,11 +67,11 @@ enum                <a class="link" href="PkProgress.html#PkProgressType" title=
 <a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gboolean"><span class="returnvalue">gboolean</span></a>            <a class="link" href="PkProgress.html#pk-progress-set-remaining-time" title="pk_progress_set_remaining_time ()">pk_progress_set_remaining_time</a>      (<em class="parameter"><code><a class="link" href="PkProgress.html" title="PkProgress"><span class="type">PkProgress</span></a> *progress</code></em>,
                                                          <em class="parameter"><code><a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#guint"><span class="type">guint</span></a> remaining_time</code></em>);
 <a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gboolean"><span class="returnvalue">gboolean</span></a>            <a class="link" href="PkProgress.html#pk-progress-set-role" title="pk_progress_set_role ()">pk_progress_set_role</a>                (<em class="parameter"><code><a class="link" href="PkProgress.html" title="PkProgress"><span class="type">PkProgress</span></a> *progress</code></em>,
-                                                         <em class="parameter"><code><a class="link" href="PackageKit-pk-enum.html#PkRoleEnum" title="enum PkRoleEnum"><span class="type">PkRoleEnum</span></a> role</code></em>);
+                                                         <em class="parameter"><code><a class="link" href="PackageKit-pk-enum.html#PkRoleEnum"><span class="type">PkRoleEnum</span></a> role</code></em>);
 <a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gboolean"><span class="returnvalue">gboolean</span></a>            <a class="link" href="PkProgress.html#pk-progress-set-speed" title="pk_progress_set_speed ()">pk_progress_set_speed</a>               (<em class="parameter"><code><a class="link" href="PkProgress.html" title="PkProgress"><span class="type">PkProgress</span></a> *progress</code></em>,
                                                          <em class="parameter"><code><a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#guint"><span class="type">guint</span></a> speed</code></em>);
 <a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gboolean"><span class="returnvalue">gboolean</span></a>            <a class="link" href="PkProgress.html#pk-progress-set-status" title="pk_progress_set_status ()">pk_progress_set_status</a>              (<em class="parameter"><code><a class="link" href="PkProgress.html" title="PkProgress"><span class="type">PkProgress</span></a> *progress</code></em>,
-                                                         <em class="parameter"><code><a class="link" href="PackageKit-pk-enum.html#PkStatusEnum" title="enum PkStatusEnum"><span class="type">PkStatusEnum</span></a> status</code></em>);
+                                                         <em class="parameter"><code><a class="link" href="PackageKit-pk-enum.html#PkStatusEnum"><span class="type">PkStatusEnum</span></a> status</code></em>);
 <a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gboolean"><span class="returnvalue">gboolean</span></a>            <a class="link" href="PkProgress.html#pk-progress-set-subpercentage" title="pk_progress_set_subpercentage ()">pk_progress_set_subpercentage</a>       (<em class="parameter"><code><a class="link" href="PkProgress.html" title="PkProgress"><span class="type">PkProgress</span></a> *progress</code></em>,
                                                          <em class="parameter"><code><a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gint"><span class="type">gint</span></a> subpercentage</code></em>);
 <a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gboolean"><span class="returnvalue">gboolean</span></a>            <a class="link" href="PkProgress.html#pk-progress-set-transaction-id" title="pk_progress_set_transaction_id ()">pk_progress_set_transaction_id</a>      (<em class="parameter"><code><a class="link" href="PkProgress.html" title="PkProgress"><span class="type">PkProgress</span></a> *progress</code></em>,
@@ -86,6 +86,10 @@ enum                <a class="link" href="PkProgress.html#PkProgressType" title=
 <pre class="synopsis">
   <a href="http://library.gnome.org/devel/gobject/unstable/gobject-The-Base-Object-Type.html#GObject">GObject</a>
    +----PkProgress
+</pre>
+<pre class="synopsis">
+  GEnum
+   +----PkProgressType
 </pre>
 </div>
 <div class="refsect1">
@@ -131,7 +135,7 @@ the transaction. All of the details on this object are stored as properties.
 <div class="refsect2">
 <a name="PkProgressCallback"></a><h3>PkProgressCallback ()</h3>
 <pre class="programlisting"><span class="returnvalue">void</span>                (*PkProgressCallback)               (<em class="parameter"><code><a class="link" href="PkProgress.html" title="PkProgress"><span class="type">PkProgress</span></a> *progress</code></em>,
-                                                         <em class="parameter"><code><a class="link" href="PkProgress.html#PkProgressType" title="enum PkProgressType"><span class="type">PkProgressType</span></a> type</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="PkProgress.html#PkProgressType"><span class="type">PkProgressType</span></a> type</code></em>,
                                                          <em class="parameter"><code><a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gpointer"><span class="type">gpointer</span></a> user_data</code></em>);</pre>
 </div>
 <hr>
@@ -150,7 +154,7 @@ the transaction. All of the details on this object are stored as properties.
 </div>
 <hr>
 <div class="refsect2">
-<a name="PkProgressType"></a><h3>enum PkProgressType</h3>
+<a name="PkProgressType-enum"></a><h3>enum PkProgressType</h3>
 <pre class="programlisting">typedef enum {
 	PK_PROGRESS_TYPE_PACKAGE_ID,
 	PK_PROGRESS_TYPE_TRANSACTION_ID,
@@ -262,7 +266,7 @@ frontends easy.
 <div class="refsect2">
 <a name="pk-progress-set-role"></a><h3>pk_progress_set_role ()</h3>
 <pre class="programlisting"><a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gboolean"><span class="returnvalue">gboolean</span></a>            pk_progress_set_role                (<em class="parameter"><code><a class="link" href="PkProgress.html" title="PkProgress"><span class="type">PkProgress</span></a> *progress</code></em>,
-                                                         <em class="parameter"><code><a class="link" href="PackageKit-pk-enum.html#PkRoleEnum" title="enum PkRoleEnum"><span class="type">PkRoleEnum</span></a> role</code></em>);</pre>
+                                                         <em class="parameter"><code><a class="link" href="PackageKit-pk-enum.html#PkRoleEnum"><span class="type">PkRoleEnum</span></a> role</code></em>);</pre>
 <p class="since">Since 0.5.2</p>
 </div>
 <hr>
@@ -276,7 +280,7 @@ frontends easy.
 <div class="refsect2">
 <a name="pk-progress-set-status"></a><h3>pk_progress_set_status ()</h3>
 <pre class="programlisting"><a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gboolean"><span class="returnvalue">gboolean</span></a>            pk_progress_set_status              (<em class="parameter"><code><a class="link" href="PkProgress.html" title="PkProgress"><span class="type">PkProgress</span></a> *progress</code></em>,
-                                                         <em class="parameter"><code><a class="link" href="PackageKit-pk-enum.html#PkStatusEnum" title="enum PkStatusEnum"><span class="type">PkStatusEnum</span></a> status</code></em>);</pre>
+                                                         <em class="parameter"><code><a class="link" href="PackageKit-pk-enum.html#PkStatusEnum"><span class="type">PkStatusEnum</span></a> status</code></em>);</pre>
 <p class="since">Since 0.5.2</p>
 </div>
 <hr>

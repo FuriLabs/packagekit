@@ -120,6 +120,27 @@
 </div>
 <div class="sect2">
 <div class="titlepage"><div><div><h3 class="title">
+<a name="introduction-ideas-transactions-auto-untrusted"></a>Transaction example: Auto Untrusted</h3></div></div></div>
+<div class="mediaobject" align="center">
+<a name="pk-transactions-auto-untrusted"></a><img src="pk-transactions-auto-untrusted.png" align="middle">
+</div>
+<p>
+        If <code class="literal">SimulateInstallPackage</code> or
+        <code class="literal">SimulateInstallFile</code>  is used then the client
+        may receive a <code class="literal">INFO_UNTRUSTED</code> package.
+      </p>
+<p>
+        This is used to inform the client that the action would require
+        the untrusted authentication type, which means the client does
+        not attempt to do <code class="literal">SimulateInstallPackage(only_trusted=TRUE)</code>
+        and only does <code class="literal">SimulateInstallPackage(only_trusted=FALSE)</code>.
+        This ensures the user has to only authenticate once for the
+        transaction as the <code class="literal">only_trusted=TRUE</code> action
+        may also require a password.
+      </p>
+</div>
+<div class="sect2">
+<div class="titlepage"><div><div><h3 class="title">
 <a name="introduction-ideas-transactions-sig-install"></a>Transaction example: Package signature install</h3></div></div></div>
 <div class="mediaobject" align="center">
 <a name="pk-transactions-sig-install"></a><img src="pk-transactions-sig-install.png" align="middle">
@@ -221,6 +242,24 @@
         If you are using libpackagekit to schedule transactions, then the locale will be set
         automatically in the <code class="literal">PkControl</code> GObject, and you do not need to call
         <code class="literal">pk_client_set_locale()</code> manually.
+      </p>
+</div>
+<div class="sect2">
+<div class="titlepage"><div><div><h3 class="title">
+<a name="introduction-ideas-transactions-repair"></a>Transaction example: Repair</h3></div></div></div>
+<div class="mediaobject" align="center">
+<a name="pk-transactions-repair"></a><img src="pk-transactions-repair-required.png" align="middle">
+</div>
+<p>
+        If the package management system is damaged, a repair may be required.
+        This is not automatically done befor each transaction as the user
+        may have to verify destructive package actions or make manual changes to
+        configuration files.
+      </p>
+<p>
+        This transaction sequence is not common and is not supported on
+        many backends.
+        It may be completely implemented in the frontend or not at all.
       </p>
 </div>
 </div>

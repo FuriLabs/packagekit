@@ -34,7 +34,7 @@ lib_LTLIBRARIES =						\
 
 libpackagekit_glib2_includedir = $(includedir)/PackageKit/packagekit-glib2
 
-libpackagekit_glib2_include_HEADERS =				\
+HEADER_FILES =							\
 	packagekit.h						\
 	pk-bitfield.h						\
 	pk-catalog.h						\
@@ -67,10 +67,16 @@ libpackagekit_glib2_include_HEADERS =				\
 	pk-service-pack.h					\
 	pk-source.h						\
 	pk-task.h						\
+	pk-task-sync.h						\
 	pk-transaction-past.h					\
 	pk-transaction-list.h					\
 	pk-update-detail.h					\
 	pk-version.h						\
+	$(NULL)
+
+libpackagekit_glib2_include_HEADERS =				\
+	$(HEADER_FILES)						\
+	pk-enum-types.h						\
 	$(NULL)
 
 libpackagekit_glib2_la_SOURCES =				\
@@ -103,6 +109,8 @@ libpackagekit_glib2_la_SOURCES =				\
 	pk-distro-upgrade.h					\
 	pk-enum.c						\
 	pk-enum.h						\
+	pk-enum-types.c						\
+	pk-enum-types.h						\
 	pk-error.c						\
 	pk-error.h						\
 	pk-eula-required.c					\
@@ -141,6 +149,8 @@ libpackagekit_glib2_la_SOURCES =				\
 	pk-source.h						\
 	pk-task.c						\
 	pk-task.h						\
+	pk-task-sync.c						\
+	pk-task-sync.h						\
 	pk-transaction-past.c					\
 	pk-transaction-past.h					\
 	pk-transaction-list.c					\
@@ -175,8 +185,6 @@ libpackagekitprivate_a_SOURCES =				\
 	pk-console-shared.h					\
 	pk-progress-bar.c					\
 	pk-progress-bar.h					\
-	pk-task-sync.c						\
-	pk-task-sync.h						\
 	pk-task-text.c						\
 	pk-task-text.h						\
 	pk-task-wrapper.c					\
@@ -218,11 +226,16 @@ endif
 EXTRA_DIST =							\
 	packagekit-glib2.pc.in					\
 	pk-version.h.in						\
-	pk-marshal.list
+	pk-marshal.list						\
+	pk-enum-types.h.template				\
+	pk-enum-types.c.template				\
+	$(NULL)
 
 BUILT_SOURCES = 						\
 	pk-marshal.c						\
 	pk-marshal.h						\
+	pk-enum-types.h						\
+	pk-enum-types.c						\
 	$(NULL)
 
 pk-marshal.c: pk-marshal.list
@@ -231,6 +244,12 @@ pk-marshal.c: pk-marshal.list
 
 pk-marshal.h: pk-marshal.list
 	@GLIB_GENMARSHAL@ $< --prefix=pk_marshal --header > $@
+
+pk-enum-types.h: pk-enum-types.h.template $(HEADER_FILES)
+	$(AM_V_GEN) $(GLIB_MKENUMS) --template $^ > $@
+
+pk-enum-types.c: pk-enum-types.c.template $(HEADER_FILES)
+	$(AM_V_GEN) $(GLIB_MKENUMS) --template $^ > $@
 
 CLEANFILES = $(BUILT_SOURCES) *.a *.servicepack
 

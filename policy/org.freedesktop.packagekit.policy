@@ -379,7 +379,7 @@
     <message xml:lang="lv">Nepieciešama autentifikācija, lai atslēgu uzskatītu par derīgu pakotņu parakstīšanai ka derīgām</message>
     <message xml:lang="ml">പാക്കേജ് ഒപ്പിടുന്നതിനായി ഉപയോഗിക്കുന്ന ഒരു കീ വിശ്വസനീയമെന്നു് കരുതുന്നതിനായി ആധികാരികത ഉറപ്പാക്കേണ്ടതുണ്ടു്</message>
     <message xml:lang="mr">संकुल स्वाक्षरी करीता वापरण्याजोगी कि वर विश्वसा ठेवण्याकरीता ओळख पटवणे आवश्यक आहेन</message>
-    <message xml:lang="nl">Authenticatie wordt vereist om een sleutel te overwegen die gebruikt wordt om een pakket als vertrouwd te ondertekenen </message>
+    <message xml:lang="nl">Authenticatie wordt vereist om een sleutel te kiezen die gebruikt wordt om een pakket als vertrouwd te ondertekenen </message>
     <message xml:lang="or">ପ୍ୟାକେଜଗୁଡ଼ିକୁ ବିଶ୍ଵସ୍ତ ଭାବରେ ହସ୍ତାକ୍ଷର କରିବା ପାଇଁ ବ୍ୟବହୃତ କି କୁ ଗ୍ରହଣ କରିବା ପାଇଁ ବୈଧିକରଣ ଆବଶ୍ୟକ</message>
     <message xml:lang="pa">ਪੈਕੇਜ ਟਰੱਸਟ ਕੀਤਾ ਬਣਾਉਣ ਲਈ ਸਾਈਨ ਵਾਸਤੇ ਕੁੰਜੀ ਸ਼ਾਮਲ ਕਰਨ ਲਈ ਪਰਮਾਣਕਿਤਾ ਦੀ ਲੋੜ ਹੈ</message>
     <message xml:lang="pl">Wymagane jest uwierzytelnienie, aby oznaczyć klucz używany do podpisywania pakietów jako zaufany</message>
@@ -822,7 +822,7 @@
     <description xml:lang="ca">Canvia els paràmetres de la font de programari</description>
     <description xml:lang="cs">Změnit parametry zdrojů programů</description>
     <description xml:lang="da">Ændr softwarekildeparametre</description>
-    <description xml:lang="de">Einstellungen der Depotquelle ändern</description>
+    <description xml:lang="de">Einstellungen der Paketquelle ändern</description>
     <description xml:lang="el">Αλλαγή παραμέτρων πηγών λογισμικού</description>
     <description xml:lang="es">Modificar los parámetros de fuente de software</description>
     <description xml:lang="eu">Aldatu software-jatorrien parametroak</description>
@@ -843,7 +843,7 @@
     <description xml:lang="ml">സോഫ്റ്റ്‌വെയറിനുള്ള സോഴ്സ് പരാമീറ്ററുകള്‍ മാറ്റുക</description>
     <description xml:lang="mr">सॉफ्टवेअर स्रोत बाब बदला</description>
     <description xml:lang="nb">Endre parametre for pakkebrønnene</description>
-    <description xml:lang="nl">Parameters van de software bronnen wijzigen</description>
+    <description xml:lang="nl">Parameters van de softwarebronnen wijzigen</description>
     <description xml:lang="or">ସଫ୍ୟୱେର ଉତ୍ସ ପ୍ରାଚଳଗୁଡ଼ିକୁ ପରିବର୍ତ୍ତନ କରନ୍ତୁ</description>
     <description xml:lang="pa">ਸਾਫਟਵੇਅਰ ਸਰੋਤ ਪੈਰਾਮੀਟਰ ਬਦਲੋ</description>
     <description xml:lang="pl">Zmiana parametrów źródła oprogramowania</description>
@@ -889,7 +889,7 @@
     <message xml:lang="ml">സോഫ്റ്റ്‌വെയര്‍ സോഴ്സ് പരാമീറ്ററുകള്‍ മാറ്റുന്നതിനായി ആധികാരികത ആവശ്യമുണ്ടു്</message>
     <message xml:lang="mr">सॉफ्टवेअर स्रोत बाब बदलवण्याकरीता ओळख पटवणे आवश्यक आहे</message>
     <message xml:lang="nb">Kan ikke endre parametre for pakkebrønn uten identitetsbekreftelse</message>
-    <message xml:lang="nl">Authenticatie wordt vereist om parameters van de software bronnen te wijzigen</message>
+    <message xml:lang="nl">Authenticatie wordt vereist om parameters van de softwarebronnen te wijzigen</message>
     <message xml:lang="or">ସଫ୍ଟୱେର ଉତ୍ସ ପ୍ରାଚଳଗୁଡ଼ିକୁ ପରିବର୍ତ୍ତନ କରିବା ପାଇଁ ବୈଧିକରଣ ଆବଶ୍ୟକ</message>
     <message xml:lang="pa">ਸਾਫਟਵੇਅਰ ਸਰੋਤ ਪੈਰਾਮੀਟਰ ਬਦਲਣ ਲਈ ਪਰਮਾਣਕਿਤਾ ਦੀ ਲੋੜ ਹੈ</message>
     <message xml:lang="pl">Wymagane jest uwierzytelnienie, aby zmienić parametry źródeł oprogramowania</message>
@@ -944,7 +944,7 @@
     <description xml:lang="lv">Atsvaidzināt sistēmas avotus</description>
     <description xml:lang="ml">സിസ്റ്റം സോഴ്സുകള്‍ പുതുക്കുക</description>
     <description xml:lang="mr">प्रणाली स्रोत पुन्ह दाखल करा</description>
-    <description xml:lang="nl">Ververs systeem bronnen</description>
+    <description xml:lang="nl">Ververs systeembronnen</description>
     <description xml:lang="or">ତନ୍ତ୍ର ଉତ୍ସଗୁଡ଼ିକୁ ସତେଜନ କରନ୍ତୁ</description>
     <description xml:lang="pa">ਸਿਸਟਮ ਸਰੋਤ ਤਾਜ਼ਾ ਕਰੋ</description>
     <description xml:lang="pl">Odświeżenie źródeł systemu</description>
@@ -1042,7 +1042,7 @@
     <description xml:lang="lv">Iestatīt tīkla starpniekserveri</description>
     <description xml:lang="ml">നെറ്റ്‌വര്‍ക്ക് പ്രോക്സി സജ്ജമാക്കുക</description>
     <description xml:lang="mr">जाळं प्रॉक्सी निश्चित करा</description>
-    <description xml:lang="nl">Stel netwerk proxy in</description>
+    <description xml:lang="nl">Stel netwerkproxy in</description>
     <description xml:lang="or">ନେଟୱର୍କ ପ୍ରକ୍ସି ସେଟ କରନ୍ତୁ</description>
     <description xml:lang="pa">ਨੈੱਟਵਰਕ ਪਰਾਕਸੀ ਸੈੱਟ ਕਰੋ</description>
     <description xml:lang="pl">Ustawienie pośrednika sieciowego</description>
@@ -1086,7 +1086,7 @@
     <message xml:lang="lv">Nepieciešama autentifikācija, lai iestatītu tīkla starpnieku, ko izmantot pakotņu lejupielādēšanai</message>
     <message xml:lang="ml">പാക്കേജുകള്‍ ഡൌണ്‍ലോട് ചെയ്യുന്നതിനുള്ള നെറ്റ്‌വര്‍ക്ക് പ്രോക്സി സജ്ജമാക്കുന്നതിനായി ആധികാരികത ഉറപ്പാക്കേണ്ടതുണ്ടു്.</message>
     <message xml:lang="mr">संकुल डाऊनलोड करीता जाळं प्रॉक्सी निश्चित करण्यासाठी ओळख पटवणे आवश्यक आहे</message>
-    <message xml:lang="nl">Authenticatie wordt vereist voor het instellen van de netwerk proxy die gebruikt wordt om pakketten te installeren</message>
+    <message xml:lang="nl">Authenticatie wordt vereist voor het instellen van de netwerkproxy die gebruikt wordt om pakketten te installeren</message>
     <message xml:lang="or">ପ୍ୟାକେଜଗୁଡ଼ିକୁ ଆହରଣ କରିବା ପାଇଁ ବ୍ୟବହୃତ ନେଟୱର୍କ ପ୍ରକ୍ସିକୁ ସେଟ କରିବା ପାଇଁ ବୈଧିକରଣ ଆବଶ୍ୟକ</message>
     <message xml:lang="pa">ਪੈਕੇਜ ਡਾਊਨਲੋਡ ਕਰਨ ਵਾਸਤੇ ਨੈੱਟਵਰਕ ਪਰਾਕਸੀ ਸੈੱਟ ਕਰਨ ਲਈ ਪਰਮਾਣਕਿਤਾ ਦੀ ਲੋੜ ਹੈ</message>
     <message xml:lang="pl">Wymagane jest uwierzytelnienie, aby ustawić pośrednika sieciowego używanego do pobierania pakietów</message>
@@ -1129,7 +1129,7 @@
     <description xml:lang="ko">설치된 패키지의 위치 변경</description>
     <description xml:lang="lt">Pakeisti paketų diegimo vietą</description>
     <description xml:lang="lv">Mainīt vietu, kur instalēt pakotnes</description>
-    <description xml:lang="nl">Verander de locatie waar pakketten geïnstalleerd worden</description>
+    <description xml:lang="nl">Verander de locatie waar pakketten worden geïnstalleerd</description>
     <description xml:lang="pa">ਟਿਕਾਣਾ ਬਦਲੋ, ਜਿੱਥੇ ਪੈਕੇਜ ਇੰਸਟਾਲ ਕੀਤੇ ਜਾਂਦੇ ਹਨ</description>
     <description xml:lang="pl">Zmiana położenia, w którym są instalowane pakiety</description>
     <description xml:lang="pt">Mudar a localização onde os pacotes são instalados</description>
@@ -1250,7 +1250,7 @@
     <message xml:lang="lv">Nepieciešama autentifikācija, lai pārlādētu ierīci ar jaunu draiveri</message>
     <message xml:lang="ml">ഒരു പുതിയ ഡ്രൈവറുപയോഗിച്ചു് ഡിവൈസ് വീണ്ടും ലഭ്യമാക്കുന്നതിനു് ആധികാരികത ആവശ്യമുണ്ടു്</message>
     <message xml:lang="mr">साधनाला नवीन ड्राइव्हरसह पुनःलोड करण्यासाठी ओळख पटवणे आवश्यक आहे</message>
-    <message xml:lang="nl">Authenticatie wordt vereist om het apparaat te herladen met een nieuwe driver</message>
+    <message xml:lang="nl">Authenticatie wordt vereist om het apparaat te herladen met een nieuw stuurprogramma</message>
     <message xml:lang="or">ତନ୍ତ୍ରଗୁଡ଼ିକୁ ନୂତନ ଡ୍ରାଇଭର ସହିତ ପୁନର୍ଧାରଣ କରିବା ପାଇଁ ବୈଧିକରଣ ଆବଶ୍ୟକ</message>
     <message xml:lang="pa">ਨਵੇਂ ਡਰਾਈਵਰ ਨਾਲ ਜੰਤਰ ਰੀਲੋਡ ਕਰਨ ਲਈ ਪਰਮਾਣਕਿਤਾ ਦੀ ਲੋੜ ਹੈ</message>
     <message xml:lang="pl">Wymagane jest uwierzytelnienie, aby ponownie wczytać urządzenie za pomocą nowego sterownika</message>
@@ -1321,7 +1321,7 @@
     <message xml:lang="ko">운영체제를 업그레이드 하려면 인증이 필요합니다</message>
     <message xml:lang="lt">Operacinės sistemos atnaujinimui reikia patvirtinti tapatybę</message>
     <message xml:lang="lv">Nepieciešama autentifikācija, lai uzlabotu operētājsistēmu</message>
-    <message xml:lang="nl">Authenticatie is vereist  om het operating system te mogen upgraden</message>
+    <message xml:lang="nl">Authenticatie is vereist  om het besturingssystem te mogen upgraden</message>
     <message xml:lang="pa">ਓਪਰੇਟਿੰਗ ਸਿਸਟਮ ਅੱਪਗਰੇਡ ਕਰਨ ਲਈ ਪਰਮਾਣਿਤ ਹੋਣ ਦੀ ਲੋੜ ਹੈ</message>
     <message xml:lang="pl">Wymagane jest uwierzytelnienie, aby zaktualizować system operacyjny</message>
     <message xml:lang="ru">Требуется проверка подлинности для обновления операционной системы</message>
@@ -1342,13 +1342,21 @@
   <action id="org.freedesktop.packagekit.repair-system">
     
     <description>Repair System</description>
+    <description xml:lang="de">System reparieren</description>
+    <description xml:lang="ko">시스템 복구</description>
+    <description xml:lang="lv">Salabot sistēmu</description>
     <description xml:lang="nl">Repareer Systeem</description>
     <description xml:lang="pa">ਸਿਸਟਮ ਰਿਪੇਅਰ</description>
     <description xml:lang="ru">Восстановление системы</description>
+    <description xml:lang="sk">Opraviť systém</description>
     <message>Authentication is required to repair the installed software</message>
+    <message xml:lang="de">Legitimierung ist erforderlich, um die installierte Software zu reparieren</message>
+    <message xml:lang="ko">설치된 소프트웨어를 복구하려면 인증이 필요합니다</message>
+    <message xml:lang="lv">Vajag autentificēties, lai salabotu un instalētu programmatūru</message>
     <message xml:lang="nl">Authenticatie is vereist om de geïnstalleerde software te kunnen repareren</message>
     <message xml:lang="pa">ਇੰਸਟਾਲ ਹੋਏ ਸਾਫਟਵੇਅਰ ਨੂੰ ਰਿਪੇਅਰ ਕਰਨ ਲਈ ਪਰਮਾਣਕਿਤਾ ਚਾਹੀਦੀ ਹੈ</message>
     <message xml:lang="ru">Для переустановки ПО необходима проверка подлинности</message>
+    <message xml:lang="sk">Na opravenie nainštalovaného softvéru je potrebné overenie totožnosti</message>
     <icon_name>package-x-generic</icon_name>
     <defaults>
       <allow_any>no</allow_any>

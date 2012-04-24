@@ -41,11 +41,11 @@
 </tr></table></div>
 <div class="refsynopsisdiv">
 <a name="PkClient.synopsis"></a><h2>Synopsis</h2>
-<pre class="synopsis">#define             <a class="link" href="PkClient.html#PK-CLIENT-ERROR:CAPS" title="PK_CLIENT_ERROR">PK_CLIENT_ERROR</a>
+<a name="PkClientError"></a><pre class="synopsis">#define             <a class="link" href="PkClient.html#PK-CLIENT-ERROR:CAPS" title="PK_CLIENT_ERROR">PK_CLIENT_ERROR</a>
 #define             <a class="link" href="PkClient.html#PK-CLIENT-TYPE-ERROR:CAPS" title="PK_CLIENT_TYPE_ERROR">PK_CLIENT_TYPE_ERROR</a>
 struct              <a class="link" href="PkClient.html#PkClient-struct" title="struct PkClient">PkClient</a>;
 struct              <a class="link" href="PkClient.html#PkClientClass" title="struct PkClientClass">PkClientClass</a>;
-enum                <a class="link" href="PkClient.html#PkClientError" title="enum PkClientError">PkClientError</a>;
+enum                <a class="link" href="PkClient.html#PkClientError-enum" title="enum PkClientError">PkClientError</a>;
 <span class="returnvalue">void</span>                <a class="link" href="PkClient.html#pk-client-accept-eula-async" title="pk_client_accept_eula_async ()">pk_client_accept_eula_async</a>         (<em class="parameter"><code><a class="link" href="PkClient.html" title="PkClient"><span class="type">PkClient</span></a> *client</code></em>,
                                                          <em class="parameter"><code>const <a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a> *eula_id</code></em>,
                                                          <em class="parameter"><code><a href="http://library.gnome.org/devel/gio/unstable/GCancellable.html"><span class="type">GCancellable</span></a> *cancellable</code></em>,
@@ -182,7 +182,7 @@ const <a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.htm
                                                          <em class="parameter"><code><a href="http://library.gnome.org/devel/gio/unstable/GAsyncResult.html#GAsyncReadyCallback"><span class="type">GAsyncReadyCallback</span></a> callback_ready</code></em>,
                                                          <em class="parameter"><code><a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gpointer"><span class="type">gpointer</span></a> user_data</code></em>);
 <span class="returnvalue">void</span>                <a class="link" href="PkClient.html#pk-client-install-signature-async" title="pk_client_install_signature_async ()">pk_client_install_signature_async</a>   (<em class="parameter"><code><a class="link" href="PkClient.html" title="PkClient"><span class="type">PkClient</span></a> *client</code></em>,
-                                                         <em class="parameter"><code><a class="link" href="PackageKit-pk-enum.html#PkSigTypeEnum" title="enum PkSigTypeEnum"><span class="type">PkSigTypeEnum</span></a> type</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="PackageKit-pk-enum.html#PkSigTypeEnum"><span class="type">PkSigTypeEnum</span></a> type</code></em>,
                                                          <em class="parameter"><code>const <a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a> *key_id</code></em>,
                                                          <em class="parameter"><code>const <a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a> *package_id</code></em>,
                                                          <em class="parameter"><code><a href="http://library.gnome.org/devel/gio/unstable/GCancellable.html"><span class="type">GCancellable</span></a> *cancellable</code></em>,
@@ -344,7 +344,7 @@ const <a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.htm
                                                          <em class="parameter"><code><a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gpointer"><span class="type">gpointer</span></a> user_data</code></em>);
 <span class="returnvalue">void</span>                <a class="link" href="PkClient.html#pk-client-upgrade-system-async" title="pk_client_upgrade_system_async ()">pk_client_upgrade_system_async</a>      (<em class="parameter"><code><a class="link" href="PkClient.html" title="PkClient"><span class="type">PkClient</span></a> *client</code></em>,
                                                          <em class="parameter"><code>const <a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a> *distro_id</code></em>,
-                                                         <em class="parameter"><code><a class="link" href="PackageKit-pk-enum.html#PkUpgradeKindEnum" title="enum PkUpgradeKindEnum"><span class="type">PkUpgradeKindEnum</span></a> upgrade_kind</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="PackageKit-pk-enum.html#PkUpgradeKindEnum"><span class="type">PkUpgradeKindEnum</span></a> upgrade_kind</code></em>,
                                                          <em class="parameter"><code><a href="http://library.gnome.org/devel/gio/unstable/GCancellable.html"><span class="type">GCancellable</span></a> *cancellable</code></em>,
                                                          <em class="parameter"><code><a class="link" href="PkProgress.html#PkProgressCallback" title="PkProgressCallback ()"><span class="type">PkProgressCallback</span></a> progress_callback</code></em>,
                                                          <em class="parameter"><code><a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gpointer"><span class="type">gpointer</span></a> progress_user_data</code></em>,
@@ -352,7 +352,7 @@ const <a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.htm
                                                          <em class="parameter"><code><a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gpointer"><span class="type">gpointer</span></a> user_data</code></em>);
 <span class="returnvalue">void</span>                <a class="link" href="PkClient.html#pk-client-what-provides-async" title="pk_client_what_provides_async ()">pk_client_what_provides_async</a>       (<em class="parameter"><code><a class="link" href="PkClient.html" title="PkClient"><span class="type">PkClient</span></a> *client</code></em>,
                                                          <em class="parameter"><code><a class="link" href="PackageKit-pk-bitfield.html#PkBitfield" title="PkBitfield"><span class="type">PkBitfield</span></a> filters</code></em>,
-                                                         <em class="parameter"><code><a class="link" href="PackageKit-pk-enum.html#PkProvidesEnum" title="enum PkProvidesEnum"><span class="type">PkProvidesEnum</span></a> provides</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="PackageKit-pk-enum.html#PkProvidesEnum"><span class="type">PkProvidesEnum</span></a> provides</code></em>,
                                                          <em class="parameter"><code><a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a> **values</code></em>,
                                                          <em class="parameter"><code><a href="http://library.gnome.org/devel/gio/unstable/GCancellable.html"><span class="type">GCancellable</span></a> *cancellable</code></em>,
                                                          <em class="parameter"><code><a class="link" href="PkProgress.html#PkProgressCallback" title="PkProgressCallback ()"><span class="type">PkProgressCallback</span></a> progress_callback</code></em>,
@@ -367,6 +367,10 @@ const <a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.htm
   <a href="http://library.gnome.org/devel/gobject/unstable/gobject-The-Base-Object-Type.html#GObject">GObject</a>
    +----PkClient
          +----<a class="link" href="PkTask.html" title="PkTask">PkTask</a>
+</pre>
+<pre class="synopsis">
+  GEnum
+   +----PkClientError
 </pre>
 </div>
 <div class="refsect1">
@@ -425,7 +429,7 @@ http://www.packagekit.org/gtk-doc/introduction-ideas-transactions.html
 </div>
 <hr>
 <div class="refsect2">
-<a name="PkClientError"></a><h3>enum PkClientError</h3>
+<a name="PkClientError-enum"></a><h3>enum PkClientError</h3>
 <pre class="programlisting">typedef enum {
 	PK_CLIENT_ERROR_FAILED,
 	PK_CLIENT_ERROR_FAILED_AUTH,
@@ -1614,7 +1618,7 @@ Install a package of the newest and most correct version.
 <div class="refsect2">
 <a name="pk-client-install-signature-async"></a><h3>pk_client_install_signature_async ()</h3>
 <pre class="programlisting"><span class="returnvalue">void</span>                pk_client_install_signature_async   (<em class="parameter"><code><a class="link" href="PkClient.html" title="PkClient"><span class="type">PkClient</span></a> *client</code></em>,
-                                                         <em class="parameter"><code><a class="link" href="PackageKit-pk-enum.html#PkSigTypeEnum" title="enum PkSigTypeEnum"><span class="type">PkSigTypeEnum</span></a> type</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="PackageKit-pk-enum.html#PkSigTypeEnum"><span class="type">PkSigTypeEnum</span></a> type</code></em>,
                                                          <em class="parameter"><code>const <a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a> *key_id</code></em>,
                                                          <em class="parameter"><code>const <a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a> *package_id</code></em>,
                                                          <em class="parameter"><code><a href="http://library.gnome.org/devel/gio/unstable/GCancellable.html"><span class="type">GCancellable</span></a> *cancellable</code></em>,
@@ -2840,7 +2844,7 @@ NOTE: you can't choose what repositories to update from, but you can do:
 <a name="pk-client-upgrade-system-async"></a><h3>pk_client_upgrade_system_async ()</h3>
 <pre class="programlisting"><span class="returnvalue">void</span>                pk_client_upgrade_system_async      (<em class="parameter"><code><a class="link" href="PkClient.html" title="PkClient"><span class="type">PkClient</span></a> *client</code></em>,
                                                          <em class="parameter"><code>const <a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a> *distro_id</code></em>,
-                                                         <em class="parameter"><code><a class="link" href="PackageKit-pk-enum.html#PkUpgradeKindEnum" title="enum PkUpgradeKindEnum"><span class="type">PkUpgradeKindEnum</span></a> upgrade_kind</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="PackageKit-pk-enum.html#PkUpgradeKindEnum"><span class="type">PkUpgradeKindEnum</span></a> upgrade_kind</code></em>,
                                                          <em class="parameter"><code><a href="http://library.gnome.org/devel/gio/unstable/GCancellable.html"><span class="type">GCancellable</span></a> *cancellable</code></em>,
                                                          <em class="parameter"><code><a class="link" href="PkProgress.html#PkProgressCallback" title="PkProgressCallback ()"><span class="type">PkProgressCallback</span></a> progress_callback</code></em>,
                                                          <em class="parameter"><code><a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gpointer"><span class="type">gpointer</span></a> progress_user_data</code></em>,
@@ -2867,7 +2871,7 @@ The backend will decide what is best to do.
 </tr>
 <tr>
 <td><p><span class="term"><em class="parameter"><code>upgrade_kind</code></em> :</span></p></td>
-<td>a <a class="link" href="PackageKit-pk-enum.html#PkUpgradeKindEnum" title="enum PkUpgradeKindEnum"><span class="type">PkUpgradeKindEnum</span></a> such as <code class="literal">PK_UPGRADE_KIND_ENUM_COMPLETE</code>
+<td>a <a class="link" href="PackageKit-pk-enum.html#PkUpgradeKindEnum"><span class="type">PkUpgradeKindEnum</span></a> such as <code class="literal">PK_UPGRADE_KIND_ENUM_COMPLETE</code>
 </td>
 </tr>
 <tr>
@@ -2903,7 +2907,7 @@ The backend will decide what is best to do.
 <a name="pk-client-what-provides-async"></a><h3>pk_client_what_provides_async ()</h3>
 <pre class="programlisting"><span class="returnvalue">void</span>                pk_client_what_provides_async       (<em class="parameter"><code><a class="link" href="PkClient.html" title="PkClient"><span class="type">PkClient</span></a> *client</code></em>,
                                                          <em class="parameter"><code><a class="link" href="PackageKit-pk-bitfield.html#PkBitfield" title="PkBitfield"><span class="type">PkBitfield</span></a> filters</code></em>,
-                                                         <em class="parameter"><code><a class="link" href="PackageKit-pk-enum.html#PkProvidesEnum" title="enum PkProvidesEnum"><span class="type">PkProvidesEnum</span></a> provides</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="PackageKit-pk-enum.html#PkProvidesEnum"><span class="type">PkProvidesEnum</span></a> provides</code></em>,
                                                          <em class="parameter"><code><a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a> **values</code></em>,
                                                          <em class="parameter"><code><a href="http://library.gnome.org/devel/gio/unstable/GCancellable.html"><span class="type">GCancellable</span></a> *cancellable</code></em>,
                                                          <em class="parameter"><code><a class="link" href="PkProgress.html#PkProgressCallback" title="PkProgressCallback ()"><span class="type">PkProgressCallback</span></a> progress_callback</code></em>,
@@ -2929,7 +2933,7 @@ or GStreamer codec string.
 </tr>
 <tr>
 <td><p><span class="term"><em class="parameter"><code>provides</code></em> :</span></p></td>
-<td>a <a class="link" href="PackageKit-pk-enum.html#PkProvidesEnum" title="enum PkProvidesEnum"><span class="type">PkProvidesEnum</span></a> value such as PK_PROVIDES_ENUM_CODEC</td>
+<td>a <a class="link" href="PackageKit-pk-enum.html#PkProvidesEnum"><span class="type">PkProvidesEnum</span></a> value such as PK_PROVIDES_ENUM_CODEC</td>
 </tr>
 <tr>
 <td><p><span class="term"><em class="parameter"><code>values</code></em> :</span></p></td>
