@@ -1,4 +1,4 @@
-packagekit (0.7.4-1) UNRELEASED; urgency=low
+packagekit (0.7.4-1) unstable; urgency=low
 
   * New upstream release: 0.7.4
     This is the ultimate-aptcc release, fixing nearly all known bugs!
@@ -69,6 +69,8 @@ packagekit (0.7.4-1) UNRELEASED; urgency=low
      - Do not include the website in the tarball (Richard Hughes)
   * Don't ship PackageKit bash-completion: Apt can do this already
   * Ship PackageKit tools in separate package
+  * Drop all patches: Applied upstream
+  * Refresh remaining patches (for policy & default settings)
 
  -- Matthias Klumpp <matthias@tenstral.net>  Tue, 24 Apr 2012 12:03:55 +0200
 
