@@ -163,7 +163,7 @@ Description: Library for accessing PackageKit using Qt4
 Package: libpackagekit-qt2-dev
 Section: libdevel
 Architecture: any
-Depends: libpackagekit-qt2-2 (= ${binary:Version}),
+Depends: libpackagekit-qt2-1 (= ${binary:Version}),
          libqt4-dev,
          ${misc:Depends}
 Description: Library for accessing PackageKit using Qt4 (development files)
