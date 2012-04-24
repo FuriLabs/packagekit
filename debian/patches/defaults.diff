@@ -23,7 +23,7 @@ Last-Update: 2011-07-14
  # How long the transaction is valid before it's destroyed, in seconds
  #
 @@ -275,6 +275,8 @@
- # Seporate entries can be seporated with the ';' character.
+ # Separate entries can be separated with the ';' character.
  #
  # default=/usr/lib*/*/firefox
 +# NOTE: On Debian, updating of Firefox/Iceweasel while running should work.

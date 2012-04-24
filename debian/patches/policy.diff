@@ -4,7 +4,7 @@ Author: Matthias Klumpp <matthias@tenstral.net>
 Last-Update: 2010-12-06
 --- a/policy/org.freedesktop.packagekit.policy.in
 +++ b/policy/org.freedesktop.packagekit.policy.in
-@@ -93,7 +93,7 @@
+@@ -94,7 +94,7 @@
      <defaults>
        <allow_any>no</allow_any>
        <allow_inactive>no</allow_inactive>
@@ -13,7 +13,7 @@ Last-Update: 2010-12-06
      </defaults>
    </action>
  
-@@ -131,7 +131,7 @@
+@@ -133,7 +133,7 @@
      <defaults>
        <allow_any>no</allow_any>
        <allow_inactive>no</allow_inactive>
@@ -22,11 +22,3 @@ Last-Update: 2010-12-06
      </defaults>
    </action>
  
---- a/po/POTFILES.skip
-+++ b/po/POTFILES.skip
-@@ -6,4 +6,4 @@
- lib/packagekit-glib/egg-debug.c
- lib/packagekit-glib2/egg-debug.c
- backends/yum/libzif/egg-debug.c
--
-+.pc/policy.diff/policy/org.freedesktop.packagekit.policy.in
