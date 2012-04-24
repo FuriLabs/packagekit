@@ -1,3 +1,77 @@
+packagekit (0.7.4-1) UNRELEASED; urgency=low
+
+  * New upstream release: 0.7.4
+    This is the ultimate-aptcc release, fixing nearly all known bugs!
+    PK changes relevant to Debian:
+     - packagekit-glib2: Add GType's for packagekit-glib2 enumerations
+        (Stef Walter)
+     - packagekit-qt2: Add simulateRepairSystem and repairSystem(bool) to
+        the Transaction API (Daniel Nicoletti)
+     - python: Speed up get_package_list (Tomáš Trnka)
+     - apt: apt.cache.Cache() now reuses the dpkg of the chroot
+        (Sebastian Heinlein)
+     - apt: Fix modalias search on non-multi-arch systems
+        (Sebastian Heinlein)
+     - apt: Replace use of depracted python-apt 0.7.x API
+        (Sebastian Heinlein)
+     - aptcc: Add a new class to show cache opening progress
+        (Daniel Nicoletti)
+     - aptcc: Add AptCacheFile to handle all pkg cache openings
+        (Daniel Nicoletti)
+     - aptcc: Add SimulateRepairSystem and RepairSystem methods
+        (Daniel Nicoletti) (LP: #496290)
+     - aptcc: Avoid crashing when error messages containing invalid utf8
+        is sent (Daniel Nicoletti)
+     - aptcc: Change the way we mark auto-installed packages
+        (Daniel Nicoletti)
+     - aptcc: Correctly emit if a repo is enabled (Matthias Klumpp)
+     - aptcc: Don't emit error if repo is empty (Matthias Klumpp)
+     - aptcc: Emit newly-installed local package information (Matthias Klumpp)
+     - aptcc: Emit packages that are untrusted with the
+        PK_INFO_ENUM_UNTRUSTED enum (Daniel Nicoletti)
+     - aptcc: Emit UnfinishedTransaction when we were not able to fix the
+        cache (Daniel Nicoletti)
+     - aptcc: Fix a multiarch bug that failed to resolve packages
+        (Daniel Nicoletti)
+     - aptcc: Fix crash when a package for an invalid version
+        (Daniel Nicoletti)
+     - aptcc: Fix resolving of gdebi packages when they have :arch field
+        (Daniel Nicoletti)
+     - aptcc: Implement support for InstallFiles()
+        (Matthias Klumpp) (Closes: #606131)
+     - aptcc: Implement SUPPORTED support (Matthias Klumpp)
+     - aptcc: Improve the autoremove code (Daniel Nicoletti)
+     - aptcc: Mark dependencies of a file-installation as automatic
+        (Matthias Klumpp)
+     - aptcc: Move ShowBroken to AptCacheFile, and added CheckDeps from
+        apt-get (Daniel Nicoletti)
+     - aptcc: Refactored to use AptCacheFile (Daniel Nicoletti)
+     - aptcc: Reident the code and re-enforce KDElibs coding style
+        (Daniel Nicoletti)
+     - aptcc: Remove a code duplication and emit proper RestartRequired
+       signal (Daniel Nicoletti)
+     - aptcc: Reorganise parts of AptCC to make the code more readable
+        (Matthias Klumpp)
+     - aptcc: Separate the try install/remove functions (Daniel Nicoletti)
+     - aptcc: Simplify code for checking trusted packages (Matthias Klumpp)
+     - aptcc: Update license headers & fix some more indentation and typos
+        (Matthias Klumpp)
+     - aptcc: Use _exit() to quit the child process as synaptic does
+        (Daniel Nicoletti)
+     - aptcc: When on multiarch some packages that should have the :arch
+       appended to the installed list files (Daniel Nicoletti)
+     - Deprecate Message(untrusted-package) from the API (Richard Hughes)
+     - Install pk-task-sync.h as part of the public API (Stef Walter)
+     - Add full integration so that UI can know when to repair the system
+        (Daniel Nicoletti)
+     - Do not allow an empty resolve call to be passed down to the
+        backends (Richard Hughes)
+     - Do not include the website in the tarball (Richard Hughes)
+  * Don't ship PackageKit bash-completion: Apt can do this already
+  * Ship PackageKit tools in separate package
+
+ -- Matthias Klumpp <matthias@tenstral.net>  Tue, 24 Apr 2012 12:03:55 +0200
+
 packagekit (0.7.3-3) unstable; urgency=low
 
   * Drop dependency on python-gobject (Closes: #663742)
