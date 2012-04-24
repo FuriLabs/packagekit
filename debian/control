@@ -142,7 +142,7 @@ Description: GObject introspection data for the PackageKit GLib library
  It can be used by packages using the GIRepository format to generate
  dynamic bindings.
 
-Package: libpackagekit-qt2-2
+Package: libpackagekit-qt2-1
 Architecture: any
 Section: libs
 Multi-Arch: same
@@ -150,7 +150,7 @@ Pre-Depends: ${misc:Pre-Depends}
 Depends: ${misc:Depends},
          ${shlibs:Depends}
 Recommends: packagekit (= ${binary:Version})
-Breaks: libpackagekit-qt-14 (>= 0.6.8-0)
+Breaks: libpackagekit-qt-14 (>= 0.6.8)
 Replaces: libpackagekit-qt-14,
           libpackagekit-qt14
 Description: Library for accessing PackageKit using Qt4
