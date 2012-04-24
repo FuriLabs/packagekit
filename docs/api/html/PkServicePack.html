@@ -39,7 +39,8 @@
 </tr></table></div>
 <div class="refsynopsisdiv">
 <a name="PkServicePack.synopsis"></a><h2>Synopsis</h2>
-<a name="PkServicePackError"></a><pre class="synopsis">#define             <a class="link" href="PkServicePack.html#PK-SERVICE-PACK-FILE-EXTENSION:CAPS" title="PK_SERVICE_PACK_FILE_EXTENSION">PK_SERVICE_PACK_FILE_EXTENSION</a>
+<a name="PkServicePackError"></a><pre class="synopsis">#define             <a class="link" href="PkServicePack.html#PK-SERVICE-PACK-ERROR:CAPS" title="PK_SERVICE_PACK_ERROR">PK_SERVICE_PACK_ERROR</a>
+#define             <a class="link" href="PkServicePack.html#PK-SERVICE-PACK-FILE-EXTENSION:CAPS" title="PK_SERVICE_PACK_FILE_EXTENSION">PK_SERVICE_PACK_FILE_EXTENSION</a>
 #define             <a class="link" href="PkServicePack.html#PK-SERVICE-PACK-TYPE-ERROR:CAPS" title="PK_SERVICE_PACK_TYPE_ERROR">PK_SERVICE_PACK_TYPE_ERROR</a>
 struct              <a class="link" href="PkServicePack.html#PkServicePack-struct" title="struct PkServicePack">PkServicePack</a>;
 struct              <a class="link" href="PkServicePack.html#PkServicePackClass" title="struct PkServicePackClass">PkServicePackClass</a>;
@@ -95,6 +96,12 @@ Clients can use this GObject for reading and writing service packs.
 </div>
 <div class="refsect1">
 <a name="PkServicePack.details"></a><h2>Details</h2>
+<div class="refsect2">
+<a name="PK-SERVICE-PACK-ERROR:CAPS"></a><h3>PK_SERVICE_PACK_ERROR</h3>
+<pre class="programlisting">#define PK_SERVICE_PACK_ERROR	 	(pk_service_pack_error_quark ())
+</pre>
+</div>
+<hr>
 <div class="refsect2">
 <a name="PK-SERVICE-PACK-FILE-EXTENSION:CAPS"></a><h3>PK_SERVICE_PACK_FILE_EXTENSION</h3>
 <pre class="programlisting">#define PK_SERVICE_PACK_FILE_EXTENSION "servicepack"

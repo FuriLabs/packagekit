@@ -1321,9 +1321,9 @@ backend_resolve_thread (PkBackend *backend)
 		return FALSE;
 	}
 
-	zypp->getTarget()->load();
-
 	pk_backend_set_status (backend, PK_STATUS_ENUM_QUERY);
+
+	zypp_build_pool (backend, TRUE);
 
 	for (uint i = 0; package_ids[i]; i++) {
 		vector<sat::Solvable> v;
@@ -1370,12 +1370,6 @@ backend_resolve_thread (PkBackend *backend)
 		}
 
 		zypp_emit_filtered_packages_in_list (backend, pkgs);
-
-		if (pkgs.size() < 1) {
-			return zypp_backend_finished_error (
-				backend, PK_ERROR_ENUM_PACKAGE_NOT_FOUND,
-				"couldn't find package");
-		}
 	}
 
 	pk_backend_finished (backend);

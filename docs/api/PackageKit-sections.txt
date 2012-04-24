@@ -31,6 +31,7 @@ pk_role_bitfield_to_string
 <SECTION>
 <FILE>pk-catalog</FILE>
 <TITLE>PkCatalog</TITLE>
+PK_CATALOG_ERROR
 PK_CATALOG_FILE_EXTENSION
 PK_CATALOG_FILE_HEADER
 PK_CATALOG_TYPE_ERROR
@@ -45,13 +46,11 @@ pk_catalog_test
 <SUBSECTION Standard>
 PK_CATALOG
 PK_CATALOG_CLASS
-PK_CATALOG_ERROR
 PK_CATALOG_GET_CLASS
 PK_IS_CATALOG
 PK_IS_CATALOG_CLASS
 PK_TYPE_CATALOG
 PkCatalogPrivate
-pk_catalog_error_get_type
 pk_catalog_get_type
 </SECTION>
 
@@ -425,6 +424,57 @@ pk_upgrade_kind_enum_to_string
 </SECTION>
 
 <SECTION>
+<FILE>pk-enum-types</FILE>
+<SUBSECTION Standard>
+PK_TYPE_AUTHORIZE_ENUM
+PK_TYPE_CATALOG_ERROR
+PK_TYPE_CLIENT_ERROR
+PK_TYPE_CONTROL_ERROR
+PK_TYPE_DISTRO_UPGRADE_ENUM
+PK_TYPE_ERROR_ENUM
+PK_TYPE_EXIT_ENUM
+PK_TYPE_FILTER_ENUM
+PK_TYPE_GROUP_ENUM
+PK_TYPE_INFO_ENUM
+PK_TYPE_MEDIA_TYPE_ENUM
+PK_TYPE_MESSAGE_ENUM
+PK_TYPE_NETWORK_ENUM
+PK_TYPE_PACKAGE_SACK_SORT_TYPE
+PK_TYPE_PROGRESS_TYPE
+PK_TYPE_PROVIDES_ENUM
+PK_TYPE_RESTART_ENUM
+PK_TYPE_ROLE_ENUM
+PK_TYPE_SERVICE_PACK_ERROR
+PK_TYPE_SIG_TYPE_ENUM
+PK_TYPE_STATUS_ENUM
+PK_TYPE_UPDATE_STATE_ENUM
+PK_TYPE_UPGRADE_KIND_ENUM
+pk_authorize_enum_get_type
+pk_catalog_error_get_type
+pk_client_error_get_type
+pk_control_error_get_type
+pk_distro_upgrade_enum_get_type
+pk_error_enum_get_type
+pk_exit_enum_get_type
+pk_filter_enum_get_type
+pk_group_enum_get_type
+pk_info_enum_get_type
+pk_media_type_enum_get_type
+pk_message_enum_get_type
+pk_network_enum_get_type
+pk_package_sack_sort_type_get_type
+pk_progress_type_get_type
+pk_provides_enum_get_type
+pk_restart_enum_get_type
+pk_role_enum_get_type
+pk_service_pack_error_get_type
+pk_sig_type_enum_get_type
+pk_status_enum_get_type
+pk_update_state_enum_get_type
+pk_upgrade_kind_enum_get_type
+</SECTION>
+
+<SECTION>
 <FILE>pk-error</FILE>
 <TITLE>PkError</TITLE>
 PkError
@@ -779,6 +829,7 @@ pk_results_get_type
 <SECTION>
 <FILE>pk-service-pack</FILE>
 <TITLE>PkServicePack</TITLE>
+PK_SERVICE_PACK_ERROR
 PK_SERVICE_PACK_FILE_EXTENSION
 PK_SERVICE_PACK_TYPE_ERROR
 PkServicePack
@@ -797,11 +848,9 @@ PK_IS_SERVICE_PACK
 PK_IS_SERVICE_PACK_CLASS
 PK_SERVICE_PACK
 PK_SERVICE_PACK_CLASS
-PK_SERVICE_PACK_ERROR
 PK_SERVICE_PACK_GET_CLASS
 PK_TYPE_SERVICE_PACK
 PkServicePackPrivate
-pk_service_pack_error_get_type
 pk_service_pack_get_type
 </SECTION>
 

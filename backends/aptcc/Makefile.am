@@ -1,20 +1,21 @@
 INCLUDES = \
-	-DDATADIR=\"$(datadir)\"			\
+	-DDATADIR=\"$(datadir)\"		\
 	-DG_LOG_DOMAIN=\"PackageKit-Aptcc\"
 
 plugindir = $(PK_PLUGIN_DIR)
 plugin_LTLIBRARIES = libpk_backend_aptcc.la
-libpk_backend_aptcc_la_SOURCES = pkg_acqfile.cpp \
-				 aptcc_show_broken.cpp \
-				 aptcc_show_error.cpp \
-				 apt-utils.cpp \
-				 acqprogress.cpp \
+libpk_backend_aptcc_la_SOURCES = PkgList.cpp \
+				 pkg_acqfile.cpp \
+				 acqpkitstatus.cpp \
 				 deb-file.cpp \
-				 dpkgpm.cpp \
 				 matcher.cpp \
 				 gstMatcher.cpp \
-				 rsources.cpp \
-				 apt.cpp \
+				 apt-messages.cpp \
+				 apt-utils.cpp \
+				 apt-sourceslist.cpp \
+				 OpPackageKitProgress.cpp \
+                                 AptCacheFile.cpp \
+				 apt-intf.cpp \
 				 pk-backend-aptcc.cpp
 libpk_backend_aptcc_la_LIBADD = -lcrypt -lapt-pkg -lapt-inst $(PK_PLUGIN_LIBS)
 libpk_backend_aptcc_la_LDFLAGS = -module -avoid-version $(APTCC_LIBS) $(GSTREAMER_LIBS)
@@ -25,17 +26,18 @@ aptconfdir = ${SYSCONFDIR}/apt/apt.conf.d
 aptconf_DATA = 20packagekit
 
 EXTRA_DIST = 20packagekit \
-	     apt.h \
+	     PkgList.h \
+	     apt-intf.h \
 	     apt-utils.h \
+	     apt-sourceslist.h \
 	     gstMatcher.h \
 	     matcher.h \
 	     deb-file.h \
-	     dpkgpm.h \
-	     aptcc_show_broken.h \
-	     acqprogress.h \
-	     aptcc_show_error.h \
-	     pkg_acqfile.h \
-	     rsources.h
+	     apt-messages.h \
+	     acqpkitstatus.h \
+	     OpPackageKitProgress.h \
+             AptCacheFile.h \
+	     pkg_acqfile.h
 
 helperdir = $(datadir)/PackageKit/helpers/aptcc
 dist_helper_DATA =					\

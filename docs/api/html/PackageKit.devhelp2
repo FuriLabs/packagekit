@@ -63,6 +63,7 @@
       <sub name="pk-enum" link="PackageKit-pk-enum.html"/>
       <sub name="pk-package-ids" link="PackageKit-pk-package-ids.html"/>
       <sub name="pk-package-id" link="PackageKit-pk-package-id.html"/>
+      <sub name="pk-task-sync" link="PackageKit-pk-task-sync.html"/>
     </sub>
     <sub name="Frequently asked questions" link="faq.html">
       <sub name="Developer FAQ" link="developer-faq.html">
@@ -165,6 +166,7 @@
     <keyword type="" name="The &quot;ElapsedTime&quot; property" link="Transaction.html#Transaction:ElapsedTime"/>
     <keyword type="" name="The &quot;RemainingTime&quot; property" link="Transaction.html#Transaction:RemainingTime"/>
     <keyword type="" name="The &quot;Speed&quot; property" link="Transaction.html#Transaction:Speed"/>
+    <keyword type="macro" name="PK_CATALOG_ERROR" link="PkCatalog.html#PK-CATALOG-ERROR:CAPS"/>
     <keyword type="macro" name="PK_CATALOG_FILE_EXTENSION" link="PkCatalog.html#PK-CATALOG-FILE-EXTENSION:CAPS"/>
     <keyword type="macro" name="PK_CATALOG_FILE_HEADER" link="PkCatalog.html#PK-CATALOG-FILE-HEADER:CAPS"/>
     <keyword type="macro" name="PK_CATALOG_TYPE_ERROR" link="PkCatalog.html#PK-CATALOG-TYPE-ERROR:CAPS"/>
@@ -198,7 +200,7 @@
     <keyword type="macro" name="PK_CLIENT_TYPE_ERROR" link="PkClient.html#PK-CLIENT-TYPE-ERROR:CAPS"/>
     <keyword type="struct" name="struct PkClient" link="PkClient.html#PkClient-struct"/>
     <keyword type="struct" name="struct PkClientClass" link="PkClient.html#PkClientClass"/>
-    <keyword type="enum" name="enum PkClientError" link="PkClient.html#PkClientError"/>
+    <keyword type="enum" name="enum PkClientError" link="PkClient.html#PkClientError-enum"/>
     <keyword type="function" name="pk_client_accept_eula_async ()" link="PkClient.html#pk-client-accept-eula-async" since="0.5.2"/>
     <keyword type="function" name="pk_client_adopt_async ()" link="PkClient.html#pk-client-adopt-async" since="0.5.2"/>
     <keyword type="function" name="pk_client_download_packages_async ()" link="PkClient.html#pk-client-download-packages-async" since="0.5.2"/>
@@ -260,7 +262,7 @@
     <keyword type="macro" name="PK_CONTROL_TYPE_ERROR" link="PkControl.html#PK-CONTROL-TYPE-ERROR:CAPS"/>
     <keyword type="struct" name="struct PkControl" link="PkControl.html#PkControl-struct"/>
     <keyword type="struct" name="struct PkControlClass" link="PkControl.html#PkControlClass"/>
-    <keyword type="enum" name="enum PkControlError" link="PkControl.html#PkControlError"/>
+    <keyword type="enum" name="enum PkControlError" link="PkControl.html#PkControlError-enum"/>
     <keyword type="function" name="pk_control_can_authorize_async ()" link="PkControl.html#pk-control-can-authorize-async" since="0.5.2"/>
     <keyword type="function" name="pk_control_can_authorize_finish ()" link="PkControl.html#pk-control-can-authorize-finish" since="0.5.2"/>
     <keyword type="function" name="pk_control_error_quark ()" link="PkControl.html#pk-control-error-quark" since="0.5.2"/>
@@ -368,7 +370,7 @@
     <keyword type="struct" name="struct PkPackageSackClass" link="PkPackageSack.html#PkPackageSackClass"/>
     <keyword type="function" name="PkPackageSackFilterFunc ()" link="PkPackageSack.html#PkPackageSackFilterFunc"/>
     <keyword type="struct" name="PkPackageSackResults" link="PkPackageSack.html#PkPackageSackResults"/>
-    <keyword type="enum" name="enum PkPackageSackSortType" link="PkPackageSack.html#PkPackageSackSortType"/>
+    <keyword type="enum" name="enum PkPackageSackSortType" link="PkPackageSack.html#PkPackageSackSortType-enum"/>
     <keyword type="function" name="pk_package_sack_add_package ()" link="PkPackageSack.html#pk-package-sack-add-package" since="0.5.2"/>
     <keyword type="function" name="pk_package_sack_add_package_by_id ()" link="PkPackageSack.html#pk-package-sack-add-package-by-id" since="0.5.2"/>
     <keyword type="function" name="pk_package_sack_clear ()" link="PkPackageSack.html#pk-package-sack-clear" since="0.5.2"/>
@@ -429,7 +431,7 @@
     <keyword type="struct" name="struct PkProgress" link="PkProgress.html#PkProgress-struct"/>
     <keyword type="function" name="PkProgressCallback ()" link="PkProgress.html#PkProgressCallback"/>
     <keyword type="struct" name="struct PkProgressClass" link="PkProgress.html#PkProgressClass"/>
-    <keyword type="enum" name="enum PkProgressType" link="PkProgress.html#PkProgressType"/>
+    <keyword type="enum" name="enum PkProgressType" link="PkProgress.html#PkProgressType-enum"/>
     <keyword type="function" name="pk_progress_new ()" link="PkProgress.html#pk-progress-new" since="0.5.2"/>
     <keyword type="function" name="pk_progress_set_allow_cancel ()" link="PkProgress.html#pk-progress-set-allow-cancel" since="0.5.2"/>
     <keyword type="function" name="pk_progress_set_caller_active ()" link="PkProgress.html#pk-progress-set-caller-active" since="0.5.2"/>
@@ -523,6 +525,7 @@
     <keyword type="property" name="The &quot;inputs&quot; property" link="PkResults.html#PkResults--inputs"/>
     <keyword type="property" name="The &quot;progress&quot; property" link="PkResults.html#PkResults--progress"/>
     <keyword type="property" name="The &quot;role&quot; property" link="PkResults.html#PkResults--role"/>
+    <keyword type="macro" name="PK_SERVICE_PACK_ERROR" link="PkServicePack.html#PK-SERVICE-PACK-ERROR:CAPS"/>
     <keyword type="macro" name="PK_SERVICE_PACK_FILE_EXTENSION" link="PkServicePack.html#PK-SERVICE-PACK-FILE-EXTENSION:CAPS"/>
     <keyword type="macro" name="PK_SERVICE_PACK_TYPE_ERROR" link="PkServicePack.html#PK-SERVICE-PACK-TYPE-ERROR:CAPS"/>
     <keyword type="struct" name="struct PkServicePack" link="PkServicePack.html#PkServicePack-struct"/>
@@ -673,24 +676,24 @@
     <keyword type="function" name="pk_control_set_proxy2 ()" link="PackageKit-pk-control-sync.html#pk-control-set-proxy2" since="0.6.13"/>
     <keyword type="function" name="pk_control_set_root ()" link="PackageKit-pk-control-sync.html#pk-control-set-root" since="0.6.4"/>
     <keyword type="function" name="pk_control_suggest_daemon_quit ()" link="PackageKit-pk-control-sync.html#pk-control-suggest-daemon-quit" since="0.6.2"/>
-    <keyword type="enum" name="enum PkAuthorizeEnum" link="PackageKit-pk-enum.html#PkAuthorizeEnum"/>
-    <keyword type="enum" name="enum PkDistroUpgradeEnum" link="PackageKit-pk-enum.html#PkDistroUpgradeEnum"/>
+    <keyword type="enum" name="enum PkAuthorizeEnum" link="PackageKit-pk-enum.html#PkAuthorizeEnum-enum"/>
+    <keyword type="enum" name="enum PkDistroUpgradeEnum" link="PackageKit-pk-enum.html#PkDistroUpgradeEnum-enum"/>
     <keyword type="struct" name="PkEnumMatch" link="PackageKit-pk-enum.html#PkEnumMatch"/>
-    <keyword type="enum" name="enum PkErrorEnum" link="PackageKit-pk-enum.html#PkErrorEnum"/>
-    <keyword type="enum" name="enum PkExitEnum" link="PackageKit-pk-enum.html#PkExitEnum"/>
-    <keyword type="enum" name="enum PkFilterEnum" link="PackageKit-pk-enum.html#PkFilterEnum"/>
-    <keyword type="enum" name="enum PkGroupEnum" link="PackageKit-pk-enum.html#PkGroupEnum"/>
-    <keyword type="enum" name="enum PkInfoEnum" link="PackageKit-pk-enum.html#PkInfoEnum"/>
-    <keyword type="enum" name="enum PkMediaTypeEnum" link="PackageKit-pk-enum.html#PkMediaTypeEnum"/>
-    <keyword type="enum" name="enum PkMessageEnum" link="PackageKit-pk-enum.html#PkMessageEnum"/>
-    <keyword type="enum" name="enum PkNetworkEnum" link="PackageKit-pk-enum.html#PkNetworkEnum"/>
-    <keyword type="enum" name="enum PkProvidesEnum" link="PackageKit-pk-enum.html#PkProvidesEnum"/>
-    <keyword type="enum" name="enum PkRestartEnum" link="PackageKit-pk-enum.html#PkRestartEnum"/>
-    <keyword type="enum" name="enum PkRoleEnum" link="PackageKit-pk-enum.html#PkRoleEnum"/>
-    <keyword type="enum" name="enum PkSigTypeEnum" link="PackageKit-pk-enum.html#PkSigTypeEnum"/>
-    <keyword type="enum" name="enum PkStatusEnum" link="PackageKit-pk-enum.html#PkStatusEnum"/>
-    <keyword type="enum" name="enum PkUpdateStateEnum" link="PackageKit-pk-enum.html#PkUpdateStateEnum"/>
-    <keyword type="enum" name="enum PkUpgradeKindEnum" link="PackageKit-pk-enum.html#PkUpgradeKindEnum"/>
+    <keyword type="enum" name="enum PkErrorEnum" link="PackageKit-pk-enum.html#PkErrorEnum-enum"/>
+    <keyword type="enum" name="enum PkExitEnum" link="PackageKit-pk-enum.html#PkExitEnum-enum"/>
+    <keyword type="enum" name="enum PkFilterEnum" link="PackageKit-pk-enum.html#PkFilterEnum-enum"/>
+    <keyword type="enum" name="enum PkGroupEnum" link="PackageKit-pk-enum.html#PkGroupEnum-enum"/>
+    <keyword type="enum" name="enum PkInfoEnum" link="PackageKit-pk-enum.html#PkInfoEnum-enum"/>
+    <keyword type="enum" name="enum PkMediaTypeEnum" link="PackageKit-pk-enum.html#PkMediaTypeEnum-enum"/>
+    <keyword type="enum" name="enum PkMessageEnum" link="PackageKit-pk-enum.html#PkMessageEnum-enum"/>
+    <keyword type="enum" name="enum PkNetworkEnum" link="PackageKit-pk-enum.html#PkNetworkEnum-enum"/>
+    <keyword type="enum" name="enum PkProvidesEnum" link="PackageKit-pk-enum.html#PkProvidesEnum-enum"/>
+    <keyword type="enum" name="enum PkRestartEnum" link="PackageKit-pk-enum.html#PkRestartEnum-enum"/>
+    <keyword type="enum" name="enum PkRoleEnum" link="PackageKit-pk-enum.html#PkRoleEnum-enum"/>
+    <keyword type="enum" name="enum PkSigTypeEnum" link="PackageKit-pk-enum.html#PkSigTypeEnum-enum"/>
+    <keyword type="enum" name="enum PkStatusEnum" link="PackageKit-pk-enum.html#PkStatusEnum-enum"/>
+    <keyword type="enum" name="enum PkUpdateStateEnum" link="PackageKit-pk-enum.html#PkUpdateStateEnum-enum"/>
+    <keyword type="enum" name="enum PkUpgradeKindEnum" link="PackageKit-pk-enum.html#PkUpgradeKindEnum-enum"/>
     <keyword type="function" name="pk_authorize_type_enum_from_string ()" link="PackageKit-pk-enum.html#pk-authorize-type-enum-from-string" since="0.5.0"/>
     <keyword type="function" name="pk_authorize_type_enum_to_string ()" link="PackageKit-pk-enum.html#pk-authorize-type-enum-to-string" since="0.5.0"/>
     <keyword type="function" name="pk_distro_upgrade_enum_from_string ()" link="PackageKit-pk-enum.html#pk-distro-upgrade-enum-from-string" since="0.5.0"/>
@@ -754,6 +757,31 @@
     <keyword type="function" name="pk_package_id_split ()" link="PackageKit-pk-package-id.html#pk-package-id-split" since="0.5.3"/>
     <keyword type="function" name="pk_package_id_test ()" link="PackageKit-pk-package-id.html#pk-package-id-test"/>
     <keyword type="function" name="pk_package_id_to_printable ()" link="PackageKit-pk-package-id.html#pk-package-id-to-printable" since="0.5.2"/>
+    <keyword type="function" name="pk_task_download_packages_sync ()" link="PackageKit-pk-task-sync.html#pk-task-download-packages-sync" since="0.6.5"/>
+    <keyword type="function" name="pk_task_get_categories_sync ()" link="PackageKit-pk-task-sync.html#pk-task-get-categories-sync" since="0.6.5"/>
+    <keyword type="function" name="pk_task_get_depends_sync ()" link="PackageKit-pk-task-sync.html#pk-task-get-depends-sync" since="0.6.5"/>
+    <keyword type="function" name="pk_task_get_details_sync ()" link="PackageKit-pk-task-sync.html#pk-task-get-details-sync" since="0.6.5"/>
+    <keyword type="function" name="pk_task_get_files_sync ()" link="PackageKit-pk-task-sync.html#pk-task-get-files-sync" since="0.6.5"/>
+    <keyword type="function" name="pk_task_get_packages_sync ()" link="PackageKit-pk-task-sync.html#pk-task-get-packages-sync" since="0.6.5"/>
+    <keyword type="function" name="pk_task_get_repo_list_sync ()" link="PackageKit-pk-task-sync.html#pk-task-get-repo-list-sync" since="0.6.5"/>
+    <keyword type="function" name="pk_task_get_requires_sync ()" link="PackageKit-pk-task-sync.html#pk-task-get-requires-sync" since="0.6.5"/>
+    <keyword type="function" name="pk_task_get_update_detail_sync ()" link="PackageKit-pk-task-sync.html#pk-task-get-update-detail-sync" since="0.6.5"/>
+    <keyword type="function" name="pk_task_get_updates_sync ()" link="PackageKit-pk-task-sync.html#pk-task-get-updates-sync" since="0.6.5"/>
+    <keyword type="function" name="pk_task_install_files_sync ()" link="PackageKit-pk-task-sync.html#pk-task-install-files-sync" since="0.5.3"/>
+    <keyword type="function" name="pk_task_install_packages_sync ()" link="PackageKit-pk-task-sync.html#pk-task-install-packages-sync" since="0.5.3"/>
+    <keyword type="function" name="pk_task_refresh_cache_sync ()" link="PackageKit-pk-task-sync.html#pk-task-refresh-cache-sync" since="0.6.5"/>
+    <keyword type="function" name="pk_task_remove_packages_sync ()" link="PackageKit-pk-task-sync.html#pk-task-remove-packages-sync" since="0.5.3"/>
+    <keyword type="function" name="pk_task_repair_system_sync ()" link="PackageKit-pk-task-sync.html#pk-task-repair-system-sync" since="0.7.2"/>
+    <keyword type="function" name="pk_task_repo_enable_sync ()" link="PackageKit-pk-task-sync.html#pk-task-repo-enable-sync" since="0.6.5"/>
+    <keyword type="function" name="pk_task_resolve_sync ()" link="PackageKit-pk-task-sync.html#pk-task-resolve-sync" since="0.6.5"/>
+    <keyword type="function" name="pk_task_rollback_sync ()" link="PackageKit-pk-task-sync.html#pk-task-rollback-sync" since="0.6.5"/>
+    <keyword type="function" name="pk_task_search_details_sync ()" link="PackageKit-pk-task-sync.html#pk-task-search-details-sync" since="0.6.5"/>
+    <keyword type="function" name="pk_task_search_files_sync ()" link="PackageKit-pk-task-sync.html#pk-task-search-files-sync" since="0.6.5"/>
+    <keyword type="function" name="pk_task_search_groups_sync ()" link="PackageKit-pk-task-sync.html#pk-task-search-groups-sync" since="0.6.5"/>
+    <keyword type="function" name="pk_task_search_names_sync ()" link="PackageKit-pk-task-sync.html#pk-task-search-names-sync" since="0.6.5"/>
+    <keyword type="function" name="pk_task_update_packages_sync ()" link="PackageKit-pk-task-sync.html#pk-task-update-packages-sync" since="0.5.3"/>
+    <keyword type="function" name="pk_task_update_system_sync ()" link="PackageKit-pk-task-sync.html#pk-task-update-system-sync" since="0.5.3"/>
+    <keyword type="function" name="pk_task_what_provides_sync ()" link="PackageKit-pk-task-sync.html#pk-task-what-provides-sync" since="0.6.5"/>
     <keyword type="constant" name="PK_CLIENT_ERROR_FAILED" link="PkClient.html#PK-CLIENT-ERROR-FAILED:CAPS"/>
     <keyword type="constant" name="PK_CLIENT_ERROR_FAILED_AUTH" link="PkClient.html#PK-CLIENT-ERROR-FAILED-AUTH:CAPS"/>
     <keyword type="constant" name="PK_CLIENT_ERROR_NO_TID" link="PkClient.html#PK-CLIENT-ERROR-NO-TID:CAPS"/>
