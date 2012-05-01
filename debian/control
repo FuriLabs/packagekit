@@ -7,6 +7,7 @@ DM-Upload-Allowed: yes
 Vcs-Git: git://anonscm.debian.org/pkg-packagekit/packagekit.git
 Vcs-Browser: http://anonscm.debian.org/gitweb/?p=pkg-packagekit/packagekit.git
 Build-Depends: debhelper (>= 9.0.0),
+               dh-autoreconf (>= 4),
                docbook-utils,
                gir1.2-glib-2.0 (>= 0.10.1),
                gobject-introspection (>= 0.10.1),
@@ -28,7 +29,6 @@ Build-Depends: debhelper (>= 9.0.0),
                libsqlite3-dev,
                libtool,
                libxt-dev,
-               dh-autoreconf (>= 4),
                network-manager-dev [linux-any],
                pm-utils [linux-any],
                policykit-1,
@@ -224,6 +224,7 @@ Package: python-packagekit
 Architecture: all
 Section: python
 Depends: python-dbus,
+         python-gi (>= 3.2),
          ${misc:Depends},
          ${python:Depends}
 Recommends: packagekit
