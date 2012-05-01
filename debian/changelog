@@ -1,7 +1,8 @@
 packagekit (0.7.4-2) unstable; urgency=low
 
-  * Fix qt2 library soname
+  * Fixed qt2 library soname
   * Don't install GIR into multiarch path (Closes: #670374)
+  * Updated packagekit-python description
 
  -- Matthias Klumpp <matthias@tenstral.net>  Thu, 26 Apr 2012 17:20:41 +0200
 
