@@ -71,7 +71,7 @@ Section: libs
 Depends: packagekit (= ${binary:Version}),
          ${misc:Depends},
          ${shlibs:Depends}
-Description: Provides the PackageKit command-line tools
+Description: Provides PackageKit command-line tools
  PackageKit allows performing simple software management tasks over a DBus
  interface e.g. refreshing the cache, updating, installing and removing
  software packages or searching for multimedia codecs and file handlers.
