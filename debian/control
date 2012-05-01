@@ -224,17 +224,19 @@ Package: python-packagekit
 Architecture: all
 Section: python
 Depends: python-dbus,
-         python-gi (>= 3.2),
          ${misc:Depends},
          ${python:Depends}
 Recommends: packagekit
 XB-Python-Version: ${python:Versions}
-Description: PackageKit Python bindings
+Description: PackageKit backend Python bindings
  PackageKit allows performing simple software management tasks over a DBus
  interface e.g refreshing the cache, updating, installing and removing
  software packages or searching for multimedia codecs and file handlers.
  .
- This package provides Python bindings for PackageKit
+ This package provides Python bindings needed to write PackageKit backends
+ in Python.
+ If you want to use PackageKit in Python and don't write a backend, please
+ use the GIRepository for PackageKit instead.
 
 Package: packagekit-backend-aptcc
 Architecture: any
