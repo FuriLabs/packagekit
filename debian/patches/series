@@ -2,3 +2,4 @@ vendor-debian.diff
 defaults.diff
 policy.diff
 01_qt2-soname.patch
+02_aptcc-changelog-random-dir.patch
