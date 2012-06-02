@@ -1,7 +1,7 @@
 packagekit (0.7.4-4) unstable; urgency=low
 
   * Install browser-plugin into valid path (Closes: #674910)
-  * Install introduction pages (Closes: #665289/)
+  * Install introduction pages (Closes: #665289)
 
  -- Matthias Klumpp <matthias@tenstral.net>  Sat, 02 Jun 2012 12:40:34 +0200
 
