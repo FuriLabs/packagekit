@@ -8,11 +8,11 @@ DEB_HOST_MULTIARCH ?= $(shell dpkg-architecture -qDEB_HOST_MULTIARCH)
 # We set aptcc as default backend
 PK_CONFIGURE_FLAGS = --libexecdir=/usr/lib/packagekit \
 		--disable-static \
+		--disable-strict \
 		--disable-local \
 		--disable-tests \
 		--disable-command-not-found \
 		--disable-cron \
-		--enable-gtk-doc \
 		--enable-introspection \
 		--enable-aptcc --enable-apt --enable-smart \
 		--with-default-backend=aptcc \
