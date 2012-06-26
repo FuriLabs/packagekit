@@ -2,7 +2,7 @@
 
 m4_define([pk_major_version], [0])
 m4_define([pk_minor_version], [7])
-m4_define([pk_micro_version], [4])
+m4_define([pk_micro_version], [5])
 m4_define([pk_version],
           [pk_major_version.pk_minor_version.pk_micro_version])
 
@@ -35,17 +35,25 @@ AC_SUBST(PK_MINOR_VERSION)
 AC_SUBST(PK_MICRO_VERSION)
 AC_SUBST(PK_VERSION)
 
-# libtool versioning - this applies to libpackagekit
+# libtool versioning - this applies to libpackagekit-glib2
 #
 # See http://sources.redhat.com/autobook/autobook/autobook_91.html#SEC91 for details
 #
-# increment;
-# CURRENT	If the API or ABI interface has changed (reset REVISION to 0)
-# REVISION	If the API and ABI remains the same, but bugs are fixed.
-# AGE		If libpackagekit can be linked into executables which can be
-# 		built with previous versions of this library. Don't use.
+# - If interfaces have been changed or added, but binary compatibility
+#   has been preserved, change:
+#      CURRENT += 1
+#      REVISION = 0
+#      AGE += 1
+# - If binary compatibility has been broken (eg removed or changed
+#   interfaces), change:
+#      CURRENT += 1
+#      REVISION = 0
+#      AGE = 0
+# - If the interface is the same as the previous version, but bugs are
+#   fixed, change:
+#      REVISION += 1
 LT_CURRENT=14
-LT_REVISION=13
+LT_REVISION=14
 LT_AGE=0
 AC_SUBST(LT_CURRENT)
 AC_SUBST(LT_REVISION)
@@ -53,7 +61,20 @@ AC_SUBST(LT_AGE)
 
 # libtool versioning - this applies to libpackagekit-qt2
 #
-LT_QT_CURRENT=2
+# - If interfaces have been changed or added, but binary compatibility
+#   has been preserved, change:
+#      CURRENT += 1
+#      REVISION = 0
+#      AGE += 1
+# - If binary compatibility has been broken (eg removed or changed
+#   interfaces), change:
+#      CURRENT += 1
+#      REVISION = 0
+#      AGE = 0
+# - If the interface is the same as the previous version, but bugs are
+#   fixed, change:
+#      REVISION += 1
+LT_QT_CURRENT=3
 LT_QT_REVISION=0
 LT_QT_AGE=1
 AC_SUBST(LT_QT_CURRENT)
@@ -411,6 +432,8 @@ else
 	build_gtk_module=no
 fi
 if test x$build_gtk_module = xyes; then
+	# this is needed to avoid the GTK2 warning
+	PKG_CHECK_MODULES(PK_GTK_MODULE_GTK2, gtk+-2.0 gio-2.0)
 	GLIB_GSETTINGS
 fi
 AM_CONDITIONAL(PK_BUILD_GTK_MODULE, test $build_gtk_module = "yes")
@@ -743,6 +766,7 @@ contrib/Makefile
 contrib/browser-plugin/Makefile
 contrib/gstreamer-plugin/Makefile
 contrib/gtk-module/Makefile
+contrib/gtk-module/gtk2/Makefile
 contrib/yum-packagekit/Makefile
 contrib/command-not-found/Makefile
 contrib/cron/Makefile

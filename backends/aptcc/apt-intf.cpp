@@ -369,7 +369,7 @@ void AptIntf::emitRequireRestart(PkgList &output)
 {
     // Sort so we can remove the duplicated entries
     output.sort();
-    
+
     // Remove the duplicated entries
     output.removeDuplicates();
 
@@ -386,7 +386,7 @@ void AptIntf::emitUpdates(PkgList &output, PkBitfield filters)
     PkInfoEnum state;
     // Sort so we can remove the duplicated entries
     output.sort();
-    
+
     // Remove the duplicated entries
     output.removeDuplicates();
 
@@ -666,7 +666,7 @@ void AptIntf::emitDetails(PkgList &pkgs)
 {
     // Sort so we can remove the duplicated entries
     pkgs.sort();
-    
+
     // Remove the duplicated entries
     pkgs.removeDuplicates();
 
@@ -783,7 +783,14 @@ void AptIntf::emitUpdateDetail(const pkgCache::VerIterator &candver)
 
     // fetch the changelog
     pk_backend_set_status(m_backend, PK_STATUS_ENUM_DOWNLOAD_CHANGELOG);
-    string filename = getChangelogFile(pkg.Name(), origin, verstr, srcpkg, uri, &fetcher);
+
+    // Create a random temp dir
+    char dirName[] = "/tmp/aptccXXXXXXXX";
+    char *tempDir = mkdtemp(dirName);
+    string filename = tempDir;
+    filename.append("/");
+    filename.append(pkg.Name());
+    getChangelogFile(filename, pkg.Name(), origin, verstr, srcpkg, uri, &fetcher);
 
     string changelog;
     string update_text;
@@ -866,6 +873,7 @@ void AptIntf::emitUpdateDetail(const pkgCache::VerIterator &candver)
     g_regex_unref(regexVer);
     g_regex_unref(regexDate);
     unlink(filename.c_str());
+    rmdir(tempDir);
 
     // Check if the update was updates since it was issued
     if (issued.compare(updated) == 0) {
@@ -1578,7 +1586,7 @@ PkgList AptIntf::checkChangedPackages(AptCacheFile &cache, bool emitChanged)
     PkgList updating;
     PkgList downgrading;
 
-    for (pkgCache::PkgIterator pkg = cache->PkgBegin(); ! pkg.end(); ++pkg) {       
+    for (pkgCache::PkgIterator pkg = cache->PkgBegin(); ! pkg.end(); ++pkg) {
         if (cache[pkg].NewInstall() == true) {
             // installing;
             const pkgCache::VerIterator &ver = m_cache->findCandidateVer(pkg);

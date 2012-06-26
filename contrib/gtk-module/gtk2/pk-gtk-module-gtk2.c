@@ -1,6 +1,6 @@
 /* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*-
  *
- * Copyright (C) 2009 Richard Hughes <richard@hughsie.com>
+ * Copyright (C) 2012 Richard Hughes <richard@hughsie.com>
  *
  * Licensed under the GNU General Public License Version 2
  *
@@ -19,26 +19,20 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
 
-#if !defined (__PACKAGEKIT_H_INSIDE__) && !defined (PK_COMPILATION)
-#error "Only <packagekit.h> can be included directly."
-#endif
+#include <gtk/gtk.h>
+#include <gio/gio.h>
 
-#ifndef __PK_VERSION_H
-#define __PK_VERSION_H
+void gtk_module_init (gint *argc, gchar ***argv);
+const char *g_module_check_init (GModule *module);
 
-/* compile time version
- */
-#define PK_MAJOR_VERSION				(0)
-#define PK_MINOR_VERSION				(7)
-#define PK_MICRO_VERSION				(5)
+void
+gtk_module_init (gint *argc G_GNUC_UNUSED,
+		 gchar ***argv G_GNUC_UNUSED)
+{
+}
 
-/* check whether a PackageKit version equal to or greater than
- * major.minor.micro.
- */
-#define PK_CHECK_VERSION(major,minor,micro)    \
-    (PK_MAJOR_VERSION > (major) || \
-     (PK_MAJOR_VERSION == (major) && PK_MINOR_VERSION > (minor)) || \
-     (PK_MAJOR_VERSION == (major) && PK_MINOR_VERSION == (minor) && \
-      PK_MICRO_VERSION >= (micro)))
-
-#endif /* __PK_VERSION_H */
+const char *
+g_module_check_init (GModule *module)
+{
+	return NULL;
+}

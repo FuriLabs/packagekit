@@ -154,50 +154,7 @@
     <description xml:lang="uk">Встановлення підписаного пакунка</description>
     <description xml:lang="zh_CN">安装已签名软件包</description>
     <description xml:lang="zh_TW">安裝已簽署的套件</description>
-    <message>Authentication is required to install a signed package</message>
-    <message xml:lang="as">চহি কৰা সৰঞ্জাম সংস্থাপন কৰিবলৈ প্ৰমাণীকৰণৰ প্ৰয়োজন</message>
-    <message xml:lang="bg">За инсталирането на подписан пакет се изисква идентификация</message>
-    <message xml:lang="bn_IN">স্বাক্ষরিত প্যাকেজ ইনস্টল করার জন্য অনুমোদন আবশ্যক</message>
-    <message xml:lang="ca">Cal autenticació per a instal·lar un paquet signat</message>
-    <message xml:lang="cs">Pro instalaci podepsaného balíčku je vyžadováno oprávnění</message>
-    <message xml:lang="da">Godkendelse kræves for at installere en signeret pakke</message>
-    <message xml:lang="de">Legitimation ist zum Installieren eines signierten Paketes erforderlich</message>
-    <message xml:lang="el">Απαιτείται πιστοποίηση για την εγκατάσταση υπογεγραμμένου πακέτου</message>
-    <message xml:lang="es">Es necesario autenticarse para instalar un paquete firmado</message>
-    <message xml:lang="eu">Autentifikazioa behar da sinatutako pakete bat instalatzeko</message>
-    <message xml:lang="fi">Allekirjoitetun paketin asentaminen vaatii tunnistautumisen</message>
-    <message xml:lang="fr">Authentification requise pour installer un paquet signé</message>
-    <message xml:lang="gl">Requírese a autenticación para instalar un paquete asinado</message>
-    <message xml:lang="gu">હસ્તાક્ષર થયેલ પેકેજને સ્થાપિત કરવા માટે સત્તાધિકરણ જરૂરી છે</message>
-    <message xml:lang="he">אימות נדרש כדי להתקין חבילה חתומה</message>
-    <message xml:lang="hi">हस्ताक्षरित संकुल संस्थापित करने के लिए प्रमाणीकरण जरूरी है</message>
-    <message xml:lang="hu">Hitelesítés szükséges az aláírt csomag telepítéséhez</message>
-    <message xml:lang="id">Perlu otentikasi untuk memasang suatu paket bertanda tangan</message>
-    <message xml:lang="it">Per installare un pacchetto firmato è necessaria l'autenticazione</message>
-    <message xml:lang="ja">署名付きのパッケージをインストールするには認証が必要です</message>
-    <message xml:lang="kn">ಸಹಿ ಮಾಡಲಾದ ಒಂದು ಪ್ಯಾಕೇಜನ್ನು ಅನುಸ್ಥಾಪಿಸಲು ಧೃಢೀಕರಣದ ಅಗತ್ಯವಿದೆ</message>
-    <message xml:lang="ko">서명된 패키지를 설치하려면 인증이 필요합니다</message>
-    <message xml:lang="lt">Reikia patvirtinti tapatybę, norint įdiegti pasirašytą paketą</message>
-    <message xml:lang="lv">Nepieciešama autentifikācija, lai instalētu parakstītas pakotnes</message>
-    <message xml:lang="ml">ഒപ്പിട്ട പാക്കേജ് ഇന്‍സ്റ്റോള്‍ ചെയ്യുന്നതിനായി ആധികാരികത ആവശ്യമുണ്ടു്</message>
-    <message xml:lang="mr">स्वाक्षरी संकुल प्रतिष्ठापीत करण्याकरीता ओळख पटवणे आवश्यक आहे</message>
-    <message xml:lang="nl">Authenticatie wordt vereist om een ondertekend pakket te installeren</message>
-    <message xml:lang="or">ଗୋଟିଏ ହସ୍ତାକ୍ଷର ହୋଇଥିବା ପ୍ୟାକେଜକୁ ସ୍ଥାପନ କରିବା ପାଇଁ ବୈଧିକରଣ ଆବଶ୍ୟକ</message>
-    <message xml:lang="pa">ਸਾਈਨ ਕੀਤਾ ਪੈਕੇਜ ਇੰਸਟਾਲ ਕਰਨ ਲਈ ਪਰਮਾਣਕਿਤਾ ਦੀ ਲੋੜ ਹੈ</message>
-    <message xml:lang="pl">Wymagane jest uwierzytelnienie, aby zainstalować podpisany pakiet</message>
-    <message xml:lang="pt">Autenticação é necessária para instalar um pacote assinado</message>
-    <message xml:lang="pt_BR">É necessário autenticar para instalar um pacote assinado</message>
-    <message xml:lang="ru">Требуются права на установку подписанных пакетов</message>
-    <message xml:lang="sk">Na inštalovanie podpísaného balíka je potrebné overenie totožnosti</message>
-    <message xml:lang="sl">Za namestitev podpisanega paketa je zahtevana overitev</message>
-    <message xml:lang="sr">Неопходна је аутентификација за инсталацију потписаног пакета</message>
-    <message xml:lang="sr@latin">Neophodna je autentifikacija za instalaciju potpisanog paketa</message>
-    <message xml:lang="sv">Autentisering krävs för att installera ett signerat paket</message>
-    <message xml:lang="ta">கையெழுத்திடப்பட்ட தொகுப்பினை நிறுவுவதற்கு அங்கீகாரம் தேவைப்படுகிறது</message>
-    <message xml:lang="te">సంతకముచేసిన సంకలనమును సంస్థాపించుటకు దృవీకరణము అవసరము</message>
-    <message xml:lang="uk">Для встановлення підписаного пакунка слід пройти розпізнавання</message>
-    <message xml:lang="zh_CN">安装已签名软件包需要认证</message>
-    <message xml:lang="zh_TW">要安裝一個已簽署的套件需先經過身份認證</message>
+    <message>Authentication is required to install a package</message>
     <icon_name>package-x-generic</icon_name>
     <defaults>
       <allow_any>no</allow_any>

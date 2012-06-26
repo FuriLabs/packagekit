@@ -405,6 +405,7 @@
 <ANCHOR id="PkPackageSackSortType-enum" href="PackageKit/PkPackageSack.html#PkPackageSackSortType-enum">
 <ANCHOR id="pk-package-sack-add-package" href="PackageKit/PkPackageSack.html#pk-package-sack-add-package">
 <ANCHOR id="pk-package-sack-add-package-by-id" href="PackageKit/PkPackageSack.html#pk-package-sack-add-package-by-id">
+<ANCHOR id="pk-package-sack-add-packages-from-file" href="PackageKit/PkPackageSack.html#pk-package-sack-add-packages-from-file">
 <ANCHOR id="pk-package-sack-clear" href="PackageKit/PkPackageSack.html#pk-package-sack-clear">
 <ANCHOR id="pk-package-sack-filter" href="PackageKit/PkPackageSack.html#pk-package-sack-filter">
 <ANCHOR id="pk-package-sack-filter-by-info" href="PackageKit/PkPackageSack.html#pk-package-sack-filter-by-info">
@@ -592,6 +593,7 @@
 <ANCHOR id="pk-results-get-repo-signature-required-array" href="PackageKit/PkResults.html#pk-results-get-repo-signature-required-array">
 <ANCHOR id="pk-results-get-require-restart-array" href="PackageKit/PkResults.html#pk-results-get-require-restart-array">
 <ANCHOR id="pk-results-get-require-restart-worst" href="PackageKit/PkResults.html#pk-results-get-require-restart-worst">
+<ANCHOR id="pk-results-get-role" href="PackageKit/PkResults.html#pk-results-get-role">
 <ANCHOR id="pk-results-get-transaction-array" href="PackageKit/PkResults.html#pk-results-get-transaction-array">
 <ANCHOR id="pk-results-get-update-detail-array" href="PackageKit/PkResults.html#pk-results-get-update-detail-array">
 <ANCHOR id="pk-results-new" href="PackageKit/PkResults.html#pk-results-new">

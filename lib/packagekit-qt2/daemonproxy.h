@@ -8,8 +8,8 @@
  * Do not edit! All changes made to it will be lost.
  */
 
-#ifndef DAEMONPROXY_H_1335166990
-#define DAEMONPROXY_H_1335166990
+#ifndef DAEMONPROXY_H_1340724541
+#define DAEMONPROXY_H_1340724541
 
 #include <QtCore/QObject>
 #include <QtCore/QByteArray>
