@@ -1,7 +1,7 @@
-packagekit (0.7.5-1) UNRELEASED; urgency=low
+packagekit (0.7.5-1) unstable; urgency=low
 
   * Disable strict mode
-  * Allow alternative system interface implementations
+  * Allow alternative system-interface implementations
   * New upstream bugfix release: 0.7.5
     Changes relevant to Debian:
     - glib: Allow adding packages to PkPackageSack from package-list
@@ -28,10 +28,10 @@ packagekit (0.7.5-1) UNRELEASED; urgency=low
     - Fix importing GPG signatures (Richard Hughes)
   * Removed patches: Applied upstream
   * Removed Apt backend again: Backend is broken and can't be included
-     in Wheezy at the current state. Please use aptcc, which works much
-     better at time and is well-tested (Closes: #678978)
+    in Wheezy at the current state. Please use aptcc, which works much
+    better at time and is well-tested (Closes: #678978)
 
- -- Matthias Klumpp <matthias@tenstral.net>  Tue, 26 Jun 2012 19:20:04 +0200
+ -- Matthias Klumpp <matthias@tenstral.net>  Tue, 26 Jun 2012 20:12:14 +0200
 
 packagekit (0.7.4-4) unstable; urgency=low
 
@@ -339,7 +339,7 @@ packagekit (0.7.0-1) unstable; urgency=low
     - The changelog of this release is very long. You can look at the
       NEWS file in the release tarball if you want more information.
   * Remove the old apt backend, please use aptcc instead (which works
-     much better)
+    much better)
   * Fix FTBFS on hurd-i386 (Closes: #645553)
   * Fix Python package dependencies
 
@@ -373,9 +373,9 @@ packagekit (0.6.17-1) unstable; urgency=low
      - Add an untrusted section header when using console applications
         (Richard Hughes)
   * aptcc: Fix crash when long description blow char buffer,
-     remove some mem leaks too
+    remove some mem leaks too
   * aptcc: Fix the size of the packages by emitting installedSize
-     when installed and download size when available.
+    when installed and download size when available.
 
  -- Matthias Klumpp <matthias@tenstral.net>  Sat, 20 Aug 2011 15:12:22 +0200
 
