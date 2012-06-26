@@ -1,3 +1,38 @@
+packagekit (0.7.5-1) UNRELEASED; urgency=low
+
+  * Disable strict mode
+  * Allow alternative system interface implementations
+  * New upstream bugfix release: 0.7.5
+    Changes relevant to Debian:
+    - glib: Allow adding packages to PkPackageSack from package-list
+       files (Matthias Klumpp)
+    - glib: More GIR annotations (Matthias Klumpp)
+    - glib: Use the correct user-cache directory (Richard Hughes)
+    - aptcc: Don't freeze if apt-listchanges is installed
+       (Matthias Klumpp) (Closes: #662602)
+    - aptcc: Make get-distro-upgrades.py helper work with Python3
+       (Sebastian Heinlein)
+    - aptcc: save the changelog to a random directory (Daniel Nicoletti)
+    - Add a dummy GTK+2 module to avoid a warning when starting GTK+2
+       applications (Richard Hughes) (Closes: #649039)
+    - Add the pkg to the PkPackageSack hash when using
+       pk_package_sack_add_package_by_id() (Richard Hughes)
+    - Automatically set the Locked property true if allow cancel is set
+       to false (Richard Hughes)
+    - Clarify message for org.freedesktop.packagekit.package-install
+       (Nils Philippsen)
+    - Document HARDWARE_DRIVER (Martin Pitt)
+    - Document MODALIAS (Martin Pitt)
+    - Don't show a warning on refresh if /var/run/PackageKit/udev does
+       not exist (Richard Hughes)
+    - Fix importing GPG signatures (Richard Hughes)
+  * Removed patches: Applied upstream
+  * Removed Apt backend again: Backend is broken and can't be included
+     in Wheezy at the current state. Please use aptcc, which works much
+     better at time and is well-tested (Closes: #678978)
+
+ -- Matthias Klumpp <matthias@tenstral.net>  Tue, 26 Jun 2012 19:20:04 +0200
+
 packagekit (0.7.4-4) unstable; urgency=low
 
   * Install browser-plugin into valid path (Closes: #674910)
