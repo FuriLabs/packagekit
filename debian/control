@@ -231,10 +231,10 @@ Description: PackageKit backend Python bindings
  interface e.g refreshing the cache, updating, installing and removing
  software packages or searching for multimedia codecs and file handlers.
  .
- This package provides Python bindings which are still needed by some
- PackageKit backends written in Python.
+ This package provides PackageKit Python bindings which are still needed
+ by some PackageKit backends written in Python.
  If you want to use PackageKit from Python and don't write a backend, please
- use the GIRepository for PackageKit instead.
+ use the GIRepository instead.
 
 Package: packagekit-backend-aptcc
 Architecture: any
