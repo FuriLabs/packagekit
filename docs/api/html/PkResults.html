@@ -91,6 +91,7 @@ struct              <a class="link" href="PkResults.html#PkResultsClass" title="
                                                         (<em class="parameter"><code><a class="link" href="PkResults.html" title="PkResults"><span class="type">PkResults</span></a> *results</code></em>);
 <a class="link" href="PackageKit-pk-enum.html#PkRestartEnum"><span class="returnvalue">PkRestartEnum</span></a>       <a class="link" href="PkResults.html#pk-results-get-require-restart-worst" title="pk_results_get_require_restart_worst ()">pk_results_get_require_restart_worst</a>
                                                         (<em class="parameter"><code><a class="link" href="PkResults.html" title="PkResults"><span class="type">PkResults</span></a> *results</code></em>);
+<a class="link" href="PackageKit-pk-enum.html#PkRoleEnum"><span class="returnvalue">PkRoleEnum</span></a>          <a class="link" href="PkResults.html#pk-results-get-role" title="pk_results_get_role ()">pk_results_get_role</a>                 (<em class="parameter"><code><a class="link" href="PkResults.html" title="PkResults"><span class="type">PkResults</span></a> *results</code></em>);
 <a href="http://library.gnome.org/devel/glib/unstable/glib-Pointer-Arrays.html#GPtrArray"><span class="returnvalue">GPtrArray</span></a> *         <a class="link" href="PkResults.html#pk-results-get-transaction-array" title="pk_results_get_transaction_array ()">pk_results_get_transaction_array</a>    (<em class="parameter"><code><a class="link" href="PkResults.html" title="PkResults"><span class="type">PkResults</span></a> *results</code></em>);
 <a href="http://library.gnome.org/devel/glib/unstable/glib-Pointer-Arrays.html#GPtrArray"><span class="returnvalue">GPtrArray</span></a> *         <a class="link" href="PkResults.html#pk-results-get-update-detail-array" title="pk_results_get_update_detail_array ()">pk_results_get_update_detail_array</a>  (<em class="parameter"><code><a class="link" href="PkResults.html" title="PkResults"><span class="type">PkResults</span></a> *results</code></em>);
 <a class="link" href="PkResults.html" title="PkResults"><span class="returnvalue">PkResults</span></a> *         <a class="link" href="PkResults.html#pk-results-new" title="pk_results_new ()">pk_results_new</a>                      (<em class="parameter"><code><span class="type">void</span></code></em>);
@@ -871,6 +872,28 @@ system as a session restart is implied with a system restart.
 </tbody>
 </table></div>
 <p class="since">Since 0.5.2</p>
+</div>
+<hr>
+<div class="refsect2">
+<a name="pk-results-get-role"></a><h3>pk_results_get_role ()</h3>
+<pre class="programlisting"><a class="link" href="PackageKit-pk-enum.html#PkRoleEnum"><span class="returnvalue">PkRoleEnum</span></a>          pk_results_get_role                 (<em class="parameter"><code><a class="link" href="PkResults.html" title="PkResults"><span class="type">PkResults</span></a> *results</code></em>);</pre>
+<p>
+Gets the role that produced these results.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>results</code></em> :</span></p></td>
+<td>a valid <a class="link" href="PkResults.html" title="PkResults"><span class="type">PkResults</span></a> instance</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td>The <a class="link" href="PackageKit-pk-enum.html#PkRoleEnum"><span class="type">PkRoleEnum</span></a> or <code class="literal">PK_ROLE_ENUM_UNKNOWN</code> if not set</td>
+</tr>
+</tbody>
+</table></div>
+<p class="since">Since 0.7.5</p>
 </div>
 <hr>
 <div class="refsect2">

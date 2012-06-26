@@ -373,6 +373,7 @@
     <keyword type="enum" name="enum PkPackageSackSortType" link="PkPackageSack.html#PkPackageSackSortType-enum"/>
     <keyword type="function" name="pk_package_sack_add_package ()" link="PkPackageSack.html#pk-package-sack-add-package" since="0.5.2"/>
     <keyword type="function" name="pk_package_sack_add_package_by_id ()" link="PkPackageSack.html#pk-package-sack-add-package-by-id" since="0.5.2"/>
+    <keyword type="function" name="pk_package_sack_add_packages_from_file ()" link="PkPackageSack.html#pk-package-sack-add-packages-from-file"/>
     <keyword type="function" name="pk_package_sack_clear ()" link="PkPackageSack.html#pk-package-sack-clear" since="0.5.2"/>
     <keyword type="function" name="pk_package_sack_filter ()" link="PkPackageSack.html#pk-package-sack-filter" since="0.6.3"/>
     <keyword type="function" name="pk_package_sack_filter_by_info ()" link="PkPackageSack.html#pk-package-sack-filter-by-info" since="0.6.2"/>
@@ -516,6 +517,7 @@
     <keyword type="function" name="pk_results_get_repo_signature_required_array ()" link="PkResults.html#pk-results-get-repo-signature-required-array" since="0.5.2"/>
     <keyword type="function" name="pk_results_get_require_restart_array ()" link="PkResults.html#pk-results-get-require-restart-array" since="0.5.2"/>
     <keyword type="function" name="pk_results_get_require_restart_worst ()" link="PkResults.html#pk-results-get-require-restart-worst" since="0.5.2"/>
+    <keyword type="function" name="pk_results_get_role ()" link="PkResults.html#pk-results-get-role" since="0.7.5"/>
     <keyword type="function" name="pk_results_get_transaction_array ()" link="PkResults.html#pk-results-get-transaction-array" since="0.5.2"/>
     <keyword type="function" name="pk_results_get_update_detail_array ()" link="PkResults.html#pk-results-get-update-detail-array" since="0.5.2"/>
     <keyword type="function" name="pk_results_new ()" link="PkResults.html#pk-results-new" since="0.5.2"/>

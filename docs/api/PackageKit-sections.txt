@@ -634,6 +634,7 @@ PkPackageSackResults
 PkPackageSackSortType
 pk_package_sack_add_package
 pk_package_sack_add_package_by_id
+pk_package_sack_add_packages_from_file
 pk_package_sack_clear
 pk_package_sack_filter
 pk_package_sack_filter_by_info
@@ -809,6 +810,7 @@ pk_results_get_repo_detail_array
 pk_results_get_repo_signature_required_array
 pk_results_get_require_restart_array
 pk_results_get_require_restart_worst
+pk_results_get_role
 pk_results_get_transaction_array
 pk_results_get_update_detail_array
 pk_results_new
