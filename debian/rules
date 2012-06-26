@@ -14,7 +14,7 @@ PK_CONFIGURE_FLAGS = --libexecdir=/usr/lib/packagekit \
 		--disable-command-not-found \
 		--disable-cron \
 		--enable-introspection \
-		--enable-aptcc --enable-apt --enable-smart \
+		--enable-aptcc --enable-smart \
 		--with-default-backend=aptcc \
 		--enable-browser-plugin \
 		--enable-gtk-module \
