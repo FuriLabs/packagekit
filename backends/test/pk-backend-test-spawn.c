@@ -30,25 +30,39 @@ static PkBackendSpawn *spawn;
 /**
  * pk_backend_get_description:
  */
-gchar *
+const gchar *
 pk_backend_get_description (PkBackend *backend)
 {
 	return g_strdup ("Test-Spawn");
 }
 
 /**
+ * pk_backend_start_job:
+ */
+void
+pk_backend_start_job (PkBackend *backend, PkBackendJob *job)
+{
+	if (pk_backend_spawn_is_busy (spawn)) {
+		pk_backend_job_error_code (job,
+					   PK_ERROR_ENUM_LOCK_REQUIRED,
+					   "spawned backend requires lock");
+		return;
+	}
+}
+
+/**
  * pk_backend_search_names:
  */
 void
-pk_backend_search_names (PkBackend *backend, PkBitfield filters, gchar **values)
+pk_backend_search_names (PkBackend *backend, PkBackendJob *job, PkBitfield filters, gchar **values)
 {
 	gchar *filters_text;
 	gchar *search;
-	pk_backend_set_allow_cancel (backend, TRUE);
-	pk_backend_set_percentage (backend, PK_BACKEND_PERCENTAGE_INVALID);
+	pk_backend_job_set_allow_cancel (job, TRUE);
+	pk_backend_job_set_percentage (job, PK_BACKEND_PERCENTAGE_INVALID);
 	filters_text = pk_filter_bitfield_to_string (filters);
 	search = g_strjoinv ("&", values);
-	pk_backend_spawn_helper (spawn, "search-name.sh", filters_text, search, NULL);
+	pk_backend_spawn_helper (spawn, job, "search-name.sh", filters_text, search, NULL);
 	g_free (filters_text);
 	g_free (search);
 }

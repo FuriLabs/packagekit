@@ -34,7 +34,7 @@ class AptIntf;
 class AcqPackageKitStatus : public pkgAcquireStatus
 {
 public:
-    AcqPackageKitStatus(AptIntf *apt, PkBackend *backend, bool &cancelled);
+    AcqPackageKitStatus(AptIntf *apt, PkBackendJob *job);
 
     virtual bool MediaChange(string Media, string Drive);
     virtual void IMSHit(pkgAcquire::ItemDesc &Itm);
@@ -46,23 +46,14 @@ public:
 
     bool Pulse(pkgAcquire *Owner);
 
-    void addPackage(const pkgCache::VerIterator &ver);
-
 private:
-    PkBackend *m_backend;
-    unsigned long ID;
-    bool &_cancelled;
+    void updateStatus(pkgAcquire::ItemDesc & Itm, int status);
 
-    unsigned long last_percent;
-    unsigned long last_sub_percent;
-    double        last_CPS;
-    string        last_package_name;
+    PkBackendJob *m_job;
+
+    unsigned long m_lastPercent;
+    double        m_lastCPS;
     AptIntf       *m_apt;
-
-    PkgList packages;
-    set<string> currentPackages;
-
-    void emit_package(const string &name, bool finished);
 };
 
 #endif

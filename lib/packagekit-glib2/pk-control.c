@@ -62,7 +62,7 @@ struct _PkControlPrivate
 	PkBitfield		 roles;
 	PkBitfield		 groups;
 	PkBitfield		 filters;
-	gchar			*mime_types;
+	gchar			**mime_types;
 	gboolean		 connected;
 	gboolean		 locked;
 	PkNetworkEnum		 network_state;
@@ -159,6 +159,25 @@ pk_control_fixup_dbus_error (GError *error)
 		error->code = PK_CONTROL_ERROR_FAILED;
 }
 
+static gboolean
+_g_strvcmp0 (gchar **one, gchar **two)
+{
+	guint i;
+	if (one == two)
+		return TRUE;
+	if (one == NULL && two != NULL)
+		return FALSE;
+	if (one != NULL && two == NULL)
+		return FALSE;
+	if (g_strv_length (one) != g_strv_length (two))
+		return FALSE;
+	for (i = 0; one[i] != NULL; i++) {
+		if (g_strcmp0 (one[i], two[i]) != 0)
+			return FALSE;
+	}
+	return TRUE;
+}
+
 /**
  * pk_control_set_property_value:
  **/
@@ -168,6 +187,7 @@ pk_control_set_property_value (PkControl *control,
 			       GVariant *value)
 {
 	const gchar *tmp_str;
+	gchar **tmp_strv = NULL;
 	gboolean tmp_bool;
 	guint tmp_uint;
 	PkBitfield tmp_bitfield;
@@ -224,17 +244,16 @@ pk_control_set_property_value (PkControl *control,
 		return;
 	}
 	if (g_strcmp0 (key, "MimeTypes") == 0) {
-		tmp_str = g_variant_get_string (value, NULL);
-		if (g_strcmp0 (control->priv->mime_types, tmp_str) == 0)
-			return;
-		g_free (control->priv->mime_types);
-		control->priv->mime_types = g_strdup (tmp_str);
+		tmp_strv = (gchar **) g_variant_get_strv (value, NULL);
+		if (_g_strvcmp0 (control->priv->mime_types, tmp_strv))
+			goto out;
+		g_strfreev (control->priv->mime_types);
+		control->priv->mime_types = g_strdupv (tmp_strv);
 		g_object_notify (G_OBJECT(control), "mime-types");
-		return;
+		goto out;
 	}
 	if (g_strcmp0 (key, "Roles") == 0) {
-		tmp_str = g_variant_get_string (value, NULL);
-		tmp_bitfield = pk_role_bitfield_from_string (tmp_str);
+		tmp_bitfield = g_variant_get_uint64 (value);
 		if (control->priv->roles == tmp_bitfield)
 			return;
 		control->priv->roles = tmp_bitfield;
@@ -242,8 +261,7 @@ pk_control_set_property_value (PkControl *control,
 		return;
 	}
 	if (g_strcmp0 (key, "Groups") == 0) {
-		tmp_str = g_variant_get_string (value, NULL);
-		tmp_bitfield = pk_group_bitfield_from_string (tmp_str);
+		tmp_bitfield = g_variant_get_uint64 (value);
 		if (control->priv->groups == tmp_bitfield)
 			return;
 		control->priv->groups = tmp_bitfield;
@@ -251,8 +269,7 @@ pk_control_set_property_value (PkControl *control,
 		return;
 	}
 	if (g_strcmp0 (key, "Filters") == 0) {
-		tmp_str = g_variant_get_string (value, NULL);
-		tmp_bitfield = pk_filter_bitfield_from_string (tmp_str);
+		tmp_bitfield = g_variant_get_uint64 (value);
 		if (control->priv->filters == tmp_bitfield)
 			return;
 		control->priv->filters = tmp_bitfield;
@@ -268,8 +285,7 @@ pk_control_set_property_value (PkControl *control,
 		return;
 	}
 	if (g_strcmp0 (key, "NetworkState") == 0) {
-		tmp_str = g_variant_get_string (value, NULL);
-		tmp_uint = pk_network_enum_from_string (tmp_str);
+		tmp_uint = g_variant_get_uint32 (value);
 		if (control->priv->network_state == tmp_uint)
 			return;
 		control->priv->network_state = tmp_uint;
@@ -289,6 +305,8 @@ pk_control_set_property_value (PkControl *control,
 		return;
 	}
 	g_warning ("unhandled property '%s'", key);
+out:
+	g_free (tmp_strv);
 }
 
 /**
@@ -462,7 +480,7 @@ pk_control_get_tid_cb (GObject *source_object,
 	}
 
 	/* save results */
-	g_variant_get (value, "(s)", &state->tid);
+	g_variant_get (value, "(o)", &state->tid);
 
 	/* we're done */
 	pk_control_get_tid_state_finish (state, NULL);
@@ -478,7 +496,7 @@ static void
 pk_control_get_tid_internal (PkControlState *state)
 {
 	g_dbus_proxy_call (state->control->priv->proxy,
-			   "GetTid",
+			   "CreateTransaction",
 			   NULL,
 			   G_DBUS_CALL_FLAGS_NONE,
 			   PK_CONTROL_DBUS_METHOD_TIMEOUT,
@@ -1288,217 +1306,6 @@ pk_control_set_proxy_finish (PkControl *control,
 /**********************************************************************/
 
 /**
- * pk_control_set_root_state_finish:
- **/
-static void
-pk_control_set_root_state_finish (PkControlState *state, const GError *error)
-{
-	/* get result */
-	if (state->ret) {
-		g_simple_async_result_set_op_res_gboolean (state->res,
-							   state->ret);
-	} else {
-		g_simple_async_result_set_from_error (state->res, error);
-	}
-
-	/* remove from list */
-	g_ptr_array_remove (state->control->priv->calls, state);
-
-	/* complete */
-	g_simple_async_result_complete_in_idle (state->res);
-
-	/* deallocate */
-	if (state->cancellable != NULL) {
-		g_cancellable_disconnect (state->cancellable,
-					  state->cancellable_id);
-		g_object_unref (state->cancellable);
-	}
-	g_object_unref (state->res);
-	g_object_unref (state->control);
-	if (state->proxy != NULL)
-		g_object_unref (state->proxy);
-	g_variant_unref (state->parameters);
-	g_slice_free (PkControlState, state);
-}
-
-/**
- * pk_control_set_root_cb:
- **/
-static void
-pk_control_set_root_cb (GObject *source_object,
-			GAsyncResult *res,
-			gpointer user_data)
-{
-	GError *error = NULL;
-	GVariant *value;
-	GDBusProxy *proxy = G_DBUS_PROXY (source_object);
-	PkControlState *state = (PkControlState *) user_data;
-
-	/* get the result */
-	value = g_dbus_proxy_call_finish (proxy, res, &error);
-	if (value == NULL) {
-		g_warning ("failed to set root: %s", error->message);
-		pk_control_set_root_state_finish (state, error);
-		g_error_free (error);
-		goto out;
-	}
-
-	/* save data */
-	state->ret = TRUE;
-
-	/* we're done */
-	pk_control_set_root_state_finish (state, NULL);
-out:
-	if (value != NULL)
-		g_variant_unref (value);
-}
-
-/**
- * pk_control_set_root_internal:
- **/
-static void
-pk_control_set_root_internal (PkControlState *state)
-{
-	g_dbus_proxy_call (state->control->priv->proxy,
-			   "SetRoot",
-			   state->parameters,
-			   G_DBUS_CALL_FLAGS_NONE,
-			   PK_CONTROL_DBUS_METHOD_TIMEOUT,
-			   state->cancellable,
-			   pk_control_set_root_cb,
-			   state);
-}
-
-/**
- * pk_control_set_root_proxy_cb:
- **/
-static void
-pk_control_set_root_proxy_cb (GObject *source_object,
-			     GAsyncResult *res,
-			     gpointer user_data)
-{
-	GError *error = NULL;
-	PkControlState *state = (PkControlState *) user_data;
-
-	state->proxy = g_dbus_proxy_new_for_bus_finish (res, &error);
-	if (state->proxy == NULL) {
-		pk_control_set_root_state_finish (state, error);
-		g_error_free (error);
-		return;
-	}
-	pk_control_proxy_connect (state);
-	pk_control_set_root_internal (state);
-}
-
-/**
- * pk_control_set_root_async:
- * @control: a valid #PkControl instance
- * @root: an install root string such as "/mnt/ltsp"
- * @cancellable: a #GCancellable or %NULL
- * @callback: the function to run on completion
- * @user_data: the data to pass to @callback
- *
- * Set the install root for the backend used by PackageKit
- *
- * Since: 0.6.4
- **/
-void
-pk_control_set_root_async (PkControl *control,
-			   const gchar *root,
-			   GCancellable *cancellable,
-			   GAsyncReadyCallback callback,
-			   gpointer user_data)
-{
-	GSimpleAsyncResult *res;
-	PkControlState *state;
-	GError *error = NULL;
-
-	g_return_if_fail (PK_IS_CONTROL (control));
-	g_return_if_fail (callback != NULL);
-	g_return_if_fail (cancellable == NULL || G_IS_CANCELLABLE (cancellable));
-
-	res = g_simple_async_result_new (G_OBJECT (control),
-					 callback,
-					 user_data,
-					 pk_control_set_root_async);
-
-	/* save state */
-	state = g_slice_new0 (PkControlState);
-	state->res = g_object_ref (res);
-	state->control = g_object_ref (control);
-	state->parameters = g_variant_new ("(s)", root ? root : "");
-	g_variant_ref_sink (state->parameters);
-	if (cancellable != NULL)
-		state->cancellable = g_object_ref (cancellable);
-
-	/* check not already cancelled */
-	if (cancellable != NULL &&
-	    g_cancellable_set_error_if_cancelled (cancellable, &error)) {
-		pk_control_set_root_state_finish (state, error);
-		g_error_free (error);
-		goto out;
-	}
-
-	/* skip straight to the D-Bus method if already connection */
-	if (control->priv->proxy != NULL) {
-		pk_control_set_root_internal (state);
-	} else {
-		g_dbus_proxy_new_for_bus (G_BUS_TYPE_SYSTEM,
-					  G_DBUS_PROXY_FLAGS_NONE,
-					  NULL,
-					  PK_DBUS_SERVICE,
-					  PK_DBUS_PATH,
-					  PK_DBUS_INTERFACE,
-					  control->priv->cancellable,
-					  pk_control_set_root_proxy_cb,
-					  state);
-	}
-
-	/* track state */
-	g_ptr_array_add (control->priv->calls, state);
-out:
-	g_object_unref (res);
-}
-
-/**
- * pk_control_set_root_finish:
- * @control: a valid #PkControl instance
- * @res: the #GAsyncResult
- * @error: A #GError or %NULL
- *
- * Gets the result from the asynchronous function.
- *
- * Return value: %TRUE if we set the root successfully
- *
- * Since: 0.6.4
- **/
-gboolean
-pk_control_set_root_finish (PkControl *control,
-			    GAsyncResult *res,
-			    GError **error)
-{
-	GSimpleAsyncResult *simple;
-	gpointer source_tag;
-
-	g_return_val_if_fail (PK_IS_CONTROL (control), FALSE);
-	g_return_val_if_fail (G_IS_SIMPLE_ASYNC_RESULT (res), FALSE);
-	g_return_val_if_fail (error == NULL || *error == NULL, FALSE);
-
-	simple = G_SIMPLE_ASYNC_RESULT (res);
-	source_tag = g_simple_async_result_get_source_tag (simple);
-
-	g_return_val_if_fail (source_tag == pk_control_set_root_async, FALSE);
-
-	if (g_simple_async_result_propagate_error (simple, error))
-		return FALSE;
-
-	return g_simple_async_result_get_op_res_gboolean (simple);
-}
-
-/**********************************************************************/
-
-
-/**
  * pk_control_get_transaction_list_state_finish:
  **/
 static void
@@ -1559,7 +1366,7 @@ pk_control_get_transaction_list_cb (GObject *source_object,
 	}
 
 	/* unwrap data */
-	g_variant_get (value, "(^a&s)", &tlist_tmp);
+	g_variant_get (value, "(^a&o)", &tlist_tmp);
 	if (tlist_tmp == NULL) {
 		state->transaction_list = g_new0 (gchar *, 1);
 	} else {
@@ -1863,7 +1670,7 @@ pk_control_get_time_since_action_async (PkControl *control,
 	state = g_slice_new0 (PkControlState);
 	state->res = g_object_ref (res);
 	state->control = g_object_ref (control);
-	state->parameters = g_variant_new ("(s)", pk_role_enum_to_string (role));
+	state->parameters = g_variant_new ("(u)", role);
 	g_variant_ref_sink (state->parameters);
 	if (cancellable != NULL)
 		state->cancellable = g_object_ref (cancellable);
@@ -1980,7 +1787,6 @@ pk_control_can_authorize_cb (GObject *source_object,
 	GDBusProxy *proxy = G_DBUS_PROXY (source_object);
 	PkControlState *state = (PkControlState *) user_data;
 	GVariant *value;
-	const gchar *authorize_state = NULL;
 
 	/* get the result */
 	value = g_dbus_proxy_call_finish (proxy, res, &error);
@@ -1993,8 +1799,7 @@ pk_control_can_authorize_cb (GObject *source_object,
 	}
 
 	/* save data */
-	g_variant_get (value, "(&s)", &authorize_state);
-	state->authorize = pk_authorize_type_enum_from_string (authorize_state);
+	g_variant_get (value, "(u)", &state->authorize);
 	if (state->authorize == PK_AUTHORIZE_ENUM_UNKNOWN) {
 		error = g_error_new (PK_CONTROL_ERROR, PK_CONTROL_ERROR_FAILED, "could not get state");
 		pk_control_can_authorize_state_finish (state, error);
@@ -2358,7 +2163,7 @@ pk_control_get_property (GObject *object, guint prop_id, GValue *value, GParamSp
 		g_value_set_uint64 (value, priv->filters);
 		break;
 	case PROP_MIME_TYPES:
-		g_value_set_string (value, priv->mime_types);
+		g_value_set_boxed (value, priv->mime_types);
 		break;
 	case PROP_LOCKED:
 		g_value_set_boolean (value, priv->locked);
@@ -2497,11 +2302,11 @@ pk_control_class_init (PkControlClass *klass)
 	/**
 	 * PkControl:mime-types:
 	 *
-	 * Since: 0.5.2
+	 * Since: 0.8.1
 	 */
-	pspec = g_param_spec_string ("mime-types", NULL, NULL,
-				     NULL,
-				     G_PARAM_READWRITE);
+	pspec = g_param_spec_boxed ("mime-types", NULL, NULL,
+				    G_TYPE_STRV,
+				    G_PARAM_READWRITE);
 	g_object_class_install_property (object_class, PROP_MIME_TYPES, pspec);
 
 	/**
@@ -2691,7 +2496,7 @@ pk_control_finalize (GObject *object)
 	g_free (priv->backend_name);
 	g_free (priv->backend_description);
 	g_free (priv->backend_author);
-	g_free (priv->mime_types);
+	g_strfreev (priv->mime_types);
 	g_free (priv->distro_id);
 	g_ptr_array_unref (priv->calls);
 

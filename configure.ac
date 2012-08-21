@@ -1,8 +1,8 @@
 # Copyright (C) 2007-2011 Richard Hughes <richard@hughsie.com>
 
 m4_define([pk_major_version], [0])
-m4_define([pk_minor_version], [7])
-m4_define([pk_micro_version], [6])
+m4_define([pk_minor_version], [8])
+m4_define([pk_micro_version], [3])
 m4_define([pk_version],
           [pk_major_version.pk_minor_version.pk_micro_version])
 
@@ -35,7 +35,7 @@ AC_SUBST(PK_MINOR_VERSION)
 AC_SUBST(PK_MICRO_VERSION)
 AC_SUBST(PK_VERSION)
 
-# libtool versioning - this applies to libpackagekit-glib2
+# libtool versioning - this applies to libpackagekit
 #
 # See http://sources.redhat.com/autobook/autobook/autobook_91.html#SEC91 for details
 #
@@ -52,8 +52,8 @@ AC_SUBST(PK_VERSION)
 # - If the interface is the same as the previous version, but bugs are
 #   fixed, change:
 #      REVISION += 1
-LT_CURRENT=14
-LT_REVISION=15
+LT_CURRENT=16
+LT_REVISION=1
 LT_AGE=0
 AC_SUBST(LT_CURRENT)
 AC_SUBST(LT_REVISION)
@@ -74,9 +74,9 @@ AC_SUBST(LT_AGE)
 # - If the interface is the same as the previous version, but bugs are
 #   fixed, change:
 #      REVISION += 1
-LT_QT_CURRENT=3
+LT_QT_CURRENT=4
 LT_QT_REVISION=0
-LT_QT_AGE=1
+LT_QT_AGE=0
 AC_SUBST(LT_QT_CURRENT)
 AC_SUBST(LT_QT_REVISION)
 AC_SUBST(LT_QT_AGE)
@@ -301,9 +301,15 @@ fi
 AM_CONDITIONAL(PK_BUILD_CONNMAN, test x$PK_BUILD_CONNMAN = xyes)
 
 dnl ---------------------------------------------------------------------------
-dnl - Check if ConsoleKit is installed, otherwise, warn the user at the end
+dnl - Use systemd and logind rather than ConsoleKit
 dnl ---------------------------------------------------------------------------
-AC_PATH_PROG(CONSOLEKIT_DAEMON, console-kit-daemon, [], [/usr/sbin$PATH_SEPARATOR/sbin$PATH_SEPARATOR$PATH])
+AC_ARG_ENABLE(systemd, AS_HELP_STRING([--enable-systemd],[enable systemd and logind code]),
+	      enable_systemd=$enableval,enable_systemd=yes)
+AM_CONDITIONAL(PK_BUILD_SYSTEMD, test x$enable_systemd = xyes)
+if test x$enable_systemd = xyes; then
+	PKG_CHECK_MODULES(SYSTEMD, libsystemd-login)
+	AC_DEFINE(PK_BUILD_SYSTEMD,1,[Build systemd code])
+fi
 
 dnl ---------------------------------------------------------------------------
 dnl - Generate man pages ? (default enabled)
@@ -485,6 +491,21 @@ else
 fi
 AM_CONDITIONAL(PK_BUILD_PM_UTILS, test $build_pm_utils = "yes")
 
+dnl ---------------------------------------------------------------------------
+dnl - Able to use systemd updates functionality
+dnl ---------------------------------------------------------------------------
+AC_ARG_ENABLE(systemd-updates, AS_HELP_STRING([--enable-systemd-updates],[Build systemd updates functionality]),
+	      build_systemd_updates=$enableval,build_systemd_updates=yes)
+AM_CONDITIONAL(PK_BUILD_SYSTEMD_UPDATES, test $build_systemd_updates = "yes")
+if test x$build_systemd_updates = xyes; then
+	AC_ARG_WITH([systemdsystemunitdir],
+		    AS_HELP_STRING([--with-systemdsystemunitdir=DIR], [Directory for systemd service files]),
+		    [],
+		    [with_systemdsystemunitdir=$($PKG_CONFIG --variable=systemdsystemunitdir systemd)])
+	AC_SUBST([systemdsystemunitdir], [$with_systemdsystemunitdir])
+	AM_CONDITIONAL(HAVE_SYSTEMD, [test -n "$with_systemdsystemunitdir"])
+fi
+
 # backends
 AC_ARG_ENABLE(alpm, AS_HELP_STRING([--enable-alpm],[use the ALPM backend]),enable_alpm=$enableval,enable_alpm=no)
 AC_ARG_ENABLE(apt, AS_HELP_STRING([--enable-apt],[use the APT backend]),enable_apt=$enableval,enable_apt=no)
@@ -592,7 +613,7 @@ if test x$with_default_backend = x; then
 	elif test -f /usr/lib/libalpm.so; then
 		with_default_backend=alpm
 	elif test -f /usr/bin/apt-get ; then
-		with_default_backend=apt
+		with_default_backend=aptcc
 	elif test -f /usr/bin/conary ; then
 		with_default_backend=conary
 	elif test -f /usr/bin/box-repos ; then
@@ -631,7 +652,7 @@ if test x$enable_zif = xyes; then
 	AC_ARG_ENABLE(zif, AS_HELP_STRING([--enable-zif],[Build ZIF experimental code]),
 		      enable_zif=$enableval,enable_zif=yes)
 	if test x$enable_zif = xyes; then
-		PKG_CHECK_MODULES(ZIF, zif >= 0.1.3,
+		PKG_CHECK_MODULES(ZIF, zif >= 0.2.8,
 			          build_zif=yes, build_zif=no)
 	fi
 	if test "x$build_zif" = "xyes"; then
@@ -721,6 +742,10 @@ fi
 
 if test x$enable_zypp = xyes; then
 	PKG_CHECK_MODULES(ZYPP, libzypp >= 6.16.0)
+	PKG_CHECK_EXISTS(libzypp >= 11.4.0, [ ZYPP_RETURN_BYTES="yes" ], [ ZYPP_RETURN_BYTES="no" ])
+	if test "x$ZYPP_RETURN_BYTES" = "xyes"; then
+	    AC_DEFINE(ZYPP_RETURN_BYTES, 1, [define if libzypp returns package size in bytes])
+	fi
 fi
 
 if test x$enable_slapt = xyes; then
@@ -772,6 +797,7 @@ contrib/cron/Makefile
 contrib/debuginfo-install/Makefile
 contrib/device-rebind/Makefile
 contrib/pm-utils/Makefile
+contrib/systemd-updates/Makefile
 backends/Makefile
 backends/alpm/Makefile
 backends/apt/Makefile
@@ -833,6 +859,7 @@ echo "
         cppflags:                  ${CPPFLAGS}
         Building unit tests:       ${enable_tests}
         Able to run locally:       ${enable_local}
+        Use systemd:               ${enable_systemd}
         Security framework:        ${with_security_framework}
         Networking stacks:         ${networking_apis}
         Browser plugin:            ${build_browser_plugin}
@@ -843,6 +870,7 @@ echo "
         Cron scripts:              ${build_cron}
         debuginfo-install:         ${build_debuginfo_install}
         device-rebind:             ${build_device_rebind}
+        systemd-updates:           ${build_systemd_updates}
         pm-utils scripts:          ${build_pm_utils}
         QT library:                ${build_qt}
 
@@ -867,15 +895,6 @@ echo "
         Zypp backend:              ${enable_zypp}
         Default backend:           ${with_default_backend}
 "
-
-if test ! -x "$CONSOLEKIT_DAEMON"; then
-	echo "**********************************************************************"
-	echo "** ConsoleKit doesn't look to be installed (it's a running dependency)"
-	echo "** You will be able to run PackageKit without ConsoleKit"
-	echo "** but it is not supported nor recommended."
-	echo "**********************************************************************"
-	echo ""
-fi
 
 # warn that dummy is basically broken
 if test x$with_security_framework = xdummy; then

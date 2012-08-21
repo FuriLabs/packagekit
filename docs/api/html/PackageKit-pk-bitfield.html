@@ -60,6 +60,10 @@ typedef             <a class="link" href="PackageKit-pk-bitfield.html#PkBitfield
 <a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gchar"><span class="returnvalue">gchar</span></a> *             <a class="link" href="PackageKit-pk-bitfield.html#pk-group-bitfield-to-string" title="pk_group_bitfield_to_string ()">pk_group_bitfield_to_string</a>         (<em class="parameter"><code><a class="link" href="PackageKit-pk-bitfield.html#PkBitfield" title="PkBitfield"><span class="type">PkBitfield</span></a> groups</code></em>);
 <a class="link" href="PackageKit-pk-bitfield.html#PkBitfield" title="PkBitfield"><span class="returnvalue">PkBitfield</span></a>          <a class="link" href="PackageKit-pk-bitfield.html#pk-role-bitfield-from-string" title="pk_role_bitfield_from_string ()">pk_role_bitfield_from_string</a>        (<em class="parameter"><code>const <a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a> *roles</code></em>);
 <a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gchar"><span class="returnvalue">gchar</span></a> *             <a class="link" href="PackageKit-pk-bitfield.html#pk-role-bitfield-to-string" title="pk_role_bitfield_to_string ()">pk_role_bitfield_to_string</a>          (<em class="parameter"><code><a class="link" href="PackageKit-pk-bitfield.html#PkBitfield" title="PkBitfield"><span class="type">PkBitfield</span></a> roles</code></em>);
+<a class="link" href="PackageKit-pk-bitfield.html#PkBitfield" title="PkBitfield"><span class="returnvalue">PkBitfield</span></a>          <a class="link" href="PackageKit-pk-bitfield.html#pk-transaction-flag-bitfield-from-string" title="pk_transaction_flag_bitfield_from_string ()">pk_transaction_flag_bitfield_from_string</a>
+                                                        (<em class="parameter"><code>const <a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a> *transaction_flags</code></em>);
+<a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gchar"><span class="returnvalue">gchar</span></a> *             <a class="link" href="PackageKit-pk-bitfield.html#pk-transaction-flag-bitfield-to-string" title="pk_transaction_flag_bitfield_to_string ()">pk_transaction_flag_bitfield_to_string</a>
+                                                        (<em class="parameter"><code><a class="link" href="PackageKit-pk-bitfield.html#PkBitfield" title="PkBitfield"><span class="type">PkBitfield</span></a> transaction_flags</code></em>);
 </pre>
 </div>
 <div class="refsect1">
@@ -275,6 +279,52 @@ Converts a enumerated type bitfield to its text representation
 </tbody>
 </table></div>
 <p class="since">Since 0.5.2</p>
+</div>
+<hr>
+<div class="refsect2">
+<a name="pk-transaction-flag-bitfield-from-string"></a><h3>pk_transaction_flag_bitfield_from_string ()</h3>
+<pre class="programlisting"><a class="link" href="PackageKit-pk-bitfield.html#PkBitfield" title="PkBitfield"><span class="returnvalue">PkBitfield</span></a>          pk_transaction_flag_bitfield_from_string
+                                                        (<em class="parameter"><code>const <a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a> *transaction_flags</code></em>);</pre>
+<p>
+Converts text representation to its enumerated type bitfield, or 0 for invalid
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>transaction_flags</code></em> :</span></p></td>
+<td>the enumerated constant value, e.g. "only-trusted;simulate"</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td>The enumerated type values</td>
+</tr>
+</tbody>
+</table></div>
+<p class="since">Since 0.8.1</p>
+</div>
+<hr>
+<div class="refsect2">
+<a name="pk-transaction-flag-bitfield-to-string"></a><h3>pk_transaction_flag_bitfield_to_string ()</h3>
+<pre class="programlisting"><a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gchar"><span class="returnvalue">gchar</span></a> *             pk_transaction_flag_bitfield_to_string
+                                                        (<em class="parameter"><code><a class="link" href="PackageKit-pk-bitfield.html#PkBitfield" title="PkBitfield"><span class="type">PkBitfield</span></a> transaction_flags</code></em>);</pre>
+<p>
+Converts a enumerated type bitfield to its text representation
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>transaction_flags</code></em> :</span></p></td>
+<td>The enumerated type values</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td>the enumerated constant value, e.g. "only-trusted;simulate"</td>
+</tr>
+</tbody>
+</table></div>
+<p class="since">Since 0.8.1</p>
 </div>
 </div>
 </div>

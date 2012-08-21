@@ -101,26 +101,19 @@ pk_role_enum_get_type (void)
             { PK_ROLE_ENUM_REPO_ENABLE, "PK_ROLE_ENUM_REPO_ENABLE", "repo-enable" },
             { PK_ROLE_ENUM_REPO_SET_DATA, "PK_ROLE_ENUM_REPO_SET_DATA", "repo-set-data" },
             { PK_ROLE_ENUM_RESOLVE, "PK_ROLE_ENUM_RESOLVE", "resolve" },
-            { PK_ROLE_ENUM_ROLLBACK, "PK_ROLE_ENUM_ROLLBACK", "rollback" },
             { PK_ROLE_ENUM_SEARCH_DETAILS, "PK_ROLE_ENUM_SEARCH_DETAILS", "search-details" },
             { PK_ROLE_ENUM_SEARCH_FILE, "PK_ROLE_ENUM_SEARCH_FILE", "search-file" },
             { PK_ROLE_ENUM_SEARCH_GROUP, "PK_ROLE_ENUM_SEARCH_GROUP", "search-group" },
             { PK_ROLE_ENUM_SEARCH_NAME, "PK_ROLE_ENUM_SEARCH_NAME", "search-name" },
             { PK_ROLE_ENUM_UPDATE_PACKAGES, "PK_ROLE_ENUM_UPDATE_PACKAGES", "update-packages" },
-            { PK_ROLE_ENUM_UPDATE_SYSTEM, "PK_ROLE_ENUM_UPDATE_SYSTEM", "update-system" },
             { PK_ROLE_ENUM_WHAT_PROVIDES, "PK_ROLE_ENUM_WHAT_PROVIDES", "what-provides" },
             { PK_ROLE_ENUM_ACCEPT_EULA, "PK_ROLE_ENUM_ACCEPT_EULA", "accept-eula" },
             { PK_ROLE_ENUM_DOWNLOAD_PACKAGES, "PK_ROLE_ENUM_DOWNLOAD_PACKAGES", "download-packages" },
             { PK_ROLE_ENUM_GET_DISTRO_UPGRADES, "PK_ROLE_ENUM_GET_DISTRO_UPGRADES", "get-distro-upgrades" },
             { PK_ROLE_ENUM_GET_CATEGORIES, "PK_ROLE_ENUM_GET_CATEGORIES", "get-categories" },
             { PK_ROLE_ENUM_GET_OLD_TRANSACTIONS, "PK_ROLE_ENUM_GET_OLD_TRANSACTIONS", "get-old-transactions" },
-            { PK_ROLE_ENUM_SIMULATE_INSTALL_FILES, "PK_ROLE_ENUM_SIMULATE_INSTALL_FILES", "simulate-install-files" },
-            { PK_ROLE_ENUM_SIMULATE_INSTALL_PACKAGES, "PK_ROLE_ENUM_SIMULATE_INSTALL_PACKAGES", "simulate-install-packages" },
-            { PK_ROLE_ENUM_SIMULATE_REMOVE_PACKAGES, "PK_ROLE_ENUM_SIMULATE_REMOVE_PACKAGES", "simulate-remove-packages" },
-            { PK_ROLE_ENUM_SIMULATE_UPDATE_PACKAGES, "PK_ROLE_ENUM_SIMULATE_UPDATE_PACKAGES", "simulate-update-packages" },
             { PK_ROLE_ENUM_UPGRADE_SYSTEM, "PK_ROLE_ENUM_UPGRADE_SYSTEM", "upgrade-system" },
             { PK_ROLE_ENUM_REPAIR_SYSTEM, "PK_ROLE_ENUM_REPAIR_SYSTEM", "repair-system" },
-            { PK_ROLE_ENUM_SIMULATE_REPAIR_SYSTEM, "PK_ROLE_ENUM_SIMULATE_REPAIR_SYSTEM", "simulate-repair-system" },
             { PK_ROLE_ENUM_LAST, "PK_ROLE_ENUM_LAST", "last" },
             { 0, NULL, NULL }
         };
@@ -152,7 +145,6 @@ pk_status_enum_get_type (void)
             { PK_STATUS_ENUM_OBSOLETE, "PK_STATUS_ENUM_OBSOLETE", "obsolete" },
             { PK_STATUS_ENUM_DEP_RESOLVE, "PK_STATUS_ENUM_DEP_RESOLVE", "dep-resolve" },
             { PK_STATUS_ENUM_SIG_CHECK, "PK_STATUS_ENUM_SIG_CHECK", "sig-check" },
-            { PK_STATUS_ENUM_ROLLBACK, "PK_STATUS_ENUM_ROLLBACK", "rollback" },
             { PK_STATUS_ENUM_TEST_COMMIT, "PK_STATUS_ENUM_TEST_COMMIT", "test-commit" },
             { PK_STATUS_ENUM_COMMIT, "PK_STATUS_ENUM_COMMIT", "commit" },
             { PK_STATUS_ENUM_REQUEST, "PK_STATUS_ENUM_REQUEST", "request" },
@@ -313,7 +305,6 @@ pk_message_enum_get_type (void)
             { PK_MESSAGE_ENUM_BACKEND_ERROR, "PK_MESSAGE_ENUM_BACKEND_ERROR", "backend-error" },
             { PK_MESSAGE_ENUM_DAEMON_ERROR, "PK_MESSAGE_ENUM_DAEMON_ERROR", "daemon-error" },
             { PK_MESSAGE_ENUM_CACHE_BEING_REBUILT, "PK_MESSAGE_ENUM_CACHE_BEING_REBUILT", "cache-being-rebuilt" },
-            { PK_MESSAGE_ENUM_UNTRUSTED_PACKAGE, "PK_MESSAGE_ENUM_UNTRUSTED_PACKAGE", "untrusted-package" },
             { PK_MESSAGE_ENUM_NEWER_PACKAGE_EXISTS, "PK_MESSAGE_ENUM_NEWER_PACKAGE_EXISTS", "newer-package-exists" },
             { PK_MESSAGE_ENUM_COULD_NOT_FIND_PACKAGE, "PK_MESSAGE_ENUM_COULD_NOT_FIND_PACKAGE", "could-not-find-package" },
             { PK_MESSAGE_ENUM_CONFIG_FILES_CHANGED, "PK_MESSAGE_ENUM_CONFIG_FILES_CHANGED", "config-files-changed" },
@@ -405,6 +396,7 @@ pk_error_enum_get_type (void)
             { PK_ERROR_ENUM_CANNOT_FETCH_SOURCES, "PK_ERROR_ENUM_CANNOT_FETCH_SOURCES", "cannot-fetch-sources" },
             { PK_ERROR_ENUM_CANCELLED_PRIORITY, "PK_ERROR_ENUM_CANCELLED_PRIORITY", "cancelled-priority" },
             { PK_ERROR_ENUM_UNFINISHED_TRANSACTION, "PK_ERROR_ENUM_UNFINISHED_TRANSACTION", "unfinished-transaction" },
+            { PK_ERROR_ENUM_LOCK_REQUIRED, "PK_ERROR_ENUM_LOCK_REQUIRED", "lock-required" },
             { PK_ERROR_ENUM_LAST, "PK_ERROR_ENUM_LAST", "last" },
             { 0, NULL, NULL }
         };
@@ -650,6 +642,26 @@ pk_upgrade_kind_enum_get_type (void)
     return etype;
 }
 
+GType pk_transaction_flag_enum_get_type (void) G_GNUC_CONST;
+
+GType
+pk_transaction_flag_enum_get_type (void)
+{
+    static GType etype = 0;
+    if (G_UNLIKELY(etype == 0)) {
+        static const GEnumValue values[] = {
+            { PK_TRANSACTION_FLAG_ENUM_NONE, "PK_TRANSACTION_FLAG_ENUM_NONE", "none" },
+            { PK_TRANSACTION_FLAG_ENUM_ONLY_TRUSTED, "PK_TRANSACTION_FLAG_ENUM_ONLY_TRUSTED", "only-trusted" },
+            { PK_TRANSACTION_FLAG_ENUM_SIMULATE, "PK_TRANSACTION_FLAG_ENUM_SIMULATE", "simulate" },
+            { PK_TRANSACTION_FLAG_ENUM_ONLY_DOWNLOAD, "PK_TRANSACTION_FLAG_ENUM_ONLY_DOWNLOAD", "only-download" },
+            { PK_TRANSACTION_FLAG_ENUM_LAST, "PK_TRANSACTION_FLAG_ENUM_LAST", "last" },
+            { 0, NULL, NULL }
+        };
+        etype = g_enum_register_static (g_intern_static_string ("PkTransactionFlagEnum"), values);
+    }
+    return etype;
+}
+
 #include "pk-package-sack.h"
 /* enumerations from "pk-package-sack.h" */
 GType pk_package_sack_sort_type_get_type (void) G_GNUC_CONST;
@@ -685,7 +697,6 @@ pk_progress_type_get_type (void)
             { PK_PROGRESS_TYPE_PACKAGE_ID, "PK_PROGRESS_TYPE_PACKAGE_ID", "package-id" },
             { PK_PROGRESS_TYPE_TRANSACTION_ID, "PK_PROGRESS_TYPE_TRANSACTION_ID", "transaction-id" },
             { PK_PROGRESS_TYPE_PERCENTAGE, "PK_PROGRESS_TYPE_PERCENTAGE", "percentage" },
-            { PK_PROGRESS_TYPE_SUBPERCENTAGE, "PK_PROGRESS_TYPE_SUBPERCENTAGE", "subpercentage" },
             { PK_PROGRESS_TYPE_ALLOW_CANCEL, "PK_PROGRESS_TYPE_ALLOW_CANCEL", "allow-cancel" },
             { PK_PROGRESS_TYPE_STATUS, "PK_PROGRESS_TYPE_STATUS", "status" },
             { PK_PROGRESS_TYPE_ROLE, "PK_PROGRESS_TYPE_ROLE", "role" },
@@ -693,6 +704,7 @@ pk_progress_type_get_type (void)
             { PK_PROGRESS_TYPE_ELAPSED_TIME, "PK_PROGRESS_TYPE_ELAPSED_TIME", "elapsed-time" },
             { PK_PROGRESS_TYPE_REMAINING_TIME, "PK_PROGRESS_TYPE_REMAINING_TIME", "remaining-time" },
             { PK_PROGRESS_TYPE_SPEED, "PK_PROGRESS_TYPE_SPEED", "speed" },
+            { PK_PROGRESS_TYPE_DOWNLOAD_SIZE_REMAINING, "PK_PROGRESS_TYPE_DOWNLOAD_SIZE_REMAINING", "download-size-remaining" },
             { PK_PROGRESS_TYPE_UID, "PK_PROGRESS_TYPE_UID", "uid" },
             { PK_PROGRESS_TYPE_PACKAGE, "PK_PROGRESS_TYPE_PACKAGE", "package" },
             { PK_PROGRESS_TYPE_ITEM_PROGRESS, "PK_PROGRESS_TYPE_ITEM_PROGRESS", "item-progress" },

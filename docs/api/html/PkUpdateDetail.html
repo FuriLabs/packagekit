@@ -57,18 +57,18 @@ struct              <a class="link" href="PkUpdateDetail.html#PkUpdateDetailClas
 <div class="refsect1">
 <a name="PkUpdateDetail.properties"></a><h2>Properties</h2>
 <pre class="synopsis">
-  "<a class="link" href="PkUpdateDetail.html#PkUpdateDetail--bugzilla-url" title='The "bugzilla-url" property'>bugzilla-url</a>"             <a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a>*                : Read / Write
+  "<a class="link" href="PkUpdateDetail.html#PkUpdateDetail--bugzilla-urls" title='The "bugzilla-urls" property'>bugzilla-urls</a>"            <a href="http://library.gnome.org/devel/gobject/unstable/gobject-Boxed-Types.html#GStrv"><span class="type">GStrv</span></a>                 : Read / Write
   "<a class="link" href="PkUpdateDetail.html#PkUpdateDetail--changelog" title='The "changelog" property'>changelog</a>"                <a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a>*                : Read / Write
-  "<a class="link" href="PkUpdateDetail.html#PkUpdateDetail--cve-url" title='The "cve-url" property'>cve-url</a>"                  <a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a>*                : Read / Write
+  "<a class="link" href="PkUpdateDetail.html#PkUpdateDetail--cve-urls" title='The "cve-urls" property'>cve-urls</a>"                 <a href="http://library.gnome.org/devel/gobject/unstable/gobject-Boxed-Types.html#GStrv"><span class="type">GStrv</span></a>                 : Read / Write
   "<a class="link" href="PkUpdateDetail.html#PkUpdateDetail--issued" title='The "issued" property'>issued</a>"                   <a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a>*                : Read / Write
-  "<a class="link" href="PkUpdateDetail.html#PkUpdateDetail--obsoletes" title='The "obsoletes" property'>obsoletes</a>"                <a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a>*                : Read / Write
+  "<a class="link" href="PkUpdateDetail.html#PkUpdateDetail--obsoletes" title='The "obsoletes" property'>obsoletes</a>"                <a href="http://library.gnome.org/devel/gobject/unstable/gobject-Boxed-Types.html#GStrv"><span class="type">GStrv</span></a>                 : Read / Write
   "<a class="link" href="PkUpdateDetail.html#PkUpdateDetail--package-id" title='The "package-id" property'>package-id</a>"               <a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a>*                : Read / Write
   "<a class="link" href="PkUpdateDetail.html#PkUpdateDetail--restart" title='The "restart" property'>restart</a>"                  <a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#guint"><span class="type">guint</span></a>                 : Read / Write
   "<a class="link" href="PkUpdateDetail.html#PkUpdateDetail--state" title='The "state" property'>state</a>"                    <a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#guint"><span class="type">guint</span></a>                 : Read / Write
   "<a class="link" href="PkUpdateDetail.html#PkUpdateDetail--update-text" title='The "update-text" property'>update-text</a>"              <a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a>*                : Read / Write
   "<a class="link" href="PkUpdateDetail.html#PkUpdateDetail--updated" title='The "updated" property'>updated</a>"                  <a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a>*                : Read / Write
-  "<a class="link" href="PkUpdateDetail.html#PkUpdateDetail--updates" title='The "updates" property'>updates</a>"                  <a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a>*                : Read / Write
-  "<a class="link" href="PkUpdateDetail.html#PkUpdateDetail--vendor-url" title='The "vendor-url" property'>vendor-url</a>"               <a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a>*                : Read / Write
+  "<a class="link" href="PkUpdateDetail.html#PkUpdateDetail--updates" title='The "updates" property'>updates</a>"                  <a href="http://library.gnome.org/devel/gobject/unstable/gobject-Boxed-Types.html#GStrv"><span class="type">GStrv</span></a>                 : Read / Write
+  "<a class="link" href="PkUpdateDetail.html#PkUpdateDetail--vendor-urls" title='The "vendor-urls" property'>vendor-urls</a>"              <a href="http://library.gnome.org/devel/gobject/unstable/gobject-Boxed-Types.html#GStrv"><span class="type">GStrv</span></a>                 : Read / Write
 </pre>
 </div>
 <div class="refsect1">
@@ -116,11 +116,10 @@ often present in lists (<a class="link" href="PkResults.html" title="PkResults">
 <div class="refsect1">
 <a name="PkUpdateDetail.property-details"></a><h2>Property Details</h2>
 <div class="refsect2">
-<a name="PkUpdateDetail--bugzilla-url"></a><h3>The <code class="literal">"bugzilla-url"</code> property</h3>
-<pre class="programlisting">  "bugzilla-url"             <a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a>*                : Read / Write</pre>
+<a name="PkUpdateDetail--bugzilla-urls"></a><h3>The <code class="literal">"bugzilla-urls"</code> property</h3>
+<pre class="programlisting">  "bugzilla-urls"            <a href="http://library.gnome.org/devel/gobject/unstable/gobject-Boxed-Types.html#GStrv"><span class="type">GStrv</span></a>                 : Read / Write</pre>
 <p></p>
-<p>Default value: NULL</p>
-<p class="since">Since 0.5.4</p>
+<p class="since">Since 0.8.1</p>
 </div>
 <hr>
 <div class="refsect2">
@@ -132,11 +131,10 @@ often present in lists (<a class="link" href="PkResults.html" title="PkResults">
 </div>
 <hr>
 <div class="refsect2">
-<a name="PkUpdateDetail--cve-url"></a><h3>The <code class="literal">"cve-url"</code> property</h3>
-<pre class="programlisting">  "cve-url"                  <a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a>*                : Read / Write</pre>
+<a name="PkUpdateDetail--cve-urls"></a><h3>The <code class="literal">"cve-urls"</code> property</h3>
+<pre class="programlisting">  "cve-urls"                 <a href="http://library.gnome.org/devel/gobject/unstable/gobject-Boxed-Types.html#GStrv"><span class="type">GStrv</span></a>                 : Read / Write</pre>
 <p></p>
-<p>Default value: NULL</p>
-<p class="since">Since 0.5.4</p>
+<p class="since">Since 0.8.1</p>
 </div>
 <hr>
 <div class="refsect2">
@@ -149,10 +147,9 @@ often present in lists (<a class="link" href="PkResults.html" title="PkResults">
 <hr>
 <div class="refsect2">
 <a name="PkUpdateDetail--obsoletes"></a><h3>The <code class="literal">"obsoletes"</code> property</h3>
-<pre class="programlisting">  "obsoletes"                <a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a>*                : Read / Write</pre>
+<pre class="programlisting">  "obsoletes"                <a href="http://library.gnome.org/devel/gobject/unstable/gobject-Boxed-Types.html#GStrv"><span class="type">GStrv</span></a>                 : Read / Write</pre>
 <p></p>
-<p>Default value: NULL</p>
-<p class="since">Since 0.5.4</p>
+<p class="since">Since 0.8.1</p>
 </div>
 <hr>
 <div class="refsect2">
@@ -197,18 +194,16 @@ often present in lists (<a class="link" href="PkResults.html" title="PkResults">
 <hr>
 <div class="refsect2">
 <a name="PkUpdateDetail--updates"></a><h3>The <code class="literal">"updates"</code> property</h3>
-<pre class="programlisting">  "updates"                  <a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a>*                : Read / Write</pre>
+<pre class="programlisting">  "updates"                  <a href="http://library.gnome.org/devel/gobject/unstable/gobject-Boxed-Types.html#GStrv"><span class="type">GStrv</span></a>                 : Read / Write</pre>
 <p></p>
-<p>Default value: NULL</p>
-<p class="since">Since 0.5.4</p>
+<p class="since">Since 0.8.1</p>
 </div>
 <hr>
 <div class="refsect2">
-<a name="PkUpdateDetail--vendor-url"></a><h3>The <code class="literal">"vendor-url"</code> property</h3>
-<pre class="programlisting">  "vendor-url"               <a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a>*                : Read / Write</pre>
+<a name="PkUpdateDetail--vendor-urls"></a><h3>The <code class="literal">"vendor-urls"</code> property</h3>
+<pre class="programlisting">  "vendor-urls"              <a href="http://library.gnome.org/devel/gobject/unstable/gobject-Boxed-Types.html#GStrv"><span class="type">GStrv</span></a>                 : Read / Write</pre>
 <p></p>
-<p>Default value: NULL</p>
-<p class="since">Since 0.5.4</p>
+<p class="since">Since 0.8.1</p>
 </div>
 </div>
 </div>

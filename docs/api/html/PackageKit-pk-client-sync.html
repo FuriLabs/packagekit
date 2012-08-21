@@ -129,14 +129,14 @@
                                                          <em class="parameter"><code><a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gpointer"><span class="type">gpointer</span></a> progress_user_data</code></em>,
                                                          <em class="parameter"><code><a href="http://library.gnome.org/devel/glib/unstable/glib-Error-Reporting.html#GError"><span class="type">GError</span></a> **error</code></em>);
 <a class="link" href="PkResults.html" title="PkResults"><span class="returnvalue">PkResults</span></a> *         <a class="link" href="PackageKit-pk-client-sync.html#pk-client-install-files" title="pk_client_install_files ()">pk_client_install_files</a>             (<em class="parameter"><code><a class="link" href="PkClient.html" title="PkClient"><span class="type">PkClient</span></a> *client</code></em>,
-                                                         <em class="parameter"><code><a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gboolean"><span class="type">gboolean</span></a> only_trusted</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="PackageKit-pk-bitfield.html#PkBitfield" title="PkBitfield"><span class="type">PkBitfield</span></a> transaction_flags</code></em>,
                                                          <em class="parameter"><code><a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a> **files</code></em>,
                                                          <em class="parameter"><code><a href="http://library.gnome.org/devel/gio/unstable/GCancellable.html"><span class="type">GCancellable</span></a> *cancellable</code></em>,
                                                          <em class="parameter"><code><a class="link" href="PkProgress.html#PkProgressCallback" title="PkProgressCallback ()"><span class="type">PkProgressCallback</span></a> progress_callback</code></em>,
                                                          <em class="parameter"><code><a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gpointer"><span class="type">gpointer</span></a> progress_user_data</code></em>,
                                                          <em class="parameter"><code><a href="http://library.gnome.org/devel/glib/unstable/glib-Error-Reporting.html#GError"><span class="type">GError</span></a> **error</code></em>);
 <a class="link" href="PkResults.html" title="PkResults"><span class="returnvalue">PkResults</span></a> *         <a class="link" href="PackageKit-pk-client-sync.html#pk-client-install-packages" title="pk_client_install_packages ()">pk_client_install_packages</a>          (<em class="parameter"><code><a class="link" href="PkClient.html" title="PkClient"><span class="type">PkClient</span></a> *client</code></em>,
-                                                         <em class="parameter"><code><a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gboolean"><span class="type">gboolean</span></a> only_trusted</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="PackageKit-pk-bitfield.html#PkBitfield" title="PkBitfield"><span class="type">PkBitfield</span></a> transaction_flags</code></em>,
                                                          <em class="parameter"><code><a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a> **package_ids</code></em>,
                                                          <em class="parameter"><code><a href="http://library.gnome.org/devel/gio/unstable/GCancellable.html"><span class="type">GCancellable</span></a> *cancellable</code></em>,
                                                          <em class="parameter"><code><a class="link" href="PkProgress.html#PkProgressCallback" title="PkProgressCallback ()"><span class="type">PkProgressCallback</span></a> progress_callback</code></em>,
@@ -157,6 +157,7 @@
                                                          <em class="parameter"><code><a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gpointer"><span class="type">gpointer</span></a> progress_user_data</code></em>,
                                                          <em class="parameter"><code><a href="http://library.gnome.org/devel/glib/unstable/glib-Error-Reporting.html#GError"><span class="type">GError</span></a> **error</code></em>);
 <a class="link" href="PkResults.html" title="PkResults"><span class="returnvalue">PkResults</span></a> *         <a class="link" href="PackageKit-pk-client-sync.html#pk-client-remove-packages" title="pk_client_remove_packages ()">pk_client_remove_packages</a>           (<em class="parameter"><code><a class="link" href="PkClient.html" title="PkClient"><span class="type">PkClient</span></a> *client</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="PackageKit-pk-bitfield.html#PkBitfield" title="PkBitfield"><span class="type">PkBitfield</span></a> transaction_flags</code></em>,
                                                          <em class="parameter"><code><a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a> **package_ids</code></em>,
                                                          <em class="parameter"><code><a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gboolean"><span class="type">gboolean</span></a> allow_deps</code></em>,
                                                          <em class="parameter"><code><a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gboolean"><span class="type">gboolean</span></a> autoremove</code></em>,
@@ -165,7 +166,7 @@
                                                          <em class="parameter"><code><a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gpointer"><span class="type">gpointer</span></a> progress_user_data</code></em>,
                                                          <em class="parameter"><code><a href="http://library.gnome.org/devel/glib/unstable/glib-Error-Reporting.html#GError"><span class="type">GError</span></a> **error</code></em>);
 <a class="link" href="PkResults.html" title="PkResults"><span class="returnvalue">PkResults</span></a> *         <a class="link" href="PackageKit-pk-client-sync.html#pk-client-repair-system" title="pk_client_repair_system ()">pk_client_repair_system</a>             (<em class="parameter"><code><a class="link" href="PkClient.html" title="PkClient"><span class="type">PkClient</span></a> *client</code></em>,
-                                                         <em class="parameter"><code><a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gboolean"><span class="type">gboolean</span></a> only_trusted</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="PackageKit-pk-bitfield.html#PkBitfield" title="PkBitfield"><span class="type">PkBitfield</span></a> transaction_flags</code></em>,
                                                          <em class="parameter"><code><a href="http://library.gnome.org/devel/gio/unstable/GCancellable.html"><span class="type">GCancellable</span></a> *cancellable</code></em>,
                                                          <em class="parameter"><code><a class="link" href="PkProgress.html#PkProgressCallback" title="PkProgressCallback ()"><span class="type">PkProgressCallback</span></a> progress_callback</code></em>,
                                                          <em class="parameter"><code><a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gpointer"><span class="type">gpointer</span></a> progress_user_data</code></em>,
@@ -188,12 +189,6 @@
 <a class="link" href="PkResults.html" title="PkResults"><span class="returnvalue">PkResults</span></a> *         <a class="link" href="PackageKit-pk-client-sync.html#pk-client-resolve" title="pk_client_resolve ()">pk_client_resolve</a>                   (<em class="parameter"><code><a class="link" href="PkClient.html" title="PkClient"><span class="type">PkClient</span></a> *client</code></em>,
                                                          <em class="parameter"><code><a class="link" href="PackageKit-pk-bitfield.html#PkBitfield" title="PkBitfield"><span class="type">PkBitfield</span></a> filters</code></em>,
                                                          <em class="parameter"><code><a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a> **packages</code></em>,
-                                                         <em class="parameter"><code><a href="http://library.gnome.org/devel/gio/unstable/GCancellable.html"><span class="type">GCancellable</span></a> *cancellable</code></em>,
-                                                         <em class="parameter"><code><a class="link" href="PkProgress.html#PkProgressCallback" title="PkProgressCallback ()"><span class="type">PkProgressCallback</span></a> progress_callback</code></em>,
-                                                         <em class="parameter"><code><a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gpointer"><span class="type">gpointer</span></a> progress_user_data</code></em>,
-                                                         <em class="parameter"><code><a href="http://library.gnome.org/devel/glib/unstable/glib-Error-Reporting.html#GError"><span class="type">GError</span></a> **error</code></em>);
-<a class="link" href="PkResults.html" title="PkResults"><span class="returnvalue">PkResults</span></a> *         <a class="link" href="PackageKit-pk-client-sync.html#pk-client-rollback" title="pk_client_rollback ()">pk_client_rollback</a>                  (<em class="parameter"><code><a class="link" href="PkClient.html" title="PkClient"><span class="type">PkClient</span></a> *client</code></em>,
-                                                         <em class="parameter"><code>const <a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a> *transaction_id</code></em>,
                                                          <em class="parameter"><code><a href="http://library.gnome.org/devel/gio/unstable/GCancellable.html"><span class="type">GCancellable</span></a> *cancellable</code></em>,
                                                          <em class="parameter"><code><a class="link" href="PkProgress.html#PkProgressCallback" title="PkProgressCallback ()"><span class="type">PkProgressCallback</span></a> progress_callback</code></em>,
                                                          <em class="parameter"><code><a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gpointer"><span class="type">gpointer</span></a> progress_user_data</code></em>,
@@ -226,45 +221,9 @@
                                                          <em class="parameter"><code><a class="link" href="PkProgress.html#PkProgressCallback" title="PkProgressCallback ()"><span class="type">PkProgressCallback</span></a> progress_callback</code></em>,
                                                          <em class="parameter"><code><a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gpointer"><span class="type">gpointer</span></a> progress_user_data</code></em>,
                                                          <em class="parameter"><code><a href="http://library.gnome.org/devel/glib/unstable/glib-Error-Reporting.html#GError"><span class="type">GError</span></a> **error</code></em>);
-<a class="link" href="PkResults.html" title="PkResults"><span class="returnvalue">PkResults</span></a> *         <a class="link" href="PackageKit-pk-client-sync.html#pk-client-simulate-install-files" title="pk_client_simulate_install_files ()">pk_client_simulate_install_files</a>    (<em class="parameter"><code><a class="link" href="PkClient.html" title="PkClient"><span class="type">PkClient</span></a> *client</code></em>,
-                                                         <em class="parameter"><code><a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a> **files</code></em>,
-                                                         <em class="parameter"><code><a href="http://library.gnome.org/devel/gio/unstable/GCancellable.html"><span class="type">GCancellable</span></a> *cancellable</code></em>,
-                                                         <em class="parameter"><code><a class="link" href="PkProgress.html#PkProgressCallback" title="PkProgressCallback ()"><span class="type">PkProgressCallback</span></a> progress_callback</code></em>,
-                                                         <em class="parameter"><code><a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gpointer"><span class="type">gpointer</span></a> progress_user_data</code></em>,
-                                                         <em class="parameter"><code><a href="http://library.gnome.org/devel/glib/unstable/glib-Error-Reporting.html#GError"><span class="type">GError</span></a> **error</code></em>);
-<a class="link" href="PkResults.html" title="PkResults"><span class="returnvalue">PkResults</span></a> *         <a class="link" href="PackageKit-pk-client-sync.html#pk-client-simulate-install-packages" title="pk_client_simulate_install_packages ()">pk_client_simulate_install_packages</a> (<em class="parameter"><code><a class="link" href="PkClient.html" title="PkClient"><span class="type">PkClient</span></a> *client</code></em>,
-                                                         <em class="parameter"><code><a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a> **package_ids</code></em>,
-                                                         <em class="parameter"><code><a href="http://library.gnome.org/devel/gio/unstable/GCancellable.html"><span class="type">GCancellable</span></a> *cancellable</code></em>,
-                                                         <em class="parameter"><code><a class="link" href="PkProgress.html#PkProgressCallback" title="PkProgressCallback ()"><span class="type">PkProgressCallback</span></a> progress_callback</code></em>,
-                                                         <em class="parameter"><code><a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gpointer"><span class="type">gpointer</span></a> progress_user_data</code></em>,
-                                                         <em class="parameter"><code><a href="http://library.gnome.org/devel/glib/unstable/glib-Error-Reporting.html#GError"><span class="type">GError</span></a> **error</code></em>);
-<a class="link" href="PkResults.html" title="PkResults"><span class="returnvalue">PkResults</span></a> *         <a class="link" href="PackageKit-pk-client-sync.html#pk-client-simulate-remove-packages" title="pk_client_simulate_remove_packages ()">pk_client_simulate_remove_packages</a>  (<em class="parameter"><code><a class="link" href="PkClient.html" title="PkClient"><span class="type">PkClient</span></a> *client</code></em>,
-                                                         <em class="parameter"><code><a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a> **package_ids</code></em>,
-                                                         <em class="parameter"><code><a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gboolean"><span class="type">gboolean</span></a> autoremove</code></em>,
-                                                         <em class="parameter"><code><a href="http://library.gnome.org/devel/gio/unstable/GCancellable.html"><span class="type">GCancellable</span></a> *cancellable</code></em>,
-                                                         <em class="parameter"><code><a class="link" href="PkProgress.html#PkProgressCallback" title="PkProgressCallback ()"><span class="type">PkProgressCallback</span></a> progress_callback</code></em>,
-                                                         <em class="parameter"><code><a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gpointer"><span class="type">gpointer</span></a> progress_user_data</code></em>,
-                                                         <em class="parameter"><code><a href="http://library.gnome.org/devel/glib/unstable/glib-Error-Reporting.html#GError"><span class="type">GError</span></a> **error</code></em>);
-<a class="link" href="PkResults.html" title="PkResults"><span class="returnvalue">PkResults</span></a> *         <a class="link" href="PackageKit-pk-client-sync.html#pk-client-simulate-repair-system" title="pk_client_simulate_repair_system ()">pk_client_simulate_repair_system</a>    (<em class="parameter"><code><a class="link" href="PkClient.html" title="PkClient"><span class="type">PkClient</span></a> *client</code></em>,
-                                                         <em class="parameter"><code><a href="http://library.gnome.org/devel/gio/unstable/GCancellable.html"><span class="type">GCancellable</span></a> *cancellable</code></em>,
-                                                         <em class="parameter"><code><a class="link" href="PkProgress.html#PkProgressCallback" title="PkProgressCallback ()"><span class="type">PkProgressCallback</span></a> progress_callback</code></em>,
-                                                         <em class="parameter"><code><a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gpointer"><span class="type">gpointer</span></a> progress_user_data</code></em>,
-                                                         <em class="parameter"><code><a href="http://library.gnome.org/devel/glib/unstable/glib-Error-Reporting.html#GError"><span class="type">GError</span></a> **error</code></em>);
-<a class="link" href="PkResults.html" title="PkResults"><span class="returnvalue">PkResults</span></a> *         <a class="link" href="PackageKit-pk-client-sync.html#pk-client-simulate-update-packages" title="pk_client_simulate_update_packages ()">pk_client_simulate_update_packages</a>  (<em class="parameter"><code><a class="link" href="PkClient.html" title="PkClient"><span class="type">PkClient</span></a> *client</code></em>,
-                                                         <em class="parameter"><code><a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a> **package_ids</code></em>,
-                                                         <em class="parameter"><code><a href="http://library.gnome.org/devel/gio/unstable/GCancellable.html"><span class="type">GCancellable</span></a> *cancellable</code></em>,
-                                                         <em class="parameter"><code><a class="link" href="PkProgress.html#PkProgressCallback" title="PkProgressCallback ()"><span class="type">PkProgressCallback</span></a> progress_callback</code></em>,
-                                                         <em class="parameter"><code><a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gpointer"><span class="type">gpointer</span></a> progress_user_data</code></em>,
-                                                         <em class="parameter"><code><a href="http://library.gnome.org/devel/glib/unstable/glib-Error-Reporting.html#GError"><span class="type">GError</span></a> **error</code></em>);
 <a class="link" href="PkResults.html" title="PkResults"><span class="returnvalue">PkResults</span></a> *         <a class="link" href="PackageKit-pk-client-sync.html#pk-client-update-packages" title="pk_client_update_packages ()">pk_client_update_packages</a>           (<em class="parameter"><code><a class="link" href="PkClient.html" title="PkClient"><span class="type">PkClient</span></a> *client</code></em>,
-                                                         <em class="parameter"><code><a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gboolean"><span class="type">gboolean</span></a> only_trusted</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="PackageKit-pk-bitfield.html#PkBitfield" title="PkBitfield"><span class="type">PkBitfield</span></a> transaction_flags</code></em>,
                                                          <em class="parameter"><code><a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a> **package_ids</code></em>,
-                                                         <em class="parameter"><code><a href="http://library.gnome.org/devel/gio/unstable/GCancellable.html"><span class="type">GCancellable</span></a> *cancellable</code></em>,
-                                                         <em class="parameter"><code><a class="link" href="PkProgress.html#PkProgressCallback" title="PkProgressCallback ()"><span class="type">PkProgressCallback</span></a> progress_callback</code></em>,
-                                                         <em class="parameter"><code><a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gpointer"><span class="type">gpointer</span></a> progress_user_data</code></em>,
-                                                         <em class="parameter"><code><a href="http://library.gnome.org/devel/glib/unstable/glib-Error-Reporting.html#GError"><span class="type">GError</span></a> **error</code></em>);
-<a class="link" href="PkResults.html" title="PkResults"><span class="returnvalue">PkResults</span></a> *         <a class="link" href="PackageKit-pk-client-sync.html#pk-client-update-system" title="pk_client_update_system ()">pk_client_update_system</a>             (<em class="parameter"><code><a class="link" href="PkClient.html" title="PkClient"><span class="type">PkClient</span></a> *client</code></em>,
-                                                         <em class="parameter"><code><a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gboolean"><span class="type">gboolean</span></a> only_trusted</code></em>,
                                                          <em class="parameter"><code><a href="http://library.gnome.org/devel/gio/unstable/GCancellable.html"><span class="type">GCancellable</span></a> *cancellable</code></em>,
                                                          <em class="parameter"><code><a class="link" href="PkProgress.html#PkProgressCallback" title="PkProgressCallback ()"><span class="type">PkProgressCallback</span></a> progress_callback</code></em>,
                                                          <em class="parameter"><code><a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gpointer"><span class="type">gpointer</span></a> progress_user_data</code></em>,
@@ -324,7 +283,7 @@ applications.
 </tr>
 <tr>
 <td><p><span class="term"><em class="parameter"><code>progress_callback</code></em> :</span></p></td>
-<td>the function to run when the progress changes. <span class="annotation">[<a href="http://foldoc.org/scope%20call"><span class="acronym">scope call</span></a>]</span>
+<td>the function to run when the progress changes. <span class="annotation">[<acronym title="The callback is valid only during the call to the method."><span class="acronym">scope call</span></acronym>]</span>
 </td>
 </tr>
 <tr>
@@ -339,7 +298,7 @@ applications.
 </tr>
 <tr>
 <td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
-<td>a <a class="link" href="PkResults.html" title="PkResults"><code class="literal">PkResults</code></a> object, or NULL for error. <span class="annotation">[<a href="http://foldoc.org/transfer%20full"><span class="acronym">transfer full</span></a>]</span>
+<td>a <a class="link" href="PkResults.html" title="PkResults"><code class="literal">PkResults</code></a> object, or NULL for error. <span class="annotation">[<acronym title="Free data after the code is done."><span class="acronym">transfer full</span></acronym>]</span>
 </td>
 </tr>
 </tbody>
@@ -380,7 +339,7 @@ applications.
 </tr>
 <tr>
 <td><p><span class="term"><em class="parameter"><code>progress_callback</code></em> :</span></p></td>
-<td>the function to run when the progress changes. <span class="annotation">[<a href="http://foldoc.org/scope%20call"><span class="acronym">scope call</span></a>]</span>
+<td>the function to run when the progress changes. <span class="annotation">[<acronym title="The callback is valid only during the call to the method."><span class="acronym">scope call</span></acronym>]</span>
 </td>
 </tr>
 <tr>
@@ -395,7 +354,7 @@ applications.
 </tr>
 <tr>
 <td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
-<td>a <a class="link" href="PkResults.html" title="PkResults"><code class="literal">PkResults</code></a> object, or NULL for error. <span class="annotation">[<a href="http://foldoc.org/transfer%20full"><span class="acronym">transfer full</span></a>]</span>
+<td>a <a class="link" href="PkResults.html" title="PkResults"><code class="literal">PkResults</code></a> object, or NULL for error. <span class="annotation">[<acronym title="Free data after the code is done."><span class="acronym">transfer full</span></acronym>]</span>
 </td>
 </tr>
 </tbody>
@@ -428,7 +387,7 @@ applications.
 </tr>
 <tr>
 <td><p><span class="term"><em class="parameter"><code>package_ids</code></em> :</span></p></td>
-<td>a null terminated array of package_id structures such as "hal;0.0.1;i386;fedora". <span class="annotation">[<a href="http://foldoc.org/array"><span class="acronym">array</span></a> zero-terminated=1]</span>
+<td>a null terminated array of package_id structures such as "hal;0.0.1;i386;fedora". <span class="annotation">[<acronym title="Parameter points to an array of items."><span class="acronym">array</span></acronym> zero-terminated=1]</span>
 </td>
 </tr>
 <tr>
@@ -442,7 +401,7 @@ applications.
 </tr>
 <tr>
 <td><p><span class="term"><em class="parameter"><code>progress_callback</code></em> :</span></p></td>
-<td>the function to run when the progress changes. <span class="annotation">[<a href="http://foldoc.org/scope%20call"><span class="acronym">scope call</span></a>]</span>
+<td>the function to run when the progress changes. <span class="annotation">[<acronym title="The callback is valid only during the call to the method."><span class="acronym">scope call</span></acronym>]</span>
 </td>
 </tr>
 <tr>
@@ -457,7 +416,7 @@ applications.
 </tr>
 <tr>
 <td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
-<td>a <a class="link" href="PkResults.html" title="PkResults"><code class="literal">PkResults</code></a> object, or NULL for error. <span class="annotation">[<a href="http://foldoc.org/transfer%20full"><span class="acronym">transfer full</span></a>]</span>
+<td>a <a class="link" href="PkResults.html" title="PkResults"><code class="literal">PkResults</code></a> object, or NULL for error. <span class="annotation">[<acronym title="Free data after the code is done."><span class="acronym">transfer full</span></acronym>]</span>
 </td>
 </tr>
 </tbody>
@@ -493,7 +452,7 @@ applications.
 </tr>
 <tr>
 <td><p><span class="term"><em class="parameter"><code>progress_callback</code></em> :</span></p></td>
-<td>the function to run when the progress changes. <span class="annotation">[<a href="http://foldoc.org/scope%20call"><span class="acronym">scope call</span></a>]</span>
+<td>the function to run when the progress changes. <span class="annotation">[<acronym title="The callback is valid only during the call to the method."><span class="acronym">scope call</span></acronym>]</span>
 </td>
 </tr>
 <tr>
@@ -508,7 +467,7 @@ applications.
 </tr>
 <tr>
 <td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
-<td>a <a class="link" href="PkResults.html" title="PkResults"><code class="literal">PkResults</code></a> object, or NULL for error. <span class="annotation">[<a href="http://foldoc.org/transfer%20full"><span class="acronym">transfer full</span></a>]</span>
+<td>a <a class="link" href="PkResults.html" title="PkResults"><code class="literal">PkResults</code></a> object, or NULL for error. <span class="annotation">[<acronym title="Free data after the code is done."><span class="acronym">transfer full</span></acronym>]</span>
 </td>
 </tr>
 </tbody>
@@ -547,7 +506,7 @@ applications.
 </tr>
 <tr>
 <td><p><span class="term"><em class="parameter"><code>package_ids</code></em> :</span></p></td>
-<td>a null terminated array of package_id structures such as "hal;0.0.1;i386;fedora". <span class="annotation">[<a href="http://foldoc.org/array"><span class="acronym">array</span></a> zero-terminated=1]</span>
+<td>a null terminated array of package_id structures such as "hal;0.0.1;i386;fedora". <span class="annotation">[<acronym title="Parameter points to an array of items."><span class="acronym">array</span></acronym> zero-terminated=1]</span>
 </td>
 </tr>
 <tr>
@@ -561,7 +520,7 @@ applications.
 </tr>
 <tr>
 <td><p><span class="term"><em class="parameter"><code>progress_callback</code></em> :</span></p></td>
-<td>the function to run when the progress changes. <span class="annotation">[<a href="http://foldoc.org/scope%20call"><span class="acronym">scope call</span></a>]</span>
+<td>the function to run when the progress changes. <span class="annotation">[<acronym title="The callback is valid only during the call to the method."><span class="acronym">scope call</span></acronym>]</span>
 </td>
 </tr>
 <tr>
@@ -576,7 +535,7 @@ applications.
 </tr>
 <tr>
 <td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
-<td>a <a class="link" href="PkResults.html" title="PkResults"><code class="literal">PkResults</code></a> object, or NULL for error. <span class="annotation">[<a href="http://foldoc.org/transfer%20full"><span class="acronym">transfer full</span></a>]</span>
+<td>a <a class="link" href="PkResults.html" title="PkResults"><code class="literal">PkResults</code></a> object, or NULL for error. <span class="annotation">[<acronym title="Free data after the code is done."><span class="acronym">transfer full</span></acronym>]</span>
 </td>
 </tr>
 </tbody>
@@ -609,7 +568,7 @@ applications.
 </tr>
 <tr>
 <td><p><span class="term"><em class="parameter"><code>package_ids</code></em> :</span></p></td>
-<td>a null terminated array of package_id structures such as "hal;0.0.1;i386;fedora". <span class="annotation">[<a href="http://foldoc.org/array"><span class="acronym">array</span></a> zero-terminated=1]</span>
+<td>a null terminated array of package_id structures such as "hal;0.0.1;i386;fedora". <span class="annotation">[<acronym title="Parameter points to an array of items."><span class="acronym">array</span></acronym> zero-terminated=1]</span>
 </td>
 </tr>
 <tr>
@@ -619,7 +578,7 @@ applications.
 </tr>
 <tr>
 <td><p><span class="term"><em class="parameter"><code>progress_callback</code></em> :</span></p></td>
-<td>the function to run when the progress changes. <span class="annotation">[<a href="http://foldoc.org/scope%20call"><span class="acronym">scope call</span></a>]</span>
+<td>the function to run when the progress changes. <span class="annotation">[<acronym title="The callback is valid only during the call to the method."><span class="acronym">scope call</span></acronym>]</span>
 </td>
 </tr>
 <tr>
@@ -634,7 +593,7 @@ applications.
 </tr>
 <tr>
 <td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
-<td>a <a class="link" href="PkResults.html" title="PkResults"><code class="literal">PkResults</code></a> object, or NULL for error. <span class="annotation">[<a href="http://foldoc.org/transfer%20full"><span class="acronym">transfer full</span></a>]</span>
+<td>a <a class="link" href="PkResults.html" title="PkResults"><code class="literal">PkResults</code></a> object, or NULL for error. <span class="annotation">[<acronym title="Free data after the code is done."><span class="acronym">transfer full</span></acronym>]</span>
 </td>
 </tr>
 </tbody>
@@ -671,7 +630,7 @@ applications.
 </tr>
 <tr>
 <td><p><span class="term"><em class="parameter"><code>progress_callback</code></em> :</span></p></td>
-<td>the function to run when the progress changes. <span class="annotation">[<a href="http://foldoc.org/scope%20call"><span class="acronym">scope call</span></a>]</span>
+<td>the function to run when the progress changes. <span class="annotation">[<acronym title="The callback is valid only during the call to the method."><span class="acronym">scope call</span></acronym>]</span>
 </td>
 </tr>
 <tr>
@@ -686,7 +645,7 @@ applications.
 </tr>
 <tr>
 <td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
-<td>a <a class="link" href="PkResults.html" title="PkResults"><code class="literal">PkResults</code></a> object, or NULL for error. <span class="annotation">[<a href="http://foldoc.org/transfer%20full"><span class="acronym">transfer full</span></a>]</span>
+<td>a <a class="link" href="PkResults.html" title="PkResults"><code class="literal">PkResults</code></a> object, or NULL for error. <span class="annotation">[<acronym title="Free data after the code is done."><span class="acronym">transfer full</span></acronym>]</span>
 </td>
 </tr>
 </tbody>
@@ -718,7 +677,7 @@ applications.
 </tr>
 <tr>
 <td><p><span class="term"><em class="parameter"><code>package_ids</code></em> :</span></p></td>
-<td>a null terminated array of package_id structures such as "hal;0.0.1;i386;fedora". <span class="annotation">[<a href="http://foldoc.org/array"><span class="acronym">array</span></a> zero-terminated=1]</span>
+<td>a null terminated array of package_id structures such as "hal;0.0.1;i386;fedora". <span class="annotation">[<acronym title="Parameter points to an array of items."><span class="acronym">array</span></acronym> zero-terminated=1]</span>
 </td>
 </tr>
 <tr>
@@ -728,7 +687,7 @@ applications.
 </tr>
 <tr>
 <td><p><span class="term"><em class="parameter"><code>progress_callback</code></em> :</span></p></td>
-<td>the function to run when the progress changes. <span class="annotation">[<a href="http://foldoc.org/scope%20call"><span class="acronym">scope call</span></a>]</span>
+<td>the function to run when the progress changes. <span class="annotation">[<acronym title="The callback is valid only during the call to the method."><span class="acronym">scope call</span></acronym>]</span>
 </td>
 </tr>
 <tr>
@@ -743,7 +702,7 @@ applications.
 </tr>
 <tr>
 <td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
-<td>a <a class="link" href="PkResults.html" title="PkResults"><code class="literal">PkResults</code></a> object, or NULL for error. <span class="annotation">[<a href="http://foldoc.org/transfer%20full"><span class="acronym">transfer full</span></a>]</span>
+<td>a <a class="link" href="PkResults.html" title="PkResults"><code class="literal">PkResults</code></a> object, or NULL for error. <span class="annotation">[<acronym title="Free data after the code is done."><span class="acronym">transfer full</span></acronym>]</span>
 </td>
 </tr>
 </tbody>
@@ -760,7 +719,7 @@ applications.
                                                          <em class="parameter"><code><a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gpointer"><span class="type">gpointer</span></a> progress_user_data</code></em>,
                                                          <em class="parameter"><code><a href="http://library.gnome.org/devel/glib/unstable/glib-Error-Reporting.html#GError"><span class="type">GError</span></a> **error</code></em>);</pre>
 <p>
-Get the old transaction list, mainly used for the rollback viewer.
+Get the old transaction list, mainly used for the transaction viewer.
 </p>
 <p>
 Warning: this function is synchronous, and may block. Do not use it in GUI
@@ -784,7 +743,7 @@ applications.
 </tr>
 <tr>
 <td><p><span class="term"><em class="parameter"><code>progress_callback</code></em> :</span></p></td>
-<td>the function to run when the progress changes. <span class="annotation">[<a href="http://foldoc.org/scope%20call"><span class="acronym">scope call</span></a>]</span>
+<td>the function to run when the progress changes. <span class="annotation">[<acronym title="The callback is valid only during the call to the method."><span class="acronym">scope call</span></acronym>]</span>
 </td>
 </tr>
 <tr>
@@ -799,7 +758,7 @@ applications.
 </tr>
 <tr>
 <td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
-<td>a <a class="link" href="PkResults.html" title="PkResults"><code class="literal">PkResults</code></a> object, or NULL for error. <span class="annotation">[<a href="http://foldoc.org/transfer%20full"><span class="acronym">transfer full</span></a>]</span>
+<td>a <a class="link" href="PkResults.html" title="PkResults"><code class="literal">PkResults</code></a> object, or NULL for error. <span class="annotation">[<acronym title="Free data after the code is done."><span class="acronym">transfer full</span></acronym>]</span>
 </td>
 </tr>
 </tbody>
@@ -841,7 +800,7 @@ applications.
 </tr>
 <tr>
 <td><p><span class="term"><em class="parameter"><code>progress_callback</code></em> :</span></p></td>
-<td>the function to run when the progress changes. <span class="annotation">[<a href="http://foldoc.org/scope%20call"><span class="acronym">scope call</span></a>]</span>
+<td>the function to run when the progress changes. <span class="annotation">[<acronym title="The callback is valid only during the call to the method."><span class="acronym">scope call</span></acronym>]</span>
 </td>
 </tr>
 <tr>
@@ -856,7 +815,7 @@ applications.
 </tr>
 <tr>
 <td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
-<td>a <a class="link" href="PkResults.html" title="PkResults"><code class="literal">PkResults</code></a> object, or NULL for error. <span class="annotation">[<a href="http://foldoc.org/transfer%20full"><span class="acronym">transfer full</span></a>]</span>
+<td>a <a class="link" href="PkResults.html" title="PkResults"><code class="literal">PkResults</code></a> object, or NULL for error. <span class="annotation">[<acronym title="Free data after the code is done."><span class="acronym">transfer full</span></acronym>]</span>
 </td>
 </tr>
 </tbody>
@@ -900,7 +859,7 @@ applications.
 </tr>
 <tr>
 <td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
-<td>a <a class="link" href="PkResults.html" title="PkResults"><code class="literal">PkResults</code></a> object, or NULL for error. <span class="annotation">[<a href="http://foldoc.org/transfer%20full"><span class="acronym">transfer full</span></a>]</span>
+<td>a <a class="link" href="PkResults.html" title="PkResults"><code class="literal">PkResults</code></a> object, or NULL for error. <span class="annotation">[<acronym title="Free data after the code is done."><span class="acronym">transfer full</span></acronym>]</span>
 </td>
 </tr>
 </tbody>
@@ -942,7 +901,7 @@ applications.
 </tr>
 <tr>
 <td><p><span class="term"><em class="parameter"><code>progress_callback</code></em> :</span></p></td>
-<td>the function to run when the progress changes. <span class="annotation">[<a href="http://foldoc.org/scope%20call"><span class="acronym">scope call</span></a>]</span>
+<td>the function to run when the progress changes. <span class="annotation">[<acronym title="The callback is valid only during the call to the method."><span class="acronym">scope call</span></acronym>]</span>
 </td>
 </tr>
 <tr>
@@ -957,7 +916,7 @@ applications.
 </tr>
 <tr>
 <td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
-<td>a <a class="link" href="PkResults.html" title="PkResults"><code class="literal">PkResults</code></a> object, or NULL for error. <span class="annotation">[<a href="http://foldoc.org/transfer%20full"><span class="acronym">transfer full</span></a>]</span>
+<td>a <a class="link" href="PkResults.html" title="PkResults"><code class="literal">PkResults</code></a> object, or NULL for error. <span class="annotation">[<acronym title="Free data after the code is done."><span class="acronym">transfer full</span></acronym>]</span>
 </td>
 </tr>
 </tbody>
@@ -996,7 +955,7 @@ applications.
 </tr>
 <tr>
 <td><p><span class="term"><em class="parameter"><code>package_ids</code></em> :</span></p></td>
-<td>a null terminated array of package_id structures such as "hal;0.0.1;i386;fedora". <span class="annotation">[<a href="http://foldoc.org/array"><span class="acronym">array</span></a> zero-terminated=1]</span>
+<td>a null terminated array of package_id structures such as "hal;0.0.1;i386;fedora". <span class="annotation">[<acronym title="Parameter points to an array of items."><span class="acronym">array</span></acronym> zero-terminated=1]</span>
 </td>
 </tr>
 <tr>
@@ -1010,7 +969,7 @@ applications.
 </tr>
 <tr>
 <td><p><span class="term"><em class="parameter"><code>progress_callback</code></em> :</span></p></td>
-<td>the function to run when the progress changes. <span class="annotation">[<a href="http://foldoc.org/scope%20call"><span class="acronym">scope call</span></a>]</span>
+<td>the function to run when the progress changes. <span class="annotation">[<acronym title="The callback is valid only during the call to the method."><span class="acronym">scope call</span></acronym>]</span>
 </td>
 </tr>
 <tr>
@@ -1025,7 +984,7 @@ applications.
 </tr>
 <tr>
 <td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
-<td>a <a class="link" href="PkResults.html" title="PkResults"><code class="literal">PkResults</code></a> object, or NULL for error. <span class="annotation">[<a href="http://foldoc.org/transfer%20full"><span class="acronym">transfer full</span></a>]</span>
+<td>a <a class="link" href="PkResults.html" title="PkResults"><code class="literal">PkResults</code></a> object, or NULL for error. <span class="annotation">[<acronym title="Free data after the code is done."><span class="acronym">transfer full</span></acronym>]</span>
 </td>
 </tr>
 </tbody>
@@ -1058,7 +1017,7 @@ applications.
 </tr>
 <tr>
 <td><p><span class="term"><em class="parameter"><code>package_ids</code></em> :</span></p></td>
-<td>a null terminated array of package_id structures such as "hal;0.0.1;i386;fedora". <span class="annotation">[<a href="http://foldoc.org/array"><span class="acronym">array</span></a> zero-terminated=1]</span>
+<td>a null terminated array of package_id structures such as "hal;0.0.1;i386;fedora". <span class="annotation">[<acronym title="Parameter points to an array of items."><span class="acronym">array</span></acronym> zero-terminated=1]</span>
 </td>
 </tr>
 <tr>
@@ -1068,7 +1027,7 @@ applications.
 </tr>
 <tr>
 <td><p><span class="term"><em class="parameter"><code>progress_callback</code></em> :</span></p></td>
-<td>the function to run when the progress changes. <span class="annotation">[<a href="http://foldoc.org/scope%20call"><span class="acronym">scope call</span></a>]</span>
+<td>the function to run when the progress changes. <span class="annotation">[<acronym title="The callback is valid only during the call to the method."><span class="acronym">scope call</span></acronym>]</span>
 </td>
 </tr>
 <tr>
@@ -1083,7 +1042,7 @@ applications.
 </tr>
 <tr>
 <td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
-<td>a <a class="link" href="PkResults.html" title="PkResults"><code class="literal">PkResults</code></a> object, or NULL for error. <span class="annotation">[<a href="http://foldoc.org/transfer%20full"><span class="acronym">transfer full</span></a>]</span>
+<td>a <a class="link" href="PkResults.html" title="PkResults"><code class="literal">PkResults</code></a> object, or NULL for error. <span class="annotation">[<acronym title="Free data after the code is done."><span class="acronym">transfer full</span></acronym>]</span>
 </td>
 </tr>
 </tbody>
@@ -1125,7 +1084,7 @@ applications.
 </tr>
 <tr>
 <td><p><span class="term"><em class="parameter"><code>progress_callback</code></em> :</span></p></td>
-<td>the function to run when the progress changes. <span class="annotation">[<a href="http://foldoc.org/scope%20call"><span class="acronym">scope call</span></a>]</span>
+<td>the function to run when the progress changes. <span class="annotation">[<acronym title="The callback is valid only during the call to the method."><span class="acronym">scope call</span></acronym>]</span>
 </td>
 </tr>
 <tr>
@@ -1140,7 +1099,7 @@ applications.
 </tr>
 <tr>
 <td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
-<td>a <a class="link" href="PkResults.html" title="PkResults"><code class="literal">PkResults</code></a> object, or NULL for error. <span class="annotation">[<a href="http://foldoc.org/transfer%20full"><span class="acronym">transfer full</span></a>]</span>
+<td>a <a class="link" href="PkResults.html" title="PkResults"><code class="literal">PkResults</code></a> object, or NULL for error. <span class="annotation">[<acronym title="Free data after the code is done."><span class="acronym">transfer full</span></acronym>]</span>
 </td>
 </tr>
 </tbody>
@@ -1151,7 +1110,7 @@ applications.
 <div class="refsect2">
 <a name="pk-client-install-files"></a><h3>pk_client_install_files ()</h3>
 <pre class="programlisting"><a class="link" href="PkResults.html" title="PkResults"><span class="returnvalue">PkResults</span></a> *         pk_client_install_files             (<em class="parameter"><code><a class="link" href="PkClient.html" title="PkClient"><span class="type">PkClient</span></a> *client</code></em>,
-                                                         <em class="parameter"><code><a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gboolean"><span class="type">gboolean</span></a> only_trusted</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="PackageKit-pk-bitfield.html#PkBitfield" title="PkBitfield"><span class="type">PkBitfield</span></a> transaction_flags</code></em>,
                                                          <em class="parameter"><code><a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a> **files</code></em>,
                                                          <em class="parameter"><code><a href="http://library.gnome.org/devel/gio/unstable/GCancellable.html"><span class="type">GCancellable</span></a> *cancellable</code></em>,
                                                          <em class="parameter"><code><a class="link" href="PkProgress.html#PkProgressCallback" title="PkProgressCallback ()"><span class="type">PkProgressCallback</span></a> progress_callback</code></em>,
@@ -1173,12 +1132,12 @@ applications.
 <td>a valid <a class="link" href="PkClient.html" title="PkClient"><span class="type">PkClient</span></a> instance</td>
 </tr>
 <tr>
-<td><p><span class="term"><em class="parameter"><code>only_trusted</code></em> :</span></p></td>
-<td>only trusted packages should be installed</td>
+<td><p><span class="term"><em class="parameter"><code>transaction_flags</code></em> :</span></p></td>
+<td>a transaction type bitfield</td>
 </tr>
 <tr>
 <td><p><span class="term"><em class="parameter"><code>files</code></em> :</span></p></td>
-<td>a file such as "/home/hughsie/Desktop/hal-devel-0.10.0.rpm". <span class="annotation">[<a href="http://foldoc.org/array"><span class="acronym">array</span></a> zero-terminated=1]</span>
+<td>a file such as "/home/hughsie/Desktop/hal-devel-0.10.0.rpm". <span class="annotation">[<acronym title="Parameter points to an array of items."><span class="acronym">array</span></acronym> zero-terminated=1]</span>
 </td>
 </tr>
 <tr>
@@ -1188,7 +1147,7 @@ applications.
 </tr>
 <tr>
 <td><p><span class="term"><em class="parameter"><code>progress_callback</code></em> :</span></p></td>
-<td>the function to run when the progress changes. <span class="annotation">[<a href="http://foldoc.org/scope%20call"><span class="acronym">scope call</span></a>]</span>
+<td>the function to run when the progress changes. <span class="annotation">[<acronym title="The callback is valid only during the call to the method."><span class="acronym">scope call</span></acronym>]</span>
 </td>
 </tr>
 <tr>
@@ -1203,18 +1162,18 @@ applications.
 </tr>
 <tr>
 <td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
-<td>a <a class="link" href="PkResults.html" title="PkResults"><code class="literal">PkResults</code></a> object, or NULL for error. <span class="annotation">[<a href="http://foldoc.org/transfer%20full"><span class="acronym">transfer full</span></a>]</span>
+<td>a <a class="link" href="PkResults.html" title="PkResults"><code class="literal">PkResults</code></a> object, or NULL for error. <span class="annotation">[<acronym title="Free data after the code is done."><span class="acronym">transfer full</span></acronym>]</span>
 </td>
 </tr>
 </tbody>
 </table></div>
-<p class="since">Since 0.5.3</p>
+<p class="since">Since 0.8.1</p>
 </div>
 <hr>
 <div class="refsect2">
 <a name="pk-client-install-packages"></a><h3>pk_client_install_packages ()</h3>
 <pre class="programlisting"><a class="link" href="PkResults.html" title="PkResults"><span class="returnvalue">PkResults</span></a> *         pk_client_install_packages          (<em class="parameter"><code><a class="link" href="PkClient.html" title="PkClient"><span class="type">PkClient</span></a> *client</code></em>,
-                                                         <em class="parameter"><code><a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gboolean"><span class="type">gboolean</span></a> only_trusted</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="PackageKit-pk-bitfield.html#PkBitfield" title="PkBitfield"><span class="type">PkBitfield</span></a> transaction_flags</code></em>,
                                                          <em class="parameter"><code><a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a> **package_ids</code></em>,
                                                          <em class="parameter"><code><a href="http://library.gnome.org/devel/gio/unstable/GCancellable.html"><span class="type">GCancellable</span></a> *cancellable</code></em>,
                                                          <em class="parameter"><code><a class="link" href="PkProgress.html#PkProgressCallback" title="PkProgressCallback ()"><span class="type">PkProgressCallback</span></a> progress_callback</code></em>,
@@ -1235,12 +1194,12 @@ applications.
 <td>a valid <a class="link" href="PkClient.html" title="PkClient"><span class="type">PkClient</span></a> instance</td>
 </tr>
 <tr>
-<td><p><span class="term"><em class="parameter"><code>only_trusted</code></em> :</span></p></td>
-<td>only trusted packages should be installed</td>
+<td><p><span class="term"><em class="parameter"><code>transaction_flags</code></em> :</span></p></td>
+<td>a transaction type bitfield</td>
 </tr>
 <tr>
 <td><p><span class="term"><em class="parameter"><code>package_ids</code></em> :</span></p></td>
-<td>a null terminated array of package_id structures such as "hal;0.0.1;i386;fedora". <span class="annotation">[<a href="http://foldoc.org/array"><span class="acronym">array</span></a> zero-terminated=1]</span>
+<td>a null terminated array of package_id structures such as "hal;0.0.1;i386;fedora". <span class="annotation">[<acronym title="Parameter points to an array of items."><span class="acronym">array</span></acronym> zero-terminated=1]</span>
 </td>
 </tr>
 <tr>
@@ -1250,7 +1209,7 @@ applications.
 </tr>
 <tr>
 <td><p><span class="term"><em class="parameter"><code>progress_callback</code></em> :</span></p></td>
-<td>the function to run when the progress changes. <span class="annotation">[<a href="http://foldoc.org/scope%20call"><span class="acronym">scope call</span></a>]</span>
+<td>the function to run when the progress changes. <span class="annotation">[<acronym title="The callback is valid only during the call to the method."><span class="acronym">scope call</span></acronym>]</span>
 </td>
 </tr>
 <tr>
@@ -1265,12 +1224,12 @@ applications.
 </tr>
 <tr>
 <td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
-<td>a <a class="link" href="PkResults.html" title="PkResults"><code class="literal">PkResults</code></a> object, or NULL for error. <span class="annotation">[<a href="http://foldoc.org/transfer%20full"><span class="acronym">transfer full</span></a>]</span>
+<td>a <a class="link" href="PkResults.html" title="PkResults"><code class="literal">PkResults</code></a> object, or NULL for error. <span class="annotation">[<acronym title="Free data after the code is done."><span class="acronym">transfer full</span></acronym>]</span>
 </td>
 </tr>
 </tbody>
 </table></div>
-<p class="since">Since 0.5.3</p>
+<p class="since">Since 0.8.1</p>
 </div>
 <hr>
 <div class="refsect2">
@@ -1317,7 +1276,7 @@ applications.
 </tr>
 <tr>
 <td><p><span class="term"><em class="parameter"><code>progress_callback</code></em> :</span></p></td>
-<td>the function to run when the progress changes. <span class="annotation">[<a href="http://foldoc.org/scope%20call"><span class="acronym">scope call</span></a>]</span>
+<td>the function to run when the progress changes. <span class="annotation">[<acronym title="The callback is valid only during the call to the method."><span class="acronym">scope call</span></acronym>]</span>
 </td>
 </tr>
 <tr>
@@ -1332,7 +1291,7 @@ applications.
 </tr>
 <tr>
 <td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
-<td>a <a class="link" href="PkResults.html" title="PkResults"><code class="literal">PkResults</code></a> object, or NULL for error. <span class="annotation">[<a href="http://foldoc.org/transfer%20full"><span class="acronym">transfer full</span></a>]</span>
+<td>a <a class="link" href="PkResults.html" title="PkResults"><code class="literal">PkResults</code></a> object, or NULL for error. <span class="annotation">[<acronym title="Free data after the code is done."><span class="acronym">transfer full</span></acronym>]</span>
 </td>
 </tr>
 </tbody>
@@ -1376,7 +1335,7 @@ applications.
 </tr>
 <tr>
 <td><p><span class="term"><em class="parameter"><code>progress_callback</code></em> :</span></p></td>
-<td>the function to run when the progress changes. <span class="annotation">[<a href="http://foldoc.org/scope%20call"><span class="acronym">scope call</span></a>]</span>
+<td>the function to run when the progress changes. <span class="annotation">[<acronym title="The callback is valid only during the call to the method."><span class="acronym">scope call</span></acronym>]</span>
 </td>
 </tr>
 <tr>
@@ -1391,7 +1350,7 @@ applications.
 </tr>
 <tr>
 <td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
-<td>a <a class="link" href="PkResults.html" title="PkResults"><code class="literal">PkResults</code></a> object, or NULL for error. <span class="annotation">[<a href="http://foldoc.org/transfer%20full"><span class="acronym">transfer full</span></a>]</span>
+<td>a <a class="link" href="PkResults.html" title="PkResults"><code class="literal">PkResults</code></a> object, or NULL for error. <span class="annotation">[<acronym title="Free data after the code is done."><span class="acronym">transfer full</span></acronym>]</span>
 </td>
 </tr>
 </tbody>
@@ -1402,6 +1361,7 @@ applications.
 <div class="refsect2">
 <a name="pk-client-remove-packages"></a><h3>pk_client_remove_packages ()</h3>
 <pre class="programlisting"><a class="link" href="PkResults.html" title="PkResults"><span class="returnvalue">PkResults</span></a> *         pk_client_remove_packages           (<em class="parameter"><code><a class="link" href="PkClient.html" title="PkClient"><span class="type">PkClient</span></a> *client</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="PackageKit-pk-bitfield.html#PkBitfield" title="PkBitfield"><span class="type">PkBitfield</span></a> transaction_flags</code></em>,
                                                          <em class="parameter"><code><a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a> **package_ids</code></em>,
                                                          <em class="parameter"><code><a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gboolean"><span class="type">gboolean</span></a> allow_deps</code></em>,
                                                          <em class="parameter"><code><a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gboolean"><span class="type">gboolean</span></a> autoremove</code></em>,
@@ -1426,8 +1386,12 @@ applications.
 <td>a valid <a class="link" href="PkClient.html" title="PkClient"><span class="type">PkClient</span></a> instance</td>
 </tr>
 <tr>
+<td><p><span class="term"><em class="parameter"><code>transaction_flags</code></em> :</span></p></td>
+<td>a transaction type bitfield</td>
+</tr>
+<tr>
 <td><p><span class="term"><em class="parameter"><code>package_ids</code></em> :</span></p></td>
-<td>a null terminated array of package_id structures such as "hal;0.0.1;i386;fedora". <span class="annotation">[<a href="http://foldoc.org/array"><span class="acronym">array</span></a> zero-terminated=1]</span>
+<td>a null terminated array of package_id structures such as "hal;0.0.1;i386;fedora". <span class="annotation">[<acronym title="Parameter points to an array of items."><span class="acronym">array</span></acronym> zero-terminated=1]</span>
 </td>
 </tr>
 <tr>
@@ -1445,7 +1409,7 @@ applications.
 </tr>
 <tr>
 <td><p><span class="term"><em class="parameter"><code>progress_callback</code></em> :</span></p></td>
-<td>the function to run when the progress changes. <span class="annotation">[<a href="http://foldoc.org/scope%20call"><span class="acronym">scope call</span></a>]</span>
+<td>the function to run when the progress changes. <span class="annotation">[<acronym title="The callback is valid only during the call to the method."><span class="acronym">scope call</span></acronym>]</span>
 </td>
 </tr>
 <tr>
@@ -1460,18 +1424,18 @@ applications.
 </tr>
 <tr>
 <td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
-<td>a <a class="link" href="PkResults.html" title="PkResults"><code class="literal">PkResults</code></a> object, or NULL for error. <span class="annotation">[<a href="http://foldoc.org/transfer%20full"><span class="acronym">transfer full</span></a>]</span>
+<td>a <a class="link" href="PkResults.html" title="PkResults"><code class="literal">PkResults</code></a> object, or NULL for error. <span class="annotation">[<acronym title="Free data after the code is done."><span class="acronym">transfer full</span></acronym>]</span>
 </td>
 </tr>
 </tbody>
 </table></div>
-<p class="since">Since 0.5.3</p>
+<p class="since">Since 0.8.1</p>
 </div>
 <hr>
 <div class="refsect2">
 <a name="pk-client-repair-system"></a><h3>pk_client_repair_system ()</h3>
 <pre class="programlisting"><a class="link" href="PkResults.html" title="PkResults"><span class="returnvalue">PkResults</span></a> *         pk_client_repair_system             (<em class="parameter"><code><a class="link" href="PkClient.html" title="PkClient"><span class="type">PkClient</span></a> *client</code></em>,
-                                                         <em class="parameter"><code><a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gboolean"><span class="type">gboolean</span></a> only_trusted</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="PackageKit-pk-bitfield.html#PkBitfield" title="PkBitfield"><span class="type">PkBitfield</span></a> transaction_flags</code></em>,
                                                          <em class="parameter"><code><a href="http://library.gnome.org/devel/gio/unstable/GCancellable.html"><span class="type">GCancellable</span></a> *cancellable</code></em>,
                                                          <em class="parameter"><code><a class="link" href="PkProgress.html#PkProgressCallback" title="PkProgressCallback ()"><span class="type">PkProgressCallback</span></a> progress_callback</code></em>,
                                                          <em class="parameter"><code><a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gpointer"><span class="type">gpointer</span></a> progress_user_data</code></em>,
@@ -1493,7 +1457,7 @@ applications.
 <col align="left" valign="top">
 <tbody>
 <tr>
-<td><p><span class="term"><em class="parameter"><code>only_trusted</code></em> :</span></p></td>
+<td><p><span class="term"><em class="parameter"><code>transaction_flags</code></em> :</span></p></td>
 <td>if only trusted packages should be installed</td>
 </tr>
 <tr>
@@ -1503,7 +1467,7 @@ applications.
 </tr>
 <tr>
 <td><p><span class="term"><em class="parameter"><code>progress_callback</code></em> :</span></p></td>
-<td>the function to run when the progress changes. <span class="annotation">[<a href="http://foldoc.org/scope%20call"><span class="acronym">scope call</span></a>]</span>
+<td>the function to run when the progress changes. <span class="annotation">[<acronym title="The callback is valid only during the call to the method."><span class="acronym">scope call</span></acronym>]</span>
 </td>
 </tr>
 <tr>
@@ -1518,12 +1482,12 @@ applications.
 </tr>
 <tr>
 <td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
-<td>a <a class="link" href="PkResults.html" title="PkResults"><code class="literal">PkResults</code></a> object, or NULL for error. <span class="annotation">[<a href="http://foldoc.org/transfer%20full"><span class="acronym">transfer full</span></a>]</span>
+<td>a <a class="link" href="PkResults.html" title="PkResults"><code class="literal">PkResults</code></a> object, or NULL for error. <span class="annotation">[<acronym title="Free data after the code is done."><span class="acronym">transfer full</span></acronym>]</span>
 </td>
 </tr>
 </tbody>
 </table></div>
-<p class="since">Since 0.7.2</p>
+<p class="since">Since 0.8.1</p>
 </div>
 <hr>
 <div class="refsect2">
@@ -1564,7 +1528,7 @@ applications.
 </tr>
 <tr>
 <td><p><span class="term"><em class="parameter"><code>progress_callback</code></em> :</span></p></td>
-<td>the function to run when the progress changes. <span class="annotation">[<a href="http://foldoc.org/scope%20call"><span class="acronym">scope call</span></a>]</span>
+<td>the function to run when the progress changes. <span class="annotation">[<acronym title="The callback is valid only during the call to the method."><span class="acronym">scope call</span></acronym>]</span>
 </td>
 </tr>
 <tr>
@@ -1579,7 +1543,7 @@ applications.
 </tr>
 <tr>
 <td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
-<td>a <a class="link" href="PkResults.html" title="PkResults"><code class="literal">PkResults</code></a> object, or NULL for error. <span class="annotation">[<a href="http://foldoc.org/transfer%20full"><span class="acronym">transfer full</span></a>]</span>
+<td>a <a class="link" href="PkResults.html" title="PkResults"><code class="literal">PkResults</code></a> object, or NULL for error. <span class="annotation">[<acronym title="Free data after the code is done."><span class="acronym">transfer full</span></acronym>]</span>
 </td>
 </tr>
 </tbody>
@@ -1631,7 +1595,7 @@ applications.
 </tr>
 <tr>
 <td><p><span class="term"><em class="parameter"><code>progress_callback</code></em> :</span></p></td>
-<td>the function to run when the progress changes. <span class="annotation">[<a href="http://foldoc.org/scope%20call"><span class="acronym">scope call</span></a>]</span>
+<td>the function to run when the progress changes. <span class="annotation">[<acronym title="The callback is valid only during the call to the method."><span class="acronym">scope call</span></acronym>]</span>
 </td>
 </tr>
 <tr>
@@ -1646,7 +1610,7 @@ applications.
 </tr>
 <tr>
 <td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
-<td>a <a class="link" href="PkResults.html" title="PkResults"><code class="literal">PkResults</code></a> object, or NULL for error. <span class="annotation">[<a href="http://foldoc.org/transfer%20full"><span class="acronym">transfer full</span></a>]</span>
+<td>a <a class="link" href="PkResults.html" title="PkResults"><code class="literal">PkResults</code></a> object, or NULL for error. <span class="annotation">[<acronym title="Free data after the code is done."><span class="acronym">transfer full</span></acronym>]</span>
 </td>
 </tr>
 </tbody>
@@ -1686,7 +1650,7 @@ applications.
 </tr>
 <tr>
 <td><p><span class="term"><em class="parameter"><code>packages</code></em> :</span></p></td>
-<td>an array of package names to resolve, e.g. "gnome-system-tools". <span class="annotation">[<a href="http://foldoc.org/array"><span class="acronym">array</span></a> zero-terminated=1]</span>
+<td>an array of package names to resolve, e.g. "gnome-system-tools". <span class="annotation">[<acronym title="Parameter points to an array of items."><span class="acronym">array</span></acronym> zero-terminated=1]</span>
 </td>
 </tr>
 <tr>
@@ -1696,7 +1660,7 @@ applications.
 </tr>
 <tr>
 <td><p><span class="term"><em class="parameter"><code>progress_callback</code></em> :</span></p></td>
-<td>the function to run when the progress changes. <span class="annotation">[<a href="http://foldoc.org/scope%20call"><span class="acronym">scope call</span></a>]</span>
+<td>the function to run when the progress changes. <span class="annotation">[<acronym title="The callback is valid only during the call to the method."><span class="acronym">scope call</span></acronym>]</span>
 </td>
 </tr>
 <tr>
@@ -1711,63 +1675,7 @@ applications.
 </tr>
 <tr>
 <td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
-<td>a <a class="link" href="PkResults.html" title="PkResults"><code class="literal">PkResults</code></a> object, or NULL for error. <span class="annotation">[<a href="http://foldoc.org/transfer%20full"><span class="acronym">transfer full</span></a>]</span>
-</td>
-</tr>
-</tbody>
-</table></div>
-<p class="since">Since 0.5.3</p>
-</div>
-<hr>
-<div class="refsect2">
-<a name="pk-client-rollback"></a><h3>pk_client_rollback ()</h3>
-<pre class="programlisting"><a class="link" href="PkResults.html" title="PkResults"><span class="returnvalue">PkResults</span></a> *         pk_client_rollback                  (<em class="parameter"><code><a class="link" href="PkClient.html" title="PkClient"><span class="type">PkClient</span></a> *client</code></em>,
-                                                         <em class="parameter"><code>const <a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a> *transaction_id</code></em>,
-                                                         <em class="parameter"><code><a href="http://library.gnome.org/devel/gio/unstable/GCancellable.html"><span class="type">GCancellable</span></a> *cancellable</code></em>,
-                                                         <em class="parameter"><code><a class="link" href="PkProgress.html#PkProgressCallback" title="PkProgressCallback ()"><span class="type">PkProgressCallback</span></a> progress_callback</code></em>,
-                                                         <em class="parameter"><code><a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gpointer"><span class="type">gpointer</span></a> progress_user_data</code></em>,
-                                                         <em class="parameter"><code><a href="http://library.gnome.org/devel/glib/unstable/glib-Error-Reporting.html#GError"><span class="type">GError</span></a> **error</code></em>);</pre>
-<p>
-We may want to agree to a EULA dialog if one is presented.
-</p>
-<p>
-Warning: this function is synchronous, and may block. Do not use it in GUI
-applications.
-</p>
-<div class="variablelist"><table border="0">
-<col align="left" valign="top">
-<tbody>
-<tr>
-<td><p><span class="term"><em class="parameter"><code>client</code></em> :</span></p></td>
-<td>a valid <a class="link" href="PkClient.html" title="PkClient"><span class="type">PkClient</span></a> instance</td>
-</tr>
-<tr>
-<td><p><span class="term"><em class="parameter"><code>transaction_id</code></em> :</span></p></td>
-<td>the <code class="literal">transaction_id</code> we want to return to</td>
-</tr>
-<tr>
-<td><p><span class="term"><em class="parameter"><code>cancellable</code></em> :</span></p></td>
-<td>a <a href="http://library.gnome.org/devel/gio/unstable/GCancellable.html"><span class="type">GCancellable</span></a> or <a href="http://library.gnome.org/devel/glib/unstable/glib-Standard-Macros.html#NULL:CAPS"><code class="literal">NULL</code></a>
-</td>
-</tr>
-<tr>
-<td><p><span class="term"><em class="parameter"><code>progress_callback</code></em> :</span></p></td>
-<td>the function to run when the progress changes. <span class="annotation">[<a href="http://foldoc.org/scope%20call"><span class="acronym">scope call</span></a>]</span>
-</td>
-</tr>
-<tr>
-<td><p><span class="term"><em class="parameter"><code>progress_user_data</code></em> :</span></p></td>
-<td>data to pass to <em class="parameter"><code>progress_callback</code></em>
-</td>
-</tr>
-<tr>
-<td><p><span class="term"><em class="parameter"><code>error</code></em> :</span></p></td>
-<td>the <a href="http://library.gnome.org/devel/glib/unstable/glib-Error-Reporting.html#GError"><span class="type">GError</span></a> to store any failure, or <a href="http://library.gnome.org/devel/glib/unstable/glib-Standard-Macros.html#NULL:CAPS"><code class="literal">NULL</code></a>
-</td>
-</tr>
-<tr>
-<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
-<td>a <a class="link" href="PkResults.html" title="PkResults"><code class="literal">PkResults</code></a> object, or NULL for error. <span class="annotation">[<a href="http://foldoc.org/transfer%20full"><span class="acronym">transfer full</span></a>]</span>
+<td>a <a class="link" href="PkResults.html" title="PkResults"><code class="literal">PkResults</code></a> object, or NULL for error. <span class="annotation">[<acronym title="Free data after the code is done."><span class="acronym">transfer full</span></acronym>]</span>
 </td>
 </tr>
 </tbody>
@@ -1807,7 +1715,7 @@ applications.
 </tr>
 <tr>
 <td><p><span class="term"><em class="parameter"><code>values</code></em> :</span></p></td>
-<td>free text to search for, for instance, "power". <span class="annotation">[<a href="http://foldoc.org/array"><span class="acronym">array</span></a> zero-terminated=1]</span>
+<td>free text to search for, for instance, "power". <span class="annotation">[<acronym title="Parameter points to an array of items."><span class="acronym">array</span></acronym> zero-terminated=1]</span>
 </td>
 </tr>
 <tr>
@@ -1817,7 +1725,7 @@ applications.
 </tr>
 <tr>
 <td><p><span class="term"><em class="parameter"><code>progress_callback</code></em> :</span></p></td>
-<td>the function to run when the progress changes. <span class="annotation">[<a href="http://foldoc.org/scope%20call"><span class="acronym">scope call</span></a>]</span>
+<td>the function to run when the progress changes. <span class="annotation">[<acronym title="The callback is valid only during the call to the method."><span class="acronym">scope call</span></acronym>]</span>
 </td>
 </tr>
 <tr>
@@ -1832,7 +1740,7 @@ applications.
 </tr>
 <tr>
 <td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
-<td>a <a class="link" href="PkResults.html" title="PkResults"><code class="literal">PkResults</code></a> object, or NULL for error. <span class="annotation">[<a href="http://foldoc.org/transfer%20full"><span class="acronym">transfer full</span></a>]</span>
+<td>a <a class="link" href="PkResults.html" title="PkResults"><code class="literal">PkResults</code></a> object, or NULL for error. <span class="annotation">[<acronym title="Free data after the code is done."><span class="acronym">transfer full</span></acronym>]</span>
 </td>
 </tr>
 </tbody>
@@ -1870,7 +1778,7 @@ applications.
 </tr>
 <tr>
 <td><p><span class="term"><em class="parameter"><code>values</code></em> :</span></p></td>
-<td>file to search for, for instance, "/sbin/service". <span class="annotation">[<a href="http://foldoc.org/array"><span class="acronym">array</span></a> zero-terminated=1]</span>
+<td>file to search for, for instance, "/sbin/service". <span class="annotation">[<acronym title="Parameter points to an array of items."><span class="acronym">array</span></acronym> zero-terminated=1]</span>
 </td>
 </tr>
 <tr>
@@ -1880,7 +1788,7 @@ applications.
 </tr>
 <tr>
 <td><p><span class="term"><em class="parameter"><code>progress_callback</code></em> :</span></p></td>
-<td>the function to run when the progress changes. <span class="annotation">[<a href="http://foldoc.org/scope%20call"><span class="acronym">scope call</span></a>]</span>
+<td>the function to run when the progress changes. <span class="annotation">[<acronym title="The callback is valid only during the call to the method."><span class="acronym">scope call</span></acronym>]</span>
 </td>
 </tr>
 <tr>
@@ -1895,7 +1803,7 @@ applications.
 </tr>
 <tr>
 <td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
-<td>a <a class="link" href="PkResults.html" title="PkResults"><code class="literal">PkResults</code></a> object, or NULL for error. <span class="annotation">[<a href="http://foldoc.org/transfer%20full"><span class="acronym">transfer full</span></a>]</span>
+<td>a <a class="link" href="PkResults.html" title="PkResults"><code class="literal">PkResults</code></a> object, or NULL for error. <span class="annotation">[<acronym title="Free data after the code is done."><span class="acronym">transfer full</span></acronym>]</span>
 </td>
 </tr>
 </tbody>
@@ -1933,7 +1841,7 @@ applications.
 </tr>
 <tr>
 <td><p><span class="term"><em class="parameter"><code>values</code></em> :</span></p></td>
-<td>a group enum to search for, for instance, "system-tools". <span class="annotation">[<a href="http://foldoc.org/array"><span class="acronym">array</span></a> zero-terminated=1]</span>
+<td>a group enum to search for, for instance, "system-tools". <span class="annotation">[<acronym title="Parameter points to an array of items."><span class="acronym">array</span></acronym> zero-terminated=1]</span>
 </td>
 </tr>
 <tr>
@@ -1943,7 +1851,7 @@ applications.
 </tr>
 <tr>
 <td><p><span class="term"><em class="parameter"><code>progress_callback</code></em> :</span></p></td>
-<td>the function to run when the progress changes. <span class="annotation">[<a href="http://foldoc.org/scope%20call"><span class="acronym">scope call</span></a>]</span>
+<td>the function to run when the progress changes. <span class="annotation">[<acronym title="The callback is valid only during the call to the method."><span class="acronym">scope call</span></acronym>]</span>
 </td>
 </tr>
 <tr>
@@ -1958,7 +1866,7 @@ applications.
 </tr>
 <tr>
 <td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
-<td>a <a class="link" href="PkResults.html" title="PkResults"><code class="literal">PkResults</code></a> object, or NULL for error. <span class="annotation">[<a href="http://foldoc.org/transfer%20full"><span class="acronym">transfer full</span></a>]</span>
+<td>a <a class="link" href="PkResults.html" title="PkResults"><code class="literal">PkResults</code></a> object, or NULL for error. <span class="annotation">[<acronym title="Free data after the code is done."><span class="acronym">transfer full</span></acronym>]</span>
 </td>
 </tr>
 </tbody>
@@ -1997,7 +1905,7 @@ applications.
 </tr>
 <tr>
 <td><p><span class="term"><em class="parameter"><code>values</code></em> :</span></p></td>
-<td>free text to search for, for instance, "power". <span class="annotation">[<a href="http://foldoc.org/array"><span class="acronym">array</span></a> zero-terminated=1]</span>
+<td>free text to search for, for instance, "power". <span class="annotation">[<acronym title="Parameter points to an array of items."><span class="acronym">array</span></acronym> zero-terminated=1]</span>
 </td>
 </tr>
 <tr>
@@ -2007,7 +1915,7 @@ applications.
 </tr>
 <tr>
 <td><p><span class="term"><em class="parameter"><code>progress_callback</code></em> :</span></p></td>
-<td>the function to run when the progress changes. <span class="annotation">[<a href="http://foldoc.org/scope%20call"><span class="acronym">scope call</span></a>]</span>
+<td>the function to run when the progress changes. <span class="annotation">[<acronym title="The callback is valid only during the call to the method."><span class="acronym">scope call</span></acronym>]</span>
 </td>
 </tr>
 <tr>
@@ -2022,7 +1930,7 @@ applications.
 </tr>
 <tr>
 <td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
-<td>a <a class="link" href="PkResults.html" title="PkResults"><code class="literal">PkResults</code></a> object, or NULL for error. <span class="annotation">[<a href="http://foldoc.org/transfer%20full"><span class="acronym">transfer full</span></a>]</span>
+<td>a <a class="link" href="PkResults.html" title="PkResults"><code class="literal">PkResults</code></a> object, or NULL for error. <span class="annotation">[<acronym title="Free data after the code is done."><span class="acronym">transfer full</span></acronym>]</span>
 </td>
 </tr>
 </tbody>
@@ -2031,295 +1939,9 @@ applications.
 </div>
 <hr>
 <div class="refsect2">
-<a name="pk-client-simulate-install-files"></a><h3>pk_client_simulate_install_files ()</h3>
-<pre class="programlisting"><a class="link" href="PkResults.html" title="PkResults"><span class="returnvalue">PkResults</span></a> *         pk_client_simulate_install_files    (<em class="parameter"><code><a class="link" href="PkClient.html" title="PkClient"><span class="type">PkClient</span></a> *client</code></em>,
-                                                         <em class="parameter"><code><a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a> **files</code></em>,
-                                                         <em class="parameter"><code><a href="http://library.gnome.org/devel/gio/unstable/GCancellable.html"><span class="type">GCancellable</span></a> *cancellable</code></em>,
-                                                         <em class="parameter"><code><a class="link" href="PkProgress.html#PkProgressCallback" title="PkProgressCallback ()"><span class="type">PkProgressCallback</span></a> progress_callback</code></em>,
-                                                         <em class="parameter"><code><a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gpointer"><span class="type">gpointer</span></a> progress_user_data</code></em>,
-                                                         <em class="parameter"><code><a href="http://library.gnome.org/devel/glib/unstable/glib-Error-Reporting.html#GError"><span class="type">GError</span></a> **error</code></em>);</pre>
-<p>
-Simulate an installation of files.
-</p>
-<p>
-Warning: this function is synchronous, and may block. Do not use it in GUI
-applications.
-</p>
-<div class="variablelist"><table border="0">
-<col align="left" valign="top">
-<tbody>
-<tr>
-<td><p><span class="term"><em class="parameter"><code>client</code></em> :</span></p></td>
-<td>a valid <a class="link" href="PkClient.html" title="PkClient"><span class="type">PkClient</span></a> instance</td>
-</tr>
-<tr>
-<td><p><span class="term"><em class="parameter"><code>files</code></em> :</span></p></td>
-<td>a file such as "/home/hughsie/Desktop/hal-devel-0.10.0.rpm". <span class="annotation">[<a href="http://foldoc.org/array"><span class="acronym">array</span></a> zero-terminated=1]</span>
-</td>
-</tr>
-<tr>
-<td><p><span class="term"><em class="parameter"><code>cancellable</code></em> :</span></p></td>
-<td>a <a href="http://library.gnome.org/devel/gio/unstable/GCancellable.html"><span class="type">GCancellable</span></a> or <a href="http://library.gnome.org/devel/glib/unstable/glib-Standard-Macros.html#NULL:CAPS"><code class="literal">NULL</code></a>
-</td>
-</tr>
-<tr>
-<td><p><span class="term"><em class="parameter"><code>progress_callback</code></em> :</span></p></td>
-<td>the function to run when the progress changes. <span class="annotation">[<a href="http://foldoc.org/scope%20call"><span class="acronym">scope call</span></a>]</span>
-</td>
-</tr>
-<tr>
-<td><p><span class="term"><em class="parameter"><code>progress_user_data</code></em> :</span></p></td>
-<td>data to pass to <em class="parameter"><code>progress_callback</code></em>
-</td>
-</tr>
-<tr>
-<td><p><span class="term"><em class="parameter"><code>error</code></em> :</span></p></td>
-<td>the <a href="http://library.gnome.org/devel/glib/unstable/glib-Error-Reporting.html#GError"><span class="type">GError</span></a> to store any failure, or <a href="http://library.gnome.org/devel/glib/unstable/glib-Standard-Macros.html#NULL:CAPS"><code class="literal">NULL</code></a>
-</td>
-</tr>
-<tr>
-<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
-<td>a <a class="link" href="PkResults.html" title="PkResults"><code class="literal">PkResults</code></a> object, or NULL for error. <span class="annotation">[<a href="http://foldoc.org/transfer%20full"><span class="acronym">transfer full</span></a>]</span>
-</td>
-</tr>
-</tbody>
-</table></div>
-<p class="since">Since 0.5.3</p>
-</div>
-<hr>
-<div class="refsect2">
-<a name="pk-client-simulate-install-packages"></a><h3>pk_client_simulate_install_packages ()</h3>
-<pre class="programlisting"><a class="link" href="PkResults.html" title="PkResults"><span class="returnvalue">PkResults</span></a> *         pk_client_simulate_install_packages (<em class="parameter"><code><a class="link" href="PkClient.html" title="PkClient"><span class="type">PkClient</span></a> *client</code></em>,
-                                                         <em class="parameter"><code><a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a> **package_ids</code></em>,
-                                                         <em class="parameter"><code><a href="http://library.gnome.org/devel/gio/unstable/GCancellable.html"><span class="type">GCancellable</span></a> *cancellable</code></em>,
-                                                         <em class="parameter"><code><a class="link" href="PkProgress.html#PkProgressCallback" title="PkProgressCallback ()"><span class="type">PkProgressCallback</span></a> progress_callback</code></em>,
-                                                         <em class="parameter"><code><a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gpointer"><span class="type">gpointer</span></a> progress_user_data</code></em>,
-                                                         <em class="parameter"><code><a href="http://library.gnome.org/devel/glib/unstable/glib-Error-Reporting.html#GError"><span class="type">GError</span></a> **error</code></em>);</pre>
-<p>
-Simulate an installation of packages.
-</p>
-<p>
-Warning: this function is synchronous, and may block. Do not use it in GUI
-applications.
-</p>
-<div class="variablelist"><table border="0">
-<col align="left" valign="top">
-<tbody>
-<tr>
-<td><p><span class="term"><em class="parameter"><code>client</code></em> :</span></p></td>
-<td>a valid <a class="link" href="PkClient.html" title="PkClient"><span class="type">PkClient</span></a> instance</td>
-</tr>
-<tr>
-<td><p><span class="term"><em class="parameter"><code>package_ids</code></em> :</span></p></td>
-<td>a null terminated array of package_id structures such as "hal;0.0.1;i386;fedora". <span class="annotation">[<a href="http://foldoc.org/array"><span class="acronym">array</span></a> zero-terminated=1]</span>
-</td>
-</tr>
-<tr>
-<td><p><span class="term"><em class="parameter"><code>cancellable</code></em> :</span></p></td>
-<td>a <a href="http://library.gnome.org/devel/gio/unstable/GCancellable.html"><span class="type">GCancellable</span></a> or <a href="http://library.gnome.org/devel/glib/unstable/glib-Standard-Macros.html#NULL:CAPS"><code class="literal">NULL</code></a>
-</td>
-</tr>
-<tr>
-<td><p><span class="term"><em class="parameter"><code>progress_callback</code></em> :</span></p></td>
-<td>the function to run when the progress changes. <span class="annotation">[<a href="http://foldoc.org/scope%20call"><span class="acronym">scope call</span></a>]</span>
-</td>
-</tr>
-<tr>
-<td><p><span class="term"><em class="parameter"><code>progress_user_data</code></em> :</span></p></td>
-<td>data to pass to <em class="parameter"><code>progress_callback</code></em>
-</td>
-</tr>
-<tr>
-<td><p><span class="term"><em class="parameter"><code>error</code></em> :</span></p></td>
-<td>the <a href="http://library.gnome.org/devel/glib/unstable/glib-Error-Reporting.html#GError"><span class="type">GError</span></a> to store any failure, or <a href="http://library.gnome.org/devel/glib/unstable/glib-Standard-Macros.html#NULL:CAPS"><code class="literal">NULL</code></a>
-</td>
-</tr>
-<tr>
-<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
-<td>a <a class="link" href="PkResults.html" title="PkResults"><code class="literal">PkResults</code></a> object, or NULL for error. <span class="annotation">[<a href="http://foldoc.org/transfer%20full"><span class="acronym">transfer full</span></a>]</span>
-</td>
-</tr>
-</tbody>
-</table></div>
-<p class="since">Since 0.5.3</p>
-</div>
-<hr>
-<div class="refsect2">
-<a name="pk-client-simulate-remove-packages"></a><h3>pk_client_simulate_remove_packages ()</h3>
-<pre class="programlisting"><a class="link" href="PkResults.html" title="PkResults"><span class="returnvalue">PkResults</span></a> *         pk_client_simulate_remove_packages  (<em class="parameter"><code><a class="link" href="PkClient.html" title="PkClient"><span class="type">PkClient</span></a> *client</code></em>,
-                                                         <em class="parameter"><code><a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a> **package_ids</code></em>,
-                                                         <em class="parameter"><code><a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gboolean"><span class="type">gboolean</span></a> autoremove</code></em>,
-                                                         <em class="parameter"><code><a href="http://library.gnome.org/devel/gio/unstable/GCancellable.html"><span class="type">GCancellable</span></a> *cancellable</code></em>,
-                                                         <em class="parameter"><code><a class="link" href="PkProgress.html#PkProgressCallback" title="PkProgressCallback ()"><span class="type">PkProgressCallback</span></a> progress_callback</code></em>,
-                                                         <em class="parameter"><code><a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gpointer"><span class="type">gpointer</span></a> progress_user_data</code></em>,
-                                                         <em class="parameter"><code><a href="http://library.gnome.org/devel/glib/unstable/glib-Error-Reporting.html#GError"><span class="type">GError</span></a> **error</code></em>);</pre>
-<p>
-Simulate a removal of packages.
-</p>
-<p>
-Warning: this function is synchronous, and may block. Do not use it in GUI
-applications.
-</p>
-<div class="variablelist"><table border="0">
-<col align="left" valign="top">
-<tbody>
-<tr>
-<td><p><span class="term"><em class="parameter"><code>client</code></em> :</span></p></td>
-<td>a valid <a class="link" href="PkClient.html" title="PkClient"><span class="type">PkClient</span></a> instance</td>
-</tr>
-<tr>
-<td><p><span class="term"><em class="parameter"><code>package_ids</code></em> :</span></p></td>
-<td>a null terminated array of package_id structures such as "hal;0.0.1;i386;fedora". <span class="annotation">[<a href="http://foldoc.org/array"><span class="acronym">array</span></a> zero-terminated=1]</span>
-</td>
-</tr>
-<tr>
-<td><p><span class="term"><em class="parameter"><code>autoremove</code></em> :</span></p></td>
-<td>if other packages installed at the same time should be tried to remove</td>
-</tr>
-<tr>
-<td><p><span class="term"><em class="parameter"><code>cancellable</code></em> :</span></p></td>
-<td>a <a href="http://library.gnome.org/devel/gio/unstable/GCancellable.html"><span class="type">GCancellable</span></a> or <a href="http://library.gnome.org/devel/glib/unstable/glib-Standard-Macros.html#NULL:CAPS"><code class="literal">NULL</code></a>
-</td>
-</tr>
-<tr>
-<td><p><span class="term"><em class="parameter"><code>progress_callback</code></em> :</span></p></td>
-<td>the function to run when the progress changes. <span class="annotation">[<a href="http://foldoc.org/scope%20call"><span class="acronym">scope call</span></a>]</span>
-</td>
-</tr>
-<tr>
-<td><p><span class="term"><em class="parameter"><code>progress_user_data</code></em> :</span></p></td>
-<td>data to pass to <em class="parameter"><code>progress_callback</code></em>
-</td>
-</tr>
-<tr>
-<td><p><span class="term"><em class="parameter"><code>error</code></em> :</span></p></td>
-<td>the <a href="http://library.gnome.org/devel/glib/unstable/glib-Error-Reporting.html#GError"><span class="type">GError</span></a> to store any failure, or <a href="http://library.gnome.org/devel/glib/unstable/glib-Standard-Macros.html#NULL:CAPS"><code class="literal">NULL</code></a>
-</td>
-</tr>
-<tr>
-<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
-<td>a <a class="link" href="PkResults.html" title="PkResults"><code class="literal">PkResults</code></a> object, or NULL for error. <span class="annotation">[<a href="http://foldoc.org/transfer%20full"><span class="acronym">transfer full</span></a>]</span>
-</td>
-</tr>
-</tbody>
-</table></div>
-<p class="since">Since 0.5.3</p>
-</div>
-<hr>
-<div class="refsect2">
-<a name="pk-client-simulate-repair-system"></a><h3>pk_client_simulate_repair_system ()</h3>
-<pre class="programlisting"><a class="link" href="PkResults.html" title="PkResults"><span class="returnvalue">PkResults</span></a> *         pk_client_simulate_repair_system    (<em class="parameter"><code><a class="link" href="PkClient.html" title="PkClient"><span class="type">PkClient</span></a> *client</code></em>,
-                                                         <em class="parameter"><code><a href="http://library.gnome.org/devel/gio/unstable/GCancellable.html"><span class="type">GCancellable</span></a> *cancellable</code></em>,
-                                                         <em class="parameter"><code><a class="link" href="PkProgress.html#PkProgressCallback" title="PkProgressCallback ()"><span class="type">PkProgressCallback</span></a> progress_callback</code></em>,
-                                                         <em class="parameter"><code><a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gpointer"><span class="type">gpointer</span></a> progress_user_data</code></em>,
-                                                         <em class="parameter"><code><a href="http://library.gnome.org/devel/glib/unstable/glib-Error-Reporting.html#GError"><span class="type">GError</span></a> **error</code></em>);</pre>
-<p>
-This transaction simultes the recovery from a broken package management system:
-e.g. the installation of a package with unsatisfied dependencies has
-been forced by using a low level tool (rpm or dpkg) or the
-system was shutdown during processing an installation.
-</p>
-<p>
-The backend will decide what is best to do.
-</p>
-<p>
-Warning: this function is synchronous, and may block. Do not use it in GUI
-applications.
-</p>
-<div class="variablelist"><table border="0">
-<col align="left" valign="top">
-<tbody>
-<tr>
-<td><p><span class="term"><em class="parameter"><code>cancellable</code></em> :</span></p></td>
-<td>a <a href="http://library.gnome.org/devel/gio/unstable/GCancellable.html"><span class="type">GCancellable</span></a> or <a href="http://library.gnome.org/devel/glib/unstable/glib-Standard-Macros.html#NULL:CAPS"><code class="literal">NULL</code></a>
-</td>
-</tr>
-<tr>
-<td><p><span class="term"><em class="parameter"><code>progress_callback</code></em> :</span></p></td>
-<td>the function to run when the progress changes. <span class="annotation">[<a href="http://foldoc.org/scope%20call"><span class="acronym">scope call</span></a>]</span>
-</td>
-</tr>
-<tr>
-<td><p><span class="term"><em class="parameter"><code>progress_user_data</code></em> :</span></p></td>
-<td>data to pass to <em class="parameter"><code>progress_callback</code></em>
-</td>
-</tr>
-<tr>
-<td><p><span class="term"><em class="parameter"><code>error</code></em> :</span></p></td>
-<td>the <a href="http://library.gnome.org/devel/glib/unstable/glib-Error-Reporting.html#GError"><span class="type">GError</span></a> to store any failure, or <a href="http://library.gnome.org/devel/glib/unstable/glib-Standard-Macros.html#NULL:CAPS"><code class="literal">NULL</code></a>
-</td>
-</tr>
-<tr>
-<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
-<td>a <a class="link" href="PkResults.html" title="PkResults"><code class="literal">PkResults</code></a> object, or NULL for error. <span class="annotation">[<a href="http://foldoc.org/transfer%20full"><span class="acronym">transfer full</span></a>]</span>
-</td>
-</tr>
-</tbody>
-</table></div>
-<p class="since">Since 0.7.2</p>
-</div>
-<hr>
-<div class="refsect2">
-<a name="pk-client-simulate-update-packages"></a><h3>pk_client_simulate_update_packages ()</h3>
-<pre class="programlisting"><a class="link" href="PkResults.html" title="PkResults"><span class="returnvalue">PkResults</span></a> *         pk_client_simulate_update_packages  (<em class="parameter"><code><a class="link" href="PkClient.html" title="PkClient"><span class="type">PkClient</span></a> *client</code></em>,
-                                                         <em class="parameter"><code><a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a> **package_ids</code></em>,
-                                                         <em class="parameter"><code><a href="http://library.gnome.org/devel/gio/unstable/GCancellable.html"><span class="type">GCancellable</span></a> *cancellable</code></em>,
-                                                         <em class="parameter"><code><a class="link" href="PkProgress.html#PkProgressCallback" title="PkProgressCallback ()"><span class="type">PkProgressCallback</span></a> progress_callback</code></em>,
-                                                         <em class="parameter"><code><a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gpointer"><span class="type">gpointer</span></a> progress_user_data</code></em>,
-                                                         <em class="parameter"><code><a href="http://library.gnome.org/devel/glib/unstable/glib-Error-Reporting.html#GError"><span class="type">GError</span></a> **error</code></em>);</pre>
-<p>
-Simulate an update of packages.
-</p>
-<p>
-Warning: this function is synchronous, and may block. Do not use it in GUI
-applications.
-</p>
-<div class="variablelist"><table border="0">
-<col align="left" valign="top">
-<tbody>
-<tr>
-<td><p><span class="term"><em class="parameter"><code>client</code></em> :</span></p></td>
-<td>a valid <a class="link" href="PkClient.html" title="PkClient"><span class="type">PkClient</span></a> instance</td>
-</tr>
-<tr>
-<td><p><span class="term"><em class="parameter"><code>package_ids</code></em> :</span></p></td>
-<td>a null terminated array of package_id structures such as "hal;0.0.1;i386;fedora". <span class="annotation">[<a href="http://foldoc.org/array"><span class="acronym">array</span></a> zero-terminated=1]</span>
-</td>
-</tr>
-<tr>
-<td><p><span class="term"><em class="parameter"><code>cancellable</code></em> :</span></p></td>
-<td>a <a href="http://library.gnome.org/devel/gio/unstable/GCancellable.html"><span class="type">GCancellable</span></a> or <a href="http://library.gnome.org/devel/glib/unstable/glib-Standard-Macros.html#NULL:CAPS"><code class="literal">NULL</code></a>
-</td>
-</tr>
-<tr>
-<td><p><span class="term"><em class="parameter"><code>progress_callback</code></em> :</span></p></td>
-<td>the function to run when the progress changes. <span class="annotation">[<a href="http://foldoc.org/scope%20call"><span class="acronym">scope call</span></a>]</span>
-</td>
-</tr>
-<tr>
-<td><p><span class="term"><em class="parameter"><code>progress_user_data</code></em> :</span></p></td>
-<td>data to pass to <em class="parameter"><code>progress_callback</code></em>
-</td>
-</tr>
-<tr>
-<td><p><span class="term"><em class="parameter"><code>error</code></em> :</span></p></td>
-<td>the <a href="http://library.gnome.org/devel/glib/unstable/glib-Error-Reporting.html#GError"><span class="type">GError</span></a> to store any failure, or <a href="http://library.gnome.org/devel/glib/unstable/glib-Standard-Macros.html#NULL:CAPS"><code class="literal">NULL</code></a>
-</td>
-</tr>
-<tr>
-<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
-<td>a <a class="link" href="PkResults.html" title="PkResults"><code class="literal">PkResults</code></a> object, or NULL for error. <span class="annotation">[<a href="http://foldoc.org/transfer%20full"><span class="acronym">transfer full</span></a>]</span>
-</td>
-</tr>
-</tbody>
-</table></div>
-<p class="since">Since 0.5.3</p>
-</div>
-<hr>
-<div class="refsect2">
 <a name="pk-client-update-packages"></a><h3>pk_client_update_packages ()</h3>
 <pre class="programlisting"><a class="link" href="PkResults.html" title="PkResults"><span class="returnvalue">PkResults</span></a> *         pk_client_update_packages           (<em class="parameter"><code><a class="link" href="PkClient.html" title="PkClient"><span class="type">PkClient</span></a> *client</code></em>,
-                                                         <em class="parameter"><code><a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gboolean"><span class="type">gboolean</span></a> only_trusted</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="PackageKit-pk-bitfield.html#PkBitfield" title="PkBitfield"><span class="type">PkBitfield</span></a> transaction_flags</code></em>,
                                                          <em class="parameter"><code><a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a> **package_ids</code></em>,
                                                          <em class="parameter"><code><a href="http://library.gnome.org/devel/gio/unstable/GCancellable.html"><span class="type">GCancellable</span></a> *cancellable</code></em>,
                                                          <em class="parameter"><code><a class="link" href="PkProgress.html#PkProgressCallback" title="PkProgressCallback ()"><span class="type">PkProgressCallback</span></a> progress_callback</code></em>,
@@ -2340,12 +1962,12 @@ applications.
 <td>a valid <a class="link" href="PkClient.html" title="PkClient"><span class="type">PkClient</span></a> instance</td>
 </tr>
 <tr>
-<td><p><span class="term"><em class="parameter"><code>only_trusted</code></em> :</span></p></td>
-<td>only trusted packages should be installed</td>
+<td><p><span class="term"><em class="parameter"><code>transaction_flags</code></em> :</span></p></td>
+<td>a transaction type bitfield</td>
 </tr>
 <tr>
 <td><p><span class="term"><em class="parameter"><code>package_ids</code></em> :</span></p></td>
-<td>a null terminated array of package_id structures such as "hal;0.0.1;i386;fedora". <span class="annotation">[<a href="http://foldoc.org/array"><span class="acronym">array</span></a> zero-terminated=1]</span>
+<td>a null terminated array of package_id structures such as "hal;0.0.1;i386;fedora". <span class="annotation">[<acronym title="Parameter points to an array of items."><span class="acronym">array</span></acronym> zero-terminated=1]</span>
 </td>
 </tr>
 <tr>
@@ -2355,7 +1977,7 @@ applications.
 </tr>
 <tr>
 <td><p><span class="term"><em class="parameter"><code>progress_callback</code></em> :</span></p></td>
-<td>the function to run when the progress changes. <span class="annotation">[<a href="http://foldoc.org/scope%20call"><span class="acronym">scope call</span></a>]</span>
+<td>the function to run when the progress changes. <span class="annotation">[<acronym title="The callback is valid only during the call to the method."><span class="acronym">scope call</span></acronym>]</span>
 </td>
 </tr>
 <tr>
@@ -2370,77 +1992,12 @@ applications.
 </tr>
 <tr>
 <td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
-<td>a <a class="link" href="PkResults.html" title="PkResults"><code class="literal">PkResults</code></a> object, or NULL for error. <span class="annotation">[<a href="http://foldoc.org/transfer%20full"><span class="acronym">transfer full</span></a>]</span>
+<td>a <a class="link" href="PkResults.html" title="PkResults"><code class="literal">PkResults</code></a> object, or NULL for error. <span class="annotation">[<acronym title="Free data after the code is done."><span class="acronym">transfer full</span></acronym>]</span>
 </td>
 </tr>
 </tbody>
 </table></div>
-<p class="since">Since 0.5.3</p>
-</div>
-<hr>
-<div class="refsect2">
-<a name="pk-client-update-system"></a><h3>pk_client_update_system ()</h3>
-<pre class="programlisting"><a class="link" href="PkResults.html" title="PkResults"><span class="returnvalue">PkResults</span></a> *         pk_client_update_system             (<em class="parameter"><code><a class="link" href="PkClient.html" title="PkClient"><span class="type">PkClient</span></a> *client</code></em>,
-                                                         <em class="parameter"><code><a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gboolean"><span class="type">gboolean</span></a> only_trusted</code></em>,
-                                                         <em class="parameter"><code><a href="http://library.gnome.org/devel/gio/unstable/GCancellable.html"><span class="type">GCancellable</span></a> *cancellable</code></em>,
-                                                         <em class="parameter"><code><a class="link" href="PkProgress.html#PkProgressCallback" title="PkProgressCallback ()"><span class="type">PkProgressCallback</span></a> progress_callback</code></em>,
-                                                         <em class="parameter"><code><a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gpointer"><span class="type">gpointer</span></a> progress_user_data</code></em>,
-                                                         <em class="parameter"><code><a href="http://library.gnome.org/devel/glib/unstable/glib-Error-Reporting.html#GError"><span class="type">GError</span></a> **error</code></em>);</pre>
-<p>
-Update all the packages on the system with the highest versions found in all
-repositories.
-NOTE: you can't choose what repositories to update from, but you can do:
-</p>
-<div class="itemizedlist"><ul class="itemizedlist" type="disc">
-<li class="listitem"><p><code class="function">pk_client_repo_disable()</code></p></li>
-<li class="listitem"><p><a class="link" href="PackageKit-pk-client-sync.html#pk-client-update-system" title="pk_client_update_system ()"><code class="function">pk_client_update_system()</code></a></p></li>
-<li class="listitem"><p><a class="link" href="PackageKit-pk-client-sync.html#pk-client-repo-enable" title="pk_client_repo_enable ()"><code class="function">pk_client_repo_enable()</code></a></p></li>
-</ul></div>
-<p>
-</p>
-<p>
-Warning: this function is synchronous, and may block. Do not use it in GUI
-applications.
-</p>
-<div class="variablelist"><table border="0">
-<col align="left" valign="top">
-<tbody>
-<tr>
-<td><p><span class="term"><em class="parameter"><code>client</code></em> :</span></p></td>
-<td>a valid <a class="link" href="PkClient.html" title="PkClient"><span class="type">PkClient</span></a> instance</td>
-</tr>
-<tr>
-<td><p><span class="term"><em class="parameter"><code>only_trusted</code></em> :</span></p></td>
-<td>only trusted packages should be installed</td>
-</tr>
-<tr>
-<td><p><span class="term"><em class="parameter"><code>cancellable</code></em> :</span></p></td>
-<td>a <a href="http://library.gnome.org/devel/gio/unstable/GCancellable.html"><span class="type">GCancellable</span></a> or <a href="http://library.gnome.org/devel/glib/unstable/glib-Standard-Macros.html#NULL:CAPS"><code class="literal">NULL</code></a>
-</td>
-</tr>
-<tr>
-<td><p><span class="term"><em class="parameter"><code>progress_callback</code></em> :</span></p></td>
-<td>the function to run when the progress changes. <span class="annotation">[<a href="http://foldoc.org/scope%20call"><span class="acronym">scope call</span></a>]</span>
-</td>
-</tr>
-<tr>
-<td><p><span class="term"><em class="parameter"><code>progress_user_data</code></em> :</span></p></td>
-<td>data to pass to <em class="parameter"><code>progress_callback</code></em>
-</td>
-</tr>
-<tr>
-<td><p><span class="term"><em class="parameter"><code>error</code></em> :</span></p></td>
-<td>the <a href="http://library.gnome.org/devel/glib/unstable/glib-Error-Reporting.html#GError"><span class="type">GError</span></a> to store any failure, or <a href="http://library.gnome.org/devel/glib/unstable/glib-Standard-Macros.html#NULL:CAPS"><code class="literal">NULL</code></a>
-</td>
-</tr>
-<tr>
-<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
-<td>a <a class="link" href="PkResults.html" title="PkResults"><code class="literal">PkResults</code></a> object, or NULL for error. <span class="annotation">[<a href="http://foldoc.org/transfer%20full"><span class="acronym">transfer full</span></a>]</span>
-</td>
-</tr>
-</tbody>
-</table></div>
-<p class="since">Since 0.5.3</p>
+<p class="since">Since 0.8.1</p>
 </div>
 <hr>
 <div class="refsect2">
@@ -2483,7 +2040,7 @@ applications.
 </tr>
 <tr>
 <td><p><span class="term"><em class="parameter"><code>progress_callback</code></em> :</span></p></td>
-<td>the function to run when the progress changes. <span class="annotation">[<a href="http://foldoc.org/scope%20call"><span class="acronym">scope call</span></a>]</span>
+<td>the function to run when the progress changes. <span class="annotation">[<acronym title="The callback is valid only during the call to the method."><span class="acronym">scope call</span></acronym>]</span>
 </td>
 </tr>
 <tr>
@@ -2498,7 +2055,7 @@ applications.
 </tr>
 <tr>
 <td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
-<td>a <a class="link" href="PkResults.html" title="PkResults"><code class="literal">PkResults</code></a> object, or NULL for error. <span class="annotation">[<a href="http://foldoc.org/transfer%20full"><span class="acronym">transfer full</span></a>]</span>
+<td>a <a class="link" href="PkResults.html" title="PkResults"><code class="literal">PkResults</code></a> object, or NULL for error. <span class="annotation">[<acronym title="Free data after the code is done."><span class="acronym">transfer full</span></acronym>]</span>
 </td>
 </tr>
 </tbody>
@@ -2543,7 +2100,7 @@ applications.
 </tr>
 <tr>
 <td><p><span class="term"><em class="parameter"><code>values</code></em> :</span></p></td>
-<td>a search term such as "sound/mp3". <span class="annotation">[<a href="http://foldoc.org/array"><span class="acronym">array</span></a> zero-terminated=1]</span>
+<td>a search term such as "sound/mp3". <span class="annotation">[<acronym title="Parameter points to an array of items."><span class="acronym">array</span></acronym> zero-terminated=1]</span>
 </td>
 </tr>
 <tr>
@@ -2553,7 +2110,7 @@ applications.
 </tr>
 <tr>
 <td><p><span class="term"><em class="parameter"><code>progress_callback</code></em> :</span></p></td>
-<td>the function to run when the progress changes. <span class="annotation">[<a href="http://foldoc.org/scope%20call"><span class="acronym">scope call</span></a>]</span>
+<td>the function to run when the progress changes. <span class="annotation">[<acronym title="The callback is valid only during the call to the method."><span class="acronym">scope call</span></acronym>]</span>
 </td>
 </tr>
 <tr>
@@ -2568,7 +2125,7 @@ applications.
 </tr>
 <tr>
 <td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
-<td>a <a class="link" href="PkResults.html" title="PkResults"><code class="literal">PkResults</code></a> object, or NULL for error. <span class="annotation">[<a href="http://foldoc.org/transfer%20full"><span class="acronym">transfer full</span></a>]</span>
+<td>a <a class="link" href="PkResults.html" title="PkResults"><code class="literal">PkResults</code></a> object, or NULL for error. <span class="annotation">[<acronym title="Free data after the code is done."><span class="acronym">transfer full</span></acronym>]</span>
 </td>
 </tr>
 </tbody>

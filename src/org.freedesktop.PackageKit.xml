@@ -76,44 +76,45 @@
     </property>
 
     <!--*****************************************************************************************-->
-    <property name="Roles" type="s" access="read">
+    <property name="Roles" type="t" access="read">
       <doc:doc>
         <doc:description>
           <doc:para>
-            The roles the backend supports, e.g. <doc:tt>"search-name;refresh-cache"</doc:tt>.
+            The roles the backend supports, e.g. <doc:tt>search-name|refresh-cache</doc:tt>.
           </doc:para>
         </doc:description>
       </doc:doc>
     </property>
 
     <!--*****************************************************************************************-->
-    <property name="Groups" type="s" access="read">
+    <property name="Groups" type="t" access="read">
       <doc:doc>
         <doc:description>
           <doc:para>
-            The groups the backend supports, e.g. <doc:tt>"accessories;games"</doc:tt>.
+            The groups the backend supports, e.g. <doc:tt>accessories|games</doc:tt>.
           </doc:para>
         </doc:description>
       </doc:doc>
     </property>
 
     <!--*****************************************************************************************-->
-    <property name="Filters" type="s" access="read">
+    <property name="Filters" type="t" access="read">
       <doc:doc>
         <doc:description>
           <doc:para>
-            The filters the backend supports, e.g. <doc:tt>"installed;newest"</doc:tt>.
+            The filters the backend supports, e.g. <doc:tt>installed|newest</doc:tt>.
           </doc:para>
         </doc:description>
       </doc:doc>
     </property>
 
     <!--*****************************************************************************************-->
-    <property name="MimeTypes" type="s" access="read">
+    <property name="MimeTypes" type="as" access="read">
       <doc:doc>
         <doc:description>
           <doc:para>
-            The mime-types the backend supports, e.g. <doc:tt>"application/x-rpm;application/x-deb"</doc:tt>.
+            The mime-types the backend supports, e.g.
+            <doc:tt>['application/x-rpm;', 'application/x-deb']</doc:tt>.
           </doc:para>
         </doc:description>
       </doc:doc>
@@ -131,7 +132,7 @@
     </property>
 
     <!--*****************************************************************************************-->
-    <property name="NetworkState" type="s" access="read">
+    <property name="NetworkState" type="u" access="read">
       <doc:doc>
         <doc:description>
           <doc:para>
@@ -183,7 +184,7 @@
           </doc:summary>
         </doc:doc>
       </arg>
-      <arg type="s" name="result" direction="out">
+      <arg type="u" name="result" direction="out">
         <doc:doc>
           <doc:summary>
             <doc:para>
@@ -195,20 +196,23 @@
     </method>
 
     <!--*****************************************************************************************-->
-    <method name="GetTid">
+    <method name="CreateTransaction">
       <annotation name="org.freedesktop.DBus.GLib.Async" value=""/>
       <doc:doc>
         <doc:description>
           <doc:para>
-            Gets a new transaction ID from the daemon
+            Creates a new transaction that can have operations done on
+            it.
+            Note: The dameon will automatically destroy this transaction
+            if it is not used after a few minutes.
           </doc:para>
         </doc:description>
       </doc:doc>
-      <arg type="s" name="tid" direction="out">
+      <arg type="o" name="object_path" direction="out">
         <doc:doc>
           <doc:summary>
             <doc:para>
-              The tid, e.g. <doc:tt>45_dafeca_checkpoint32</doc:tt>
+              The object_path, e.g. <doc:tt>/45_dafeca</doc:tt>
             </doc:para>
           </doc:summary>
         </doc:doc>
@@ -224,11 +228,11 @@
           </doc:para>
         </doc:description>
       </doc:doc>
-      <arg type="s" name="role" direction="in">
+      <arg type="u" name="role" direction="in">
         <doc:doc>
           <doc:summary>
             <doc:para>
-              The role, e.g. <doc:tt>update-system</doc:tt>
+              The role enum, e.g. <doc:tt>update-system</doc:tt>
             </doc:para>
           </doc:summary>
         </doc:doc>
@@ -253,7 +257,7 @@
           </doc:para>
         </doc:description>
       </doc:doc>
-      <arg type="as" name="transactions" direction="out">
+      <arg type="ao" name="transactions" direction="out">
         <doc:doc>
           <doc:summary>
             <doc:para>
@@ -385,28 +389,6 @@
               The PAC file for the proxy, e.g.
               <doc:tt>/etc/network/school.pac</doc:tt>.
               Note: Most backends will not be able to use a PAC file.
-            </doc:para>
-          </doc:summary>
-        </doc:doc>
-      </arg>
-    </method>
-
-    <!--*****************************************************************************************-->
-    <method name="SetRoot">
-      <annotation name="org.freedesktop.DBus.GLib.Async" value=""/>
-      <doc:doc>
-        <doc:description>
-          <doc:para>
-            Sets the root used by the dameon backend.
-          </doc:para>
-        </doc:description>
-        <doc:permission>Callers need the org.freedesktop.packagekit.system-change-install-root</doc:permission>
-      </doc:doc>
-      <arg type="s" name="root" direction="in">
-        <doc:doc>
-          <doc:summary>
-            <doc:para>
-              The install root, e.g. <doc:tt>/</doc:tt> or <doc:tt>/mnt/ltsp</doc:tt>.
             </doc:para>
           </doc:summary>
         </doc:doc>

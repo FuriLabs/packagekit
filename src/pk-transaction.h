@@ -77,8 +77,12 @@ void		 pk_transaction_cancel_bg			(PkTransaction	*transaction);
 PkRoleEnum	 pk_transaction_get_role			(PkTransaction	*transaction);
 guint		 pk_transaction_get_uid				(PkTransaction	*transaction);
 PkConf		*pk_transaction_get_conf			(PkTransaction	*transaction);
+void		 pk_transaction_set_backend			(PkTransaction	*transaction,
+								 PkBackend	*backend);
+PkBackendJob	*pk_transaction_get_backend_job 		(PkTransaction	*transaction);
 PkResults	*pk_transaction_get_results			(PkTransaction	*transaction);
 gchar		**pk_transaction_get_package_ids		(PkTransaction	*transaction);
+PkBitfield	 pk_transaction_get_transaction_flags		(PkTransaction	*transaction);
 void		 pk_transaction_set_package_ids			(PkTransaction	*transaction,
 								 gchar		**package_ids);
 gchar		**pk_transaction_get_values			(PkTransaction	*transaction);
@@ -90,12 +94,21 @@ gboolean	 pk_transaction_set_state			(PkTransaction	*transaction,
 								 PkTransactionState state);
 const gchar	*pk_transaction_state_to_string			(PkTransactionState state);
 const gchar	*pk_transaction_get_tid				(PkTransaction	*transaction);
+gboolean	 pk_transaction_is_exclusive			(PkTransaction	*transaction);
 void		 pk_transaction_add_supported_content_type	(PkTransaction	*transaction,
 								 const gchar	*mime_type);
 void		 pk_transaction_set_plugins			(PkTransaction	*transaction,
 								 GPtrArray	*plugins);
-void		 pk_transaction_set_signals			(PkTransaction *transaction,
+void		 pk_transaction_set_supported_roles		(PkTransaction	*transaction,
+								 GPtrArray	*plugins);
+void		 pk_transaction_set_signals			(PkTransaction	*transaction,
+								 PkBackendJob	*job,
 								 PkBitfield backend_signals);
+gboolean	 pk_transaction_is_finished_with_lock_required	(PkTransaction *transaction);
+void		 pk_transaction_reset_after_lock_error		(PkTransaction *transaction);
+void		 pk_transaction_make_exclusive			(PkTransaction *transaction);
+void		 pk_transaction_skip_auth_checks		(PkTransaction *transaction,
+								 gboolean skip_checks);
 
 G_END_DECLS
 

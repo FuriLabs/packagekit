@@ -44,6 +44,7 @@ host_triplet = @host@
 @PK_BUILD_DEBUGINFO_INSTALL_TRUE@am__append_7 = debuginfo-install
 @PK_BUILD_PM_UTILS_TRUE@am__append_8 = pm-utils
 @PK_BUILD_DEVICE_REBIND_TRUE@am__append_9 = device-rebind
+@PK_BUILD_SYSTEMD_UPDATES_TRUE@am__append_10 = systemd-updates
 subdir = contrib
 DIST_COMMON = $(dist_bashcompletion_DATA) $(srcdir)/Makefile.am \
 	$(srcdir)/Makefile.in
@@ -114,7 +115,7 @@ ETAGS = etags
 CTAGS = ctags
 DIST_SUBDIRS = yum-packagekit browser-plugin gstreamer-plugin \
 	gtk-module command-not-found cron debuginfo-install pm-utils \
-	device-rebind
+	device-rebind systemd-updates
 DISTFILES = $(DIST_COMMON) $(DIST_SOURCES) $(TEXINFOS) $(EXTRA_DIST)
 am__relativize = \
   dir0=`pwd`; \
@@ -163,7 +164,6 @@ CCDEPMODE = @CCDEPMODE@
 CFLAGS = @CFLAGS@
 CONNMAN_CFLAGS = @CONNMAN_CFLAGS@
 CONNMAN_LIBS = @CONNMAN_LIBS@
-CONSOLEKIT_DAEMON = @CONSOLEKIT_DAEMON@
 CPP = @CPP@
 CPPFLAGS = @CPPFLAGS@
 CXX = @CXX@
@@ -337,6 +337,8 @@ SQLITE_CFLAGS = @SQLITE_CFLAGS@
 SQLITE_LIBS = @SQLITE_LIBS@
 STRIP = @STRIP@
 SYSCONFDIR = @SYSCONFDIR@
+SYSTEMD_CFLAGS = @SYSTEMD_CFLAGS@
+SYSTEMD_LIBS = @SYSTEMD_LIBS@
 USE_NLS = @USE_NLS@
 VERSION = @VERSION@
 WARNINGFLAGS_C = @WARNINGFLAGS_C@
@@ -404,13 +406,15 @@ security_framework = @security_framework@
 sharedstatedir = @sharedstatedir@
 srcdir = @srcdir@
 sysconfdir = @sysconfdir@
+systemdsystemunitdir = @systemdsystemunitdir@
 target_alias = @target_alias@
 top_build_prefix = @top_build_prefix@
 top_builddir = @top_builddir@
 top_srcdir = @top_srcdir@
 SUBDIRS = $(am__append_1) $(am__append_2) $(am__append_3) \
 	$(am__append_4) $(am__append_5) $(am__append_6) \
-	$(am__append_7) $(am__append_8) $(am__append_9)
+	$(am__append_7) $(am__append_8) $(am__append_9) \
+	$(am__append_10)
 bashcompletiondir = ${SYSCONFDIR}/bash_completion.d
 dist_bashcompletion_DATA = pk-completion.bash
 script_SCRIPTS = \

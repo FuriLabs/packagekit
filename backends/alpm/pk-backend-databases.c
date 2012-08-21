@@ -26,15 +26,7 @@
 #include "pk-backend-databases.h"
 #include "pk-backend-error.h"
 
-typedef struct
-{
-	gchar *name;
-	alpm_list_t *servers;
-	alpm_siglevel_t level;
-} PkBackendRepo;
-
 static GHashTable *disabled = NULL;
-static alpm_list_t *configured = NULL;
 
 static GHashTable *
 disabled_repos_new (GError **error)
@@ -121,8 +113,8 @@ disabled_repos_free (GHashTable *table)
 
 	/* write all disabled repos line by line */
 	while (g_hash_table_iter_next (&iter, (gpointer *) &line, NULL) &&
-	       g_data_output_stream_put_string (output, line, NULL, NULL) &&
-	       g_data_output_stream_put_byte (output, '\n', NULL, NULL));
+		g_data_output_stream_put_string (output, line, NULL, NULL) &&
+		g_data_output_stream_put_byte (output, '\n', NULL, NULL));
 
 	g_object_unref (output);
 	g_object_unref (os);
@@ -132,89 +124,39 @@ disabled_repos_free (GHashTable *table)
 }
 
 static gboolean
-disabled_repos_configure (GHashTable *table, gboolean only_trusted,
-			  GError **error)
+disabled_repos_configure (GHashTable *table, GError **error)
 {
 	const alpm_list_t *i;
 
-	g_return_val_if_fail (table != NULL, FALSE);
-	g_return_val_if_fail (alpm != NULL, FALSE);
+	g_debug ("reading config from %s", PK_BACKEND_CONFIG_FILE);
 
-	if (alpm_db_unregister_all (alpm) < 0) {
-		enum _alpm_errno_t errno = alpm_errno (alpm);
-		g_set_error_literal (error, ALPM_ERROR, errno,
-				     alpm_strerror (errno));
+	/* read configuration from pacman.conf file */
+	if (!pk_backend_configure (PK_BACKEND_CONFIG_FILE, error)) {
 		return FALSE;
 	}
 
-	for (i = configured; i != NULL; i = i->next) {
-		PkBackendRepo *repo = (PkBackendRepo *) i->data;
-		alpm_siglevel_t level = repo->level;
-		alpm_db_t *db;
+	/* disable disabled repos */
+	for (i = alpm_option_get_syncdbs (); i != NULL;) {
+		pmdb_t *db = (pmdb_t *) i->data;
+		const gchar *repo = alpm_db_get_name (db);
 
-		if (g_hash_table_lookup (table, repo->name) != NULL) {
-			/* repo is disabled */
+		if (g_hash_table_lookup (table, repo) == NULL) {
+			/* repo is not disabled */
+			i = i->next;
 			continue;
-		} else if (!only_trusted) {
-			level &= ~ALPM_SIG_PACKAGE;
-			level &= ~ALPM_SIG_DATABASE;
-			level &= ~ALPM_SIG_USE_DEFAULT;
 		}
 
-		db = alpm_db_register_sync (alpm, repo->name, level);
-		if (db == NULL) {
-			enum _alpm_errno_t errno = alpm_errno (alpm);
-			g_set_error (error, ALPM_ERROR, errno, "[%s]: %s",
-				     repo->name, alpm_strerror (errno));
+		if (alpm_db_unregister (db) < 0) {
+			g_set_error (error, ALPM_ERROR, pm_errno, "[%s]: %s",
+				     repo, alpm_strerrorlast ());
 			return FALSE;
 		}
 
-		alpm_db_set_servers (db, alpm_list_strdup (repo->servers));
+		/* start again because the list gets invalidated */
+		i = alpm_option_get_syncdbs ();
 	}
 
 	return TRUE;
-}
-
-void
-pk_backend_configure_repos (alpm_list_t *repos, GHashTable *servers,
-			    GHashTable *levels)
-{
-	alpm_list_t *i;
-
-	g_return_if_fail (servers != NULL);
-
-	for (i = repos; i != NULL; i = i->next) {
-		PkBackendRepo *repo = g_new (PkBackendRepo, 1);
-		gpointer value = g_hash_table_lookup (servers, i->data);
-
-		repo->name = g_strdup ((const gchar *) i->data);
-		repo->servers = alpm_list_strdup ((alpm_list_t *) value);
-
-		value = g_hash_table_lookup (levels, i->data);
-		if (value != NULL) {
-			repo->level = *(alpm_siglevel_t *) value;
-		} else {
-			repo->level = ALPM_SIG_USE_DEFAULT;
-		}
-
-		configured = alpm_list_add (configured, repo);
-	}
-}
-
-gboolean
-pk_backend_disable_signatures (PkBackend *self, GError **error)
-{
-	g_return_val_if_fail (self != NULL, FALSE);
-
-	return disabled_repos_configure (disabled, FALSE, error);
-}
-
-gboolean
-pk_backend_enable_signatures (PkBackend *self, GError **error)
-{
-	g_return_val_if_fail (self != NULL, FALSE);
-
-	return disabled_repos_configure (disabled, TRUE, error);
 }
 
 gboolean
@@ -227,7 +169,7 @@ pk_backend_initialize_databases (PkBackend *self, GError **error)
 		return FALSE;
 	}
 
-	if (!disabled_repos_configure (disabled, TRUE, error)) {
+	if (!disabled_repos_configure (disabled, error)) {
 		return FALSE;
 	}
 
@@ -237,21 +179,11 @@ pk_backend_initialize_databases (PkBackend *self, GError **error)
 void
 pk_backend_destroy_databases (PkBackend *self)
 {
-	alpm_list_t *i;
-
 	g_return_if_fail (self != NULL);
 
 	if (disabled != NULL) {
 		disabled_repos_free (disabled);
 	}
-
-	for (i = configured; i != NULL; i = i->next) {
-		PkBackendRepo *repo = (PkBackendRepo *) i->data;
-		g_free (repo->name);
-		FREELIST (repo->servers);
-		g_free (repo);
-	}
-	alpm_list_free (configured);
 }
 
 static gboolean
@@ -264,26 +196,25 @@ pk_backend_repo_info (PkBackend *self, const gchar *repo, gboolean enabled)
 	g_return_val_if_fail (repo != NULL, FALSE);
 
 	description = g_strdup_printf ("[%s]", repo);
-	result = pk_backend_repo_detail (self, repo, description, enabled);
+	result = pk_backend_job_repo_detail (self, repo, description, enabled);
 	g_free (description);
 
 	return result;
 }
 
-static gboolean
-pk_backend_get_repo_list_thread (PkBackend *self)
+static void
+pk_backend_get_repo_list_thread (PkBackendJob *job, GVariant *params, gpointer user_data)
 {
 	const alpm_list_t *i;
 	GHashTableIter iter;
 	gpointer key, value;
 
 	g_return_val_if_fail (self != NULL, FALSE);
-	g_return_val_if_fail (alpm != NULL, FALSE);
 	g_return_val_if_fail (disabled != NULL, FALSE);
 
 	/* emit enabled repos */
-	for (i = alpm_option_get_syncdbs (alpm); i != NULL; i = i->next) {
-		alpm_db_t *db = (alpm_db_t *) i->data;
+	for (i = alpm_option_get_syncdbs (); i != NULL; i = i->next) {
+		pmdb_t *db = (pmdb_t *) i->data;
 		const gchar *repo = alpm_db_get_name (db);
 
 		if (pk_backend_cancelled (self)) {
@@ -306,7 +237,7 @@ pk_backend_get_repo_list_thread (PkBackend *self)
 	}
 
 out:
-	return pk_backend_finish (self, NULL);
+	pk_backend_finish (self, NULL);
 }
 
 void
@@ -315,11 +246,11 @@ pk_backend_get_repo_list (PkBackend *self, PkBitfield filters)
 	g_return_if_fail (self != NULL);
 
 	pk_backend_run (self, PK_STATUS_ENUM_QUERY,
-			pk_backend_get_repo_list_thread);
+			pk_backend_get_repo_list_thread, NULL, NULL);
 }
 
-static gboolean
-pk_backend_repo_enable_thread (PkBackend *self)
+static void
+pk_backend_repo_enable_thread (PkBackendJob *job, GVariant *params, gpointer user_data)
 {
 	const gchar *repo;
 
@@ -330,15 +261,13 @@ pk_backend_repo_enable_thread (PkBackend *self)
 
 	repo = pk_backend_get_string (self, "repo_id");
 
-	g_return_val_if_fail (repo != NULL, FALSE);
-
 	if (g_hash_table_remove (disabled, repo)) {
 		/* reload configuration to preserve ordering */
-		if (disabled_repos_configure (disabled, TRUE, &error)) {
+		if (disabled_repos_configure (disabled, &error)) {
 			pk_backend_repo_list_changed (self);
 		}
 	} else {
-		int code = ALPM_ERR_DB_NOT_NULL;
+		int code = PM_ERR_DB_NOT_NULL;
 		g_set_error (&error, ALPM_ERROR, code, "[%s]: %s",
 			     repo, alpm_strerror (code));
 	}
@@ -348,36 +277,28 @@ pk_backend_repo_enable_thread (PkBackend *self)
 		g_error_free (error);
 	}
 
-	pk_backend_thread_finished (self);
-	return (error == NULL);
+	pk_backend_job_finished (self);
 }
 
-static gboolean
-pk_backend_repo_disable_thread (PkBackend *self)
+static void
+pk_backend_repo_disable_thread (PkBackendJob *job, GVariant *params, gpointer user_data)
 {
 	const alpm_list_t *i;
 	const gchar *repo;
 
 	GError *error = NULL;
 
-	g_return_val_if_fail (self != NULL, FALSE);
-	g_return_val_if_fail (alpm != NULL, FALSE);
-	g_return_val_if_fail (disabled != NULL, FALSE);
-
 	repo = pk_backend_get_string (self, "repo_id");
 
-	g_return_val_if_fail (repo != NULL, FALSE);
-
-	for (i = alpm_option_get_syncdbs (alpm); i != NULL; i = i->next) {
-		alpm_db_t *db = (alpm_db_t *) i->data;
+	for (i = alpm_option_get_syncdbs (); i != NULL; i = i->next) {
+		pmdb_t *db = (pmdb_t *) i->data;
 		const gchar *name = alpm_db_get_name (db);
 
 		if (g_strcmp0 (repo, name) == 0) {
 			if (alpm_db_unregister (db) < 0) {
-				enum _alpm_errno_t errno = alpm_errno (alpm);
-				g_set_error (&error, ALPM_ERROR, errno,
+				g_set_error (&error, ALPM_ERROR, pm_errno,
 					     "[%s]: %s", repo,
-					     alpm_strerror (errno));
+					     alpm_strerrorlast ());
 			} else {
 				g_hash_table_insert (disabled, g_strdup (repo),
 						     GINT_TO_POINTER (1));
@@ -387,7 +308,7 @@ pk_backend_repo_disable_thread (PkBackend *self)
 	}
 
 	if (i == NULL) {
-		int code = ALPM_ERR_DB_NULL;
+		int code = PM_ERR_DB_NULL;
 		g_set_error (&error, ALPM_ERROR, code, "[%s]: %s", repo,
 			     alpm_strerror (code));
 	}
@@ -397,8 +318,7 @@ pk_backend_repo_disable_thread (PkBackend *self)
 		g_error_free (error);
 	}
 
-	pk_backend_thread_finished (self);
-	return (error == NULL);
+	pk_backend_job_finished (self);
 }
 
 void
@@ -407,11 +327,11 @@ pk_backend_repo_enable (PkBackend *self, const gchar *repo_id, gboolean enabled)
 	g_return_if_fail (self != NULL);
 	g_return_if_fail (repo_id != NULL);
 
-	pk_backend_set_status (self, PK_STATUS_ENUM_QUERY);
+	pk_backend_job_set_status (self, PK_STATUS_ENUM_QUERY);
 
 	if (enabled) {
-		pk_backend_thread_create (self, pk_backend_repo_enable_thread);
+		pk_backend_job_thread_create (self, pk_backend_repo_enable_thread, NULL, NULL);
 	} else {
-		pk_backend_thread_create (self, pk_backend_repo_disable_thread);
+		pk_backend_job_thread_create (self, pk_backend_repo_disable_thread, NULL, NULL);
 	}
 }

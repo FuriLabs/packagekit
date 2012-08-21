@@ -63,12 +63,6 @@ PkResults	*pk_task_install_files_sync		(PkTask			*task,
 							 gpointer		 progress_user_data,
 							 GError			**error);
 
-PkResults	*pk_task_update_system_sync		(PkTask			*task,
-							 GCancellable		*cancellable,
-							 PkProgressCallback	 progress_callback,
-							 gpointer		 progress_user_data,
-							 GError			**error);
-
 PkResults	*pk_task_resolve_sync			(PkTask			*task,
 							 PkBitfield		 filters,
 							 gchar			**packages,
@@ -187,13 +181,6 @@ PkResults	*pk_task_get_categories_sync		(PkTask			*task,
 
 PkResults	*pk_task_refresh_cache_sync		(PkTask			*task,
 							 gboolean		 force,
-							 GCancellable		*cancellable,
-							 PkProgressCallback	 progress_callback,
-							 gpointer		 progress_user_data,
-							 GError			**error);
-
-PkResults	*pk_task_rollback_sync			(PkTask			*task,
-							 const gchar		*transaction_id,
 							 GCancellable		*cancellable,
 							 PkProgressCallback	 progress_callback,
 							 gpointer		 progress_user_data,

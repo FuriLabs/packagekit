@@ -1,6 +1,6 @@
 /* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*-
  *
- * Copyright (C) 2008-2010 Richard Hughes <richard@hughsie.com>
+ * Copyright (C) 2008-2012 Richard Hughes <richard@hughsie.com>
  *
  * Licensed under the GNU Lesser General Public License Version 2.1
  *
@@ -506,7 +506,7 @@ pk_client_get_updates (PkClient *client, PkBitfield filters, GCancellable *cance
  * @progress_user_data: data to pass to @progress_callback
  * @error: the #GError to store any failure, or %NULL
  *
- * Get the old transaction list, mainly used for the rollback viewer.
+ * Get the old transaction list, mainly used for the transaction viewer.
  *
  * Warning: this function is synchronous, and may block. Do not use it in GUI
  * applications.
@@ -517,7 +517,7 @@ pk_client_get_updates (PkClient *client, PkBitfield filters, GCancellable *cance
  **/
 PkResults *
 pk_client_get_old_transactions (PkClient *client, guint number, GCancellable *cancellable,
-			        PkProgressCallback progress_callback, gpointer progress_user_data, GError **error)
+				PkProgressCallback progress_callback, gpointer progress_user_data, GError **error)
 {
 	PkClientHelper *helper;
 	PkResults *results;
@@ -533,59 +533,6 @@ pk_client_get_old_transactions (PkClient *client, guint number, GCancellable *ca
 	/* run async method */
 	pk_client_get_old_transactions_async (client, number, cancellable, progress_callback, progress_user_data,
 					      (GAsyncReadyCallback) pk_client_generic_finish_sync, helper);
-
-	g_main_loop_run (helper->loop);
-
-	results = helper->results;
-
-	/* free temp object */
-	g_main_loop_unref (helper->loop);
-	g_free (helper);
-
-	return results;
-}
-
-/**
- * pk_client_update_system:
- * @client: a valid #PkClient instance
- * @only_trusted: only trusted packages should be installed
- * @cancellable: a #GCancellable or %NULL
- * @progress_callback: (scope call): the function to run when the progress changes
- * @progress_user_data: data to pass to @progress_callback
- * @error: the #GError to store any failure, or %NULL
- *
- * Update all the packages on the system with the highest versions found in all
- * repositories.
- * NOTE: you can't choose what repositories to update from, but you can do:
- * - pk_client_repo_disable()
- * - pk_client_update_system()
- * - pk_client_repo_enable()
- *
- * Warning: this function is synchronous, and may block. Do not use it in GUI
- * applications.
- *
- * Return value: (transfer full): a %PkResults object, or NULL for error
- *
- * Since: 0.5.3
- **/
-PkResults *
-pk_client_update_system (PkClient *client, gboolean only_trusted, GCancellable *cancellable,
-			 PkProgressCallback progress_callback, gpointer progress_user_data, GError **error)
-{
-	PkClientHelper *helper;
-	PkResults *results;
-
-	g_return_val_if_fail (PK_IS_CLIENT (client), NULL);
-	g_return_val_if_fail (error == NULL || *error == NULL, NULL);
-
-	/* create temp object */
-	helper = g_new0 (PkClientHelper, 1);
-	helper->loop = g_main_loop_new (NULL, FALSE);
-	helper->error = error;
-
-	/* run async method */
-	pk_client_update_system_async (client, only_trusted, cancellable, progress_callback, progress_user_data,
-				       (GAsyncReadyCallback) pk_client_generic_finish_sync, helper);
 
 	g_main_loop_run (helper->loop);
 
@@ -668,7 +615,7 @@ pk_client_get_depends (PkClient *client, PkBitfield filters, gchar **package_ids
  **/
 PkResults *
 pk_client_get_packages (PkClient *client, PkBitfield filters, GCancellable *cancellable,
-		        PkProgressCallback progress_callback, gpointer progress_user_data, GError **error)
+			PkProgressCallback progress_callback, gpointer progress_user_data, GError **error)
 {
 	PkClientHelper *helper;
 	PkResults *results;
@@ -718,7 +665,7 @@ pk_client_get_packages (PkClient *client, PkBitfield filters, GCancellable *canc
  **/
 PkResults *
 pk_client_get_requires (PkClient *client, PkBitfield filters, gchar **package_ids, gboolean recursive, GCancellable *cancellable,
-		        PkProgressCallback progress_callback, gpointer progress_user_data, GError **error)
+			PkProgressCallback progress_callback, gpointer progress_user_data, GError **error)
 {
 	PkClientHelper *helper;
 	PkResults *results;
@@ -770,7 +717,7 @@ pk_client_get_requires (PkClient *client, PkBitfield filters, gchar **package_id
  **/
 PkResults *
 pk_client_what_provides (PkClient *client, PkBitfield filters, PkProvidesEnum provides, gchar **values, GCancellable *cancellable,
-		         PkProgressCallback progress_callback, gpointer progress_user_data, GError **error)
+			 PkProgressCallback progress_callback, gpointer progress_user_data, GError **error)
 {
 	PkClientHelper *helper;
 	PkResults *results;
@@ -944,6 +891,7 @@ pk_client_get_categories (PkClient *client, GCancellable *cancellable,
 /**
  * pk_client_remove_packages:
  * @client: a valid #PkClient instance
+ * @transaction_flags: a transaction type bitfield
  * @package_ids: (array zero-terminated=1): a null terminated array of package_id structures such as "hal;0.0.1;i386;fedora"
  * @allow_deps: if other dependent packages are allowed to be removed from the computer
  * @autoremove: if other packages installed at the same time should be tried to remove
@@ -961,11 +909,18 @@ pk_client_get_categories (PkClient *client, GCancellable *cancellable,
  *
  * Return value: (transfer full): a %PkResults object, or NULL for error
  *
- * Since: 0.5.3
+ * Since: 0.8.1
  **/
 PkResults *
-pk_client_remove_packages (PkClient *client, gchar **package_ids, gboolean allow_deps, gboolean autoremove, GCancellable *cancellable,
-			   PkProgressCallback progress_callback, gpointer progress_user_data, GError **error)
+pk_client_remove_packages (PkClient *client,
+			   PkBitfield transaction_flags,
+			   gchar **package_ids,
+			   gboolean allow_deps,
+			   gboolean autoremove,
+			   GCancellable *cancellable,
+			   PkProgressCallback progress_callback,
+			   gpointer progress_user_data,
+			   GError **error)
 {
 	PkClientHelper *helper;
 	PkResults *results;
@@ -979,8 +934,16 @@ pk_client_remove_packages (PkClient *client, gchar **package_ids, gboolean allow
 	helper->error = error;
 
 	/* run async method */
-	pk_client_remove_packages_async (client, package_ids, allow_deps, autoremove, cancellable, progress_callback, progress_user_data,
-					 (GAsyncReadyCallback) pk_client_generic_finish_sync, helper);
+	pk_client_remove_packages_async (client,
+					 transaction_flags,
+					 package_ids,
+					 allow_deps,
+					 autoremove,
+					 cancellable,
+					 progress_callback,
+					 progress_user_data,
+					 (GAsyncReadyCallback) pk_client_generic_finish_sync,
+					 helper);
 
 	g_main_loop_run (helper->loop);
 
@@ -1047,7 +1010,7 @@ pk_client_refresh_cache (PkClient *client, gboolean force, GCancellable *cancell
 /**
  * pk_client_install_packages:
  * @client: a valid #PkClient instance
- * @only_trusted: only trusted packages should be installed
+ * @transaction_flags: a transaction type bitfield
  * @package_ids: (array zero-terminated=1): a null terminated array of package_id structures such as "hal;0.0.1;i386;fedora"
  * @cancellable: a #GCancellable or %NULL
  * @progress_callback: (scope call): the function to run when the progress changes
@@ -1061,11 +1024,16 @@ pk_client_refresh_cache (PkClient *client, gboolean force, GCancellable *cancell
  *
  * Return value: (transfer full): a %PkResults object, or NULL for error
  *
- * Since: 0.5.3
+ * Since: 0.8.1
  **/
 PkResults *
-pk_client_install_packages (PkClient *client, gboolean only_trusted, gchar **package_ids, GCancellable *cancellable,
-			    PkProgressCallback progress_callback, gpointer progress_user_data, GError **error)
+pk_client_install_packages (PkClient *client,
+			    PkBitfield transaction_flags,
+			    gchar **package_ids,
+			    GCancellable *cancellable,
+			    PkProgressCallback progress_callback,
+			    gpointer progress_user_data,
+			    GError **error)
 {
 	PkClientHelper *helper;
 	PkResults *results;
@@ -1079,7 +1047,7 @@ pk_client_install_packages (PkClient *client, gboolean only_trusted, gchar **pac
 	helper->error = error;
 
 	/* run async method */
-	pk_client_install_packages_async (client, only_trusted, package_ids, cancellable, progress_callback, progress_user_data,
+	pk_client_install_packages_async (client, transaction_flags, package_ids, cancellable, progress_callback, progress_user_data,
 					  (GAsyncReadyCallback) pk_client_generic_finish_sync, helper);
 
 	g_main_loop_run (helper->loop);
@@ -1146,7 +1114,7 @@ pk_client_install_signature (PkClient *client, PkSigTypeEnum type, const gchar *
 /**
  * pk_client_update_packages:
  * @client: a valid #PkClient instance
- * @only_trusted: only trusted packages should be installed
+ * @transaction_flags: a transaction type bitfield
  * @package_ids: (array zero-terminated=1): a null terminated array of package_id structures such as "hal;0.0.1;i386;fedora"
  * @cancellable: a #GCancellable or %NULL
  * @progress_callback: (scope call): the function to run when the progress changes
@@ -1160,11 +1128,16 @@ pk_client_install_signature (PkClient *client, PkSigTypeEnum type, const gchar *
  *
  * Return value: (transfer full): a %PkResults object, or NULL for error
  *
- * Since: 0.5.3
+ * Since: 0.8.1
  **/
 PkResults *
-pk_client_update_packages (PkClient *client, gboolean only_trusted, gchar **package_ids, GCancellable *cancellable,
-			   PkProgressCallback progress_callback, gpointer progress_user_data, GError **error)
+pk_client_update_packages (PkClient *client,
+			   PkBitfield transaction_flags,
+			   gchar **package_ids,
+			   GCancellable *cancellable,
+			   PkProgressCallback progress_callback,
+			   gpointer progress_user_data,
+			   GError **error)
 {
 	PkClientHelper *helper;
 	PkResults *results;
@@ -1178,7 +1151,7 @@ pk_client_update_packages (PkClient *client, gboolean only_trusted, gchar **pack
 	helper->error = error;
 
 	/* run async method */
-	pk_client_update_packages_async (client, only_trusted, package_ids, cancellable, progress_callback, progress_user_data,
+	pk_client_update_packages_async (client, transaction_flags, package_ids, cancellable, progress_callback, progress_user_data,
 					 (GAsyncReadyCallback) pk_client_generic_finish_sync, helper);
 
 	g_main_loop_run (helper->loop);
@@ -1195,7 +1168,7 @@ pk_client_update_packages (PkClient *client, gboolean only_trusted, gchar **pack
 /**
  * pk_client_install_files:
  * @client: a valid #PkClient instance
- * @only_trusted: only trusted packages should be installed
+ * @transaction_flags: a transaction type bitfield
  * @files: (array zero-terminated=1): a file such as "/home/hughsie/Desktop/hal-devel-0.10.0.rpm"
  * @cancellable: a #GCancellable or %NULL
  * @progress_callback: (scope call): the function to run when the progress changes
@@ -1210,11 +1183,16 @@ pk_client_update_packages (PkClient *client, gboolean only_trusted, gchar **pack
  *
  * Return value: (transfer full): a %PkResults object, or NULL for error
  *
- * Since: 0.5.3
+ * Since: 0.8.1
  **/
 PkResults *
-pk_client_install_files (PkClient *client, gboolean only_trusted, gchar **files, GCancellable *cancellable,
-			 PkProgressCallback progress_callback, gpointer progress_user_data, GError **error)
+pk_client_install_files (PkClient *client,
+			 PkBitfield transaction_flags,
+			 gchar **files,
+			 GCancellable *cancellable,
+			 PkProgressCallback progress_callback,
+			 gpointer progress_user_data,
+			 GError **error)
 {
 	PkClientHelper *helper;
 	PkResults *results;
@@ -1228,7 +1206,7 @@ pk_client_install_files (PkClient *client, gboolean only_trusted, gchar **files,
 	helper->error = error;
 
 	/* run async method */
-	pk_client_install_files_async (client, only_trusted, files, cancellable, progress_callback, progress_user_data,
+	pk_client_install_files_async (client, transaction_flags, files, cancellable, progress_callback, progress_user_data,
 				       (GAsyncReadyCallback) pk_client_generic_finish_sync, helper);
 
 	g_main_loop_run (helper->loop);
@@ -1277,54 +1255,6 @@ pk_client_accept_eula (PkClient *client, const gchar *eula_id, GCancellable *can
 
 	/* run async method */
 	pk_client_accept_eula_async (client, eula_id, cancellable, progress_callback, progress_user_data,
-				     (GAsyncReadyCallback) pk_client_generic_finish_sync, helper);
-
-	g_main_loop_run (helper->loop);
-
-	results = helper->results;
-
-	/* free temp object */
-	g_main_loop_unref (helper->loop);
-	g_free (helper);
-
-	return results;
-}
-
-/**
- * pk_client_rollback:
- * @client: a valid #PkClient instance
- * @transaction_id: the <literal>transaction_id</literal> we want to return to
- * @cancellable: a #GCancellable or %NULL
- * @progress_callback: (scope call): the function to run when the progress changes
- * @progress_user_data: data to pass to @progress_callback
- * @error: the #GError to store any failure, or %NULL
- *
- * We may want to agree to a EULA dialog if one is presented.
- *
- * Warning: this function is synchronous, and may block. Do not use it in GUI
- * applications.
- *
- * Return value: (transfer full): a %PkResults object, or NULL for error
- *
- * Since: 0.5.3
- **/
-PkResults *
-pk_client_rollback (PkClient *client, const gchar *transaction_id, GCancellable *cancellable,
-		    PkProgressCallback progress_callback, gpointer progress_user_data, GError **error)
-{
-	PkClientHelper *helper;
-	PkResults *results;
-
-	g_return_val_if_fail (PK_IS_CLIENT (client), NULL);
-	g_return_val_if_fail (error == NULL || *error == NULL, NULL);
-
-	/* create temp object */
-	helper = g_new0 (PkClientHelper, 1);
-	helper->loop = g_main_loop_new (NULL, FALSE);
-	helper->error = error;
-
-	/* run async method */
-	pk_client_accept_eula_async (client, transaction_id, cancellable, progress_callback, progress_user_data,
 				     (GAsyncReadyCallback) pk_client_generic_finish_sync, helper);
 
 	g_main_loop_run (helper->loop);
@@ -1487,200 +1417,6 @@ pk_client_repo_set_data (PkClient *client, const gchar *repo_id, const gchar *pa
 }
 
 /**
- * pk_client_simulate_install_files:
- * @client: a valid #PkClient instance
- * @files: (array zero-terminated=1): a file such as "/home/hughsie/Desktop/hal-devel-0.10.0.rpm"
- * @cancellable: a #GCancellable or %NULL
- * @progress_callback: (scope call): the function to run when the progress changes
- * @progress_user_data: data to pass to @progress_callback
- * @error: the #GError to store any failure, or %NULL
- *
- * Simulate an installation of files.
- *
- * Warning: this function is synchronous, and may block. Do not use it in GUI
- * applications.
- *
- * Return value: (transfer full): a %PkResults object, or NULL for error
- *
- * Since: 0.5.3
- **/
-PkResults *
-pk_client_simulate_install_files (PkClient *client, gchar **files, GCancellable *cancellable,
-				  PkProgressCallback progress_callback, gpointer progress_user_data,
-				  GError **error)
-{
-	PkClientHelper *helper;
-	PkResults *results;
-
-	g_return_val_if_fail (PK_IS_CLIENT (client), NULL);
-	g_return_val_if_fail (error == NULL || *error == NULL, NULL);
-
-	/* create temp object */
-	helper = g_new0 (PkClientHelper, 1);
-	helper->loop = g_main_loop_new (NULL, FALSE);
-	helper->error = error;
-
-	/* run async method */
-	pk_client_simulate_install_files_async (client, files, cancellable, progress_callback, progress_user_data,
-						(GAsyncReadyCallback) pk_client_generic_finish_sync, helper);
-
-	g_main_loop_run (helper->loop);
-
-	results = helper->results;
-
-	/* free temp object */
-	g_main_loop_unref (helper->loop);
-	g_free (helper);
-
-	return results;
-}
-
-/**
- * pk_client_simulate_install_packages:
- * @client: a valid #PkClient instance
- * @package_ids: (array zero-terminated=1): a null terminated array of package_id structures such as "hal;0.0.1;i386;fedora"
- * @cancellable: a #GCancellable or %NULL
- * @progress_callback: (scope call): the function to run when the progress changes
- * @progress_user_data: data to pass to @progress_callback
- * @error: the #GError to store any failure, or %NULL
- *
- * Simulate an installation of packages.
- *
- * Warning: this function is synchronous, and may block. Do not use it in GUI
- * applications.
- *
- * Return value: (transfer full): a %PkResults object, or NULL for error
- *
- * Since: 0.5.3
- **/
-PkResults *
-pk_client_simulate_install_packages (PkClient *client, gchar **package_ids, GCancellable *cancellable,
-				     PkProgressCallback progress_callback, gpointer progress_user_data, GError **error)
-{
-	PkClientHelper *helper;
-	PkResults *results;
-
-	g_return_val_if_fail (PK_IS_CLIENT (client), NULL);
-	g_return_val_if_fail (error == NULL || *error == NULL, NULL);
-
-	/* create temp object */
-	helper = g_new0 (PkClientHelper, 1);
-	helper->loop = g_main_loop_new (NULL, FALSE);
-	helper->error = error;
-
-	/* run async method */
-	pk_client_simulate_install_packages_async (client, package_ids, cancellable, progress_callback, progress_user_data,
-						   (GAsyncReadyCallback) pk_client_generic_finish_sync, helper);
-
-	g_main_loop_run (helper->loop);
-
-	results = helper->results;
-
-	/* free temp object */
-	g_main_loop_unref (helper->loop);
-	g_free (helper);
-
-	return results;
-}
-
-/**
- * pk_client_simulate_remove_packages:
- * @client: a valid #PkClient instance
- * @package_ids: (array zero-terminated=1): a null terminated array of package_id structures such as "hal;0.0.1;i386;fedora"
- * @autoremove: if other packages installed at the same time should be tried to remove
- * @cancellable: a #GCancellable or %NULL
- * @progress_callback: (scope call): the function to run when the progress changes
- * @progress_user_data: data to pass to @progress_callback
- * @error: the #GError to store any failure, or %NULL
- *
- * Simulate a removal of packages.
- *
- * Warning: this function is synchronous, and may block. Do not use it in GUI
- * applications.
- *
- * Return value: (transfer full): a %PkResults object, or NULL for error
- *
- * Since: 0.5.3
- **/
-PkResults *
-pk_client_simulate_remove_packages (PkClient *client, gchar **package_ids, gboolean autoremove, GCancellable *cancellable,
-				    PkProgressCallback progress_callback, gpointer progress_user_data, GError **error)
-{
-	PkClientHelper *helper;
-	PkResults *results;
-
-	g_return_val_if_fail (PK_IS_CLIENT (client), NULL);
-	g_return_val_if_fail (error == NULL || *error == NULL, NULL);
-
-	/* create temp object */
-	helper = g_new0 (PkClientHelper, 1);
-	helper->loop = g_main_loop_new (NULL, FALSE);
-	helper->error = error;
-
-	/* run async method */
-	pk_client_simulate_remove_packages_async (client, package_ids, autoremove, cancellable, progress_callback, progress_user_data,
-						  (GAsyncReadyCallback) pk_client_generic_finish_sync, helper);
-
-	g_main_loop_run (helper->loop);
-
-	results = helper->results;
-
-	/* free temp object */
-	g_main_loop_unref (helper->loop);
-	g_free (helper);
-
-	return results;
-}
-
-/**
- * pk_client_simulate_update_packages:
- * @client: a valid #PkClient instance
- * @package_ids: (array zero-terminated=1): a null terminated array of package_id structures such as "hal;0.0.1;i386;fedora"
- * @cancellable: a #GCancellable or %NULL
- * @progress_callback: (scope call): the function to run when the progress changes
- * @progress_user_data: data to pass to @progress_callback
- * @error: the #GError to store any failure, or %NULL
- *
- * Simulate an update of packages.
- *
- * Warning: this function is synchronous, and may block. Do not use it in GUI
- * applications.
- *
- * Return value: (transfer full): a %PkResults object, or NULL for error
- *
- * Since: 0.5.3
- **/
-PkResults *
-pk_client_simulate_update_packages (PkClient *client, gchar **package_ids, GCancellable *cancellable,
-				    PkProgressCallback progress_callback, gpointer progress_user_data, GError **error)
-{
-	PkClientHelper *helper;
-	PkResults *results;
-
-	g_return_val_if_fail (PK_IS_CLIENT (client), NULL);
-	g_return_val_if_fail (error == NULL || *error == NULL, NULL);
-
-	/* create temp object */
-	helper = g_new0 (PkClientHelper, 1);
-	helper->loop = g_main_loop_new (NULL, FALSE);
-	helper->error = error;
-
-	/* run async method */
-	pk_client_simulate_update_packages_async (client, package_ids, cancellable, progress_callback, progress_user_data,
-						  (GAsyncReadyCallback) pk_client_generic_finish_sync, helper);
-
-	g_main_loop_run (helper->loop);
-
-	results = helper->results;
-
-	/* free temp object */
-	g_main_loop_unref (helper->loop);
-	g_free (helper);
-
-	return results;
-}
-
-/**
  * pk_client_upgrade_system:
  * @distro_id: a distro ID such as "fedora-14"
  * @upgrade_kind: a #PkUpgradeKindEnum such as %PK_UPGRADE_KIND_ENUM_COMPLETE
@@ -1705,7 +1441,7 @@ pk_client_simulate_update_packages (PkClient *client, gchar **package_ids, GCanc
 PkResults *
 pk_client_upgrade_system (PkClient *client, const gchar *distro_id, PkUpgradeKindEnum upgrade_kind,
 			  GCancellable *cancellable,
-		          PkProgressCallback progress_callback, gpointer progress_user_data, GError **error)
+			  PkProgressCallback progress_callback, gpointer progress_user_data, GError **error)
 {
 	PkClientHelper *helper;
 	PkResults *results;
@@ -1721,7 +1457,7 @@ pk_client_upgrade_system (PkClient *client, const gchar *distro_id, PkUpgradeKin
 	/* run async method */
 	pk_client_upgrade_system_async (client, distro_id, upgrade_kind,
 					cancellable, progress_callback, progress_user_data,
-				        (GAsyncReadyCallback) pk_client_generic_finish_sync, helper);
+					(GAsyncReadyCallback) pk_client_generic_finish_sync, helper);
 
 	g_main_loop_run (helper->loop);
 
@@ -1736,7 +1472,7 @@ pk_client_upgrade_system (PkClient *client, const gchar *distro_id, PkUpgradeKin
 
 /**
  * pk_client_repair_system:
- * @only_trusted: if only trusted packages should be installed
+ * @transaction_flags: if only trusted packages should be installed
  * @cancellable: a #GCancellable or %NULL
  * @progress_callback: (scope call): the function to run when the progress changes
  * @progress_user_data: data to pass to @progress_callback
@@ -1754,14 +1490,15 @@ pk_client_upgrade_system (PkClient *client, const gchar *distro_id, PkUpgradeKin
  *
  * Return value: (transfer full): a %PkResults object, or NULL for error
  *
- * Since: 0.7.2
+ * Since: 0.8.1
  **/
 PkResults *
 pk_client_repair_system (PkClient *client,
-                         gboolean only_trusted,
-                         GCancellable *cancellable,
-                         PkProgressCallback progress_callback,
-                         gpointer progress_user_data, GError **error)
+			 PkBitfield transaction_flags,
+			 GCancellable *cancellable,
+			 PkProgressCallback progress_callback,
+			 gpointer progress_user_data,
+			 GError **error)
 {
 	PkClientHelper *helper;
 	PkResults *results;
@@ -1775,65 +1512,13 @@ pk_client_repair_system (PkClient *client,
 	helper->error = error;
 
 	/* run async method */
-	pk_client_repair_system_async (client, only_trusted,
-	                               cancellable, progress_callback, progress_user_data,
-	                               (GAsyncReadyCallback) pk_client_generic_finish_sync,
-	                               helper);
-
-	g_main_loop_run (helper->loop);
-
-	results = helper->results;
-
-	/* free temp object */
-	g_main_loop_unref (helper->loop);
-	g_free (helper);
-
-	return results;
-}
-
-/**
- * pk_client_simulate_repair_system:
- * @cancellable: a #GCancellable or %NULL
- * @progress_callback: (scope call): the function to run when the progress changes
- * @progress_user_data: data to pass to @progress_callback
- * @error: the #GError to store any failure, or %NULL
- *
- * This transaction simultes the recovery from a broken package management system:
- * e.g. the installation of a package with unsatisfied dependencies has
- * been forced by using a low level tool (rpm or dpkg) or the
- * system was shutdown during processing an installation.
- *
- * The backend will decide what is best to do.
- *
- * Warning: this function is synchronous, and may block. Do not use it in GUI
- * applications.
- *
- * Return value: (transfer full): a %PkResults object, or NULL for error
- *
- * Since: 0.7.2
- **/
-PkResults *
-pk_client_simulate_repair_system (PkClient *client,
-                                  GCancellable *cancellable,
-                                  PkProgressCallback progress_callback,
-                                  gpointer progress_user_data, GError **error)
-{
-	PkClientHelper *helper;
-	PkResults *results;
-
-	g_return_val_if_fail (PK_IS_CLIENT (client), NULL);
-	g_return_val_if_fail (error == NULL || *error == NULL, NULL);
-
-	/* create temp object */
-	helper = g_new0 (PkClientHelper, 1);
-	helper->loop = g_main_loop_new (NULL, FALSE);
-	helper->error = error;
-
-	/* run async method */
-	pk_client_simulate_repair_system_async (client,
-	                                        cancellable, progress_callback, progress_user_data,
-	                                        (GAsyncReadyCallback) pk_client_generic_finish_sync,
-	                                        helper);
+	pk_client_repair_system_async (client,
+				       transaction_flags,
+				       cancellable,
+				       progress_callback,
+				       progress_user_data,
+				       (GAsyncReadyCallback) pk_client_generic_finish_sync,
+				       helper);
 
 	g_main_loop_run (helper->loop);
 

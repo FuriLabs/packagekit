@@ -43,167 +43,161 @@
 </tr></table></div>
 <div class="refsynopsisdiv">
 <h2>Methods</h2>
-<pre class="synopsis"><a class="link" href="Transaction.html#Transaction.SetHints">SetHints</a>                (in  'as' hints)
-<a class="link" href="Transaction.html#Transaction.AcceptEula">AcceptEula</a>              (in  's'  eula_id)
-<a class="link" href="Transaction.html#Transaction.Cancel">Cancel</a>                  ()
-<a class="link" href="Transaction.html#Transaction.DownloadPackages">DownloadPackages</a>        (in  'b'  store_in_cache,
-                         in  'as' package_ids)
-<a class="link" href="Transaction.html#Transaction.GetCategories">GetCategories</a>           ()
-<a class="link" href="Transaction.html#Transaction.GetDepends">GetDepends</a>              (in  's'  filter,
-                         in  'as' package_ids,
-                         in  'b'  recursive)
-<a class="link" href="Transaction.html#Transaction.GetDetails">GetDetails</a>              (in  'as' package_ids)
-<a class="link" href="Transaction.html#Transaction.GetFiles">GetFiles</a>                (in  'as' package_ids)
-<a class="link" href="Transaction.html#Transaction.GetOldTransactions">GetOldTransactions</a>      (in  'u'  number)
-<a class="link" href="Transaction.html#Transaction.GetPackages">GetPackages</a>             (in  's'  filter)
-<a class="link" href="Transaction.html#Transaction.GetRepoList">GetRepoList</a>             (in  's'  filter)
-<a class="link" href="Transaction.html#Transaction.GetRequires">GetRequires</a>             (in  's'  filter,
-                         in  'as' package_ids,
-                         in  'b'  recursive)
-<a class="link" href="Transaction.html#Transaction.GetUpdateDetail">GetUpdateDetail</a>         (in  'as' package_ids)
-<a class="link" href="Transaction.html#Transaction.GetUpdates">GetUpdates</a>              (in  's'  filter)
-<a class="link" href="Transaction.html#Transaction.GetDistroUpgrades">GetDistroUpgrades</a>       ()
-<a class="link" href="Transaction.html#Transaction.InstallFiles">InstallFiles</a>            (in  'b'  only_trusted,
-                         in  'as' full_paths)
-<a class="link" href="Transaction.html#Transaction.InstallPackages">InstallPackages</a>         (in  'b'  only_trusted,
-                         in  'as' package_ids)
-<a class="link" href="Transaction.html#Transaction.InstallSignature">InstallSignature</a>        (in  's'  sig_type,
-                         in  's'  key_id,
-                         in  's'  package_id)
-<a class="link" href="Transaction.html#Transaction.RefreshCache">RefreshCache</a>            (in  'b'  force)
-<a class="link" href="Transaction.html#Transaction.RemovePackages">RemovePackages</a>          (in  'as' package_ids,
-                         in  'b'  allow_deps,
-                         in  'b'  autoremove)
-<a class="link" href="Transaction.html#Transaction.RepoEnable">RepoEnable</a>              (in  's'  repo_id,
-                         in  'b'  enabled)
-<a class="link" href="Transaction.html#Transaction.RepoSetData">RepoSetData</a>             (in  's'  repo_id,
-                         in  's'  parameter,
-                         in  's'  value)
-<a class="link" href="Transaction.html#Transaction.Resolve">Resolve</a>                 (in  's'  filter,
-                         in  'as' packages)
-<a class="link" href="Transaction.html#Transaction.Rollback">Rollback</a>                (in  's'  transaction_id)
-<a class="link" href="Transaction.html#Transaction.SearchDetails">SearchDetails</a>           (in  's'  filter,
-                         in  'as' values)
-<a class="link" href="Transaction.html#Transaction.SearchFiles">SearchFiles</a>             (in  's'  filter,
-                         in  'as' values)
-<a class="link" href="Transaction.html#Transaction.SearchGroups">SearchGroups</a>            (in  's'  filter,
-                         in  'as' values)
-<a class="link" href="Transaction.html#Transaction.SearchNames">SearchNames</a>             (in  's'  filter,
-                         in  'as' values)
-<a class="link" href="Transaction.html#Transaction.SimulateInstallFiles">SimulateInstallFiles</a>    (in  'as' full_paths)
-<a class="link" href="Transaction.html#Transaction.SimulateInstallPackages">SimulateInstallPackages</a> (in  'as' package_ids)
-<a class="link" href="Transaction.html#Transaction.SimulateRemovePackages">SimulateRemovePackages</a>  (in  'as' package_ids,
-                         in  'b'  autoremove)
-<a class="link" href="Transaction.html#Transaction.SimulateUpdatePackages">SimulateUpdatePackages</a>  (in  'as' package_ids)
-<a class="link" href="Transaction.html#Transaction.UpdatePackages">UpdatePackages</a>          (in  'b'  only_trusted,
-                         in  'as' package_ids)
-<a class="link" href="Transaction.html#Transaction.UpdateSystem">UpdateSystem</a>            (in  'b'  only_trusted)
-<a class="link" href="Transaction.html#Transaction.WhatProvides">WhatProvides</a>            (in  's'  filter,
-                         in  's'  type,
-                         in  'as' values)
-<a class="link" href="Transaction.html#Transaction.UpgradeSystem">UpgradeSystem</a>           (in  's'  distro_id,
-                         in  's'  upgrade_kind)
-<a class="link" href="Transaction.html#Transaction.SimulateRepairSystem">SimulateRepairSystem</a>    ()
-<a class="link" href="Transaction.html#Transaction.RepairSystem">RepairSystem</a>            (in  'b'  only_trusted)
+<pre class="synopsis"><a class="link" href="Transaction.html#Transaction.SetHints">SetHints</a>           (in  'as' hints)
+<a class="link" href="Transaction.html#Transaction.AcceptEula">AcceptEula</a>         (in  's'  eula_id)
+<a class="link" href="Transaction.html#Transaction.Cancel">Cancel</a>             ()
+<a class="link" href="Transaction.html#Transaction.DownloadPackages">DownloadPackages</a>   (in  'b'  store_in_cache,
+                    in  'as' package_ids)
+<a class="link" href="Transaction.html#Transaction.GetCategories">GetCategories</a>      ()
+<a class="link" href="Transaction.html#Transaction.GetDepends">GetDepends</a>         (in  't'  filter,
+                    in  'as' package_ids,
+                    in  'b'  recursive)
+<a class="link" href="Transaction.html#Transaction.GetDetails">GetDetails</a>         (in  'as' package_ids)
+<a class="link" href="Transaction.html#Transaction.GetFiles">GetFiles</a>           (in  'as' package_ids)
+<a class="link" href="Transaction.html#Transaction.GetOldTransactions">GetOldTransactions</a> (in  'u'  number)
+<a class="link" href="Transaction.html#Transaction.GetPackages">GetPackages</a>        (in  't'  filter)
+<a class="link" href="Transaction.html#Transaction.GetRepoList">GetRepoList</a>        (in  't'  filter)
+<a class="link" href="Transaction.html#Transaction.GetRequires">GetRequires</a>        (in  't'  filter,
+                    in  'as' package_ids,
+                    in  'b'  recursive)
+<a class="link" href="Transaction.html#Transaction.GetUpdateDetail">GetUpdateDetail</a>    (in  'as' package_ids)
+<a class="link" href="Transaction.html#Transaction.GetUpdates">GetUpdates</a>         (in  't'  filter)
+<a class="link" href="Transaction.html#Transaction.GetDistroUpgrades">GetDistroUpgrades</a>  ()
+<a class="link" href="Transaction.html#Transaction.InstallFiles">InstallFiles</a>       (in  't'  transaction_flags,
+                    in  'as' full_paths)
+<a class="link" href="Transaction.html#Transaction.InstallPackages">InstallPackages</a>    (in  't'  transaction_flags,
+                    in  'as' package_ids)
+<a class="link" href="Transaction.html#Transaction.InstallSignature">InstallSignature</a>   (in  'u'  sig_type,
+                    in  's'  key_id,
+                    in  's'  package_id)
+<a class="link" href="Transaction.html#Transaction.RefreshCache">RefreshCache</a>       (in  'b'  force)
+<a class="link" href="Transaction.html#Transaction.RemovePackages">RemovePackages</a>     (in  't'  transaction_flags,
+                    in  'as' package_ids,
+                    in  'b'  allow_deps,
+                    in  'b'  autoremove)
+<a class="link" href="Transaction.html#Transaction.RepoEnable">RepoEnable</a>         (in  's'  repo_id,
+                    in  'b'  enabled)
+<a class="link" href="Transaction.html#Transaction.RepoSetData">RepoSetData</a>        (in  's'  repo_id,
+                    in  's'  parameter,
+                    in  's'  value)
+<a class="link" href="Transaction.html#Transaction.Resolve">Resolve</a>            (in  't'  filter,
+                    in  'as' packages)
+<a class="link" href="Transaction.html#Transaction.SearchDetails">SearchDetails</a>      (in  't'  filter,
+                    in  'as' values)
+<a class="link" href="Transaction.html#Transaction.SearchFiles">SearchFiles</a>        (in  't'  filter,
+                    in  'as' values)
+<a class="link" href="Transaction.html#Transaction.SearchGroups">SearchGroups</a>       (in  't'  filter,
+                    in  'as' values)
+<a class="link" href="Transaction.html#Transaction.SearchNames">SearchNames</a>        (in  't'  filter,
+                    in  'as' values)
+<a class="link" href="Transaction.html#Transaction.UpdatePackages">UpdatePackages</a>     (in  't'  transaction_flags,
+                    in  'as' package_ids)
+<a class="link" href="Transaction.html#Transaction.WhatProvides">WhatProvides</a>       (in  't'  filter,
+                    in  'u'  type,
+                    in  'as' values)
+<a class="link" href="Transaction.html#Transaction.UpgradeSystem">UpgradeSystem</a>      (in  's'  distro_id,
+                    in  'u'  upgrade_kind)
+<a class="link" href="Transaction.html#Transaction.RepairSystem">RepairSystem</a>       (in  't'  transaction_flags)
 </pre>
 </div>
 <div class="refsect1">
-<a name="id615307"></a><h2>Signals</h2>
-<pre class="synopsis"><a class="link" href="Transaction.html#Transaction::Category">Category</a>              ('s' parent_id,
-                       's' cat_id,
-                       's' name,
-                       's' summary,
-                       's' icon)
-<a class="link" href="Transaction.html#Transaction::Details">Details</a>               ('s' package_id,
-                       's' license,
-                       's' group,
-                       's' detail,
-                       's' url,
-                       't' size)
-<a class="link" href="Transaction.html#Transaction::ErrorCode">ErrorCode</a>             ('s' code,
-                       's' details)
-<a class="link" href="Transaction.html#Transaction::Files">Files</a>                 ('s' package_id,
-                       's' file_list)
-<a class="link" href="Transaction.html#Transaction::Finished">Finished</a>              ('s' exit,
-                       'u' runtime)
-<a class="link" href="Transaction.html#Transaction::Message">Message</a>               ('s' type,
-                       's' details)
-<a class="link" href="Transaction.html#Transaction::Package">Package</a>               ('s' info,
-                       's' package_id,
-                       's' summary)
-<a class="link" href="Transaction.html#Transaction::RepoDetail">RepoDetail</a>            ('s' repo_id,
-                       's' description,
-                       'b' enabled)
-<a class="link" href="Transaction.html#Transaction::RepoSignatureRequired">RepoSignatureRequired</a> ('s' package_id,
-                       's' repository_name,
-                       's' key_url,
-                       's' key_userid,
-                       's' key_id,
-                       's' key_fingerprint,
-                       's' key_timestamp,
-                       's' type)
-<a class="link" href="Transaction.html#Transaction::EulaRequired">EulaRequired</a>          ('s' eula_id,
-                       's' package_id,
-                       's' vendor_name,
-                       's' license_agreement)
-<a class="link" href="Transaction.html#Transaction::MediaChangeRequired">MediaChangeRequired</a>   ('s' media_type,
-                       's' media_id,
-                       's' media_text)
-<a class="link" href="Transaction.html#Transaction::RequireRestart">RequireRestart</a>        ('s' type,
-                       's' package_id)
-<a class="link" href="Transaction.html#Transaction::Transaction">Transaction</a>           ('s' old_tid,
-                       's' timespec,
-                       'b' succeeded,
-                       's' role,
-                       'u' duration,
-                       's' data,
-                       'u' uid,
-                       's' cmdline)
-<a class="link" href="Transaction.html#Transaction::UpdateDetail">UpdateDetail</a>          ('s' package_id,
-                       's' updates,
-                       's' obsoletes,
-                       's' vendor_url,
-                       's' bugzilla_url,
-                       's' cve_url,
-                       's' restart,
-                       's' update_text,
-                       's' changelog,
-                       's' state,
-                       's' issued,
-                       's' updated)
-<a class="link" href="Transaction.html#Transaction::DistroUpgrade">DistroUpgrade</a>         ('s' type,
-                       's' name,
-                       's' summary)
-<a class="link" href="Transaction.html#Transaction::ItemProgress">ItemProgress</a>          ('s' id,
-                       'u' percentage)
+<a name="id403035"></a><h2>Signals</h2>
+<pre class="synopsis"><a class="link" href="Transaction.html#Transaction::Category">Category</a>              ('s'  parent_id,
+                       's'  cat_id,
+                       's'  name,
+                       's'  summary,
+                       's'  icon)
+<a class="link" href="Transaction.html#Transaction::Details">Details</a>               ('s'  package_id,
+                       's'  license,
+                       'u'  group,
+                       's'  detail,
+                       's'  url,
+                       't'  size)
+<a class="link" href="Transaction.html#Transaction::ErrorCode">ErrorCode</a>             ('u'  code,
+                       's'  details)
+<a class="link" href="Transaction.html#Transaction::Files">Files</a>                 ('s'  package_id,
+                       'as' file_list)
+<a class="link" href="Transaction.html#Transaction::Finished">Finished</a>              ('u'  exit,
+                       'u'  runtime)
+<a class="link" href="Transaction.html#Transaction::Message">Message</a>               ('u'  type,
+                       's'  details)
+<a class="link" href="Transaction.html#Transaction::Package">Package</a>               ('u'  info,
+                       's'  package_id,
+                       's'  summary)
+<a class="link" href="Transaction.html#Transaction::RepoDetail">RepoDetail</a>            ('s'  repo_id,
+                       's'  description,
+                       'b'  enabled)
+<a class="link" href="Transaction.html#Transaction::RepoSignatureRequired">RepoSignatureRequired</a> ('s'  package_id,
+                       's'  repository_name,
+                       's'  key_url,
+                       's'  key_userid,
+                       's'  key_id,
+                       's'  key_fingerprint,
+                       's'  key_timestamp,
+                       'u'  type)
+<a class="link" href="Transaction.html#Transaction::EulaRequired">EulaRequired</a>          ('s'  eula_id,
+                       's'  package_id,
+                       's'  vendor_name,
+                       's'  license_agreement)
+<a class="link" href="Transaction.html#Transaction::MediaChangeRequired">MediaChangeRequired</a>   ('u'  media_type,
+                       's'  media_id,
+                       's'  media_text)
+<a class="link" href="Transaction.html#Transaction::RequireRestart">RequireRestart</a>        ('u'  type,
+                       's'  package_id)
+<a class="link" href="Transaction.html#Transaction::Transaction">Transaction</a>           ('o'  object_path,
+                       's'  timespec,
+                       'b'  succeeded,
+                       'u'  role,
+                       'u'  duration,
+                       's'  data,
+                       'u'  uid,
+                       's'  cmdline)
+<a class="link" href="Transaction.html#Transaction::UpdateDetail">UpdateDetail</a>          ('s'  package_id,
+                       'as' updates,
+                       'as' obsoletes,
+                       'as' vendor_urls,
+                       'as' bugzilla_urls,
+                       'as' cve_urls,
+                       'u'  restart,
+                       's'  update_text,
+                       's'  changelog,
+                       'u'  state,
+                       's'  issued,
+                       's'  updated)
+<a class="link" href="Transaction.html#Transaction::DistroUpgrade">DistroUpgrade</a>         ('u'  type,
+                       's'  name,
+                       's'  summary)
+<a class="link" href="Transaction.html#Transaction::ItemProgress">ItemProgress</a>          ('s'  id,
+                       'u'  status,
+                       'u'  percentage)
 <a class="link" href="Transaction.html#Transaction::Changed">Changed</a>               ()
 <a class="link" href="Transaction.html#Transaction::Destroy">Destroy</a>               ()
 </pre>
 </div>
 <div class="refsect1">
-<a name="id601815"></a><h2>Implemented Interfaces</h2>
+<a name="id427537"></a><h2>Implemented Interfaces</h2>
 <p>org.freedesktop.PackageKit.Transaction implements
     org.freedesktop.DBus.Introspectable,
     org.freedesktop.DBus.Properties
     </p>
 </div>
 <div class="refsect1">
-<a name="id601832"></a><h2>Properties</h2>
-<pre class="synopsis"><a class="link" href="Transaction.html#Transaction:Role">'Role'</a>          read      's'
-<a class="link" href="Transaction.html#Transaction:Status">'Status'</a>        read      's'
-<a class="link" href="Transaction.html#Transaction:LastPackage">'LastPackage'</a>   read      's'
-<a class="link" href="Transaction.html#Transaction:Uid">'Uid'</a>           read      'u'
-<a class="link" href="Transaction.html#Transaction:Percentage">'Percentage'</a>    read      'u'
-<a class="link" href="Transaction.html#Transaction:Subpercentage">'Subpercentage'</a> read      'u'
-<a class="link" href="Transaction.html#Transaction:AllowCancel">'AllowCancel'</a>   read      'b'
-<a class="link" href="Transaction.html#Transaction:CallerActive">'CallerActive'</a>  read      'b'
-<a class="link" href="Transaction.html#Transaction:ElapsedTime">'ElapsedTime'</a>   read      'u'
-<a class="link" href="Transaction.html#Transaction:RemainingTime">'RemainingTime'</a> read      'u'
-<a class="link" href="Transaction.html#Transaction:Speed">'Speed'</a>         read      'u'
+<a name="id427554"></a><h2>Properties</h2>
+<pre class="synopsis"><a class="link" href="Transaction.html#Transaction:Role">'Role'</a>                  read      'u'
+<a class="link" href="Transaction.html#Transaction:Status">'Status'</a>                read      'u'
+<a class="link" href="Transaction.html#Transaction:LastPackage">'LastPackage'</a>           read      's'
+<a class="link" href="Transaction.html#Transaction:Uid">'Uid'</a>                   read      'u'
+<a class="link" href="Transaction.html#Transaction:Percentage">'Percentage'</a>            read      'u'
+<a class="link" href="Transaction.html#Transaction:AllowCancel">'AllowCancel'</a>           read      'b'
+<a class="link" href="Transaction.html#Transaction:CallerActive">'CallerActive'</a>          read      'b'
+<a class="link" href="Transaction.html#Transaction:ElapsedTime">'ElapsedTime'</a>           read      'u'
+<a class="link" href="Transaction.html#Transaction:RemainingTime">'RemainingTime'</a>         read      'u'
+<a class="link" href="Transaction.html#Transaction:Speed">'Speed'</a>                 read      'u'
+<a class="link" href="Transaction.html#Transaction:DownloadSizeRemaining">'DownloadSizeRemaining'</a> read      't'
 </pre>
 </div>
 <div class="refsect1">
-<a name="id605919"></a><h2>Description</h2>
+<a name="id433361"></a><h2>Description</h2>
 <p>
       
         </p>
@@ -215,9 +209,9 @@
     </p>
 </div>
 <div class="refsect1">
-<a name="id605939"></a><h2>Details</h2>
+<a name="id433381"></a><h2>Details</h2>
 <div class="refsect2">
-<a name="id605947"></a><h3>
+<a name="id433389"></a><h3>
 <a name="Transaction.SetHints"></a>SetHints ()</h3>
 <pre class="programlisting">SetHints (in  'as' hints)</pre>
 </div>
@@ -296,7 +290,7 @@
 </table></div>
 <hr>
 <div class="refsect2">
-<a name="id606000"></a><h3>
+<a name="id442135"></a><h3>
 <a name="Transaction.AcceptEula"></a>AcceptEula ()</h3>
 <pre class="programlisting">AcceptEula (in  's' eula_id)</pre>
 </div>
@@ -317,7 +311,7 @@
 <p class="permission">Callers need the org.freedesktop.packagekit.accept-eula</p>
 <hr>
 <div class="refsect2">
-<a name="id638704"></a><h3>
+<a name="id442182"></a><h3>
 <a name="Transaction.Cancel"></a>Cancel ()</h3>
 <pre class="programlisting">Cancel ()</pre>
 </div>
@@ -330,7 +324,7 @@
 </table></div>
 <hr>
 <div class="refsect2">
-<a name="id638735"></a><h3>
+<a name="id442213"></a><h3>
 <a name="Transaction.DownloadPackages"></a>DownloadPackages ()</h3>
 <pre class="programlisting">DownloadPackages (in  'b'  store_in_cache,
                   in  'as' package_ids)</pre>
@@ -381,7 +375,7 @@
 </table></div>
 <hr>
 <div class="refsect2">
-<a name="id638805"></a><h3>
+<a name="id442281"></a><h3>
 <a name="Transaction.GetCategories"></a>GetCategories ()</h3>
 <pre class="programlisting">GetCategories ()</pre>
 </div>
@@ -394,9 +388,9 @@
 </table></div>
 <hr>
 <div class="refsect2">
-<a name="id638836"></a><h3>
+<a name="id442312"></a><h3>
 <a name="Transaction.GetDepends"></a>GetDepends ()</h3>
-<pre class="programlisting">GetDepends (in  's'  filter,
+<pre class="programlisting">GetDepends (in  't'  filter,
             in  'as' package_ids,
             in  'b'  recursive)</pre>
 </div>
@@ -421,7 +415,7 @@
 <td><p><span class="term"><em class="parameter"><code>filter</code></em>:</span></p></td>
 <td>
             
-              A correct filter, e.g. none or installed;~devel
+              A correct filter bitfield, e.g. none or installed;~devel
             
           </td>
 </tr>
@@ -449,7 +443,7 @@
 </table></div>
 <hr>
 <div class="refsect2">
-<a name="id638916"></a><h3>
+<a name="id442391"></a><h3>
 <a name="Transaction.GetDetails"></a>GetDetails ()</h3>
 <pre class="programlisting">GetDetails (in  'as' package_ids)</pre>
 </div>
@@ -477,7 +471,7 @@
 </table></div>
 <hr>
 <div class="refsect2">
-<a name="id638964"></a><h3>
+<a name="id442438"></a><h3>
 <a name="Transaction.GetFiles"></a>GetFiles ()</h3>
 <pre class="programlisting">GetFiles (in  'as' package_ids)</pre>
 </div>
@@ -504,7 +498,7 @@
 </table></div>
 <hr>
 <div class="refsect2">
-<a name="id639012"></a><h3>
+<a name="id442486"></a><h3>
 <a name="Transaction.GetOldTransactions"></a>GetOldTransactions ()</h3>
 <pre class="programlisting">GetOldTransactions (in  'u' number)</pre>
 </div>
@@ -524,9 +518,9 @@
 </table></div>
 <hr>
 <div class="refsect2">
-<a name="id639056"></a><h3>
+<a name="id442530"></a><h3>
 <a name="Transaction.GetPackages"></a>GetPackages ()</h3>
-<pre class="programlisting">GetPackages (in  's' filter)</pre>
+<pre class="programlisting">GetPackages (in  't' filter)</pre>
 </div>
 <p>
             This method returns all the packages without a search term.
@@ -547,16 +541,16 @@
 <td><p><span class="term"><em class="parameter"><code>filter</code></em>:</span></p></td>
 <td>
             
-              A correct filter, e.g. none or installed;~devel
+              A correct filter bitfield, e.g. none or installed;~devel
             
           </td>
 </tr></tbody>
 </table></div>
 <hr>
 <div class="refsect2">
-<a name="id639108"></a><h3>
+<a name="id442583"></a><h3>
 <a name="Transaction.GetRepoList"></a>GetRepoList ()</h3>
-<pre class="programlisting">GetRepoList (in  's' filter)</pre>
+<pre class="programlisting">GetRepoList (in  't' filter)</pre>
 </div>
 <p>
             This method returns the list of repositories used in the system.
@@ -570,16 +564,16 @@
 <td><p><span class="term"><em class="parameter"><code>filter</code></em>:</span></p></td>
 <td>
             
-              A correct filter, e.g. none or installed;~devel
+              A correct filter bitfield, e.g. none or installed;~devel
             
           </td>
 </tr></tbody>
 </table></div>
 <hr>
 <div class="refsect2">
-<a name="id639155"></a><h3>
+<a name="id444160"></a><h3>
 <a name="Transaction.GetRequires"></a>GetRequires ()</h3>
-<pre class="programlisting">GetRequires (in  's'  filter,
+<pre class="programlisting">GetRequires (in  't'  filter,
              in  'as' package_ids,
              in  'b'  recursive)</pre>
 </div>
@@ -606,7 +600,7 @@
 <td><p><span class="term"><em class="parameter"><code>filter</code></em>:</span></p></td>
 <td>
             
-              A correct filter, e.g. none or installed;~devel
+              A correct filter bitfield, e.g. none or installed;~devel
             
           </td>
 </tr>
@@ -634,7 +628,7 @@
 </table></div>
 <hr>
 <div class="refsect2">
-<a name="id639236"></a><h3>
+<a name="id444241"></a><h3>
 <a name="Transaction.GetUpdateDetail"></a>GetUpdateDetail ()</h3>
 <pre class="programlisting">GetUpdateDetail (in  'as' package_ids)</pre>
 </div>
@@ -659,9 +653,9 @@
 </table></div>
 <hr>
 <div class="refsect2">
-<a name="id639284"></a><h3>
+<a name="id444289"></a><h3>
 <a name="Transaction.GetUpdates"></a>GetUpdates ()</h3>
-<pre class="programlisting">GetUpdates (in  's' filter)</pre>
+<pre class="programlisting">GetUpdates (in  't' filter)</pre>
 </div>
 <p>
             This method should return a list of packages that are installed and are upgradable.
@@ -706,14 +700,14 @@
 <td><p><span class="term"><em class="parameter"><code>filter</code></em>:</span></p></td>
 <td>
             
-              A correct filter, e.g. none or installed;~devel
+              A correct filter bitfield, e.g. none or installed;~devel
             
           </td>
 </tr></tbody>
 </table></div>
 <hr>
 <div class="refsect2">
-<a name="id639354"></a><h3>
+<a name="id444358"></a><h3>
 <a name="Transaction.GetDistroUpgrades"></a>GetDistroUpgrades ()</h3>
 <pre class="programlisting">GetDistroUpgrades ()</pre>
 </div>
@@ -733,9 +727,9 @@
 </table></div>
 <hr>
 <div class="refsect2">
-<a name="id639390"></a><h3>
+<a name="id444395"></a><h3>
 <a name="Transaction.InstallFiles"></a>InstallFiles ()</h3>
-<pre class="programlisting">InstallFiles (in  'b'  only_trusted,
+<pre class="programlisting">InstallFiles (in  't'  transaction_flags,
               in  'as' full_paths)</pre>
 </div>
 <p>
@@ -762,7 +756,7 @@
 <col align="left" valign="top">
 <tbody>
 <tr>
-<td><p><span class="term"><em class="parameter"><code>only_trusted</code></em>:</span></p></td>
+<td><p><span class="term"><em class="parameter"><code>transaction_flags</code></em>:</span></p></td>
 <td>
             
               If the transaction is only allowed to install trusted files.
@@ -789,9 +783,9 @@
 <p class="permission">Callers need the org.freedesktop.packagekit.localinstall-untrusted</p>
 <hr>
 <div class="refsect2">
-<a name="id639468"></a><h3>
+<a name="id444474"></a><h3>
 <a name="Transaction.InstallPackages"></a>InstallPackages ()</h3>
-<pre class="programlisting">InstallPackages (in  'b'  only_trusted,
+<pre class="programlisting">InstallPackages (in  't'  transaction_flags,
                  in  'as' package_ids)</pre>
 </div>
 <p>
@@ -820,11 +814,11 @@
 <col align="left" valign="top">
 <tbody>
 <tr>
-<td><p><span class="term"><em class="parameter"><code>only_trusted</code></em>:</span></p></td>
+<td><p><span class="term"><em class="parameter"><code>transaction_flags</code></em>:</span></p></td>
 <td>
             
               If the transaction is only allowed to install trusted packages.
-              Unsigned packages should not be installed if this parameter is TRUE.
+              Unsigned packages should not be installed if transaction_flags contains ALLOW_UNTRUSTED.
             
             
               If this method is can only install trusted packages, and the packages are unsigned, then
@@ -847,9 +841,9 @@
 <p class="permission">Callers need the org.freedesktop.packagekit.install-untrusted</p>
 <hr>
 <div class="refsect2">
-<a name="id639548"></a><h3>
+<a name="id444554"></a><h3>
 <a name="Transaction.InstallSignature"></a>InstallSignature ()</h3>
-<pre class="programlisting">InstallSignature (in  's' sig_type,
+<pre class="programlisting">InstallSignature (in  'u' sig_type,
                   in  's' key_id,
                   in  's' package_id)</pre>
 </div>
@@ -863,7 +857,7 @@
 <td><p><span class="term"><em class="parameter"><code>sig_type</code></em>:</span></p></td>
 <td>
             
-              A key type, e.g. gpg
+              A key type enum, e.g. gpg
             
           </td>
 </tr>
@@ -888,7 +882,7 @@
 <p class="permission">Callers need the org.freedesktop.packagekit.install-signature</p>
 <hr>
 <div class="refsect2">
-<a name="id639622"></a><h3>
+<a name="id444628"></a><h3>
 <a name="Transaction.RefreshCache"></a>RefreshCache ()</h3>
 <pre class="programlisting">RefreshCache (in  'b' force)</pre>
 </div>
@@ -926,9 +920,10 @@
 <p class="permission">Callers need the org.freedesktop.packagekit.refresh-cache</p>
 <hr>
 <div class="refsect2">
-<a name="id639685"></a><h3>
+<a name="id444691"></a><h3>
 <a name="Transaction.RemovePackages"></a>RemovePackages ()</h3>
-<pre class="programlisting">RemovePackages (in  'as' package_ids,
+<pre class="programlisting">RemovePackages (in  't'  transaction_flags,
+                in  'as' package_ids,
                 in  'b'  allow_deps,
                 in  'b'  autoremove)</pre>
 </div>
@@ -952,6 +947,14 @@
 <div class="variablelist"><table border="0">
 <col align="left" valign="top">
 <tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>transaction_flags</code></em>:</span></p></td>
+<td>
+            
+              If the transaction should be simulated or prepared.
+            
+          </td>
+</tr>
 <tr>
 <td><p><span class="term"><em class="parameter"><code>package_ids</code></em>:</span></p></td>
 <td>
@@ -991,7 +994,7 @@
 <p class="permission">Callers need the org.freedesktop.packagekit.remove</p>
 <hr>
 <div class="refsect2">
-<a name="id639774"></a><h3>
+<a name="id444792"></a><h3>
 <a name="Transaction.RepoEnable"></a>RepoEnable ()</h3>
 <pre class="programlisting">RepoEnable (in  's' repo_id,
             in  'b' enabled)</pre>
@@ -1023,7 +1026,7 @@
 <p class="permission">Callers need the org.freedesktop.packagekit.repo-change</p>
 <hr>
 <div class="refsect2">
-<a name="id639834"></a><h3>
+<a name="id444853"></a><h3>
 <a name="Transaction.RepoSetData"></a>RepoSetData ()</h3>
 <pre class="programlisting">RepoSetData (in  's' repo_id,
              in  's' parameter,
@@ -1064,9 +1067,9 @@
 <p class="permission">Callers need the org.freedesktop.packagekit.repo-change</p>
 <hr>
 <div class="refsect2">
-<a name="id639907"></a><h3>
+<a name="id444926"></a><h3>
 <a name="Transaction.Resolve"></a>Resolve ()</h3>
-<pre class="programlisting">Resolve (in  's'  filter,
+<pre class="programlisting">Resolve (in  't'  filter,
          in  'as' packages)</pre>
 </div>
 <p>
@@ -1094,7 +1097,7 @@
 <td><p><span class="term"><em class="parameter"><code>filter</code></em>:</span></p></td>
 <td>
             
-              A correct filter, e.g. none or installed;~devel
+              A correct filter bitfield, e.g. none or installed;~devel
             
           </td>
 </tr>
@@ -1123,30 +1126,9 @@
 </table></div>
 <hr>
 <div class="refsect2">
-<a name="id639982"></a><h3>
-<a name="Transaction.Rollback"></a>Rollback ()</h3>
-<pre class="programlisting">Rollback (in  's' transaction_id)</pre>
-</div>
-<p>
-            This method rolls back the package database to a previous transaction.
-          </p>
-<div class="variablelist"><table border="0">
-<col align="left" valign="top">
-<tbody><tr>
-<td><p><span class="term"><em class="parameter"><code>transaction_id</code></em>:</span></p></td>
-<td>
-            
-              A valid transaction ID.
-            
-          </td>
-</tr></tbody>
-</table></div>
-<p class="permission">Callers need the org.freedesktop.packagekit.rollback</p>
-<hr>
-<div class="refsect2">
-<a name="id640030"></a><h3>
+<a name="id445001"></a><h3>
 <a name="Transaction.SearchDetails"></a>SearchDetails ()</h3>
-<pre class="programlisting">SearchDetails (in  's'  filter,
+<pre class="programlisting">SearchDetails (in  't'  filter,
                in  'as' values)</pre>
 </div>
 <p>
@@ -1187,7 +1169,7 @@
 <td><p><span class="term"><em class="parameter"><code>filter</code></em>:</span></p></td>
 <td>
             
-              A correct filter, e.g. none or installed;~devel
+              A correct filter bitfield, e.g. none or installed;~devel
             
           </td>
 </tr>
@@ -1211,9 +1193,9 @@
 </table></div>
 <hr>
 <div class="refsect2">
-<a name="id640116"></a><h3>
+<a name="id445087"></a><h3>
 <a name="Transaction.SearchFiles"></a>SearchFiles ()</h3>
-<pre class="programlisting">SearchFiles (in  's'  filter,
+<pre class="programlisting">SearchFiles (in  't'  filter,
              in  'as' values)</pre>
 </div>
 <p>
@@ -1241,7 +1223,7 @@
 <td><p><span class="term"><em class="parameter"><code>filter</code></em>:</span></p></td>
 <td>
             
-              A correct filter, e.g. none or installed;~devel
+              A correct filter bitfield, e.g. none or installed;~devel
             
           </td>
 </tr>
@@ -1262,9 +1244,9 @@
 </table></div>
 <hr>
 <div class="refsect2">
-<a name="id640190"></a><h3>
+<a name="id445161"></a><h3>
 <a name="Transaction.SearchGroups"></a>SearchGroups ()</h3>
-<pre class="programlisting">SearchGroups (in  's'  filter,
+<pre class="programlisting">SearchGroups (in  't'  filter,
               in  'as' values)</pre>
 </div>
 <p>
@@ -1302,7 +1284,7 @@
 <td><p><span class="term"><em class="parameter"><code>filter</code></em>:</span></p></td>
 <td>
             
-              A correct filter, e.g. none or installed;~devel
+              A correct filter bitfield, e.g. none or installed;~devel
             
           </td>
 </tr>
@@ -1337,9 +1319,9 @@
 </table></div>
 <hr>
 <div class="refsect2">
-<a name="id640278"></a><h3>
+<a name="id445250"></a><h3>
 <a name="Transaction.SearchNames"></a>SearchNames ()</h3>
-<pre class="programlisting">SearchNames (in  's'  filter,
+<pre class="programlisting">SearchNames (in  't'  filter,
              in  'as' values)</pre>
 </div>
 <p>
@@ -1383,7 +1365,7 @@
 <td><p><span class="term"><em class="parameter"><code>filter</code></em>:</span></p></td>
 <td>
             
-              A correct filter, e.g. none or installed;~devel
+              A correct filter bitfield, e.g. none or installed;~devel
             
           </td>
 </tr>
@@ -1407,135 +1389,9 @@
 </table></div>
 <hr>
 <div class="refsect2">
-<a name="id640368"></a><h3>
-<a name="Transaction.SimulateInstallFiles"></a>SimulateInstallFiles ()</h3>
-<pre class="programlisting">SimulateInstallFiles (in  'as' full_paths)</pre>
-</div>
-<p>
-            This method simulates a package file instalation emitting packages required to be
-            installed, removed, updated, reinstalled, downgraded, obsoleted or untrusted.
-            The latter is used to present the user untrusted packages that are about to be installed.
-          </p>
-<p>
-            This method typically emits
-            Error and
-            Package.
-          </p>
-<div class="variablelist"><table border="0">
-<col align="left" valign="top">
-<tbody><tr>
-<td><p><span class="term"><em class="parameter"><code>full_paths</code></em>:</span></p></td>
-<td>
-            
-              An array of full path and filenames to packages.
-            
-          </td>
-</tr></tbody>
-</table></div>
-<hr>
-<div class="refsect2">
-<a name="id640417"></a><h3>
-<a name="Transaction.SimulateInstallPackages"></a>SimulateInstallPackages ()</h3>
-<pre class="programlisting">SimulateInstallPackages (in  'as' package_ids)</pre>
-</div>
-<p>
-            This method simulates a package instalation emitting packages required to be
-            installed, removed, updated, reinstalled, downgraded, obsoleted or untrusted.
-            The latter is used to present the user untrusted packages that are about to be installed.
-          </p>
-<p>
-            This method typically emits
-            Error and
-            Package.
-          </p>
-<div class="variablelist"><table border="0">
-<col align="left" valign="top">
-<tbody><tr>
-<td><p><span class="term"><em class="parameter"><code>package_ids</code></em>:</span></p></td>
-<td>
-            
-              An array of package IDs.
-            
-          </td>
-</tr></tbody>
-</table></div>
-<hr>
-<div class="refsect2">
-<a name="id640466"></a><h3>
-<a name="Transaction.SimulateRemovePackages"></a>SimulateRemovePackages ()</h3>
-<pre class="programlisting">SimulateRemovePackages (in  'as' package_ids,
-                        in  'b'  autoremove)</pre>
-</div>
-<p>
-            This method simulates a package removal emitting packages required to be
-            installed, removed, updated, reinstalled, downgraded, obsoleted or untrusted.
-            The latter is used to present the user untrusted packages that are about to be installed.
-          </p>
-<p>
-            This method typically emits
-            Error and
-            Package.
-          </p>
-<div class="variablelist"><table border="0">
-<col align="left" valign="top">
-<tbody>
-<tr>
-<td><p><span class="term"><em class="parameter"><code>package_ids</code></em>:</span></p></td>
-<td>
-            
-              An array of package IDs.
-            
-          </td>
-</tr>
-<tr>
-<td><p><span class="term"><em class="parameter"><code>autoremove</code></em>:</span></p></td>
-<td>
-            
-              Either true or false.
-              This option is only really interesting on embedded devices with a limited amount of
-              flash storage.
-              It suggests to the packagekit backend that dependencies installed at the same time as
-              the package should also be removed if they are not required by anything else.
-              For instance, if you install OpenOffice, it might download libneon as a dependency.
-              When auto_remove is set to true, and you remove OpenOffice then
-              libneon will also get removed automatically.
-            
-          </td>
-</tr>
-</tbody>
-</table></div>
-<hr>
-<div class="refsect2">
-<a name="id640533"></a><h3>
-<a name="Transaction.SimulateUpdatePackages"></a>SimulateUpdatePackages ()</h3>
-<pre class="programlisting">SimulateUpdatePackages (in  'as' package_ids)</pre>
-</div>
-<p>
-            This method simulates a package update emitting packages required to be
-            installed, removed, updated, reinstalled, downgraded, obsoleted or untrusted.
-            The latter is used to present the user untrusted packages that are about to be installed.
-          </p>
-<p>
-            This method typically emits
-            Error and
-            Package.
-          </p>
-<div class="variablelist"><table border="0">
-<col align="left" valign="top">
-<tbody><tr>
-<td><p><span class="term"><em class="parameter"><code>package_ids</code></em>:</span></p></td>
-<td>
-            
-              An array of package IDs.
-            
-          </td>
-</tr></tbody>
-</table></div>
-<hr>
-<div class="refsect2">
-<a name="id640583"></a><h3>
+<a name="id445339"></a><h3>
 <a name="Transaction.UpdatePackages"></a>UpdatePackages ()</h3>
-<pre class="programlisting">UpdatePackages (in  'b'  only_trusted,
+<pre class="programlisting">UpdatePackages (in  't'  transaction_flags,
                 in  'as' package_ids)</pre>
 </div>
 <p>
@@ -1558,11 +1414,11 @@
 <col align="left" valign="top">
 <tbody>
 <tr>
-<td><p><span class="term"><em class="parameter"><code>only_trusted</code></em>:</span></p></td>
+<td><p><span class="term"><em class="parameter"><code>transaction_flags</code></em>:</span></p></td>
 <td>
             
               If the transaction is only allowed to update to trusted packages.
-              Unsigned packages should not be installed if this parameter is TRUE.
+              Unsigned packages should not be installed if this transaction_flags has ONLY_TRUSTED.
             
             
               If this method is can only update trusted packages, and the packages are unsigned, then
@@ -1585,43 +1441,10 @@
 <p class="permission">Callers need the org.freedesktop.packagekit.update-package</p>
 <hr>
 <div class="refsect2">
-<a name="id640662"></a><h3>
-<a name="Transaction.UpdateSystem"></a>UpdateSystem ()</h3>
-<pre class="programlisting">UpdateSystem (in  'b' only_trusted)</pre>
-</div>
-<p>
-            This method updates all packages on the system to thier newest versions.
-          </p>
-<p>
-            The installer should update all the updateable packages on the system,
-            including automatically installing any new packages that are needed for
-            dependancies.
-          </p>
-<div class="variablelist"><table border="0">
-<col align="left" valign="top">
-<tbody><tr>
-<td><p><span class="term"><em class="parameter"><code>only_trusted</code></em>:</span></p></td>
-<td>
-            
-              If the transaction is only allowed to update to trusted packages.
-              Unsigned packages should not be installed if this parameter is TRUE.
-            
-            
-              If this method is can only update trusted packages, and the packages are unsigned, then
-              the backend will send a ErrorCode(missing-gpg-signature).
-              On recieving this error, the client may choose to retry with only_trusted FALSE
-              after gaining further authentication.
-            
-          </td>
-</tr></tbody>
-</table></div>
-<p class="permission">Callers need the org.freedesktop.packagekit.update-system</p>
-<hr>
-<div class="refsect2">
-<a name="id641539"></a><h3>
+<a name="id445418"></a><h3>
 <a name="Transaction.WhatProvides"></a>WhatProvides ()</h3>
-<pre class="programlisting">WhatProvides (in  's'  filter,
-              in  's'  type,
+<pre class="programlisting">WhatProvides (in  't'  filter,
+              in  'u'  type,
               in  'as' values)</pre>
 </div>
 <p>
@@ -1647,7 +1470,7 @@
 <td><p><span class="term"><em class="parameter"><code>filter</code></em>:</span></p></td>
 <td>
             
-              A correct filter, e.g. none or installed;~devel
+              A correct filter bitfield, e.g. none or installed;~devel
             
           </td>
 </tr>
@@ -1672,10 +1495,10 @@
 </table></div>
 <hr>
 <div class="refsect2">
-<a name="id641619"></a><h3>
+<a name="id445498"></a><h3>
 <a name="Transaction.UpgradeSystem"></a>UpgradeSystem ()</h3>
 <pre class="programlisting">UpgradeSystem (in  's' distro_id,
-               in  's' upgrade_kind)</pre>
+               in  'u' upgrade_kind)</pre>
 </div>
 <p>
             This method perfoms a distribution upgrade to the specified
@@ -1716,32 +1539,9 @@
 </table></div>
 <hr>
 <div class="refsect2">
-<a name="id641683"></a><h3>
-<a name="Transaction.SimulateRepairSystem"></a>SimulateRepairSystem ()</h3>
-<pre class="programlisting">SimulateRepairSystem ()</pre>
-</div>
-<p>
-            This method simulates recovering the package management system from e.g.
-            unsatisfied dependencies of installed packages emitting packages required to be
-            installed, removed, updated, reinstalled, downgraded, obsoleted or untrusted.
-            The latter is used to present the user untrusted packages that are about to be installed.
-          </p>
-<p>
-            This method typically emits
-            Progress,
-            Status and
-            Error and
-            Package.
-          </p>
-<div class="variablelist"><table border="0">
-<col align="left" valign="top">
-<tbody></tbody>
-</table></div>
-<hr>
-<div class="refsect2">
-<a name="id641722"></a><h3>
+<a name="id445562"></a><h3>
 <a name="Transaction.RepairSystem"></a>RepairSystem ()</h3>
-<pre class="programlisting">RepairSystem (in  'b' only_trusted)</pre>
+<pre class="programlisting">RepairSystem (in  't' transaction_flags)</pre>
 </div>
 <p>
             This method recovers the package management system from e.g.
@@ -1757,11 +1557,11 @@
 <div class="variablelist"><table border="0">
 <col align="left" valign="top">
 <tbody><tr>
-<td><p><span class="term"><em class="parameter"><code>only_trusted</code></em>:</span></p></td>
+<td><p><span class="term"><em class="parameter"><code>transaction_flags</code></em>:</span></p></td>
 <td>
             
               If the transaction is only allowed to install trusted packages.
-              Unsigned packages should not be installed if this parameter is TRUE.
+              Unsigned packages should not be installed if this transaction_flags has ONLY_TRUSTED.
             
             
               If this method is can only install trusted packages, and the packages are unsigned, then
@@ -1774,9 +1574,9 @@
 </table></div>
 </div>
 <div class="refsect1">
-<a name="id641776"></a><h2>Signal Details</h2>
+<a name="id445616"></a><h2>Signal Details</h2>
 <div class="refsect2">
-<a name="id641784"></a><h3>
+<a name="id445624"></a><h3>
 <a name="Transaction::Category"></a>The Category signal</h3>
 <pre class="programlisting">Category ('s' parent_id,
           's' cat_id,
@@ -1846,11 +1646,11 @@
 </table></div>
 <hr>
 <div class="refsect2">
-<a name="id641884"></a><h3>
+<a name="id445724"></a><h3>
 <a name="Transaction::Details"></a>The Details signal</h3>
 <pre class="programlisting">Details ('s' package_id,
          's' license,
-         's' group,
+         'u' group,
          's' detail,
          's' url,
          't' size)</pre>
@@ -1924,9 +1724,9 @@
 </table></div>
 <hr>
 <div class="refsect2">
-<a name="id641994"></a><h3>
+<a name="id445834"></a><h3>
 <a name="Transaction::ErrorCode"></a>The ErrorCode signal</h3>
-<pre class="programlisting">ErrorCode ('s' code,
+<pre class="programlisting">ErrorCode ('u' code,
            's' details)</pre>
 </div>
 <p>
@@ -1958,10 +1758,10 @@
 </table></div>
 <hr>
 <div class="refsect2">
-<a name="id642054"></a><h3>
+<a name="id445894"></a><h3>
 <a name="Transaction::Files"></a>The Files signal</h3>
-<pre class="programlisting">Files ('s' package_id,
-       's' file_list)</pre>
+<pre class="programlisting">Files ('s'  package_id,
+       'as' file_list)</pre>
 </div>
 <p>
             This signal is used to push file lists from the backend to the session.
@@ -1981,7 +1781,7 @@
 <td><p><span class="term"><em class="parameter"><code>file_list</code></em>:</span></p></td>
 <td>
             
-              The file list, with each file seporated with ;.
+              The file list as an array.
             
           </td>
 </tr>
@@ -1989,9 +1789,9 @@
 </table></div>
 <hr>
 <div class="refsect2">
-<a name="id642109"></a><h3>
+<a name="id445949"></a><h3>
 <a name="Transaction::Finished"></a>The Finished signal</h3>
-<pre class="programlisting">Finished ('s' exit,
+<pre class="programlisting">Finished ('u' exit,
           'u' runtime)</pre>
 </div>
 <p>
@@ -2020,9 +1820,9 @@
 </table></div>
 <hr>
 <div class="refsect2">
-<a name="id642165"></a><h3>
+<a name="id446005"></a><h3>
 <a name="Transaction::Message"></a>The Message signal</h3>
-<pre class="programlisting">Message ('s' type,
+<pre class="programlisting">Message ('u' type,
          's' details)</pre>
 </div>
 <p>
@@ -2056,9 +1856,9 @@
 </table></div>
 <hr>
 <div class="refsect2">
-<a name="id642225"></a><h3>
+<a name="id446065"></a><h3>
 <a name="Transaction::Package"></a>The Package signal</h3>
-<pre class="programlisting">Package ('s' info,
+<pre class="programlisting">Package ('u' info,
          's' package_id,
          's' summary)</pre>
 </div>
@@ -2081,7 +1881,7 @@
 <td><p><span class="term"><em class="parameter"><code>info</code></em>:</span></p></td>
 <td>
             
-              A valid info string enumerated type
+              A valid info enumerated type
             
           </td>
 </tr>
@@ -2130,7 +1930,7 @@
 </table></div>
 <hr>
 <div class="refsect2">
-<a name="id642313"></a><h3>
+<a name="id446153"></a><h3>
 <a name="Transaction::RepoDetail"></a>The RepoDetail signal</h3>
 <pre class="programlisting">RepoDetail ('s' repo_id,
             's' description,
@@ -2170,7 +1970,7 @@
 </table></div>
 <hr>
 <div class="refsect2">
-<a name="id642381"></a><h3>
+<a name="id447041"></a><h3>
 <a name="Transaction::RepoSignatureRequired"></a>The RepoSignatureRequired signal</h3>
 <pre class="programlisting">RepoSignatureRequired ('s' package_id,
                        's' repository_name,
@@ -2179,7 +1979,7 @@
                        's' key_id,
                        's' key_fingerprint,
                        's' key_timestamp,
-                       's' type)</pre>
+                       'u' type)</pre>
 </div>
 <p>
             This signal is emitted when a transaction is not possible due to a missing security
@@ -2269,7 +2069,7 @@
 </table></div>
 <hr>
 <div class="refsect2">
-<a name="id642526"></a><h3>
+<a name="id447185"></a><h3>
 <a name="Transaction::EulaRequired"></a>The EulaRequired signal</h3>
 <pre class="programlisting">EulaRequired ('s' eula_id,
               's' package_id,
@@ -2325,9 +2125,9 @@
 </table></div>
 <hr>
 <div class="refsect2">
-<a name="id642614"></a><h3>
+<a name="id447273"></a><h3>
 <a name="Transaction::MediaChangeRequired"></a>The MediaChangeRequired signal</h3>
-<pre class="programlisting">MediaChangeRequired ('s' media_type,
+<pre class="programlisting">MediaChangeRequired ('u' media_type,
                      's' media_id,
                      's' media_text)</pre>
 </div>
@@ -2374,9 +2174,9 @@
 </table></div>
 <hr>
 <div class="refsect2">
-<a name="id642691"></a><h3>
+<a name="id447350"></a><h3>
 <a name="Transaction::RequireRestart"></a>The RequireRestart signal</h3>
-<pre class="programlisting">RequireRestart ('s' type,
+<pre class="programlisting">RequireRestart ('u' type,
                 's' package_id)</pre>
 </div>
 <p>
@@ -2414,12 +2214,12 @@
 </table></div>
 <hr>
 <div class="refsect2">
-<a name="id642757"></a><h3>
+<a name="id447416"></a><h3>
 <a name="Transaction::Transaction"></a>The Transaction signal</h3>
-<pre class="programlisting">Transaction ('s' old_tid,
+<pre class="programlisting">Transaction ('o' object_path,
              's' timespec,
              'b' succeeded,
-             's' role,
+             'u' role,
              'u' duration,
              's' data,
              'u' uid,
@@ -2432,7 +2232,7 @@
 <col align="left" valign="top">
 <tbody>
 <tr>
-<td><p><span class="term"><em class="parameter"><code>old_tid</code></em>:</span></p></td>
+<td><p><span class="term"><em class="parameter"><code>object_path</code></em>:</span></p></td>
 <td>
             
               The transaction ID of the old transaction.
@@ -2500,20 +2300,20 @@
 </table></div>
 <hr>
 <div class="refsect2">
-<a name="id642889"></a><h3>
+<a name="id447548"></a><h3>
 <a name="Transaction::UpdateDetail"></a>The UpdateDetail signal</h3>
-<pre class="programlisting">UpdateDetail ('s' package_id,
-              's' updates,
-              's' obsoletes,
-              's' vendor_url,
-              's' bugzilla_url,
-              's' cve_url,
-              's' restart,
-              's' update_text,
-              's' changelog,
-              's' state,
-              's' issued,
-              's' updated)</pre>
+<pre class="programlisting">UpdateDetail ('s'  package_id,
+              'as' updates,
+              'as' obsoletes,
+              'as' vendor_urls,
+              'as' bugzilla_urls,
+              'as' cve_urls,
+              'u'  restart,
+              's'  update_text,
+              's'  changelog,
+              'u'  state,
+              's'  issued,
+              's'  updated)</pre>
 </div>
 <p>
             This signal is sent when more details are required about a specific update.
@@ -2533,9 +2333,7 @@
 <td><p><span class="term"><em class="parameter"><code>updates</code></em>:</span></p></td>
 <td>
             
-              A list of package_id's that are to be updated, seporated by &amp;.
-              This odd delimited was chosen as \t is already being used in the
-              spawned backends, and &amp; is a banned character in a package_id.
+              A list of package_id's that are to be updated.
             
           </td>
 </tr>
@@ -2543,35 +2341,33 @@
 <td><p><span class="term"><em class="parameter"><code>obsoletes</code></em>:</span></p></td>
 <td>
             
-              A list of package_id's that are to be obsoleted, separated by &amp;
+              A list of package_id's that are to be obsoleted.
             
           </td>
 </tr>
 <tr>
-<td><p><span class="term"><em class="parameter"><code>vendor_url</code></em>:</span></p></td>
+<td><p><span class="term"><em class="parameter"><code>vendor_urls</code></em>:</span></p></td>
 <td>
             
-              A URL with more details on the update, e.g. a page with more
+              A list of URLs with more details on the update, e.g. a page with more
               information on the update.
-              The format of this command should be
-              http://www.foo.org/page.html?4567;Update to SELinux
             
           </td>
 </tr>
 <tr>
-<td><p><span class="term"><em class="parameter"><code>bugzilla_url</code></em>:</span></p></td>
+<td><p><span class="term"><em class="parameter"><code>bugzilla_urls</code></em>:</span></p></td>
 <td>
             
-              A bugzilla URL with more details on the update.
-              If no URL is available then this field should be left empty.
+              A list of bugzilla URL with more details on the update.
+              If no URLs are available then this field should be left empty.
             
           </td>
 </tr>
 <tr>
-<td><p><span class="term"><em class="parameter"><code>cve_url</code></em>:</span></p></td>
+<td><p><span class="term"><em class="parameter"><code>cve_urls</code></em>:</span></p></td>
 <td>
             
-              A CVE URL with more details on the security advisory.
+              A list of CVE URLs with more details on the security advisory.
             
           </td>
 </tr>
@@ -2632,9 +2428,9 @@
 </table></div>
 <hr>
 <div class="refsect2">
-<a name="id643075"></a><h3>
+<a name="id447732"></a><h3>
 <a name="Transaction::DistroUpgrade"></a>The DistroUpgrade signal</h3>
-<pre class="programlisting">DistroUpgrade ('s' type,
+<pre class="programlisting">DistroUpgrade ('u' type,
                's' name,
                's' summary)</pre>
 </div>
@@ -2649,7 +2445,7 @@
 <td><p><span class="term"><em class="parameter"><code>type</code></em>:</span></p></td>
 <td>
             
-              A valid upgrade string enumerated type, e.g. stable
+              A valid upgrade enumerated type, e.g. stable
               or unstable
             
           </td>
@@ -2674,9 +2470,10 @@
 </table></div>
 <hr>
 <div class="refsect2">
-<a name="id643144"></a><h3>
+<a name="id447801"></a><h3>
 <a name="Transaction::ItemProgress"></a>The ItemProgress signal</h3>
 <pre class="programlisting">ItemProgress ('s' id,
+              'u' status,
               'u' percentage)</pre>
 </div>
 <p>
@@ -2699,6 +2496,14 @@
           </td>
 </tr>
 <tr>
+<td><p><span class="term"><em class="parameter"><code>status</code></em>:</span></p></td>
+<td>
+            
+              The status enumerated value that is being completed.
+            
+          </td>
+</tr>
+<tr>
 <td><p><span class="term"><em class="parameter"><code>percentage</code></em>:</span></p></td>
 <td>
             
@@ -2710,7 +2515,7 @@
 </table></div>
 <hr>
 <div class="refsect2">
-<a name="id643202"></a><h3>
+<a name="id447872"></a><h3>
 <a name="Transaction::Changed"></a>The Changed signal</h3>
 <pre class="programlisting">Changed ()</pre>
 </div>
@@ -2723,7 +2528,7 @@
 </table></div>
 <hr>
 <div class="refsect2">
-<a name="id643233"></a><h3>
+<a name="id447903"></a><h3>
 <a name="Transaction::Destroy"></a>The Destroy signal</h3>
 <pre class="programlisting">Destroy ()</pre>
 </div>
@@ -2737,15 +2542,15 @@
 </table></div>
 </div>
 <div class="refsect1">
-<a name="id643266"></a><h2>Property Details</h2>
+<a name="id447936"></a><h2>Property Details</h2>
 <div class="refsect2">
-<a name="id643274"></a><h3>
+<a name="id447944"></a><h3>
 <a name="Transaction:Role"></a>The "Role" property</h3>
-<pre class="programlisting">'Role'  read      's'
+<pre class="programlisting">'Role'  read      'u'
 </pre>
 </div>
 <p>
-            The transaction role, e.g. update-system.
+            The transaction role enum, e.g. update-system.
           </p>
 <div class="variablelist"><table border="0">
 <col align="left" valign="top">
@@ -2753,13 +2558,13 @@
 </table></div>
 <hr>
 <div class="refsect2">
-<a name="id643305"></a><h3>
+<a name="id447975"></a><h3>
 <a name="Transaction:Status"></a>The "Status" property</h3>
-<pre class="programlisting">'Status'  read      's'
+<pre class="programlisting">'Status'  read      'u'
 </pre>
 </div>
 <p>
-            The transaction status, e.g. downloading.
+            The transaction status enum, e.g. downloading.
           </p>
 <div class="variablelist"><table border="0">
 <col align="left" valign="top">
@@ -2767,7 +2572,7 @@
 </table></div>
 <hr>
 <div class="refsect2">
-<a name="id643336"></a><h3>
+<a name="id448006"></a><h3>
 <a name="Transaction:LastPackage"></a>The "LastPackage" property</h3>
 <pre class="programlisting">'LastPackage'  read      's'
 </pre>
@@ -2781,7 +2586,7 @@
 </table></div>
 <hr>
 <div class="refsect2">
-<a name="id643367"></a><h3>
+<a name="id448037"></a><h3>
 <a name="Transaction:Uid"></a>The "Uid" property</h3>
 <pre class="programlisting">'Uid'  read      'u'
 </pre>
@@ -2795,7 +2600,7 @@
 </table></div>
 <hr>
 <div class="refsect2">
-<a name="id643398"></a><h3>
+<a name="id448068"></a><h3>
 <a name="Transaction:Percentage"></a>The "Percentage" property</h3>
 <pre class="programlisting">'Percentage'  read      'u'
 </pre>
@@ -2812,24 +2617,7 @@
 </table></div>
 <hr>
 <div class="refsect2">
-<a name="id643434"></a><h3>
-<a name="Transaction:Subpercentage"></a>The "Subpercentage" property</h3>
-<pre class="programlisting">'Subpercentage'  read      'u'
-</pre>
-</div>
-<p>
-            The sub-percentage complete of the transaction.
-          </p>
-<p>
-            Backends should set this value to 101 if the amount complete cannot be calculated.
-          </p>
-<div class="variablelist"><table border="0">
-<col align="left" valign="top">
-<tbody></tbody>
-</table></div>
-<hr>
-<div class="refsect2">
-<a name="id643470"></a><h3>
+<a name="id448104"></a><h3>
 <a name="Transaction:AllowCancel"></a>The "AllowCancel" property</h3>
 <pre class="programlisting">'AllowCancel'  read      'b'
 </pre>
@@ -2843,7 +2631,7 @@
 </table></div>
 <hr>
 <div class="refsect2">
-<a name="id643501"></a><h3>
+<a name="id448135"></a><h3>
 <a name="Transaction:CallerActive"></a>The "CallerActive" property</h3>
 <pre class="programlisting">'CallerActive'  read      'b'
 </pre>
@@ -2859,7 +2647,7 @@
 </table></div>
 <hr>
 <div class="refsect2">
-<a name="id643534"></a><h3>
+<a name="id448168"></a><h3>
 <a name="Transaction:ElapsedTime"></a>The "ElapsedTime" property</h3>
 <pre class="programlisting">'ElapsedTime'  read      'u'
 </pre>
@@ -2873,7 +2661,7 @@
 </table></div>
 <hr>
 <div class="refsect2">
-<a name="id643566"></a><h3>
+<a name="id448200"></a><h3>
 <a name="Transaction:RemainingTime"></a>The "RemainingTime" property</h3>
 <pre class="programlisting">'RemainingTime'  read      'u'
 </pre>
@@ -2887,13 +2675,27 @@
 </table></div>
 <hr>
 <div class="refsect2">
-<a name="id643597"></a><h3>
+<a name="id448231"></a><h3>
 <a name="Transaction:Speed"></a>The "Speed" property</h3>
 <pre class="programlisting">'Speed'  read      'u'
 </pre>
 </div>
 <p>
             The estimated speed of the transaction (copying, downloading, etc.) in bits per second, or 0 if not known.
+          </p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody></tbody>
+</table></div>
+<hr>
+<div class="refsect2">
+<a name="id448263"></a><h3>
+<a name="Transaction:DownloadSizeRemaining"></a>The "DownloadSizeRemaining" property</h3>
+<pre class="programlisting">'DownloadSizeRemaining'  read      't'
+</pre>
+</div>
+<p>
+            The number of bytes remaining to download, 0 if nothing is left to download.
           </p>
 <div class="variablelist"><table border="0">
 <col align="left" valign="top">

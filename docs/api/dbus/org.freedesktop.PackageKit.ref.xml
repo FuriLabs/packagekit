@@ -10,11 +10,11 @@
   <refsynopsisdiv role="synopsis">
     <title role="synopsis.title">Methods</title>
     <synopsis><link linkend="PackageKit.CanAuthorize">CanAuthorize</link>       (in  's'  action_id,
-                    out 's'  result)
-<link linkend="PackageKit.GetTid">GetTid</link>             (out 's'  tid)
-<link linkend="PackageKit.GetTimeSinceAction">GetTimeSinceAction</link> (in  's'  role,
+                    out 'u'  result)
+<link linkend="PackageKit.CreateTransaction">CreateTransaction</link>  (out 'o'  object_path)
+<link linkend="PackageKit.GetTimeSinceAction">GetTimeSinceAction</link> (in  'u'  role,
                     out 'u'  seconds)
-<link linkend="PackageKit.GetTransactionList">GetTransactionList</link> (out 'as' transactions)
+<link linkend="PackageKit.GetTransactionList">GetTransactionList</link> (out 'ao' transactions)
 <link linkend="PackageKit.StateHasChanged">StateHasChanged</link>    (in  's'  reason)
 <link linkend="PackageKit.SuggestDaemonQuit">SuggestDaemonQuit</link>  ()
 <link linkend="PackageKit.GetDaemonState">GetDaemonState</link>     (out 's'  state)
@@ -24,7 +24,6 @@
                     in  's'  proxy_socks,
                     in  's'  no_proxy,
                     in  's'  pac)
-<link linkend="PackageKit.SetRoot">SetRoot</link>            (in  's'  root)
 </synopsis>
   </refsynopsisdiv>
   <refsect1 role="signal_proto">
@@ -51,12 +50,12 @@
 <link linkend="PackageKit:BackendName">'BackendName'</link>        read      's'
 <link linkend="PackageKit:BackendDescription">'BackendDescription'</link> read      's'
 <link linkend="PackageKit:BackendAuthor">'BackendAuthor'</link>      read      's'
-<link linkend="PackageKit:Roles">'Roles'</link>              read      's'
-<link linkend="PackageKit:Groups">'Groups'</link>             read      's'
-<link linkend="PackageKit:Filters">'Filters'</link>            read      's'
-<link linkend="PackageKit:MimeTypes">'MimeTypes'</link>          read      's'
+<link linkend="PackageKit:Roles">'Roles'</link>              read      't'
+<link linkend="PackageKit:Groups">'Groups'</link>             read      't'
+<link linkend="PackageKit:Filters">'Filters'</link>            read      't'
+<link linkend="PackageKit:MimeTypes">'MimeTypes'</link>          read      'as'
 <link linkend="PackageKit:Locked">'Locked'</link>             read      'b'
-<link linkend="PackageKit:NetworkState">'NetworkState'</link>       read      's'
+<link linkend="PackageKit:NetworkState">'NetworkState'</link>       read      'u'
 <link linkend="PackageKit:DistroId">'DistroId'</link>           read      's'
 </synopsis>
   </refsect1>
@@ -71,7 +70,7 @@
     </para>
   </refsect1>
   <refsect1 role="details"><title role="details.title">Details</title><refsect2><title><anchor role="function" id="PackageKit.CanAuthorize"/>CanAuthorize ()</title><indexterm><primary>CanAuthorize</primary><secondary>PackageKit</secondary></indexterm><programlisting>CanAuthorize (in  's' action_id,
-              out 's' result)</programlisting></refsect2>
+              out 'u' result)</programlisting></refsect2>
           <para>
             Allows a client to find out if it would be allowed to authorize an action.
           </para>
@@ -83,28 +82,31 @@
             
               The result, either yes, no or interactive.
             
-          </simpara></listitem></varlistentry></variablelist><refsect2><title><anchor role="function" id="PackageKit.GetTid"/>GetTid ()</title><indexterm><primary>GetTid</primary><secondary>PackageKit</secondary></indexterm><programlisting>GetTid (out 's' tid)</programlisting></refsect2>
+          </simpara></listitem></varlistentry></variablelist><refsect2><title><anchor role="function" id="PackageKit.CreateTransaction"/>CreateTransaction ()</title><indexterm><primary>CreateTransaction</primary><secondary>PackageKit</secondary></indexterm><programlisting>CreateTransaction (out 'o' object_path)</programlisting></refsect2>
           <para>
-            Gets a new transaction ID from the daemon
+            Creates a new transaction that can have operations done on
+            it.
+            Note: The dameon will automatically destroy this transaction
+            if it is not used after a few minutes.
           </para>
-        <variablelist role="params"><varlistentry><term><parameter>tid</parameter>:</term><listitem><simpara>
+        <variablelist role="params"><varlistentry><term><parameter>object_path</parameter>:</term><listitem><simpara>
             
-              The tid, e.g. 45_dafeca_checkpoint32
+              The object_path, e.g. /45_dafeca
             
-          </simpara></listitem></varlistentry></variablelist><refsect2><title><anchor role="function" id="PackageKit.GetTimeSinceAction"/>GetTimeSinceAction ()</title><indexterm><primary>GetTimeSinceAction</primary><secondary>PackageKit</secondary></indexterm><programlisting>GetTimeSinceAction (in  's' role,
+          </simpara></listitem></varlistentry></variablelist><refsect2><title><anchor role="function" id="PackageKit.GetTimeSinceAction"/>GetTimeSinceAction ()</title><indexterm><primary>GetTimeSinceAction</primary><secondary>PackageKit</secondary></indexterm><programlisting>GetTimeSinceAction (in  'u' role,
                     out 'u' seconds)</programlisting></refsect2>
           <para>
             This method allows us to query how long since an action has successfully completed.
           </para>
         <variablelist role="params"><varlistentry><term><parameter>role</parameter>:</term><listitem><simpara>
             
-              The role, e.g. update-system
+              The role enum, e.g. update-system
             
           </simpara></listitem></varlistentry><varlistentry><term><parameter>seconds</parameter>:</term><listitem><simpara>
             
               The amount of time in seconds
             
-          </simpara></listitem></varlistentry></variablelist><refsect2><title><anchor role="function" id="PackageKit.GetTransactionList"/>GetTransactionList ()</title><indexterm><primary>GetTransactionList</primary><secondary>PackageKit</secondary></indexterm><programlisting>GetTransactionList (out 'as' transactions)</programlisting></refsect2>
+          </simpara></listitem></varlistentry></variablelist><refsect2><title><anchor role="function" id="PackageKit.GetTransactionList"/>GetTransactionList ()</title><indexterm><primary>GetTransactionList</primary><secondary>PackageKit</secondary></indexterm><programlisting>GetTransactionList (out 'ao' transactions)</programlisting></refsect2>
           <para>
             Gets the transaction list of any transactions that are in progress
           </para>
@@ -174,15 +176,7 @@
               /etc/network/school.pac.
               Note: Most backends will not be able to use a PAC file.
             
-          </simpara></listitem></varlistentry></variablelist><para role="permission">Callers need the org.freedesktop.packagekit.set-proxy</para><refsect2><title><anchor role="function" id="PackageKit.SetRoot"/>SetRoot ()</title><indexterm><primary>SetRoot</primary><secondary>PackageKit</secondary></indexterm><programlisting>SetRoot (in  's' root)</programlisting></refsect2>
-          <para>
-            Sets the root used by the dameon backend.
-          </para>
-        <variablelist role="params"><varlistentry><term><parameter>root</parameter>:</term><listitem><simpara>
-            
-              The install root, e.g. / or /mnt/ltsp.
-            
-          </simpara></listitem></varlistentry></variablelist><para role="permission">Callers need the org.freedesktop.packagekit.system-change-install-root</para></refsect1>
+          </simpara></listitem></varlistentry></variablelist><para role="permission">Callers need the org.freedesktop.packagekit.set-proxy</para></refsect1>
   <refsect1 role="signals"><title role="signals.title">Signal Details</title><refsect2><title><anchor role="function" id="PackageKit::TransactionListChanged"/>The TransactionListChanged signal</title><indexterm><primary>TransactionListChanged</primary><secondary>PackageKit</secondary></indexterm><programlisting>TransactionListChanged ('as' transactions)</programlisting></refsect2>
           <para>
             The transaction list has changed, because either a transaction has finished or a new
@@ -239,32 +233,33 @@
           <para>
             The backend author, e.g. "Joe Bloggs &lt;joe&amp;blogs.com&gt;".
           </para>
-        <variablelist role="params"/><refsect2><title><anchor role="function" id="PackageKit:Roles"/>The "Roles" property</title><indexterm><primary>Roles</primary><secondary>PackageKit</secondary></indexterm><programlisting>'Roles'  read      's'
+        <variablelist role="params"/><refsect2><title><anchor role="function" id="PackageKit:Roles"/>The "Roles" property</title><indexterm><primary>Roles</primary><secondary>PackageKit</secondary></indexterm><programlisting>'Roles'  read      't'
 </programlisting></refsect2>
           <para>
-            The roles the backend supports, e.g. "search-name;refresh-cache".
+            The roles the backend supports, e.g. search-name|refresh-cache.
           </para>
-        <variablelist role="params"/><refsect2><title><anchor role="function" id="PackageKit:Groups"/>The "Groups" property</title><indexterm><primary>Groups</primary><secondary>PackageKit</secondary></indexterm><programlisting>'Groups'  read      's'
+        <variablelist role="params"/><refsect2><title><anchor role="function" id="PackageKit:Groups"/>The "Groups" property</title><indexterm><primary>Groups</primary><secondary>PackageKit</secondary></indexterm><programlisting>'Groups'  read      't'
 </programlisting></refsect2>
           <para>
-            The groups the backend supports, e.g. "accessories;games".
+            The groups the backend supports, e.g. accessories|games.
           </para>
-        <variablelist role="params"/><refsect2><title><anchor role="function" id="PackageKit:Filters"/>The "Filters" property</title><indexterm><primary>Filters</primary><secondary>PackageKit</secondary></indexterm><programlisting>'Filters'  read      's'
+        <variablelist role="params"/><refsect2><title><anchor role="function" id="PackageKit:Filters"/>The "Filters" property</title><indexterm><primary>Filters</primary><secondary>PackageKit</secondary></indexterm><programlisting>'Filters'  read      't'
 </programlisting></refsect2>
           <para>
-            The filters the backend supports, e.g. "installed;newest".
+            The filters the backend supports, e.g. installed|newest.
           </para>
-        <variablelist role="params"/><refsect2><title><anchor role="function" id="PackageKit:MimeTypes"/>The "MimeTypes" property</title><indexterm><primary>MimeTypes</primary><secondary>PackageKit</secondary></indexterm><programlisting>'MimeTypes'  read      's'
+        <variablelist role="params"/><refsect2><title><anchor role="function" id="PackageKit:MimeTypes"/>The "MimeTypes" property</title><indexterm><primary>MimeTypes</primary><secondary>PackageKit</secondary></indexterm><programlisting>'MimeTypes'  read      'as'
 </programlisting></refsect2>
           <para>
-            The mime-types the backend supports, e.g. "application/x-rpm;application/x-deb".
+            The mime-types the backend supports, e.g.
+            ['application/x-rpm;', 'application/x-deb'].
           </para>
         <variablelist role="params"/><refsect2><title><anchor role="function" id="PackageKit:Locked"/>The "Locked" property</title><indexterm><primary>Locked</primary><secondary>PackageKit</secondary></indexterm><programlisting>'Locked'  read      'b'
 </programlisting></refsect2>
           <para>
             Set when the backend is locked and native tools would fail.
           </para>
-        <variablelist role="params"/><refsect2><title><anchor role="function" id="PackageKit:NetworkState"/>The "NetworkState" property</title><indexterm><primary>NetworkState</primary><secondary>PackageKit</secondary></indexterm><programlisting>'NetworkState'  read      's'
+        <variablelist role="params"/><refsect2><title><anchor role="function" id="PackageKit:NetworkState"/>The "NetworkState" property</title><indexterm><primary>NetworkState</primary><secondary>PackageKit</secondary></indexterm><programlisting>'NetworkState'  read      'u'
 </programlisting></refsect2>
           <para>
             Gets the network state from the daemon. This is provided as some clients may not want

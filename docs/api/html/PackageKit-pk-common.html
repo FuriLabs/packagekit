@@ -42,6 +42,7 @@
 #define             <a class="link" href="PackageKit-pk-common.html#PK-DBUS-PATH:CAPS" title="PK_DBUS_PATH">PK_DBUS_PATH</a>
 #define             <a class="link" href="PackageKit-pk-common.html#PK-DBUS-SERVICE:CAPS" title="PK_DBUS_SERVICE">PK_DBUS_SERVICE</a>
 #define             <a class="link" href="PackageKit-pk-common.html#PK-SERVICE-PACK-GROUP-NAME:CAPS" title="PK_SERVICE_PACK_GROUP_NAME">PK_SERVICE_PACK_GROUP_NAME</a>
+#define             <a class="link" href="PackageKit-pk-common.html#PK-SYSTEM-PACKAGE-CACHE-FILENAME:CAPS" title="PK_SYSTEM_PACKAGE_CACHE_FILENAME">PK_SYSTEM_PACKAGE_CACHE_FILENAME</a>
 #define             <a class="link" href="PackageKit-pk-common.html#PK-SYSTEM-PACKAGE-LIST-FILENAME:CAPS" title="PK_SYSTEM_PACKAGE_LIST_FILENAME">PK_SYSTEM_PACKAGE_LIST_FILENAME</a>
 <span class="returnvalue">void</span>                <a class="link" href="PackageKit-pk-common.html#pk-common-test" title="pk_common_test ()">pk_common_test</a>                      (<em class="parameter"><code><a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gpointer"><span class="type">gpointer</span></a> user_data</code></em>);
 <a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gchar"><span class="returnvalue">gchar</span></a> *             <a class="link" href="PackageKit-pk-common.html#pk-get-distro-id" title="pk_get_distro_id ()">pk_get_distro_id</a>                    (<em class="parameter"><code><span class="type">void</span></code></em>);
@@ -102,6 +103,12 @@ The SYSTEM service DBUS name
 <p>
 The group name of the Service Pack config file
 </p>
+</div>
+<hr>
+<div class="refsect2">
+<a name="PK-SYSTEM-PACKAGE-CACHE-FILENAME:CAPS"></a><h3>PK_SYSTEM_PACKAGE_CACHE_FILENAME</h3>
+<pre class="programlisting">#define PK_SYSTEM_PACKAGE_CACHE_FILENAME "/var/lib/PackageKit/package-cache.db"
+</pre>
 </div>
 <hr>
 <div class="refsect2">
@@ -194,7 +201,7 @@ The data in the GPtrArray is copied.
 </tr>
 <tr>
 <td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
-<td>the string array, or <a href="http://library.gnome.org/devel/glib/unstable/glib-Standard-Macros.html#NULL:CAPS"><code class="literal">NULL</code></a> if invalid. <span class="annotation">[<a href="http://foldoc.org/transfer%20full"><span class="acronym">transfer full</span></a>]</span>
+<td>the string array, or <a href="http://library.gnome.org/devel/glib/unstable/glib-Standard-Macros.html#NULL:CAPS"><code class="literal">NULL</code></a> if invalid. <span class="annotation">[<acronym title="Free data after the code is done."><span class="acronym">transfer full</span></acronym>]</span>
 </td>
 </tr>
 </tbody>

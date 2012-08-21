@@ -67,7 +67,6 @@ static const PkEnumMatch enum_status[] = {
 	{PK_STATUS_ENUM_OBSOLETE,		"obsolete"},
 	{PK_STATUS_ENUM_DEP_RESOLVE,		"dep-resolve"},
 	{PK_STATUS_ENUM_SIG_CHECK,		"sig-check"},
-	{PK_STATUS_ENUM_ROLLBACK,		"rollback"},
 	{PK_STATUS_ENUM_TEST_COMMIT,		"test-commit"},
 	{PK_STATUS_ENUM_COMMIT,			"commit"},
 	{PK_STATUS_ENUM_REQUEST,		"request"},
@@ -111,26 +110,19 @@ static const PkEnumMatch enum_role[] = {
 	{PK_ROLE_ENUM_REPO_ENABLE,			"repo-enable"},
 	{PK_ROLE_ENUM_REPO_SET_DATA,			"repo-set-data"},
 	{PK_ROLE_ENUM_RESOLVE,				"resolve"},
-	{PK_ROLE_ENUM_ROLLBACK,				"rollback"},
 	{PK_ROLE_ENUM_SEARCH_DETAILS,			"search-details"},
 	{PK_ROLE_ENUM_SEARCH_FILE,			"search-file"},
 	{PK_ROLE_ENUM_SEARCH_GROUP,			"search-group"},
 	{PK_ROLE_ENUM_SEARCH_NAME,			"search-name"},
 	{PK_ROLE_ENUM_UPDATE_PACKAGES,			"update-packages"},
-	{PK_ROLE_ENUM_UPDATE_SYSTEM,			"update-system"},
 	{PK_ROLE_ENUM_WHAT_PROVIDES,			"what-provides"},
 	{PK_ROLE_ENUM_ACCEPT_EULA,			"accept-eula"},
 	{PK_ROLE_ENUM_DOWNLOAD_PACKAGES,		"download-packages"},
 	{PK_ROLE_ENUM_GET_DISTRO_UPGRADES,		"get-distro-upgrades"},
 	{PK_ROLE_ENUM_GET_CATEGORIES,			"get-categories"},
 	{PK_ROLE_ENUM_GET_OLD_TRANSACTIONS,		"get-old-transactions"},
-	{PK_ROLE_ENUM_SIMULATE_INSTALL_FILES,		"simulate-install-files"},
-	{PK_ROLE_ENUM_SIMULATE_INSTALL_PACKAGES,	"simulate-install-packages"},
-	{PK_ROLE_ENUM_SIMULATE_REMOVE_PACKAGES,		"simulate-remove-packages"},
-	{PK_ROLE_ENUM_SIMULATE_UPDATE_PACKAGES,		"simulate-update-packages"},
 	{PK_ROLE_ENUM_UPGRADE_SYSTEM,			"upgrade-system"},
 	{PK_ROLE_ENUM_REPAIR_SYSTEM,			"repair-system"},
-	{PK_ROLE_ENUM_SIMULATE_REPAIR_SYSTEM,		"simulate-repair-system"},
 	{0, NULL}
 };
 
@@ -202,6 +194,7 @@ static const PkEnumMatch enum_error[] = {
 	{PK_ERROR_ENUM_CANNOT_FETCH_SOURCES,	"cannot-fetch-sources"},
 	{PK_ERROR_ENUM_CANCELLED_PRIORITY,	"cancelled-priority"},
 	{PK_ERROR_ENUM_UNFINISHED_TRANSACTION,	"unfinished-transaction"},
+	{PK_ERROR_ENUM_LOCK_REQUIRED,		"lock-required"},
 	{0, NULL}
 };
 
@@ -225,7 +218,6 @@ static const PkEnumMatch enum_message[] = {
 	{PK_MESSAGE_ENUM_BACKEND_ERROR,		"backend-error"},
 	{PK_MESSAGE_ENUM_DAEMON_ERROR,		"daemon-error"},
 	{PK_MESSAGE_ENUM_CACHE_BEING_REBUILT,	"cache-being-rebuilt"},
-	{PK_MESSAGE_ENUM_UNTRUSTED_PACKAGE,	"untrusted-package"},
 	{PK_MESSAGE_ENUM_NEWER_PACKAGE_EXISTS,	"newer-package-exists"},
 	{PK_MESSAGE_ENUM_COULD_NOT_FIND_PACKAGE,	"could-not-find-package"},
 	{PK_MESSAGE_ENUM_CONFIG_FILES_CHANGED,	"config-files-changed"},
@@ -403,6 +395,14 @@ static const PkEnumMatch enum_upgrade_kind[] = {
 	{PK_UPGRADE_KIND_ENUM_MINIMAL,		"minimal"},
 	{PK_UPGRADE_KIND_ENUM_DEFAULT,		"default"},
 	{PK_UPGRADE_KIND_ENUM_COMPLETE,		"complete"},
+	{0, NULL}
+};
+
+static const PkEnumMatch enum_transaction_flag[] = {
+	{PK_TRANSACTION_FLAG_ENUM_NONE,		"none"},	/* fall though value */
+	{PK_TRANSACTION_FLAG_ENUM_ONLY_TRUSTED,	"only-trusted"},
+	{PK_TRANSACTION_FLAG_ENUM_SIMULATE,	"simluate"},
+	{PK_TRANSACTION_FLAG_ENUM_ONLY_DOWNLOAD, "only-download"},
 	{0, NULL}
 };
 
@@ -1006,9 +1006,41 @@ pk_upgrade_kind_enum_to_string (PkUpgradeKindEnum upgrade_kind)
 }
 
 /**
+ * pk_transaction_flag_enum_from_string:
+ * @transaction_flag: Text describing the enumerated type
+ *
+ * Converts a text enumerated type to its unsigned integer representation
+ *
+ * Return value: the enumerated constant value, e.g. %PK_TRANSACTION_FLAG_ENUM_SIMULATE
+ *
+ * Since: 0.8.1
+ **/
+PkTransactionFlagEnum
+pk_transaction_flag_enum_from_string (const gchar *transaction_flag)
+{
+	return pk_enum_find_value (enum_transaction_flag, transaction_flag);
+}
+
+/**
+ * pk_transaction_flag_enum_to_string:
+ * @transaction_flag: The enumerated type value
+ *
+ * Converts a enumerated type to its text representation
+ *
+ * Return value: the enumerated constant value, e.g. "simulate"
+ *
+ * Since: 0.8.1
+ **/
+const gchar *
+pk_transaction_flag_enum_to_string (PkTransactionFlagEnum transaction_flag)
+{
+	return pk_enum_find_string (enum_transaction_flag, transaction_flag);
+}
+
+/**
  * pk_info_enum_to_localised_text:
  * @info: The enumerated type value
- * 
+ *
  * Converts a enumerated type to its localized description
  *
  * Return Value: the translated text
@@ -1067,7 +1099,7 @@ pk_info_enum_to_localised_text (PkInfoEnum info)
 /**
  * pk_info_enum_to_localised_present:
  * @info: The enumerated type value
- * 
+ *
  * Converts a enumerated type to its localized description
  *
  * Return Value: the translated text
@@ -1116,7 +1148,7 @@ pk_info_enum_to_localised_present (PkInfoEnum info)
 /**
  * pk_info_enum_to_localised_past:
  * @info: The enumerated type value
- * 
+ *
  * Converts a enumerated type to its localized description
  *
  * Return Value: the translated text
@@ -1165,7 +1197,7 @@ pk_info_enum_to_localised_past (PkInfoEnum info)
 /**
  * pk_role_enum_to_localised_present:
  * @role: The enumerated type value
- * 
+ *
  * Converts a enumerated type to its localized description
  *
  * Return Value: the translated text
@@ -1237,17 +1269,9 @@ pk_role_enum_to_localised_present (PkRoleEnum role)
 		/* TRANSLATORS: The role of the transaction, in present tense */
 		text = dgettext("PackageKit", "Updating packages");
 		break;
-	case PK_ROLE_ENUM_UPDATE_SYSTEM:
-		/* TRANSLATORS: The role of the transaction, in present tense */
-		text = dgettext("PackageKit", "Updating system");
-		break;
 	case PK_ROLE_ENUM_CANCEL:
 		/* TRANSLATORS: The role of the transaction, in present tense */
 		text = dgettext("PackageKit", "Canceling");
-		break;
-	case PK_ROLE_ENUM_ROLLBACK:
-		/* TRANSLATORS: The role of the transaction, in present tense */
-		text = dgettext("PackageKit", "Rolling back");
 		break;
 	case PK_ROLE_ENUM_GET_REPO_LIST:
 		/* TRANSLATORS: The role of the transaction, in present tense */
@@ -1300,22 +1324,6 @@ pk_role_enum_to_localised_present (PkRoleEnum role)
 	case PK_ROLE_ENUM_GET_OLD_TRANSACTIONS:
 		/* TRANSLATORS: The role of the transaction, in present tense */
 		text = dgettext("PackageKit", "Getting transactions");
-		break;
-	case PK_ROLE_ENUM_SIMULATE_INSTALL_FILES:
-		/* TRANSLATORS: The role of the transaction, in present tense */
-		text = dgettext("PackageKit", "Simulating install");
-		break;
-	case PK_ROLE_ENUM_SIMULATE_INSTALL_PACKAGES:
-		/* TRANSLATORS: The role of the transaction, in present tense */
-		text = dgettext("PackageKit", "Simulating install");
-		break;
-	case PK_ROLE_ENUM_SIMULATE_REMOVE_PACKAGES:
-		/* TRANSLATORS: The role of the transaction, in present tense */
-		text = dgettext("PackageKit", "Simulating remove");
-		break;
-	case PK_ROLE_ENUM_SIMULATE_UPDATE_PACKAGES:
-		/* TRANSLATORS: The role of the transaction, in present tense */
-		text = dgettext("PackageKit", "Simulating update");
 		break;
 	default:
 		g_warning ("role unrecognised: %s", pk_role_enum_to_string (role));

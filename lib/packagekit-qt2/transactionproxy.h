@@ -8,8 +8,8 @@
  * Do not edit! All changes made to it will be lost.
  */
 
-#ifndef TRANSACTIONPROXY_H_1345558052
-#define TRANSACTIONPROXY_H_1345558052
+#ifndef TRANSACTIONPROXY_H_1342360651
+#define TRANSACTIONPROXY_H_1342360651
 
 #include <QtCore/QObject>
 #include <QtCore/QByteArray>
@@ -43,6 +43,10 @@ public:
     inline bool callerActive() const
     { return qvariant_cast< bool >(property("CallerActive")); }
 
+    Q_PROPERTY(qulonglong DownloadSizeRemaining READ downloadSizeRemaining)
+    inline qulonglong downloadSizeRemaining() const
+    { return qvariant_cast< qulonglong >(property("DownloadSizeRemaining")); }
+
     Q_PROPERTY(uint ElapsedTime READ elapsedTime)
     inline uint elapsedTime() const
     { return qvariant_cast< uint >(property("ElapsedTime")); }
@@ -59,21 +63,17 @@ public:
     inline uint remainingTime() const
     { return qvariant_cast< uint >(property("RemainingTime")); }
 
-    Q_PROPERTY(QString Role READ role)
-    inline QString role() const
-    { return qvariant_cast< QString >(property("Role")); }
+    Q_PROPERTY(uint Role READ role)
+    inline uint role() const
+    { return qvariant_cast< uint >(property("Role")); }
 
     Q_PROPERTY(uint Speed READ speed)
     inline uint speed() const
     { return qvariant_cast< uint >(property("Speed")); }
 
-    Q_PROPERTY(QString Status READ status)
-    inline QString status() const
-    { return qvariant_cast< QString >(property("Status")); }
-
-    Q_PROPERTY(uint Subpercentage READ subpercentage)
-    inline uint subpercentage() const
-    { return qvariant_cast< uint >(property("Subpercentage")); }
+    Q_PROPERTY(uint Status READ status)
+    inline uint status() const
+    { return qvariant_cast< uint >(property("Status")); }
 
     Q_PROPERTY(uint Uid READ uid)
     inline uint uid() const
@@ -106,7 +106,7 @@ public Q_SLOTS: // METHODS
         return asyncCallWithArgumentList(QLatin1String("GetCategories"), argumentList);
     }
 
-    inline QDBusPendingReply<> GetDepends(const QString &filter, const QStringList &package_ids, bool recursive)
+    inline QDBusPendingReply<> GetDepends(qulonglong filter, const QStringList &package_ids, bool recursive)
     {
         QList<QVariant> argumentList;
         argumentList << QVariant::fromValue(filter) << QVariant::fromValue(package_ids) << QVariant::fromValue(recursive);
@@ -140,21 +140,21 @@ public Q_SLOTS: // METHODS
         return asyncCallWithArgumentList(QLatin1String("GetOldTransactions"), argumentList);
     }
 
-    inline QDBusPendingReply<> GetPackages(const QString &filter)
+    inline QDBusPendingReply<> GetPackages(qulonglong filter)
     {
         QList<QVariant> argumentList;
         argumentList << QVariant::fromValue(filter);
         return asyncCallWithArgumentList(QLatin1String("GetPackages"), argumentList);
     }
 
-    inline QDBusPendingReply<> GetRepoList(const QString &filter)
+    inline QDBusPendingReply<> GetRepoList(qulonglong filter)
     {
         QList<QVariant> argumentList;
         argumentList << QVariant::fromValue(filter);
         return asyncCallWithArgumentList(QLatin1String("GetRepoList"), argumentList);
     }
 
-    inline QDBusPendingReply<> GetRequires(const QString &filter, const QStringList &package_ids, bool recursive)
+    inline QDBusPendingReply<> GetRequires(qulonglong filter, const QStringList &package_ids, bool recursive)
     {
         QList<QVariant> argumentList;
         argumentList << QVariant::fromValue(filter) << QVariant::fromValue(package_ids) << QVariant::fromValue(recursive);
@@ -168,28 +168,28 @@ public Q_SLOTS: // METHODS
         return asyncCallWithArgumentList(QLatin1String("GetUpdateDetail"), argumentList);
     }
 
-    inline QDBusPendingReply<> GetUpdates(const QString &filter)
+    inline QDBusPendingReply<> GetUpdates(qulonglong filter)
     {
         QList<QVariant> argumentList;
         argumentList << QVariant::fromValue(filter);
         return asyncCallWithArgumentList(QLatin1String("GetUpdates"), argumentList);
     }
 
-    inline QDBusPendingReply<> InstallFiles(bool only_trusted, const QStringList &full_paths)
+    inline QDBusPendingReply<> InstallFiles(qulonglong transaction_flags, const QStringList &full_paths)
     {
         QList<QVariant> argumentList;
-        argumentList << QVariant::fromValue(only_trusted) << QVariant::fromValue(full_paths);
+        argumentList << QVariant::fromValue(transaction_flags) << QVariant::fromValue(full_paths);
         return asyncCallWithArgumentList(QLatin1String("InstallFiles"), argumentList);
     }
 
-    inline QDBusPendingReply<> InstallPackages(bool only_trusted, const QStringList &package_ids)
+    inline QDBusPendingReply<> InstallPackages(qulonglong transaction_flags, const QStringList &package_ids)
     {
         QList<QVariant> argumentList;
-        argumentList << QVariant::fromValue(only_trusted) << QVariant::fromValue(package_ids);
+        argumentList << QVariant::fromValue(transaction_flags) << QVariant::fromValue(package_ids);
         return asyncCallWithArgumentList(QLatin1String("InstallPackages"), argumentList);
     }
 
-    inline QDBusPendingReply<> InstallSignature(const QString &sig_type, const QString &key_id, const QString &package_id)
+    inline QDBusPendingReply<> InstallSignature(uint sig_type, const QString &key_id, const QString &package_id)
     {
         QList<QVariant> argumentList;
         argumentList << QVariant::fromValue(sig_type) << QVariant::fromValue(key_id) << QVariant::fromValue(package_id);
@@ -203,17 +203,17 @@ public Q_SLOTS: // METHODS
         return asyncCallWithArgumentList(QLatin1String("RefreshCache"), argumentList);
     }
 
-    inline QDBusPendingReply<> RemovePackages(const QStringList &package_ids, bool allow_deps, bool autoremove)
+    inline QDBusPendingReply<> RemovePackages(qulonglong transaction_flags, const QStringList &package_ids, bool allow_deps, bool autoremove)
     {
         QList<QVariant> argumentList;
-        argumentList << QVariant::fromValue(package_ids) << QVariant::fromValue(allow_deps) << QVariant::fromValue(autoremove);
+        argumentList << QVariant::fromValue(transaction_flags) << QVariant::fromValue(package_ids) << QVariant::fromValue(allow_deps) << QVariant::fromValue(autoremove);
         return asyncCallWithArgumentList(QLatin1String("RemovePackages"), argumentList);
     }
 
-    inline QDBusPendingReply<> RepairSystem(bool only_trusted)
+    inline QDBusPendingReply<> RepairSystem(qulonglong transaction_flags)
     {
         QList<QVariant> argumentList;
-        argumentList << QVariant::fromValue(only_trusted);
+        argumentList << QVariant::fromValue(transaction_flags);
         return asyncCallWithArgumentList(QLatin1String("RepairSystem"), argumentList);
     }
 
@@ -231,42 +231,35 @@ public Q_SLOTS: // METHODS
         return asyncCallWithArgumentList(QLatin1String("RepoSetData"), argumentList);
     }
 
-    inline QDBusPendingReply<> Resolve(const QString &filter, const QStringList &packages)
+    inline QDBusPendingReply<> Resolve(qulonglong filter, const QStringList &packages)
     {
         QList<QVariant> argumentList;
         argumentList << QVariant::fromValue(filter) << QVariant::fromValue(packages);
         return asyncCallWithArgumentList(QLatin1String("Resolve"), argumentList);
     }
 
-    inline QDBusPendingReply<> Rollback(const QString &transaction_id)
-    {
-        QList<QVariant> argumentList;
-        argumentList << QVariant::fromValue(transaction_id);
-        return asyncCallWithArgumentList(QLatin1String("Rollback"), argumentList);
-    }
-
-    inline QDBusPendingReply<> SearchDetails(const QString &filter, const QStringList &values)
+    inline QDBusPendingReply<> SearchDetails(qulonglong filter, const QStringList &values)
     {
         QList<QVariant> argumentList;
         argumentList << QVariant::fromValue(filter) << QVariant::fromValue(values);
         return asyncCallWithArgumentList(QLatin1String("SearchDetails"), argumentList);
     }
 
-    inline QDBusPendingReply<> SearchFiles(const QString &filter, const QStringList &values)
+    inline QDBusPendingReply<> SearchFiles(qulonglong filter, const QStringList &values)
     {
         QList<QVariant> argumentList;
         argumentList << QVariant::fromValue(filter) << QVariant::fromValue(values);
         return asyncCallWithArgumentList(QLatin1String("SearchFiles"), argumentList);
     }
 
-    inline QDBusPendingReply<> SearchGroups(const QString &filter, const QStringList &values)
+    inline QDBusPendingReply<> SearchGroups(qulonglong filter, const QStringList &values)
     {
         QList<QVariant> argumentList;
         argumentList << QVariant::fromValue(filter) << QVariant::fromValue(values);
         return asyncCallWithArgumentList(QLatin1String("SearchGroups"), argumentList);
     }
 
-    inline QDBusPendingReply<> SearchNames(const QString &filter, const QStringList &values)
+    inline QDBusPendingReply<> SearchNames(qulonglong filter, const QStringList &values)
     {
         QList<QVariant> argumentList;
         argumentList << QVariant::fromValue(filter) << QVariant::fromValue(values);
@@ -280,62 +273,21 @@ public Q_SLOTS: // METHODS
         return asyncCallWithArgumentList(QLatin1String("SetHints"), argumentList);
     }
 
-    inline QDBusPendingReply<> SimulateInstallFiles(const QStringList &full_paths)
+    inline QDBusPendingReply<> UpdatePackages(qulonglong transaction_flags, const QStringList &package_ids)
     {
         QList<QVariant> argumentList;
-        argumentList << QVariant::fromValue(full_paths);
-        return asyncCallWithArgumentList(QLatin1String("SimulateInstallFiles"), argumentList);
-    }
-
-    inline QDBusPendingReply<> SimulateInstallPackages(const QStringList &package_ids)
-    {
-        QList<QVariant> argumentList;
-        argumentList << QVariant::fromValue(package_ids);
-        return asyncCallWithArgumentList(QLatin1String("SimulateInstallPackages"), argumentList);
-    }
-
-    inline QDBusPendingReply<> SimulateRemovePackages(const QStringList &package_ids, bool autoremove)
-    {
-        QList<QVariant> argumentList;
-        argumentList << QVariant::fromValue(package_ids) << QVariant::fromValue(autoremove);
-        return asyncCallWithArgumentList(QLatin1String("SimulateRemovePackages"), argumentList);
-    }
-
-    inline QDBusPendingReply<> SimulateRepairSystem()
-    {
-        QList<QVariant> argumentList;
-        return asyncCallWithArgumentList(QLatin1String("SimulateRepairSystem"), argumentList);
-    }
-
-    inline QDBusPendingReply<> SimulateUpdatePackages(const QStringList &package_ids)
-    {
-        QList<QVariant> argumentList;
-        argumentList << QVariant::fromValue(package_ids);
-        return asyncCallWithArgumentList(QLatin1String("SimulateUpdatePackages"), argumentList);
-    }
-
-    inline QDBusPendingReply<> UpdatePackages(bool only_trusted, const QStringList &package_ids)
-    {
-        QList<QVariant> argumentList;
-        argumentList << QVariant::fromValue(only_trusted) << QVariant::fromValue(package_ids);
+        argumentList << QVariant::fromValue(transaction_flags) << QVariant::fromValue(package_ids);
         return asyncCallWithArgumentList(QLatin1String("UpdatePackages"), argumentList);
     }
 
-    inline QDBusPendingReply<> UpdateSystem(bool only_trusted)
-    {
-        QList<QVariant> argumentList;
-        argumentList << QVariant::fromValue(only_trusted);
-        return asyncCallWithArgumentList(QLatin1String("UpdateSystem"), argumentList);
-    }
-
-    inline QDBusPendingReply<> UpgradeSystem(const QString &distro_id, const QString &upgrade_kind)
+    inline QDBusPendingReply<> UpgradeSystem(const QString &distro_id, uint upgrade_kind)
     {
         QList<QVariant> argumentList;
         argumentList << QVariant::fromValue(distro_id) << QVariant::fromValue(upgrade_kind);
         return asyncCallWithArgumentList(QLatin1String("UpgradeSystem"), argumentList);
     }
 
-    inline QDBusPendingReply<> WhatProvides(const QString &filter, const QString &type, const QStringList &values)
+    inline QDBusPendingReply<> WhatProvides(qulonglong filter, uint type, const QStringList &values)
     {
         QList<QVariant> argumentList;
         argumentList << QVariant::fromValue(filter) << QVariant::fromValue(type) << QVariant::fromValue(values);
@@ -346,21 +298,21 @@ Q_SIGNALS: // SIGNALS
     void Category(const QString &parent_id, const QString &cat_id, const QString &name, const QString &summary, const QString &icon);
     void Changed();
     void Destroy();
-    void Details(const QString &package_id, const QString &license, const QString &group, const QString &detail, const QString &url, qulonglong size);
-    void DistroUpgrade(const QString &type, const QString &name, const QString &summary);
-    void ErrorCode(const QString &code, const QString &details);
+    void Details(const QString &package_id, const QString &license, uint group, const QString &detail, const QString &url, qulonglong size);
+    void DistroUpgrade(uint type, const QString &name, const QString &summary);
+    void ErrorCode(uint code, const QString &details);
     void EulaRequired(const QString &eula_id, const QString &package_id, const QString &vendor_name, const QString &license_agreement);
-    void Files(const QString &package_id, const QString &file_list);
-    void Finished(const QString &exit, uint runtime);
-    void ItemProgress(const QString &id, uint percentage);
-    void MediaChangeRequired(const QString &media_type, const QString &media_id, const QString &media_text);
-    void Message(const QString &type, const QString &details);
-    void Package(const QString &info, const QString &package_id, const QString &summary);
+    void Files(const QString &package_id, const QStringList &file_list);
+    void Finished(uint exit, uint runtime);
+    void ItemProgress(const QString &id, uint status, uint percentage);
+    void MediaChangeRequired(uint media_type, const QString &media_id, const QString &media_text);
+    void Message(uint type, const QString &details);
+    void Package(uint info, const QString &package_id, const QString &summary);
     void RepoDetail(const QString &repo_id, const QString &description, bool enabled);
-    void RepoSignatureRequired(const QString &package_id, const QString &repository_name, const QString &key_url, const QString &key_userid, const QString &key_id, const QString &key_fingerprint, const QString &key_timestamp, const QString &type);
-    void RequireRestart(const QString &type, const QString &package_id);
-    void Transaction(const QString &old_tid, const QString &timespec, bool succeeded, const QString &role, uint duration, const QString &data, uint uid, const QString &cmdline);
-    void UpdateDetail(const QString &package_id, const QString &updates, const QString &obsoletes, const QString &vendor_url, const QString &bugzilla_url, const QString &cve_url, const QString &restart, const QString &update_text, const QString &changelog, const QString &state, const QString &issued, const QString &updated);
+    void RepoSignatureRequired(const QString &package_id, const QString &repository_name, const QString &key_url, const QString &key_userid, const QString &key_id, const QString &key_fingerprint, const QString &key_timestamp, uint type);
+    void RequireRestart(uint type, const QString &package_id);
+    void Transaction(const QDBusObjectPath &object_path, const QString &timespec, bool succeeded, uint role, uint duration, const QString &data, uint uid, const QString &cmdline);
+    void UpdateDetail(const QString &package_id, const QStringList &updates, const QStringList &obsoletes, const QStringList &vendor_urls, const QStringList &bugzilla_urls, const QStringList &cve_urls, uint restart, const QString &update_text, const QString &changelog, uint state, const QString &issued, const QString &updated);
 };
 
 #endif

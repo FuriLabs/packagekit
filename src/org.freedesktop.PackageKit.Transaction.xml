@@ -14,20 +14,20 @@
     </doc:doc>
 
     <!--*****************************************************************************************-->
-    <property name="Role" type="s" access="read">
+    <property name="Role" type="u" access="read">
       <doc:doc>
         <doc:description>
           <doc:para>
-            The transaction role, e.g. <doc:tt>update-system</doc:tt>.
+            The transaction role enum, e.g. <doc:tt>update-system</doc:tt>.
           </doc:para>
         </doc:description>
       </doc:doc>
     </property>
-    <property name="Status" type="s" access="read">
+    <property name="Status" type="u" access="read">
       <doc:doc>
         <doc:description>
           <doc:para>
-            The transaction status, e.g. <doc:tt>downloading</doc:tt>.
+            The transaction status enum, e.g. <doc:tt>downloading</doc:tt>.
           </doc:para>
         </doc:description>
       </doc:doc>
@@ -55,18 +55,6 @@
         <doc:description>
           <doc:para>
             The percentage complete of the transaction.
-          </doc:para>
-          <doc:para>
-            Backends should set this value to 101 if the amount complete cannot be calculated.
-          </doc:para>
-        </doc:description>
-      </doc:doc>
-    </property>
-    <property name="Subpercentage" type="u" access="read">
-      <doc:doc>
-        <doc:description>
-          <doc:para>
-            The sub-percentage complete of the transaction.
           </doc:para>
           <doc:para>
             Backends should set this value to 101 if the amount complete cannot be calculated.
@@ -117,6 +105,15 @@
         <doc:description>
           <doc:para>
             The estimated speed of the transaction (copying, downloading, etc.) in bits per second, or 0 if not known.
+          </doc:para>
+        </doc:description>
+      </doc:doc>
+    </property>
+    <property name="DownloadSizeRemaining" type="t" access="read">
+      <doc:doc>
+        <doc:description>
+          <doc:para>
+            The number of bytes remaining to download, 0 if nothing is left to download.
           </doc:para>
         </doc:description>
       </doc:doc>
@@ -330,11 +327,11 @@
           </doc:para>
         </doc:description>
       </doc:doc>
-      <arg type="s" name="filter" direction="in">
+      <arg type="t" name="filter" direction="in">
         <doc:doc>
           <doc:summary>
             <doc:para>
-              A correct filter, e.g. <doc:tt>none</doc:tt> or <doc:tt>installed;~devel</doc:tt>
+              A correct filter bitfield, e.g. <doc:tt>none</doc:tt> or <doc:tt>installed;~devel</doc:tt>
             </doc:para>
           </doc:summary>
         </doc:doc>
@@ -460,11 +457,11 @@
           </doc:para>
         </doc:description>
       </doc:doc>
-      <arg type="s" name="filter" direction="in">
+      <arg type="t" name="filter" direction="in">
         <doc:doc>
           <doc:summary>
             <doc:para>
-              A correct filter, e.g. <doc:tt>none</doc:tt> or <doc:tt>installed;~devel</doc:tt>
+              A correct filter bitfield, e.g. <doc:tt>none</doc:tt> or <doc:tt>installed;~devel</doc:tt>
             </doc:para>
           </doc:summary>
         </doc:doc>
@@ -484,11 +481,11 @@
           </doc:para>
         </doc:description>
       </doc:doc>
-      <arg type="s" name="filter" direction="in">
+      <arg type="t" name="filter" direction="in">
         <doc:doc>
           <doc:summary>
             <doc:para>
-              A correct filter, e.g. <doc:tt>none</doc:tt> or <doc:tt>installed;~devel</doc:tt>
+              A correct filter bitfield, e.g. <doc:tt>none</doc:tt> or <doc:tt>installed;~devel</doc:tt>
             </doc:para>
           </doc:summary>
         </doc:doc>
@@ -518,11 +515,11 @@
           </doc:para>
         </doc:description>
       </doc:doc>
-      <arg type="s" name="filter" direction="in">
+      <arg type="t" name="filter" direction="in">
         <doc:doc>
           <doc:summary>
             <doc:para>
-              A correct filter, e.g. <doc:tt>none</doc:tt> or <doc:tt>installed;~devel</doc:tt>
+              A correct filter bitfield, e.g. <doc:tt>none</doc:tt> or <doc:tt>installed;~devel</doc:tt>
             </doc:para>
           </doc:summary>
         </doc:doc>
@@ -621,11 +618,11 @@
           </doc:para>
         </doc:description>
       </doc:doc>
-      <arg type="s" name="filter" direction="in">
+      <arg type="t" name="filter" direction="in">
         <doc:doc>
           <doc:summary>
             <doc:para>
-              A correct filter, e.g. <doc:tt>none</doc:tt> or <doc:tt>installed;~devel</doc:tt>
+              A correct filter bitfield, e.g. <doc:tt>none</doc:tt> or <doc:tt>installed;~devel</doc:tt>
             </doc:para>
           </doc:summary>
         </doc:doc>
@@ -679,7 +676,7 @@
         </doc:description>
         <doc:permission>Callers need the org.freedesktop.packagekit.localinstall-untrusted</doc:permission>
       </doc:doc>
-      <arg type="b" name="only_trusted" direction="in">
+      <arg type="t" name="transaction_flags" direction="in">
         <doc:doc>
           <doc:summary>
             <doc:para>
@@ -736,12 +733,12 @@
         </doc:description>
         <doc:permission>Callers need the org.freedesktop.packagekit.install-untrusted</doc:permission>
       </doc:doc>
-      <arg type="b" name="only_trusted" direction="in">
+      <arg type="t" name="transaction_flags" direction="in">
         <doc:doc>
           <doc:summary>
             <doc:para>
               If the transaction is only allowed to install trusted packages.
-              Unsigned packages should not be installed if this parameter is <doc:tt>TRUE</doc:tt>.
+              Unsigned packages should not be installed if transaction_flags contains <doc:tt>ALLOW_UNTRUSTED</doc:tt>.
             </doc:para>
             <doc:para>
               If this method is can only install trusted packages, and the packages are unsigned, then
@@ -774,11 +771,11 @@
         </doc:description>
         <doc:permission>Callers need the org.freedesktop.packagekit.install-signature</doc:permission>
       </doc:doc>
-      <arg type="s" name="sig_type" direction="in">
+      <arg type="u" name="sig_type" direction="in">
         <doc:doc>
           <doc:summary>
             <doc:para>
-              A key type, e.g. <doc:tt>gpg</doc:tt>
+              A key type enum, e.g. <doc:tt>gpg</doc:tt>
             </doc:para>
           </doc:summary>
         </doc:doc>
@@ -867,6 +864,15 @@
         </doc:description>
         <doc:permission>Callers need the org.freedesktop.packagekit.remove</doc:permission>
       </doc:doc>
+      <arg type="t" name="transaction_flags" direction="in">
+        <doc:doc>
+          <doc:summary>
+            <doc:para>
+              If the transaction should be simulated or prepared.
+            </doc:para>
+          </doc:summary>
+        </doc:doc>
+      </arg>
       <arg type="as" name="package_ids" direction="in">
         <doc:doc>
           <doc:summary>
@@ -1002,11 +1008,11 @@
           </doc:para>
         </doc:description>
       </doc:doc>
-      <arg type="s" name="filter" direction="in">
+      <arg type="t" name="filter" direction="in">
         <doc:doc>
           <doc:summary>
             <doc:para>
-              A correct filter, e.g. <doc:tt>none</doc:tt> or <doc:tt>installed;~devel</doc:tt>
+              A correct filter bitfield, e.g. <doc:tt>none</doc:tt> or <doc:tt>installed;~devel</doc:tt>
             </doc:para>
           </doc:summary>
         </doc:doc>
@@ -1029,28 +1035,6 @@
               In this instance, a meta-package should be emitted, for example:
               <doc:tt>web-development;;;meta</doc:tt> with the correct
               installed status and summary for the category.
-            </doc:para>
-          </doc:summary>
-        </doc:doc>
-      </arg>
-    </method>
-
-    <!--*****************************************************************************************-->
-    <method name="Rollback">
-      <annotation name="org.freedesktop.DBus.GLib.Async" value=""/>
-      <doc:doc>
-        <doc:description>
-          <doc:para>
-            This method rolls back the package database to a previous transaction.
-          </doc:para>
-        </doc:description>
-        <doc:permission>Callers need the org.freedesktop.packagekit.rollback</doc:permission>
-      </doc:doc>
-      <arg type="s" name="transaction_id" direction="in">
-        <doc:doc>
-          <doc:summary>
-            <doc:para>
-              A valid transaction ID.
             </doc:para>
           </doc:summary>
         </doc:doc>
@@ -1095,11 +1079,11 @@
           </doc:para>
         </doc:description>
       </doc:doc>
-      <arg type="s" name="filter" direction="in">
+      <arg type="t" name="filter" direction="in">
         <doc:doc>
           <doc:summary>
             <doc:para>
-              A correct filter, e.g. <doc:tt>none</doc:tt> or <doc:tt>installed;~devel</doc:tt>
+              A correct filter bitfield, e.g. <doc:tt>none</doc:tt> or <doc:tt>installed;~devel</doc:tt>
             </doc:para>
           </doc:summary>
         </doc:doc>
@@ -1148,11 +1132,11 @@
           </doc:para>
         </doc:description>
       </doc:doc>
-      <arg type="s" name="filter" direction="in">
+      <arg type="t" name="filter" direction="in">
         <doc:doc>
           <doc:summary>
             <doc:para>
-              A correct filter, e.g. <doc:tt>none</doc:tt> or <doc:tt>installed;~devel</doc:tt>
+              A correct filter bitfield, e.g. <doc:tt>none</doc:tt> or <doc:tt>installed;~devel</doc:tt>
             </doc:para>
           </doc:summary>
         </doc:doc>
@@ -1208,11 +1192,11 @@
           </doc:para>
         </doc:description>
       </doc:doc>
-      <arg type="s" name="filter" direction="in">
+      <arg type="t" name="filter" direction="in">
         <doc:doc>
           <doc:summary>
             <doc:para>
-              A correct filter, e.g. <doc:tt>none</doc:tt> or <doc:tt>installed;~devel</doc:tt>
+              A correct filter bitfield, e.g. <doc:tt>none</doc:tt> or <doc:tt>installed;~devel</doc:tt>
             </doc:para>
           </doc:summary>
         </doc:doc>
@@ -1288,11 +1272,11 @@
           </doc:para>
         </doc:description>
       </doc:doc>
-      <arg type="s" name="filter" direction="in">
+      <arg type="t" name="filter" direction="in">
         <doc:doc>
           <doc:summary>
             <doc:para>
-              A correct filter, e.g. <doc:tt>none</doc:tt> or <doc:tt>installed;~devel</doc:tt>
+              A correct filter bitfield, e.g. <doc:tt>none</doc:tt> or <doc:tt>installed;~devel</doc:tt>
             </doc:para>
           </doc:summary>
         </doc:doc>
@@ -1310,134 +1294,6 @@
             </doc:para>
             <doc:para>
               The search should not be treated as case sensitive.
-            </doc:para>
-          </doc:summary>
-        </doc:doc>
-      </arg>
-    </method>
-
-    <!--*****************************************************************************************-->
-    <method name="SimulateInstallFiles">
-      <annotation name="org.freedesktop.DBus.GLib.Async" value=""/>
-      <doc:doc>
-        <doc:description>
-          <doc:para>
-            This method simulates a package file instalation emitting packages required to be
-            installed, removed, updated, reinstalled, downgraded, obsoleted or untrusted.
-            The latter is used to present the user untrusted packages that are about to be installed.
-          </doc:para>
-          <doc:para>
-            This method typically emits
-            <doc:tt>Error</doc:tt> and
-            <doc:tt>Package</doc:tt>.
-          </doc:para>
-        </doc:description>
-      </doc:doc>
-      <arg type="as" name="full_paths" direction="in">
-        <doc:doc>
-          <doc:summary>
-            <doc:para>
-              An array of full path and filenames to packages.
-            </doc:para>
-          </doc:summary>
-        </doc:doc>
-      </arg>
-    </method>
-
-    <!--*****************************************************************************************-->
-    <method name="SimulateInstallPackages">
-      <annotation name="org.freedesktop.DBus.GLib.Async" value=""/>
-      <doc:doc>
-        <doc:description>
-          <doc:para>
-            This method simulates a package instalation emitting packages required to be
-            installed, removed, updated, reinstalled, downgraded, obsoleted or untrusted.
-            The latter is used to present the user untrusted packages that are about to be installed.
-          </doc:para>
-          <doc:para>
-            This method typically emits
-            <doc:tt>Error</doc:tt> and
-            <doc:tt>Package</doc:tt>.
-          </doc:para>
-        </doc:description>
-      </doc:doc>
-      <arg type="as" name="package_ids" direction="in">
-        <doc:doc>
-          <doc:summary>
-            <doc:para>
-              An array of package IDs.
-            </doc:para>
-          </doc:summary>
-        </doc:doc>
-      </arg>
-    </method>
-
-    <!--*****************************************************************************************-->
-    <method name="SimulateRemovePackages">
-      <annotation name="org.freedesktop.DBus.GLib.Async" value=""/>
-      <doc:doc>
-        <doc:description>
-          <doc:para>
-            This method simulates a package removal emitting packages required to be
-            installed, removed, updated, reinstalled, downgraded, obsoleted or untrusted.
-            The latter is used to present the user untrusted packages that are about to be installed.
-          </doc:para>
-          <doc:para>
-            This method typically emits
-            <doc:tt>Error</doc:tt> and
-            <doc:tt>Package</doc:tt>.
-          </doc:para>
-        </doc:description>
-      </doc:doc>
-      <arg type="as" name="package_ids" direction="in">
-        <doc:doc>
-          <doc:summary>
-            <doc:para>
-              An array of package IDs.
-            </doc:para>
-          </doc:summary>
-        </doc:doc>
-      </arg>
-      <arg type="b" name="autoremove" direction="in">
-        <doc:doc>
-          <doc:summary>
-            <doc:para>
-              Either <doc:tt>true</doc:tt> or <doc:tt>false</doc:tt>.
-              This option is only really interesting on embedded devices with a limited amount of
-              flash storage.
-              It suggests to the packagekit backend that dependencies installed at the same time as
-              the package should also be removed if they are not required by anything else.
-              For instance, if you install OpenOffice, it might download libneon as a dependency.
-              When <doc:tt>auto_remove</doc:tt> is set to true, and you remove OpenOffice then
-              libneon will also get removed automatically.
-            </doc:para>
-          </doc:summary>
-        </doc:doc>
-      </arg>
-    </method>
-
-    <!--*****************************************************************************************-->
-    <method name="SimulateUpdatePackages">
-      <annotation name="org.freedesktop.DBus.GLib.Async" value=""/>
-      <doc:doc>
-        <doc:description>
-          <doc:para>
-            This method simulates a package update emitting packages required to be
-            installed, removed, updated, reinstalled, downgraded, obsoleted or untrusted.
-            The latter is used to present the user untrusted packages that are about to be installed.
-          </doc:para>
-          <doc:para>
-            This method typically emits
-            <doc:tt>Error</doc:tt> and
-            <doc:tt>Package</doc:tt>.
-          </doc:para>
-        </doc:description>
-      </doc:doc>
-      <arg type="as" name="package_ids" direction="in">
-        <doc:doc>
-          <doc:summary>
-            <doc:para>
-              An array of package IDs.
             </doc:para>
           </doc:summary>
         </doc:doc>
@@ -1468,12 +1324,12 @@
         </doc:description>
         <doc:permission>Callers need the org.freedesktop.packagekit.update-package</doc:permission>
       </doc:doc>
-      <arg type="b" name="only_trusted" direction="in">
+      <arg type="t" name="transaction_flags" direction="in">
         <doc:doc>
           <doc:summary>
             <doc:para>
               If the transaction is only allowed to update to trusted packages.
-              Unsigned packages should not be installed if this parameter is <doc:tt>TRUE</doc:tt>.
+              Unsigned packages should not be installed if this transaction_flags has <doc:tt>ONLY_TRUSTED</doc:tt>.
             </doc:para>
             <doc:para>
               If this method is can only update trusted packages, and the packages are unsigned, then
@@ -1489,54 +1345,6 @@
           <doc:summary>
             <doc:para>
               An array of package IDs.
-            </doc:para>
-          </doc:summary>
-        </doc:doc>
-      </arg>
-    </method>
-
-    <!--*****************************************************************************************-->
-    <method name="UpdateSystem">
-      <annotation name="org.freedesktop.DBus.GLib.Async" value=""/>
-      <doc:doc>
-        <doc:description>
-          <doc:para>
-            This method updates all packages on the system to thier newest versions.
-          </doc:para>
-          <doc:para>
-            The installer should update all the updateable packages on the system,
-            including automatically installing any new packages that are needed for
-            dependancies.
-          </doc:para>
-        </doc:description>
-          <doc:para>
-            This method typically emits
-            <doc:tt>Progress</doc:tt>,
-            <doc:tt>Error</doc:tt> and
-            <doc:tt>RequireRestart</doc:tt> and
-            <doc:tt>Package</doc:tt>.
-          </doc:para>
-          <doc:para>
-            <doc:tt>Package</doc:tt> enumerated types should be
-            <doc:tt>downloading</doc:tt>,
-            <doc:tt>updating</doc:tt>,
-            <doc:tt>installing</doc:tt> or
-            <doc:tt>removing</doc:tt>.
-          </doc:para>
-        <doc:permission>Callers need the org.freedesktop.packagekit.update-system</doc:permission>
-      </doc:doc>
-      <arg type="b" name="only_trusted" direction="in">
-        <doc:doc>
-          <doc:summary>
-            <doc:para>
-              If the transaction is only allowed to update to trusted packages.
-              Unsigned packages should not be installed if this parameter is <doc:tt>TRUE</doc:tt>.
-            </doc:para>
-            <doc:para>
-              If this method is can only update trusted packages, and the packages are unsigned, then
-              the backend will send a <doc:tt>ErrorCode(missing-gpg-signature)</doc:tt>.
-              On recieving this error, the client may choose to retry with only_trusted <doc:tt>FALSE</doc:tt>
-              after gaining further authentication.
             </doc:para>
           </doc:summary>
         </doc:doc>
@@ -1566,16 +1374,16 @@
           </doc:para>
         </doc:description>
       </doc:doc>
-      <arg type="s" name="filter" direction="in">
+      <arg type="t" name="filter" direction="in">
         <doc:doc>
           <doc:summary>
             <doc:para>
-              A correct filter, e.g. <doc:tt>none</doc:tt> or <doc:tt>installed;~devel</doc:tt>
+              A correct filter bitfield, e.g. <doc:tt>none</doc:tt> or <doc:tt>installed;~devel</doc:tt>
             </doc:para>
           </doc:summary>
         </doc:doc>
       </arg>
-      <arg type="s" name="type" direction="in">
+      <arg type="u" name="type" direction="in">
         <doc:doc>
           <doc:summary>
             <doc:para>
@@ -1623,7 +1431,7 @@
           </doc:summary>
         </doc:doc>
       </arg>
-      <arg type="s" name="upgrade_kind" direction="in">
+      <arg type="u" name="upgrade_kind" direction="in">
         <doc:doc>
           <doc:summary>
             <doc:para>
@@ -1637,28 +1445,6 @@
           </doc:summary>
         </doc:doc>
       </arg>
-    </method>
-
-    <!--*****************************************************************************************-->
-    <method name="SimulateRepairSystem">
-      <annotation name="org.freedesktop.DBus.GLib.Async" value=""/>
-      <doc:doc>
-        <doc:description>
-          <doc:para>
-            This method simulates recovering the package management system from e.g.
-            unsatisfied dependencies of installed packages emitting packages required to be
-            installed, removed, updated, reinstalled, downgraded, obsoleted or untrusted.
-            The latter is used to present the user untrusted packages that are about to be installed.
-          </doc:para>
-          <doc:para>
-            This method typically emits
-            <doc:tt>Progress</doc:tt>,
-            <doc:tt>Status</doc:tt> and
-            <doc:tt>Error</doc:tt> and
-            <doc:tt>Package</doc:tt>.
-          </doc:para>
-        </doc:description>
-      </doc:doc>
     </method>
 
     <!--*****************************************************************************************-->
@@ -1679,12 +1465,12 @@
           </doc:para>
         </doc:description>
       </doc:doc>
-      <arg type="b" name="only_trusted" direction="in">
+      <arg type="t" name="transaction_flags" direction="in">
         <doc:doc>
           <doc:summary>
             <doc:para>
               If the transaction is only allowed to install trusted packages.
-              Unsigned packages should not be installed if this parameter is <doc:tt>TRUE</doc:tt>.
+              Unsigned packages should not be installed if this transaction_flags has <doc:tt>ONLY_TRUSTED</doc:tt>.
             </doc:para>
             <doc:para>
               If this method is can only install trusted packages, and the packages are unsigned, then
@@ -1796,7 +1582,7 @@
           </doc:summary>
         </doc:doc>
       </arg>
-      <arg type="s" name="group" direction="out">
+      <arg type="u" name="group" direction="out">
         <doc:doc>
           <doc:summary>
             <doc:para>
@@ -1853,7 +1639,7 @@
           </doc:para>
         </doc:description>
       </doc:doc>
-      <arg type="s" name="code" direction="out">
+      <arg type="u" name="code" direction="out">
         <doc:doc>
           <doc:summary>
             <doc:para>
@@ -1891,11 +1677,11 @@
           </doc:summary>
         </doc:doc>
       </arg>
-      <arg type="s" name="file_list" direction="out">
+      <arg type="as" name="file_list" direction="out">
         <doc:doc>
           <doc:summary>
             <doc:para>
-              The file list, with each file seporated with <doc:tt>;</doc:tt>.
+              The file list as an array.
             </doc:para>
           </doc:summary>
         </doc:doc>
@@ -1911,7 +1697,7 @@
           </doc:para>
         </doc:description>
       </doc:doc>
-      <arg type="s" name="exit" direction="out">
+      <arg type="u" name="exit" direction="out">
         <doc:doc>
           <doc:summary>
             <doc:para>
@@ -1944,7 +1730,7 @@
           </doc:para>
         </doc:description>
       </doc:doc>
-      <arg type="s" name="type" direction="out">
+      <arg type="u" name="type" direction="out">
         <doc:doc>
           <doc:summary>
             <doc:para>
@@ -1983,11 +1769,11 @@
           </doc:para>
         </doc:description>
       </doc:doc>
-      <arg type="s" name="info" direction="out">
+      <arg type="u" name="info" direction="out">
         <doc:doc>
           <doc:summary>
             <doc:para>
-              A valid <doc:tt>info</doc:tt> string enumerated type
+              A valid <doc:tt>info</doc:tt> enumerated type
             </doc:para>
           </doc:summary>
         </doc:doc>
@@ -2161,7 +1947,7 @@
           </doc:summary>
         </doc:doc>
       </arg>
-      <arg type="s" name="type" direction="out">
+      <arg type="u" name="type" direction="out">
         <doc:doc>
           <doc:summary>
             <doc:para>
@@ -2240,7 +2026,7 @@
           </doc:para>
         </doc:description>
       </doc:doc>
-      <arg type="s" name="media_type" direction="out">
+      <arg type="u" name="media_type" direction="out">
         <doc:doc>
           <doc:summary>
             <doc:para>
@@ -2290,7 +2076,7 @@
           </doc:para>
         </doc:description>
       </doc:doc>
-      <arg type="s" name="type" direction="out">
+      <arg type="u" name="type" direction="out">
         <doc:doc>
           <doc:summary>
             <doc:para>
@@ -2320,7 +2106,7 @@
           </doc:para>
         </doc:description>
       </doc:doc>
-      <arg type="s" name="old_tid" direction="out">
+      <arg type="o" name="object_path" direction="out">
         <doc:doc>
           <doc:summary>
             <doc:para>
@@ -2347,7 +2133,7 @@
           </doc:summary>
         </doc:doc>
       </arg>
-      <arg type="s" name="role" direction="out">
+      <arg type="u" name="role" direction="out">
         <doc:doc>
           <doc:summary>
             <doc:para>
@@ -2413,58 +2199,54 @@
           </doc:summary>
         </doc:doc>
       </arg>
-      <arg type="s" name="updates" direction="out">
+      <arg type="as" name="updates" direction="out">
         <doc:doc>
           <doc:summary>
             <doc:para>
-              A list of package_id's that are to be updated, seporated by <doc:tt>&amp;</doc:tt>.
-              This odd delimited was chosen as <doc:tt>\t</doc:tt> is already being used in the
-              spawned backends, and <doc:tt>&amp;</doc:tt> is a banned character in a package_id.
+              A list of package_id's that are to be updated.
             </doc:para>
           </doc:summary>
         </doc:doc>
       </arg>
-      <arg type="s" name="obsoletes" direction="out">
+      <arg type="as" name="obsoletes" direction="out">
         <doc:doc>
           <doc:summary>
             <doc:para>
-              A list of package_id's that are to be obsoleted, separated by <doc:tt>&amp;</doc:tt>
+              A list of package_id's that are to be obsoleted.
             </doc:para>
           </doc:summary>
         </doc:doc>
       </arg>
-      <arg type="s" name="vendor_url" direction="out">
+      <arg type="as" name="vendor_urls" direction="out">
         <doc:doc>
           <doc:summary>
             <doc:para>
-              A URL with more details on the update, e.g. a page with more
+              A list of URLs with more details on the update, e.g. a page with more
               information on the update.
-              The format of this command should be
-              <doc:tt>http://www.foo.org/page.html?4567;Update to SELinux</doc:tt>
             </doc:para>
           </doc:summary>
         </doc:doc>
       </arg>
-      <arg type="s" name="bugzilla_url" direction="out">
+      <arg type="as" name="bugzilla_urls" direction="out">
         <doc:doc>
           <doc:summary>
             <doc:para>
-              A bugzilla URL with more details on the update.
-              If no URL is available then this field should be left empty.
+              A list of bugzilla URL with more details on the update.
+              If no URLs are available then this field should be left empty.
             </doc:para>
           </doc:summary>
         </doc:doc>
       </arg>
-      <arg type="s" name="cve_url" direction="out">
+      <arg type="as" name="cve_urls" direction="out">
         <doc:doc>
           <doc:summary>
             <doc:para>
-              A CVE URL with more details on the security advisory.
+              A list of CVE URLs with more details on the security advisory.
             </doc:para>
           </doc:summary>
         </doc:doc>
       </arg>
-      <arg type="s" name="restart" direction="out">
+      <arg type="u" name="restart" direction="out">
         <doc:doc>
           <doc:summary>
             <doc:para>
@@ -2495,7 +2277,7 @@
           </doc:summary>
         </doc:doc>
       </arg>
-      <arg type="s" name="state" direction="out">
+      <arg type="u" name="state" direction="out">
         <doc:doc>
           <doc:summary>
             <doc:para>
@@ -2535,11 +2317,11 @@
           </doc:para>
         </doc:description>
       </doc:doc>
-      <arg type="s" name="type" direction="out">
+      <arg type="u" name="type" direction="out">
         <doc:doc>
           <doc:summary>
             <doc:para>
-              A valid upgrade string enumerated type, e.g. <doc:tt>stable</doc:tt>
+              A valid upgrade enumerated type, e.g. <doc:tt>stable</doc:tt>
               or <doc:tt>unstable</doc:tt>
             </doc:para>
           </doc:summary>
@@ -2584,6 +2366,15 @@
             </doc:para>
             <doc:para>
               A repo_id may only be used when running RefreshCache.
+            </doc:para>
+          </doc:summary>
+        </doc:doc>
+      </arg>
+      <arg type="u" name="status" direction="out">
+        <doc:doc>
+          <doc:summary>
+            <doc:para>
+              The status enumerated value that is being completed.
             </doc:para>
           </doc:summary>
         </doc:doc>
