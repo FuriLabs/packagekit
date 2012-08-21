@@ -22,7 +22,8 @@ PK_CONFIGURE_FLAGS = --libexecdir=/usr/lib/packagekit \
 
 ifneq ($(DEB_HOST_ARCH_OS), linux)
 	PK_CONFIGURE_FLAGS += --disable-networkmanager \
-		--disable-connman
+		--disable-connman \
+		--disable-systemd
 endif
 
 LDFLAGS += -Wl,--as-needed
@@ -60,7 +61,6 @@ override_dh_auto_install:
 	rm -f  $(INSTALLDIR)/usr/lib/$(DEB_HOST_MULTIARCH)/gtk-?.0/modules/*.la
 	rm -f  $(INSTALLDIR)/usr/lib/$(DEB_HOST_MULTIARCH)/packagekit-plugins/*.la
 	rm -f  $(INSTALLDIR)/usr/lib/$(DEB_HOST_MULTIARCH)/*.la
-	rm -rf $(INSTALLDIR)/usr/share/PackageKit/website
 	rm -f  $(INSTALLDIR)/usr/bin/packagekit-bugreport.sh
 	rm -f  $(INSTALLDIR)/usr/lib/$(DEB_HOST_MULTIARCH)/libpackagekit-qt.*
 	rm -f  $(INSTALLDIR)/var/lib/PackageKit/transactions.db
