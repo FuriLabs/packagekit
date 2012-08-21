@@ -1,3 +1,29 @@
+packagekit (0.7.6-1) unstable; urgency=low
+
+  * New upstream bugfix release: 0.7.6
+    Changes relevant to Debian:
+    - aptcc: Don't use tempfile with fixed name for conffiles
+       (Matthias Klumpp) (Closes: #678189)
+    - Add GStreamer 1.0 support to the PackageKit plugin
+       (Richard Hughes)
+    - Ignore "accept-eula" in pk-transaction-run (Gary Ching-Pang Lin)
+    - Check for CancelBackgroundTransactions setting again
+       (Matthias Klumpp)
+    - Fix a crash where NetworkManager is restarted whilst packagekitd
+       is running (Richard Hughes)
+    - Drop the unused polkit-backend-1 check from configure as
+       it's gone upstream (Richard Hughes)
+    - Fix segfault in pkcon when user does ctrl-d at the package prompt
+       (Richard Hughes)
+    - Inhibit shutdown when the package manager is locked (Richard Hughes)
+    - Fix several return values in pkcon when there is an error
+       (Richard Hughes)
+    - Allow the user to specify standard GNU help options (Richard Hughes)
+    - Do not allow the client to overwrite files when downloading packages
+       (Richard Hughes)
+
+ -- Matthias Klumpp <matthias@tenstral.net>  Tue, 21 Aug 2012 16:41:43 +0200
+
 packagekit (0.7.5-2) unstable; urgency=low
 
   * Fix mistake in GTK3-module install file
