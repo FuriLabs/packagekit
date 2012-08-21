@@ -36,7 +36,6 @@
 #define PK_EXIT_CODE_FILE_NOT_FOUND	4
 #define PK_EXIT_CODE_NOTHING_USEFUL	5
 #define PK_EXIT_CODE_CANNOT_SETUP	6
-#define PK_EXIT_CODE_TRANSACTION_FAILED	7
 
 static GMainLoop *loop = NULL;
 static PkBitfield roles = 0;
@@ -176,7 +175,7 @@ pk_console_transaction_cb (PkTransactionPast *item, gpointer user_data)
 	g_print (" %s: %s\n", _("System time"), timespec);
 	/* TRANSLATORS: this is if the transaction succeeded or not */
 	g_print (" %s: %s\n", _("Succeeded"), succeeded ? _("True") : _("False"));
-	/* TRANSLATORS: this is the transactions role, e.g. "update-system" */
+	/* TRANSLATORS: this is the transactions role, e.g. "update-packages" */
 	g_print (" %s: %s\n", _("Role"), role_text);
 
 	/* only print if not null */
@@ -307,26 +306,27 @@ pk_console_update_detail_cb (PkUpdateDetail *item, gpointer data)
 {
 	gchar *package = NULL;
 	gchar *package_id;
-	gchar *updates;
-	gchar *obsoletes;
-	gchar *vendor_url;
-	gchar *bugzilla_url;
-	gchar *cve_url;
+	gchar **updates;
+	gchar **obsoletes;
+	gchar **vendor_urls;
+	gchar **bugzilla_urls;
+	gchar **cve_urls;
 	PkRestartEnum restart;
 	gchar *update_text;
 	gchar *changelog;
 	PkUpdateStateEnum state;
 	gchar *issued;
 	gchar *updated;
+	gchar *tmp;
 
 	/* get data */
 	g_object_get (item,
 		      "package-id", &package_id,
 		      "updates", &updates,
 		      "obsoletes", &obsoletes,
-		      "vendor-url", &vendor_url,
-		      "bugzilla-url", &bugzilla_url,
-		      "cve-url", &cve_url,
+		      "vendor-urls", &vendor_urls,
+		      "bugzilla-urls", &bugzilla_urls,
+		      "cve-urls", &cve_urls,
 		      "restart", &restart,
 		      "update-text", &update_text,
 		      "changelog", &changelog,
@@ -344,24 +344,34 @@ pk_console_update_detail_cb (PkUpdateDetail *item, gpointer data)
 	/* TRANSLATORS: details about the update, package name and version */
 	g_print (" %s: %s\n", _("Package"), package);
 	if (updates != NULL) {
+		tmp = g_strjoinv (", ", updates);
 		/* TRANSLATORS: details about the update, any packages that this update updates */
-		g_print (" %s: %s\n", _("Updates"), updates);
+		g_print (" %s: %s\n", _("Updates"), tmp);
+		g_free (tmp);
 	}
 	if (obsoletes != NULL) {
+		tmp = g_strjoinv (", ", obsoletes);
 		/* TRANSLATORS: details about the update, any packages that this update obsoletes */
-		g_print (" %s: %s\n", _("Obsoletes"), obsoletes);
+		g_print (" %s: %s\n", _("Obsoletes"), tmp);
+		g_free (tmp);
 	}
-	if (vendor_url != NULL) {
+	if (vendor_urls != NULL) {
+		tmp = g_strjoinv (", ", vendor_urls);
 		/* TRANSLATORS: details about the update, the vendor URLs */
-		g_print (" %s: %s\n", _("Vendor"), vendor_url);
+		g_print (" %s: %s\n", _("Vendor"), tmp);
+		g_free (tmp);
 	}
-	if (bugzilla_url != NULL) {
+	if (bugzilla_urls != NULL) {
+		tmp = g_strjoinv (", ", bugzilla_urls);
 		/* TRANSLATORS: details about the update, the bugzilla URLs */
-		g_print (" %s: %s\n", _("Bugzilla"), bugzilla_url);
+		g_print (" %s: %s\n", _("Bugzilla"), tmp);
+		g_free (tmp);
 	}
-	if (cve_url != NULL) {
+	if (cve_urls != NULL) {
+		tmp = g_strjoinv (", ", cve_urls);
 		/* TRANSLATORS: details about the update, the CVE URLs */
-		g_print (" %s: %s\n", _("CVE"), cve_url);
+		g_print (" %s: %s\n", _("CVE"), tmp);
+		g_free (tmp);
 	}
 	if (restart != PK_RESTART_ENUM_NONE) {
 		/* TRANSLATORS: details about the update, if the package requires a restart */
@@ -389,11 +399,11 @@ pk_console_update_detail_cb (PkUpdateDetail *item, gpointer data)
 	}
 	g_free (package);
 	g_free (package_id);
-	g_free (updates);
-	g_free (obsoletes);
-	g_free (vendor_url);
-	g_free (bugzilla_url);
-	g_free (cve_url);
+	g_strfreev (updates);
+	g_strfreev (obsoletes);
+	g_strfreev (vendor_urls);
+	g_strfreev (bugzilla_urls);
+	g_strfreev (cve_urls);
 	g_free (update_text);
 	g_free (changelog);
 	g_free (issued);
@@ -592,7 +602,7 @@ pk_console_progress_cb (PkProgress *progress, PkProgressType type, gpointer data
 		/* show new status on the bar */
 		text = pk_role_enum_to_localised_present (role);
 		if (!is_console) {
-			/* TRANSLATORS: the role is the point of the transaction, e.g. update-system */
+			/* TRANSLATORS: the role is the point of the transaction, e.g. update-packages */
 			g_print ("%s:\t%s\n", _("Transaction"), text);
 			goto out;
 		}
@@ -684,7 +694,6 @@ pk_console_finished_cb (GObject *object, GAsyncResult *res, gpointer data)
 		/* TRANSLATORS: we failed to get any results, which is pretty fatal in my book */
 		g_print ("%s: %s\n", _("Fatal error"), error->message);
 		g_error_free (error);
-		retval = PK_EXIT_CODE_TRANSACTION_FAILED;
 		goto out;
 	}
 
@@ -720,7 +729,6 @@ pk_console_finished_cb (GObject *object, GAsyncResult *res, gpointer data)
 	if (!is_console ||
 	    (role != PK_ROLE_ENUM_INSTALL_PACKAGES &&
 	     role != PK_ROLE_ENUM_UPDATE_PACKAGES &&
-	     role != PK_ROLE_ENUM_UPDATE_SYSTEM &&
 	     role != PK_ROLE_ENUM_REMOVE_PACKAGES)) {
 		g_ptr_array_foreach (array, (GFunc) pk_console_package_cb, NULL);
 	}
@@ -728,7 +736,6 @@ pk_console_finished_cb (GObject *object, GAsyncResult *res, gpointer data)
 	/* special case */
 	if (array->len == 0 &&
 	    (role == PK_ROLE_ENUM_GET_UPDATES ||
-	     role == PK_ROLE_ENUM_UPDATE_SYSTEM ||
 	     role == PK_ROLE_ENUM_UPDATE_PACKAGES)) {
 		/* TRANSLATORS: print a message when there are no updates */
 		g_print ("%s\n", _("There are no updates available at this time."));
@@ -872,7 +879,6 @@ pk_console_install_packages (gchar **packages, GError **error)
 		*error = g_error_new (1, 0, _("This tool could not find any available package: %s"), error_local->message);
 		g_error_free (error_local);
 		ret = FALSE;
-		retval = PK_EXIT_CODE_FILE_NOT_FOUND;
 		goto out;
 	}
 
@@ -965,6 +971,44 @@ pk_console_update_packages (gchar **packages, GError **error)
 				       (PkProgressCallback) pk_console_progress_cb, NULL,
 				       (GAsyncReadyCallback) pk_console_finished_cb, NULL);
 out:
+	g_strfreev (package_ids);
+	return ret;
+}
+
+/**
+ * pk_console_update_system:
+ **/
+static gboolean
+pk_console_update_system (PkBitfield filters, GError **error)
+{
+	gboolean ret = TRUE;
+	gchar **package_ids = NULL;
+	PkPackageSack *sack = NULL;
+	PkResults *results;
+
+	/* get the current updates */
+	pk_bitfield_add (filters, PK_FILTER_ENUM_NEWEST);
+	results = pk_task_get_updates_sync (PK_TASK (task),
+					    filters,
+					    cancellable,
+					    (PkProgressCallback) pk_console_progress_cb, NULL,
+					    error);
+	if (results == NULL) {
+		ret = FALSE;
+		goto out;
+	}
+
+	/* do the async action */
+	sack = pk_results_get_package_sack (results);
+	package_ids = pk_package_sack_get_ids (sack);
+	pk_task_update_packages_async (PK_TASK(task), package_ids, cancellable,
+				       (PkProgressCallback) pk_console_progress_cb, NULL,
+				       (GAsyncReadyCallback) pk_console_finished_cb, NULL);
+out:
+	if (sack != NULL)
+		g_object_unref (sack);
+	if (results != NULL)
+		g_object_unref (results);
 	g_strfreev (package_ids);
 	return ret;
 }
@@ -1162,7 +1206,7 @@ pk_console_get_summary (void)
 				_("Subcommands:"));
 
 	/* always */
-	g_string_append_printf (string, "  %s\n", "get-roles");
+	g_string_append_printf (string, "  %s\n", "get-actions");
 	g_string_append_printf (string, "  %s\n", "get-groups");
 	g_string_append_printf (string, "  %s\n", "get-filters");
 	g_string_append_printf (string, "  %s\n", "get-transactions");
@@ -1183,8 +1227,7 @@ pk_console_get_summary (void)
 		g_string_append_printf (string, "  %s\n", "install-sig [type] [key_id] [package_id]");
 	if (pk_bitfield_contain (roles, PK_ROLE_ENUM_REMOVE_PACKAGES))
 		g_string_append_printf (string, "  %s\n", "remove [package]");
-	if (pk_bitfield_contain (roles, PK_ROLE_ENUM_UPDATE_SYSTEM) ||
-	    pk_bitfield_contain (roles, PK_ROLE_ENUM_UPDATE_PACKAGES))
+	if (pk_bitfield_contain (roles, PK_ROLE_ENUM_UPDATE_PACKAGES))
 		g_string_append_printf (string, "  %s\n", "update <package>");
 	if (pk_bitfield_contain (roles, PK_ROLE_ENUM_REFRESH_CACHE))
 		g_string_append_printf (string, "  %s\n", "refresh [--force]");
@@ -1206,8 +1249,6 @@ pk_console_get_summary (void)
 		g_string_append_printf (string, "  %s\n", "get-update-detail [package]");
 	if (pk_bitfield_contain (roles, PK_ROLE_ENUM_GET_PACKAGES))
 		g_string_append_printf (string, "  %s\n", "get-packages");
-	if (pk_bitfield_contain (roles, PK_ROLE_ENUM_ROLLBACK))
-		g_string_append_printf (string, "  %s\n", "rollback");
 	if (pk_bitfield_contain (roles, PK_ROLE_ENUM_GET_REPO_LIST))
 		g_string_append_printf (string, "  %s\n", "repo-list");
 	if (pk_bitfield_contain (roles, PK_ROLE_ENUM_REPO_ENABLE)) {
@@ -1260,14 +1301,15 @@ main (int argc, char *argv[])
 	GError *error = NULL;
 	GError *error_local = NULL;
 	gboolean background = FALSE;
+	gboolean help = FALSE;
 	gboolean noninteractive = FALSE;
+	gboolean only_download = FALSE;
 	guint cache_age = 0;
 	gboolean plain = FALSE;
 	gboolean program_version = FALSE;
 	GOptionContext *context;
 	gchar *options_help;
 	gchar *filter = NULL;
-	gchar *root = NULL;
 	gchar *summary = NULL;
 	const gchar *mode;
 	const gchar *http_proxy;
@@ -1286,15 +1328,15 @@ main (int argc, char *argv[])
 		{ "filter", '\0', 0, G_OPTION_ARG_STRING, &filter,
 			/* TRANSLATORS: command line argument, use a filter to narrow down results */
 			_("Set the filter, e.g. installed"), NULL},
-		{ "root", '\0', 0, G_OPTION_ARG_STRING, &root,
-			/* TRANSLATORS: command line argument, use a non-standard install prefix */
-			_("Set the install root, e.g. '/' or '/mnt/ltsp'"), NULL},
 		{ "nowait", 'n', 0, G_OPTION_ARG_NONE, &nowait,
 			/* TRANSLATORS: command line argument, work asynchronously */
 			_("Exit without waiting for actions to complete"), NULL},
 		{ "noninteractive", 'y', 0, G_OPTION_ARG_NONE, &noninteractive,
 			/* command line argument, do we ask questions */
 			_("Install the packages without asking for confirmation"), NULL },
+		{ "only-download", 'y', 0, G_OPTION_ARG_NONE, &only_download,
+			/* command line argument, do we just download or apply changes */
+			_("Prepare the transaction by downloading pakages only"), NULL },
 		{ "background", 'n', 0, G_OPTION_ARG_NONE, &background,
 			/* TRANSLATORS: command line argument, this command is not a priority */
 			_("Run the command using idle network bandwidth and also using less power"), NULL},
@@ -1304,6 +1346,9 @@ main (int argc, char *argv[])
 		{ "cache-age", 'c', 0, G_OPTION_ARG_INT, &cache_age,
 			/* TRANSLATORS: command line argument, just output without fancy formatting */
 			_("The maximum metadata cache age. Use -1 for 'never'."), NULL},
+		{ "help", 'h', 0, G_OPTION_ARG_NONE, &help,
+			/* TRANSLATORS: command line argument, --help */
+			_("Show help options."), NULL},
 		{ NULL}
 	};
 
@@ -1327,6 +1372,7 @@ main (int argc, char *argv[])
 
 	cancellable = g_cancellable_new ();
 	context = g_option_context_new ("PackageKit Console Program");
+	g_option_context_set_help_enabled (context, FALSE);
 	g_option_context_set_summary (context, summary) ;
 	g_option_context_add_main_entries (context, options, NULL);
 	g_option_context_add_group (context, pk_debug_get_option_group ());
@@ -1335,7 +1381,6 @@ main (int argc, char *argv[])
 		/* TRANSLATORS: we failed to contact the daemon */
 		g_print ("%s: %s\n", _("Failed to parse command line"), error->message);
 		g_error_free (error);
-		retval = PK_EXIT_CODE_SYNTAX_INVALID;
 		goto out_last;
 	}
 
@@ -1346,7 +1391,6 @@ main (int argc, char *argv[])
 		/* TRANSLATORS: we failed to contact the daemon */
 		g_print ("%s: %s\n", _("Failed to contact PackageKit"), error->message);
 		g_error_free (error);
-		retval = PK_EXIT_CODE_CANNOT_SETUP;
 		goto out_last;
 	}
 
@@ -1385,8 +1429,9 @@ main (int argc, char *argv[])
 	task = pk_task_text_new ();
 	g_object_set (task,
 		      "background", background,
-		      "simulate", !noninteractive,
+		      "simulate", !noninteractive && !only_download,
 		      "interactive", !noninteractive,
+		      "only-download", only_download,
 		      "cache-age", cache_age,
 		      NULL);
 
@@ -1399,18 +1444,6 @@ main (int argc, char *argv[])
 		if (!ret) {
 			/* TRANSLATORS: The user specified an incorrect filter */
 			error = g_error_new (1, 0, "%s: %s", _("The proxy could not be set"), error_local->message);
-			g_error_free (error_local);
-			retval = PK_EXIT_CODE_CANNOT_SETUP;
-			goto out;
-		}
-	}
-
-	/* set the install root if set */
-	if (root != NULL) {
-		ret = pk_control_set_root (control, root, NULL, &error_local);
-		if (!ret) {
-			/* TRANSLATORS: The user specified an incorrect filter */
-			error = g_error_new (1, 0, "%s: %s", _("The install root could not be set"), error_local->message);
 			g_error_free (error_local);
 			retval = PK_EXIT_CODE_CANNOT_SETUP;
 			goto out;
@@ -1564,23 +1597,10 @@ main (int argc, char *argv[])
 					     (PkProgressCallback) pk_console_progress_cb, NULL,
 					     (GAsyncReadyCallback) pk_console_finished_cb, NULL);
 
-	} else if (strcmp (mode, "rollback") == 0) {
-		if (value == NULL) {
-			/* TRANSLATORS: geeky error, 99.9999% of users won't see this */
-			error = g_error_new (1, 0, "%s", _("A transaction identifier (tid) is required"));
-			retval = PK_EXIT_CODE_SYNTAX_INVALID;
-			goto out;
-		}
-		pk_task_rollback_async (PK_TASK (task),value, cancellable,
-					(PkProgressCallback) pk_console_progress_cb, NULL,
-					(GAsyncReadyCallback) pk_console_finished_cb, NULL);
-
 	} else if (strcmp (mode, "update") == 0) {
 		if (value == NULL) {
 			/* do the system update */
-			pk_task_update_system_async (PK_TASK(task), cancellable,
-						     (PkProgressCallback) pk_console_progress_cb, NULL,
-						     (GAsyncReadyCallback) pk_console_finished_cb, NULL);
+			nowait = !pk_console_update_system (filters, &error);
 		} else {
 			nowait = !pk_console_update_packages (argv+2, &error);
 		}
@@ -1638,7 +1658,7 @@ main (int argc, char *argv[])
 		PkRoleEnum role;
 		if (value == NULL) {
 			/* TRANSLATORS: The user didn't specify what action to use */
-			error = g_error_new (1, 0, "%s", _("An action, e.g. 'update-system' is required"));
+			error = g_error_new (1, 0, "%s", _("An action, e.g. 'update-packages' is required"));
 			retval = PK_EXIT_CODE_SYNTAX_INVALID;
 			goto out;
 		}
@@ -1809,7 +1829,6 @@ out:
 
 	g_free (options_help);
 	g_free (filter);
-	g_free (root);
 	g_free (summary);
 	g_object_unref (progressbar);
 	g_object_unref (control);

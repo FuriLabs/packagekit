@@ -139,22 +139,30 @@ pk_test_backend_watch_file_cb (PkBackend *backend, gpointer user_data)
 	_g_test_loop_quit ();
 }
 
-static gboolean
-pk_test_backend_func_true (PkBackend *backend)
+static void
+pk_test_backend_func_true (PkBackendJob *job,
+			   GVariant *params,
+			   gpointer user_data)
 {
 	g_usleep (1000*1000);
+	g_assert_cmpint (GPOINTER_TO_INT (user_data), ==, 999);
 	/* trigger duplicate test */
-	pk_backend_package (backend, PK_INFO_ENUM_AVAILABLE, "vips-doc;7.12.4-2.fc8;noarch;linva", "The vips documentation package.");
-	pk_backend_package (backend, PK_INFO_ENUM_AVAILABLE, "vips-doc;7.12.4-2.fc8;noarch;linva", "The vips documentation package.");
-	pk_backend_finished (backend);
-	return TRUE;
+
+	pk_backend_job_package (job, PK_INFO_ENUM_AVAILABLE,
+				"vips-doc;7.12.4-2.fc8;noarch;linva",
+				"The vips documentation package.");
+	pk_backend_job_package (job, PK_INFO_ENUM_AVAILABLE,
+				"vips-doc;7.12.4-2.fc8;noarch;linva",
+				"The vips documentation package.");
+	pk_backend_job_finished (job);
 }
 
-static gboolean
-pk_test_backend_func_immediate_false (PkBackend *backend)
+static void
+pk_test_backend_func_immediate_false (PkBackendJob *job,
+				      GVariant *params,
+				      gpointer user_data)
 {
-	pk_backend_finished (backend);
-	return FALSE;
+	pk_backend_job_finished (job);
 }
 
 /**
@@ -171,8 +179,9 @@ static void
 pk_test_backend_func (void)
 {
 	PkBackend *backend;
+	PkBackendJob *job;
 	PkConf *conf;
-	gchar *text;
+	const gchar *text;
 	gchar *text_safe;
 	gboolean ret;
 	const gchar *filename;
@@ -182,10 +191,6 @@ pk_test_backend_func (void)
 	/* get an backend */
 	backend = pk_backend_new ();
 	g_assert (backend != NULL);
-
-	/* connect */
-	g_signal_connect (backend, "package",
-			  G_CALLBACK (pk_test_backend_package_cb), NULL);
 
 	/* create a config file */
 	filename = "/tmp/dave";
@@ -207,77 +212,84 @@ pk_test_backend_func (void)
 	ret = g_unlink (filename);
 	g_assert (!ret);
 
-	g_signal_connect (backend, "message", G_CALLBACK (pk_test_backend_message_cb), NULL);
-	g_signal_connect (backend, "finished", G_CALLBACK (pk_test_backend_finished_cb), NULL);
+	/* connect */
+	job = pk_backend_job_new ();
+	pk_backend_job_set_backend (job, backend);
+	pk_backend_job_set_vfunc (job,
+				  PK_BACKEND_SIGNAL_PACKAGE,
+				  (PkBackendJobVFunc) pk_test_backend_package_cb,
+				  NULL);
+	pk_backend_job_set_vfunc (job,
+				  PK_BACKEND_SIGNAL_MESSAGE,
+				  (PkBackendJobVFunc) pk_test_backend_message_cb,
+				  NULL);
+	pk_backend_job_set_vfunc (job,
+				  PK_BACKEND_SIGNAL_FINISHED,
+				  (PkBackendJobVFunc) pk_test_backend_finished_cb,
+				  NULL);
 
 	/* get eula that does not exist */
 	ret = pk_backend_is_eula_valid (backend, "license_foo");
 	g_assert (!ret);
 
 	/* accept eula */
-	ret = pk_backend_accept_eula (backend, "license_foo");
-	g_assert (ret);
+	pk_backend_accept_eula (backend, "license_foo");
 
 	/* get eula that does exist */
 	ret = pk_backend_is_eula_valid (backend, "license_foo");
 	g_assert (ret);
 
 	/* accept eula (again) */
-	ret = pk_backend_accept_eula (backend, "license_foo");
-	g_assert (!ret);
+	pk_backend_accept_eula (backend, "license_foo");
 
 	/* load an invalid backend */
-	ret = pk_backend_set_name (backend, "invalid", &error);
+	conf = pk_conf_new ();
+	pk_conf_set_string (conf, "DefaultBackend", "invalid");
+	ret = pk_backend_load (backend, &error);
 	g_assert_error (error, 1, 0);
 	g_assert (!ret);
 	g_clear_error (&error);
 
 	/* try to load a valid backend */
-	ret = pk_backend_set_name (backend, "dummy", &error);
+	pk_conf_set_string (conf, "DefaultBackend", "dummy");
+	ret = pk_backend_load (backend, &error);
 	g_assert_no_error (error);
 	g_assert (ret);
 
 	/* load an valid backend again */
-	ret = pk_backend_set_name (backend, "dummy", &error);
+	ret = pk_backend_load (backend, &error);
 	g_assert_error (error, 1, 0);
 	g_assert (!ret);
 	g_clear_error (&error);
 
-	/* lock an valid backend */
-	ret = pk_backend_open (backend);
-	g_assert (ret);
-
-	/* lock a backend again */
-	ret = pk_backend_open (backend);
-	g_assert (ret);
-
 	/* get backend name */
 	text = pk_backend_get_name (backend);
 	g_assert_cmpstr (text, ==, "dummy");
-	g_free (text);
 
 	/* unlock an valid backend */
-	ret = pk_backend_close (backend);
+	ret = pk_backend_unload (backend);
 	g_assert (ret);
 
 	/* unlock an valid backend again */
-	ret = pk_backend_close (backend);
+	ret = pk_backend_unload (backend);
 	g_assert (ret);
 
 	/* check we are not finished */
-	ret = pk_backend_get_is_finished (backend);
+	ret = pk_backend_job_get_is_finished (job);
 	g_assert (!ret);
 
 	/* check we have no error */
-	ret = pk_backend_has_set_error_code (backend);
+	ret = pk_backend_job_has_set_error_code (job);
 	g_assert (!ret);
 
-	/* lock again */
-	ret = pk_backend_open (backend);
-	g_assert (ret);
-
 	/* wait for a thread to return true */
-	ret = pk_backend_thread_create (backend, pk_test_backend_func_true);
+	ret = pk_backend_load (backend, &error);
+	g_assert_no_error (error);
+	g_assert (ret);
+	ret = pk_backend_job_thread_create (job,
+					    pk_test_backend_func_true,
+					    GINT_TO_POINTER (999),
+					    NULL);
 	g_assert (ret);
 
 	/* wait for Finished */
@@ -287,52 +299,60 @@ pk_test_backend_func (void)
 	g_assert_cmpint (number_packages, ==, 1);
 
 	/* reset */
-	pk_backend_reset (backend);
+	pk_backend_start_job (backend, job);
+	pk_backend_reset_job (backend, job);
+	pk_backend_stop_job (backend, job);
+	g_object_unref (job);
+	job = pk_backend_job_new ();
+	pk_backend_job_set_backend (job, backend);
 
 	/* wait for a thread to return false (straight away) */
-	ret = pk_backend_thread_create (backend, pk_test_backend_func_immediate_false);
+	ret = pk_backend_job_thread_create (job,
+					    pk_test_backend_func_immediate_false,
+					    NULL,
+					    NULL);
 	g_assert (ret);
 
 	/* wait for Finished */
 	_g_test_loop_wait (10);
 
-	pk_backend_reset (backend);
-	pk_backend_error_code (backend, PK_ERROR_ENUM_GPG_FAILURE, "test error");
+	pk_backend_start_job (backend, job);
+	pk_backend_reset_job (backend, job);
+	pk_backend_job_error_code (job, PK_ERROR_ENUM_GPG_FAILURE, "test error");
 
 	/* wait for finished */
 //	_g_test_loop_run_with_timeout (PK_BACKEND_FINISHED_ERROR_TIMEOUT + 400);
 
 	/* get allow cancel after reset */
-	pk_backend_reset (backend);
-	ret = pk_backend_get_allow_cancel (backend);
+	pk_backend_reset_job (backend, job);
+	ret = pk_backend_job_get_allow_cancel (job);
 	g_assert (!ret);
 
 	/* set allow cancel TRUE */
-	ret = pk_backend_set_allow_cancel (backend, TRUE);
-	g_assert (ret);
+	pk_backend_job_set_allow_cancel (job, TRUE);
 
 	/* set allow cancel TRUE (repeat) */
-	ret = pk_backend_set_allow_cancel (backend, TRUE);
-	g_assert (!ret);
+	pk_backend_job_set_allow_cancel (job, TRUE);
 
 	/* set allow cancel FALSE */
-	ret = pk_backend_set_allow_cancel (backend, FALSE);
-	g_assert (ret);
+	pk_backend_job_set_allow_cancel (job, FALSE);
 
 	/* set allow cancel FALSE (after reset) */
-	pk_backend_reset (backend);
-	ret = pk_backend_set_allow_cancel (backend, FALSE);
-	g_assert (ret);
+	pk_backend_reset_job (backend, job);
+	pk_backend_job_set_allow_cancel (job, FALSE);
 
 	/* if running in developer mode, then expect a Message */
-	conf = pk_conf_new ();
 	developer_mode = pk_conf_get_bool (conf, "DeveloperMode");
-	g_object_unref (conf);
 	if (developer_mode) {
 		/* check we enforce finished after error_code */
 		g_assert_cmpint (number_messages, ==, 1);
 	}
 
+	/* stop the job again */
+	pk_backend_stop_job (backend, job);
+
+	g_object_unref (conf);
+	g_object_unref (job);
 	g_object_unref (backend);
 }
 
@@ -342,7 +362,9 @@ static guint _backend_spawn_number_packages = 0;
  * pk_test_backend_spawn_finished_cb:
  **/
 static void
-pk_test_backend_spawn_finished_cb (PkBackend *backend, PkExitEnum exit, PkBackendSpawn *backend_spawn)
+pk_test_backend_spawn_finished_cb (PkBackendJob *job,
+				   PkExitEnum exit,
+				   PkBackendSpawn *backend_spawn)
 {
 	_g_test_loop_quit ();
 }
@@ -363,6 +385,8 @@ pk_test_backend_spawn_func (void)
 {
 	PkBackendSpawn *backend_spawn;
 	PkBackend *backend;
+	PkBackendJob *job;
+	PkConf *conf;
 	const gchar *text;
 	guint refcount;
 	gboolean ret;
@@ -374,9 +398,9 @@ pk_test_backend_spawn_func (void)
 	g_assert (backend_spawn != NULL);
 
 	/* private copy for unref testing */
-	backend = pk_backend_spawn_get_backend (backend_spawn);
-	/* incr ref count so we don't kill the object */
-	g_object_ref (backend);
+	backend = pk_backend_new ();
+	job = pk_backend_job_new ();
+	pk_backend_job_set_backend (job, backend);
 
 	/* get backend name */
 	text = pk_backend_spawn_get_name (backend_spawn);
@@ -391,65 +415,61 @@ pk_test_backend_spawn_func (void)
 	g_assert_cmpstr (text, ==, "test_spawn");
 
 	/* needed to avoid an error */
-	ret = pk_backend_set_name (backend, "test_spawn", NULL);
-	g_assert (ret);
-	ret = pk_backend_open (backend);
+	conf = pk_conf_new ();
+	pk_conf_set_string (conf, "DefaultBackend", "test_spawn");
+	ret = pk_backend_load (backend, NULL);
 	g_assert (ret);
 
 	/* test pk_backend_spawn_inject_data Percentage1 */
-	ret = pk_backend_spawn_inject_data (backend_spawn, "percentage\t0", NULL);
+	ret = pk_backend_spawn_inject_data (backend_spawn, job, "percentage\t0", NULL);
 	g_assert (ret);
 
 	/* test pk_backend_spawn_inject_data Percentage2 */
-	ret = pk_backend_spawn_inject_data (backend_spawn, "percentage\tbrian", NULL);
+	ret = pk_backend_spawn_inject_data (backend_spawn, job, "percentage\tbrian", NULL);
 	g_assert (!ret);
 
 	/* test pk_backend_spawn_inject_data Percentage3 */
-	ret = pk_backend_spawn_inject_data (backend_spawn, "percentage\t12345", NULL);
+	ret = pk_backend_spawn_inject_data (backend_spawn, job, "percentage\t12345", NULL);
 	g_assert (!ret);
 
 	/* test pk_backend_spawn_inject_data Percentage4 */
-	ret = pk_backend_spawn_inject_data (backend_spawn, "percentage\t", NULL);
+	ret = pk_backend_spawn_inject_data (backend_spawn, job, "percentage\t", NULL);
 	g_assert (!ret);
 
 	/* test pk_backend_spawn_inject_data Percentage5 */
-	ret = pk_backend_spawn_inject_data (backend_spawn, "percentage", NULL);
+	ret = pk_backend_spawn_inject_data (backend_spawn, job, "percentage", NULL);
 	g_assert (!ret);
 
-	/* test pk_backend_spawn_inject_data Subpercentage */
-	ret = pk_backend_spawn_inject_data (backend_spawn, "subpercentage\t17", NULL);
-	g_assert (ret);
-
 	/* test pk_backend_spawn_inject_data NoPercentageUpdates");
-	ret = pk_backend_spawn_inject_data (backend_spawn, "no-percentage-updates", NULL);
+	ret = pk_backend_spawn_inject_data (backend_spawn, job, "no-percentage-updates", NULL);
 	g_assert (ret);
 
 	/* test pk_backend_spawn_inject_data failure */
-	ret = pk_backend_spawn_inject_data (backend_spawn, "error\tnot-present-woohoo\tdescription text", NULL);
+	ret = pk_backend_spawn_inject_data (backend_spawn, job, "error\tnot-present-woohoo\tdescription text", NULL);
 	g_assert (!ret);
 
 	/* test pk_backend_spawn_inject_data Status */
-	ret = pk_backend_spawn_inject_data (backend_spawn, "status\tquery", NULL);
+	ret = pk_backend_spawn_inject_data (backend_spawn, job, "status\tquery", NULL);
 	g_assert (ret);
 
 	/* test pk_backend_spawn_inject_data RequireRestart */
-	ret = pk_backend_spawn_inject_data (backend_spawn, "requirerestart\tsystem\tgnome-power-manager;0.0.1;i386;data", NULL);
+	ret = pk_backend_spawn_inject_data (backend_spawn, job, "requirerestart\tsystem\tgnome-power-manager;0.0.1;i386;data", NULL);
 	g_assert (ret);
 
 	/* test pk_backend_spawn_inject_data RequireRestart invalid enum */
-	ret = pk_backend_spawn_inject_data (backend_spawn, "requirerestart\tmooville\tgnome-power-manager;0.0.1;i386;data", NULL);
+	ret = pk_backend_spawn_inject_data (backend_spawn, job, "requirerestart\tmooville\tgnome-power-manager;0.0.1;i386;data", NULL);
 	g_assert (!ret);
 
 	/* test pk_backend_spawn_inject_data RequireRestart invalid PackageId */
-	ret = pk_backend_spawn_inject_data (backend_spawn, "requirerestart\tsystem\tdetails about the restart", NULL);
+	ret = pk_backend_spawn_inject_data (backend_spawn, job, "requirerestart\tsystem\tdetails about the restart", NULL);
 	g_assert (!ret);
 
 	/* test pk_backend_spawn_inject_data AllowUpdate1 */
-	ret = pk_backend_spawn_inject_data (backend_spawn, "allow-cancel\ttrue", NULL);
+	ret = pk_backend_spawn_inject_data (backend_spawn, job, "allow-cancel\ttrue", NULL);
 	g_assert (ret);
 
 	/* test pk_backend_spawn_inject_data AllowUpdate2 */
-	ret = pk_backend_spawn_inject_data (backend_spawn, "allow-cancel\tbrian", NULL);
+	ret = pk_backend_spawn_inject_data (backend_spawn, job, "allow-cancel\tbrian", NULL);
 	g_assert (!ret);
 
 	/* convert proxy uri (bare) */
@@ -468,20 +488,16 @@ pk_test_backend_spawn_func (void)
 	g_free (uri);
 
 	/* test pk_backend_spawn_parse_common_out Package */
-	ret = pk_backend_spawn_inject_data (backend_spawn,
+	ret = pk_backend_spawn_inject_data (backend_spawn, job,
 		"package\tinstalled\tgnome-power-manager;0.0.1;i386;data\tMore useless software", NULL);
 	g_assert (ret);
 
 	/* manually unlock as we have no engine */
-	ret = pk_backend_close (backend);
+	ret = pk_backend_unload (backend);
 	g_assert (ret);
 
 	/* reset */
 	g_object_unref (backend_spawn);
-
-	/* test we unref'd all but one of the PkBackend instances */
-	refcount = G_OBJECT(backend)->ref_count;
-	g_assert_cmpint (refcount, ==, 1);
 
 	/* new */
 	backend_spawn = pk_backend_spawn_new ();
@@ -491,17 +507,22 @@ pk_test_backend_spawn_func (void)
 	g_assert (ret);
 
 	/* so we can spin until we finish */
-	g_signal_connect (backend, "finished",
-			  G_CALLBACK (pk_test_backend_spawn_finished_cb), backend_spawn);
+	pk_backend_job_set_vfunc (job,
+				  PK_BACKEND_SIGNAL_FINISHED,
+				  (PkBackendJobVFunc) pk_test_backend_spawn_finished_cb,
+				  backend_spawn);
+
 	/* so we can count the returned packages */
-	g_signal_connect (backend, "package",
-			  G_CALLBACK (pk_test_backend_spawn_package_cb), backend_spawn);
+	pk_backend_job_set_vfunc (job,
+				  PK_BACKEND_SIGNAL_PACKAGE,
+				  (PkBackendJobVFunc) pk_test_backend_spawn_package_cb,
+				  backend_spawn);
 
 	/* needed to avoid an error */
-	ret = pk_backend_open (backend);
+	ret = pk_backend_load (backend, NULL);
 
 	/* test search-name.sh running */
-	ret = pk_backend_spawn_helper (backend_spawn, "search-name.sh", "none", "bar", NULL);
+	ret = pk_backend_spawn_helper (backend_spawn, job, "search-name.sh", "none", "bar", NULL);
 	g_assert (ret);
 
 	/* wait for finished */
@@ -511,18 +532,16 @@ pk_test_backend_spawn_func (void)
 	g_assert_cmpint (_backend_spawn_number_packages, ==, 2);
 
 	/* manually unlock as we have no engine */
-	ret = pk_backend_close (backend);
+	ret = pk_backend_unload (backend);
 	g_assert (ret);
 
 	/* done */
 	g_object_unref (backend_spawn);
 
-	/* test we unref'd all but one of the PkBackend instances */
-	refcount = G_OBJECT(backend)->ref_count;
-	g_assert_cmpint (refcount, ==, 1);
-
 	/* we ref'd it manually for checking, so we need to unref it */
+	g_object_unref (job);
 	g_object_unref (backend);
+	g_object_unref (conf);
 }
 
 static void
@@ -563,6 +582,12 @@ pk_test_conf_func (void)
 	/* get an int that doesn't exist */
 	value = pk_conf_get_int (conf, "FooBarBaz");
 	g_assert_cmpint (value, ==, PK_CONF_VALUE_INT_MISSING);
+
+	/* override a value */
+	pk_conf_set_string (conf, "FooBarBaz", "zif");
+	text = pk_conf_get_string (conf, "FooBarBaz");
+	g_assert_cmpstr (text, ==, "zif");
+	g_free (text);
 
 	g_object_unref (conf);
 }
@@ -1052,81 +1077,10 @@ pk_test_transaction_func (void)
 	PkTransaction *transaction = NULL;
 	gboolean ret;
 	GError *error = NULL;
-	PkBackend *backend;
-
-	backend = pk_backend_new ();
-	/* try to load a valid backend */
-	ret = pk_backend_set_name (backend, "dummy", NULL);
-	g_assert (ret);
-
-	/* lock an valid backend */
-	ret = pk_backend_open (backend);
-	g_assert (ret);
 
 	/* get PkTransaction object */
 	transaction = pk_transaction_new ();
 	g_assert (transaction != NULL);
-
-	/* test a fail filter (null) */
-	ret = pk_transaction_filter_check (NULL, &error);
-	g_assert_error (error, PK_TRANSACTION_ERROR, PK_TRANSACTION_ERROR_INPUT_INVALID);
-	g_assert (!ret);
-	g_clear_error (&error);
-
-	/* test a fail filter () */
-	ret = pk_transaction_filter_check ("", &error);
-	g_assert_error (error, PK_TRANSACTION_ERROR, PK_TRANSACTION_ERROR_INPUT_INVALID);
-	g_assert (!ret);
-	g_clear_error (&error);
-
-	/* test a fail filter (;) */
-	ret = pk_transaction_filter_check (";", &error);
-	g_assert_error (error, PK_TRANSACTION_ERROR, PK_TRANSACTION_ERROR_INPUT_INVALID);
-	g_assert (!ret);
-	g_clear_error (&error);
-
-	/* test a fail filter (invalid) */
-	ret = pk_transaction_filter_check ("moo", &error);
-	g_assert_error (error, PK_TRANSACTION_ERROR, PK_TRANSACTION_ERROR_INPUT_INVALID);
-	g_assert (!ret);
-
-	g_clear_error (&error);
-
-	/* test a fail filter (invalid, multiple) */
-	ret = pk_transaction_filter_check ("moo;foo", &error);
-	g_assert_error (error, PK_TRANSACTION_ERROR, PK_TRANSACTION_ERROR_INPUT_INVALID);
-	g_assert (!ret);
-	g_clear_error (&error);
-
-	/* test a fail filter (valid then zero length) */
-	ret = pk_transaction_filter_check ("gui;;", &error);
-	g_assert_error (error, PK_TRANSACTION_ERROR, PK_TRANSACTION_ERROR_INPUT_INVALID);
-	g_assert (!ret);
-	g_clear_error (&error);
-
-	/* test a pass filter (none) */
-	ret = pk_transaction_filter_check ("none", &error);
-	g_assert_no_error (error);
-	g_assert (ret);
-	g_clear_error (&error);
-
-	/* test a pass filter (single) */
-	ret = pk_transaction_filter_check ("gui", &error);
-	g_assert_no_error (error);
-	g_assert (ret);
-	g_clear_error (&error);
-
-	/* test a pass filter (multiple) */
-	ret = pk_transaction_filter_check ("devel;~gui", &error);
-	g_assert_no_error (error);
-	g_assert (ret);
-	g_clear_error (&error);
-
-	/* test a pass filter (multiple2) */
-	ret = pk_transaction_filter_check ("~gui;~installed", &error);
-	g_assert_no_error (error);
-	g_assert (ret);
-	g_clear_error (&error);
 
 	/* validate incorrect text */
 	ret = pk_transaction_strvalidate ("richard$hughes", &error);
@@ -1141,7 +1095,6 @@ pk_test_transaction_func (void)
 	g_clear_error (&error);
 
 	g_object_unref (transaction);
-	g_object_unref (backend);
 }
 
 static void
@@ -1154,7 +1107,6 @@ pk_test_transaction_db_func (void)
 	gdouble ms;
 	gchar *proxy_http = NULL;
 	gchar *proxy_ftp = NULL;
-	gchar *root = NULL;
 	guint seconds;
 
 	/* remove the self check file */
@@ -1189,7 +1141,7 @@ pk_test_transaction_db_func (void)
 	g_test_timer_start ();
 	tid = pk_transaction_db_generate_id (db);
 	ms = g_test_timer_elapsed ();
-	g_assert_cmpfloat (ms, <, 0.001);
+	g_assert_cmpfloat (ms, <, 0.002);
 	g_free (tid);
 
 	/* get an tid object (no wait) */
@@ -1273,24 +1225,6 @@ pk_test_transaction_db_func (void)
 	g_assert_cmpstr (proxy_http, ==, "127.0.0.1:80");
 	g_assert_cmpstr (proxy_ftp, ==, "127.0.0.1:21");
 
-	/* can we set the root */
-	ret = pk_transaction_db_set_root (db, 500, "session1", "/mnt/chroot");
-	g_assert (ret);
-
-	/* can we set the root (overwrite) */
-	ret = pk_transaction_db_set_root (db, 500, "session1", "/mnt/chroot2");
-	g_assert (ret);
-
-	/* can we get the root (non-existant user) */
-	ret = pk_transaction_db_get_root (db, 501, "session1", &root);
-	g_assert (!ret);
-	g_assert_cmpstr (root, ==, NULL);
-
-	/* can we get the root (match) */
-	ret = pk_transaction_db_get_root (db, 500, "session1", &root);
-	g_assert_cmpstr (root, ==, "/mnt/chroot2");
-
-	g_free (root);
 	g_free (proxy_http);
 	g_free (proxy_ftp);
 	g_object_unref (db);
@@ -1338,6 +1272,7 @@ pk_test_transaction_list_func (void)
 	gchar *tid_item2;
 	gchar *tid_item3;
 	PkBackend *backend;
+	PkConf *conf;
 
 	/* remove the self check file */
 #if PK_BUILD_LOCAL
@@ -1356,11 +1291,9 @@ pk_test_transaction_list_func (void)
 
 	/* try to load a valid backend */
 	backend = pk_backend_new ();
-	ret = pk_backend_set_name (backend, "dummy", NULL);
-	g_assert (ret);
-
-	/* lock an valid backend */
-	ret = pk_backend_open (backend);
+	conf = pk_conf_new ();
+	pk_conf_set_string (conf, "DefaultBackend", "dummy");
+	ret = pk_backend_load (backend, NULL);
 	g_assert (ret);
 
 	/* get a transaction list object */
@@ -1368,6 +1301,7 @@ pk_test_transaction_list_func (void)
 	g_assert (tlist != NULL);
 
 	/* make sure we get a valid tid */
+	pk_transaction_list_set_backend (tlist, backend);
 	tid = pk_transaction_db_generate_id (db);
 	g_assert (tid != NULL);
 
@@ -1417,7 +1351,10 @@ pk_test_transaction_list_func (void)
 			  G_CALLBACK (pk_test_transaction_list_finished_cb), NULL);
 
 	/* this tests the run-on-commit action */
-	pk_transaction_get_updates (transaction, g_variant_new ("(s)", "none"), NULL);
+	pk_transaction_get_updates (transaction,
+				    g_variant_new ("(t)",
+						   pk_bitfield_value (PK_FILTER_ENUM_NONE)),
+				    NULL);
 
 	/* make sure transaction has correct flags */
 	transaction = pk_transaction_list_get_transaction (tlist, tid);
@@ -1495,24 +1432,33 @@ pk_test_transaction_list_func (void)
 	/* this starts one action */
 	array = g_strsplit ("dave", " ", -1);
 	transaction = pk_transaction_list_get_transaction (tlist, tid_item1);
+	pk_transaction_make_exclusive (transaction);
 	pk_transaction_search_details (transaction,
-				       g_variant_new ("(s^as)", "none", array),
+				       g_variant_new ("(t^as)",
+						      pk_bitfield_value (PK_FILTER_ENUM_NONE),
+						      array),
 				       NULL);
 	g_strfreev (array);
 
 	/* this should be chained after the first action completes */
 	array = g_strsplit ("power", " ", -1);
 	transaction = pk_transaction_list_get_transaction (tlist, tid_item2);
+	pk_transaction_make_exclusive (transaction);
 	pk_transaction_search_names (transaction,
-				     g_variant_new ("(s^as)", "none", array),
+				     g_variant_new ("(t^as)",
+						    pk_bitfield_value (PK_FILTER_ENUM_NONE),
+						    array),
 				     NULL);
 	g_strfreev (array);
 
 	/* this starts be chained after the second action completes */
 	array = g_strsplit ("paul", " ", -1);
 	transaction = pk_transaction_list_get_transaction (tlist, tid_item3);
+	pk_transaction_make_exclusive (transaction);
 	pk_transaction_search_details (transaction,
-				       g_variant_new ("(s^as)", "none", array),
+				       g_variant_new ("(t^as)",
+						      pk_bitfield_value (PK_FILTER_ENUM_NONE),
+						      array),
 				       NULL);
 	g_strfreev (array);
 
@@ -1597,6 +1543,11 @@ pk_test_transaction_list_func (void)
 	transaction = pk_transaction_list_get_transaction (tlist, tid_item3);
 	g_assert_cmpint (pk_transaction_get_state (transaction), ==, PK_TRANSACTION_STATE_FINISHED);
 
+	/* free tids */
+	g_free (tid_item1);
+	g_free (tid_item2);
+	g_free (tid_item3);
+
 	/* wait for Cleanup */
 	_g_test_loop_wait (10000);
 
@@ -1614,6 +1565,225 @@ pk_test_transaction_list_func (void)
 	g_object_unref (backend);
 	g_object_unref (cache);
 	g_object_unref (db);
+	g_object_unref (conf);
+}
+
+static void
+pk_test_transaction_list_parallel_func (void)
+{
+	PkTransactionList *tlist;
+	PkCache *cache;
+	guint size;
+	gboolean ret;
+	guint i;
+	gchar **array;
+	PkTransaction *transaction1;
+	PkTransaction *transaction2;
+	PkTransaction *transaction3;
+	PkTransactionState state;
+	gchar *tid_item1;
+	gchar *tid_item2;
+	gchar *tid_item3;
+	gchar *tid_item4;
+	gchar *tid_item5;
+	PkBackend *backend;
+	PkConf *conf;
+
+	/* we get a cache object to reproduce the engine having it ref'd */
+	cache = pk_cache_new ();
+	db = pk_transaction_db_new ();
+
+	/* try to load a valid backend */
+	backend = pk_backend_new ();
+	conf = pk_conf_new ();
+	pk_conf_set_string (conf, "DefaultBackend", "dummy");
+	ret = pk_backend_load (backend, NULL);
+	g_assert (ret);
+
+	/* get a transaction list object */
+	tlist = pk_transaction_list_new ();
+	g_assert (tlist != NULL);
+
+	pk_transaction_list_set_backend (tlist, backend);
+
+	/* create three instances in list */
+	tid_item1 = pk_test_transaction_list_create_transaction (tlist);
+	tid_item2 = pk_test_transaction_list_create_transaction (tlist);
+	tid_item3 = pk_test_transaction_list_create_transaction (tlist);
+	tid_item4 = pk_test_transaction_list_create_transaction (tlist);
+	tid_item5 = pk_test_transaction_list_create_transaction (tlist);
+
+	/* get all transactions in queue */
+	size = pk_transaction_list_get_size (tlist);
+	g_assert_cmpint (size, ==, 5);
+
+	/* get transactions (committed, not finished) committed */
+	array = pk_transaction_list_get_array (tlist);
+	size = g_strv_length (array);
+	g_assert_cmpint (size, ==, 0);
+	g_strfreev (array);
+
+	transaction1 = pk_transaction_list_get_transaction (tlist, tid_item1);
+	g_signal_connect (transaction1, "finished",
+			  G_CALLBACK (pk_test_transaction_list_finished_cb), NULL);
+	transaction1 = pk_transaction_list_get_transaction (tlist, tid_item2);
+	g_signal_connect (transaction1, "finished",
+			  G_CALLBACK (pk_test_transaction_list_finished_cb), NULL);
+	transaction1 = pk_transaction_list_get_transaction (tlist, tid_item3);
+	g_signal_connect (transaction1, "finished",
+			  G_CALLBACK (pk_test_transaction_list_finished_cb), NULL);
+	transaction1 = pk_transaction_list_get_transaction (tlist, tid_item4);
+	g_signal_connect (transaction1, "finished",
+			  G_CALLBACK (pk_test_transaction_list_finished_cb), NULL);
+	transaction1 = pk_transaction_list_get_transaction (tlist, tid_item5);
+	g_signal_connect (transaction1, "finished",
+			  G_CALLBACK (pk_test_transaction_list_finished_cb), NULL);
+
+	/* this starts one action */
+	array = g_strsplit ("dave", " ", -1);
+	transaction1 = pk_transaction_list_get_transaction (tlist, tid_item1);
+	pk_transaction_search_details (transaction1,
+				       g_variant_new ("(t^as)",
+						      pk_bitfield_value (PK_FILTER_ENUM_NONE),
+						      array),
+				       NULL);
+	g_strfreev (array);
+
+	/* run a second (and exclusive!) action in parallel */
+	array = g_strsplit ("libawesome;42;i386;debian", " ", -1);
+	transaction1 = pk_transaction_list_get_transaction (tlist, tid_item2);
+	pk_transaction_skip_auth_checks (transaction1, TRUE);
+	pk_transaction_install_packages (transaction1,
+				       g_variant_new ("(t^as)",
+						      pk_bitfield_value (PK_FILTER_ENUM_NONE),
+						      array),
+				       NULL);
+	g_strfreev (array);
+
+	/* run a third action in parallel */
+	array = g_strsplit ("power", " ", -1);
+	transaction1 = pk_transaction_list_get_transaction (tlist, tid_item3);
+	pk_transaction_search_names (transaction1,
+				     g_variant_new ("(t^as)",
+						    pk_bitfield_value (PK_FILTER_ENUM_NONE),
+						    array),
+				     NULL);
+	g_strfreev (array);
+
+	/* run a fourth (and exclusive!) action in parallel */
+	array = g_strsplit ("foobar;1.1.0;i386;debian", " ", -1);
+	transaction1 = pk_transaction_list_get_transaction (tlist, tid_item4);
+	pk_transaction_skip_auth_checks (transaction1, TRUE);
+	pk_transaction_install_packages (transaction1,
+				       g_variant_new ("(t^as)",
+						      pk_bitfield_value (PK_FILTER_ENUM_NONE),
+						      array),
+				       NULL);
+	g_strfreev (array);
+
+	/* get transactions (committed, not finished) in progress (all should be RUNNING now) */
+	array = pk_transaction_list_get_array (tlist);
+	size = g_strv_length (array);
+	g_assert_cmpint (size, ==, 4);
+	g_strfreev (array);
+
+	/* wait for one action to complete */
+	_g_test_loop_run_with_timeout (10000);
+
+	/* make sure transaction4 (second exclusive) has correct flags (should be waiting for transaction2 to complete) */
+	transaction1 = pk_transaction_list_get_transaction (tlist, tid_item4);
+	g_assert_cmpint (pk_transaction_get_state (transaction1), ==, PK_TRANSACTION_STATE_READY);
+
+	/* make sure transaction3 (non-exlusive) is running (should still be running, because it was run at last) */
+	transaction1 = pk_transaction_list_get_transaction (tlist, tid_item3);
+	g_assert_cmpint (pk_transaction_get_state (transaction1), ==, PK_TRANSACTION_STATE_RUNNING);
+
+	/* make sure transaction2 (exlusive) is running too */
+	transaction1 = pk_transaction_list_get_transaction (tlist, tid_item2);
+	g_assert_cmpint (pk_transaction_get_state (transaction1), ==, PK_TRANSACTION_STATE_RUNNING);
+
+	/* run a fifth (non-exclusive) action in parallel to the running exclusive */
+	array = g_strsplit ("paul", " ", -1);
+	transaction1 = pk_transaction_list_get_transaction (tlist, tid_item5);
+	pk_transaction_search_details (transaction1,
+				       g_variant_new ("(t^as)",
+						      pk_bitfield_value (PK_FILTER_ENUM_NONE),
+						      array),
+				       NULL);
+	g_strfreev (array);
+
+	/* get all transactions in queue */
+	size = pk_transaction_list_get_size (tlist);
+	g_assert_cmpint (size, ==, 5);
+
+	/* wait for all non-exclusive actions to complete */
+	i = 0;
+	while (TRUE) {
+		_g_test_loop_run_with_timeout (10000 - i * 20);
+		i++;
+
+		/* ensure transaction objects are up-to-date */
+		transaction1 = pk_transaction_list_get_transaction (tlist, tid_item1);
+		transaction2 = pk_transaction_list_get_transaction (tlist, tid_item3);
+		transaction3 = pk_transaction_list_get_transaction (tlist, tid_item5);
+
+		if (i >= 100 ||
+		    transaction1 == NULL ||
+		    transaction2 == NULL ||
+		    transaction3 == NULL) {
+			g_print ("Dumping transaction-list state:\n%s\n", pk_transaction_list_get_state (tlist));
+			g_warning ("did not reach state where all non-exclusive transactions are finished");
+			g_assert_not_reached ();
+		}
+
+		if (pk_transaction_get_state (transaction1) == PK_TRANSACTION_STATE_FINISHED &&
+		    pk_transaction_get_state (transaction2) == PK_TRANSACTION_STATE_FINISHED &&
+		    pk_transaction_get_state (transaction3) == PK_TRANSACTION_STATE_FINISHED)
+			break;
+	}
+
+	/* we should have two exlusive transactions left */
+	array = pk_transaction_list_get_array (tlist);
+	size = g_strv_length (array);
+	g_assert_cmpint (size, ==, 2);
+	g_strfreev (array);
+
+	/* wait for first exclusive transaction to complete */
+	_g_test_loop_run_with_timeout (10000);
+
+	/* make sure transaction2 (first exclusive) is FINISHED */
+	transaction1 = pk_transaction_list_get_transaction (tlist, tid_item2);
+	g_assert_cmpint (pk_transaction_get_state (transaction1), ==, PK_TRANSACTION_STATE_FINISHED);
+
+	/* make sure transaction4 (second exclusive) is RUNNING now */
+	transaction1 = pk_transaction_list_get_transaction (tlist, tid_item4);
+	g_assert_cmpint (pk_transaction_get_state (transaction1), ==, PK_TRANSACTION_STATE_RUNNING);
+
+	/* wait for last exclusive transaction to complete */
+	_g_test_loop_run_with_timeout (20000);
+
+	/* make sure transaction4 (second exclusive) is now finished too */
+	transaction1 = pk_transaction_list_get_transaction (tlist, tid_item4);
+	g_assert_cmpint (pk_transaction_get_state (transaction1), ==, PK_TRANSACTION_STATE_FINISHED);
+
+	/* we shouldn't have transactions left */
+	array = pk_transaction_list_get_array (tlist);
+	size = g_strv_length (array);
+	g_assert_cmpint (size, ==, 0);
+	g_strfreev (array);
+
+	/* free tids */
+	g_free (tid_item1);
+	g_free (tid_item2);
+	g_free (tid_item3);
+	g_free (tid_item4);
+	g_free (tid_item5);
+
+	g_object_unref (tlist);
+	g_object_unref (backend);
+	g_object_unref (cache);
+	g_object_unref (db);
+	g_object_unref (conf);
 }
 
 int
@@ -1636,6 +1806,7 @@ main (int argc, char **argv)
 	g_test_add_func ("/packagekit/spawn", pk_test_spawn_func);
 	g_test_add_func ("/packagekit/transaction", pk_test_transaction_func);
 	g_test_add_func ("/packagekit/transaction-list", pk_test_transaction_list_func);
+	g_test_add_func ("/packagekit/transaction-list-parallel", pk_test_transaction_list_parallel_func);
 	g_test_add_func ("/packagekit/transaction-db", pk_test_transaction_db_func);
 
 	/* backend stuff */

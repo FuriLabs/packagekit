@@ -1,6 +1,6 @@
 /* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*-
  *
- * Copyright (C) 2009-2010 Richard Hughes <richard@hughsie.com>
+ * Copyright (C) 2009-2012 Richard Hughes <richard@hughsie.com>
  *
  * Licensed under the GNU Lesser General Public License Version 2.1
  *
@@ -194,14 +194,6 @@ void		 pk_client_get_old_transactions_async	(PkClient		*client,
 							 GAsyncReadyCallback	 callback_ready,
 							 gpointer		 user_data);
 
-void		 pk_client_update_system_async		(PkClient		*client,
-							 gboolean		 only_trusted,
-							 GCancellable		*cancellable,
-							 PkProgressCallback	 progress_callback,
-							 gpointer		 progress_user_data,
-							 GAsyncReadyCallback	 callback_ready,
-							 gpointer		 user_data);
-
 void		 pk_client_get_depends_async		(PkClient		*client,
 							 PkBitfield		 filters,
 							 gchar			**package_ids,
@@ -263,6 +255,7 @@ void		 pk_client_get_categories_async		(PkClient		*client,
 							 gpointer		 user_data);
 
 void		 pk_client_remove_packages_async	(PkClient		*client,
+							 PkBitfield		 transaction_flags,
 							 gchar			**package_ids,
 							 gboolean		 allow_deps,
 							 gboolean		 autoremove,
@@ -281,7 +274,7 @@ void		 pk_client_refresh_cache_async		(PkClient		*client,
 							 gpointer		 user_data);
 
 void		 pk_client_install_packages_async	(PkClient		*client,
-							 gboolean		 only_trusted,
+							 PkBitfield		 transaction_flags,
 							 gchar			**package_ids,
 							 GCancellable		*cancellable,
 							 PkProgressCallback	 progress_callback,
@@ -300,7 +293,7 @@ void		 pk_client_install_signature_async	(PkClient		*client,
 							 gpointer		 user_data);
 
 void		 pk_client_update_packages_async	(PkClient		*client,
-							 gboolean		 only_trusted,
+							 PkBitfield		 transaction_flags,
 							 gchar			**package_ids,
 							 GCancellable		*cancellable,
 							 PkProgressCallback	 progress_callback,
@@ -309,7 +302,7 @@ void		 pk_client_update_packages_async	(PkClient		*client,
 							 gpointer		 user_data);
 
 void		 pk_client_install_files_async		(PkClient		*client,
-							 gboolean		 only_trusted,
+							 PkBitfield		 transaction_flags,
 							 gchar			**files,
 							 GCancellable		*cancellable,
 							 PkProgressCallback	 progress_callback,
@@ -319,14 +312,6 @@ void		 pk_client_install_files_async		(PkClient		*client,
 
 void		 pk_client_accept_eula_async		(PkClient		*client,
 							 const gchar		*eula_id,
-							 GCancellable		*cancellable,
-							 PkProgressCallback	 progress_callback,
-							 gpointer		 progress_user_data,
-							 GAsyncReadyCallback	 callback_ready,
-							 gpointer		 user_data);
-
-void		 pk_client_rollback_async		(PkClient		*client,
-							 const gchar		*transaction_id,
 							 GCancellable		*cancellable,
 							 PkProgressCallback	 progress_callback,
 							 gpointer		 progress_user_data,
@@ -360,39 +345,6 @@ void		 pk_client_repo_set_data_async		(PkClient		*client,
 							 GAsyncReadyCallback	 callback_ready,
 							 gpointer		 user_data);
 
-void		 pk_client_simulate_install_files_async	(PkClient		*client,
-							 gchar			**files,
-							 GCancellable		*cancellable,
-							 PkProgressCallback	 progress_callback,
-							 gpointer		 progress_user_data,
-							 GAsyncReadyCallback	 callback_ready,
-							 gpointer		 user_data);
-
-void		 pk_client_simulate_install_packages_async (PkClient		*client,
-							 gchar			**package_ids,
-							 GCancellable		*cancellable,
-							 PkProgressCallback	 progress_callback,
-							 gpointer		 progress_user_data,
-							 GAsyncReadyCallback	 callback_ready,
-							 gpointer		 user_data);
-
-void		 pk_client_simulate_remove_packages_async (PkClient		*client,
-							 gchar			**package_ids,
-							 gboolean		 autoremove,
-							 GCancellable		*cancellable,
-							 PkProgressCallback	 progress_callback,
-							 gpointer		 progress_user_data,
-							 GAsyncReadyCallback	 callback_ready,
-							 gpointer		 user_data);
-
-void		 pk_client_simulate_update_packages_async (PkClient		*client,
-							 gchar			**package_ids,
-							 GCancellable		*cancellable,
-							 PkProgressCallback	 progress_callback,
-							 gpointer		 progress_user_data,
-							 GAsyncReadyCallback	 callback_ready,
-							 gpointer		 user_data);
-
 void		 pk_client_upgrade_system_async		(PkClient		*client,
 							 const gchar		*distro_id,
 							 PkUpgradeKindEnum	 upgrade_kind,
@@ -403,15 +355,7 @@ void		 pk_client_upgrade_system_async		(PkClient		*client,
 							 gpointer		 user_data);
 
 void		 pk_client_repair_system_async		(PkClient		*client,
-							 gboolean		 only_trusted,
-							 GCancellable		*cancellable,
-							 PkProgressCallback	 progress_callback,
-							 gpointer		 progress_user_data,
-							 GAsyncReadyCallback	 callback_ready,
-							 gpointer		 user_data);
-
-
-void		 pk_client_simulate_repair_system_async	(PkClient		*client,
+							 PkBitfield		 transaction_flags,
 							 GCancellable		*cancellable,
 							 PkProgressCallback	 progress_callback,
 							 gpointer		 progress_user_data,

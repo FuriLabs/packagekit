@@ -48,12 +48,14 @@ pk_plugin_get_description (void)
  * pk_plugin_finished_cb:
  **/
 static void
-pk_plugin_finished_cb (PkBackend *backend,
+pk_plugin_finished_cb (PkBackendJob *job,
 		       PkExitEnum exit_enum,
 		       PkPlugin *plugin)
 {
-	if (!g_main_loop_is_running (plugin->priv->loop))
+	if (!g_main_loop_is_running (plugin->priv->loop)) {
+		g_warning ("loop not running");
 		return;
+	}
 	g_main_loop_quit (plugin->priv->loop);
 }
 
@@ -118,7 +120,7 @@ out:
  * pk_plugin_files_cb:
  **/
 static void
-pk_plugin_files_cb (PkBackend *backend,
+pk_plugin_files_cb (PkBackendJob *job,
 		    PkFiles *files,
 		    PkPlugin *plugin)
 {
@@ -161,10 +163,20 @@ pk_plugin_transaction_run (PkPlugin *plugin,
 	gchar **files = NULL;
 	gchar **package_ids;
 	gchar *process = NULL;
-	guint files_id = 0;
-	guint finished_id = 0;
 	PkConf *conf;
 	PkRoleEnum role;
+
+	/* skip simulate actions */
+	if (pk_bitfield_contain (pk_transaction_get_transaction_flags (transaction),
+				 PK_TRANSACTION_FLAG_ENUM_SIMULATE)) {
+		goto out;
+	}
+
+	/* skip only-download */
+	if (pk_bitfield_contain (pk_transaction_get_transaction_flags (transaction),
+				 PK_TRANSACTION_FLAG_ENUM_ONLY_DOWNLOAD)) {
+		goto out;
+	}
 
 	/* check the role */
 	role = pk_transaction_get_role (transaction);
@@ -195,9 +207,9 @@ pk_plugin_transaction_run (PkPlugin *plugin,
 	g_ptr_array_set_size (plugin->priv->files_list, 0);
 
 	/* set status */
-	pk_backend_set_status (plugin->backend,
+	pk_backend_job_set_status (plugin->job,
 			       PK_STATUS_ENUM_SCAN_PROCESS_LIST);
-	pk_backend_set_percentage (plugin->backend, 101);
+	pk_backend_job_set_percentage (plugin->job, 101);
 
 	/* get list from proc */
 	ret = pk_proc_refresh (plugin->priv->proc);
@@ -208,36 +220,35 @@ pk_plugin_transaction_run (PkPlugin *plugin,
 	}
 
 	/* set status */
-	pk_backend_set_status (plugin->backend,
+	pk_backend_job_set_status (plugin->job,
 			       PK_STATUS_ENUM_CHECK_EXECUTABLE_FILES);
 
-	files_id = g_signal_connect (plugin->backend, "files",
-				     G_CALLBACK (pk_plugin_files_cb), plugin);
-	finished_id = g_signal_connect (plugin->backend, "finished",
-					G_CALLBACK (pk_plugin_finished_cb), plugin);
+	pk_backend_job_set_vfunc (plugin->job,
+			      PK_BACKEND_SIGNAL_FILES,
+			      (PkBackendJobVFunc) pk_plugin_files_cb,
+			      plugin);
+	pk_backend_job_set_vfunc (plugin->job,
+			      PK_BACKEND_SIGNAL_FINISHED,
+			      (PkBackendJobVFunc) pk_plugin_finished_cb,
+			      plugin);
 
 	/* get all the files touched in the packages we just updated */
 	package_ids = pk_transaction_get_package_ids (transaction);
-	pk_backend_reset (plugin->backend);
-	pk_backend_get_files (plugin->backend, package_ids);
+	pk_backend_get_files (plugin->backend, plugin->job, package_ids);
 
 	/* wait for finished */
 	g_main_loop_run (plugin->priv->loop);
-	pk_backend_set_percentage (plugin->backend, 100);
+	pk_backend_job_set_percentage (plugin->job, 100);
 
 	/* there is a file we can't COW */
 	if (plugin->priv->files_list->len != 0) {
 		file = g_ptr_array_index (plugin->priv->files_list, 0);
-		pk_backend_error_code (plugin->backend,
+		pk_backend_job_error_code (plugin->job,
 				       PK_ERROR_ENUM_UPDATE_FAILED_DUE_TO_RUNNING_PROCESS,
 				       "failed to run as %s is running", file);
 		goto out;
 	}
 out:
-	if (files_id > 0)
-		g_signal_handler_disconnect (plugin->backend, files_id);
-	if (finished_id > 0)
-		g_signal_handler_disconnect (plugin->backend, finished_id);
 	g_strfreev (files);
 	g_free (process);
 }

@@ -8,8 +8,8 @@
  * Do not edit! All changes made to it will be lost.
  */
 
-#ifndef DAEMONPROXY_H_1345558052
-#define DAEMONPROXY_H_1345558052
+#ifndef DAEMONPROXY_H_1342360651
+#define DAEMONPROXY_H_1342360651
 
 #include <QtCore/QObject>
 #include <QtCore/QByteArray>
@@ -51,29 +51,29 @@ public:
     inline QString distroId() const
     { return qvariant_cast< QString >(property("DistroId")); }
 
-    Q_PROPERTY(QString Filters READ filters)
-    inline QString filters() const
-    { return qvariant_cast< QString >(property("Filters")); }
+    Q_PROPERTY(qulonglong Filters READ filters)
+    inline qulonglong filters() const
+    { return qvariant_cast< qulonglong >(property("Filters")); }
 
-    Q_PROPERTY(QString Groups READ groups)
-    inline QString groups() const
-    { return qvariant_cast< QString >(property("Groups")); }
+    Q_PROPERTY(qulonglong Groups READ groups)
+    inline qulonglong groups() const
+    { return qvariant_cast< qulonglong >(property("Groups")); }
 
     Q_PROPERTY(bool Locked READ locked)
     inline bool locked() const
     { return qvariant_cast< bool >(property("Locked")); }
 
-    Q_PROPERTY(QString MimeTypes READ mimeTypes)
-    inline QString mimeTypes() const
-    { return qvariant_cast< QString >(property("MimeTypes")); }
+    Q_PROPERTY(QStringList MimeTypes READ mimeTypes)
+    inline QStringList mimeTypes() const
+    { return qvariant_cast< QStringList >(property("MimeTypes")); }
 
-    Q_PROPERTY(QString NetworkState READ networkState)
-    inline QString networkState() const
-    { return qvariant_cast< QString >(property("NetworkState")); }
+    Q_PROPERTY(uint NetworkState READ networkState)
+    inline uint networkState() const
+    { return qvariant_cast< uint >(property("NetworkState")); }
 
-    Q_PROPERTY(QString Roles READ roles)
-    inline QString roles() const
-    { return qvariant_cast< QString >(property("Roles")); }
+    Q_PROPERTY(qulonglong Roles READ roles)
+    inline qulonglong roles() const
+    { return qvariant_cast< qulonglong >(property("Roles")); }
 
     Q_PROPERTY(uint VersionMajor READ versionMajor)
     inline uint versionMajor() const
@@ -88,11 +88,17 @@ public:
     { return qvariant_cast< uint >(property("VersionMinor")); }
 
 public Q_SLOTS: // METHODS
-    inline QDBusPendingReply<QString> CanAuthorize(const QString &action_id)
+    inline QDBusPendingReply<uint> CanAuthorize(const QString &action_id)
     {
         QList<QVariant> argumentList;
         argumentList << QVariant::fromValue(action_id);
         return asyncCallWithArgumentList(QLatin1String("CanAuthorize"), argumentList);
+    }
+
+    inline QDBusPendingReply<QDBusObjectPath> CreateTransaction()
+    {
+        QList<QVariant> argumentList;
+        return asyncCallWithArgumentList(QLatin1String("CreateTransaction"), argumentList);
     }
 
     inline QDBusPendingReply<QString> GetDaemonState()
@@ -101,20 +107,14 @@ public Q_SLOTS: // METHODS
         return asyncCallWithArgumentList(QLatin1String("GetDaemonState"), argumentList);
     }
 
-    inline QDBusPendingReply<QString> GetTid()
-    {
-        QList<QVariant> argumentList;
-        return asyncCallWithArgumentList(QLatin1String("GetTid"), argumentList);
-    }
-
-    inline QDBusPendingReply<uint> GetTimeSinceAction(const QString &role)
+    inline QDBusPendingReply<uint> GetTimeSinceAction(uint role)
     {
         QList<QVariant> argumentList;
         argumentList << QVariant::fromValue(role);
         return asyncCallWithArgumentList(QLatin1String("GetTimeSinceAction"), argumentList);
     }
 
-    inline QDBusPendingReply<QStringList> GetTransactionList()
+    inline QDBusPendingReply<QList<QDBusObjectPath> > GetTransactionList()
     {
         QList<QVariant> argumentList;
         return asyncCallWithArgumentList(QLatin1String("GetTransactionList"), argumentList);
@@ -125,13 +125,6 @@ public Q_SLOTS: // METHODS
         QList<QVariant> argumentList;
         argumentList << QVariant::fromValue(proxy_http) << QVariant::fromValue(proxy_https) << QVariant::fromValue(proxy_ftp) << QVariant::fromValue(proxy_socks) << QVariant::fromValue(no_proxy) << QVariant::fromValue(pac);
         return asyncCallWithArgumentList(QLatin1String("SetProxy"), argumentList);
-    }
-
-    inline QDBusPendingReply<> SetRoot(const QString &root)
-    {
-        QList<QVariant> argumentList;
-        argumentList << QVariant::fromValue(root);
-        return asyncCallWithArgumentList(QLatin1String("SetRoot"), argumentList);
     }
 
     inline QDBusPendingReply<> StateHasChanged(const QString &reason)

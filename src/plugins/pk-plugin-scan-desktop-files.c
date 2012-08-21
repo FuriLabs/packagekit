@@ -48,7 +48,7 @@ pk_plugin_get_description (void)
  * pk_plugin_package_cb:
  **/
 static void
-pk_plugin_package_cb (PkBackend *backend,
+pk_plugin_package_cb (PkBackendJob *job,
 		      PkPackage *package,
 		      PkPlugin *plugin)
 {
@@ -59,7 +59,7 @@ pk_plugin_package_cb (PkBackend *backend,
  * pk_plugin_finished_cb:
  **/
 static void
-pk_plugin_finished_cb (PkBackend *backend,
+pk_plugin_finished_cb (PkBackendJob *job,
 		       PkExitEnum exit_enum,
 		       PkPlugin *plugin)
 {
@@ -67,7 +67,7 @@ pk_plugin_finished_cb (PkBackend *backend,
 		return;
 	if (exit_enum != PK_EXIT_ENUM_SUCCESS) {
 		g_warning ("%s failed with exit code: %s",
-			   pk_role_enum_to_string (pk_backend_get_role (backend)),
+			   pk_role_enum_to_string (pk_backend_job_get_role (job)),
 			   pk_exit_enum_to_string (exit_enum));
 	}
 	g_main_loop_quit (plugin->priv->loop);
@@ -155,7 +155,8 @@ pk_plugin_sqlite_remove_filename (PkPlugin *plugin,
  **/
 static PkPackage *
 pk_plugin_get_installed_package_for_file (PkPlugin *plugin,
-					  const gchar *filename)
+					  const gchar *filename,
+					  GError **error)
 {
 	PkPackage *package = NULL;
 	gchar **filenames;
@@ -163,9 +164,18 @@ pk_plugin_get_installed_package_for_file (PkPlugin *plugin,
 	/* use PK to find the correct package */
 	if (plugin->priv->list->len > 0)
 		g_ptr_array_set_size (plugin->priv->list, 0);
-	pk_backend_reset (plugin->backend);
+	pk_backend_reset_job (plugin->backend, plugin->job);
+	pk_backend_job_set_vfunc (plugin->job,
+				  PK_BACKEND_SIGNAL_FINISHED,
+				  (PkBackendJobVFunc) pk_plugin_finished_cb,
+				  plugin);
+	pk_backend_job_set_vfunc (plugin->job,
+				  PK_BACKEND_SIGNAL_PACKAGE,
+				  (PkBackendJobVFunc) pk_plugin_package_cb,
+				  plugin);
 	filenames = g_strsplit (filename, "|||", -1);
 	pk_backend_search_files (plugin->backend,
+				 plugin->job,
 				 pk_bitfield_value (PK_FILTER_ENUM_INSTALLED),
 				 filenames);
 	g_strfreev (filenames);
@@ -174,15 +184,23 @@ pk_plugin_get_installed_package_for_file (PkPlugin *plugin,
 	g_main_loop_run (plugin->priv->loop);
 
 	/* check that we only matched one package */
-	if (plugin->priv->list->len != 1) {
-		g_warning ("not correct size, %i", plugin->priv->list->len);
+	if (plugin->priv->list->len == 0) {
+		g_set_error_literal (error, 1, 0,
+				     "no packages own this file");
+		goto out;
+	}
+	if (plugin->priv->list->len > 1) {
+		g_set_error (error, 1, 0,
+			     "%i packages own this file",
+			     plugin->priv->list->len);
 		goto out;
 	}
 
 	/* get the package */
 	package = g_ptr_array_index (plugin->priv->list, 0);
 	if (package == NULL) {
-		g_warning ("cannot get package");
+		g_set_error_literal (error, 1, 0,
+				     "package invalid");
 		goto out;
 	}
 out:
@@ -263,6 +281,7 @@ pk_plugin_sqlite_add_filename (PkPlugin *plugin,
 	gchar *md5 = NULL;
 	gint rc = -1;
 	PkPackage *package;
+	GError *error = NULL;
 
 	/* if we've got it, use old data */
 	if (md5_opt != NULL)
@@ -272,9 +291,12 @@ pk_plugin_sqlite_add_filename (PkPlugin *plugin,
 
 	/* resolve */
 	package = pk_plugin_get_installed_package_for_file (plugin,
-							    filename);
+							    filename,
+							    &error);
 	if (package == NULL) {
-		g_warning ("failed to get list");
+		g_warning ("Failed to add database cache entry %s: %s",
+			   filename, error->message);
+		g_error_free (error);
 		goto out;
 	}
 
@@ -461,10 +483,20 @@ pk_plugin_transaction_finished_end (PkPlugin *plugin,
 	gfloat step;
 	gint rc;
 	GPtrArray *array = NULL;
-	guint finished_id = 0;
 	guint i;
-	guint package_id = 0;
 	PkRoleEnum role;
+
+	/* skip simulate actions */
+	if (pk_bitfield_contain (pk_transaction_get_transaction_flags (transaction),
+				 PK_TRANSACTION_FLAG_ENUM_SIMULATE)) {
+		goto out;
+	}
+
+	/* skip only-download */
+	if (pk_bitfield_contain (pk_transaction_get_transaction_flags (transaction),
+				 PK_TRANSACTION_FLAG_ENUM_ONLY_DOWNLOAD)) {
+		goto out;
+	}
 
 	/* load */
 	if (plugin->priv->db == NULL)
@@ -485,19 +517,23 @@ pk_plugin_transaction_finished_end (PkPlugin *plugin,
 		g_debug ("cannot search files");
 		goto out;
 	}
-	finished_id = g_signal_connect (plugin->backend, "finished",
-					G_CALLBACK (pk_plugin_finished_cb), plugin);
-	package_id = g_signal_connect (plugin->backend, "package",
-				       G_CALLBACK (pk_plugin_package_cb), plugin);
 
 	/* use a local backend instance */
-	pk_backend_reset (plugin->backend);
-	pk_backend_set_status (plugin->backend,
-			       PK_STATUS_ENUM_SCAN_APPLICATIONS);
+	pk_backend_reset_job (plugin->backend, plugin->job);
+	pk_backend_job_set_vfunc (plugin->job,
+				  PK_BACKEND_SIGNAL_FINISHED,
+				  (PkBackendJobVFunc) pk_plugin_finished_cb,
+				  plugin);
+	pk_backend_job_set_vfunc (plugin->job,
+				  PK_BACKEND_SIGNAL_PACKAGE,
+				  (PkBackendJobVFunc) pk_plugin_package_cb,
+				  plugin);
+	pk_backend_job_set_status (plugin->job,
+				   PK_STATUS_ENUM_SCAN_APPLICATIONS);
 
 	/* reset hash */
 	g_hash_table_remove_all (plugin->priv->hash);
-	pk_backend_set_percentage (plugin->backend, 101);
+	pk_backend_job_set_percentage (plugin->job, 101);
 
 	/* first go through the existing data, and look for
 	 * modifications and removals */
@@ -521,12 +557,12 @@ pk_plugin_transaction_finished_end (PkPlugin *plugin,
 
 	if (array->len) {
 		step = 100.0f / array->len;
-		pk_backend_set_status (plugin->backend,
+		pk_backend_job_set_status (plugin->job,
 				       PK_STATUS_ENUM_GENERATE_PACKAGE_LIST);
 
 		/* process files in an array */
 		for (i=0; i<array->len; i++) {
-			pk_backend_set_percentage (plugin->backend, i * step);
+			pk_backend_job_set_percentage (plugin->job, i * step);
 			path = g_ptr_array_index (array, i);
 			pk_plugin_sqlite_add_filename (plugin,
 						       path,
@@ -534,22 +570,18 @@ pk_plugin_transaction_finished_end (PkPlugin *plugin,
 		}
 	}
 
-	pk_backend_set_percentage (plugin->backend, 100);
-	pk_backend_set_status (plugin->backend, PK_STATUS_ENUM_FINISHED);
+	pk_backend_job_set_percentage (plugin->job, 100);
+	pk_backend_job_set_status (plugin->job, PK_STATUS_ENUM_FINISHED);
 out:
 	if (array != NULL)
 		g_ptr_array_unref (array);
-	if (package_id > 0)
-		g_signal_handler_disconnect (plugin->backend, package_id);
-	if (finished_id > 0)
-		g_signal_handler_disconnect (plugin->backend, finished_id);
 }
 
 /**
  * pk_plugin_files_cb:
  **/
 static void
-pk_plugin_files_cb (PkBackend *backend,
+pk_plugin_files_cb (PkBackendJob *job,
 		    PkFiles *files,
 		    PkPlugin *plugin)
 {
@@ -606,13 +638,23 @@ pk_plugin_transaction_finished_results (PkPlugin *plugin,
 	gchar *package_id_tmp;
 	GPtrArray *array = NULL;
 	GPtrArray *list = NULL;
-	guint files_id = 0;
-	guint finished_id = 0;
 	guint i;
 	PkInfoEnum info;
 	PkPackage *item;
 	PkResults *results;
 	PkRoleEnum role;
+
+	/* skip simulate actions */
+	if (pk_bitfield_contain (pk_transaction_get_transaction_flags (transaction),
+				 PK_TRANSACTION_FLAG_ENUM_SIMULATE)) {
+		goto out;
+	}
+
+	/* skip only-download */
+	if (pk_bitfield_contain (pk_transaction_get_transaction_flags (transaction),
+				 PK_TRANSACTION_FLAG_ENUM_ONLY_DOWNLOAD)) {
+		goto out;
+	}
 
 	/* load */
 	if (plugin->priv->db == NULL)
@@ -633,10 +675,6 @@ pk_plugin_transaction_finished_results (PkPlugin *plugin,
 		g_debug ("cannot get files");
 		goto out;
 	}
-	finished_id = g_signal_connect (plugin->backend, "finished",
-					G_CALLBACK (pk_plugin_finished_cb), plugin);
-	files_id = g_signal_connect (plugin->backend, "files",
-				     G_CALLBACK (pk_plugin_files_cb), plugin);
 
 	/* get results */
 	results = pk_transaction_get_results (transaction);
@@ -664,21 +702,25 @@ pk_plugin_transaction_finished_results (PkPlugin *plugin,
 		goto out;
 
 	/* get all the files touched in the packages we just installed */
-	pk_backend_reset (plugin->backend);
-	pk_backend_set_status (plugin->backend, PK_STATUS_ENUM_SCAN_APPLICATIONS);
-	pk_backend_set_percentage (plugin->backend, 101);
+	pk_backend_reset_job (plugin->backend, plugin->job);
+	pk_backend_job_set_vfunc (plugin->job,
+				  PK_BACKEND_SIGNAL_FINISHED,
+				  (PkBackendJobVFunc) pk_plugin_finished_cb,
+				  plugin);
+	pk_backend_job_set_vfunc (plugin->job,
+				  PK_BACKEND_SIGNAL_FILES,
+				  (PkBackendJobVFunc) pk_plugin_files_cb,
+				  plugin);
+	pk_backend_job_set_status (plugin->job, PK_STATUS_ENUM_SCAN_APPLICATIONS);
+	pk_backend_job_set_percentage (plugin->job, 101);
 	package_ids = pk_ptr_array_to_strv (list);
-	pk_backend_get_files (plugin->backend, package_ids);
+	pk_backend_get_files (plugin->backend, plugin->job, package_ids);
 
 	/* wait for finished */
 	g_main_loop_run (plugin->priv->loop);
 
-	pk_backend_set_percentage (plugin->backend, 100);
+	pk_backend_job_set_percentage (plugin->job, 100);
 out:
-	if (files_id > 0)
-		g_signal_handler_disconnect (plugin->backend, files_id);
-	if (finished_id > 0)
-		g_signal_handler_disconnect (plugin->backend, finished_id);
 	if (array != NULL)
 		g_ptr_array_unref (array);
 	if (list != NULL)

@@ -59,6 +59,8 @@ GType pk_authorize_enum_get_type (void) G_GNUC_CONST;
 #define PK_TYPE_AUTHORIZE_ENUM (pk_authorize_enum_get_type ())
 GType pk_upgrade_kind_enum_get_type (void) G_GNUC_CONST;
 #define PK_TYPE_UPGRADE_KIND_ENUM (pk_upgrade_kind_enum_get_type ())
+GType pk_transaction_flag_enum_get_type (void) G_GNUC_CONST;
+#define PK_TYPE_TRANSACTION_FLAG_ENUM (pk_transaction_flag_enum_get_type ())
 
 /* enumerations from "pk-package-sack.h" */
 GType pk_package_sack_sort_type_get_type (void) G_GNUC_CONST;

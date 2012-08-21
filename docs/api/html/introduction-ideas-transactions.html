@@ -29,13 +29,13 @@
     </p>
 <p>
       Each transaction is a new path on the <code class="literal">org.freedesktop.PackageKit</code>
-      service, and to create a path you have to call <code class="literal">GetTid</code> on the base
+      service, and to create a path you have to call <code class="literal">CreateTransaction</code> on the base
       interface which creates the new DBUS path, and returns the new path for you to connect to.
       In the libpackagekit binding, <code class="literal">PkControl</code> handles the base interface,
       whilst <code class="literal">PkClient</code> handles all the transaction interface stuff.
       The <code class="literal">org.freedesktop.PackageKit.Transaction</code> interface can be used
       on the newly created path, but only used once.
-      New methods require a new transaction path (i.e. another call to <code class="literal">GetTid</code>)
+      New methods require a new transaction path (i.e. another call to <code class="literal">CreateTransaction</code>)
       which is synchronous and thus very fast.
     </p>
 <div class="sect2">
@@ -65,7 +65,7 @@
             <code class="literal">::Package()</code>: Used to either return a result
             (e.g. returning results of the <code class="literal">SearchName()</code> method)
             or to return progress about a _specific_ package.
-            For instance, when doing <code class="literal">UpdateSystem()</code>, sending
+            For instance, when doing <code class="literal">UpdatePackages()</code>, sending
             <code class="literal">::Package(downloading)</code> and then
             <code class="literal">::Package(installing)</code> for each package as processed
             in the transaction allows a GUI to position the cursor on the worked

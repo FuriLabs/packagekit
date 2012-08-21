@@ -19,6 +19,7 @@ pk_files_get_type
 pk_filter_enum_get_type
 pk_group_enum_get_type
 pk_info_enum_get_type
+pk_item_progress_get_type
 pk_media_change_required_get_type
 pk_media_type_enum_get_type
 pk_message_enum_get_type
@@ -45,6 +46,7 @@ pk_status_enum_get_type
 pk_task_get_type
 pk_task_text_get_type
 pk_task_wrapper_get_type
+pk_transaction_flag_enum_get_type
 pk_transaction_list_get_type
 pk_transaction_past_get_type
 pk_update_detail_get_type

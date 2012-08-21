@@ -306,7 +306,7 @@ from the filter function.
 </tr>
 <tr>
 <td><p><span class="term"><em class="parameter"><code>filter_cb</code></em> :</span></p></td>
-<td>a <a class="link" href="PkPackageSack.html#PkPackageSackFilterFunc" title="PkPackageSackFilterFunc ()"><span class="type">PkPackageSackFilterFunc</span></a>, which returns <a href="http://library.gnome.org/devel/glib/unstable/glib-Standard-Macros.html#TRUE:CAPS"><code class="literal">TRUE</code></a> for the <a class="link" href="PkPackage.html" title="PkPackage"><span class="type">PkPackage</span></a>'s to add. <span class="annotation">[<a href="http://foldoc.org/scope%20call"><span class="acronym">scope call</span></a>]</span>
+<td>a <a class="link" href="PkPackageSack.html#PkPackageSackFilterFunc" title="PkPackageSackFilterFunc ()"><span class="type">PkPackageSackFilterFunc</span></a>, which returns <a href="http://library.gnome.org/devel/glib/unstable/glib-Standard-Macros.html#TRUE:CAPS"><code class="literal">TRUE</code></a> for the <a class="link" href="PkPackage.html" title="PkPackage"><span class="type">PkPackage</span></a>'s to add. <span class="annotation">[<acronym title="The callback is valid only during the call to the method."><span class="acronym">scope call</span></acronym>]</span>
 </td>
 </tr>
 <tr>
@@ -316,7 +316,7 @@ from the filter function.
 </tr>
 <tr>
 <td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
-<td>a new <a class="link" href="PkPackageSack.html" title="PkPackageSack"><span class="type">PkPackageSack</span></a>, free with <a href="http://library.gnome.org/devel/gobject/unstable/gobject-The-Base-Object-Type.html#g-object-unref"><code class="function">g_object_unref()</code></a>. <span class="annotation">[<a href="http://foldoc.org/transfer%20full"><span class="acronym">transfer full</span></a>]</span>
+<td>a new <a class="link" href="PkPackageSack.html" title="PkPackageSack"><span class="type">PkPackageSack</span></a>, free with <a href="http://library.gnome.org/devel/gobject/unstable/gobject-The-Base-Object-Type.html#g-object-unref"><code class="function">g_object_unref()</code></a>. <span class="annotation">[<acronym title="Free data after the code is done."><span class="acronym">transfer full</span></acronym>]</span>
 </td>
 </tr>
 </tbody>
@@ -345,7 +345,7 @@ specified info enum value.
 </tr>
 <tr>
 <td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
-<td>a new <a class="link" href="PkPackageSack.html" title="PkPackageSack"><span class="type">PkPackageSack</span></a>, free with <a href="http://library.gnome.org/devel/gobject/unstable/gobject-The-Base-Object-Type.html#g-object-unref"><code class="function">g_object_unref()</code></a>. <span class="annotation">[<a href="http://foldoc.org/transfer%20full"><span class="acronym">transfer full</span></a>]</span>
+<td>a new <a class="link" href="PkPackageSack.html" title="PkPackageSack"><span class="type">PkPackageSack</span></a>, free with <a href="http://library.gnome.org/devel/gobject/unstable/gobject-The-Base-Object-Type.html#g-object-unref"><code class="function">g_object_unref()</code></a>. <span class="annotation">[<acronym title="Free data after the code is done."><span class="acronym">transfer full</span></acronym>]</span>
 </td>
 </tr>
 </tbody>
@@ -374,7 +374,7 @@ the search is stopped.
 </tr>
 <tr>
 <td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
-<td>the <a class="link" href="PkPackage.html" title="PkPackage"><span class="type">PkPackage</span></a> object, or <a href="http://library.gnome.org/devel/glib/unstable/glib-Standard-Macros.html#NULL:CAPS"><code class="literal">NULL</code></a> if unfound. Free with <a href="http://library.gnome.org/devel/gobject/unstable/gobject-The-Base-Object-Type.html#g-object-unref"><code class="function">g_object_unref()</code></a>. <span class="annotation">[<a href="http://foldoc.org/transfer%20full"><span class="acronym">transfer full</span></a>]</span>
+<td>the <a class="link" href="PkPackage.html" title="PkPackage"><span class="type">PkPackage</span></a> object, or <a href="http://library.gnome.org/devel/glib/unstable/glib-Standard-Macros.html#NULL:CAPS"><code class="literal">NULL</code></a> if unfound. Free with <a href="http://library.gnome.org/devel/gobject/unstable/gobject-The-Base-Object-Type.html#g-object-unref"><code class="function">g_object_unref()</code></a>. <span class="annotation">[<acronym title="Free data after the code is done."><span class="acronym">transfer full</span></acronym>]</span>
 </td>
 </tr>
 </tbody>
@@ -397,7 +397,7 @@ Gets the package array from the sack
 </tr>
 <tr>
 <td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
-<td>A <a href="http://library.gnome.org/devel/glib/unstable/glib-Pointer-Arrays.html#GPtrArray"><span class="type">GPtrArray</span></a>, free with <a href="http://library.gnome.org/devel/glib/unstable/glib-Pointer-Arrays.html#g-ptr-array-unref"><code class="function">g_ptr_array_unref()</code></a>. <span class="annotation">[<a href="http://foldoc.org/element-type"><span class="acronym">element-type</span></a> PkPackage][<a href="http://foldoc.org/transfer%20container"><span class="acronym">transfer container</span></a>]</span>
+<td>A <a href="http://library.gnome.org/devel/glib/unstable/glib-Pointer-Arrays.html#GPtrArray"><span class="type">GPtrArray</span></a>, free with <a href="http://library.gnome.org/devel/glib/unstable/glib-Pointer-Arrays.html#g-ptr-array-unref"><code class="function">g_ptr_array_unref()</code></a>. <span class="annotation">[<acronym title="Generics and defining elements of containers and arrays."><span class="acronym">element-type</span></acronym> PkPackage][<acronym title="Free data container after the code is done."><span class="acronym">transfer container</span></acronym>]</span>
 </td>
 </tr>
 </tbody>
@@ -430,7 +430,7 @@ Merges in details about packages.
 </tr>
 <tr>
 <td><p><span class="term"><em class="parameter"><code>progress_callback</code></em> :</span></p></td>
-<td>the function to run when the progress changes. <span class="annotation">[<a href="http://foldoc.org/scope%20call"><span class="acronym">scope call</span></a>]</span>
+<td>the function to run when the progress changes. <span class="annotation">[<acronym title="The callback is valid only during the call to the method."><span class="acronym">scope call</span></acronym>]</span>
 </td>
 </tr>
 <tr>
@@ -466,7 +466,7 @@ Returns all the Package IDs in the sack
 </tr>
 <tr>
 <td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
-<td>the number of packages in the sack, free with <a href="http://library.gnome.org/devel/glib/unstable/glib-String-Utility-Functions.html#g-strfreev"><code class="function">g_strfreev()</code></a>. <span class="annotation">[<a href="http://foldoc.org/transfer%20full"><span class="acronym">transfer full</span></a>]</span>
+<td>the number of packages in the sack, free with <a href="http://library.gnome.org/devel/glib/unstable/glib-String-Utility-Functions.html#g-strfreev"><code class="function">g_strfreev()</code></a>. <span class="annotation">[<acronym title="Free data after the code is done."><span class="acronym">transfer full</span></acronym>]</span>
 </td>
 </tr>
 </tbody>
@@ -544,7 +544,7 @@ Merges in update details about packages.
 </tr>
 <tr>
 <td><p><span class="term"><em class="parameter"><code>progress_callback</code></em> :</span></p></td>
-<td>the function to run when the progress changes. <span class="annotation">[<a href="http://foldoc.org/scope%20call"><span class="acronym">scope call</span></a>]</span>
+<td>the function to run when the progress changes. <span class="annotation">[<acronym title="The callback is valid only during the call to the method."><span class="acronym">scope call</span></acronym>]</span>
 </td>
 </tr>
 <tr>
@@ -633,7 +633,7 @@ function.
 </tr>
 <tr>
 <td><p><span class="term"><em class="parameter"><code>filter_cb</code></em> :</span></p></td>
-<td>a <a class="link" href="PkPackageSack.html#PkPackageSackFilterFunc" title="PkPackageSackFilterFunc ()"><span class="type">PkPackageSackFilterFunc</span></a>, which returns <a href="http://library.gnome.org/devel/glib/unstable/glib-Standard-Macros.html#TRUE:CAPS"><code class="literal">TRUE</code></a> for the <a class="link" href="PkPackage.html" title="PkPackage"><span class="type">PkPackage</span></a>'s to retain. <span class="annotation">[<a href="http://foldoc.org/scope%20call"><span class="acronym">scope call</span></a>]</span>
+<td>a <a class="link" href="PkPackageSack.html#PkPackageSackFilterFunc" title="PkPackageSackFilterFunc ()"><span class="type">PkPackageSackFilterFunc</span></a>, which returns <a href="http://library.gnome.org/devel/glib/unstable/glib-Standard-Macros.html#TRUE:CAPS"><code class="literal">TRUE</code></a> for the <a class="link" href="PkPackage.html" title="PkPackage"><span class="type">PkPackage</span></a>'s to retain. <span class="annotation">[<acronym title="The callback is valid only during the call to the method."><span class="acronym">scope call</span></acronym>]</span>
 </td>
 </tr>
 <tr>
@@ -734,7 +734,7 @@ Merges in details about packages using resolve.
 </tr>
 <tr>
 <td><p><span class="term"><em class="parameter"><code>progress_callback</code></em> :</span></p></td>
-<td>the function to run when the progress changes. <span class="annotation">[<a href="http://foldoc.org/scope%20call"><span class="acronym">scope call</span></a>]</span>
+<td>the function to run when the progress changes. <span class="annotation">[<acronym title="The callback is valid only during the call to the method."><span class="acronym">scope call</span></acronym>]</span>
 </td>
 </tr>
 <tr>

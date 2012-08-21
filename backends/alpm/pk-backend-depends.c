@@ -29,7 +29,7 @@
 #include "pk-backend-error.h"
 #include "pk-backend-packages.h"
 
-static alpm_pkg_t *
+static pmpkg_t *
 alpm_list_find_pkg (const alpm_list_t *pkgs, const gchar *name)
 {
 	g_return_val_if_fail (name != NULL, NULL);
@@ -50,12 +50,11 @@ pk_backend_find_provider (PkBackend *self, alpm_list_t *pkgs,
 	PkBitfield filters;
 	gboolean recursive, skip_local, skip_remote;
 
-	alpm_pkg_t *provider;
+	pmpkg_t *provider;
 	alpm_list_t *pkgcache, *syncdbs;
 
 	g_return_val_if_fail (self != NULL, pkgs);
 	g_return_val_if_fail (depend != NULL, pkgs);
-	g_return_val_if_fail (alpm != NULL, pkgs);
 	g_return_val_if_fail (localdb != NULL, pkgs);
 
 	recursive = pk_backend_get_bool (self, "recursive");
@@ -85,8 +84,8 @@ pk_backend_find_provider (PkBackend *self, alpm_list_t *pkgs,
 	}
 
 	/* look for remote dependencies */
-	syncdbs = alpm_option_get_syncdbs (alpm);
-	provider = alpm_find_dbs_satisfier (alpm, syncdbs, depend);
+	syncdbs = alpm_option_get_syncdbs ();
+	provider = alpm_find_dbs_satisfier (syncdbs, depend);
 
 	if (provider != NULL) {
 		if (!skip_remote) {
@@ -97,7 +96,7 @@ pk_backend_find_provider (PkBackend *self, alpm_list_t *pkgs,
 			pkgs = alpm_list_add (pkgs, provider);
 		}
 	} else {
-		int code = ALPM_ERR_UNSATISFIED_DEPS;
+		int code = PM_ERR_UNSATISFIED_DEPS;
 		g_set_error (error, ALPM_ERROR, code, "%s: %s", depend,
 			     alpm_strerror (code));
 	}
@@ -109,7 +108,7 @@ static alpm_list_t *
 pk_backend_find_requirer (PkBackend *self, alpm_list_t *pkgs, const gchar *name,
 			  GError **error)
 {
-	alpm_pkg_t *requirer;
+	pmpkg_t *requirer;
 
 	g_return_val_if_fail (self != NULL, pkgs);
 	g_return_val_if_fail (name != NULL, pkgs);
@@ -128,7 +127,7 @@ pk_backend_find_requirer (PkBackend *self, alpm_list_t *pkgs, const gchar *name,
 			pkgs = alpm_list_add (pkgs, requirer);
 		}
 	} else {
-		int code = ALPM_ERR_PKG_NOT_FOUND;
+		int code = PM_ERR_PKG_NOT_FOUND;
 		g_set_error (error, ALPM_ERROR, code, "%s: %s", name,
 			     alpm_strerror (code));
 	}
@@ -151,7 +150,7 @@ pk_backend_get_depends_thread (PkBackend *self)
 
 	/* construct an initial package list */
 	for (; *packages != NULL; ++packages) {
-		alpm_pkg_t *pkg;
+		pmpkg_t *pkg;
 
 		if (pk_backend_cancelled (self)) {
 			break;
@@ -207,7 +206,7 @@ pk_backend_get_requires_thread (PkBackend *self)
 
 	/* construct an initial package list */
 	for (; *packages != NULL; ++packages) {
-		alpm_pkg_t *pkg;
+		pmpkg_t *pkg;
 
 		if (pk_backend_cancelled (self)) {
 			break;

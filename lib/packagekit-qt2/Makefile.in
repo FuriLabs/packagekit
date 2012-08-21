@@ -88,9 +88,9 @@ libpackagekit_qt2_la_DEPENDENCIES = $(am__DEPENDENCIES_1) \
 	$(am__DEPENDENCIES_1)
 am__objects_1 =
 am_libpackagekit_qt2_la_OBJECTS = signature.lo eula.lo package.lo \
-	transactionproxy.lo transactionprivate.lo transaction.lo \
-	daemonprivate.lo daemonproxy.lo daemon.lo util.lo bitfield.lo \
-	$(am__objects_1)
+	packagedetails.lo packageupdatedetails.lo transactionproxy.lo \
+	transactionprivate.lo transaction.lo daemonprivate.lo \
+	daemonproxy.lo daemon.lo $(am__objects_1)
 libpackagekit_qt2_la_OBJECTS = $(am_libpackagekit_qt2_la_OBJECTS)
 AM_V_lt = $(am__v_lt_@AM_V@)
 am__v_lt_ = $(am__v_lt_@AM_DEFAULT_V@)
@@ -208,7 +208,6 @@ CCDEPMODE = @CCDEPMODE@
 CFLAGS = @CFLAGS@
 CONNMAN_CFLAGS = @CONNMAN_CFLAGS@
 CONNMAN_LIBS = @CONNMAN_LIBS@
-CONSOLEKIT_DAEMON = @CONSOLEKIT_DAEMON@
 CPP = @CPP@
 CPPFLAGS = @CPPFLAGS@
 CXX = @CXX@
@@ -382,6 +381,8 @@ SQLITE_CFLAGS = @SQLITE_CFLAGS@
 SQLITE_LIBS = @SQLITE_LIBS@
 STRIP = @STRIP@
 SYSCONFDIR = @SYSCONFDIR@
+SYSTEMD_CFLAGS = @SYSTEMD_CFLAGS@
+SYSTEMD_LIBS = @SYSTEMD_LIBS@
 USE_NLS = @USE_NLS@
 VERSION = @VERSION@
 WARNINGFLAGS_C = @WARNINGFLAGS_C@
@@ -449,6 +450,7 @@ security_framework = @security_framework@
 sharedstatedir = @sharedstatedir@
 srcdir = @srcdir@
 sysconfdir = @sysconfdir@
+systemdsystemunitdir = @systemdsystemunitdir@
 target_alias = @target_alias@
 top_build_prefix = @top_build_prefix@
 top_builddir = @top_builddir@
@@ -464,7 +466,6 @@ INCLUDES = \
 
 METASOURCES = AUTO
 MOCFILES = \
-	package.moc						\
 	signature.moc						\
 	daemon.moc						\
 	daemonproxy.moc						\
@@ -482,13 +483,16 @@ libpackagekit_qt2_include_HEADERS = \
 	signature.h						\
 	Eula							\
 	eula.h							\
-	Package							\
 	Transaction						\
 	Daemon							\
 	daemon.h						\
 	transaction.h						\
+	Package							\
 	package.h						\
-	bitfield.h						\
+	PackageDetails						\
+	packagedetails.h					\
+	PackageUpdateDetails					\
+	packageupdatedetails.h					\
 	$(NULL)
 
 libpackagekit_qt2_la_SOURCES = \
@@ -498,6 +502,10 @@ libpackagekit_qt2_la_SOURCES = \
 	eula.cpp						\
 	package.h						\
 	package.cpp						\
+	packagedetails.h					\
+	packagedetails.cpp					\
+	packageupdatedetails.h					\
+	packageupdatedetails.cpp				\
 	transactionproxy.h					\
 	transactionproxy.cpp					\
 	transactionprivate.h					\
@@ -510,10 +518,6 @@ libpackagekit_qt2_la_SOURCES = \
 	daemonproxy.cpp						\
 	daemon.h						\
 	daemon.cpp						\
-	util.h							\
-	util.cpp						\
-	bitfield.h						\
-	bitfield.cpp						\
 	common.h						\
 	dbus_proxies.stamp					\
 	$(NULL)
@@ -639,17 +643,17 @@ mostlyclean-compile:
 distclean-compile:
 	-rm -f *.tab.c
 
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/bitfield.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/daemon.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/daemonprivate.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/daemonproxy.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/eula.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/package.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/packagedetails.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/packageupdatedetails.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/signature.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/transaction.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/transactionprivate.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/transactionproxy.Plo@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/util.Plo@am__quote@
 
 .cpp.o:
 @am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXXCOMPILE) -MT $@ -MD -MP -MF $(DEPDIR)/$*.Tpo -c -o $@ $<

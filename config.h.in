@@ -127,6 +127,9 @@
 /* define if NetworkManager is installed */
 #undef PK_BUILD_NETWORKMANAGER
 
+/* Build systemd code */
+#undef PK_BUILD_SYSTEMD
+
 /* Define to 1 if GPGME is available to Slapt */
 #undef SLAPT_HAS_GPGME
 
@@ -141,6 +144,9 @@
 
 /* Version number of package */
 #undef VERSION
+
+/* define if libzypp returns package size in bytes */
+#undef ZYPP_RETURN_BYTES
 
 /* default security framework */
 #undef security_framework

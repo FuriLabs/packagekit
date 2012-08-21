@@ -1,6 +1,6 @@
 /* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*-
  *
- * Copyright (C) 2007-2010 Richard Hughes <richard@hughsie.com>
+ * Copyright (C) 2007-2012 Richard Hughes <richard@hughsie.com>
  *
  * Licensed under the GNU Lesser General Public License Version 2.1
  *
@@ -67,26 +67,19 @@ typedef enum {
 	PK_ROLE_ENUM_REPO_ENABLE,
 	PK_ROLE_ENUM_REPO_SET_DATA,
 	PK_ROLE_ENUM_RESOLVE,
-	PK_ROLE_ENUM_ROLLBACK,
 	PK_ROLE_ENUM_SEARCH_DETAILS,
 	PK_ROLE_ENUM_SEARCH_FILE,
 	PK_ROLE_ENUM_SEARCH_GROUP,
 	PK_ROLE_ENUM_SEARCH_NAME,
 	PK_ROLE_ENUM_UPDATE_PACKAGES,
-	PK_ROLE_ENUM_UPDATE_SYSTEM,
 	PK_ROLE_ENUM_WHAT_PROVIDES,
 	PK_ROLE_ENUM_ACCEPT_EULA,
 	PK_ROLE_ENUM_DOWNLOAD_PACKAGES,
 	PK_ROLE_ENUM_GET_DISTRO_UPGRADES,
 	PK_ROLE_ENUM_GET_CATEGORIES,
 	PK_ROLE_ENUM_GET_OLD_TRANSACTIONS,
-	PK_ROLE_ENUM_SIMULATE_INSTALL_FILES,
-	PK_ROLE_ENUM_SIMULATE_INSTALL_PACKAGES,
-	PK_ROLE_ENUM_SIMULATE_REMOVE_PACKAGES,
-	PK_ROLE_ENUM_SIMULATE_UPDATE_PACKAGES,
 	PK_ROLE_ENUM_UPGRADE_SYSTEM,			/* Since: 0.6.11 */
 	PK_ROLE_ENUM_REPAIR_SYSTEM,			/* Since: 0.7.2 */
-	PK_ROLE_ENUM_SIMULATE_REPAIR_SYSTEM,		/* Since: 0.7.2 */
 	PK_ROLE_ENUM_LAST
 } PkRoleEnum;
 
@@ -126,7 +119,6 @@ typedef enum {
 	PK_STATUS_ENUM_OBSOLETE,
 	PK_STATUS_ENUM_DEP_RESOLVE,
 	PK_STATUS_ENUM_SIG_CHECK,
-	PK_STATUS_ENUM_ROLLBACK,
 	PK_STATUS_ENUM_TEST_COMMIT,
 	PK_STATUS_ENUM_COMMIT,
 	PK_STATUS_ENUM_REQUEST,
@@ -250,7 +242,6 @@ typedef enum {
 	PK_MESSAGE_ENUM_BACKEND_ERROR,
 	PK_MESSAGE_ENUM_DAEMON_ERROR,
 	PK_MESSAGE_ENUM_CACHE_BEING_REBUILT,
-	PK_MESSAGE_ENUM_UNTRUSTED_PACKAGE, /* this is deprecated */
 	PK_MESSAGE_ENUM_NEWER_PACKAGE_EXISTS,
 	PK_MESSAGE_ENUM_COULD_NOT_FIND_PACKAGE,
 	PK_MESSAGE_ENUM_CONFIG_FILES_CHANGED,
@@ -335,6 +326,7 @@ typedef enum {
 	PK_ERROR_ENUM_CANNOT_FETCH_SOURCES,
 	PK_ERROR_ENUM_CANCELLED_PRIORITY,
 	PK_ERROR_ENUM_UNFINISHED_TRANSACTION,
+	PK_ERROR_ENUM_LOCK_REQUIRED,
 	PK_ERROR_ENUM_LAST
 } PkErrorEnum;
 
@@ -513,6 +505,19 @@ typedef enum {
 	PK_UPGRADE_KIND_ENUM_LAST
 } PkUpgradeKindEnum;
 
+/**
+ * PkTransactionFlagEnum:
+ *
+ * The transaction flags that alter how the transaction is handled
+ **/
+typedef enum {
+	PK_TRANSACTION_FLAG_ENUM_NONE,			/* Since: 0.8.1 */
+	PK_TRANSACTION_FLAG_ENUM_ONLY_TRUSTED,		/* Since: 0.8.1 */
+	PK_TRANSACTION_FLAG_ENUM_SIMULATE,		/* Since: 0.8.1 */
+	PK_TRANSACTION_FLAG_ENUM_ONLY_DOWNLOAD,		/* Since: 0.8.1 */
+	PK_TRANSACTION_FLAG_ENUM_LAST			/* Since: 0.8.1 */
+} PkTransactionFlagEnum;
+
 /* general */
 void		 pk_enum_test				(gpointer	 user_data);
 guint		 pk_enum_find_value			(const PkEnumMatch *table,
@@ -572,6 +577,10 @@ const gchar	*pk_authorize_type_enum_to_string	(PkAuthorizeEnum authorize_type);
 
 PkUpgradeKindEnum  pk_upgrade_kind_enum_from_string	(const gchar	*upgrade_kind);
 const gchar	*pk_upgrade_kind_enum_to_string		(PkUpgradeKindEnum upgrade_kind);
+
+PkTransactionFlagEnum pk_transaction_flag_enum_from_string (const gchar	*transaction_flag);
+const gchar	*pk_transaction_flag_enum_to_string	(PkTransactionFlagEnum transaction_flag);
+
 const gchar	*pk_status_enum_to_localised_text	(PkStatusEnum	 status);
 const gchar	*pk_info_enum_to_localised_past		(PkInfoEnum	 info);
 const gchar	*pk_info_enum_to_localised_present	(PkInfoEnum	 info);

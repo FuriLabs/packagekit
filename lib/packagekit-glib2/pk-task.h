@@ -117,12 +117,6 @@ void		 pk_task_install_files_async		(PkTask			*task,
 							 gpointer		 progress_user_data,
 							 GAsyncReadyCallback	 callback_ready,
 							 gpointer		 user_data);
-void		 pk_task_update_system_async		(PkTask			*task,
-							 GCancellable		*cancellable,
-							 PkProgressCallback	 progress_callback,
-							 gpointer		 progress_user_data,
-							 GAsyncReadyCallback	 callback_ready,
-							 gpointer		 user_data);
 void		 pk_task_resolve_async			(PkTask			*task,
 							 PkBitfield		 filters,
 							 gchar			**packages,
@@ -246,13 +240,6 @@ void		 pk_task_refresh_cache_async		(PkTask			*task,
 							 gpointer		 progress_user_data,
 							 GAsyncReadyCallback	 callback_ready,
 							 gpointer		 user_data);
-void		 pk_task_rollback_async			(PkTask			*task,
-							 const gchar		*transaction_id,
-							 GCancellable		*cancellable,
-							 PkProgressCallback	 progress_callback,
-							 gpointer		 progress_user_data,
-							 GAsyncReadyCallback	 callback_ready,
-							 gpointer		 user_data);
 void		 pk_task_get_repo_list_async		(PkTask			*task,
 							 PkBitfield		 filters,
 							 GCancellable		*cancellable,
@@ -287,6 +274,9 @@ gboolean	 pk_task_get_simulate			(PkTask			*task);
 void		 pk_task_set_interactive		(PkTask			*task,
 							 gboolean		 interactive);
 gboolean	 pk_task_get_interactive		(PkTask			*task);
+void		 pk_task_set_only_download		(PkTask			*task,
+							 gboolean		 only_download);
+gboolean	 pk_task_get_only_download		(PkTask			*task);
 
 G_END_DECLS
 

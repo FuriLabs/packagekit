@@ -83,9 +83,9 @@ const <a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.htm
   "<a class="link" href="PkPackage.html#PkPackage--package-id" title='The "package-id" property'>package-id</a>"               <a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a>*                : Read
   "<a class="link" href="PkPackage.html#PkPackage--size" title='The "size" property'>size</a>"                     <a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#guint64"><span class="type">guint64</span></a>               : Read / Write
   "<a class="link" href="PkPackage.html#PkPackage--summary" title='The "summary" property'>summary</a>"                  <a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a>*                : Read / Write
-  "<a class="link" href="PkPackage.html#PkPackage--update-bugzilla-url" title='The "update-bugzilla-url" property'>update-bugzilla-url</a>"      <a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a>*                : Read / Write
+  "<a class="link" href="PkPackage.html#PkPackage--update-bugzilla-urls" title='The "update-bugzilla-urls" property'>update-bugzilla-urls</a>"     <a href="http://library.gnome.org/devel/gobject/unstable/gobject-Boxed-Types.html#GStrv"><span class="type">GStrv</span></a>                 : Read / Write
   "<a class="link" href="PkPackage.html#PkPackage--update-changelog" title='The "update-changelog" property'>update-changelog</a>"         <a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a>*                : Read / Write
-  "<a class="link" href="PkPackage.html#PkPackage--update-cve-url" title='The "update-cve-url" property'>update-cve-url</a>"           <a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a>*                : Read / Write
+  "<a class="link" href="PkPackage.html#PkPackage--update-cve-urls" title='The "update-cve-urls" property'>update-cve-urls</a>"          <a href="http://library.gnome.org/devel/gobject/unstable/gobject-Boxed-Types.html#GStrv"><span class="type">GStrv</span></a>                 : Read / Write
   "<a class="link" href="PkPackage.html#PkPackage--update-issued" title='The "update-issued" property'>update-issued</a>"            <a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a>*                : Read / Write
   "<a class="link" href="PkPackage.html#PkPackage--update-obsoletes" title='The "update-obsoletes" property'>update-obsoletes</a>"         <a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a>*                : Read / Write
   "<a class="link" href="PkPackage.html#PkPackage--update-restart" title='The "update-restart" property'>update-restart</a>"           <a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#guint"><span class="type">guint</span></a>                 : Read / Write
@@ -93,7 +93,7 @@ const <a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.htm
   "<a class="link" href="PkPackage.html#PkPackage--update-text" title='The "update-text" property'>update-text</a>"              <a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a>*                : Read / Write
   "<a class="link" href="PkPackage.html#PkPackage--update-updated" title='The "update-updated" property'>update-updated</a>"           <a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a>*                : Read / Write
   "<a class="link" href="PkPackage.html#PkPackage--update-updates" title='The "update-updates" property'>update-updates</a>"           <a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a>*                : Read / Write
-  "<a class="link" href="PkPackage.html#PkPackage--update-vendor-url" title='The "update-vendor-url" property'>update-vendor-url</a>"        <a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a>*                : Read / Write
+  "<a class="link" href="PkPackage.html#PkPackage--update-vendor-urls" title='The "update-vendor-urls" property'>update-vendor-urls</a>"       <a href="http://library.gnome.org/devel/gobject/unstable/gobject-Boxed-Types.html#GStrv"><span class="type">GStrv</span></a>                 : Read / Write
   "<a class="link" href="PkPackage.html#PkPackage--url" title='The "url" property'>url</a>"                      <a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a>*                : Read / Write
 </pre>
 </div>
@@ -482,11 +482,10 @@ Sets the package object to have the given ID
 </div>
 <hr>
 <div class="refsect2">
-<a name="PkPackage--update-bugzilla-url"></a><h3>The <code class="literal">"update-bugzilla-url"</code> property</h3>
-<pre class="programlisting">  "update-bugzilla-url"      <a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a>*                : Read / Write</pre>
-<p>The update bugzilla URL.</p>
-<p>Default value: NULL</p>
-<p class="since">Since 0.5.4</p>
+<a name="PkPackage--update-bugzilla-urls"></a><h3>The <code class="literal">"update-bugzilla-urls"</code> property</h3>
+<pre class="programlisting">  "update-bugzilla-urls"     <a href="http://library.gnome.org/devel/gobject/unstable/gobject-Boxed-Types.html#GStrv"><span class="type">GStrv</span></a>                 : Read / Write</pre>
+<p>The update bugzilla URLs.</p>
+<p class="since">Since 0.8.1</p>
 </div>
 <hr>
 <div class="refsect2">
@@ -498,11 +497,10 @@ Sets the package object to have the given ID
 </div>
 <hr>
 <div class="refsect2">
-<a name="PkPackage--update-cve-url"></a><h3>The <code class="literal">"update-cve-url"</code> property</h3>
-<pre class="programlisting">  "update-cve-url"           <a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a>*                : Read / Write</pre>
-<p>The update CVE URL.</p>
-<p>Default value: NULL</p>
-<p class="since">Since 0.5.4</p>
+<a name="PkPackage--update-cve-urls"></a><h3>The <code class="literal">"update-cve-urls"</code> property</h3>
+<pre class="programlisting">  "update-cve-urls"          <a href="http://library.gnome.org/devel/gobject/unstable/gobject-Boxed-Types.html#GStrv"><span class="type">GStrv</span></a>                 : Read / Write</pre>
+<p>The update CVE URLs.</p>
+<p class="since">Since 0.8.1</p>
 </div>
 <hr>
 <div class="refsect2">
@@ -564,11 +562,10 @@ Sets the package object to have the given ID
 </div>
 <hr>
 <div class="refsect2">
-<a name="PkPackage--update-vendor-url"></a><h3>The <code class="literal">"update-vendor-url"</code> property</h3>
-<pre class="programlisting">  "update-vendor-url"        <a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a>*                : Read / Write</pre>
-<p>The update vendor URL.</p>
-<p>Default value: NULL</p>
-<p class="since">Since 0.5.4</p>
+<a name="PkPackage--update-vendor-urls"></a><h3>The <code class="literal">"update-vendor-urls"</code> property</h3>
+<pre class="programlisting">  "update-vendor-urls"       <a href="http://library.gnome.org/devel/gobject/unstable/gobject-Boxed-Types.html#GStrv"><span class="type">GStrv</span></a>                 : Read / Write</pre>
+<p>The update vendor URLs.</p>
+<p class="since">Since 0.8.1</p>
 </div>
 <hr>
 <div class="refsect2">

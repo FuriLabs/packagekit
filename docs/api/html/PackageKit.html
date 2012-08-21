@@ -44,11 +44,11 @@
 <div class="refsynopsisdiv">
 <h2>Methods</h2>
 <pre class="synopsis"><a class="link" href="PackageKit.html#PackageKit.CanAuthorize">CanAuthorize</a>       (in  's'  action_id,
-                    out 's'  result)
-<a class="link" href="PackageKit.html#PackageKit.GetTid">GetTid</a>             (out 's'  tid)
-<a class="link" href="PackageKit.html#PackageKit.GetTimeSinceAction">GetTimeSinceAction</a> (in  's'  role,
+                    out 'u'  result)
+<a class="link" href="PackageKit.html#PackageKit.CreateTransaction">CreateTransaction</a>  (out 'o'  object_path)
+<a class="link" href="PackageKit.html#PackageKit.GetTimeSinceAction">GetTimeSinceAction</a> (in  'u'  role,
                     out 'u'  seconds)
-<a class="link" href="PackageKit.html#PackageKit.GetTransactionList">GetTransactionList</a> (out 'as' transactions)
+<a class="link" href="PackageKit.html#PackageKit.GetTransactionList">GetTransactionList</a> (out 'ao' transactions)
 <a class="link" href="PackageKit.html#PackageKit.StateHasChanged">StateHasChanged</a>    (in  's'  reason)
 <a class="link" href="PackageKit.html#PackageKit.SuggestDaemonQuit">SuggestDaemonQuit</a>  ()
 <a class="link" href="PackageKit.html#PackageKit.GetDaemonState">GetDaemonState</a>     (out 's'  state)
@@ -58,11 +58,10 @@
                     in  's'  proxy_socks,
                     in  's'  no_proxy,
                     in  's'  pac)
-<a class="link" href="PackageKit.html#PackageKit.SetRoot">SetRoot</a>            (in  's'  root)
 </pre>
 </div>
 <div class="refsect1">
-<a name="id608722"></a><h2>Signals</h2>
+<a name="id437518"></a><h2>Signals</h2>
 <pre class="synopsis"><a class="link" href="PackageKit.html#PackageKit::TransactionListChanged">TransactionListChanged</a> ('as' transactions)
 <a class="link" href="PackageKit.html#PackageKit::RestartSchedule">RestartSchedule</a>        ()
 <a class="link" href="PackageKit.html#PackageKit::RepoListChanged">RepoListChanged</a>        ()
@@ -71,31 +70,31 @@
 </pre>
 </div>
 <div class="refsect1">
-<a name="id606024"></a><h2>Implemented Interfaces</h2>
+<a name="id358887"></a><h2>Implemented Interfaces</h2>
 <p>org.freedesktop.PackageKit implements
     org.freedesktop.DBus.Introspectable,
     org.freedesktop.DBus.Properties
     </p>
 </div>
 <div class="refsect1">
-<a name="id615382"></a><h2>Properties</h2>
+<a name="id422677"></a><h2>Properties</h2>
 <pre class="synopsis"><a class="link" href="PackageKit.html#PackageKit:VersionMajor">'VersionMajor'</a>       read      'u'
 <a class="link" href="PackageKit.html#PackageKit:VersionMinor">'VersionMinor'</a>       read      'u'
 <a class="link" href="PackageKit.html#PackageKit:VersionMicro">'VersionMicro'</a>       read      'u'
 <a class="link" href="PackageKit.html#PackageKit:BackendName">'BackendName'</a>        read      's'
 <a class="link" href="PackageKit.html#PackageKit:BackendDescription">'BackendDescription'</a> read      's'
 <a class="link" href="PackageKit.html#PackageKit:BackendAuthor">'BackendAuthor'</a>      read      's'
-<a class="link" href="PackageKit.html#PackageKit:Roles">'Roles'</a>              read      's'
-<a class="link" href="PackageKit.html#PackageKit:Groups">'Groups'</a>             read      's'
-<a class="link" href="PackageKit.html#PackageKit:Filters">'Filters'</a>            read      's'
-<a class="link" href="PackageKit.html#PackageKit:MimeTypes">'MimeTypes'</a>          read      's'
+<a class="link" href="PackageKit.html#PackageKit:Roles">'Roles'</a>              read      't'
+<a class="link" href="PackageKit.html#PackageKit:Groups">'Groups'</a>             read      't'
+<a class="link" href="PackageKit.html#PackageKit:Filters">'Filters'</a>            read      't'
+<a class="link" href="PackageKit.html#PackageKit:MimeTypes">'MimeTypes'</a>          read      'as'
 <a class="link" href="PackageKit.html#PackageKit:Locked">'Locked'</a>             read      'b'
-<a class="link" href="PackageKit.html#PackageKit:NetworkState">'NetworkState'</a>       read      's'
+<a class="link" href="PackageKit.html#PackageKit:NetworkState">'NetworkState'</a>       read      'u'
 <a class="link" href="PackageKit.html#PackageKit:DistroId">'DistroId'</a>           read      's'
 </pre>
 </div>
 <div class="refsect1">
-<a name="id610862"></a><h2>Description</h2>
+<a name="id421843"></a><h2>Description</h2>
 <p>
       
         </p>
@@ -107,12 +106,12 @@
     </p>
 </div>
 <div class="refsect1">
-<a name="id610882"></a><h2>Details</h2>
+<a name="id421862"></a><h2>Details</h2>
 <div class="refsect2">
-<a name="id610235"></a><h3>
+<a name="id400235"></a><h3>
 <a name="PackageKit.CanAuthorize"></a>CanAuthorize ()</h3>
 <pre class="programlisting">CanAuthorize (in  's' action_id,
-              out 's' result)</pre>
+              out 'u' result)</pre>
 </div>
 <p>
             Allows a client to find out if it would be allowed to authorize an action.
@@ -140,29 +139,32 @@
 </table></div>
 <hr>
 <div class="refsect2">
-<a name="id610291"></a><h3>
-<a name="PackageKit.GetTid"></a>GetTid ()</h3>
-<pre class="programlisting">GetTid (out 's' tid)</pre>
+<a name="id400291"></a><h3>
+<a name="PackageKit.CreateTransaction"></a>CreateTransaction ()</h3>
+<pre class="programlisting">CreateTransaction (out 'o' object_path)</pre>
 </div>
 <p>
-            Gets a new transaction ID from the daemon
+            Creates a new transaction that can have operations done on
+            it.
+            Note: The dameon will automatically destroy this transaction
+            if it is not used after a few minutes.
           </p>
 <div class="variablelist"><table border="0">
 <col align="left" valign="top">
 <tbody><tr>
-<td><p><span class="term"><em class="parameter"><code>tid</code></em>:</span></p></td>
+<td><p><span class="term"><em class="parameter"><code>object_path</code></em>:</span></p></td>
 <td>
             
-              The tid, e.g. 45_dafeca_checkpoint32
+              The object_path, e.g. /45_dafeca
             
           </td>
 </tr></tbody>
 </table></div>
 <hr>
 <div class="refsect2">
-<a name="id623565"></a><h3>
+<a name="id441785"></a><h3>
 <a name="PackageKit.GetTimeSinceAction"></a>GetTimeSinceAction ()</h3>
-<pre class="programlisting">GetTimeSinceAction (in  's' role,
+<pre class="programlisting">GetTimeSinceAction (in  'u' role,
                     out 'u' seconds)</pre>
 </div>
 <p>
@@ -175,7 +177,7 @@
 <td><p><span class="term"><em class="parameter"><code>role</code></em>:</span></p></td>
 <td>
             
-              The role, e.g. update-system
+              The role enum, e.g. update-system
             
           </td>
 </tr>
@@ -191,9 +193,9 @@
 </table></div>
 <hr>
 <div class="refsect2">
-<a name="id623620"></a><h3>
+<a name="id441839"></a><h3>
 <a name="PackageKit.GetTransactionList"></a>GetTransactionList ()</h3>
-<pre class="programlisting">GetTransactionList (out 'as' transactions)</pre>
+<pre class="programlisting">GetTransactionList (out 'ao' transactions)</pre>
 </div>
 <p>
             Gets the transaction list of any transactions that are in progress
@@ -211,7 +213,7 @@
 </table></div>
 <hr>
 <div class="refsect2">
-<a name="id623662"></a><h3>
+<a name="id441882"></a><h3>
 <a name="PackageKit.StateHasChanged"></a>StateHasChanged ()</h3>
 <pre class="programlisting">StateHasChanged (in  's' reason)</pre>
 </div>
@@ -235,7 +237,7 @@
 </table></div>
 <hr>
 <div class="refsect2">
-<a name="id601602"></a><h3>
+<a name="id423391"></a><h3>
 <a name="PackageKit.SuggestDaemonQuit"></a>SuggestDaemonQuit ()</h3>
 <pre class="programlisting">SuggestDaemonQuit ()</pre>
 </div>
@@ -249,7 +251,7 @@
 </table></div>
 <hr>
 <div class="refsect2">
-<a name="id601635"></a><h3>
+<a name="id423423"></a><h3>
 <a name="PackageKit.GetDaemonState"></a>GetDaemonState ()</h3>
 <pre class="programlisting">GetDaemonState (out 's' state)</pre>
 </div>
@@ -270,7 +272,7 @@
 </table></div>
 <hr>
 <div class="refsect2">
-<a name="id601679"></a><h3>
+<a name="id423467"></a><h3>
 <a name="PackageKit.SetProxy"></a>SetProxy ()</h3>
 <pre class="programlisting">SetProxy (in  's' proxy_http,
           in  's' proxy_https,
@@ -339,32 +341,11 @@
 </tbody>
 </table></div>
 <p class="permission">Callers need the org.freedesktop.packagekit.set-proxy</p>
-<hr>
-<div class="refsect2">
-<a name="id604090"></a><h3>
-<a name="PackageKit.SetRoot"></a>SetRoot ()</h3>
-<pre class="programlisting">SetRoot (in  's' root)</pre>
-</div>
-<p>
-            Sets the root used by the dameon backend.
-          </p>
-<div class="variablelist"><table border="0">
-<col align="left" valign="top">
-<tbody><tr>
-<td><p><span class="term"><em class="parameter"><code>root</code></em>:</span></p></td>
-<td>
-            
-              The install root, e.g. / or /mnt/ltsp.
-            
-          </td>
-</tr></tbody>
-</table></div>
-<p class="permission">Callers need the org.freedesktop.packagekit.system-change-install-root</p>
 </div>
 <div class="refsect1">
-<a name="id604139"></a><h2>Signal Details</h2>
+<a name="id426073"></a><h2>Signal Details</h2>
 <div class="refsect2">
-<a name="id604147"></a><h3>
+<a name="id426081"></a><h3>
 <a name="PackageKit::TransactionListChanged"></a>The TransactionListChanged signal</h3>
 <pre class="programlisting">TransactionListChanged ('as' transactions)</pre>
 </div>
@@ -385,7 +366,7 @@
 </table></div>
 <hr>
 <div class="refsect2">
-<a name="id604190"></a><h3>
+<a name="id426124"></a><h3>
 <a name="PackageKit::RestartSchedule"></a>The RestartSchedule signal</h3>
 <pre class="programlisting">RestartSchedule ()</pre>
 </div>
@@ -398,7 +379,7 @@
 </table></div>
 <hr>
 <div class="refsect2">
-<a name="id611521"></a><h3>
+<a name="id426154"></a><h3>
 <a name="PackageKit::RepoListChanged"></a>The RepoListChanged signal</h3>
 <pre class="programlisting">RepoListChanged ()</pre>
 </div>
@@ -411,7 +392,7 @@
 </table></div>
 <hr>
 <div class="refsect2">
-<a name="id611551"></a><h3>
+<a name="id422954"></a><h3>
 <a name="PackageKit::UpdatesChanged"></a>The UpdatesChanged signal</h3>
 <pre class="programlisting">UpdatesChanged ()</pre>
 </div>
@@ -424,7 +405,7 @@
 </table></div>
 <hr>
 <div class="refsect2">
-<a name="id611582"></a><h3>
+<a name="id422984"></a><h3>
 <a name="PackageKit::Changed"></a>The Changed signal</h3>
 <pre class="programlisting">Changed ()</pre>
 </div>
@@ -437,9 +418,9 @@
 </table></div>
 </div>
 <div class="refsect1">
-<a name="id611614"></a><h2>Property Details</h2>
+<a name="id423017"></a><h2>Property Details</h2>
 <div class="refsect2">
-<a name="id611622"></a><h3>
+<a name="id423025"></a><h3>
 <a name="PackageKit:VersionMajor"></a>The "VersionMajor" property</h3>
 <pre class="programlisting">'VersionMajor'  read      'u'
 </pre>
@@ -453,7 +434,7 @@
 </table></div>
 <hr>
 <div class="refsect2">
-<a name="id611653"></a><h3>
+<a name="id423055"></a><h3>
 <a name="PackageKit:VersionMinor"></a>The "VersionMinor" property</h3>
 <pre class="programlisting">'VersionMinor'  read      'u'
 </pre>
@@ -467,7 +448,7 @@
 </table></div>
 <hr>
 <div class="refsect2">
-<a name="id611335"></a><h3>
+<a name="id423086"></a><h3>
 <a name="PackageKit:VersionMicro"></a>The "VersionMicro" property</h3>
 <pre class="programlisting">'VersionMicro'  read      'u'
 </pre>
@@ -481,7 +462,7 @@
 </table></div>
 <hr>
 <div class="refsect2">
-<a name="id611365"></a><h3>
+<a name="id423116"></a><h3>
 <a name="PackageKit:BackendName"></a>The "BackendName" property</h3>
 <pre class="programlisting">'BackendName'  read      's'
 </pre>
@@ -495,7 +476,7 @@
 </table></div>
 <hr>
 <div class="refsect2">
-<a name="id611396"></a><h3>
+<a name="id426866"></a><h3>
 <a name="PackageKit:BackendDescription"></a>The "BackendDescription" property</h3>
 <pre class="programlisting">'BackendDescription'  read      's'
 </pre>
@@ -509,7 +490,7 @@
 </table></div>
 <hr>
 <div class="refsect2">
-<a name="id611427"></a><h3>
+<a name="id426896"></a><h3>
 <a name="PackageKit:BackendAuthor"></a>The "BackendAuthor" property</h3>
 <pre class="programlisting">'BackendAuthor'  read      's'
 </pre>
@@ -523,13 +504,13 @@
 </table></div>
 <hr>
 <div class="refsect2">
-<a name="id611457"></a><h3>
+<a name="id426927"></a><h3>
 <a name="PackageKit:Roles"></a>The "Roles" property</h3>
-<pre class="programlisting">'Roles'  read      's'
+<pre class="programlisting">'Roles'  read      't'
 </pre>
 </div>
 <p>
-            The roles the backend supports, e.g. "search-name;refresh-cache".
+            The roles the backend supports, e.g. search-name|refresh-cache.
           </p>
 <div class="variablelist"><table border="0">
 <col align="left" valign="top">
@@ -537,13 +518,13 @@
 </table></div>
 <hr>
 <div class="refsect2">
-<a name="id611489"></a><h3>
+<a name="id426958"></a><h3>
 <a name="PackageKit:Groups"></a>The "Groups" property</h3>
-<pre class="programlisting">'Groups'  read      's'
+<pre class="programlisting">'Groups'  read      't'
 </pre>
 </div>
 <p>
-            The groups the backend supports, e.g. "accessories;games".
+            The groups the backend supports, e.g. accessories|games.
           </p>
 <div class="variablelist"><table border="0">
 <col align="left" valign="top">
@@ -551,13 +532,13 @@
 </table></div>
 <hr>
 <div class="refsect2">
-<a name="id598748"></a><h3>
+<a name="id426988"></a><h3>
 <a name="PackageKit:Filters"></a>The "Filters" property</h3>
-<pre class="programlisting">'Filters'  read      's'
+<pre class="programlisting">'Filters'  read      't'
 </pre>
 </div>
 <p>
-            The filters the backend supports, e.g. "installed;newest".
+            The filters the backend supports, e.g. installed|newest.
           </p>
 <div class="variablelist"><table border="0">
 <col align="left" valign="top">
@@ -565,13 +546,14 @@
 </table></div>
 <hr>
 <div class="refsect2">
-<a name="id598778"></a><h3>
+<a name="id423866"></a><h3>
 <a name="PackageKit:MimeTypes"></a>The "MimeTypes" property</h3>
-<pre class="programlisting">'MimeTypes'  read      's'
+<pre class="programlisting">'MimeTypes'  read      'as'
 </pre>
 </div>
 <p>
-            The mime-types the backend supports, e.g. "application/x-rpm;application/x-deb".
+            The mime-types the backend supports, e.g.
+            ['application/x-rpm;', 'application/x-deb'].
           </p>
 <div class="variablelist"><table border="0">
 <col align="left" valign="top">
@@ -579,7 +561,7 @@
 </table></div>
 <hr>
 <div class="refsect2">
-<a name="id598810"></a><h3>
+<a name="id423898"></a><h3>
 <a name="PackageKit:Locked"></a>The "Locked" property</h3>
 <pre class="programlisting">'Locked'  read      'b'
 </pre>
@@ -593,9 +575,9 @@
 </table></div>
 <hr>
 <div class="refsect2">
-<a name="id598840"></a><h3>
+<a name="id423929"></a><h3>
 <a name="PackageKit:NetworkState"></a>The "NetworkState" property</h3>
-<pre class="programlisting">'NetworkState'  read      's'
+<pre class="programlisting">'NetworkState'  read      'u'
 </pre>
 </div>
 <p>
@@ -617,7 +599,7 @@
 </table></div>
 <hr>
 <div class="refsect2">
-<a name="id598879"></a><h3>
+<a name="id423968"></a><h3>
 <a name="PackageKit:DistroId"></a>The "DistroId" property</h3>
 <pre class="programlisting">'DistroId'  read      's'
 </pre>

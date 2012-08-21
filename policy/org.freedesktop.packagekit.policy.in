@@ -137,22 +137,6 @@
     </defaults>
   </action>
 
-  <action id="org.freedesktop.packagekit.system-rollback">
-    <!-- SECURITY:
-          - Normal users require admin authentication to rollback system state
-            as this will change a large number of packages, and could expose the
-            system to previously patched security vulnerabilities.
-     -->
-    <_description>Rollback to a previous transaction</_description>
-    <_message>Authentication is required to rollback a transaction</_message>
-    <icon_name>package-x-generic</icon_name>
-    <defaults>
-      <allow_any>no</allow_any>
-      <allow_inactive>no</allow_inactive>
-      <allow_active>auth_admin</allow_active>
-    </defaults>
-  </action>
-
   <action id="org.freedesktop.packagekit.system-sources-configure">
     <!-- SECURITY:
           - Normal users require admin authentication to enable or disable
@@ -265,6 +249,38 @@
       <allow_inactive>no</allow_inactive>
       <allow_active>auth_admin</allow_active>
     </defaults>
+  </action>
+
+  <action id="org.freedesktop.packagekit.trigger-offline-update">
+    <!-- SECURITY:
+          - Normal users are able to ask updates to be installed at
+            early boot time without a password.
+     -->
+    <_description>Trigger offline updates</_description>
+    <_message>Authentication is required to trigger offline updates</_message>
+    <icon_name>package-x-generic</icon_name>
+    <defaults>
+      <allow_any>no</allow_any>
+      <allow_inactive>no</allow_inactive>
+      <allow_active>yes</allow_active>
+    </defaults>
+    <annotate key="org.freedesktop.policykit.exec.path">/usr/libexec/pk-trigger-offline-update</annotate>
+  </action>
+
+  <action id="org.freedesktop.packagekit.clear-offline-update">
+    <!-- SECURITY:
+          - Normal users are able to clear the updates message that is
+            shown after an updates are applied at boot time.
+     -->
+    <_description>Clear offline update message</_description>
+    <_message>Authentication is required to clear the offline updates message</_message>
+    <icon_name>package-x-generic</icon_name>
+    <defaults>
+      <allow_any>no</allow_any>
+      <allow_inactive>no</allow_inactive>
+      <allow_active>yes</allow_active>
+    </defaults>
+    <annotate key="org.freedesktop.policykit.exec.path">/usr/libexec/pk-clear-offline-update</annotate>
   </action>
 
 </policyconfig>

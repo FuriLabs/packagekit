@@ -105,7 +105,6 @@ class PackageKitBaseBackend:
         self.interactive = False
         self.cache_age = 0
         self.percentage_old = 0
-        self.sub_percentage_old = 0
 
         # try to get LANG
         try:
@@ -171,23 +170,13 @@ class PackageKitBaseBackend:
         print("speed\t%i" % (bps))
         sys.stdout.flush()
 
-    def item_percentage(self, package_id, percent=None):
+    def item_progress(self, package_id, status, percent=None):
         '''
         send 'itemprogress' signal
         @param package_id: The package ID name, e.g. openoffice-clipart;2.6.22;ppc64;fedora
         @param percent: percentage of the current item (int preferred)
         '''
-        print("item-percentage\t%s\t%i" % (package_id, percent))
-        sys.stdout.flush()
-
-    def sub_percentage(self, percent=None):
-        '''
-        send 'subpercentage' signal : subprogress percentage
-        @param percent: subprogress percentage (int preferred)
-        '''
-        if percent == 0 or percent > self.sub_percentage_old:
-            print("subpercentage\t%i" % (percent))
-            self.sub_percentage_old = percent
+        print("item-progress\t%s\t%s\t%i" % (package_id, status, percent))
         sys.stdout.flush()
 
     def error(self, err, description, exit=True):
@@ -210,7 +199,7 @@ class PackageKitBaseBackend:
             # huge race when you try to change a dispatcher because of an error.
             #
             # Leave PackageKit to clean up for us in this case.
-            sys.exit(1)
+            sys.exit(254)
 
     def message(self, typ, msg):
         '''
@@ -452,13 +441,6 @@ class PackageKitBaseBackend:
         '''
         self.error(ERROR_NOT_SUPPORTED, "This function is not implemented in this backend", exit=False)
 
-    def update_system(self, only_trusted):
-        '''
-        Implement the {backend}-update-system functionality
-        Needed to be implemented in a sub class
-        '''
-        self.error(ERROR_NOT_SUPPORTED, "This function is not implemented in this backend", exit=False)
-
     def upgrade_system(self, distro_id):
         '''
         Implement the {backend}-update-system functionality
@@ -473,7 +455,7 @@ class PackageKitBaseBackend:
         '''
         self.error(ERROR_NOT_SUPPORTED, "This function is not implemented in this backend", exit=False)
 
-    def install_packages(self, only_trusted, package_ids):
+    def install_packages(self, transaction_flags, package_ids):
         '''
         Implement the {backend}-install functionality
         Needed to be implemented in a sub class
@@ -487,7 +469,7 @@ class PackageKitBaseBackend:
         '''
         self.error(ERROR_NOT_SUPPORTED, "This function is not implemented in this backend", exit=False)
 
-    def install_files(self, only_trusted, inst_files):
+    def install_files(self, transaction_flags, inst_files):
         '''
         Implement the {backend}-install_files functionality
         Install the package containing the inst_file file
@@ -502,14 +484,14 @@ class PackageKitBaseBackend:
         '''
         self.error(ERROR_NOT_SUPPORTED, "This function is not implemented in this backend", exit=False)
 
-    def remove_packages(self, allowdep, autoremove, package_ids):
+    def remove_packages(self, transaction_flags, allowdep, autoremove, package_ids):
         '''
         Implement the {backend}-remove functionality
         Needed to be implemented in a sub class
         '''
         self.error(ERROR_NOT_SUPPORTED, "This function is not implemented in this backend", exit=False)
 
-    def update_packages(self, only_trusted, package_ids):
+    def update_packages(self, transaction_flags, package_ids):
         '''
         Implement the {backend}-update functionality
         Needed to be implemented in a sub class
@@ -593,45 +575,9 @@ class PackageKitBaseBackend:
         '''
         self.error(ERROR_NOT_SUPPORTED, "This function is not implemented in this backend", exit=False)
 
-    def simulate_install_files (self, inst_files):
-        '''
-        Implement the {backend}-simulate-install-files functionality
-        Needed to be implemented in a sub class
-        '''
-        self.error(ERROR_NOT_SUPPORTED, "This function is not implemented in this backend", exit=False)
-
-    def simulate_install_packages(self, package_ids):
-        '''
-        Implement the {backend}-simulate-install-packages functionality
-        Needed to be implemented in a sub class
-        '''
-        self.error(ERROR_NOT_SUPPORTED, "This function is not implemented in this backend", exit=False)
-
-    def simulate_remove_packages(self, package_ids):
-        '''
-        Implement the {backend}-simulate-remove-packages functionality
-        Needed to be implemented in a sub class
-        '''
-        self.error(ERROR_NOT_SUPPORTED, "This function is not implemented in this backend", exit=False)
-
-    def simulate_update_packages(self, package_ids):
-        '''
-        Implement the {backend}-simulate-update-packages functionality
-        Needed to be implemented in a sub class
-        '''
-        self.error(ERROR_NOT_SUPPORTED, "This function is not implemented in this backend", exit=False)
-
-    def repair_system(self, only_trusted):
+    def repair_system(self, transaction_flags):
         '''
         Implement the {backend}-repair-system functionality
-        Needed to be implemented in a sub class
-        '''
-        self.error(ERROR_NOT_SUPPORTED, "This function is not implemented in this backend",
-                   exit=False)
-
-    def simulate_repair_system(self):
-        '''
-        Implement the {backend}-simulate-repair-system functionality
         Needed to be implemented in a sub class
         '''
         self.error(ERROR_NOT_SUPPORTED, "This function is not implemented in this backend",
@@ -703,14 +649,14 @@ class PackageKitBaseBackend:
             self.get_updates(filters)
             self.finished()
         elif cmd == 'install-files':
-            only_trusted = _text_to_bool(args[0])
+            transaction_flags = args[0].split(';')
             files_to_inst = args[1].split(FILENAME_DELIM)
-            self.install_files(only_trusted, files_to_inst)
+            self.install_files(transaction_flags, files_to_inst)
             self.finished()
         elif cmd == 'install-packages':
-            only_trusted = _text_to_bool(args[0])
+            transaction_flags = args[0].split(';')
             package_ids = args[1].split(PACKAGE_IDS_DELIM)
-            self.install_packages(only_trusted, package_ids)
+            self.install_packages(transaction_flags, package_ids)
             self.finished()
         elif cmd == 'install-signature':
             sigtype = args[0]
@@ -723,10 +669,11 @@ class PackageKitBaseBackend:
             self.refresh_cache(force)
             self.finished()
         elif cmd == 'remove-packages':
-            allowdeps = _text_to_bool(args[0])
-            autoremove = _text_to_bool(args[1])
-            package_ids = args[2].split(PACKAGE_IDS_DELIM)
-            self.remove_packages(allowdeps, autoremove, package_ids)
+            transaction_flags = args[0].split(';')
+            package_ids = args[1].split(PACKAGE_IDS_DELIM)
+            allowdeps = _text_to_bool(args[2])
+            autoremove = _text_to_bool(args[3])
+            self.remove_packages(transaction_flags, package_ids, allowdeps, autoremove)
             self.finished()
         elif cmd == 'repo-enable':
             repoid = args[0]
@@ -769,13 +716,9 @@ class PackageKitBaseBackend:
             self.repo_signature_install(package)
             self.finished()
         elif cmd == 'update-packages':
-            only_trusted = _text_to_bool(args[0])
+            transaction_flags = args[0].split(';')
             package_ids = args[1].split(PACKAGE_IDS_DELIM)
-            self.update_packages(only_trusted, package_ids)
-            self.finished()
-        elif cmd == 'update-system':
-            only_trusted = _text_to_bool(args[0])
-            self.update_system(only_trusted)
+            self.update_packages(transaction_flags, package_ids)
             self.finished()
         elif cmd == 'what-provides':
             filters = args[0].split(';')
@@ -790,30 +733,11 @@ class PackageKitBaseBackend:
         elif cmd == 'get-categories':
             self.get_categories()
             self.finished()
-        elif cmd == 'simulate-install-files':
-            files_to_inst = args[0].split(FILENAME_DELIM)
-            self.simulate_install_files(files_to_inst)
-            self.finished()
-        elif cmd == 'simulate-install-packages':
-            package_ids = args[0].split(PACKAGE_IDS_DELIM)
-            self.simulate_install_packages(package_ids)
-            self.finished()
-        elif cmd == 'simulate-remove-packages':
-            package_ids = args[0].split(PACKAGE_IDS_DELIM)
-            self.simulate_remove_packages(package_ids)
-            self.finished()
-        elif cmd == 'simulate-update-packages':
-            package_ids = args[0].split(PACKAGE_IDS_DELIM)
-            self.simulate_update_packages(package_ids)
-            self.finished()
         elif cmd == 'upgrade-system':
             self.upgrade_system(args[0])
             self.finished()
         elif cmd == 'repair-system':
             self.repair_system(args[0])
-            self.finished()
-        elif cmd == 'simulate-repair-system':
-            self.simulate_repair_system()
             self.finished()
         else:
             errmsg = "command '%s' is not known" % cmd

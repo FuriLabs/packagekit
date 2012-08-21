@@ -29,6 +29,7 @@
 #include <glib-object.h>
 #include <packagekit-glib2/pk-enum.h>
 #include <packagekit-glib2/pk-package.h>
+#include <packagekit-glib2/pk-item-progress.h>
 
 G_BEGIN_DECLS
 
@@ -69,7 +70,6 @@ typedef enum {
 	PK_PROGRESS_TYPE_PACKAGE_ID,
 	PK_PROGRESS_TYPE_TRANSACTION_ID,
 	PK_PROGRESS_TYPE_PERCENTAGE,
-	PK_PROGRESS_TYPE_SUBPERCENTAGE,
 	PK_PROGRESS_TYPE_ALLOW_CANCEL,
 	PK_PROGRESS_TYPE_STATUS,
 	PK_PROGRESS_TYPE_ROLE,
@@ -77,6 +77,7 @@ typedef enum {
 	PK_PROGRESS_TYPE_ELAPSED_TIME,
 	PK_PROGRESS_TYPE_REMAINING_TIME,
 	PK_PROGRESS_TYPE_SPEED,
+	PK_PROGRESS_TYPE_DOWNLOAD_SIZE_REMAINING,
 	PK_PROGRESS_TYPE_UID,
 	PK_PROGRESS_TYPE_PACKAGE,
 	PK_PROGRESS_TYPE_ITEM_PROGRESS,
@@ -90,14 +91,11 @@ typedef void	(*PkProgressCallback)			(PkProgress		*progress,
 gboolean	 pk_progress_set_package_id		(PkProgress		*progress,
 							 const gchar		*package_id);
 gboolean	 pk_progress_set_item_progress		(PkProgress		*progress,
-							 const gchar		*package_id,
-							 guint			 percentage);
+							 PkItemProgress		*item_progress);
 gboolean	 pk_progress_set_transaction_id		(PkProgress		*progress,
 							 const gchar		*package_id);
 gboolean	 pk_progress_set_percentage		(PkProgress		*progress,
 							 gint			 percentage);
-gboolean	 pk_progress_set_subpercentage		(PkProgress		*progress,
-							 gint			 subpercentage);
 gboolean	 pk_progress_set_status			(PkProgress		*progress,
 							 PkStatusEnum		 status);
 gboolean	 pk_progress_set_role			(PkProgress		*progress,
@@ -112,6 +110,8 @@ gboolean	 pk_progress_set_remaining_time		(PkProgress		*progress,
 							 guint			 remaining_time);
 gboolean	 pk_progress_set_speed			(PkProgress		*progress,
 							 guint			 speed);
+gboolean	 pk_progress_set_download_size_remaining(PkProgress		*progress,
+							 guint64		 download_size_remaining);
 gboolean	 pk_progress_set_uid			(PkProgress		*progress,
 							 guint			 uid);
 gboolean	 pk_progress_set_package		(PkProgress		*progress,

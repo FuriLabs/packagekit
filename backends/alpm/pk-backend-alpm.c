@@ -22,13 +22,10 @@
  */
 
 #include <config.h>
-#include <locale.h>
 #include <glib/gstdio.h>
 #include <sys/utsname.h>
-#include <pk-backend-spawn.h>
 
 #include "pk-backend-alpm.h"
-#include "pk-backend-config.h"
 #include "pk-backend-databases.h"
 #include "pk-backend-error.h"
 #include "pk-backend-groups.h"
@@ -38,27 +35,26 @@ PkBackend *backend = NULL;
 GCancellable *cancellable = NULL;
 static GStaticMutex mutex = G_STATIC_MUTEX_INIT;
 
-alpm_handle_t *alpm = NULL;
-alpm_db_t *localdb = NULL;
+pmdb_t *localdb = NULL;
 
 gchar *xfercmd = NULL;
 alpm_list_t *holdpkgs = NULL;
 alpm_list_t *syncfirsts = NULL;
 
-gchar *
+const gchar *
 pk_backend_get_description (PkBackend *self)
 {
 	g_return_val_if_fail (self != NULL, NULL);
 
-	return g_strdup ("alpm");
+	return "alpm";
 }
 
-gchar *
+const gchar *
 pk_backend_get_author (PkBackend *self)
 {
 	g_return_val_if_fail (self != NULL, NULL);
 
-	return g_strdup ("Jonathan Conder <jonno.conder@gmail.com>");
+	return "Jonathan Conder <jonno.conder@gmail.com>";
 }
 
 static gboolean
@@ -166,7 +162,7 @@ out:
 }
 
 static void
-pk_backend_logcb (alpm_loglevel_t level, const gchar *format, va_list args)
+pk_backend_logcb (pmloglevel_t level, const gchar *format, va_list args)
 {
 	gchar *output;
 
@@ -180,12 +176,12 @@ pk_backend_logcb (alpm_loglevel_t level, const gchar *format, va_list args)
 
 	/* report important output to PackageKit */
 	switch (level) {
-		case ALPM_LOG_DEBUG:
-		case ALPM_LOG_FUNCTION:
+		case PM_LOG_DEBUG:
+		case PM_LOG_FUNCTION:
 			g_debug ("%s", output);
 			break;
 
-		case ALPM_LOG_WARNING:
+		case PM_LOG_WARNING:
 			g_warning ("%s", output);
 			pk_backend_output (backend, output);
 			break;
@@ -198,98 +194,43 @@ pk_backend_logcb (alpm_loglevel_t level, const gchar *format, va_list args)
 	g_free (output);
 }
 
-static void
-pk_backend_configure_environment (PkBackend *self)
+static gboolean
+pk_backend_initialize_alpm (PkBackend *self, GError **error)
 {
 	struct utsname un;
-	gchar *value;
+	gchar *user_agent;
 
-	g_return_if_fail (self != NULL);
+	g_return_val_if_fail (self != NULL, FALSE);
 
 	/* PATH might have been nuked by D-Bus */
 	g_setenv ("PATH", PK_BACKEND_DEFAULT_PATH, FALSE);
 
 	uname (&un);
-	value = g_strdup_printf ("%s/%s (%s %s) libalpm/%s", PACKAGE_TARNAME,
-				 PACKAGE_VERSION, un.sysname, un.machine,
-				 alpm_version ());
-	g_setenv ("HTTP_USER_AGENT", value, FALSE);
-	g_free (value);
+	user_agent = g_strdup_printf ("%s/%s (%s %s) libalpm/%s",
+				      PACKAGE_TARNAME, PACKAGE_VERSION,
+				      un.sysname, un.machine, alpm_version ());
+	g_setenv ("HTTP_USER_AGENT", user_agent, FALSE);
+	g_free (user_agent);
 
-	value = pk_backend_get_locale (self);
-	if (value != NULL) {
-		setlocale (LC_ALL, value);
-		g_free (value);
-	}
-
-	value = pk_backend_get_proxy_http (self);
-	if (value != NULL) {
-		gchar *uri = pk_backend_spawn_convert_uri (value);
-		g_setenv ("http_proxy", uri, TRUE);
-		g_free (uri);
-		g_free (value);
-	}
-
-	value = pk_backend_get_proxy_https (self);
-	if (value != NULL) {
-		gchar *uri = pk_backend_spawn_convert_uri (value);
-		g_setenv ("https_proxy", uri, TRUE);
-		g_free (uri);
-		g_free (value);
-	}
-
-	value = pk_backend_get_proxy_ftp (self);
-	if (value != NULL) {
-		gchar *uri = pk_backend_spawn_convert_uri (value);
-		g_setenv ("ftp_proxy", uri, TRUE);
-		g_free (uri);
-		g_free (value);
-	}
-
-	value = pk_backend_get_proxy_socks (self);
-	if (value != NULL) {
-		gchar *uri = pk_backend_spawn_convert_uri (value);
-		g_setenv ("socks_proxy", uri, TRUE);
-		g_free (uri);
-		g_free (value);
-	}
-
-	value = pk_backend_get_no_proxy (self);
-	if (value != NULL) {
-		g_setenv ("no_proxy", value, TRUE);
-		g_free (value);
-	}
-
-	value = pk_backend_get_pac (self);
-	if (value != NULL) {
-		gchar *uri = pk_backend_spawn_convert_uri (value);
-		g_setenv ("pac", uri, TRUE);
-		g_free (uri);
-		g_free (value);
-	}
-}
-
-static gboolean
-pk_backend_initialize_alpm (PkBackend *self, GError **error)
-{
-	g_return_val_if_fail (self != NULL, FALSE);
-
-	pk_backend_configure_environment (self);
-
-	alpm = pk_backend_configure (PK_BACKEND_CONFIG_FILE, error);
-	if (alpm == NULL) {
+	g_debug ("initializing");
+	if (alpm_initialize () < 0) {
+		g_set_error_literal (error, ALPM_ERROR, pm_errno,
+				     alpm_strerrorlast ());
 		return FALSE;
 	}
 
 	backend = self;
-	alpm_option_set_logcb (alpm, pk_backend_logcb);
-
-	localdb = alpm_option_get_localdb (alpm);
+	localdb = alpm_option_get_localdb ();
 	if (localdb == NULL) {
-		enum _alpm_errno_t errno = alpm_errno (alpm);
-		g_set_error (error, ALPM_ERROR, errno, "[%s]: %s", "local",
-			     alpm_strerror (errno));
+		g_set_error (error, ALPM_ERROR, pm_errno, "[%s]: %s", "local",
+			     alpm_strerrorlast ());
 	}
+
+	/* set some sane defaults */
+	alpm_option_set_logcb (pk_backend_logcb);
+	alpm_option_set_root (PK_BACKEND_DEFAULT_ROOT);
+	alpm_option_set_dbpath (PK_BACKEND_DEFAULT_DBPATH);
+	alpm_option_set_logfile (PK_BACKEND_DEFAULT_LOGFILE);
 
 	return TRUE;
 }
@@ -299,20 +240,17 @@ pk_backend_destroy_alpm (PkBackend *self)
 {
 	g_return_if_fail (self != NULL);
 
-	if (alpm != NULL) {
-		if (alpm_trans_get_flags (alpm) < 0) {
-			alpm_trans_release (alpm);
+	if (backend != NULL) {
+		if (alpm_trans_get_flags () != -1) {
+			alpm_trans_release ();
 		}
-		alpm_release (alpm);
-
-		alpm = NULL;
+		alpm_release ();
 		backend = NULL;
 	}
 
 	FREELIST (syncfirsts);
 	FREELIST (holdpkgs);
 	g_free (xfercmd);
-	xfercmd = NULL;
 }
 
 void
@@ -348,14 +286,15 @@ pk_backend_get_filters (PkBackend *self)
 	return pk_bitfield_from_enums (PK_FILTER_ENUM_INSTALLED, -1);
 }
 
-gchar *
+gchar **
 pk_backend_get_mime_types (PkBackend *self)
 {
-	g_return_val_if_fail (self != NULL, NULL);
-
 	/* packages currently use .pkg.tar.gz and .pkg.tar.xz */
-	return g_strdup ("application/x-compressed-tar;"
-			 "application/x-xz-compressed-tar");
+	const gchar *mime_types[] = {
+				"application/x-compressed-tar",
+				"application/x-xz-compressed-tar",
+				NULL };
+	return g_strdupv ((gchar **) mime_types);
 }
 
 void
@@ -374,10 +313,10 @@ pk_backend_run (PkBackend *self, PkStatusEnum status, PkBackendThreadFunc func)
 
 	g_static_mutex_unlock (&mutex);
 
-	pk_backend_set_allow_cancel (self, TRUE);
+	pk_backend_job_set_allow_cancel (self, TRUE);
 
-	pk_backend_set_status (self, status);
-	pk_backend_thread_create (self, func);
+	pk_backend_job_set_status (self, status);
+	pk_backend_job_thread_create (self, func);
 }
 
 void
@@ -418,7 +357,7 @@ pk_backend_finish (PkBackend *self, GError *error)
 
 	g_return_val_if_fail (self != NULL, FALSE);
 
-	pk_backend_set_allow_cancel (self, FALSE);
+	pk_backend_job_set_allow_cancel (self, FALSE);
 
 	g_static_mutex_lock (&mutex);
 
@@ -436,17 +375,9 @@ pk_backend_finish (PkBackend *self, GError *error)
 	}
 
 	if (cancelled) {
-		pk_backend_set_status (self, PK_STATUS_ENUM_CANCEL);
+		pk_backend_job_set_status (self, PK_STATUS_ENUM_CANCEL);
 	}
 
-	pk_backend_thread_finished (self);
+	pk_backend_job_finished (self);
 	return (error == NULL);
-}
-
-void
-pk_backend_transaction_start (PkBackend *self)
-{
-	g_return_if_fail (self != NULL);
-
-	pk_backend_configure_environment (self);
 }

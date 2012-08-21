@@ -29,14 +29,29 @@
 #include "pk-backend-remove.h"
 #include "pk-backend-transaction.h"
 
+static gint
+alpm_remove_local (const gchar *name)
+{
+	pmpkg_t *pkg;
+
+	g_return_val_if_fail (name != NULL, -1);
+	g_return_val_if_fail (localdb != NULL, -1);
+
+	pkg = alpm_db_get_pkg (localdb, name);
+	if (pkg == NULL) {
+		pm_errno = PM_ERR_PKG_NOT_FOUND;
+		return -1;
+	}
+
+	return alpm_remove_pkg (pkg);
+}
+
 static gboolean
 pk_backend_transaction_remove_targets (PkBackend *self, GError **error)
 {
 	gchar **packages;
 
 	g_return_val_if_fail (self != NULL, FALSE);
-	g_return_val_if_fail (alpm != NULL, FALSE);
-	g_return_val_if_fail (localdb != NULL, FALSE);
 
 	packages = pk_backend_get_strv (self, "package_ids");
 
@@ -46,11 +61,9 @@ pk_backend_transaction_remove_targets (PkBackend *self, GError **error)
 		gchar **package = pk_package_id_split (*packages);
 		gchar *name = package[PK_PACKAGE_ID_NAME];
 
-		alpm_pkg_t *pkg = alpm_db_get_pkg (localdb, name);
-		if (pkg == NULL || alpm_remove_pkg (alpm, pkg) < 0) {
-			enum _alpm_errno_t errno = alpm_errno (alpm);
-			g_set_error (error, ALPM_ERROR, errno, "%s: %s", name,
-				     alpm_strerror (errno));
+		if (alpm_remove_local (name) < 0) {
+			g_set_error (error, ALPM_ERROR, pm_errno, "%s: %s",
+				     name, alpm_strerrorlast ());
 			g_strfreev (package);
 			return FALSE;
 		}
@@ -66,17 +79,14 @@ pk_backend_transaction_remove_simulate (PkBackend *self, GError **error)
 {
 	const alpm_list_t *i;
 
-	g_return_val_if_fail (self != NULL, FALSE);
-	g_return_val_if_fail (alpm != NULL, FALSE);
-
 	if (!pk_backend_transaction_simulate (self, error)) {
 		return FALSE;
 	}
 
-	for (i = alpm_trans_get_remove (alpm); i != NULL; i = i->next) {
+	for (i = alpm_trans_get_remove (); i != NULL; i = i->next) {
 		const gchar *name = alpm_pkg_get_name (i->data);
 		if (alpm_list_find_str (holdpkgs, name)) {
-			g_set_error (error, ALPM_ERROR, ALPM_ERR_PKG_HELD,
+			g_set_error (error, ALPM_ERROR, PM_ERR_PKG_HELD,
 				     "%s: %s", name,
 				     "could not remove HoldPkg");
 			return FALSE;
@@ -89,14 +99,14 @@ pk_backend_transaction_remove_simulate (PkBackend *self, GError **error)
 static gboolean
 pk_backend_simulate_remove_packages_thread (PkBackend *self)
 {
-	alpm_transflag_t flags = ALPM_TRANS_FLAG_CASCADE;
+	pmtransflag_t flags = PM_TRANS_FLAG_CASCADE;
 	GError *error = NULL;
 
 	g_return_val_if_fail (self != NULL, FALSE);
 
 	/* remove unneeded packages that were required by those to be removed */
 	if (pk_backend_get_bool (self, "autoremove")) {
-		flags |= ALPM_TRANS_FLAG_RECURSE;
+		flags |= PM_TRANS_FLAG_RECURSE;
 	}
 
 	if (pk_backend_transaction_initialize (self, flags, &error) &&
@@ -111,18 +121,18 @@ pk_backend_simulate_remove_packages_thread (PkBackend *self)
 static gboolean
 pk_backend_remove_packages_thread (PkBackend *self)
 {
-	alpm_transflag_t flags = 0;
+	pmtransflag_t flags = 0;
 	GError *error = NULL;
 
 	g_return_val_if_fail (self != NULL, FALSE);
 
 	/* remove packages that depend on those to be removed */
 	if (pk_backend_get_bool (self, "allow_deps")) {
-		flags |= ALPM_TRANS_FLAG_CASCADE;
+		flags |= PM_TRANS_FLAG_CASCADE;
 	}
 	/* remove unneeded packages that were required by those to be removed */
 	if (pk_backend_get_bool (self, "autoremove")) {
-		flags |= ALPM_TRANS_FLAG_RECURSE;
+		flags |= PM_TRANS_FLAG_RECURSE;
 	}
 
 	if (pk_backend_transaction_initialize (self, flags, &error) &&

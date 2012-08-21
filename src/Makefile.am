@@ -25,6 +25,7 @@ INCLUDES =						\
 	$(PYTHON_CFLAGS)				\
 	$(NETWORK_MANAGER_CFLAGS)			\
 	$(CONNMAN_CFLAGS)				\
+	$(SYSTEMD_CFLAGS)				\
 	-DPACKAGE_LOCALE_DIR=\"$(localedir)\"		\
 	-DBINDIR=\"$(bindir)\"				\
 	-DSBINDIR=\"$(sbindir)\"			\
@@ -62,10 +63,14 @@ plugininclude_GIRSOURCES =				\
 	pk-plugin.h					\
 	pk-backend.c					\
 	pk-backend.h					\
+	pk-backend-job.c				\
+	pk-backend-job.h				\
 	pk-transaction.c				\
 	pk-transaction.h				\
 	pk-conf.c					\
 	pk-conf.h					\
+	pk-shared.c					\
+	pk-shared.h					\
 	$(NULL)
 
 shared_SOURCES =					\
@@ -78,6 +83,8 @@ shared_SOURCES =					\
 	pk-transaction-private.h			\
 	pk-backend.c					\
 	pk-backend.h					\
+	pk-backend-job.c				\
+	pk-backend-job.h				\
 	pk-network.c					\
 	pk-network.h					\
 	pk-shared.c					\
@@ -146,6 +153,7 @@ packagekitd_LDADD =					\
 	$(POLKIT_LIBS)					\
 	$(GIO_LIBS)					\
 	$(ARCHIVE_LIBS)					\
+	$(SYSTEMD_LIBS)					\
 	$(NULL)
 
 packagekitd_CFLAGS =					\
@@ -190,9 +198,14 @@ pk_self_test_LDADD =					\
 	$(POLKIT_LIBS)					\
 	$(GIO_LIBS)					\
 	$(ARCHIVE_LIBS)					\
+	$(SYSTEMD_LIBS)					\
 	$(NULL)
 
-pk_self_test_CFLAGS = -DEGG_TEST $(AM_CFLAGS)
+pk_self_test_CFLAGS =
+	-DEGG_TEST					\
+	$(AM_CFLAGS)					\
+	$(WARNINGFLAGS_C)				\
+	$(NULL)
 
 TESTS = pk-self-test
 endif
@@ -239,6 +252,7 @@ libpkplugins_la_LIBADD =				\
 	$(POLKIT_LIBS)					\
 	$(GIO_LIBS)					\
 	$(ARCHIVE_LIBS)					\
+	$(SYSTEMD_LIBS)					\
 	$(NULL)
 
 libpkplugins_la_CFLAGS =				\

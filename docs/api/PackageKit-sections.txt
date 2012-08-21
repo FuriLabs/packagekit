@@ -26,6 +26,8 @@ pk_group_bitfield_from_string
 pk_group_bitfield_to_string
 pk_role_bitfield_from_string
 pk_role_bitfield_to_string
+pk_transaction_flag_bitfield_from_string
+pk_transaction_flag_bitfield_to_string
 </SECTION>
 
 <SECTION>
@@ -122,7 +124,6 @@ pk_client_repair_system_async
 pk_client_repo_enable_async
 pk_client_repo_set_data_async
 pk_client_resolve_async
-pk_client_rollback_async
 pk_client_search_details_async
 pk_client_search_files_async
 pk_client_search_groups_async
@@ -131,14 +132,8 @@ pk_client_set_background
 pk_client_set_cache_age
 pk_client_set_interactive
 pk_client_set_locale
-pk_client_simulate_install_files_async
-pk_client_simulate_install_packages_async
-pk_client_simulate_remove_packages_async
-pk_client_simulate_repair_system_async
-pk_client_simulate_update_packages_async
 pk_client_test
 pk_client_update_packages_async
-pk_client_update_system_async
 pk_client_upgrade_system_async
 pk_client_what_provides_async
 <SUBSECTION Standard>
@@ -197,18 +192,11 @@ pk_client_repair_system
 pk_client_repo_enable
 pk_client_repo_set_data
 pk_client_resolve
-pk_client_rollback
 pk_client_search_details
 pk_client_search_files
 pk_client_search_groups
 pk_client_search_names
-pk_client_simulate_install_files
-pk_client_simulate_install_packages
-pk_client_simulate_remove_packages
-pk_client_simulate_repair_system
-pk_client_simulate_update_packages
 pk_client_update_packages
-pk_client_update_system
 pk_client_upgrade_system
 pk_client_what_provides
 </SECTION>
@@ -220,6 +208,7 @@ PK_DBUS_INTERFACE_TRANSACTION
 PK_DBUS_PATH
 PK_DBUS_SERVICE
 PK_SERVICE_PACK_GROUP_NAME
+PK_SYSTEM_PACKAGE_CACHE_FILENAME
 PK_SYSTEM_PACKAGE_LIST_FILENAME
 pk_common_test
 pk_get_distro_id
@@ -265,8 +254,6 @@ pk_control_new
 pk_control_set_proxy2_async
 pk_control_set_proxy_async
 pk_control_set_proxy_finish
-pk_control_set_root_async
-pk_control_set_root_finish
 pk_control_suggest_daemon_quit_async
 pk_control_suggest_daemon_quit_finish
 pk_control_test
@@ -287,7 +274,6 @@ pk_control_get_properties
 pk_control_get_transaction_list
 pk_control_set_proxy
 pk_control_set_proxy2
-pk_control_set_root
 pk_control_suggest_daemon_quit
 </SECTION>
 
@@ -378,6 +364,7 @@ PkRestartEnum
 PkRoleEnum
 PkSigTypeEnum
 PkStatusEnum
+PkTransactionFlagEnum
 PkUpdateStateEnum
 PkUpgradeKindEnum
 pk_authorize_type_enum_from_string
@@ -417,6 +404,8 @@ pk_sig_type_enum_to_string
 pk_status_enum_from_string
 pk_status_enum_to_localised_text
 pk_status_enum_to_string
+pk_transaction_flag_enum_from_string
+pk_transaction_flag_enum_to_string
 pk_update_state_enum_from_string
 pk_update_state_enum_to_string
 pk_upgrade_kind_enum_from_string
@@ -447,6 +436,7 @@ PK_TYPE_ROLE_ENUM
 PK_TYPE_SERVICE_PACK_ERROR
 PK_TYPE_SIG_TYPE_ENUM
 PK_TYPE_STATUS_ENUM
+PK_TYPE_TRANSACTION_FLAG_ENUM
 PK_TYPE_UPDATE_STATE_ENUM
 PK_TYPE_UPGRADE_KIND_ENUM
 pk_authorize_enum_get_type
@@ -470,6 +460,7 @@ pk_role_enum_get_type
 pk_service_pack_error_get_type
 pk_sig_type_enum_get_type
 pk_status_enum_get_type
+pk_transaction_flag_enum_get_type
 pk_update_state_enum_get_type
 pk_upgrade_kind_enum_get_type
 </SECTION>
@@ -525,6 +516,26 @@ PK_IS_FILES_CLASS
 PK_TYPE_FILES
 PkFilesPrivate
 pk_files_get_type
+</SECTION>
+
+<SECTION>
+<FILE>pk-item-progress</FILE>
+<TITLE>PkItemProgress</TITLE>
+PkItemProgress
+PkItemProgressClass
+pk_item_progress_get_package_id
+pk_item_progress_get_percentage
+pk_item_progress_get_status
+pk_item_progress_new
+<SUBSECTION Standard>
+PK_IS_ITEM_PROGRESS
+PK_IS_ITEM_PROGRESS_CLASS
+PK_ITEM_PROGRESS
+PK_ITEM_PROGRESS_CLASS
+PK_ITEM_PROGRESS_GET_CLASS
+PK_TYPE_ITEM_PROGRESS
+PkItemProgressPrivate
+pk_item_progress_get_type
 </SECTION>
 
 <SECTION>
@@ -682,6 +693,7 @@ PkProgressType
 pk_progress_new
 pk_progress_set_allow_cancel
 pk_progress_set_caller_active
+pk_progress_set_download_size_remaining
 pk_progress_set_elapsed_time
 pk_progress_set_item_progress
 pk_progress_set_package
@@ -691,7 +703,6 @@ pk_progress_set_remaining_time
 pk_progress_set_role
 pk_progress_set_speed
 pk_progress_set_status
-pk_progress_set_subpercentage
 pk_progress_set_transaction_id
 pk_progress_set_uid
 pk_progress_test
@@ -812,6 +823,7 @@ pk_results_get_require_restart_array
 pk_results_get_require_restart_worst
 pk_results_get_role
 pk_results_get_transaction_array
+pk_results_get_transaction_flags
 pk_results_get_update_detail_array
 pk_results_new
 pk_results_set_error_code
@@ -886,6 +898,7 @@ pk_task_get_depends_async
 pk_task_get_details_async
 pk_task_get_files_async
 pk_task_get_interactive
+pk_task_get_only_download
 pk_task_get_packages_async
 pk_task_get_repo_list_async
 pk_task_get_requires_async
@@ -900,16 +913,15 @@ pk_task_remove_packages_async
 pk_task_repair_system_async
 pk_task_repo_enable_async
 pk_task_resolve_async
-pk_task_rollback_async
 pk_task_search_details_async
 pk_task_search_files_async
 pk_task_search_groups_async
 pk_task_search_names_async
 pk_task_set_interactive
+pk_task_set_only_download
 pk_task_set_simulate
 pk_task_test
 pk_task_update_packages_async
-pk_task_update_system_async
 pk_task_user_accepted
 pk_task_user_declined
 pk_task_what_provides_async
@@ -943,13 +955,11 @@ pk_task_remove_packages_sync
 pk_task_repair_system_sync
 pk_task_repo_enable_sync
 pk_task_resolve_sync
-pk_task_rollback_sync
 pk_task_search_details_sync
 pk_task_search_files_sync
 pk_task_search_groups_sync
 pk_task_search_names_sync
 pk_task_update_packages_sync
-pk_task_update_system_sync
 pk_task_what_provides_sync
 </SECTION>
 
@@ -979,7 +989,6 @@ PkTaskWrapper
 PkTaskWrapperClass
 pk_task_wrapper_error_quark
 pk_task_wrapper_new
-pk_task_wrapper_test
 <SUBSECTION Standard>
 PK_IS_TASK_WRAPPER
 PK_IS_TASK_WRAPPER_CLASS

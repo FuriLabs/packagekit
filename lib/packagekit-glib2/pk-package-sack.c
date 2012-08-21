@@ -51,6 +51,7 @@ static void     pk_package_sack_finalize	(GObject     *object);
  **/
 struct _PkPackageSackPrivate
 {
+	GHashTable		*table;
 	GPtrArray		*array;
 	PkClient		*client;
 };
@@ -74,7 +75,9 @@ void
 pk_package_sack_clear (PkPackageSack *sack)
 {
 	g_return_if_fail (PK_IS_PACKAGE_SACK (sack));
+
 	g_ptr_array_set_size (sack->priv->array, 0);
+	g_hash_table_remove_all (sack->priv->table);
 }
 
 /**
@@ -232,7 +235,11 @@ pk_package_sack_add_package (PkPackageSack *sack, PkPackage *package)
 	g_return_val_if_fail (PK_IS_PACKAGE (package), FALSE);
 
 	/* add to array */
-	g_ptr_array_add (sack->priv->array, g_object_ref (package));
+	g_ptr_array_add (sack->priv->array,
+			 g_object_ref (package));
+	g_hash_table_insert (sack->priv->table,
+			     g_strdup (pk_package_get_id (package)),
+			     g_object_ref (package));
 
 	return TRUE;
 }
@@ -250,7 +257,9 @@ pk_package_sack_add_package (PkPackageSack *sack, PkPackage *package)
  * Since: 0.5.2
  **/
 gboolean
-pk_package_sack_add_package_by_id (PkPackageSack *sack, const gchar *package_id, GError **error)
+pk_package_sack_add_package_by_id (PkPackageSack *sack,
+				   const gchar *package_id,
+				   GError **error)
 {
 	PkPackage *package;
 	gboolean ret;
@@ -276,7 +285,9 @@ out:
  * pk_package_sack_add_packages_from_line:
  **/
 static void
-pk_package_sack_add_packages_from_line (PkPackageSack *sack, const gchar *package_str, GError **error)
+pk_package_sack_add_packages_from_line (PkPackageSack *sack,
+					const gchar *package_str,
+					GError **error)
 {
 	GError *error_local = NULL;
 	gboolean ret;
@@ -314,7 +325,7 @@ out:
 }
 
 /**
- * pk_package_sack_add_packages_from_file
+ * pk_package_sack_add_packages_from_file:
  * @sack: a valid #PkPackageSack instance
  * @file: a valid package-list file
  * @error: a %GError to put the error code and message in, or %NULL
@@ -325,7 +336,9 @@ out:
  *
  **/
 gboolean
-pk_package_sack_add_packages_from_file (PkPackageSack *sack, GFile *file, GError **error)
+pk_package_sack_add_packages_from_file (PkPackageSack *sack,
+					GFile *file,
+					GError **error)
 {
 	GError *error_local = NULL;
 	gboolean ret = TRUE;
@@ -405,7 +418,8 @@ pk_package_sack_remove_package (PkPackageSack *sack, PkPackage *package)
  * Since: 0.5.2
  **/
 gboolean
-pk_package_sack_remove_package_by_id (PkPackageSack *sack, const gchar *package_id)
+pk_package_sack_remove_package_by_id (PkPackageSack *sack,
+				      const gchar *package_id)
 {
 	PkPackage *package;
 	const gchar *id;
@@ -444,7 +458,9 @@ pk_package_sack_remove_package_by_id (PkPackageSack *sack, const gchar *package_
  * Since: 0.6.3
  **/
 gboolean
-pk_package_sack_remove_by_filter (PkPackageSack *sack, PkPackageSackFilterFunc filter_cb, gpointer user_data)
+pk_package_sack_remove_by_filter (PkPackageSack *sack,
+				  PkPackageSackFilterFunc filter_cb,
+				  gpointer user_data)
 {
 	gboolean ret = FALSE;
 	PkPackage *package;
@@ -483,24 +499,14 @@ pk_package_sack_remove_by_filter (PkPackageSack *sack, PkPackageSackFilterFunc f
 PkPackage *
 pk_package_sack_find_by_id (PkPackageSack *sack, const gchar *package_id)
 {
-	PkPackage *package_tmp;
-	const gchar *id;
 	PkPackage *package = NULL;
-	guint i;
-	guint len;
 
 	g_return_val_if_fail (PK_IS_PACKAGE_SACK (sack), NULL);
 	g_return_val_if_fail (package_id != NULL, NULL);
 
-	len = sack->priv->array->len;
-	for (i=0; i<len; i++) {
-		package_tmp = g_ptr_array_index (sack->priv->array, i);
-		id = pk_package_get_id (package_tmp);
-		if (g_strcmp0 (package_id, id) == 0) {
-			package = g_object_ref (package_tmp);
-			break;
-		}
-	}
+	package = g_hash_table_lookup (sack->priv->table, package_id);
+	if (package != NULL)
+		g_object_ref (package);
 
 	return package;
 }
@@ -982,9 +988,9 @@ pk_package_sack_get_update_detail_cb (GObject *source_object, GAsyncResult *res,
 	gchar *package_id;
 	gchar *updates;
 	gchar *obsoletes;
-	gchar *vendor_url;
-	gchar *bugzilla_url;
-	gchar *cve_url;
+	gchar **vendor_urls;
+	gchar **bugzilla_urls;
+	gchar **cve_urls;
 	PkRestartEnum restart;
 	gchar *update_text;
 	gchar *changelog;
@@ -1017,9 +1023,9 @@ pk_package_sack_get_update_detail_cb (GObject *source_object, GAsyncResult *res,
 			      "package-id", &package_id,
 			      "updates", &updates,
 			      "obsoletes", &obsoletes,
-			      "vendor-url", &vendor_url,
-			      "bugzilla-url", &bugzilla_url,
-			      "cve-url", &cve_url,
+			      "vendor-urls", &vendor_urls,
+			      "bugzilla-urls", &bugzilla_urls,
+			      "cve-urls", &cve_urls,
 			      "restart", &restart,
 			      "update-text", &update_text,
 			      "changelog", &changelog,
@@ -1039,9 +1045,9 @@ pk_package_sack_get_update_detail_cb (GObject *source_object, GAsyncResult *res,
 		g_object_set (package,
 			      "update-updates", updates,
 			      "update-obsoletes", obsoletes,
-			      "update-vendor-url", vendor_url,
-			      "update-bugzilla-url", bugzilla_url,
-			      "update-cve-url", cve_url,
+			      "update-vendor-urls", vendor_urls,
+			      "update-bugzilla-urls", bugzilla_urls,
+			      "update-cve-urls", cve_urls,
 			      "update-restart", restart,
 			      "update-text", update_text,
 			      "update-changelog", changelog,
@@ -1054,9 +1060,9 @@ skip:
 		g_free (package_id);
 		g_free (updates);
 		g_free (obsoletes);
-		g_free (vendor_url);
-		g_free (bugzilla_url);
-		g_free (cve_url);
+		g_strfreev (vendor_urls);
+		g_strfreev (bugzilla_urls);
+		g_strfreev (cve_urls);
 		g_free (update_text);
 		g_free (changelog);
 		g_free (issued);
@@ -1160,6 +1166,7 @@ pk_package_sack_init (PkPackageSack *sack)
 	sack->priv = PK_PACKAGE_SACK_GET_PRIVATE (sack);
 	priv = sack->priv;
 
+	priv->table = g_hash_table_new_full (g_str_hash, g_str_equal, g_free, g_object_unref);
 	priv->array = g_ptr_array_new_with_free_func (g_object_unref);
 	priv->client = pk_client_new ();
 }
@@ -1174,6 +1181,7 @@ pk_package_sack_finalize (GObject *object)
 	PkPackageSackPrivate *priv = sack->priv;
 
 	g_ptr_array_unref (priv->array);
+	g_hash_table_unref (priv->table);
 	g_object_unref (priv->client);
 
 	G_OBJECT_CLASS (pk_package_sack_parent_class)->finalize (object);

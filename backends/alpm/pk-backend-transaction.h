@@ -25,7 +25,7 @@
 #include <pk-backend.h>
 
 gboolean	 pk_backend_transaction_initialize	(PkBackend *self,
-							 alpm_transflag_t flags,
+							 pmtransflag_t flags,
 							 GError **error);
 
 gboolean	 pk_backend_transaction_simulate	(PkBackend *self,

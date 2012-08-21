@@ -86,6 +86,7 @@ struct              <a class="link" href="PkTask.html#PkTaskClass" title="struct
                                                          <em class="parameter"><code><a href="http://library.gnome.org/devel/gio/unstable/GAsyncResult.html#GAsyncReadyCallback"><span class="type">GAsyncReadyCallback</span></a> callback_ready</code></em>,
                                                          <em class="parameter"><code><a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gpointer"><span class="type">gpointer</span></a> user_data</code></em>);
 <a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gboolean"><span class="returnvalue">gboolean</span></a>            <a class="link" href="PkTask.html#pk-task-get-interactive" title="pk_task_get_interactive ()">pk_task_get_interactive</a>             (<em class="parameter"><code><a class="link" href="PkTask.html" title="PkTask"><span class="type">PkTask</span></a> *task</code></em>);
+<a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gboolean"><span class="returnvalue">gboolean</span></a>            <a class="link" href="PkTask.html#pk-task-get-only-download" title="pk_task_get_only_download ()">pk_task_get_only_download</a>           (<em class="parameter"><code><a class="link" href="PkTask.html" title="PkTask"><span class="type">PkTask</span></a> *task</code></em>);
 <span class="returnvalue">void</span>                <a class="link" href="PkTask.html#pk-task-get-packages-async" title="pk_task_get_packages_async ()">pk_task_get_packages_async</a>          (<em class="parameter"><code><a class="link" href="PkTask.html" title="PkTask"><span class="type">PkTask</span></a> *task</code></em>,
                                                          <em class="parameter"><code><a class="link" href="PackageKit-pk-bitfield.html#PkBitfield" title="PkBitfield"><span class="type">PkBitfield</span></a> filters</code></em>,
                                                          <em class="parameter"><code><a href="http://library.gnome.org/devel/gio/unstable/GCancellable.html"><span class="type">GCancellable</span></a> *cancellable</code></em>,
@@ -177,13 +178,6 @@ struct              <a class="link" href="PkTask.html#PkTaskClass" title="struct
                                                          <em class="parameter"><code><a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gpointer"><span class="type">gpointer</span></a> progress_user_data</code></em>,
                                                          <em class="parameter"><code><a href="http://library.gnome.org/devel/gio/unstable/GAsyncResult.html#GAsyncReadyCallback"><span class="type">GAsyncReadyCallback</span></a> callback_ready</code></em>,
                                                          <em class="parameter"><code><a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gpointer"><span class="type">gpointer</span></a> user_data</code></em>);
-<span class="returnvalue">void</span>                <a class="link" href="PkTask.html#pk-task-rollback-async" title="pk_task_rollback_async ()">pk_task_rollback_async</a>              (<em class="parameter"><code><a class="link" href="PkTask.html" title="PkTask"><span class="type">PkTask</span></a> *task</code></em>,
-                                                         <em class="parameter"><code>const <a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a> *transaction_id</code></em>,
-                                                         <em class="parameter"><code><a href="http://library.gnome.org/devel/gio/unstable/GCancellable.html"><span class="type">GCancellable</span></a> *cancellable</code></em>,
-                                                         <em class="parameter"><code><a class="link" href="PkProgress.html#PkProgressCallback" title="PkProgressCallback ()"><span class="type">PkProgressCallback</span></a> progress_callback</code></em>,
-                                                         <em class="parameter"><code><a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gpointer"><span class="type">gpointer</span></a> progress_user_data</code></em>,
-                                                         <em class="parameter"><code><a href="http://library.gnome.org/devel/gio/unstable/GAsyncResult.html#GAsyncReadyCallback"><span class="type">GAsyncReadyCallback</span></a> callback_ready</code></em>,
-                                                         <em class="parameter"><code><a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gpointer"><span class="type">gpointer</span></a> user_data</code></em>);
 <span class="returnvalue">void</span>                <a class="link" href="PkTask.html#pk-task-search-details-async" title="pk_task_search_details_async ()">pk_task_search_details_async</a>        (<em class="parameter"><code><a class="link" href="PkTask.html" title="PkTask"><span class="type">PkTask</span></a> *task</code></em>,
                                                          <em class="parameter"><code><a class="link" href="PackageKit-pk-bitfield.html#PkBitfield" title="PkBitfield"><span class="type">PkBitfield</span></a> filters</code></em>,
                                                          <em class="parameter"><code><a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a> **values</code></em>,
@@ -218,17 +212,13 @@ struct              <a class="link" href="PkTask.html#PkTaskClass" title="struct
                                                          <em class="parameter"><code><a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gpointer"><span class="type">gpointer</span></a> user_data</code></em>);
 <span class="returnvalue">void</span>                <a class="link" href="PkTask.html#pk-task-set-interactive" title="pk_task_set_interactive ()">pk_task_set_interactive</a>             (<em class="parameter"><code><a class="link" href="PkTask.html" title="PkTask"><span class="type">PkTask</span></a> *task</code></em>,
                                                          <em class="parameter"><code><a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gboolean"><span class="type">gboolean</span></a> interactive</code></em>);
+<span class="returnvalue">void</span>                <a class="link" href="PkTask.html#pk-task-set-only-download" title="pk_task_set_only_download ()">pk_task_set_only_download</a>           (<em class="parameter"><code><a class="link" href="PkTask.html" title="PkTask"><span class="type">PkTask</span></a> *task</code></em>,
+                                                         <em class="parameter"><code><a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gboolean"><span class="type">gboolean</span></a> only_download</code></em>);
 <span class="returnvalue">void</span>                <a class="link" href="PkTask.html#pk-task-set-simulate" title="pk_task_set_simulate ()">pk_task_set_simulate</a>                (<em class="parameter"><code><a class="link" href="PkTask.html" title="PkTask"><span class="type">PkTask</span></a> *task</code></em>,
                                                          <em class="parameter"><code><a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gboolean"><span class="type">gboolean</span></a> simulate</code></em>);
 <span class="returnvalue">void</span>                <a class="link" href="PkTask.html#pk-task-test" title="pk_task_test ()">pk_task_test</a>                        (<em class="parameter"><code><a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gpointer"><span class="type">gpointer</span></a> user_data</code></em>);
 <span class="returnvalue">void</span>                <a class="link" href="PkTask.html#pk-task-update-packages-async" title="pk_task_update_packages_async ()">pk_task_update_packages_async</a>       (<em class="parameter"><code><a class="link" href="PkTask.html" title="PkTask"><span class="type">PkTask</span></a> *task</code></em>,
                                                          <em class="parameter"><code><a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a> **package_ids</code></em>,
-                                                         <em class="parameter"><code><a href="http://library.gnome.org/devel/gio/unstable/GCancellable.html"><span class="type">GCancellable</span></a> *cancellable</code></em>,
-                                                         <em class="parameter"><code><a class="link" href="PkProgress.html#PkProgressCallback" title="PkProgressCallback ()"><span class="type">PkProgressCallback</span></a> progress_callback</code></em>,
-                                                         <em class="parameter"><code><a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gpointer"><span class="type">gpointer</span></a> progress_user_data</code></em>,
-                                                         <em class="parameter"><code><a href="http://library.gnome.org/devel/gio/unstable/GAsyncResult.html#GAsyncReadyCallback"><span class="type">GAsyncReadyCallback</span></a> callback_ready</code></em>,
-                                                         <em class="parameter"><code><a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gpointer"><span class="type">gpointer</span></a> user_data</code></em>);
-<span class="returnvalue">void</span>                <a class="link" href="PkTask.html#pk-task-update-system-async" title="pk_task_update_system_async ()">pk_task_update_system_async</a>         (<em class="parameter"><code><a class="link" href="PkTask.html" title="PkTask"><span class="type">PkTask</span></a> *task</code></em>,
                                                          <em class="parameter"><code><a href="http://library.gnome.org/devel/gio/unstable/GCancellable.html"><span class="type">GCancellable</span></a> *cancellable</code></em>,
                                                          <em class="parameter"><code><a class="link" href="PkProgress.html#PkProgressCallback" title="PkProgressCallback ()"><span class="type">PkProgressCallback</span></a> progress_callback</code></em>,
                                                          <em class="parameter"><code><a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gpointer"><span class="type">gpointer</span></a> progress_user_data</code></em>,
@@ -263,6 +253,7 @@ struct              <a class="link" href="PkTask.html#PkTaskClass" title="struct
 <a name="PkTask.properties"></a><h2>Properties</h2>
 <pre class="synopsis">
   "<a class="link" href="PkTask.html#PkTask--interactive" title='The "interactive" property'>interactive</a>"              <a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gboolean"><span class="type">gboolean</span></a>              : Read / Write
+  "<a class="link" href="PkTask.html#PkTask--only-download" title='The "only-download" property'>only-download</a>"            <a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gboolean"><span class="type">gboolean</span></a>              : Read / Write
   "<a class="link" href="PkTask.html#PkTask--simulate" title='The "simulate" property'>simulate</a>"                 <a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gboolean"><span class="type">gboolean</span></a>              : Read / Write
 </pre>
 </div>
@@ -333,7 +324,7 @@ Downloads packages
 </tr>
 <tr>
 <td><p><span class="term"><em class="parameter"><code>package_ids</code></em> :</span></p></td>
-<td>a null terminated array of package_id structures such as "hal;0.0.1;i386;fedora". <span class="annotation">[<a href="http://foldoc.org/array"><span class="acronym">array</span></a> zero-terminated=1]</span>
+<td>a null terminated array of package_id structures such as "hal;0.0.1;i386;fedora". <span class="annotation">[<acronym title="Parameter points to an array of items."><span class="acronym">array</span></acronym> zero-terminated=1]</span>
 </td>
 </tr>
 <tr>
@@ -347,7 +338,7 @@ Downloads packages
 </tr>
 <tr>
 <td><p><span class="term"><em class="parameter"><code>progress_callback</code></em> :</span></p></td>
-<td>the function to run when the progress changes. <span class="annotation">[<a href="http://foldoc.org/scope%20call"><span class="acronym">scope call</span></a>]</span>
+<td>the function to run when the progress changes. <span class="annotation">[<acronym title="The callback is valid only during the call to the method."><span class="acronym">scope call</span></acronym>]</span>
 </td>
 </tr>
 <tr>
@@ -396,7 +387,7 @@ Gets the result from the asynchronous function.
 </tr>
 <tr>
 <td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
-<td>The <a class="link" href="PkResults.html" title="PkResults"><span class="type">PkResults</span></a> of the transaction. <span class="annotation">[<a href="http://foldoc.org/transfer%20full"><span class="acronym">transfer full</span></a>]</span>
+<td>The <a class="link" href="PkResults.html" title="PkResults"><span class="type">PkResults</span></a> of the transaction. <span class="annotation">[<acronym title="Free data after the code is done."><span class="acronym">transfer full</span></acronym>]</span>
 </td>
 </tr>
 </tbody>
@@ -429,7 +420,7 @@ Get the categories available.
 </tr>
 <tr>
 <td><p><span class="term"><em class="parameter"><code>progress_callback</code></em> :</span></p></td>
-<td>the function to run when the progress changes. <span class="annotation">[<a href="http://foldoc.org/scope%20call"><span class="acronym">scope call</span></a>]</span>
+<td>the function to run when the progress changes. <span class="annotation">[<acronym title="The callback is valid only during the call to the method."><span class="acronym">scope call</span></acronym>]</span>
 </td>
 </tr>
 <tr>
@@ -478,7 +469,7 @@ Get the list of dependant packages.
 </tr>
 <tr>
 <td><p><span class="term"><em class="parameter"><code>package_ids</code></em> :</span></p></td>
-<td>a null terminated array of package_id structures such as "hal;0.0.1;i386;fedora". <span class="annotation">[<a href="http://foldoc.org/array"><span class="acronym">array</span></a> zero-terminated=1]</span>
+<td>a null terminated array of package_id structures such as "hal;0.0.1;i386;fedora". <span class="annotation">[<acronym title="Parameter points to an array of items."><span class="acronym">array</span></acronym> zero-terminated=1]</span>
 </td>
 </tr>
 <tr>
@@ -492,7 +483,7 @@ Get the list of dependant packages.
 </tr>
 <tr>
 <td><p><span class="term"><em class="parameter"><code>progress_callback</code></em> :</span></p></td>
-<td>the function to run when the progress changes. <span class="annotation">[<a href="http://foldoc.org/scope%20call"><span class="acronym">scope call</span></a>]</span>
+<td>the function to run when the progress changes. <span class="annotation">[<acronym title="The callback is valid only during the call to the method."><span class="acronym">scope call</span></acronym>]</span>
 </td>
 </tr>
 <tr>
@@ -535,7 +526,7 @@ Gets details about packages.
 </tr>
 <tr>
 <td><p><span class="term"><em class="parameter"><code>package_ids</code></em> :</span></p></td>
-<td>a null terminated array of package_id structures such as "hal;0.0.1;i386;fedora". <span class="annotation">[<a href="http://foldoc.org/array"><span class="acronym">array</span></a> zero-terminated=1]</span>
+<td>a null terminated array of package_id structures such as "hal;0.0.1;i386;fedora". <span class="annotation">[<acronym title="Parameter points to an array of items."><span class="acronym">array</span></acronym> zero-terminated=1]</span>
 </td>
 </tr>
 <tr>
@@ -545,7 +536,7 @@ Gets details about packages.
 </tr>
 <tr>
 <td><p><span class="term"><em class="parameter"><code>progress_callback</code></em> :</span></p></td>
-<td>the function to run when the progress changes. <span class="annotation">[<a href="http://foldoc.org/scope%20call"><span class="acronym">scope call</span></a>]</span>
+<td>the function to run when the progress changes. <span class="annotation">[<acronym title="The callback is valid only during the call to the method."><span class="acronym">scope call</span></acronym>]</span>
 </td>
 </tr>
 <tr>
@@ -588,7 +579,7 @@ Get the files in a package.
 </tr>
 <tr>
 <td><p><span class="term"><em class="parameter"><code>package_ids</code></em> :</span></p></td>
-<td>a null terminated array of package_id structures such as "hal;0.0.1;i386;fedora". <span class="annotation">[<a href="http://foldoc.org/array"><span class="acronym">array</span></a> zero-terminated=1]</span>
+<td>a null terminated array of package_id structures such as "hal;0.0.1;i386;fedora". <span class="annotation">[<acronym title="Parameter points to an array of items."><span class="acronym">array</span></acronym> zero-terminated=1]</span>
 </td>
 </tr>
 <tr>
@@ -598,7 +589,7 @@ Get the files in a package.
 </tr>
 <tr>
 <td><p><span class="term"><em class="parameter"><code>progress_callback</code></em> :</span></p></td>
-<td>the function to run when the progress changes. <span class="annotation">[<a href="http://foldoc.org/scope%20call"><span class="acronym">scope call</span></a>]</span>
+<td>the function to run when the progress changes. <span class="annotation">[<acronym title="The callback is valid only during the call to the method."><span class="acronym">scope call</span></acronym>]</span>
 </td>
 </tr>
 <tr>
@@ -644,6 +635,29 @@ Gets if the transaction is interactive.
 </div>
 <hr>
 <div class="refsect2">
+<a name="pk-task-get-only-download"></a><h3>pk_task_get_only_download ()</h3>
+<pre class="programlisting"><a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gboolean"><span class="returnvalue">gboolean</span></a>            pk_task_get_only_download           (<em class="parameter"><code><a class="link" href="PkTask.html" title="PkTask"><span class="type">PkTask</span></a> *task</code></em>);</pre>
+<p>
+Gets if we are just preparing the transaction for later.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>task</code></em> :</span></p></td>
+<td>a valid <a class="link" href="PkTask.html" title="PkTask"><span class="type">PkTask</span></a> instance</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td>
+<a href="http://library.gnome.org/devel/glib/unstable/glib-Standard-Macros.html#TRUE:CAPS"><code class="literal">TRUE</code></a> if we are simulating</td>
+</tr>
+</tbody>
+</table></div>
+<p class="since">Since 0.8.1</p>
+</div>
+<hr>
+<div class="refsect2">
 <a name="pk-task-get-packages-async"></a><h3>pk_task_get_packages_async ()</h3>
 <pre class="programlisting"><span class="returnvalue">void</span>                pk_task_get_packages_async          (<em class="parameter"><code><a class="link" href="PkTask.html" title="PkTask"><span class="type">PkTask</span></a> *task</code></em>,
                                                          <em class="parameter"><code><a class="link" href="PackageKit-pk-bitfield.html#PkBitfield" title="PkBitfield"><span class="type">PkBitfield</span></a> filters</code></em>,
@@ -673,7 +687,7 @@ Gets the list of packages.
 </tr>
 <tr>
 <td><p><span class="term"><em class="parameter"><code>progress_callback</code></em> :</span></p></td>
-<td>the function to run when the progress changes. <span class="annotation">[<a href="http://foldoc.org/scope%20call"><span class="acronym">scope call</span></a>]</span>
+<td>the function to run when the progress changes. <span class="annotation">[<acronym title="The callback is valid only during the call to the method."><span class="acronym">scope call</span></acronym>]</span>
 </td>
 </tr>
 <tr>
@@ -725,7 +739,7 @@ Get the list of available repositories.
 </tr>
 <tr>
 <td><p><span class="term"><em class="parameter"><code>progress_callback</code></em> :</span></p></td>
-<td>the function to run when the progress changes. <span class="annotation">[<a href="http://foldoc.org/scope%20call"><span class="acronym">scope call</span></a>]</span>
+<td>the function to run when the progress changes. <span class="annotation">[<acronym title="The callback is valid only during the call to the method."><span class="acronym">scope call</span></acronym>]</span>
 </td>
 </tr>
 <tr>
@@ -774,7 +788,7 @@ Get the packages this package requires.
 </tr>
 <tr>
 <td><p><span class="term"><em class="parameter"><code>package_ids</code></em> :</span></p></td>
-<td>a null terminated array of package_id structures such as "hal;0.0.1;i386;fedora". <span class="annotation">[<a href="http://foldoc.org/array"><span class="acronym">array</span></a> zero-terminated=1]</span>
+<td>a null terminated array of package_id structures such as "hal;0.0.1;i386;fedora". <span class="annotation">[<acronym title="Parameter points to an array of items."><span class="acronym">array</span></acronym> zero-terminated=1]</span>
 </td>
 </tr>
 <tr>
@@ -788,7 +802,7 @@ Get the packages this package requires.
 </tr>
 <tr>
 <td><p><span class="term"><em class="parameter"><code>progress_callback</code></em> :</span></p></td>
-<td>the function to run when the progress changes. <span class="annotation">[<a href="http://foldoc.org/scope%20call"><span class="acronym">scope call</span></a>]</span>
+<td>the function to run when the progress changes. <span class="annotation">[<acronym title="The callback is valid only during the call to the method."><span class="acronym">scope call</span></acronym>]</span>
 </td>
 </tr>
 <tr>
@@ -854,7 +868,7 @@ Gets details about updates.
 </tr>
 <tr>
 <td><p><span class="term"><em class="parameter"><code>package_ids</code></em> :</span></p></td>
-<td>a null terminated array of package_id structures such as "hal;0.0.1;i386;fedora". <span class="annotation">[<a href="http://foldoc.org/array"><span class="acronym">array</span></a> zero-terminated=1]</span>
+<td>a null terminated array of package_id structures such as "hal;0.0.1;i386;fedora". <span class="annotation">[<acronym title="Parameter points to an array of items."><span class="acronym">array</span></acronym> zero-terminated=1]</span>
 </td>
 </tr>
 <tr>
@@ -864,7 +878,7 @@ Gets details about updates.
 </tr>
 <tr>
 <td><p><span class="term"><em class="parameter"><code>progress_callback</code></em> :</span></p></td>
-<td>the function to run when the progress changes. <span class="annotation">[<a href="http://foldoc.org/scope%20call"><span class="acronym">scope call</span></a>]</span>
+<td>the function to run when the progress changes. <span class="annotation">[<acronym title="The callback is valid only during the call to the method."><span class="acronym">scope call</span></acronym>]</span>
 </td>
 </tr>
 <tr>
@@ -916,7 +930,7 @@ Gets the update lists.
 </tr>
 <tr>
 <td><p><span class="term"><em class="parameter"><code>progress_callback</code></em> :</span></p></td>
-<td>the function to run when the progress changes. <span class="annotation">[<a href="http://foldoc.org/scope%20call"><span class="acronym">scope call</span></a>]</span>
+<td>the function to run when the progress changes. <span class="annotation">[<acronym title="The callback is valid only during the call to the method."><span class="acronym">scope call</span></acronym>]</span>
 </td>
 </tr>
 <tr>
@@ -960,7 +974,7 @@ This is useful for double clicking on a .rpm or .deb file.
 </tr>
 <tr>
 <td><p><span class="term"><em class="parameter"><code>files</code></em> :</span></p></td>
-<td>a file such as "/home/hughsie/Desktop/hal-devel-0.10.0.rpm". <span class="annotation">[<a href="http://foldoc.org/array"><span class="acronym">array</span></a> zero-terminated=1]</span>
+<td>a file such as "/home/hughsie/Desktop/hal-devel-0.10.0.rpm". <span class="annotation">[<acronym title="Parameter points to an array of items."><span class="acronym">array</span></acronym> zero-terminated=1]</span>
 </td>
 </tr>
 <tr>
@@ -970,7 +984,7 @@ This is useful for double clicking on a .rpm or .deb file.
 </tr>
 <tr>
 <td><p><span class="term"><em class="parameter"><code>progress_callback</code></em> :</span></p></td>
-<td>the function to run when the progress changes. <span class="annotation">[<a href="http://foldoc.org/scope%20call"><span class="acronym">scope call</span></a>]</span>
+<td>the function to run when the progress changes. <span class="annotation">[<acronym title="The callback is valid only during the call to the method."><span class="acronym">scope call</span></acronym>]</span>
 </td>
 </tr>
 <tr>
@@ -1013,7 +1027,7 @@ Merges in details about packages using resolve.
 </tr>
 <tr>
 <td><p><span class="term"><em class="parameter"><code>package_ids</code></em> :</span></p></td>
-<td>a null terminated array of package_id structures such as "hal;0.0.1;i386;fedora". <span class="annotation">[<a href="http://foldoc.org/array"><span class="acronym">array</span></a> zero-terminated=1]</span>
+<td>a null terminated array of package_id structures such as "hal;0.0.1;i386;fedora". <span class="annotation">[<acronym title="Parameter points to an array of items."><span class="acronym">array</span></acronym> zero-terminated=1]</span>
 </td>
 </tr>
 <tr>
@@ -1023,7 +1037,7 @@ Merges in details about packages using resolve.
 </tr>
 <tr>
 <td><p><span class="term"><em class="parameter"><code>progress_callback</code></em> :</span></p></td>
-<td>the function to run when the progress changes. <span class="annotation">[<a href="http://foldoc.org/scope%20call"><span class="acronym">scope call</span></a>]</span>
+<td>the function to run when the progress changes. <span class="annotation">[<acronym title="The callback is valid only during the call to the method."><span class="acronym">scope call</span></acronym>]</span>
 </td>
 </tr>
 <tr>
@@ -1088,7 +1102,7 @@ Refresh the package cache.
 </tr>
 <tr>
 <td><p><span class="term"><em class="parameter"><code>progress_callback</code></em> :</span></p></td>
-<td>the function to run when the progress changes. <span class="annotation">[<a href="http://foldoc.org/scope%20call"><span class="acronym">scope call</span></a>]</span>
+<td>the function to run when the progress changes. <span class="annotation">[<acronym title="The callback is valid only during the call to the method."><span class="acronym">scope call</span></acronym>]</span>
 </td>
 </tr>
 <tr>
@@ -1135,7 +1149,7 @@ then the transaction would fail.
 </tr>
 <tr>
 <td><p><span class="term"><em class="parameter"><code>package_ids</code></em> :</span></p></td>
-<td>a null terminated array of package_id structures such as "hal;0.0.1;i386;fedora". <span class="annotation">[<a href="http://foldoc.org/array"><span class="acronym">array</span></a> zero-terminated=1]</span>
+<td>a null terminated array of package_id structures such as "hal;0.0.1;i386;fedora". <span class="annotation">[<acronym title="Parameter points to an array of items."><span class="acronym">array</span></acronym> zero-terminated=1]</span>
 </td>
 </tr>
 <tr>
@@ -1153,7 +1167,7 @@ then the transaction would fail.
 </tr>
 <tr>
 <td><p><span class="term"><em class="parameter"><code>progress_callback</code></em> :</span></p></td>
-<td>the function to run when the progress changes. <span class="annotation">[<a href="http://foldoc.org/scope%20call"><span class="acronym">scope call</span></a>]</span>
+<td>the function to run when the progress changes. <span class="annotation">[<acronym title="The callback is valid only during the call to the method."><span class="acronym">scope call</span></acronym>]</span>
 </td>
 </tr>
 <tr>
@@ -1200,7 +1214,7 @@ Recover the system from broken dependencies and aborted installations.
 </tr>
 <tr>
 <td><p><span class="term"><em class="parameter"><code>progress_callback</code></em> :</span></p></td>
-<td>the function to run when the progress changes. <span class="annotation">[<a href="http://foldoc.org/scope%20call"><span class="acronym">scope call</span></a>]</span>
+<td>the function to run when the progress changes. <span class="annotation">[<acronym title="The callback is valid only during the call to the method."><span class="acronym">scope call</span></acronym>]</span>
 </td>
 </tr>
 <tr>
@@ -1259,7 +1273,7 @@ Enable or disable a specific repo.
 </tr>
 <tr>
 <td><p><span class="term"><em class="parameter"><code>progress_callback</code></em> :</span></p></td>
-<td>the function to run when the progress changes. <span class="annotation">[<a href="http://foldoc.org/scope%20call"><span class="acronym">scope call</span></a>]</span>
+<td>the function to run when the progress changes. <span class="annotation">[<acronym title="The callback is valid only during the call to the method."><span class="acronym">scope call</span></acronym>]</span>
 </td>
 </tr>
 <tr>
@@ -1316,59 +1330,7 @@ Resolves a package name to a package-id.
 </tr>
 <tr>
 <td><p><span class="term"><em class="parameter"><code>progress_callback</code></em> :</span></p></td>
-<td>the function to run when the progress changes. <span class="annotation">[<a href="http://foldoc.org/scope%20call"><span class="acronym">scope call</span></a>]</span>
-</td>
-</tr>
-<tr>
-<td><p><span class="term"><em class="parameter"><code>progress_user_data</code></em> :</span></p></td>
-<td>data to pass to <em class="parameter"><code>progress_callback</code></em>
-</td>
-</tr>
-<tr>
-<td><p><span class="term"><em class="parameter"><code>callback_ready</code></em> :</span></p></td>
-<td>the function to run on completion</td>
-</tr>
-<tr>
-<td><p><span class="term"><em class="parameter"><code>user_data</code></em> :</span></p></td>
-<td>the data to pass to <em class="parameter"><code>callback</code></em>
-</td>
-</tr>
-</tbody>
-</table></div>
-<p class="since">Since 0.6.5</p>
-</div>
-<hr>
-<div class="refsect2">
-<a name="pk-task-rollback-async"></a><h3>pk_task_rollback_async ()</h3>
-<pre class="programlisting"><span class="returnvalue">void</span>                pk_task_rollback_async              (<em class="parameter"><code><a class="link" href="PkTask.html" title="PkTask"><span class="type">PkTask</span></a> *task</code></em>,
-                                                         <em class="parameter"><code>const <a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a> *transaction_id</code></em>,
-                                                         <em class="parameter"><code><a href="http://library.gnome.org/devel/gio/unstable/GCancellable.html"><span class="type">GCancellable</span></a> *cancellable</code></em>,
-                                                         <em class="parameter"><code><a class="link" href="PkProgress.html#PkProgressCallback" title="PkProgressCallback ()"><span class="type">PkProgressCallback</span></a> progress_callback</code></em>,
-                                                         <em class="parameter"><code><a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gpointer"><span class="type">gpointer</span></a> progress_user_data</code></em>,
-                                                         <em class="parameter"><code><a href="http://library.gnome.org/devel/gio/unstable/GAsyncResult.html#GAsyncReadyCallback"><span class="type">GAsyncReadyCallback</span></a> callback_ready</code></em>,
-                                                         <em class="parameter"><code><a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gpointer"><span class="type">gpointer</span></a> user_data</code></em>);</pre>
-<p>
-Rollback to a previous package state.
-</p>
-<div class="variablelist"><table border="0">
-<col align="left" valign="top">
-<tbody>
-<tr>
-<td><p><span class="term"><em class="parameter"><code>task</code></em> :</span></p></td>
-<td>a valid <a class="link" href="PkTask.html" title="PkTask"><span class="type">PkTask</span></a> instance</td>
-</tr>
-<tr>
-<td><p><span class="term"><em class="parameter"><code>transaction_id</code></em> :</span></p></td>
-<td>The transaction ID of the old transaction</td>
-</tr>
-<tr>
-<td><p><span class="term"><em class="parameter"><code>cancellable</code></em> :</span></p></td>
-<td>a <a href="http://library.gnome.org/devel/gio/unstable/GCancellable.html"><span class="type">GCancellable</span></a> or <a href="http://library.gnome.org/devel/glib/unstable/glib-Standard-Macros.html#NULL:CAPS"><code class="literal">NULL</code></a>
-</td>
-</tr>
-<tr>
-<td><p><span class="term"><em class="parameter"><code>progress_callback</code></em> :</span></p></td>
-<td>the function to run when the progress changes. <span class="annotation">[<a href="http://foldoc.org/scope%20call"><span class="acronym">scope call</span></a>]</span>
+<td>the function to run when the progress changes. <span class="annotation">[<acronym title="The callback is valid only during the call to the method."><span class="acronym">scope call</span></acronym>]</span>
 </td>
 </tr>
 <tr>
@@ -1416,7 +1378,7 @@ Searches for some package details.
 </tr>
 <tr>
 <td><p><span class="term"><em class="parameter"><code>values</code></em> :</span></p></td>
-<td>search values. <span class="annotation">[<a href="http://foldoc.org/array"><span class="acronym">array</span></a> zero-terminated=1]</span>
+<td>search values. <span class="annotation">[<acronym title="Parameter points to an array of items."><span class="acronym">array</span></acronym> zero-terminated=1]</span>
 </td>
 </tr>
 <tr>
@@ -1426,7 +1388,7 @@ Searches for some package details.
 </tr>
 <tr>
 <td><p><span class="term"><em class="parameter"><code>progress_callback</code></em> :</span></p></td>
-<td>the function to run when the progress changes. <span class="annotation">[<a href="http://foldoc.org/scope%20call"><span class="acronym">scope call</span></a>]</span>
+<td>the function to run when the progress changes. <span class="annotation">[<acronym title="The callback is valid only during the call to the method."><span class="acronym">scope call</span></acronym>]</span>
 </td>
 </tr>
 <tr>
@@ -1474,7 +1436,7 @@ Searches for specific files.
 </tr>
 <tr>
 <td><p><span class="term"><em class="parameter"><code>values</code></em> :</span></p></td>
-<td>search values. <span class="annotation">[<a href="http://foldoc.org/array"><span class="acronym">array</span></a> zero-terminated=1]</span>
+<td>search values. <span class="annotation">[<acronym title="Parameter points to an array of items."><span class="acronym">array</span></acronym> zero-terminated=1]</span>
 </td>
 </tr>
 <tr>
@@ -1484,7 +1446,7 @@ Searches for specific files.
 </tr>
 <tr>
 <td><p><span class="term"><em class="parameter"><code>progress_callback</code></em> :</span></p></td>
-<td>the function to run when the progress changes. <span class="annotation">[<a href="http://foldoc.org/scope%20call"><span class="acronym">scope call</span></a>]</span>
+<td>the function to run when the progress changes. <span class="annotation">[<acronym title="The callback is valid only during the call to the method."><span class="acronym">scope call</span></acronym>]</span>
 </td>
 </tr>
 <tr>
@@ -1532,7 +1494,7 @@ Searches the group lists.
 </tr>
 <tr>
 <td><p><span class="term"><em class="parameter"><code>values</code></em> :</span></p></td>
-<td>search values. <span class="annotation">[<a href="http://foldoc.org/array"><span class="acronym">array</span></a> zero-terminated=1]</span>
+<td>search values. <span class="annotation">[<acronym title="Parameter points to an array of items."><span class="acronym">array</span></acronym> zero-terminated=1]</span>
 </td>
 </tr>
 <tr>
@@ -1542,7 +1504,7 @@ Searches the group lists.
 </tr>
 <tr>
 <td><p><span class="term"><em class="parameter"><code>progress_callback</code></em> :</span></p></td>
-<td>the function to run when the progress changes. <span class="annotation">[<a href="http://foldoc.org/scope%20call"><span class="acronym">scope call</span></a>]</span>
+<td>the function to run when the progress changes. <span class="annotation">[<acronym title="The callback is valid only during the call to the method."><span class="acronym">scope call</span></acronym>]</span>
 </td>
 </tr>
 <tr>
@@ -1590,7 +1552,7 @@ Searches for a package name.
 </tr>
 <tr>
 <td><p><span class="term"><em class="parameter"><code>values</code></em> :</span></p></td>
-<td>search values. <span class="annotation">[<a href="http://foldoc.org/array"><span class="acronym">array</span></a> zero-terminated=1]</span>
+<td>search values. <span class="annotation">[<acronym title="Parameter points to an array of items."><span class="acronym">array</span></acronym> zero-terminated=1]</span>
 </td>
 </tr>
 <tr>
@@ -1600,7 +1562,7 @@ Searches for a package name.
 </tr>
 <tr>
 <td><p><span class="term"><em class="parameter"><code>progress_callback</code></em> :</span></p></td>
-<td>the function to run when the progress changes. <span class="annotation">[<a href="http://foldoc.org/scope%20call"><span class="acronym">scope call</span></a>]</span>
+<td>the function to run when the progress changes. <span class="annotation">[<acronym title="The callback is valid only during the call to the method."><span class="acronym">scope call</span></acronym>]</span>
 </td>
 </tr>
 <tr>
@@ -1644,6 +1606,31 @@ questions.
 </tbody>
 </table></div>
 <p class="since">Since 0.6.10</p>
+</div>
+<hr>
+<div class="refsect2">
+<a name="pk-task-set-only-download"></a><h3>pk_task_set_only_download ()</h3>
+<pre class="programlisting"><span class="returnvalue">void</span>                pk_task_set_only_download           (<em class="parameter"><code><a class="link" href="PkTask.html" title="PkTask"><span class="type">PkTask</span></a> *task</code></em>,
+                                                         <em class="parameter"><code><a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gboolean"><span class="type">gboolean</span></a> only_download</code></em>);</pre>
+<p>
+If the transaction should be prepared (depsolved, packages
+downloaded, etc) but not committed.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>task</code></em> :</span></p></td>
+<td>a valid <a class="link" href="PkTask.html" title="PkTask"><span class="type">PkTask</span></a> instance</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>only_download</code></em> :</span></p></td>
+<td>
+<a href="http://library.gnome.org/devel/glib/unstable/glib-Standard-Macros.html#FALSE:CAPS"><code class="literal">FALSE</code></a> to actually commit the transaction</td>
+</tr>
+</tbody>
+</table></div>
+<p class="since">Since 0.8.1</p>
 </div>
 <hr>
 <div class="refsect2">
@@ -1695,7 +1682,7 @@ Update specific packages to the newest available versions.
 </tr>
 <tr>
 <td><p><span class="term"><em class="parameter"><code>package_ids</code></em> :</span></p></td>
-<td>a null terminated array of package_id structures such as "hal;0.0.1;i386;fedora". <span class="annotation">[<a href="http://foldoc.org/array"><span class="acronym">array</span></a> zero-terminated=1]</span>
+<td>a null terminated array of package_id structures such as "hal;0.0.1;i386;fedora". <span class="annotation">[<acronym title="Parameter points to an array of items."><span class="acronym">array</span></acronym> zero-terminated=1]</span>
 </td>
 </tr>
 <tr>
@@ -1705,63 +1692,7 @@ Update specific packages to the newest available versions.
 </tr>
 <tr>
 <td><p><span class="term"><em class="parameter"><code>progress_callback</code></em> :</span></p></td>
-<td>the function to run when the progress changes. <span class="annotation">[<a href="http://foldoc.org/scope%20call"><span class="acronym">scope call</span></a>]</span>
-</td>
-</tr>
-<tr>
-<td><p><span class="term"><em class="parameter"><code>progress_user_data</code></em> :</span></p></td>
-<td>data to pass to <em class="parameter"><code>progress_callback</code></em>
-</td>
-</tr>
-<tr>
-<td><p><span class="term"><em class="parameter"><code>callback_ready</code></em> :</span></p></td>
-<td>the function to run on completion</td>
-</tr>
-<tr>
-<td><p><span class="term"><em class="parameter"><code>user_data</code></em> :</span></p></td>
-<td>the data to pass to <em class="parameter"><code>callback_ready</code></em>
-</td>
-</tr>
-</tbody>
-</table></div>
-<p class="since">Since 0.5.2</p>
-</div>
-<hr>
-<div class="refsect2">
-<a name="pk-task-update-system-async"></a><h3>pk_task_update_system_async ()</h3>
-<pre class="programlisting"><span class="returnvalue">void</span>                pk_task_update_system_async         (<em class="parameter"><code><a class="link" href="PkTask.html" title="PkTask"><span class="type">PkTask</span></a> *task</code></em>,
-                                                         <em class="parameter"><code><a href="http://library.gnome.org/devel/gio/unstable/GCancellable.html"><span class="type">GCancellable</span></a> *cancellable</code></em>,
-                                                         <em class="parameter"><code><a class="link" href="PkProgress.html#PkProgressCallback" title="PkProgressCallback ()"><span class="type">PkProgressCallback</span></a> progress_callback</code></em>,
-                                                         <em class="parameter"><code><a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gpointer"><span class="type">gpointer</span></a> progress_user_data</code></em>,
-                                                         <em class="parameter"><code><a href="http://library.gnome.org/devel/gio/unstable/GAsyncResult.html#GAsyncReadyCallback"><span class="type">GAsyncReadyCallback</span></a> callback_ready</code></em>,
-                                                         <em class="parameter"><code><a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gpointer"><span class="type">gpointer</span></a> user_data</code></em>);</pre>
-<p>
-Update all the packages on the system with the highest versions found in all
-repositories.
-NOTE: you can't choose what repositories to update from, but you can do:
-</p>
-<div class="itemizedlist"><ul class="itemizedlist" type="disc">
-<li class="listitem"><p><code class="function">pk_task_repo_disable()</code></p></li>
-<li class="listitem"><p><code class="function">pk_task_update_system()</code></p></li>
-<li class="listitem"><p><code class="function">pk_task_repo_enable()</code></p></li>
-</ul></div>
-<p>
-</p>
-<div class="variablelist"><table border="0">
-<col align="left" valign="top">
-<tbody>
-<tr>
-<td><p><span class="term"><em class="parameter"><code>task</code></em> :</span></p></td>
-<td>a valid <a class="link" href="PkTask.html" title="PkTask"><span class="type">PkTask</span></a> instance</td>
-</tr>
-<tr>
-<td><p><span class="term"><em class="parameter"><code>cancellable</code></em> :</span></p></td>
-<td>a <a href="http://library.gnome.org/devel/gio/unstable/GCancellable.html"><span class="type">GCancellable</span></a> or <a href="http://library.gnome.org/devel/glib/unstable/glib-Standard-Macros.html#NULL:CAPS"><code class="literal">NULL</code></a>
-</td>
-</tr>
-<tr>
-<td><p><span class="term"><em class="parameter"><code>progress_callback</code></em> :</span></p></td>
-<td>the function to run when the progress changes. <span class="annotation">[<a href="http://foldoc.org/scope%20call"><span class="acronym">scope call</span></a>]</span>
+<td>the function to run when the progress changes. <span class="annotation">[<acronym title="The callback is valid only during the call to the method."><span class="acronym">scope call</span></acronym>]</span>
 </td>
 </tr>
 <tr>
@@ -1828,7 +1759,7 @@ Find the package that provides some resource.
 </tr>
 <tr>
 <td><p><span class="term"><em class="parameter"><code>values</code></em> :</span></p></td>
-<td>values to search for. <span class="annotation">[<a href="http://foldoc.org/array"><span class="acronym">array</span></a> zero-terminated=1]</span>
+<td>values to search for. <span class="annotation">[<acronym title="Parameter points to an array of items."><span class="acronym">array</span></acronym> zero-terminated=1]</span>
 </td>
 </tr>
 <tr>
@@ -1838,7 +1769,7 @@ Find the package that provides some resource.
 </tr>
 <tr>
 <td><p><span class="term"><em class="parameter"><code>progress_callback</code></em> :</span></p></td>
-<td>the function to run when the progress changes. <span class="annotation">[<a href="http://foldoc.org/scope%20call"><span class="acronym">scope call</span></a>]</span>
+<td>the function to run when the progress changes. <span class="annotation">[<acronym title="The callback is valid only during the call to the method."><span class="acronym">scope call</span></acronym>]</span>
 </td>
 </tr>
 <tr>
@@ -1868,6 +1799,14 @@ Find the package that provides some resource.
 <p></p>
 <p>Default value: TRUE</p>
 <p class="since">Since 0.6.7</p>
+</div>
+<hr>
+<div class="refsect2">
+<a name="PkTask--only-download"></a><h3>The <code class="literal">"only-download"</code> property</h3>
+<pre class="programlisting">  "only-download"            <a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gboolean"><span class="type">gboolean</span></a>              : Read / Write</pre>
+<p></p>
+<p>Default value: FALSE</p>
+<p class="since">Since 0.8.1</p>
 </div>
 <hr>
 <div class="refsect2">

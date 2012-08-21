@@ -1,6 +1,6 @@
 /* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*-
  *
- * Copyright (C) 2007-2010 Richard Hughes <richard@hughsie.com>
+ * Copyright (C) 2007-2012 Richard Hughes <richard@hughsie.com>
  *
  * Licensed under the GNU Lesser General Public License Version 2.1
  *
@@ -561,8 +561,6 @@ pk_test_client_progress_cb (PkProgress *progress, PkProgressType type, gpointer 
 		_package_cb++;
 	if (type == PK_PROGRESS_TYPE_PERCENTAGE)
 		_progress_cb++;
-	if (type == PK_PROGRESS_TYPE_SUBPERCENTAGE)
-		_progress_cb++;
 	if (type == PK_PROGRESS_TYPE_ALLOW_CANCEL)
 		_allow_cancel_cb++;
 	if (type == PK_PROGRESS_TYPE_STATUS)
@@ -812,10 +810,13 @@ pk_test_client_func (void)
 	/* okay now */
 	g_cancellable_reset (cancellable);
 
-	/* do the update-system role to trigger the fake pipe stuff */
-	pk_client_update_system_async (client, TRUE, NULL,
-				       (PkProgressCallback) pk_test_client_progress_cb, NULL,
-				       (GAsyncReadyCallback) pk_test_client_update_system_socket_test_cb, NULL);
+	/* do the update-packages role to trigger the fake pipe stuff */
+	package_ids = pk_package_ids_from_string ("testsocket;0.1;i386;fedora");
+	pk_client_update_packages_async (client, 0, package_ids,
+					 NULL,
+					 (PkProgressCallback) pk_test_client_progress_cb, NULL,
+					 (GAsyncReadyCallback) pk_test_client_update_system_socket_test_cb, NULL);
+	g_strfreev (package_ids);
 	_g_test_loop_run_with_timeout (15000);
 
 	/* do downloads */
@@ -930,6 +931,7 @@ pk_test_control_get_properties_cb (GObject *object, GAsyncResult *res, gpointer 
 	PkBitfield roles;
 	PkBitfield filters;
 	PkBitfield groups;
+	gchar **mime_types;
 	gchar *text;
 
 	/* get the result */
@@ -939,25 +941,25 @@ pk_test_control_get_properties_cb (GObject *object, GAsyncResult *res, gpointer 
 
 	/* get values */
 	g_object_get (control,
-		      "mime-types", &text,
+		      "mime-types", &mime_types,
 		      "roles", &roles,
 		      "filters", &filters,
 		      "groups", &groups,
 		      NULL);
 
 	/* check mime_types */
+	text = g_strjoinv (";", mime_types);
 	g_assert_cmpstr (text, ==, "application/x-rpm;application/x-deb");
 	g_free (text);
+	g_strfreev (mime_types);
 
 	/* check roles */
 	text = pk_role_bitfield_to_string (roles);
 	g_assert_cmpstr (text, ==, "cancel;get-depends;get-details;get-files;get-packages;get-repo-list;"
 		     "get-requires;get-update-detail;get-updates;install-files;install-packages;install-signature;"
-		     "refresh-cache;remove-packages;repo-enable;repo-set-data;resolve;rollback;"
-		     "search-details;search-file;search-group;search-name;update-packages;update-system;"
-		     "what-provides;download-packages;get-distro-upgrades;simulate-install-packages;"
-		     "simulate-remove-packages;simulate-update-packages;upgrade-system;"
-		     "repair-system;simulate-repair-system");
+		     "refresh-cache;remove-packages;repo-enable;repo-set-data;resolve;"
+		     "search-details;search-file;search-group;search-name;update-packages;"
+		     "what-provides;download-packages;get-distro-upgrades;upgrade-system;repair-system");
 	g_free (text);
 
 	/* check filters */
@@ -1098,11 +1100,9 @@ pk_test_control_func (void)
 	text = pk_role_bitfield_to_string (roles);
 	g_assert_cmpstr (text, ==, "cancel;get-depends;get-details;get-files;get-packages;get-repo-list;"
 		     "get-requires;get-update-detail;get-updates;install-files;install-packages;install-signature;"
-		     "refresh-cache;remove-packages;repo-enable;repo-set-data;resolve;rollback;"
-		     "search-details;search-file;search-group;search-name;update-packages;update-system;"
-		     "what-provides;download-packages;get-distro-upgrades;simulate-install-packages;"
-		     "simulate-remove-packages;simulate-update-packages;upgrade-system;"
-		     "repair-system;simulate-repair-system");
+		     "refresh-cache;remove-packages;repo-enable;repo-set-data;resolve;"
+		     "search-details;search-file;search-group;search-name;update-packages;"
+		     "what-provides;download-packages;get-distro-upgrades;upgrade-system;repair-system");
 	g_free (text);
 
 	g_object_unref (control);
@@ -1455,6 +1455,7 @@ pk_test_package_sack_func (void)
 	PkPackageSack *sack;
 	PkPackage *package;
 	gchar *text;
+	gchar **strv;
 	guint size;
 	PkInfoEnum info = PK_INFO_ENUM_UNKNOWN;
 	guint64 bytes;
@@ -1532,11 +1533,12 @@ pk_test_package_sack_func (void)
 
 	/* check new vendor url */
 	g_object_get (package,
-		      "update-vendor-url", &text,
+		      "update-vendor-urls", &strv,
 		      NULL);
-	g_assert_cmpstr (text, ==, "http://www.distro-update.org/page?moo;Bugfix release for powertop");
+	g_assert (strv != NULL);
+	g_assert_cmpstr (strv[0], ==, "http://www.distro-update.org/page?moo");
+	g_strfreev (strv);
 
-	g_free (text);
 	g_object_unref (package);
 
 	/* chck size in bytes */

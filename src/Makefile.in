@@ -81,32 +81,36 @@ am__DEPENDENCIES_2 =  \
 @HAVE_INTROSPECTION_TRUE@	$(am__DEPENDENCIES_1) \
 @HAVE_INTROSPECTION_TRUE@	$(am__DEPENDENCIES_1) \
 @HAVE_INTROSPECTION_TRUE@	$(am__DEPENDENCIES_1) \
+@HAVE_INTROSPECTION_TRUE@	$(am__DEPENDENCIES_1) \
 @HAVE_INTROSPECTION_TRUE@	$(am__DEPENDENCIES_1)
 am__libpkplugins_la_SOURCES_DIST = pk-plugin.h pk-backend.c \
-	pk-backend.h pk-transaction.c pk-transaction.h pk-conf.c \
-	pk-conf.h pk-marshal.c pk-marshal.h pk-dbus.c pk-dbus.h \
-	pk-transaction-private.h pk-network.c pk-network.h pk-shared.c \
-	pk-shared.h pk-time.h pk-time.c pk-network-stack.h \
-	pk-network-stack.c pk-network-stack-unix.c \
-	pk-network-stack-unix.h pk-network-stack-nm.h \
-	pk-network-stack-connman.h pk-proc.c pk-proc.h pk-syslog.h \
-	pk-syslog.c pk-store.c pk-store.h pk-cache.c pk-cache.h \
-	pk-notify.c pk-notify.h pk-spawn.c pk-spawn.h pk-sysdep.h \
-	pk-sysdep.c pk-engine.h pk-engine.c pk-backend-spawn.h \
-	pk-backend-spawn.c pk-transaction-db.h pk-transaction-db.c \
-	pk-transaction-list.c pk-transaction-list.h \
-	pk-network-stack-nm.c pk-network-stack-connman.c
+	pk-backend.h pk-backend-job.c pk-backend-job.h \
+	pk-transaction.c pk-transaction.h pk-conf.c pk-conf.h \
+	pk-shared.c pk-shared.h pk-marshal.c pk-marshal.h pk-dbus.c \
+	pk-dbus.h pk-transaction-private.h pk-network.c pk-network.h \
+	pk-time.h pk-time.c pk-network-stack.h pk-network-stack.c \
+	pk-network-stack-unix.c pk-network-stack-unix.h \
+	pk-network-stack-nm.h pk-network-stack-connman.h pk-proc.c \
+	pk-proc.h pk-syslog.h pk-syslog.c pk-store.c pk-store.h \
+	pk-cache.c pk-cache.h pk-notify.c pk-notify.h pk-spawn.c \
+	pk-spawn.h pk-sysdep.h pk-sysdep.c pk-engine.h pk-engine.c \
+	pk-backend-spawn.h pk-backend-spawn.c pk-transaction-db.h \
+	pk-transaction-db.c pk-transaction-list.c \
+	pk-transaction-list.h pk-network-stack-nm.c \
+	pk-network-stack-connman.c
 am__objects_1 =
 am__objects_2 = libpkplugins_la-pk-backend.lo \
+	libpkplugins_la-pk-backend-job.lo \
 	libpkplugins_la-pk-transaction.lo libpkplugins_la-pk-conf.lo \
-	$(am__objects_1)
+	libpkplugins_la-pk-shared.lo $(am__objects_1)
 @PK_BUILD_NETWORKMANAGER_TRUE@am__objects_3 = libpkplugins_la-pk-network-stack-nm.lo
 @PK_BUILD_CONNMAN_TRUE@am__objects_4 = libpkplugins_la-pk-network-stack-connman.lo
 am__objects_5 = libpkplugins_la-pk-marshal.lo \
 	libpkplugins_la-pk-dbus.lo libpkplugins_la-pk-transaction.lo \
-	libpkplugins_la-pk-backend.lo libpkplugins_la-pk-network.lo \
-	libpkplugins_la-pk-shared.lo libpkplugins_la-pk-time.lo \
-	libpkplugins_la-pk-network-stack.lo \
+	libpkplugins_la-pk-backend.lo \
+	libpkplugins_la-pk-backend-job.lo \
+	libpkplugins_la-pk-network.lo libpkplugins_la-pk-shared.lo \
+	libpkplugins_la-pk-time.lo libpkplugins_la-pk-network-stack.lo \
 	libpkplugins_la-pk-network-stack-unix.lo \
 	libpkplugins_la-pk-proc.lo libpkplugins_la-pk-syslog.lo \
 	libpkplugins_la-pk-conf.lo libpkplugins_la-pk-store.lo \
@@ -137,15 +141,16 @@ PROGRAMS = $(libexec_PROGRAMS)
 am__packagekitd_SOURCES_DIST = pk-main.c pk-marshal.c pk-marshal.h \
 	pk-dbus.c pk-dbus.h pk-transaction.c pk-transaction.h \
 	pk-transaction-private.h pk-backend.c pk-backend.h \
-	pk-network.c pk-network.h pk-shared.c pk-shared.h pk-time.h \
-	pk-time.c pk-network-stack.h pk-network-stack.c \
-	pk-network-stack-unix.c pk-network-stack-unix.h \
-	pk-network-stack-nm.h pk-network-stack-connman.h pk-proc.c \
-	pk-proc.h pk-syslog.h pk-syslog.c pk-conf.c pk-conf.h \
-	pk-store.c pk-store.h pk-cache.c pk-cache.h pk-notify.c \
-	pk-notify.h pk-spawn.c pk-spawn.h pk-sysdep.h pk-sysdep.c \
-	pk-engine.h pk-engine.c pk-backend-spawn.h pk-backend-spawn.c \
-	pk-transaction-db.h pk-transaction-db.c pk-transaction-list.c \
+	pk-backend-job.c pk-backend-job.h pk-network.c pk-network.h \
+	pk-shared.c pk-shared.h pk-time.h pk-time.c pk-network-stack.h \
+	pk-network-stack.c pk-network-stack-unix.c \
+	pk-network-stack-unix.h pk-network-stack-nm.h \
+	pk-network-stack-connman.h pk-proc.c pk-proc.h pk-syslog.h \
+	pk-syslog.c pk-conf.c pk-conf.h pk-store.c pk-store.h \
+	pk-cache.c pk-cache.h pk-notify.c pk-notify.h pk-spawn.c \
+	pk-spawn.h pk-sysdep.h pk-sysdep.c pk-engine.h pk-engine.c \
+	pk-backend-spawn.h pk-backend-spawn.c pk-transaction-db.h \
+	pk-transaction-db.c pk-transaction-list.c \
 	pk-transaction-list.h pk-network-stack-nm.c \
 	pk-network-stack-connman.c
 @PK_BUILD_NETWORKMANAGER_TRUE@am__objects_6 = packagekitd-pk-network-stack-nm.$(OBJEXT)
@@ -154,6 +159,7 @@ am__objects_8 = packagekitd-pk-marshal.$(OBJEXT) \
 	packagekitd-pk-dbus.$(OBJEXT) \
 	packagekitd-pk-transaction.$(OBJEXT) \
 	packagekitd-pk-backend.$(OBJEXT) \
+	packagekitd-pk-backend-job.$(OBJEXT) \
 	packagekitd-pk-network.$(OBJEXT) \
 	packagekitd-pk-shared.$(OBJEXT) packagekitd-pk-time.$(OBJEXT) \
 	packagekitd-pk-network-stack.$(OBJEXT) \
@@ -176,22 +182,23 @@ packagekitd_DEPENDENCIES = $(am__DEPENDENCIES_1) $(am__DEPENDENCIES_1) \
 	$(am__DEPENDENCIES_1) $(am__DEPENDENCIES_2) \
 	$(am__DEPENDENCIES_1) $(am__DEPENDENCIES_1) \
 	$(am__DEPENDENCIES_1) $(am__DEPENDENCIES_1) \
-	$(am__DEPENDENCIES_3)
+	$(am__DEPENDENCIES_1) $(am__DEPENDENCIES_3)
 packagekitd_LINK = $(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) \
 	$(LIBTOOLFLAGS) --mode=link $(CCLD) $(packagekitd_CFLAGS) \
 	$(CFLAGS) $(AM_LDFLAGS) $(LDFLAGS) -o $@
 am__pk_self_test_SOURCES_DIST = pk-self-test.c pk-marshal.c \
 	pk-marshal.h pk-dbus.c pk-dbus.h pk-transaction.c \
 	pk-transaction.h pk-transaction-private.h pk-backend.c \
-	pk-backend.h pk-network.c pk-network.h pk-shared.c pk-shared.h \
-	pk-time.h pk-time.c pk-network-stack.h pk-network-stack.c \
-	pk-network-stack-unix.c pk-network-stack-unix.h \
-	pk-network-stack-nm.h pk-network-stack-connman.h pk-proc.c \
-	pk-proc.h pk-syslog.h pk-syslog.c pk-conf.c pk-conf.h \
-	pk-store.c pk-store.h pk-cache.c pk-cache.h pk-notify.c \
-	pk-notify.h pk-spawn.c pk-spawn.h pk-sysdep.h pk-sysdep.c \
-	pk-engine.h pk-engine.c pk-backend-spawn.h pk-backend-spawn.c \
-	pk-transaction-db.h pk-transaction-db.c pk-transaction-list.c \
+	pk-backend.h pk-backend-job.c pk-backend-job.h pk-network.c \
+	pk-network.h pk-shared.c pk-shared.h pk-time.h pk-time.c \
+	pk-network-stack.h pk-network-stack.c pk-network-stack-unix.c \
+	pk-network-stack-unix.h pk-network-stack-nm.h \
+	pk-network-stack-connman.h pk-proc.c pk-proc.h pk-syslog.h \
+	pk-syslog.c pk-conf.c pk-conf.h pk-store.c pk-store.h \
+	pk-cache.c pk-cache.h pk-notify.c pk-notify.h pk-spawn.c \
+	pk-spawn.h pk-sysdep.h pk-sysdep.c pk-engine.h pk-engine.c \
+	pk-backend-spawn.h pk-backend-spawn.c pk-transaction-db.h \
+	pk-transaction-db.c pk-transaction-list.c \
 	pk-transaction-list.h pk-network-stack-nm.c \
 	pk-network-stack-connman.c
 @PK_BUILD_NETWORKMANAGER_TRUE@am__objects_9 = pk_self_test-pk-network-stack-nm.$(OBJEXT)
@@ -200,6 +207,7 @@ am__objects_11 = pk_self_test-pk-marshal.$(OBJEXT) \
 	pk_self_test-pk-dbus.$(OBJEXT) \
 	pk_self_test-pk-transaction.$(OBJEXT) \
 	pk_self_test-pk-backend.$(OBJEXT) \
+	pk_self_test-pk-backend-job.$(OBJEXT) \
 	pk_self_test-pk-network.$(OBJEXT) \
 	pk_self_test-pk-shared.$(OBJEXT) \
 	pk_self_test-pk-time.$(OBJEXT) \
@@ -228,6 +236,7 @@ pk_self_test_OBJECTS = $(am_pk_self_test_OBJECTS)
 @EGG_BUILD_TESTS_TRUE@	$(am__DEPENDENCIES_1) \
 @EGG_BUILD_TESTS_TRUE@	$(am__DEPENDENCIES_1) \
 @EGG_BUILD_TESTS_TRUE@	$(am__DEPENDENCIES_2) \
+@EGG_BUILD_TESTS_TRUE@	$(am__DEPENDENCIES_1) \
 @EGG_BUILD_TESTS_TRUE@	$(am__DEPENDENCIES_1) \
 @EGG_BUILD_TESTS_TRUE@	$(am__DEPENDENCIES_1) \
 @EGG_BUILD_TESTS_TRUE@	$(am__DEPENDENCIES_1) \
@@ -360,7 +369,6 @@ CCDEPMODE = @CCDEPMODE@
 CFLAGS = @CFLAGS@
 CONNMAN_CFLAGS = @CONNMAN_CFLAGS@
 CONNMAN_LIBS = @CONNMAN_LIBS@
-CONSOLEKIT_DAEMON = @CONSOLEKIT_DAEMON@
 CPP = @CPP@
 CPPFLAGS = @CPPFLAGS@
 CXX = @CXX@
@@ -534,6 +542,8 @@ SQLITE_CFLAGS = @SQLITE_CFLAGS@
 SQLITE_LIBS = @SQLITE_LIBS@
 STRIP = @STRIP@
 SYSCONFDIR = @SYSCONFDIR@
+SYSTEMD_CFLAGS = @SYSTEMD_CFLAGS@
+SYSTEMD_LIBS = @SYSTEMD_LIBS@
 USE_NLS = @USE_NLS@
 VERSION = @VERSION@
 WARNINGFLAGS_C = @WARNINGFLAGS_C@
@@ -601,6 +611,7 @@ security_framework = @security_framework@
 sharedstatedir = @sharedstatedir@
 srcdir = @srcdir@
 sysconfdir = @sysconfdir@
+systemdsystemunitdir = @systemdsystemunitdir@
 target_alias = @target_alias@
 top_build_prefix = @top_build_prefix@
 top_builddir = @top_builddir@
@@ -627,6 +638,7 @@ INCLUDES = \
 	$(PYTHON_CFLAGS)				\
 	$(NETWORK_MANAGER_CFLAGS)			\
 	$(CONNMAN_CFLAGS)				\
+	$(SYSTEMD_CFLAGS)				\
 	-DPACKAGE_LOCALE_DIR=\"$(localedir)\"		\
 	-DBINDIR=\"$(bindir)\"				\
 	-DSBINDIR=\"$(sbindir)\"			\
@@ -664,24 +676,28 @@ plugininclude_GIRSOURCES = \
 	pk-plugin.h					\
 	pk-backend.c					\
 	pk-backend.h					\
+	pk-backend-job.c				\
+	pk-backend-job.h				\
 	pk-transaction.c				\
 	pk-transaction.h				\
 	pk-conf.c					\
 	pk-conf.h					\
+	pk-shared.c					\
+	pk-shared.h					\
 	$(NULL)
 
 shared_SOURCES = pk-marshal.c pk-marshal.h pk-dbus.c pk-dbus.h \
 	pk-transaction.c pk-transaction.h pk-transaction-private.h \
-	pk-backend.c pk-backend.h pk-network.c pk-network.h \
-	pk-shared.c pk-shared.h pk-time.h pk-time.c pk-network-stack.h \
-	pk-network-stack.c pk-network-stack-unix.c \
-	pk-network-stack-unix.h pk-network-stack-nm.h \
-	pk-network-stack-connman.h pk-proc.c pk-proc.h pk-syslog.h \
-	pk-syslog.c pk-conf.c pk-conf.h pk-store.c pk-store.h \
-	pk-cache.c pk-cache.h pk-notify.c pk-notify.h pk-spawn.c \
-	pk-spawn.h pk-sysdep.h pk-sysdep.c pk-engine.h pk-engine.c \
-	pk-backend-spawn.h pk-backend-spawn.c pk-transaction-db.h \
-	pk-transaction-db.c pk-transaction-list.c \
+	pk-backend.c pk-backend.h pk-backend-job.c pk-backend-job.h \
+	pk-network.c pk-network.h pk-shared.c pk-shared.h pk-time.h \
+	pk-time.c pk-network-stack.h pk-network-stack.c \
+	pk-network-stack-unix.c pk-network-stack-unix.h \
+	pk-network-stack-nm.h pk-network-stack-connman.h pk-proc.c \
+	pk-proc.h pk-syslog.h pk-syslog.c pk-conf.c pk-conf.h \
+	pk-store.c pk-store.h pk-cache.c pk-cache.h pk-notify.c \
+	pk-notify.h pk-spawn.c pk-spawn.h pk-sysdep.h pk-sysdep.c \
+	pk-engine.h pk-engine.c pk-backend-spawn.h pk-backend-spawn.c \
+	pk-transaction-db.h pk-transaction-db.c pk-transaction-list.c \
 	pk-transaction-list.h $(NULL) $(am__append_1) $(am__append_2)
 packagekitd_SOURCES = \
 	pk-main.c					\
@@ -691,7 +707,7 @@ packagekitd_SOURCES = \
 packagekitd_LDADD = $(GLIB_LIBS) $(GMODULE_LIBS) \
 	$(NETWORK_MANAGER_LIBS) $(CONNMAN_LIBS) $(SQLITE_LIBS) \
 	$(PK_GLIB2_LIBS) $(PYTHON_LIBS) $(POLKIT_LIBS) $(GIO_LIBS) \
-	$(ARCHIVE_LIBS) $(NULL) $(am__append_3)
+	$(ARCHIVE_LIBS) $(SYSTEMD_LIBS) $(NULL) $(am__append_3)
 packagekitd_CFLAGS = \
 	$(WARNINGFLAGS_C)				\
 	$(NULL)
@@ -718,9 +734,10 @@ BUILT_SOURCES = \
 @EGG_BUILD_TESTS_TRUE@	$(POLKIT_LIBS)					\
 @EGG_BUILD_TESTS_TRUE@	$(GIO_LIBS)					\
 @EGG_BUILD_TESTS_TRUE@	$(ARCHIVE_LIBS)					\
+@EGG_BUILD_TESTS_TRUE@	$(SYSTEMD_LIBS)					\
 @EGG_BUILD_TESTS_TRUE@	$(NULL)
 
-@EGG_BUILD_TESTS_TRUE@pk_self_test_CFLAGS = -DEGG_TEST $(AM_CFLAGS)
+@EGG_BUILD_TESTS_TRUE@pk_self_test_CFLAGS = 
 introspectiondir = $(datadir)/dbus-1/interfaces
 dist_introspection_DATA = \
 	org.freedesktop.PackageKit.xml			\
@@ -748,6 +765,7 @@ CLEANFILES = $(BUILT_SOURCES) pk-marshal.c pk-marshal.h \
 @HAVE_INTROSPECTION_TRUE@	$(POLKIT_LIBS)					\
 @HAVE_INTROSPECTION_TRUE@	$(GIO_LIBS)					\
 @HAVE_INTROSPECTION_TRUE@	$(ARCHIVE_LIBS)					\
+@HAVE_INTROSPECTION_TRUE@	$(SYSTEMD_LIBS)					\
 @HAVE_INTROSPECTION_TRUE@	$(NULL)
 
 @HAVE_INTROSPECTION_TRUE@libpkplugins_la_CFLAGS = \
@@ -885,6 +903,7 @@ mostlyclean-compile:
 distclean-compile:
 	-rm -f *.tab.c
 
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libpkplugins_la-pk-backend-job.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libpkplugins_la-pk-backend-spawn.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libpkplugins_la-pk-backend.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libpkplugins_la-pk-cache.Plo@am__quote@
@@ -908,6 +927,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libpkplugins_la-pk-transaction-db.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libpkplugins_la-pk-transaction-list.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libpkplugins_la-pk-transaction.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/packagekitd-pk-backend-job.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/packagekitd-pk-backend-spawn.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/packagekitd-pk-backend.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/packagekitd-pk-cache.Po@am__quote@
@@ -932,6 +952,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/packagekitd-pk-transaction-db.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/packagekitd-pk-transaction-list.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/packagekitd-pk-transaction.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/pk_self_test-pk-backend-job.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/pk_self_test-pk-backend-spawn.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/pk_self_test-pk-backend.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/pk_self_test-pk-cache.Po@am__quote@
@@ -985,6 +1006,13 @@ libpkplugins_la-pk-backend.lo: pk-backend.c
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libpkplugins_la_CFLAGS) $(CFLAGS) -c -o libpkplugins_la-pk-backend.lo `test -f 'pk-backend.c' || echo '$(srcdir)/'`pk-backend.c
 
+libpkplugins_la-pk-backend-job.lo: pk-backend-job.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libpkplugins_la_CFLAGS) $(CFLAGS) -MT libpkplugins_la-pk-backend-job.lo -MD -MP -MF $(DEPDIR)/libpkplugins_la-pk-backend-job.Tpo -c -o libpkplugins_la-pk-backend-job.lo `test -f 'pk-backend-job.c' || echo '$(srcdir)/'`pk-backend-job.c
+@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/libpkplugins_la-pk-backend-job.Tpo $(DEPDIR)/libpkplugins_la-pk-backend-job.Plo
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='pk-backend-job.c' object='libpkplugins_la-pk-backend-job.lo' libtool=yes @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libpkplugins_la_CFLAGS) $(CFLAGS) -c -o libpkplugins_la-pk-backend-job.lo `test -f 'pk-backend-job.c' || echo '$(srcdir)/'`pk-backend-job.c
+
 libpkplugins_la-pk-transaction.lo: pk-transaction.c
 @am__fastdepCC_TRUE@	$(AM_V_CC)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libpkplugins_la_CFLAGS) $(CFLAGS) -MT libpkplugins_la-pk-transaction.lo -MD -MP -MF $(DEPDIR)/libpkplugins_la-pk-transaction.Tpo -c -o libpkplugins_la-pk-transaction.lo `test -f 'pk-transaction.c' || echo '$(srcdir)/'`pk-transaction.c
 @am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/libpkplugins_la-pk-transaction.Tpo $(DEPDIR)/libpkplugins_la-pk-transaction.Plo
@@ -998,6 +1026,13 @@ libpkplugins_la-pk-conf.lo: pk-conf.c
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='pk-conf.c' object='libpkplugins_la-pk-conf.lo' libtool=yes @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libpkplugins_la_CFLAGS) $(CFLAGS) -c -o libpkplugins_la-pk-conf.lo `test -f 'pk-conf.c' || echo '$(srcdir)/'`pk-conf.c
+
+libpkplugins_la-pk-shared.lo: pk-shared.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libpkplugins_la_CFLAGS) $(CFLAGS) -MT libpkplugins_la-pk-shared.lo -MD -MP -MF $(DEPDIR)/libpkplugins_la-pk-shared.Tpo -c -o libpkplugins_la-pk-shared.lo `test -f 'pk-shared.c' || echo '$(srcdir)/'`pk-shared.c
+@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/libpkplugins_la-pk-shared.Tpo $(DEPDIR)/libpkplugins_la-pk-shared.Plo
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='pk-shared.c' object='libpkplugins_la-pk-shared.lo' libtool=yes @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libpkplugins_la_CFLAGS) $(CFLAGS) -c -o libpkplugins_la-pk-shared.lo `test -f 'pk-shared.c' || echo '$(srcdir)/'`pk-shared.c
 
 libpkplugins_la-pk-marshal.lo: pk-marshal.c
 @am__fastdepCC_TRUE@	$(AM_V_CC)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libpkplugins_la_CFLAGS) $(CFLAGS) -MT libpkplugins_la-pk-marshal.lo -MD -MP -MF $(DEPDIR)/libpkplugins_la-pk-marshal.Tpo -c -o libpkplugins_la-pk-marshal.lo `test -f 'pk-marshal.c' || echo '$(srcdir)/'`pk-marshal.c
@@ -1019,13 +1054,6 @@ libpkplugins_la-pk-network.lo: pk-network.c
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='pk-network.c' object='libpkplugins_la-pk-network.lo' libtool=yes @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libpkplugins_la_CFLAGS) $(CFLAGS) -c -o libpkplugins_la-pk-network.lo `test -f 'pk-network.c' || echo '$(srcdir)/'`pk-network.c
-
-libpkplugins_la-pk-shared.lo: pk-shared.c
-@am__fastdepCC_TRUE@	$(AM_V_CC)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libpkplugins_la_CFLAGS) $(CFLAGS) -MT libpkplugins_la-pk-shared.lo -MD -MP -MF $(DEPDIR)/libpkplugins_la-pk-shared.Tpo -c -o libpkplugins_la-pk-shared.lo `test -f 'pk-shared.c' || echo '$(srcdir)/'`pk-shared.c
-@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/libpkplugins_la-pk-shared.Tpo $(DEPDIR)/libpkplugins_la-pk-shared.Plo
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='pk-shared.c' object='libpkplugins_la-pk-shared.lo' libtool=yes @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libpkplugins_la_CFLAGS) $(CFLAGS) -c -o libpkplugins_la-pk-shared.lo `test -f 'pk-shared.c' || echo '$(srcdir)/'`pk-shared.c
 
 libpkplugins_la-pk-time.lo: pk-time.c
 @am__fastdepCC_TRUE@	$(AM_V_CC)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libpkplugins_la_CFLAGS) $(CFLAGS) -MT libpkplugins_la-pk-time.lo -MD -MP -MF $(DEPDIR)/libpkplugins_la-pk-time.Tpo -c -o libpkplugins_la-pk-time.lo `test -f 'pk-time.c' || echo '$(srcdir)/'`pk-time.c
@@ -1208,6 +1236,20 @@ packagekitd-pk-backend.obj: pk-backend.c
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='pk-backend.c' object='packagekitd-pk-backend.obj' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(packagekitd_CFLAGS) $(CFLAGS) -c -o packagekitd-pk-backend.obj `if test -f 'pk-backend.c'; then $(CYGPATH_W) 'pk-backend.c'; else $(CYGPATH_W) '$(srcdir)/pk-backend.c'; fi`
+
+packagekitd-pk-backend-job.o: pk-backend-job.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(packagekitd_CFLAGS) $(CFLAGS) -MT packagekitd-pk-backend-job.o -MD -MP -MF $(DEPDIR)/packagekitd-pk-backend-job.Tpo -c -o packagekitd-pk-backend-job.o `test -f 'pk-backend-job.c' || echo '$(srcdir)/'`pk-backend-job.c
+@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/packagekitd-pk-backend-job.Tpo $(DEPDIR)/packagekitd-pk-backend-job.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='pk-backend-job.c' object='packagekitd-pk-backend-job.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(packagekitd_CFLAGS) $(CFLAGS) -c -o packagekitd-pk-backend-job.o `test -f 'pk-backend-job.c' || echo '$(srcdir)/'`pk-backend-job.c
+
+packagekitd-pk-backend-job.obj: pk-backend-job.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(packagekitd_CFLAGS) $(CFLAGS) -MT packagekitd-pk-backend-job.obj -MD -MP -MF $(DEPDIR)/packagekitd-pk-backend-job.Tpo -c -o packagekitd-pk-backend-job.obj `if test -f 'pk-backend-job.c'; then $(CYGPATH_W) 'pk-backend-job.c'; else $(CYGPATH_W) '$(srcdir)/pk-backend-job.c'; fi`
+@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/packagekitd-pk-backend-job.Tpo $(DEPDIR)/packagekitd-pk-backend-job.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='pk-backend-job.c' object='packagekitd-pk-backend-job.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(packagekitd_CFLAGS) $(CFLAGS) -c -o packagekitd-pk-backend-job.obj `if test -f 'pk-backend-job.c'; then $(CYGPATH_W) 'pk-backend-job.c'; else $(CYGPATH_W) '$(srcdir)/pk-backend-job.c'; fi`
 
 packagekitd-pk-network.o: pk-network.c
 @am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(packagekitd_CFLAGS) $(CFLAGS) -MT packagekitd-pk-network.o -MD -MP -MF $(DEPDIR)/packagekitd-pk-network.Tpo -c -o packagekitd-pk-network.o `test -f 'pk-network.c' || echo '$(srcdir)/'`pk-network.c
@@ -1544,6 +1586,20 @@ pk_self_test-pk-backend.obj: pk-backend.c
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='pk-backend.c' object='pk_self_test-pk-backend.obj' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(pk_self_test_CFLAGS) $(CFLAGS) -c -o pk_self_test-pk-backend.obj `if test -f 'pk-backend.c'; then $(CYGPATH_W) 'pk-backend.c'; else $(CYGPATH_W) '$(srcdir)/pk-backend.c'; fi`
+
+pk_self_test-pk-backend-job.o: pk-backend-job.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(pk_self_test_CFLAGS) $(CFLAGS) -MT pk_self_test-pk-backend-job.o -MD -MP -MF $(DEPDIR)/pk_self_test-pk-backend-job.Tpo -c -o pk_self_test-pk-backend-job.o `test -f 'pk-backend-job.c' || echo '$(srcdir)/'`pk-backend-job.c
+@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/pk_self_test-pk-backend-job.Tpo $(DEPDIR)/pk_self_test-pk-backend-job.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='pk-backend-job.c' object='pk_self_test-pk-backend-job.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(pk_self_test_CFLAGS) $(CFLAGS) -c -o pk_self_test-pk-backend-job.o `test -f 'pk-backend-job.c' || echo '$(srcdir)/'`pk-backend-job.c
+
+pk_self_test-pk-backend-job.obj: pk-backend-job.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(pk_self_test_CFLAGS) $(CFLAGS) -MT pk_self_test-pk-backend-job.obj -MD -MP -MF $(DEPDIR)/pk_self_test-pk-backend-job.Tpo -c -o pk_self_test-pk-backend-job.obj `if test -f 'pk-backend-job.c'; then $(CYGPATH_W) 'pk-backend-job.c'; else $(CYGPATH_W) '$(srcdir)/pk-backend-job.c'; fi`
+@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/pk_self_test-pk-backend-job.Tpo $(DEPDIR)/pk_self_test-pk-backend-job.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='pk-backend-job.c' object='pk_self_test-pk-backend-job.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(pk_self_test_CFLAGS) $(CFLAGS) -c -o pk_self_test-pk-backend-job.obj `if test -f 'pk-backend-job.c'; then $(CYGPATH_W) 'pk-backend-job.c'; else $(CYGPATH_W) '$(srcdir)/pk-backend-job.c'; fi`
 
 pk_self_test-pk-network.o: pk-network.c
 @am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(pk_self_test_CFLAGS) $(CFLAGS) -MT pk_self_test-pk-network.o -MD -MP -MF $(DEPDIR)/pk_self_test-pk-network.Tpo -c -o pk_self_test-pk-network.o `test -f 'pk-network.c' || echo '$(srcdir)/'`pk-network.c
@@ -2349,6 +2405,10 @@ pk-marshal.c: pk-marshal.list
 
 pk-marshal.h: pk-marshal.list
 	glib-genmarshal $< --prefix=pk_marshal --header > $@
+@EGG_BUILD_TESTS_TRUE@	-DEGG_TEST					\
+@EGG_BUILD_TESTS_TRUE@	$(AM_CFLAGS)					\
+@EGG_BUILD_TESTS_TRUE@	$(WARNINGFLAGS_C)				\
+@EGG_BUILD_TESTS_TRUE@	$(NULL)
 
 install-data-hook:
 	if test -w $(DESTDIR)$(prefix)/; then \

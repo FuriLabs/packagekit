@@ -26,7 +26,6 @@
 #include "daemonproxy.h"
 
 #include "common.h"
-#include "util.h"
 
 #define PK_DESKTOP_DEFAULT_DATABASE		LOCALSTATEDIR "/lib/PackageKit/desktop-files.db"
 
@@ -48,7 +47,10 @@ Daemon::Daemon(QObject *parent) :
     d_ptr(new DaemonPrivate(this))
 {
     Q_D(Daemon);
-    d->daemon = new ::DaemonProxy(PK_NAME, PK_PATH, QDBusConnection::systemBus(), this);
+    d->daemon = new ::DaemonProxy(QLatin1String(PK_NAME),
+                                  QLatin1String(PK_PATH),
+                                  QDBusConnection::systemBus(),
+                                  this);
 
     connect(d->daemon, SIGNAL(Changed()),
             this, SIGNAL(changed()));
@@ -56,15 +58,15 @@ Daemon::Daemon(QObject *parent) :
             this, SIGNAL(repoListChanged()));
     connect(d->daemon, SIGNAL(RestartSchedule()),
             this, SIGNAL(restartScheduled()));
-    connect(d->daemon, SIGNAL(TransactionListChanged(const QStringList&)),
-            this, SIGNAL(transactionListChanged(const QStringList&)));
+    connect(d->daemon, SIGNAL(TransactionListChanged(QStringList)),
+            this, SIGNAL(transactionListChanged(QStringList)));
     connect(d->daemon, SIGNAL(UpdatesChanged()),
             this, SIGNAL(updatesChanged()));
 
     // Set up database for desktop files
     QSqlDatabase db;
     db = QSqlDatabase::addDatabase("QSQLITE");
-    db.setDatabaseName (PK_DESKTOP_DEFAULT_DATABASE);
+    db.setDatabaseName(PK_DESKTOP_DEFAULT_DATABASE);
     if (!db.open()) {
         qDebug() << "Failed to initialize the desktop files database";
     }
@@ -76,12 +78,10 @@ Daemon::~Daemon()
 
 Transaction::Roles Daemon::actions()
 {
-    QStringList roles = global()->d_ptr->daemon->roles().split(";");
+    qulonglong roles = global()->d_ptr->daemon->roles();
 
     Transaction::Roles flags;
-    foreach (const QString &role, roles) {
-        flags |= static_cast<Transaction::Role>(Util::enumFromString<Transaction>(role, "Role", "Role"));
-    }
+    flags |= static_cast<Transaction::Role>(roles);
     return flags;
 }
 
@@ -102,29 +102,12 @@ QString Daemon::backendAuthor()
 
 Transaction::Filters Daemon::filters()
 {
-    QStringList filters = global()->d_ptr->daemon->filters().split(";");
-
-    // Adapt a slight difference in the enum
-    if(filters.contains("none")) {
-        filters[filters.indexOf("none")] = "no-filter";
-    }
-
-    Transaction::Filters flags;
-    foreach (const QString &filter, filters) {
-        flags |= static_cast<Transaction::Filter>(Util::enumFromString<Transaction>(filter, "Filter", "Filter"));
-    }
-    return flags;
+    return static_cast<Transaction::Filter>(global()->d_ptr->daemon->filters());
 }
 
-Package::Groups Daemon::groups()
+PackageDetails::Groups Daemon::groups()
 {
-    QStringList groups = global()->d_ptr->daemon->groups().split(";");
-
-    Package::Groups flags;
-    foreach (const QString &group, groups) {
-        flags.insert(static_cast<Package::Group>(Util::enumFromString<Package>(group, "Group", "Group")));
-    }
-    return flags;
+    return global()->d_ptr->daemon->groups();
 }
 
 bool Daemon::locked()
@@ -134,13 +117,12 @@ bool Daemon::locked()
 
 QStringList Daemon::mimeTypes()
 {
-    return global()->d_ptr->daemon->mimeTypes().split(";");
+    return global()->d_ptr->daemon->mimeTypes();
 }
 
 Daemon::Network Daemon::networkState()
 {
-    QString state = global()->d_ptr->daemon->networkState();
-    return static_cast<Daemon::Network>(Util::enumFromString<Daemon>(state, "Network", "Network"));
+    return static_cast<Daemon::Network>(global()->d_ptr->daemon->networkState());
 }
 
 QString Daemon::distroId()
@@ -150,29 +132,29 @@ QString Daemon::distroId()
 
 Daemon::Authorize Daemon::canAuthorize(const QString &actionId)
 {
-    QString result = global()->d_ptr->daemon->CanAuthorize(actionId);
-    return static_cast<Daemon::Authorize>(Util::enumFromString<Daemon>(result, "Authorize", "Authorize"));
+    uint ret;
+    ret = global()->d_ptr->daemon->CanAuthorize(actionId);
+    return static_cast<Daemon::Authorize>(ret);
 }
 
-QString Daemon::getTid()
+QDBusObjectPath Daemon::getTid()
 {
-    return global()->d_ptr->daemon->GetTid();
+    return global()->d_ptr->daemon->CreateTransaction();
 }
 
 uint Daemon::getTimeSinceAction(Transaction::Role role)
 {
-    QString roleName = Util::enumToString<Transaction>(role, "Role", "Role");
-    return global()->d_ptr->daemon->GetTimeSinceAction(roleName);
+    return global()->d_ptr->daemon->GetTimeSinceAction(role);
 }
 
-QStringList Daemon::getTransactions()
+QList<QDBusObjectPath> Daemon::getTransactionList()
 {
     return global()->d_ptr->daemon->GetTransactionList();
 }
 
-QList<Transaction*> Daemon::getTransactionsObj(QObject *parent)
+QList<Transaction*> Daemon::getTransactionObjects(QObject *parent)
 {
-    return global()->d_ptr->transactions(getTransactions(), parent);
+    return global()->d_ptr->transactions(getTransactionList(), parent);
 }
 
 void Daemon::setHints(const QStringList& hints)
@@ -190,19 +172,14 @@ QStringList Daemon::hints()
     return global()->d_ptr->hints;
 }
 
-Transaction::InternalError Daemon::setProxy(const QString& http_proxy, const QString& ftp_proxy)
-{
-    return Daemon::setProxy(http_proxy, QString(), ftp_proxy, QString(), QString(), QString());
-}
-
 Transaction::InternalError Daemon::setProxy(const QString& http_proxy, const QString& https_proxy, const QString& ftp_proxy, const QString& socks_proxy, const QString& no_proxy, const QString& pac)
 {
     QDBusPendingReply<> r = global()->d_ptr->daemon->SetProxy(http_proxy, https_proxy, ftp_proxy, socks_proxy, no_proxy, pac);
     r.waitForFinished();
     if (r.isError ()) {
-        return Util::errorFromString(r.error().name());
+        return Transaction::parseError(r.error().name());
     } else {
-        return Transaction::NoInternalError;
+        return Transaction::InternalErrorNone;
     }
 }
 

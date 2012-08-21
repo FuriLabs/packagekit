@@ -1,6 +1,6 @@
 /* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*-
  *
- * Copyright (C) 2009 Richard Hughes <richard@hughsie.com>
+ * Copyright (C) 2012 Richard Hughes <richard@hughsie.com>
  *
  * Licensed under the GNU Lesser General Public License Version 2.1
  *
@@ -47,12 +47,14 @@ struct _PkTaskPrivate
 {
 	GPtrArray			*array;
 	gboolean			 simulate;
+	gboolean			 only_download;
 	gboolean			 interactive;
 };
 
 enum {
 	PROP_0,
 	PROP_SIMULATE,
+	PROP_ONLY_PREPARE,
 	PROP_INTERACTIVE,
 	PROP_LAST
 };
@@ -67,7 +69,8 @@ typedef struct {
 	PkRoleEnum			 role;
 	PkExitEnum			 exit_enum;
 	gboolean			 simulate;
-	gboolean			 only_trusted;
+	gboolean			 only_download;
+	gboolean			 transaction_flags;
 	gchar				**package_ids;
 	gboolean			 allow_deps;
 	gboolean			 autoremove;
@@ -174,42 +177,53 @@ pk_task_generic_state_finish (PkTaskState *state, const GError *error)
 static void
 pk_task_do_async_action (PkTaskState *state)
 {
+	PkBitfield transaction_flags;
+
 	/* so the callback knows if we are serious or not */
 	state->simulate = FALSE;
 
+	/* only prepare the transaction */
+	transaction_flags = state->transaction_flags;
+	if (state->task->priv->only_download) {
+		pk_bitfield_add (transaction_flags,
+				 PK_TRANSACTION_FLAG_ENUM_ONLY_DOWNLOAD);
+	}
+
 	/* do the correct action */
 	if (state->role == PK_ROLE_ENUM_INSTALL_PACKAGES) {
-		pk_client_install_packages_async (PK_CLIENT(state->task), state->only_trusted, state->package_ids,
+		pk_client_install_packages_async (PK_CLIENT(state->task), transaction_flags, state->package_ids,
 						  state->cancellable, state->progress_callback, state->progress_user_data,
 						  (GAsyncReadyCallback) pk_task_ready_cb, state);
 	} else if (state->role == PK_ROLE_ENUM_UPDATE_PACKAGES) {
-		pk_client_update_packages_async (PK_CLIENT(state->task), state->only_trusted, state->package_ids,
+		pk_client_update_packages_async (PK_CLIENT(state->task), transaction_flags, state->package_ids,
 						 state->cancellable, state->progress_callback, state->progress_user_data,
 						 (GAsyncReadyCallback) pk_task_ready_cb, state);
 	} else if (state->role == PK_ROLE_ENUM_REMOVE_PACKAGES) {
-		pk_client_remove_packages_async (PK_CLIENT(state->task), state->package_ids, state->allow_deps, state->autoremove,
-						 state->cancellable, state->progress_callback, state->progress_user_data,
+		pk_client_remove_packages_async (PK_CLIENT(state->task),
+						 transaction_flags,
+						 state->package_ids,
+						 state->allow_deps,
+						 state->autoremove,
+						 state->cancellable,
+						 state->progress_callback,
+						 state->progress_user_data,
 						 (GAsyncReadyCallback) pk_task_ready_cb, state);
-	} else if (state->role == PK_ROLE_ENUM_UPDATE_SYSTEM) {
-		pk_client_update_system_async (PK_CLIENT(state->task), state->only_trusted,
-					       state->cancellable, state->progress_callback, state->progress_user_data,
-					       (GAsyncReadyCallback) pk_task_ready_cb, state);
 	} else if (state->role == PK_ROLE_ENUM_INSTALL_FILES) {
-		pk_client_install_files_async (PK_CLIENT(state->task), state->only_trusted, state->files,
+		pk_client_install_files_async (PK_CLIENT(state->task), transaction_flags, state->files,
 					       state->cancellable, state->progress_callback, state->progress_user_data,
 					       (GAsyncReadyCallback) pk_task_ready_cb, state);
 	} else if (state->role == PK_ROLE_ENUM_RESOLVE) {
 		pk_client_resolve_async (PK_CLIENT(state->task), state->filters, state->packages,
-				         state->cancellable, state->progress_callback, state->progress_user_data,
-				         (GAsyncReadyCallback) pk_task_ready_cb, state);
+					 state->cancellable, state->progress_callback, state->progress_user_data,
+					 (GAsyncReadyCallback) pk_task_ready_cb, state);
 	} else if (state->role == PK_ROLE_ENUM_SEARCH_NAME) {
 		pk_client_search_names_async (PK_CLIENT(state->task), state->filters, state->values,
 					      state->cancellable, state->progress_callback, state->progress_user_data,
 					      (GAsyncReadyCallback) pk_task_ready_cb, state);
 	} else if (state->role == PK_ROLE_ENUM_SEARCH_DETAILS) {
 		pk_client_search_details_async (PK_CLIENT(state->task), state->filters, state->values,
-					        state->cancellable, state->progress_callback, state->progress_user_data,
-					        (GAsyncReadyCallback) pk_task_ready_cb, state);
+						state->cancellable, state->progress_callback, state->progress_user_data,
+						(GAsyncReadyCallback) pk_task_ready_cb, state);
 	} else if (state->role == PK_ROLE_ENUM_SEARCH_GROUP) {
 		pk_client_search_groups_async (PK_CLIENT(state->task), state->filters, state->values,
 					       state->cancellable, state->progress_callback, state->progress_user_data,
@@ -256,16 +270,12 @@ pk_task_do_async_action (PkTaskState *state)
 					   (GAsyncReadyCallback) pk_task_ready_cb, state);
 	} else if (state->role == PK_ROLE_ENUM_GET_CATEGORIES) {
 		pk_client_get_categories_async (PK_CLIENT(state->task),
-					        state->cancellable, state->progress_callback, state->progress_user_data,
-					        (GAsyncReadyCallback) pk_task_ready_cb, state);
+						state->cancellable, state->progress_callback, state->progress_user_data,
+						(GAsyncReadyCallback) pk_task_ready_cb, state);
 	} else if (state->role == PK_ROLE_ENUM_REFRESH_CACHE) {
 		pk_client_refresh_cache_async (PK_CLIENT(state->task), state->force,
 					       state->cancellable, state->progress_callback, state->progress_user_data,
 					       (GAsyncReadyCallback) pk_task_ready_cb, state);
-	} else if (state->role == PK_ROLE_ENUM_ROLLBACK) {
-		pk_client_rollback_async (PK_CLIENT(state->task), state->transaction_id,
-					  state->cancellable, state->progress_callback, state->progress_user_data,
-					  (GAsyncReadyCallback) pk_task_ready_cb, state);
 	} else if (state->role == PK_ROLE_ENUM_GET_REPO_LIST) {
 		pk_client_get_repo_list_async (PK_CLIENT(state->task), state->filters,
 					       state->cancellable, state->progress_callback, state->progress_user_data,
@@ -275,9 +285,9 @@ pk_task_do_async_action (PkTaskState *state)
 					     state->cancellable, state->progress_callback, state->progress_user_data,
 					     (GAsyncReadyCallback) pk_task_ready_cb, state);
 	} else if (state->role == PK_ROLE_ENUM_REPAIR_SYSTEM) {
-		pk_client_repair_system_async (PK_CLIENT(state->task), state->only_trusted,
-		                               state->cancellable, state->progress_callback, state->progress_user_data,
-		                               (GAsyncReadyCallback) pk_task_ready_cb, state);
+		pk_client_repair_system_async (PK_CLIENT(state->task), transaction_flags,
+					       state->cancellable, state->progress_callback, state->progress_user_data,
+					       (GAsyncReadyCallback) pk_task_ready_cb, state);
 	} else {
 		g_assert_not_reached ();
 	}
@@ -360,7 +370,8 @@ pk_task_simulate_ready_cb (GObject *source_object, GAsyncResult *res, PkTaskStat
 	untrusted_sack = pk_package_sack_filter_by_info (sack, PK_INFO_ENUM_UNTRUSTED);
 	if (pk_package_sack_get_size (untrusted_sack) > 0) {
 		g_debug ("we got an untrusted message, so skipping only-trusted");
-		state->only_trusted = FALSE;
+		pk_bitfield_remove (state->transaction_flags,
+				    PK_TRANSACTION_FLAG_ENUM_ONLY_TRUSTED);
 	}
 
 	/* remove all the packages we want to ignore */
@@ -402,40 +413,69 @@ out:
 static void
 pk_task_do_async_simulate_action (PkTaskState *state)
 {
+	PkBitfield transaction_flags = state->transaction_flags;
+
 	/* so the callback knows if we are serious or not */
+	pk_bitfield_add (transaction_flags, PK_TRANSACTION_FLAG_ENUM_SIMULATE);
 	state->simulate = TRUE;
 
 	/* do the correct action */
 	if (state->role == PK_ROLE_ENUM_INSTALL_PACKAGES) {
 		/* simulate install async */
 		g_debug ("doing install");
-		pk_client_simulate_install_packages_async (PK_CLIENT(state->task), state->package_ids,
-							   state->cancellable, state->progress_callback, state->progress_user_data,
-							   (GAsyncReadyCallback) pk_task_simulate_ready_cb, state);
+		pk_client_install_packages_async (PK_CLIENT(state->task),
+						  transaction_flags,
+						  state->package_ids,
+						  state->cancellable,
+						  state->progress_callback,
+						  state->progress_user_data,
+						  (GAsyncReadyCallback) pk_task_simulate_ready_cb,
+						  state);
 	} else if (state->role == PK_ROLE_ENUM_UPDATE_PACKAGES) {
 		/* simulate update async */
 		g_debug ("doing update");
-		pk_client_simulate_update_packages_async (PK_CLIENT(state->task), state->package_ids,
-							  state->cancellable, state->progress_callback, state->progress_user_data,
-							  (GAsyncReadyCallback) pk_task_simulate_ready_cb, state);
+		pk_client_update_packages_async (PK_CLIENT(state->task),
+						 transaction_flags,
+						 state->package_ids,
+						 state->cancellable,
+						 state->progress_callback,
+						 state->progress_user_data,
+						 (GAsyncReadyCallback) pk_task_simulate_ready_cb,
+						 state);
 	} else if (state->role == PK_ROLE_ENUM_REMOVE_PACKAGES) {
 		/* simulate remove async */
 		g_debug ("doing remove");
-		pk_client_simulate_remove_packages_async (PK_CLIENT(state->task), state->package_ids, state->autoremove,
-							  state->cancellable, state->progress_callback, state->progress_user_data,
-							  (GAsyncReadyCallback) pk_task_simulate_ready_cb, state);
+		pk_client_remove_packages_async (PK_CLIENT(state->task),
+						 transaction_flags,
+						 state->package_ids,
+						 state->allow_deps,
+						 state->autoremove,
+						 state->cancellable,
+						 state->progress_callback,
+						 state->progress_user_data,
+						 (GAsyncReadyCallback) pk_task_simulate_ready_cb,
+						 state);
 	} else if (state->role == PK_ROLE_ENUM_INSTALL_FILES) {
 		/* simulate install async */
 		g_debug ("doing install files");
-		pk_client_simulate_install_files_async (PK_CLIENT(state->task), state->files,
-						        state->cancellable, state->progress_callback, state->progress_user_data,
-						        (GAsyncReadyCallback) pk_task_simulate_ready_cb, state);
+		pk_client_install_files_async (PK_CLIENT(state->task),
+					       transaction_flags,
+					       state->files,
+					       state->cancellable,
+					       state->progress_callback,
+					       state->progress_user_data,
+					       (GAsyncReadyCallback) pk_task_simulate_ready_cb,
+					       state);
 	} else if (state->role == PK_ROLE_ENUM_REPAIR_SYSTEM) {
 		/* simulate repair system async */
 		g_debug ("doing repair system");
-		pk_client_simulate_repair_system_async (PK_CLIENT(state->task),
-		                                        state->cancellable, state->progress_callback, state->progress_user_data,
-		                                        (GAsyncReadyCallback) pk_task_simulate_ready_cb, state);
+		pk_client_repair_system_async (PK_CLIENT(state->task),
+					       transaction_flags,
+					       state->cancellable,
+					       state->progress_callback,
+					       state->progress_user_data,
+					       (GAsyncReadyCallback) pk_task_simulate_ready_cb,
+					       state);
 	} else {
 		g_assert_not_reached ();
 	}
@@ -771,7 +811,8 @@ pk_task_ready_cb (GObject *source_object, GAsyncResult *res, PkTaskState *state)
 
 	/* need untrusted */
 	if (state->exit_enum == PK_EXIT_ENUM_NEED_UNTRUSTED) {
-		state->only_trusted = FALSE;
+		pk_bitfield_remove (state->transaction_flags,
+				    PK_TRANSACTION_FLAG_ENUM_ONLY_TRUSTED);
 
 		/* running non-interactive */
 		if (!state->task->priv->interactive) {
@@ -922,7 +963,7 @@ pk_task_install_packages_async (PkTask *task, gchar **package_ids, GCancellable 
 	state->progress_callback = progress_callback;
 	state->progress_user_data = progress_user_data;
 	state->ret = FALSE;
-	state->only_trusted = TRUE;
+	state->transaction_flags = pk_bitfield_value (PK_TRANSACTION_FLAG_ENUM_ONLY_TRUSTED);
 	state->package_ids = g_strdupv (package_ids);
 	state->request = pk_task_generate_request_id ();
 
@@ -974,7 +1015,7 @@ pk_task_update_packages_async (PkTask *task, gchar **package_ids, GCancellable *
 	state->task = g_object_ref (task);
 	if (cancellable != NULL)
 		state->cancellable = g_object_ref (cancellable);
-	state->only_trusted = TRUE;
+	state->transaction_flags = pk_bitfield_value (PK_TRANSACTION_FLAG_ENUM_ONLY_TRUSTED);
 	state->package_ids = g_strdupv (package_ids);
 	state->progress_callback = progress_callback;
 	state->progress_user_data = progress_user_data;
@@ -1088,7 +1129,7 @@ pk_task_install_files_async (PkTask *task, gchar **files, GCancellable *cancella
 	state->task = g_object_ref (task);
 	if (cancellable != NULL)
 		state->cancellable = g_object_ref (cancellable);
-	state->only_trusted = TRUE;
+	state->transaction_flags = pk_bitfield_value (PK_TRANSACTION_FLAG_ENUM_ONLY_TRUSTED);
 	state->files = g_strdupv (files);
 	state->progress_callback = progress_callback;
 	state->progress_user_data = progress_user_data;
@@ -1102,59 +1143,6 @@ pk_task_install_files_async (PkTask *task, gchar **files, GCancellable *cancella
 		pk_task_do_async_simulate_action (state);
 	else
 		pk_task_do_async_action (state);
-
-	g_object_unref (res);
-}
-
-/**
- * pk_task_update_system_async:
- * @task: a valid #PkTask instance
- * @cancellable: a #GCancellable or %NULL
- * @progress_callback: (scope call): the function to run when the progress changes
- * @progress_user_data: data to pass to @progress_callback
- * @callback_ready: the function to run on completion
- * @user_data: the data to pass to @callback_ready
- *
- * Update all the packages on the system with the highest versions found in all
- * repositories.
- * NOTE: you can't choose what repositories to update from, but you can do:
- * - pk_task_repo_disable()
- * - pk_task_update_system()
- * - pk_task_repo_enable()
- *
- * Since: 0.5.2
- **/
-void
-pk_task_update_system_async (PkTask *task, GCancellable *cancellable,
-			     PkProgressCallback progress_callback, gpointer progress_user_data,
-			     GAsyncReadyCallback callback_ready, gpointer user_data)
-{
-	GSimpleAsyncResult *res;
-	PkTaskState *state;
-
-	g_return_if_fail (PK_IS_CLIENT (task));
-	g_return_if_fail (callback_ready != NULL);
-	g_return_if_fail (cancellable == NULL || G_IS_CANCELLABLE (cancellable));
-
-	res = g_simple_async_result_new (G_OBJECT (task), callback_ready, user_data, pk_task_update_system_async);
-
-	/* save state */
-	state = g_slice_new0 (PkTaskState);
-	state->role = PK_ROLE_ENUM_UPDATE_SYSTEM;
-	state->res = g_object_ref (res);
-	state->task = g_object_ref (task);
-	if (cancellable != NULL)
-		state->cancellable = g_object_ref (cancellable);
-	state->only_trusted = TRUE;
-	state->progress_callback = progress_callback;
-	state->progress_user_data = progress_user_data;
-	state->request = pk_task_generate_request_id ();
-
-	g_debug ("adding state %p", state);
-	g_ptr_array_add (task->priv->array, state);
-
-	/* start trusted install async */
-	pk_task_do_async_action (state);
 
 	g_object_unref (res);
 }
@@ -1198,7 +1186,7 @@ pk_task_resolve_async (PkTask *task, PkBitfield filters, gchar **packages, GCanc
 	state->progress_callback = progress_callback;
 	state->progress_user_data = progress_user_data;
 	state->ret = FALSE;
-	state->only_trusted = TRUE;
+	state->transaction_flags = pk_bitfield_value (PK_TRANSACTION_FLAG_ENUM_ONLY_TRUSTED);
 	state->filters = filters;
 	state->packages = g_strdupv (packages);
 	state->request = pk_task_generate_request_id ();
@@ -1251,7 +1239,7 @@ pk_task_search_names_async (PkTask *task, PkBitfield filters, gchar **values, GC
 	state->progress_callback = progress_callback;
 	state->progress_user_data = progress_user_data;
 	state->ret = FALSE;
-	state->only_trusted = TRUE;
+	state->transaction_flags = pk_bitfield_value (PK_TRANSACTION_FLAG_ENUM_ONLY_TRUSTED);
 	state->filters = filters;
 	state->values = g_strdupv (values);
 	state->request = pk_task_generate_request_id ();
@@ -1304,7 +1292,7 @@ pk_task_search_details_async (PkTask *task, PkBitfield filters, gchar **values, 
 	state->progress_callback = progress_callback;
 	state->progress_user_data = progress_user_data;
 	state->ret = FALSE;
-	state->only_trusted = TRUE;
+	state->transaction_flags = pk_bitfield_value (PK_TRANSACTION_FLAG_ENUM_ONLY_TRUSTED);
 	state->filters = filters;
 	state->values = g_strdupv (values);
 	state->request = pk_task_generate_request_id ();
@@ -1357,7 +1345,7 @@ pk_task_search_groups_async (PkTask *task, PkBitfield filters, gchar **values, G
 	state->progress_callback = progress_callback;
 	state->progress_user_data = progress_user_data;
 	state->ret = FALSE;
-	state->only_trusted = TRUE;
+	state->transaction_flags = pk_bitfield_value (PK_TRANSACTION_FLAG_ENUM_ONLY_TRUSTED);
 	state->filters = filters;
 	state->values = g_strdupv (values);
 	state->request = pk_task_generate_request_id ();
@@ -1410,7 +1398,7 @@ pk_task_search_files_async (PkTask *task, PkBitfield filters, gchar **values, GC
 	state->progress_callback = progress_callback;
 	state->progress_user_data = progress_user_data;
 	state->ret = FALSE;
-	state->only_trusted = TRUE;
+	state->transaction_flags = pk_bitfield_value (PK_TRANSACTION_FLAG_ENUM_ONLY_TRUSTED);
 	state->filters = filters;
 	state->values = g_strdupv (values);
 	state->request = pk_task_generate_request_id ();
@@ -1462,7 +1450,7 @@ pk_task_get_details_async (PkTask *task, gchar **package_ids, GCancellable *canc
 	state->progress_callback = progress_callback;
 	state->progress_user_data = progress_user_data;
 	state->ret = FALSE;
-	state->only_trusted = TRUE;
+	state->transaction_flags = pk_bitfield_value (PK_TRANSACTION_FLAG_ENUM_ONLY_TRUSTED);
 	state->package_ids = g_strdupv (package_ids);
 	state->request = pk_task_generate_request_id ();
 
@@ -1513,7 +1501,7 @@ pk_task_get_update_detail_async (PkTask *task, gchar **package_ids, GCancellable
 	state->progress_callback = progress_callback;
 	state->progress_user_data = progress_user_data;
 	state->ret = FALSE;
-	state->only_trusted = TRUE;
+	state->transaction_flags = pk_bitfield_value (PK_TRANSACTION_FLAG_ENUM_ONLY_TRUSTED);
 	state->package_ids = g_strdupv (package_ids);
 	state->request = pk_task_generate_request_id ();
 
@@ -1565,7 +1553,7 @@ pk_task_download_packages_async (PkTask *task, gchar **package_ids, const gchar 
 	state->progress_callback = progress_callback;
 	state->progress_user_data = progress_user_data;
 	state->ret = FALSE;
-	state->only_trusted = TRUE;
+	state->transaction_flags = pk_bitfield_value (PK_TRANSACTION_FLAG_ENUM_ONLY_TRUSTED);
 	state->package_ids = g_strdupv (package_ids);
 	state->directory = g_strdup (directory);
 	state->request = pk_task_generate_request_id ();
@@ -1617,7 +1605,7 @@ pk_task_get_updates_async (PkTask *task, PkBitfield filters, GCancellable *cance
 	state->progress_callback = progress_callback;
 	state->progress_user_data = progress_user_data;
 	state->ret = FALSE;
-	state->only_trusted = TRUE;
+	state->transaction_flags = pk_bitfield_value (PK_TRANSACTION_FLAG_ENUM_ONLY_TRUSTED);
 	state->filters = filters;
 	state->request = pk_task_generate_request_id ();
 
@@ -1670,7 +1658,7 @@ pk_task_get_depends_async (PkTask *task, PkBitfield filters, gchar **package_ids
 	state->progress_callback = progress_callback;
 	state->progress_user_data = progress_user_data;
 	state->ret = FALSE;
-	state->only_trusted = TRUE;
+	state->transaction_flags = pk_bitfield_value (PK_TRANSACTION_FLAG_ENUM_ONLY_TRUSTED);
 	state->filters = filters;
 	state->package_ids = g_strdupv (package_ids);
 	state->recursive = recursive;
@@ -1723,7 +1711,7 @@ pk_task_get_packages_async (PkTask *task, PkBitfield filters, GCancellable *canc
 	state->progress_callback = progress_callback;
 	state->progress_user_data = progress_user_data;
 	state->ret = FALSE;
-	state->only_trusted = TRUE;
+	state->transaction_flags = pk_bitfield_value (PK_TRANSACTION_FLAG_ENUM_ONLY_TRUSTED);
 	state->filters = filters;
 	state->request = pk_task_generate_request_id ();
 
@@ -1776,7 +1764,7 @@ pk_task_get_requires_async (PkTask *task, PkBitfield filters, gchar **package_id
 	state->progress_callback = progress_callback;
 	state->progress_user_data = progress_user_data;
 	state->ret = FALSE;
-	state->only_trusted = TRUE;
+	state->transaction_flags = pk_bitfield_value (PK_TRANSACTION_FLAG_ENUM_ONLY_TRUSTED);
 	state->filters = filters;
 	state->package_ids = g_strdupv (package_ids);
 	state->recursive = recursive;
@@ -1831,7 +1819,7 @@ pk_task_what_provides_async (PkTask *task, PkBitfield filters, PkProvidesEnum pr
 	state->progress_callback = progress_callback;
 	state->progress_user_data = progress_user_data;
 	state->ret = FALSE;
-	state->only_trusted = TRUE;
+	state->transaction_flags = pk_bitfield_value (PK_TRANSACTION_FLAG_ENUM_ONLY_TRUSTED);
 	state->filters = filters;
 	state->provides = provides;
 	state->values = g_strdupv (values);
@@ -1884,7 +1872,7 @@ pk_task_get_files_async (PkTask *task, gchar **package_ids, GCancellable *cancel
 	state->progress_callback = progress_callback;
 	state->progress_user_data = progress_user_data;
 	state->ret = FALSE;
-	state->only_trusted = TRUE;
+	state->transaction_flags = pk_bitfield_value (PK_TRANSACTION_FLAG_ENUM_ONLY_TRUSTED);
 	state->package_ids = g_strdupv (package_ids);
 	state->request = pk_task_generate_request_id ();
 
@@ -1934,7 +1922,7 @@ pk_task_get_categories_async (PkTask *task, GCancellable *cancellable,
 	state->progress_callback = progress_callback;
 	state->progress_user_data = progress_user_data;
 	state->ret = FALSE;
-	state->only_trusted = TRUE;
+	state->transaction_flags = pk_bitfield_value (PK_TRANSACTION_FLAG_ENUM_ONLY_TRUSTED);
 	state->request = pk_task_generate_request_id ();
 
 	g_debug ("adding state %p", state);
@@ -1984,59 +1972,8 @@ pk_task_refresh_cache_async (PkTask *task, gboolean force, GCancellable *cancell
 	state->progress_callback = progress_callback;
 	state->progress_user_data = progress_user_data;
 	state->ret = FALSE;
-	state->only_trusted = TRUE;
+	state->transaction_flags = pk_bitfield_value (PK_TRANSACTION_FLAG_ENUM_ONLY_TRUSTED);
 	state->force = force;
-	state->request = pk_task_generate_request_id ();
-
-	g_debug ("adding state %p", state);
-	g_ptr_array_add (task->priv->array, state);
-
-	/* run task with callbacks */
-	pk_task_do_async_action (state);
-
-	g_object_unref (res);
-}
-
-/**
- * pk_task_rollback_async:
- * @task: a valid #PkTask instance
- * @transaction_id: The transaction ID of the old transaction
- * @cancellable: a #GCancellable or %NULL
- * @progress_callback: (scope call): the function to run when the progress changes
- * @progress_user_data: data to pass to @progress_callback
- * @callback_ready: the function to run on completion
- * @user_data: the data to pass to @callback
- *
- * Rollback to a previous package state.
- *
- * Since: 0.6.5
- **/
-void
-pk_task_rollback_async (PkTask *task, const gchar *transaction_id, GCancellable *cancellable,
-			PkProgressCallback progress_callback, gpointer progress_user_data,
-			GAsyncReadyCallback callback_ready, gpointer user_data)
-{
-	GSimpleAsyncResult *res;
-	PkTaskState *state;
-
-	g_return_if_fail (PK_IS_TASK (task));
-	g_return_if_fail (callback_ready != NULL);
-	g_return_if_fail (cancellable == NULL || G_IS_CANCELLABLE (cancellable));
-
-	res = g_simple_async_result_new (G_OBJECT (task), callback_ready, user_data, pk_task_install_packages_async);
-
-	/* save state */
-	state = g_slice_new0 (PkTaskState);
-	state->role = PK_ROLE_ENUM_ROLLBACK;
-	state->res = g_object_ref (res);
-	state->task = g_object_ref (task);
-	if (cancellable != NULL)
-		state->cancellable = g_object_ref (cancellable);
-	state->progress_callback = progress_callback;
-	state->progress_user_data = progress_user_data;
-	state->ret = FALSE;
-	state->only_trusted = TRUE;
-	state->transaction_id = g_strdup (transaction_id);
 	state->request = pk_task_generate_request_id ();
 
 	g_debug ("adding state %p", state);
@@ -2086,7 +2023,7 @@ pk_task_get_repo_list_async (PkTask *task, PkBitfield filters, GCancellable *can
 	state->progress_callback = progress_callback;
 	state->progress_user_data = progress_user_data;
 	state->ret = FALSE;
-	state->only_trusted = TRUE;
+	state->transaction_flags = pk_bitfield_value (PK_TRANSACTION_FLAG_ENUM_ONLY_TRUSTED);
 	state->filters = filters;
 	state->request = pk_task_generate_request_id ();
 
@@ -2138,7 +2075,7 @@ pk_task_repo_enable_async (PkTask *task, const gchar *repo_id, gboolean enabled,
 	state->progress_callback = progress_callback;
 	state->progress_user_data = progress_user_data;
 	state->ret = FALSE;
-	state->only_trusted = TRUE;
+	state->transaction_flags = pk_bitfield_value (PK_TRANSACTION_FLAG_ENUM_ONLY_TRUSTED);
 	state->repo_id = g_strdup (repo_id);
 	state->enabled = enabled;
 	state->request = pk_task_generate_request_id ();
@@ -2166,9 +2103,12 @@ pk_task_repo_enable_async (PkTask *task, const gchar *repo_id, gboolean enabled,
  * Since: 0.7.2
  **/
 void
-pk_task_repair_system_async (PkTask *task, GCancellable *cancellable,
-                             PkProgressCallback progress_callback, gpointer progress_user_data,
-                             GAsyncReadyCallback callback_ready, gpointer user_data)
+pk_task_repair_system_async (PkTask *task,
+			     GCancellable *cancellable,
+			     PkProgressCallback progress_callback,
+			     gpointer progress_user_data,
+			     GAsyncReadyCallback callback_ready,
+			     gpointer user_data)
 {
 	GSimpleAsyncResult *res;
 	PkTaskState *state;
@@ -2187,7 +2127,7 @@ pk_task_repair_system_async (PkTask *task, GCancellable *cancellable,
 	state->task = g_object_ref (task);
 	if (cancellable != NULL)
 		state->cancellable = g_object_ref (cancellable);
-	state->only_trusted = TRUE;
+	state->transaction_flags = pk_bitfield_value (PK_TRANSACTION_FLAG_ENUM_ONLY_TRUSTED);
 	state->progress_callback = progress_callback;
 	state->progress_user_data = progress_user_data;
 	state->request = pk_task_generate_request_id ();
@@ -2267,6 +2207,40 @@ pk_task_get_simulate (PkTask *task)
 	return task->priv->simulate;
 }
 
+/**
+ * pk_task_set_only_download:
+ * @task: a valid #PkTask instance
+ * @only_download: %FALSE to actually commit the transaction
+ *
+ * If the transaction should be prepared (depsolved, packages
+ * downloaded, etc) but not committed.
+ *
+ * Since: 0.8.1
+ **/
+void
+pk_task_set_only_download (PkTask *task, gboolean only_download)
+{
+	g_return_if_fail (PK_IS_TASK (task));
+	task->priv->only_download = only_download;
+	g_object_notify (G_OBJECT (task), "only-download");
+}
+
+/**
+ * pk_task_get_only_download:
+ * @task: a valid #PkTask instance
+ *
+ * Gets if we are just preparing the transaction for later.
+ *
+ * Return value: %TRUE if we are simulating
+ *
+ * Since: 0.8.1
+ **/
+gboolean
+pk_task_get_only_download (PkTask *task)
+{
+	g_return_val_if_fail (PK_IS_TASK (task), FALSE);
+	return task->priv->only_download;
+}
 
 /**
  * pk_task_set_interactive:
@@ -2319,6 +2293,9 @@ pk_task_get_property (GObject *object, guint prop_id, GValue *value, GParamSpec 
 	case PROP_INTERACTIVE:
 		g_value_set_boolean (value, priv->interactive);
 		break;
+	case PROP_ONLY_PREPARE:
+		g_value_set_boolean (value, priv->only_download);
+		break;
 	default:
 		G_OBJECT_WARN_INVALID_PROPERTY_ID (object, prop_id, pspec);
 		break;
@@ -2340,6 +2317,9 @@ pk_task_set_property (GObject *object, guint prop_id, const GValue *value, GPara
 		break;
 	case PROP_INTERACTIVE:
 		priv->interactive = g_value_get_boolean (value);
+		break;
+	case PROP_ONLY_PREPARE:
+		priv->only_download = g_value_get_boolean (value);
 		break;
 	default:
 		G_OBJECT_WARN_INVALID_PROPERTY_ID (object, prop_id, pspec);
@@ -2378,6 +2358,16 @@ pk_task_class_init (PkTaskClass *klass)
 				      TRUE,
 				      G_PARAM_READWRITE);
 	g_object_class_install_property (object_class, PROP_INTERACTIVE, pspec);
+
+	/**
+	 * PkTask:only-download:
+	 *
+	 * Since: 0.8.1
+	 */
+	pspec = g_param_spec_boolean ("only-download", NULL, NULL,
+				      FALSE,
+				      G_PARAM_READWRITE);
+	g_object_class_install_property (object_class, PROP_ONLY_PREPARE, pspec);
 
 	g_type_class_add_private (klass, sizeof (PkTaskPrivate));
 }

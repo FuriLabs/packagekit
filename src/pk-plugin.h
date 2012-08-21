@@ -25,6 +25,7 @@
 #include <glib-object.h>
 
 #include "pk-backend.h"
+#include "pk-backend-job.h"
 #include "pk-transaction.h"
 
 G_BEGIN_DECLS
@@ -34,6 +35,7 @@ typedef struct PkPluginPrivate PkPluginPrivate;
 typedef struct {
 	GModule			*module;
 	PkBackend		*backend;
+	PkBackendJob		*job;
 	PkPluginPrivate		*priv;
 } PkPlugin;
 
@@ -47,33 +49,9 @@ typedef enum {
 	PK_PLUGIN_PHASE_TRANSACTION_FINISHED_RESULTS,	/* finished with some signals */
 	PK_PLUGIN_PHASE_TRANSACTION_FINISHED_END,	/* finished with no signals */
 	PK_PLUGIN_PHASE_DESTROY,			/* plugin finalized */
+	PK_PLUGIN_PHASE_STATE_CHANGED,			/* system state has changed */
 	PK_PLUGIN_PHASE_UNKNOWN
 } PkPluginPhase;
-
-/* this is used to connect/disconnect backend signals */
-typedef enum {
-	PK_BACKEND_SIGNAL_ALLOW_CANCEL,
-	PK_BACKEND_SIGNAL_DETAILS,
-	PK_BACKEND_SIGNAL_ERROR_CODE,
-	PK_BACKEND_SIGNAL_DISTRO_UPGRADE,
-	PK_BACKEND_SIGNAL_FINISHED,
-	PK_BACKEND_SIGNAL_MESSAGE,
-	PK_BACKEND_SIGNAL_PACKAGE,
-	PK_BACKEND_SIGNAL_ITEM_PROGRESS,
-	PK_BACKEND_SIGNAL_FILES,
-	PK_BACKEND_SIGNAL_NOTIFY_PERCENTAGE,
-	PK_BACKEND_SIGNAL_NOTIFY_SUBPERCENTAGE,
-	PK_BACKEND_SIGNAL_NOTIFY_REMAINING,
-	PK_BACKEND_SIGNAL_NOTIFY_SPEED,
-	PK_BACKEND_SIGNAL_REPO_DETAIL,
-	PK_BACKEND_SIGNAL_REPO_SIGNATURE_REQUIRED,
-	PK_BACKEND_SIGNAL_EULA_REQUIRED,
-	PK_BACKEND_SIGNAL_MEDIA_CHANGE_REQUIRED,
-	PK_BACKEND_SIGNAL_REQUIRE_RESTART,
-	PK_BACKEND_SIGNAL_STATUS_CHANGED,
-	PK_BACKEND_SIGNAL_UPDATE_DETAIL,
-	PK_BACKEND_SIGNAL_CATEGORY
-} PkBackendSignal;
 
 #define PK_TRANSACTION_ALL_BACKEND_SIGNALS		0xffffffff
 #define PK_TRANSACTION_NO_BACKEND_SIGNALS		0
@@ -88,6 +66,7 @@ typedef void		 (*PkPluginTransactionFunc)	(PkPlugin	*plugin,
 const gchar	*pk_plugin_get_description		(void);
 void		 pk_plugin_initialize			(PkPlugin	*plugin);
 void		 pk_plugin_destroy			(PkPlugin	*plugin);
+void		 pk_plugin_state_changed		(PkPlugin	*plugin);
 void		 pk_plugin_transaction_run		(PkPlugin	*plugin,
 							 PkTransaction	*transaction);
 void		 pk_plugin_transaction_started		(PkPlugin	*plugin,

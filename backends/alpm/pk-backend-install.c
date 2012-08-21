@@ -25,7 +25,6 @@
 #include <pk-backend.h>
 
 #include "pk-backend-alpm.h"
-#include "pk-backend-databases.h"
 #include "pk-backend-error.h"
 #include "pk-backend-install.h"
 #include "pk-backend-transaction.h"
@@ -33,19 +32,15 @@
 static gint
 alpm_add_file (const gchar *filename)
 {
-	alpm_pkg_t *pkg;
-	alpm_siglevel_t level;
+	pmpkg_t *pkg;
 
 	g_return_val_if_fail (filename != NULL, -1);
-	g_return_val_if_fail (alpm != NULL, -1);
 
-	level = alpm_option_get_default_siglevel (alpm);
-
-	if (alpm_pkg_load (alpm, filename, 1, level, &pkg) < 0) {
+	if (alpm_pkg_load (filename, 1, &pkg) < 0) {
 		return -1;
 	}
 
-	if (alpm_add_pkg (alpm, pkg) < 0) {
+	if (alpm_add_pkg (pkg) < 0) {
 		alpm_pkg_free (pkg);
 		return -1;
 	}
@@ -66,9 +61,8 @@ pk_backend_transaction_add_targets (PkBackend *self, GError **error)
 
 	for (; *paths != NULL; ++paths) {
 		if (alpm_add_file (*paths) < 0) {
-			enum _alpm_errno_t errno = alpm_errno (alpm);
-			g_set_error (error, ALPM_ERROR, errno, "%s: %s",
-				     *paths, alpm_strerror (errno));
+			g_set_error (error, ALPM_ERROR, pm_errno, "%s: %s",
+				     *paths, alpm_strerrorlast ());
 			return FALSE;
 		}
 	}
@@ -95,16 +89,9 @@ pk_backend_simulate_install_files_thread (PkBackend *self)
 static gboolean
 pk_backend_install_files_thread (PkBackend *self)
 {
-	gboolean only_trusted;
 	GError *error = NULL;
 
 	g_return_val_if_fail (self != NULL, FALSE);
-
-	only_trusted = pk_backend_get_bool (self, "only_trusted");
-
-	if (!only_trusted && !pk_backend_disable_signatures (self, &error)) {
-		goto out;
-	}
 
 	if (pk_backend_transaction_initialize (self, 0, &error) &&
 	    pk_backend_transaction_add_targets (self, &error) &&
@@ -112,15 +99,7 @@ pk_backend_install_files_thread (PkBackend *self)
 		pk_backend_transaction_commit (self, &error);
 	}
 
-out:
-	pk_backend_transaction_end (self, (error == NULL) ? &error : NULL);
-
-	if (!only_trusted) {
-		GError **e = (error == NULL) ? &error : NULL;
-		pk_backend_enable_signatures (self, e);
-	}
-
-	return pk_backend_finish (self, error);
+	return pk_backend_transaction_finish (self, error);
 }
 
 void
