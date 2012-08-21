@@ -1,6 +1,14 @@
-packagekit (0.8.3-1) UNRELEASED; urgency=low
+packagekit (0.8.3-1) experimental; urgency=low
 
-  * Imported Upstream version 0.8.3
+  * New upstream release: 0.8.3
+    This is a release from the 0.8.x series which contains many
+    exciting new features, for example parallel transactions,
+    heavily improved backend API, many speed optimizations,
+    offline-update support etc. For details see the PackageKit
+    changelog.
+  * Use systemd on all Linux architectures
+  * Add offline-update technology preview
+  * Adjust library package names to new soversions
 
  -- Matthias Klumpp <matthias@tenstral.net>  Tue, 21 Aug 2012 17:42:27 +0200
 

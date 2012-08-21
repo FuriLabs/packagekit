@@ -236,7 +236,6 @@ Description: PackageKit backend Python bindings
 
 Package: packagekit-offline-update
 Architecture: linux-any
-Section: admin
 Priority: extra
 Depends: packagekit (= ${binary:Version}),
          plymouth (>=0.8.4),
