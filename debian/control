@@ -40,7 +40,7 @@ Homepage: http://www.packagekit.org
 Package: packagekit
 Architecture: any
 Depends: libglib2.0-bin,
-         libpackagekit-glib2-14 (= ${binary:Version}),
+         libpackagekit-glib2-16 (= ${binary:Version}),
          packagekit-backend-aptcc (= ${binary:Version}),
          ${misc:Depends},
          ${shlibs:Depends}
@@ -88,7 +88,7 @@ Description: Documentation for PackageKit
  .
  This package provides documentation for PackageKit.
 
-Package: libpackagekit-glib2-14
+Package: libpackagekit-glib2-16
 Architecture: any
 Section: libs
 Multi-Arch: same
@@ -110,7 +110,7 @@ Section: libdevel
 Architecture: any
 Depends: libdbus-1-dev,
          libglib2.0-dev (>= 2.24),
-         libpackagekit-glib2-14 (= ${binary:Version}),
+         libpackagekit-glib2-16 (= ${binary:Version}),
          libsqlite3-dev,
          ${misc:Depends}
 Description: Library for accessing PackageKit using GLib (development files)
@@ -142,7 +142,7 @@ Description: GObject introspection data for the PackageKit GLib library
  It can be used by packages using the GIRepository format to generate
  dynamic bindings.
 
-Package: libpackagekit-qt2-2
+Package: libpackagekit-qt2-4
 Architecture: any
 Section: libs
 Multi-Arch: same
@@ -160,7 +160,7 @@ Description: Library for accessing PackageKit using Qt4
 Package: libpackagekit-qt2-dev
 Section: libdevel
 Architecture: any
-Depends: libpackagekit-qt2-2 (= ${binary:Version}),
+Depends: libpackagekit-qt2-4 (= ${binary:Version}),
          libqt4-dev,
          ${misc:Depends}
 Description: Library for accessing PackageKit using Qt4 (development files)
