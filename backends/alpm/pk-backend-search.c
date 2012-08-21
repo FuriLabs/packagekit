@@ -55,9 +55,10 @@ static gpointer
 pk_backend_pattern_chroot (const gchar *needle, GError **error)
 {
 	g_return_val_if_fail (needle != NULL, NULL);
+	g_return_val_if_fail (alpm != NULL, NULL);
 
 	if (G_IS_DIR_SEPARATOR (*needle)) {
-		const gchar *file = needle, *root = alpm_option_get_root ();
+		const gchar *file = needle, *root = alpm_option_get_root (alpm);
 
 		/* adjust needle to the correct prefix */
 		for (; *file == *root; ++file, ++root) {
@@ -74,7 +75,7 @@ pk_backend_pattern_chroot (const gchar *needle, GError **error)
 }
 
 static gboolean
-pk_backend_match_all (pmpkg_t *pkg, gpointer pattern)
+pk_backend_match_all (alpm_pkg_t *pkg, gpointer pattern)
 {
 	g_return_val_if_fail (pkg != NULL, FALSE);
 	g_return_val_if_fail (pattern != NULL, FALSE);
@@ -84,10 +85,10 @@ pk_backend_match_all (pmpkg_t *pkg, gpointer pattern)
 }
 
 static gboolean
-pk_backend_match_details (pmpkg_t *pkg, GRegex *regex)
+pk_backend_match_details (alpm_pkg_t *pkg, GRegex *regex)
 {
 	const gchar *desc;
-	pmdb_t *db;
+	alpm_db_t *db;
 	const alpm_list_t *i;
 
 	g_return_val_if_fail (pkg != NULL, FALSE);
@@ -123,32 +124,38 @@ pk_backend_match_details (pmpkg_t *pkg, GRegex *regex)
 }
 
 static gboolean
-pk_backend_match_file (pmpkg_t *pkg, const gchar *needle)
+pk_backend_match_file (alpm_pkg_t *pkg, const gchar *needle)
 {
-	const alpm_list_t *i;
+	alpm_filelist_t *files;
+	gsize i;
 
 	g_return_val_if_fail (pkg != NULL, FALSE);
 	g_return_val_if_fail (needle != NULL, FALSE);
 
+	files = alpm_pkg_get_files (pkg);
+
 	/* match any file the package contains */
 	if (G_IS_DIR_SEPARATOR (*needle)) {
-		for (i = alpm_pkg_get_files (pkg); i != NULL; i = i->next) {
+		for (i = 0; i < files->count; ++i) {
+			const gchar *file = files->files[i].name;
 			/* match the full path of file */
-			if (g_strcmp0 (i->data, needle + 1) == 0) {
+			if (g_strcmp0 (file, needle + 1) == 0) {
 				return TRUE;
 			}
 		}
 	} else {
-		for (i = alpm_pkg_get_files (pkg); i != NULL; i = i->next) {
-			const gchar *file = strrchr (i->data, G_DIR_SEPARATOR);
-			if (file == NULL) {
-				file = i->data;
+		for (i = 0; i < files->count; ++i) {
+			const gchar *file = files->files[i].name;
+			const gchar *name = strrchr (file, G_DIR_SEPARATOR);
+
+			if (name == NULL) {
+				name = file;
 			} else {
-				++file;
+				++name;
 			}
 
 			/* match the basename of file */
-			if (g_strcmp0 (file, needle) == 0) {
+			if (g_strcmp0 (name, needle) == 0) {
 				return TRUE;
 			}
 		}
@@ -158,7 +165,7 @@ pk_backend_match_file (pmpkg_t *pkg, const gchar *needle)
 }
 
 static gboolean
-pk_backend_match_group (pmpkg_t *pkg, const gchar *needle)
+pk_backend_match_group (alpm_pkg_t *pkg, const gchar *needle)
 {
 	g_return_val_if_fail (pkg != NULL, FALSE);
 	g_return_val_if_fail (needle != NULL, FALSE);
@@ -168,7 +175,7 @@ pk_backend_match_group (pmpkg_t *pkg, const gchar *needle)
 }
 
 static gboolean
-pk_backend_match_name (pmpkg_t *pkg, GRegex *regex)
+pk_backend_match_name (alpm_pkg_t *pkg, GRegex *regex)
 {
 	g_return_val_if_fail (pkg != NULL, FALSE);
 	g_return_val_if_fail (regex != NULL, FALSE);
@@ -178,7 +185,7 @@ pk_backend_match_name (pmpkg_t *pkg, GRegex *regex)
 }
 
 static gboolean
-pk_backend_match_provides (pmpkg_t *pkg, gpointer pattern)
+pk_backend_match_provides (alpm_pkg_t *pkg, gpointer pattern)
 {
 	/* TODO: implement GStreamer codecs, Pango fonts, etc. */
 	const alpm_list_t *i;
@@ -215,7 +222,7 @@ typedef enum {
 } SearchType;
 
 typedef gpointer (*PatternFunc) (const gchar *needle, GError **error);
-typedef gboolean (*MatchFunc) (pmpkg_t *pkg, gpointer pattern);
+typedef gboolean (*MatchFunc) (alpm_pkg_t *pkg, gpointer pattern);
 
 static PatternFunc pattern_funcs[] = {
 	pk_backend_pattern_needle,
@@ -245,9 +252,9 @@ static MatchFunc match_funcs[] = {
 };
 
 static gboolean
-alpm_pkg_is_local (pmpkg_t *pkg)
+alpm_pkg_is_local (alpm_pkg_t *pkg)
 {
-	pmpkg_t *local;
+	alpm_pkg_t *local;
 
 	g_return_val_if_fail (pkg != NULL, FALSE);
 	g_return_val_if_fail (localdb != NULL, FALSE);
@@ -274,7 +281,7 @@ alpm_pkg_is_local (pmpkg_t *pkg)
 }
 
 static void
-pk_backend_search_db (PkBackend *self, pmdb_t *db, MatchFunc match,
+pk_backend_search_db (PkBackend *self, alpm_db_t *db, MatchFunc match,
 		      const alpm_list_t *patterns)
 {
 	const alpm_list_t *i, *j;
@@ -326,6 +333,7 @@ pk_backend_search_thread (PkBackend *self)
 	GError *error = NULL;
 
 	g_return_val_if_fail (self != NULL, FALSE);
+	g_return_val_if_fail (alpm != NULL, FALSE);
 	g_return_val_if_fail (localdb != NULL, FALSE);
 
 	needles = pk_backend_get_strv (self, "search");
@@ -366,7 +374,7 @@ pk_backend_search_thread (PkBackend *self)
 		goto out;
 	}
 
-	for (i = alpm_option_get_syncdbs (); i != NULL; i = i->next) {
+	for (i = alpm_option_get_syncdbs (alpm); i != NULL; i = i->next) {
 		if (pk_backend_cancelled (self)) {
 			break;
 		}

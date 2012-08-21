@@ -2,7 +2,7 @@
 
 m4_define([pk_major_version], [0])
 m4_define([pk_minor_version], [7])
-m4_define([pk_micro_version], [5])
+m4_define([pk_micro_version], [6])
 m4_define([pk_version],
           [pk_major_version.pk_minor_version.pk_micro_version])
 
@@ -53,7 +53,7 @@ AC_SUBST(PK_VERSION)
 #   fixed, change:
 #      REVISION += 1
 LT_CURRENT=14
-LT_REVISION=14
+LT_REVISION=15
 LT_AGE=0
 AC_SUBST(LT_CURRENT)
 AC_SUBST(LT_REVISION)
@@ -565,7 +565,6 @@ AC_SUBST(security_framework, "$with_security_framework")
 
 if test x$with_security_framework = xpolkit; then
 	PKG_CHECK_MODULES(POLKIT, \
-			  polkit-backend-1 \
 			  polkit-gobject-1 >= $POLKIT_GOBJECT_REQUIRED)
 	AC_DEFINE(USE_SECURITY_POLKIT, 1, [if we should use PolicyKit])
 elif test x$with_security_framework = xdummy; then
@@ -645,7 +644,7 @@ if test x$enable_apt = xyes; then
 	PY_CHECK_MOD([apt_pkg],,,AC_MSG_ERROR([Apt backend needs python-apt]))
 	PY_CHECK_MOD([UpdateManager.Core.MetaRelease],,
 		     AC_DEFINE(HAVE_PYTHON_META_RELEASE, 1,
-			       "Meta release is available"), 
+			       "Meta release is available"),
 		     AC_MSG_WARN([Distro upgrade notification not supported]))
 	PY_CHECK_MOD([softwareproperties.SoftwareProperties],,
 		     AC_DEFINE(HAVE_PYTHON_SOFTWARE_PROPERTIES, 1,

@@ -22,10 +22,13 @@
  */
 
 #include <config.h>
+#include <locale.h>
 #include <glib/gstdio.h>
 #include <sys/utsname.h>
+#include <pk-backend-spawn.h>
 
 #include "pk-backend-alpm.h"
+#include "pk-backend-config.h"
 #include "pk-backend-databases.h"
 #include "pk-backend-error.h"
 #include "pk-backend-groups.h"
@@ -35,7 +38,8 @@ PkBackend *backend = NULL;
 GCancellable *cancellable = NULL;
 static GStaticMutex mutex = G_STATIC_MUTEX_INIT;
 
-pmdb_t *localdb = NULL;
+alpm_handle_t *alpm = NULL;
+alpm_db_t *localdb = NULL;
 
 gchar *xfercmd = NULL;
 alpm_list_t *holdpkgs = NULL;
@@ -162,7 +166,7 @@ out:
 }
 
 static void
-pk_backend_logcb (pmloglevel_t level, const gchar *format, va_list args)
+pk_backend_logcb (alpm_loglevel_t level, const gchar *format, va_list args)
 {
 	gchar *output;
 
@@ -176,12 +180,12 @@ pk_backend_logcb (pmloglevel_t level, const gchar *format, va_list args)
 
 	/* report important output to PackageKit */
 	switch (level) {
-		case PM_LOG_DEBUG:
-		case PM_LOG_FUNCTION:
+		case ALPM_LOG_DEBUG:
+		case ALPM_LOG_FUNCTION:
 			g_debug ("%s", output);
 			break;
 
-		case PM_LOG_WARNING:
+		case ALPM_LOG_WARNING:
 			g_warning ("%s", output);
 			pk_backend_output (backend, output);
 			break;
@@ -194,43 +198,98 @@ pk_backend_logcb (pmloglevel_t level, const gchar *format, va_list args)
 	g_free (output);
 }
 
-static gboolean
-pk_backend_initialize_alpm (PkBackend *self, GError **error)
+static void
+pk_backend_configure_environment (PkBackend *self)
 {
 	struct utsname un;
-	gchar *user_agent;
+	gchar *value;
 
-	g_return_val_if_fail (self != NULL, FALSE);
+	g_return_if_fail (self != NULL);
 
 	/* PATH might have been nuked by D-Bus */
 	g_setenv ("PATH", PK_BACKEND_DEFAULT_PATH, FALSE);
 
 	uname (&un);
-	user_agent = g_strdup_printf ("%s/%s (%s %s) libalpm/%s",
-				      PACKAGE_TARNAME, PACKAGE_VERSION,
-				      un.sysname, un.machine, alpm_version ());
-	g_setenv ("HTTP_USER_AGENT", user_agent, FALSE);
-	g_free (user_agent);
+	value = g_strdup_printf ("%s/%s (%s %s) libalpm/%s", PACKAGE_TARNAME,
+				 PACKAGE_VERSION, un.sysname, un.machine,
+				 alpm_version ());
+	g_setenv ("HTTP_USER_AGENT", value, FALSE);
+	g_free (value);
 
-	g_debug ("initializing");
-	if (alpm_initialize () < 0) {
-		g_set_error_literal (error, ALPM_ERROR, pm_errno,
-				     alpm_strerrorlast ());
+	value = pk_backend_get_locale (self);
+	if (value != NULL) {
+		setlocale (LC_ALL, value);
+		g_free (value);
+	}
+
+	value = pk_backend_get_proxy_http (self);
+	if (value != NULL) {
+		gchar *uri = pk_backend_spawn_convert_uri (value);
+		g_setenv ("http_proxy", uri, TRUE);
+		g_free (uri);
+		g_free (value);
+	}
+
+	value = pk_backend_get_proxy_https (self);
+	if (value != NULL) {
+		gchar *uri = pk_backend_spawn_convert_uri (value);
+		g_setenv ("https_proxy", uri, TRUE);
+		g_free (uri);
+		g_free (value);
+	}
+
+	value = pk_backend_get_proxy_ftp (self);
+	if (value != NULL) {
+		gchar *uri = pk_backend_spawn_convert_uri (value);
+		g_setenv ("ftp_proxy", uri, TRUE);
+		g_free (uri);
+		g_free (value);
+	}
+
+	value = pk_backend_get_proxy_socks (self);
+	if (value != NULL) {
+		gchar *uri = pk_backend_spawn_convert_uri (value);
+		g_setenv ("socks_proxy", uri, TRUE);
+		g_free (uri);
+		g_free (value);
+	}
+
+	value = pk_backend_get_no_proxy (self);
+	if (value != NULL) {
+		g_setenv ("no_proxy", value, TRUE);
+		g_free (value);
+	}
+
+	value = pk_backend_get_pac (self);
+	if (value != NULL) {
+		gchar *uri = pk_backend_spawn_convert_uri (value);
+		g_setenv ("pac", uri, TRUE);
+		g_free (uri);
+		g_free (value);
+	}
+}
+
+static gboolean
+pk_backend_initialize_alpm (PkBackend *self, GError **error)
+{
+	g_return_val_if_fail (self != NULL, FALSE);
+
+	pk_backend_configure_environment (self);
+
+	alpm = pk_backend_configure (PK_BACKEND_CONFIG_FILE, error);
+	if (alpm == NULL) {
 		return FALSE;
 	}
 
 	backend = self;
-	localdb = alpm_option_get_localdb ();
-	if (localdb == NULL) {
-		g_set_error (error, ALPM_ERROR, pm_errno, "[%s]: %s", "local",
-			     alpm_strerrorlast ());
-	}
+	alpm_option_set_logcb (alpm, pk_backend_logcb);
 
-	/* set some sane defaults */
-	alpm_option_set_logcb (pk_backend_logcb);
-	alpm_option_set_root (PK_BACKEND_DEFAULT_ROOT);
-	alpm_option_set_dbpath (PK_BACKEND_DEFAULT_DBPATH);
-	alpm_option_set_logfile (PK_BACKEND_DEFAULT_LOGFILE);
+	localdb = alpm_option_get_localdb (alpm);
+	if (localdb == NULL) {
+		enum _alpm_errno_t errno = alpm_errno (alpm);
+		g_set_error (error, ALPM_ERROR, errno, "[%s]: %s", "local",
+			     alpm_strerror (errno));
+	}
 
 	return TRUE;
 }
@@ -240,17 +299,20 @@ pk_backend_destroy_alpm (PkBackend *self)
 {
 	g_return_if_fail (self != NULL);
 
-	if (backend != NULL) {
-		if (alpm_trans_get_flags () != -1) {
-			alpm_trans_release ();
+	if (alpm != NULL) {
+		if (alpm_trans_get_flags (alpm) < 0) {
+			alpm_trans_release (alpm);
 		}
-		alpm_release ();
+		alpm_release (alpm);
+
+		alpm = NULL;
 		backend = NULL;
 	}
 
 	FREELIST (syncfirsts);
 	FREELIST (holdpkgs);
 	g_free (xfercmd);
+	xfercmd = NULL;
 }
 
 void
@@ -379,4 +441,12 @@ pk_backend_finish (PkBackend *self, GError *error)
 
 	pk_backend_thread_finished (self);
 	return (error == NULL);
+}
+
+void
+pk_backend_transaction_start (PkBackend *self)
+{
+	g_return_if_fail (self != NULL);
+
+	pk_backend_configure_environment (self);
 }
