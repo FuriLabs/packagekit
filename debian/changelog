@@ -1,3 +1,9 @@
+packagekit (0.8.3-1) UNRELEASED; urgency=low
+
+  * Imported Upstream version 0.8.3
+
+ -- Matthias Klumpp <matthias@tenstral.net>  Tue, 21 Aug 2012 17:42:27 +0200
+
 packagekit (0.7.6-1) unstable; urgency=low
 
   * New upstream bugfix release: 0.7.6
