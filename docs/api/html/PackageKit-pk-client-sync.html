@@ -3,7 +3,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>pk-client-sync</title>
-<meta name="generator" content="DocBook XSL Stylesheets V1.76.1">
+<meta name="generator" content="DocBook XSL Stylesheets V1.77.1">
 <link rel="home" href="index.html" title="PackageKit Reference Manual">
 <link rel="up" href="libpackagekit-helpers.html" title="libpackagekit glib helpers">
 <link rel="prev" href="PackageKit-pk-bitfield.html" title="pk-bitfield">
@@ -265,8 +265,11 @@ We may want to agree to a EULA dialog if one is presented.
 Warning: this function is synchronous, and may block. Do not use it in GUI
 applications.
 </p>
-<div class="variablelist"><table border="0">
+<div class="variablelist"><table border="0" class="variablelist">
+<colgroup>
 <col align="left" valign="top">
+<col>
+</colgroup>
 <tbody>
 <tr>
 <td><p><span class="term"><em class="parameter"><code>client</code></em> :</span></p></td>
@@ -321,8 +324,11 @@ Adopt a transaction.
 Warning: this function is synchronous, and will block. Do not use it in GUI
 applications.
 </p>
-<div class="variablelist"><table border="0">
+<div class="variablelist"><table border="0" class="variablelist">
+<colgroup>
 <col align="left" valign="top">
+<col>
+</colgroup>
 <tbody>
 <tr>
 <td><p><span class="term"><em class="parameter"><code>client</code></em> :</span></p></td>
@@ -378,8 +384,11 @@ Downloads package files to a specified location.
 Warning: this function is synchronous, and may block. Do not use it in GUI
 applications.
 </p>
-<div class="variablelist"><table border="0">
+<div class="variablelist"><table border="0" class="variablelist">
+<colgroup>
 <col align="left" valign="top">
+<col>
+</colgroup>
 <tbody>
 <tr>
 <td><p><span class="term"><em class="parameter"><code>client</code></em> :</span></p></td>
@@ -438,8 +447,11 @@ Get a list of all categories supported.
 Warning: this function is synchronous, and may block. Do not use it in GUI
 applications.
 </p>
-<div class="variablelist"><table border="0">
+<div class="variablelist"><table border="0" class="variablelist">
+<colgroup>
 <col align="left" valign="top">
+<col>
+</colgroup>
 <tbody>
 <tr>
 <td><p><span class="term"><em class="parameter"><code>client</code></em> :</span></p></td>
@@ -492,8 +504,11 @@ Get the packages that depend this one, i.e. child-&gt;parent.
 Warning: this function is synchronous, and may block. Do not use it in GUI
 applications.
 </p>
-<div class="variablelist"><table border="0">
+<div class="variablelist"><table border="0" class="variablelist">
+<colgroup>
 <col align="left" valign="top">
+<col>
+</colgroup>
 <tbody>
 <tr>
 <td><p><span class="term"><em class="parameter"><code>client</code></em> :</span></p></td>
@@ -559,8 +574,11 @@ or command line tools.
 Warning: this function is synchronous, and may block. Do not use it in GUI
 applications.
 </p>
-<div class="variablelist"><table border="0">
+<div class="variablelist"><table border="0" class="variablelist">
+<colgroup>
 <col align="left" valign="top">
+<col>
+</colgroup>
 <tbody>
 <tr>
 <td><p><span class="term"><em class="parameter"><code>client</code></em> :</span></p></td>
@@ -616,8 +634,11 @@ It should not return updates, only major upgrades.
 Warning: this function is synchronous, and may block. Do not use it in GUI
 applications.
 </p>
-<div class="variablelist"><table border="0">
+<div class="variablelist"><table border="0" class="variablelist">
+<colgroup>
 <col align="left" valign="top">
+<col>
+</colgroup>
 <tbody>
 <tr>
 <td><p><span class="term"><em class="parameter"><code>client</code></em> :</span></p></td>
@@ -668,8 +689,11 @@ Get the file list (i.e. a list of files installed) for the specified package.
 Warning: this function is synchronous, and may block. Do not use it in GUI
 applications.
 </p>
-<div class="variablelist"><table border="0">
+<div class="variablelist"><table border="0" class="variablelist">
+<colgroup>
 <col align="left" valign="top">
+<col>
+</colgroup>
 <tbody>
 <tr>
 <td><p><span class="term"><em class="parameter"><code>client</code></em> :</span></p></td>
@@ -725,8 +749,11 @@ Get the old transaction list, mainly used for the transaction viewer.
 Warning: this function is synchronous, and may block. Do not use it in GUI
 applications.
 </p>
-<div class="variablelist"><table border="0">
+<div class="variablelist"><table border="0" class="variablelist">
+<colgroup>
 <col align="left" valign="top">
+<col>
+</colgroup>
 <tbody>
 <tr>
 <td><p><span class="term"><em class="parameter"><code>client</code></em> :</span></p></td>
@@ -781,8 +808,11 @@ Get the list of packages from the backend
 Warning: this function is synchronous, and may block. Do not use it in GUI
 applications.
 </p>
-<div class="variablelist"><table border="0">
+<div class="variablelist"><table border="0" class="variablelist">
+<colgroup>
 <col align="left" valign="top">
+<col>
+</colgroup>
 <tbody>
 <tr>
 <td><p><span class="term"><em class="parameter"><code>client</code></em> :</span></p></td>
@@ -836,8 +866,11 @@ Get the progress of a transaction.
 Warning: this function is synchronous, and will block. Do not use it in GUI
 applications.
 </p>
-<div class="variablelist"><table border="0">
+<div class="variablelist"><table border="0" class="variablelist">
+<colgroup>
 <col align="left" valign="top">
+<col>
+</colgroup>
 <tbody>
 <tr>
 <td><p><span class="term"><em class="parameter"><code>client</code></em> :</span></p></td>
@@ -882,8 +915,11 @@ Get the list of repositories installed on the system.
 Warning: this function is synchronous, and may block. Do not use it in GUI
 applications.
 </p>
-<div class="variablelist"><table border="0">
+<div class="variablelist"><table border="0" class="variablelist">
+<colgroup>
 <col align="left" valign="top">
+<col>
+</colgroup>
 <tbody>
 <tr>
 <td><p><span class="term"><em class="parameter"><code>client</code></em> :</span></p></td>
@@ -941,8 +977,11 @@ Get the packages that require this one, i.e. parent-&gt;child.
 Warning: this function is synchronous, and may block. Do not use it in GUI
 applications.
 </p>
-<div class="variablelist"><table border="0">
+<div class="variablelist"><table border="0" class="variablelist">
+<colgroup>
 <col align="left" valign="top">
+<col>
+</colgroup>
 <tbody>
 <tr>
 <td><p><span class="term"><em class="parameter"><code>client</code></em> :</span></p></td>
@@ -1008,8 +1047,11 @@ severity information.
 Warning: this function is synchronous, and may block. Do not use it in GUI
 applications.
 </p>
-<div class="variablelist"><table border="0">
+<div class="variablelist"><table border="0" class="variablelist">
+<colgroup>
 <col align="left" valign="top">
+<col>
+</colgroup>
 <tbody>
 <tr>
 <td><p><span class="term"><em class="parameter"><code>client</code></em> :</span></p></td>
@@ -1065,8 +1107,11 @@ Get a list of all the packages that can be updated for all repositories.
 Warning: this function is synchronous, and may block. Do not use it in GUI
 applications.
 </p>
-<div class="variablelist"><table border="0">
+<div class="variablelist"><table border="0" class="variablelist">
+<colgroup>
 <col align="left" valign="top">
+<col>
+</colgroup>
 <tbody>
 <tr>
 <td><p><span class="term"><em class="parameter"><code>client</code></em> :</span></p></td>
@@ -1124,8 +1169,11 @@ This is useful for double clicking on a .rpm or .deb file.
 Warning: this function is synchronous, and may block. Do not use it in GUI
 applications.
 </p>
-<div class="variablelist"><table border="0">
+<div class="variablelist"><table border="0" class="variablelist">
+<colgroup>
 <col align="left" valign="top">
+<col>
+</colgroup>
 <tbody>
 <tr>
 <td><p><span class="term"><em class="parameter"><code>client</code></em> :</span></p></td>
@@ -1186,8 +1234,11 @@ Install a package of the newest and most correct version.
 Warning: this function is synchronous, and may block. Do not use it in GUI
 applications.
 </p>
-<div class="variablelist"><table border="0">
+<div class="variablelist"><table border="0" class="variablelist">
+<colgroup>
 <col align="left" valign="top">
+<col>
+</colgroup>
 <tbody>
 <tr>
 <td><p><span class="term"><em class="parameter"><code>client</code></em> :</span></p></td>
@@ -1249,8 +1300,11 @@ Install a software source signature of the newest and most correct version.
 Warning: this function is synchronous, and may block. Do not use it in GUI
 applications.
 </p>
-<div class="variablelist"><table border="0">
+<div class="variablelist"><table border="0" class="variablelist">
+<colgroup>
 <col align="left" valign="top">
+<col>
+</colgroup>
 <tbody>
 <tr>
 <td><p><span class="term"><em class="parameter"><code>client</code></em> :</span></p></td>
@@ -1317,8 +1371,11 @@ system are idle.
 Warning: this function is synchronous, and may block. Do not use it in GUI
 applications.
 </p>
-<div class="variablelist"><table border="0">
+<div class="variablelist"><table border="0" class="variablelist">
+<colgroup>
 <col align="left" valign="top">
+<col>
+</colgroup>
 <tbody>
 <tr>
 <td><p><span class="term"><em class="parameter"><code>client</code></em> :</span></p></td>
@@ -1378,8 +1435,11 @@ then the transaction would fail.
 Warning: this function is synchronous, and may block. Do not use it in GUI
 applications.
 </p>
-<div class="variablelist"><table border="0">
+<div class="variablelist"><table border="0" class="variablelist">
+<colgroup>
 <col align="left" valign="top">
+<col>
+</colgroup>
 <tbody>
 <tr>
 <td><p><span class="term"><em class="parameter"><code>client</code></em> :</span></p></td>
@@ -1453,8 +1513,11 @@ The backend will decide what is best to do.
 Warning: this function is synchronous, and may block. Do not use it in GUI
 applications.
 </p>
-<div class="variablelist"><table border="0">
+<div class="variablelist"><table border="0" class="variablelist">
+<colgroup>
 <col align="left" valign="top">
+<col>
+</colgroup>
 <tbody>
 <tr>
 <td><p><span class="term"><em class="parameter"><code>transaction_flags</code></em> :</span></p></td>
@@ -1506,8 +1569,11 @@ Enable or disable the repository.
 Warning: this function is synchronous, and may block. Do not use it in GUI
 applications.
 </p>
-<div class="variablelist"><table border="0">
+<div class="variablelist"><table border="0" class="variablelist">
+<colgroup>
 <col align="left" valign="top">
+<col>
+</colgroup>
 <tbody>
 <tr>
 <td><p><span class="term"><em class="parameter"><code>client</code></em> :</span></p></td>
@@ -1569,8 +1635,11 @@ NOTE: this is free text, and is left to the backend to define a format.
 Warning: this function is synchronous, and may block. Do not use it in GUI
 applications.
 </p>
-<div class="variablelist"><table border="0">
+<div class="variablelist"><table border="0" class="variablelist">
+<colgroup>
 <col align="left" valign="top">
+<col>
+</colgroup>
 <tbody>
 <tr>
 <td><p><span class="term"><em class="parameter"><code>client</code></em> :</span></p></td>
@@ -1636,8 +1705,11 @@ or is available in a repository.
 Warning: this function is synchronous, and may block. Do not use it in GUI
 applications.
 </p>
-<div class="variablelist"><table border="0">
+<div class="variablelist"><table border="0" class="variablelist">
+<colgroup>
 <col align="left" valign="top">
+<col>
+</colgroup>
 <tbody>
 <tr>
 <td><p><span class="term"><em class="parameter"><code>client</code></em> :</span></p></td>
@@ -1701,8 +1773,11 @@ taking longer.
 Warning: this function is synchronous, and may block. Do not use it in GUI
 applications.
 </p>
-<div class="variablelist"><table border="0">
+<div class="variablelist"><table border="0" class="variablelist">
+<colgroup>
 <col align="left" valign="top">
+<col>
+</colgroup>
 <tbody>
 <tr>
 <td><p><span class="term"><em class="parameter"><code>client</code></em> :</span></p></td>
@@ -1764,8 +1839,11 @@ Search for packages that provide a specific file.
 Warning: this function is synchronous, and may block. Do not use it in GUI
 applications.
 </p>
-<div class="variablelist"><table border="0">
+<div class="variablelist"><table border="0" class="variablelist">
+<colgroup>
 <col align="left" valign="top">
+<col>
+</colgroup>
 <tbody>
 <tr>
 <td><p><span class="term"><em class="parameter"><code>client</code></em> :</span></p></td>
@@ -1827,8 +1905,11 @@ Return all packages in a specific group.
 Warning: this function is synchronous, and may block. Do not use it in GUI
 applications.
 </p>
-<div class="variablelist"><table border="0">
+<div class="variablelist"><table border="0" class="variablelist">
+<colgroup>
 <col align="left" valign="top">
+<col>
+</colgroup>
 <tbody>
 <tr>
 <td><p><span class="term"><em class="parameter"><code>client</code></em> :</span></p></td>
@@ -1891,8 +1972,11 @@ that matches a specific name.
 Warning: this function is synchronous, and may block. Do not use it in GUI
 applications.
 </p>
-<div class="variablelist"><table border="0">
+<div class="variablelist"><table border="0" class="variablelist">
+<colgroup>
 <col align="left" valign="top">
+<col>
+</colgroup>
 <tbody>
 <tr>
 <td><p><span class="term"><em class="parameter"><code>client</code></em> :</span></p></td>
@@ -1954,8 +2038,11 @@ Update specific packages to the newest available versions.
 Warning: this function is synchronous, and may block. Do not use it in GUI
 applications.
 </p>
-<div class="variablelist"><table border="0">
+<div class="variablelist"><table border="0" class="variablelist">
+<colgroup>
 <col align="left" valign="top">
+<col>
+</colgroup>
 <tbody>
 <tr>
 <td><p><span class="term"><em class="parameter"><code>client</code></em> :</span></p></td>
@@ -2021,8 +2108,11 @@ The backend will decide what is best to do.
 Warning: this function is synchronous, and may block. Do not use it in GUI
 applications.
 </p>
-<div class="variablelist"><table border="0">
+<div class="variablelist"><table border="0" class="variablelist">
+<colgroup>
 <col align="left" valign="top">
+<col>
+</colgroup>
 <tbody>
 <tr>
 <td><p><span class="term"><em class="parameter"><code>distro_id</code></em> :</span></p></td>
@@ -2082,8 +2172,11 @@ or GStreamer codec string.
 Warning: this function is synchronous, and may block. Do not use it in GUI
 applications.
 </p>
-<div class="variablelist"><table border="0">
+<div class="variablelist"><table border="0" class="variablelist">
+<colgroup>
 <col align="left" valign="top">
+<col>
+</colgroup>
 <tbody>
 <tr>
 <td><p><span class="term"><em class="parameter"><code>client</code></em> :</span></p></td>

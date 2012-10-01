@@ -3,7 +3,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>PkClient</title>
-<meta name="generator" content="DocBook XSL Stylesheets V1.76.1">
+<meta name="generator" content="DocBook XSL Stylesheets V1.77.1">
 <link rel="home" href="index.html" title="PackageKit Reference Manual">
 <link rel="up" href="libpackagekit-gobject.html" title="libpackagekit GObjects">
 <link rel="prev" href="PkCategory.html" title="PkCategory">
@@ -395,8 +395,11 @@ http://www.packagekit.org/gtk-doc/introduction-ideas-transactions.html
 <p>
 Errors that can be thrown
 </p>
-<div class="variablelist"><table border="0">
+<div class="variablelist"><table border="0" class="variablelist">
+<colgroup>
 <col align="left" valign="top">
+<col>
+</colgroup>
 <tbody>
 <tr>
 <td><p><a name="PK-CLIENT-ERROR-FAILED:CAPS"></a><span class="term"><code class="literal">PK_CLIENT_ERROR_FAILED</code></span></p></td>
@@ -466,8 +469,11 @@ Errors that can be thrown
 <p>
 We may want to agree to a EULA dialog if one is presented.
 </p>
-<div class="variablelist"><table border="0">
+<div class="variablelist"><table border="0" class="variablelist">
+<colgroup>
 <col align="left" valign="top">
+<col>
+</colgroup>
 <tbody>
 <tr>
 <td><p><span class="term"><em class="parameter"><code>client</code></em> :</span></p></td>
@@ -518,8 +524,11 @@ We may want to agree to a EULA dialog if one is presented.
 <p>
 Adopt a transaction which allows the caller to monitor the state or cancel it.
 </p>
-<div class="variablelist"><table border="0">
+<div class="variablelist"><table border="0" class="variablelist">
+<colgroup>
 <col align="left" valign="top">
+<col>
+</colgroup>
 <tbody>
 <tr>
 <td><p><span class="term"><em class="parameter"><code>client</code></em> :</span></p></td>
@@ -571,8 +580,11 @@ Adopt a transaction which allows the caller to monitor the state or cancel it.
 <p>
 Downloads package files to a specified location.
 </p>
-<div class="variablelist"><table border="0">
+<div class="variablelist"><table border="0" class="variablelist">
+<colgroup>
 <col align="left" valign="top">
+<col>
+</colgroup>
 <tbody>
 <tr>
 <td><p><span class="term"><em class="parameter"><code>client</code></em> :</span></p></td>
@@ -619,8 +631,11 @@ Downloads package files to a specified location.
 <div class="refsect2">
 <a name="pk-client-error-quark"></a><h3>pk_client_error_quark ()</h3>
 <pre class="programlisting"><a href="http://library.gnome.org/devel/glib/unstable/glib-Quarks.html#GQuark"><span class="returnvalue">GQuark</span></a>              pk_client_error_quark               (<em class="parameter"><code><span class="type">void</span></code></em>);</pre>
-<div class="variablelist"><table border="0">
+<div class="variablelist"><table border="0" class="variablelist">
+<colgroup>
 <col align="left" valign="top">
+<col>
+</colgroup>
 <tbody><tr>
 <td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
 <td>Our personal error quark.</td>
@@ -637,8 +652,11 @@ Downloads package files to a specified location.
 <p>
 Gets the result from the asynchronous function.
 </p>
-<div class="variablelist"><table border="0">
+<div class="variablelist"><table border="0" class="variablelist">
+<colgroup>
 <col align="left" valign="top">
+<col>
+</colgroup>
 <tbody>
 <tr>
 <td><p><span class="term"><em class="parameter"><code>client</code></em> :</span></p></td>
@@ -670,8 +688,11 @@ Gets the result from the asynchronous function.
 <p>
 Gets the background value.
 </p>
-<div class="variablelist"><table border="0">
+<div class="variablelist"><table border="0" class="variablelist">
+<colgroup>
 <col align="left" valign="top">
+<col>
+</colgroup>
 <tbody>
 <tr>
 <td><p><span class="term"><em class="parameter"><code>client</code></em> :</span></p></td>
@@ -692,8 +713,11 @@ Gets the background value.
 <p>
 Gets the maximum cache age value.
 </p>
-<div class="variablelist"><table border="0">
+<div class="variablelist"><table border="0" class="variablelist">
+<colgroup>
 <col align="left" valign="top">
+<col>
+</colgroup>
 <tbody>
 <tr>
 <td><p><span class="term"><em class="parameter"><code>client</code></em> :</span></p></td>
@@ -719,8 +743,11 @@ Gets the maximum cache age value.
 <p>
 Get a list of all categories supported.
 </p>
-<div class="variablelist"><table border="0">
+<div class="variablelist"><table border="0" class="variablelist">
+<colgroup>
 <col align="left" valign="top">
+<col>
+</colgroup>
 <tbody>
 <tr>
 <td><p><span class="term"><em class="parameter"><code>client</code></em> :</span></p></td>
@@ -769,8 +796,11 @@ Get a list of all categories supported.
 <p>
 Get the packages that depend this one, i.e. child-&gt;parent.
 </p>
-<div class="variablelist"><table border="0">
+<div class="variablelist"><table border="0" class="variablelist">
+<colgroup>
 <col align="left" valign="top">
+<col>
+</colgroup>
 <tbody>
 <tr>
 <td><p><span class="term"><em class="parameter"><code>client</code></em> :</span></p></td>
@@ -832,8 +862,11 @@ Get the packages that depend this one, i.e. child-&gt;parent.
 Get details of a package, so more information can be obtained for GUI
 or command line tools.
 </p>
-<div class="variablelist"><table border="0">
+<div class="variablelist"><table border="0" class="variablelist">
+<colgroup>
 <col align="left" valign="top">
+<col>
+</colgroup>
 <tbody>
 <tr>
 <td><p><span class="term"><em class="parameter"><code>client</code></em> :</span></p></td>
@@ -885,8 +918,11 @@ or command line tools.
 This method should return a list of distribution upgrades that are available.
 It should not return updates, only major upgrades.
 </p>
-<div class="variablelist"><table border="0">
+<div class="variablelist"><table border="0" class="variablelist">
+<colgroup>
 <col align="left" valign="top">
+<col>
+</colgroup>
 <tbody>
 <tr>
 <td><p><span class="term"><em class="parameter"><code>client</code></em> :</span></p></td>
@@ -933,8 +969,11 @@ It should not return updates, only major upgrades.
 <p>
 Get the file list (i.e. a list of files installed) for the specified package.
 </p>
-<div class="variablelist"><table border="0">
+<div class="variablelist"><table border="0" class="variablelist">
+<colgroup>
 <col align="left" valign="top">
+<col>
+</colgroup>
 <tbody>
 <tr>
 <td><p><span class="term"><em class="parameter"><code>client</code></em> :</span></p></td>
@@ -980,8 +1019,11 @@ Get the file list (i.e. a list of files installed) for the specified package.
 <p>
 Gets if the transaction client idle value.
 </p>
-<div class="variablelist"><table border="0">
+<div class="variablelist"><table border="0" class="variablelist">
+<colgroup>
 <col align="left" valign="top">
+<col>
+</colgroup>
 <tbody>
 <tr>
 <td><p><span class="term"><em class="parameter"><code>client</code></em> :</span></p></td>
@@ -1002,8 +1044,11 @@ Gets if the transaction client idle value.
 <p>
 Gets the client interactive value.
 </p>
-<div class="variablelist"><table border="0">
+<div class="variablelist"><table border="0" class="variablelist">
+<colgroup>
 <col align="left" valign="top">
+<col>
+</colgroup>
 <tbody>
 <tr>
 <td><p><span class="term"><em class="parameter"><code>client</code></em> :</span></p></td>
@@ -1024,8 +1069,11 @@ Gets the client interactive value.
 <p>
 Gets the locale used for this transaction.
 </p>
-<div class="variablelist"><table border="0">
+<div class="variablelist"><table border="0" class="variablelist">
+<colgroup>
 <col align="left" valign="top">
+<col>
+</colgroup>
 <tbody>
 <tr>
 <td><p><span class="term"><em class="parameter"><code>client</code></em> :</span></p></td>
@@ -1053,8 +1101,11 @@ Gets the locale used for this transaction.
 <p>
 Get the old transaction list, mainly used for the transaction viewer.
 </p>
-<div class="variablelist"><table border="0">
+<div class="variablelist"><table border="0" class="variablelist">
+<colgroup>
 <col align="left" valign="top">
+<col>
+</colgroup>
 <tbody>
 <tr>
 <td><p><span class="term"><em class="parameter"><code>client</code></em> :</span></p></td>
@@ -1105,8 +1156,11 @@ Get the old transaction list, mainly used for the transaction viewer.
 <p>
 Get the list of packages from the backend
 </p>
-<div class="variablelist"><table border="0">
+<div class="variablelist"><table border="0" class="variablelist">
+<colgroup>
 <col align="left" valign="top">
+<col>
+</colgroup>
 <tbody>
 <tr>
 <td><p><span class="term"><em class="parameter"><code>client</code></em> :</span></p></td>
@@ -1156,8 +1210,11 @@ Get the list of packages from the backend
 <p>
 Find the current state of a transaction.
 </p>
-<div class="variablelist"><table border="0">
+<div class="variablelist"><table border="0" class="variablelist">
+<colgroup>
 <col align="left" valign="top">
+<col>
+</colgroup>
 <tbody>
 <tr>
 <td><p><span class="term"><em class="parameter"><code>client</code></em> :</span></p></td>
@@ -1194,8 +1251,11 @@ Find the current state of a transaction.
 <p>
 Gets the result from the asynchronous function.
 </p>
-<div class="variablelist"><table border="0">
+<div class="variablelist"><table border="0" class="variablelist">
+<colgroup>
 <col align="left" valign="top">
+<col>
+</colgroup>
 <tbody>
 <tr>
 <td><p><span class="term"><em class="parameter"><code>client</code></em> :</span></p></td>
@@ -1233,8 +1293,11 @@ Gets the result from the asynchronous function.
 <p>
 Get the list of repositories installed on the system.
 </p>
-<div class="variablelist"><table border="0">
+<div class="variablelist"><table border="0" class="variablelist">
+<colgroup>
 <col align="left" valign="top">
+<col>
+</colgroup>
 <tbody>
 <tr>
 <td><p><span class="term"><em class="parameter"><code>client</code></em> :</span></p></td>
@@ -1288,8 +1351,11 @@ Get the list of repositories installed on the system.
 <p>
 Get the packages that require this one, i.e. parent-&gt;child.
 </p>
-<div class="variablelist"><table border="0">
+<div class="variablelist"><table border="0" class="variablelist">
+<colgroup>
 <col align="left" valign="top">
+<col>
+</colgroup>
 <tbody>
 <tr>
 <td><p><span class="term"><em class="parameter"><code>client</code></em> :</span></p></td>
@@ -1351,8 +1417,11 @@ Get the packages that require this one, i.e. parent-&gt;child.
 Get details about the specific update, for instance any CVE urls and
 severity information.
 </p>
-<div class="variablelist"><table border="0">
+<div class="variablelist"><table border="0" class="variablelist">
+<colgroup>
 <col align="left" valign="top">
+<col>
+</colgroup>
 <tbody>
 <tr>
 <td><p><span class="term"><em class="parameter"><code>client</code></em> :</span></p></td>
@@ -1404,8 +1473,11 @@ severity information.
 <p>
 Get a list of all the packages that can be updated for all repositories.
 </p>
-<div class="variablelist"><table border="0">
+<div class="variablelist"><table border="0" class="variablelist">
+<colgroup>
 <col align="left" valign="top">
+<col>
+</colgroup>
 <tbody>
 <tr>
 <td><p><span class="term"><em class="parameter"><code>client</code></em> :</span></p></td>
@@ -1459,8 +1531,11 @@ Get a list of all the packages that can be updated for all repositories.
 Install a file locally, and get the deps from the repositories.
 This is useful for double clicking on a .rpm or .deb file.
 </p>
-<div class="variablelist"><table border="0">
+<div class="variablelist"><table border="0" class="variablelist">
+<colgroup>
 <col align="left" valign="top">
+<col>
+</colgroup>
 <tbody>
 <tr>
 <td><p><span class="term"><em class="parameter"><code>client</code></em> :</span></p></td>
@@ -1517,8 +1592,11 @@ This is useful for double clicking on a .rpm or .deb file.
 <p>
 Install a package of the newest and most correct version.
 </p>
-<div class="variablelist"><table border="0">
+<div class="variablelist"><table border="0" class="variablelist">
+<colgroup>
 <col align="left" valign="top">
+<col>
+</colgroup>
 <tbody>
 <tr>
 <td><p><span class="term"><em class="parameter"><code>client</code></em> :</span></p></td>
@@ -1576,8 +1654,11 @@ Install a package of the newest and most correct version.
 <p>
 Install a software source signature of the newest and most correct version.
 </p>
-<div class="variablelist"><table border="0">
+<div class="variablelist"><table border="0" class="variablelist">
+<colgroup>
 <col align="left" valign="top">
+<col>
+</colgroup>
 <tbody>
 <tr>
 <td><p><span class="term"><em class="parameter"><code>client</code></em> :</span></p></td>
@@ -1632,8 +1713,11 @@ Install a software source signature of the newest and most correct version.
 PkClient is a nice GObject wrapper for PackageKit and makes writing
 frontends easy.
 </p>
-<div class="variablelist"><table border="0">
+<div class="variablelist"><table border="0" class="variablelist">
+<colgroup>
 <col align="left" valign="top">
+<col>
+</colgroup>
 <tbody><tr>
 <td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
 <td>A new <a class="link" href="PkClient.html" title="PkClient"><code class="literal">PkClient</code></a> instance</td>
@@ -1657,8 +1741,11 @@ package lists are up to date.
 This action may take a few minutes and should be done when the session and
 system are idle.
 </p>
-<div class="variablelist"><table border="0">
+<div class="variablelist"><table border="0" class="variablelist">
+<colgroup>
 <col align="left" valign="top">
+<col>
+</colgroup>
 <tbody>
 <tr>
 <td><p><span class="term"><em class="parameter"><code>client</code></em> :</span></p></td>
@@ -1714,8 +1801,11 @@ Remove a package (optionally with dependancies) from the system.
 If <code class="literal">allow_deps</code> is set to <a href="http://library.gnome.org/devel/glib/unstable/glib-Standard-Macros.html#FALSE:CAPS"><code class="literal">FALSE</code></a>, and other packages would have to be removed,
 then the transaction would fail.
 </p>
-<div class="variablelist"><table border="0">
+<div class="variablelist"><table border="0" class="variablelist">
+<colgroup>
 <col align="left" valign="top">
+<col>
+</colgroup>
 <tbody>
 <tr>
 <td><p><span class="term"><em class="parameter"><code>client</code></em> :</span></p></td>
@@ -1785,8 +1875,11 @@ system was shutdown during processing an installation.
 <p>
 The backend will decide what is best to do.
 </p>
-<div class="variablelist"><table border="0">
+<div class="variablelist"><table border="0" class="variablelist">
+<colgroup>
 <col align="left" valign="top">
+<col>
+</colgroup>
 <tbody>
 <tr>
 <td><p><span class="term"><em class="parameter"><code>client</code></em> :</span></p></td>
@@ -1838,8 +1931,11 @@ The backend will decide what is best to do.
 <p>
 Enable or disable the repository.
 </p>
-<div class="variablelist"><table border="0">
+<div class="variablelist"><table border="0" class="variablelist">
+<colgroup>
 <col align="left" valign="top">
+<col>
+</colgroup>
 <tbody>
 <tr>
 <td><p><span class="term"><em class="parameter"><code>client</code></em> :</span></p></td>
@@ -1897,8 +1993,11 @@ Enable or disable the repository.
 We may want to set a repository parameter.
 NOTE: this is free text, and is left to the backend to define a format.
 </p>
-<div class="variablelist"><table border="0">
+<div class="variablelist"><table border="0" class="variablelist">
+<colgroup>
 <col align="left" valign="top">
+<col>
+</colgroup>
 <tbody>
 <tr>
 <td><p><span class="term"><em class="parameter"><code>client</code></em> :</span></p></td>
@@ -1960,8 +2059,11 @@ Resolve a package name into a <code class="literal">package_id</code>. This can 
 available packages and allows you find out if a package is installed locally
 or is available in a repository.
 </p>
-<div class="variablelist"><table border="0">
+<div class="variablelist"><table border="0" class="variablelist">
+<colgroup>
 <col align="left" valign="top">
+<col>
+</colgroup>
 <tbody>
 <tr>
 <td><p><span class="term"><em class="parameter"><code>client</code></em> :</span></p></td>
@@ -2021,8 +2123,11 @@ Search all detailed summary information to try and find a keyword.
 Think of this as <a class="link" href="PackageKit-pk-client-sync.html#pk-client-search-names" title="pk_client_search_names ()"><code class="function">pk_client_search_names()</code></a>, but trying much harder and
 taking longer.
 </p>
-<div class="variablelist"><table border="0">
+<div class="variablelist"><table border="0" class="variablelist">
+<colgroup>
 <col align="left" valign="top">
+<col>
+</colgroup>
 <tbody>
 <tr>
 <td><p><span class="term"><em class="parameter"><code>client</code></em> :</span></p></td>
@@ -2080,8 +2185,11 @@ taking longer.
 <p>
 Search for packages that provide a specific file.
 </p>
-<div class="variablelist"><table border="0">
+<div class="variablelist"><table border="0" class="variablelist">
+<colgroup>
 <col align="left" valign="top">
+<col>
+</colgroup>
 <tbody>
 <tr>
 <td><p><span class="term"><em class="parameter"><code>client</code></em> :</span></p></td>
@@ -2139,8 +2247,11 @@ Search for packages that provide a specific file.
 <p>
 Return all packages in a specific group.
 </p>
-<div class="variablelist"><table border="0">
+<div class="variablelist"><table border="0" class="variablelist">
+<colgroup>
 <col align="left" valign="top">
+<col>
+</colgroup>
 <tbody>
 <tr>
 <td><p><span class="term"><em class="parameter"><code>client</code></em> :</span></p></td>
@@ -2199,8 +2310,11 @@ Return all packages in a specific group.
 Search all the locally installed files and remote repositories for a package
 that matches a specific name.
 </p>
-<div class="variablelist"><table border="0">
+<div class="variablelist"><table border="0" class="variablelist">
+<colgroup>
 <col align="left" valign="top">
+<col>
+</colgroup>
 <tbody>
 <tr>
 <td><p><span class="term"><em class="parameter"><code>client</code></em> :</span></p></td>
@@ -2254,8 +2368,11 @@ Sets the background value for the client. A background transaction
 is usually scheduled at a lower priority and is usually given less
 network and disk performance.
 </p>
-<div class="variablelist"><table border="0">
+<div class="variablelist"><table border="0" class="variablelist">
+<colgroup>
 <col align="left" valign="top">
+<col>
+</colgroup>
 <tbody>
 <tr>
 <td><p><span class="term"><em class="parameter"><code>client</code></em> :</span></p></td>
@@ -2277,8 +2394,11 @@ network and disk performance.
 <p>
 Sets the maximum cache age value for the client.
 </p>
-<div class="variablelist"><table border="0">
+<div class="variablelist"><table border="0" class="variablelist">
+<colgroup>
 <col align="left" valign="top">
+<col>
+</colgroup>
 <tbody>
 <tr>
 <td><p><span class="term"><em class="parameter"><code>client</code></em> :</span></p></td>
@@ -2301,8 +2421,11 @@ Sets the maximum cache age value for the client.
 Sets the interactive value for the client. Interactive transactions
 are usally allowed to ask the user questions.
 </p>
-<div class="variablelist"><table border="0">
+<div class="variablelist"><table border="0" class="variablelist">
+<colgroup>
 <col align="left" valign="top">
+<col>
+</colgroup>
 <tbody>
 <tr>
 <td><p><span class="term"><em class="parameter"><code>client</code></em> :</span></p></td>
@@ -2325,8 +2448,11 @@ are usally allowed to ask the user questions.
 Sets the locale to be used for the client. This may affect returned
 results.
 </p>
-<div class="variablelist"><table border="0">
+<div class="variablelist"><table border="0" class="variablelist">
+<colgroup>
 <col align="left" valign="top">
+<col>
+</colgroup>
 <tbody>
 <tr>
 <td><p><span class="term"><em class="parameter"><code>client</code></em> :</span></p></td>
@@ -2359,8 +2485,11 @@ results.
 <p>
 Update specific packages to the newest available versions.
 </p>
-<div class="variablelist"><table border="0">
+<div class="variablelist"><table border="0" class="variablelist">
+<colgroup>
 <col align="left" valign="top">
+<col>
+</colgroup>
 <tbody>
 <tr>
 <td><p><span class="term"><em class="parameter"><code>client</code></em> :</span></p></td>
@@ -2422,8 +2551,11 @@ or may involve doing an on-line upgrade.
 <p>
 The backend will decide what is best to do.
 </p>
-<div class="variablelist"><table border="0">
+<div class="variablelist"><table border="0" class="variablelist">
+<colgroup>
 <col align="left" valign="top">
+<col>
+</colgroup>
 <tbody>
 <tr>
 <td><p><span class="term"><em class="parameter"><code>client</code></em> :</span></p></td>
@@ -2483,8 +2615,11 @@ This should return packages that provide the supplied attributes.
 This method is useful for finding out what package(s) provide a modalias
 or GStreamer codec string.
 </p>
-<div class="variablelist"><table border="0">
+<div class="variablelist"><table border="0" class="variablelist">
+<colgroup>
 <col align="left" valign="top">
+<col>
+</colgroup>
 <tbody>
 <tr>
 <td><p><span class="term"><em class="parameter"><code>client</code></em> :</span></p></td>

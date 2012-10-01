@@ -9,135 +9,135 @@
   </refnamediv>
   <refsynopsisdiv role="synopsis">
     <title role="synopsis.title">Methods</title>
-    <synopsis><link linkend="Transaction.SetHints">SetHints</link>           (in  'as' hints)
-<link linkend="Transaction.AcceptEula">AcceptEula</link>         (in  's'  eula_id)
-<link linkend="Transaction.Cancel">Cancel</link>             ()
-<link linkend="Transaction.DownloadPackages">DownloadPackages</link>   (in  'b'  store_in_cache,
-                    in  'as' package_ids)
-<link linkend="Transaction.GetCategories">GetCategories</link>      ()
-<link linkend="Transaction.GetDepends">GetDepends</link>         (in  't'  filter,
-                    in  'as' package_ids,
-                    in  'b'  recursive)
-<link linkend="Transaction.GetDetails">GetDetails</link>         (in  'as' package_ids)
-<link linkend="Transaction.GetFiles">GetFiles</link>           (in  'as' package_ids)
-<link linkend="Transaction.GetOldTransactions">GetOldTransactions</link> (in  'u'  number)
-<link linkend="Transaction.GetPackages">GetPackages</link>        (in  't'  filter)
-<link linkend="Transaction.GetRepoList">GetRepoList</link>        (in  't'  filter)
-<link linkend="Transaction.GetRequires">GetRequires</link>        (in  't'  filter,
-                    in  'as' package_ids,
-                    in  'b'  recursive)
-<link linkend="Transaction.GetUpdateDetail">GetUpdateDetail</link>    (in  'as' package_ids)
-<link linkend="Transaction.GetUpdates">GetUpdates</link>         (in  't'  filter)
-<link linkend="Transaction.GetDistroUpgrades">GetDistroUpgrades</link>  ()
-<link linkend="Transaction.InstallFiles">InstallFiles</link>       (in  't'  transaction_flags,
-                    in  'as' full_paths)
-<link linkend="Transaction.InstallPackages">InstallPackages</link>    (in  't'  transaction_flags,
-                    in  'as' package_ids)
-<link linkend="Transaction.InstallSignature">InstallSignature</link>   (in  'u'  sig_type,
-                    in  's'  key_id,
-                    in  's'  package_id)
-<link linkend="Transaction.RefreshCache">RefreshCache</link>       (in  'b'  force)
-<link linkend="Transaction.RemovePackages">RemovePackages</link>     (in  't'  transaction_flags,
-                    in  'as' package_ids,
-                    in  'b'  allow_deps,
-                    in  'b'  autoremove)
-<link linkend="Transaction.RepoEnable">RepoEnable</link>         (in  's'  repo_id,
-                    in  'b'  enabled)
-<link linkend="Transaction.RepoSetData">RepoSetData</link>        (in  's'  repo_id,
-                    in  's'  parameter,
-                    in  's'  value)
-<link linkend="Transaction.Resolve">Resolve</link>            (in  't'  filter,
-                    in  'as' packages)
-<link linkend="Transaction.SearchDetails">SearchDetails</link>      (in  't'  filter,
-                    in  'as' values)
-<link linkend="Transaction.SearchFiles">SearchFiles</link>        (in  't'  filter,
-                    in  'as' values)
-<link linkend="Transaction.SearchGroups">SearchGroups</link>       (in  't'  filter,
-                    in  'as' values)
-<link linkend="Transaction.SearchNames">SearchNames</link>        (in  't'  filter,
-                    in  'as' values)
-<link linkend="Transaction.UpdatePackages">UpdatePackages</link>     (in  't'  transaction_flags,
-                    in  'as' package_ids)
-<link linkend="Transaction.WhatProvides">WhatProvides</link>       (in  't'  filter,
-                    in  'u'  type,
-                    in  'as' values)
-<link linkend="Transaction.UpgradeSystem">UpgradeSystem</link>      (in  's'  distro_id,
-                    in  'u'  upgrade_kind)
-<link linkend="Transaction.RepairSystem">RepairSystem</link>       (in  't'  transaction_flags)
+    <synopsis><link linkend="Transaction.SetHints">SetHints</link>(in'as'hints)
+<link linkend="Transaction.AcceptEula">AcceptEula</link>(in's'eula_id)
+<link linkend="Transaction.Cancel">Cancel</link>()
+<link linkend="Transaction.DownloadPackages">DownloadPackages</link>(in'b'store_in_cache,
+in'as'package_ids)
+<link linkend="Transaction.GetCategories">GetCategories</link>()
+<link linkend="Transaction.GetDepends">GetDepends</link>(in't'filter,
+in'as'package_ids,
+in'b'recursive)
+<link linkend="Transaction.GetDetails">GetDetails</link>(in'as'package_ids)
+<link linkend="Transaction.GetFiles">GetFiles</link>(in'as'package_ids)
+<link linkend="Transaction.GetOldTransactions">GetOldTransactions</link>(in'u'number)
+<link linkend="Transaction.GetPackages">GetPackages</link>(in't'filter)
+<link linkend="Transaction.GetRepoList">GetRepoList</link>(in't'filter)
+<link linkend="Transaction.GetRequires">GetRequires</link>(in't'filter,
+in'as'package_ids,
+in'b'recursive)
+<link linkend="Transaction.GetUpdateDetail">GetUpdateDetail</link>(in'as'package_ids)
+<link linkend="Transaction.GetUpdates">GetUpdates</link>(in't'filter)
+<link linkend="Transaction.GetDistroUpgrades">GetDistroUpgrades</link>()
+<link linkend="Transaction.InstallFiles">InstallFiles</link>(in't'transaction_flags,
+in'as'full_paths)
+<link linkend="Transaction.InstallPackages">InstallPackages</link>(in't'transaction_flags,
+in'as'package_ids)
+<link linkend="Transaction.InstallSignature">InstallSignature</link>(in'u'sig_type,
+in's'key_id,
+in's'package_id)
+<link linkend="Transaction.RefreshCache">RefreshCache</link>(in'b'force)
+<link linkend="Transaction.RemovePackages">RemovePackages</link>(in't'transaction_flags,
+in'as'package_ids,
+in'b'allow_deps,
+in'b'autoremove)
+<link linkend="Transaction.RepoEnable">RepoEnable</link>(in's'repo_id,
+in'b'enabled)
+<link linkend="Transaction.RepoSetData">RepoSetData</link>(in's'repo_id,
+in's'parameter,
+in's'value)
+<link linkend="Transaction.Resolve">Resolve</link>(in't'filter,
+in'as'packages)
+<link linkend="Transaction.SearchDetails">SearchDetails</link>(in't'filter,
+in'as'values)
+<link linkend="Transaction.SearchFiles">SearchFiles</link>(in't'filter,
+in'as'values)
+<link linkend="Transaction.SearchGroups">SearchGroups</link>(in't'filter,
+in'as'values)
+<link linkend="Transaction.SearchNames">SearchNames</link>(in't'filter,
+in'as'values)
+<link linkend="Transaction.UpdatePackages">UpdatePackages</link>(in't'transaction_flags,
+in'as'package_ids)
+<link linkend="Transaction.WhatProvides">WhatProvides</link>(in't'filter,
+in'u'type,
+in'as'values)
+<link linkend="Transaction.UpgradeSystem">UpgradeSystem</link>(in's'distro_id,
+in'u'upgrade_kind)
+<link linkend="Transaction.RepairSystem">RepairSystem</link>(in't'transaction_flags)
 </synopsis>
   </refsynopsisdiv>
   <refsect1 role="signal_proto">
     <title role="signal_proto.title">Signals</title>
-    <synopsis><link linkend="Transaction::Category">Category</link>              ('s'  parent_id,
-                       's'  cat_id,
-                       's'  name,
-                       's'  summary,
-                       's'  icon)
-<link linkend="Transaction::Details">Details</link>               ('s'  package_id,
-                       's'  license,
-                       'u'  group,
-                       's'  detail,
-                       's'  url,
-                       't'  size)
-<link linkend="Transaction::ErrorCode">ErrorCode</link>             ('u'  code,
-                       's'  details)
-<link linkend="Transaction::Files">Files</link>                 ('s'  package_id,
-                       'as' file_list)
-<link linkend="Transaction::Finished">Finished</link>              ('u'  exit,
-                       'u'  runtime)
-<link linkend="Transaction::Message">Message</link>               ('u'  type,
-                       's'  details)
-<link linkend="Transaction::Package">Package</link>               ('u'  info,
-                       's'  package_id,
-                       's'  summary)
-<link linkend="Transaction::RepoDetail">RepoDetail</link>            ('s'  repo_id,
-                       's'  description,
-                       'b'  enabled)
-<link linkend="Transaction::RepoSignatureRequired">RepoSignatureRequired</link> ('s'  package_id,
-                       's'  repository_name,
-                       's'  key_url,
-                       's'  key_userid,
-                       's'  key_id,
-                       's'  key_fingerprint,
-                       's'  key_timestamp,
-                       'u'  type)
-<link linkend="Transaction::EulaRequired">EulaRequired</link>          ('s'  eula_id,
-                       's'  package_id,
-                       's'  vendor_name,
-                       's'  license_agreement)
-<link linkend="Transaction::MediaChangeRequired">MediaChangeRequired</link>   ('u'  media_type,
-                       's'  media_id,
-                       's'  media_text)
-<link linkend="Transaction::RequireRestart">RequireRestart</link>        ('u'  type,
-                       's'  package_id)
-<link linkend="Transaction::Transaction">Transaction</link>           ('o'  object_path,
-                       's'  timespec,
-                       'b'  succeeded,
-                       'u'  role,
-                       'u'  duration,
-                       's'  data,
-                       'u'  uid,
-                       's'  cmdline)
-<link linkend="Transaction::UpdateDetail">UpdateDetail</link>          ('s'  package_id,
-                       'as' updates,
-                       'as' obsoletes,
-                       'as' vendor_urls,
-                       'as' bugzilla_urls,
-                       'as' cve_urls,
-                       'u'  restart,
-                       's'  update_text,
-                       's'  changelog,
-                       'u'  state,
-                       's'  issued,
-                       's'  updated)
-<link linkend="Transaction::DistroUpgrade">DistroUpgrade</link>         ('u'  type,
-                       's'  name,
-                       's'  summary)
-<link linkend="Transaction::ItemProgress">ItemProgress</link>          ('s'  id,
-                       'u'  status,
-                       'u'  percentage)
-<link linkend="Transaction::Changed">Changed</link>               ()
-<link linkend="Transaction::Destroy">Destroy</link>               ()
+    <synopsis><link linkend="Transaction::Category">Category</link>('s'parent_id,
+'s'cat_id,
+'s'name,
+'s'summary,
+'s'icon)
+<link linkend="Transaction::Details">Details</link>('s'package_id,
+'s'license,
+'u'group,
+'s'detail,
+'s'url,
+'t'size)
+<link linkend="Transaction::ErrorCode">ErrorCode</link>('u'code,
+'s'details)
+<link linkend="Transaction::Files">Files</link>('s'package_id,
+'as'file_list)
+<link linkend="Transaction::Finished">Finished</link>('u'exit,
+'u'runtime)
+<link linkend="Transaction::Message">Message</link>('u'type,
+'s'details)
+<link linkend="Transaction::Package">Package</link>('u'info,
+'s'package_id,
+'s'summary)
+<link linkend="Transaction::RepoDetail">RepoDetail</link>('s'repo_id,
+'s'description,
+'b'enabled)
+<link linkend="Transaction::RepoSignatureRequired">RepoSignatureRequired</link>('s'package_id,
+'s'repository_name,
+'s'key_url,
+'s'key_userid,
+'s'key_id,
+'s'key_fingerprint,
+'s'key_timestamp,
+'u'type)
+<link linkend="Transaction::EulaRequired">EulaRequired</link>('s'eula_id,
+'s'package_id,
+'s'vendor_name,
+'s'license_agreement)
+<link linkend="Transaction::MediaChangeRequired">MediaChangeRequired</link>('u'media_type,
+'s'media_id,
+'s'media_text)
+<link linkend="Transaction::RequireRestart">RequireRestart</link>('u'type,
+'s'package_id)
+<link linkend="Transaction::Transaction">Transaction</link>('o'object_path,
+'s'timespec,
+'b'succeeded,
+'u'role,
+'u'duration,
+'s'data,
+'u'uid,
+'s'cmdline)
+<link linkend="Transaction::UpdateDetail">UpdateDetail</link>('s'package_id,
+'as'updates,
+'as'obsoletes,
+'as'vendor_urls,
+'as'bugzilla_urls,
+'as'cve_urls,
+'u'restart,
+'s'update_text,
+'s'changelog,
+'u'state,
+'s'issued,
+'s'updated)
+<link linkend="Transaction::DistroUpgrade">DistroUpgrade</link>('u'type,
+'s'name,
+'s'summary)
+<link linkend="Transaction::ItemProgress">ItemProgress</link>('s'id,
+'u'status,
+'u'percentage)
+<link linkend="Transaction::Changed">Changed</link>()
+<link linkend="Transaction::Destroy">Destroy</link>()
 </synopsis>
   </refsect1>
   <refsect1 role="impl_interfaces">
@@ -149,17 +149,17 @@
   </refsect1>
   <refsect1 role="properties">
     <title role="properties.title">Properties</title>
-    <synopsis><link linkend="Transaction:Role">'Role'</link>                  read      'u'
-<link linkend="Transaction:Status">'Status'</link>                read      'u'
-<link linkend="Transaction:LastPackage">'LastPackage'</link>           read      's'
-<link linkend="Transaction:Uid">'Uid'</link>                   read      'u'
-<link linkend="Transaction:Percentage">'Percentage'</link>            read      'u'
-<link linkend="Transaction:AllowCancel">'AllowCancel'</link>           read      'b'
-<link linkend="Transaction:CallerActive">'CallerActive'</link>          read      'b'
-<link linkend="Transaction:ElapsedTime">'ElapsedTime'</link>           read      'u'
-<link linkend="Transaction:RemainingTime">'RemainingTime'</link>         read      'u'
-<link linkend="Transaction:Speed">'Speed'</link>                 read      'u'
-<link linkend="Transaction:DownloadSizeRemaining">'DownloadSizeRemaining'</link> read      't'
+    <synopsis><link linkend="Transaction:Role">'Role'</link>read'u'
+<link linkend="Transaction:Status">'Status'</link>read'u'
+<link linkend="Transaction:LastPackage">'LastPackage'</link>read's'
+<link linkend="Transaction:Uid">'Uid'</link>read'u'
+<link linkend="Transaction:Percentage">'Percentage'</link>read'u'
+<link linkend="Transaction:AllowCancel">'AllowCancel'</link>read'b'
+<link linkend="Transaction:CallerActive">'CallerActive'</link>read'b'
+<link linkend="Transaction:ElapsedTime">'ElapsedTime'</link>read'u'
+<link linkend="Transaction:RemainingTime">'RemainingTime'</link>read'u'
+<link linkend="Transaction:Speed">'Speed'</link>read'u'
+<link linkend="Transaction:DownloadSizeRemaining">'DownloadSizeRemaining'</link>read't'
 </synopsis>
   </refsect1>
   <refsect1 role="desc">
@@ -172,7 +172,7 @@
       
     </para>
   </refsect1>
-  <refsect1 role="details"><title role="details.title">Details</title><refsect2><title><anchor role="function" id="Transaction.SetHints"/>SetHints ()</title><indexterm><primary>SetHints</primary><secondary>Transaction</secondary></indexterm><programlisting>SetHints (in  'as' hints)</programlisting></refsect2>
+  <refsect1 role="details"><title role="details.title">Details</title><refsect2><title><anchor role="function" id="Transaction.SetHints"/>SetHints ()</title><indexterm><primary>SetHints</primary><secondary>Transaction</secondary></indexterm><programlisting>SetHints (in'as'hints)</programlisting></refsect2>
           <para>
             This method allows the calling session to set transaction hints for
             the package manager which can change as the transaction runs.
@@ -239,7 +239,7 @@
               not cause the method to fail. This will preserve forward and
               backwards compatibility for future API versions.
             
-          </simpara></listitem></varlistentry></variablelist><refsect2><title><anchor role="function" id="Transaction.AcceptEula"/>AcceptEula ()</title><indexterm><primary>AcceptEula</primary><secondary>Transaction</secondary></indexterm><programlisting>AcceptEula (in  's' eula_id)</programlisting></refsect2>
+          </simpara></listitem></varlistentry></variablelist><refsect2><title><anchor role="function" id="Transaction.AcceptEula"/>AcceptEula ()</title><indexterm><primary>AcceptEula</primary><secondary>Transaction</secondary></indexterm><programlisting>AcceptEula (in's'eula_id)</programlisting></refsect2>
           <para>
             This method allows the user to accept a end user licence agreement.
           </para>
@@ -251,8 +251,8 @@
           <para>
             This method cancels a transaction that is already running
           </para>
-        <variablelist role="params"/><refsect2><title><anchor role="function" id="Transaction.DownloadPackages"/>DownloadPackages ()</title><indexterm><primary>DownloadPackages</primary><secondary>Transaction</secondary></indexterm><programlisting>DownloadPackages (in  'b'  store_in_cache,
-                  in  'as' package_ids)</programlisting></refsect2>
+        <variablelist role="params"/><refsect2><title><anchor role="function" id="Transaction.DownloadPackages"/>DownloadPackages ()</title><indexterm><primary>DownloadPackages</primary><secondary>Transaction</secondary></indexterm><programlisting>DownloadPackages (in'b'store_in_cache,
+in'as'package_ids)</programlisting></refsect2>
           <para>
             This method downloads packages into a temporary directory.
           </para>
@@ -288,9 +288,9 @@
           <para>
             This method return the collection categories
           </para>
-        <variablelist role="params"/><refsect2><title><anchor role="function" id="Transaction.GetDepends"/>GetDepends ()</title><indexterm><primary>GetDepends</primary><secondary>Transaction</secondary></indexterm><programlisting>GetDepends (in  't'  filter,
-            in  'as' package_ids,
-            in  'b'  recursive)</programlisting></refsect2>
+        <variablelist role="params"/><refsect2><title><anchor role="function" id="Transaction.GetDepends"/>GetDepends ()</title><indexterm><primary>GetDepends</primary><secondary>Transaction</secondary></indexterm><programlisting>GetDepends (in't'filter,
+in'as'package_ids,
+in'b'recursive)</programlisting></refsect2>
           <para>
             This method returns packages that this package depends on.
           </para>
@@ -321,7 +321,7 @@
               and NetworkManager depends on HAL, then GetDepends on
               gnome-power-manager should return both HAL and NetworkManager.
             
-          </simpara></listitem></varlistentry></variablelist><refsect2><title><anchor role="function" id="Transaction.GetDetails"/>GetDetails ()</title><indexterm><primary>GetDetails</primary><secondary>Transaction</secondary></indexterm><programlisting>GetDetails (in  'as' package_ids)</programlisting></refsect2>
+          </simpara></listitem></varlistentry></variablelist><refsect2><title><anchor role="function" id="Transaction.GetDetails"/>GetDetails ()</title><indexterm><primary>GetDetails</primary><secondary>Transaction</secondary></indexterm><programlisting>GetDetails (in'as'package_ids)</programlisting></refsect2>
           <para>
             This method should return all the details about a specific
             package_id.
@@ -337,7 +337,7 @@
             
               An array of package IDs.
             
-          </simpara></listitem></varlistentry></variablelist><refsect2><title><anchor role="function" id="Transaction.GetFiles"/>GetFiles ()</title><indexterm><primary>GetFiles</primary><secondary>Transaction</secondary></indexterm><programlisting>GetFiles (in  'as' package_ids)</programlisting></refsect2>
+          </simpara></listitem></varlistentry></variablelist><refsect2><title><anchor role="function" id="Transaction.GetFiles"/>GetFiles ()</title><indexterm><primary>GetFiles</primary><secondary>Transaction</secondary></indexterm><programlisting>GetFiles (in'as'package_ids)</programlisting></refsect2>
           <para>
             This method should return the file list of the package_id.
           </para>
@@ -352,7 +352,7 @@
             
               An array of package IDs.
             
-          </simpara></listitem></varlistentry></variablelist><refsect2><title><anchor role="function" id="Transaction.GetOldTransactions"/>GetOldTransactions ()</title><indexterm><primary>GetOldTransactions</primary><secondary>Transaction</secondary></indexterm><programlisting>GetOldTransactions (in  'u' number)</programlisting></refsect2>
+          </simpara></listitem></varlistentry></variablelist><refsect2><title><anchor role="function" id="Transaction.GetOldTransactions"/>GetOldTransactions ()</title><indexterm><primary>GetOldTransactions</primary><secondary>Transaction</secondary></indexterm><programlisting>GetOldTransactions (in'u'number)</programlisting></refsect2>
           <para>
             This method allows a client to view details for old transactions.
           </para>
@@ -360,7 +360,7 @@
             
               The number of past transactions, or 0 for all known transactions.
             
-          </simpara></listitem></varlistentry></variablelist><refsect2><title><anchor role="function" id="Transaction.GetPackages"/>GetPackages ()</title><indexterm><primary>GetPackages</primary><secondary>Transaction</secondary></indexterm><programlisting>GetPackages (in  't' filter)</programlisting></refsect2>
+          </simpara></listitem></varlistentry></variablelist><refsect2><title><anchor role="function" id="Transaction.GetPackages"/>GetPackages ()</title><indexterm><primary>GetPackages</primary><secondary>Transaction</secondary></indexterm><programlisting>GetPackages (in't'filter)</programlisting></refsect2>
           <para>
             This method returns all the packages without a search term.
           </para>
@@ -378,7 +378,7 @@
             
               A correct filter bitfield, e.g. none or installed;~devel
             
-          </simpara></listitem></varlistentry></variablelist><refsect2><title><anchor role="function" id="Transaction.GetRepoList"/>GetRepoList ()</title><indexterm><primary>GetRepoList</primary><secondary>Transaction</secondary></indexterm><programlisting>GetRepoList (in  't' filter)</programlisting></refsect2>
+          </simpara></listitem></varlistentry></variablelist><refsect2><title><anchor role="function" id="Transaction.GetRepoList"/>GetRepoList ()</title><indexterm><primary>GetRepoList</primary><secondary>Transaction</secondary></indexterm><programlisting>GetRepoList (in't'filter)</programlisting></refsect2>
           <para>
             This method returns the list of repositories used in the system.
           </para>
@@ -389,9 +389,9 @@
             
               A correct filter bitfield, e.g. none or installed;~devel
             
-          </simpara></listitem></varlistentry></variablelist><refsect2><title><anchor role="function" id="Transaction.GetRequires"/>GetRequires ()</title><indexterm><primary>GetRequires</primary><secondary>Transaction</secondary></indexterm><programlisting>GetRequires (in  't'  filter,
-             in  'as' package_ids,
-             in  'b'  recursive)</programlisting></refsect2>
+          </simpara></listitem></varlistentry></variablelist><refsect2><title><anchor role="function" id="Transaction.GetRequires"/>GetRequires ()</title><indexterm><primary>GetRequires</primary><secondary>Transaction</secondary></indexterm><programlisting>GetRequires (in't'filter,
+in'as'package_ids,
+in'b'recursive)</programlisting></refsect2>
           <para>
             This method returns packages that depend on this package.
             This is useful to know, as if package_id is being
@@ -424,7 +424,7 @@
               and NetworkManager depends on HAL, then GetRequires on
               HAL should return both gnome-power-manager and NetworkManager.
             
-          </simpara></listitem></varlistentry></variablelist><refsect2><title><anchor role="function" id="Transaction.GetUpdateDetail"/>GetUpdateDetail ()</title><indexterm><primary>GetUpdateDetail</primary><secondary>Transaction</secondary></indexterm><programlisting>GetUpdateDetail (in  'as' package_ids)</programlisting></refsect2>
+          </simpara></listitem></varlistentry></variablelist><refsect2><title><anchor role="function" id="Transaction.GetUpdateDetail"/>GetUpdateDetail ()</title><indexterm><primary>GetUpdateDetail</primary><secondary>Transaction</secondary></indexterm><programlisting>GetUpdateDetail (in'as'package_ids)</programlisting></refsect2>
           <para>
             This method returns details about a specific update.
           </para>
@@ -437,7 +437,7 @@
             
               An array of package IDs.
             
-          </simpara></listitem></varlistentry></variablelist><refsect2><title><anchor role="function" id="Transaction.GetUpdates"/>GetUpdates ()</title><indexterm><primary>GetUpdates</primary><secondary>Transaction</secondary></indexterm><programlisting>GetUpdates (in  't' filter)</programlisting></refsect2>
+          </simpara></listitem></varlistentry></variablelist><refsect2><title><anchor role="function" id="Transaction.GetUpdates"/>GetUpdates ()</title><indexterm><primary>GetUpdates</primary><secondary>Transaction</secondary></indexterm><programlisting>GetUpdates (in't'filter)</programlisting></refsect2>
           <para>
             This method should return a list of packages that are installed and are upgradable.
             It should only return the newest update for each installed package.
@@ -490,8 +490,8 @@
             DistroUpgrade,
             Error and
           </para>
-        <variablelist role="params"/><refsect2><title><anchor role="function" id="Transaction.InstallFiles"/>InstallFiles ()</title><indexterm><primary>InstallFiles</primary><secondary>Transaction</secondary></indexterm><programlisting>InstallFiles (in  't'  transaction_flags,
-              in  'as' full_paths)</programlisting></refsect2>
+        <variablelist role="params"/><refsect2><title><anchor role="function" id="Transaction.InstallFiles"/>InstallFiles ()</title><indexterm><primary>InstallFiles</primary><secondary>Transaction</secondary></indexterm><programlisting>InstallFiles (in't'transaction_flags,
+in'as'full_paths)</programlisting></refsect2>
           <para>
             This method installs local package files onto the local system.
           </para>
@@ -527,8 +527,8 @@
             
               An array of full path and filenames to packages.
             
-          </simpara></listitem></varlistentry></variablelist><para role="permission">Callers need the org.freedesktop.packagekit.localinstall-untrusted</para><refsect2><title><anchor role="function" id="Transaction.InstallPackages"/>InstallPackages ()</title><indexterm><primary>InstallPackages</primary><secondary>Transaction</secondary></indexterm><programlisting>InstallPackages (in  't'  transaction_flags,
-                 in  'as' package_ids)</programlisting></refsect2>
+          </simpara></listitem></varlistentry></variablelist><para role="permission">Callers need the org.freedesktop.packagekit.localinstall-untrusted</para><refsect2><title><anchor role="function" id="Transaction.InstallPackages"/>InstallPackages ()</title><indexterm><primary>InstallPackages</primary><secondary>Transaction</secondary></indexterm><programlisting>InstallPackages (in't'transaction_flags,
+in'as'package_ids)</programlisting></refsect2>
           <para>
             This method installs new packages on the local system.
           </para>
@@ -566,9 +566,9 @@
             
               An array of package IDs.
             
-          </simpara></listitem></varlistentry></variablelist><para role="permission">Callers need the org.freedesktop.packagekit.install-untrusted</para><refsect2><title><anchor role="function" id="Transaction.InstallSignature"/>InstallSignature ()</title><indexterm><primary>InstallSignature</primary><secondary>Transaction</secondary></indexterm><programlisting>InstallSignature (in  'u' sig_type,
-                  in  's' key_id,
-                  in  's' package_id)</programlisting></refsect2>
+          </simpara></listitem></varlistentry></variablelist><para role="permission">Callers need the org.freedesktop.packagekit.install-untrusted</para><refsect2><title><anchor role="function" id="Transaction.InstallSignature"/>InstallSignature ()</title><indexterm><primary>InstallSignature</primary><secondary>Transaction</secondary></indexterm><programlisting>InstallSignature (in'u'sig_type,
+in's'key_id,
+in's'package_id)</programlisting></refsect2>
           <para>
             This method allows us to install new security keys.
           </para>
@@ -584,7 +584,7 @@
             
               A PackageID for the package that the user is trying to install
             
-          </simpara></listitem></varlistentry></variablelist><para role="permission">Callers need the org.freedesktop.packagekit.install-signature</para><refsect2><title><anchor role="function" id="Transaction.RefreshCache"/>RefreshCache ()</title><indexterm><primary>RefreshCache</primary><secondary>Transaction</secondary></indexterm><programlisting>RefreshCache (in  'b' force)</programlisting></refsect2>
+          </simpara></listitem></varlistentry></variablelist><para role="permission">Callers need the org.freedesktop.packagekit.install-signature</para><refsect2><title><anchor role="function" id="Transaction.RefreshCache"/>RefreshCache ()</title><indexterm><primary>RefreshCache</primary><secondary>Transaction</secondary></indexterm><programlisting>RefreshCache (in'b'force)</programlisting></refsect2>
           <para>
             This method should fetch updated meta-data for all enabled repositories.
             This operation should be only scheduled when the computer is idle as
@@ -609,10 +609,10 @@
             
               If the caches should be cleaned and reloaded even if there is valid, up to date data.
             
-          </simpara></listitem></varlistentry></variablelist><para role="permission">Callers need the org.freedesktop.packagekit.refresh-cache</para><refsect2><title><anchor role="function" id="Transaction.RemovePackages"/>RemovePackages ()</title><indexterm><primary>RemovePackages</primary><secondary>Transaction</secondary></indexterm><programlisting>RemovePackages (in  't'  transaction_flags,
-                in  'as' package_ids,
-                in  'b'  allow_deps,
-                in  'b'  autoremove)</programlisting></refsect2>
+          </simpara></listitem></varlistentry></variablelist><para role="permission">Callers need the org.freedesktop.packagekit.refresh-cache</para><refsect2><title><anchor role="function" id="Transaction.RemovePackages"/>RemovePackages ()</title><indexterm><primary>RemovePackages</primary><secondary>Transaction</secondary></indexterm><programlisting>RemovePackages (in't'transaction_flags,
+in'as'package_ids,
+in'b'allow_deps,
+in'b'autoremove)</programlisting></refsect2>
           <para>
             This method removes packages from the local system.
           </para>
@@ -656,8 +656,8 @@
               When auto_remove is set to true, and you remove OpenOffice then
               libneon will also get removed automatically.
             
-          </simpara></listitem></varlistentry></variablelist><para role="permission">Callers need the org.freedesktop.packagekit.remove</para><refsect2><title><anchor role="function" id="Transaction.RepoEnable"/>RepoEnable ()</title><indexterm><primary>RepoEnable</primary><secondary>Transaction</secondary></indexterm><programlisting>RepoEnable (in  's' repo_id,
-            in  'b' enabled)</programlisting></refsect2>
+          </simpara></listitem></varlistentry></variablelist><para role="permission">Callers need the org.freedesktop.packagekit.remove</para><refsect2><title><anchor role="function" id="Transaction.RepoEnable"/>RepoEnable ()</title><indexterm><primary>RepoEnable</primary><secondary>Transaction</secondary></indexterm><programlisting>RepoEnable (in's'repo_id,
+in'b'enabled)</programlisting></refsect2>
           <para>
             This method enables the repository specified.
           </para>
@@ -669,9 +669,9 @@
             
               true if enabled, false if disabled.
             
-          </simpara></listitem></varlistentry></variablelist><para role="permission">Callers need the org.freedesktop.packagekit.repo-change</para><refsect2><title><anchor role="function" id="Transaction.RepoSetData"/>RepoSetData ()</title><indexterm><primary>RepoSetData</primary><secondary>Transaction</secondary></indexterm><programlisting>RepoSetData (in  's' repo_id,
-             in  's' parameter,
-             in  's' value)</programlisting></refsect2>
+          </simpara></listitem></varlistentry></variablelist><para role="permission">Callers need the org.freedesktop.packagekit.repo-change</para><refsect2><title><anchor role="function" id="Transaction.RepoSetData"/>RepoSetData ()</title><indexterm><primary>RepoSetData</primary><secondary>Transaction</secondary></indexterm><programlisting>RepoSetData (in's'repo_id,
+in's'parameter,
+in's'value)</programlisting></refsect2>
           <para>
             This method allows arbitary data to be passed to the repository handler.
           </para>
@@ -687,8 +687,8 @@
             
               The backend specific value, e.g. http://foo.bar.org/baz.
             
-          </simpara></listitem></varlistentry></variablelist><para role="permission">Callers need the org.freedesktop.packagekit.repo-change</para><refsect2><title><anchor role="function" id="Transaction.Resolve"/>Resolve ()</title><indexterm><primary>Resolve</primary><secondary>Transaction</secondary></indexterm><programlisting>Resolve (in  't'  filter,
-         in  'as' packages)</programlisting></refsect2>
+          </simpara></listitem></varlistentry></variablelist><para role="permission">Callers need the org.freedesktop.packagekit.repo-change</para><refsect2><title><anchor role="function" id="Transaction.Resolve"/>Resolve ()</title><indexterm><primary>Resolve</primary><secondary>Transaction</secondary></indexterm><programlisting>Resolve (in't'filter,
+in'as'packages)</programlisting></refsect2>
           <para>
             This method turns a single package name into a package_id suitable for the
             other methods.
@@ -728,8 +728,8 @@
               web-development;;;meta with the correct
               installed status and summary for the category.
             
-          </simpara></listitem></varlistentry></variablelist><refsect2><title><anchor role="function" id="Transaction.SearchDetails"/>SearchDetails ()</title><indexterm><primary>SearchDetails</primary><secondary>Transaction</secondary></indexterm><programlisting>SearchDetails (in  't'  filter,
-               in  'as' values)</programlisting></refsect2>
+          </simpara></listitem></varlistentry></variablelist><refsect2><title><anchor role="function" id="Transaction.SearchDetails"/>SearchDetails ()</title><indexterm><primary>SearchDetails</primary><secondary>Transaction</secondary></indexterm><programlisting>SearchDetails (in't'filter,
+in'as'values)</programlisting></refsect2>
           <para>
             This method allows deeper searching than SearchName().
           </para>
@@ -777,8 +777,8 @@
             
               The search should not be treated as case sensitive.
             
-          </simpara></listitem></varlistentry></variablelist><refsect2><title><anchor role="function" id="Transaction.SearchFiles"/>SearchFiles ()</title><indexterm><primary>SearchFiles</primary><secondary>Transaction</secondary></indexterm><programlisting>SearchFiles (in  't'  filter,
-             in  'as' values)</programlisting></refsect2>
+          </simpara></listitem></varlistentry></variablelist><refsect2><title><anchor role="function" id="Transaction.SearchFiles"/>SearchFiles ()</title><indexterm><primary>SearchFiles</primary><secondary>Transaction</secondary></indexterm><programlisting>SearchFiles (in't'filter,
+in'as'values)</programlisting></refsect2>
           <para>
             This method searches for files on the local system and files in available packages.
           </para>
@@ -810,8 +810,8 @@
             
               The search is case sensitive, and should not be escaped or surrounded in quotes.
             
-          </simpara></listitem></varlistentry></variablelist><refsect2><title><anchor role="function" id="Transaction.SearchGroups"/>SearchGroups ()</title><indexterm><primary>SearchGroups</primary><secondary>Transaction</secondary></indexterm><programlisting>SearchGroups (in  't'  filter,
-              in  'as' values)</programlisting></refsect2>
+          </simpara></listitem></varlistentry></variablelist><refsect2><title><anchor role="function" id="Transaction.SearchGroups"/>SearchGroups ()</title><indexterm><primary>SearchGroups</primary><secondary>Transaction</secondary></indexterm><programlisting>SearchGroups (in't'filter,
+in'as'values)</programlisting></refsect2>
           <para>
             This method returns packages from a given group enumerated type.
           </para>
@@ -854,10 +854,6 @@
               If the values strings are prefixed with category: then
               the request is treated as a 'category search', for example:
               category:web-development.
-              Note: the old nomenclature for a 'category search' suggested
-              using a @ prefix for the values options.
-              This is still supported, and backends should continue to support
-              category searches like @web-development.
             
             
               If the values strings are prefixed with repo: then
@@ -867,8 +863,8 @@
               from, or can be installed from the fedora-debuginfo
               source would be returned.
             
-          </simpara></listitem></varlistentry></variablelist><refsect2><title><anchor role="function" id="Transaction.SearchNames"/>SearchNames ()</title><indexterm><primary>SearchNames</primary><secondary>Transaction</secondary></indexterm><programlisting>SearchNames (in  't'  filter,
-             in  'as' values)</programlisting></refsect2>
+          </simpara></listitem></varlistentry></variablelist><refsect2><title><anchor role="function" id="Transaction.SearchNames"/>SearchNames ()</title><indexterm><primary>SearchNames</primary><secondary>Transaction</secondary></indexterm><programlisting>SearchNames (in't'filter,
+in'as'values)</programlisting></refsect2>
           <para>
             This method searches the package database by package name.
           </para>
@@ -919,8 +915,8 @@
             
               The search should not be treated as case sensitive.
             
-          </simpara></listitem></varlistentry></variablelist><refsect2><title><anchor role="function" id="Transaction.UpdatePackages"/>UpdatePackages ()</title><indexterm><primary>UpdatePackages</primary><secondary>Transaction</secondary></indexterm><programlisting>UpdatePackages (in  't'  transaction_flags,
-                in  'as' package_ids)</programlisting></refsect2>
+          </simpara></listitem></varlistentry></variablelist><refsect2><title><anchor role="function" id="Transaction.UpdatePackages"/>UpdatePackages ()</title><indexterm><primary>UpdatePackages</primary><secondary>Transaction</secondary></indexterm><programlisting>UpdatePackages (in't'transaction_flags,
+in'as'package_ids)</programlisting></refsect2>
           <para>
             This method updates existing packages on the local system.
           </para>
@@ -952,9 +948,9 @@
             
               An array of package IDs.
             
-          </simpara></listitem></varlistentry></variablelist><para role="permission">Callers need the org.freedesktop.packagekit.update-package</para><refsect2><title><anchor role="function" id="Transaction.WhatProvides"/>WhatProvides ()</title><indexterm><primary>WhatProvides</primary><secondary>Transaction</secondary></indexterm><programlisting>WhatProvides (in  't'  filter,
-              in  'u'  type,
-              in  'as' values)</programlisting></refsect2>
+          </simpara></listitem></varlistentry></variablelist><para role="permission">Callers need the org.freedesktop.packagekit.update-package</para><refsect2><title><anchor role="function" id="Transaction.WhatProvides"/>WhatProvides ()</title><indexterm><primary>WhatProvides</primary><secondary>Transaction</secondary></indexterm><programlisting>WhatProvides (in't'filter,
+in'u'type,
+in'as'values)</programlisting></refsect2>
           <para>
             This method returns packages that provide the supplied attributes.
             This method is useful for finding out what package(s) provide a modalias
@@ -984,8 +980,8 @@
               The data to send to the backend to get the packages.
               Note: This is backend specific.
             
-          </simpara></listitem></varlistentry></variablelist><refsect2><title><anchor role="function" id="Transaction.UpgradeSystem"/>UpgradeSystem ()</title><indexterm><primary>UpgradeSystem</primary><secondary>Transaction</secondary></indexterm><programlisting>UpgradeSystem (in  's' distro_id,
-               in  'u' upgrade_kind)</programlisting></refsect2>
+          </simpara></listitem></varlistentry></variablelist><refsect2><title><anchor role="function" id="Transaction.UpgradeSystem"/>UpgradeSystem ()</title><indexterm><primary>UpgradeSystem</primary><secondary>Transaction</secondary></indexterm><programlisting>UpgradeSystem (in's'distro_id,
+in'u'upgrade_kind)</programlisting></refsect2>
           <para>
             This method perfoms a distribution upgrade to the specified
             version.
@@ -1010,7 +1006,7 @@
               graphical installer, but a complete upgrade will be
               required if there is no internet access during install time.
             
-          </simpara></listitem></varlistentry></variablelist><refsect2><title><anchor role="function" id="Transaction.RepairSystem"/>RepairSystem ()</title><indexterm><primary>RepairSystem</primary><secondary>Transaction</secondary></indexterm><programlisting>RepairSystem (in  't' transaction_flags)</programlisting></refsect2>
+          </simpara></listitem></varlistentry></variablelist><refsect2><title><anchor role="function" id="Transaction.RepairSystem"/>RepairSystem ()</title><indexterm><primary>RepairSystem</primary><secondary>Transaction</secondary></indexterm><programlisting>RepairSystem (in't'transaction_flags)</programlisting></refsect2>
           <para>
             This method recovers the package management system from e.g.
             unsatisfied dependencies of installed packages.
@@ -1034,11 +1030,11 @@
               after gaining further authentication.
             
           </simpara></listitem></varlistentry></variablelist></refsect1>
-  <refsect1 role="signals"><title role="signals.title">Signal Details</title><refsect2><title><anchor role="function" id="Transaction::Category"/>The Category signal</title><indexterm><primary>Category</primary><secondary>Transaction</secondary></indexterm><programlisting>Category ('s' parent_id,
-          's' cat_id,
-          's' name,
-          's' summary,
-          's' icon)</programlisting></refsect2>
+  <refsect1 role="signals"><title role="signals.title">Signal Details</title><refsect2><title><anchor role="function" id="Transaction::Category"/>The Category signal</title><indexterm><primary>Category</primary><secondary>Transaction</secondary></indexterm><programlisting>Category ('s'parent_id,
+'s'cat_id,
+'s'name,
+'s'summary,
+'s'icon)</programlisting></refsect2>
           <para>
             This signal send information about a collection category
           </para>
@@ -1074,12 +1070,12 @@
               The icon name for the category, e.g. server-cfg.
               If the icon is not known, then it should be set to image-missing.
             
-          </simpara></listitem></varlistentry></variablelist><refsect2><title><anchor role="function" id="Transaction::Details"/>The Details signal</title><indexterm><primary>Details</primary><secondary>Transaction</secondary></indexterm><programlisting>Details ('s' package_id,
-         's' license,
-         'u' group,
-         's' detail,
-         's' url,
-         't' size)</programlisting></refsect2>
+          </simpara></listitem></varlistentry></variablelist><refsect2><title><anchor role="function" id="Transaction::Details"/>The Details signal</title><indexterm><primary>Details</primary><secondary>Transaction</secondary></indexterm><programlisting>Details ('s'package_id,
+'s'license,
+'u'group,
+'s'detail,
+'s'url,
+'t'size)</programlisting></refsect2>
           <para>
             This signal allows the backend to convey more details about the package.
           </para>
@@ -1118,8 +1114,8 @@
               If the package is not installed, and already downloaded and
               present in the package manager cache, then this value should be set to zero.
             
-          </simpara></listitem></varlistentry></variablelist><refsect2><title><anchor role="function" id="Transaction::ErrorCode"/>The ErrorCode signal</title><indexterm><primary>ErrorCode</primary><secondary>Transaction</secondary></indexterm><programlisting>ErrorCode ('u' code,
-           's' details)</programlisting></refsect2>
+          </simpara></listitem></varlistentry></variablelist><refsect2><title><anchor role="function" id="Transaction::ErrorCode"/>The ErrorCode signal</title><indexterm><primary>ErrorCode</primary><secondary>Transaction</secondary></indexterm><programlisting>ErrorCode ('u'code,
+'s'details)</programlisting></refsect2>
           <para>
             This signal is used to report errors back to the session program.
           </para>
@@ -1134,8 +1130,8 @@
             
               Long description or error, e.g. failed to connect to mytry.xml
             
-          </simpara></listitem></varlistentry></variablelist><refsect2><title><anchor role="function" id="Transaction::Files"/>The Files signal</title><indexterm><primary>Files</primary><secondary>Transaction</secondary></indexterm><programlisting>Files ('s'  package_id,
-       'as' file_list)</programlisting></refsect2>
+          </simpara></listitem></varlistentry></variablelist><refsect2><title><anchor role="function" id="Transaction::Files"/>The Files signal</title><indexterm><primary>Files</primary><secondary>Transaction</secondary></indexterm><programlisting>Files ('s'package_id,
+'as'file_list)</programlisting></refsect2>
           <para>
             This signal is used to push file lists from the backend to the session.
           </para>
@@ -1147,8 +1143,8 @@
             
               The file list as an array.
             
-          </simpara></listitem></varlistentry></variablelist><refsect2><title><anchor role="function" id="Transaction::Finished"/>The Finished signal</title><indexterm><primary>Finished</primary><secondary>Transaction</secondary></indexterm><programlisting>Finished ('u' exit,
-          'u' runtime)</programlisting></refsect2>
+          </simpara></listitem></varlistentry></variablelist><refsect2><title><anchor role="function" id="Transaction::Finished"/>The Finished signal</title><indexterm><primary>Finished</primary><secondary>Transaction</secondary></indexterm><programlisting>Finished ('u'exit,
+'u'runtime)</programlisting></refsect2>
           <para>
             This signal is used to signal that the transaction has finished.
           </para>
@@ -1160,8 +1156,8 @@
             
               The amount of time in milliseconds that the transaction ran for.
             
-          </simpara></listitem></varlistentry></variablelist><refsect2><title><anchor role="function" id="Transaction::Message"/>The Message signal</title><indexterm><primary>Message</primary><secondary>Transaction</secondary></indexterm><programlisting>Message ('u' type,
-         's' details)</programlisting></refsect2>
+          </simpara></listitem></varlistentry></variablelist><refsect2><title><anchor role="function" id="Transaction::Message"/>The Message signal</title><indexterm><primary>Message</primary><secondary>Transaction</secondary></indexterm><programlisting>Message ('u'type,
+'s'details)</programlisting></refsect2>
           <para>
             This signal is sent when the backend wants to send a message to the session.
           </para>
@@ -1178,9 +1174,9 @@
             
               Required details about the message, non-localised.
             
-          </simpara></listitem></varlistentry></variablelist><refsect2><title><anchor role="function" id="Transaction::Package"/>The Package signal</title><indexterm><primary>Package</primary><secondary>Transaction</secondary></indexterm><programlisting>Package ('u' info,
-         's' package_id,
-         's' summary)</programlisting></refsect2>
+          </simpara></listitem></varlistentry></variablelist><refsect2><title><anchor role="function" id="Transaction::Package"/>The Package signal</title><indexterm><primary>Package</primary><secondary>Transaction</secondary></indexterm><programlisting>Package ('u'info,
+'s'package_id,
+'s'summary)</programlisting></refsect2>
           <para>
             This signal allows the backend to communicate packages to the session.
           </para>
@@ -1230,9 +1226,9 @@
             
               The one line package summary, e.g. Clipart for OpenOffice
             
-          </simpara></listitem></varlistentry></variablelist><refsect2><title><anchor role="function" id="Transaction::RepoDetail"/>The RepoDetail signal</title><indexterm><primary>RepoDetail</primary><secondary>Transaction</secondary></indexterm><programlisting>RepoDetail ('s' repo_id,
-            's' description,
-            'b' enabled)</programlisting></refsect2>
+          </simpara></listitem></varlistentry></variablelist><refsect2><title><anchor role="function" id="Transaction::RepoDetail"/>The RepoDetail signal</title><indexterm><primary>RepoDetail</primary><secondary>Transaction</secondary></indexterm><programlisting>RepoDetail ('s'repo_id,
+'s'description,
+'b'enabled)</programlisting></refsect2>
           <para>
             This signal describes a repository on the system.
           </para>
@@ -1248,14 +1244,14 @@
             
               If the repository is enabled and in use.
             
-          </simpara></listitem></varlistentry></variablelist><refsect2><title><anchor role="function" id="Transaction::RepoSignatureRequired"/>The RepoSignatureRequired signal</title><indexterm><primary>RepoSignatureRequired</primary><secondary>Transaction</secondary></indexterm><programlisting>RepoSignatureRequired ('s' package_id,
-                       's' repository_name,
-                       's' key_url,
-                       's' key_userid,
-                       's' key_id,
-                       's' key_fingerprint,
-                       's' key_timestamp,
-                       'u' type)</programlisting></refsect2>
+          </simpara></listitem></varlistentry></variablelist><refsect2><title><anchor role="function" id="Transaction::RepoSignatureRequired"/>The RepoSignatureRequired signal</title><indexterm><primary>RepoSignatureRequired</primary><secondary>Transaction</secondary></indexterm><programlisting>RepoSignatureRequired ('s'package_id,
+'s'repository_name,
+'s'key_url,
+'s'key_userid,
+'s'key_id,
+'s'key_fingerprint,
+'s'key_timestamp,
+'u'type)</programlisting></refsect2>
           <para>
             This signal is emitted when a transaction is not possible due to a missing security
             certificate.
@@ -1305,10 +1301,10 @@
             
               The type of signature used. gpg, for example.
             
-          </simpara></listitem></varlistentry></variablelist><refsect2><title><anchor role="function" id="Transaction::EulaRequired"/>The EulaRequired signal</title><indexterm><primary>EulaRequired</primary><secondary>Transaction</secondary></indexterm><programlisting>EulaRequired ('s' eula_id,
-              's' package_id,
-              's' vendor_name,
-              's' license_agreement)</programlisting></refsect2>
+          </simpara></listitem></varlistentry></variablelist><refsect2><title><anchor role="function" id="Transaction::EulaRequired"/>The EulaRequired signal</title><indexterm><primary>EulaRequired</primary><secondary>Transaction</secondary></indexterm><programlisting>EulaRequired ('s'eula_id,
+'s'package_id,
+'s'vendor_name,
+'s'license_agreement)</programlisting></refsect2>
           <para>
             This signal is emitted when a transaction is not possible due to a EULA that needs to
             be agreed to at install time.
@@ -1335,9 +1331,9 @@
             
               The full text EULA.
             
-          </simpara></listitem></varlistentry></variablelist><refsect2><title><anchor role="function" id="Transaction::MediaChangeRequired"/>The MediaChangeRequired signal</title><indexterm><primary>MediaChangeRequired</primary><secondary>Transaction</secondary></indexterm><programlisting>MediaChangeRequired ('u' media_type,
-                     's' media_id,
-                     's' media_text)</programlisting></refsect2>
+          </simpara></listitem></varlistentry></variablelist><refsect2><title><anchor role="function" id="Transaction::MediaChangeRequired"/>The MediaChangeRequired signal</title><indexterm><primary>MediaChangeRequired</primary><secondary>Transaction</secondary></indexterm><programlisting>MediaChangeRequired ('u'media_type,
+'s'media_id,
+'s'media_text)</programlisting></refsect2>
           <para>
             This signal is emitted when a transaction needsneeds a different media
             to grab the packages.
@@ -1362,8 +1358,8 @@
             
               Might be used for the disk label too, something like Fedora Disk 1
             
-          </simpara></listitem></varlistentry></variablelist><refsect2><title><anchor role="function" id="Transaction::RequireRestart"/>The RequireRestart signal</title><indexterm><primary>RequireRestart</primary><secondary>Transaction</secondary></indexterm><programlisting>RequireRestart ('u' type,
-                's' package_id)</programlisting></refsect2>
+          </simpara></listitem></varlistentry></variablelist><refsect2><title><anchor role="function" id="Transaction::RequireRestart"/>The RequireRestart signal</title><indexterm><primary>RequireRestart</primary><secondary>Transaction</secondary></indexterm><programlisting>RequireRestart ('u'type,
+'s'package_id)</programlisting></refsect2>
           <para>
             This signal is sent when the session program should notify the user that a restart is
             required.
@@ -1384,14 +1380,14 @@
             
               The package ID that caused the restart notifier.
             
-          </simpara></listitem></varlistentry></variablelist><refsect2><title><anchor role="function" id="Transaction::Transaction"/>The Transaction signal</title><indexterm><primary>Transaction</primary><secondary>Transaction</secondary></indexterm><programlisting>Transaction ('o' object_path,
-             's' timespec,
-             'b' succeeded,
-             'u' role,
-             'u' duration,
-             's' data,
-             'u' uid,
-             's' cmdline)</programlisting></refsect2>
+          </simpara></listitem></varlistentry></variablelist><refsect2><title><anchor role="function" id="Transaction::Transaction"/>The Transaction signal</title><indexterm><primary>Transaction</primary><secondary>Transaction</secondary></indexterm><programlisting>Transaction ('o'object_path,
+'s'timespec,
+'b'succeeded,
+'u'role,
+'u'duration,
+'s'data,
+'u'uid,
+'s'cmdline)</programlisting></refsect2>
           <para>
             This signal is sent when more details are required about a specific transaction.
           </para>
@@ -1428,18 +1424,18 @@
               The command line of the tool that scheduled the action, e.g.
               /usr/bin/gpk-application.
             
-          </simpara></listitem></varlistentry></variablelist><refsect2><title><anchor role="function" id="Transaction::UpdateDetail"/>The UpdateDetail signal</title><indexterm><primary>UpdateDetail</primary><secondary>Transaction</secondary></indexterm><programlisting>UpdateDetail ('s'  package_id,
-              'as' updates,
-              'as' obsoletes,
-              'as' vendor_urls,
-              'as' bugzilla_urls,
-              'as' cve_urls,
-              'u'  restart,
-              's'  update_text,
-              's'  changelog,
-              'u'  state,
-              's'  issued,
-              's'  updated)</programlisting></refsect2>
+          </simpara></listitem></varlistentry></variablelist><refsect2><title><anchor role="function" id="Transaction::UpdateDetail"/>The UpdateDetail signal</title><indexterm><primary>UpdateDetail</primary><secondary>Transaction</secondary></indexterm><programlisting>UpdateDetail ('s'package_id,
+'as'updates,
+'as'obsoletes,
+'as'vendor_urls,
+'as'bugzilla_urls,
+'as'cve_urls,
+'u'restart,
+'s'update_text,
+'s'changelog,
+'u'state,
+'s'issued,
+'s'updated)</programlisting></refsect2>
           <para>
             This signal is sent when more details are required about a specific update.
           </para>
@@ -1498,9 +1494,9 @@
             
               The ISO8601 encoded date that the update was updated.
             
-          </simpara></listitem></varlistentry></variablelist><refsect2><title><anchor role="function" id="Transaction::DistroUpgrade"/>The DistroUpgrade signal</title><indexterm><primary>DistroUpgrade</primary><secondary>Transaction</secondary></indexterm><programlisting>DistroUpgrade ('u' type,
-               's' name,
-               's' summary)</programlisting></refsect2>
+          </simpara></listitem></varlistentry></variablelist><refsect2><title><anchor role="function" id="Transaction::DistroUpgrade"/>The DistroUpgrade signal</title><indexterm><primary>DistroUpgrade</primary><secondary>Transaction</secondary></indexterm><programlisting>DistroUpgrade ('u'type,
+'s'name,
+'s'summary)</programlisting></refsect2>
           <para>
             This signal allows the backend to communicate distribution
             upgrades to the session.
@@ -1518,9 +1514,9 @@
             
               The multi-line description of the release.
             
-          </simpara></listitem></varlistentry></variablelist><refsect2><title><anchor role="function" id="Transaction::ItemProgress"/>The ItemProgress signal</title><indexterm><primary>ItemProgress</primary><secondary>Transaction</secondary></indexterm><programlisting>ItemProgress ('s' id,
-              'u' status,
-              'u' percentage)</programlisting></refsect2>
+          </simpara></listitem></varlistentry></variablelist><refsect2><title><anchor role="function" id="Transaction::ItemProgress"/>The ItemProgress signal</title><indexterm><primary>ItemProgress</primary><secondary>Transaction</secondary></indexterm><programlisting>ItemProgress ('s'id,
+'u'status,
+'u'percentage)</programlisting></refsect2>
           <para>
             This signal allows the backend to send infomation about
             package or repository progress when using Simultanous mode.
@@ -1551,27 +1547,27 @@
             no longer available for use.
           </para>
         <variablelist role="params"/></refsect1>
-  <refsect1 role="property_details"><title role="property_details.title">Property Details</title><refsect2><title><anchor role="function" id="Transaction:Role"/>The "Role" property</title><indexterm><primary>Role</primary><secondary>Transaction</secondary></indexterm><programlisting>'Role'  read      'u'
+  <refsect1 role="property_details"><title role="property_details.title">Property Details</title><refsect2><title><anchor role="function" id="Transaction:Role"/>The "Role" property</title><indexterm><primary>Role</primary><secondary>Transaction</secondary></indexterm><programlisting>'Role'read'u'
 </programlisting></refsect2>
           <para>
             The transaction role enum, e.g. update-system.
           </para>
-        <variablelist role="params"/><refsect2><title><anchor role="function" id="Transaction:Status"/>The "Status" property</title><indexterm><primary>Status</primary><secondary>Transaction</secondary></indexterm><programlisting>'Status'  read      'u'
+        <variablelist role="params"/><refsect2><title><anchor role="function" id="Transaction:Status"/>The "Status" property</title><indexterm><primary>Status</primary><secondary>Transaction</secondary></indexterm><programlisting>'Status'read'u'
 </programlisting></refsect2>
           <para>
             The transaction status enum, e.g. downloading.
           </para>
-        <variablelist role="params"/><refsect2><title><anchor role="function" id="Transaction:LastPackage"/>The "LastPackage" property</title><indexterm><primary>LastPackage</primary><secondary>Transaction</secondary></indexterm><programlisting>'LastPackage'  read      's'
+        <variablelist role="params"/><refsect2><title><anchor role="function" id="Transaction:LastPackage"/>The "LastPackage" property</title><indexterm><primary>LastPackage</primary><secondary>Transaction</secondary></indexterm><programlisting>'LastPackage'read's'
 </programlisting></refsect2>
           <para>
             The last package_id that was processed, e.g. hal;0.1.2;i386;fedora.
           </para>
-        <variablelist role="params"/><refsect2><title><anchor role="function" id="Transaction:Uid"/>The "Uid" property</title><indexterm><primary>Uid</primary><secondary>Transaction</secondary></indexterm><programlisting>'Uid'  read      'u'
+        <variablelist role="params"/><refsect2><title><anchor role="function" id="Transaction:Uid"/>The "Uid" property</title><indexterm><primary>Uid</primary><secondary>Transaction</secondary></indexterm><programlisting>'Uid'read'u'
 </programlisting></refsect2>
           <para>
             The uid of the user that started the transaction.
           </para>
-        <variablelist role="params"/><refsect2><title><anchor role="function" id="Transaction:Percentage"/>The "Percentage" property</title><indexterm><primary>Percentage</primary><secondary>Transaction</secondary></indexterm><programlisting>'Percentage'  read      'u'
+        <variablelist role="params"/><refsect2><title><anchor role="function" id="Transaction:Percentage"/>The "Percentage" property</title><indexterm><primary>Percentage</primary><secondary>Transaction</secondary></indexterm><programlisting>'Percentage'read'u'
 </programlisting></refsect2>
           <para>
             The percentage complete of the transaction.
@@ -1579,34 +1575,34 @@
           <para>
             Backends should set this value to 101 if the amount complete cannot be calculated.
           </para>
-        <variablelist role="params"/><refsect2><title><anchor role="function" id="Transaction:AllowCancel"/>The "AllowCancel" property</title><indexterm><primary>AllowCancel</primary><secondary>Transaction</secondary></indexterm><programlisting>'AllowCancel'  read      'b'
+        <variablelist role="params"/><refsect2><title><anchor role="function" id="Transaction:AllowCancel"/>The "AllowCancel" property</title><indexterm><primary>AllowCancel</primary><secondary>Transaction</secondary></indexterm><programlisting>'AllowCancel'read'b'
 </programlisting></refsect2>
           <para>
             If the transaction can be cancelled.
           </para>
-        <variablelist role="params"/><refsect2><title><anchor role="function" id="Transaction:CallerActive"/>The "CallerActive" property</title><indexterm><primary>CallerActive</primary><secondary>Transaction</secondary></indexterm><programlisting>'CallerActive'  read      'b'
+        <variablelist role="params"/><refsect2><title><anchor role="function" id="Transaction:CallerActive"/>The "CallerActive" property</title><indexterm><primary>CallerActive</primary><secondary>Transaction</secondary></indexterm><programlisting>'CallerActive'read'b'
 </programlisting></refsect2>
           <para>
             If the original caller of the method is still connected to the system bus.
             This is usually an indication that the client can handle it's own error handling and
             EULA callbacks rather than another program taking over.
           </para>
-        <variablelist role="params"/><refsect2><title><anchor role="function" id="Transaction:ElapsedTime"/>The "ElapsedTime" property</title><indexterm><primary>ElapsedTime</primary><secondary>Transaction</secondary></indexterm><programlisting>'ElapsedTime'  read      'u'
+        <variablelist role="params"/><refsect2><title><anchor role="function" id="Transaction:ElapsedTime"/>The "ElapsedTime" property</title><indexterm><primary>ElapsedTime</primary><secondary>Transaction</secondary></indexterm><programlisting>'ElapsedTime'read'u'
 </programlisting></refsect2>
           <para>
             The amount of time elapsed during the transaction in seconds.
           </para>
-        <variablelist role="params"/><refsect2><title><anchor role="function" id="Transaction:RemainingTime"/>The "RemainingTime" property</title><indexterm><primary>RemainingTime</primary><secondary>Transaction</secondary></indexterm><programlisting>'RemainingTime'  read      'u'
+        <variablelist role="params"/><refsect2><title><anchor role="function" id="Transaction:RemainingTime"/>The "RemainingTime" property</title><indexterm><primary>RemainingTime</primary><secondary>Transaction</secondary></indexterm><programlisting>'RemainingTime'read'u'
 </programlisting></refsect2>
           <para>
             The estimated time remaining of the transaction in seconds, or 0 if not known.
           </para>
-        <variablelist role="params"/><refsect2><title><anchor role="function" id="Transaction:Speed"/>The "Speed" property</title><indexterm><primary>Speed</primary><secondary>Transaction</secondary></indexterm><programlisting>'Speed'  read      'u'
+        <variablelist role="params"/><refsect2><title><anchor role="function" id="Transaction:Speed"/>The "Speed" property</title><indexterm><primary>Speed</primary><secondary>Transaction</secondary></indexterm><programlisting>'Speed'read'u'
 </programlisting></refsect2>
           <para>
             The estimated speed of the transaction (copying, downloading, etc.) in bits per second, or 0 if not known.
           </para>
-        <variablelist role="params"/><refsect2><title><anchor role="function" id="Transaction:DownloadSizeRemaining"/>The "DownloadSizeRemaining" property</title><indexterm><primary>DownloadSizeRemaining</primary><secondary>Transaction</secondary></indexterm><programlisting>'DownloadSizeRemaining'  read      't'
+        <variablelist role="params"/><refsect2><title><anchor role="function" id="Transaction:DownloadSizeRemaining"/>The "DownloadSizeRemaining" property</title><indexterm><primary>DownloadSizeRemaining</primary><secondary>Transaction</secondary></indexterm><programlisting>'DownloadSizeRemaining'read't'
 </programlisting></refsect2>
           <para>
             The number of bytes remaining to download, 0 if nothing is left to download.

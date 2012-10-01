@@ -101,20 +101,11 @@ out:
 }
 
 /**
- * pk_plugin_transaction_started:
+ * pk_plugin_transaction_start:
  */
 void
 pk_plugin_transaction_started (PkPlugin *plugin,
 			       PkTransaction *transaction)
-{
-}
-
-/**
- * pk_plugin_transaction_finished_start:
- */
-void
-pk_plugin_transaction_finished_start (PkPlugin *plugin,
-				      PkTransaction *transaction)
 {
 }
 

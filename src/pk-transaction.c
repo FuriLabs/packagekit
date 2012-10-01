@@ -572,7 +572,7 @@ pk_transaction_error_code_cb (PkBackendJob *job,
 	/* add to results */
 	pk_results_set_error_code (transaction->priv->results, item);
 
-	if (code == PK_ERROR_ENUM_LOCK_REQUIRED) {
+	if (!transaction->priv->exclusive && code == PK_ERROR_ENUM_LOCK_REQUIRED) {
 		/* the backend failed to get lock for this action, this means this transaction has to be run in exclusive mode */
 		g_debug ("changing transaction to exclusive mode (after failing with lock-required)");
 		transaction->priv->exclusive = TRUE;
@@ -901,42 +901,26 @@ pk_transaction_plugin_phase (PkTransaction *transaction,
 	gboolean ret;
 	guint i;
 	PkBackendJob *job;
-	PkBitfield backend_signals = PK_BACKEND_SIGNAL_LAST;
+	PkExitEnum exit_code;
 	PkPlugin *plugin;
+	GMainContext *context;
 	PkPluginTransactionFunc plugin_func = NULL;
 
 	switch (phase) {
 	case PK_PLUGIN_PHASE_TRANSACTION_RUN:
 		function = "pk_plugin_transaction_run";
-		backend_signals = PK_TRANSACTION_NO_BACKEND_SIGNALS;
 		break;
 	case PK_PLUGIN_PHASE_TRANSACTION_CONTENT_TYPES:
 		function = "pk_plugin_transaction_content_types";
-		backend_signals = PK_TRANSACTION_NO_BACKEND_SIGNALS;
 		break;
 	case PK_PLUGIN_PHASE_TRANSACTION_STARTED:
-		function = "pk_plugin_transaction_start";
-		backend_signals = PK_TRANSACTION_ALL_BACKEND_SIGNALS;
-		break;
-	case PK_PLUGIN_PHASE_TRANSACTION_FINISHED_START:
-		function = "pk_plugin_transaction_finished_start";
-		backend_signals = PK_TRANSACTION_ALL_BACKEND_SIGNALS;
+		function = "pk_plugin_transaction_started";
 		break;
 	case PK_PLUGIN_PHASE_TRANSACTION_FINISHED_RESULTS:
 		function = "pk_plugin_transaction_finished_results";
-		backend_signals = pk_bitfield_from_enums (
-			PK_BACKEND_SIGNAL_ALLOW_CANCEL,
-			PK_BACKEND_SIGNAL_MESSAGE,
-			PK_BACKEND_SIGNAL_PERCENTAGE,
-			PK_BACKEND_SIGNAL_REMAINING,
-			PK_BACKEND_SIGNAL_REQUIRE_RESTART,
-			PK_BACKEND_SIGNAL_STATUS_CHANGED,
-			PK_BACKEND_SIGNAL_ITEM_PROGRESS,
-			-1);
 		break;
 	case PK_PLUGIN_PHASE_TRANSACTION_FINISHED_END:
 		function = "pk_plugin_transaction_finished_end";
-		backend_signals = PK_TRANSACTION_NO_BACKEND_SIGNALS;
 		break;
 	default:
 		g_assert_not_reached ();
@@ -962,20 +946,33 @@ pk_transaction_plugin_phase (PkTransaction *transaction,
 			 g_module_name (plugin->module));
 		job = pk_backend_job_new ();
 		pk_backend_start_job (transaction->priv->backend, job);
-		pk_transaction_set_signals (transaction, job, backend_signals);
+		pk_transaction_signals_reset (transaction, job);
 		plugin->job = job;
 		plugin->backend = transaction->priv->backend;
 		plugin_func (plugin, transaction);
 		pk_backend_stop_job (transaction->priv->backend, job);
 		plugin->job = NULL;
 		plugin->backend = NULL;
+
+		context = g_main_context_default ();
+		/* dispatch does not work here, so we run iterations until all plugin events are processed */
+		if (context != NULL) {
+			while (g_main_context_pending (context))
+				g_main_context_iteration (context, FALSE);
+		}
+
+		exit_code = pk_backend_job_get_exit_code (job);
+		if (exit_code != PK_EXIT_ENUM_UNKNOWN) {
+			pk_backend_job_set_exit_code (transaction->priv->job, exit_code);
+			if (exit_code != PK_EXIT_ENUM_SUCCESS)
+				break;
+		}
 	}
 out:
-	/* set this to a know state in case the plugin misbehaves */
+	/* set this to a known state */
 	if (transaction->priv->job != NULL) {
-		pk_transaction_set_signals (transaction,
-					    transaction->priv->job,
-					    backend_signals);
+		pk_transaction_signals_reset (transaction,
+					    transaction->priv->job);
 	}
 	if (!ran_one)
 		g_debug ("no plugins provided %s", function);
@@ -1176,10 +1173,6 @@ pk_transaction_finished_cb (PkBackendJob *job, PkExitEnum exit_enum, PkTransacti
 		g_signal_emit (transaction, signals[SIGNAL_FINISHED], 0);
 		return;
 	}
-
-	/* run the plugins */
-	pk_transaction_plugin_phase (transaction,
-				     PK_PLUGIN_PHASE_TRANSACTION_FINISHED_START);
 
 	/* run the plugins */
 	pk_transaction_plugin_phase (transaction,
@@ -1995,272 +1988,101 @@ pk_transaction_remaining_cb (PkBackendJob *job,
 }
 
 /**
- * pk_transaction_set_signals:
+ * pk_transaction_signals_reset:
  *
- * Connect selected signals in backend_signals to Pkransaction,
- * disconnect everthing else not mentioned there.
+ * Connect all backend_signals to the PkTransaction.
  **/
 void
-pk_transaction_set_signals (PkTransaction *transaction,
-			    PkBackendJob *job,
-			    PkBitfield backend_signals)
+pk_transaction_signals_reset (PkTransaction *transaction,
+			      PkBackendJob *job)
 {
 	g_return_if_fail (PK_IS_TRANSACTION (transaction));
 	g_return_if_fail (PK_IS_BACKEND_JOB (job));
 
-	/* NOTE: We never disconnect the LOCKED_CHANGED signal! */
-
-	if (pk_bitfield_contain (backend_signals, PK_BACKEND_SIGNAL_ALLOW_CANCEL)) {
-		pk_backend_job_set_vfunc (job,
-					PK_BACKEND_SIGNAL_ALLOW_CANCEL,
-					(PkBackendJobVFunc) pk_transaction_allow_cancel_cb,
-					transaction);
-	} else {
-		pk_backend_job_set_vfunc (job,
-					PK_BACKEND_SIGNAL_ALLOW_CANCEL,
-					NULL,
-					transaction);
-	}
-
-	if (pk_bitfield_contain (backend_signals, PK_BACKEND_SIGNAL_DETAILS)) {
-		pk_backend_job_set_vfunc (job,
-				      PK_BACKEND_SIGNAL_DETAILS,
-				      (PkBackendJobVFunc) pk_transaction_details_cb,
-				      transaction);
-	} else {
-		pk_backend_job_set_vfunc (job,
-				      PK_BACKEND_SIGNAL_DETAILS,
-				      NULL,
-				      transaction);
-	}
-
-	if (pk_bitfield_contain (backend_signals, PK_BACKEND_SIGNAL_ERROR_CODE)) {
-		pk_backend_job_set_vfunc (job,
-					PK_BACKEND_SIGNAL_ERROR_CODE,
-					(PkBackendJobVFunc) pk_transaction_error_code_cb,
-					transaction);
-	} else {
-		pk_backend_job_set_vfunc (job,
-					PK_BACKEND_SIGNAL_ERROR_CODE,
-					NULL,
-					transaction);
-	}
-
-	if (pk_bitfield_contain (backend_signals, PK_BACKEND_SIGNAL_FILES)) {
-		pk_backend_job_set_vfunc (job,
-					PK_BACKEND_SIGNAL_FILES,
-					(PkBackendJobVFunc) pk_transaction_files_cb,
-					transaction);
-	} else {
-		pk_backend_job_set_vfunc (job,
-					PK_BACKEND_SIGNAL_FILES,
-					NULL,
-					transaction);
-	}
-
-	if (pk_bitfield_contain (backend_signals, PK_BACKEND_SIGNAL_DISTRO_UPGRADE)) {
-		pk_backend_job_set_vfunc (job,
-					PK_BACKEND_SIGNAL_DISTRO_UPGRADE,
-					(PkBackendJobVFunc) pk_transaction_distro_upgrade_cb,
-					transaction);
-	} else {
-		pk_backend_job_set_vfunc (job,
-					PK_BACKEND_SIGNAL_DISTRO_UPGRADE,
-					NULL,
-					transaction);
-	}
-
-	if (pk_bitfield_contain (backend_signals, PK_BACKEND_SIGNAL_FINISHED)) {
-		pk_backend_job_set_vfunc (job,
-					PK_BACKEND_SIGNAL_FINISHED,
-					(PkBackendJobVFunc) pk_transaction_finished_cb,
-					transaction);
-	} else {
-		pk_backend_job_set_vfunc (job,
-					PK_BACKEND_SIGNAL_FINISHED,
-					NULL,
-					transaction);
-	}
-
-	if (pk_bitfield_contain (backend_signals, PK_BACKEND_SIGNAL_MESSAGE)) {
-		pk_backend_job_set_vfunc (job,
-					PK_BACKEND_SIGNAL_MESSAGE,
-					(PkBackendJobVFunc) pk_transaction_message_cb,
-					transaction);
-	} else {
-		pk_backend_job_set_vfunc (job,
-					PK_BACKEND_SIGNAL_MESSAGE,
-					NULL,
-					transaction);
-	}
-
-	if (pk_bitfield_contain (backend_signals, PK_BACKEND_SIGNAL_PACKAGE)) {
-		pk_backend_job_set_vfunc (job,
-					PK_BACKEND_SIGNAL_PACKAGE,
-					(PkBackendJobVFunc) pk_transaction_package_cb,
-					transaction);
-	} else {
-		pk_backend_job_set_vfunc (job,
-					PK_BACKEND_SIGNAL_PACKAGE,
-					NULL,
-					transaction);
-	}
-
-	if (pk_bitfield_contain (backend_signals, PK_BACKEND_SIGNAL_ITEM_PROGRESS)) {
-		pk_backend_job_set_vfunc (job,
-					PK_BACKEND_SIGNAL_ITEM_PROGRESS,
-					(PkBackendJobVFunc) pk_transaction_item_progress_cb,
-					transaction);
-	} else {
-		pk_backend_job_set_vfunc (job,
-					PK_BACKEND_SIGNAL_ITEM_PROGRESS,
-					NULL,
-					transaction);
-	}
-
-	if (pk_bitfield_contain (backend_signals, PK_BACKEND_SIGNAL_PERCENTAGE)) {
-		pk_backend_job_set_vfunc (job,
-					PK_BACKEND_SIGNAL_PERCENTAGE,
-					(PkBackendJobVFunc) pk_transaction_percentage_cb,
-					transaction);
-	} else {
-		pk_backend_job_set_vfunc (job,
-					PK_BACKEND_SIGNAL_PERCENTAGE,
-					NULL,
-					transaction);
-	}
-
-	if (pk_bitfield_contain (backend_signals, PK_BACKEND_SIGNAL_REMAINING)) {
-		pk_backend_job_set_vfunc (job,
-					PK_BACKEND_SIGNAL_REMAINING,
-					(PkBackendJobVFunc) pk_transaction_remaining_cb,
-					transaction);
-	} else {
-		pk_backend_job_set_vfunc (job,
-					PK_BACKEND_SIGNAL_REMAINING,
-					NULL,
-					transaction);
-	}
-
-	if (pk_bitfield_contain (backend_signals, PK_BACKEND_SIGNAL_SPEED)) {
-		pk_backend_job_set_vfunc (job,
-					PK_BACKEND_SIGNAL_SPEED,
-					(PkBackendJobVFunc) pk_transaction_speed_cb,
-					transaction);
-	} else {
-		pk_backend_job_set_vfunc (job,
-					PK_BACKEND_SIGNAL_SPEED,
-					NULL,
-					transaction);
-	}
-
-	if (pk_bitfield_contain (backend_signals, PK_BACKEND_SIGNAL_DOWNLOAD_SIZE_REMAINING)) {
-		pk_backend_job_set_vfunc (job,
-					PK_BACKEND_SIGNAL_DOWNLOAD_SIZE_REMAINING,
-					(PkBackendJobVFunc) pk_transaction_download_size_remaining_cb,
-					transaction);
-	} else {
-		pk_backend_job_set_vfunc (job,
-					PK_BACKEND_SIGNAL_DOWNLOAD_SIZE_REMAINING,
-					NULL,
-					transaction);
-	}
-
-	if (pk_bitfield_contain (backend_signals, PK_BACKEND_SIGNAL_REPO_DETAIL)) {
-		pk_backend_job_set_vfunc (job,
-					PK_BACKEND_SIGNAL_REPO_DETAIL,
-					(PkBackendJobVFunc) pk_transaction_repo_detail_cb,
-					transaction);
-	} else {
-		pk_backend_job_set_vfunc (job,
-					PK_BACKEND_SIGNAL_REPO_DETAIL,
-					NULL,
-					transaction);
-	}
-
-	if (pk_bitfield_contain (backend_signals, PK_BACKEND_SIGNAL_REPO_SIGNATURE_REQUIRED)) {
-		pk_backend_job_set_vfunc (job,
-					PK_BACKEND_SIGNAL_REPO_SIGNATURE_REQUIRED,
-					(PkBackendJobVFunc) pk_transaction_repo_signature_required_cb,
-					transaction);
-	} else {
-		pk_backend_job_set_vfunc (job,
-					PK_BACKEND_SIGNAL_REPO_SIGNATURE_REQUIRED,
-					NULL,
-					transaction);
-	}
-
-	if (pk_bitfield_contain (backend_signals, PK_BACKEND_SIGNAL_EULA_REQUIRED)) {
-		pk_backend_job_set_vfunc (job,
-					PK_BACKEND_SIGNAL_EULA_REQUIRED,
-					(PkBackendJobVFunc) pk_transaction_eula_required_cb,
-					transaction);
-	} else {
-		pk_backend_job_set_vfunc (job,
-					PK_BACKEND_SIGNAL_EULA_REQUIRED,
-					NULL,
-					transaction);
-	}
-
-	if (pk_bitfield_contain (backend_signals, PK_BACKEND_SIGNAL_MEDIA_CHANGE_REQUIRED)) {
-		pk_backend_job_set_vfunc (job,
-					PK_BACKEND_SIGNAL_MEDIA_CHANGE_REQUIRED,
-					(PkBackendJobVFunc) pk_transaction_media_change_required_cb,
-					transaction);
-	} else {
-		pk_backend_job_set_vfunc (job,
-					PK_BACKEND_SIGNAL_MEDIA_CHANGE_REQUIRED,
-					NULL,
-					transaction);
-	}
-
-	if (pk_bitfield_contain (backend_signals, PK_BACKEND_SIGNAL_REQUIRE_RESTART)) {
-		pk_backend_job_set_vfunc (job,
-					PK_BACKEND_SIGNAL_REQUIRE_RESTART,
-					(PkBackendJobVFunc) pk_transaction_require_restart_cb,
-					transaction);
-	} else {
-		pk_backend_job_set_vfunc (job,
-					PK_BACKEND_SIGNAL_REQUIRE_RESTART,
-					NULL,
-					transaction);
-	}
-
-	if (pk_bitfield_contain (backend_signals, PK_BACKEND_SIGNAL_STATUS_CHANGED)) {
-		pk_backend_job_set_vfunc (job,
-					PK_BACKEND_SIGNAL_STATUS_CHANGED,
-					(PkBackendJobVFunc) pk_transaction_status_changed_cb,
-					transaction);
-	} else {
-		pk_backend_job_set_vfunc (job,
-					PK_BACKEND_SIGNAL_STATUS_CHANGED,
-					NULL,
-					transaction);
-	}
-
-	if (pk_bitfield_contain (backend_signals, PK_BACKEND_SIGNAL_UPDATE_DETAIL)) {
-		pk_backend_job_set_vfunc (job,
-					PK_BACKEND_SIGNAL_UPDATE_DETAIL,
-					(PkBackendJobVFunc) pk_transaction_update_detail_cb,
-					transaction);
-	} else {
-		pk_backend_job_set_vfunc (job,
-					PK_BACKEND_SIGNAL_UPDATE_DETAIL,
-					NULL,
-					transaction);
-	}
-
-	if (pk_bitfield_contain (backend_signals, PK_BACKEND_SIGNAL_CATEGORY)) {
-		pk_backend_job_set_vfunc (job,
-					PK_BACKEND_SIGNAL_CATEGORY,
-					(PkBackendJobVFunc) pk_transaction_category_cb,
-					transaction);
-	} else {
-		pk_backend_job_set_vfunc (job,
-					PK_BACKEND_SIGNAL_CATEGORY,
-					NULL,
-					transaction);
-	}
+	pk_backend_job_set_vfunc (job,
+				  PK_BACKEND_SIGNAL_ALLOW_CANCEL,
+				  (PkBackendJobVFunc) pk_transaction_allow_cancel_cb,
+				  transaction);
+	pk_backend_job_set_vfunc (job,
+				  PK_BACKEND_SIGNAL_DETAILS,
+				  (PkBackendJobVFunc) pk_transaction_details_cb,
+				  transaction);
+	pk_backend_job_set_vfunc (job,
+				  PK_BACKEND_SIGNAL_ERROR_CODE,
+				  (PkBackendJobVFunc) pk_transaction_error_code_cb,
+				  transaction);
+	pk_backend_job_set_vfunc (job,
+				  PK_BACKEND_SIGNAL_FILES,
+				  (PkBackendJobVFunc) pk_transaction_files_cb,
+				  transaction);
+	pk_backend_job_set_vfunc (job,
+				  PK_BACKEND_SIGNAL_DISTRO_UPGRADE,
+				  (PkBackendJobVFunc) pk_transaction_distro_upgrade_cb,
+				  transaction);
+	pk_backend_job_set_vfunc (job,
+				  PK_BACKEND_SIGNAL_FINISHED,
+				  (PkBackendJobVFunc) pk_transaction_finished_cb,
+				  transaction);
+	pk_backend_job_set_vfunc (job,
+				  PK_BACKEND_SIGNAL_MESSAGE,
+				  (PkBackendJobVFunc) pk_transaction_message_cb,
+				  transaction);
+	pk_backend_job_set_vfunc (job,
+				  PK_BACKEND_SIGNAL_PACKAGE,
+				  (PkBackendJobVFunc) pk_transaction_package_cb,
+				  transaction);
+	pk_backend_job_set_vfunc (job,
+				  PK_BACKEND_SIGNAL_ITEM_PROGRESS,
+				  (PkBackendJobVFunc) pk_transaction_item_progress_cb,
+				  transaction);
+	pk_backend_job_set_vfunc (job,
+				  PK_BACKEND_SIGNAL_PERCENTAGE,
+				  (PkBackendJobVFunc) pk_transaction_percentage_cb,
+				  transaction);
+	pk_backend_job_set_vfunc (job,
+				  PK_BACKEND_SIGNAL_REMAINING,
+				  (PkBackendJobVFunc) pk_transaction_remaining_cb,
+				  transaction);
+	pk_backend_job_set_vfunc (job,
+				  PK_BACKEND_SIGNAL_SPEED,
+				  (PkBackendJobVFunc) pk_transaction_speed_cb,
+				  transaction);
+	pk_backend_job_set_vfunc (job,
+				  PK_BACKEND_SIGNAL_DOWNLOAD_SIZE_REMAINING,
+				  (PkBackendJobVFunc) pk_transaction_download_size_remaining_cb,
+				  transaction);
+	pk_backend_job_set_vfunc (job,
+				  PK_BACKEND_SIGNAL_REPO_DETAIL,
+				  (PkBackendJobVFunc) pk_transaction_repo_detail_cb,
+				  transaction);
+	pk_backend_job_set_vfunc (job,
+				  PK_BACKEND_SIGNAL_REPO_SIGNATURE_REQUIRED,
+				  (PkBackendJobVFunc) pk_transaction_repo_signature_required_cb,
+				  transaction);
+	pk_backend_job_set_vfunc (job,
+				  PK_BACKEND_SIGNAL_EULA_REQUIRED,
+				  (PkBackendJobVFunc) pk_transaction_eula_required_cb,
+				  transaction);
+	pk_backend_job_set_vfunc (job,
+				  PK_BACKEND_SIGNAL_MEDIA_CHANGE_REQUIRED,
+				  (PkBackendJobVFunc) pk_transaction_media_change_required_cb,
+				  transaction);
+	pk_backend_job_set_vfunc (job,
+				  PK_BACKEND_SIGNAL_REQUIRE_RESTART,
+				  (PkBackendJobVFunc) pk_transaction_require_restart_cb,
+				  transaction);
+	pk_backend_job_set_vfunc (job,
+				  PK_BACKEND_SIGNAL_STATUS_CHANGED,
+				  (PkBackendJobVFunc) pk_transaction_status_changed_cb,
+				  transaction);
+	pk_backend_job_set_vfunc (job,
+				  PK_BACKEND_SIGNAL_UPDATE_DETAIL,
+				  (PkBackendJobVFunc) pk_transaction_update_detail_cb,
+				  transaction);
+	pk_backend_job_set_vfunc (job,
+				  PK_BACKEND_SIGNAL_CATEGORY,
+				  (PkBackendJobVFunc) pk_transaction_category_cb,
+				  transaction);
 }
 
 /**
@@ -2318,9 +2140,9 @@ pk_transaction_run (PkTransaction *transaction)
 	}
 
 	/* run the plugins */
-	pk_backend_start_job (priv->backend, priv->job);
 	pk_transaction_plugin_phase (transaction,
 				     PK_PLUGIN_PHASE_TRANSACTION_RUN);
+	pk_backend_start_job (priv->backend, priv->job);
 
 	/* is an error code set? */
 	if (pk_backend_job_get_is_error_set (priv->job)) {
@@ -2364,6 +2186,7 @@ pk_transaction_run (PkTransaction *transaction)
 	/* did the plugin finish or abort the transaction? */
 	if (exit_status != PK_EXIT_ENUM_UNKNOWN)  {
 		pk_transaction_finished_emit (transaction, exit_status, 0);
+
 		ret = TRUE;
 		goto out;
 	}
@@ -2375,63 +2198,175 @@ pk_transaction_run (PkTransaction *transaction)
 	pk_backend_job_set_percentage (priv->job, PK_BACKEND_PERCENTAGE_INVALID);
 
 	/* do the correct action with the cached parameters */
-	if (priv->role == PK_ROLE_ENUM_GET_DEPENDS)
-		pk_backend_get_depends (priv->backend, priv->job, priv->cached_filters, priv->cached_package_ids, priv->cached_force);
-	else if (priv->role == PK_ROLE_ENUM_GET_UPDATE_DETAIL)
-		pk_backend_get_update_detail (priv->backend, priv->job, priv->cached_package_ids);
-	else if (priv->role == PK_ROLE_ENUM_RESOLVE)
-		pk_backend_resolve (priv->backend, priv->job, priv->cached_filters, priv->cached_package_ids);
-	else if (priv->role == PK_ROLE_ENUM_DOWNLOAD_PACKAGES)
-		pk_backend_download_packages (priv->backend, priv->job, priv->cached_package_ids, priv->cached_directory);
-	else if (priv->role == PK_ROLE_ENUM_GET_DETAILS)
-		pk_backend_get_details (priv->backend, priv->job, priv->cached_package_ids);
-	else if (priv->role == PK_ROLE_ENUM_GET_DISTRO_UPGRADES)
-		pk_backend_get_distro_upgrades (priv->backend, priv->job);
-	else if (priv->role == PK_ROLE_ENUM_GET_FILES)
-		pk_backend_get_files (priv->backend, priv->job, priv->cached_package_ids);
-	else if (priv->role == PK_ROLE_ENUM_GET_REQUIRES)
-		pk_backend_get_requires (priv->backend, priv->job, priv->cached_filters, priv->cached_package_ids, priv->cached_force);
-	else if (priv->role == PK_ROLE_ENUM_WHAT_PROVIDES)
-		pk_backend_what_provides (priv->backend, priv->job, priv->cached_filters, priv->cached_provides, priv->cached_values);
-	else if (priv->role == PK_ROLE_ENUM_GET_UPDATES)
-		pk_backend_get_updates (priv->backend, priv->job, priv->cached_filters);
-	else if (priv->role == PK_ROLE_ENUM_GET_PACKAGES)
-		pk_backend_get_packages (priv->backend, priv->job, priv->cached_filters);
-	else if (priv->role == PK_ROLE_ENUM_SEARCH_DETAILS)
-		pk_backend_search_details (priv->backend, priv->job, priv->cached_filters, priv->cached_values);
-	else if (priv->role == PK_ROLE_ENUM_SEARCH_FILE)
-		pk_backend_search_files (priv->backend, priv->job, priv->cached_filters, priv->cached_values);
-	else if (priv->role == PK_ROLE_ENUM_SEARCH_GROUP)
-		pk_backend_search_groups (priv->backend, priv->job, priv->cached_filters, priv->cached_values);
-	else if (priv->role == PK_ROLE_ENUM_SEARCH_NAME)
-		pk_backend_search_names (priv->backend, priv->job, priv->cached_filters,priv->cached_values);
-	else if (priv->role == PK_ROLE_ENUM_INSTALL_PACKAGES)
-		pk_backend_install_packages (priv->backend, priv->job, priv->cached_transaction_flags, priv->cached_package_ids);
-	else if (priv->role == PK_ROLE_ENUM_INSTALL_FILES)
-		pk_backend_install_files (priv->backend, priv->job, priv->cached_transaction_flags, priv->cached_full_paths);
-	else if (priv->role == PK_ROLE_ENUM_INSTALL_SIGNATURE)
-		pk_backend_install_signature (priv->backend, priv->job, PK_SIGTYPE_ENUM_GPG, priv->cached_key_id, priv->cached_package_id);
-	else if (priv->role == PK_ROLE_ENUM_REFRESH_CACHE)
-		pk_backend_refresh_cache (priv->backend, priv->job,  priv->cached_force);
-	else if (priv->role == PK_ROLE_ENUM_REMOVE_PACKAGES)
-		pk_backend_remove_packages (priv->backend, priv->job, priv->cached_transaction_flags, priv->cached_package_ids, priv->cached_allow_deps, priv->cached_autoremove);
-	else if (priv->role == PK_ROLE_ENUM_UPDATE_PACKAGES)
-		pk_backend_update_packages (priv->backend, priv->job, priv->cached_transaction_flags, priv->cached_package_ids);
-	else if (priv->role == PK_ROLE_ENUM_GET_CATEGORIES)
-		pk_backend_get_categories (priv->backend, priv->job);
-	else if (priv->role == PK_ROLE_ENUM_GET_REPO_LIST)
-		pk_backend_get_repo_list (priv->backend, priv->job, priv->cached_filters);
-	else if (priv->role == PK_ROLE_ENUM_REPO_ENABLE)
-		pk_backend_repo_enable (priv->backend, priv->job, priv->cached_repo_id, priv->cached_enabled);
-	else if (priv->role == PK_ROLE_ENUM_REPO_SET_DATA)
-		pk_backend_repo_set_data (priv->backend, priv->job, priv->cached_repo_id, priv->cached_parameter, priv->cached_value);
-	else if (priv->role == PK_ROLE_ENUM_UPGRADE_SYSTEM) {
-		pk_backend_upgrade_system (priv->backend, priv->job, priv->cached_value, priv->cached_provides);
-	} else if (priv->role == PK_ROLE_ENUM_REPAIR_SYSTEM) {
-		pk_backend_repair_system (priv->backend, priv->job, priv->cached_transaction_flags);
-	} else {
+	switch (priv->role) {
+	case PK_ROLE_ENUM_GET_DEPENDS:
+		pk_backend_get_depends (priv->backend,
+					priv->job,
+					priv->cached_filters,
+					priv->cached_package_ids,
+					priv->cached_force);
+		break;
+	case PK_ROLE_ENUM_GET_UPDATE_DETAIL:
+		pk_backend_get_update_detail (priv->backend,
+					      priv->job,
+					      priv->cached_package_ids);
+		break;
+	case PK_ROLE_ENUM_RESOLVE:
+		pk_backend_resolve (priv->backend,
+				    priv->job,
+				    priv->cached_filters,
+				    priv->cached_package_ids);
+		break;
+	case PK_ROLE_ENUM_DOWNLOAD_PACKAGES:
+		pk_backend_download_packages (priv->backend,
+					      priv->job,
+					      priv->cached_package_ids,
+					      priv->cached_directory);
+		break;
+	case PK_ROLE_ENUM_GET_DETAILS:
+		pk_backend_get_details (priv->backend,
+					priv->job,
+					priv->cached_package_ids);
+		break;
+	case PK_ROLE_ENUM_GET_DISTRO_UPGRADES:
+		pk_backend_get_distro_upgrades (priv->backend,
+						priv->job);
+		break;
+	case PK_ROLE_ENUM_GET_FILES:
+		pk_backend_get_files (priv->backend,
+				      priv->job,
+				      priv->cached_package_ids);
+		break;
+	case PK_ROLE_ENUM_GET_REQUIRES:
+		pk_backend_get_requires (priv->backend,
+					 priv->job,
+					 priv->cached_filters,
+					 priv->cached_package_ids,
+					 priv->cached_force);
+		break;
+	case PK_ROLE_ENUM_WHAT_PROVIDES:
+		pk_backend_what_provides (priv->backend,
+					  priv->job,
+					  priv->cached_filters,
+					  priv->cached_provides,
+					  priv->cached_values);
+		break;
+	case PK_ROLE_ENUM_GET_UPDATES:
+		pk_backend_get_updates (priv->backend,
+					priv->job,
+					priv->cached_filters);
+		break;
+	case PK_ROLE_ENUM_GET_PACKAGES:
+		pk_backend_get_packages (priv->backend,
+					 priv->job,
+					 priv->cached_filters);
+		break;
+	case PK_ROLE_ENUM_SEARCH_DETAILS:
+		pk_backend_search_details (priv->backend,
+					   priv->job,
+					   priv->cached_filters,
+					   priv->cached_values);
+		break;
+	case PK_ROLE_ENUM_SEARCH_FILE:
+		pk_backend_search_files (priv->backend,
+					 priv->job,
+					 priv->cached_filters,
+					 priv->cached_values);
+		break;
+	case PK_ROLE_ENUM_SEARCH_GROUP:
+		pk_backend_search_groups (priv->backend,
+					  priv->job,
+					  priv->cached_filters,
+					  priv->cached_values);
+		break;
+	case PK_ROLE_ENUM_SEARCH_NAME:
+		pk_backend_search_names (priv->backend,
+					 priv->job,
+					 priv->cached_filters,
+					 priv->cached_values);
+		break;
+	case PK_ROLE_ENUM_INSTALL_PACKAGES:
+		pk_backend_install_packages (priv->backend,
+					     priv->job,
+					     priv->cached_transaction_flags,
+					     priv->cached_package_ids);
+		break;
+	case PK_ROLE_ENUM_INSTALL_FILES:
+		pk_backend_install_files (priv->backend,
+					  priv->job,
+					  priv->cached_transaction_flags,
+					  priv->cached_full_paths);
+		break;
+	case PK_ROLE_ENUM_INSTALL_SIGNATURE:
+		pk_backend_install_signature (priv->backend,
+					      priv->job,
+					      PK_SIGTYPE_ENUM_GPG,
+					      priv->cached_key_id,
+					      priv->cached_package_id);
+		break;
+	case PK_ROLE_ENUM_REFRESH_CACHE:
+		pk_backend_refresh_cache (priv->backend,
+					  priv->job,
+					  priv->cached_force);
+		break;
+	case PK_ROLE_ENUM_REMOVE_PACKAGES:
+		pk_backend_remove_packages (priv->backend,
+					    priv->job,
+					    priv->cached_transaction_flags,
+					    priv->cached_package_ids,
+					    priv->cached_allow_deps,
+					    priv->cached_autoremove);
+		break;
+	case PK_ROLE_ENUM_UPDATE_PACKAGES:
+		pk_backend_update_packages (priv->backend,
+					    priv->job,
+					    priv->cached_transaction_flags,
+					    priv->cached_package_ids);
+		break;
+	case PK_ROLE_ENUM_GET_CATEGORIES:
+		pk_backend_get_categories (priv->backend,
+					   priv->job);
+		break;
+	case PK_ROLE_ENUM_GET_REPO_LIST:
+		pk_backend_get_repo_list (priv->backend,
+					  priv->job,
+					  priv->cached_filters);
+		break;
+	case PK_ROLE_ENUM_REPO_ENABLE:
+		pk_backend_repo_enable (priv->backend,
+					priv->job,
+					priv->cached_repo_id,
+					priv->cached_enabled);
+		break;
+	case PK_ROLE_ENUM_REPO_SET_DATA:
+		pk_backend_repo_set_data (priv->backend,
+					  priv->job,
+					  priv->cached_repo_id,
+					  priv->cached_parameter,
+					  priv->cached_value);
+		break;
+	case PK_ROLE_ENUM_UPGRADE_SYSTEM:
+		pk_backend_upgrade_system (priv->backend,
+					   priv->job,
+					   priv->cached_value,
+					   priv->cached_provides);
+		break;
+	case PK_ROLE_ENUM_REPAIR_SYSTEM:
+		pk_backend_repair_system (priv->backend,
+					  priv->job,
+					  priv->cached_transaction_flags);
+		break;
+	/* handled in the engine without a transaction */
+	case PK_ROLE_ENUM_CANCEL:
+	case PK_ROLE_ENUM_GET_OLD_TRANSACTIONS:
+	case PK_ROLE_ENUM_ACCEPT_EULA:
+		g_warning ("role %s should be handled by engine",
+			   pk_role_enum_to_string (priv->role));
+		break;
+	default:
 		g_error ("failed to run as role not assigned");
 		ret = FALSE;
+		break;
 	}
 out:
 	return ret;
