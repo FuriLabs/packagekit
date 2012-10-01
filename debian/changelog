@@ -1,3 +1,9 @@
+packagekit (0.8.4-1) UNRELEASED; urgency=low
+
+  * New upstream release: 0.8.4
+
+ -- Matthias Klumpp <matthias@tenstral.net>  Mon, 01 Oct 2012 20:26:47 +0200
+
 packagekit (0.8.3-1) experimental; urgency=low
 
   * New upstream release: 0.8.3
