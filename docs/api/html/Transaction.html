@@ -3,7 +3,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>org.freedesktop.PackageKit.Transaction</title>
-<meta name="generator" content="DocBook XSL Stylesheets V1.76.1">
+<meta name="generator" content="DocBook XSL Stylesheets V1.77.1">
 <link rel="home" href="index.html" title="PackageKit Reference Manual">
 <link rel="up" href="api-reference.html" title="D-Bus API Reference">
 <link rel="prev" href="PackageKit.html" title="org.freedesktop.PackageKit">
@@ -43,161 +43,161 @@
 </tr></table></div>
 <div class="refsynopsisdiv">
 <h2>Methods</h2>
-<pre class="synopsis"><a class="link" href="Transaction.html#Transaction.SetHints">SetHints</a>           (in  'as' hints)
-<a class="link" href="Transaction.html#Transaction.AcceptEula">AcceptEula</a>         (in  's'  eula_id)
-<a class="link" href="Transaction.html#Transaction.Cancel">Cancel</a>             ()
-<a class="link" href="Transaction.html#Transaction.DownloadPackages">DownloadPackages</a>   (in  'b'  store_in_cache,
-                    in  'as' package_ids)
-<a class="link" href="Transaction.html#Transaction.GetCategories">GetCategories</a>      ()
-<a class="link" href="Transaction.html#Transaction.GetDepends">GetDepends</a>         (in  't'  filter,
-                    in  'as' package_ids,
-                    in  'b'  recursive)
-<a class="link" href="Transaction.html#Transaction.GetDetails">GetDetails</a>         (in  'as' package_ids)
-<a class="link" href="Transaction.html#Transaction.GetFiles">GetFiles</a>           (in  'as' package_ids)
-<a class="link" href="Transaction.html#Transaction.GetOldTransactions">GetOldTransactions</a> (in  'u'  number)
-<a class="link" href="Transaction.html#Transaction.GetPackages">GetPackages</a>        (in  't'  filter)
-<a class="link" href="Transaction.html#Transaction.GetRepoList">GetRepoList</a>        (in  't'  filter)
-<a class="link" href="Transaction.html#Transaction.GetRequires">GetRequires</a>        (in  't'  filter,
-                    in  'as' package_ids,
-                    in  'b'  recursive)
-<a class="link" href="Transaction.html#Transaction.GetUpdateDetail">GetUpdateDetail</a>    (in  'as' package_ids)
-<a class="link" href="Transaction.html#Transaction.GetUpdates">GetUpdates</a>         (in  't'  filter)
-<a class="link" href="Transaction.html#Transaction.GetDistroUpgrades">GetDistroUpgrades</a>  ()
-<a class="link" href="Transaction.html#Transaction.InstallFiles">InstallFiles</a>       (in  't'  transaction_flags,
-                    in  'as' full_paths)
-<a class="link" href="Transaction.html#Transaction.InstallPackages">InstallPackages</a>    (in  't'  transaction_flags,
-                    in  'as' package_ids)
-<a class="link" href="Transaction.html#Transaction.InstallSignature">InstallSignature</a>   (in  'u'  sig_type,
-                    in  's'  key_id,
-                    in  's'  package_id)
-<a class="link" href="Transaction.html#Transaction.RefreshCache">RefreshCache</a>       (in  'b'  force)
-<a class="link" href="Transaction.html#Transaction.RemovePackages">RemovePackages</a>     (in  't'  transaction_flags,
-                    in  'as' package_ids,
-                    in  'b'  allow_deps,
-                    in  'b'  autoremove)
-<a class="link" href="Transaction.html#Transaction.RepoEnable">RepoEnable</a>         (in  's'  repo_id,
-                    in  'b'  enabled)
-<a class="link" href="Transaction.html#Transaction.RepoSetData">RepoSetData</a>        (in  's'  repo_id,
-                    in  's'  parameter,
-                    in  's'  value)
-<a class="link" href="Transaction.html#Transaction.Resolve">Resolve</a>            (in  't'  filter,
-                    in  'as' packages)
-<a class="link" href="Transaction.html#Transaction.SearchDetails">SearchDetails</a>      (in  't'  filter,
-                    in  'as' values)
-<a class="link" href="Transaction.html#Transaction.SearchFiles">SearchFiles</a>        (in  't'  filter,
-                    in  'as' values)
-<a class="link" href="Transaction.html#Transaction.SearchGroups">SearchGroups</a>       (in  't'  filter,
-                    in  'as' values)
-<a class="link" href="Transaction.html#Transaction.SearchNames">SearchNames</a>        (in  't'  filter,
-                    in  'as' values)
-<a class="link" href="Transaction.html#Transaction.UpdatePackages">UpdatePackages</a>     (in  't'  transaction_flags,
-                    in  'as' package_ids)
-<a class="link" href="Transaction.html#Transaction.WhatProvides">WhatProvides</a>       (in  't'  filter,
-                    in  'u'  type,
-                    in  'as' values)
-<a class="link" href="Transaction.html#Transaction.UpgradeSystem">UpgradeSystem</a>      (in  's'  distro_id,
-                    in  'u'  upgrade_kind)
-<a class="link" href="Transaction.html#Transaction.RepairSystem">RepairSystem</a>       (in  't'  transaction_flags)
+<pre class="synopsis"><a class="link" href="Transaction.html#Transaction.SetHints">SetHints</a>(in'as'hints)
+<a class="link" href="Transaction.html#Transaction.AcceptEula">AcceptEula</a>(in's'eula_id)
+<a class="link" href="Transaction.html#Transaction.Cancel">Cancel</a>()
+<a class="link" href="Transaction.html#Transaction.DownloadPackages">DownloadPackages</a>(in'b'store_in_cache,
+in'as'package_ids)
+<a class="link" href="Transaction.html#Transaction.GetCategories">GetCategories</a>()
+<a class="link" href="Transaction.html#Transaction.GetDepends">GetDepends</a>(in't'filter,
+in'as'package_ids,
+in'b'recursive)
+<a class="link" href="Transaction.html#Transaction.GetDetails">GetDetails</a>(in'as'package_ids)
+<a class="link" href="Transaction.html#Transaction.GetFiles">GetFiles</a>(in'as'package_ids)
+<a class="link" href="Transaction.html#Transaction.GetOldTransactions">GetOldTransactions</a>(in'u'number)
+<a class="link" href="Transaction.html#Transaction.GetPackages">GetPackages</a>(in't'filter)
+<a class="link" href="Transaction.html#Transaction.GetRepoList">GetRepoList</a>(in't'filter)
+<a class="link" href="Transaction.html#Transaction.GetRequires">GetRequires</a>(in't'filter,
+in'as'package_ids,
+in'b'recursive)
+<a class="link" href="Transaction.html#Transaction.GetUpdateDetail">GetUpdateDetail</a>(in'as'package_ids)
+<a class="link" href="Transaction.html#Transaction.GetUpdates">GetUpdates</a>(in't'filter)
+<a class="link" href="Transaction.html#Transaction.GetDistroUpgrades">GetDistroUpgrades</a>()
+<a class="link" href="Transaction.html#Transaction.InstallFiles">InstallFiles</a>(in't'transaction_flags,
+in'as'full_paths)
+<a class="link" href="Transaction.html#Transaction.InstallPackages">InstallPackages</a>(in't'transaction_flags,
+in'as'package_ids)
+<a class="link" href="Transaction.html#Transaction.InstallSignature">InstallSignature</a>(in'u'sig_type,
+in's'key_id,
+in's'package_id)
+<a class="link" href="Transaction.html#Transaction.RefreshCache">RefreshCache</a>(in'b'force)
+<a class="link" href="Transaction.html#Transaction.RemovePackages">RemovePackages</a>(in't'transaction_flags,
+in'as'package_ids,
+in'b'allow_deps,
+in'b'autoremove)
+<a class="link" href="Transaction.html#Transaction.RepoEnable">RepoEnable</a>(in's'repo_id,
+in'b'enabled)
+<a class="link" href="Transaction.html#Transaction.RepoSetData">RepoSetData</a>(in's'repo_id,
+in's'parameter,
+in's'value)
+<a class="link" href="Transaction.html#Transaction.Resolve">Resolve</a>(in't'filter,
+in'as'packages)
+<a class="link" href="Transaction.html#Transaction.SearchDetails">SearchDetails</a>(in't'filter,
+in'as'values)
+<a class="link" href="Transaction.html#Transaction.SearchFiles">SearchFiles</a>(in't'filter,
+in'as'values)
+<a class="link" href="Transaction.html#Transaction.SearchGroups">SearchGroups</a>(in't'filter,
+in'as'values)
+<a class="link" href="Transaction.html#Transaction.SearchNames">SearchNames</a>(in't'filter,
+in'as'values)
+<a class="link" href="Transaction.html#Transaction.UpdatePackages">UpdatePackages</a>(in't'transaction_flags,
+in'as'package_ids)
+<a class="link" href="Transaction.html#Transaction.WhatProvides">WhatProvides</a>(in't'filter,
+in'u'type,
+in'as'values)
+<a class="link" href="Transaction.html#Transaction.UpgradeSystem">UpgradeSystem</a>(in's'distro_id,
+in'u'upgrade_kind)
+<a class="link" href="Transaction.html#Transaction.RepairSystem">RepairSystem</a>(in't'transaction_flags)
 </pre>
 </div>
 <div class="refsect1">
-<a name="id403035"></a><h2>Signals</h2>
-<pre class="synopsis"><a class="link" href="Transaction.html#Transaction::Category">Category</a>              ('s'  parent_id,
-                       's'  cat_id,
-                       's'  name,
-                       's'  summary,
-                       's'  icon)
-<a class="link" href="Transaction.html#Transaction::Details">Details</a>               ('s'  package_id,
-                       's'  license,
-                       'u'  group,
-                       's'  detail,
-                       's'  url,
-                       't'  size)
-<a class="link" href="Transaction.html#Transaction::ErrorCode">ErrorCode</a>             ('u'  code,
-                       's'  details)
-<a class="link" href="Transaction.html#Transaction::Files">Files</a>                 ('s'  package_id,
-                       'as' file_list)
-<a class="link" href="Transaction.html#Transaction::Finished">Finished</a>              ('u'  exit,
-                       'u'  runtime)
-<a class="link" href="Transaction.html#Transaction::Message">Message</a>               ('u'  type,
-                       's'  details)
-<a class="link" href="Transaction.html#Transaction::Package">Package</a>               ('u'  info,
-                       's'  package_id,
-                       's'  summary)
-<a class="link" href="Transaction.html#Transaction::RepoDetail">RepoDetail</a>            ('s'  repo_id,
-                       's'  description,
-                       'b'  enabled)
-<a class="link" href="Transaction.html#Transaction::RepoSignatureRequired">RepoSignatureRequired</a> ('s'  package_id,
-                       's'  repository_name,
-                       's'  key_url,
-                       's'  key_userid,
-                       's'  key_id,
-                       's'  key_fingerprint,
-                       's'  key_timestamp,
-                       'u'  type)
-<a class="link" href="Transaction.html#Transaction::EulaRequired">EulaRequired</a>          ('s'  eula_id,
-                       's'  package_id,
-                       's'  vendor_name,
-                       's'  license_agreement)
-<a class="link" href="Transaction.html#Transaction::MediaChangeRequired">MediaChangeRequired</a>   ('u'  media_type,
-                       's'  media_id,
-                       's'  media_text)
-<a class="link" href="Transaction.html#Transaction::RequireRestart">RequireRestart</a>        ('u'  type,
-                       's'  package_id)
-<a class="link" href="Transaction.html#Transaction::Transaction">Transaction</a>           ('o'  object_path,
-                       's'  timespec,
-                       'b'  succeeded,
-                       'u'  role,
-                       'u'  duration,
-                       's'  data,
-                       'u'  uid,
-                       's'  cmdline)
-<a class="link" href="Transaction.html#Transaction::UpdateDetail">UpdateDetail</a>          ('s'  package_id,
-                       'as' updates,
-                       'as' obsoletes,
-                       'as' vendor_urls,
-                       'as' bugzilla_urls,
-                       'as' cve_urls,
-                       'u'  restart,
-                       's'  update_text,
-                       's'  changelog,
-                       'u'  state,
-                       's'  issued,
-                       's'  updated)
-<a class="link" href="Transaction.html#Transaction::DistroUpgrade">DistroUpgrade</a>         ('u'  type,
-                       's'  name,
-                       's'  summary)
-<a class="link" href="Transaction.html#Transaction::ItemProgress">ItemProgress</a>          ('s'  id,
-                       'u'  status,
-                       'u'  percentage)
-<a class="link" href="Transaction.html#Transaction::Changed">Changed</a>               ()
-<a class="link" href="Transaction.html#Transaction::Destroy">Destroy</a>               ()
+<a name="idp8515168"></a><h2>Signals</h2>
+<pre class="synopsis"><a class="link" href="Transaction.html#Transaction::Category">Category</a>('s'parent_id,
+'s'cat_id,
+'s'name,
+'s'summary,
+'s'icon)
+<a class="link" href="Transaction.html#Transaction::Details">Details</a>('s'package_id,
+'s'license,
+'u'group,
+'s'detail,
+'s'url,
+'t'size)
+<a class="link" href="Transaction.html#Transaction::ErrorCode">ErrorCode</a>('u'code,
+'s'details)
+<a class="link" href="Transaction.html#Transaction::Files">Files</a>('s'package_id,
+'as'file_list)
+<a class="link" href="Transaction.html#Transaction::Finished">Finished</a>('u'exit,
+'u'runtime)
+<a class="link" href="Transaction.html#Transaction::Message">Message</a>('u'type,
+'s'details)
+<a class="link" href="Transaction.html#Transaction::Package">Package</a>('u'info,
+'s'package_id,
+'s'summary)
+<a class="link" href="Transaction.html#Transaction::RepoDetail">RepoDetail</a>('s'repo_id,
+'s'description,
+'b'enabled)
+<a class="link" href="Transaction.html#Transaction::RepoSignatureRequired">RepoSignatureRequired</a>('s'package_id,
+'s'repository_name,
+'s'key_url,
+'s'key_userid,
+'s'key_id,
+'s'key_fingerprint,
+'s'key_timestamp,
+'u'type)
+<a class="link" href="Transaction.html#Transaction::EulaRequired">EulaRequired</a>('s'eula_id,
+'s'package_id,
+'s'vendor_name,
+'s'license_agreement)
+<a class="link" href="Transaction.html#Transaction::MediaChangeRequired">MediaChangeRequired</a>('u'media_type,
+'s'media_id,
+'s'media_text)
+<a class="link" href="Transaction.html#Transaction::RequireRestart">RequireRestart</a>('u'type,
+'s'package_id)
+<a class="link" href="Transaction.html#Transaction::Transaction">Transaction</a>('o'object_path,
+'s'timespec,
+'b'succeeded,
+'u'role,
+'u'duration,
+'s'data,
+'u'uid,
+'s'cmdline)
+<a class="link" href="Transaction.html#Transaction::UpdateDetail">UpdateDetail</a>('s'package_id,
+'as'updates,
+'as'obsoletes,
+'as'vendor_urls,
+'as'bugzilla_urls,
+'as'cve_urls,
+'u'restart,
+'s'update_text,
+'s'changelog,
+'u'state,
+'s'issued,
+'s'updated)
+<a class="link" href="Transaction.html#Transaction::DistroUpgrade">DistroUpgrade</a>('u'type,
+'s'name,
+'s'summary)
+<a class="link" href="Transaction.html#Transaction::ItemProgress">ItemProgress</a>('s'id,
+'u'status,
+'u'percentage)
+<a class="link" href="Transaction.html#Transaction::Changed">Changed</a>()
+<a class="link" href="Transaction.html#Transaction::Destroy">Destroy</a>()
 </pre>
 </div>
 <div class="refsect1">
-<a name="id427537"></a><h2>Implemented Interfaces</h2>
+<a name="idp5139376"></a><h2>Implemented Interfaces</h2>
 <p>org.freedesktop.PackageKit.Transaction implements
     org.freedesktop.DBus.Introspectable,
     org.freedesktop.DBus.Properties
     </p>
 </div>
 <div class="refsect1">
-<a name="id427554"></a><h2>Properties</h2>
-<pre class="synopsis"><a class="link" href="Transaction.html#Transaction:Role">'Role'</a>                  read      'u'
-<a class="link" href="Transaction.html#Transaction:Status">'Status'</a>                read      'u'
-<a class="link" href="Transaction.html#Transaction:LastPackage">'LastPackage'</a>           read      's'
-<a class="link" href="Transaction.html#Transaction:Uid">'Uid'</a>                   read      'u'
-<a class="link" href="Transaction.html#Transaction:Percentage">'Percentage'</a>            read      'u'
-<a class="link" href="Transaction.html#Transaction:AllowCancel">'AllowCancel'</a>           read      'b'
-<a class="link" href="Transaction.html#Transaction:CallerActive">'CallerActive'</a>          read      'b'
-<a class="link" href="Transaction.html#Transaction:ElapsedTime">'ElapsedTime'</a>           read      'u'
-<a class="link" href="Transaction.html#Transaction:RemainingTime">'RemainingTime'</a>         read      'u'
-<a class="link" href="Transaction.html#Transaction:Speed">'Speed'</a>                 read      'u'
-<a class="link" href="Transaction.html#Transaction:DownloadSizeRemaining">'DownloadSizeRemaining'</a> read      't'
+<a name="idp5141376"></a><h2>Properties</h2>
+<pre class="synopsis"><a class="link" href="Transaction.html#Transaction:Role">'Role'</a>read'u'
+<a class="link" href="Transaction.html#Transaction:Status">'Status'</a>read'u'
+<a class="link" href="Transaction.html#Transaction:LastPackage">'LastPackage'</a>read's'
+<a class="link" href="Transaction.html#Transaction:Uid">'Uid'</a>read'u'
+<a class="link" href="Transaction.html#Transaction:Percentage">'Percentage'</a>read'u'
+<a class="link" href="Transaction.html#Transaction:AllowCancel">'AllowCancel'</a>read'b'
+<a class="link" href="Transaction.html#Transaction:CallerActive">'CallerActive'</a>read'b'
+<a class="link" href="Transaction.html#Transaction:ElapsedTime">'ElapsedTime'</a>read'u'
+<a class="link" href="Transaction.html#Transaction:RemainingTime">'RemainingTime'</a>read'u'
+<a class="link" href="Transaction.html#Transaction:Speed">'Speed'</a>read'u'
+<a class="link" href="Transaction.html#Transaction:DownloadSizeRemaining">'DownloadSizeRemaining'</a>read't'
 </pre>
 </div>
 <div class="refsect1">
-<a name="id433361"></a><h2>Description</h2>
+<a name="idp6500672"></a><h2>Description</h2>
 <p>
       
         </p>
@@ -209,11 +209,11 @@
     </p>
 </div>
 <div class="refsect1">
-<a name="id433381"></a><h2>Details</h2>
+<a name="idp6503088"></a><h2>Details</h2>
 <div class="refsect2">
-<a name="id433389"></a><h3>
+<a name="idp6504048"></a><h3>
 <a name="Transaction.SetHints"></a>SetHints ()</h3>
-<pre class="programlisting">SetHints (in  'as' hints)</pre>
+<pre class="programlisting">SetHints (in'as'hints)</pre>
 </div>
 <p>
             This method allows the calling session to set transaction hints for
@@ -228,8 +228,11 @@
 <p>
             Each parameter value is optional.
           </p>
-<div class="variablelist"><table border="0">
+<div class="variablelist"><table border="0" class="variablelist">
+<colgroup>
 <col align="left" valign="top">
+<col>
+</colgroup>
 <tbody><tr>
 <td><p><span class="term"><em class="parameter"><code>hints</code></em>:</span></p></td>
 <td>
@@ -290,15 +293,18 @@
 </table></div>
 <hr>
 <div class="refsect2">
-<a name="id442135"></a><h3>
+<a name="idp7246976"></a><h3>
 <a name="Transaction.AcceptEula"></a>AcceptEula ()</h3>
-<pre class="programlisting">AcceptEula (in  's' eula_id)</pre>
+<pre class="programlisting">AcceptEula (in's'eula_id)</pre>
 </div>
 <p>
             This method allows the user to accept a end user licence agreement.
           </p>
-<div class="variablelist"><table border="0">
+<div class="variablelist"><table border="0" class="variablelist">
+<colgroup>
 <col align="left" valign="top">
+<col>
+</colgroup>
 <tbody><tr>
 <td><p><span class="term"><em class="parameter"><code>eula_id</code></em>:</span></p></td>
 <td>
@@ -311,23 +317,26 @@
 <p class="permission">Callers need the org.freedesktop.packagekit.accept-eula</p>
 <hr>
 <div class="refsect2">
-<a name="id442182"></a><h3>
+<a name="idp7252624"></a><h3>
 <a name="Transaction.Cancel"></a>Cancel ()</h3>
 <pre class="programlisting">Cancel ()</pre>
 </div>
 <p>
             This method cancels a transaction that is already running
           </p>
-<div class="variablelist"><table border="0">
+<div class="variablelist"><table border="0" class="variablelist">
+<colgroup>
 <col align="left" valign="top">
+<col>
+</colgroup>
 <tbody></tbody>
 </table></div>
 <hr>
 <div class="refsect2">
-<a name="id442213"></a><h3>
+<a name="idp7256256"></a><h3>
 <a name="Transaction.DownloadPackages"></a>DownloadPackages ()</h3>
-<pre class="programlisting">DownloadPackages (in  'b'  store_in_cache,
-                  in  'as' package_ids)</pre>
+<pre class="programlisting">DownloadPackages (in'b'store_in_cache,
+in'as'package_ids)</pre>
 </div>
 <p>
             This method downloads packages into a temporary directory.
@@ -345,8 +354,11 @@
             and
             Files('hal-info;2009-09-07;no-arch;updates', '/tmp/hal-info-2009-09-07.noarch.rpm').
           </p>
-<div class="variablelist"><table border="0">
+<div class="variablelist"><table border="0" class="variablelist">
+<colgroup>
 <col align="left" valign="top">
+<col>
+</colgroup>
 <tbody>
 <tr>
 <td><p><span class="term"><em class="parameter"><code>store_in_cache</code></em>:</span></p></td>
@@ -375,24 +387,27 @@
 </table></div>
 <hr>
 <div class="refsect2">
-<a name="id442281"></a><h3>
+<a name="idp7264448"></a><h3>
 <a name="Transaction.GetCategories"></a>GetCategories ()</h3>
 <pre class="programlisting">GetCategories ()</pre>
 </div>
 <p>
             This method return the collection categories
           </p>
-<div class="variablelist"><table border="0">
+<div class="variablelist"><table border="0" class="variablelist">
+<colgroup>
 <col align="left" valign="top">
+<col>
+</colgroup>
 <tbody></tbody>
 </table></div>
 <hr>
 <div class="refsect2">
-<a name="id442312"></a><h3>
+<a name="idp7268192"></a><h3>
 <a name="Transaction.GetDepends"></a>GetDepends ()</h3>
-<pre class="programlisting">GetDepends (in  't'  filter,
-            in  'as' package_ids,
-            in  'b'  recursive)</pre>
+<pre class="programlisting">GetDepends (in't'filter,
+in'as'package_ids,
+in'b'recursive)</pre>
 </div>
 <p>
             This method returns packages that this package depends on.
@@ -408,8 +423,11 @@
             Package enumerated types should be
             available or installed.
           </p>
-<div class="variablelist"><table border="0">
+<div class="variablelist"><table border="0" class="variablelist">
+<colgroup>
 <col align="left" valign="top">
+<col>
+</colgroup>
 <tbody>
 <tr>
 <td><p><span class="term"><em class="parameter"><code>filter</code></em>:</span></p></td>
@@ -443,9 +461,9 @@
 </table></div>
 <hr>
 <div class="refsect2">
-<a name="id442391"></a><h3>
+<a name="idp7277584"></a><h3>
 <a name="Transaction.GetDetails"></a>GetDetails ()</h3>
-<pre class="programlisting">GetDetails (in  'as' package_ids)</pre>
+<pre class="programlisting">GetDetails (in'as'package_ids)</pre>
 </div>
 <p>
             This method should return all the details about a specific
@@ -458,8 +476,11 @@
             Error and
             Details.
           </p>
-<div class="variablelist"><table border="0">
+<div class="variablelist"><table border="0" class="variablelist">
+<colgroup>
 <col align="left" valign="top">
+<col>
+</colgroup>
 <tbody><tr>
 <td><p><span class="term"><em class="parameter"><code>package_ids</code></em>:</span></p></td>
 <td>
@@ -471,9 +492,9 @@
 </table></div>
 <hr>
 <div class="refsect2">
-<a name="id442438"></a><h3>
+<a name="idp7283248"></a><h3>
 <a name="Transaction.GetFiles"></a>GetFiles ()</h3>
-<pre class="programlisting">GetFiles (in  'as' package_ids)</pre>
+<pre class="programlisting">GetFiles (in'as'package_ids)</pre>
 </div>
 <p>
             This method should return the file list of the package_id.
@@ -485,8 +506,11 @@
             Error and
             Files.
           </p>
-<div class="variablelist"><table border="0">
+<div class="variablelist"><table border="0" class="variablelist">
+<colgroup>
 <col align="left" valign="top">
+<col>
+</colgroup>
 <tbody><tr>
 <td><p><span class="term"><em class="parameter"><code>package_ids</code></em>:</span></p></td>
 <td>
@@ -498,15 +522,18 @@
 </table></div>
 <hr>
 <div class="refsect2">
-<a name="id442486"></a><h3>
+<a name="idp7288928"></a><h3>
 <a name="Transaction.GetOldTransactions"></a>GetOldTransactions ()</h3>
-<pre class="programlisting">GetOldTransactions (in  'u' number)</pre>
+<pre class="programlisting">GetOldTransactions (in'u'number)</pre>
 </div>
 <p>
             This method allows a client to view details for old transactions.
           </p>
-<div class="variablelist"><table border="0">
+<div class="variablelist"><table border="0" class="variablelist">
+<colgroup>
 <col align="left" valign="top">
+<col>
+</colgroup>
 <tbody><tr>
 <td><p><span class="term"><em class="parameter"><code>number</code></em>:</span></p></td>
 <td>
@@ -518,9 +545,9 @@
 </table></div>
 <hr>
 <div class="refsect2">
-<a name="id442530"></a><h3>
+<a name="idp7294208"></a><h3>
 <a name="Transaction.GetPackages"></a>GetPackages ()</h3>
-<pre class="programlisting">GetPackages (in  't' filter)</pre>
+<pre class="programlisting">GetPackages (in't'filter)</pre>
 </div>
 <p>
             This method returns all the packages without a search term.
@@ -535,8 +562,11 @@
             Package enumerated types should be
             available or installed.
           </p>
-<div class="variablelist"><table border="0">
+<div class="variablelist"><table border="0" class="variablelist">
+<colgroup>
 <col align="left" valign="top">
+<col>
+</colgroup>
 <tbody><tr>
 <td><p><span class="term"><em class="parameter"><code>filter</code></em>:</span></p></td>
 <td>
@@ -548,9 +578,9 @@
 </table></div>
 <hr>
 <div class="refsect2">
-<a name="id442583"></a><h3>
+<a name="idp7300512"></a><h3>
 <a name="Transaction.GetRepoList"></a>GetRepoList ()</h3>
-<pre class="programlisting">GetRepoList (in  't' filter)</pre>
+<pre class="programlisting">GetRepoList (in't'filter)</pre>
 </div>
 <p>
             This method returns the list of repositories used in the system.
@@ -558,8 +588,11 @@
 <p>
             This method should emit RepoDetail.
           </p>
-<div class="variablelist"><table border="0">
+<div class="variablelist"><table border="0" class="variablelist">
+<colgroup>
 <col align="left" valign="top">
+<col>
+</colgroup>
 <tbody><tr>
 <td><p><span class="term"><em class="parameter"><code>filter</code></em>:</span></p></td>
 <td>
@@ -571,11 +604,11 @@
 </table></div>
 <hr>
 <div class="refsect2">
-<a name="id444160"></a><h3>
+<a name="idp7306256"></a><h3>
 <a name="Transaction.GetRequires"></a>GetRequires ()</h3>
-<pre class="programlisting">GetRequires (in  't'  filter,
-             in  'as' package_ids,
-             in  'b'  recursive)</pre>
+<pre class="programlisting">GetRequires (in't'filter,
+in'as'package_ids,
+in'b'recursive)</pre>
 </div>
 <p>
             This method returns packages that depend on this package.
@@ -593,8 +626,11 @@
             Package enumerated types should be
             available or installed.
           </p>
-<div class="variablelist"><table border="0">
+<div class="variablelist"><table border="0" class="variablelist">
+<colgroup>
 <col align="left" valign="top">
+<col>
+</colgroup>
 <tbody>
 <tr>
 <td><p><span class="term"><em class="parameter"><code>filter</code></em>:</span></p></td>
@@ -628,9 +664,9 @@
 </table></div>
 <hr>
 <div class="refsect2">
-<a name="id444241"></a><h3>
+<a name="idp7315968"></a><h3>
 <a name="Transaction.GetUpdateDetail"></a>GetUpdateDetail ()</h3>
-<pre class="programlisting">GetUpdateDetail (in  'as' package_ids)</pre>
+<pre class="programlisting">GetUpdateDetail (in'as'package_ids)</pre>
 </div>
 <p>
             This method returns details about a specific update.
@@ -640,8 +676,11 @@
             UpdateDetail and
             Error
           </p>
-<div class="variablelist"><table border="0">
+<div class="variablelist"><table border="0" class="variablelist">
+<colgroup>
 <col align="left" valign="top">
+<col>
+</colgroup>
 <tbody><tr>
 <td><p><span class="term"><em class="parameter"><code>package_ids</code></em>:</span></p></td>
 <td>
@@ -653,9 +692,9 @@
 </table></div>
 <hr>
 <div class="refsect2">
-<a name="id444289"></a><h3>
+<a name="idp11323920"></a><h3>
 <a name="Transaction.GetUpdates"></a>GetUpdates ()</h3>
-<pre class="programlisting">GetUpdates (in  't' filter)</pre>
+<pre class="programlisting">GetUpdates (in't'filter)</pre>
 </div>
 <p>
             This method should return a list of packages that are installed and are upgradable.
@@ -694,8 +733,11 @@
             Other filter types may be present, but can be safely ignored of the
             backend does not support them.
           </p>
-<div class="variablelist"><table border="0">
+<div class="variablelist"><table border="0" class="variablelist">
+<colgroup>
 <col align="left" valign="top">
+<col>
+</colgroup>
 <tbody><tr>
 <td><p><span class="term"><em class="parameter"><code>filter</code></em>:</span></p></td>
 <td>
@@ -707,7 +749,7 @@
 </table></div>
 <hr>
 <div class="refsect2">
-<a name="id444358"></a><h3>
+<a name="idp11332224"></a><h3>
 <a name="Transaction.GetDistroUpgrades"></a>GetDistroUpgrades ()</h3>
 <pre class="programlisting">GetDistroUpgrades ()</pre>
 </div>
@@ -721,16 +763,19 @@
             DistroUpgrade,
             Error and
           </p>
-<div class="variablelist"><table border="0">
+<div class="variablelist"><table border="0" class="variablelist">
+<colgroup>
 <col align="left" valign="top">
+<col>
+</colgroup>
 <tbody></tbody>
 </table></div>
 <hr>
 <div class="refsect2">
-<a name="id444395"></a><h3>
+<a name="idp11336656"></a><h3>
 <a name="Transaction.InstallFiles"></a>InstallFiles ()</h3>
-<pre class="programlisting">InstallFiles (in  't'  transaction_flags,
-              in  'as' full_paths)</pre>
+<pre class="programlisting">InstallFiles (in't'transaction_flags,
+in'as'full_paths)</pre>
 </div>
 <p>
             This method installs local package files onto the local system.
@@ -752,8 +797,11 @@
             installing or
             removing.
           </p>
-<div class="variablelist"><table border="0">
+<div class="variablelist"><table border="0" class="variablelist">
+<colgroup>
 <col align="left" valign="top">
+<col>
+</colgroup>
 <tbody>
 <tr>
 <td><p><span class="term"><em class="parameter"><code>transaction_flags</code></em>:</span></p></td>
@@ -783,10 +831,10 @@
 <p class="permission">Callers need the org.freedesktop.packagekit.localinstall-untrusted</p>
 <hr>
 <div class="refsect2">
-<a name="id444474"></a><h3>
+<a name="idp11346064"></a><h3>
 <a name="Transaction.InstallPackages"></a>InstallPackages ()</h3>
-<pre class="programlisting">InstallPackages (in  't'  transaction_flags,
-                 in  'as' package_ids)</pre>
+<pre class="programlisting">InstallPackages (in't'transaction_flags,
+in'as'package_ids)</pre>
 </div>
 <p>
             This method installs new packages on the local system.
@@ -810,8 +858,11 @@
             installing or
             removing.
           </p>
-<div class="variablelist"><table border="0">
+<div class="variablelist"><table border="0" class="variablelist">
+<colgroup>
 <col align="left" valign="top">
+<col>
+</colgroup>
 <tbody>
 <tr>
 <td><p><span class="term"><em class="parameter"><code>transaction_flags</code></em>:</span></p></td>
@@ -841,17 +892,20 @@
 <p class="permission">Callers need the org.freedesktop.packagekit.install-untrusted</p>
 <hr>
 <div class="refsect2">
-<a name="id444554"></a><h3>
+<a name="idp11355680"></a><h3>
 <a name="Transaction.InstallSignature"></a>InstallSignature ()</h3>
-<pre class="programlisting">InstallSignature (in  'u' sig_type,
-                  in  's' key_id,
-                  in  's' package_id)</pre>
+<pre class="programlisting">InstallSignature (in'u'sig_type,
+in's'key_id,
+in's'package_id)</pre>
 </div>
 <p>
             This method allows us to install new security keys.
           </p>
-<div class="variablelist"><table border="0">
+<div class="variablelist"><table border="0" class="variablelist">
+<colgroup>
 <col align="left" valign="top">
+<col>
+</colgroup>
 <tbody>
 <tr>
 <td><p><span class="term"><em class="parameter"><code>sig_type</code></em>:</span></p></td>
@@ -882,9 +936,9 @@
 <p class="permission">Callers need the org.freedesktop.packagekit.install-signature</p>
 <hr>
 <div class="refsect2">
-<a name="id444628"></a><h3>
+<a name="idp11364496"></a><h3>
 <a name="Transaction.RefreshCache"></a>RefreshCache ()</h3>
-<pre class="programlisting">RefreshCache (in  'b' force)</pre>
+<pre class="programlisting">RefreshCache (in'b'force)</pre>
 </div>
 <p>
             This method should fetch updated meta-data for all enabled repositories.
@@ -906,8 +960,11 @@
             Error and
             RepoDetail.
           </p>
-<div class="variablelist"><table border="0">
+<div class="variablelist"><table border="0" class="variablelist">
+<colgroup>
 <col align="left" valign="top">
+<col>
+</colgroup>
 <tbody><tr>
 <td><p><span class="term"><em class="parameter"><code>force</code></em>:</span></p></td>
 <td>
@@ -920,12 +977,12 @@
 <p class="permission">Callers need the org.freedesktop.packagekit.refresh-cache</p>
 <hr>
 <div class="refsect2">
-<a name="id444691"></a><h3>
+<a name="idp11371984"></a><h3>
 <a name="Transaction.RemovePackages"></a>RemovePackages ()</h3>
-<pre class="programlisting">RemovePackages (in  't'  transaction_flags,
-                in  'as' package_ids,
-                in  'b'  allow_deps,
-                in  'b'  autoremove)</pre>
+<pre class="programlisting">RemovePackages (in't'transaction_flags,
+in'as'package_ids,
+in'b'allow_deps,
+in'b'autoremove)</pre>
 </div>
 <p>
             This method removes packages from the local system.
@@ -944,8 +1001,11 @@
             installing or
             removing.
           </p>
-<div class="variablelist"><table border="0">
+<div class="variablelist"><table border="0" class="variablelist">
+<colgroup>
 <col align="left" valign="top">
+<col>
+</colgroup>
 <tbody>
 <tr>
 <td><p><span class="term"><em class="parameter"><code>transaction_flags</code></em>:</span></p></td>
@@ -994,16 +1054,19 @@
 <p class="permission">Callers need the org.freedesktop.packagekit.remove</p>
 <hr>
 <div class="refsect2">
-<a name="id444792"></a><h3>
+<a name="idp11384144"></a><h3>
 <a name="Transaction.RepoEnable"></a>RepoEnable ()</h3>
-<pre class="programlisting">RepoEnable (in  's' repo_id,
-            in  'b' enabled)</pre>
+<pre class="programlisting">RepoEnable (in's'repo_id,
+in'b'enabled)</pre>
 </div>
 <p>
             This method enables the repository specified.
           </p>
-<div class="variablelist"><table border="0">
+<div class="variablelist"><table border="0" class="variablelist">
+<colgroup>
 <col align="left" valign="top">
+<col>
+</colgroup>
 <tbody>
 <tr>
 <td><p><span class="term"><em class="parameter"><code>repo_id</code></em>:</span></p></td>
@@ -1026,17 +1089,20 @@
 <p class="permission">Callers need the org.freedesktop.packagekit.repo-change</p>
 <hr>
 <div class="refsect2">
-<a name="id444853"></a><h3>
+<a name="idp11391296"></a><h3>
 <a name="Transaction.RepoSetData"></a>RepoSetData ()</h3>
-<pre class="programlisting">RepoSetData (in  's' repo_id,
-             in  's' parameter,
-             in  's' value)</pre>
+<pre class="programlisting">RepoSetData (in's'repo_id,
+in's'parameter,
+in's'value)</pre>
 </div>
 <p>
             This method allows arbitary data to be passed to the repository handler.
           </p>
-<div class="variablelist"><table border="0">
+<div class="variablelist"><table border="0" class="variablelist">
+<colgroup>
 <col align="left" valign="top">
+<col>
+</colgroup>
 <tbody>
 <tr>
 <td><p><span class="term"><em class="parameter"><code>repo_id</code></em>:</span></p></td>
@@ -1067,10 +1133,10 @@
 <p class="permission">Callers need the org.freedesktop.packagekit.repo-change</p>
 <hr>
 <div class="refsect2">
-<a name="id444926"></a><h3>
+<a name="idp10326000"></a><h3>
 <a name="Transaction.Resolve"></a>Resolve ()</h3>
-<pre class="programlisting">Resolve (in  't'  filter,
-         in  'as' packages)</pre>
+<pre class="programlisting">Resolve (in't'filter,
+in'as'packages)</pre>
 </div>
 <p>
             This method turns a single package name into a package_id suitable for the
@@ -1090,8 +1156,11 @@
             Package enumerated types should be
             available or installed.
           </p>
-<div class="variablelist"><table border="0">
+<div class="variablelist"><table border="0" class="variablelist">
+<colgroup>
 <col align="left" valign="top">
+<col>
+</colgroup>
 <tbody>
 <tr>
 <td><p><span class="term"><em class="parameter"><code>filter</code></em>:</span></p></td>
@@ -1126,10 +1195,10 @@
 </table></div>
 <hr>
 <div class="refsect2">
-<a name="id445001"></a><h3>
+<a name="idp10335024"></a><h3>
 <a name="Transaction.SearchDetails"></a>SearchDetails ()</h3>
-<pre class="programlisting">SearchDetails (in  't'  filter,
-               in  'as' values)</pre>
+<pre class="programlisting">SearchDetails (in't'filter,
+in'as'values)</pre>
 </div>
 <p>
             This method allows deeper searching than SearchName().
@@ -1162,8 +1231,11 @@
             Package enumerated types should be
             available or installed.
           </p>
-<div class="variablelist"><table border="0">
+<div class="variablelist"><table border="0" class="variablelist">
+<colgroup>
 <col align="left" valign="top">
+<col>
+</colgroup>
 <tbody>
 <tr>
 <td><p><span class="term"><em class="parameter"><code>filter</code></em>:</span></p></td>
@@ -1193,10 +1265,10 @@
 </table></div>
 <hr>
 <div class="refsect2">
-<a name="id445087"></a><h3>
+<a name="idp10345280"></a><h3>
 <a name="Transaction.SearchFiles"></a>SearchFiles ()</h3>
-<pre class="programlisting">SearchFiles (in  't'  filter,
-             in  'as' values)</pre>
+<pre class="programlisting">SearchFiles (in't'filter,
+in'as'values)</pre>
 </div>
 <p>
             This method searches for files on the local system and files in available packages.
@@ -1216,8 +1288,11 @@
             Package enumerated types should be
             available or installed.
           </p>
-<div class="variablelist"><table border="0">
+<div class="variablelist"><table border="0" class="variablelist">
+<colgroup>
 <col align="left" valign="top">
+<col>
+</colgroup>
 <tbody>
 <tr>
 <td><p><span class="term"><em class="parameter"><code>filter</code></em>:</span></p></td>
@@ -1244,10 +1319,10 @@
 </table></div>
 <hr>
 <div class="refsect2">
-<a name="id445161"></a><h3>
+<a name="idp10354080"></a><h3>
 <a name="Transaction.SearchGroups"></a>SearchGroups ()</h3>
-<pre class="programlisting">SearchGroups (in  't'  filter,
-              in  'as' values)</pre>
+<pre class="programlisting">SearchGroups (in't'filter,
+in'as'values)</pre>
 </div>
 <p>
             This method returns packages from a given group enumerated type.
@@ -1277,8 +1352,11 @@
             Package enumerated types should be
             available or installed.
           </p>
-<div class="variablelist"><table border="0">
+<div class="variablelist"><table border="0" class="variablelist">
+<colgroup>
 <col align="left" valign="top">
+<col>
+</colgroup>
 <tbody>
 <tr>
 <td><p><span class="term"><em class="parameter"><code>filter</code></em>:</span></p></td>
@@ -1300,10 +1378,6 @@
               If the values strings are prefixed with category: then
               the request is treated as a 'category search', for example:
               category:web-development.
-              Note: the old nomenclature for a 'category search' suggested
-              using a @ prefix for the values options.
-              This is still supported, and backends should continue to support
-              category searches like @web-development.
             
             
               If the values strings are prefixed with repo: then
@@ -1319,10 +1393,10 @@
 </table></div>
 <hr>
 <div class="refsect2">
-<a name="id445250"></a><h3>
+<a name="idp10364432"></a><h3>
 <a name="Transaction.SearchNames"></a>SearchNames ()</h3>
-<pre class="programlisting">SearchNames (in  't'  filter,
-             in  'as' values)</pre>
+<pre class="programlisting">SearchNames (in't'filter,
+in'as'values)</pre>
 </div>
 <p>
             This method searches the package database by package name.
@@ -1358,8 +1432,11 @@
             Package enumerated types should be
             available or installed.
           </p>
-<div class="variablelist"><table border="0">
+<div class="variablelist"><table border="0" class="variablelist">
+<colgroup>
 <col align="left" valign="top">
+<col>
+</colgroup>
 <tbody>
 <tr>
 <td><p><span class="term"><em class="parameter"><code>filter</code></em>:</span></p></td>
@@ -1389,10 +1466,10 @@
 </table></div>
 <hr>
 <div class="refsect2">
-<a name="id445339"></a><h3>
+<a name="idp10375072"></a><h3>
 <a name="Transaction.UpdatePackages"></a>UpdatePackages ()</h3>
-<pre class="programlisting">UpdatePackages (in  't'  transaction_flags,
-                in  'as' package_ids)</pre>
+<pre class="programlisting">UpdatePackages (in't'transaction_flags,
+in'as'package_ids)</pre>
 </div>
 <p>
             This method updates existing packages on the local system.
@@ -1410,8 +1487,11 @@
             Error and
             Package.
           </p>
-<div class="variablelist"><table border="0">
+<div class="variablelist"><table border="0" class="variablelist">
+<colgroup>
 <col align="left" valign="top">
+<col>
+</colgroup>
 <tbody>
 <tr>
 <td><p><span class="term"><em class="parameter"><code>transaction_flags</code></em>:</span></p></td>
@@ -1441,11 +1521,11 @@
 <p class="permission">Callers need the org.freedesktop.packagekit.update-package</p>
 <hr>
 <div class="refsect2">
-<a name="id445418"></a><h3>
+<a name="idp10384592"></a><h3>
 <a name="Transaction.WhatProvides"></a>WhatProvides ()</h3>
-<pre class="programlisting">WhatProvides (in  't'  filter,
-              in  'u'  type,
-              in  'as' values)</pre>
+<pre class="programlisting">WhatProvides (in't'filter,
+in'u'type,
+in'as'values)</pre>
 </div>
 <p>
             This method returns packages that provide the supplied attributes.
@@ -1463,8 +1543,11 @@
             Package enumerated types should be
             available or installed.
           </p>
-<div class="variablelist"><table border="0">
+<div class="variablelist"><table border="0" class="variablelist">
+<colgroup>
 <col align="left" valign="top">
+<col>
+</colgroup>
 <tbody>
 <tr>
 <td><p><span class="term"><em class="parameter"><code>filter</code></em>:</span></p></td>
@@ -1495,10 +1578,10 @@
 </table></div>
 <hr>
 <div class="refsect2">
-<a name="id445498"></a><h3>
+<a name="idp10394032"></a><h3>
 <a name="Transaction.UpgradeSystem"></a>UpgradeSystem ()</h3>
-<pre class="programlisting">UpgradeSystem (in  's' distro_id,
-               in  'u' upgrade_kind)</pre>
+<pre class="programlisting">UpgradeSystem (in's'distro_id,
+in'u'upgrade_kind)</pre>
 </div>
 <p>
             This method perfoms a distribution upgrade to the specified
@@ -1511,8 +1594,11 @@
             Error and
             Package.
           </p>
-<div class="variablelist"><table border="0">
+<div class="variablelist"><table border="0" class="variablelist">
+<colgroup>
 <col align="left" valign="top">
+<col>
+</colgroup>
 <tbody>
 <tr>
 <td><p><span class="term"><em class="parameter"><code>distro_id</code></em>:</span></p></td>
@@ -1539,9 +1625,9 @@
 </table></div>
 <hr>
 <div class="refsect2">
-<a name="id445562"></a><h3>
+<a name="idp10401648"></a><h3>
 <a name="Transaction.RepairSystem"></a>RepairSystem ()</h3>
-<pre class="programlisting">RepairSystem (in  't' transaction_flags)</pre>
+<pre class="programlisting">RepairSystem (in't'transaction_flags)</pre>
 </div>
 <p>
             This method recovers the package management system from e.g.
@@ -1554,8 +1640,11 @@
             Error and
             Package.
           </p>
-<div class="variablelist"><table border="0">
+<div class="variablelist"><table border="0" class="variablelist">
+<colgroup>
 <col align="left" valign="top">
+<col>
+</colgroup>
 <tbody><tr>
 <td><p><span class="term"><em class="parameter"><code>transaction_flags</code></em>:</span></p></td>
 <td>
@@ -1574,21 +1663,24 @@
 </table></div>
 </div>
 <div class="refsect1">
-<a name="id445616"></a><h2>Signal Details</h2>
+<a name="idp10408112"></a><h2>Signal Details</h2>
 <div class="refsect2">
-<a name="id445624"></a><h3>
+<a name="idp10409072"></a><h3>
 <a name="Transaction::Category"></a>The Category signal</h3>
-<pre class="programlisting">Category ('s' parent_id,
-          's' cat_id,
-          's' name,
-          's' summary,
-          's' icon)</pre>
+<pre class="programlisting">Category ('s'parent_id,
+'s'cat_id,
+'s'name,
+'s'summary,
+'s'icon)</pre>
 </div>
 <p>
             This signal send information about a collection category
           </p>
-<div class="variablelist"><table border="0">
+<div class="variablelist"><table border="0" class="variablelist">
+<colgroup>
 <col align="left" valign="top">
+<col>
+</colgroup>
 <tbody>
 <tr>
 <td><p><span class="term"><em class="parameter"><code>parent_id</code></em>:</span></p></td>
@@ -1646,20 +1738,23 @@
 </table></div>
 <hr>
 <div class="refsect2">
-<a name="id445724"></a><h3>
+<a name="idp10421040"></a><h3>
 <a name="Transaction::Details"></a>The Details signal</h3>
-<pre class="programlisting">Details ('s' package_id,
-         's' license,
-         'u' group,
-         's' detail,
-         's' url,
-         't' size)</pre>
+<pre class="programlisting">Details ('s'package_id,
+'s'license,
+'u'group,
+'s'detail,
+'s'url,
+'t'size)</pre>
 </div>
 <p>
             This signal allows the backend to convey more details about the package.
           </p>
-<div class="variablelist"><table border="0">
+<div class="variablelist"><table border="0" class="variablelist">
+<colgroup>
 <col align="left" valign="top">
+<col>
+</colgroup>
 <tbody>
 <tr>
 <td><p><span class="term"><em class="parameter"><code>package_id</code></em>:</span></p></td>
@@ -1724,10 +1819,10 @@
 </table></div>
 <hr>
 <div class="refsect2">
-<a name="id445834"></a><h3>
+<a name="idp10434224"></a><h3>
 <a name="Transaction::ErrorCode"></a>The ErrorCode signal</h3>
-<pre class="programlisting">ErrorCode ('u' code,
-           's' details)</pre>
+<pre class="programlisting">ErrorCode ('u'code,
+'s'details)</pre>
 </div>
 <p>
             This signal is used to report errors back to the session program.
@@ -1735,8 +1830,11 @@
 <p>
             Errors should only be send on fatal abort.
           </p>
-<div class="variablelist"><table border="0">
+<div class="variablelist"><table border="0" class="variablelist">
+<colgroup>
 <col align="left" valign="top">
+<col>
+</colgroup>
 <tbody>
 <tr>
 <td><p><span class="term"><em class="parameter"><code>code</code></em>:</span></p></td>
@@ -1758,16 +1856,19 @@
 </table></div>
 <hr>
 <div class="refsect2">
-<a name="id445894"></a><h3>
+<a name="idp10441424"></a><h3>
 <a name="Transaction::Files"></a>The Files signal</h3>
-<pre class="programlisting">Files ('s'  package_id,
-       'as' file_list)</pre>
+<pre class="programlisting">Files ('s'package_id,
+'as'file_list)</pre>
 </div>
 <p>
             This signal is used to push file lists from the backend to the session.
           </p>
-<div class="variablelist"><table border="0">
+<div class="variablelist"><table border="0" class="variablelist">
+<colgroup>
 <col align="left" valign="top">
+<col>
+</colgroup>
 <tbody>
 <tr>
 <td><p><span class="term"><em class="parameter"><code>package_id</code></em>:</span></p></td>
@@ -1789,16 +1890,19 @@
 </table></div>
 <hr>
 <div class="refsect2">
-<a name="id445949"></a><h3>
+<a name="idp10448112"></a><h3>
 <a name="Transaction::Finished"></a>The Finished signal</h3>
-<pre class="programlisting">Finished ('u' exit,
-          'u' runtime)</pre>
+<pre class="programlisting">Finished ('u'exit,
+'u'runtime)</pre>
 </div>
 <p>
             This signal is used to signal that the transaction has finished.
           </p>
-<div class="variablelist"><table border="0">
+<div class="variablelist"><table border="0" class="variablelist">
+<colgroup>
 <col align="left" valign="top">
+<col>
+</colgroup>
 <tbody>
 <tr>
 <td><p><span class="term"><em class="parameter"><code>exit</code></em>:</span></p></td>
@@ -1820,10 +1924,10 @@
 </table></div>
 <hr>
 <div class="refsect2">
-<a name="id446005"></a><h3>
+<a name="idp10454848"></a><h3>
 <a name="Transaction::Message"></a>The Message signal</h3>
-<pre class="programlisting">Message ('u' type,
-         's' details)</pre>
+<pre class="programlisting">Message ('u'type,
+'s'details)</pre>
 </div>
 <p>
             This signal is sent when the backend wants to send a message to the session.
@@ -1832,8 +1936,11 @@
             This allows the backend to queue up a message to be shown after the transaction has
             completed.
           </p>
-<div class="variablelist"><table border="0">
+<div class="variablelist"><table border="0" class="variablelist">
+<colgroup>
 <col align="left" valign="top">
+<col>
+</colgroup>
 <tbody>
 <tr>
 <td><p><span class="term"><em class="parameter"><code>type</code></em>:</span></p></td>
@@ -1856,11 +1963,11 @@
 </table></div>
 <hr>
 <div class="refsect2">
-<a name="id446065"></a><h3>
+<a name="idp10462112"></a><h3>
 <a name="Transaction::Package"></a>The Package signal</h3>
-<pre class="programlisting">Package ('u' info,
-         's' package_id,
-         's' summary)</pre>
+<pre class="programlisting">Package ('u'info,
+'s'package_id,
+'s'summary)</pre>
 </div>
 <p>
             This signal allows the backend to communicate packages to the session.
@@ -1874,8 +1981,11 @@
             installed before available for
             the same package name.
           </p>
-<div class="variablelist"><table border="0">
+<div class="variablelist"><table border="0" class="variablelist">
+<colgroup>
 <col align="left" valign="top">
+<col>
+</colgroup>
 <tbody>
 <tr>
 <td><p><span class="term"><em class="parameter"><code>info</code></em>:</span></p></td>
@@ -1930,17 +2040,20 @@
 </table></div>
 <hr>
 <div class="refsect2">
-<a name="id446153"></a><h3>
+<a name="idp10472624"></a><h3>
 <a name="Transaction::RepoDetail"></a>The RepoDetail signal</h3>
-<pre class="programlisting">RepoDetail ('s' repo_id,
-            's' description,
-            'b' enabled)</pre>
+<pre class="programlisting">RepoDetail ('s'repo_id,
+'s'description,
+'b'enabled)</pre>
 </div>
 <p>
             This signal describes a repository on the system.
           </p>
-<div class="variablelist"><table border="0">
+<div class="variablelist"><table border="0" class="variablelist">
+<colgroup>
 <col align="left" valign="top">
+<col>
+</colgroup>
 <tbody>
 <tr>
 <td><p><span class="term"><em class="parameter"><code>repo_id</code></em>:</span></p></td>
@@ -1970,16 +2083,16 @@
 </table></div>
 <hr>
 <div class="refsect2">
-<a name="id447041"></a><h3>
+<a name="idp10480688"></a><h3>
 <a name="Transaction::RepoSignatureRequired"></a>The RepoSignatureRequired signal</h3>
-<pre class="programlisting">RepoSignatureRequired ('s' package_id,
-                       's' repository_name,
-                       's' key_url,
-                       's' key_userid,
-                       's' key_id,
-                       's' key_fingerprint,
-                       's' key_timestamp,
-                       'u' type)</pre>
+<pre class="programlisting">RepoSignatureRequired ('s'package_id,
+'s'repository_name,
+'s'key_url,
+'s'key_userid,
+'s'key_id,
+'s'key_fingerprint,
+'s'key_timestamp,
+'u'type)</pre>
 </div>
 <p>
             This signal is emitted when a transaction is not possible due to a missing security
@@ -1998,8 +2111,11 @@
             or person who owns the key, the key's ID, the userid of
             the key creator, and the date the key was generated.
           </p>
-<div class="variablelist"><table border="0">
+<div class="variablelist"><table border="0" class="variablelist">
+<colgroup>
 <col align="left" valign="top">
+<col>
+</colgroup>
 <tbody>
 <tr>
 <td><p><span class="term"><em class="parameter"><code>package_id</code></em>:</span></p></td>
@@ -2069,12 +2185,12 @@
 </table></div>
 <hr>
 <div class="refsect2">
-<a name="id447185"></a><h3>
+<a name="idp10497856"></a><h3>
 <a name="Transaction::EulaRequired"></a>The EulaRequired signal</h3>
-<pre class="programlisting">EulaRequired ('s' eula_id,
-              's' package_id,
-              's' vendor_name,
-              's' license_agreement)</pre>
+<pre class="programlisting">EulaRequired ('s'eula_id,
+'s'package_id,
+'s'vendor_name,
+'s'license_agreement)</pre>
 </div>
 <p>
             This signal is emitted when a transaction is not possible due to a EULA that needs to
@@ -2083,8 +2199,11 @@
 <p>
             Some backends support EULAs, which have to be agreed to before the install can proceed.
           </p>
-<div class="variablelist"><table border="0">
+<div class="variablelist"><table border="0" class="variablelist">
+<colgroup>
 <col align="left" valign="top">
+<col>
+</colgroup>
 <tbody>
 <tr>
 <td><p><span class="term"><em class="parameter"><code>eula_id</code></em>:</span></p></td>
@@ -2125,11 +2244,11 @@
 </table></div>
 <hr>
 <div class="refsect2">
-<a name="id447273"></a><h3>
+<a name="idp10508400"></a><h3>
 <a name="Transaction::MediaChangeRequired"></a>The MediaChangeRequired signal</h3>
-<pre class="programlisting">MediaChangeRequired ('u' media_type,
-                     's' media_id,
-                     's' media_text)</pre>
+<pre class="programlisting">MediaChangeRequired ('u'media_type,
+'s'media_id,
+'s'media_text)</pre>
 </div>
 <p>
             This signal is emitted when a transaction needsneeds a different media
@@ -2139,8 +2258,11 @@
             Some backends support Media changing, which will fail the transaction each time it needs
             a new media.
           </p>
-<div class="variablelist"><table border="0">
+<div class="variablelist"><table border="0" class="variablelist">
+<colgroup>
 <col align="left" valign="top">
+<col>
+</colgroup>
 <tbody>
 <tr>
 <td><p><span class="term"><em class="parameter"><code>media_type</code></em>:</span></p></td>
@@ -2174,10 +2296,10 @@
 </table></div>
 <hr>
 <div class="refsect2">
-<a name="id447350"></a><h3>
+<a name="idp10517568"></a><h3>
 <a name="Transaction::RequireRestart"></a>The RequireRestart signal</h3>
-<pre class="programlisting">RequireRestart ('u' type,
-                's' package_id)</pre>
+<pre class="programlisting">RequireRestart ('u'type,
+'s'package_id)</pre>
 </div>
 <p>
             This signal is sent when the session program should notify the user that a restart is
@@ -2190,8 +2312,11 @@
             This can be sent as many times as needed by the backend script.
             PackageKit will always choose the 'worst' method in the UI notification.
           </p>
-<div class="variablelist"><table border="0">
+<div class="variablelist"><table border="0" class="variablelist">
+<colgroup>
 <col align="left" valign="top">
+<col>
+</colgroup>
 <tbody>
 <tr>
 <td><p><span class="term"><em class="parameter"><code>type</code></em>:</span></p></td>
@@ -2214,22 +2339,25 @@
 </table></div>
 <hr>
 <div class="refsect2">
-<a name="id447416"></a><h3>
+<a name="idp10525472"></a><h3>
 <a name="Transaction::Transaction"></a>The Transaction signal</h3>
-<pre class="programlisting">Transaction ('o' object_path,
-             's' timespec,
-             'b' succeeded,
-             'u' role,
-             'u' duration,
-             's' data,
-             'u' uid,
-             's' cmdline)</pre>
+<pre class="programlisting">Transaction ('o'object_path,
+'s'timespec,
+'b'succeeded,
+'u'role,
+'u'duration,
+'s'data,
+'u'uid,
+'s'cmdline)</pre>
 </div>
 <p>
             This signal is sent when more details are required about a specific transaction.
           </p>
-<div class="variablelist"><table border="0">
+<div class="variablelist"><table border="0" class="variablelist">
+<colgroup>
 <col align="left" valign="top">
+<col>
+</colgroup>
 <tbody>
 <tr>
 <td><p><span class="term"><em class="parameter"><code>object_path</code></em>:</span></p></td>
@@ -2300,26 +2428,29 @@
 </table></div>
 <hr>
 <div class="refsect2">
-<a name="id447548"></a><h3>
+<a name="idp10541232"></a><h3>
 <a name="Transaction::UpdateDetail"></a>The UpdateDetail signal</h3>
-<pre class="programlisting">UpdateDetail ('s'  package_id,
-              'as' updates,
-              'as' obsoletes,
-              'as' vendor_urls,
-              'as' bugzilla_urls,
-              'as' cve_urls,
-              'u'  restart,
-              's'  update_text,
-              's'  changelog,
-              'u'  state,
-              's'  issued,
-              's'  updated)</pre>
+<pre class="programlisting">UpdateDetail ('s'package_id,
+'as'updates,
+'as'obsoletes,
+'as'vendor_urls,
+'as'bugzilla_urls,
+'as'cve_urls,
+'u'restart,
+'s'update_text,
+'s'changelog,
+'u'state,
+'s'issued,
+'s'updated)</pre>
 </div>
 <p>
             This signal is sent when more details are required about a specific update.
           </p>
-<div class="variablelist"><table border="0">
+<div class="variablelist"><table border="0" class="variablelist">
+<colgroup>
 <col align="left" valign="top">
+<col>
+</colgroup>
 <tbody>
 <tr>
 <td><p><span class="term"><em class="parameter"><code>package_id</code></em>:</span></p></td>
@@ -2428,18 +2559,21 @@
 </table></div>
 <hr>
 <div class="refsect2">
-<a name="id447732"></a><h3>
+<a name="idp10563168"></a><h3>
 <a name="Transaction::DistroUpgrade"></a>The DistroUpgrade signal</h3>
-<pre class="programlisting">DistroUpgrade ('u' type,
-               's' name,
-               's' summary)</pre>
+<pre class="programlisting">DistroUpgrade ('u'type,
+'s'name,
+'s'summary)</pre>
 </div>
 <p>
             This signal allows the backend to communicate distribution
             upgrades to the session.
           </p>
-<div class="variablelist"><table border="0">
+<div class="variablelist"><table border="0" class="variablelist">
+<colgroup>
 <col align="left" valign="top">
+<col>
+</colgroup>
 <tbody>
 <tr>
 <td><p><span class="term"><em class="parameter"><code>type</code></em>:</span></p></td>
@@ -2470,18 +2604,21 @@
 </table></div>
 <hr>
 <div class="refsect2">
-<a name="id447801"></a><h3>
+<a name="idp10571360"></a><h3>
 <a name="Transaction::ItemProgress"></a>The ItemProgress signal</h3>
-<pre class="programlisting">ItemProgress ('s' id,
-              'u' status,
-              'u' percentage)</pre>
+<pre class="programlisting">ItemProgress ('s'id,
+'u'status,
+'u'percentage)</pre>
 </div>
 <p>
             This signal allows the backend to send infomation about
             package or repository progress when using Simultanous mode.
           </p>
-<div class="variablelist"><table border="0">
+<div class="variablelist"><table border="0" class="variablelist">
+<colgroup>
 <col align="left" valign="top">
+<col>
+</colgroup>
 <tbody>
 <tr>
 <td><p><span class="term"><em class="parameter"><code>id</code></em>:</span></p></td>
@@ -2515,20 +2652,23 @@
 </table></div>
 <hr>
 <div class="refsect2">
-<a name="id447872"></a><h3>
+<a name="idp10579760"></a><h3>
 <a name="Transaction::Changed"></a>The Changed signal</h3>
 <pre class="programlisting">Changed ()</pre>
 </div>
 <p>
             This signal is emitted when a property on the interface changes.
           </p>
-<div class="variablelist"><table border="0">
+<div class="variablelist"><table border="0" class="variablelist">
+<colgroup>
 <col align="left" valign="top">
+<col>
+</colgroup>
 <tbody></tbody>
 </table></div>
 <hr>
 <div class="refsect2">
-<a name="id447903"></a><h3>
+<a name="idp10583504"></a><h3>
 <a name="Transaction::Destroy"></a>The Destroy signal</h3>
 <pre class="programlisting">Destroy ()</pre>
 </div>
@@ -2536,73 +2676,88 @@
             This signal is sent when the transaction has been destroyed and is
             no longer available for use.
           </p>
-<div class="variablelist"><table border="0">
+<div class="variablelist"><table border="0" class="variablelist">
+<colgroup>
 <col align="left" valign="top">
+<col>
+</colgroup>
 <tbody></tbody>
 </table></div>
 </div>
 <div class="refsect1">
-<a name="id447936"></a><h2>Property Details</h2>
+<a name="idp10587440"></a><h2>Property Details</h2>
 <div class="refsect2">
-<a name="id447944"></a><h3>
+<a name="idp10588400"></a><h3>
 <a name="Transaction:Role"></a>The "Role" property</h3>
-<pre class="programlisting">'Role'  read      'u'
+<pre class="programlisting">'Role'read'u'
 </pre>
 </div>
 <p>
             The transaction role enum, e.g. update-system.
           </p>
-<div class="variablelist"><table border="0">
+<div class="variablelist"><table border="0" class="variablelist">
+<colgroup>
 <col align="left" valign="top">
+<col>
+</colgroup>
 <tbody></tbody>
 </table></div>
 <hr>
 <div class="refsect2">
-<a name="id447975"></a><h3>
+<a name="idp10592112"></a><h3>
 <a name="Transaction:Status"></a>The "Status" property</h3>
-<pre class="programlisting">'Status'  read      'u'
+<pre class="programlisting">'Status'read'u'
 </pre>
 </div>
 <p>
             The transaction status enum, e.g. downloading.
           </p>
-<div class="variablelist"><table border="0">
+<div class="variablelist"><table border="0" class="variablelist">
+<colgroup>
 <col align="left" valign="top">
+<col>
+</colgroup>
 <tbody></tbody>
 </table></div>
 <hr>
 <div class="refsect2">
-<a name="id448006"></a><h3>
+<a name="idp10595824"></a><h3>
 <a name="Transaction:LastPackage"></a>The "LastPackage" property</h3>
-<pre class="programlisting">'LastPackage'  read      's'
+<pre class="programlisting">'LastPackage'read's'
 </pre>
 </div>
 <p>
             The last package_id that was processed, e.g. hal;0.1.2;i386;fedora.
           </p>
-<div class="variablelist"><table border="0">
+<div class="variablelist"><table border="0" class="variablelist">
+<colgroup>
 <col align="left" valign="top">
+<col>
+</colgroup>
 <tbody></tbody>
 </table></div>
 <hr>
 <div class="refsect2">
-<a name="id448037"></a><h3>
+<a name="idp10599536"></a><h3>
 <a name="Transaction:Uid"></a>The "Uid" property</h3>
-<pre class="programlisting">'Uid'  read      'u'
+<pre class="programlisting">'Uid'read'u'
 </pre>
 </div>
 <p>
             The uid of the user that started the transaction.
           </p>
-<div class="variablelist"><table border="0">
+<div class="variablelist"><table border="0" class="variablelist">
+<colgroup>
 <col align="left" valign="top">
+<col>
+</colgroup>
 <tbody></tbody>
 </table></div>
 <hr>
 <div class="refsect2">
-<a name="id448068"></a><h3>
+<a name="idp10603264"></a><h3>
 <a name="Transaction:Percentage"></a>The "Percentage" property</h3>
-<pre class="programlisting">'Percentage'  read      'u'
+<pre class="programlisting">'Percentage'read'u'
 </pre>
 </div>
 <p>
@@ -2611,29 +2766,35 @@
 <p>
             Backends should set this value to 101 if the amount complete cannot be calculated.
           </p>
-<div class="variablelist"><table border="0">
+<div class="variablelist"><table border="0" class="variablelist">
+<colgroup>
 <col align="left" valign="top">
+<col>
+</colgroup>
 <tbody></tbody>
 </table></div>
 <hr>
 <div class="refsect2">
-<a name="id448104"></a><h3>
+<a name="idp10607536"></a><h3>
 <a name="Transaction:AllowCancel"></a>The "AllowCancel" property</h3>
-<pre class="programlisting">'AllowCancel'  read      'b'
+<pre class="programlisting">'AllowCancel'read'b'
 </pre>
 </div>
 <p>
             If the transaction can be cancelled.
           </p>
-<div class="variablelist"><table border="0">
+<div class="variablelist"><table border="0" class="variablelist">
+<colgroup>
 <col align="left" valign="top">
+<col>
+</colgroup>
 <tbody></tbody>
 </table></div>
 <hr>
 <div class="refsect2">
-<a name="id448135"></a><h3>
+<a name="idp10611264"></a><h3>
 <a name="Transaction:CallerActive"></a>The "CallerActive" property</h3>
-<pre class="programlisting">'CallerActive'  read      'b'
+<pre class="programlisting">'CallerActive'read'b'
 </pre>
 </div>
 <p>
@@ -2641,64 +2802,79 @@
             This is usually an indication that the client can handle it's own error handling and
             EULA callbacks rather than another program taking over.
           </p>
-<div class="variablelist"><table border="0">
+<div class="variablelist"><table border="0" class="variablelist">
+<colgroup>
 <col align="left" valign="top">
+<col>
+</colgroup>
 <tbody></tbody>
 </table></div>
 <hr>
 <div class="refsect2">
-<a name="id448168"></a><h3>
+<a name="idp10615216"></a><h3>
 <a name="Transaction:ElapsedTime"></a>The "ElapsedTime" property</h3>
-<pre class="programlisting">'ElapsedTime'  read      'u'
+<pre class="programlisting">'ElapsedTime'read'u'
 </pre>
 </div>
 <p>
             The amount of time elapsed during the transaction in seconds.
           </p>
-<div class="variablelist"><table border="0">
+<div class="variablelist"><table border="0" class="variablelist">
+<colgroup>
 <col align="left" valign="top">
+<col>
+</colgroup>
 <tbody></tbody>
 </table></div>
 <hr>
 <div class="refsect2">
-<a name="id448200"></a><h3>
+<a name="idp10618960"></a><h3>
 <a name="Transaction:RemainingTime"></a>The "RemainingTime" property</h3>
-<pre class="programlisting">'RemainingTime'  read      'u'
+<pre class="programlisting">'RemainingTime'read'u'
 </pre>
 </div>
 <p>
             The estimated time remaining of the transaction in seconds, or 0 if not known.
           </p>
-<div class="variablelist"><table border="0">
+<div class="variablelist"><table border="0" class="variablelist">
+<colgroup>
 <col align="left" valign="top">
+<col>
+</colgroup>
 <tbody></tbody>
 </table></div>
 <hr>
 <div class="refsect2">
-<a name="id448231"></a><h3>
+<a name="idp10622752"></a><h3>
 <a name="Transaction:Speed"></a>The "Speed" property</h3>
-<pre class="programlisting">'Speed'  read      'u'
+<pre class="programlisting">'Speed'read'u'
 </pre>
 </div>
 <p>
             The estimated speed of the transaction (copying, downloading, etc.) in bits per second, or 0 if not known.
           </p>
-<div class="variablelist"><table border="0">
+<div class="variablelist"><table border="0" class="variablelist">
+<colgroup>
 <col align="left" valign="top">
+<col>
+</colgroup>
 <tbody></tbody>
 </table></div>
 <hr>
 <div class="refsect2">
-<a name="id448263"></a><h3>
+<a name="idp10626528"></a><h3>
 <a name="Transaction:DownloadSizeRemaining"></a>The "DownloadSizeRemaining" property</h3>
-<pre class="programlisting">'DownloadSizeRemaining'  read      't'
+<pre class="programlisting">'DownloadSizeRemaining'read't'
 </pre>
 </div>
 <p>
             The number of bytes remaining to download, 0 if nothing is left to download.
           </p>
-<div class="variablelist"><table border="0">
+<div class="variablelist"><table border="0" class="variablelist">
+<colgroup>
 <col align="left" valign="top">
+<col>
+</colgroup>
 <tbody></tbody>
 </table></div>
 </div>

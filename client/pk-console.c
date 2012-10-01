@@ -36,11 +36,12 @@
 #define PK_EXIT_CODE_FILE_NOT_FOUND	4
 #define PK_EXIT_CODE_NOTHING_USEFUL	5
 #define PK_EXIT_CODE_CANNOT_SETUP	6
+#define PK_EXIT_CODE_TRANSACTION_FAILED	7
 
 static GMainLoop *loop = NULL;
 static PkBitfield roles = 0;
 static gboolean is_console = FALSE;
-static gboolean nowait = FALSE;
+static gboolean run_mainloop = TRUE;
 static PkControl *control = NULL;
 static PkTaskText *task = NULL;
 static PkProgressBar *progressbar = NULL;
@@ -694,6 +695,7 @@ pk_console_finished_cb (GObject *object, GAsyncResult *res, gpointer data)
 		/* TRANSLATORS: we failed to get any results, which is pretty fatal in my book */
 		g_print ("%s: %s\n", _("Fatal error"), error->message);
 		g_error_free (error);
+		retval = PK_EXIT_CODE_TRANSACTION_FAILED;
 		goto out;
 	}
 
@@ -879,6 +881,7 @@ pk_console_install_packages (gchar **packages, GError **error)
 		*error = g_error_new (1, 0, _("This tool could not find any available package: %s"), error_local->message);
 		g_error_free (error_local);
 		ret = FALSE;
+		retval = PK_EXIT_CODE_FILE_NOT_FOUND;
 		goto out;
 	}
 
@@ -1206,7 +1209,7 @@ pk_console_get_summary (void)
 				_("Subcommands:"));
 
 	/* always */
-	g_string_append_printf (string, "  %s\n", "get-actions");
+	g_string_append_printf (string, "  %s\n", "get-roles");
 	g_string_append_printf (string, "  %s\n", "get-groups");
 	g_string_append_printf (string, "  %s\n", "get-filters");
 	g_string_append_printf (string, "  %s\n", "get-transactions");
@@ -1301,7 +1304,6 @@ main (int argc, char *argv[])
 	GError *error = NULL;
 	GError *error_local = NULL;
 	gboolean background = FALSE;
-	gboolean help = FALSE;
 	gboolean noninteractive = FALSE;
 	gboolean only_download = FALSE;
 	guint cache_age = 0;
@@ -1328,9 +1330,6 @@ main (int argc, char *argv[])
 		{ "filter", '\0', 0, G_OPTION_ARG_STRING, &filter,
 			/* TRANSLATORS: command line argument, use a filter to narrow down results */
 			_("Set the filter, e.g. installed"), NULL},
-		{ "nowait", 'n', 0, G_OPTION_ARG_NONE, &nowait,
-			/* TRANSLATORS: command line argument, work asynchronously */
-			_("Exit without waiting for actions to complete"), NULL},
 		{ "noninteractive", 'y', 0, G_OPTION_ARG_NONE, &noninteractive,
 			/* command line argument, do we ask questions */
 			_("Install the packages without asking for confirmation"), NULL },
@@ -1346,9 +1345,6 @@ main (int argc, char *argv[])
 		{ "cache-age", 'c', 0, G_OPTION_ARG_INT, &cache_age,
 			/* TRANSLATORS: command line argument, just output without fancy formatting */
 			_("The maximum metadata cache age. Use -1 for 'never'."), NULL},
-		{ "help", 'h', 0, G_OPTION_ARG_NONE, &help,
-			/* TRANSLATORS: command line argument, --help */
-			_("Show help options."), NULL},
 		{ NULL}
 	};
 
@@ -1372,7 +1368,6 @@ main (int argc, char *argv[])
 
 	cancellable = g_cancellable_new ();
 	context = g_option_context_new ("PackageKit Console Program");
-	g_option_context_set_help_enabled (context, FALSE);
 	g_option_context_set_summary (context, summary) ;
 	g_option_context_add_main_entries (context, options, NULL);
 	g_option_context_add_group (context, pk_debug_get_option_group ());
@@ -1381,6 +1376,7 @@ main (int argc, char *argv[])
 		/* TRANSLATORS: we failed to contact the daemon */
 		g_print ("%s: %s\n", _("Failed to parse command line"), error->message);
 		g_error_free (error);
+		retval = PK_EXIT_CODE_SYNTAX_INVALID;
 		goto out_last;
 	}
 
@@ -1391,6 +1387,7 @@ main (int argc, char *argv[])
 		/* TRANSLATORS: we failed to contact the daemon */
 		g_print ("%s: %s\n", _("Failed to contact PackageKit"), error->message);
 		g_error_free (error);
+		retval = PK_EXIT_CODE_CANNOT_SETUP;
 		goto out_last;
 	}
 
@@ -1470,6 +1467,9 @@ main (int argc, char *argv[])
 	if (argc > 4)
 		parameter = argv[4];
 
+	/* start polkit tty agent to listen for password requests */
+	pk_polkit_agent_open ();
+
 	/* parse the big list */
 	if (strcmp (mode, "search") == 0) {
 		if (value == NULL) {
@@ -1537,7 +1537,7 @@ main (int argc, char *argv[])
 			retval = PK_EXIT_CODE_SYNTAX_INVALID;
 			goto out;
 		}
-		nowait = !pk_console_install_packages (argv+2, &error);
+		run_mainloop = pk_console_install_packages (argv+2, &error);
 
 	} else if (strcmp (mode, "install-local") == 0) {
 		if (value == NULL) {
@@ -1568,7 +1568,7 @@ main (int argc, char *argv[])
 			retval = PK_EXIT_CODE_SYNTAX_INVALID;
 			goto out;
 		}
-		nowait = !pk_console_remove_packages (argv+2, &error);
+		run_mainloop = pk_console_remove_packages (argv+2, &error);
 
 	} else if (strcmp (mode, "download") == 0) {
 		if (value == NULL || details == NULL) {
@@ -1584,7 +1584,7 @@ main (int argc, char *argv[])
 			retval = PK_EXIT_CODE_FILE_NOT_FOUND;
 			goto out;
 		}
-		nowait = !pk_console_download_packages (argv+3, value, &error);
+		run_mainloop = pk_console_download_packages (argv+3, value, &error);
 
 	} else if (strcmp (mode, "accept-eula") == 0) {
 		if (value == NULL) {
@@ -1600,9 +1600,9 @@ main (int argc, char *argv[])
 	} else if (strcmp (mode, "update") == 0) {
 		if (value == NULL) {
 			/* do the system update */
-			nowait = !pk_console_update_system (filters, &error);
+			run_mainloop = pk_console_update_system (filters, &error);
 		} else {
-			nowait = !pk_console_update_packages (argv+2, &error);
+			run_mainloop = pk_console_update_packages (argv+2, &error);
 		}
 
 	} else if (strcmp (mode, "resolve") == 0) {
@@ -1679,7 +1679,7 @@ main (int argc, char *argv[])
 			retval = PK_EXIT_CODE_SYNTAX_INVALID;
 			goto out;
 		}
-		nowait = !pk_console_get_depends (filters, argv+2, &error);
+		run_mainloop = pk_console_get_depends (filters, argv+2, &error);
 
 	} else if (strcmp (mode, "get-distro-upgrades") == 0) {
 		pk_client_get_distro_upgrades_async (PK_CLIENT(task), cancellable,
@@ -1693,7 +1693,7 @@ main (int argc, char *argv[])
 			retval = PK_EXIT_CODE_SYNTAX_INVALID;
 			goto out;
 		}
-		nowait = !pk_console_get_update_detail (argv+2, &error);
+		run_mainloop = pk_console_get_update_detail (argv+2, &error);
 
 	} else if (strcmp (mode, "get-requires") == 0) {
 		if (value == NULL) {
@@ -1702,7 +1702,7 @@ main (int argc, char *argv[])
 			retval = PK_EXIT_CODE_SYNTAX_INVALID;
 			goto out;
 		}
-		nowait = !pk_console_get_requires (filters, argv+2, &error);
+		run_mainloop = pk_console_get_requires (filters, argv+2, &error);
 
 	} else if (strcmp (mode, "what-provides") == 0) {
 		if (value == NULL) {
@@ -1722,7 +1722,7 @@ main (int argc, char *argv[])
 			retval = PK_EXIT_CODE_SYNTAX_INVALID;
 			goto out;
 		}
-		nowait = !pk_console_get_details (argv+2, &error);
+		run_mainloop = pk_console_get_details (argv+2, &error);
 
 	} else if (strcmp (mode, "get-files") == 0) {
 		if (value == NULL) {
@@ -1731,7 +1731,7 @@ main (int argc, char *argv[])
 			retval = PK_EXIT_CODE_SYNTAX_INVALID;
 			goto out;
 		}
-		nowait = !pk_console_get_files (argv+2, &error);
+		run_mainloop = pk_console_get_files (argv+2, &error);
 
 	} else if (strcmp (mode, "get-updates") == 0) {
 		pk_task_get_updates_async (PK_TASK (task),filters, cancellable,
@@ -1772,7 +1772,7 @@ main (int argc, char *argv[])
 		g_strdelimit (text, ";", '\n');
 		g_print ("%s\n", text);
 		g_free (text);
-		nowait = TRUE;
+		run_mainloop = FALSE;
 
 	} else if (strcmp (mode, "get-filters") == 0) {
 		g_object_get (control,
@@ -1782,7 +1782,7 @@ main (int argc, char *argv[])
 		g_strdelimit (text, ";", '\n');
 		g_print ("%s\n", text);
 		g_free (text);
-		nowait = TRUE;
+		run_mainloop = FALSE;
 
 	} else if (strcmp (mode, "get-groups") == 0) {
 		g_object_get (control,
@@ -1792,7 +1792,7 @@ main (int argc, char *argv[])
 		g_strdelimit (text, ";", '\n');
 		g_print ("%s\n", text);
 		g_free (text);
-		nowait = TRUE;
+		run_mainloop = FALSE;
 
 	} else if (strcmp (mode, "get-transactions") == 0) {
 		pk_client_get_old_transactions_async (PK_CLIENT(task), 10, cancellable,
@@ -1816,7 +1816,7 @@ main (int argc, char *argv[])
 	}
 
 	/* do we wait for the method? */
-	if (!nowait && error == NULL)
+	if (run_mainloop && error == NULL)
 		g_main_loop_run (loop);
 
 out:
@@ -1826,6 +1826,9 @@ out:
 		if (retval == EXIT_SUCCESS)
 			retval = EXIT_FAILURE;
 	}
+
+	/* stop listening for polkit questions */
+	pk_polkit_agent_close ();
 
 	g_free (options_help);
 	g_free (filter);

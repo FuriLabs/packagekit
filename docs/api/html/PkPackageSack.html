@@ -3,7 +3,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>PkPackageSack</title>
-<meta name="generator" content="DocBook XSL Stylesheets V1.76.1">
+<meta name="generator" content="DocBook XSL Stylesheets V1.77.1">
 <link rel="home" href="index.html" title="PackageKit Reference Manual">
 <link rel="up" href="libpackagekit-gobject.html" title="libpackagekit GObjects">
 <link rel="prev" href="PkMessage.html" title="PkMessage">
@@ -183,8 +183,11 @@ to add package or update details.
 <p>
 Adds a package to the sack.
 </p>
-<div class="variablelist"><table border="0">
+<div class="variablelist"><table border="0" class="variablelist">
+<colgroup>
 <col align="left" valign="top">
+<col>
+</colgroup>
 <tbody>
 <tr>
 <td><p><span class="term"><em class="parameter"><code>sack</code></em> :</span></p></td>
@@ -212,8 +215,11 @@ Adds a package to the sack.
 <p>
 Adds a package reference to the sack.
 </p>
-<div class="variablelist"><table border="0">
+<div class="variablelist"><table border="0" class="variablelist">
+<colgroup>
 <col align="left" valign="top">
+<col>
+</colgroup>
 <tbody>
 <tr>
 <td><p><span class="term"><em class="parameter"><code>sack</code></em> :</span></p></td>
@@ -247,8 +253,11 @@ Adds a package reference to the sack.
 <p>
 Adds packages from package-list file to a PkPackageSack.
 </p>
-<div class="variablelist"><table border="0">
+<div class="variablelist"><table border="0" class="variablelist">
+<colgroup>
 <col align="left" valign="top">
+<col>
+</colgroup>
 <tbody>
 <tr>
 <td><p><span class="term"><em class="parameter"><code>sack</code></em> :</span></p></td>
@@ -278,8 +287,11 @@ Adds packages from package-list file to a PkPackageSack.
 <p>
 Empty all the packages from the sack
 </p>
-<div class="variablelist"><table border="0">
+<div class="variablelist"><table border="0" class="variablelist">
+<colgroup>
 <col align="left" valign="top">
+<col>
+</colgroup>
 <tbody><tr>
 <td><p><span class="term"><em class="parameter"><code>sack</code></em> :</span></p></td>
 <td>a valid <a class="link" href="PkPackageSack.html" title="PkPackageSack"><span class="type">PkPackageSack</span></a> instance</td>
@@ -297,8 +309,11 @@ Empty all the packages from the sack
 Returns a new package sack which only matches packages that return <a href="http://library.gnome.org/devel/glib/unstable/glib-Standard-Macros.html#TRUE:CAPS"><code class="literal">TRUE</code></a>
 from the filter function.
 </p>
-<div class="variablelist"><table border="0">
+<div class="variablelist"><table border="0" class="variablelist">
+<colgroup>
 <col align="left" valign="top">
+<col>
+</colgroup>
 <tbody>
 <tr>
 <td><p><span class="term"><em class="parameter"><code>sack</code></em> :</span></p></td>
@@ -332,8 +347,11 @@ from the filter function.
 Returns a new package sack which only matches packages that match the
 specified info enum value.
 </p>
-<div class="variablelist"><table border="0">
+<div class="variablelist"><table border="0" class="variablelist">
+<colgroup>
 <col align="left" valign="top">
+<col>
+</colgroup>
 <tbody>
 <tr>
 <td><p><span class="term"><em class="parameter"><code>sack</code></em> :</span></p></td>
@@ -361,8 +379,11 @@ specified info enum value.
 Finds a package in a sack from reference. As soon as one package is found
 the search is stopped.
 </p>
-<div class="variablelist"><table border="0">
+<div class="variablelist"><table border="0" class="variablelist">
+<colgroup>
 <col align="left" valign="top">
+<col>
+</colgroup>
 <tbody>
 <tr>
 <td><p><span class="term"><em class="parameter"><code>sack</code></em> :</span></p></td>
@@ -388,8 +409,11 @@ the search is stopped.
 <p>
 Gets the package array from the sack
 </p>
-<div class="variablelist"><table border="0">
+<div class="variablelist"><table border="0" class="variablelist">
+<colgroup>
 <col align="left" valign="top">
+<col>
+</colgroup>
 <tbody>
 <tr>
 <td><p><span class="term"><em class="parameter"><code>sack</code></em> :</span></p></td>
@@ -416,8 +440,11 @@ Gets the package array from the sack
 <p>
 Merges in details about packages.
 </p>
-<div class="variablelist"><table border="0">
+<div class="variablelist"><table border="0" class="variablelist">
+<colgroup>
 <col align="left" valign="top">
+<col>
+</colgroup>
 <tbody>
 <tr>
 <td><p><span class="term"><em class="parameter"><code>sack</code></em> :</span></p></td>
@@ -457,8 +484,11 @@ Merges in details about packages.
 <p>
 Returns all the Package IDs in the sack
 </p>
-<div class="variablelist"><table border="0">
+<div class="variablelist"><table border="0" class="variablelist">
+<colgroup>
 <col align="left" valign="top">
+<col>
+</colgroup>
 <tbody>
 <tr>
 <td><p><span class="term"><em class="parameter"><code>sack</code></em> :</span></p></td>
@@ -480,8 +510,11 @@ Returns all the Package IDs in the sack
 <p>
 Gets the number of packages in the sack
 </p>
-<div class="variablelist"><table border="0">
+<div class="variablelist"><table border="0" class="variablelist">
+<colgroup>
 <col align="left" valign="top">
+<col>
+</colgroup>
 <tbody>
 <tr>
 <td><p><span class="term"><em class="parameter"><code>sack</code></em> :</span></p></td>
@@ -502,8 +535,11 @@ Gets the number of packages in the sack
 <p>
 Gets the total size of the package sack in bytes.
 </p>
-<div class="variablelist"><table border="0">
+<div class="variablelist"><table border="0" class="variablelist">
+<colgroup>
 <col align="left" valign="top">
+<col>
+</colgroup>
 <tbody>
 <tr>
 <td><p><span class="term"><em class="parameter"><code>sack</code></em> :</span></p></td>
@@ -530,8 +566,11 @@ Gets the total size of the package sack in bytes.
 <p>
 Merges in update details about packages.
 </p>
-<div class="variablelist"><table border="0">
+<div class="variablelist"><table border="0" class="variablelist">
+<colgroup>
 <col align="left" valign="top">
+<col>
+</colgroup>
 <tbody>
 <tr>
 <td><p><span class="term"><em class="parameter"><code>sack</code></em> :</span></p></td>
@@ -575,8 +614,11 @@ Merges in update details about packages.
 <p>
 Gets the result from the asynchronous function.
 </p>
-<div class="variablelist"><table border="0">
+<div class="variablelist"><table border="0" class="variablelist">
+<colgroup>
 <col align="left" valign="top">
+<col>
+</colgroup>
 <tbody>
 <tr>
 <td><p><span class="term"><em class="parameter"><code>sack</code></em> :</span></p></td>
@@ -605,8 +647,11 @@ Gets the result from the asynchronous function.
 <div class="refsect2">
 <a name="pk-package-sack-new"></a><h3>pk_package_sack_new ()</h3>
 <pre class="programlisting"><a class="link" href="PkPackageSack.html" title="PkPackageSack"><span class="returnvalue">PkPackageSack</span></a> *     pk_package_sack_new                 (<em class="parameter"><code><span class="type">void</span></code></em>);</pre>
-<div class="variablelist"><table border="0">
+<div class="variablelist"><table border="0" class="variablelist">
+<colgroup>
 <col align="left" valign="top">
+<col>
+</colgroup>
 <tbody><tr>
 <td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
 <td>a new PkPackageSack object.</td>
@@ -624,8 +669,11 @@ Gets the result from the asynchronous function.
 Removes from the package sack any packages that return <a href="http://library.gnome.org/devel/glib/unstable/glib-Standard-Macros.html#FALSE:CAPS"><code class="literal">FALSE</code></a> from the filter
 function.
 </p>
-<div class="variablelist"><table border="0">
+<div class="variablelist"><table border="0" class="variablelist">
+<colgroup>
 <col align="left" valign="top">
+<col>
+</colgroup>
 <tbody>
 <tr>
 <td><p><span class="term"><em class="parameter"><code>sack</code></em> :</span></p></td>
@@ -658,8 +706,11 @@ function.
 <p>
 Removes a package reference from the sack. The pointers have to match exactly.
 </p>
-<div class="variablelist"><table border="0">
+<div class="variablelist"><table border="0" class="variablelist">
+<colgroup>
 <col align="left" valign="top">
+<col>
+</colgroup>
 <tbody>
 <tr>
 <td><p><span class="term"><em class="parameter"><code>sack</code></em> :</span></p></td>
@@ -688,8 +739,11 @@ Removes a package reference from the sack. The pointers have to match exactly.
 Removes a package reference from the sack. As soon as one package is removed
 the search is stopped.
 </p>
-<div class="variablelist"><table border="0">
+<div class="variablelist"><table border="0" class="variablelist">
+<colgroup>
 <col align="left" valign="top">
+<col>
+</colgroup>
 <tbody>
 <tr>
 <td><p><span class="term"><em class="parameter"><code>sack</code></em> :</span></p></td>
@@ -720,8 +774,11 @@ the search is stopped.
 <p>
 Merges in details about packages using resolve.
 </p>
-<div class="variablelist"><table border="0">
+<div class="variablelist"><table border="0" class="variablelist">
+<colgroup>
 <col align="left" valign="top">
+<col>
+</colgroup>
 <tbody>
 <tr>
 <td><p><span class="term"><em class="parameter"><code>sack</code></em> :</span></p></td>

@@ -46,15 +46,13 @@ INCLUDES =						\
 	-I$(top_srcdir)/lib				\
 	$(NULL)
 
-pkbackendincludedir=$(includedir)/PackageKit/backend
-pkbackendinclude_HEADERS =				\
-	pk-backend.h					\
-	pk-backend-spawn.h
-
 pluginincludedir=$(includedir)/PackageKit/plugin
-plugininclude_HEADERS =					\
+plugininclude_HEADERS =				\
 	packagekit-plugin.h				\
+	pk-shared.h					\
 	pk-backend.h					\
+	pk-backend-spawn.h				\
+	pk-backend-job.h				\
 	pk-conf.h					\
 	pk-plugin.h					\
 	pk-transaction.h
