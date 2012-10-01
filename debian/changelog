@@ -1,4 +1,4 @@
-packagekit (0.8.4-1) UNRELEASED; urgency=low
+packagekit (0.8.4-1) experimental; urgency=low
 
   * New upstream release: 0.8.4
 
