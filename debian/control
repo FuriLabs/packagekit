@@ -262,8 +262,8 @@ Depends: app-install-data,
          ${shlibs:Depends}
 XB-Python-Version: ${python:Versions}
 Recommends: apt-xapian-index,
+            gdebi-core (>= 0.8.2),
             packagekit (= ${binary:Version})
-Suggests: gdebi-core (>= 0.8.2)
 Description: APT backend for PackageKit
  PackageKit allows performing simple software management tasks over a DBus
  interface e.g. refreshing the cache, updating, installing and removing
