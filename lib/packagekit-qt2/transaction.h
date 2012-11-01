@@ -1,7 +1,7 @@
 /*
  * This file is part of the QPackageKit project
  * Copyright (C) 2008 Adrien Bustany <madcat@mymadcat.com>
- * Copyright (C) 2010-2011 Daniel Nicoletti <dantti85-pk@yahoo.com.br>
+ * Copyright (C) 2010-2012 Daniel Nicoletti <dantti12@gmail.com>
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Library General Public
@@ -23,29 +23,25 @@
 #define PACKAGEKIT_TRANSACTION_H
 
 #include <QtCore/QObject>
+#include <QtCore/QDateTime>
 #include <QtDBus/QDBusObjectPath>
 
-#include "package.h"
-#include "packagedetails.h"
-#include "packageupdatedetails.h"
+#include "bitfield.h"
 
 namespace PackageKit {
 
-class Signature;
-class Eula;
 /**
 * \class Transaction transaction.h Transaction
 * \author Adrien Bustany \e <madcat@mymadcat.com>
-* \author Daniel Nicoletti \e <dantti85-pk@yahoo.com.br>
+* \author Daniel Nicoletti \e <dantti12@gmail.com>
 *
 * \brief A transaction represents an occurring action in PackageKit
 *
 * A Transaction is created whenever you do an asynchronous action (for example a Search, Install...).
 * This class allows you to monitor and control the flow of the action.
 *
-* The Transaction will be automatically deleted as soon as it emits the finished() signal.
-*
-* You cannot create a Transaction directly, use the functions in the Daemon class instead.
+* You should delete the transaction after finished() is emitted,
+* or use the reset() method to reuse it
 *
 * \sa Daemon
 */
@@ -57,20 +53,36 @@ class Transaction : public QObject
     Q_ENUMS(Role)
     Q_ENUMS(Error)
     Q_ENUMS(Exit)
-    Q_ENUMS(Filter)
     Q_ENUMS(Message)
     Q_ENUMS(Status)
     Q_ENUMS(MediaType)
     Q_ENUMS(Provides)
     Q_ENUMS(DistroUpgrade)
     Q_ENUMS(TransactionFlag)
+    Q_ENUMS(Restart)
+    Q_ENUMS(UpdateState)
+    Q_ENUMS(Group)
+    Q_ENUMS(Info)
+    Q_ENUMS(SigType)
+    Q_FLAGS(TransactionFlag TransactionFlags)
+    Q_FLAGS(Filter Filters)
+    Q_PROPERTY(bool allowCancel READ allowCancel NOTIFY changed)
+    Q_PROPERTY(bool isCallerActive READ isCallerActive NOTIFY changed)
+    Q_PROPERTY(QString lastPackage READ lastPackage NOTIFY changed)
+    Q_PROPERTY(uint percentage READ percentage NOTIFY changed)
+    Q_PROPERTY(uint elapsedTime READ elapsedTime NOTIFY changed)
+    Q_PROPERTY(uint remainingTime READ remainingTime NOTIFY changed)
+    Q_PROPERTY(uint speed READ speed NOTIFY changed)
+    Q_PROPERTY(qulonglong downloadSizeRemaining READ downloadSizeRemaining)
+    Q_PROPERTY(Role role READ role NOTIFY changed)
+    Q_PROPERTY(Status status READ status NOTIFY changed)
 public:
     /**
      * Describes an error at the daemon level (for example, PackageKit crashes or is unreachable)
      *
      * \sa Transaction::error
      */
-    typedef enum {
+    enum InternalError {
         InternalErrorNone = 0,
         InternalErrorUnkown,
         InternalErrorFailed,
@@ -83,50 +95,50 @@ public:
         InternalErrorInvalidFile,
         InternalErrorFunctionNotSupported,
         InternalErrorDaemonUnreachable
-    } InternalError;
+    };
 
     /**
      * Describes the role of the transaction
      */
-    enum Role {
-        RoleUnknown            = 1 << 0,
-        RoleCancel             = 1 << 1,
-        RoleGetDepends         = 1 << 2,
-        RoleGetDetails         = 1 << 3,
-        RoleGetFiles           = 1 << 4,
-        RoleGetPackages        = 1 << 5,
-        RoleGetRepoList        = 1 << 6,
-        RoleGetRequires        = 1 << 7,
-        RoleGetUpdateDetail    = 1 << 8,
-        RoleGetUpdates         = 1 << 9,
-        RoleInstallFiles       = 1 << 10,
-        RoleInstallPackages    = 1 << 11,
-        RoleInstallSignature   = 1 << 12,
-        RoleRefreshCache       = 1 << 13,
-        RoleRemovePackages     = 1 << 14,
-        RoleRepoEnable         = 1 << 15,
-        RoleRepoSetData        = 1 << 16,
-        RoleResolve            = 1 << 17,
-        RoleSearchDetails      = 1 << 18,
-        RoleSearchFile         = 1 << 19,
-        RoleSearchGroup        = 1 << 20,
-        RoleSearchName         = 1 << 21,
-        RoleUpdatePackages     = 1 << 22,
-        RoleWhatProvides       = 1 << 23,
-        RoleAcceptEula         = 1 << 24,
-        RoleDownloadPackages   = 1 << 25,
-        RoleGetDistroUpgrades  = 1 << 26,
-        RoleGetCategories      = 1 << 27,
-        RoleGetOldTransactions = 1 << 28,
-        RoleUpgradeSystem      = 1 << 29, // Since 0.6.11
-        RoleRepairSystem       = 1 << 30 // Since 0.7.2
-    };
-    Q_DECLARE_FLAGS(Roles, Role)
+    typedef enum {
+        RoleUnknown,
+        RoleCancel,
+        RoleGetDepends,
+        RoleGetDetails,
+        RoleGetFiles,
+        RoleGetPackages,
+        RoleGetRepoList,
+        RoleGetRequires,
+        RoleGetUpdateDetail,
+        RoleGetUpdates,
+        RoleInstallFiles,
+        RoleInstallPackages,
+        RoleInstallSignature,
+        RoleRefreshCache,
+        RoleRemovePackages,
+        RoleRepoEnable,
+        RoleRepoSetData,
+        RoleResolve,
+        RoleSearchDetails,
+        RoleSearchFile,
+        RoleSearchGroup,
+        RoleSearchName,
+        RoleUpdatePackages,
+        RoleWhatProvides,
+        RoleAcceptEula,
+        RoleDownloadPackages,
+        RoleGetDistroUpgrades,
+        RoleGetCategories,
+        RoleGetOldTransactions,
+        RoleUpgradeSystem, // Since 0.6.11
+        RoleRepairSystem   // Since 0.7.2
+    } Role;
+    typedef Bitfield Roles;
 
     /**
      * Describes the different types of error
      */
-    typedef enum {
+    enum Error {
         ErrorUnknown,
         ErrorOom,
         ErrorNoNetwork,
@@ -195,13 +207,13 @@ public:
         ErrorCancelledPriority,
         ErrorUnfinishedTransaction,
         ErrorLockRequired
-    } Error;
+    };
 
     /**
      * Describes how the transaction finished
      * \sa Transaction::finished()
      */
-    typedef enum {
+    enum Exit {
         ExitUnknown,
         ExitSuccess,
         ExitFailed,
@@ -213,12 +225,12 @@ public:
         ExitNeedUntrusted,
         ExitCancelledPriority,
         ExitRepairRequired
-    } Exit;
+    };
 
     /**
      * Describes the different package filters
      */
-    typedef enum {
+    enum Filter {
         FilterUnknown        = 0x0000001,
         FilterNone           = 0x0000002,
         FilterInstalled      = 0x0000004,
@@ -247,13 +259,13 @@ public:
         FilterNotApplication = 0x2000000,
         /* this always has to be at the end of the list */
         FilterLast           = 0x4000000
-    } Filter;
+    };
     Q_DECLARE_FLAGS(Filters, Filter)
 
     /**
      * Describes a message's type
      */
-    typedef enum {
+    enum Message {
         MessageUnknown,
         MessageBrokenMirror,
         MessageConnectionRefused,
@@ -271,12 +283,12 @@ public:
         MessageRepoMetadataDownloadFailed,
         MessageRepoForDevelopersOnly,
         MessageOtherUpdatesHeldBack
-    } Message;
+    };
 
     /**
      * Describes the current state of the transaction
      */
-    typedef enum {
+    enum Status {
         StatusUnknown,
         StatusWait,
         StatusSetup,
@@ -313,23 +325,23 @@ public:
         StatusCheckExecutableFiles,
         StatusCheckLibraries,
         StatusCopyFiles
-    } Status;
+    };
 
     /**
      * Describes what kind of media is required
      */
-    typedef enum {
+    enum MediaType {
         MediaTypeUnknown,
         MediaTypeCd,
         MediaTypeDvd,
         MediaTypeDisc
-    } MediaType;
+    };
 
     /**
      * Enum used to describe a "provides" request
      * \sa whatProvides
      */
-    typedef enum {
+    enum Provides {
         ProvidesUnknown,
         ProvidesAny,
         ProvidesModalias,
@@ -342,39 +354,143 @@ public:
         ProvidesSharedLib,
         ProvidesPythonModule,
         ProvidesLanguageSupport
-    } Provides;
+    };
 
     /**
      * Describes an distro upgrade state
      */
-    typedef enum {
+    enum DistroUpgrade {
         DistroUpgradeUnknown,
         DistroUpgradeStable,
         DistroUpgradeUnstable
-    } DistroUpgrade;
+    };
 
     /**
      * Describes the type of distribution upgrade to perform
      * \sa upgradeSystem()
      */
-    typedef enum {
+    enum UpgradeKind {
         UpgradeKindUnknown,
         UpgradeKindMinimal,
         UpgradeKindDefault,
         UpgradeKindComplete
-    } UpgradeKind;
+    };
 
     /**
      * Describes the type of distribution upgrade to perform
      * \sa upgradeSystem()
      */
-    typedef enum {
+    enum TransactionFlag {
         TransactionFlagNone         = 1 << 0, // Since: 0.8.1
         TransactionFlagOnlyTrusted  = 1 << 1, // Since: 0.8.1
         TransactionFlagSimulate     = 1 << 2, // Since: 0.8.1
         TransactionFlagOnlyDownload = 1 << 3  // Since: 0.8.1
-    } TransactionFlag;
+    };
     Q_DECLARE_FLAGS(TransactionFlags, TransactionFlag)
+
+    /**
+     * Describes a restart type
+     */
+    enum Restart {
+        RestartUnknown,
+        RestartNone,
+        RestartApplication,
+        RestartSession,
+        RestartSystem,
+        RestartSecuritySession, /* a library that is being used by this package has been updated for security */
+        RestartSecuritySystem
+    };
+
+    /**
+     * Describes an update's state
+     */
+    enum UpdateState {
+        UpdateStateUnknown,
+        UpdateStateStable,
+        UpdateStateUnstable,
+        UpdateStateTesting
+    };
+
+    /**
+     * Describes the different package groups
+     */
+    enum Group {
+        GroupUnknown,
+        GroupAccessibility,
+        GroupAccessories,
+        GroupAdminTools,
+        GroupCommunication,
+        GroupDesktopGnome,
+        GroupDesktopKde,
+        GroupDesktopOther,
+        GroupDesktopXfce,
+        GroupEducation,
+        GroupFonts,
+        GroupGames,
+        GroupGraphics,
+        GroupInternet,
+        GroupLegacy,
+        GroupLocalization,
+        GroupMaps,
+        GroupMultimedia,
+        GroupNetwork,
+        GroupOffice,
+        GroupOther,
+        GroupPowerManagement,
+        GroupProgramming,
+        GroupPublishing,
+        GroupRepos,
+        GroupSecurity,
+        GroupServers,
+        GroupSystem,
+        GroupVirtualization,
+        GroupScience,
+        GroupDocumentation,
+        GroupElectronics,
+        GroupCollections,
+        GroupVendor,
+        GroupNewest
+    };
+    typedef Bitfield Groups;
+
+    /**
+     * Describes the state of a package
+     */
+    enum Info {
+        InfoUnknown,
+        InfoInstalled,
+        InfoAvailable,
+        InfoLow,
+        InfoEnhancement,
+        InfoNormal,
+        InfoBugfix,
+        InfoImportant,
+        InfoSecurity,
+        InfoBlocked,
+        InfoDownloading,
+        InfoUpdating,
+        InfoInstalling,
+        InfoRemoving,
+        InfoCleanup,
+        InfoObsoleting,
+        InfoCollectionInstalled,
+        InfoCollectionAvailable,
+        InfoFinished,
+        InfoReinstalling,
+        InfoDowngrading,
+        InfoPreparing,
+        InfoDecompressing,
+        InfoUntrusted,
+        InfoTrusted
+    };
+
+    /**
+     * Describes a signature type
+     */
+    enum SigType {
+        SigTypeUnknown,
+        SigTypeGpg
+    };
 
     /**
      * Create a transaction object with a new transaction id
@@ -448,7 +564,7 @@ public:
      *
      * \return the last package processed by the transaction
      */
-    Package lastPackage() const;
+    QString lastPackage() const;
 
     /**
      * The percentage complete of the whole transaction.
@@ -478,7 +594,6 @@ public:
      * Returns the number of bytes remaining to download
      * \return bytes to download, or 0 if nothing is left to download.
      */
-    Q_PROPERTY(qulonglong DownloadSizeRemaining READ downloadSizeRemaining)
     qulonglong downloadSizeRemaining() const;
 
     /**
@@ -487,6 +602,12 @@ public:
      * \return the current role of the transaction
      */
     Transaction::Role role() const;
+
+    /**
+     * Returns the current state of the transaction
+     * \return a Transaction::Status value describing the status of the transaction
+     */
+    Status status() const;
 
     /**
      * \brief Tells the underlying package manager to use the given \p hints
@@ -506,19 +627,18 @@ public:
      *
      * \sa Daemon::setHints
      */
-    void setHints(const QStringList &hints);
+    Q_INVOKABLE void setHints(const QStringList &hints);
 
     /**
      * Convenience function to set this transaction \p hints
      * \sa getDetails(const QStringList &hints)
      */
-    void setHints(const QString &hints);
+    Q_INVOKABLE void setHints(const QString &hints);
 
     /**
-     * Returns the current state of the transaction
-     * \return a Transaction::Status value describing the status of the transaction
+     * Reset the transaction for reuse
      */
-    Status status() const;
+    Q_INVOKABLE void reset();
 
     /**
      * Returns the date at which the transaction was created
@@ -570,26 +690,26 @@ public:
      * \note You need to manually restart the transaction which triggered the EULA.
      * \sa eulaRequired()
      */
-    void acceptEula(const QString &eulaId);
+    void acceptEula(const QString &eulaID);
 
     /**
      * Download the given \p packages to a temp dir, if \p storeInCache is true
      * the download will be stored in the package manager cache
      */
-    void downloadPackages(const PackageList &packages, bool storeInCache = false);
+    void downloadPackages(const QStringList &packageIDs, bool storeInCache = false);
 
     /**
      * This is a convenience function to download this \p package
-     * \sa downloadPackages(const PackageList &packages, bool storeInCache = false)
+     * \sa downloadPackages(const QStringList &packageIDs, bool storeInCache = false)
      */
-    void downloadPackage(const Package &package, bool storeInCache = false);
+    Q_INVOKABLE void downloadPackage(const QString &packageID, bool storeInCache = false);
 
     /**
      * Returns the collection categories
      *
      * \sa category
      */
-    void getCategories();
+    Q_INVOKABLE void getCategories();
 
     /**
      * \brief Gets the list of dependencies for the given \p packages
@@ -600,13 +720,13 @@ public:
      *
      * \note This method emits \sa package()
      */
-    void getDepends(const PackageList &packages, Filters filters, bool recursive = false);
+    Q_INVOKABLE void getDepends(const QStringList &packageIDs, Filters filters, bool recursive = false);
 
     /**
      * Convenience function to get the dependencies of this \p package
-     * \sa getDetails(const PackageList &packages, Filters filters, bool recursive = false)
+     * \sa getDetails(const QStringList &packageIDs, Filters filters, bool recursive = false)
      */
-    void getDepends(const Package &package, Filters filters , bool recursive = false);
+    Q_INVOKABLE void getDepends(const QString &packageID, Filters filters , bool recursive = false);
 
     /**
      * Gets more details about the given \p packages
@@ -615,26 +735,26 @@ public:
      * \note This method emits \sa package()
      * with details set
      */
-    void getDetails(const PackageList &packages);
+    Q_INVOKABLE void getDetails(const QStringList &packageIDs);
 
     /**
      * Convenience function to get the details about this \p package
-     * \sa getDetails(const PackageList &packages)
+     * \sa getDetails(const QStringList &packageIDs)
      */
-    void getDetails(const Package &package);
+    Q_INVOKABLE void getDetails(const QString &packageID);
 
     /**
      * Gets the files contained in the given \p packages
      *
      * \note This method emits \sa files()
      */
-    void getFiles(const PackageList &packages);
+    Q_INVOKABLE void getFiles(const QStringList &packageIDs);
 
     /**
      * Convenience function to get the files contained in this \p package
-     * \sa getRequires(const PackageList &packages)
+     * \sa getRequires(const QStringList &packageIDs)
      */
-    void getFiles(const Package &packages);
+    Q_INVOKABLE void getFiles(const QString &packageIDs);
 
     /**
      * \brief Gets the last \p number finished transactions
@@ -642,21 +762,21 @@ public:
      * \note You must delete these transactions yourself
      * \note This method emits \sa transaction()
      */
-    void getOldTransactions(uint number);
+    Q_INVOKABLE void getOldTransactions(uint number);
 
     /**
      * Gets all the packages matching the given \p filters
      *
      * \note This method emits \sa package()
      */
-    void getPackages(Filters filters = FilterNone);
+    Q_INVOKABLE void getPackages(Filters filters = FilterNone);
 
     /**
      * Gets the list of software repositories matching the given \p filters
      *
      * \note This method emits \sa repository()
      */
-    void getRepoList(Filters filter = FilterNone);
+    Q_INVOKABLE void getRepoList(Filters filter = FilterNone);
 
     /**
      * \brief Searches for the packages requiring the given \p packages
@@ -667,26 +787,26 @@ public:
      *
      * \note This method emits \sa package()
      */
-    void getRequires(const PackageList &packages, Filters filters, bool recursive = false);
+    Q_INVOKABLE void getRequires(const QStringList &packageIDs, Filters filters, bool recursive = false);
 
     /**
      * Convenience function to get packages requiring this package
-     * \sa getRequires(const PackageList &packages, Filters filters, bool recursive = false)
+     * \sa getRequires(const QStringList &packageIDs, Filters filters, bool recursive = false)
      */
-    void getRequires(const Package &package, Filters filters, bool recursive = false);
+    Q_INVOKABLE void getRequires(const QString &packageID, Filters filters, bool recursive = false);
 
     /**
-     * Retrieves more details about the update for the given \p packages
+     * Retrieves more details about the update for the given \p packageIDs
      *
      * \note This method emits \sa updateDetail()
      */
-    void getUpdatesDetails(const PackageList &packages);
+    Q_INVOKABLE void getUpdatesDetails(const QStringList &packageIDs);
 
     /**
      * Convenience function to get update details
-     * \sa getUpdateDetail(const PackageList &packages)
+     * \sa getUpdateDetail(const QStringList &packageIDs)
      */
-    void getUpdateDetail(const Package &package);
+    Q_INVOKABLE void getUpdateDetail(const QString &packageID);
 
     /**
      * \p Gets the available updates
@@ -695,14 +815,14 @@ public:
      *
      * \note This method emits \sa package()
      */
-    void getUpdates(Filters filters = FilterNone);
+    Q_INVOKABLE void getUpdates(Filters filters = FilterNone);
 
     /**
      * Retrieves the available distribution upgrades
      *
      * \note This method emits \sa distroUpgrade()
      */
-    void getDistroUpgrades();
+    Q_INVOKABLE void getDistroUpgrades();
 
     /**
      * \brief Installs the local packages \p files
@@ -712,13 +832,13 @@ public:
      * \note This method emits \sa package()
      * and \sa changed()
      */
-    void installFiles(const QStringList &files, TransactionFlags flags = TransactionFlagOnlyTrusted);
+    Q_INVOKABLE void installFiles(const QStringList &files, TransactionFlags flags = TransactionFlagOnlyTrusted);
 
     /**
      * Convenience function to install a file
      * \sa installFiles(const QStringList &files, TransactionFlags flags)
      */
-    void installFile(const QString &file, TransactionFlags flags = TransactionFlagOnlyTrusted);
+    Q_INVOKABLE void installFile(const QString &file, TransactionFlags flags = TransactionFlagOnlyTrusted);
 
     /**
      * Install the given \p packages
@@ -728,27 +848,27 @@ public:
      * \note This method emits \sa package()
      * and \sa changed()
      */
-    void installPackages(const PackageList &packages, TransactionFlags flags = TransactionFlagOnlyTrusted);
+    Q_INVOKABLE void installPackages(const QStringList &packageIDs, TransactionFlags flags = TransactionFlagOnlyTrusted);
 
     /**
      * Convenience function to install a package
-     * \sa installPackages(const PackageList &packages, TransactionFlags flags)
+     * \sa installPackages(const QStringList &packageIDs, TransactionFlags flags)
      */
-    void installPackage(const Package &package, TransactionFlags flags = TransactionFlagOnlyTrusted);
+    Q_INVOKABLE void installPackage(const QString &packageID, TransactionFlags flags = TransactionFlagOnlyTrusted);
 
     /**
      * \brief Installs a signature
      *
      * \p type, \p keyId and \p package generally come from the Transaction::repoSignatureRequired
      */
-    void installSignature(const Signature &signature);
+    Q_INVOKABLE void installSignature(SigType type, const QString &keyID, const QString &packageID);
 
     /**
      * Refreshes the package manager's cache
      *
      * \note This method emits \sa changed()
      */
-    void refreshCache(bool force);
+    Q_INVOKABLE void refreshCache(bool force);
 
     /**
      * \brief Removes the given \p packages
@@ -760,28 +880,28 @@ public:
      * \note This method emits \sa package()
      * and \sa changed()
      */
-    void removePackages(const PackageList  &packages, bool allowDeps = false, bool autoRemove = false, TransactionFlags flags = TransactionFlagOnlyTrusted);
+    Q_INVOKABLE void removePackages(const QStringList &packageIDs, bool allowDeps = false, bool autoRemove = false, TransactionFlags flags = TransactionFlagOnlyTrusted);
 
     /**
      * Convenience function to remove a package
      * \sa removePackages(const PackageList  &packages, bool allowDeps = false, bool autoRemove = false, TransactionFlags flags)
      */
-    void removePackage(const Package &package, bool allowDeps = false, bool autoRemove = false, TransactionFlags flags = TransactionFlagOnlyTrusted);
+    Q_INVOKABLE void removePackage(const QString &packageID, bool allowDeps = false, bool autoRemove = false, TransactionFlags flags = TransactionFlagOnlyTrusted);
 
     /**
      * Repairs a broken system
      */
-    void repairSystem(TransactionFlags flags = TransactionFlagOnlyTrusted);
+    Q_INVOKABLE void repairSystem(TransactionFlags flags = TransactionFlagOnlyTrusted);
 
     /**
      * Activates or disables a repository
      */
-    void repoEnable(const QString &repoId, bool enable = true);
+    Q_INVOKABLE void repoEnable(const QString &repoId, bool enable = true);
 
     /**
      * Sets a repository's parameter
      */
-    void repoSetData(const QString &repoId, const QString &parameter, const QString &value);
+    Q_INVOKABLE void repoSetData(const QString &repoId, const QString &parameter, const QString &value);
 
     /**
      * \brief Tries to create a Package object from the package's name
@@ -790,13 +910,13 @@ public:
      *
      * \note This method emits \sa package()
      */
-    void resolve(const QStringList &packageNames, Filters filters = FilterNone);
+    Q_INVOKABLE void resolve(const QStringList &packageNames, Filters filters = FilterNone);
 
     /**
      * Convenience function to remove a package name
      * \sa resolve(const QStringList &packageNames, Filters filters = FilterNone)
      */
-    void resolve(const QString &packageName, Filters filters = FilterNone);
+    Q_INVOKABLE void resolve(const QString &packageName, Filters filters = FilterNone);
 
     /**
      * \brief Search in the packages files
@@ -805,13 +925,13 @@ public:
      *
      * \note This method emits \sa package()
      */
-    void searchFiles(const QStringList &search, Filters filters = FilterNone);
+    Q_INVOKABLE void searchFiles(const QStringList &search, Filters filters = FilterNone);
 
     /**
      * Convenience function to search for a file
      * \sa searchFiles(const QStringList &search, Filters filters = FilterNone)
      */
-    void searchFiles(const QString &search, Filters filters = FilterNone);
+    Q_INVOKABLE void searchFiles(const QString &search, Filters filters = FilterNone);
 
     /**
      * \brief Search in the packages details
@@ -820,13 +940,13 @@ public:
      *
      * \note This method emits \sa package()
      */
-    void searchDetails(const QStringList &search, Filters filters = FilterNone);
+    Q_INVOKABLE void searchDetails(const QStringList &search, Filters filters = FilterNone);
 
     /**
      * Convenience function to search by details
      * \sa searchDetails(const QStringList &search, Filters filters = FilterNone)
      */
-    void searchDetails(const QString &search, Filters filters = FilterNone);
+    Q_INVOKABLE void searchDetails(const QString &search, Filters filters = FilterNone);
 
     /**
      * \brief Lists all the packages in the given \p group
@@ -837,13 +957,19 @@ public:
      *
      * \note This method emits \sa package()
      */
-    void searchGroups(const QStringList &groups, Filters filters = FilterNone);
+    Q_INVOKABLE void searchGroups(const QStringList &groups, Filters filters = FilterNone);
 
     /**
      * Convenience function to search by group string
      * \sa searchGroups(const QStringList &groups, Filters filters = FilterNone)
      */
-    void searchGroup(const QString &group, Filters filters = FilterNone);
+    Q_INVOKABLE void searchGroup(const QString &group, Filters filters = FilterNone);
+    
+    /**
+     * Convenience function to search by group enum
+     * \sa searchGroups(const QStringList &groups, Filters filters = FilterNone)
+     */
+    Q_INVOKABLE void searchGroup(Group group, Filters filters = FilterNone);
 
     /**
      * \brief Lists all the packages in the given \p group
@@ -852,7 +978,7 @@ public:
      *
      * \note This method emits \sa package()
      */
-    void searchGroups(PackageDetails::Groups group, Filters filters = FilterNone);
+    Q_INVOKABLE void searchGroups(Groups group, Filters filters = FilterNone);
 
     /**
      * \brief Search in the packages names
@@ -861,13 +987,13 @@ public:
      *
      * \note This method emits \sa package()
      */
-    void searchNames(const QStringList &search, Filters filters = FilterNone);
+    Q_INVOKABLE void searchNames(const QStringList &search, Filters filters = FilterNone);
 
     /**
      * Convenience function to search by names
      * \sa searchNames(const QStringList &search, Filters filters)
      */
-    void searchNames(const QString &search, Filters filters = FilterNone);
+    Q_INVOKABLE void searchNames(const QString &search, Filters filters = FilterNone);
 
     /**
      * Update the given \p packages
@@ -876,13 +1002,13 @@ public:
      * \note This method emits \sa package()
      * and \sa changed()
      */
-    void updatePackages(const PackageList &packages, TransactionFlags flags = TransactionFlagOnlyTrusted);
+    Q_INVOKABLE void updatePackages(const QStringList &packageIDs, TransactionFlags flags = TransactionFlagOnlyTrusted);
 
     /**
      * Convenience function to update a package
-     * \sa updatePackages(const PackageList &packages, TransactionFlags flags)
+     * \sa updatePackages(const QStringList &packageIDs, TransactionFlags flags)
      */
-    void updatePackage(const Package &package, TransactionFlags flags = TransactionFlagOnlyTrusted);
+    Q_INVOKABLE void updatePackage(const QString &packageID, TransactionFlags flags = TransactionFlagOnlyTrusted);
 
     /**
      * Updates the whole system
@@ -902,26 +1028,50 @@ public:
      * \li error()
      * \li package()
      */
-    void upgradeSystem(const QString &distroId, UpgradeKind kind);
+    Q_INVOKABLE void upgradeSystem(const QString &distroId, UpgradeKind kind);
 
     /**
      * Searchs for a package providing a file/a mimetype
      *
      * \note This method emits \sa package()
      */
-    void whatProvides(Provides type, const QStringList &search, Filters filters = FilterNone);
+    Q_INVOKABLE void whatProvides(Provides type, const QStringList &search, Filters filters = FilterNone);
 
     /**
      * Convenience function to search for what provides
      * \sa whatProvides(Provides type, const QStringList &search, Filters filters = FilterNone)
      */
-    void whatProvides(Provides type, const QString &search, Filters filters = FilterNone);
+    Q_INVOKABLE void whatProvides(Provides type, const QString &search, Filters filters = FilterNone);
 
-public Q_SLOTS:
     /**
      * Cancels the transaction
      */
-    void cancel();
+    Q_INVOKABLE void cancel();
+
+    /**
+     * Returns the package name from the \p packageID
+     */
+    static QString packageName(const QString &packageID);
+
+    /**
+     * Returns the package version from the \p packageID
+     */
+    static QString packageVersion(const QString &packageID);
+
+    /**
+     * Returns the package arch from the \p packageID
+     */
+    static QString packageArch(const QString &packageID);
+
+    /**
+     * Returns the package data from the \p packageID
+     */
+    static QString packageData(const QString &packageID);
+
+    /**
+     * Returns the package icon from the \p packageID
+     */
+    static QString packageIcon(const QString &packageID);
 
 Q_SIGNALS:
     /**
@@ -963,7 +1113,7 @@ Q_SIGNALS:
      * \note You will need to relaunch the transaction after accepting the EULA
      * \sa acceptEula()
      */
-    void eulaRequired(const PackageKit::Eula &eula);
+    void eulaRequired(const QString &eulaID, const QString &packageID, const QString &vendor, const QString &licenseAgreement);
 
     /**
      * Emitted when a different media is required in order to fetch packages
@@ -977,13 +1127,13 @@ Q_SIGNALS:
      * Sends the \p item current progress \p percentage
      * Currently only a package id is emitted
      */
-    void ItemProgress(const QString &id, uint status, uint percentage);
+    void itemProgress(const QString &itemID, PackageKit::Transaction::Status status, uint percentage);
 
     /**
      * Sends the \p filenames contained in package \p package
      * \sa getFiles()
      */
-    void files(const PackageKit::Package &package, const QStringList &filenames);
+    void files(const QString &packageID, const QStringList &filenames);
 
     /**
      * Emitted when the transaction finishes
@@ -1002,35 +1152,58 @@ Q_SIGNALS:
     /**
      * Emitted when the transaction sends a new package
      */
-    void package(const PackageKit::Package &package);
+    void package(PackageKit::Transaction::Info info, const QString &packageID, const QString &summary);
 
     /**
-     * Emitted when the transaction sends a new package
+     * Emitted when the transaction sends details of a package
      */
-    void packageDetails(const PackageKit::PackageDetails &package);
+    void details(const QString &packageID,
+                 const QString &license,
+                 PackageKit::Transaction::Group group,
+                 const QString &detail,
+                 const QString &url,
+                 qulonglong size);
 
     /**
-     * Emitted when the transaction sends a new package
+     * Emitted when the transaction sends details of an update
      */
-    void packageUpdateDetails(const PackageKit::PackageUpdateDetails &package);
+    void updateDetail(const QString &packageID,
+                      const QStringList &updates,
+                      const QStringList &obsoletes,
+                      const QStringList &vendorUrls,
+                      const QStringList &bugzillaUrls,
+                      const QStringList &cveUrls,
+                      PackageKit::Transaction::Restart restart,
+                      const QString &updateText,
+                      const QString &changelog,
+                      PackageKit::Transaction::UpdateState state,
+                      const QDateTime &issued,
+                      const QDateTime &updated);
 
     /**
       * Sends some additional details about a software repository
       * \sa getRepoList()
       */
-    void repoDetail(const QString& repoId, const QString& description, bool enabled);
+    void repoDetail(const QString &repoId, const QString &description, bool enabled);
 
     /**
      * Emitted when the user has to validate a repository's signature
      * \sa installSignature()
      */
-    void repoSignatureRequired(const PackageKit::Signature &info);
+    void repoSignatureRequired(const QString &packageID,
+                               const QString &repoName,
+                               const QString &keyUrl,
+                               const QString &keyUserid,
+                               const QString &keyId,
+                               const QString &keyFingerprint,
+                               const QString &keyTimestamp,
+                               PackageKit::Transaction::SigType type);
 
     /**
      * Indicates that a restart is required
      * \p package is the package who triggered the restart signal
      */
-    void requireRestart(PackageKit::PackageUpdateDetails::Restart type, const PackageKit::Package &package);
+    void requireRestart(PackageKit::Transaction::Restart type, const QString &packageID);
 
     /**
      * Sends an old transaction
@@ -1045,7 +1218,7 @@ protected:
 
 private:
     friend class Daemon;
-    void init(const QDBusObjectPath &tid = QDBusObjectPath());
+    bool init(const QDBusObjectPath &tid = QDBusObjectPath());
     Transaction(const QDBusObjectPath &tid,
                 const QString &timespec,
                 bool succeeded,
@@ -1057,24 +1230,27 @@ private:
                 QObject *parent);
     Q_DECLARE_PRIVATE(Transaction);
     Q_DISABLE_COPY(Transaction)
-    Q_PRIVATE_SLOT(d_ptr, void details(const QString &pid, const QString &license, uint group, const QString &detail, const QString &url, qulonglong size));
+    Q_PRIVATE_SLOT(d_ptr, void Details(const QString &pid, const QString &license, uint group, const QString &detail, const QString &url, qulonglong size));
     Q_PRIVATE_SLOT(d_ptr, void distroUpgrade(uint type, const QString &name, const QString &description));
     Q_PRIVATE_SLOT(d_ptr, void errorCode(uint error, const QString &details));
-    Q_PRIVATE_SLOT(d_ptr, void eulaRequired(const QString &eulaId, const QString &pid, const QString &vendor, const QString &licenseAgreement));
     Q_PRIVATE_SLOT(d_ptr, void mediaChangeRequired(uint mediaType, const QString &mediaId, const QString &mediaText));
     Q_PRIVATE_SLOT(d_ptr, void files(const QString &pid, const QStringList &filenames));
     Q_PRIVATE_SLOT(d_ptr, void finished(uint exitCode, uint runtime));
     Q_PRIVATE_SLOT(d_ptr, void message(uint type, const QString &message));
-    Q_PRIVATE_SLOT(d_ptr, void package(uint info, const QString &pid, const QString &summary));
-    Q_PRIVATE_SLOT(d_ptr, void repoSignatureRequired(const QString &pid, const QString &repoName, const QString &keyUrl, const QString &keyUserid, const QString &keyId, const QString &keyFingerprint, const QString &keyTimestamp, uint type));
+    Q_PRIVATE_SLOT(d_ptr, void Package(uint info, const QString &pid, const QString &summary));
+    Q_PRIVATE_SLOT(d_ptr, void ItemProgress(const QString &itemID, uint status, uint percentage));
+    Q_PRIVATE_SLOT(d_ptr, void RepoSignatureRequired(const QString &pid, const QString &repoName, const QString &keyUrl, const QString &keyUserid, const QString &keyId, const QString &keyFingerprint, const QString &keyTimestamp, uint type));
     Q_PRIVATE_SLOT(d_ptr, void requireRestart(uint type, const QString &pid));
     Q_PRIVATE_SLOT(d_ptr, void transaction(const QDBusObjectPath &oldTid, const QString &timespec, bool succeeded, uint role, uint duration, const QString &data, uint uid, const QString &cmdline));
-    Q_PRIVATE_SLOT(d_ptr, void updateDetail(const QString &package_id, const QStringList &updates, const QStringList &obsoletes, const QStringList &vendor_urls, const QStringList &bugzilla_urls, const QStringList &cve_urls, uint restart, const QString &update_text, const QString &changelog, uint state, const QString &issued, const QString &updated));
+    Q_PRIVATE_SLOT(d_ptr, void UpdateDetail(const QString &package_id, const QStringList &updates, const QStringList &obsoletes, const QStringList &vendor_urls, const QStringList &bugzilla_urls, const QStringList &cve_urls, uint restart, const QString &update_text, const QString &changelog, uint state, const QString &issued, const QString &updated));
     Q_PRIVATE_SLOT(d_ptr, void destroy());
     Q_PRIVATE_SLOT(d_ptr, void daemonQuit());
 };
 Q_DECLARE_OPERATORS_FOR_FLAGS(Transaction::Filters)
+Q_DECLARE_OPERATORS_FOR_FLAGS(Transaction::TransactionFlags)
 
 } // End namespace PackageKit
+
+Q_DECLARE_METATYPE(PackageKit::Transaction::Info)
 
 #endif
