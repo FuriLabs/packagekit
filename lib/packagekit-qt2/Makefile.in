@@ -103,8 +103,7 @@ libpackagekit_qt2_la_DEPENDENCIES = $(am__DEPENDENCIES_1) \
 	$(am__DEPENDENCIES_1) $(am__DEPENDENCIES_1) \
 	$(am__DEPENDENCIES_1)
 am__objects_1 =
-am_libpackagekit_qt2_la_OBJECTS = signature.lo eula.lo package.lo \
-	packagedetails.lo packageupdatedetails.lo transactionproxy.lo \
+am_libpackagekit_qt2_la_OBJECTS = bitfield.lo transactionproxy.lo \
 	transactionprivate.lo transaction.lo daemonprivate.lo \
 	daemonproxy.lo daemon.lo $(am__objects_1)
 libpackagekit_qt2_la_OBJECTS = $(am_libpackagekit_qt2_la_OBJECTS)
@@ -498,7 +497,6 @@ INCLUDES = \
 
 METASOURCES = AUTO
 MOCFILES = \
-	signature.moc						\
 	daemon.moc						\
 	daemonproxy.moc						\
 	transactionproxy.moc					\
@@ -511,33 +509,15 @@ lib_LTLIBRARIES = \
 
 libpackagekit_qt2_includedir = $(includedir)/PackageKit/packagekit-qt2
 libpackagekit_qt2_include_HEADERS = \
-	Signature						\
-	signature.h						\
-	Eula							\
-	eula.h							\
+	bitfield.h						\
 	Transaction						\
 	Daemon							\
 	daemon.h						\
 	transaction.h						\
-	Package							\
-	package.h						\
-	PackageDetails						\
-	packagedetails.h					\
-	PackageUpdateDetails					\
-	packageupdatedetails.h					\
 	$(NULL)
 
 libpackagekit_qt2_la_SOURCES = \
-	signature.h						\
-	signature.cpp						\
-	eula.h							\
-	eula.cpp						\
-	package.h						\
-	package.cpp						\
-	packagedetails.h					\
-	packagedetails.cpp					\
-	packageupdatedetails.h					\
-	packageupdatedetails.cpp				\
+	bitfield.cpp						\
 	transactionproxy.h					\
 	transactionproxy.cpp					\
 	transactionprivate.h					\
@@ -678,14 +658,10 @@ mostlyclean-compile:
 distclean-compile:
 	-rm -f *.tab.c
 
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/bitfield.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/daemon.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/daemonprivate.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/daemonproxy.Plo@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/eula.Plo@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/package.Plo@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/packagedetails.Plo@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/packageupdatedetails.Plo@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/signature.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/transaction.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/transactionprivate.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/transactionproxy.Plo@am__quote@

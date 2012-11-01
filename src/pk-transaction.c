@@ -190,50 +190,76 @@ GQuark
 pk_transaction_error_quark (void)
 {
 	static GQuark quark = 0;
-	if (!quark)
-		quark = g_quark_from_static_string ("pk_transaction_error");
-	return quark;
-}
-
-/**
- * pk_transaction_error_get_type:
- **/
-#define ENUM_ENTRY(NAME, DESC) { NAME, "" #NAME "", DESC }
-GType
-pk_transaction_error_get_type (void)
-{
-	static GType etype = 0;
-
-	if (etype == 0) {
-		static const GEnumValue values[] =
-		{
-			ENUM_ENTRY (PK_TRANSACTION_ERROR_DENIED, "PermissionDenied"),
-			ENUM_ENTRY (PK_TRANSACTION_ERROR_NOT_RUNNING, "NotRunning"),
-			ENUM_ENTRY (PK_TRANSACTION_ERROR_NO_ROLE, "NoRole"),
-			ENUM_ENTRY (PK_TRANSACTION_ERROR_CANNOT_CANCEL, "CannotCancel"),
-			ENUM_ENTRY (PK_TRANSACTION_ERROR_NOT_SUPPORTED, "NotSupported"),
-			ENUM_ENTRY (PK_TRANSACTION_ERROR_NO_SUCH_TRANSACTION, "NoSuchTransaction"),
-			ENUM_ENTRY (PK_TRANSACTION_ERROR_NO_SUCH_FILE, "NoSuchFile"),
-			ENUM_ENTRY (PK_TRANSACTION_ERROR_NO_SUCH_DIRECTORY, "NoSuchDirectory"),
-			ENUM_ENTRY (PK_TRANSACTION_ERROR_TRANSACTION_EXISTS_WITH_ROLE, "TransactionExistsWithRole"),
-			ENUM_ENTRY (PK_TRANSACTION_ERROR_REFUSED_BY_POLICY, "RefusedByPolicy"),
-			ENUM_ENTRY (PK_TRANSACTION_ERROR_PACKAGE_ID_INVALID, "PackageIdInvalid"),
-			ENUM_ENTRY (PK_TRANSACTION_ERROR_SEARCH_INVALID, "SearchInvalid"),
-			ENUM_ENTRY (PK_TRANSACTION_ERROR_SEARCH_PATH_INVALID, "SearchPathInvalid"),
-			ENUM_ENTRY (PK_TRANSACTION_ERROR_FILTER_INVALID, "FilterInvalid"),
-			ENUM_ENTRY (PK_TRANSACTION_ERROR_INPUT_INVALID, "InputInvalid"),
-			ENUM_ENTRY (PK_TRANSACTION_ERROR_INVALID_STATE, "InvalidState"),
-			ENUM_ENTRY (PK_TRANSACTION_ERROR_INITIALIZE_FAILED, "InitializeFailed"),
-			ENUM_ENTRY (PK_TRANSACTION_ERROR_COMMIT_FAILED, "CommitFailed"),
-			ENUM_ENTRY (PK_TRANSACTION_ERROR_PACK_INVALID, "PackInvalid"),
-			ENUM_ENTRY (PK_TRANSACTION_ERROR_MIME_TYPE_NOT_SUPPORTED, "MimeTypeNotSupported"),
-			ENUM_ENTRY (PK_TRANSACTION_ERROR_INVALID_PROVIDE, "InvalidProvide"),
-			ENUM_ENTRY (PK_TRANSACTION_ERROR_NUMBER_OF_PACKAGES_INVALID, "NumberOfPackagesInvalid"),
-			{ 0, NULL, NULL }
-		};
-		etype = g_enum_register_static ("PkTransactionError", values);
+	if (!quark) {
+		quark = g_quark_from_static_string ("pk-transaction-error-quark");
+		g_dbus_error_register_error (quark,
+					     PK_TRANSACTION_ERROR_DENIED,
+					     PK_DBUS_INTERFACE_TRANSACTION ".Denied");
+		g_dbus_error_register_error (quark,
+					     PK_TRANSACTION_ERROR_NOT_RUNNING,
+					     PK_DBUS_INTERFACE_TRANSACTION ".NotRunning");
+		g_dbus_error_register_error (quark,
+					     PK_TRANSACTION_ERROR_NO_ROLE,
+					     PK_DBUS_INTERFACE_TRANSACTION ".NoRole");
+		g_dbus_error_register_error (quark,
+					     PK_TRANSACTION_ERROR_CANNOT_CANCEL,
+					     PK_DBUS_INTERFACE_TRANSACTION ".CannotCancel");
+		g_dbus_error_register_error (quark,
+					     PK_TRANSACTION_ERROR_NOT_SUPPORTED,
+					     PK_DBUS_INTERFACE_TRANSACTION ".NotSupported");
+		g_dbus_error_register_error (quark,
+					     PK_TRANSACTION_ERROR_NO_SUCH_TRANSACTION,
+					     PK_DBUS_INTERFACE_TRANSACTION ".NoSuchTransaction");
+		g_dbus_error_register_error (quark,
+					     PK_TRANSACTION_ERROR_NO_SUCH_FILE,
+					     PK_DBUS_INTERFACE_TRANSACTION ".NoSuchFile");
+		g_dbus_error_register_error (quark,
+					     PK_TRANSACTION_ERROR_NO_SUCH_DIRECTORY,
+					     PK_DBUS_INTERFACE_TRANSACTION ".NoSuchDirectory");
+		g_dbus_error_register_error (quark,
+					     PK_TRANSACTION_ERROR_TRANSACTION_EXISTS_WITH_ROLE,
+					     PK_DBUS_INTERFACE_TRANSACTION ".TransactionExistsWithRole");
+		g_dbus_error_register_error (quark,
+					     PK_TRANSACTION_ERROR_REFUSED_BY_POLICY,
+					     PK_DBUS_INTERFACE_TRANSACTION ".RefusedByPolicy");
+		g_dbus_error_register_error (quark,
+					     PK_TRANSACTION_ERROR_PACKAGE_ID_INVALID,
+					     PK_DBUS_INTERFACE_TRANSACTION ".PackageIdInvalid");
+		g_dbus_error_register_error (quark,
+					     PK_TRANSACTION_ERROR_SEARCH_INVALID,
+					     PK_DBUS_INTERFACE_TRANSACTION ".SearchInvalid");
+		g_dbus_error_register_error (quark,
+					     PK_TRANSACTION_ERROR_SEARCH_PATH_INVALID,
+					     PK_DBUS_INTERFACE_TRANSACTION ".PathInvalid");
+		g_dbus_error_register_error (quark,
+					     PK_TRANSACTION_ERROR_FILTER_INVALID,
+					     PK_DBUS_INTERFACE_TRANSACTION ".FilterInvalid");
+		g_dbus_error_register_error (quark,
+					     PK_TRANSACTION_ERROR_INPUT_INVALID,
+					     PK_DBUS_INTERFACE_TRANSACTION ".InputInvalid");
+		g_dbus_error_register_error (quark,
+					     PK_TRANSACTION_ERROR_INVALID_STATE,
+					     PK_DBUS_INTERFACE_TRANSACTION ".InvalidState");
+		g_dbus_error_register_error (quark,
+					     PK_TRANSACTION_ERROR_INITIALIZE_FAILED,
+					     PK_DBUS_INTERFACE_TRANSACTION ".InitializeFailed");
+		g_dbus_error_register_error (quark,
+					     PK_TRANSACTION_ERROR_COMMIT_FAILED,
+					     PK_DBUS_INTERFACE_TRANSACTION ".CommitFailed");
+		g_dbus_error_register_error (quark,
+					     PK_TRANSACTION_ERROR_INVALID_PROVIDE,
+					     PK_DBUS_INTERFACE_TRANSACTION ".InvalidProvide");
+		g_dbus_error_register_error (quark,
+					     PK_TRANSACTION_ERROR_PACK_INVALID,
+					     PK_DBUS_INTERFACE_TRANSACTION ".PackInvalid");
+		g_dbus_error_register_error (quark,
+					     PK_TRANSACTION_ERROR_MIME_TYPE_NOT_SUPPORTED,
+					     PK_DBUS_INTERFACE_TRANSACTION ".MimeTypeNotSupported");
+		g_dbus_error_register_error (quark,
+					     PK_TRANSACTION_ERROR_NUMBER_OF_PACKAGES_INVALID,
+					     PK_DBUS_INTERFACE_TRANSACTION ".NumberOfPackagesInvalid");
 	}
-	return etype;
+	return quark;
 }
 
 /**
@@ -771,7 +797,7 @@ pk_transaction_package_list_to_string (GPtrArray *array)
 	gchar *summary = NULL;
 
 	string = g_string_new ("");
-	for (i=0; i<array->len; i++) {
+	for (i = 0; i < array->len; i++) {
 		item = g_ptr_array_index (array, i);
 		g_object_get (item,
 			      "info", &info,
@@ -932,7 +958,7 @@ pk_transaction_plugin_phase (PkTransaction *transaction,
 		goto out;
 
 	/* run each plugin */
-	for (i=0; i<transaction->priv->plugins->len; i++) {
+	for (i = 0; i < transaction->priv->plugins->len; i++) {
 		plugin = g_ptr_array_index (transaction->priv->plugins, i);
 		ret = g_module_symbol (plugin->module,
 				       function,
@@ -1219,7 +1245,7 @@ pk_transaction_finished_cb (PkBackendJob *job, PkExitEnum exit_enum, PkTransacti
 			pk_transaction_db_set_data (transaction->priv->transaction_db, transaction->priv->tid, packages);
 
 		/* report to syslog */
-		for (i=0; i<array->len; i++) {
+		for (i = 0; i < array->len; i++) {
 			item = g_ptr_array_index (array, i);
 			g_object_get (item,
 				      "info", &info,
@@ -1641,7 +1667,7 @@ pk_transaction_require_restart_cb (PkBackend *backend,
 
 	/* filter out duplicates */
 	array = pk_results_get_require_restart_array (transaction->priv->results);
-	for (i=0; i<array->len; i++) {
+	for (i = 0; i < array->len; i++) {
 		item_tmp = g_ptr_array_index (array, i);
 		g_object_get (item_tmp,
 			      "package-id", &package_id_tmp,
@@ -1940,7 +1966,7 @@ pk_transaction_speed_cb (PkBackendJob *job,
 }
 
 /**
- * pk_transaction_speed_cb:
+ * pk_transaction_download_size_remaining_cb:
  **/
 static void
 pk_transaction_download_size_remaining_cb (PkBackendJob *job,
@@ -2594,7 +2620,7 @@ pk_transaction_strvalidate (const gchar *text, GError **error)
 		return FALSE;
 	}
 
-	for (i=0; i<length; i++) {
+	for (i = 0; i < length; i++) {
 		if (pk_transaction_strvalidate_char (text[i]) == FALSE) {
 			g_set_error (error, PK_TRANSACTION_ERROR, PK_TRANSACTION_ERROR_INPUT_INVALID,
 				     "Invalid input passed to daemon: char '%c' in text!", text[i]);
@@ -3926,7 +3952,7 @@ pk_transaction_try_emit_cache (PkTransaction *transaction)
 
 	/* packages */
 	package_array = pk_results_get_package_array (results);
-	for (i=0; i<package_array->len; i++) {
+	for (i = 0; i < package_array->len; i++) {
 		package = g_ptr_array_index (package_array, i);
 		g_dbus_connection_emit_signal (transaction->priv->connection,
 					       NULL,
@@ -3942,7 +3968,7 @@ pk_transaction_try_emit_cache (PkTransaction *transaction)
 
 	/* messages */
 	message_array = pk_results_get_message_array (results);
-	for (i=0; i<message_array->len; i++) {
+	for (i = 0; i < message_array->len; i++) {
 		message = g_ptr_array_index (message_array, i);
 		g_dbus_connection_emit_signal (transaction->priv->connection,
 					       NULL,
@@ -4064,7 +4090,7 @@ pk_transaction_is_supported_content_type (PkTransaction *transaction,
 	guint i;
 
 	/* can we support this one? */
-	for (i=0; i<array->len; i++) {
+	for (i = 0; i < array->len; i++) {
 		mime_type_tmp = g_ptr_array_index (array, i);
 		if (g_strcmp0 (mime_type_tmp, content_type) == 0) {
 			ret = TRUE;
@@ -4083,6 +4109,7 @@ pk_transaction_install_files (PkTransaction *transaction,
 			      GDBusMethodInvocation *context)
 {
 	gchar *full_paths_temp;
+	gchar *transaction_flags_temp;
 	gboolean ret;
 	GError *error = NULL;
 	GError *error_local = NULL;
@@ -4101,8 +4128,9 @@ pk_transaction_install_files (PkTransaction *transaction,
 		       &full_paths);
 
 	full_paths_temp = pk_package_ids_to_string (full_paths);
-	g_debug ("InstallFiles method called: %s (transaction_flags %" G_GUINT64_FORMAT ")",
-		 full_paths_temp, transaction_flags);
+	transaction_flags_temp = pk_transaction_flag_bitfield_to_string (transaction_flags);
+	g_debug ("InstallFiles method called: %s (transaction_flags: %s)",
+		 full_paths_temp, transaction_flags_temp);
 
 	/* not implemented yet */
 	if (!pk_backend_is_implemented (transaction->priv->backend,
@@ -4120,7 +4148,7 @@ pk_transaction_install_files (PkTransaction *transaction,
 	/* check all files exists and are valid */
 	length = g_strv_length (full_paths);
 
-	for (i=0; i<length; i++) {
+	for (i = 0; i < length; i++) {
 		/* exists */
 		ret = g_file_test (full_paths[i], G_FILE_TEST_EXISTS);
 		if (!ret) {
@@ -4177,6 +4205,7 @@ pk_transaction_install_files (PkTransaction *transaction,
 	}
 out:
 	g_free (full_paths_temp);
+	g_free (transaction_flags_temp);
 	g_free (content_type);
 	pk_transaction_dbus_return (context, error);
 }
@@ -4192,6 +4221,7 @@ pk_transaction_install_packages (PkTransaction *transaction,
 	gboolean ret;
 	GError *error = NULL;
 	gchar *package_ids_temp;
+	gchar *transaction_flags_temp;
 	guint length;
 	guint max_length;
 	PkBitfield transaction_flags;
@@ -4205,7 +4235,9 @@ pk_transaction_install_packages (PkTransaction *transaction,
 		       &package_ids);
 
 	package_ids_temp = pk_package_ids_to_string (package_ids);
-	g_debug ("InstallPackages method called: %s", package_ids_temp);
+	transaction_flags_temp = pk_transaction_flag_bitfield_to_string (transaction_flags);
+	g_debug ("InstallPackages method called: %s (transaction_flags: %s)",
+		 package_ids_temp, transaction_flags_temp);
 
 	/* not implemented yet */
 	if (!pk_backend_is_implemented (transaction->priv->backend,
@@ -4250,6 +4282,7 @@ pk_transaction_install_packages (PkTransaction *transaction,
 	}
 out:
 	g_free (package_ids_temp);
+	g_free (transaction_flags_temp);
 	pk_transaction_dbus_return (context, error);
 }
 
@@ -4381,6 +4414,7 @@ pk_transaction_remove_packages (PkTransaction *transaction,
 	gboolean ret;
 	GError *error = NULL;
 	gchar *package_ids_temp;
+	gchar *transaction_flags_temp;
 	guint length;
 	guint max_length;
 	gchar **package_ids;
@@ -4398,8 +4432,9 @@ pk_transaction_remove_packages (PkTransaction *transaction,
 		       &autoremove);
 
 	package_ids_temp = pk_package_ids_to_string (package_ids);
-	g_debug ("RemovePackages method called: %s, %i, %i",
-		 package_ids_temp, allow_deps, autoremove);
+	transaction_flags_temp = pk_transaction_flag_bitfield_to_string (transaction_flags);
+	g_debug ("RemovePackages method called: %s, %i, %i (transaction_flags: %s)",
+		 package_ids_temp, allow_deps, autoremove, transaction_flags_temp);
 
 	/* not implemented yet */
 	if (!pk_backend_is_implemented (transaction->priv->backend,
@@ -4445,6 +4480,7 @@ pk_transaction_remove_packages (PkTransaction *transaction,
 		goto out;
 	}
 out:
+	g_free (transaction_flags_temp);
 	g_free (package_ids_temp);
 	pk_transaction_dbus_return (context, error);
 }
@@ -4618,7 +4654,7 @@ pk_transaction_resolve (PkTransaction *transaction,
 	}
 
 	/* check each package for sanity */
-	for (i=0; i<length; i++) {
+	for (i = 0; i < length; i++) {
 		ret = pk_transaction_strvalidate (packages[i], &error);
 		if (!ret) {
 			pk_transaction_release_tid (transaction);
@@ -5065,6 +5101,7 @@ pk_transaction_update_packages (PkTransaction *transaction,
 	gboolean ret;
 	GError *error = NULL;
 	gchar *package_ids_temp;
+	gchar *transaction_flags_temp;
 	guint length;
 	guint max_length;
 	PkBitfield transaction_flags;
@@ -5078,7 +5115,9 @@ pk_transaction_update_packages (PkTransaction *transaction,
 		       &package_ids);
 
 	package_ids_temp = pk_package_ids_to_string (package_ids);
-	g_debug ("UpdatePackages method called: %s", package_ids_temp);
+	transaction_flags_temp = pk_transaction_flag_bitfield_to_string (transaction_flags);
+	g_debug ("UpdatePackages method called: %s (transaction_flags: %s)",
+		 package_ids_temp, transaction_flags_temp);
 
 	/* not implemented yet */
 	if (!pk_backend_is_implemented (transaction->priv->backend,
@@ -5123,6 +5162,7 @@ pk_transaction_update_packages (PkTransaction *transaction,
 	}
 out:
 	g_free (package_ids_temp);
+	g_free (transaction_flags_temp);
 	pk_transaction_dbus_return (context, error);
 }
 
@@ -5244,6 +5284,7 @@ pk_transaction_repair_system (PkTransaction *transaction,
 			      GDBusMethodInvocation *context)
 {
 	gboolean ret;
+	gchar *transaction_flags_temp;
 	GError *error = NULL;
 	PkBitfield transaction_flags;
 
@@ -5252,8 +5293,9 @@ pk_transaction_repair_system (PkTransaction *transaction,
 
 	g_variant_get (params, "(t)", &transaction_flags);
 
-	g_debug ("RepairSystem method called (transaction_flags %" G_GUINT64_FORMAT ")",
-		 transaction_flags);
+	transaction_flags_temp = pk_transaction_flag_bitfield_to_string (transaction_flags);
+	g_debug ("RepairSystem method called  (transaction_flags: %s)",
+		 transaction_flags_temp);
 
 	/* not implemented yet */
 	if (!pk_backend_is_implemented (transaction->priv->backend,
@@ -5277,6 +5319,7 @@ pk_transaction_repair_system (PkTransaction *transaction,
 		goto out;
 	}
 out:
+	g_free (transaction_flags_temp);
 	pk_transaction_dbus_return (context, error);
 }
 

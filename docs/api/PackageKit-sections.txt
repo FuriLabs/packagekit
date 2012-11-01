@@ -886,6 +886,12 @@ pk_source_get_type
 </SECTION>
 
 <SECTION>
+<FILE>pk-spawn-polkit-agent</FILE>
+pk_polkit_agent_close
+pk_polkit_agent_open
+</SECTION>
+
+<SECTION>
 <FILE>pk-task</FILE>
 <TITLE>PkTask</TITLE>
 PK_TASK_TYPE_ERROR
