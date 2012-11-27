@@ -13,6 +13,7 @@ PK_CONFIGURE_FLAGS = --libexecdir=/usr/lib/packagekit \
 		--disable-tests \
 		--disable-command-not-found \
 		--disable-cron \
+		--enable-python3 \
 		--enable-introspection \
 		--enable-aptcc --enable-smart \
 		--with-default-backend=aptcc \

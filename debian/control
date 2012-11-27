@@ -29,8 +29,7 @@ Build-Depends: debhelper (>= 9.0.0),
                network-manager-dev [linux-any],
                pm-utils [linux-any],
                policykit-1,
-               python-apt (>= 0.8.2),
-               python-dev (>= 2.7.2-6),
+               python3-dev (>= 3.2),
                xmlto,
                xulrunner-dev (>= 8.0) | firefox-dev (>= 8.0)
 Standards-Version: 3.9.3
@@ -187,10 +186,10 @@ Description: Plugin to install missing plugins using PackageKit
  .
  This package provides a browser plugin.
 
-Package: python-packagekit
+Package: python3-packagekit
 Architecture: all
 Section: python
-Depends: python-dbus,
+Depends: python3-dbus,
          ${misc:Depends},
          ${python:Depends}
 Recommends: packagekit
