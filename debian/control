@@ -191,9 +191,8 @@ Architecture: all
 Section: python
 Depends: python3-dbus,
          ${misc:Depends},
-         ${python:Depends}
+         ${python3:Depends}
 Recommends: packagekit
-XB-Python-Version: ${python:Versions}
 Description: PackageKit backend Python bindings
  PackageKit allows performing simple software management tasks over a DBus
  interface e.g refreshing the cache, updating, installing and removing
@@ -225,14 +224,14 @@ Description: Perform offline-updates using PackageKit
 
 Package: packagekit-backend-aptcc
 Architecture: any
-Depends: app-install-data,
+Depends: gdebi-core (>= 0.8.2),
          python,
-         python-packagekit (= ${source:Version}),
+         python3-packagekit (= ${source:Version}),
          ${misc:Depends},
          ${shlibs:Depends}
 XB-Python-Version: ${python:Versions}
-Recommends: apt-xapian-index,
-            gdebi-core (>= 0.8.2),
+Recommends: appstream-index,
+            apt-xapian-index,
             packagekit (= ${binary:Version})
 Description: APT backend for PackageKit
  PackageKit allows performing simple software management tasks over a DBus
@@ -247,7 +246,7 @@ Package: packagekit-backend-smart
 Architecture: any
 Depends: packagekit (= ${binary:Version}),
          python,
-         python-packagekit (= ${source:Version}),
+         python3-packagekit (= ${source:Version}),
          smartpm-core,
          ${misc:Depends},
          ${shlibs:Depends}
