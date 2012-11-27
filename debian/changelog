@@ -1,10 +1,11 @@
-packagekit (0.8.5-1) UNRELEASED; urgency=low
+packagekit (0.8.6-1) UNRELEASED; urgency=low
 
   * Remove Aptcc trigger which became useless
   * Recommend gdebi-core again (LP: #1060395)
-  * New upstream release: 0.8.5
+  * New upstream release: 0.8.6
+    - Many improvements and bugfixes
 
- -- Matthias Klumpp <matthias@tenstral.net>  Thu, 01 Nov 2012 20:28:11 +0100
+ -- Matthias Klumpp <matthias@tenstral.net>  Tue, 28 Nov 2012 14:11:49 +0100
 
 packagekit (0.8.4-1) experimental; urgency=low
 
