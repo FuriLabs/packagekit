@@ -50,11 +50,11 @@ sub perform_installation {
   my %selected = %{$state->{selected} || {}};
 
   print "Dependencies = \n\t";
-  print join("\n\t", map(@{$urpm->{depslist}}[$_]->name, keys %selected)), "\n";
+  print join("\n\t", map { @{$urpm->{depslist}}[$_]->name } keys %selected), "\n";
 
   # Here we have packages which cannot be installed because of dependencies
   my @unselected_uninstalled = @{$state->{unselected_uninstalled} || []};
-  if(@unselected_uninstalled) {
+  if (@unselected_uninstalled) {
     my $list = join "\n", map { $_->name . '-' . $_->version . '-' . $_->release  } @unselected_uninstalled;
   }
   # Fix me !
@@ -64,7 +64,12 @@ sub perform_installation {
   # the diplayed message in urpmi)
 
   # Here we have packages which cannot be installed
-  my @ask_unselect = urpm::select::unselected_packages($urpm, $state);
+  my @ask_unselect;
+  if (is_mageia()) {
+      @ask_unselect = urpm::select::unselected_packages($state);
+  } else {
+      @ask_unselect = urpm::select::unselected_packages($urpm, $state);
+  }
   if (@ask_unselect) {
     my $list = urpm::select::translate_why_unselected($urpm, $state, @ask_unselect);
   }
@@ -73,11 +78,16 @@ sub perform_installation {
   # that the following packages can't be installed (copy/paste from
   # the diplayed message in urpmi)
 
-  my @ask_remove = urpm::select::removed_packages($urpm, $state);
-  if(@ask_remove) {
+  my @ask_remove;
+  if (is_mageia()) {
+      @ask_remove = urpm::select::removed_packages($state);
+  } else {
+      @ask_remove = urpm::select::removed_packages($urpm, $state);
+  }
+  if (@ask_remove) {
     my $db = urpm::db_open_or_die($urpm, $urpm->{root});
     urpm::select::find_removed_from_basesystem($urpm, $db, $state, sub {
-        my $urpm = shift @_;
+        shift @_; # $urpm
         foreach (@_) {
           # Fix me 
           # Someting like that. With a clean pk error enum.
@@ -86,7 +96,7 @@ sub perform_installation {
         @_ and $no_remove = 1;
       });
     my $list = urpm::select::translate_why_removed($urpm, $state, @ask_remove);
-    if($no_remove) {
+    if ($no_remove) {
       # Fix me
       # Display message to prevent that the installation cannot continue because some
       # packages has to be removed for others to be upgraded.
@@ -100,14 +110,13 @@ sub perform_installation {
 
   # sorted by medium for format_selected_packages
   my @to_install = @{$urpm->{depslist}}[sort { $a <=> $b } keys %{$state->{selected}}]; 
-  my ($src, $binary) = partition { $_->arch eq 'src' } @to_install;
   # With packagekit, we will never install src packages.
-  @to_install = @$binary;
+  @to_install = grep { $_->arch ne 'src' } @to_install;
 
   print "\@to_install debug : \n\t";
-  print join("\n\t", map(urpm_name($_), @to_install)), "\n";
+  print join("\n\t", map { urpm_name($_) } @to_install), "\n";
 
-  my $nb_to_install = $#to_install + 1;
+  my $nb_to_install = @to_install;
   my $percentage = 0;
 
   $urpm->{nb_install} = @to_install;
@@ -123,17 +132,15 @@ sub perform_installation {
       if ($type eq 'trans') {
         print "Preparing packages installation ...\n";
         pk_print_status(PK_STATUS_ENUM_INSTALL);
-      } 
-      elsif (defined $pkg) {
+      } elsif (defined $pkg) {
         printf("Installing package %s ...\n", $pkg->name);
         pk_print_package(INFO_INSTALLING, get_package_id($pkg), $pkg->summary);
       }
-    } 
-    elsif ($subtype eq 'progress') {
+    } elsif ($subtype eq 'progress') {
       print "($type) Progress : total = ", $total, " ; amount/total = ", $amount/$total, " ; amount = ", $amount, "\n";
-      if($type eq "inst") {
+      if ($type eq "inst") {
         pk_print_percentage($percentage + ($amount/$total)*(100/$nb_to_install));
-        if(($amount/$total) == 1) {
+        if ($amount/$total == 1) {
           $percentage = $percentage + ($amount/$total)*(100/$nb_to_install);
         }
       }
@@ -141,22 +148,21 @@ sub perform_installation {
   };
 
   # Now, the script will call the urpmi main loop to make installation
-  my $exit_code = urpm::main_loop::run($urpm, $state, undef, \@ask_unselect, $requested, {
-      inst => $callback_inst,
+  my $exit_code = urpm::main_loop::run($urpm, $state, undef, \@ask_unselect, (is_mageia() ? () : $requested), {
+   inst => $callback_inst,
       trans => $callback_inst,
       trans_log => sub {
-        my ($mode, $file, $percent, $total, $eta, $speed) = @_;
+        my ($mode, $_file, $_percent, $_total, $_eta, $_speed) = @_;
         # Transfer log need to be improved.
-        if($mode eq "progress") {
+        if ($mode eq "progress") {
           pk_print_status(PK_STATUS_ENUM_DOWNLOAD);
-        }
-        elsif($mode eq "error") {
+        } elsif ($mode eq "error") {
           pk_print_error(PK_ERROR_ENUM_PACKAGE_DOWNLOAD_FAILED, "Please refresh your package list");
         }
         print "Install current mode = ", $mode, "\n";
       },
       bad_signature => sub {
-        if($options{only_trusted} eq "yes") {
+        if ($options{only_trusted} eq "yes") {
           pk_print_error(PK_ERROR_ENUM_GPG_FAILURE, "Bad or missing GPG signatures");
           undef $lock;
           undef $rpm_lock;
@@ -188,7 +194,6 @@ sub perform_file_search {
   my $db = open_rpm_db();
   $urpm->compute_installed_flags($db);
 
-  my $xml_info = 'files';
   my %result_hash;
 
   # - For each medium, we browse the xml info file,
@@ -196,7 +201,7 @@ sub perform_file_search {
   # search term given in argument. We store results 
   # in a hash.
   foreach my $medium (urpm::media::non_ignored_media($urpm)) {
-    my $xml_info_file = urpm::media::any_xml_info($urpm, $medium, ( "files", "summary" ), undef, undef);
+    my $xml_info_file = urpm::media::any_xml_info($urpm, $medium, 'files', 0);
     $xml_info_file or next;
     require urpm::xml_info;
     require urpm::xml_info_pkg;
@@ -206,9 +211,8 @@ sub perform_file_search {
     while (<$F>) {
       if (m!^<!) {
         ($fn) = /fn="(.*)"/;
-      } 
-      elsif ( (!$options{'fuzzy'} && $_ =~ /^$search_term$/)
-        || ($options{'fuzzy'} && $_ =~ /$search_term/) ) {
+      } elsif (!$options{fuzzy} && /^$search_term$/
+        || $options{fuzzy} && /$search_term/) {
         # Fix me : Replace with pk error enum.
         # $fn or $urpm->{fatal}("fast algorithm is broken, please report a bug");
         my $pkg = urpm::xml_info_pkg->new({ fn => $fn });
@@ -288,7 +292,7 @@ sub perform_requires_search {
           foreach (map { $urpm->{depslist}[$_] }
             grep { ! exists $state->{selected}{$_} && ! exists $properties{$_} }
             keys %{$requires{$n} || {}}) {
-            if (grep { URPM::ranges_overlap("$n $s", $_) } $_->requires) {
+            if (any { URPM::ranges_overlap("$n $s", $_) } $_->requires) {
               push @properties, $_->id;
               # $urpm->{debug} and $urpm->{debug}(sprintf "adding package %s (requires %s%s)", $_->name, $pkg->name, $n eq $pkg->name ? '' : " via $n");
               $properties{$_->id} = undef;
@@ -300,10 +304,10 @@ sub perform_requires_search {
   }
 
   my @depslist = @{$urpm->{depslist}};
-  my @requires = ();
-  foreach(@depslist) {
+  my @requires;
+  foreach (@depslist) {
     my $pkgid = $_->id;
-    if(grep(/^$pkgid$/, keys %{$state->{selected}})) {
+    if (any { /^$pkgid$/ } keys %{$state->{selected}}) {
       push @requires, $_;
     }
   }

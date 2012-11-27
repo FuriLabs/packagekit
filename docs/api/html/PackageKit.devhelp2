@@ -356,7 +356,7 @@
     <keyword type="enum" name="enum PkPackageSackSortType" link="PkPackageSack.html#PkPackageSackSortType-enum"/>
     <keyword type="function" name="pk_package_sack_add_package ()" link="PkPackageSack.html#pk-package-sack-add-package" since="0.5.2"/>
     <keyword type="function" name="pk_package_sack_add_package_by_id ()" link="PkPackageSack.html#pk-package-sack-add-package-by-id" since="0.5.2"/>
-    <keyword type="function" name="pk_package_sack_add_packages_from_file ()" link="PkPackageSack.html#pk-package-sack-add-packages-from-file"/>
+    <keyword type="function" name="pk_package_sack_add_packages_from_file ()" link="PkPackageSack.html#pk-package-sack-add-packages-from-file" since="0.8.6"/>
     <keyword type="function" name="pk_package_sack_clear ()" link="PkPackageSack.html#pk-package-sack-clear" since="0.5.2"/>
     <keyword type="function" name="pk_package_sack_filter ()" link="PkPackageSack.html#pk-package-sack-filter" since="0.6.3"/>
     <keyword type="function" name="pk_package_sack_filter_by_info ()" link="PkPackageSack.html#pk-package-sack-filter-by-info" since="0.6.2"/>
@@ -375,6 +375,7 @@
     <keyword type="function" name="pk_package_sack_resolve_async ()" link="PkPackageSack.html#pk-package-sack-resolve-async" since="0.5.2"/>
     <keyword type="function" name="pk_package_sack_sort ()" link="PkPackageSack.html#pk-package-sack-sort"/>
     <keyword type="function" name="pk_package_sack_test ()" link="PkPackageSack.html#pk-package-sack-test"/>
+    <keyword type="function" name="pk_package_sack_to_file ()" link="PkPackageSack.html#pk-package-sack-to-file"/>
     <keyword type="macro" name="PK_PACKAGE_TYPE_ERROR" link="PkPackage.html#PK-PACKAGE-TYPE-ERROR:CAPS"/>
     <keyword type="struct" name="struct PkPackage" link="PkPackage.html#PkPackage-struct"/>
     <keyword type="struct" name="struct PkPackageClass" link="PkPackage.html#PkPackageClass"/>

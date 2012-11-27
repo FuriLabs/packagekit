@@ -120,28 +120,19 @@ use constant MDV_GROUPS => {
 
 sub get_mdv_groups {
   my ($pk_group) = @_;
-  my @groups = ();
-  foreach(keys %{(MDV_GROUPS)}) {
-    if((MDV_GROUPS)->{$_} eq $pk_group) {
-      push @groups, $_;
-    }
-  }
-  return @groups;
+  return grep { (MDV_GROUPS)->{$_} eq $pk_group } keys %{(MDV_GROUPS)};
 }
 
 sub get_pk_group {
   my ($mdv_group) = @_;
-  if((MDV_GROUPS)->{$mdv_group} eq "") {
-    return GROUP_UNKNOWN;
-  }
-  return (MDV_GROUPS)->{$mdv_group};
+  return (MDV_GROUPS)->{$mdv_group} || GROUP_UNKNOWN;
 }
 
 sub package_belongs_to_pk_group {
   my ($pkg, $pk_group) = @_;
   my @groups = get_mdv_groups($pk_group);
   my $pkg_group = $pkg->group;
-  return grep(/$pkg_group/, @groups);
+  return grep { /$pkg_group/ } @groups;
 }
 
 1;

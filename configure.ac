@@ -2,7 +2,7 @@
 
 m4_define([pk_major_version], [0])
 m4_define([pk_minor_version], [8])
-m4_define([pk_micro_version], [5])
+m4_define([pk_micro_version], [6])
 m4_define([pk_version],
           [pk_major_version.pk_minor_version.pk_micro_version])
 
@@ -53,33 +53,11 @@ AC_SUBST(PK_VERSION)
 #   fixed, change:
 #      REVISION += 1
 LT_CURRENT=16
-LT_REVISION=2
+LT_REVISION=3
 LT_AGE=0
 AC_SUBST(LT_CURRENT)
 AC_SUBST(LT_REVISION)
 AC_SUBST(LT_AGE)
-
-# libtool versioning - this applies to libpackagekit-qt2
-#
-# - If interfaces have been changed or added, but binary compatibility
-#   has been preserved, change:
-#      CURRENT += 1
-#      REVISION = 0
-#      AGE += 1
-# - If binary compatibility has been broken (eg removed or changed
-#   interfaces), change:
-#      CURRENT += 1
-#      REVISION = 0
-#      AGE = 0
-# - If the interface is the same as the previous version, but bugs are
-#   fixed, change:
-#      REVISION += 1
-LT_QT_CURRENT=5
-LT_QT_REVISION=0
-LT_QT_AGE=0
-AC_SUBST(LT_QT_CURRENT)
-AC_SUBST(LT_QT_REVISION)
-AC_SUBST(LT_QT_AGE)
 
 AC_PROG_CC
 AC_PROG_CXX
@@ -104,7 +82,15 @@ GTK_DOC_CHECK([1.11],[--flavour no-tmpl])
 AC_PATH_PROG(GLIB_GENMARSHAL, glib-genmarshal)
 AC_PATH_PROG(GLIB_MKENUMS, glib-mkenums)
 
-AM_PATH_PYTHON([2.7])
+# Python2/3 stuff
+AC_ARG_ENABLE(python3, AS_HELP_STRING([--enable-python3],[Use Python3 for PackageKit]), enable_python3=$enableval,
+							enable_python3=$default_strict)
+if test x$enable_python3 = xyes; then
+	AM_PATH_PYTHON([3.2])
+else
+	AM_PATH_PYTHON([2.7])
+fi
+
 PYTHON_PACKAGE_DIR=${pythondir}/packagekit
 AC_SUBST(PYTHON_PACKAGE_DIR)
 
@@ -180,10 +166,6 @@ GLIB_REQUIRED=2.26.0
 GIO_REQUIRED=2.16.1
 NETWORK_MANAGER_REQUIRED=0.6.4
 POLKIT_GOBJECT_REQUIRED=0.98
-QTCORE_REQUIRED=4.4.0
-QTDBUS_REQUIRED=4.4.0
-QTSQL_REQUIRED=4.4.0
-QTXML_REQUIRED=4.4.0
 
 dnl ---------------------------------------------------------------------------
 dnl - Check library dependencies
@@ -194,31 +176,6 @@ PKG_CHECK_MODULES(SQLITE, sqlite3)
 PKG_CHECK_MODULES(GIO, \
  gio-2.0 >= $GIO_REQUIRED \
  gio-unix-2.0 >= $GIO_REQUIRED)
-
-dnl ---------------------------------------------------------------------------
-dnl - Build PackageKit-Qt
-dnl ---------------------------------------------------------------------------
-AC_ARG_ENABLE(qt, AS_HELP_STRING([--enable-qt],[Build PackageKit-Qt]),
-	      enable_qt=$enableval,enable_qt=yes)
-if test x$enable_qt = xyes; then
-	PKG_CHECK_MODULES(QTCORE, QtCore >= $QTCORE_REQUIRED)
-	PKG_CHECK_MODULES(QTDBUS, QtDBus >= $QTDBUS_REQUIRED)
-	PKG_CHECK_MODULES(QTSQL, QtSql >= $QTSQL_REQUIRED)
-	PKG_CHECK_MODULES(QTXML, QtXml >= $QTXML_REQUIRED)
-
-	# look for MOC
-	AC_PATH_PROG(MOC, moc-qt4)
-	if test ! -x "$MOC"; then
-		AC_PATH_PROG(MOC, moc)
-		if test ! -x "$MOC"; then
-			AC_MSG_ERROR([MOC has not been found])
-		fi
-	fi
-	build_qt=yes
-else
-	build_qt=no
-fi
-AM_CONDITIONAL(PK_BUILD_QT, test $build_qt = "yes")
 
 dnl ---------------------------------------------------------------------------
 dnl - Service Packs (default enabled)
@@ -574,11 +531,7 @@ AC_ARG_WITH([security_framework],
 			   [Default security framework to use polkit,dummy]))
 # try and guess this if nothing is listed
 if test x$with_security_framework = x; then
-	if test -f /usr/bin/pkaction ; then
-		with_security_framework=polkit
-	else
-		AC_MSG_ERROR([--with-security-framework explicitly required when not using PolicyKit or RBAC])
-	fi
+	with_security_framework=polkit
 fi
 
 AC_DEFINE_UNQUOTED(security_framework, "$with_security_framework", [default security framework])
@@ -830,11 +783,6 @@ lib/Makefile
 lib/packagekit-glib2/pk-version.h
 lib/packagekit-glib2/Makefile
 lib/packagekit-glib2/packagekit-glib2.pc
-lib/packagekit-qt2/Makefile
-lib/packagekit-qt2/modules/Makefile
-lib/packagekit-qt2/modules/packagekit-qt2-config.cmake
-lib/packagekit-qt2/modules/packagekit-qt2-config-version.cmake
-lib/packagekit-qt2/packagekit-qt2.pc
 lib/python/Makefile
 lib/python/packagekit/Makefile
 policy/Makefile
@@ -872,7 +820,7 @@ echo "
         device-rebind:             ${build_device_rebind}
         systemd-updates:           ${build_systemd_updates}
         pm-utils scripts:          ${build_pm_utils}
-        QT library:                ${build_qt}
+        python3:                   ${enable_python3}
 
         Backends:
         ALPM backend:              ${enable_alpm}

@@ -13,6 +13,7 @@ package urpmi_backend::tools;
 
 use strict;
 
+use MDK::Common;
 use URPM;
 use urpmi_backend::open_db;
 use urpm::msg;
@@ -24,6 +25,7 @@ our @EXPORT = qw(
   rpm_description 
   urpm_name 
   find_installed_fullname 
+  is_mageia
   is_package_installed
   get_package_id 
   ensure_utf8 
@@ -62,16 +64,18 @@ sub urpm_name {
     "$name-$version-$release.$arch";
 }
 
+# from rpmtools:
 sub ensure_utf8 {
-    my ($s) = @_;
-    require Encode;
-    Encode::_utf8_on($s); #- this is done on the copy
-    if (!Encode::is_utf8($s, 1)) {
-        Encode::_utf8_off($_[0]);
-        Encode::from_to($_[0], 'iso-8859-15', 'utf8'); # most probable
+    if (utf8::is_utf8($_[0])) {
+	utf8::valid($_[0]) and return;
+
+	utf8::encode($_[0]); #- disable utf8 flag
+	utf8::upgrade($_[0]);
+    } else {
+	utf8::decode($_[0]); #- try to set utf8 flag
+	utf8::valid($_[0]) and return;
+	warn "do not know what to with $_[0]\n";
     }
-    Encode::_utf8_on($_[0]); #- now we know it is valid utf8
-    $_[0];
 }
 
 sub find_installed_fullname {
@@ -86,9 +90,17 @@ sub is_package_installed {
     return URPM::DB::open()->is_package_installed($pkg);
 }
 
+sub is_mageia() {
+    cat_('/etc/release') =~ /Mageia/;
+}
+
+sub vendor() {
+    is_mageia() ? "mageia" : "mandriva";
+}
+
 sub get_package_id {
   my ($pkg) = @_;
-  return $pkg->name.";".$pkg->version."-".$pkg->release.";".$pkg->arch.";mandriva";
+  return $pkg->name . ";" . $pkg->version . "-" . $pkg->release . ";" . $pkg->arch . vendor();
 }
 
 sub pkg2medium {
@@ -102,21 +114,16 @@ sub fullname_to_package_id {
   # fullname, ie 'xeyes-1.0.1-5mdv2008.1.i586'
   my ($pkg_string) = @_;
   chomp($pkg_string);
-  $pkg_string =~ /^(.*)-([^-]*)-([^-]*)\.([^\.]*)$/;
-  my %pkg = (
-    name => $1,
-    version => $2,
-    release => $3,
-    arch => $4
-  );
-  return $pkg{name}.";".$pkg{version}."-".$pkg{release}.";".$pkg{arch}.";mandriva";
+  if ($pkg_string =~ /^(.*)-([^-]*)-([^-]*)\.([^\.]*)$/) {
+      return $1 . $2 . $3 . $4 . vendor();
+  }
 }
 
 sub get_package_by_package_id {
   my ($urpm, $package_id) = @_;
   my @depslist = @{$urpm->{depslist}};
-  foreach(@depslist) {
-    if(get_package_id($_) eq $package_id) {
+  foreach (@depslist) {
+    if (get_package_id($_) eq $package_id) {
       return $_;
     }
   }
@@ -129,8 +136,8 @@ sub get_package_upgrade {
   $urpm->compute_installed_flags($db);
   my @depslist = @{$urpm->{depslist}};
   my $pkgname = $pkg->name;
-  foreach(@depslist) {
-    if($_->name =~ /^$pkgname$/ && $_->flag_upgrade) {
+  foreach (@depslist) {
+    if ($_->name =~ /^$pkgname$/ && $_->flag_upgrade) {
       return $_;
     }
   }
@@ -140,9 +147,9 @@ sub get_installed_fullname {
   my ($urpm, $pkg) = @_;
   my @depslist = @{$urpm->{depslist}};
   my $pkgname = $pkg->name;
-  foreach $_ (@depslist) {
-    if($_->name =~ /^$pkgname$/ && is_package_installed($_)) {
-      return $_;
+  foreach my $pkg (@depslist) {
+    if ($pkg->name =~ /^$pkgname$/ && is_package_installed($pkg)) {
+      return $pkg;
     }
   }
   return;
@@ -155,7 +162,7 @@ sub get_installed_fullname_pkid {
   my $installed_pkid;
   $db->traverse(sub {
       my ($pkg) = @_;
-      if($pkg->name =~ /^$pkgname$/) {
+      if ($pkg->name =~ /^$pkgname$/) {
         $installed_pkid = get_package_id($pkg);
       }
     });

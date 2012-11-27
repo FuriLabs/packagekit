@@ -299,6 +299,12 @@ pk_transaction_finish_invalidate_caches (PkTransaction *transaction)
 	pk_cache_set_results (priv->cache, priv->role, priv->results);
 
 	/* could the update list have changed? */
+	if (pk_bitfield_contain (transaction->priv->cached_transaction_flags,
+				  PK_TRANSACTION_FLAG_ENUM_SIMULATE))
+		goto out;
+	if (pk_bitfield_contain (transaction->priv->cached_transaction_flags,
+				  PK_TRANSACTION_FLAG_ENUM_ONLY_DOWNLOAD))
+		goto out;
 	if (priv->role == PK_ROLE_ENUM_UPDATE_PACKAGES ||
 	    priv->role == PK_ROLE_ENUM_REMOVE_PACKAGES ||
 	    priv->role == PK_ROLE_ENUM_REPO_ENABLE ||
@@ -313,6 +319,7 @@ pk_transaction_finish_invalidate_caches (PkTransaction *transaction)
 		pk_notify_wait_updates_changed (priv->notify,
 						PK_TRANSACTION_UPDATES_CHANGED_TIMEOUT);
 	}
+out:
 	return TRUE;
 }
 
@@ -987,11 +994,12 @@ pk_transaction_plugin_phase (PkTransaction *transaction,
 				g_main_context_iteration (context, FALSE);
 		}
 
+		/* quit the transaction if any of the plugins fail */
 		exit_code = pk_backend_job_get_exit_code (job);
-		if (exit_code != PK_EXIT_ENUM_UNKNOWN) {
+		if (exit_code != PK_EXIT_ENUM_UNKNOWN &&
+		    exit_code != PK_EXIT_ENUM_SUCCESS) {
 			pk_backend_job_set_exit_code (transaction->priv->job, exit_code);
-			if (exit_code != PK_EXIT_ENUM_SUCCESS)
-				break;
+			break;
 		}
 	}
 out:
@@ -1970,14 +1978,14 @@ pk_transaction_speed_cb (PkBackendJob *job,
  **/
 static void
 pk_transaction_download_size_remaining_cb (PkBackendJob *job,
-					   guint64 download_size_remaining,
+					   guint64 *download_size_remaining,
 					   PkTransaction *transaction)
 {
 	/* emit */
-	transaction->priv->download_size_remaining = download_size_remaining;
+	transaction->priv->download_size_remaining = *download_size_remaining;
 	pk_transaction_emit_property_changed (transaction,
 					      "DownloadSizeRemaining",
-					      g_variant_new_uint64 (download_size_remaining));
+					      g_variant_new_uint64 (*download_size_remaining));
 	pk_transaction_emit_changed (transaction);
 }
 
@@ -2163,6 +2171,14 @@ pk_transaction_run (PkTransaction *transaction)
 		g_debug ("failed to set the session state (non-fatal): %s",
 			 error->message);
 		g_clear_error (&error);
+	}
+
+	/* already cancelled? */
+	if (pk_backend_job_get_exit_code (priv->job) == PK_EXIT_ENUM_CANCELLED) {
+		exit_status = pk_backend_job_get_exit_code (priv->job);
+		pk_transaction_finished_emit (transaction, exit_status, 0);
+		ret = TRUE;
+		goto out;
 	}
 
 	/* run the plugins */
@@ -4658,7 +4674,7 @@ pk_transaction_resolve (PkTransaction *transaction,
 		ret = pk_transaction_strvalidate (packages[i], &error);
 		if (!ret) {
 			pk_transaction_release_tid (transaction);
-				return;
+			goto out;
 		}
 	}
 
@@ -4782,7 +4798,7 @@ pk_transaction_search_files (PkTransaction *transaction,
 			error = g_error_new (PK_TRANSACTION_ERROR, PK_TRANSACTION_ERROR_SEARCH_PATH_INVALID,
 					     "Invalid search path");
 			pk_transaction_release_tid (transaction);
-				return;
+			goto out;
 		}
 	}
 
@@ -4849,7 +4865,7 @@ pk_transaction_search_groups (PkTransaction *transaction,
 			error = g_error_new (PK_TRANSACTION_ERROR, PK_TRANSACTION_ERROR_SEARCH_INVALID,
 					     "Invalid search containing spaces");
 			pk_transaction_release_tid (transaction);
-				return;
+			goto out;
 		}
 	}
 

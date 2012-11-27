@@ -225,11 +225,6 @@ def _get_cmdline_for_pid(pid):
 
 class PackageKitYumBackend(PackageKitBaseBackend, PackagekitPackage):
 
-    # Packages there require a reboot
-    rebootpkgs = ("kernel", "kernel-smp", "kernel-xen-hypervisor", "kernel-PAE",
-              "kernel-xen0", "kernel-xenU", "kernel-xen", "kernel-xen-guest",
-              "glibc", "hal", "dbus", "xen")
-
     def __init__(self, args, lock=True):
         signal.signal(signal.SIGQUIT, sigquit)
         PackageKitBaseBackend.__init__(self, args)
@@ -970,9 +965,9 @@ class PackageKitYumBackend(PackageKitBaseBackend, PackagekitPackage):
                         else:
                             pkgfilter.add_available(pkgs)
 
-                    # we couldn't do this when generating the list
-                    package_list = pkgfilter.get_package_list()
-                    self._show_package_list(package_list)
+        # we couldn't do this when generating the list
+        package_list = pkgfilter.get_package_list()
+        self._show_package_list(package_list)
 
     def get_categories(self):
         '''
@@ -1143,6 +1138,9 @@ class PackageKitYumBackend(PackageKitBaseBackend, PackagekitPackage):
                 package_id_tmp = self._pkg_to_id(pkg_download)
                 self.files(package_id_tmp, path)
 
+            except yum.Errors.NoMoreMirrorsRepoError, e:
+                self.error(ERROR_NO_MORE_MIRRORS_TO_TRY, "Failed to download: %s" % _to_unicode(e), exit=False)
+                return
             except IOError, e:
                 self.error(ERROR_PACKAGE_DOWNLOAD_FAILED, "Cannot write to file", exit=False)
                 return
@@ -2295,7 +2293,7 @@ class PackageKitYumBackend(PackageKitBaseBackend, PackagekitPackage):
                 except PkError, e:
                     self.error(e.code, e.details, exit=False)
             else:
-                self.error(ERROR_TRANSACTION_ERROR, "No transaction to process", exit=False)
+                self.error(ERROR_NO_PACKAGES_TO_UPDATE, "No updates available", exit=False)
 
     def _check_for_reboot(self):
         md = self.updateMetadata
@@ -2304,8 +2302,7 @@ class PackageKitYumBackend(PackageKitBaseBackend, PackagekitPackage):
             # check if package is in reboot list or flagged with reboot_suggested
             # in the update metadata and is installed/updated etc
             notice = md.get_notice((pkg.name, pkg.version, pkg.release))
-            if (pkg.name in self.rebootpkgs \
-                or (notice and notice.get_metadata().has_key('reboot_suggested') and notice['reboot_suggested'])):
+            if notice and notice.get_metadata().has_key('reboot_suggested') and notice['reboot_suggested']:
                 self.require_restart(RESTART_SYSTEM, self._pkg_to_id(pkg))
 
     def _runYumTransaction(self, transaction_flags, allow_remove_deps=None, allow_skip_broken=False):
@@ -2604,7 +2601,10 @@ class PackageKitYumBackend(PackageKitBaseBackend, PackagekitPackage):
 
     def _pkg_to_id(self, pkg):
         pkgver = _get_package_ver(pkg)
-        repo = pkg.repo.id
+        if hasattr(pkg.repo, 'id'):
+            repo = pkg.repo.id
+        else:
+            repo = pkg.repo
         if repo.startswith('/'):
             repo = "local"
         # can we add data from the yumdb

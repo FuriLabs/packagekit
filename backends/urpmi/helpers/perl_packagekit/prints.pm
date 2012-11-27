@@ -92,7 +92,7 @@ sub pk_print_error {
   # @param exit: exit application with rc=1, if true
   my ($err, $description) = @_;
   printf("error\t%s\t%s\n", $err, $description);
-  exit if($exit);
+  exit() if $exit; # FIXME: undeclared variable $exit
 }
 
 sub pk_print_percentage {
@@ -106,13 +106,13 @@ sub pk_print_sub_percentage {
 }
 
 sub pk_print_distro_upgrade {
-  my($dtype, $name, $summary) = @_;
+  my ($dtype, $name, $summary) = @_;
   printf("distro-upgrade\t%s\t%s\t%s\n", $dtype, $name, $summary);
 }
 
 sub pk_print_repo_details {
-  my($id, $description, $enabled) = @_;
-  printf("repo-detail\t%s\t%s\t%s\n", $id, $description, $enabled);
+  my ($id, $description, $enabled) = @_;
+  printf("repo-detail\t%s\t%s\t%s\n", $id, $description, bool2text($enabled));
 }
 
 1;

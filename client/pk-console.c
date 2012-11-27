@@ -673,12 +673,15 @@ out:
 static void
 pk_console_finished_cb (GObject *object, GAsyncResult *res, gpointer data)
 {
-	PkError *error_code = NULL;
-	PkResults *results;
+	const gchar *filename;
+	gboolean ret;
 	GError *error = NULL;
+	GFile *file = NULL;
 	GPtrArray *array;
+	PkError *error_code = NULL;
 	PkPackageSack *sack;
 	PkRestartEnum restart;
+	PkResults *results;
 	PkRoleEnum role;
 
 	/* no more progress */
@@ -728,10 +731,12 @@ pk_console_finished_cb (GObject *object, GAsyncResult *res, gpointer data)
 	array = pk_package_sack_get_array (sack);
 
 	/* package */
+	filename = g_object_get_data (G_OBJECT (task), "PkConsole:list-create-filename");
 	if (!is_console ||
 	    (role != PK_ROLE_ENUM_INSTALL_PACKAGES &&
 	     role != PK_ROLE_ENUM_UPDATE_PACKAGES &&
-	     role != PK_ROLE_ENUM_REMOVE_PACKAGES)) {
+	     role != PK_ROLE_ENUM_REMOVE_PACKAGES &&
+	     filename == NULL)) {
 		g_ptr_array_foreach (array, (GFunc) pk_console_package_cb, NULL);
 	}
 
@@ -841,9 +846,23 @@ pk_console_finished_cb (GObject *object, GAsyncResult *res, gpointer data)
 		/* TRANSLATORS: a package needs to restart the session (due to security) */
 		g_print ("%s\n", _("Please logout and login to complete the update as important security updates have been installed."));
 	}
+
+	/* write the sack to disk */
+	if (role == PK_ROLE_ENUM_GET_PACKAGES && filename != NULL) {
+		file = g_file_new_for_path (filename);
+		ret = pk_package_sack_to_file (sack, file, &error);
+		if (!ret) {
+			g_print ("%s: %s\n", _("Fatal error"), error->message);
+			g_error_free (error);
+			retval = PK_EXIT_CODE_TRANSACTION_FAILED;
+			goto out;
+		}
+	}
 out:
 	if (error_code != NULL)
 		g_object_unref (error_code);
+	if (file != NULL)
+		g_object_unref (file);
 	if (results != NULL)
 		g_object_unref (results);
 	g_main_loop_quit (loop);
@@ -1004,6 +1023,14 @@ pk_console_update_system (PkBitfield filters, GError **error)
 	/* do the async action */
 	sack = pk_results_get_package_sack (results);
 	package_ids = pk_package_sack_get_ids (sack);
+	if (g_strv_length (package_ids) == 0) {
+		pk_progress_bar_end (progressbar);
+		/* TRANSLATORS: there are no updates, so nothing to do */
+		g_print ("%s\n", _("No packages require updating to newer versions."));
+		retval = PK_EXIT_CODE_NOTHING_USEFUL;
+		ret = FALSE;
+		goto out;
+	}
 	pk_task_update_packages_async (PK_TASK(task), package_ids, cancellable,
 				       (PkProgressCallback) pk_console_progress_cb, NULL,
 				       (GAsyncReadyCallback) pk_console_finished_cb, NULL);
@@ -1233,7 +1260,7 @@ pk_console_get_summary (void)
 	if (pk_bitfield_contain (roles, PK_ROLE_ENUM_UPDATE_PACKAGES))
 		g_string_append_printf (string, "  %s\n", "update <package>");
 	if (pk_bitfield_contain (roles, PK_ROLE_ENUM_REFRESH_CACHE))
-		g_string_append_printf (string, "  %s\n", "refresh [--force]");
+		g_string_append_printf (string, "  %s\n", "refresh [force]");
 	if (pk_bitfield_contain (roles, PK_ROLE_ENUM_RESOLVE))
 		g_string_append_printf (string, "  %s\n", "resolve [package]");
 	if (pk_bitfield_contain (roles, PK_ROLE_ENUM_GET_UPDATES))
@@ -1800,7 +1827,7 @@ main (int argc, char *argv[])
 						      (GAsyncReadyCallback) pk_console_finished_cb, NULL);
 
 	} else if (strcmp (mode, "refresh") == 0) {
-		gboolean force = value && !strcmp (value, "--force");
+		gboolean force = (value != NULL && g_strcmp0 (value, "force") == 0);
 		pk_task_refresh_cache_async (PK_TASK (task), force, cancellable,
 					     (PkProgressCallback) pk_console_progress_cb, NULL,
 					     (GAsyncReadyCallback) pk_console_finished_cb, NULL);
@@ -1810,6 +1837,32 @@ main (int argc, char *argv[])
 		                             (PkProgressCallback) pk_console_progress_cb, NULL,
 		                             (GAsyncReadyCallback) pk_console_finished_cb, NULL);
 
+	} else if (strcmp (mode, "list-create") == 0) {
+		if (value == NULL) {
+			/* TRANSLATORS: The user did not provide a distro name */
+			error = g_error_new (1, 0, "%s", _("You need to specify a list file to create"));
+			retval = PK_EXIT_CODE_SYNTAX_INVALID;
+			goto out;
+		}
+
+		/* file exists */
+		ret = g_file_test (value, G_FILE_TEST_EXISTS);
+		if (ret) {
+			/* TRANSLATORS: There was an error getting the list of packages. The filename follows */
+			error = g_error_new (1, 0, _("File already exists: %s"), value);
+			retval = PK_EXIT_CODE_FILE_NOT_FOUND;
+			goto out;
+			return FALSE;
+		}
+
+		/* get package list */
+		g_object_set_data_full (G_OBJECT (task),
+					"PkConsole:list-create-filename",
+					g_strdup (value),
+					g_free);
+		pk_task_get_packages_async (PK_TASK (task), filters, cancellable,
+					    (PkProgressCallback) pk_console_progress_cb, NULL,
+					    (GAsyncReadyCallback) pk_console_finished_cb, NULL);
 	} else {
 		/* TRANSLATORS: The user tried to use an unsupported option on the command line */
 		error = g_error_new (1, 0, _("Option '%s' is not supported"), mode);

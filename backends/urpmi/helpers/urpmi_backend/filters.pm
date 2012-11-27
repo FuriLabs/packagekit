@@ -24,32 +24,32 @@ my @gui_pkgs = map { chomp; $_ } cat_('/usr/share/rpmdrake/gui.lst');
 sub filter {
   my ($urpm, $pkg, $filters, $enabled_filters) = @_;
 
-  my %e_filters = %{$enabled_filters};
+  my %e_filters = %$enabled_filters;
 
-  foreach my $filter (@{$filters}) {
-    if($filter eq FILTER_INSTALLED || $filter eq FILTER_NOT_INSTALLED) {
-      if($e_filters{FILTER_INSTALLED}) {
-        return 0 if not filter_installed($urpm, $pkg, $filter);
+  foreach my $filter (@$filters) {
+    if (member($filter, FILTER_INSTALLED, FILTER_NOT_INSTALLED)) {
+      if ($e_filters{FILTER_INSTALLED}) {
+        return 0 if !filter_installed($pkg, $filter);
       }
     }
-    elsif($filter eq FILTER_DEVELOPMENT || $filter eq FILTER_NOT_DEVELOPMENT) {
-      if($e_filters{FILTER_DEVELOPMENT}) {
-        return 0 if not filter_devel($urpm, $pkg, $filter);
+    elsif (member($filter, FILTER_DEVELOPMENT, FILTER_NOT_DEVELOPMENT)) {
+      if ($e_filters{FILTER_DEVELOPMENT}) {
+        return 0 if !filter_devel($pkg, $filter);
       }
     }
-    elsif($filter eq FILTER_GUI || $filter eq FILTER_NOT_GUI) {
-      if($e_filters{FILTER_GUI}) {
-        return 0 if not filter_gui($urpm, $pkg, $filter);
+    elsif (member($filter, FILTER_GUI, FILTER_NOT_GUI)) {
+      if ($e_filters{FILTER_GUI}) {
+        return 0 if !filter_gui($pkg, $filter);
       }
     }
-    elsif($filter eq FILTER_SUPPORTED || $filter eq FILTER_NOT_SUPPORTED) {
-      if($e_filters{FILTER_SUPPORTED}) {
-        return 0 if not filter_supported($urpm, $pkg, $filter);
+    elsif (member($filter, FILTER_SUPPORTED, FILTER_NOT_SUPPORTED)) {
+      if ($e_filters{FILTER_SUPPORTED}) {
+        return 0 if !filter_supported($urpm, $pkg, $filter);
       }
     }
-    elsif($filter eq FILTER_FREE || $filter eq FILTER_NOT_FREE) {
-      if($e_filters{FILTER_FREE}) {
-        return 0 if not filter_free($urpm, $pkg, $filter);
+    elsif (member($filter, FILTER_FREE, FILTER_NOT_FREE)) {
+      if ($e_filters{FILTER_FREE}) {
+        return 0 if !filter_free($urpm, $pkg, $filter);
       }
     }
   }
@@ -57,44 +57,30 @@ sub filter {
 }
 
 sub filter_installed {
-  my ($urpm, $pkg, $filter) = @_;
-  my $installed;
-
-  $installed = 1 if(is_package_installed($pkg));
-  if($filter eq FILTER_INSTALLED && $installed) {
-    return 1;
-  }
-  if($filter eq FILTER_NOT_INSTALLED && !$installed) {
-    return 1;
-  }
+  my ($pkg, $filter) = @_;
+  my $installed = is_package_installed($pkg) ? 1 : 0;
+  return 1 if $filter eq FILTER_INSTALLED && $installed;
+  return 1 if $filter eq FILTER_NOT_INSTALLED && !$installed;
   return 0;
 }
 
 sub filter_devel {
-  my ($urpm, $pkg, $filter) = @_;
+  my ($pkg, $filter) = @_;
   my $pkgname = $pkg->name;
-  my $devel = ($pkgname =~ /-devel$/);
+  my $devel = $pkgname =~ /-devel$/;
 
-  if($filter eq FILTER_DEVELOPMENT && $devel) {
-    return 1;
-  }
-  if($filter eq FILTER_NOT_DEVELOPMENT && !$devel) {
-    return 1;
-  }
+  return 1 if $filter eq FILTER_DEVELOPMENT && $devel;
+  return 1 if $filter eq FILTER_NOT_DEVELOPMENT && !$devel;
   return 0;
 }
 
 sub filter_gui {
-  my ($urpm, $pkg, $filter) = @_;
+  my ($pkg, $filter) = @_;
   my $pkgname = $pkg->name;
   my $gui = member($pkgname, @gui_pkgs);
 
-  if($filter eq FILTER_NOT_GUI && !$gui) {
-    return 1;
-  }
-  if($filter eq FILTER_GUI && $gui) {
-    return 1;
-  }
+  return 1 if $filter eq FILTER_NOT_GUI && !$gui;
+  return 1 if $filter eq FILTER_GUI && $gui;
   return 0;
 }
 
@@ -106,14 +92,11 @@ sub filter_supported {
   my $medianame = $media->{name};
   # FIXME: matching against media name is certainly not optimal,
   #        better heuristics needed...
-  my $supported = ($medianame =~ /^main/i);
+  #        could be blacklisting 'contrib' or better check for 'media_type=official'
+  my $supported = $medianame =~ /^(?:core|main)/i;
 
-  if($filter eq FILTER_SUPPORTED && $supported) {
-    return 1;
-  }
-  if($filter eq FILTER_NOT_SUPPORTED && !$supported) {
-    return 1;
-  }
+  return 1 if $filter eq FILTER_SUPPORTED && $supported;
+  return 1 if $filter eq FILTER_NOT_SUPPORTED && !$supported;
   return 0;
 }
 
@@ -125,14 +108,10 @@ sub filter_free {
   my $medianame = $media->{name};
   # FIXME: matching against media name is certainly not optimal,
   #        better heuristics needed...
-  my $free = !($medianame =~ /non-free/i);
+  my $free = $medianame !~ /non-free/i;
 
-  if($filter eq FILTER_FREE && $free) {
-    return 1;
-  }
-  if($filter eq FILTER_NOT_FREE && !$free) {
-    return 1;
-  }
+  return 1 if $filter eq FILTER_FREE && $free;
+  return 1 if $filter eq FILTER_NOT_FREE && !$free;
   return 0;
 }
 
