@@ -1853,6 +1853,12 @@ pk_backend_cancel (PkBackend *backend, PkBackendJob *job)
 {
 	PkBackendZifJobData *job_data = pk_backend_job_get_user_data (job);
 
+	/* backend job has already been stopped */
+	if (job_data == NULL) {
+		g_debug ("not cancelling as job has already been stopped");
+		return;
+	}
+
 	/* try to cancel the thread */
 	g_debug ("cancelling transaction");
 	g_cancellable_cancel (job_data->cancellable);
@@ -3883,7 +3889,6 @@ pk_backend_remove_packages_thread (PkBackendJob *job, GVariant *params, gpointer
 	gboolean ret;
 	gchar **package_ids;
 	GError *error = NULL;
-	GPtrArray *store_array = NULL;
 	guint i;
 	ZifPackage *package;
 	ZifState *state_local;
@@ -3993,8 +3998,6 @@ pk_backend_remove_packages_thread (PkBackendJob *job, GVariant *params, gpointer
 	}
 out:
 	pk_backend_job_finished (job);
-	if (store_array != NULL)
-		g_ptr_array_unref (store_array);
 }
 
 /**

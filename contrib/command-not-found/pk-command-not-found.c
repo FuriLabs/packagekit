@@ -616,16 +616,17 @@ pk_cnf_get_config (void)
 	config->multiple_match = PK_CNF_POLICY_UNKNOWN;
 	config->single_install = PK_CNF_POLICY_UNKNOWN;
 	config->multiple_install = PK_CNF_POLICY_UNKNOWN;
-	config->software_source_search = FALSE;
-	config->similar_name_search = FALSE;
+	config->software_source_search = TRUE;
+	config->similar_name_search = TRUE;
 	config->locations = NULL;
+	config->max_search_time = 5000;
 
 	/* load file */
 	file = g_key_file_new ();
 	path = g_build_filename (SYSCONFDIR, "PackageKit", "CommandNotFound.conf", NULL);
 	ret = g_key_file_load_from_file (file, path, G_KEY_FILE_NONE, &error);
 	if (!ret) {
-		g_warning ("failed to open policy: %s", error->message);
+		g_printerr ("failed to load config file: %s\n", error->message);
 		g_error_free (error);
 		goto out;
 	}
@@ -743,6 +744,40 @@ pk_cnf_sigint_handler (int sig)
 	/* kill ourselves */
 	g_debug ("Retrying SIGINT");
 	kill (getpid (), SIGINT);
+}
+
+/**
+ * pk_cnf_is_backend_fast_enough_to_do_search:
+**/
+static gboolean
+pk_cnf_is_backend_fast_enough_to_do_search (void)
+{
+	gboolean ret = FALSE;
+	gchar *backend;
+	GError *error = NULL;
+	PkControl *control = NULL;
+
+	/* Initialize PkControl */
+	control = pk_control_new ();
+	ret = pk_control_get_properties (control, cancellable, &error);
+	if (!ret) {
+		/* failed to contact the daemon */
+		g_error_free (error);
+		goto out;
+	}
+
+	/* Find backend name */
+	g_object_get (control, "backend-name", &backend, NULL);
+
+	/* Current list of too slow backends */
+	if (g_strcmp0 (backend, "yum") == 0) {
+		ret = FALSE;
+		goto out;
+	}
+out:
+	if (control != NULL)
+		g_object_unref(control);
+	return ret;
 }
 
 /**
@@ -868,7 +903,8 @@ main (int argc, char *argv[])
 		goto out;
 
 	/* only search using PackageKit if configured to do so */
-	} else if (config->software_source_search) {
+	} else if (config->software_source_search &&
+		   pk_cnf_is_backend_fast_enough_to_do_search ()) {
 		package_ids = pk_cnf_find_available (argv[1], config->max_search_time);
 		if (package_ids == NULL)
 			goto out;
@@ -924,12 +960,15 @@ main (int argc, char *argv[])
 					g_strfreev (parts);
 				}
 
-				/* get selection */
 				/* TRANSLATORS: ask the user to choose a file to install */
 				i = pk_console_get_number (_("Please choose a package to install"), len);
+				if (i == 0) {
+					g_printerr ("%s\n", _("User aborted selection"));
+					goto out;
+				}
 
 				/* run command */
-				ret = pk_cnf_install_package_id (package_ids[i]);
+				ret = pk_cnf_install_package_id (package_ids[i - 1]);
 				if (ret)
 					retval = pk_cnf_spawn_command (argv[1], &argv[2]);
 			}

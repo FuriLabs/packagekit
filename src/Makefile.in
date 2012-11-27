@@ -74,8 +74,8 @@ ACLOCAL_M4 = $(top_srcdir)/aclocal.m4
 am__aclocal_m4_deps = $(top_srcdir)/m4/gtk-doc.m4 \
 	$(top_srcdir)/m4/intltool.m4 $(top_srcdir)/m4/libtool.m4 \
 	$(top_srcdir)/m4/ltoptions.m4 $(top_srcdir)/m4/ltsugar.m4 \
-	$(top_srcdir)/m4/ltversion.m4 $(top_srcdir)/m4/lt~obsolete.m4 \
-	$(top_srcdir)/acinclude.m4 $(top_srcdir)/configure.ac
+	$(top_srcdir)/m4/ltversion.m4 $(top_srcdir)/acinclude.m4 \
+	$(top_srcdir)/configure.ac
 am__configure_deps = $(am__aclocal_m4_deps) $(CONFIGURE_DEPENDENCIES) \
 	$(ACLOCAL_M4)
 mkinstalldirs = $(install_sh) -d
@@ -483,16 +483,12 @@ LOCALSTATEDIR = @LOCALSTATEDIR@
 LTLIBOBJS = @LTLIBOBJS@
 LT_AGE = @LT_AGE@
 LT_CURRENT = @LT_CURRENT@
-LT_QT_AGE = @LT_QT_AGE@
-LT_QT_CURRENT = @LT_QT_CURRENT@
-LT_QT_REVISION = @LT_QT_REVISION@
 LT_REVISION = @LT_REVISION@
 MAINT = @MAINT@
 MAKEINFO = @MAKEINFO@
 MANIFEST_TOOL = @MANIFEST_TOOL@
 MKDIR_P = @MKDIR_P@
 MKINSTALLDIRS = @MKINSTALLDIRS@
-MOC = @MOC@
 MOZILLA_PLUGIN_DIR = @MOZILLA_PLUGIN_DIR@
 MSGFMT = @MSGFMT@
 MSGFMT_OPTS = @MSGFMT_OPTS@
@@ -554,14 +550,6 @@ PYTHON_PACKAGE_DIR = @PYTHON_PACKAGE_DIR@
 PYTHON_PLATFORM = @PYTHON_PLATFORM@
 PYTHON_PREFIX = @PYTHON_PREFIX@
 PYTHON_VERSION = @PYTHON_VERSION@
-QTCORE_CFLAGS = @QTCORE_CFLAGS@
-QTCORE_LIBS = @QTCORE_LIBS@
-QTDBUS_CFLAGS = @QTDBUS_CFLAGS@
-QTDBUS_LIBS = @QTDBUS_LIBS@
-QTSQL_CFLAGS = @QTSQL_CFLAGS@
-QTSQL_LIBS = @QTSQL_LIBS@
-QTXML_CFLAGS = @QTXML_CFLAGS@
-QTXML_LIBS = @QTXML_LIBS@
 RANLIB = @RANLIB@
 SBINDIR = @SBINDIR@
 SED = @SED@

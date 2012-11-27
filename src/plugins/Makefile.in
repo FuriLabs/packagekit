@@ -61,8 +61,8 @@ ACLOCAL_M4 = $(top_srcdir)/aclocal.m4
 am__aclocal_m4_deps = $(top_srcdir)/m4/gtk-doc.m4 \
 	$(top_srcdir)/m4/intltool.m4 $(top_srcdir)/m4/libtool.m4 \
 	$(top_srcdir)/m4/ltoptions.m4 $(top_srcdir)/m4/ltsugar.m4 \
-	$(top_srcdir)/m4/ltversion.m4 $(top_srcdir)/m4/lt~obsolete.m4 \
-	$(top_srcdir)/acinclude.m4 $(top_srcdir)/configure.ac
+	$(top_srcdir)/m4/ltversion.m4 $(top_srcdir)/acinclude.m4 \
+	$(top_srcdir)/configure.ac
 am__configure_deps = $(am__aclocal_m4_deps) $(CONFIGURE_DEPENDENCIES) \
 	$(ACLOCAL_M4)
 mkinstalldirs = $(install_sh) -d
@@ -145,6 +145,15 @@ libpk_plugin_no_update_process_la_LINK = $(LIBTOOL) $(AM_V_lt) \
 	--tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=link \
 	$(CCLD) $(libpk_plugin_no_update_process_la_CFLAGS) $(CFLAGS) \
 	$(libpk_plugin_no_update_process_la_LDFLAGS) $(LDFLAGS) -o $@
+libpk_plugin_require_restart_la_DEPENDENCIES = $(am__DEPENDENCIES_1)
+am_libpk_plugin_require_restart_la_OBJECTS =  \
+	libpk_plugin_require_restart_la-pk-plugin-require-restart.lo
+libpk_plugin_require_restart_la_OBJECTS =  \
+	$(am_libpk_plugin_require_restart_la_OBJECTS)
+libpk_plugin_require_restart_la_LINK = $(LIBTOOL) $(AM_V_lt) --tag=CC \
+	$(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=link $(CCLD) \
+	$(libpk_plugin_require_restart_la_CFLAGS) $(CFLAGS) \
+	$(libpk_plugin_require_restart_la_LDFLAGS) $(LDFLAGS) -o $@
 libpk_plugin_scan_desktop_files_la_DEPENDENCIES =  \
 	$(am__DEPENDENCIES_1)
 am_libpk_plugin_scan_desktop_files_la_OBJECTS = libpk_plugin_scan_desktop_files_la-pk-plugin-scan-desktop-files.lo
@@ -253,6 +262,7 @@ SOURCES = $(libpk_plugin_check_shared_libraries_in_use_la_SOURCES) \
 	$(libpk_plugin_clear_firmware_requests_la_SOURCES) \
 	$(libpk_plugin_clear_system_update_la_SOURCES) \
 	$(libpk_plugin_no_update_process_la_SOURCES) \
+	$(libpk_plugin_require_restart_la_SOURCES) \
 	$(libpk_plugin_scan_desktop_files_la_SOURCES) \
 	$(libpk_plugin_systemd_updates_la_SOURCES) \
 	$(libpk_plugin_update_check_processes_la_SOURCES) \
@@ -264,6 +274,7 @@ DIST_SOURCES =  \
 	$(libpk_plugin_clear_firmware_requests_la_SOURCES) \
 	$(libpk_plugin_clear_system_update_la_SOURCES) \
 	$(libpk_plugin_no_update_process_la_SOURCES) \
+	$(libpk_plugin_require_restart_la_SOURCES) \
 	$(libpk_plugin_scan_desktop_files_la_SOURCES) \
 	$(libpk_plugin_systemd_updates_la_SOURCES) \
 	$(libpk_plugin_update_check_processes_la_SOURCES) \
@@ -389,16 +400,12 @@ LOCALSTATEDIR = @LOCALSTATEDIR@
 LTLIBOBJS = @LTLIBOBJS@
 LT_AGE = @LT_AGE@
 LT_CURRENT = @LT_CURRENT@
-LT_QT_AGE = @LT_QT_AGE@
-LT_QT_CURRENT = @LT_QT_CURRENT@
-LT_QT_REVISION = @LT_QT_REVISION@
 LT_REVISION = @LT_REVISION@
 MAINT = @MAINT@
 MAKEINFO = @MAKEINFO@
 MANIFEST_TOOL = @MANIFEST_TOOL@
 MKDIR_P = @MKDIR_P@
 MKINSTALLDIRS = @MKINSTALLDIRS@
-MOC = @MOC@
 MOZILLA_PLUGIN_DIR = @MOZILLA_PLUGIN_DIR@
 MSGFMT = @MSGFMT@
 MSGFMT_OPTS = @MSGFMT_OPTS@
@@ -460,14 +467,6 @@ PYTHON_PACKAGE_DIR = @PYTHON_PACKAGE_DIR@
 PYTHON_PLATFORM = @PYTHON_PLATFORM@
 PYTHON_PREFIX = @PYTHON_PREFIX@
 PYTHON_VERSION = @PYTHON_VERSION@
-QTCORE_CFLAGS = @QTCORE_CFLAGS@
-QTCORE_LIBS = @QTCORE_LIBS@
-QTDBUS_CFLAGS = @QTDBUS_CFLAGS@
-QTDBUS_LIBS = @QTDBUS_LIBS@
-QTSQL_CFLAGS = @QTSQL_CFLAGS@
-QTSQL_LIBS = @QTSQL_LIBS@
-QTXML_CFLAGS = @QTXML_CFLAGS@
-QTXML_LIBS = @QTXML_LIBS@
 RANLIB = @RANLIB@
 SBINDIR = @SBINDIR@
 SED = @SED@
@@ -604,6 +603,7 @@ plugin_LTLIBRARIES = \
 	libpk_plugin-update-check-processes.la		\
 	libpk_plugin-check-shared-libraries-in-use.la	\
 	libpk_plugin-clear-system-update.la		\
+	libpk_plugin-require-restart.la			\
 	libpk_plugin-clear-firmware-requests.la
 
 libpk_plugin_example_la_SOURCES = pk-plugin-example.c
@@ -658,6 +658,12 @@ libpk_plugin_check_shared_libraries_in_use_la_SOURCES = \
 libpk_plugin_check_shared_libraries_in_use_la_LIBADD = $(PK_PLUGIN_LIBS)
 libpk_plugin_check_shared_libraries_in_use_la_LDFLAGS = -module -avoid-version
 libpk_plugin_check_shared_libraries_in_use_la_CFLAGS = $(PK_PLUGIN_CFLAGS) $(WARNINGFLAGS_C)
+libpk_plugin_require_restart_la_SOURCES = \
+	pk-plugin-require-restart.c
+
+libpk_plugin_require_restart_la_LIBADD = $(PK_PLUGIN_LIBS)
+libpk_plugin_require_restart_la_LDFLAGS = -module -avoid-version
+libpk_plugin_require_restart_la_CFLAGS = $(PK_PLUGIN_CFLAGS) $(WARNINGFLAGS_C)
 all: all-am
 
 .SUFFIXES:
@@ -747,6 +753,8 @@ libpk_plugin-clear-system-update.la: $(libpk_plugin_clear_system_update_la_OBJEC
 	$(AM_V_CCLD)$(libpk_plugin_clear_system_update_la_LINK) -rpath $(plugindir) $(libpk_plugin_clear_system_update_la_OBJECTS) $(libpk_plugin_clear_system_update_la_LIBADD) $(LIBS)
 libpk_plugin-no-update-process.la: $(libpk_plugin_no_update_process_la_OBJECTS) $(libpk_plugin_no_update_process_la_DEPENDENCIES) $(EXTRA_libpk_plugin_no_update_process_la_DEPENDENCIES) 
 	$(AM_V_CCLD)$(libpk_plugin_no_update_process_la_LINK) -rpath $(plugindir) $(libpk_plugin_no_update_process_la_OBJECTS) $(libpk_plugin_no_update_process_la_LIBADD) $(LIBS)
+libpk_plugin-require-restart.la: $(libpk_plugin_require_restart_la_OBJECTS) $(libpk_plugin_require_restart_la_DEPENDENCIES) $(EXTRA_libpk_plugin_require_restart_la_DEPENDENCIES) 
+	$(AM_V_CCLD)$(libpk_plugin_require_restart_la_LINK) -rpath $(plugindir) $(libpk_plugin_require_restart_la_OBJECTS) $(libpk_plugin_require_restart_la_LIBADD) $(LIBS)
 libpk_plugin-scan-desktop-files.la: $(libpk_plugin_scan_desktop_files_la_OBJECTS) $(libpk_plugin_scan_desktop_files_la_DEPENDENCIES) $(EXTRA_libpk_plugin_scan_desktop_files_la_DEPENDENCIES) 
 	$(AM_V_CCLD)$(libpk_plugin_scan_desktop_files_la_LINK) -rpath $(plugindir) $(libpk_plugin_scan_desktop_files_la_OBJECTS) $(libpk_plugin_scan_desktop_files_la_LIBADD) $(LIBS)
 libpk_plugin-systemd-updates.la: $(libpk_plugin_systemd_updates_la_OBJECTS) $(libpk_plugin_systemd_updates_la_DEPENDENCIES) $(EXTRA_libpk_plugin_systemd_updates_la_DEPENDENCIES) 
@@ -784,6 +792,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libpk_plugin_clear_system_update_la-pk-plugin-clear-system-update.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libpk_plugin_example_la-pk-plugin-example.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libpk_plugin_no_update_process_la-pk-plugin-no-update-process.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libpk_plugin_require_restart_la-pk-plugin-require-restart.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libpk_plugin_scan_desktop_files_la-pk-plugin-scan-desktop-files.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libpk_plugin_scripts_la-pk-plugin-scripts.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libpk_plugin_systemd_updates_la-pk-plugin-systemd-updates.Plo@am__quote@
@@ -848,6 +857,13 @@ libpk_plugin_no_update_process_la-pk-plugin-no-update-process.lo: pk-plugin-no-u
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='pk-plugin-no-update-process.c' object='libpk_plugin_no_update_process_la-pk-plugin-no-update-process.lo' libtool=yes @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libpk_plugin_no_update_process_la_CFLAGS) $(CFLAGS) -c -o libpk_plugin_no_update_process_la-pk-plugin-no-update-process.lo `test -f 'pk-plugin-no-update-process.c' || echo '$(srcdir)/'`pk-plugin-no-update-process.c
+
+libpk_plugin_require_restart_la-pk-plugin-require-restart.lo: pk-plugin-require-restart.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libpk_plugin_require_restart_la_CFLAGS) $(CFLAGS) -MT libpk_plugin_require_restart_la-pk-plugin-require-restart.lo -MD -MP -MF $(DEPDIR)/libpk_plugin_require_restart_la-pk-plugin-require-restart.Tpo -c -o libpk_plugin_require_restart_la-pk-plugin-require-restart.lo `test -f 'pk-plugin-require-restart.c' || echo '$(srcdir)/'`pk-plugin-require-restart.c
+@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/libpk_plugin_require_restart_la-pk-plugin-require-restart.Tpo $(DEPDIR)/libpk_plugin_require_restart_la-pk-plugin-require-restart.Plo
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='pk-plugin-require-restart.c' object='libpk_plugin_require_restart_la-pk-plugin-require-restart.lo' libtool=yes @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libpk_plugin_require_restart_la_CFLAGS) $(CFLAGS) -c -o libpk_plugin_require_restart_la-pk-plugin-require-restart.lo `test -f 'pk-plugin-require-restart.c' || echo '$(srcdir)/'`pk-plugin-require-restart.c
 
 libpk_plugin_scan_desktop_files_la-pk-plugin-scan-desktop-files.lo: pk-plugin-scan-desktop-files.c
 @am__fastdepCC_TRUE@	$(AM_V_CC)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libpk_plugin_scan_desktop_files_la_CFLAGS) $(CFLAGS) -MT libpk_plugin_scan_desktop_files_la-pk-plugin-scan-desktop-files.lo -MD -MP -MF $(DEPDIR)/libpk_plugin_scan_desktop_files_la-pk-plugin-scan-desktop-files.Tpo -c -o libpk_plugin_scan_desktop_files_la-pk-plugin-scan-desktop-files.lo `test -f 'pk-plugin-scan-desktop-files.c' || echo '$(srcdir)/'`pk-plugin-scan-desktop-files.c

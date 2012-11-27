@@ -18,7 +18,7 @@ class PackageKitEnum:
 	media_type = ( "unknown", "cd", "dvd", "disc", )
 	authorize_type = ( "unknown", "yes", "no", "interactive", )
 	upgrade_kind = ( "unknown", "minimal", "default", "complete", )
-	transaction_flag = ( "none", "only-trusted", "simluate", "only-download", )
+	transaction_flag = ( "none", "only-trusted", "simulate", "only-download", )
 
 # Constants
 
@@ -312,7 +312,7 @@ STATUS_WAITING_FOR_LOCK = "waiting-for-lock"
 TRANSACTION_FLAG_NONE = "none"
 TRANSACTION_FLAG_ONLY_DOWNLOAD = "only-download"
 TRANSACTION_FLAG_ONLY_TRUSTED = "only-trusted"
-TRANSACTION_FLAG_SIMULATE = "simluate"
+TRANSACTION_FLAG_SIMULATE = "simulate"
 UPDATE_STATE_STABLE = "stable"
 UPDATE_STATE_TESTING = "testing"
 UPDATE_STATE_UNKNOWN = "unknown"

@@ -412,6 +412,7 @@
 <ANCHOR id="pk-package-sack-resolve-async" href="PackageKit/PkPackageSack.html#pk-package-sack-resolve-async">
 <ANCHOR id="pk-package-sack-sort" href="PackageKit/PkPackageSack.html#pk-package-sack-sort">
 <ANCHOR id="pk-package-sack-test" href="PackageKit/PkPackageSack.html#pk-package-sack-test">
+<ANCHOR id="pk-package-sack-to-file" href="PackageKit/PkPackageSack.html#pk-package-sack-to-file">
 <ANCHOR id="PkPackage" href="PackageKit/PkPackage.html">
 <ANCHOR id="PkPackage.synopsis" href="PackageKit/PkPackage.html#PkPackage.synopsis">
 <ANCHOR id="PkPackage.object-hierarchy" href="PackageKit/PkPackage.html#PkPackage.object-hierarchy">

@@ -43,16 +43,16 @@
 <a name="PkDistroUpgrade.synopsis"></a><h2>Synopsis</h2>
 <pre class="synopsis">struct              <a class="link" href="PkDistroUpgrade.html#PkDistroUpgrade-struct" title="struct PkDistroUpgrade">PkDistroUpgrade</a>;
 struct              <a class="link" href="PkDistroUpgrade.html#PkDistroUpgradeClass" title="struct PkDistroUpgradeClass">PkDistroUpgradeClass</a>;
-const <span class="returnvalue">gchar</span> *       <a class="link" href="PkDistroUpgrade.html#pk-distro-upgrade-get-id" title="pk_distro_upgrade_get_id ()">pk_distro_upgrade_get_id</a>            (<em class="parameter"><code><a class="link" href="PkDistroUpgrade.html" title="PkDistroUpgrade"><span class="type">PkDistroUpgrade</span></a> *distro_upgrade</code></em>);
+const <a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gchar"><span class="returnvalue">gchar</span></a> *       <a class="link" href="PkDistroUpgrade.html#pk-distro-upgrade-get-id" title="pk_distro_upgrade_get_id ()">pk_distro_upgrade_get_id</a>            (<em class="parameter"><code><a class="link" href="PkDistroUpgrade.html" title="PkDistroUpgrade"><span class="type">PkDistroUpgrade</span></a> *distro_upgrade</code></em>);
 <a class="link" href="PackageKit-pk-enum.html#PkDistroUpgradeEnum"><span class="returnvalue">PkDistroUpgradeEnum</span></a> <a class="link" href="PkDistroUpgrade.html#pk-distro-upgrade-get-state" title="pk_distro_upgrade_get_state ()">pk_distro_upgrade_get_state</a>         (<em class="parameter"><code><a class="link" href="PkDistroUpgrade.html" title="PkDistroUpgrade"><span class="type">PkDistroUpgrade</span></a> *distro_upgrade</code></em>);
-const <span class="returnvalue">gchar</span> *       <a class="link" href="PkDistroUpgrade.html#pk-distro-upgrade-get-summary" title="pk_distro_upgrade_get_summary ()">pk_distro_upgrade_get_summary</a>       (<em class="parameter"><code><a class="link" href="PkDistroUpgrade.html" title="PkDistroUpgrade"><span class="type">PkDistroUpgrade</span></a> *distro_upgrade</code></em>);
+const <a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gchar"><span class="returnvalue">gchar</span></a> *       <a class="link" href="PkDistroUpgrade.html#pk-distro-upgrade-get-summary" title="pk_distro_upgrade_get_summary ()">pk_distro_upgrade_get_summary</a>       (<em class="parameter"><code><a class="link" href="PkDistroUpgrade.html" title="PkDistroUpgrade"><span class="type">PkDistroUpgrade</span></a> *distro_upgrade</code></em>);
 <a class="link" href="PkDistroUpgrade.html" title="PkDistroUpgrade"><span class="returnvalue">PkDistroUpgrade</span></a> *   <a class="link" href="PkDistroUpgrade.html#pk-distro-upgrade-new" title="pk_distro_upgrade_new ()">pk_distro_upgrade_new</a>               (<em class="parameter"><code><span class="type">void</span></code></em>);
 </pre>
 </div>
 <div class="refsect1">
 <a name="PkDistroUpgrade.object-hierarchy"></a><h2>Object Hierarchy</h2>
 <pre class="synopsis">
-  GObject
+  <a href="http://library.gnome.org/devel/gobject/unstable/gobject-The-Base-Object-Type.html#GObject">GObject</a>
    +----PkSource
          +----PkDistroUpgrade
 </pre>
@@ -60,9 +60,9 @@ const <span class="returnvalue">gchar</span> *       <a class="link" href="PkDis
 <div class="refsect1">
 <a name="PkDistroUpgrade.properties"></a><h2>Properties</h2>
 <pre class="synopsis">
-  "<a class="link" href="PkDistroUpgrade.html#PkDistroUpgrade--name" title='The "name" property'>name</a>"                     <span class="type">gchar</span>*                : Read / Write
-  "<a class="link" href="PkDistroUpgrade.html#PkDistroUpgrade--state" title='The "state" property'>state</a>"                    <span class="type">guint</span>                 : Read / Write
-  "<a class="link" href="PkDistroUpgrade.html#PkDistroUpgrade--summary" title='The "summary" property'>summary</a>"                  <span class="type">gchar</span>*                : Read / Write
+  "<a class="link" href="PkDistroUpgrade.html#PkDistroUpgrade--name" title='The "name" property'>name</a>"                     <a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a>*                : Read / Write
+  "<a class="link" href="PkDistroUpgrade.html#PkDistroUpgrade--state" title='The "state" property'>state</a>"                    <a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#guint"><span class="type">guint</span></a>                 : Read / Write
+  "<a class="link" href="PkDistroUpgrade.html#PkDistroUpgrade--summary" title='The "summary" property'>summary</a>"                  <a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a>*                : Read / Write
 </pre>
 </div>
 <div class="refsect1">
@@ -96,7 +96,7 @@ often present in lists (<a class="link" href="PkResults.html" title="PkResults">
 <hr>
 <div class="refsect2">
 <a name="pk-distro-upgrade-get-id"></a><h3>pk_distro_upgrade_get_id ()</h3>
-<pre class="programlisting">const <span class="returnvalue">gchar</span> *       pk_distro_upgrade_get_id            (<em class="parameter"><code><a class="link" href="PkDistroUpgrade.html" title="PkDistroUpgrade"><span class="type">PkDistroUpgrade</span></a> *distro_upgrade</code></em>);</pre>
+<pre class="programlisting">const <a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gchar"><span class="returnvalue">gchar</span></a> *       pk_distro_upgrade_get_id            (<em class="parameter"><code><a class="link" href="PkDistroUpgrade.html" title="PkDistroUpgrade"><span class="type">PkDistroUpgrade</span></a> *distro_upgrade</code></em>);</pre>
 <p>
 Gets the distribution identifier.
 You use this value to call UpgradeSystem.
@@ -148,7 +148,7 @@ Gets the status of the distribution upgrade.
 <hr>
 <div class="refsect2">
 <a name="pk-distro-upgrade-get-summary"></a><h3>pk_distro_upgrade_get_summary ()</h3>
-<pre class="programlisting">const <span class="returnvalue">gchar</span> *       pk_distro_upgrade_get_summary       (<em class="parameter"><code><a class="link" href="PkDistroUpgrade.html" title="PkDistroUpgrade"><span class="type">PkDistroUpgrade</span></a> *distro_upgrade</code></em>);</pre>
+<pre class="programlisting">const <a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gchar"><span class="returnvalue">gchar</span></a> *       pk_distro_upgrade_get_summary       (<em class="parameter"><code><a class="link" href="PkDistroUpgrade.html" title="PkDistroUpgrade"><span class="type">PkDistroUpgrade</span></a> *distro_upgrade</code></em>);</pre>
 <p>
 Gets the description of the distribution upgrade.
 </p>
@@ -191,7 +191,7 @@ Gets the description of the distribution upgrade.
 <a name="PkDistroUpgrade.property-details"></a><h2>Property Details</h2>
 <div class="refsect2">
 <a name="PkDistroUpgrade--name"></a><h3>The <code class="literal">"name"</code> property</h3>
-<pre class="programlisting">  "name"                     <span class="type">gchar</span>*                : Read / Write</pre>
+<pre class="programlisting">  "name"                     <a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a>*                : Read / Write</pre>
 <p></p>
 <p>Default value: NULL</p>
 <p class="since">Since 0.5.4</p>
@@ -199,7 +199,7 @@ Gets the description of the distribution upgrade.
 <hr>
 <div class="refsect2">
 <a name="PkDistroUpgrade--state"></a><h3>The <code class="literal">"state"</code> property</h3>
-<pre class="programlisting">  "state"                    <span class="type">guint</span>                 : Read / Write</pre>
+<pre class="programlisting">  "state"                    <a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#guint"><span class="type">guint</span></a>                 : Read / Write</pre>
 <p></p>
 <p>Default value: 0</p>
 <p class="since">Since 0.5.4</p>
@@ -207,7 +207,7 @@ Gets the description of the distribution upgrade.
 <hr>
 <div class="refsect2">
 <a name="PkDistroUpgrade--summary"></a><h3>The <code class="literal">"summary"</code> property</h3>
-<pre class="programlisting">  "summary"                  <span class="type">gchar</span>*                : Read / Write</pre>
+<pre class="programlisting">  "summary"                  <a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a>*                : Read / Write</pre>
 <p></p>
 <p>Default value: NULL</p>
 <p class="since">Since 0.5.4</p>
