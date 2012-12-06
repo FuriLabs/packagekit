@@ -1,0 +1,39 @@
+From 6a637ba18ec79108fadecc35c1f03ca66bffb5d3 Mon Sep 17 00:00:00 2001
+From: Daniel Nicoletti <dantti12@gmail.com>
+Date: Fri, 30 Nov 2012 23:48:19 -0200
+Subject: [PATCH] aptcc: Fix bug that was marking some packages as auto-installed and confused the resolver
+
+---
+ backends/aptcc/apt-intf.cpp |    9 +--------
+ 1 files changed, 1 insertions(+), 8 deletions(-)
+
+diff --git a/backends/aptcc/apt-intf.cpp b/backends/aptcc/apt-intf.cpp
+index 68cb7db..cf158fb 100644
+--- a/backends/aptcc/apt-intf.cpp
++++ b/backends/aptcc/apt-intf.cpp
+@@ -1548,6 +1548,7 @@ bool AptIntf::tryToInstall(pkgProblemResolver &Fix,
+     pkgCache::PkgIterator Pkg = ver.ParentPkg();
+ 
+     // Check if there is something at all to install
++    m_cache->GetDepCache()->SetCandidateVersion(ver);
+     pkgDepCache::StateCache &State = (*m_cache)[Pkg];
+ 
+     if (State.CandidateVer == 0) {
+@@ -1567,14 +1568,6 @@ bool AptIntf::tryToInstall(pkgProblemResolver &Fix,
+     // Install it
+     m_cache->GetDepCache()->MarkInstall(Pkg, false);
+ 
+-    // 	cout << "trytoinstall ExpectedInst " << ExpectedInst << endl;
+-    // Install it with autoinstalling enabled (if we not respect the minial
+-    // required deps or the policy)
+-    if ((State.InstBroken() == true || State.InstPolicyBroken() == true) &&
+-            BrokenFix == false) {
+-        m_cache->GetDepCache()->MarkInstall(Pkg,true);
+-    }
+-
+     return true;
+ }
+ 
+-- 
+1.7.1
+

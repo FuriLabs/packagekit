@@ -1,0 +1,49 @@
+From b6b37cddb4b7c07f4365bc816473a746b6d02bf0 Mon Sep 17 00:00:00 2001
+From: Daniel Nicoletti <dantti12@gmail.com>
+Date: Fri, 30 Nov 2012 00:45:12 -0200
+Subject: [PATCH] aptcc: Fix a remaining lock that was being left on the archive directory
+ Backported to PackageKit 0.7.x series by Matthias Klumpp <matthias@tenstral.net>
+
+---
+ backends/aptcc/apt-intf.cpp |   22 ++++++++++------------
+ 1 files changed, 10 insertions(+), 12 deletions(-)
+
+--- a/backends/aptcc/apt-intf.cpp
++++ b/backends/aptcc/apt-intf.cpp
+@@ -2389,6 +2389,8 @@
+  */
+ bool AptIntf::installPackages(AptCacheFile &cache, bool simulating)
+ {
++    bool simulate = pk_bitfield_contain(flags, PK_TRANSACTION_FLAG_ENUM_SIMULATE);
++
+     //cout << "installPackages() called" << endl;
+     // Try to auto-remove packages
+     if (!doAutomaticRemove(cache)) {
+@@ -2420,21 +2422,17 @@
+         return false;
+     }
+ 
+-    // Lock the archive directory
+-    FileFd Lock;
+-    if (_config->FindB("Debug::NoLocking", false) == false) {
+-        Lock.Fd(GetLock(_config->FindDir("Dir::Cache::Archives") + "lock"));
+-        if (_error->PendingError() == true) {
+-            return _error->Error("Unable to lock the download directory");
+-        }
+-    }
+-
+     // Create the download object
+     AcqPackageKitStatus Stat(this, m_backend, m_cancel);
+ 
+     // get a fetcher
+     pkgAcquire fetcher;
+-    fetcher.Setup(&Stat);
++    if (!simulate) {
++        // Only lock the archive directory if we will download
++        if (fetcher.Setup(&Stat, _config->FindDir("Dir::Cache::Archives")) == false) {
++            return false;
++        }
++    }
+ 
+     // Create the package manager and prepare to download
+     SPtr<pkgPackageManager> PM = _system->CreatePM(cache);

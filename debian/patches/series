@@ -1,3 +1,5 @@
 vendor-debian.diff
 defaults.diff
 policy.diff
+01_aptcc_untrusted-trusted-pkgs.patch
+03_aptcc_release-lock.patch

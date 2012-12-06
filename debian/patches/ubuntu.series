@@ -1,3 +1,6 @@
 vendor-ubuntu.diff
 defaults.diff
 policy.diff
+01_aptcc_untrusted-trusted-pkgs.patch
+02_aptcc_auto-installed-fix.patch
+03_aptcc_release-lock.patch
