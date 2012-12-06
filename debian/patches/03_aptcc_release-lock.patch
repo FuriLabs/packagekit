@@ -10,16 +10,7 @@ Subject: [PATCH] aptcc: Fix a remaining lock that was being left on the archive 
 
 --- a/backends/aptcc/apt-intf.cpp
 +++ b/backends/aptcc/apt-intf.cpp
-@@ -2389,6 +2389,8 @@
-  */
- bool AptIntf::installPackages(AptCacheFile &cache, bool simulating)
- {
-+    bool simulate = pk_bitfield_contain(flags, PK_TRANSACTION_FLAG_ENUM_SIMULATE);
-+
-     //cout << "installPackages() called" << endl;
-     // Try to auto-remove packages
-     if (!doAutomaticRemove(cache)) {
-@@ -2420,21 +2422,17 @@
+@@ -2420,21 +2420,17 @@
          return false;
      }
  
@@ -38,7 +29,7 @@ Subject: [PATCH] aptcc: Fix a remaining lock that was being left on the archive 
      // get a fetcher
      pkgAcquire fetcher;
 -    fetcher.Setup(&Stat);
-+    if (!simulate) {
++    if (!simulating) {
 +        // Only lock the archive directory if we will download
 +        if (fetcher.Setup(&Stat, _config->FindDir("Dir::Cache::Archives")) == false) {
 +            return false;
