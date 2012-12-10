@@ -10,19 +10,15 @@ Subject: [PATCH] aptcc: Fix trusted packages not being emitted when an untrusted
 
 --- a/backends/aptcc/apt-intf.cpp
 +++ b/backends/aptcc/apt-intf.cpp
-@@ -1430,20 +1430,29 @@
+@@ -1430,21 +1430,26 @@
      if (untrusted.empty()) {
          return true;
      } else if (simulating) {
 +        // We are just simulating and have untrusted packages emit them
 +        // and return true to continue processing
          emitPackages(untrusted, PK_FILTER_ENUM_NONE, PK_INFO_ENUM_UNTRUSTED);
-     }
- 
--    if (pk_backend_get_bool(m_backend, "only_trusted") == false) {
--        g_debug ("Authentication warning overridden.\n");
--        return true;
-+    if (pk_backend_get_bool(m_backend, "only_trusted")) {
+-    }
++    } else if (pk_backend_get_bool(m_backend, "only_trusted")) {
 +         // We are NOT simulating and have untrusted packages
 +         // fail the transaction.
 +         string warning("The following packages cannot be authenticated:\n");
@@ -31,7 +27,10 @@ Subject: [PATCH] aptcc: Fix trusted packages not being emitted when an untrusted
 +                                   PK_ERROR_ENUM_CANNOT_INSTALL_REPO_UNSIGNED,
 +                                   warning.c_str());
 +         _error->Discard();
-+
+ 
+-    if (pk_backend_get_bool(m_backend, "only_trusted") == false) {
+-        g_debug ("Authentication warning overridden.\n");
+-        return true;
 +         return false;
 +    } else {
 +         // We are NOT simulating and have untrusted packages
@@ -39,13 +38,14 @@ Subject: [PATCH] aptcc: Fix trusted packages not being emitted when an untrusted
 +         g_debug ("Authentication warning overridden.\n");
 +         return true;
      }
- 
+-
 -    string warning("The following packages cannot be authenticated:\n");
 -    warning += UntrustedList;
 -    pk_backend_error_code(m_backend,
 -                          PK_ERROR_ENUM_CANNOT_INSTALL_REPO_UNSIGNED,
 -                          warning.c_str());
 -    _error->Discard();
-     return false;
+-    return false;
  }
  
+ void AptIntf::tryToRemove(const pkgCache::VerIterator &ver,

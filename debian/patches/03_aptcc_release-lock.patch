@@ -10,7 +10,7 @@ Subject: [PATCH] aptcc: Fix a remaining lock that was being left on the archive 
 
 --- a/backends/aptcc/apt-intf.cpp
 +++ b/backends/aptcc/apt-intf.cpp
-@@ -2420,21 +2420,17 @@
+@@ -2408,21 +2408,17 @@
          return false;
      }
  

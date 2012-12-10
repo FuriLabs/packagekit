@@ -7,11 +7,9 @@ Subject: [PATCH] aptcc: Fix bug that was marking some packages as auto-installed
  backends/aptcc/apt-intf.cpp |   10 +---------
  1 files changed, 1 insertions(+), 9 deletions(-)
 
-diff --git a/backends/aptcc/apt-intf.cpp b/backends/aptcc/apt-intf.cpp
-index cb1bf88..a66ed3f 100644
 --- a/backends/aptcc/apt-intf.cpp
 +++ b/backends/aptcc/apt-intf.cpp
-@@ -1479,7 +1479,6 @@ void AptIntf::tryToRemove(const pkgCache::VerIterator &ver,
+@@ -1475,7 +1475,6 @@
      Cache.MarkDelete(Pkg, false);
  }
  
@@ -19,7 +17,7 @@ index cb1bf88..a66ed3f 100644
  bool AptIntf::tryToInstall(const pkgCache::VerIterator &ver,
                             pkgDepCache &Cache,
                             pkgProblemResolver &Fix,
-@@ -1489,6 +1488,7 @@ bool AptIntf::tryToInstall(const pkgCache::VerIterator &ver,
+@@ -1485,6 +1484,7 @@
      pkgCache::PkgIterator Pkg = ver.ParentPkg();
  
      // Check if there is something at all to install
@@ -27,7 +25,7 @@ index cb1bf88..a66ed3f 100644
      pkgDepCache::StateCache &State = Cache[Pkg];
  
      if (State.CandidateVer == 0) {
-@@ -1511,14 +1511,6 @@ bool AptIntf::tryToInstall(const pkgCache::VerIterator &ver,
+@@ -1507,14 +1507,6 @@
          ExpectedInst++;
      }
  
@@ -42,6 +40,3 @@ index cb1bf88..a66ed3f 100644
      return true;
  }
  
--- 
-1.7.1
-
