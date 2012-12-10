@@ -1,3 +1,13 @@
+packagekit (0.7.6-2) unstable; urgency=low
+
+  * aptcc: Release remaining lock on the archive after
+     a transaction has completed
+  * aptcc: Fix trusted/untrusted package handling
+  * aptcc: Don't accidentially mark packages as auto-installed
+  * Removed some unused build dependencies
+
+ -- Matthias Klumpp <matthias@tenstral.net>  Mon, 10 Dec 2012 19:16:33 +0100
+
 packagekit (0.7.6-1) unstable; urgency=low
 
   * New upstream bugfix release: 0.7.6
