@@ -32,7 +32,7 @@ Build-Depends: debhelper (>= 9.0.0),
                python3-dev (>= 3.2),
                xmlto,
                xulrunner-dev (>= 8.0) | firefox-dev (>= 8.0)
-Standards-Version: 3.9.3
+Standards-Version: 3.9.4
 Homepage: http://www.packagekit.org
 
 Package: packagekit
