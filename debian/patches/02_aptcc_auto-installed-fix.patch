@@ -17,15 +17,7 @@ Subject: [PATCH] aptcc: Fix bug that was marking some packages as auto-installed
  bool AptIntf::tryToInstall(const pkgCache::VerIterator &ver,
                             pkgDepCache &Cache,
                             pkgProblemResolver &Fix,
-@@ -1485,6 +1484,7 @@
-     pkgCache::PkgIterator Pkg = ver.ParentPkg();
- 
-     // Check if there is something at all to install
-+    Cache.SetCandidateVersion(ver);
-     pkgDepCache::StateCache &State = Cache[Pkg];
- 
-     if (State.CandidateVer == 0) {
-@@ -1507,14 +1507,6 @@
+@@ -1507,14 +1506,6 @@
          ExpectedInst++;
      }
  
