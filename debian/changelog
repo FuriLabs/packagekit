@@ -1,3 +1,9 @@
+packagekit (0.7.6-3) unstable; urgency=low
+
+  * aptcc: Fix Apt cache handling bug (Closes: #699681)
+
+ -- Matthias Klumpp <matthias@tenstral.net>  Tue, 12 Feb 2013 17:05:46 +0100
+
 packagekit (0.7.6-2) unstable; urgency=low
 
   * aptcc: Release remaining lock on the archive after
