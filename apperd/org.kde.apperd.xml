@@ -1,0 +1,15 @@
+<!DOCTYPE node PUBLIC "-//freedesktop//DTD D-BUS Object Introspection 1.0//EN" "http://www.freedesktop.org/standards/dbus/1.0/introspect.dtd">
+<node>
+   <interface name="org.kde.apperd">
+       <method name="RefreshCache" >
+       </method>
+       <method name="SetupDebconfDialog" >
+           <arg type="s" name="tid" direction="in" />
+           <arg type="s" name="socket_path" direction="in" />
+           <arg type="u" name="xid_parent" direction="in" />
+       </method>
+       <method name="WatchTransaction" >
+           <arg type="o" name="tid" direction="in" />
+       </method>
+   </interface>
+</node>

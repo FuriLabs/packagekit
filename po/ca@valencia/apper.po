@@ -1,0 +1,4550 @@
+# Translation of kpackagekit.po to Catalan
+# Copyright (C) 2009-2010 This_file_is_part_of_KDE
+# This file is distributed under the license LGPL version 2 or later
+#
+#
+# Joan Maspons <joanmaspons@gmail.com>, 2009, 2011.
+# Josep Ma. Ferrer <txemaq@gmail.com>, 2010.
+# Manuel Tortosa <manutortosa@chakra-project.org>, 2010.
+msgid ""
+msgstr ""
+"Project-Id-Version: kpackagekit\n"
+"Report-Msgid-Bugs-To: http://bugs.kde.org\n"
+"POT-Creation-Date: 2013-01-08 12:21+0100\n"
+"PO-Revision-Date: 2011-02-03 01:22+0100\n"
+"Last-Translator: Joan Maspons <joanmaspons@gmail.com>\n"
+"Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
+"Language: ca\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Accelerator-Marker: &\n"
+"X-Generator: Lokalize 1.2\n"
+
+msgctxt "NAME OF TRANSLATORS"
+msgid "Your names"
+msgstr "Joan Maspons Ventura,Manuel Tortosa Moreno"
+
+msgctxt "EMAIL OF TRANSLATORS"
+msgid "Your emails"
+msgstr "joanmaspons@gmail.com,manutortosa@gmail.com"
+
+#: Apper/BackendDetails.cpp:31
+#, fuzzy
+#| msgid "Show backend details"
+msgid "Backend Details"
+msgstr "Mostra els detalls del dorsal"
+
+#. i18n: ectx: property (title), widget (QGroupBox, groupBox)
+#: Apper/BackendDetails.ui:26
+msgid "About Backend"
+msgstr "Quant al dorsal"
+
+#. i18n: ectx: property (text), widget (QLabel, label)
+#: Apper/BackendDetails.ui:32
+msgid "Backend name:"
+msgstr "Nom del dorsal:"
+
+#. i18n: ectx: property (text), widget (QLabel, label_3)
+#: Apper/BackendDetails.ui:46
+msgid "Backend description:"
+msgstr "Descripció del dorsal:"
+
+#. i18n: ectx: property (text), widget (QLabel, label_2)
+#: Apper/BackendDetails.ui:60
+msgid "Backend author:"
+msgstr "Autor del dorsal:"
+
+#. i18n: ectx: property (text), widget (QLabel, label_4)
+#: Apper/BackendDetails.ui:74
+msgid "Distribution ID:"
+msgstr "ID de la distribució:"
+
+#. i18n: ectx: property (title), widget (QGroupBox, groupBox_3)
+#: Apper/BackendDetails.ui:94
+msgid "Methods"
+msgstr "Mètodes"
+
+#. i18n: ectx: property (text), widget (QCheckBox, getUpdatesCB)
+#: Apper/BackendDetails.ui:103
+msgid "Get Updates"
+msgstr "Obtén actualitzacions"
+
+#. i18n: ectx: property (text), widget (QCheckBox, refreshCacheCB)
+#: Apper/BackendDetails.ui:113
+msgid "Refresh Cache"
+msgstr "Refresca la memòria cau"
+
+#. i18n: ectx: property (text), widget (QCheckBox, searchNameCB)
+#: Apper/BackendDetails.ui:123
+msgid "Search Name"
+msgstr "Cerca nom"
+
+#. i18n: ectx: property (text), widget (QCheckBox, getDependsCB)
+#: Apper/BackendDetails.ui:133
+msgid "Get Package Depends"
+msgstr "Obtén les dependències del paquet"
+
+#. i18n: ectx: property (text), widget (QCheckBox, searchDetailsCB)
+#: Apper/BackendDetails.ui:143
+msgid "Search Details"
+msgstr "Cerca detalls"
+
+#. i18n: ectx: property (text), widget (QCheckBox, getRequiresCB)
+#: Apper/BackendDetails.ui:153
+msgid "Get Package Requires"
+msgstr "Obtén els requeriments del paquet"
+
+#. i18n: ectx: property (text), widget (QCheckBox, searchGroupCB)
+#: Apper/BackendDetails.ui:163
+msgid "Search Group"
+msgstr "Cerca grup"
+
+#. i18n: ectx: property (text), widget (QCheckBox, getUpdateDetailCB)
+#: Apper/BackendDetails.ui:173
+msgid "Get Update Detail"
+msgstr "Obtén detalls de l'actualització"
+
+#. i18n: ectx: property (text), widget (QCheckBox, searchFileCB)
+#: Apper/BackendDetails.ui:183
+msgid "Search File"
+msgstr "Cerca fitxer"
+
+#. i18n: ectx: property (text), widget (QCheckBox, getDescriptionCB)
+#: Apper/BackendDetails.ui:193
+msgid "Get Package Description"
+msgstr "Obtén descripció del paquet"
+
+#. i18n: ectx: property (text), widget (QCheckBox, getFilesCB)
+#: Apper/BackendDetails.ui:203
+msgid "Get Package Files"
+msgstr "Obtén els fitxers del paquet"
+
+#. i18n: ectx: property (text), widget (QCheckBox, getDistroUpgradesCB)
+#: Apper/BackendDetails.ui:213
+msgid "Get Distro Upgrades"
+msgstr "Obtén les actualitzacions de la distribució"
+
+#. i18n: ectx: property (text), widget (QCheckBox, installPackageCB)
+#: Apper/BackendDetails.ui:223
+msgid "Install Packages"
+msgstr "Instal·la els paquets"
+
+#. i18n: ectx: property (text), widget (QCheckBox, updatePackageCB)
+#: Apper/BackendDetails.ui:233
+msgid "Update Packages"
+msgstr "Actualitza els paquets"
+
+#. i18n: ectx: property (text), widget (QCheckBox, removePackageCB)
+#: Apper/BackendDetails.ui:243
+msgid "Remove Packages"
+msgstr "Elimina paquets"
+
+#. i18n: ectx: property (text), widget (QCheckBox, installFileCB)
+#: Apper/BackendDetails.ui:253
+msgid "Install Files"
+msgstr "Instal·la fitxers"
+
+#. i18n: ectx: property (text), widget (QCheckBox, resolveCB)
+#: Apper/BackendDetails.ui:263
+msgid "Resolve"
+msgstr "Resol"
+
+#. i18n: ectx: property (text), widget (QCheckBox, cancelCB)
+#: Apper/BackendDetails.ui:273
+msgid "Cancel"
+msgstr "Cancel·la"
+
+#. i18n: ectx: property (text), widget (QCheckBox, repairSystemCB)
+#: Apper/BackendDetails.ui:283
+#, fuzzy
+#| msgid "Update System"
+msgid "Repair System"
+msgstr "Actualitza el sistema"
+
+#. i18n: ectx: property (text), widget (QCheckBox, upgradeSystemCB)
+#: Apper/BackendDetails.ui:293
+#, fuzzy
+#| msgid "Update System"
+msgid "Upgrade System"
+msgstr "Actualitza el sistema"
+
+#. i18n: ectx: property (text), widget (QCheckBox, getPackagesCB)
+#: Apper/BackendDetails.ui:303
+msgid "Get Packages"
+msgstr "Obtén paquets"
+
+#. i18n: ectx: property (text), widget (QCheckBox, whatProvidesCB)
+#: Apper/BackendDetails.ui:313
+msgid "What Provides"
+msgstr "El què proporciona"
+
+#. i18n: ectx: property (text), widget (QCheckBox, repositorySetEnableCB)
+#: Apper/BackendDetails.ui:323
+msgid "Set Repository Data"
+msgstr "Estableix les dades del repositori"
+
+#. i18n: ectx: property (text), widget (QCheckBox, repositoryEnableCB)
+#: Apper/BackendDetails.ui:333
+msgid "Enable Repository"
+msgstr "Habilita el repositori"
+
+#. i18n: ectx: property (text), widget (QCheckBox, getRepositoryListCB)
+#: Apper/BackendDetails.ui:343
+msgid "Get Repository List"
+msgstr "Obtén la llista de repositoris"
+
+#. i18n: ectx: property (title), widget (QGroupBox, groupBox_2)
+#. i18n: ectx: property (text), widget (QToolButton, filtersTB)
+#: Apper/BackendDetails.ui:366 ApperKCM/ApperKCM.ui:98
+msgid "Filters"
+msgstr "Filtres"
+
+#. i18n: ectx: property (text), widget (QCheckBox, installedCB)
+#: Apper/BackendDetails.ui:375 ApperKCM/FiltersMenu.cpp:60
+#: libapper/PkStrings.cpp:359
+msgid "Installed"
+msgstr "Instal·lat"
+
+#. i18n: ectx: property (text), widget (QCheckBox, developmentCB)
+#: Apper/BackendDetails.ui:385 ApperKCM/FiltersMenu.cpp:90
+msgid "Development"
+msgstr "Desenvolupament"
+
+#. i18n: ectx: property (text), widget (QCheckBox, visibleCB)
+#: Apper/BackendDetails.ui:395
+msgid "Package is visible"
+msgstr "El paquet és visible"
+
+#. i18n: ectx: property (text), widget (QCheckBox, newestCB)
+#: Apper/BackendDetails.ui:405
+msgid "Newest"
+msgstr "El més nou"
+
+#. i18n: ectx: property (text), widget (QCheckBox, guiCB)
+#: Apper/BackendDetails.ui:415
+msgid "GUI"
+msgstr "IGU"
+
+#. i18n: ectx: property (text), widget (QCheckBox, freeCB)
+#: Apper/BackendDetails.ui:425
+msgid "Free software"
+msgstr "Programari lliure"
+
+#. i18n: ectx: property (text), widget (QCheckBox, supportedCB)
+#: Apper/BackendDetails.ui:435
+msgid "Supported"
+msgstr "Suportat"
+
+#. i18n: ectx: property (text), widget (QCheckBox, archCB)
+#: Apper/BackendDetails.ui:445
+#, fuzzy
+#| msgid "Only text"
+msgid "Only native"
+msgstr "Només text"
+
+#: Apper/main.cpp:54 PkSession/main.cpp:34
+msgid "Apper"
+msgstr "Apper"
+
+#: Apper/main.cpp:56
+msgid "Apper is an Application to Get and Manage Software"
+msgstr "L'Apper és una aplicació per obtindre i gestionar programari"
+
+#: Apper/main.cpp:58 ApperKCM/ApperKCM.cpp:86
+msgid "(C) 2008-2011 Daniel Nicoletti"
+msgstr "(C) 2008-2011 Daniel Nicoletti"
+
+#: Apper/main.cpp:60 PkSession/main.cpp:40
+msgid "Daniel Nicoletti"
+msgstr "Daniel Nicoletti"
+
+#: Apper/main.cpp:61 PkSession/main.cpp:43
+msgid "Adrien Bustany"
+msgstr "Adrien Bustany"
+
+#: Apper/main.cpp:61 PkSession/main.cpp:43
+msgid "libpackagekit-qt and other stuff"
+msgstr "libpackagekit-qt i altres coses"
+
+#: Apper/main.cpp:66
+msgid "Show updates"
+msgstr "Mostra les actualitzacions"
+
+#: Apper/main.cpp:67
+msgid "Show settings"
+msgstr "Mostra els arranjaments"
+
+#: Apper/main.cpp:68
+msgid "Show backend details"
+msgstr "Mostra els detalls del dorsal"
+
+#: Apper/main.cpp:69
+msgid "Mime type installer"
+msgstr "Instal·lador de tipus MIME"
+
+#: Apper/main.cpp:70
+msgid "Package name installer"
+msgstr "Instal·lador per nom de paquets"
+
+#: Apper/main.cpp:71
+msgid "Single file installer"
+msgstr "Instal·lador de fitxers solts"
+
+#: Apper/main.cpp:72
+#, fuzzy
+#| msgid "Catalog installer"
+msgid "Font resource installer"
+msgstr "Instal·lador del catàleg"
+
+#: Apper/main.cpp:73
+msgid "Catalog installer"
+msgstr "Instal·lador del catàleg"
+
+#: Apper/main.cpp:74
+msgid "Single package remover"
+msgstr "Eliminador de paquets solts"
+
+#: Apper/main.cpp:75
+msgid "Package file to install"
+msgstr "Fitxer de paquet a instal·lar"
+
+#: apperd/DistroUpgrade.cpp:91
+msgid "Distribution upgrade available"
+msgstr "Hi ha disponible una actualització de la distribució"
+
+#: apperd/DistroUpgrade.cpp:95
+msgid "Start upgrade now"
+msgstr "Comença l'actualització ara"
+
+#: apperd/DistroUpgrade.cpp:146
+msgid "Distribution upgrade finished. "
+msgstr "S'ha completat l'actualització de la distribució. "
+
+#: apperd/DistroUpgrade.cpp:149 ApperKCM/Updater/DistroUpgrade.cpp:89
+#, kde-format
+msgid "Distribution upgrade process exited with code %1."
+msgstr "L'actualització de la distribució ha eixit amb el codi %1."
+
+#: apperd/DistroUpgrade.cpp:167 ApperKCM/Updater/DistroUpgrade.cpp:101
+msgid "The distribution upgrade process failed to start."
+msgstr "El procés d'actualització de la distribució no ha pogut començar."
+
+#: apperd/DistroUpgrade.cpp:170 ApperKCM/Updater/DistroUpgrade.cpp:105
+msgid ""
+"The distribution upgrade process crashed some time after starting "
+"successfully."
+msgstr ""
+"El procés d'actualització de la distribució ha fallat després de començar "
+"correctament. "
+
+#: apperd/DistroUpgrade.cpp:173 ApperKCM/Updater/DistroUpgrade.cpp:109
+msgid "The distribution upgrade process failed with an unknown error."
+msgstr ""
+"El procés d'actualització de la distribució ha fallat donant un error "
+"desconegut."
+
+#: apperd/TransactionWatcher.cpp:169
+#, kde-format
+msgid "Package: %2"
+msgid_plural "Packages: %2"
+msgstr[0] "Paquet: %2"
+msgstr[1] "Paquets: %2"
+
+#: apperd/TransactionWatcher.cpp:178
+#, fuzzy
+#| msgctxt "Restart the computer"
+#| msgid "Restart"
+msgid "Restart"
+msgstr "Reinicia"
+
+#: apperd/TransactionWatcher.cpp:231 ApperKCM/TransactionModel.cpp:48
+#: AppSetup/SetupWizard.cpp:199
+msgid "Details"
+msgstr "Detalls"
+
+#: apperd/Updater.cpp:160
+msgid "Updates are being automatically installed."
+msgstr "Les actualitzacions s'estan instal·lant automàticament."
+
+#: apperd/Updater.cpp:170
+msgid "Security updates are being automatically installed."
+msgstr "Les actualitzacions de seguretat s'estan instal·lant automàticament."
+
+#: apperd/Updater.cpp:180
+#, fuzzy
+#| msgid "Updates are being automatically installed."
+msgid "Updates are being automatically downloaded."
+msgstr "Les actualitzacions s'estan instal·lant automàticament."
+
+#: apperd/Updater.cpp:214
+msgid "System update was successful."
+msgstr "S'ha actualitzat el sistema correctament."
+
+#: apperd/Updater.cpp:221
+#, fuzzy
+#| msgid "The automated software update failed."
+msgid "The software update failed."
+msgstr "L'actualització automàtica del programari ha fallat."
+
+#: apperd/Updater.cpp:275
+#, fuzzy, kde-format
+#| msgid "Check for new Updates"
+msgid "There is one new update"
+msgid_plural "There are %1 new updates"
+msgstr[0] "Comprova si hi ha noves actualitzacions"
+msgstr[1] "Comprova si hi ha noves actualitzacions"
+
+#: apperd/Updater.cpp:290
+#, fuzzy
+#| msgid "Review Change"
+#| msgid_plural "Review Changes"
+msgid "Review"
+msgstr "Revisa el canvi"
+
+#: apperd/Updater.cpp:292 libapper/ApplicationsDelegate.cpp:40
+msgid "Install"
+msgstr "Instal·la"
+
+#: ApperKCM/ApperKCM.cpp:82
+msgid "Application Manager"
+msgstr "Gestor d'aplicacions"
+
+#: ApperKCM/ApperKCM.cpp:84
+msgid "KDE interface for managing software"
+msgstr "Interfície del KDE per gestionar el programari"
+
+#: ApperKCM/ApperKCM.cpp:114 ApperKCM/ApperKCM.cpp:298
+msgid "Find"
+msgstr "Cerca"
+
+#: ApperKCM/ApperKCM.cpp:209
+msgid "History"
+msgstr "Historial"
+
+#. i18n: ectx: property (windowTitle), widget (QWidget, Settings)
+#: ApperKCM/ApperKCM.cpp:215 ApperKCM/Settings/Settings.ui:14
+msgid "Settings"
+msgstr "Opcions"
+
+#: ApperKCM/ApperKCM.cpp:275 ApperKCM/ApperKCM.cpp:276
+#: ApperKCM/ApperKCM.cpp:277 ApperKCM/ApperKCM.cpp:278
+msgid "&Cancel"
+msgstr "&Cancel·la"
+
+#. i18n: ectx: property (text), widget (CategorizedView, changesView)
+#: ApperKCM/ApperKCM.cpp:285 ApperKCM/ApperKCM.ui:346
+msgid "Find by &name"
+msgstr "Cerca per &nom"
+
+#. i18n: ectx: property (text), widget (CategorizedView, changesView)
+#: ApperKCM/ApperKCM.cpp:286 ApperKCM/ApperKCM.ui:356
+msgid "Find by f&ile name"
+msgstr "Cerca per nom de f&itxer"
+
+#. i18n: ectx: property (text), widget (CategorizedView, changesView)
+#: ApperKCM/ApperKCM.cpp:287 ApperKCM/ApperKCM.ui:351
+msgid "Find by &description"
+msgstr "Cerca per &descripció"
+
+#: ApperKCM/ApperKCM.cpp:431
+msgid ""
+"The settings of the current module have changed.\n"
+"Do you want to apply the changes or discard them?"
+msgstr ""
+"L'arranjament del mòdul actual ha canviat.\n"
+"Voleu aplicar els canvis o descartar-los?"
+
+#: ApperKCM/ApperKCM.cpp:433
+msgid "Apply Settings"
+msgstr "Aplica l'arranjament"
+
+#: ApperKCM/ApperKCM.cpp:670
+#, fuzzy
+#| msgid "<h3>Do you want to install this catalog?</h3><ul><li>%2</li></ul>"
+#| msgid_plural ""
+#| "<h3>Do you want to install these catalogs?</h3><ul><li>%2</li></ul>"
+msgid "Could not find an application that matched this category"
+msgstr "<h3>Voleu instal·lar este catàleg?</h3><ul><li>%2</li></ul>"
+
+#. i18n: ectx: property (windowTitle), widget (QWidget, ApperKCM)
+#: ApperKCM/ApperKCM.ui:20
+msgid "Add and Remove Software"
+msgstr "Afig i elimina programes"
+
+#. i18n: ectx: property (clickMessage), widget (KLineEdit, searchKLE)
+#: ApperKCM/ApperKCM.ui:58
+msgid "Search packages"
+msgstr "Cerca paquets"
+
+#. i18n: ectx: property (text), widget (QPushButton, changesPB)
+#: ApperKCM/ApperKCM.ui:127
+msgid "Pending Changes"
+msgstr "Canvis pendents"
+
+#. i18n: ectx: property (text), widget (QPushButton, checkUpdatesPB)
+#: ApperKCM/ApperKCM.ui:161
+msgid "Check for new Updates"
+msgstr "Comprova si hi ha noves actualitzacions"
+
+#. i18n: ectx: property (text), widget (QPushButton, generalSettingsPB)
+#: ApperKCM/ApperKCM.ui:195
+#, fuzzy
+#| msgid "Apply Settings"
+msgid "General Settings"
+msgstr "Aplica l'arranjament"
+
+#. i18n: ectx: property (text), widget (QPushButton, repoSettingsPB)
+#: ApperKCM/ApperKCM.ui:214
+#, fuzzy
+#| msgctxt "The group type"
+#| msgid "Software sources"
+msgid "Software Origins"
+msgstr "Codis font del programari"
+
+#. i18n: ectx: property (text), widget (QToolButton, backTB)
+#: ApperKCM/ApperKCM.ui:267 AppSetup/SetupWizard.cpp:152
+msgid "Back"
+msgstr "Arrere"
+
+#: ApperKCM/BrowseView.cpp:90 ApperKCM/Updater/Updater.cpp:104
+msgid "Show Versions"
+msgstr "Mostra les versions"
+
+#: ApperKCM/BrowseView.cpp:97 ApperKCM/Updater/Updater.cpp:118
+msgid "Show Architectures"
+msgstr "Mostra les arquitectures"
+
+#: ApperKCM/BrowseView.cpp:104 ApperKCM/Updater/Updater.cpp:125
+#, fuzzy
+#| msgctxt "The group type"
+#| msgid "Software sources"
+msgid "Show Origins"
+msgstr "Codis font del programari"
+
+#: ApperKCM/BrowseView.cpp:111 ApperKCM/Updater/Updater.cpp:132
+#, fuzzy
+#| msgid "Show updates"
+msgid "Show Sizes"
+msgstr "Mostra les actualitzacions"
+
+#. i18n: ectx: property (text), widget (QPushButton, exportInstalledPB)
+#: ApperKCM/BrowseView.ui:140
+msgid "Export Installed Package List..."
+msgstr "Exporta la llista de paquets instal·lats..."
+
+#. i18n: ectx: property (text), widget (QPushButton, importInstalledPB)
+#: ApperKCM/BrowseView.ui:150
+msgid "Install Packages from List..."
+msgstr "Instal·la paquets des d'una llista..."
+
+#: ApperKCM/CategoryModel.cpp:50
+msgid "Installed Software"
+msgstr "Programari instal·lat"
+
+#: ApperKCM/CategoryModel.cpp:53 ApperKCM/CategoryModel.cpp:61
+msgid "Lists"
+msgstr "Llistes"
+
+#: ApperKCM/CategoryModel.cpp:58
+msgid "Updates"
+msgstr "Actualitzacions"
+
+#: ApperKCM/CategoryModel.cpp:161 ApperKCM/CategoryModel.cpp:359
+msgid "Categories"
+msgstr "Categories"
+
+#: ApperKCM/CategoryModel.cpp:218
+msgid "Groups"
+msgstr "Grups"
+
+#: ApperKCM/FiltersMenu.cpp:37
+msgid "Collections"
+msgstr "Col·leccions"
+
+#: ApperKCM/FiltersMenu.cpp:44
+msgid "Only collections"
+msgstr "Només col·leccions"
+
+#: ApperKCM/FiltersMenu.cpp:51
+msgid "Exclude collections"
+msgstr "Exclou col·leccions"
+
+#: ApperKCM/FiltersMenu.cpp:67
+msgid "Only installed"
+msgstr "Només instal·lat"
+
+#: ApperKCM/FiltersMenu.cpp:74
+msgid "Only available"
+msgstr "Només disponible"
+
+#: ApperKCM/FiltersMenu.cpp:81 ApperKCM/FiltersMenu.cpp:111
+#: ApperKCM/FiltersMenu.cpp:141 ApperKCM/FiltersMenu.cpp:171
+#: ApperKCM/FiltersMenu.cpp:202 ApperKCM/FiltersMenu.cpp:233
+msgid "No filter"
+msgstr "Cap filtre"
+
+#: ApperKCM/FiltersMenu.cpp:97
+msgid "Only development"
+msgstr "Només desenvolupament"
+
+#: ApperKCM/FiltersMenu.cpp:104
+msgid "Only end user files"
+msgstr "Només fitxers de l'usuari final"
+
+#: ApperKCM/FiltersMenu.cpp:120
+msgid "Graphical"
+msgstr "Gràfics"
+
+#: ApperKCM/FiltersMenu.cpp:127
+msgid "Only graphical"
+msgstr "Només gràfics"
+
+#: ApperKCM/FiltersMenu.cpp:134
+msgid "Only text"
+msgstr "Només text"
+
+#: ApperKCM/FiltersMenu.cpp:150
+msgctxt "Filter for free packages"
+msgid "Free"
+msgstr "Lliure"
+
+#: ApperKCM/FiltersMenu.cpp:157
+msgid "Only free software"
+msgstr "Només programari lliure"
+
+#: ApperKCM/FiltersMenu.cpp:164
+msgid "Only non-free software"
+msgstr "Només programari no lliure"
+
+#: ApperKCM/FiltersMenu.cpp:181
+#, fuzzy
+#| msgid "Supported"
+msgctxt "Filter for supported packages"
+msgid "Supported"
+msgstr "Suportat"
+
+#: ApperKCM/FiltersMenu.cpp:188
+#, fuzzy
+#| msgid "Only free software"
+msgid "Only supported software"
+msgstr "Només programari lliure"
+
+#: ApperKCM/FiltersMenu.cpp:195
+#, fuzzy
+#| msgid "Only non-free software"
+msgid "Only non-supported software"
+msgstr "Només programari no lliure"
+
+#: ApperKCM/FiltersMenu.cpp:212
+msgctxt "Filter for source packages"
+msgid "Source"
+msgstr "Codi font"
+
+#: ApperKCM/FiltersMenu.cpp:219
+msgid "Only sourcecode"
+msgstr "Només codi font"
+
+#: ApperKCM/FiltersMenu.cpp:226
+msgid "Only non-sourcecode"
+msgstr "Només no codi font"
+
+#: ApperKCM/FiltersMenu.cpp:248
+msgid "Hide Subpackages"
+msgstr "Oculta els subpaquets"
+
+#: ApperKCM/FiltersMenu.cpp:250
+msgid "Only show one package, not subpackages"
+msgstr "Mostra només un paquet, no els subpaquets"
+
+#: ApperKCM/FiltersMenu.cpp:257
+msgid "Only Newest Packages"
+msgstr "Només els paquets més nous"
+
+#: ApperKCM/FiltersMenu.cpp:262
+msgid "Only show the newest available package"
+msgstr "Mostra només el paquet disponible més nou"
+
+#: ApperKCM/FiltersMenu.cpp:269
+msgid "Only Native Packages"
+msgstr "Només els paquets més natius"
+
+#: ApperKCM/FiltersMenu.cpp:274
+msgid "Only show packages matching the machine architecture"
+msgstr ""
+"Mostra només els paquets que concordin amb l'arquitectura de la màquina"
+
+#: ApperKCM/FiltersMenu.cpp:283
+msgid "Only Show Applications"
+msgstr "Mostra només les aplicacions"
+
+#: ApperKCM/FiltersMenu.cpp:286
+msgid "Hide packages that are not applications"
+msgstr "Oculta els paquets que no siguen aplicacions"
+
+#: ApperKCM/PackageDetails.cpp:85
+msgid "Display"
+msgstr "Visualitza"
+
+#: ApperKCM/PackageDetails.cpp:92 AppSetup/SetupWizard.cpp:254
+msgid "Description"
+msgstr "Descripció"
+
+#: ApperKCM/PackageDetails.cpp:100
+msgid "Depends On"
+msgstr "Depèn de"
+
+#: ApperKCM/PackageDetails.cpp:129
+msgid "Required By"
+msgstr "Requerit per"
+
+#: ApperKCM/PackageDetails.cpp:158
+msgid "File List"
+msgstr "Llista de fitxers"
+
+#: ApperKCM/PackageDetails.cpp:518
+msgid "No files were found."
+msgstr "No s'ha trobat cap fitxer."
+
+#: ApperKCM/PackageDetails.cpp:566
+msgid "Could not fetch software details"
+msgstr "No s'han pogut recuperar els detalls del programari"
+
+#: ApperKCM/PackageDetails.cpp:608
+msgid "Applications"
+msgstr "Aplicacions"
+
+#. i18n: ectx: property (text), widget (QLabel, licenseL)
+#: ApperKCM/PackageDetails.ui:146
+msgid "License:"
+msgstr "Llicència:"
+
+#. i18n: ectx: property (text), widget (QToolButton, hideTB)
+#: ApperKCM/PackageDetails.ui:359 ApperKCM/Updater/UpdateDetails.ui:20
+msgid "Hide"
+msgstr "Oculta"
+
+#: ApperKCM/ScreenShotViewer.cpp:90
+msgid "Could not find screen shot."
+msgstr "No s'ha trobar cap captura de pantalla."
+
+#: ApperKCM/Settings/OriginModel.cpp:39
+msgid "Origin of Packages"
+msgstr "Origen dels paquets"
+
+#: ApperKCM/Settings/Settings.cpp:81
+#, fuzzy
+#| msgctxt "Never refresh package cache"
+#| msgid "Never"
+msgctxt "Inform about distribution upgrades"
+msgid "Never"
+msgstr "Mai"
+
+#: ApperKCM/Settings/Settings.cpp:84
+#, fuzzy
+#| msgid "Only installed"
+msgctxt "Inform about distribution upgrades"
+msgid "Only stable"
+msgstr "Només instal·lat"
+
+#: ApperKCM/Settings/Settings.cpp:89
+#, fuzzy
+#| msgid "Only development"
+msgctxt "Inform about distribution upgrades"
+msgid "Stable and development"
+msgstr "Només desenvolupament"
+
+#: ApperKCM/Settings/Settings.cpp:93
+msgctxt "Hourly refresh the package cache"
+msgid "Hourly"
+msgstr "Cada hora"
+
+#: ApperKCM/Settings/Settings.cpp:94
+msgctxt "Daily refresh the package cache"
+msgid "Daily"
+msgstr "Diàriament"
+
+#: ApperKCM/Settings/Settings.cpp:95
+msgctxt "Weekly refresh the package cache"
+msgid "Weekly"
+msgstr "Setmanalment"
+
+#: ApperKCM/Settings/Settings.cpp:96
+msgctxt "Monthly refresh the package cache"
+msgid "Monthly"
+msgstr "Mensualment"
+
+#: ApperKCM/Settings/Settings.cpp:97
+msgctxt "Never refresh package cache"
+msgid "Never"
+msgstr "Mai"
+
+#: ApperKCM/Settings/Settings.cpp:99
+msgctxt "No updates will be automatically installed"
+msgid "None"
+msgstr "Cap"
+
+#: ApperKCM/Settings/Settings.cpp:100
+#, fuzzy
+#| msgid "Downloading"
+msgid "Download only"
+msgstr "S'està baixant..."
+
+#: ApperKCM/Settings/Settings.cpp:101
+msgid "Security only"
+msgstr "Només seguretat"
+
+#: ApperKCM/Settings/Settings.cpp:102
+msgid "All updates"
+msgstr "Totes les actualitzacions"
+
+#: ApperKCM/Settings/Settings.cpp:314 libapper/PkStrings.cpp:968
+msgid "You do not have the necessary privileges to perform this action."
+msgstr "No teniu els privilegis necessaris per dur a terme esta acció."
+
+#: ApperKCM/Settings/Settings.cpp:315
+msgid "Failed to set origin data"
+msgstr "No s'han pogut especificar les dades d'origen"
+
+#. i18n: ectx: property (text), widget (QLabel, intervalL)
+#: ApperKCM/Settings/Settings.ui:50
+#, fuzzy
+#| msgid "Check for new Updates"
+msgid "Check for new updates:"
+msgstr "Comprova si hi ha noves actualitzacions"
+
+#. i18n: ectx: property (text), widget (QCheckBox, checkUpdatesMobileCB)
+#. i18n: ectx: property (text), widget (QCheckBox, installUpdatesMobileCB)
+#: ApperKCM/Settings/Settings.ui:91 ApperKCM/Settings/Settings.ui:159
+msgid "when on a mobile broadband network connection"
+msgstr "quan s'estiga a una connexió de xarxa mòbil de banda ampla"
+
+#. i18n: ectx: property (text), widget (QCheckBox, checkUpdatesBatteryCB)
+#. i18n: ectx: property (text), widget (QCheckBox, installUpdatesBatteryCB)
+#: ApperKCM/Settings/Settings.ui:98 ApperKCM/Settings/Settings.ui:152
+msgid "when running on battery"
+msgstr "quan s'estiga funcionant amb la bateria"
+
+#. i18n: ectx: property (text), widget (QLabel, autoInsL)
+#: ApperKCM/Settings/Settings.ui:117
+#, fuzzy
+#| msgid "Automatically install:"
+msgid "Automatically update:"
+msgstr "Instal·la automàticament:"
+
+#. i18n: ectx: property (text), widget (QCheckBox, appLauncherCB)
+#: ApperKCM/Settings/Settings.ui:175
+msgid "Show application launcher after installing new applications"
+msgstr "Mostra el llançador de l'aplicació en instal·lar noves aplicacions"
+
+#. i18n: ectx: property (text), widget (QCheckBox, autoConfirmCB)
+#: ApperKCM/Settings/Settings.ui:182
+msgid "Show confirmation dialog when installing or updating packages"
+msgstr "Mostra el diàleg de confirmació en instal·lar o actualitzar paquets"
+
+#. i18n: ectx: property (text), widget (QLabel, label)
+#: ApperKCM/Settings/Settings.ui:189
+#, fuzzy
+#| msgctxt "The role of the transaction, in past tense"
+#| msgid "Got distribution upgrades"
+msgid "Check for distribution upgrades:"
+msgstr "S'han obtingut les actualitzacions de la distribució"
+
+#. i18n: ectx: property (text), widget (QCheckBox, showOriginsCB)
+#: ApperKCM/Settings/Settings.ui:227
+msgid "&Show origins of debug and development packages"
+msgstr "&Mostra l'origen dels paquets de depuració d'errors i desenvolupament"
+
+#. i18n: ectx: property (text), widget (QPushButton, editOriginsPB)
+#: ApperKCM/Settings/Settings.ui:247
+msgid "Edit Origins"
+msgstr "Edita les fonts"
+
+#: ApperKCM/TransactionHistory.cpp:66
+msgid "Refresh transactions list"
+msgstr "Refresca la llista de transaccions"
+
+#: ApperKCM/TransactionHistory.cpp:87
+#, kde-format
+msgid "Time since last cache refresh: %1"
+msgstr "Temps des de l'últim refresc de la memòria cau: %1"
+
+#: ApperKCM/TransactionModel.cpp:46
+msgid "Date"
+msgstr "Data"
+
+#: ApperKCM/TransactionModel.cpp:47 libapper/PackageModel.cpp:222
+msgid "Action"
+msgstr "Acció"
+
+#: ApperKCM/TransactionModel.cpp:49
+msgctxt "Machine user who issued the transaction"
+msgid "Username"
+msgstr "Nom d'usuari"
+
+#: ApperKCM/TransactionModel.cpp:50
+msgid "Application"
+msgstr "Aplicació"
+
+#: ApperKCM/Updater/DistroUpgrade.cpp:40
+#, fuzzy
+#| msgid "Upgrade to %1"
+msgid "Upgrade"
+msgstr "Actualitza a %1"
+
+#: ApperKCM/Updater/DistroUpgrade.cpp:47
+#, fuzzy, kde-format
+#| msgid "Distribution upgrade available"
+msgid "Distribution upgrade available: %1"
+msgstr "Hi ha disponible una actualització de la distribució"
+
+#: ApperKCM/Updater/DistroUpgrade.cpp:61
+msgid ""
+"You are about to upgrade your distribution to the latest version. This is "
+"usually a very lengthy process and takes a lot longer than simply upgrading "
+"your packages."
+msgstr ""
+"Esteu a punt d'actualitzar la distribució a l'última versió. Normalment això "
+"és un procés llarg i tarda molt més que una simple actualització dels "
+"paquets."
+
+#: ApperKCM/Updater/DistroUpgrade.cpp:66
+msgid "It is recommended to plug in your computer before proceeding."
+msgstr "És recomanable endollar el vostre ordinador abans de procedir."
+
+#: ApperKCM/Updater/DistroUpgrade.cpp:68
+msgid ""
+"It is recommended that you keep your computer plugged in while the upgrade "
+"is being performed."
+msgstr ""
+"És recomanable que mantingueu l'ordinador endollat mentre es du a terme "
+"l'actualització."
+
+#: ApperKCM/Updater/DistroUpgrade.cpp:87
+msgid "Distribution upgrade complete."
+msgstr "S'ha completat l'actualització de la distribució."
+
+#: ApperKCM/Updater/UpdateDetails.cpp:187
+msgid "This update will add new features and expand functionality."
+msgstr ""
+"Esta actualització afegirà noves característiques i ampliarà la "
+"funcionalitat."
+
+#: ApperKCM/Updater/UpdateDetails.cpp:191
+msgid "This update will fix bugs and other non-critical problems."
+msgstr "Esta actualització arranjarà erros i altres problemes no crítics."
+
+#: ApperKCM/Updater/UpdateDetails.cpp:195
+msgid "This update is important as it may solve critical problems."
+msgstr "Esta actualització és important i pot solucionar problemes crítics."
+
+#: ApperKCM/Updater/UpdateDetails.cpp:199
+msgid ""
+"This update is needed to fix a security vulnerability with this package."
+msgstr ""
+"Esta actualització és necessària per arranjar una vulnerabilitat de "
+"seguretat amb este paquet."
+
+#: ApperKCM/Updater/UpdateDetails.cpp:203
+msgid "This update is blocked."
+msgstr "Esta actualització està bloquejada."
+
+#: ApperKCM/Updater/UpdateDetails.cpp:210
+#, kde-format
+msgid "This notification was issued on %1 and last updated on %2."
+msgstr ""
+"Esta notificació es va realitzar el %1 i la darrera actualització va ser el "
+"%2."
+
+#: ApperKCM/Updater/UpdateDetails.cpp:216
+#, kde-format
+msgid "This notification was issued on %1."
+msgstr "Esta notificació es va realitzar el %1."
+
+#: ApperKCM/Updater/UpdateDetails.cpp:235
+msgid "For more information about this update please visit this website:"
+msgid_plural ""
+"For more information about this update please visit these websites:"
+msgstr[0] ""
+"Per a més informació quant a esta actualització visiteu la pàgina web:"
+msgstr[1] ""
+"Per a més informació quant a esta actualització visiteu estes pàgines web:"
+
+#: ApperKCM/Updater/UpdateDetails.cpp:245
+msgid ""
+"For more information about bugs fixed by this update please visit this "
+"website:"
+msgid_plural ""
+"For more information about bugs fixed by this update please visit these "
+"websites:"
+msgstr[0] ""
+"Per a més informació quant als errors arranjats amb esta actualització "
+"visiteu la pàgina web:"
+msgstr[1] ""
+"Per a més informació quant als errors arranjats amb esta actualització "
+"visiteu estes pàgines web:"
+
+#: ApperKCM/Updater/UpdateDetails.cpp:255
+msgid ""
+"For more information about this security update please visit this website:"
+msgid_plural ""
+"For more information about this security update please visit these websites:"
+msgstr[0] ""
+"Per a més informació quant a esta actualització de seguretat visiteu la "
+"pàgina web:"
+msgstr[1] ""
+"Per a més informació quant a esta actualització de seguretat visiteu estes "
+"pàgines web:"
+
+#: ApperKCM/Updater/UpdateDetails.cpp:265
+msgid ""
+"The computer will have to be restarted after the update for the changes to "
+"take effect."
+msgstr ""
+"L'ordinador s'ha de reiniciar després de l'actualització per tal que els "
+"canvis tinguen efecte."
+
+#: ApperKCM/Updater/UpdateDetails.cpp:269
+msgid ""
+"You will need to log out and back in after the update for the changes to "
+"take effect."
+msgstr ""
+"Necessitareu finalitzar la sessió i tornar a accedir després de "
+"l'actualització per tal que els canvis tinguen efecte."
+
+#: ApperKCM/Updater/UpdateDetails.cpp:276
+msgid ""
+"The classification of this update is unstable which means it is not designed "
+"for production use."
+msgstr ""
+"La classificació d'esta actualització és inestable, el que significa que no "
+"està dissenyada per a un ús productiu."
+
+#: ApperKCM/Updater/UpdateDetails.cpp:280
+msgid ""
+"This is a test update, and is not designed for normal use. Please report any "
+"problems or regressions you encounter."
+msgstr ""
+"Esta és una actualització de proves i no està dissenyada per a un ús normal. "
+"Informeu de qualsevol problema o regressions que trobeu."
+
+#: ApperKCM/Updater/UpdateDetails.cpp:290
+msgid ""
+"The developer logs will be shown as no description is available for this "
+"update:"
+msgstr ""
+"Els registres del desenvolupador es mostraran com a no hi ha descripció "
+"disponible per a esta actualització."
+
+#: ApperKCM/Updater/UpdateDetails.cpp:298
+msgid "Updates:"
+msgstr "Actualitzacions:"
+
+#: ApperKCM/Updater/UpdateDetails.cpp:308
+msgid "Obsoletes:"
+msgstr "Obsoletes:"
+
+#: ApperKCM/Updater/UpdateDetails.cpp:318
+#, fuzzy, kde-format
+#| msgid "Repository:"
+msgid "Repository: %1"
+msgstr "Repositori:"
+
+#: ApperKCM/Updater/UpdateDetails.cpp:340
+msgid "No update description was found."
+msgstr "No s'ha trobat cap descripció de l'actualització."
+
+#: ApperKCM/Updater/Updater.cpp:111
+#, fuzzy
+#| msgid "Show Versions"
+msgid "Show Current Versions"
+msgstr "Mostra les versions"
+
+#: ApperKCM/Updater/Updater.cpp:239
+#, kde-format
+msgid "Estimated download size: %1"
+msgstr ""
+
+#: ApperKCM/Updater/Updater.cpp:358 plasmoid/updaterapplet.cpp:57
+#, fuzzy
+#| msgid "Check for new Updates"
+msgid "Check for new updates"
+msgstr "Comprova si hi ha noves actualitzacions"
+
+#. i18n: ectx: property (text), widget (QRadioButton, acceptedRB)
+#: AppSetup/LicensePage.ui:98
+msgid "I agree to the above terms and conditions"
+msgstr ""
+
+#. i18n: ectx: property (text), widget (QRadioButton, rejectedRB)
+#: AppSetup/LicensePage.ui:111
+msgid "I don't agree"
+msgstr ""
+
+#: AppSetup/main.cpp:34 AppSetup/main.cpp:35
+#, fuzzy
+#| msgid "Application Manager"
+msgid "KDE Application Installer"
+msgstr "Gestor d'aplicacions"
+
+#: AppSetup/main.cpp:36
+msgid "(C) 2012, Matthias Klumpp"
+msgstr ""
+
+#: AppSetup/main.cpp:38
+#, fuzzy
+#| msgid "Daniel Nicoletti"
+msgctxt "@info:credit"
+msgid "Daniel Nicoletti"
+msgstr "Daniel Nicoletti"
+
+#: AppSetup/main.cpp:38 AppSetup/main.cpp:40
+#, fuzzy
+#| msgid "Development"
+msgid "Developer"
+msgstr "Desenvolupament"
+
+#: AppSetup/main.cpp:40
+msgctxt "@info:credit"
+msgid "Matthias Klumpp"
+msgstr ""
+
+#: AppSetup/main.cpp:47
+#, fuzzy
+#| msgctxt "transaction state, getting data from a server"
+#| msgid "Getting information"
+msgid "Show verbose information"
+msgstr "S'està obtenint la informació"
+
+#: AppSetup/main.cpp:48
+#, fuzzy
+#| msgid "Invalid package file"
+msgid "IPK package filename"
+msgstr "El fitxer de paquet no és vàlid"
+
+#: AppSetup/main.cpp:75
+msgid "Sorry, we didn't get an existing IPK package as parameter."
+msgstr ""
+
+#: AppSetup/main.cpp:76
+#, fuzzy
+#| msgid "The package was not found"
+msgid "Package not found!"
+msgstr "No s'ha trobat el paquet"
+
+#: AppSetup/SetupWizard.cpp:87
+#, fuzzy
+#| msgctxt "The role of the transaction, in present tense"
+#| msgid "Installing file"
+msgid "Installation finished!"
+msgstr "S'està instal·lant un fitxer"
+
+#: AppSetup/SetupWizard.cpp:88
+#, fuzzy, kde-format
+#| msgid "File was installed successfully"
+#| msgid_plural "Files were installed successfully"
+msgid "%1 has been installed successfully!"
+msgstr "El fitxer s'ha instal·lat correctament"
+
+#: AppSetup/SetupWizard.cpp:102 libapper/PkTransaction.cpp:133
+#: libapper/PkTransaction.cpp:151 libapper/PkTransaction.cpp:170
+#: libapper/PkTransaction.cpp:193
+msgid "Error"
+msgstr "Error"
+
+#: AppSetup/SetupWizard.cpp:103 AppSetup/SetupWizard.cpp:117
+#, fuzzy
+#| msgid "An internal system error has occurred"
+msgid "An error occurred"
+msgstr "S'ha produït un error intern del sistema"
+
+#: AppSetup/SetupWizard.cpp:150 libapper/Requirements.cpp:58
+#: PkSession/SessionTask.cpp:71
+msgid "Continue"
+msgstr "Continua"
+
+#: AppSetup/SetupWizard.cpp:188
+msgid "Welcome!"
+msgstr ""
+
+#: AppSetup/SetupWizard.cpp:189
+#, kde-format
+msgid "Welcome to the installation of %1!"
+msgstr ""
+
+#: AppSetup/SetupWizard.cpp:190
+msgid ""
+"Please be careful while installing 3rd-party applications.<br>They may "
+"eventually <b>damage</b> your system or have <b>malicious behaviour</b>, "
+"like spying out your passwords.<br>Please do only install this software if "
+"you <b>trust the publisher and the author</b> of it."
+msgstr ""
+
+#: AppSetup/SetupWizard.cpp:200
+msgid "Details about this installation"
+msgstr ""
+
+#: AppSetup/SetupWizard.cpp:236
+#, fuzzy
+#| msgctxt "The role of the transaction, in past tense"
+#| msgid "Installed local files"
+msgid "Install for all users"
+msgstr "S'han instal·lat els fitxers locals"
+
+#: AppSetup/SetupWizard.cpp:253
+#, fuzzy
+#| msgid "Applications"
+msgid "Application description"
+msgstr "Aplicacions"
+
+#: AppSetup/SetupWizard.cpp:262
+#, fuzzy
+#| msgctxt "The group type"
+#| msgid "Software sources"
+msgid "Software license"
+msgstr "Codis font del programari"
+
+#: AppSetup/SetupWizard.cpp:263
+#, fuzzy
+#| msgid "Please read the following important information before continuing:"
+msgid "Please read the following terms and conditions carefully!"
+msgstr "Per favor, abans de continuar llegiu la següent informació important:"
+
+#: AppSetup/SetupWizard.cpp:270
+#, fuzzy
+#| msgctxt "transaction state, scanning for running processes"
+#| msgid "Scanning installed applications"
+msgid "Running installation"
+msgstr "S'està escanejant les aplicacions instal·lades"
+
+#: AppSetup/SetupWizard.cpp:271
+#, fuzzy, kde-format
+#| msgid "Installing"
+msgid "Installing %1..."
+msgstr "S'està instal·lant"
+
+#: AppSetup/SetupWizard.cpp:306
+msgid ""
+"Installing this package will make the following native packages obsolete. "
+"You might consider removing them manually."
+msgstr ""
+
+#: AppSetup/SetupWizard.cpp:307
+#, fuzzy
+#| msgid "Simulate Update Packages"
+msgid "Similar native packages found"
+msgstr "Simula l'actualització dels paquets"
+
+#: AppSetup/SetupWizard.cpp:402
+msgid ""
+"You want to install this application as root!\n"
+"This can damage your system or install malicious software for all users.\n"
+"Please only proceed, if you really know what you're doing!\n"
+"Continue?"
+msgstr ""
+
+#: AppSetup/SetupWizard.cpp:405
+msgid "Really install as superuser?"
+msgstr ""
+
+#: AppSetup/SetupWizard.cpp:422
+#, kde-format
+msgid "This package has the following security level: <b>%1</b>"
+msgstr ""
+
+#: AppSetup/SetupWizard.cpp:424
+#, kde-format
+msgid "It was signed with a key belonging to these user-ids: %1"
+msgstr ""
+
+#: AppSetup/SetupWizard.cpp:428
+#, fuzzy
+#| msgid "Security only"
+msgid "Security hints"
+msgstr "Només seguretat"
+
+#: libapper/ApplicationLauncher.cpp:96
+#, fuzzy
+#| msgid "No network connection available"
+msgid "New application available"
+msgid_plural "New applications available"
+msgstr[0] "La connexió de xarxa no està disponible"
+msgstr[1] "La connexió de xarxa no està disponible"
+
+#: libapper/ApplicationLauncher.cpp:99
+msgid "The following application was just installed. Click on it to launch:"
+msgid_plural ""
+"The following applications were just installed. Click on them to launch:"
+msgstr[0] ""
+"S'acaba d'instal·lar l'aplicació següent. Cliqueu-la per llançar-la:"
+msgstr[1] ""
+"S'acaben d'instal·lar les aplicacions següents, cliqueu-les per llançar-les:"
+
+#. i18n: ectx: property (text), widget (QCheckBox, showCB)
+#: libapper/ApplicationLauncher.ui:72
+msgid "Do not show this dialog again"
+msgstr "No mostres este diàleg un altre cop"
+
+#: libapper/ApplicationsDelegate.cpp:42
+msgid "Remove"
+msgstr "Elimina"
+
+#: libapper/ApplicationsDelegate.cpp:44 libapper/ChangesDelegate.cpp:51
+msgid "Deselect"
+msgstr "Desselecciona"
+
+#: libapper/ChangesDelegate.cpp:47
+#, fuzzy
+#| msgid "To be Installed"
+msgid "Do not Install"
+msgstr "Per instal·lar"
+
+#: libapper/ChangesDelegate.cpp:49
+#, fuzzy
+#| msgid "To be Removed"
+msgid "Do not Remove"
+msgstr "Per eliminar"
+
+#: libapper/CustomProgressBar.cpp:38
+#, kde-format
+msgid "%1 remaining"
+msgstr "resta %1"
+
+#: libapper/LicenseAgreement.cpp:40
+msgid "Accept Agreement"
+msgstr "Accepta l'acord"
+
+#. i18n: ectx: property (windowTitle), widget (QWidget, LicenseAgreement)
+#: libapper/LicenseAgreement.cpp:41 libapper/LicenseAgreement.ui:14
+msgid "License Agreement Required"
+msgstr "Es requereix acceptar l'acord de la llicència"
+
+#: libapper/LicenseAgreement.cpp:42
+#, kde-format
+msgid "License required for %1 by %2"
+msgstr "Es requereix llicència per %1 de %2"
+
+#. i18n: ectx: property (text), widget (QLabel, label_2)
+#: libapper/LicenseAgreement.ui:40
+msgid "Please read the following important information before continuing:"
+msgstr "Per favor, abans de continuar llegiu la següent informació important:"
+
+#: libapper/PackageModel.cpp:203
+#, fuzzy
+#| msgctxt "The group type"
+#| msgid "Games"
+msgid "Name"
+msgstr "Jocs"
+
+#: libapper/PackageModel.cpp:207
+msgid "Version"
+msgstr "Versió"
+
+#: libapper/PackageModel.cpp:210
+#, fuzzy
+#| msgctxt "The role of the transaction, in past tense"
+#| msgid "Installed signature"
+msgid "Installed Version"
+msgstr "S'ha instal·lat la signatura"
+
+#: libapper/PackageModel.cpp:213
+msgid "Arch"
+msgstr ""
+
+#: libapper/PackageModel.cpp:216
+#, fuzzy
+#| msgid "Edit Origins"
+msgid "Origin"
+msgstr "Edita les fonts"
+
+#: libapper/PackageModel.cpp:219
+msgid "Size"
+msgstr ""
+
+#: libapper/PackageModel.cpp:317
+#, fuzzy, kde-format
+#| msgid "Show Architectures"
+msgid ""
+"Version: %1\n"
+"Architecture: %2"
+msgstr "Mostra les arquitectures"
+
+#: libapper/PackageModel.cpp:363
+msgid "To be Removed"
+msgstr "Per eliminar"
+
+#: libapper/PackageModel.cpp:365
+msgid "To be Installed"
+msgstr "Per instal·lar"
+
+#: libapper/PkStrings.cpp:36
+msgctxt "This is when the transaction status is not known"
+msgid "Unknown state"
+msgstr "Estat desconegut"
+
+#: libapper/PkStrings.cpp:39
+msgctxt "transaction state, the daemon is in the process of starting"
+msgid "Waiting for service to start"
+msgstr "S'està esperant que s'inicie el servei"
+
+#: libapper/PkStrings.cpp:42
+msgctxt "transaction state, the transaction is waiting for another to complete"
+msgid "Waiting for other tasks"
+msgstr "S'estan esperant altres tasques"
+
+#: libapper/PkStrings.cpp:45
+msgctxt "transaction state, just started"
+msgid "Running task"
+msgstr "Tasca en execució"
+
+#: libapper/PkStrings.cpp:48
+msgctxt "transaction state, is querying data"
+msgid "Querying"
+msgstr "S'està consultant"
+
+#: libapper/PkStrings.cpp:51
+msgctxt "transaction state, getting data from a server"
+msgid "Getting information"
+msgstr "S'està obtenint la informació"
+
+#: libapper/PkStrings.cpp:54
+msgctxt "transaction state, removing packages"
+msgid "Removing packages"
+msgstr "S'estan eliminant paquets"
+
+#: libapper/PkStrings.cpp:58
+#, fuzzy, kde-format
+#| msgid "Downloading packages at %1/s"
+msgctxt "transaction state, downloading package files"
+msgid "Downloading at %1/s, %2 remaining"
+msgstr "S'estan baixant els paquets a %1/s"
+
+#: libapper/PkStrings.cpp:63
+#, fuzzy, kde-format
+#| msgid "Downloading packages at %1/s"
+msgctxt "transaction state, downloading package files"
+msgid "Downloading at %1/s"
+msgstr "S'estan baixant els paquets a %1/s"
+
+#: libapper/PkStrings.cpp:67
+#, fuzzy, kde-format
+#| msgid "Downloading packages at %1/s"
+msgctxt "transaction state, downloading package files"
+msgid "Downloading, %1 remaining"
+msgstr "S'estan baixant els paquets a %1/s"
+
+#: libapper/PkStrings.cpp:71
+#, fuzzy
+#| msgid "Downloading"
+msgctxt "transaction state, downloading package files"
+msgid "Downloading"
+msgstr "S'està baixant..."
+
+#: libapper/PkStrings.cpp:75
+msgctxt "transaction state, installing packages"
+msgid "Installing packages"
+msgstr "S'estan instal·lant paquets"
+
+#: libapper/PkStrings.cpp:78
+msgctxt "transaction state, refreshing internal lists"
+msgid "Refreshing software list"
+msgstr "S'està refrescant la llista de programari"
+
+#: libapper/PkStrings.cpp:81
+msgctxt "transaction state, installing updates"
+msgid "Updating packages"
+msgstr "S'estan actualitzant els paquets"
+
+#: libapper/PkStrings.cpp:84
+msgctxt "transaction state, removing old packages, and cleaning config files"
+msgid "Cleaning up packages"
+msgstr "S'estan netejant els paquets"
+
+#: libapper/PkStrings.cpp:87
+msgctxt "transaction state, obsoleting old packages"
+msgid "Obsoleting packages"
+msgstr "S'estan deixant els paquets obsolets"
+
+#: libapper/PkStrings.cpp:90
+msgctxt "transaction state, checking the transaction before we do it"
+msgid "Resolving dependencies"
+msgstr "S'estan resolent les dependències"
+
+#: libapper/PkStrings.cpp:93
+msgctxt ""
+"transaction state, checking if we have all the security keys for the "
+"operation"
+msgid "Checking signatures"
+msgstr "S'estan comprovant les signatures"
+
+#: libapper/PkStrings.cpp:96
+msgctxt "transaction state, when we're doing a test transaction"
+msgid "Testing changes"
+msgstr "S'estan comprovant els canvis"
+
+#: libapper/PkStrings.cpp:99
+msgctxt "transaction state, when we're writing to the system package database"
+msgid "Committing changes"
+msgstr "S'estan aplicant els canvis"
+
+#: libapper/PkStrings.cpp:102
+msgctxt "transaction state, requesting data from a server"
+msgid "Requesting data"
+msgstr "S'estan demanant dades"
+
+#: libapper/PkStrings.cpp:105
+msgctxt "transaction state, all done!"
+msgid "Finished"
+msgstr "Finalitzat"
+
+#: libapper/PkStrings.cpp:108
+msgctxt "transaction state, in the process of cancelling"
+msgid "Cancelling"
+msgstr "S'està cancel·lant"
+
+#: libapper/PkStrings.cpp:111
+msgctxt "transaction state, downloading metadata"
+msgid "Downloading repository information"
+msgstr "S'està descarregant la informació del repositori"
+
+#: libapper/PkStrings.cpp:114
+msgctxt "transaction state, downloading metadata"
+msgid "Downloading list of packages"
+msgstr "S'està descarregant la llista de paquets"
+
+#: libapper/PkStrings.cpp:117
+msgctxt "transaction state, downloading metadata"
+msgid "Downloading file lists"
+msgstr "S'està descarregant la llista de fitxers"
+
+#: libapper/PkStrings.cpp:120
+msgctxt "transaction state, downloading metadata"
+msgid "Downloading lists of changes"
+msgstr "S'estan descarregant les llistes de canvis"
+
+#: libapper/PkStrings.cpp:123
+msgctxt "transaction state, downloading metadata"
+msgid "Downloading groups"
+msgstr "S'estan descarregant els grups"
+
+#: libapper/PkStrings.cpp:126
+msgctxt "transaction state, downloading metadata"
+msgid "Downloading update information"
+msgstr "S'està descarregant la informació de l'actualització"
+
+#: libapper/PkStrings.cpp:129
+msgctxt "transaction state, repackaging delta files"
+msgid "Repackaging files"
+msgstr "S'estan re-empaquetant els fitxers"
+
+#: libapper/PkStrings.cpp:132
+msgctxt "transaction state, loading databases"
+msgid "Loading cache"
+msgstr "S'està carregant la memòria cau"
+
+#: libapper/PkStrings.cpp:135
+msgctxt "transaction state, scanning for running processes"
+msgid "Scanning installed applications"
+msgstr "S'està escanejant les aplicacions instal·lades"
+
+#: libapper/PkStrings.cpp:138
+msgctxt ""
+"transaction state, generating a list of packages installed on the system"
+msgid "Generating package lists"
+msgstr "S'està generant la llista de paquets"
+
+#: libapper/PkStrings.cpp:141
+msgctxt "transaction state, when we're waiting for the native tools to exit"
+msgid "Waiting for package manager lock"
+msgstr "S'està esperant el tancament del gestor de paquets"
+
+#: libapper/PkStrings.cpp:144
+msgctxt "waiting for user to type in a password"
+msgid "Waiting for authentication"
+msgstr "S'està esperant l'autenticació"
+
+#: libapper/PkStrings.cpp:147
+msgctxt "we are updating the list of processes"
+msgid "Updating the list of running applications"
+msgstr "S'està actualitzant la llista de les aplicacions en execució"
+
+#: libapper/PkStrings.cpp:150
+msgctxt "we are checking executable files in use"
+msgid "Checking for applications currently in use"
+msgstr "S'estan comprovant les aplicacions que s'usen actualment"
+
+#: libapper/PkStrings.cpp:153
+msgctxt "we are checking for libraries in use"
+msgid "Checking for libraries currently in use"
+msgstr "S'estan comprovant les biblioteques que s'usen actualment"
+
+#: libapper/PkStrings.cpp:156
+msgctxt "we are copying package files to prepare to install"
+msgid "Copying files"
+msgstr "S'estan copiant els fitxers"
+
+#: libapper/PkStrings.cpp:166
+msgctxt "The action of the package, in past tense"
+msgid "Downloaded"
+msgstr "Descarregat"
+
+#: libapper/PkStrings.cpp:168
+msgctxt "The action of the package, in past tense"
+msgid "Updated"
+msgstr "Actualitzat"
+
+#: libapper/PkStrings.cpp:170
+msgctxt "The action of the package, in past tense"
+msgid "Installed"
+msgstr "Instal·lat"
+
+#: libapper/PkStrings.cpp:172
+msgctxt "The action of the package, in past tense"
+msgid "Removed"
+msgstr "Eliminat"
+
+#: libapper/PkStrings.cpp:174
+msgctxt "The action of the package, in past tense"
+msgid "Cleaned Up"
+msgstr "Netejat"
+
+#: libapper/PkStrings.cpp:176
+msgctxt "The action of the package, in past tense"
+msgid "Obsoleted"
+msgstr "Obsolet"
+
+#: libapper/PkStrings.cpp:188
+msgctxt "The role of the transaction, in present tense"
+msgid "Unknown role type"
+msgstr "Tipus de rol desconegut"
+
+#: libapper/PkStrings.cpp:190
+msgctxt "The role of the transaction, in present tense"
+msgid "Getting dependencies"
+msgstr "S'està accedint a les dependències"
+
+#: libapper/PkStrings.cpp:192
+msgctxt "The role of the transaction, in present tense"
+msgid "Getting update detail"
+msgstr "S'està accedint als detalls de l'actualització"
+
+#: libapper/PkStrings.cpp:194
+msgctxt "The role of the transaction, in present tense"
+msgid "Getting details"
+msgstr "S'està accedint als detalls"
+
+#: libapper/PkStrings.cpp:196
+msgctxt "The role of the transaction, in present tense"
+msgid "Getting requires"
+msgstr "S'està accedint als requeriments"
+
+#: libapper/PkStrings.cpp:198
+msgctxt "The role of the transaction, in present tense"
+msgid "Getting updates"
+msgstr "S'està accedint a les actualitzacions"
+
+#: libapper/PkStrings.cpp:200
+msgctxt "The role of the transaction, in present tense"
+msgid "Searching details"
+msgstr "S'estan cercant els detalls"
+
+#: libapper/PkStrings.cpp:202
+msgctxt "The role of the transaction, in present tense"
+msgid "Searching for file"
+msgstr "S'està cercant un fitxer"
+
+#: libapper/PkStrings.cpp:204
+msgctxt "The role of the transaction, in present tense"
+msgid "Searching groups"
+msgstr "S'estan cercant grups"
+
+#: libapper/PkStrings.cpp:206
+msgctxt "The role of the transaction, in present tense"
+msgid "Searching by package name"
+msgstr "S'està cercant per nom de paquet"
+
+#: libapper/PkStrings.cpp:208
+msgctxt "The role of the transaction, in present tense"
+msgid "Removing"
+msgstr "S'està eliminant"
+
+#: libapper/PkStrings.cpp:210
+msgctxt "The role of the transaction, in present tense"
+msgid "Installing"
+msgstr "S'està instal·lant"
+
+#: libapper/PkStrings.cpp:212
+msgctxt "The role of the transaction, in present tense"
+msgid "Installing file"
+msgstr "S'està instal·lant un fitxer"
+
+#: libapper/PkStrings.cpp:214
+msgctxt "The role of the transaction, in present tense"
+msgid "Refreshing package cache"
+msgstr "S'està refrescant la memòria cau dels paquets"
+
+#: libapper/PkStrings.cpp:216
+msgctxt "The role of the transaction, in present tense"
+msgid "Updating packages"
+msgstr "S'estan actualitzant els paquets"
+
+#: libapper/PkStrings.cpp:218
+msgctxt "The role of the transaction, in present tense"
+msgid "Canceling"
+msgstr "S'està cancel·lant"
+
+#: libapper/PkStrings.cpp:220
+msgctxt "The role of the transaction, in present tense"
+msgid "Getting list of repositories"
+msgstr "S'està accedint a la llista de repositoris"
+
+#: libapper/PkStrings.cpp:222
+msgctxt "The role of the transaction, in present tense"
+msgid "Enabling repository"
+msgstr "S'està activant el repositori"
+
+#: libapper/PkStrings.cpp:224
+msgctxt "The role of the transaction, in present tense"
+msgid "Setting repository data"
+msgstr "S'està assignant les dades del repositori"
+
+#: libapper/PkStrings.cpp:226
+msgctxt "The role of the transaction, in present tense"
+msgid "Resolving"
+msgstr "S'està resolent"
+
+#: libapper/PkStrings.cpp:228
+msgctxt "The role of the transaction, in present tense"
+msgid "Getting file list"
+msgstr "S'està obtenint la llista de fitxers"
+
+#: libapper/PkStrings.cpp:230
+msgctxt "The role of the transaction, in present tense"
+msgid "Getting what provides"
+msgstr "S'està accedint al què proporciona"
+
+#: libapper/PkStrings.cpp:232
+msgctxt "The role of the transaction, in present tense"
+msgid "Installing signature"
+msgstr "S'està instal·lant la signatura"
+
+#: libapper/PkStrings.cpp:234
+msgctxt "The role of the transaction, in present tense"
+msgid "Getting package lists"
+msgstr "S'està accedint a les llistes del paquet"
+
+#: libapper/PkStrings.cpp:236
+msgctxt "The role of the transaction, in present tense"
+msgid "Accepting EULA"
+msgstr "S'està acceptant el CLUF"
+
+#: libapper/PkStrings.cpp:238
+msgctxt "The role of the transaction, in present tense"
+msgid "Downloading packages"
+msgstr "S'estan descarregant els paquets"
+
+#: libapper/PkStrings.cpp:240
+msgctxt "The role of the transaction, in present tense"
+msgid "Getting distribution upgrade information"
+msgstr "S'està obtenint la informació de l'actualització de la distribució"
+
+#: libapper/PkStrings.cpp:242
+msgctxt "The role of the transaction, in present tense"
+msgid "Getting categories"
+msgstr "S'està accedint a les categories"
+
+#: libapper/PkStrings.cpp:244
+msgctxt "The role of the transaction, in present tense"
+msgid "Getting old transactions"
+msgstr "S'estan obtenint les transaccions antigues"
+
+#: libapper/PkStrings.cpp:246
+#, fuzzy
+#| msgctxt "The role of the transaction, in present tense"
+#| msgid "Updating system"
+msgctxt "The role of the transaction, in present tense"
+msgid "Upgrading system"
+msgstr "S'està actualitzant el sistema"
+
+#: libapper/PkStrings.cpp:248
+#, fuzzy
+#| msgctxt "The role of the transaction, in present tense"
+#| msgid "Updating system"
+msgctxt "The role of the transaction, in present tense"
+msgid "Repairing system"
+msgstr "S'està actualitzant el sistema"
+
+#: libapper/PkStrings.cpp:258
+msgctxt "The role of the transaction, in past tense"
+msgid "Unknown role type"
+msgstr "Tipus de rol desconegut"
+
+#: libapper/PkStrings.cpp:260
+msgctxt "The role of the transaction, in past tense"
+msgid "Got dependencies"
+msgstr "S'han obtingut les dependències"
+
+#: libapper/PkStrings.cpp:262
+msgctxt "The role of the transaction, in past tense"
+msgid "Got update detail"
+msgstr "S'han obtingut els detalls de l'actualització"
+
+#: libapper/PkStrings.cpp:264
+msgctxt "The role of the transaction, in past tense"
+msgid "Got details"
+msgstr "S'han obtingut els detalls"
+
+#: libapper/PkStrings.cpp:266
+msgctxt "The role of the transaction, in past tense"
+msgid "Got requires"
+msgstr "S'han obtingut els requeriments"
+
+#: libapper/PkStrings.cpp:268
+msgctxt "The role of the transaction, in past tense"
+msgid "Got updates"
+msgstr "S'han obtingut les actualitzacions"
+
+#: libapper/PkStrings.cpp:270
+msgctxt "The role of the transaction, in past tense"
+msgid "Searched for package details"
+msgstr "S'ha cercat per detalls del paquet"
+
+#: libapper/PkStrings.cpp:272
+msgctxt "The role of the transaction, in past tense"
+msgid "Searched for file"
+msgstr "S'ha cercat per fitxer"
+
+#: libapper/PkStrings.cpp:274
+msgctxt "The role of the transaction, in past tense"
+msgid "Searched groups"
+msgstr "S'han cercat grups"
+
+#: libapper/PkStrings.cpp:276
+msgctxt "The role of the transaction, in past tense"
+msgid "Searched for package name"
+msgstr "S'ha cercat pel nom de paquet"
+
+#: libapper/PkStrings.cpp:278
+msgctxt "The role of the transaction, in past tense"
+msgid "Removed packages"
+msgstr "S'han eliminat els paquets"
+
+#: libapper/PkStrings.cpp:280
+msgctxt "The role of the transaction, in past tense"
+msgid "Installed packages"
+msgstr "S'han instal·lat els paquets"
+
+#: libapper/PkStrings.cpp:282
+msgctxt "The role of the transaction, in past tense"
+msgid "Installed local files"
+msgstr "S'han instal·lat els fitxers locals"
+
+#: libapper/PkStrings.cpp:284
+msgctxt "The role of the transaction, in past tense"
+msgid "Refreshed package cache"
+msgstr "S'ha refrescat la memòria cau del paquet"
+
+#: libapper/PkStrings.cpp:286
+msgctxt "The role of the transaction, in past tense"
+msgid "Updated packages"
+msgstr "S'han actualitzat els paquets"
+
+#: libapper/PkStrings.cpp:288
+msgctxt "The role of the transaction, in past tense"
+msgid "Canceled"
+msgstr "S'ha cancel·lat"
+
+#: libapper/PkStrings.cpp:290
+msgctxt "The role of the transaction, in past tense"
+msgid "Got list of repositories"
+msgstr "S'ha obtingut la llista de repositoris"
+
+#: libapper/PkStrings.cpp:292
+msgctxt "The role of the transaction, in past tense"
+msgid "Enabled repository"
+msgstr "S'ha habilitat el repositori"
+
+#: libapper/PkStrings.cpp:294
+msgctxt "The role of the transaction, in past tense"
+msgid "Set repository data"
+msgstr "S'han especificat les dades del repositori"
+
+#: libapper/PkStrings.cpp:296
+msgctxt "The role of the transaction, in past tense"
+msgid "Resolved"
+msgstr "S'ha resolt"
+
+#: libapper/PkStrings.cpp:298
+msgctxt "The role of the transaction, in past tense"
+msgid "Got file list"
+msgstr "S'ha obtingut la llista de fitxers"
+
+#: libapper/PkStrings.cpp:300
+msgctxt "The role of the transaction, in past tense"
+msgid "Got what provides"
+msgstr "S'ha obtingut el què proporciona"
+
+#: libapper/PkStrings.cpp:302
+msgctxt "The role of the transaction, in past tense"
+msgid "Installed signature"
+msgstr "S'ha instal·lat la signatura"
+
+#: libapper/PkStrings.cpp:304
+msgctxt "The role of the transaction, in past tense"
+msgid "Got package lists"
+msgstr "S'han obtingut les llistes de paquets"
+
+#: libapper/PkStrings.cpp:306
+msgctxt "The role of the transaction, in past tense"
+msgid "Accepted EULA"
+msgstr "S'ha acceptat el CLUF"
+
+#: libapper/PkStrings.cpp:308
+msgctxt "The role of the transaction, in past tense"
+msgid "Downloaded packages"
+msgstr "S'han descarregat els paquets"
+
+#: libapper/PkStrings.cpp:310
+msgctxt "The role of the transaction, in past tense"
+msgid "Got distribution upgrades"
+msgstr "S'han obtingut les actualitzacions de la distribució"
+
+#: libapper/PkStrings.cpp:312
+msgctxt "The role of the transaction, in past tense"
+msgid "Got categories"
+msgstr "S'han obtingut les categories"
+
+#: libapper/PkStrings.cpp:314
+msgctxt "The role of the transaction, in past tense"
+msgid "Got old transactions"
+msgstr "Aconsegueix les transaccions antigues"
+
+#: libapper/PkStrings.cpp:316
+#, fuzzy
+#| msgctxt "The role of the transaction, in past tense"
+#| msgid "Updated system"
+msgctxt "The role of the transaction, in past tense"
+msgid "Upgraded system"
+msgstr "S'ha actualitzat el sistema"
+
+#: libapper/PkStrings.cpp:318
+#, fuzzy
+#| msgctxt "The role of the transaction, in past tense"
+#| msgid "Updated system"
+msgctxt "The role of the transaction, in past tense"
+msgid "Repaired system"
+msgstr "S'ha actualitzat el sistema"
+
+#: libapper/PkStrings.cpp:328
+msgid "Downloading"
+msgstr "S'està baixant..."
+
+#: libapper/PkStrings.cpp:330
+msgid "Updating"
+msgstr "S'està actualitzant"
+
+#: libapper/PkStrings.cpp:332
+msgid "Installing"
+msgstr "S'està instal·lant"
+
+#: libapper/PkStrings.cpp:334
+msgid "Removing"
+msgstr "S'està eliminant"
+
+#: libapper/PkStrings.cpp:336
+msgid "Cleaning up"
+msgstr "S'està netejant"
+
+#: libapper/PkStrings.cpp:338
+msgid "Obsoleting"
+msgstr "S'estan marcant les obsoletes"
+
+#: libapper/PkStrings.cpp:340
+msgid "Reinstalling"
+msgstr "S'està reinstal·lant"
+
+#: libapper/PkStrings.cpp:342
+msgid "Preparing"
+msgstr "S'està preparant"
+
+#: libapper/PkStrings.cpp:344
+msgid "Decompressing"
+msgstr "S'està descomprimint"
+
+#: libapper/PkStrings.cpp:355
+msgid "Downloaded"
+msgstr "Baixat"
+
+#: libapper/PkStrings.cpp:357
+msgid "Updated"
+msgstr "Actualitzat"
+
+#: libapper/PkStrings.cpp:361
+msgid "Removed"
+msgstr "Eliminat"
+
+#: libapper/PkStrings.cpp:363
+msgid "Cleaned up"
+msgstr "Netejat"
+
+#: libapper/PkStrings.cpp:365
+msgid "Obsoleted"
+msgstr "Obsolet"
+
+#: libapper/PkStrings.cpp:367
+msgid "Reinstalled"
+msgstr "Reinstal·lat"
+
+#: libapper/PkStrings.cpp:369
+msgid "Prepared"
+msgstr "Preparat"
+
+#: libapper/PkStrings.cpp:371
+msgid "Decompressed"
+msgstr "Descomprimit"
+
+#: libapper/PkStrings.cpp:382
+msgid "No network connection available"
+msgstr "La connexió de xarxa no està disponible"
+
+#: libapper/PkStrings.cpp:384
+msgid "No package cache is available"
+msgstr "No hi ha disponible cap memòria cau de paquet"
+
+#: libapper/PkStrings.cpp:386
+msgid "Out of memory"
+msgstr "Memòria esgotada"
+
+#: libapper/PkStrings.cpp:388
+msgid "Failed to create a thread"
+msgstr "No s'ha pogut crear un fil"
+
+#: libapper/PkStrings.cpp:390
+msgid "Not supported by this backend"
+msgstr "En este dorsal no està implementat."
+
+#: libapper/PkStrings.cpp:392
+msgid "An internal system error has occurred"
+msgstr "S'ha produït un error intern del sistema"
+
+#: libapper/PkStrings.cpp:394
+msgid "A security trust relationship is not present"
+msgstr "No hi ha una relació de confiança de seguretat"
+
+#: libapper/PkStrings.cpp:396
+msgid "The package is not installed"
+msgstr "El paquet no està instal·lat"
+
+#: libapper/PkStrings.cpp:398
+msgid "The package was not found"
+msgstr "No s'ha trobat el paquet"
+
+#: libapper/PkStrings.cpp:400
+msgid "The package is already installed"
+msgstr "El paquet ja està instal·lat"
+
+#: libapper/PkStrings.cpp:402
+msgid "The package download failed"
+msgstr "La descàrrega del paquet ha fallat"
+
+#: libapper/PkStrings.cpp:404
+msgid "The group was not found"
+msgstr "No s'ha trobat el grup"
+
+#: libapper/PkStrings.cpp:406
+msgid "The group list was invalid"
+msgstr "La llista del grup no era vàlida"
+
+#: libapper/PkStrings.cpp:408
+msgid "Dependency resolution failed"
+msgstr "No s'han pogut resoldre les dependències"
+
+#: libapper/PkStrings.cpp:410
+msgid "Search filter was invalid"
+msgstr "El filtre de cerca no era vàlid"
+
+#: libapper/PkStrings.cpp:412
+msgid "The package identifier was not well formed"
+msgstr "L'identificador del paquet no estava ben format"
+
+#: libapper/PkStrings.cpp:414
+msgid "Transaction error"
+msgstr "Error de transacció"
+
+#: libapper/PkStrings.cpp:416
+msgid "Repository name was not found"
+msgstr "No s'ha trobat el nom del repositori"
+
+#: libapper/PkStrings.cpp:418
+msgid "Could not remove a protected system package"
+msgstr "No s'ha pogut eliminar el paquet protegit del sistema"
+
+#: libapper/PkStrings.cpp:420
+msgid "The task was canceled"
+msgstr "S'ha cancel·lat la tasca"
+
+#: libapper/PkStrings.cpp:422
+msgid "The task was forcibly canceled"
+msgstr "La tasca s'ha cancel·lat forçosament"
+
+#: libapper/PkStrings.cpp:424
+msgid "Reading the config file failed"
+msgstr "No s'ha pogut llegir el fitxer de configuració"
+
+#: libapper/PkStrings.cpp:426
+msgid "The task cannot be cancelled"
+msgstr "La tasca no es pot cancel·lar"
+
+#: libapper/PkStrings.cpp:428
+msgid "Source packages cannot be installed"
+msgstr "No es poden instal·lar els paquets de codi font"
+
+#: libapper/PkStrings.cpp:430
+msgid "The license agreement failed"
+msgstr "L'acceptació de la llicència ha fallat"
+
+#: libapper/PkStrings.cpp:432
+msgid "Local file conflict between packages"
+msgstr "Conflicte entre paquets en algun fitxer local"
+
+#: libapper/PkStrings.cpp:434
+msgid "Packages are not compatible"
+msgstr "Els paquets no són compatibles"
+
+#: libapper/PkStrings.cpp:436
+msgid "Problem connecting to a software origin"
+msgstr "Hi ha un problema a l'hora de connectar a una font de programari"
+
+#: libapper/PkStrings.cpp:438
+msgid "Failed to initialize"
+msgstr "No s'ha pogut inicialitzar"
+
+#: libapper/PkStrings.cpp:440
+msgid "Failed to finalize"
+msgstr "No s'ha pogut finalitzar"
+
+#: libapper/PkStrings.cpp:442
+msgid "Cannot get lock"
+msgstr "No es pot bloquejar"
+
+#: libapper/PkStrings.cpp:444
+msgid "No packages to update"
+msgstr "No hi ha cap paquet per actualitzar"
+
+#: libapper/PkStrings.cpp:446
+msgid "Cannot write repository configuration"
+msgstr "No es pot escriure la configuració del repositori"
+
+#: libapper/PkStrings.cpp:448
+msgid "Local install failed"
+msgstr "La instal·lació local ha fallat"
+
+#: libapper/PkStrings.cpp:450
+msgid "Bad GPG signature"
+msgstr "La signatura GPG no és correcte"
+
+#: libapper/PkStrings.cpp:452
+msgid "Missing GPG signature"
+msgstr "Falta la signatura GPG"
+
+#: libapper/PkStrings.cpp:454
+msgid "Repository configuration invalid"
+msgstr "Configuració del repositori no vàlida"
+
+#: libapper/PkStrings.cpp:456
+msgid "Invalid package file"
+msgstr "El fitxer de paquet no és vàlid"
+
+#: libapper/PkStrings.cpp:458
+msgid "Package install blocked"
+msgstr "Instal·lació del paquet bloquejada"
+
+#: libapper/PkStrings.cpp:460
+msgid "Package is corrupt"
+msgstr "El paquet és corrupte"
+
+#: libapper/PkStrings.cpp:462
+msgid "All packages are already installed"
+msgstr "Ja estan instal·lats tots els paquets"
+
+#: libapper/PkStrings.cpp:464
+msgid "The specified file could not be found"
+msgstr "No es pot trobar el fitxer especificat"
+
+#: libapper/PkStrings.cpp:466
+msgid "No more mirrors are available"
+msgstr "No hi ha més rèpliques disponibles"
+
+#: libapper/PkStrings.cpp:468
+msgid "No distribution upgrade data is available"
+msgstr "No hi ha dades disponibles d'actualitzacions de la distribució"
+
+#: libapper/PkStrings.cpp:470
+msgid "Package is incompatible with this system"
+msgstr "El paquet és incompatible amb este sistema"
+
+#: libapper/PkStrings.cpp:472
+msgid "No space is left on the disk"
+msgstr "No queda espai al disc"
+
+#: libapper/PkStrings.cpp:474 libapper/PkTransaction.cpp:418
+msgid "A media change is required"
+msgstr "Cal canviar el suport"
+
+#: libapper/PkStrings.cpp:476
+msgid "Authorization failed"
+msgstr "L'autorització ha fallat"
+
+#: libapper/PkStrings.cpp:478
+msgid "Update not found"
+msgstr "No s'ha trobat l'actualització"
+
+#: libapper/PkStrings.cpp:480
+msgid "Cannot install from untrusted origin"
+msgstr "No es pot instal·lar des d'una font no fiable"
+
+#: libapper/PkStrings.cpp:482
+msgid "Cannot update from untrusted origin"
+msgstr "No es pot actualitzar des d'una font no fiable"
+
+#: libapper/PkStrings.cpp:484
+msgid "Cannot get the file list"
+msgstr "No s'ha pogut obtindre la llista de fitxers"
+
+#: libapper/PkStrings.cpp:486
+msgid "Cannot get package requires"
+msgstr "No es poden obtindre els requeriments del paquet"
+
+#: libapper/PkStrings.cpp:488
+msgid "Cannot disable origin"
+msgstr "No es pot deshabilitar la font"
+
+#: libapper/PkStrings.cpp:490
+msgid "The download failed"
+msgstr "La descàrrega ha fallat"
+
+#: libapper/PkStrings.cpp:492
+msgid "Package failed to configure"
+msgstr "No s'ha pogut configurar el paquet"
+
+#: libapper/PkStrings.cpp:494
+msgid "Package failed to build"
+msgstr "No s'ha pogut construir el paquet"
+
+#: libapper/PkStrings.cpp:496
+msgid "Package failed to install"
+msgstr "No s'ha pogut instal·lar el paquet"
+
+#: libapper/PkStrings.cpp:498
+msgid "Package failed to be removed"
+msgstr "No s'ha pogut eliminar el paquet"
+
+#: libapper/PkStrings.cpp:500
+msgid "Update failed due to running process"
+msgstr "Ha fallat l'actualització degut a un procés en execució"
+
+#: libapper/PkStrings.cpp:502
+msgid "The package database was changed"
+msgstr "La base de dades de paquets ha canviat"
+
+#: libapper/PkStrings.cpp:504
+msgid "Virtual provide type is not supported"
+msgstr ""
+
+#: libapper/PkStrings.cpp:506
+msgid "Install root is invalid"
+msgstr ""
+
+#: libapper/PkStrings.cpp:508
+#, fuzzy
+#| msgid "Cannot get lock"
+msgid "Cannot fetch install sources"
+msgstr "No es pot bloquejar"
+
+#: libapper/PkStrings.cpp:510
+msgid "Rescheduled due to priority"
+msgstr ""
+
+#: libapper/PkStrings.cpp:512
+#, fuzzy
+#| msgctxt "The role of the transaction, in present tense"
+#| msgid "Getting old transactions"
+msgid "Unfinished transaction"
+msgstr "S'estan obtenint les transaccions antigues"
+
+#: libapper/PkStrings.cpp:514
+#, fuzzy
+#| msgctxt "The role of the transaction, in past tense"
+#| msgid "Got requires"
+msgid "Lock required"
+msgstr "S'han obtingut els requeriments"
+
+#: libapper/PkStrings.cpp:516
+msgid "Unknown error"
+msgstr "Error desconegut"
+
+#: libapper/PkStrings.cpp:526
+msgid ""
+"There is no network connection available.\n"
+"Please check your connection settings and try again"
+msgstr ""
+"La connexió a la xarxa no està disponible.\n"
+"Per favor, comproveu la configuració de la xarxa i torneu-ho a provar"
+
+#: libapper/PkStrings.cpp:529
+msgid ""
+"The package list needs to be rebuilt.\n"
+"This should have been done by the backend automatically."
+msgstr ""
+"Cal refer la llista de paquets.\n"
+"Això hauria de ser fet automàticament pel dorsal."
+
+#: libapper/PkStrings.cpp:532
+msgid ""
+"The service that is responsible for handling user requests is out of "
+"memory.\n"
+"Please close some programs or restart your computer."
+msgstr ""
+"El servei responsable de manejar les peticions de l'usuari no té prou "
+"memòria.\n"
+"Per favor, tanqueu alguns programes o reinicieu l'ordinador."
+
+#: libapper/PkStrings.cpp:535
+msgid "A thread could not be created to service the user request."
+msgstr "No s'ha pogut crear un fil que servisca la petició de l'usuari."
+
+#: libapper/PkStrings.cpp:537
+msgid ""
+"The action is not supported by this backend.\n"
+"Please report a bug as this should not have happened."
+msgstr ""
+"L'acció no està implementada per este dorsal.\n"
+"Per favor, informeu de l'error si això no hauria de passar."
+
+#: libapper/PkStrings.cpp:540
+msgid ""
+"A problem that we were not expecting has occurred.\n"
+"Please report this bug with the error description."
+msgstr ""
+"S'ha produït un problema no esperat.\n"
+"Per favor, informeu d'este problema amb la descripció de l'error."
+
+#: libapper/PkStrings.cpp:543
+msgid ""
+"A security trust relationship could not be made with the software origin.\n"
+"Please check your software signature settings."
+msgstr ""
+"No es pot establir una relació de confiança de seguretat amb este font de "
+"programari.\n"
+"Per favor, comproveu la configuració de les signatures de programari."
+
+#: libapper/PkStrings.cpp:546
+msgid ""
+"The package that is trying to be removed or updated is not already installed."
+msgstr ""
+"El paquet que s'està intentant eliminar o actualitzar encara no està "
+"instal·lat."
+
+#: libapper/PkStrings.cpp:548
+msgid ""
+"The package that is being modified was not found on your system or in any "
+"software origin."
+msgstr ""
+"El paquet que està sent modificat no s'ha trobat en el vostre sistema o en "
+"cap font de programari."
+
+#: libapper/PkStrings.cpp:550
+msgid "The package that is trying to be installed is already installed."
+msgstr "El paquet que s'està intentant instal·lar ja està instal·lat."
+
+#: libapper/PkStrings.cpp:552
+msgid ""
+"The package download failed.\n"
+"Please check your network connectivity."
+msgstr ""
+"La descàrrega del paquet ha fallat.\n"
+"Per favor, comproveu la connexió a la xarxa."
+
+#: libapper/PkStrings.cpp:555
+msgid ""
+"The group type was not found.\n"
+"Please check your group list and try again."
+msgstr ""
+"No s'ha trobat el tipus de grup.\n"
+"Per favor comproveu la vostre llista de grups i torneu-ho a provar."
+
+#: libapper/PkStrings.cpp:558
+msgid ""
+"The group list could not be loaded.\n"
+"Refreshing your cache may help, although this is normally a software origin "
+"error."
+msgstr ""
+"La llista del grup no es pot carregar.\n"
+"Refrescar la vostre memòria cau pot ajudar, encara que normalment això és un "
+"error de les fonts de programari."
+
+#: libapper/PkStrings.cpp:562
+msgid ""
+"A package dependency could not be found.\n"
+"More information is available in the detailed report."
+msgstr ""
+"No es pot trobar alguna dependència d'un paquet.\n"
+"Hi ha més informació disponible a l'informe detallat."
+
+#: libapper/PkStrings.cpp:565
+msgid "The search filter was not correctly formed."
+msgstr "El filtre de cerca no estava format correctament."
+
+#: libapper/PkStrings.cpp:567
+msgid ""
+"The package identifier was not well formed when sent to the system daemon.\n"
+"This normally indicates an internal bug and should be reported."
+msgstr ""
+"L'identificador del paquet no estava ben format quan s'ha enviat al dimoni "
+"del sistema.\n"
+"Normalment això indica un error intern i s'hauria d'informar."
+
+#: libapper/PkStrings.cpp:570
+msgid ""
+"An error occurred while running the transaction.\n"
+"More information is available in the detailed report."
+msgstr ""
+"Hi ha hagut un error mentre s'executava la transacció.\n"
+"Hi ha més informació disponible a l'informe detallat."
+
+#: libapper/PkStrings.cpp:573
+msgid ""
+"The remote software origin name was not found.\n"
+"You may need to enable an item in Software Origins."
+msgstr ""
+"No s'ha trobat el nom de la font remota de programari.\n"
+"Caldria activar un element a fonts de programari."
+
+#: libapper/PkStrings.cpp:576
+msgid "Removing a protected system package is not allowed."
+msgstr "No és permés eliminar un paquet protegit del sistema."
+
+#: libapper/PkStrings.cpp:578
+msgid "The task was canceled successfully and no packages were changed."
+msgstr "La tasca s'ha cancel·lat correctament i no s'ha canviat cap paquet."
+
+#: libapper/PkStrings.cpp:580
+msgid ""
+"The task was canceled successfully and no packages were changed.\n"
+"The backend did not exit cleanly."
+msgstr ""
+"La tasca s'ha cancel·lat correctament i no s'ha canviat cap paquet.\n"
+"El dorsal no ha eixit netament."
+
+#: libapper/PkStrings.cpp:583
+msgid ""
+"The native package configuration file could not be opened.\n"
+"Please make sure your system's configuration is valid."
+msgstr ""
+"El fitxer de configuració natiu del paquet no es pot obrir.\n"
+"Per favor, assegureu-vos que la configuració del vostre sistema és vàlida."
+
+#: libapper/PkStrings.cpp:586
+msgid "The task is not safe to be cancelled at this time."
+msgstr "En estos moments cancel·lar la tasca no és segur."
+
+#: libapper/PkStrings.cpp:588
+msgid ""
+"Source packages are not normally installed this way.\n"
+"Check the extension of the file you are trying to install."
+msgstr ""
+"Els paquets font normalment no s'instal·len d'esta manera.\n"
+"Comproveu l'extensió del fitxer que esteu intentant instal·lar."
+
+#: libapper/PkStrings.cpp:591
+msgid ""
+"The license agreement was not agreed to.\n"
+"To use this software you have to accept the license."
+msgstr ""
+"La acord de llicència no ha estat acceptat.\n"
+"Per utilitzar este programa cal que accepteu la llicència."
+
+#: libapper/PkStrings.cpp:594
+msgid ""
+"Two packages provide the same file.\n"
+"This is usually due to mixing packages for different software origins."
+msgstr ""
+"Dos paquets proveeixen el mateix fitxer.\n"
+"Normalment això és degut a la barreja de diferents fonts de programari."
+
+#: libapper/PkStrings.cpp:597
+msgid ""
+"Multiple packages exist that are not compatible with each other.\n"
+"This is usually due to mixing packages from different software origins."
+msgstr ""
+"Existeixen múltiples paquets que no són compatibles amb els altres.\n"
+"Normalment això és degut a la barreja de diferents fonts de programari."
+
+#: libapper/PkStrings.cpp:600
+msgid ""
+"There was a (possibly temporary) problem connecting to a software origins.\n"
+"Please check the detailed error for further details."
+msgstr ""
+"Hi ha un problema (probablement temporal) en connectar a una font de "
+"programari.\n"
+"Per favor, per més detalls comproveu l'error detallat."
+
+#: libapper/PkStrings.cpp:603
+msgid ""
+"Failed to initialize packaging backend.\n"
+"This may occur if other packaging tools are being used simultaneously."
+msgstr ""
+"No s'ha pogut inicialitzar el gestor de paquets.\n"
+"Això pot passar perquè altres eines de gestió de paquets estan sent usades "
+"simultàniament."
+
+#: libapper/PkStrings.cpp:606
+msgid ""
+"Failed to close down the backend instance.\n"
+"This error can normally be ignored."
+msgstr ""
+"No s'ha pogut tancar la instància del dorsal.\n"
+"Normalment este error es pot ignorar."
+
+#: libapper/PkStrings.cpp:609
+msgid ""
+"Cannot get the exclusive lock on the packaging backend.\n"
+"Please close any other legacy packaging tools that may be open."
+msgstr ""
+"No es pot obtindre el bloqueig exclusiu sobre el gestor de paquets.\n"
+"Per favor, tanqueu totes les eines de gestió de paquets que puguen estar "
+"executant-se."
+
+#: libapper/PkStrings.cpp:612
+msgid "None of the selected packages could be updated."
+msgstr "Cap dels paquets seleccionats pot ser actualitzat."
+
+#: libapper/PkStrings.cpp:614
+msgid "The repository configuration could not be modified."
+msgstr "No es pot modificar la configuració del repositori."
+
+#: libapper/PkStrings.cpp:616
+msgid ""
+"Installing the local file failed.\n"
+"More information is available in the detailed report."
+msgstr ""
+"La instal·lació del fitxer local ha fallat.\n"
+"Hi ha més informació disponible a l'informe detallat."
+
+#: libapper/PkStrings.cpp:619
+msgid "The package signature could not be verified."
+msgstr "No es pot verificar la signatura del paquet."
+
+#: libapper/PkStrings.cpp:621
+msgid ""
+"The package signature was missing and this package is untrusted.\n"
+"This package was not signed with a GPG key when created."
+msgstr ""
+"Falta la signatura del paquet i no és fiable.\n"
+"Quan va ser creat este paquet no va ser signat amb una clau GPG."
+
+#: libapper/PkStrings.cpp:624
+msgid "Repository configuration was invalid and could not be read."
+msgstr "La configuració del repositori no és vàlida i no es pot llegir."
+
+#: libapper/PkStrings.cpp:626
+msgid ""
+"The package you are attempting to install is not valid.\n"
+"The package file could be corrupt, or not a proper package."
+msgstr ""
+"El paquet que esteu intentant instal·lar no és vàlid.\n"
+"El fitxer del paquet podria ser corrupte o no ser un paquet correcte."
+
+#: libapper/PkStrings.cpp:629
+msgid ""
+"Installation of this package was prevented by your packaging system's "
+"configuration."
+msgstr ""
+"La configuració del vostre sistema de paquets no permet instal·lar este "
+"paquet."
+
+#: libapper/PkStrings.cpp:631
+msgid ""
+"The package that was downloaded is corrupt and needs to be downloaded again."
+msgstr ""
+"El paquet que s'ha descarregat és corrupte i cal descarregar-lo de nou."
+
+#: libapper/PkStrings.cpp:633
+msgid ""
+"All of the packages selected for install are already installed on the system."
+msgstr ""
+"Tots els paquets seleccionats per instal·lar ja estan instal·lats al sistema."
+
+#: libapper/PkStrings.cpp:635
+msgid ""
+"The specified file could not be found on the system.\n"
+"Check that the file still exists and has not been deleted."
+msgstr ""
+"El fitxer especificat no es pot trobar al sistema.\n"
+"Comproveu que el fitxer encara existeix i que no ha estat esborrat."
+
+#: libapper/PkStrings.cpp:638
+msgid ""
+"Required data could not be found on any of the configured software origins.\n"
+"There were no more download mirrors that could be tried."
+msgstr ""
+"La dada requerida no es pot trobar a cap de les fonts de programari "
+"configurades.\n"
+"No hi havia més rèpliques de servidors de descàrregues per poder provar."
+
+#: libapper/PkStrings.cpp:641
+msgid ""
+"Required upgrade data could not be found in any of the configured software "
+"origins.\n"
+"The list of distribution upgrades will be unavailable."
+msgstr ""
+"La dada d'actualització requerida no es pot trobar a cap de les fonts de "
+"programari configurades.\n"
+"La llista d'actualitzacions de la distribució no serà disponible."
+
+#: libapper/PkStrings.cpp:644
+msgid ""
+"The package that is trying to be installed is incompatible with this system."
+msgstr ""
+"El paquet que s'està intentant instal·lar és incompatible amb este sistema."
+
+#: libapper/PkStrings.cpp:646
+msgid ""
+"There is insufficient space on the device.\n"
+"Free some space on the system disk to perform this operation."
+msgstr ""
+"No hi ha suficient espai al dispositiu.\n"
+"Per dur a terme esta operació cal que allibereu una mica d'espai del disc "
+"del sistema."
+
+#: libapper/PkStrings.cpp:649
+msgid "Additional media is required to complete the transaction."
+msgstr "Cal un suport addicional per completar la transacció."
+
+#: libapper/PkStrings.cpp:651
+msgid ""
+"You have failed to provide correct authentication.\n"
+"Please check any passwords or account settings."
+msgstr ""
+"No vos heu autenticat correctament.\n"
+"Comproveu les contrasenyes o arranjaments del compte."
+
+#: libapper/PkStrings.cpp:654
+msgid ""
+"The specified update could not be found.\n"
+"It could have already been installed or no longer available on the remote "
+"server."
+msgstr ""
+"No es pot trobar l'actualització especificada.\n"
+"Potser ja està instal·lada o ja no està disponible al servidor remot."
+
+#: libapper/PkStrings.cpp:657
+msgid "The package could not be installed from untrusted origin."
+msgstr ""
+"El paquet no s'ha pogut instal·lar perquè és d'una font de programari no "
+"fiable."
+
+#: libapper/PkStrings.cpp:659
+msgid "The package could not be updated from untrusted origin."
+msgstr ""
+"El paquet no s'ha pogut actualitzar perquè és d'una font de programari no "
+"fiable."
+
+#: libapper/PkStrings.cpp:661
+msgid "The file list is not available for this package."
+msgstr "La llista de fitxers d'este paquet no està disponible."
+
+#: libapper/PkStrings.cpp:663
+msgid "The information about what requires this package could not be obtained."
+msgstr "No es pot obtindre la informació sobre els requeriments d'este paquet."
+
+#: libapper/PkStrings.cpp:665
+msgid "The specified software origin could not be disabled."
+msgstr "No s'ha pogut deshabilitar la font de programari especificada."
+
+#: libapper/PkStrings.cpp:667
+msgid ""
+"The download could not be done automatically and should be done manually.\n"
+"More information is available in the detailed report."
+msgstr ""
+"La descàrrega no es pot fer automàticament i s'hauria de fer manualment.\n"
+"Hi ha més informació disponible a l'informe detallat."
+
+#: libapper/PkStrings.cpp:670
+msgid ""
+"One of the selected packages failed to configure correctly.\n"
+"More information is available in the detailed report."
+msgstr ""
+"No s'ha pogut configurar correctament un dels paquets seleccionats.\n"
+"Hi ha més informació disponible a l'informe detallat."
+
+#: libapper/PkStrings.cpp:673
+msgid ""
+"One of the selected packages failed to build correctly.\n"
+"More information is available in the detailed report."
+msgstr ""
+"Un dels paquets seleccionats no s'ha pogut construir correctament.\n"
+"Hi ha més informació disponible a l'informe detallat."
+
+#: libapper/PkStrings.cpp:676
+msgid ""
+"One of the selected packages failed to install correctly.\n"
+"More information is available in the detailed report."
+msgstr ""
+"Un dels paquets seleccionats no s'ha pogut instal·lar correctament.\n"
+"Hi ha més informació disponible a l'informe detallat."
+
+#: libapper/PkStrings.cpp:679
+msgid ""
+"One of the selected packages failed to be removed correctly.\n"
+"More information is available in the detailed report."
+msgstr ""
+"Un dels paquets seleccionats no s'ha pogut eliminar correctament.\n"
+"Hi ha més informació disponible a l'informe detallat."
+
+#: libapper/PkStrings.cpp:682
+msgid ""
+"A program is running that has to be closed before the update can proceed.\n"
+"More information is available in the detailed report."
+msgstr ""
+"S'ha de tancar un programa que és en execució abans de procedir amb "
+"l'actualització.\n"
+"Hi ha més informació disponible a l'informe detallat."
+
+#: libapper/PkStrings.cpp:685
+msgid "The package database was changed while the request was running."
+msgstr ""
+"La base de dades de paquets ha canviat mentre la sol·licitud era en execució."
+
+#: libapper/PkStrings.cpp:687
+msgid "The virtual provide type is not supported by this system."
+msgstr ""
+
+#: libapper/PkStrings.cpp:689
+msgid "The install root is invalid. Please contact your administrator."
+msgstr ""
+
+#: libapper/PkStrings.cpp:691
+#, fuzzy
+#| msgid "The specified software origin could not be disabled."
+msgid "The list of software could not be downloaded."
+msgstr "No s'ha pogut deshabilitar la font de programari especificada."
+
+#: libapper/PkStrings.cpp:693
+msgid ""
+"The transaction has been cancelled and will be retried when the system is "
+"idle."
+msgstr ""
+
+#: libapper/PkStrings.cpp:695
+msgid "A previous package management transaction was interrupted."
+msgstr ""
+
+#: libapper/PkStrings.cpp:697
+#, fuzzy
+#| msgid "A media change is required"
+msgid "A package manager lock is required."
+msgstr "Cal canviar el suport"
+
+#: libapper/PkStrings.cpp:699
+msgid ""
+"Unknown error, please report a bug.\n"
+"More information is available in the detailed report."
+msgstr ""
+"Error desconegut. Per favor, informeu del problema.\n"
+"Hi ha més informació disponible a l'informe detallat."
+
+#: libapper/PkStrings.cpp:710
+msgctxt "The group type"
+msgid "Accessibility"
+msgstr "Accessibilitat"
+
+#: libapper/PkStrings.cpp:712
+msgctxt "The group type"
+msgid "Accessories"
+msgstr "Accessoris"
+
+#: libapper/PkStrings.cpp:714
+msgctxt "The group type"
+msgid "Education"
+msgstr "Educació"
+
+#: libapper/PkStrings.cpp:716
+msgctxt "The group type"
+msgid "Games"
+msgstr "Jocs"
+
+#: libapper/PkStrings.cpp:718
+msgctxt "The group type"
+msgid "Graphics"
+msgstr "Gràfics"
+
+#: libapper/PkStrings.cpp:720
+msgctxt "The group type"
+msgid "Internet"
+msgstr "Internet"
+
+#: libapper/PkStrings.cpp:722
+msgctxt "The group type"
+msgid "Office"
+msgstr "Oficina"
+
+#: libapper/PkStrings.cpp:724
+msgctxt "The group type"
+msgid "Others"
+msgstr "Altres"
+
+#: libapper/PkStrings.cpp:726
+msgctxt "The group type"
+msgid "Development"
+msgstr "Desenvolupament"
+
+#: libapper/PkStrings.cpp:728
+msgctxt "The group type"
+msgid "Multimedia"
+msgstr "Multimèdia"
+
+#: libapper/PkStrings.cpp:730
+msgctxt "The group type"
+msgid "System"
+msgstr "Sistema"
+
+#: libapper/PkStrings.cpp:732
+msgctxt "The group type"
+msgid "GNOME desktop"
+msgstr "Escriptori GNOME"
+
+#: libapper/PkStrings.cpp:734
+msgctxt "The group type"
+msgid "KDE desktop"
+msgstr "Escriptori KDE"
+
+#: libapper/PkStrings.cpp:736
+msgctxt "The group type"
+msgid "XFCE desktop"
+msgstr "Escriptori XFCE"
+
+#: libapper/PkStrings.cpp:738
+msgctxt "The group type"
+msgid "Other desktops"
+msgstr "Altres escriptoris"
+
+#: libapper/PkStrings.cpp:740
+msgctxt "The group type"
+msgid "Publishing"
+msgstr "Publicació"
+
+#: libapper/PkStrings.cpp:742
+msgctxt "The group type"
+msgid "Servers"
+msgstr "Servidors"
+
+#: libapper/PkStrings.cpp:744
+msgctxt "The group type"
+msgid "Fonts"
+msgstr "Tipus de lletra"
+
+#: libapper/PkStrings.cpp:746
+msgctxt "The group type"
+msgid "Admin tools"
+msgstr "Eines d'administració"
+
+#: libapper/PkStrings.cpp:748
+msgctxt "The group type"
+msgid "Legacy"
+msgstr "Herència"
+
+#: libapper/PkStrings.cpp:750
+msgctxt "The group type"
+msgid "Localization"
+msgstr "Localització"
+
+#: libapper/PkStrings.cpp:752
+msgctxt "The group type"
+msgid "Virtualization"
+msgstr "Virtualització"
+
+#: libapper/PkStrings.cpp:754
+msgctxt "The group type"
+msgid "Security"
+msgstr "Seguretat"
+
+#: libapper/PkStrings.cpp:756
+msgctxt "The group type"
+msgid "Power management"
+msgstr "Gestió d'energia"
+
+#: libapper/PkStrings.cpp:758
+msgctxt "The group type"
+msgid "Communication"
+msgstr "Comunicació"
+
+#: libapper/PkStrings.cpp:760
+msgctxt "The group type"
+msgid "Network"
+msgstr "Xarxa"
+
+#: libapper/PkStrings.cpp:762
+msgctxt "The group type"
+msgid "Maps"
+msgstr "Mapes"
+
+#: libapper/PkStrings.cpp:764
+msgctxt "The group type"
+msgid "Software sources"
+msgstr "Codis font del programari"
+
+#: libapper/PkStrings.cpp:766
+msgctxt "The group type"
+msgid "Science"
+msgstr "Ciència"
+
+#: libapper/PkStrings.cpp:768
+msgctxt "The group type"
+msgid "Documentation"
+msgstr "Documentació"
+
+#: libapper/PkStrings.cpp:770
+msgctxt "The group type"
+msgid "Electronics"
+msgstr "Electrònica"
+
+#: libapper/PkStrings.cpp:772
+msgctxt "The group type"
+msgid "Package collections"
+msgstr "Col·leccions de paquets"
+
+#: libapper/PkStrings.cpp:774
+msgctxt "The group type"
+msgid "Vendor"
+msgstr "Productor"
+
+#: libapper/PkStrings.cpp:776
+msgctxt "The group type"
+msgid "Newest packages"
+msgstr "Els paquets més nous"
+
+#: libapper/PkStrings.cpp:778
+msgctxt "The group type"
+msgid "Unknown group"
+msgstr "Grup desconegut"
+
+#: libapper/PkStrings.cpp:789
+msgctxt "The type of update"
+msgid "Trivial update"
+msgstr "Actualització trivial"
+
+#: libapper/PkStrings.cpp:791
+msgctxt "The type of update"
+msgid "Normal update"
+msgstr "Actualització normal"
+
+#: libapper/PkStrings.cpp:793
+msgctxt "The type of update"
+msgid "Important update"
+msgstr "Actualització important"
+
+#: libapper/PkStrings.cpp:795
+msgctxt "The type of update"
+msgid "Security update"
+msgstr "Actualització de seguretat"
+
+#: libapper/PkStrings.cpp:797
+msgctxt "The type of update"
+msgid "Bug fix update"
+msgstr "Actualització per solucionar errors"
+
+#: libapper/PkStrings.cpp:799
+msgctxt "The type of update"
+msgid "Enhancement update"
+msgstr "Actualització amb millores"
+
+#: libapper/PkStrings.cpp:801
+msgctxt "The type of update"
+msgid "Blocked update"
+msgstr "Actualització bloquejada"
+
+#: libapper/PkStrings.cpp:804
+msgctxt "The type of update"
+msgid "Installed"
+msgstr "Instal·lat"
+
+#: libapper/PkStrings.cpp:807
+msgctxt "The type of update"
+msgid "Available"
+msgstr "Disponible"
+
+#: libapper/PkStrings.cpp:809
+msgctxt "The type of update"
+msgid "Unknown update"
+msgstr "Actualització desconeguda"
+
+#: libapper/PkStrings.cpp:820
+msgid "No Updates Available"
+msgstr "No hi ha cap actualització disponible"
+
+#: libapper/PkStrings.cpp:823
+#, kde-format
+msgctxt "Some updates were selected on the view"
+msgid "1 Update Selected"
+msgid_plural "%1 Updates Selected"
+msgstr[0] "S'ha seleccionat 1 actualització"
+msgstr[1] "S'han seleccionat %1 actualitzacions"
+
+#: libapper/PkStrings.cpp:827
+#, kde-format
+msgctxt "Some updates are being shown on the screen"
+msgid "1 Update"
+msgid_plural "%1 Updates"
+msgstr[0] "1 actualització"
+msgstr[1] "%1 actualitzacions"
+
+#: libapper/PkStrings.cpp:830
+#, kde-format
+msgctxt "Type of update, in the case it's just an update"
+msgid "%1, %2"
+msgstr "%1, %2"
+
+#: libapper/PkStrings.cpp:831
+#, kde-format
+msgctxt "Part of: %1 Updates, %1 Selected"
+msgid "%1 Update"
+msgid_plural "%1 Updates"
+msgstr[0] "%1 actualització"
+msgstr[1] "%1 actualitzacions"
+
+#: libapper/PkStrings.cpp:832
+#, kde-format
+msgctxt "Part of: %1 Updates, %1 Selected"
+msgid "%1 Selected"
+msgid_plural "%1 Selected"
+msgstr[0] "S'ha seleccionat %1"
+msgstr[1] "S'han seleccionat %1"
+
+#: libapper/PkStrings.cpp:836
+msgid "No Packages"
+msgstr "Cap paquet"
+
+#: libapper/PkStrings.cpp:838
+#, kde-format
+msgid "1 Package"
+msgid_plural "%1 Packages"
+msgstr[0] "1 paquet"
+msgstr[1] "%1 paquets"
+
+#: libapper/PkStrings.cpp:846
+msgid "No restart is necessary"
+msgstr "No cal reiniciar res"
+
+#: libapper/PkStrings.cpp:848
+msgid "You will be required to restart this application"
+msgstr "Se vos demanarà que reinicieu esta aplicació"
+
+#: libapper/PkStrings.cpp:850
+msgid "You will be required to log out and back in"
+msgstr "Se vos demanarà que eixiu de la sessió i torneu a entrar"
+
+#: libapper/PkStrings.cpp:852
+msgid "A restart will be required"
+msgstr "Caldrà reiniciar"
+
+#: libapper/PkStrings.cpp:854
+msgid "You will be required to log out and back in due to a security update."
+msgstr ""
+"Degut a una actualització de seguretat se vos demanarà que eixiu de la "
+"sessió i torneu a entrar."
+
+#: libapper/PkStrings.cpp:856
+msgid "A restart will be required due to a security update."
+msgstr "Caldrà reiniciar degut a una actualització de seguretat."
+
+#: libapper/PkStrings.cpp:869
+msgid "No restart is required"
+msgstr "No cal reiniciar res"
+
+#: libapper/PkStrings.cpp:871
+msgid "A restart is required"
+msgstr "Cal reiniciar"
+
+#: libapper/PkStrings.cpp:873
+msgid "You need to log out and log back in"
+msgstr "Cal que eixiu de la sessió i torneu a entrar"
+
+#: libapper/PkStrings.cpp:875
+msgid "You need to restart the application"
+msgstr "Cal que reinicieu l'aplicació"
+
+#: libapper/PkStrings.cpp:877
+msgid "You need to log out and log back in to remain secure."
+msgstr "Per mantindre-vos segurs cal que eixiu de la sessió i torneu a entrar."
+
+#: libapper/PkStrings.cpp:879
+msgid "A restart is required to remain secure."
+msgstr "Per mantindre-vos segurs cal reiniciar."
+
+#: libapper/PkStrings.cpp:892
+msgid "Stable"
+msgstr "Estable"
+
+#: libapper/PkStrings.cpp:894
+msgid "Unstable"
+msgstr "Inestable"
+
+#: libapper/PkStrings.cpp:896
+msgid "Testing"
+msgstr "En proves"
+
+#: libapper/PkStrings.cpp:909
+#, kde-format
+msgid "Please insert the CD labeled '%1', and press continue."
+msgstr "Per favor, introduïu el CD amb l'etiqueta «%1» i premeu continua."
+
+#: libapper/PkStrings.cpp:911
+#, kde-format
+msgid "Please insert the DVD labeled '%1', and press continue."
+msgstr "Per favor, introduïu el DVD amb l'etiqueta «%1» i premeu continua."
+
+#: libapper/PkStrings.cpp:913
+#, kde-format
+msgid "Please insert the disc labeled '%1', and press continue."
+msgstr "Per favor, introduïu el disc amb l'etiqueta «%1» i premeu continua."
+
+#: libapper/PkStrings.cpp:915 libapper/PkStrings.cpp:918
+#, kde-format
+msgid "Please insert the medium labeled '%1', and press continue."
+msgstr "Per favor, introduïu el suport amb l'etiqueta «%1» i premeu continua."
+
+#: libapper/PkStrings.cpp:925
+msgid "A mirror is possibly broken"
+msgstr "Possiblement una rèplica estiga trencada"
+
+#: libapper/PkStrings.cpp:927
+msgid "The connection was refused"
+msgstr "S'ha rebutjat la connexió"
+
+#: libapper/PkStrings.cpp:929
+msgid "The parameter was invalid"
+msgstr "El paràmetre no era vàlid"
+
+#: libapper/PkStrings.cpp:931
+msgid "The priority was invalid"
+msgstr "La prioritat no era vàlida"
+
+#: libapper/PkStrings.cpp:933
+msgid "Backend warning"
+msgstr "Alerta del dorsal"
+
+#: libapper/PkStrings.cpp:935
+msgid "Daemon warning"
+msgstr "Alerta del dimoni"
+
+#: libapper/PkStrings.cpp:937
+msgid "The package list cache is being rebuilt"
+msgstr "S'està reconstruint la memòria cau de la llista de paquets"
+
+#: libapper/PkStrings.cpp:939
+msgid "An untrusted package was installed"
+msgstr "S'ha instal·lat un paquet no fiable"
+
+#: libapper/PkStrings.cpp:941
+msgid "A newer package exists"
+msgstr "Existeix un paquet més nou"
+
+#: libapper/PkStrings.cpp:943
+msgid "Could not find package"
+msgstr "No s'ha pogut trobar el paquet"
+
+#: libapper/PkStrings.cpp:945
+msgid "Configuration files were changed"
+msgstr "S'han canviat els fitxers de configuració"
+
+#: libapper/PkStrings.cpp:947
+msgid "Package is already installed"
+msgstr "El paquet ja està instal·lat"
+
+#: libapper/PkStrings.cpp:949
+msgid "Automatic cleanup is being ignored"
+msgstr "S'està ignorant la neteja automàtica"
+
+#: libapper/PkStrings.cpp:951
+msgid "Software source download failed"
+msgstr "La descàrrega del codi font del programari ha fallat"
+
+#: libapper/PkStrings.cpp:953
+msgid "This software source is for developers only"
+msgstr "La font del programari és només per als desenvolupadors"
+
+#: libapper/PkStrings.cpp:955
+msgid "Other updates have been held back"
+msgstr ""
+
+#: libapper/PkStrings.cpp:970
+msgid "Could not get a transaction id from packagekitd."
+msgstr ""
+"No s'ha pogut obtindre un identificador de la transacció del packagekitd."
+
+#: libapper/PkStrings.cpp:972
+msgid "Cannot connect to this transaction id."
+msgstr "No es pot connectar a este identificador de transacció."
+
+#: libapper/PkStrings.cpp:974
+msgid "This action is unknown."
+msgstr "Esta acció és desconeguda."
+
+#: libapper/PkStrings.cpp:976
+msgid "The packagekitd service could not be started."
+msgstr "No es pot iniciar el servei packagekitd."
+
+#: libapper/PkStrings.cpp:978
+msgid "The query is not valid."
+msgstr "La consulta no és vàlida."
+
+#: libapper/PkStrings.cpp:980
+msgid "The file is not valid."
+msgstr "El fitxer no és vàlid."
+
+#: libapper/PkStrings.cpp:982
+msgid "This function is not yet supported."
+msgstr "Esta funció encara no està implementada."
+
+#: libapper/PkStrings.cpp:984
+msgid "Could not talk to packagekitd."
+msgstr "No s'ha pogut comunicar amb el packagekitd."
+
+#: libapper/PkStrings.cpp:988 libapper/PkStrings.cpp:991
+msgid "An unknown error happened."
+msgstr "Hi ha hagut un error desconegut."
+
+#: libapper/PkStrings.cpp:1005 plasmoid/updaterapplet.cpp:146
+msgid "Your system is up to date"
+msgstr ""
+
+#: libapper/PkStrings.cpp:1007
+#, fuzzy
+#| msgid "You have one update"
+#| msgid_plural "You have %1 updates"
+msgid "You have no updates"
+msgstr "Teniu una actualització"
+
+#: libapper/PkStrings.cpp:1009
+msgid "Last check for updates was more than a month ago"
+msgstr ""
+
+#: libapper/PkStrings.cpp:1017
+#, kde-format
+msgid "Verified %1 ago"
+msgstr ""
+
+#: libapper/PkStrings.cpp:1019
+msgid "It's strongly recommended that you check for new updates now"
+msgstr ""
+
+#: libapper/PkTransaction.cpp:129
+#, fuzzy
+#| msgid "Failed to simulate package install"
+msgid "Failed to simulate file install"
+msgstr "No s'ha pogut simular la instal·lació de paquets"
+
+#: libapper/PkTransaction.cpp:133
+#, fuzzy
+#| msgid "Current backend does not support installing packages."
+msgid "Current backend does not support installing files."
+msgstr "El dorsal actual no implementa la instal·lació de paquets"
+
+#: libapper/PkTransaction.cpp:147
+msgid "Failed to simulate package install"
+msgstr "No s'ha pogut simular la instal·lació de paquets"
+
+#: libapper/PkTransaction.cpp:151
+msgid "Current backend does not support installing packages."
+msgstr "El dorsal actual no implementa la instal·lació de paquets"
+
+#: libapper/PkTransaction.cpp:166
+msgid "Failed to simulate package removal"
+msgstr "No s'ha pogut simular l'eliminació de paquets"
+
+#: libapper/PkTransaction.cpp:170
+msgid "The current backend does not support removing packages."
+msgstr "El dorsal actual no implementa l'eliminació de paquets"
+
+#: libapper/PkTransaction.cpp:189
+msgid "Failed to simulate package update"
+msgstr "No s'ha pogut simular l'actualització de paquets"
+
+#: libapper/PkTransaction.cpp:193
+msgid "The current backend does not support updating packages."
+msgstr "El dorsal actual no implementa l'actualització de paquets"
+
+#: libapper/PkTransaction.cpp:234
+msgid "Failed to install package"
+msgstr "No s'ha pogut instal·lar el paquet"
+
+#: libapper/PkTransaction.cpp:244 PkSession/PkInstallProvideFiles.cpp:101
+msgid "Failed to install file"
+msgid_plural "Failed to install files"
+msgstr[0] "No s'ha pogut instal·lar el fitxer"
+msgstr[1] "No s'han pogut instal·lar els fitxers"
+
+#: libapper/PkTransaction.cpp:255
+msgid "Failed to remove package"
+msgstr "No s'ha pogut eliminar el paquet"
+
+#: libapper/PkTransaction.cpp:265
+msgid "Failed to update package"
+msgstr "No s'ha pogut actualitzar el paquet"
+
+#: libapper/PkTransaction.cpp:331
+msgid ""
+"You are about to install unsigned packages that can compromise your system, "
+"as it is impossible to verify if the software came from a trusted source.\n"
+"\n"
+"Are you sure you want to proceed with the installation?"
+msgstr ""
+"Esteu a punt d'instal·lar paquets no signats que poden comprometre el vostre "
+"sistema ja que és impossible verificar si el programari prové d'una font de "
+"confiança.\n"
+" Segur que voleu continuar amb la instal·lació?"
+
+#: libapper/PkTransaction.cpp:334
+msgid "Installing unsigned software"
+msgstr "S'està instal·lant programari no signat"
+
+#: libapper/PkTransaction.cpp:379 libapper/PkTransaction.cpp:463
+msgid "Failed to install signature"
+msgstr "Ha fallat en instal·lar la signatura"
+
+#. i18n: ectx: property (text), widget (QLabel, label)
+#: libapper/PkTransactionWidget.ui:38
+msgid "icon"
+msgstr "icona"
+
+#. i18n: ectx: property (text), widget (QLabel, currentL)
+#: libapper/PkTransactionWidget.ui:64
+msgid "Downloading Packages"
+msgstr "S'estan descarregant els paquets"
+
+#. i18n: ectx: property (windowTitle), widget (QWidget, RepoSig)
+#: libapper/RepoSig.cpp:52 libapper/RepoSig.ui:14
+msgid "Software signature is required"
+msgstr "Es requereix la signatura del programari"
+
+#. i18n: ectx: property (text), widget (QLabel, label)
+#: libapper/RepoSig.ui:23
+msgid "Do you trust the origin of packages?"
+msgstr "Confieu en l'origen dels paquets?"
+
+#. i18n: ectx: property (text), widget (QLabel, label_2)
+#: libapper/RepoSig.ui:47
+msgid "Repository name:"
+msgstr "Nom del repositori:"
+
+#. i18n: ectx: property (text), widget (QLabel, label_3)
+#: libapper/RepoSig.ui:73
+msgid "Signature URL:"
+msgstr "URL de la signatura:"
+
+#. i18n: ectx: property (text), widget (QLabel, label_4)
+#: libapper/RepoSig.ui:99
+msgid "Signature user identifier:"
+msgstr "Signatura de l'identificador d'usuari:"
+
+#. i18n: ectx: property (text), widget (QLabel, label_5)
+#: libapper/RepoSig.ui:125
+msgid "Signature identifier:"
+msgstr "Identificador de la signatura:"
+
+#: libapper/Requirements.cpp:55
+msgid "Additional changes"
+msgstr "Canvis addicionals"
+
+#: libapper/Requirements.cpp:77
+#, kde-format
+msgid "1 package to remove"
+msgid_plural "%1 packages to remove"
+msgstr[0] "1 paquet a eliminar"
+msgstr[1] "%1 paquets a eliminar"
+
+#: libapper/Requirements.cpp:92
+#, kde-format
+msgid "1 package to downgrade"
+msgid_plural "%1 packages to downgrade"
+msgstr[0] "1 paquet a desactualitzar"
+msgstr[1] "%1 paquets a desactualitzar"
+
+#: libapper/Requirements.cpp:107
+#, kde-format
+msgid "1 package to reinstall"
+msgid_plural "%1 packages to reinstall"
+msgstr[0] "1 paquet a reinstal·lar"
+msgstr[1] "%1 paquets a reinstal·lar"
+
+#: libapper/Requirements.cpp:120
+#, kde-format
+msgid "1 package to install"
+msgid_plural "%1 packages to install"
+msgstr[0] "1 paquet a instal·lar"
+msgstr[1] "%1 paquets a instal·lar"
+
+#: libapper/Requirements.cpp:133
+#, kde-format
+msgid "1 package to update"
+msgid_plural "%1 packages to update"
+msgstr[0] "1 paquet a actualitzar"
+msgstr[1] "%1 paquets a actualitzar"
+
+#: libapper/Requirements.cpp:146
+#, fuzzy, kde-format
+#| msgctxt "The role of the transaction, in past tense"
+#| msgid "Installed packages"
+msgid "1 untrusted package"
+msgid_plural "%1 untrusted packages"
+msgstr[0] "S'han instal·lat els paquets"
+msgstr[1] "S'han instal·lat els paquets"
+
+#: libapper/Requirements.cpp:242
+#, fuzzy
+#| msgid ""
+#| "You are about to install unsigned packages that can compromise your "
+#| "system, as it is impossible to verify if the software came from a trusted "
+#| "source.\n"
+#| "\n"
+#| "Are you sure you want to proceed with the installation?"
+msgid ""
+"You are about to install unsigned packages that can compromise your system, "
+"as it is impossible to verify if the software came from a trusted source."
+msgstr ""
+"Esteu a punt d'instal·lar paquets no signats que poden comprometre el vostre "
+"sistema ja que és impossible verificar si el programari prové d'una font de "
+"confiança.\n"
+" Segur que voleu continuar amb la instal·lació?"
+
+#. i18n: ectx: property (text), widget (QLabel, label)
+#: libapper/Requirements.ui:31
+msgid "Additional changes are required to complete the task"
+msgstr "Calen canvis addicionals per completar la tasca"
+
+#. i18n: ectx: property (text), widget (QCheckBox, confirmCB)
+#: libapper/Requirements.ui:87
+#, fuzzy
+#| msgid ""
+#| "Do not show this confirmation when installing or updating additional "
+#| "packages"
+msgid "Do not confirm when installing or updating additional packages"
+msgstr ""
+"No mostres esta confirmació en instal·lar o actualitzar paquets addicionals"
+
+#. i18n: ectx: property (text), widget (QLabel, descriptionL)
+#: PkSession/IntroDialog.ui:65
+msgid "TextLabel"
+msgstr "EtiquetaDeText"
+
+#: PkSession/main.cpp:36
+msgid "Apper PackageKit Session helper"
+msgstr ""
+
+#: PkSession/main.cpp:38
+#, fuzzy
+#| msgid "(C) 2008-2011 Daniel Nicoletti"
+msgid "(C) 2008-2012 Daniel Nicoletti"
+msgstr "(C) 2008-2011 Daniel Nicoletti"
+
+#: PkSession/main.cpp:41
+msgid "Trever Fischer"
+msgstr "Trever Fischer"
+
+#: PkSession/PkInstallCatalogs.cpp:46
+#, fuzzy
+#| msgid "Install Packages"
+msgid "Install Packages Catalogs"
+msgstr "Instal·la els paquets"
+
+#: PkSession/PkInstallCatalogs.cpp:65
+msgid "You can drop more catalogs in here"
+msgstr ""
+
+#: PkSession/PkInstallCatalogs.cpp:85
+#, fuzzy
+#| msgid "No update description was found."
+msgid "No supported catalog was found"
+msgstr "No s'ha trobat cap descripció de l'actualització."
+
+#: PkSession/PkInstallCatalogs.cpp:87
+#, fuzzy
+#| msgid "<h3>Do you want to install this catalog?</h3><ul><li>%2</li></ul>"
+#| msgid_plural ""
+#| "<h3>Do you want to install these catalogs?</h3><ul><li>%2</li></ul>"
+msgid "Do you want to install this catalog?"
+msgid_plural "Do you want to install these catalogs?"
+msgstr[0] "<h3>Voleu instal·lar este catàleg?</h3><ul><li>%2</li></ul>"
+msgstr[1] "<h3>Voleu instal·lar estos catàlegs?</h3><ul><li>%2</li></ul>"
+
+#: PkSession/PkInstallCatalogs.cpp:96
+#, fuzzy
+#| msgid "A program wants to install a package"
+#| msgid_plural "A program wants to install packages"
+msgid "An application wants to install a catalog"
+msgid_plural "An application wants to install catalogs"
+msgstr[0] "Un programa vol instal·lar un paquet"
+msgstr[1] "Un programa vol instal·lar paquets"
+
+#: PkSession/PkInstallCatalogs.cpp:100
+#, fuzzy, kde-format
+#| msgid "%2 wants to install a package"
+#| msgid_plural "%2 wants to install packages"
+msgid "The application <i>%2</i> wants to install a catalog"
+msgid_plural "The application <i>%2</i> wants to install catalogs"
+msgstr[0] "%2 vol instal·lar un paquet"
+msgstr[1] "%2 vol instal·lar paquets"
+
+#: PkSession/PkInstallCatalogs.cpp:137
+msgid "Not supported"
+msgstr "No està implementat"
+
+#: PkSession/PkInstallCatalogs.cpp:138
+msgid ""
+"Your backend does not support any of the needed methods to install a catalog"
+msgstr ""
+"El dorsal no implementa cap dels mètodes necessaris per instal·lar catàlegs"
+
+#: PkSession/PkInstallCatalogs.cpp:177
+#, fuzzy
+#| msgid "Update not found"
+msgid "Catalog not found"
+msgstr "No s'ha trobat l'actualització"
+
+#: PkSession/PkInstallCatalogs.cpp:178
+#, fuzzy
+#| msgid "Could not find package"
+msgid "Could not find a catalog to install"
+msgstr "No s'ha pogut trobar el paquet"
+
+#: PkSession/PkInstallCatalogs.cpp:185
+#, kde-format
+msgid "Catalog %2 failed to open"
+msgid_plural "Catalogs %2 failed to open"
+msgstr[0] "Ha fallat en obrir el catàleg %2 "
+msgstr[1] "Ha fallat en obrir els catàlegs %2"
+
+#: PkSession/PkInstallCatalogs.cpp:189
+msgid "Failed to open"
+msgstr "No es pot obrir"
+
+#: PkSession/PkInstallCatalogs.cpp:195
+#, fuzzy
+#| msgid "Catalog installer"
+msgid "Catalog is Empty"
+msgstr "Instal·lador del catàleg"
+
+#: PkSession/PkInstallCatalogs.cpp:196
+#, fuzzy
+#| msgid "<h3>Do you want to install this catalog?</h3><ul><li>%2</li></ul>"
+#| msgid_plural ""
+#| "<h3>Do you want to install these catalogs?</h3><ul><li>%2</li></ul>"
+msgid "Could not find any package to install in this catalog"
+msgstr "<h3>Voleu instal·lar este catàleg?</h3><ul><li>%2</li></ul>"
+
+#: PkSession/PkInstallCatalogs.cpp:278 PkSession/PkInstallPackageNames.cpp:97
+#: PkSession/PkIsInstalled.cpp:46
+msgid "Failed to start resolve transaction"
+msgstr "No s'ha pogut començar la transacció de resolució"
+
+#: PkSession/PkInstallFontconfigResources.cpp:41
+#, fuzzy
+#| msgid "Install Files"
+msgid "Installs new Fonts"
+msgstr "Instal·la fitxers"
+
+#: PkSession/PkInstallFontconfigResources.cpp:73
+msgid "Could interpret request"
+msgstr ""
+
+#: PkSession/PkInstallFontconfigResources.cpp:73
+msgid "Please verify if the request was valid"
+msgstr ""
+
+#: PkSession/PkInstallFontconfigResources.cpp:107
+#, fuzzy
+#| msgid ""
+#| "An additional font is required to view this document correctly. Do you "
+#| "want to search for a suitable package now?"
+#| msgid_plural ""
+#| "Additional fonts are required to view this document correctly. Do you "
+#| "want to search for suitable packages now?"
+msgid ""
+"An additional font is required to view this document correctly.\n"
+"Do you want to search for a suitable package now?"
+msgid_plural ""
+"Additional fonts are required to view this document correctly.\n"
+"Do you want to search for suitable packages now?"
+msgstr[0] ""
+"Cal un tipus de lletra addicional per veure correctament este document. "
+"Voleu cercar ara el paquet adequat?"
+msgstr[1] ""
+"Calen tipus de lletra addicionals per veure correctament este document. "
+"Voleu cercar ara els paquets adequats?"
+
+#: PkSession/PkInstallFontconfigResources.cpp:117
+msgid "A program wants to install a font"
+msgid_plural "A program wants to install fonts"
+msgstr[0] "Un programa vol instal·lar un tipus de lletra"
+msgstr[1] "Un programa vol instal·lar tipus de lletra"
+
+#: PkSession/PkInstallFontconfigResources.cpp:121
+#, fuzzy, kde-format
+#| msgid "%2 wants to install a package"
+#| msgid_plural "%2 wants to install packages"
+msgid "The application %2 wants to install a font"
+msgid_plural "The application %2 wants to install fonts"
+msgstr[0] "%2 vol instal·lar un paquet"
+msgstr[1] "%2 vol instal·lar paquets"
+
+#: PkSession/PkInstallFontconfigResources.cpp:145
+#: PkSession/PkInstallFontconfigResources.cpp:166
+#: PkSession/PkInstallGStreamerResources.cpp:136
+#: PkSession/PkInstallMimeTypes.cpp:92
+#: PkSession/PkInstallPlasmaResources.cpp:101
+#: PkSession/PkInstallPrinterDrivers.cpp:74
+msgid "Failed to search for provides"
+msgstr "No s'han pogut cercar per proporcinador"
+
+#: PkSession/PkInstallFontconfigResources.cpp:155
+#: PkSession/PkInstallFontconfigResources.cpp:164
+msgid "Failed to find font"
+msgstr "No s'ha pogut trobar el tipus de lletra"
+
+#: PkSession/PkInstallFontconfigResources.cpp:157
+#, fuzzy
+#| msgid "No new fonts can be found for this document"
+msgid "No new fonts could be found for this document"
+msgstr "No es poden trobar nous tipus de lletra per este document"
+
+#: PkSession/PkInstallGStreamerResources.cpp:39
+msgid "Install GStreamer Resources"
+msgstr ""
+
+#: PkSession/PkInstallGStreamerResources.cpp:68
+#, fuzzy
+#| msgid ""
+#| "The following plugin is required: <ul><li>%2</li></ul>Do you want to "
+#| "search for this now?"
+#| msgid_plural ""
+#| "The following plugins are required: <ul><li>%2</li></ul>Do you want to "
+#| "search for these now?"
+msgid "The following plugin is required. Do you want to search for this now?"
+msgid_plural ""
+"The following plugins are required. Do you want to search for these now?"
+msgstr[0] "Cal el següent connector: <ul><li>%2</li></ul>Voleu cercar-lo ara?"
+msgstr[1] ""
+"Calen els següents connectors: <ul><li>%2</li></ul>Voleu cercar-los ara?"
+
+#: PkSession/PkInstallGStreamerResources.cpp:80
+msgid "A program requires an additional plugin to decode this file"
+msgid_plural "A program requires additional plugins to decode this file"
+msgstr[0] ""
+"Un programa necessita un connector addicional per descodificar este fitxer"
+msgstr[1] ""
+"Un programa necessita connectors addicionals per descodificar este fitxer"
+
+#: PkSession/PkInstallGStreamerResources.cpp:85
+msgid "A program requires an additional plugin to encode this file"
+msgid_plural "A program requires additional plugins to encode this file"
+msgstr[0] ""
+"Un programa necessita un connector addicional per codificar este fitxer"
+msgstr[1] ""
+"Un programa necessita connectors addicionals per codificar este fitxer"
+
+#: PkSession/PkInstallGStreamerResources.cpp:90
+msgid "A program requires an additional plugin for this operation"
+msgid_plural "A program requires additional plugins for this operation"
+msgstr[0] "Un programa necessita un connector addicional per esta operació"
+msgstr[1] "Un programa necessita connectors addicionals per esta operació"
+
+#: PkSession/PkInstallGStreamerResources.cpp:97
+#, kde-format
+msgid "%2 requires an additional plugin to decode this file"
+msgid_plural "%2 requires additional plugins to decode this file"
+msgstr[0] "%2 necessita un connector addicional per descodificar este fitxer"
+msgstr[1] "%2 necessita connectors addicionals per descodificar este fitxer"
+
+#: PkSession/PkInstallGStreamerResources.cpp:103
+#, kde-format
+msgid "%2 requires an additional plugin to encode this file"
+msgid_plural "%2 requires additional plugins to encode this file"
+msgstr[0] "%2 necessita un connector addicional per codificar este fitxer"
+msgstr[1] "%2 necessita connectors addicionals per codificar este fitxer"
+
+#: PkSession/PkInstallGStreamerResources.cpp:109
+#, kde-format
+msgid "%2 requires an additional plugin for this operation"
+msgid_plural "%2 requires additional plugins for this operation"
+msgstr[0] "%2 necessita un connector addicional per esta operació"
+msgstr[1] "%2 necessita connectors addicionals per esta operació"
+
+#: PkSession/PkInstallGStreamerResources.cpp:147
+#, fuzzy
+#| msgid "No files were found."
+msgid "No results found"
+msgstr "No s'ha trobat cap fitxer."
+
+#: PkSession/PkInstallGStreamerResources.cpp:149
+msgid "Could not find plugin in any configured software source"
+msgstr "El connector no s'ha pogut trobar en cap font de programari"
+
+#: PkSession/PkInstallMimeTypes.cpp:39
+#, fuzzy
+#| msgid "Install Files"
+msgid "Install Support for File Types"
+msgstr "Instal·la fitxers"
+
+#: PkSession/PkInstallMimeTypes.cpp:50
+#, fuzzy
+#| msgid ""
+#| "Do you want to search for packages containing this file and remove it now?"
+#| msgid_plural ""
+#| "Do you want to search for packages containing these files and remove them "
+#| "now?"
+msgid "Do you want to search for a program that can open this file type?"
+msgid_plural ""
+"Do you want to search for a program that can open these file types?"
+msgstr[0] "Voleu cercar paquets que continguen este fitxer i eliminar-los ara?"
+msgstr[1] "Voleu cercar paquets que continguen este fitxer i eliminar-los ara?"
+
+#: PkSession/PkInstallMimeTypes.cpp:55
+#, fuzzy
+#| msgid "No files were found."
+msgid "No valid file types were provided"
+msgstr "No s'ha trobat cap fitxer."
+
+#: PkSession/PkInstallMimeTypes.cpp:62
+#, fuzzy
+#| msgid "A program requires an additional plugin to decode this file"
+#| msgid_plural "A program requires additional plugins to decode this file"
+msgid "A program is requiring support to open this kind of files"
+msgid_plural "A program is requiring support to open these kinds of files"
+msgstr[0] ""
+"Un programa necessita un connector addicional per descodificar este fitxer"
+msgstr[1] ""
+"Un programa necessita connectors addicionals per descodificar este fitxer"
+
+#: PkSession/PkInstallMimeTypes.cpp:66
+#, fuzzy, kde-format
+#| msgid "A program requires an additional plugin to decode this file"
+#| msgid_plural "A program requires additional plugins to decode this file"
+msgid "The application %2 is requiring support to open this kind of files"
+msgid_plural ""
+"The application %2 is requiring support to open these kinds of files"
+msgstr[0] ""
+"Un programa necessita un connector addicional per descodificar este fitxer"
+msgstr[1] ""
+"Un programa necessita connectors addicionals per descodificar este fitxer"
+
+#: PkSession/PkInstallMimeTypes.cpp:101
+#, fuzzy
+#| msgid "Failed to find software"
+msgid "Could not find software"
+msgstr "No s'ha pogut trobar cap programa"
+
+#: PkSession/PkInstallMimeTypes.cpp:103
+msgid "No new applications can be found to handle this type of file"
+msgstr ""
+"No s'han trobat noves aplicacions que puguen manejar este tipus de fitxer"
+
+#: PkSession/PkInstallPackageFiles.cpp:38
+#, fuzzy
+#| msgid "Install Packages"
+msgid "Install Packages Files"
+msgstr "Instal·la els paquets"
+
+#: PkSession/PkInstallPackageFiles.cpp:42
+#: PkSession/PkRemovePackageByFiles.cpp:43
+msgid "You can drop more files in here"
+msgstr ""
+
+#: PkSession/PkInstallPackageFiles.cpp:52
+#, fuzzy
+#| msgid "Not supported"
+msgid "Not Supported"
+msgstr "No està implementat"
+
+#: PkSession/PkInstallPackageFiles.cpp:53
+#, fuzzy
+#| msgid "Current backend does not support installing packages."
+msgid "Your current backend does not support installing files"
+msgstr "El dorsal actual no implementa la instal·lació de paquets"
+
+#: PkSession/PkInstallPackageFiles.cpp:68
+#: PkSession/PkRemovePackageByFiles.cpp:64
+#, fuzzy
+#| msgid "No files were found."
+msgid "No supported files were provided"
+msgstr "No s'ha trobat cap fitxer."
+
+#: PkSession/PkInstallPackageFiles.cpp:70
+#, fuzzy
+#| msgid "Do you want to install this file?"
+#| msgid_plural "Do you want to install these files?"
+msgid "Press <i>Continue</i> if you want to install this file"
+msgid_plural "Press <i>Continue</i> if you want to install these files"
+msgstr[0] "Voleu instal·lar este fitxer?"
+msgstr[1] "Voleu instal·lar estos fitxers?"
+
+#: PkSession/PkInstallPackageFiles.cpp:79
+#: PkSession/PkInstallPackageNames.cpp:71
+#, fuzzy
+#| msgid "A program wants to install a package"
+#| msgid_plural "A program wants to install packages"
+msgid "An application wants to install a package"
+msgid_plural "An application wants to install packages"
+msgstr[0] "Un programa vol instal·lar un paquet"
+msgstr[1] "Un programa vol instal·lar paquets"
+
+#: PkSession/PkInstallPackageFiles.cpp:83
+#: PkSession/PkInstallPackageNames.cpp:75
+#, fuzzy, kde-format
+#| msgid "%2 wants to install a package"
+#| msgid_plural "%2 wants to install packages"
+msgid "The application <i>%2</i> wants to install a package"
+msgid_plural "The application <i>%2</i> wants to install packages"
+msgstr[0] "%2 vol instal·lar un paquet"
+msgstr[1] "%2 vol instal·lar paquets"
+
+#: PkSession/PkInstallPackageFiles.cpp:106
+#, fuzzy
+#| msgctxt "The role of the transaction, in present tense"
+#| msgid "Installing file"
+msgid "Installation Complete"
+msgstr "S'està instal·lant un fitxer"
+
+#: PkSession/PkInstallPackageFiles.cpp:107
+msgid "File was installed successfully"
+msgid_plural "Files were installed successfully"
+msgstr[0] "El fitxer s'ha instal·lat correctament"
+msgstr[1] "Els fitxers s'han instal·lat correctament"
+
+#: PkSession/PkInstallPackageFiles.cpp:118
+#, fuzzy
+#| msgid "Failed to install file"
+#| msgid_plural "Failed to install files"
+msgid "Failed to install files"
+msgstr "No s'ha pogut instal·lar el fitxer"
+
+#: PkSession/PkInstallPackageFiles.cpp:119
+#: PkSession/PkInstallPackageFiles.cpp:121
+#, fuzzy
+#| msgid "Failed to install file"
+#| msgid_plural "Failed to install files"
+msgid "Could not install files"
+msgstr "No s'ha pogut instal·lar el fitxer"
+
+#: PkSession/PkInstallPackageNames.cpp:41
+#, fuzzy
+#| msgid "Install Packages"
+msgid "Install Packages by Name"
+msgstr "Instal·la els paquets"
+
+#: PkSession/PkInstallPackageNames.cpp:58
+#, fuzzy
+#| msgid "No files were found."
+msgid "No package names were provided"
+msgstr "No s'ha trobat cap fitxer."
+
+#: PkSession/PkInstallPackageNames.cpp:61
+#, fuzzy
+#| msgid ""
+#| "Do you want to search for packages containing this file and remove it now?"
+#| msgid_plural ""
+#| "Do you want to search for packages containing these files and remove them "
+#| "now?"
+msgid "Do you want to search for and install this package now?"
+msgid_plural "Do you want to search for and install these packages now?"
+msgstr[0] "Voleu cercar paquets que continguen este fitxer i eliminar-los ara?"
+msgstr[1] ""
+"Voleu cercar paquets que continguen estos fitxers i eliminar-los ara?"
+
+#: PkSession/PkInstallPackageNames.cpp:109
+msgid "Failed to install packages"
+msgstr "No s'han pogut instal·lar els paquets"
+
+#: PkSession/PkInstallPackageNames.cpp:110
+#, kde-format
+msgid "The package %2 is already installed"
+msgid_plural "The packages %2 are already installed"
+msgstr[0] "El paquet %2 ja està instal·lat"
+msgstr[1] "Els paquets %2 ja estan instal·lats"
+
+#: PkSession/PkInstallPackageNames.cpp:118
+#: PkSession/PkRemovePackageByFiles.cpp:149 PkSession/PkSearchFile.cpp:89
+#, kde-format
+msgid "Could not find %1"
+msgstr "No s'ha pogut trobar %1"
+
+#: PkSession/PkInstallPackageNames.cpp:119
+msgid "The package could not be found in any software source"
+msgid_plural "The packages could not be found in any software source"
+msgstr[0] "El paquet no s'ha pogut trobar en cap font de programari"
+msgstr[1] "Els paquets no s'han pogut trobar en cap font de programari"
+
+#: PkSession/PkInstallPlasmaResources.cpp:40
+#, fuzzy
+#| msgid "Install Packages"
+msgid "Install Plasma Resources"
+msgstr "Instal·la els paquets"
+
+#: PkSession/PkInstallPlasmaResources.cpp:53
+#, fuzzy, kde-format
+#| msgctxt "Part of: %1 Updates, %1 Selected"
+#| msgid "%1 Update"
+#| msgid_plural "%1 Updates"
+msgid "%1 data engine"
+msgstr "%1 actualització"
+
+#: PkSession/PkInstallPlasmaResources.cpp:55
+#, kde-format
+msgid "%1 script engine"
+msgstr ""
+
+#: PkSession/PkInstallPlasmaResources.cpp:67
+#, fuzzy
+#| msgid "No files were found."
+msgid "No supported resources were provided"
+msgstr "No s'ha trobat cap fitxer."
+
+#: PkSession/PkInstallPlasmaResources.cpp:69
+#, fuzzy
+#| msgid ""
+#| "The following plugin is required: <ul><li>%2</li></ul>Do you want to "
+#| "search for this now?"
+#| msgid_plural ""
+#| "The following plugins are required: <ul><li>%2</li></ul>Do you want to "
+#| "search for these now?"
+msgid "The following service is required. Do you want to search for this now?"
+msgid_plural ""
+"The following services are required. Do you want to search for these now?"
+msgstr[0] "Cal el següent connector: <ul><li>%2</li></ul>Voleu cercar-lo ara?"
+msgstr[1] ""
+"Calen els següents connectors: <ul><li>%2</li></ul>Voleu cercar-los ara?"
+
+#: PkSession/PkInstallPlasmaResources.cpp:78
+#, fuzzy
+#| msgid "%2 requires an additional plugin for this operation"
+#| msgid_plural "%2 requires additional plugins for this operation"
+msgid "Plasma requires an additional service for this operation"
+msgid_plural "Plasma requires additional services for this operation"
+msgstr[0] "%2 necessita un connector addicional per esta operació"
+msgstr[1] "%2 necessita connectors addicionals per esta operació"
+
+#: PkSession/PkInstallPlasmaResources.cpp:112
+#, fuzzy
+#| msgid "Failed to search for provides"
+msgid "Failed to search for Plasma service"
+msgstr "No s'han pogut cercar per proporcinador"
+
+#: PkSession/PkInstallPlasmaResources.cpp:115
+#, fuzzy
+#| msgid "Could not find plugin in any configured software source"
+msgid "Could not find service in any configured software source"
+msgstr "El connector no s'ha pogut trobar en cap font de programari"
+
+#: PkSession/PkInstallPrinterDrivers.cpp:39
+#, fuzzy
+#| msgctxt "The role of the transaction, in present tense"
+#| msgid "Installing file"
+msgid "Install Printer Drivers"
+msgstr "S'està instal·lant un fitxer"
+
+#: PkSession/PkInstallPrinterDrivers.cpp:87
+msgid "Failed to search for printer driver"
+msgstr "No s'ha pogut cercar controlador de la impressora"
+
+#: PkSession/PkInstallPrinterDrivers.cpp:88
+msgid "Could not find printer driver in any configured software source"
+msgstr ""
+"No s'ha pogut trobar el controlador de la impressora en cap font de "
+"programari"
+
+#: PkSession/PkInstallProvideFiles.cpp:39
+#, fuzzy
+#| msgid "Install Packages from List..."
+msgid "Install Packages that Provides Files"
+msgstr "Instal·la paquets des d'una llista..."
+
+#: PkSession/PkInstallProvideFiles.cpp:49
+#, fuzzy
+#| msgid "No files were found."
+msgid "No files were provided"
+msgstr "No s'ha trobat cap fitxer."
+
+#: PkSession/PkInstallProvideFiles.cpp:52
+#, fuzzy
+#| msgid ""
+#| "Do you want to search for packages containing this file and remove it now?"
+#| msgid_plural ""
+#| "Do you want to search for packages containing these files and remove them "
+#| "now?"
+msgid "Do you want to search for this now?"
+msgid_plural "Do you want to search for these now?"
+msgstr[0] "Voleu cercar paquets que continguen este fitxer i eliminar-los ara?"
+msgstr[1] ""
+"Voleu cercar paquets que continguen estos fitxers i eliminar-los ara?"
+
+#: PkSession/PkInstallProvideFiles.cpp:62
+msgid "A program wants to install a file"
+msgid_plural "A program wants to install files"
+msgstr[0] "Un programa vol instal·lar un fitxer"
+msgstr[1] "Un programa vol instal·lar fitxers"
+
+#: PkSession/PkInstallProvideFiles.cpp:66
+#, fuzzy, kde-format
+#| msgid "%2 wants to install a package"
+#| msgid_plural "%2 wants to install packages"
+msgid "The application %2 is asking to install a file"
+msgid_plural "The application %2 is asking to install files"
+msgstr[0] "%2 vol instal·lar un paquet"
+msgstr[1] "%2 vol instal·lar paquets"
+
+#: PkSession/PkInstallProvideFiles.cpp:88
+#: PkSession/PkRemovePackageByFiles.cpp:128 PkSession/PkSearchFile.cpp:55
+msgid "Failed to start search file transaction"
+msgstr "No s'ha pogut començar la transacció de cerca de fitxers"
+
+#: PkSession/PkInstallProvideFiles.cpp:102
+#, kde-format
+msgid "The %1 package already provides this file"
+msgstr "El paquet %1 ja proveeix este fitxer"
+
+#: PkSession/PkInstallProvideFiles.cpp:108
+msgid "Failed to find package"
+msgstr "No s'ha pogut trobar el paquet"
+
+#: PkSession/PkInstallProvideFiles.cpp:109
+msgid "The file could not be found in any packages"
+msgid_plural "The files could not be found in any packages"
+msgstr[0] "El fitxer no es pot trobar a cap paquet"
+msgstr[1] "Els fitxers no es poden trobar a cap paquet"
+
+#: PkSession/PkIsInstalled.cpp:36
+#, fuzzy
+#| msgid "The package is not installed"
+msgid "Querying if a Package is Installed"
+msgstr "El paquet no està instal·lat"
+
+#: PkSession/PkIsInstalled.cpp:67
+msgid "User canceled the transaction"
+msgstr "L'usuari ha cancel·lat la transacció"
+
+#: PkSession/PkIsInstalled.cpp:69
+msgid "An unknown error happened"
+msgstr "Hi ha hagut un error desconegut"
+
+#: PkSession/PkRemovePackageByFiles.cpp:40
+#, fuzzy
+#| msgid "Remove Packages"
+msgid "Remove Packages that Provides Files"
+msgstr "Elimina paquets"
+
+#: PkSession/PkRemovePackageByFiles.cpp:67
+#, fuzzy
+#| msgid "You need to restart the application"
+msgid "Do you want to remove the following application?"
+msgid_plural "Do you want to remove the following applications?"
+msgstr[0] "Cal que reinicieu l'aplicació"
+msgstr[1] "Cal que reinicieu l'aplicació"
+
+#: PkSession/PkRemovePackageByFiles.cpp:71
+#, fuzzy
+#| msgid ""
+#| "Do you want to search for packages containing this file and remove it now?"
+#| msgid_plural ""
+#| "Do you want to search for packages containing these files and remove them "
+#| "now?"
+msgid "Do you want to search for a package providing this file?"
+msgid_plural "Do you want to search for a package providing these files?"
+msgstr[0] "Voleu cercar paquets que continguen este fitxer i eliminar-los ara?"
+msgstr[1] "Voleu cercar paquets que continguen este fitxer i eliminar-los ara?"
+
+#: PkSession/PkRemovePackageByFiles.cpp:82
+#, fuzzy
+#| msgid "%2 wants to install a package"
+#| msgid_plural "%2 wants to install packages"
+msgid "An application is asking to remove an application"
+msgid_plural "An application is asking to remove applications"
+msgstr[0] "%2 vol instal·lar un paquet"
+msgstr[1] "%2 vol instal·lar paquets"
+
+#: PkSession/PkRemovePackageByFiles.cpp:86
+#, fuzzy
+#| msgid "%2 wants to install a package"
+#| msgid_plural "%2 wants to install packages"
+msgid "An application is asking to remove a file"
+msgid_plural "An application is asking to remove files"
+msgstr[0] "%2 vol instal·lar un paquet"
+msgstr[1] "%2 vol instal·lar paquets"
+
+#: PkSession/PkRemovePackageByFiles.cpp:92
+#, fuzzy, kde-format
+#| msgid "%2 wants to install a package"
+#| msgid_plural "%2 wants to install packages"
+msgid "The application <i>%2</i> is asking to remove an application"
+msgid_plural "The application <i>%2</i> is asking to remove applications"
+msgstr[0] "%2 vol instal·lar un paquet"
+msgstr[1] "%2 vol instal·lar paquets"
+
+#: PkSession/PkRemovePackageByFiles.cpp:97
+#, fuzzy, kde-format
+#| msgid "%2 wants to install a package"
+#| msgid_plural "%2 wants to install packages"
+msgid "The application <i>%2</i> is asking to remove a file"
+msgid_plural "The application <i>%2</i> is asking to remove files"
+msgstr[0] "%2 vol instal·lar un paquet"
+msgstr[1] "%2 vol instal·lar paquets"
+
+#: PkSession/PkRemovePackageByFiles.cpp:103
+#, fuzzy
+#| msgid "No update description was found."
+msgid "No application was found"
+msgstr "No s'ha trobat cap descripció de l'actualització."
+
+#: PkSession/PkRemovePackageByFiles.cpp:150
+msgid "The file could not be found in any installed package"
+msgid_plural "The files could not be found in any installed package"
+msgstr[0] "El fitxer no es pot trobar en cap dels paquets instal·lats"
+msgstr[1] "Els fitxers no es poden trobar en cap dels paquets instal·lats"
+
+#: PkSession/PkSearchFile.cpp:38
+#, fuzzy
+#| msgctxt "The role of the transaction, in past tense"
+#| msgid "Searched for package details"
+msgid "Search Packages that Provides Files"
+msgstr "S'ha cercat per detalls del paquet"
+
+#: PkSession/PkSearchFile.cpp:88
+msgid "The file name could not be found in any software source"
+msgstr "El nom de fitxer no s'ha pogut trobar en cap font de programari"
+
+#: PkSession/ReviewChanges.cpp:50
+msgid "The following package was found"
+msgid_plural "The following packages were found"
+msgstr[0] "S'ha trobat el següent paquet"
+msgstr[1] "S'han trobat els següents paquets"
+
+#: PkSession/SessionTask.cpp:373
+#, fuzzy
+#| msgid "The package is not installed"
+msgid "There are no packages to Install or Remove"
+msgstr "El paquet no està instal·lat"
+
+#: PkSession/SessionTask.cpp:374
+#, fuzzy
+#| msgid "This action is unknown."
+msgid "This action should not happen"
+msgstr "Esta acció és desconeguda."
+
+#: PkSession/SessionTask.cpp:405
+#, fuzzy
+#| msgid "Could not find %1"
+msgid "Could not find"
+msgstr "No s'ha pogut trobar %1"
+
+#: PkSession/SessionTask.cpp:406 PkSession/SessionTask.cpp:415
+#, fuzzy
+#| msgid "No package was found to be installed"
+msgid "No packages were found that meet the request"
+msgstr "No s'ha trobat cap paquet a instal·lar"
+
+#: PkSession/SessionTask.cpp:414
+#, fuzzy
+#| msgid "Failed to find font"
+msgid "Failed to find"
+msgstr "No s'ha pogut trobar el tipus de lletra"
+
+#: PkSession/SessionTask.cpp:436
+msgid "Transaction did not finish with success"
+msgstr "La transacció no ha finalitzat amb èxit"
+
+#: PkSession/SessionTask.cpp:442
+#, fuzzy
+#| msgid "Obsoleted"
+msgid "Task completed"
+msgstr "Obsolet"
+
+#: PkSession/SessionTask.cpp:442
+#, fuzzy
+#| msgid "File was installed successfully"
+#| msgid_plural "Files were installed successfully"
+msgid "All operations were committed successfully"
+msgstr "El fitxer s'ha instal·lat correctament"
+
+#: plasmoid/updaterapplet.cpp:148
+#, kde-format
+msgid "You have one update"
+msgid_plural "You have %1 updates"
+msgstr[0] "Teniu una actualització"
+msgstr[1] "Teniu %1 actualitzacions"
+
+#, fuzzy
+
+
+
+
+
+
+
+
+
+
+
+
+
+#, fuzzy
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+#, fuzzy
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+#, fuzzy
+
+
+
+
+#, fuzzy
+
+
+
+
+
+
+
+
+
+
+#, fuzzy
+
+
+
+
+
+
+
+
+
+
+
+
+
+#, fuzzy
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+# PERFER: comprovar si és Comprova, Comprovació o Marca
+
+
+
+
+
+
+#, fuzzy
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+#, fuzzy
+
+
+
+
+
+#, fuzzy
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+#, fuzzy
+
+
+
+
+
+
+
+#, fuzzy
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+#, fuzzy

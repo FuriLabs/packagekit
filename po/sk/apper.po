@@ -1,0 +1,3884 @@
+# translation of apper.po to Slovak
+# Michal Sulek <misurel@gmail.com>, 2009, 2010.
+# Richard Fric <Richard.Fric@kdemail.net>, 2010.
+# Tomáš Vadina <kyberdev@gmail.com>, 2011.
+# Roman Paholík <wizzardsk@gmail.com>, 2012.
+msgid ""
+msgstr ""
+"Project-Id-Version: apper\n"
+"Report-Msgid-Bugs-To: http://bugs.kde.org\n"
+"POT-Creation-Date: 2013-01-06 02:46+0100\n"
+"PO-Revision-Date: 2012-12-29 11:10+0100\n"
+"Last-Translator: Roman Paholík <wizzardsk@gmail.com>\n"
+"Language-Team: Slovak <kde-sk@linux.sk>\n"
+"Language: sk\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Lokalize 1.5\n"
+"Plural-Forms: nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;\n"
+
+msgctxt "NAME OF TRANSLATORS"
+msgid "Your names"
+msgstr "Michal Šulek"
+
+msgctxt "EMAIL OF TRANSLATORS"
+msgid "Your emails"
+msgstr "misurel@gmail.com"
+
+#: Apper/BackendDetails.cpp:31
+msgid "Backend Details"
+msgstr "Zobraziť detaily backendu"
+
+#. i18n: ectx: property (title), widget (QGroupBox, groupBox)
+#: Apper/BackendDetails.ui:26
+msgid "About Backend"
+msgstr "O backende"
+
+#. i18n: ectx: property (text), widget (QLabel, label)
+#: Apper/BackendDetails.ui:32
+msgid "Backend name:"
+msgstr "Názov backendu:"
+
+#. i18n: ectx: property (text), widget (QLabel, label_3)
+#: Apper/BackendDetails.ui:46
+msgid "Backend description:"
+msgstr "Popis backendu:"
+
+#. i18n: ectx: property (text), widget (QLabel, label_2)
+#: Apper/BackendDetails.ui:60
+msgid "Backend author:"
+msgstr "Autor backendu:"
+
+#. i18n: ectx: property (text), widget (QLabel, label_4)
+#: Apper/BackendDetails.ui:74
+msgid "Distribution ID:"
+msgstr "ID distribúcie:"
+
+#. i18n: ectx: property (title), widget (QGroupBox, groupBox_3)
+#: Apper/BackendDetails.ui:94
+msgid "Methods"
+msgstr "Metódy"
+
+#. i18n: ectx: property (text), widget (QCheckBox, getUpdatesCB)
+#: Apper/BackendDetails.ui:103
+msgid "Get Updates"
+msgstr "Získať aktualizácie"
+
+#. i18n: ectx: property (text), widget (QCheckBox, refreshCacheCB)
+#: Apper/BackendDetails.ui:113
+msgid "Refresh Cache"
+msgstr "Obnoviť vyrovnávaciu pamäť"
+
+#. i18n: ectx: property (text), widget (QCheckBox, searchNameCB)
+#: Apper/BackendDetails.ui:123
+msgid "Search Name"
+msgstr "Hľadať názov"
+
+#. i18n: ectx: property (text), widget (QCheckBox, getDependsCB)
+#: Apper/BackendDetails.ui:133
+msgid "Get Package Depends"
+msgstr "Získať závislosti balíčka"
+
+#. i18n: ectx: property (text), widget (QCheckBox, searchDetailsCB)
+#: Apper/BackendDetails.ui:143
+msgid "Search Details"
+msgstr "Hľadať detaily"
+
+#. i18n: ectx: property (text), widget (QCheckBox, getRequiresCB)
+#: Apper/BackendDetails.ui:153
+msgid "Get Package Requires"
+msgstr "Získať požiadavky balíčka"
+
+#. i18n: ectx: property (text), widget (QCheckBox, searchGroupCB)
+#: Apper/BackendDetails.ui:163
+msgid "Search Group"
+msgstr "Hľadať skupinu"
+
+#. i18n: ectx: property (text), widget (QCheckBox, getUpdateDetailCB)
+#: Apper/BackendDetails.ui:173
+msgid "Get Update Detail"
+msgstr "Získať detaily o aktualizácii"
+
+#. i18n: ectx: property (text), widget (QCheckBox, searchFileCB)
+#: Apper/BackendDetails.ui:183
+msgid "Search File"
+msgstr "Hľadať súbor"
+
+#. i18n: ectx: property (text), widget (QCheckBox, getDescriptionCB)
+#: Apper/BackendDetails.ui:193
+msgid "Get Package Description"
+msgstr "Získať popis balíčka"
+
+#. i18n: ectx: property (text), widget (QCheckBox, getFilesCB)
+#: Apper/BackendDetails.ui:203
+msgid "Get Package Files"
+msgstr "Získať súbory balíčka"
+
+#. i18n: ectx: property (text), widget (QCheckBox, getDistroUpgradesCB)
+#: Apper/BackendDetails.ui:213
+msgid "Get Distro Upgrades"
+msgstr "Získať aktualizácie distribúcie"
+
+#. i18n: ectx: property (text), widget (QCheckBox, installPackageCB)
+#: Apper/BackendDetails.ui:223
+msgid "Install Packages"
+msgstr "Inštalovať balíčky"
+
+#. i18n: ectx: property (text), widget (QCheckBox, updatePackageCB)
+#: Apper/BackendDetails.ui:233
+msgid "Update Packages"
+msgstr "Aktualizovať balíčky"
+
+#. i18n: ectx: property (text), widget (QCheckBox, removePackageCB)
+#: Apper/BackendDetails.ui:243
+msgid "Remove Packages"
+msgstr "Odstrániť balíčky"
+
+#. i18n: ectx: property (text), widget (QCheckBox, installFileCB)
+#: Apper/BackendDetails.ui:253
+msgid "Install Files"
+msgstr "Inštalovať súbory"
+
+#. i18n: ectx: property (text), widget (QCheckBox, resolveCB)
+#: Apper/BackendDetails.ui:263
+msgid "Resolve"
+msgstr "Vyriešiť"
+
+#. i18n: ectx: property (text), widget (QCheckBox, cancelCB)
+#: Apper/BackendDetails.ui:273
+msgid "Cancel"
+msgstr "Zrušiť"
+
+#. i18n: ectx: property (text), widget (QCheckBox, repairSystemCB)
+#: Apper/BackendDetails.ui:283
+msgid "Repair System"
+msgstr "Opraviť systém"
+
+#. i18n: ectx: property (text), widget (QCheckBox, upgradeSystemCB)
+#: Apper/BackendDetails.ui:293
+msgid "Upgrade System"
+msgstr "Upgradovať systém"
+
+#. i18n: ectx: property (text), widget (QCheckBox, getPackagesCB)
+#: Apper/BackendDetails.ui:303
+msgid "Get Packages"
+msgstr "Získať balíčky"
+
+#. i18n: ectx: property (text), widget (QCheckBox, whatProvidesCB)
+#: Apper/BackendDetails.ui:313
+msgid "What Provides"
+msgstr "Čo poskytuje"
+
+#. i18n: ectx: property (text), widget (QCheckBox, repositorySetEnableCB)
+#: Apper/BackendDetails.ui:323
+msgid "Set Repository Data"
+msgstr "Nastaviť dáta repozitára"
+
+#. i18n: ectx: property (text), widget (QCheckBox, repositoryEnableCB)
+#: Apper/BackendDetails.ui:333
+msgid "Enable Repository"
+msgstr "Povoliť repozitár"
+
+#. i18n: ectx: property (text), widget (QCheckBox, getRepositoryListCB)
+#: Apper/BackendDetails.ui:343
+msgid "Get Repository List"
+msgstr "Získať zoznam repozitárov"
+
+#. i18n: ectx: property (title), widget (QGroupBox, groupBox_2)
+#. i18n: ectx: property (text), widget (QToolButton, filtersTB)
+#: Apper/BackendDetails.ui:366 ApperKCM/ApperKCM.ui:98
+msgid "Filters"
+msgstr "Filtre"
+
+#. i18n: ectx: property (text), widget (QCheckBox, installedCB)
+#: Apper/BackendDetails.ui:375 ApperKCM/FiltersMenu.cpp:60
+#: libapper/PkStrings.cpp:359
+msgid "Installed"
+msgstr "Nainštalované"
+
+#. i18n: ectx: property (text), widget (QCheckBox, developmentCB)
+#: Apper/BackendDetails.ui:385 ApperKCM/FiltersMenu.cpp:90
+msgid "Development"
+msgstr "Vývojové"
+
+#. i18n: ectx: property (text), widget (QCheckBox, visibleCB)
+#: Apper/BackendDetails.ui:395
+msgid "Package is visible"
+msgstr "Balíček je viditeľný"
+
+#. i18n: ectx: property (text), widget (QCheckBox, newestCB)
+#: Apper/BackendDetails.ui:405
+msgid "Newest"
+msgstr "Najnovšie"
+
+#. i18n: ectx: property (text), widget (QCheckBox, guiCB)
+#: Apper/BackendDetails.ui:415
+msgid "GUI"
+msgstr "GUI"
+
+#. i18n: ectx: property (text), widget (QCheckBox, freeCB)
+#: Apper/BackendDetails.ui:425
+msgid "Free software"
+msgstr "Slobodný softvér"
+
+#. i18n: ectx: property (text), widget (QCheckBox, supportedCB)
+#: Apper/BackendDetails.ui:435
+msgid "Supported"
+msgstr "Podporované"
+
+#. i18n: ectx: property (text), widget (QCheckBox, archCB)
+#: Apper/BackendDetails.ui:445
+msgid "Only native"
+msgstr "Iba natívne"
+
+#: Apper/main.cpp:54 PkSession/main.cpp:34
+msgid "Apper"
+msgstr "Apper"
+
+#: Apper/main.cpp:56
+msgid "Apper is an Application to Get and Manage Software"
+msgstr "Apper je aplikácia na získanie a správu softvéru"
+
+#: Apper/main.cpp:58 ApperKCM/ApperKCM.cpp:86
+msgid "(C) 2008-2011 Daniel Nicoletti"
+msgstr "(C) 2008-2011 Daniel Nicoletti"
+
+#: Apper/main.cpp:60 PkSession/main.cpp:40
+msgid "Daniel Nicoletti"
+msgstr "Daniel Nicoletti"
+
+#: Apper/main.cpp:61 PkSession/main.cpp:43
+msgid "Adrien Bustany"
+msgstr "Adrien Bustany"
+
+#: Apper/main.cpp:61 PkSession/main.cpp:43
+msgid "libpackagekit-qt and other stuff"
+msgstr "libpackagekit-qt a ostatné veci"
+
+#: Apper/main.cpp:66
+msgid "Show updates"
+msgstr "Zobraziť aktualizácie"
+
+#: Apper/main.cpp:67
+msgid "Show settings"
+msgstr "Zobraziť nastavenie"
+
+#: Apper/main.cpp:68
+msgid "Show backend details"
+msgstr "Zobraziť detaily backendu"
+
+#: Apper/main.cpp:69
+msgid "Mime type installer"
+msgstr "Inštalátor typov MIME"
+
+#: Apper/main.cpp:70
+msgid "Package name installer"
+msgstr "Inštalátor balíčkov"
+
+#: Apper/main.cpp:71
+msgid "Single file installer"
+msgstr "Inštalátor jednotlivých súborov"
+
+#: Apper/main.cpp:72
+msgid "Font resource installer"
+msgstr "Inštalátor zdrojov písma"
+
+#: Apper/main.cpp:73
+msgid "Catalog installer"
+msgstr "Inštalátor katalógov"
+
+#: Apper/main.cpp:74
+msgid "Single package remover"
+msgstr "Odstraňovač jednotlivých balíčkov"
+
+#: Apper/main.cpp:75
+msgid "Package file to install"
+msgstr "Súbor balíčka na inštaláciu"
+
+#: apperd/DistroUpgrade.cpp:91
+msgid "Distribution upgrade available"
+msgstr "Dostupná aktualizácia distribúcie"
+
+#: apperd/DistroUpgrade.cpp:95
+msgid "Start upgrade now"
+msgstr "Spustiť aktualizáciu"
+
+#: apperd/DistroUpgrade.cpp:146
+msgid "Distribution upgrade finished. "
+msgstr "Aktualizácia distribúcie dokončená. "
+
+#: apperd/DistroUpgrade.cpp:149 ApperKCM/Updater/DistroUpgrade.cpp:89
+#, kde-format
+msgid "Distribution upgrade process exited with code %1."
+msgstr "Proces aktualizácie distribúcie skončil s kódom %1."
+
+#: apperd/DistroUpgrade.cpp:167 ApperKCM/Updater/DistroUpgrade.cpp:101
+msgid "The distribution upgrade process failed to start."
+msgstr "Proces aktualizácie distribúcie sa nepodarilo spustiť."
+
+#: apperd/DistroUpgrade.cpp:170 ApperKCM/Updater/DistroUpgrade.cpp:105
+msgid ""
+"The distribution upgrade process crashed some time after starting "
+"successfully."
+msgstr ""
+"Proces aktualizácie distribúcie spadol chvíľu potom, ako bol úspešne "
+"spustený."
+
+#: apperd/DistroUpgrade.cpp:173 ApperKCM/Updater/DistroUpgrade.cpp:109
+msgid "The distribution upgrade process failed with an unknown error."
+msgstr "Proces aktualizácie distribúcie zlyhal s neznámou chybou."
+
+#: apperd/TransactionWatcher.cpp:169
+#, kde-format
+msgid "Package: %2"
+msgid_plural "Packages: %2"
+msgstr[0] "Balíček: %2"
+msgstr[1] "Balíčky: %2"
+msgstr[2] "Balíčkov: %2"
+
+#: apperd/TransactionWatcher.cpp:178
+msgid "Restart"
+msgstr "Reštart"
+
+#: apperd/TransactionWatcher.cpp:231 ApperKCM/TransactionModel.cpp:48
+#: AppSetup/SetupWizard.cpp:199
+msgid "Details"
+msgstr "Detaily"
+
+#: apperd/Updater.cpp:160
+msgid "Updates are being automatically installed."
+msgstr "Prebieha automatická inštalácia aktualizácií."
+
+#: apperd/Updater.cpp:170
+msgid "Security updates are being automatically installed."
+msgstr "Prebieha automatická inštalácia bezpečnostných aktualizácií."
+
+#: apperd/Updater.cpp:180
+msgid "Updates are being automatically downloaded."
+msgstr "Aktualizácie sa automaticky sťahujú."
+
+#: apperd/Updater.cpp:214
+msgid "System update was successful."
+msgstr "Aktualizácia systému bola úspešná."
+
+#: apperd/Updater.cpp:221
+msgid "The software update failed."
+msgstr "Aktualizácia softvéru zlyhala."
+
+#: apperd/Updater.cpp:275
+#, kde-format
+msgid "There is one new update"
+msgid_plural "There are %1 new updates"
+msgstr[0] "Je jedna nová aktualizácia"
+msgstr[1] "Sú %1 nové aktualizácie"
+msgstr[2] "Je %1 nových aktualizácií"
+
+#: apperd/Updater.cpp:284
+msgid "Review"
+msgstr "Revízia"
+
+#: apperd/Updater.cpp:286 libapper/ApplicationsDelegate.cpp:40
+msgid "Install"
+msgstr "Inštalovať"
+
+#: ApperKCM/ApperKCM.cpp:82
+msgid "Application Manager"
+msgstr "Správca aktualizácií"
+
+#: ApperKCM/ApperKCM.cpp:84
+msgid "KDE interface for managing software"
+msgstr "KDE rozhranie pre spravovanie softvéru"
+
+#: ApperKCM/ApperKCM.cpp:114 ApperKCM/ApperKCM.cpp:298
+msgid "Find"
+msgstr "Nájsť"
+
+#: ApperKCM/ApperKCM.cpp:209
+msgid "History"
+msgstr "História"
+
+#. i18n: ectx: property (windowTitle), widget (QWidget, Settings)
+#: ApperKCM/ApperKCM.cpp:215 ApperKCM/Settings/Settings.ui:14
+msgid "Settings"
+msgstr "Nastavenie"
+
+#: ApperKCM/ApperKCM.cpp:275 ApperKCM/ApperKCM.cpp:276
+#: ApperKCM/ApperKCM.cpp:277 ApperKCM/ApperKCM.cpp:278
+msgid "&Cancel"
+msgstr "&Zrušiť"
+
+#. i18n: ectx: property (text), widget (CategorizedView, changesView)
+#: ApperKCM/ApperKCM.cpp:285 ApperKCM/ApperKCM.ui:346
+msgid "Find by &name"
+msgstr "Nájsť podľa &názvu"
+
+#. i18n: ectx: property (text), widget (CategorizedView, changesView)
+#: ApperKCM/ApperKCM.cpp:286 ApperKCM/ApperKCM.ui:356
+msgid "Find by f&ile name"
+msgstr "Nájsť podľa názvu &súboru"
+
+#. i18n: ectx: property (text), widget (CategorizedView, changesView)
+#: ApperKCM/ApperKCM.cpp:287 ApperKCM/ApperKCM.ui:351
+msgid "Find by &description"
+msgstr "Nájsť podľa &popisu"
+
+#: ApperKCM/ApperKCM.cpp:431
+msgid ""
+"The settings of the current module have changed.\n"
+"Do you want to apply the changes or discard them?"
+msgstr ""
+"V nastaveniach aktuálneho modulu sa zmenili. Želáte si tieto zmeny použiť, "
+"alebo zahodiť?"
+
+#: ApperKCM/ApperKCM.cpp:433
+msgid "Apply Settings"
+msgstr "Použiť nastavenie"
+
+#: ApperKCM/ApperKCM.cpp:670
+msgid "Could not find an application that matched this category"
+msgstr "Nemôžem nájsť aplikáciu ktorá vyhovuje tejto kategórii"
+
+#. i18n: ectx: property (windowTitle), widget (QWidget, ApperKCM)
+#: ApperKCM/ApperKCM.ui:20
+msgid "Add and Remove Software"
+msgstr "Pridať a odstrániť softvér"
+
+#. i18n: ectx: property (clickMessage), widget (KLineEdit, searchKLE)
+#: ApperKCM/ApperKCM.ui:58
+msgid "Search packages"
+msgstr "Hľadať balíčky"
+
+#. i18n: ectx: property (text), widget (QPushButton, changesPB)
+#: ApperKCM/ApperKCM.ui:127
+msgid "Pending Changes"
+msgstr "Čakajúce zmeny"
+
+#. i18n: ectx: property (text), widget (QPushButton, checkUpdatesPB)
+#: ApperKCM/ApperKCM.ui:161
+msgid "Check for new Updates"
+msgstr "Skontrolovať nové aktualizácie"
+
+#. i18n: ectx: property (text), widget (QPushButton, generalSettingsPB)
+#: ApperKCM/ApperKCM.ui:195
+msgid "General Settings"
+msgstr "Všeobecné nastavenia"
+
+#. i18n: ectx: property (text), widget (QPushButton, repoSettingsPB)
+#: ApperKCM/ApperKCM.ui:214
+msgid "Software Origins"
+msgstr "Pôvody softvéru"
+
+#. i18n: ectx: property (text), widget (QToolButton, backTB)
+#: ApperKCM/ApperKCM.ui:267 AppSetup/SetupWizard.cpp:152
+msgid "Back"
+msgstr "Späť"
+
+#: ApperKCM/BrowseView.cpp:90 ApperKCM/Updater/Updater.cpp:104
+msgid "Show Versions"
+msgstr "Zobraziť verzie"
+
+#: ApperKCM/BrowseView.cpp:97 ApperKCM/Updater/Updater.cpp:118
+msgid "Show Architectures"
+msgstr "Zobraziť architektúry"
+
+#: ApperKCM/BrowseView.cpp:104 ApperKCM/Updater/Updater.cpp:125
+msgid "Show Origins"
+msgstr "Zobraziť pôvody"
+
+#: ApperKCM/BrowseView.cpp:111 ApperKCM/Updater/Updater.cpp:132
+msgid "Show Sizes"
+msgstr "Zobraziť veľkosti"
+
+#. i18n: ectx: property (text), widget (QPushButton, exportInstalledPB)
+#: ApperKCM/BrowseView.ui:140
+msgid "Export Installed Package List..."
+msgstr "Exportovať zoznam nainštalovaných balíčkov..."
+
+#. i18n: ectx: property (text), widget (QPushButton, importInstalledPB)
+#: ApperKCM/BrowseView.ui:150
+msgid "Install Packages from List..."
+msgstr "Importovať balíčky zo zoznamu..."
+
+#: ApperKCM/CategoryModel.cpp:50
+msgid "Installed Software"
+msgstr "Nainštalovaný softvér"
+
+#: ApperKCM/CategoryModel.cpp:53 ApperKCM/CategoryModel.cpp:61
+msgid "Lists"
+msgstr "Zoznamy"
+
+#: ApperKCM/CategoryModel.cpp:58
+msgid "Updates"
+msgstr "Aktualizácia"
+
+#: ApperKCM/CategoryModel.cpp:161 ApperKCM/CategoryModel.cpp:359
+msgid "Categories"
+msgstr "Kategórie"
+
+#: ApperKCM/CategoryModel.cpp:218
+msgid "Groups"
+msgstr "Skupiny"
+
+#: ApperKCM/FiltersMenu.cpp:37
+msgid "Collections"
+msgstr "Kolekcie"
+
+#: ApperKCM/FiltersMenu.cpp:44
+msgid "Only collections"
+msgstr "Iba kolekcie"
+
+#: ApperKCM/FiltersMenu.cpp:51
+msgid "Exclude collections"
+msgstr "Vylúčiť kolekcie"
+
+#: ApperKCM/FiltersMenu.cpp:67
+msgid "Only installed"
+msgstr "Iba nainštalované"
+
+#: ApperKCM/FiltersMenu.cpp:74
+msgid "Only available"
+msgstr "Iba dostupné"
+
+#: ApperKCM/FiltersMenu.cpp:81 ApperKCM/FiltersMenu.cpp:111
+#: ApperKCM/FiltersMenu.cpp:141 ApperKCM/FiltersMenu.cpp:171
+#: ApperKCM/FiltersMenu.cpp:202 ApperKCM/FiltersMenu.cpp:233
+msgid "No filter"
+msgstr "Žiadny filter"
+
+#: ApperKCM/FiltersMenu.cpp:97
+msgid "Only development"
+msgstr "Iba vývojové"
+
+#: ApperKCM/FiltersMenu.cpp:104
+msgid "Only end user files"
+msgstr "Iba užívateľské súbory"
+
+#: ApperKCM/FiltersMenu.cpp:120
+msgid "Graphical"
+msgstr "Grafické"
+
+#: ApperKCM/FiltersMenu.cpp:127
+msgid "Only graphical"
+msgstr "Iba grafické"
+
+#: ApperKCM/FiltersMenu.cpp:134
+msgid "Only text"
+msgstr "Iba textové"
+
+#: ApperKCM/FiltersMenu.cpp:150
+msgctxt "Filter for free packages"
+msgid "Free"
+msgstr "Slobodné"
+
+#: ApperKCM/FiltersMenu.cpp:157
+msgid "Only free software"
+msgstr "Iba slobodný softvér"
+
+#: ApperKCM/FiltersMenu.cpp:164
+msgid "Only non-free software"
+msgstr "Iba neslobodný softvér"
+
+#: ApperKCM/FiltersMenu.cpp:181
+msgctxt "Filter for supported packages"
+msgid "Supported"
+msgstr "Podporované"
+
+#: ApperKCM/FiltersMenu.cpp:188
+msgid "Only supported software"
+msgstr "Iba podporovaný softvér"
+
+#: ApperKCM/FiltersMenu.cpp:195
+msgid "Only non-supported software"
+msgstr "Iba nepodporovaný softvér"
+
+#: ApperKCM/FiltersMenu.cpp:212
+msgctxt "Filter for source packages"
+msgid "Source"
+msgstr "Zdrojové"
+
+#: ApperKCM/FiltersMenu.cpp:219
+msgid "Only sourcecode"
+msgstr "Iba so zdrojovým kódom"
+
+#: ApperKCM/FiltersMenu.cpp:226
+msgid "Only non-sourcecode"
+msgstr "Iba bez zdrojového kódu"
+
+#: ApperKCM/FiltersMenu.cpp:248
+msgid "Hide Subpackages"
+msgstr "Skryť podbalíčky"
+
+#: ApperKCM/FiltersMenu.cpp:250
+msgid "Only show one package, not subpackages"
+msgstr "Zobraziť iba jeden balíček, nie podbalíčky"
+
+#: ApperKCM/FiltersMenu.cpp:257
+msgid "Only Newest Packages"
+msgstr "Iba najnovšie balíčky"
+
+#: ApperKCM/FiltersMenu.cpp:262
+msgid "Only show the newest available package"
+msgstr "Zobraziť iba najnovší dostupný balíček"
+
+#: ApperKCM/FiltersMenu.cpp:269
+msgid "Only Native Packages"
+msgstr "Iba natívne balíčky"
+
+#: ApperKCM/FiltersMenu.cpp:274
+msgid "Only show packages matching the machine architecture"
+msgstr "Zobraziť iba balíčky odpovedajúce architektúre počítača"
+
+#: ApperKCM/FiltersMenu.cpp:283
+msgid "Only Show Applications"
+msgstr "Zobraziť iba aplikácie"
+
+#: ApperKCM/FiltersMenu.cpp:286
+msgid "Hide packages that are not applications"
+msgstr "Skryť balíčky, ktoré nie sú aplikácie"
+
+#: ApperKCM/PackageDetails.cpp:85
+msgid "Display"
+msgstr "Zobraziť"
+
+#: ApperKCM/PackageDetails.cpp:92 AppSetup/SetupWizard.cpp:254
+msgid "Description"
+msgstr "Popis"
+
+#: ApperKCM/PackageDetails.cpp:100
+msgid "Depends On"
+msgstr "Závisí na"
+
+#: ApperKCM/PackageDetails.cpp:129
+msgid "Required By"
+msgstr "Vyžadované"
+
+#: ApperKCM/PackageDetails.cpp:158
+msgid "File List"
+msgstr "Zoznam súborov"
+
+#: ApperKCM/PackageDetails.cpp:518
+msgid "No files were found."
+msgstr "Neboli nájdené žiadne súbory."
+
+#: ApperKCM/PackageDetails.cpp:566
+msgid "Could not fetch software details"
+msgstr "Nie je možné získať podrobnosti o softvére"
+
+#: ApperKCM/PackageDetails.cpp:608
+msgid "Applications"
+msgstr "Aplikácie"
+
+#. i18n: ectx: property (text), widget (QLabel, licenseL)
+#: ApperKCM/PackageDetails.ui:146
+msgid "License:"
+msgstr "Licencia:"
+
+#. i18n: ectx: property (text), widget (QToolButton, hideTB)
+#: ApperKCM/PackageDetails.ui:359 ApperKCM/Updater/UpdateDetails.ui:20
+msgid "Hide"
+msgstr "Skryť"
+
+#: ApperKCM/ScreenShotViewer.cpp:90
+msgid "Could not find screen shot."
+msgstr "Nepodarilo sa nájsť snímka obrazovky."
+
+#: ApperKCM/Settings/OriginModel.cpp:39
+msgid "Origin of Packages"
+msgstr "Zdroje balíčkov"
+
+#: ApperKCM/Settings/Settings.cpp:81
+msgctxt "Inform about distribution upgrades"
+msgid "Never"
+msgstr "Nikdy"
+
+#: ApperKCM/Settings/Settings.cpp:84
+msgctxt "Inform about distribution upgrades"
+msgid "Only stable"
+msgstr "Iba stabilné"
+
+#: ApperKCM/Settings/Settings.cpp:89
+msgctxt "Inform about distribution upgrades"
+msgid "Stable and development"
+msgstr "Stabilné a vývojové"
+
+#: ApperKCM/Settings/Settings.cpp:93
+msgctxt "Hourly refresh the package cache"
+msgid "Hourly"
+msgstr "Každú hodinu"
+
+#: ApperKCM/Settings/Settings.cpp:94
+msgctxt "Daily refresh the package cache"
+msgid "Daily"
+msgstr "Denne"
+
+#: ApperKCM/Settings/Settings.cpp:95
+msgctxt "Weekly refresh the package cache"
+msgid "Weekly"
+msgstr "Týždenne"
+
+#: ApperKCM/Settings/Settings.cpp:96
+msgctxt "Monthly refresh the package cache"
+msgid "Monthly"
+msgstr "Mesačne"
+
+#: ApperKCM/Settings/Settings.cpp:97
+msgctxt "Never refresh package cache"
+msgid "Never"
+msgstr "Nikdy"
+
+#: ApperKCM/Settings/Settings.cpp:99
+msgctxt "No updates will be automatically installed"
+msgid "None"
+msgstr "Žiadne"
+
+#: ApperKCM/Settings/Settings.cpp:100
+msgid "Download only"
+msgstr "Iba stiahnuť"
+
+#: ApperKCM/Settings/Settings.cpp:101
+msgid "Security only"
+msgstr "Iba bezpečnostné aktualizácie"
+
+#: ApperKCM/Settings/Settings.cpp:102
+msgid "All updates"
+msgstr "Všetky aktualizácie"
+
+#: ApperKCM/Settings/Settings.cpp:314 libapper/PkStrings.cpp:968
+msgid "You do not have the necessary privileges to perform this action."
+msgstr "Nemáte dostatočné práva na vykonanie tejto akcie."
+
+#: ApperKCM/Settings/Settings.cpp:315
+msgid "Failed to set origin data"
+msgstr "Nepodarilo sa nastaviť zdroj dát"
+
+#. i18n: ectx: property (text), widget (QLabel, intervalL)
+#: ApperKCM/Settings/Settings.ui:50
+msgid "Check for new updates:"
+msgstr "Skontrolovať nové aktualizácie:"
+
+#. i18n: ectx: property (text), widget (QCheckBox, checkUpdatesMobileCB)
+#. i18n: ectx: property (text), widget (QCheckBox, installUpdatesMobileCB)
+#: ApperKCM/Settings/Settings.ui:91 ApperKCM/Settings/Settings.ui:159
+msgid "when on a mobile broadband network connection"
+msgstr "pri mobilnom širokopásmovom pripojení k sieti"
+
+#. i18n: ectx: property (text), widget (QCheckBox, checkUpdatesBatteryCB)
+#. i18n: ectx: property (text), widget (QCheckBox, installUpdatesBatteryCB)
+#: ApperKCM/Settings/Settings.ui:98 ApperKCM/Settings/Settings.ui:152
+msgid "when running on battery"
+msgstr "pri prevádzke na batériu"
+
+#. i18n: ectx: property (text), widget (QLabel, autoInsL)
+#: ApperKCM/Settings/Settings.ui:117
+msgid "Automatically update:"
+msgstr "Automaticky aktualizovať:"
+
+#. i18n: ectx: property (text), widget (QCheckBox, appLauncherCB)
+#: ApperKCM/Settings/Settings.ui:175
+msgid "Show application launcher after installing new applications"
+msgstr "Zobrazovať spúšťač aplikácií po inštalácii nových aplikácií"
+
+#. i18n: ectx: property (text), widget (QCheckBox, autoConfirmCB)
+#: ApperKCM/Settings/Settings.ui:182
+msgid "Show confirmation dialog when installing or updating packages"
+msgstr ""
+"Zobrazovať potvrdzovací dialóg pri inštalácii alebo aktualizácii balíčkov"
+
+#. i18n: ectx: property (text), widget (QLabel, label)
+#: ApperKCM/Settings/Settings.ui:189
+msgid "Check for distribution upgrades:"
+msgstr "Skontrolovať aktualizácie systému:"
+
+#. i18n: ectx: property (text), widget (QCheckBox, showOriginsCB)
+#: ApperKCM/Settings/Settings.ui:227
+msgid "&Show origins of debug and development packages"
+msgstr "Zo&braziť zdroje ladiacich a vývojových balíčkov"
+
+#. i18n: ectx: property (text), widget (QPushButton, editOriginsPB)
+#: ApperKCM/Settings/Settings.ui:247
+msgid "Edit Origins"
+msgstr "Upraviť zdroje"
+
+#: ApperKCM/TransactionHistory.cpp:66
+msgid "Refresh transactions list"
+msgstr "Obnoviť zoznam transakcií"
+
+#: ApperKCM/TransactionHistory.cpp:87
+#, kde-format
+msgid "Time since last cache refresh: %1"
+msgstr "Čas od poslednej obnovy vyrovnávacej pamäte: %1"
+
+#: ApperKCM/TransactionModel.cpp:46
+msgid "Date"
+msgstr "Dátum"
+
+#: ApperKCM/TransactionModel.cpp:47 libapper/PackageModel.cpp:222
+msgid "Action"
+msgstr "Akcia"
+
+#: ApperKCM/TransactionModel.cpp:49
+msgctxt "Machine user who issued the transaction"
+msgid "Username"
+msgstr "Užívateľské meno"
+
+#: ApperKCM/TransactionModel.cpp:50
+msgid "Application"
+msgstr "Aplikácia"
+
+#: ApperKCM/Updater/DistroUpgrade.cpp:40
+msgid "Upgrade"
+msgstr "Aktualizovať"
+
+#: ApperKCM/Updater/DistroUpgrade.cpp:47
+#, kde-format
+msgid "Distribution upgrade available: %1"
+msgstr "Dostupná aktualizácia distribúcie: %1"
+
+#: ApperKCM/Updater/DistroUpgrade.cpp:61
+msgid ""
+"You are about to upgrade your distribution to the latest version. This is "
+"usually a very lengthy process and takes a lot longer than simply upgrading "
+"your packages."
+msgstr ""
+"Chystáte sa aktualizovať vašu distribúciu na najnovšiu verziu. Toto je "
+"obvykle časovo náročný proces a trvá oveľa dlhšie ako len aktualizovanie "
+"balíčkov."
+
+#: ApperKCM/Updater/DistroUpgrade.cpp:66
+msgid "It is recommended to plug in your computer before proceeding."
+msgstr ""
+"Skôr ako budete pokračovať, odporúča sa pripojiť k počítaču napájací adaptér."
+
+#: ApperKCM/Updater/DistroUpgrade.cpp:68
+msgid ""
+"It is recommended that you keep your computer plugged in while the upgrade "
+"is being performed."
+msgstr ""
+"Odporúča sa nechať počítač pripojený k napájaciemu adaptéru, kým sa "
+"aktualizácia nedokončí."
+
+#: ApperKCM/Updater/DistroUpgrade.cpp:87
+msgid "Distribution upgrade complete."
+msgstr "Aktualizácia distribúcie dokončená."
+
+#: ApperKCM/Updater/UpdateDetails.cpp:187
+msgid "This update will add new features and expand functionality."
+msgstr "Táto aktualizácia pridá nové funkcie a rozšíri funkcionalitu."
+
+#: ApperKCM/Updater/UpdateDetails.cpp:191
+msgid "This update will fix bugs and other non-critical problems."
+msgstr "Táto aktualizácia opraví chyby a iné nekritické problémy."
+
+#: ApperKCM/Updater/UpdateDetails.cpp:195
+msgid "This update is important as it may solve critical problems."
+msgstr "Táto aktualizácia je dôležitá, pretože môže riešiť kritické problémy."
+
+#: ApperKCM/Updater/UpdateDetails.cpp:199
+msgid ""
+"This update is needed to fix a security vulnerability with this package."
+msgstr ""
+"Táto aktualizácia je potrebná na opravu bezpečnostnej zraniteľnosti tohto "
+"balíčka."
+
+#: ApperKCM/Updater/UpdateDetails.cpp:203
+msgid "This update is blocked."
+msgstr "Táto aktualizácia je blokovaná."
+
+#: ApperKCM/Updater/UpdateDetails.cpp:210
+#, kde-format
+msgid "This notification was issued on %1 and last updated on %2."
+msgstr "Toto upozornenie bolo vydané %1 a naposledy aktualizované %2."
+
+#: ApperKCM/Updater/UpdateDetails.cpp:216
+#, kde-format
+msgid "This notification was issued on %1."
+msgstr "Toto upozornenie bolo vydané %1."
+
+#: ApperKCM/Updater/UpdateDetails.cpp:235
+msgid "For more information about this update please visit this website:"
+msgid_plural ""
+"For more information about this update please visit these websites:"
+msgstr[0] ""
+"Ďalšie informácie o tejto aktualizácii nájdete na tejto webovej stránke:"
+msgstr[1] ""
+"Ďalšie informácie o tejto aktualizácii nájdete na týchto webových stránkach:"
+msgstr[2] ""
+"Ďalšie informácie o tejto aktualizácii nájdete na týchto webových stránkach:"
+
+#: ApperKCM/Updater/UpdateDetails.cpp:245
+msgid ""
+"For more information about bugs fixed by this update please visit this "
+"website:"
+msgid_plural ""
+"For more information about bugs fixed by this update please visit these "
+"websites:"
+msgstr[0] ""
+"Ďalšie informácie o chybách, ktoré táto aktualizácia opravila, nájdete na "
+"tejto webovej stránke:"
+msgstr[1] ""
+"Ďalšie informácie o chybách, ktoré táto aktualizácia opravila, nájdete na "
+"týchto webových stránkach:"
+msgstr[2] ""
+"Ďalšie informácie o chybách, ktoré táto aktualizácia opravila, nájdete na "
+"týchto webových stránkach:"
+
+#: ApperKCM/Updater/UpdateDetails.cpp:255
+msgid ""
+"For more information about this security update please visit this website:"
+msgid_plural ""
+"For more information about this security update please visit these websites:"
+msgstr[0] ""
+"Ďalšie informácie o tejto bezpečnostnej aktualizácii nájdete na tejto "
+"webovej stránke:"
+msgstr[1] ""
+"Ďalšie informácie o tejto bezpečnostnej aktualizácii nájdete na týchto "
+"webových stránkach:"
+msgstr[2] ""
+"Ďalšie informácie o tejto bezpečnostnej aktualizácii nájdete na týchto "
+"webových stránkach:"
+
+#: ApperKCM/Updater/UpdateDetails.cpp:265
+msgid ""
+"The computer will have to be restarted after the update for the changes to "
+"take effect."
+msgstr ""
+"Aby sa po aktualizácii zmeny prejavili, budete musieť reštartovať počítač."
+
+#: ApperKCM/Updater/UpdateDetails.cpp:269
+msgid ""
+"You will need to log out and back in after the update for the changes to "
+"take effect."
+msgstr ""
+"Aby sa po aktualizácii zmeny prejavili, budete sa musieť odhlásiť a znovu "
+"prihlásiť."
+
+#: ApperKCM/Updater/UpdateDetails.cpp:276
+msgid ""
+"The classification of this update is unstable which means it is not designed "
+"for production use."
+msgstr ""
+"Klasifikácia tejto aktualizácie je nestabilná, čo znamená, že nie je určená "
+"pre produkčné použitie."
+
+#: ApperKCM/Updater/UpdateDetails.cpp:280
+msgid ""
+"This is a test update, and is not designed for normal use. Please report any "
+"problems or regressions you encounter."
+msgstr ""
+"Toto je testovacia aktualizácia a nie je určená na normálne použitie. "
+"Nahláste akékoľvek problémy alebo regresie s ktorými sa stretnete."
+
+#: ApperKCM/Updater/UpdateDetails.cpp:290
+msgid ""
+"The developer logs will be shown as no description is available for this "
+"update:"
+msgstr ""
+"Zobrazia sa vývojárske záznamy, pretože pre túto aktualizáciu nie je "
+"dostupný žiadny popis:"
+
+#: ApperKCM/Updater/UpdateDetails.cpp:298
+msgid "Updates:"
+msgstr "Aktualizuje:"
+
+#: ApperKCM/Updater/UpdateDetails.cpp:308
+msgid "Obsoletes:"
+msgstr "Zastaráva:"
+
+#: ApperKCM/Updater/UpdateDetails.cpp:318
+#, kde-format
+msgid "Repository: %1"
+msgstr "Repozitár: %1"
+
+#: ApperKCM/Updater/UpdateDetails.cpp:340
+msgid "No update description was found."
+msgstr "Nebol nájdený žiadny popis aktualizácie."
+
+#: ApperKCM/Updater/Updater.cpp:111
+msgid "Show Current Versions"
+msgstr "Zobraziť aktuálne verzie"
+
+#: ApperKCM/Updater/Updater.cpp:239
+#, kde-format
+msgid "Estimated download size: %1"
+msgstr "Odhadovaná veľkosť stiahnutia: %1"
+
+#: ApperKCM/Updater/Updater.cpp:358 plasmoid/updaterapplet.cpp:57
+msgid "Check for new updates"
+msgstr "Skontrolovať nové aktualizácie"
+
+#. i18n: ectx: property (text), widget (QRadioButton, acceptedRB)
+#: AppSetup/LicensePage.ui:98
+msgid "I agree to the above terms and conditions"
+msgstr "Súhlasím s danými podmienkami"
+
+#. i18n: ectx: property (text), widget (QRadioButton, rejectedRB)
+#: AppSetup/LicensePage.ui:111
+msgid "I don't agree"
+msgstr "Nesúhlasím"
+
+#: AppSetup/main.cpp:34 AppSetup/main.cpp:35
+msgid "KDE Application Installer"
+msgstr "Inštalátor aplikácií KDE"
+
+#: AppSetup/main.cpp:36
+msgid "(C) 2012, Matthias Klumpp"
+msgstr "(C) 2012, Matthias Klumpp"
+
+#: AppSetup/main.cpp:38
+msgctxt "@info:credit"
+msgid "Daniel Nicoletti"
+msgstr "Daniel Nicoletti"
+
+#: AppSetup/main.cpp:38 AppSetup/main.cpp:40
+msgid "Developer"
+msgstr "Vývojár"
+
+#: AppSetup/main.cpp:40
+msgctxt "@info:credit"
+msgid "Matthias Klumpp"
+msgstr "Matthias Klumpp"
+
+#: AppSetup/main.cpp:47
+msgid "Show verbose information"
+msgstr "Zobraziť podrobné informácie"
+
+#: AppSetup/main.cpp:48
+msgid "IPK package filename"
+msgstr "Názov súboru balíka IPK"
+
+#: AppSetup/main.cpp:75
+msgid "Sorry, we didn't get an existing IPK package as parameter."
+msgstr "Prepáčte, nedostali sme existujúci IPK balík ako parameter."
+
+#: AppSetup/main.cpp:76
+msgid "Package not found!"
+msgstr "Balíček nebol nájdený!"
+
+#: AppSetup/SetupWizard.cpp:87
+msgid "Installation finished!"
+msgstr "Inštalácia ukončená!"
+
+#: AppSetup/SetupWizard.cpp:88
+#, kde-format
+msgid "%1 has been installed successfully!"
+msgstr "%1 bol nainštalovaný úspešne!"
+
+#: AppSetup/SetupWizard.cpp:102 libapper/PkTransaction.cpp:133
+#: libapper/PkTransaction.cpp:151 libapper/PkTransaction.cpp:170
+#: libapper/PkTransaction.cpp:193
+msgid "Error"
+msgstr "Chyba"
+
+#: AppSetup/SetupWizard.cpp:103 AppSetup/SetupWizard.cpp:117
+msgid "An error occurred"
+msgstr "Nastala chyba"
+
+#: AppSetup/SetupWizard.cpp:150 libapper/Requirements.cpp:58
+#: PkSession/SessionTask.cpp:71
+msgid "Continue"
+msgstr "Pokračovať"
+
+#: AppSetup/SetupWizard.cpp:188
+msgid "Welcome!"
+msgstr "Vitajte!"
+
+#: AppSetup/SetupWizard.cpp:189
+#, kde-format
+msgid "Welcome to the installation of %1!"
+msgstr "Vitajte v inštalácii %1!"
+
+#: AppSetup/SetupWizard.cpp:190
+msgid ""
+"Please be careful while installing 3rd-party applications.<br>They may "
+"eventually <b>damage</b> your system or have <b>malicious behaviour</b>, "
+"like spying out your passwords.<br>Please do only install this software if "
+"you <b>trust the publisher and the author</b> of it."
+msgstr ""
+"Prosím buďte opatrný počas inštalácie aplikácií tretích strán.<br>Môžu "
+"aj<b>poškodiť</b> váš systém alebo mať <b>škodlivé správanie</b>, ako "
+"špehovanie vašich hesiel.<br>Prosím, inštalujte tento softvér, iba "
+"ak<b>dôverujete jeho publikovateľovi a autorovi</b>."
+
+#: AppSetup/SetupWizard.cpp:200
+msgid "Details about this installation"
+msgstr "Podrobnosti o tejto inštalácii"
+
+#: AppSetup/SetupWizard.cpp:236
+msgid "Install for all users"
+msgstr "Inštalovať pre všetkých používateľov"
+
+#: AppSetup/SetupWizard.cpp:253
+msgid "Application description"
+msgstr "Popis aplikácie"
+
+#: AppSetup/SetupWizard.cpp:262
+msgid "Software license"
+msgstr "Softvérová licencia"
+
+#: AppSetup/SetupWizard.cpp:263
+msgid "Please read the following terms and conditions carefully!"
+msgstr "Prosím, pozorne si prečítajte nasledovné podmienky!"
+
+#: AppSetup/SetupWizard.cpp:270
+msgid "Running installation"
+msgstr "Beží inštalácia"
+
+#: AppSetup/SetupWizard.cpp:271
+#, kde-format
+msgid "Installing %1..."
+msgstr "Inštaluje sa %1..."
+
+#: AppSetup/SetupWizard.cpp:306
+msgid ""
+"Installing this package will make the following native packages obsolete. "
+"You might consider removing them manually."
+msgstr ""
+"Inštalácia tohto balíka spôsobí, že nasledovné natívne balíky sa stanú "
+"zastarané. Mali by ste zvážiť ich ručné odstránenie."
+
+#: AppSetup/SetupWizard.cpp:307
+msgid "Similar native packages found"
+msgstr "Našiel sa podobný natívny balíček"
+
+#: AppSetup/SetupWizard.cpp:402
+msgid ""
+"You want to install this application as root!\n"
+"This can damage your system or install malicious software for all users.\n"
+"Please only proceed, if you really know what you're doing!\n"
+"Continue?"
+msgstr ""
+"Chcete inštalovať túto aplikáciu ako root!\n"
+"Toto môže poškodiť váš systém alebo nainštalovať škodlivý softvér pre "
+"všetkých používateľov.\n"
+"Prosím, pokračujte, len ak ste si absolútne istý, čo robíte!\n"
+"Pokračovať?"
+
+#: AppSetup/SetupWizard.cpp:405
+msgid "Really install as superuser?"
+msgstr "Pripravený inštalovať ako superpoužívateľ?"
+
+#: AppSetup/SetupWizard.cpp:422
+#, kde-format
+msgid "This package has the following security level: <b>%1</b>"
+msgstr "Tento balík má nasledovnú úroveň bezpečnosti: <b>%1</b>"
+
+#: AppSetup/SetupWizard.cpp:424
+#, kde-format
+msgid "It was signed with a key belonging to these user-ids: %1"
+msgstr "Bolo to podpísané kľúčom patriacim do týchto user-id: %1"
+
+#: AppSetup/SetupWizard.cpp:428
+msgid "Security hints"
+msgstr "Bezpečnostné tipy"
+
+#: libapper/ApplicationLauncher.cpp:96
+msgid "New application available"
+msgid_plural "New applications available"
+msgstr[0] "Dostupná nová aplikácia"
+msgstr[1] "Dostupné nové aplikácie"
+msgstr[2] "Dostupné nové aplikácie"
+
+#: libapper/ApplicationLauncher.cpp:99
+msgid "The following application was just installed. Click on it to launch:"
+msgid_plural ""
+"The following applications were just installed. Click on them to launch:"
+msgstr[0] ""
+"Nasledujúca aplikácia bola práve nainštalovaná. Kliknite na ňu, ak ju chcete "
+"spustiť:"
+msgstr[1] ""
+"Nasledujúce aplikácie boli práve nainštalované. Kliknite na aplikáciu, ktorú "
+"chcete spustiť:"
+msgstr[2] ""
+"Nasledujúce aplikácie boli práve nainštalované. Kliknite na aplikáciu, ktorú "
+"chcete spustiť:"
+
+#. i18n: ectx: property (text), widget (QCheckBox, showCB)
+#: libapper/ApplicationLauncher.ui:72
+msgid "Do not show this dialog again"
+msgstr "Tento dialóg znovu nezobrazovať"
+
+#: libapper/ApplicationsDelegate.cpp:42
+msgid "Remove"
+msgstr "Odstrániť"
+
+#: libapper/ApplicationsDelegate.cpp:44 libapper/ChangesDelegate.cpp:51
+msgid "Deselect"
+msgstr "Zrušiť výber"
+
+#: libapper/ChangesDelegate.cpp:47
+msgid "Do not Install"
+msgstr "Neinštalovať"
+
+#: libapper/ChangesDelegate.cpp:49
+msgid "Do not Remove"
+msgstr "Neodstraňovať"
+
+#: libapper/CustomProgressBar.cpp:38
+#, kde-format
+msgid "%1 remaining"
+msgstr "Zostáva %1"
+
+#: libapper/LicenseAgreement.cpp:40
+msgid "Accept Agreement"
+msgstr "Prijať licenciu"
+
+#. i18n: ectx: property (windowTitle), widget (QWidget, LicenseAgreement)
+#: libapper/LicenseAgreement.cpp:41 libapper/LicenseAgreement.ui:14
+msgid "License Agreement Required"
+msgstr "Vyžadovaná licenčná zmluva"
+
+#: libapper/LicenseAgreement.cpp:42
+#, kde-format
+msgid "License required for %1 by %2"
+msgstr "Vyžadovaná licencia pre %1 od %2"
+
+#. i18n: ectx: property (text), widget (QLabel, label_2)
+#: libapper/LicenseAgreement.ui:40
+msgid "Please read the following important information before continuing:"
+msgstr ""
+"Skôr ako budete pokračovať, prečítajte si prosím nasledujúce dôležité "
+"informácie:"
+
+#: libapper/PackageModel.cpp:203
+msgid "Name"
+msgstr "Názov"
+
+#: libapper/PackageModel.cpp:207
+msgid "Version"
+msgstr "Verzia"
+
+#: libapper/PackageModel.cpp:210
+msgid "Installed Version"
+msgstr "Nainštalovaná verzia"
+
+#: libapper/PackageModel.cpp:213
+msgid "Arch"
+msgstr "Architektúra"
+
+#: libapper/PackageModel.cpp:216
+msgid "Origin"
+msgstr "Pôvod"
+
+#: libapper/PackageModel.cpp:219
+msgid "Size"
+msgstr "Veľkosť"
+
+#: libapper/PackageModel.cpp:317
+#, kde-format
+msgid ""
+"Version: %1\n"
+"Architecture: %2"
+msgstr ""
+"Verzia: %1\n"
+"Architektúra: %2"
+
+#: libapper/PackageModel.cpp:363
+msgid "To be Removed"
+msgstr "Na odstránenie"
+
+#: libapper/PackageModel.cpp:365
+msgid "To be Installed"
+msgstr "Na inštaláciu"
+
+#: libapper/PkStrings.cpp:36
+msgctxt "This is when the transaction status is not known"
+msgid "Unknown state"
+msgstr "Neznámy stav"
+
+#: libapper/PkStrings.cpp:39
+msgctxt "transaction state, the daemon is in the process of starting"
+msgid "Waiting for service to start"
+msgstr "Čaká sa na spustenie služby"
+
+#: libapper/PkStrings.cpp:42
+msgctxt "transaction state, the transaction is waiting for another to complete"
+msgid "Waiting for other tasks"
+msgstr "Čaká sa na ďalšie úlohy"
+
+#: libapper/PkStrings.cpp:45
+msgctxt "transaction state, just started"
+msgid "Running task"
+msgstr "Prebieha úloha"
+
+#: libapper/PkStrings.cpp:48
+msgctxt "transaction state, is querying data"
+msgid "Querying"
+msgstr "Zisťuje sa"
+
+#: libapper/PkStrings.cpp:51
+msgctxt "transaction state, getting data from a server"
+msgid "Getting information"
+msgstr "Získavajú sa informácie"
+
+#: libapper/PkStrings.cpp:54
+msgctxt "transaction state, removing packages"
+msgid "Removing packages"
+msgstr "Odstraňujú sa balíčky"
+
+#: libapper/PkStrings.cpp:58
+#, kde-format
+msgctxt "transaction state, downloading package files"
+msgid "Downloading at %1/s, %2 remaining"
+msgstr "Sťahuje sa rýchlosťou %1/s, %2 ostáva"
+
+#: libapper/PkStrings.cpp:63
+#, kde-format
+msgctxt "transaction state, downloading package files"
+msgid "Downloading at %1/s"
+msgstr "Sťahuje sa rýchlosťou %1/s"
+
+#: libapper/PkStrings.cpp:67
+#, kde-format
+msgctxt "transaction state, downloading package files"
+msgid "Downloading, %1 remaining"
+msgstr "Sťahuje sa, %1 ostáva"
+
+#: libapper/PkStrings.cpp:71
+msgctxt "transaction state, downloading package files"
+msgid "Downloading"
+msgstr "Sťahujem"
+
+#: libapper/PkStrings.cpp:75
+msgctxt "transaction state, installing packages"
+msgid "Installing packages"
+msgstr "Inštalujú sa balíčky"
+
+#: libapper/PkStrings.cpp:78
+msgctxt "transaction state, refreshing internal lists"
+msgid "Refreshing software list"
+msgstr "Obnovuje sa zoznam softvéru"
+
+#: libapper/PkStrings.cpp:81
+msgctxt "transaction state, installing updates"
+msgid "Updating packages"
+msgstr "Aktualizujú sa balíčky"
+
+#: libapper/PkStrings.cpp:84
+msgctxt "transaction state, removing old packages, and cleaning config files"
+msgid "Cleaning up packages"
+msgstr "Čistia sa balíčky"
+
+#: libapper/PkStrings.cpp:87
+msgctxt "transaction state, obsoleting old packages"
+msgid "Obsoleting packages"
+msgstr "Označujú sa zastarané balíčky"
+
+#: libapper/PkStrings.cpp:90
+msgctxt "transaction state, checking the transaction before we do it"
+msgid "Resolving dependencies"
+msgstr "Riešia sa závislosti"
+
+#: libapper/PkStrings.cpp:93
+msgctxt ""
+"transaction state, checking if we have all the security keys for the "
+"operation"
+msgid "Checking signatures"
+msgstr "Kontrolujú sa podpisy"
+
+#: libapper/PkStrings.cpp:96
+msgctxt "transaction state, when we're doing a test transaction"
+msgid "Testing changes"
+msgstr "Testujú sa zmeny"
+
+#: libapper/PkStrings.cpp:99
+msgctxt "transaction state, when we're writing to the system package database"
+msgid "Committing changes"
+msgstr "Potvrdzujú sa zmeny"
+
+#: libapper/PkStrings.cpp:102
+msgctxt "transaction state, requesting data from a server"
+msgid "Requesting data"
+msgstr "Vyžadovanie dát"
+
+#: libapper/PkStrings.cpp:105
+msgctxt "transaction state, all done!"
+msgid "Finished"
+msgstr "Dokončené"
+
+#: libapper/PkStrings.cpp:108
+msgctxt "transaction state, in the process of cancelling"
+msgid "Cancelling"
+msgstr "Ruší sa"
+
+#: libapper/PkStrings.cpp:111
+msgctxt "transaction state, downloading metadata"
+msgid "Downloading repository information"
+msgstr "Sťahujú sa informácie o repozitároch"
+
+#: libapper/PkStrings.cpp:114
+msgctxt "transaction state, downloading metadata"
+msgid "Downloading list of packages"
+msgstr "Sťahuje sa zoznam balíčkov"
+
+#: libapper/PkStrings.cpp:117
+msgctxt "transaction state, downloading metadata"
+msgid "Downloading file lists"
+msgstr "Sťahuje sa zoznam súborov"
+
+#: libapper/PkStrings.cpp:120
+msgctxt "transaction state, downloading metadata"
+msgid "Downloading lists of changes"
+msgstr "Sťahujú sa zoznamy zmien"
+
+#: libapper/PkStrings.cpp:123
+msgctxt "transaction state, downloading metadata"
+msgid "Downloading groups"
+msgstr "Sťahujú sa skupiny"
+
+#: libapper/PkStrings.cpp:126
+msgctxt "transaction state, downloading metadata"
+msgid "Downloading update information"
+msgstr "Sťahujú sa informácie o aktualizáciách"
+
+#: libapper/PkStrings.cpp:129
+msgctxt "transaction state, repackaging delta files"
+msgid "Repackaging files"
+msgstr "Znovu sa balia súbory"
+
+#: libapper/PkStrings.cpp:132
+msgctxt "transaction state, loading databases"
+msgid "Loading cache"
+msgstr "Načítava sa vyrovnávacia pamäť"
+
+#: libapper/PkStrings.cpp:135
+msgctxt "transaction state, scanning for running processes"
+msgid "Scanning installed applications"
+msgstr "Prehľadávajú sa nainštalované aplikácie"
+
+#: libapper/PkStrings.cpp:138
+msgctxt ""
+"transaction state, generating a list of packages installed on the system"
+msgid "Generating package lists"
+msgstr "Generuje sa zoznam balíčkov"
+
+#: libapper/PkStrings.cpp:141
+msgctxt "transaction state, when we're waiting for the native tools to exit"
+msgid "Waiting for package manager lock"
+msgstr "Čaká sa na zámok správcu balíčkov"
+
+#: libapper/PkStrings.cpp:144
+msgctxt "waiting for user to type in a password"
+msgid "Waiting for authentication"
+msgstr "Čaká sa na overenie"
+
+#: libapper/PkStrings.cpp:147
+msgctxt "we are updating the list of processes"
+msgid "Updating the list of running applications"
+msgstr "Aktualizuje sa zoznam bežiacich aplikácií"
+
+#: libapper/PkStrings.cpp:150
+msgctxt "we are checking executable files in use"
+msgid "Checking for applications currently in use"
+msgstr "Kontrolujú sa aktuálne používané aplikácie"
+
+#: libapper/PkStrings.cpp:153
+msgctxt "we are checking for libraries in use"
+msgid "Checking for libraries currently in use"
+msgstr "Kontrolujú sa aktuálne používané knižnice"
+
+#: libapper/PkStrings.cpp:156
+msgctxt "we are copying package files to prepare to install"
+msgid "Copying files"
+msgstr "Kopírujú sa súbory"
+
+#: libapper/PkStrings.cpp:166
+msgctxt "The action of the package, in past tense"
+msgid "Downloaded"
+msgstr "Stiahnutý"
+
+#: libapper/PkStrings.cpp:168
+msgctxt "The action of the package, in past tense"
+msgid "Updated"
+msgstr "Aktualizovaný"
+
+#: libapper/PkStrings.cpp:170
+msgctxt "The action of the package, in past tense"
+msgid "Installed"
+msgstr "Nainštalovaný"
+
+#: libapper/PkStrings.cpp:172
+msgctxt "The action of the package, in past tense"
+msgid "Removed"
+msgstr "Odstránený"
+
+#: libapper/PkStrings.cpp:174
+msgctxt "The action of the package, in past tense"
+msgid "Cleaned Up"
+msgstr "Vyčistený"
+
+#: libapper/PkStrings.cpp:176
+msgctxt "The action of the package, in past tense"
+msgid "Obsoleted"
+msgstr "Zastaraný"
+
+#: libapper/PkStrings.cpp:188
+msgctxt "The role of the transaction, in present tense"
+msgid "Unknown role type"
+msgstr "Neznámy typ role"
+
+#: libapper/PkStrings.cpp:190
+msgctxt "The role of the transaction, in present tense"
+msgid "Getting dependencies"
+msgstr "Získavajú sa závislosti"
+
+#: libapper/PkStrings.cpp:192
+msgctxt "The role of the transaction, in present tense"
+msgid "Getting update detail"
+msgstr "Získavajú sa detaily o aktualizácii"
+
+#: libapper/PkStrings.cpp:194
+msgctxt "The role of the transaction, in present tense"
+msgid "Getting details"
+msgstr "Získavajú sa detaily"
+
+#: libapper/PkStrings.cpp:196
+msgctxt "The role of the transaction, in present tense"
+msgid "Getting requires"
+msgstr "Získavajú sa požiadavky"
+
+#: libapper/PkStrings.cpp:198
+msgctxt "The role of the transaction, in present tense"
+msgid "Getting updates"
+msgstr "Získavajú sa aktualizácie"
+
+#: libapper/PkStrings.cpp:200
+msgctxt "The role of the transaction, in present tense"
+msgid "Searching details"
+msgstr "Hľadajú sa detaily"
+
+#: libapper/PkStrings.cpp:202
+msgctxt "The role of the transaction, in present tense"
+msgid "Searching for file"
+msgstr "Hľadá sa súbor"
+
+#: libapper/PkStrings.cpp:204
+msgctxt "The role of the transaction, in present tense"
+msgid "Searching groups"
+msgstr "Hľadajú sa skupiny"
+
+#: libapper/PkStrings.cpp:206
+msgctxt "The role of the transaction, in present tense"
+msgid "Searching by package name"
+msgstr "Hľadá sa podľa názvu súboru"
+
+#: libapper/PkStrings.cpp:208
+msgctxt "The role of the transaction, in present tense"
+msgid "Removing"
+msgstr "Odstraňuje sa"
+
+#: libapper/PkStrings.cpp:210
+msgctxt "The role of the transaction, in present tense"
+msgid "Installing"
+msgstr "Inštaluje sa"
+
+#: libapper/PkStrings.cpp:212
+msgctxt "The role of the transaction, in present tense"
+msgid "Installing file"
+msgstr "Inštaluje sa súbor"
+
+#: libapper/PkStrings.cpp:214
+msgctxt "The role of the transaction, in present tense"
+msgid "Refreshing package cache"
+msgstr "Obnovuje sa vyrovnávacia pamäť balíčkov"
+
+#: libapper/PkStrings.cpp:216
+msgctxt "The role of the transaction, in present tense"
+msgid "Updating packages"
+msgstr "Aktualizujú sa balíčky"
+
+#: libapper/PkStrings.cpp:218
+msgctxt "The role of the transaction, in present tense"
+msgid "Canceling"
+msgstr "Ruší sa"
+
+#: libapper/PkStrings.cpp:220
+msgctxt "The role of the transaction, in present tense"
+msgid "Getting list of repositories"
+msgstr "Získava sa zoznam repozitárov"
+
+#: libapper/PkStrings.cpp:222
+msgctxt "The role of the transaction, in present tense"
+msgid "Enabling repository"
+msgstr "Povoľuje sa repozitár"
+
+#: libapper/PkStrings.cpp:224
+msgctxt "The role of the transaction, in present tense"
+msgid "Setting repository data"
+msgstr "Nastavujú sa dáta repozitára"
+
+#: libapper/PkStrings.cpp:226
+msgctxt "The role of the transaction, in present tense"
+msgid "Resolving"
+msgstr "Rieši sa"
+
+#: libapper/PkStrings.cpp:228
+msgctxt "The role of the transaction, in present tense"
+msgid "Getting file list"
+msgstr "Získava sa zoznam súborov"
+
+#: libapper/PkStrings.cpp:230
+msgctxt "The role of the transaction, in present tense"
+msgid "Getting what provides"
+msgstr "Získava sa čo poskytuje"
+
+#: libapper/PkStrings.cpp:232
+msgctxt "The role of the transaction, in present tense"
+msgid "Installing signature"
+msgstr "Inštaluje sa podpis"
+
+#: libapper/PkStrings.cpp:234
+msgctxt "The role of the transaction, in present tense"
+msgid "Getting package lists"
+msgstr "Získava sa zoznam balíčkov"
+
+#: libapper/PkStrings.cpp:236
+msgctxt "The role of the transaction, in present tense"
+msgid "Accepting EULA"
+msgstr "Prijíma sa EULA"
+
+#: libapper/PkStrings.cpp:238
+msgctxt "The role of the transaction, in present tense"
+msgid "Downloading packages"
+msgstr "Sťahujú sa balíčky"
+
+#: libapper/PkStrings.cpp:240
+msgctxt "The role of the transaction, in present tense"
+msgid "Getting distribution upgrade information"
+msgstr "Získavajú sa informácie o aktualizácii distribúcie"
+
+#: libapper/PkStrings.cpp:242
+msgctxt "The role of the transaction, in present tense"
+msgid "Getting categories"
+msgstr "Získavajú sa kategórie"
+
+#: libapper/PkStrings.cpp:244
+msgctxt "The role of the transaction, in present tense"
+msgid "Getting old transactions"
+msgstr "Získavajú sa staré transakcie"
+
+#: libapper/PkStrings.cpp:246
+msgctxt "The role of the transaction, in present tense"
+msgid "Upgrading system"
+msgstr "Upgraduje sa systém"
+
+#: libapper/PkStrings.cpp:248
+msgctxt "The role of the transaction, in present tense"
+msgid "Repairing system"
+msgstr "Opravuje sa systém"
+
+#: libapper/PkStrings.cpp:258
+msgctxt "The role of the transaction, in past tense"
+msgid "Unknown role type"
+msgstr "Neznámy typ role"
+
+#: libapper/PkStrings.cpp:260
+msgctxt "The role of the transaction, in past tense"
+msgid "Got dependencies"
+msgstr "Získané závislosti"
+
+#: libapper/PkStrings.cpp:262
+msgctxt "The role of the transaction, in past tense"
+msgid "Got update detail"
+msgstr "Získané detaily o aktualizácii"
+
+#: libapper/PkStrings.cpp:264
+msgctxt "The role of the transaction, in past tense"
+msgid "Got details"
+msgstr "Získané detaily"
+
+#: libapper/PkStrings.cpp:266
+msgctxt "The role of the transaction, in past tense"
+msgid "Got requires"
+msgstr "Získané požiadavky"
+
+#: libapper/PkStrings.cpp:268
+msgctxt "The role of the transaction, in past tense"
+msgid "Got updates"
+msgstr "Získané aktualizácie"
+
+#: libapper/PkStrings.cpp:270
+msgctxt "The role of the transaction, in past tense"
+msgid "Searched for package details"
+msgstr "Nájdené detaily o balíčku"
+
+#: libapper/PkStrings.cpp:272
+msgctxt "The role of the transaction, in past tense"
+msgid "Searched for file"
+msgstr "Nájdený súbor"
+
+#: libapper/PkStrings.cpp:274
+msgctxt "The role of the transaction, in past tense"
+msgid "Searched groups"
+msgstr "Nájdené skupiny"
+
+#: libapper/PkStrings.cpp:276
+msgctxt "The role of the transaction, in past tense"
+msgid "Searched for package name"
+msgstr "Nájdený názov balíčka"
+
+#: libapper/PkStrings.cpp:278
+msgctxt "The role of the transaction, in past tense"
+msgid "Removed packages"
+msgstr "Odstránené balíčky"
+
+#: libapper/PkStrings.cpp:280
+msgctxt "The role of the transaction, in past tense"
+msgid "Installed packages"
+msgstr "Nainštalované balíčky"
+
+#: libapper/PkStrings.cpp:282
+msgctxt "The role of the transaction, in past tense"
+msgid "Installed local files"
+msgstr "Nainštalované lokálne súbory"
+
+#: libapper/PkStrings.cpp:284
+msgctxt "The role of the transaction, in past tense"
+msgid "Refreshed package cache"
+msgstr "Obnovená vyrovnávacia pamäť balíčkov"
+
+#: libapper/PkStrings.cpp:286
+msgctxt "The role of the transaction, in past tense"
+msgid "Updated packages"
+msgstr "Aktualizované balíčky"
+
+#: libapper/PkStrings.cpp:288
+msgctxt "The role of the transaction, in past tense"
+msgid "Canceled"
+msgstr "Zrušené"
+
+#: libapper/PkStrings.cpp:290
+msgctxt "The role of the transaction, in past tense"
+msgid "Got list of repositories"
+msgstr "Získaný zoznam repozitárov"
+
+#: libapper/PkStrings.cpp:292
+msgctxt "The role of the transaction, in past tense"
+msgid "Enabled repository"
+msgstr "Povolený repozitár"
+
+#: libapper/PkStrings.cpp:294
+msgctxt "The role of the transaction, in past tense"
+msgid "Set repository data"
+msgstr "Nastavené dáta repozitára"
+
+#: libapper/PkStrings.cpp:296
+msgctxt "The role of the transaction, in past tense"
+msgid "Resolved"
+msgstr "Vyriešené"
+
+#: libapper/PkStrings.cpp:298
+msgctxt "The role of the transaction, in past tense"
+msgid "Got file list"
+msgstr "Získaný zoznam súborov"
+
+#: libapper/PkStrings.cpp:300
+msgctxt "The role of the transaction, in past tense"
+msgid "Got what provides"
+msgstr "Získané čo poskytuje"
+
+#: libapper/PkStrings.cpp:302
+msgctxt "The role of the transaction, in past tense"
+msgid "Installed signature"
+msgstr "Nainštalovaný podpis"
+
+#: libapper/PkStrings.cpp:304
+msgctxt "The role of the transaction, in past tense"
+msgid "Got package lists"
+msgstr "Získaný zoznam balíčkov"
+
+#: libapper/PkStrings.cpp:306
+msgctxt "The role of the transaction, in past tense"
+msgid "Accepted EULA"
+msgstr "Prijatá EULA"
+
+#: libapper/PkStrings.cpp:308
+msgctxt "The role of the transaction, in past tense"
+msgid "Downloaded packages"
+msgstr "Stiahnuté balíčky"
+
+#: libapper/PkStrings.cpp:310
+msgctxt "The role of the transaction, in past tense"
+msgid "Got distribution upgrades"
+msgstr "Získané aktualizácie distribúcie"
+
+#: libapper/PkStrings.cpp:312
+msgctxt "The role of the transaction, in past tense"
+msgid "Got categories"
+msgstr "Získané kategórie"
+
+#: libapper/PkStrings.cpp:314
+msgctxt "The role of the transaction, in past tense"
+msgid "Got old transactions"
+msgstr "Získané staré transakcie"
+
+#: libapper/PkStrings.cpp:316
+msgctxt "The role of the transaction, in past tense"
+msgid "Upgraded system"
+msgstr "Systém upgradovaný"
+
+#: libapper/PkStrings.cpp:318
+msgctxt "The role of the transaction, in past tense"
+msgid "Repaired system"
+msgstr "Systém opravený"
+
+#: libapper/PkStrings.cpp:328
+msgid "Downloading"
+msgstr "Sťahuje sa"
+
+#: libapper/PkStrings.cpp:330
+msgid "Updating"
+msgstr "Aktualizuje sa"
+
+#: libapper/PkStrings.cpp:332
+msgid "Installing"
+msgstr "Inštaluje sa"
+
+#: libapper/PkStrings.cpp:334
+msgid "Removing"
+msgstr "Odstraňuje sa"
+
+#: libapper/PkStrings.cpp:336
+msgid "Cleaning up"
+msgstr "Čistí sa"
+
+#: libapper/PkStrings.cpp:338
+msgid "Obsoleting"
+msgstr "Označuje sa ako zastaraný"
+
+#: libapper/PkStrings.cpp:340
+msgid "Reinstalling"
+msgstr "Znovu sa inštaluje"
+
+#: libapper/PkStrings.cpp:342
+msgid "Preparing"
+msgstr "Pripravujem"
+
+#: libapper/PkStrings.cpp:344
+msgid "Decompressing"
+msgstr "Rozbaľuje sa"
+
+#: libapper/PkStrings.cpp:355
+msgid "Downloaded"
+msgstr "Stiahnuté"
+
+#: libapper/PkStrings.cpp:357
+msgid "Updated"
+msgstr "Aktualizované"
+
+#: libapper/PkStrings.cpp:361
+msgid "Removed"
+msgstr "Odstránené"
+
+#: libapper/PkStrings.cpp:363
+msgid "Cleaned up"
+msgstr "Vyčistené"
+
+#: libapper/PkStrings.cpp:365
+msgid "Obsoleted"
+msgstr "Zastarané"
+
+#: libapper/PkStrings.cpp:367
+msgid "Reinstalled"
+msgstr "Znovu nainštalované"
+
+#: libapper/PkStrings.cpp:369
+msgid "Prepared"
+msgstr "Pripravené"
+
+#: libapper/PkStrings.cpp:371
+msgid "Decompressed"
+msgstr "Rozbalené"
+
+#: libapper/PkStrings.cpp:382
+msgid "No network connection available"
+msgstr "Nie je dostupné sieťové pripojenie"
+
+#: libapper/PkStrings.cpp:384
+msgid "No package cache is available"
+msgstr "Nie je dostupná vyrovnávacia pamäť balíčkov"
+
+#: libapper/PkStrings.cpp:386
+msgid "Out of memory"
+msgstr "Nedostatok pamäte"
+
+#: libapper/PkStrings.cpp:388
+msgid "Failed to create a thread"
+msgstr "Nepodarilo sa vytvoriť vlákno"
+
+#: libapper/PkStrings.cpp:390
+msgid "Not supported by this backend"
+msgstr "Nie je podporované týmto backendom"
+
+#: libapper/PkStrings.cpp:392
+msgid "An internal system error has occurred"
+msgstr "Nastala vnútorná systémová chyba"
+
+#: libapper/PkStrings.cpp:394
+msgid "A security trust relationship is not present"
+msgstr "Bezpečnostný vzťah dôvery nie je k dispozícii"
+
+#: libapper/PkStrings.cpp:396
+msgid "The package is not installed"
+msgstr "Balíček nie je nainštalovaný"
+
+#: libapper/PkStrings.cpp:398
+msgid "The package was not found"
+msgstr "Balíček nebol nájdený"
+
+#: libapper/PkStrings.cpp:400
+msgid "The package is already installed"
+msgstr "Balíček je už nainštalovaný"
+
+#: libapper/PkStrings.cpp:402
+msgid "The package download failed"
+msgstr "Stiahnutie balíčka zlyhalo"
+
+#: libapper/PkStrings.cpp:404
+msgid "The group was not found"
+msgstr "Skupina nebola nájdená"
+
+#: libapper/PkStrings.cpp:406
+msgid "The group list was invalid"
+msgstr "Zoznam skupín bol neplatný"
+
+#: libapper/PkStrings.cpp:408
+msgid "Dependency resolution failed"
+msgstr "Riešenie závislostí zlyhalo"
+
+#: libapper/PkStrings.cpp:410
+msgid "Search filter was invalid"
+msgstr "Filter hľadania bol neplatný"
+
+#: libapper/PkStrings.cpp:412
+msgid "The package identifier was not well formed"
+msgstr "Identifikátor balíčka nie je v správnom formáte"
+
+#: libapper/PkStrings.cpp:414
+msgid "Transaction error"
+msgstr "Chyba transakcie"
+
+#: libapper/PkStrings.cpp:416
+msgid "Repository name was not found"
+msgstr "Názov repozitára nebol nájdený"
+
+#: libapper/PkStrings.cpp:418
+msgid "Could not remove a protected system package"
+msgstr "Nepodarilo sa odstrániť chránený systémový balíček"
+
+#: libapper/PkStrings.cpp:420
+msgid "The task was canceled"
+msgstr "Úloha bola zrušená"
+
+#: libapper/PkStrings.cpp:422
+msgid "The task was forcibly canceled"
+msgstr "Úloha bola násilne zrušená"
+
+#: libapper/PkStrings.cpp:424
+msgid "Reading the config file failed"
+msgstr "Čítanie konfiguračného súboru zlyhalo"
+
+#: libapper/PkStrings.cpp:426
+msgid "The task cannot be cancelled"
+msgstr "Úloha nemôže byť zrušená"
+
+#: libapper/PkStrings.cpp:428
+msgid "Source packages cannot be installed"
+msgstr "Zdrojové balíčky nemôžu byť nainštalované"
+
+#: libapper/PkStrings.cpp:430
+msgid "The license agreement failed"
+msgstr "Licenčná zmluva zlyhala"
+
+#: libapper/PkStrings.cpp:432
+msgid "Local file conflict between packages"
+msgstr "Konflikt lokálneho súboru medzi balíčkami"
+
+#: libapper/PkStrings.cpp:434
+msgid "Packages are not compatible"
+msgstr "Balíčky nie sú kompatibilné"
+
+#: libapper/PkStrings.cpp:436
+msgid "Problem connecting to a software origin"
+msgstr "Problém pri pripájaní k zdroju softvéru"
+
+#: libapper/PkStrings.cpp:438
+msgid "Failed to initialize"
+msgstr "Inicializácia zlyhala"
+
+#: libapper/PkStrings.cpp:440
+msgid "Failed to finalize"
+msgstr "Dokončenie zlyhalo"
+
+#: libapper/PkStrings.cpp:442
+msgid "Cannot get lock"
+msgstr "Nie je možné získať zámok"
+
+#: libapper/PkStrings.cpp:444
+msgid "No packages to update"
+msgstr "Žiadne balíčky na aktualizáciu"
+
+#: libapper/PkStrings.cpp:446
+msgid "Cannot write repository configuration"
+msgstr "Nie je možné zapísať konfiguráciu repozitára"
+
+#: libapper/PkStrings.cpp:448
+msgid "Local install failed"
+msgstr "Lokálna inštalácia zlyhala"
+
+#: libapper/PkStrings.cpp:450
+msgid "Bad GPG signature"
+msgstr "Zlý GPG podpis"
+
+#: libapper/PkStrings.cpp:452
+msgid "Missing GPG signature"
+msgstr "Chýbajúci GPG podpis"
+
+#: libapper/PkStrings.cpp:454
+msgid "Repository configuration invalid"
+msgstr "Konfigurácia repozitára je neplatná"
+
+#: libapper/PkStrings.cpp:456
+msgid "Invalid package file"
+msgstr "Neplatný súbor balíčka"
+
+#: libapper/PkStrings.cpp:458
+msgid "Package install blocked"
+msgstr "Inštalácia balíčka zablokovaná"
+
+#: libapper/PkStrings.cpp:460
+msgid "Package is corrupt"
+msgstr "Balíček je poškodený"
+
+#: libapper/PkStrings.cpp:462
+msgid "All packages are already installed"
+msgstr "Všetky balíčky sú už nainštalované"
+
+#: libapper/PkStrings.cpp:464
+msgid "The specified file could not be found"
+msgstr "Zadaný súbor sa nepodarilo nájsť"
+
+#: libapper/PkStrings.cpp:466
+msgid "No more mirrors are available"
+msgstr "Nie sú dostupné ďalšie zrkadlá"
+
+#: libapper/PkStrings.cpp:468
+msgid "No distribution upgrade data is available"
+msgstr "Nie sú dostupné dáta k aktualizácii distribúcie"
+
+#: libapper/PkStrings.cpp:470
+msgid "Package is incompatible with this system"
+msgstr "Balíček je nekompatibilný s týmto systémom"
+
+#: libapper/PkStrings.cpp:472
+msgid "No space is left on the disk"
+msgstr "Na disku nie je dostatok miesta"
+
+#: libapper/PkStrings.cpp:474 libapper/PkTransaction.cpp:418
+msgid "A media change is required"
+msgstr "Je vyžadovaná zmena média"
+
+#: libapper/PkStrings.cpp:476
+msgid "Authorization failed"
+msgstr "Overenie zlyhalo"
+
+#: libapper/PkStrings.cpp:478
+msgid "Update not found"
+msgstr "Aktualizácia nenájdená"
+
+#: libapper/PkStrings.cpp:480
+msgid "Cannot install from untrusted origin"
+msgstr "Nie je možné inštalovať z nedôveryhodného zdroja"
+
+#: libapper/PkStrings.cpp:482
+msgid "Cannot update from untrusted origin"
+msgstr "Nie je možné aktualizovať z nedôveryhodného zdroja"
+
+#: libapper/PkStrings.cpp:484
+msgid "Cannot get the file list"
+msgstr "Nie je možné získať zoznam súborov"
+
+#: libapper/PkStrings.cpp:486
+msgid "Cannot get package requires"
+msgstr "Nie je možné získať požiadavky balíčka"
+
+#: libapper/PkStrings.cpp:488
+msgid "Cannot disable origin"
+msgstr "Nie je možné zakázať zdroj"
+
+#: libapper/PkStrings.cpp:490
+msgid "The download failed"
+msgstr "Sťahovanie zlyhalo"
+
+#: libapper/PkStrings.cpp:492
+msgid "Package failed to configure"
+msgstr "Konfigurácia balíčka zlyhala"
+
+#: libapper/PkStrings.cpp:494
+msgid "Package failed to build"
+msgstr "Zostavenie balíčka zlyhalo"
+
+#: libapper/PkStrings.cpp:496
+msgid "Package failed to install"
+msgstr "Inštalácia balíčka zlyhala"
+
+#: libapper/PkStrings.cpp:498
+msgid "Package failed to be removed"
+msgstr "Odstránenie balíčka zlyhalo"
+
+#: libapper/PkStrings.cpp:500
+msgid "Update failed due to running process"
+msgstr "Aktualizácia zlyhala kvôli bežiacemu procesu"
+
+#: libapper/PkStrings.cpp:502
+msgid "The package database was changed"
+msgstr "Databáza balíčkov sa zmenila"
+
+#: libapper/PkStrings.cpp:504
+msgid "Virtual provide type is not supported"
+msgstr "Virtuálne poskytovanie nie je podporované"
+
+#: libapper/PkStrings.cpp:506
+msgid "Install root is invalid"
+msgstr "Inštalačný koreň je neplatný"
+
+#: libapper/PkStrings.cpp:508
+msgid "Cannot fetch install sources"
+msgstr "Nie je možné získať inštalačné zdroje"
+
+#: libapper/PkStrings.cpp:510
+msgid "Rescheduled due to priority"
+msgstr "Preplánované kvôli priorite"
+
+#: libapper/PkStrings.cpp:512
+msgid "Unfinished transaction"
+msgstr "Nedokončená transakcia"
+
+#: libapper/PkStrings.cpp:514
+msgid "Lock required"
+msgstr "Vyžaduje sa zámok"
+
+#: libapper/PkStrings.cpp:516
+msgid "Unknown error"
+msgstr "Neznáma chyba"
+
+#: libapper/PkStrings.cpp:526
+msgid ""
+"There is no network connection available.\n"
+"Please check your connection settings and try again"
+msgstr ""
+"Nie je dostupné sieťové pripojenie.\n"
+"Prosím skontrolujte nastavenie pripojenia a skúste to znovu"
+
+#: libapper/PkStrings.cpp:529
+msgid ""
+"The package list needs to be rebuilt.\n"
+"This should have been done by the backend automatically."
+msgstr ""
+"Je potrebné znovu zostaviť zoznam balíčkov.\n"
+"To by mal spraviť automaticky backend."
+
+#: libapper/PkStrings.cpp:532
+msgid ""
+"The service that is responsible for handling user requests is out of "
+"memory.\n"
+"Please close some programs or restart your computer."
+msgstr ""
+"Služba, ktorá je zodpovedná za spracovanie užívateľských požiadaviek, má "
+"nedostatok pamäte.\n"
+"Prosím ukončite niektoré programy alebo reštartujte svoj počítač."
+
+#: libapper/PkStrings.cpp:535
+msgid "A thread could not be created to service the user request."
+msgstr "Vlákno pre obsluhu užívateľských požiadaviek sa nepodarilo vytvoriť."
+
+#: libapper/PkStrings.cpp:537
+msgid ""
+"The action is not supported by this backend.\n"
+"Please report a bug as this should not have happened."
+msgstr ""
+"Akcia nie je týmto backendom podporovaná.\n"
+"Prosím nahláste chybu, pretože toto by sa nemalo stať."
+
+#: libapper/PkStrings.cpp:540
+msgid ""
+"A problem that we were not expecting has occurred.\n"
+"Please report this bug with the error description."
+msgstr ""
+"Nastal neočakávaný problém.\n"
+"Prosím nahláste chybu s popisom problému."
+
+#: libapper/PkStrings.cpp:543
+msgid ""
+"A security trust relationship could not be made with the software origin.\n"
+"Please check your software signature settings."
+msgstr ""
+"Nepodarilo sa vytvoriť bezpečnostný vzťah dôvery so zdrojom softvéru.\n"
+"Prosím skontrolujte svoje nastavenie softvérových podpisov."
+
+#: libapper/PkStrings.cpp:546
+msgid ""
+"The package that is trying to be removed or updated is not already installed."
+msgstr ""
+"Balíček, ktorý má byť odstránený alebo aktualizovaný, už nie je "
+"nainštalovaný."
+
+#: libapper/PkStrings.cpp:548
+msgid ""
+"The package that is being modified was not found on your system or in any "
+"software origin."
+msgstr ""
+"Balíček, ktorý má byť zmenený, nebol nájdený vo vašom systéme ani v žiadnom "
+"zdroji softvéru."
+
+#: libapper/PkStrings.cpp:550
+msgid "The package that is trying to be installed is already installed."
+msgstr "Balíček, ktorý má byť nainštalovaný, je už nainštalovaný."
+
+#: libapper/PkStrings.cpp:552
+msgid ""
+"The package download failed.\n"
+"Please check your network connectivity."
+msgstr ""
+"Stiahnutie balíčka zlyhalo.\n"
+"Prosím skontrolujte svoje sieťové pripojenie."
+
+#: libapper/PkStrings.cpp:555
+msgid ""
+"The group type was not found.\n"
+"Please check your group list and try again."
+msgstr ""
+"Typ skupiny nebol nájdený.\n"
+"Prosím skontrolujte svoj zoznam skupín a skúste to znovu."
+
+#: libapper/PkStrings.cpp:558
+msgid ""
+"The group list could not be loaded.\n"
+"Refreshing your cache may help, although this is normally a software origin "
+"error."
+msgstr ""
+"Zoznam skupín sa nepodarilo načítať.\n"
+"Obnovenie vyrovnávacej pamäte môže pomôcť, hoci je toto obvykle chyba zdroja "
+"softvéru."
+
+#: libapper/PkStrings.cpp:562
+msgid ""
+"A package dependency could not be found.\n"
+"More information is available in the detailed report."
+msgstr ""
+"Závislosť balíčka sa nepodarilo nájsť.\n"
+"Viac informácií je dostupných v detailnej správe."
+
+#: libapper/PkStrings.cpp:565
+msgid "The search filter was not correctly formed."
+msgstr "Filter hľadania nebol zadaný správne."
+
+#: libapper/PkStrings.cpp:567
+msgid ""
+"The package identifier was not well formed when sent to the system daemon.\n"
+"This normally indicates an internal bug and should be reported."
+msgstr ""
+"Identifikátor balíčka nebol správne zadaný pri posielaní systémovému "
+"démonu.\n"
+"Toto obvykle naznačuje internú chybu a mala by byť nahlásená."
+
+#: libapper/PkStrings.cpp:570
+msgid ""
+"An error occurred while running the transaction.\n"
+"More information is available in the detailed report."
+msgstr ""
+"Nastala chyba počas behu transakcie.\n"
+"Viac informácií je dostupných v detailnej správe."
+
+#: libapper/PkStrings.cpp:573
+msgid ""
+"The remote software origin name was not found.\n"
+"You may need to enable an item in Software Origins."
+msgstr ""
+"Názov vzdialeného zdroja softvéru nebol nájdený.\n"
+"Možno bude treba povoliť túto položku v Zdrojoch softvéru."
+
+#: libapper/PkStrings.cpp:576
+msgid "Removing a protected system package is not allowed."
+msgstr "Odstránenie chráneného systémového balíčka nie je povolené."
+
+#: libapper/PkStrings.cpp:578
+msgid "The task was canceled successfully and no packages were changed."
+msgstr "Úloha bola úspešne zrušená a neboli zmenené žiadne balíčky."
+
+#: libapper/PkStrings.cpp:580
+msgid ""
+"The task was canceled successfully and no packages were changed.\n"
+"The backend did not exit cleanly."
+msgstr ""
+"Úloha bola úspešne zrušená a neboli zmenené žiadne balíčky.\n"
+"Backend ale nebol korektne ukončený."
+
+#: libapper/PkStrings.cpp:583
+msgid ""
+"The native package configuration file could not be opened.\n"
+"Please make sure your system's configuration is valid."
+msgstr ""
+"Natívny konfiguračný súbor sa nepodarilo otvoriť.\n"
+"Prosím skontrolujte, či je systémové nastavenie v poriadku."
+
+#: libapper/PkStrings.cpp:586
+msgid "The task is not safe to be cancelled at this time."
+msgstr "V tejto chvíli nie je bezpečné zrušiť úlohu."
+
+#: libapper/PkStrings.cpp:588
+msgid ""
+"Source packages are not normally installed this way.\n"
+"Check the extension of the file you are trying to install."
+msgstr ""
+"Zdrojové balíčky sa obvykle neinštalujú týmto spôsobom.\n"
+"Skontrolujte príponu súboru, ktorý sa pokúšate nainštalovať."
+
+#: libapper/PkStrings.cpp:591
+msgid ""
+"The license agreement was not agreed to.\n"
+"To use this software you have to accept the license."
+msgstr ""
+"Nebola potvrdená licenčná zmluva.\n"
+"Ak chcete používať tento softvér, musíte prijať licenciu."
+
+#: libapper/PkStrings.cpp:594
+msgid ""
+"Two packages provide the same file.\n"
+"This is usually due to mixing packages for different software origins."
+msgstr ""
+"Dva balíčky poskytujú rovnaký súbor.\n"
+"Toto je obvykle kvôli miešaniu balíčkov z rôznych zdrojov softvéru."
+
+#: libapper/PkStrings.cpp:597
+msgid ""
+"Multiple packages exist that are not compatible with each other.\n"
+"This is usually due to mixing packages from different software origins."
+msgstr ""
+"Existuje viacero balíčkov, ktoré nie sú navzájom kompatibilné.\n"
+"Toto je obvykle kvôli miešaniu balíčkov z rôznych zdrojov softvéru."
+
+#: libapper/PkStrings.cpp:600
+msgid ""
+"There was a (possibly temporary) problem connecting to a software origins.\n"
+"Please check the detailed error for further details."
+msgstr ""
+"Nastal (pravdepodobne dočasný) problém s pripojením k zdroju softvéru.\n"
+"Pre viac detailov, prosím skontrolujte detailné chybové hlásenie."
+
+#: libapper/PkStrings.cpp:603
+msgid ""
+"Failed to initialize packaging backend.\n"
+"This may occur if other packaging tools are being used simultaneously."
+msgstr ""
+"Nepodarilo sa inicializovať balíčkovací backend.\n"
+"Toto môže nastať, ak sú súčasne používané rôzne balíčkovacie nástroje."
+
+#: libapper/PkStrings.cpp:606
+msgid ""
+"Failed to close down the backend instance.\n"
+"This error can normally be ignored."
+msgstr ""
+"Nepodarilo sa zatvoriť inštanciu backendu.\n"
+"Táto chyba môže byť obvykle ignorovaná."
+
+#: libapper/PkStrings.cpp:609
+msgid ""
+"Cannot get the exclusive lock on the packaging backend.\n"
+"Please close any other legacy packaging tools that may be open."
+msgstr ""
+"Nie je možné získať výhradný zámok na balíčkovací backend.\n"
+"Prosím ukončite všetky ostatné balíčkovacie nástroje, ktoré môžu byť "
+"otvorené."
+
+#: libapper/PkStrings.cpp:612
+msgid "None of the selected packages could be updated."
+msgstr "Žiadny z vybraných balíčkov sa nepodarilo aktualizovať."
+
+#: libapper/PkStrings.cpp:614
+msgid "The repository configuration could not be modified."
+msgstr "Nastavenie repozitára sa nepodarilo zmeniť."
+
+#: libapper/PkStrings.cpp:616
+msgid ""
+"Installing the local file failed.\n"
+"More information is available in the detailed report."
+msgstr ""
+"Inštalácia lokálneho súboru zlyhala.\n"
+"Viac informácií je dostupných v detailnej správe."
+
+#: libapper/PkStrings.cpp:619
+msgid "The package signature could not be verified."
+msgstr "Podpis balíčka sa nepodarilo overiť."
+
+#: libapper/PkStrings.cpp:621
+msgid ""
+"The package signature was missing and this package is untrusted.\n"
+"This package was not signed with a GPG key when created."
+msgstr ""
+"Chýba podpis balíčka, a preto je tento balíček nedôveryhodný.\n"
+"Tento balíček nebol pri vytváraní podpísaný GPG kľúčom."
+
+#: libapper/PkStrings.cpp:624
+msgid "Repository configuration was invalid and could not be read."
+msgstr "Nastavenie repozitára je neplatné a nemôže byť načítané."
+
+#: libapper/PkStrings.cpp:626
+msgid ""
+"The package you are attempting to install is not valid.\n"
+"The package file could be corrupt, or not a proper package."
+msgstr ""
+"Balíček, ktorý sa pokúšate nainštalovať, je neplatný.\n"
+"Súbor balíčku môže byť poškodený, alebo nie je balíčkom."
+
+#: libapper/PkStrings.cpp:629
+msgid ""
+"Installation of this package was prevented by your packaging system's "
+"configuration."
+msgstr ""
+"Nastavenie vášho balíčkovacieho systému zabránilo inštalácii tohto balíčka."
+
+#: libapper/PkStrings.cpp:631
+msgid ""
+"The package that was downloaded is corrupt and needs to be downloaded again."
+msgstr ""
+"Balíček, ktorý bol stiahnutý, je poškodený a je potrebné ho stiahnuť znovu."
+
+#: libapper/PkStrings.cpp:633
+msgid ""
+"All of the packages selected for install are already installed on the system."
+msgstr "Všetky balíčky vybrané na inštaláciu sú už v systéme nainštalované."
+
+#: libapper/PkStrings.cpp:635
+msgid ""
+"The specified file could not be found on the system.\n"
+"Check that the file still exists and has not been deleted."
+msgstr ""
+"Zadaný súbor sa nepodarilo nájsť v systéme.\n"
+"Skontrolujte, či súbor stále existuje a nebol odstránený."
+
+#: libapper/PkStrings.cpp:638
+msgid ""
+"Required data could not be found on any of the configured software origins.\n"
+"There were no more download mirrors that could be tried."
+msgstr ""
+"Požadované dáta sa nepodarilo nájsť v žiadnom z nastavených zdrojov "
+"softvéru.\n"
+"Nie je dostupné žiadne ďalšie zrkadlo, ktoré by sa dalo vyskúšať."
+
+#: libapper/PkStrings.cpp:641
+msgid ""
+"Required upgrade data could not be found in any of the configured software "
+"origins.\n"
+"The list of distribution upgrades will be unavailable."
+msgstr ""
+"Požadované dáta sa nepodarilo nájsť v žiadnom z nastavených zdrojov "
+"softvéru.\n"
+"Zoznam aktualizácií pre distribúciu nebude dostupný."
+
+#: libapper/PkStrings.cpp:644
+msgid ""
+"The package that is trying to be installed is incompatible with this system."
+msgstr ""
+"Balíček, ktorý má byť nainštalovaný, nie je kompatibilný s týmto systémom."
+
+#: libapper/PkStrings.cpp:646
+msgid ""
+"There is insufficient space on the device.\n"
+"Free some space on the system disk to perform this operation."
+msgstr ""
+"Na zariadení nie je dostatok miesta.\n"
+"Uvoľnite miesto na systémovom disku na vykonanie tejto operácie."
+
+#: libapper/PkStrings.cpp:649
+msgid "Additional media is required to complete the transaction."
+msgstr "Na dokončenie tejto transakcie je vyžadované ďalšie médium."
+
+#: libapper/PkStrings.cpp:651
+msgid ""
+"You have failed to provide correct authentication.\n"
+"Please check any passwords or account settings."
+msgstr ""
+"Nepodarilo sa overiť vašu totožnosť.\n"
+"Prosím skontrolujte heslá alebo nastavenie konta."
+
+#: libapper/PkStrings.cpp:654
+msgid ""
+"The specified update could not be found.\n"
+"It could have already been installed or no longer available on the remote "
+"server."
+msgstr ""
+"Zadanú aktualizáciu sa nepodarilo nájsť.\n"
+"Môže byť už nainštalovaná alebo nedostupná na vzdialenom servery."
+
+#: libapper/PkStrings.cpp:657
+msgid "The package could not be installed from untrusted origin."
+msgstr "Nepodarilo sa nainštalovať balíček z nedôveryhodného zdroja."
+
+#: libapper/PkStrings.cpp:659
+msgid "The package could not be updated from untrusted origin."
+msgstr "Nepodarilo sa aktualizovať balíček z nedôveryhodného zdroja."
+
+#: libapper/PkStrings.cpp:661
+msgid "The file list is not available for this package."
+msgstr "Pre tento balíček nie je dostupný zoznam súborov."
+
+#: libapper/PkStrings.cpp:663
+msgid "The information about what requires this package could not be obtained."
+msgstr "Nepodarilo sa získať informácie o požiadavkách tohto balíčka."
+
+#: libapper/PkStrings.cpp:665
+msgid "The specified software origin could not be disabled."
+msgstr "Nepodarilo sa zakázať zadaný zdroj softvéru."
+
+#: libapper/PkStrings.cpp:667
+msgid ""
+"The download could not be done automatically and should be done manually.\n"
+"More information is available in the detailed report."
+msgstr ""
+"Sťahovanie sa nepodarilo vykonať automaticky a malo by byť vykonané "
+"manuálne.\n"
+"Viac informácií je dostupných v detailnej správe."
+
+#: libapper/PkStrings.cpp:670
+msgid ""
+"One of the selected packages failed to configure correctly.\n"
+"More information is available in the detailed report."
+msgstr ""
+"Jeden z vybraných balíčkov sa nepodarilo správne nastaviť.\n"
+"Viac informácií je dostupných v detailnej správe."
+
+#: libapper/PkStrings.cpp:673
+msgid ""
+"One of the selected packages failed to build correctly.\n"
+"More information is available in the detailed report."
+msgstr ""
+"Jeden z vybraných balíčkov sa nepodarilo správne zostaviť.\n"
+"Viac informácií je dostupných v detailnej správe."
+
+#: libapper/PkStrings.cpp:676
+msgid ""
+"One of the selected packages failed to install correctly.\n"
+"More information is available in the detailed report."
+msgstr ""
+"Jeden z vybraných balíčkov sa nepodarilo správne nainštalovať.\n"
+"Viac informácií je dostupných v detailnej správe."
+
+#: libapper/PkStrings.cpp:679
+msgid ""
+"One of the selected packages failed to be removed correctly.\n"
+"More information is available in the detailed report."
+msgstr ""
+"Jeden z vybraných balíčkov sa nepodarilo správne odstrániť.\n"
+"Viac informácií je dostupných v detailnej správe."
+
+#: libapper/PkStrings.cpp:682
+msgid ""
+"A program is running that has to be closed before the update can proceed.\n"
+"More information is available in the detailed report."
+msgstr ""
+"Pred pokračovaním aktualizácie je potrebné uzavrieť bežiaci program.\n"
+"Viac informácií je dostupných v detailnej správe."
+
+#: libapper/PkStrings.cpp:685
+msgid "The package database was changed while the request was running."
+msgstr "Databáza balíčkov sa zmenila počas vykonávania požiadavky."
+
+#: libapper/PkStrings.cpp:687
+msgid "The virtual provide type is not supported by this system."
+msgstr "Virtuálne poskytovanie nie je podporované systémom"
+
+#: libapper/PkStrings.cpp:689
+msgid "The install root is invalid. Please contact your administrator."
+msgstr "Inštalačný koreň je neplatný. Prosím kontaktuje správcu systému."
+
+#: libapper/PkStrings.cpp:691
+msgid "The list of software could not be downloaded."
+msgstr "Nepodarilo sa stiahnuť zoznam softvéru."
+
+#: libapper/PkStrings.cpp:693
+msgid ""
+"The transaction has been cancelled and will be retried when the system is "
+"idle."
+msgstr "Transakcia bola prerušená a spustená bude až bude systém nečinný."
+
+#: libapper/PkStrings.cpp:695
+msgid "A previous package management transaction was interrupted."
+msgstr "Predošlá transakcia správy balíkov bola prerušená."
+
+#: libapper/PkStrings.cpp:697
+msgid "A package manager lock is required."
+msgstr "Vyžaduje sa zámok správcu balíkov."
+
+#: libapper/PkStrings.cpp:699
+msgid ""
+"Unknown error, please report a bug.\n"
+"More information is available in the detailed report."
+msgstr ""
+"Neznáma chyba, prosím nahláste chybu.\n"
+"Viac informácií je dostupných v detailnej správe."
+
+#: libapper/PkStrings.cpp:710
+msgctxt "The group type"
+msgid "Accessibility"
+msgstr "Prístupnosť"
+
+#: libapper/PkStrings.cpp:712
+msgctxt "The group type"
+msgid "Accessories"
+msgstr "Príslušenstvo"
+
+#: libapper/PkStrings.cpp:714
+msgctxt "The group type"
+msgid "Education"
+msgstr "Vzdelanie"
+
+#: libapper/PkStrings.cpp:716
+msgctxt "The group type"
+msgid "Games"
+msgstr "Hry"
+
+#: libapper/PkStrings.cpp:718
+msgctxt "The group type"
+msgid "Graphics"
+msgstr "Grafika"
+
+#: libapper/PkStrings.cpp:720
+msgctxt "The group type"
+msgid "Internet"
+msgstr "Internet"
+
+#: libapper/PkStrings.cpp:722
+msgctxt "The group type"
+msgid "Office"
+msgstr "Kancelária"
+
+#: libapper/PkStrings.cpp:724
+msgctxt "The group type"
+msgid "Others"
+msgstr "Ostatné"
+
+#: libapper/PkStrings.cpp:726
+msgctxt "The group type"
+msgid "Development"
+msgstr "Vývoj"
+
+#: libapper/PkStrings.cpp:728
+msgctxt "The group type"
+msgid "Multimedia"
+msgstr "Multimédiá"
+
+#: libapper/PkStrings.cpp:730
+msgctxt "The group type"
+msgid "System"
+msgstr "Systém"
+
+#: libapper/PkStrings.cpp:732
+msgctxt "The group type"
+msgid "GNOME desktop"
+msgstr "Prostredie GNOME"
+
+#: libapper/PkStrings.cpp:734
+msgctxt "The group type"
+msgid "KDE desktop"
+msgstr "Prostredie KDE"
+
+#: libapper/PkStrings.cpp:736
+msgctxt "The group type"
+msgid "XFCE desktop"
+msgstr "Prostredie XFCE"
+
+#: libapper/PkStrings.cpp:738
+msgctxt "The group type"
+msgid "Other desktops"
+msgstr "Ostatné prostredia"
+
+#: libapper/PkStrings.cpp:740
+msgctxt "The group type"
+msgid "Publishing"
+msgstr "Publikovanie"
+
+#: libapper/PkStrings.cpp:742
+msgctxt "The group type"
+msgid "Servers"
+msgstr "Servery"
+
+#: libapper/PkStrings.cpp:744
+msgctxt "The group type"
+msgid "Fonts"
+msgstr "Písma"
+
+#: libapper/PkStrings.cpp:746
+msgctxt "The group type"
+msgid "Admin tools"
+msgstr "Administrácia"
+
+#: libapper/PkStrings.cpp:748
+msgctxt "The group type"
+msgid "Legacy"
+msgstr "Staršie aplikácie"
+
+#: libapper/PkStrings.cpp:750
+msgctxt "The group type"
+msgid "Localization"
+msgstr "Lokalizácia"
+
+#: libapper/PkStrings.cpp:752
+msgctxt "The group type"
+msgid "Virtualization"
+msgstr "Virtualizácia"
+
+#: libapper/PkStrings.cpp:754
+msgctxt "The group type"
+msgid "Security"
+msgstr "Bezpečnosť"
+
+#: libapper/PkStrings.cpp:756
+msgctxt "The group type"
+msgid "Power management"
+msgstr "Správa napájania"
+
+#: libapper/PkStrings.cpp:758
+msgctxt "The group type"
+msgid "Communication"
+msgstr "Komunikácia"
+
+#: libapper/PkStrings.cpp:760
+msgctxt "The group type"
+msgid "Network"
+msgstr "Sieť"
+
+#: libapper/PkStrings.cpp:762
+msgctxt "The group type"
+msgid "Maps"
+msgstr "Mapy"
+
+#: libapper/PkStrings.cpp:764
+msgctxt "The group type"
+msgid "Software sources"
+msgstr "Zdroje softvéru"
+
+#: libapper/PkStrings.cpp:766
+msgctxt "The group type"
+msgid "Science"
+msgstr "Veda"
+
+#: libapper/PkStrings.cpp:768
+msgctxt "The group type"
+msgid "Documentation"
+msgstr "Dokumentácia"
+
+#: libapper/PkStrings.cpp:770
+msgctxt "The group type"
+msgid "Electronics"
+msgstr "Elektronika"
+
+#: libapper/PkStrings.cpp:772
+msgctxt "The group type"
+msgid "Package collections"
+msgstr "Kolekcie balíčkov"
+
+#: libapper/PkStrings.cpp:774
+msgctxt "The group type"
+msgid "Vendor"
+msgstr "Dodávateľ"
+
+#: libapper/PkStrings.cpp:776
+msgctxt "The group type"
+msgid "Newest packages"
+msgstr "Najnovšie balíčky"
+
+#: libapper/PkStrings.cpp:778
+msgctxt "The group type"
+msgid "Unknown group"
+msgstr "Neznáma skupina"
+
+#: libapper/PkStrings.cpp:789
+msgctxt "The type of update"
+msgid "Trivial update"
+msgstr "Obyčajná aktualizácia"
+
+#: libapper/PkStrings.cpp:791
+msgctxt "The type of update"
+msgid "Normal update"
+msgstr "Normálna aktualizácia"
+
+#: libapper/PkStrings.cpp:793
+msgctxt "The type of update"
+msgid "Important update"
+msgstr "Dôležitá aktualizácia"
+
+#: libapper/PkStrings.cpp:795
+msgctxt "The type of update"
+msgid "Security update"
+msgstr "Bezpečnostná aktualizácia"
+
+#: libapper/PkStrings.cpp:797
+msgctxt "The type of update"
+msgid "Bug fix update"
+msgstr "Opravná aktualizácia"
+
+#: libapper/PkStrings.cpp:799
+msgctxt "The type of update"
+msgid "Enhancement update"
+msgstr "Vylepšujúca aktualizácia"
+
+#: libapper/PkStrings.cpp:801
+msgctxt "The type of update"
+msgid "Blocked update"
+msgstr "Blokovaná aktualizácia"
+
+#: libapper/PkStrings.cpp:804
+msgctxt "The type of update"
+msgid "Installed"
+msgstr "Nainštalované"
+
+#: libapper/PkStrings.cpp:807
+msgctxt "The type of update"
+msgid "Available"
+msgstr "Dostupné"
+
+#: libapper/PkStrings.cpp:809
+msgctxt "The type of update"
+msgid "Unknown update"
+msgstr "Neznáma aktualizácia"
+
+#: libapper/PkStrings.cpp:820
+msgid "No Updates Available"
+msgstr "Nie sú dostupné žiadne aktualizácie"
+
+#: libapper/PkStrings.cpp:823
+#, kde-format
+msgctxt "Some updates were selected on the view"
+msgid "1 Update Selected"
+msgid_plural "%1 Updates Selected"
+msgstr[0] "Vybraná 1 aktualizácia"
+msgstr[1] "Vybrané %1 aktualizácie"
+msgstr[2] "Vybraných %1 aktualizácií"
+
+#: libapper/PkStrings.cpp:827
+#, kde-format
+msgctxt "Some updates are being shown on the screen"
+msgid "1 Update"
+msgid_plural "%1 Updates"
+msgstr[0] "1 aktualizácia"
+msgstr[1] "%1 aktualizácie"
+msgstr[2] "%1 aktualizácií"
+
+#: libapper/PkStrings.cpp:830
+#, kde-format
+msgctxt "Type of update, in the case it's just an update"
+msgid "%1, %2"
+msgstr "%1, %2"
+
+#: libapper/PkStrings.cpp:831
+#, kde-format
+msgctxt "Part of: %1 Updates, %1 Selected"
+msgid "%1 Update"
+msgid_plural "%1 Updates"
+msgstr[0] "%1 aktualizácia"
+msgstr[1] "%1 aktualizácie"
+msgstr[2] "%1 aktualizácií"
+
+#: libapper/PkStrings.cpp:832
+#, kde-format
+msgctxt "Part of: %1 Updates, %1 Selected"
+msgid "%1 Selected"
+msgid_plural "%1 Selected"
+msgstr[0] "Vybraná %1"
+msgstr[1] "Vybrané %1"
+msgstr[2] "Vybraných %1"
+
+#: libapper/PkStrings.cpp:836
+msgid "No Packages"
+msgstr "Žiadne balíčky"
+
+#: libapper/PkStrings.cpp:838
+#, kde-format
+msgid "1 Package"
+msgid_plural "%1 Packages"
+msgstr[0] "1 balíček"
+msgstr[1] "%1 balíčky"
+msgstr[2] "%1 balíčkov"
+
+#: libapper/PkStrings.cpp:846
+msgid "No restart is necessary"
+msgstr "Nie je potrebný reštart"
+
+#: libapper/PkStrings.cpp:848
+msgid "You will be required to restart this application"
+msgstr "Bude potrebné reštartovať túto aplikáciu"
+
+#: libapper/PkStrings.cpp:850
+msgid "You will be required to log out and back in"
+msgstr "Bude potrebné odhlásiť sa a znovu prihlásiť"
+
+#: libapper/PkStrings.cpp:852
+msgid "A restart will be required"
+msgstr "Bude potrebný reštart"
+
+#: libapper/PkStrings.cpp:854
+msgid "You will be required to log out and back in due to a security update."
+msgstr ""
+"Bude potrebné odhlásiť sa a znovu prihlásiť kvôli bezpečnostnej aktualizácii."
+
+#: libapper/PkStrings.cpp:856
+msgid "A restart will be required due to a security update."
+msgstr "Bude potrebný reštart kvôli bezpečnostnej aktualizácii."
+
+#: libapper/PkStrings.cpp:869
+msgid "No restart is required"
+msgstr "Nie je potrebný reštart"
+
+#: libapper/PkStrings.cpp:871
+msgid "A restart is required"
+msgstr "Je potrebný reštart"
+
+#: libapper/PkStrings.cpp:873
+msgid "You need to log out and log back in"
+msgstr "Je potrebné sa odhlásiť a znovu prihlásiť"
+
+#: libapper/PkStrings.cpp:875
+msgid "You need to restart the application"
+msgstr "Je potrebné reštartovať aplikáciu"
+
+#: libapper/PkStrings.cpp:877
+msgid "You need to log out and log back in to remain secure."
+msgstr ""
+"Je potrebné sa odhlásiť a znovu prihlásiť kvôli zachovaniu bezpečnosti."
+
+#: libapper/PkStrings.cpp:879
+msgid "A restart is required to remain secure."
+msgstr "Je vyžadovaný reštart kvôli zachovaniu bezpečnosti."
+
+#: libapper/PkStrings.cpp:892
+msgid "Stable"
+msgstr "Stabilné"
+
+#: libapper/PkStrings.cpp:894
+msgid "Unstable"
+msgstr "Nestabilné"
+
+#: libapper/PkStrings.cpp:896
+msgid "Testing"
+msgstr "Testovacie"
+
+#: libapper/PkStrings.cpp:909
+#, kde-format
+msgid "Please insert the CD labeled '%1', and press continue."
+msgstr "Prosím vložte CD označené '%1', a kliknite pokračovať."
+
+#: libapper/PkStrings.cpp:911
+#, kde-format
+msgid "Please insert the DVD labeled '%1', and press continue."
+msgstr "Prosím vložte DVD označené '%1', a kliknite pokračovať."
+
+#: libapper/PkStrings.cpp:913
+#, kde-format
+msgid "Please insert the disc labeled '%1', and press continue."
+msgstr "Prosím vložte disk označený '%1', a kliknite pokračovať."
+
+#: libapper/PkStrings.cpp:915 libapper/PkStrings.cpp:918
+#, kde-format
+msgid "Please insert the medium labeled '%1', and press continue."
+msgstr "Prosím vložte médium označené '%1', a kliknite pokračovať."
+
+#: libapper/PkStrings.cpp:925
+msgid "A mirror is possibly broken"
+msgstr "Zrkadlo je pravdepodobne poškodené"
+
+#: libapper/PkStrings.cpp:927
+msgid "The connection was refused"
+msgstr "Pripojenie bolo odmietnuté"
+
+#: libapper/PkStrings.cpp:929
+msgid "The parameter was invalid"
+msgstr "Parameter bol neplatný"
+
+#: libapper/PkStrings.cpp:931
+msgid "The priority was invalid"
+msgstr "Priorita bola neplatná"
+
+#: libapper/PkStrings.cpp:933
+msgid "Backend warning"
+msgstr "Varovanie backendu"
+
+#: libapper/PkStrings.cpp:935
+msgid "Daemon warning"
+msgstr "Varovanie démona"
+
+#: libapper/PkStrings.cpp:937
+msgid "The package list cache is being rebuilt"
+msgstr "Zostavuje sa vyrovnávacia pamäť zoznamu balíčkov"
+
+#: libapper/PkStrings.cpp:939
+msgid "An untrusted package was installed"
+msgstr "Bol nainštalovaný nedôveryhodný balíček"
+
+#: libapper/PkStrings.cpp:941
+msgid "A newer package exists"
+msgstr "Existuje novší balíček"
+
+#: libapper/PkStrings.cpp:943
+msgid "Could not find package"
+msgstr "Nepodarilo sa nájsť balíček"
+
+#: libapper/PkStrings.cpp:945
+msgid "Configuration files were changed"
+msgstr "Konfiguračné súbory boli zmenené"
+
+#: libapper/PkStrings.cpp:947
+msgid "Package is already installed"
+msgstr "Balíček je už nainštalovaný"
+
+#: libapper/PkStrings.cpp:949
+msgid "Automatic cleanup is being ignored"
+msgstr "Ignoruje sa automatické čistenie"
+
+#: libapper/PkStrings.cpp:951
+msgid "Software source download failed"
+msgstr "Stiahnutie zdroja softvéru zlyhalo"
+
+#: libapper/PkStrings.cpp:953
+msgid "This software source is for developers only"
+msgstr "Tento zdroj softvéru je iba pre vývojárov"
+
+#: libapper/PkStrings.cpp:955
+msgid "Other updates have been held back"
+msgstr "Ostatné aktualizácie boli pozdržané"
+
+#: libapper/PkStrings.cpp:970
+msgid "Could not get a transaction id from packagekitd."
+msgstr "Nepodarilo sa získať transakčné id z packagekitd."
+
+#: libapper/PkStrings.cpp:972
+msgid "Cannot connect to this transaction id."
+msgstr "Nedá sa pripojiť k tomuto transakčnému id."
+
+#: libapper/PkStrings.cpp:974
+msgid "This action is unknown."
+msgstr "Neznáma akcia."
+
+#: libapper/PkStrings.cpp:976
+msgid "The packagekitd service could not be started."
+msgstr "Nepodarilo sa spustiť službu packagekitd."
+
+#: libapper/PkStrings.cpp:978
+msgid "The query is not valid."
+msgstr "Dotaz je neplatný."
+
+#: libapper/PkStrings.cpp:980
+msgid "The file is not valid."
+msgstr "Súbor je neplatný."
+
+#: libapper/PkStrings.cpp:982
+msgid "This function is not yet supported."
+msgstr "Táto funkcia ešte nie je podporovaná."
+
+#: libapper/PkStrings.cpp:984
+msgid "Could not talk to packagekitd."
+msgstr "Nepodarilo sa komunikovať s packagekitd."
+
+#: libapper/PkStrings.cpp:988 libapper/PkStrings.cpp:991
+msgid "An unknown error happened."
+msgstr "Nastala neznáma chyba."
+
+#: libapper/PkStrings.cpp:1005 plasmoid/updaterapplet.cpp:146
+msgid "Your system is up to date"
+msgstr "Váš systém je aktuálny"
+
+#: libapper/PkStrings.cpp:1007
+msgid "You have no updates"
+msgstr "Nemáte žiadne aktualizácie"
+
+#: libapper/PkStrings.cpp:1009
+msgid "Last check for updates was more than a month ago"
+msgstr "Posledná kontrola aktualizácií prebehla pred viac ako mesiacom"
+
+#: libapper/PkStrings.cpp:1017
+#, kde-format
+msgid "Verified %1 ago"
+msgstr "Čas od poslednej kontroly: %1"
+
+#: libapper/PkStrings.cpp:1019
+msgid "It's strongly recommended that you check for new updates now"
+msgstr "Je dôrazne odporúčané skontrolovať aktualizácie teraz"
+
+#: libapper/PkTransaction.cpp:129
+msgid "Failed to simulate file install"
+msgstr "Nepodarilo sa simulovať inštaláciu súboru"
+
+#: libapper/PkTransaction.cpp:133
+msgid "Current backend does not support installing files."
+msgstr "Aktuálny backend nepodporuje inštalovanie súborov."
+
+#: libapper/PkTransaction.cpp:147
+msgid "Failed to simulate package install"
+msgstr "Nepodarilo sa simulovať inštaláciu balíčka"
+
+#: libapper/PkTransaction.cpp:151
+msgid "Current backend does not support installing packages."
+msgstr "Aktuálny backend nepodporuje inštalovanie balíčkov."
+
+#: libapper/PkTransaction.cpp:166
+msgid "Failed to simulate package removal"
+msgstr "Nepodarilo sa simulovať odstránenie balíčka"
+
+#: libapper/PkTransaction.cpp:170
+msgid "The current backend does not support removing packages."
+msgstr "Aktuálny backend nepodporuje odstraňovanie balíčkov."
+
+#: libapper/PkTransaction.cpp:189
+msgid "Failed to simulate package update"
+msgstr "Nepodarilo sa simulovať odstránenie balíčka"
+
+#: libapper/PkTransaction.cpp:193
+msgid "The current backend does not support updating packages."
+msgstr "Aktuálny backend nepodporuje aktualizáciu balíčkov."
+
+#: libapper/PkTransaction.cpp:234
+msgid "Failed to install package"
+msgstr "Nepodarilo sa nainštalovať balíček"
+
+#: libapper/PkTransaction.cpp:244 PkSession/PkInstallProvideFiles.cpp:101
+msgid "Failed to install file"
+msgid_plural "Failed to install files"
+msgstr[0] "Inštalácia súboru zlyhala"
+msgstr[1] "Inštalácia súborov zlyhala"
+msgstr[2] "Inštalácia súborov zlyhala"
+
+#: libapper/PkTransaction.cpp:255
+msgid "Failed to remove package"
+msgstr "Nepodarilo sa odstrániť balíček"
+
+#: libapper/PkTransaction.cpp:265
+msgid "Failed to update package"
+msgstr "Nepodarilo sa aktualizovať balíček"
+
+#: libapper/PkTransaction.cpp:331
+msgid ""
+"You are about to install unsigned packages that can compromise your system, "
+"as it is impossible to verify if the software came from a trusted source.\n"
+"\n"
+"Are you sure you want to proceed with the installation?"
+msgstr ""
+"Chystáte sa inštalovať nepodpísané balíčky, ktoré môže ohroziť bezpečnosť "
+"vášho systému, pretože nie je možné overiť, či softvér pochádza z "
+"dôveryhodného zdroja.\n"
+"Naozaj chcete pokračovať v inštalácii?"
+
+#: libapper/PkTransaction.cpp:334
+msgid "Installing unsigned software"
+msgstr "Inštaluje sa nepodpísaný softvér"
+
+#: libapper/PkTransaction.cpp:379 libapper/PkTransaction.cpp:463
+msgid "Failed to install signature"
+msgstr "Nepodarilo sa nainštalovať podpis"
+
+#. i18n: ectx: property (text), widget (QLabel, label)
+#: libapper/PkTransactionWidget.ui:38
+msgid "icon"
+msgstr "ikona"
+
+#. i18n: ectx: property (text), widget (QLabel, currentL)
+#: libapper/PkTransactionWidget.ui:64
+msgid "Downloading Packages"
+msgstr "Sťahujú sa balíčky"
+
+#. i18n: ectx: property (windowTitle), widget (QWidget, RepoSig)
+#: libapper/RepoSig.cpp:52 libapper/RepoSig.ui:14
+msgid "Software signature is required"
+msgstr "Je vyžadovaný podpis softvéru"
+
+#. i18n: ectx: property (text), widget (QLabel, label)
+#: libapper/RepoSig.ui:23
+msgid "Do you trust the origin of packages?"
+msgstr "Dôverujete zdroju balíčkov?"
+
+#. i18n: ectx: property (text), widget (QLabel, label_2)
+#: libapper/RepoSig.ui:47
+msgid "Repository name:"
+msgstr "Názov repozitára:"
+
+#. i18n: ectx: property (text), widget (QLabel, label_3)
+#: libapper/RepoSig.ui:73
+msgid "Signature URL:"
+msgstr "URL podpisu:"
+
+#. i18n: ectx: property (text), widget (QLabel, label_4)
+#: libapper/RepoSig.ui:99
+msgid "Signature user identifier:"
+msgstr "Identifikátor podpisu užívateľa:"
+
+#. i18n: ectx: property (text), widget (QLabel, label_5)
+#: libapper/RepoSig.ui:125
+msgid "Signature identifier:"
+msgstr "Identifikátor podpisu:"
+
+#: libapper/Requirements.cpp:55
+msgid "Additional changes"
+msgstr "Ďalšie zmeny"
+
+#: libapper/Requirements.cpp:77
+#, kde-format
+msgid "1 package to remove"
+msgid_plural "%1 packages to remove"
+msgstr[0] "1 balíček na odstránenie"
+msgstr[1] "%1 balíčky na odstránenie"
+msgstr[2] "%1 balíčkov na odstránenie"
+
+#: libapper/Requirements.cpp:92
+#, kde-format
+msgid "1 package to downgrade"
+msgid_plural "%1 packages to downgrade"
+msgstr[0] "1 balíček na nižšiu verziu"
+msgstr[1] "%1 balíčky na nižšiu verziu"
+msgstr[2] "%1 balíčkov na nižšiu verziu"
+
+#: libapper/Requirements.cpp:107
+#, kde-format
+msgid "1 package to reinstall"
+msgid_plural "%1 packages to reinstall"
+msgstr[0] "1 balíček na reinštaláciu"
+msgstr[1] "%1 balíčky na reinštaláciu"
+msgstr[2] "%1 balíčkov na reinštaláciu"
+
+#: libapper/Requirements.cpp:120
+#, kde-format
+msgid "1 package to install"
+msgid_plural "%1 packages to install"
+msgstr[0] "1 balíček na inštaláciu"
+msgstr[1] "%1 balíčky na inštaláciu"
+msgstr[2] "%1 balíčkov na inštaláciu"
+
+#: libapper/Requirements.cpp:133
+#, kde-format
+msgid "1 package to update"
+msgid_plural "%1 packages to update"
+msgstr[0] "1 balíček na aktualizáciu"
+msgstr[1] "%1 balíčky na aktualizáciu"
+msgstr[2] "%1 balíčkov na aktualizáciu"
+
+#: libapper/Requirements.cpp:146
+#, kde-format
+msgid "1 untrusted package"
+msgid_plural "%1 untrusted packages"
+msgstr[0] "1 nedôveryhodný balík"
+msgstr[1] "%1 nedôveryhodné balíky"
+msgstr[2] "%1 nedôveryhodných balíkov"
+
+#: libapper/Requirements.cpp:242
+msgid ""
+"You are about to install unsigned packages that can compromise your system, "
+"as it is impossible to verify if the software came from a trusted source."
+msgstr ""
+"Chystáte sa inštalovať nepodpísané balíčky, ktoré môže ohroziť bezpečnosť "
+"vášho systému, pretože nie je možné overiť, či softvér pochádza z "
+"dôveryhodného zdroja."
+
+#. i18n: ectx: property (text), widget (QLabel, label)
+#: libapper/Requirements.ui:31
+msgid "Additional changes are required to complete the task"
+msgstr "Na dokončenie úlohy sú vyžadované ďalšie zmeny"
+
+#. i18n: ectx: property (text), widget (QCheckBox, confirmCB)
+#: libapper/Requirements.ui:87
+msgid "Do not confirm when installing or updating additional packages"
+msgstr "Nepotvrdzovať pri inštalácii alebo aktualizácii ďalších balíčkov"
+
+#. i18n: ectx: property (text), widget (QLabel, descriptionL)
+#: PkSession/IntroDialog.ui:65
+msgid "TextLabel"
+msgstr "TextLabel"
+
+#: PkSession/main.cpp:36
+msgid "Apper PackageKit Session helper"
+msgstr "Pomocník sedenia Apper PackageKit"
+
+#: PkSession/main.cpp:38
+msgid "(C) 2008-2012 Daniel Nicoletti"
+msgstr "(C) 2008-2012 Daniel Nicoletti"
+
+#: PkSession/main.cpp:41
+msgid "Trever Fischer"
+msgstr "Trever Fischer"
+
+#: PkSession/PkInstallCatalogs.cpp:46
+msgid "Install Packages Catalogs"
+msgstr "Inštalovať katalógy balíčkov"
+
+#: PkSession/PkInstallCatalogs.cpp:65
+msgid "You can drop more catalogs in here"
+msgstr "Sem môžete dať ďalšie katalógy"
+
+#: PkSession/PkInstallCatalogs.cpp:85
+msgid "No supported catalog was found"
+msgstr "Nebol nájdený žiadny podporovaný katalóg"
+
+#: PkSession/PkInstallCatalogs.cpp:87
+msgid "Do you want to install this catalog?"
+msgid_plural "Do you want to install these catalogs?"
+msgstr[0] "Chcete nainštalovať tento katalóg?"
+msgstr[1] "Chcete nainštalovať tieto katalógy?"
+msgstr[2] "Chcete nainštalovať tieto katalógy?"
+
+#: PkSession/PkInstallCatalogs.cpp:96
+msgid "An application wants to install a catalog"
+msgid_plural "An application wants to install catalogs"
+msgstr[0] "Aplikácia chce nainštalovať katalóg"
+msgstr[1] "Aplikácia chce nainštalovať katalógy"
+msgstr[2] "Aplikácia chce nainštalovať katalógy"
+
+#: PkSession/PkInstallCatalogs.cpp:100
+#, kde-format
+msgid "The application <i>%2</i> wants to install a catalog"
+msgid_plural "The application <i>%2</i> wants to install catalogs"
+msgstr[0] "Aplikácia <i>%2</i> chce nainštalovať katalóg"
+msgstr[1] "Aplikácia <i>%2</i> chce nainštalovať katalógy"
+msgstr[2] "Aplikácia <i>%2</i> chce nainštalovať katalógy"
+
+#: PkSession/PkInstallCatalogs.cpp:137
+msgid "Not supported"
+msgstr "Nepodporované"
+
+#: PkSession/PkInstallCatalogs.cpp:138
+msgid ""
+"Your backend does not support any of the needed methods to install a catalog"
+msgstr "Váš backend nepodporuje žiadnu metódu potrebnú na inštaláciu katalógu"
+
+#: PkSession/PkInstallCatalogs.cpp:177
+msgid "Catalog not found"
+msgstr "Katalóg nenájdený"
+
+#: PkSession/PkInstallCatalogs.cpp:178
+msgid "Could not find a catalog to install"
+msgstr "Nepodarilo sa nájsť katalóg pre inštaláciu"
+
+#: PkSession/PkInstallCatalogs.cpp:185
+#, kde-format
+msgid "Catalog %2 failed to open"
+msgid_plural "Catalogs %2 failed to open"
+msgstr[0] "Katalóg %2 sa nepodarilo otvoriť"
+msgstr[1] "Katalógy %2 sa nepodarilo otvoriť"
+msgstr[2] "Katalógy %2 sa nepodarilo otvoriť"
+
+#: PkSession/PkInstallCatalogs.cpp:189
+msgid "Failed to open"
+msgstr "Nepodarilo sa otvoriť"
+
+#: PkSession/PkInstallCatalogs.cpp:195
+msgid "Catalog is Empty"
+msgstr "Katalóg je prázdny"
+
+#: PkSession/PkInstallCatalogs.cpp:196
+msgid "Could not find any package to install in this catalog"
+msgstr "V tomto katalógu sa nepodarilo nájsť žiadny balíček pre inštaláciu"
+
+#: PkSession/PkInstallCatalogs.cpp:278 PkSession/PkInstallPackageNames.cpp:97
+#: PkSession/PkIsInstalled.cpp:46
+msgid "Failed to start resolve transaction"
+msgstr "Nepodarilo sa spustiť transakciu riešenia"
+
+#: PkSession/PkInstallFontconfigResources.cpp:41
+msgid "Installs new Fonts"
+msgstr "Inštalovať nové písma"
+
+#: PkSession/PkInstallFontconfigResources.cpp:73
+msgid "Could interpret request"
+msgstr "Požiadavku nebolo možné spracovať"
+
+#: PkSession/PkInstallFontconfigResources.cpp:73
+msgid "Please verify if the request was valid"
+msgstr "Prosím overte či je požiadavka platná"
+
+#: PkSession/PkInstallFontconfigResources.cpp:107
+msgid ""
+"An additional font is required to view this document correctly.\n"
+"Do you want to search for a suitable package now?"
+msgid_plural ""
+"Additional fonts are required to view this document correctly.\n"
+"Do you want to search for suitable packages now?"
+msgstr[0] ""
+"Pre správne zobrazenie tohoto dokumentu je vyžadované ďalšie písmo. Chcete "
+"vyhľadať vhodný balíček teraz?"
+msgstr[1] ""
+"Pre správne zobrazenie tohoto dokumentu sú vyžadované ďalšie písma. Chcete "
+"vyhľadať vhodné balíčky teraz?"
+msgstr[2] ""
+"Pre správne zobrazenie tohoto dokumentu sú vyžadované ďalšie písma. Chcete "
+"vyhľadať vhodné balíčky teraz?"
+
+#: PkSession/PkInstallFontconfigResources.cpp:117
+msgid "A program wants to install a font"
+msgid_plural "A program wants to install fonts"
+msgstr[0] "Program chce nainštalovať písmo"
+msgstr[1] "Program chce nainštalovať písma"
+msgstr[2] "Program chce nainštalovať písma"
+
+#: PkSession/PkInstallFontconfigResources.cpp:121
+#, kde-format
+msgid "The application %2 wants to install a font"
+msgid_plural "The application %2 wants to install fonts"
+msgstr[0] "Aplikácia %2 chce nainštalovať písmo"
+msgstr[1] "Aplikácia %2 chce nainštalovať písma"
+msgstr[2] "Aplikácia %2 chce nainštalovať písma"
+
+#: PkSession/PkInstallFontconfigResources.cpp:145
+#: PkSession/PkInstallFontconfigResources.cpp:166
+#: PkSession/PkInstallGStreamerResources.cpp:136
+#: PkSession/PkInstallMimeTypes.cpp:92
+#: PkSession/PkInstallPlasmaResources.cpp:101
+#: PkSession/PkInstallPrinterDrivers.cpp:74
+msgid "Failed to search for provides"
+msgstr "Nepodarilo sa nájsť poskytované informácie"
+
+#: PkSession/PkInstallFontconfigResources.cpp:155
+#: PkSession/PkInstallFontconfigResources.cpp:164
+msgid "Failed to find font"
+msgstr "Nepodarilo sa nájsť písmo"
+
+#: PkSession/PkInstallFontconfigResources.cpp:157
+msgid "No new fonts could be found for this document"
+msgstr "Nie je možné nájsť žiadne nové písma pre tento dokument"
+
+#: PkSession/PkInstallGStreamerResources.cpp:39
+msgid "Install GStreamer Resources"
+msgstr "Inštalovať zdroje GStreamera"
+
+#: PkSession/PkInstallGStreamerResources.cpp:68
+msgid "The following plugin is required. Do you want to search for this now?"
+msgid_plural ""
+"The following plugins are required. Do you want to search for these now?"
+msgstr[0] "Je požadovaný nasledujúci modul. Chcete ho teraz vyhľadať?"
+msgstr[1] "Sú požadované nasledujúce moduly. Chcete ich teraz vyhľadať?"
+msgstr[2] "Sú požadované nasledujúce moduly. Chcete ich teraz vyhľadať?"
+
+#: PkSession/PkInstallGStreamerResources.cpp:80
+msgid "A program requires an additional plugin to decode this file"
+msgid_plural "A program requires additional plugins to decode this file"
+msgstr[0] "Program vyžaduje ďalší modul pre dekódovanie tohto súboru"
+msgstr[1] "Program vyžaduje ďalšie moduly pre dekódovanie tohto súboru"
+msgstr[2] "Program vyžaduje ďalšie moduly pre dekódovanie tohto súboru"
+
+#: PkSession/PkInstallGStreamerResources.cpp:85
+msgid "A program requires an additional plugin to encode this file"
+msgid_plural "A program requires additional plugins to encode this file"
+msgstr[0] "Program vyžaduje ďalší modul pre kódovanie tohto súboru"
+msgstr[1] "Program vyžaduje ďalšie moduly pre kódovanie tohto súboru"
+msgstr[2] "Program vyžaduje ďalšie moduly pre kódovanie tohto súboru"
+
+#: PkSession/PkInstallGStreamerResources.cpp:90
+msgid "A program requires an additional plugin for this operation"
+msgid_plural "A program requires additional plugins for this operation"
+msgstr[0] "Program vyžaduje ďalší modul pre túto operáciu"
+msgstr[1] "Program vyžaduje ďalšie moduly pre túto operáciu"
+msgstr[2] "Program vyžaduje ďalšie moduly pre túto operáciu"
+
+#: PkSession/PkInstallGStreamerResources.cpp:97
+#, kde-format
+msgid "%2 requires an additional plugin to decode this file"
+msgid_plural "%2 requires additional plugins to decode this file"
+msgstr[0] "%2 vyžaduje ďalší modul pre dekódovanie tohto súboru"
+msgstr[1] "%2 vyžaduje ďalšie moduly pre dekódovanie tohto súboru"
+msgstr[2] "%2 vyžaduje ďalšie moduly pre dekódovanie tohto súboru"
+
+#: PkSession/PkInstallGStreamerResources.cpp:103
+#, kde-format
+msgid "%2 requires an additional plugin to encode this file"
+msgid_plural "%2 requires additional plugins to encode this file"
+msgstr[0] "%2 vyžaduje ďalší modul pre kódovanie tohto súboru"
+msgstr[1] "%2 vyžaduje ďalšie moduly pre kódovanie tohto súboru"
+msgstr[2] "%2 vyžaduje ďalšie moduly pre kódovanie tohto súboru"
+
+#: PkSession/PkInstallGStreamerResources.cpp:109
+#, kde-format
+msgid "%2 requires an additional plugin for this operation"
+msgid_plural "%2 requires additional plugins for this operation"
+msgstr[0] "%2 vyžaduje ďalší modul pre túto operáciu"
+msgstr[1] "%2 vyžaduje ďalšie moduly pre túto operáciu"
+msgstr[2] "%2 vyžaduje ďalšie moduly pre túto operáciu"
+
+#: PkSession/PkInstallGStreamerResources.cpp:147
+msgid "No results found"
+msgstr "Neboli nájdené žiadne výsledky"
+
+#: PkSession/PkInstallGStreamerResources.cpp:149
+msgid "Could not find plugin in any configured software source"
+msgstr "Modul sa nepodarilo nájsť v žiadnom nastavenom zdroji softvéru"
+
+#: PkSession/PkInstallMimeTypes.cpp:39
+msgid "Install Support for File Types"
+msgstr "Inštalovať podporu pre typy súborov"
+
+#: PkSession/PkInstallMimeTypes.cpp:50
+msgid "Do you want to search for a program that can open this file type?"
+msgid_plural ""
+"Do you want to search for a program that can open these file types?"
+msgstr[0] "Chcete vyhľadať program, ktorý dokáže otvoriť tento typ súboru?"
+msgstr[1] "Chcete vyhľadať program, ktorý dokáže otvoriť tieto typy súborov?"
+msgstr[2] "Chcete vyhľadať program, ktorý dokáže otvoriť tieto typy súborov?"
+
+#: PkSession/PkInstallMimeTypes.cpp:55
+msgid "No valid file types were provided"
+msgstr "Neboli poskytnuté žiadne platné typy súborov"
+
+#: PkSession/PkInstallMimeTypes.cpp:62
+msgid "A program is requiring support to open this kind of files"
+msgid_plural "A program is requiring support to open these kinds of files"
+msgstr[0] "Program vyžaduje podporu pre otvorenie tohoto druhu súborov"
+msgstr[1] "Program vyžaduje podporu pre otvorenie týchto druhov súborov"
+msgstr[2] "Program vyžaduje podporu pre otvorenie týchto druhov súborov"
+
+#: PkSession/PkInstallMimeTypes.cpp:66
+#, kde-format
+msgid "The application %2 is requiring support to open this kind of files"
+msgid_plural ""
+"The application %2 is requiring support to open these kinds of files"
+msgstr[0] "Aplikácia %2 vyžaduje podporu pre otvorenie tohoto druhu súborov"
+msgstr[1] "Aplikácia %2 vyžaduje podporu pre otvorenie týchto druhov súborov"
+msgstr[2] "Aplikácia %2 vyžaduje podporu pre otvorenie týchto druhov súborov"
+
+#: PkSession/PkInstallMimeTypes.cpp:101
+msgid "Could not find software"
+msgstr "Nepodarilo sa nájsť softvér"
+
+#: PkSession/PkInstallMimeTypes.cpp:103
+msgid "No new applications can be found to handle this type of file"
+msgstr "Nebola nájdená žiadna nová aplikácia pre daný typ súboru"
+
+#: PkSession/PkInstallPackageFiles.cpp:38
+msgid "Install Packages Files"
+msgstr "Inštalovať súbory balíčkov"
+
+#: PkSession/PkInstallPackageFiles.cpp:42
+#: PkSession/PkRemovePackageByFiles.cpp:43
+msgid "You can drop more files in here"
+msgstr "Sem môžete dať ďalšie súbory"
+
+#: PkSession/PkInstallPackageFiles.cpp:52
+msgid "Not Supported"
+msgstr "Nepodporované"
+
+#: PkSession/PkInstallPackageFiles.cpp:53
+msgid "Your current backend does not support installing files"
+msgstr "Aktuálny backend nepodporuje inštaláciu súborov"
+
+#: PkSession/PkInstallPackageFiles.cpp:68
+#: PkSession/PkRemovePackageByFiles.cpp:64
+msgid "No supported files were provided"
+msgstr "Neboli poskytnuté žiadne podporované súbory"
+
+#: PkSession/PkInstallPackageFiles.cpp:70
+msgid "Press <i>Continue</i> if you want to install this file"
+msgid_plural "Press <i>Continue</i> if you want to install these files"
+msgstr[0] "Ak chcete inštalovať tento súbor, stlačte <i>Pokračovať</i>"
+msgstr[1] "Ak chcete inštalovať tieto súbory, stlačte <i>Pokračovať</i>"
+msgstr[2] "Ak chcete inštalovať tieto súbory, stlačte <i>Pokračovať</i>"
+
+#: PkSession/PkInstallPackageFiles.cpp:79
+#: PkSession/PkInstallPackageNames.cpp:71
+msgid "An application wants to install a package"
+msgid_plural "An application wants to install packages"
+msgstr[0] "Aplikácia chce inštalovať balíček"
+msgstr[1] "Aplikácia chce inštalovať balíčky"
+msgstr[2] "Aplikácia chce inštalovať balíčky"
+
+#: PkSession/PkInstallPackageFiles.cpp:83
+#: PkSession/PkInstallPackageNames.cpp:75
+#, kde-format
+msgid "The application <i>%2</i> wants to install a package"
+msgid_plural "The application <i>%2</i> wants to install packages"
+msgstr[0] "Aplikácia <i>%2</i> chce inštalovať balíček"
+msgstr[1] "Aplikácia <i>%2</i> chce inštalovať balíčky"
+msgstr[2] "Aplikácia <i>%2</i> chce inštalovať balíčky"
+
+#: PkSession/PkInstallPackageFiles.cpp:106
+msgid "Installation Complete"
+msgstr "Inštalácia dokončená"
+
+#: PkSession/PkInstallPackageFiles.cpp:107
+msgid "File was installed successfully"
+msgid_plural "Files were installed successfully"
+msgstr[0] "Súbor bol úspešne nainštalovaný"
+msgstr[1] "Súbory boli úspešne nainštalované"
+msgstr[2] "Súbory boli úspešne nainštalované"
+
+#: PkSession/PkInstallPackageFiles.cpp:118
+msgid "Failed to install files"
+msgstr "Inštalácia súborov zlyhala"
+
+#: PkSession/PkInstallPackageFiles.cpp:119
+#: PkSession/PkInstallPackageFiles.cpp:121
+msgid "Could not install files"
+msgstr "Súbory nie je možné nainštalovať"
+
+#: PkSession/PkInstallPackageNames.cpp:41
+msgid "Install Packages by Name"
+msgstr "Inštalovať balíčky podľa názvu"
+
+#: PkSession/PkInstallPackageNames.cpp:58
+msgid "No package names were provided"
+msgstr "Neboli poskytnuté žiadne názvy balíčkov"
+
+#: PkSession/PkInstallPackageNames.cpp:61
+msgid "Do you want to search for and install this package now?"
+msgid_plural "Do you want to search for and install these packages now?"
+msgstr[0] "Želáte si vyhľadať a inštalovať tento balíček teraz?"
+msgstr[1] "Želáte si vyhľadať a inštalovať tieto balíčky teraz?"
+msgstr[2] "Želáte si vyhľadať a inštalovať tieto balíčky teraz?"
+
+#: PkSession/PkInstallPackageNames.cpp:109
+msgid "Failed to install packages"
+msgstr "Nepodarilo sa nainštalovať balíčky"
+
+#: PkSession/PkInstallPackageNames.cpp:110
+#, kde-format
+msgid "The package %2 is already installed"
+msgid_plural "The packages %2 are already installed"
+msgstr[0] "Balíček %2 je už nainštalovaný"
+msgstr[1] "Balíčky %2 sú už nainštalované"
+msgstr[2] "Balíčky %2 sú už nainštalované"
+
+#: PkSession/PkInstallPackageNames.cpp:118
+#: PkSession/PkRemovePackageByFiles.cpp:149 PkSession/PkSearchFile.cpp:89
+#, kde-format
+msgid "Could not find %1"
+msgstr "Nepodarilo sa nájsť %1"
+
+#: PkSession/PkInstallPackageNames.cpp:119
+msgid "The package could not be found in any software source"
+msgid_plural "The packages could not be found in any software source"
+msgstr[0] "Balíček sa nepodarilo nájsť v žiadnom zdroji softvéru"
+msgstr[1] "Balíčky sa nepodarilo nájsť v žiadnom zdroji softvéru"
+msgstr[2] "Balíčky sa nepodarilo nájsť v žiadnom zdroji softvéru"
+
+#: PkSession/PkInstallPlasmaResources.cpp:40
+msgid "Install Plasma Resources"
+msgstr "Inštalovať zdroje plazmy"
+
+#: PkSession/PkInstallPlasmaResources.cpp:53
+#, kde-format
+msgid "%1 data engine"
+msgstr "Dátový nástroj %1"
+
+#: PkSession/PkInstallPlasmaResources.cpp:55
+#, kde-format
+msgid "%1 script engine"
+msgstr "Skriptovací nástroj %1"
+
+#: PkSession/PkInstallPlasmaResources.cpp:67
+msgid "No supported resources were provided"
+msgstr "Neboli poskytnuté žiadne podporované zdroje"
+
+#: PkSession/PkInstallPlasmaResources.cpp:69
+msgid "The following service is required. Do you want to search for this now?"
+msgid_plural ""
+"The following services are required. Do you want to search for these now?"
+msgstr[0] "Nasledujúca služba je vyžadovaná. Chcete ju vyhľadať teraz?"
+msgstr[1] "Nasledujúce služby sú vyžadované. Chcete ich vyhľadať teraz?"
+msgstr[2] "Nasledujúce služby sú vyžadované. Chcete ich vyhľadať teraz?"
+
+#: PkSession/PkInstallPlasmaResources.cpp:78
+msgid "Plasma requires an additional service for this operation"
+msgid_plural "Plasma requires additional services for this operation"
+msgstr[0] "Plazma vyžaduje ďalšiu službu pre túto operáciu"
+msgstr[1] "Plazma vyžaduje ďalšie služby pre túto operáciu"
+msgstr[2] "Plazma vyžaduje ďalšie služby pre túto operáciu"
+
+#: PkSession/PkInstallPlasmaResources.cpp:112
+msgid "Failed to search for Plasma service"
+msgstr "Nepodarilo sa nájsť službu plazmy"
+
+#: PkSession/PkInstallPlasmaResources.cpp:115
+msgid "Could not find service in any configured software source"
+msgstr "Službu sa nepodarilo nájsť v žiadnom nastavenom zdroji softvéru"
+
+#: PkSession/PkInstallPrinterDrivers.cpp:39
+msgid "Install Printer Drivers"
+msgstr "Inštalovať ovládače tlačiarne"
+
+#: PkSession/PkInstallPrinterDrivers.cpp:87
+msgid "Failed to search for printer driver"
+msgstr "Nepodarilo sa nájsť ovládač tlačiarne"
+
+#: PkSession/PkInstallPrinterDrivers.cpp:88
+msgid "Could not find printer driver in any configured software source"
+msgstr ""
+"Ovládač tlačiarne sa nepodarilo nájsť v žiadnom nastavenom zdroji softvéru"
+
+#: PkSession/PkInstallProvideFiles.cpp:39
+msgid "Install Packages that Provides Files"
+msgstr "Inštalovať balíčky, ktoré poskytujú súbory"
+
+#: PkSession/PkInstallProvideFiles.cpp:49
+msgid "No files were provided"
+msgstr "Neboli poskytnuté žiadne súbory"
+
+#: PkSession/PkInstallProvideFiles.cpp:52
+msgid "Do you want to search for this now?"
+msgid_plural "Do you want to search for these now?"
+msgstr[0] "Prajete si ho teraz vyhľadať?"
+msgstr[1] "Prajete si ich teraz vyhľadať?"
+msgstr[2] "Prajete si ich teraz vyhľadať?"
+
+#: PkSession/PkInstallProvideFiles.cpp:62
+msgid "A program wants to install a file"
+msgid_plural "A program wants to install files"
+msgstr[0] "Program chce nainštalovať súbor"
+msgstr[1] "Program chce nainštalovať súbory"
+msgstr[2] "Program chce nainštalovať súbory"
+
+#: PkSession/PkInstallProvideFiles.cpp:66
+#, kde-format
+msgid "The application %2 is asking to install a file"
+msgid_plural "The application %2 is asking to install files"
+msgstr[0] "Aplikácia %2 požaduje nainštalovať súbor"
+msgstr[1] "Aplikácia %2 požaduje nainštalovať súbory"
+msgstr[2] "Aplikácia %2 požaduje nainštalovať súbory"
+
+#: PkSession/PkInstallProvideFiles.cpp:88
+#: PkSession/PkRemovePackageByFiles.cpp:128 PkSession/PkSearchFile.cpp:55
+msgid "Failed to start search file transaction"
+msgstr "Nepodarilo sa spustiť transakciu hľadania súboru"
+
+#: PkSession/PkInstallProvideFiles.cpp:102
+#, kde-format
+msgid "The %1 package already provides this file"
+msgstr "Balíček %1 už poskytuje tento súbor"
+
+#: PkSession/PkInstallProvideFiles.cpp:108
+msgid "Failed to find package"
+msgstr "Nepodarilo sa nájsť balíček"
+
+#: PkSession/PkInstallProvideFiles.cpp:109
+msgid "The file could not be found in any packages"
+msgid_plural "The files could not be found in any packages"
+msgstr[0] "Súbor sa nepodarilo nájsť v žiadnych balíčkoch"
+msgstr[1] "Súbory sa nepodarilo nájsť v žiadnych balíčkoch"
+msgstr[2] "Súbory sa nepodarilo nájsť v žiadnych balíčkoch"
+
+#: PkSession/PkIsInstalled.cpp:36
+msgid "Querying if a Package is Installed"
+msgstr "Požiadavka, či je balíček nainštalovaný"
+
+#: PkSession/PkIsInstalled.cpp:67
+msgid "User canceled the transaction"
+msgstr "Užívateľ zrušil transakciu"
+
+#: PkSession/PkIsInstalled.cpp:69
+msgid "An unknown error happened"
+msgstr "Nastala neznáma chyba"
+
+#: PkSession/PkRemovePackageByFiles.cpp:40
+msgid "Remove Packages that Provides Files"
+msgstr "Odstrániť balíčky, ktoré poskytujú súbory"
+
+#: PkSession/PkRemovePackageByFiles.cpp:67
+msgid "Do you want to remove the following application?"
+msgid_plural "Do you want to remove the following applications?"
+msgstr[0] "Chcete odstrániť nasledujúcu aplikáciu?"
+msgstr[1] "Chcete odstrániť nasledujúce aplikácie?"
+msgstr[2] "Chcete odstrániť nasledujúce aplikácie?"
+
+#: PkSession/PkRemovePackageByFiles.cpp:71
+msgid "Do you want to search for a package providing this file?"
+msgid_plural "Do you want to search for a package providing these files?"
+msgstr[0] "Chcete vyhľadať balíček poskytujúci tento súbor?"
+msgstr[1] "Chcete vyhľadať balíček poskytujúci tieto súbory?"
+msgstr[2] "Chcete vyhľadať balíček poskytujúci tieto súbory?"
+
+#: PkSession/PkRemovePackageByFiles.cpp:82
+msgid "An application is asking to remove an application"
+msgid_plural "An application is asking to remove applications"
+msgstr[0] "Aplikácia požaduje odstrániť aplikáciu"
+msgstr[1] "Aplikácia požaduje odstrániť aplikácie"
+msgstr[2] "Aplikácia požaduje odstrániť aplikácie"
+
+#: PkSession/PkRemovePackageByFiles.cpp:86
+msgid "An application is asking to remove a file"
+msgid_plural "An application is asking to remove files"
+msgstr[0] "Aplikácia požaduje odstrániť súbor"
+msgstr[1] "Aplikácia požaduje odstrániť súbory"
+msgstr[2] "Aplikácia požaduje odstrániť súbory"
+
+#: PkSession/PkRemovePackageByFiles.cpp:92
+#, kde-format
+msgid "The application <i>%2</i> is asking to remove an application"
+msgid_plural "The application <i>%2</i> is asking to remove applications"
+msgstr[0] "Aplikácia <i>%2</i> požaduje odstrániť aplikáciu"
+msgstr[1] "Aplikácia <i>%2</i> požaduje odstrániť aplikácie"
+msgstr[2] "Aplikácia <i>%2</i> požaduje odstrániť aplikácie"
+
+#: PkSession/PkRemovePackageByFiles.cpp:97
+#, kde-format
+msgid "The application <i>%2</i> is asking to remove a file"
+msgid_plural "The application <i>%2</i> is asking to remove files"
+msgstr[0] "Aplikácia <i>%2</i> požaduje odstrániť súbor"
+msgstr[1] "Aplikácia <i>%2</i> požaduje odstrániť súbory"
+msgstr[2] "Aplikácia <i>%2</i> požaduje odstrániť súbory"
+
+#: PkSession/PkRemovePackageByFiles.cpp:103
+msgid "No application was found"
+msgstr "Aplikácia nebola nájdená"
+
+#: PkSession/PkRemovePackageByFiles.cpp:150
+msgid "The file could not be found in any installed package"
+msgid_plural "The files could not be found in any installed package"
+msgstr[0] "Súbor sa nepodarilo nájsť v žiadnom nainštalovanom balíčku"
+msgstr[1] "Súbory sa nepodarilo sa nájsť v žiadnom nainštalovanom balíčku"
+msgstr[2] "Súbory sa nepodarilo sa nájsť v žiadnom nainštalovanom balíčku"
+
+#: PkSession/PkSearchFile.cpp:38
+msgid "Search Packages that Provides Files"
+msgstr "Vyhľadať balíčky, ktoré poskytujú súbory"
+
+#: PkSession/PkSearchFile.cpp:88
+msgid "The file name could not be found in any software source"
+msgstr "Názov súboru sa nepodarilo nájsť v žiadnom zdroji softvéru"
+
+#: PkSession/ReviewChanges.cpp:50
+msgid "The following package was found"
+msgid_plural "The following packages were found"
+msgstr[0] "Bol nájdený nasledujúci balíček"
+msgstr[1] "Boli nájdené nasledujúce balíčky"
+msgstr[2] "Boli nájdené nasledujúce balíčky"
+
+#: PkSession/SessionTask.cpp:373
+msgid "There are no packages to Install or Remove"
+msgstr "Nie sú žiadne balíčky pre inštaláciu či odstránenie"
+
+#: PkSession/SessionTask.cpp:374
+msgid "This action should not happen"
+msgstr "Toto by sa nemalo stať"
+
+#: PkSession/SessionTask.cpp:405
+msgid "Could not find"
+msgstr "Nepodarilo sa nájsť"
+
+#: PkSession/SessionTask.cpp:406 PkSession/SessionTask.cpp:415
+msgid "No packages were found that meet the request"
+msgstr "Neboli nájdené žiadne balíčky, ktoré by spĺňali požiadavky"
+
+#: PkSession/SessionTask.cpp:414
+msgid "Failed to find"
+msgstr "Nepodarilo sa nájsť"
+
+#: PkSession/SessionTask.cpp:436
+msgid "Transaction did not finish with success"
+msgstr "Transakcia neskončila úspešne"
+
+#: PkSession/SessionTask.cpp:442
+msgid "Task completed"
+msgstr "Úloha dokončená"
+
+#: PkSession/SessionTask.cpp:442
+msgid "All operations were committed successfully"
+msgstr "Všetky operácie boli úspešne dokončené"
+
+#: plasmoid/updaterapplet.cpp:148
+#, kde-format
+msgid "You have one update"
+msgid_plural "You have %1 updates"
+msgstr[0] "Máte jednu aktualizáciu"
+msgstr[1] "Máte %1 aktualizácie"
+msgstr[2] "Máte %1 aktualizácií"

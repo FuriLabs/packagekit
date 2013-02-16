@@ -1,0 +1,4824 @@
+# translation of kpackagekit.po to
+# Copyright (C) YEAR This_file_is_part_of_KDE
+# This file is distributed under the same license as the PACKAGE package.
+#
+# Serdar Soytetir <tulliana@gmail.com>, 2008, 2009.
+# E. <e@k.org>, 2009.
+# Serhat Demirkol <serhat_demirkol@yahoo.com>, 2009.
+# Serdar SOYTETİR <tulliana@gmail.com>, 2010, 2012.
+msgid ""
+msgstr ""
+"Project-Id-Version: kpackagekit\n"
+"Report-Msgid-Bugs-To: http://bugs.kde.org\n"
+"POT-Creation-Date: 2013-01-08 12:21+0100\n"
+"PO-Revision-Date: 2012-06-28 14:25+0300\n"
+"Last-Translator: Serdar Soytetir <tulliana@gmail.com>\n"
+"Language-Team: Turkish <yerellestirme@kde.org.tr>\n"
+"Language: tr\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+"X-Generator: Lokalize 1.5\n"
+
+msgctxt "NAME OF TRANSLATORS"
+msgid "Your names"
+msgstr "Serdar Soytetir"
+
+msgctxt "EMAIL OF TRANSLATORS"
+msgid "Your emails"
+msgstr "tulliana@gmail.com"
+
+#: Apper/BackendDetails.cpp:31
+msgid "Backend Details"
+msgstr "Arka Uç Ayrıntıları"
+
+#. i18n: ectx: property (title), widget (QGroupBox, groupBox)
+#: Apper/BackendDetails.ui:26
+msgid "About Backend"
+msgstr "Arka Uç Hakkında"
+
+#. i18n: ectx: property (text), widget (QLabel, label)
+#: Apper/BackendDetails.ui:32
+msgid "Backend name:"
+msgstr "Arka uç adı:"
+
+#. i18n: ectx: property (text), widget (QLabel, label_3)
+#: Apper/BackendDetails.ui:46
+msgid "Backend description:"
+msgstr "Arkauç açıklaması:"
+
+#. i18n: ectx: property (text), widget (QLabel, label_2)
+#: Apper/BackendDetails.ui:60
+msgid "Backend author:"
+msgstr "Arka uç yazarı:"
+
+#. i18n: ectx: property (text), widget (QLabel, label_4)
+#: Apper/BackendDetails.ui:74
+msgid "Distribution ID:"
+msgstr "Dağıtım Kimliği:"
+
+#. i18n: ectx: property (title), widget (QGroupBox, groupBox_3)
+#: Apper/BackendDetails.ui:94
+msgid "Methods"
+msgstr "Yöntemler"
+
+#. i18n: ectx: property (text), widget (QCheckBox, getUpdatesCB)
+#: Apper/BackendDetails.ui:103
+msgid "Get Updates"
+msgstr "Güncellemeleri Al"
+
+#. i18n: ectx: property (text), widget (QCheckBox, refreshCacheCB)
+#: Apper/BackendDetails.ui:113
+msgid "Refresh Cache"
+msgstr "Önbelleği Tazele"
+
+#. i18n: ectx: property (text), widget (QCheckBox, searchNameCB)
+#: Apper/BackendDetails.ui:123
+msgid "Search Name"
+msgstr "İsim Ara"
+
+#. i18n: ectx: property (text), widget (QCheckBox, getDependsCB)
+#: Apper/BackendDetails.ui:133
+msgid "Get Package Depends"
+msgstr ""
+
+#. i18n: ectx: property (text), widget (QCheckBox, searchDetailsCB)
+#: Apper/BackendDetails.ui:143
+msgid "Search Details"
+msgstr "Arama Ayrıntıları"
+
+#. i18n: ectx: property (text), widget (QCheckBox, getRequiresCB)
+#: Apper/BackendDetails.ui:153
+msgid "Get Package Requires"
+msgstr "Paket için Gerekenleri Al"
+
+#. i18n: ectx: property (text), widget (QCheckBox, searchGroupCB)
+#: Apper/BackendDetails.ui:163
+msgid "Search Group"
+msgstr "Grup Ara"
+
+#. i18n: ectx: property (text), widget (QCheckBox, getUpdateDetailCB)
+#: Apper/BackendDetails.ui:173
+msgid "Get Update Detail"
+msgstr "Güncelleme Ayrıntılarını Al"
+
+#. i18n: ectx: property (text), widget (QCheckBox, searchFileCB)
+#: Apper/BackendDetails.ui:183
+msgid "Search File"
+msgstr "Dosya Ara"
+
+#. i18n: ectx: property (text), widget (QCheckBox, getDescriptionCB)
+#: Apper/BackendDetails.ui:193
+msgid "Get Package Description"
+msgstr "Paket Açıklamalarını Al"
+
+#. i18n: ectx: property (text), widget (QCheckBox, getFilesCB)
+#: Apper/BackendDetails.ui:203
+msgid "Get Package Files"
+msgstr "Paket Dosyalarını Al"
+
+#. i18n: ectx: property (text), widget (QCheckBox, getDistroUpgradesCB)
+#: Apper/BackendDetails.ui:213
+msgid "Get Distro Upgrades"
+msgstr "Dağıtım Yükseltmesini Al"
+
+#. i18n: ectx: property (text), widget (QCheckBox, installPackageCB)
+#: Apper/BackendDetails.ui:223
+msgid "Install Packages"
+msgstr "Paketleri Kur"
+
+#. i18n: ectx: property (text), widget (QCheckBox, updatePackageCB)
+#: Apper/BackendDetails.ui:233
+msgid "Update Packages"
+msgstr "Paketleri Güncelle"
+
+#. i18n: ectx: property (text), widget (QCheckBox, removePackageCB)
+#: Apper/BackendDetails.ui:243
+msgid "Remove Packages"
+msgstr "Paketleri Kaldır"
+
+#. i18n: ectx: property (text), widget (QCheckBox, installFileCB)
+#: Apper/BackendDetails.ui:253
+msgid "Install Files"
+msgstr "Dosyaları Yükle"
+
+#. i18n: ectx: property (text), widget (QCheckBox, resolveCB)
+#: Apper/BackendDetails.ui:263
+msgid "Resolve"
+msgstr "Çözümle"
+
+#. i18n: ectx: property (text), widget (QCheckBox, cancelCB)
+#: Apper/BackendDetails.ui:273
+msgid "Cancel"
+msgstr "İptal"
+
+#. i18n: ectx: property (text), widget (QCheckBox, repairSystemCB)
+#: Apper/BackendDetails.ui:283
+#, fuzzy
+#| msgid "Update System"
+msgid "Repair System"
+msgstr "Sistemi Güncelle"
+
+#. i18n: ectx: property (text), widget (QCheckBox, upgradeSystemCB)
+#: Apper/BackendDetails.ui:293
+#, fuzzy
+#| msgid "Update System"
+msgid "Upgrade System"
+msgstr "Sistemi Güncelle"
+
+#. i18n: ectx: property (text), widget (QCheckBox, getPackagesCB)
+#: Apper/BackendDetails.ui:303
+msgid "Get Packages"
+msgstr "Paketleri Al"
+
+#. i18n: ectx: property (text), widget (QCheckBox, whatProvidesCB)
+#: Apper/BackendDetails.ui:313
+msgid "What Provides"
+msgstr ""
+
+#. i18n: ectx: property (text), widget (QCheckBox, repositorySetEnableCB)
+#: Apper/BackendDetails.ui:323
+msgid "Set Repository Data"
+msgstr "Depo Verilerini Ayarla"
+
+#. i18n: ectx: property (text), widget (QCheckBox, repositoryEnableCB)
+#: Apper/BackendDetails.ui:333
+msgid "Enable Repository"
+msgstr "Depoyu Etkinleştir"
+
+#. i18n: ectx: property (text), widget (QCheckBox, getRepositoryListCB)
+#: Apper/BackendDetails.ui:343
+msgid "Get Repository List"
+msgstr "Depo Listesini Al"
+
+#. i18n: ectx: property (title), widget (QGroupBox, groupBox_2)
+#. i18n: ectx: property (text), widget (QToolButton, filtersTB)
+#: Apper/BackendDetails.ui:366 ApperKCM/ApperKCM.ui:98
+msgid "Filters"
+msgstr "Filtreler"
+
+#. i18n: ectx: property (text), widget (QCheckBox, installedCB)
+#: Apper/BackendDetails.ui:375 ApperKCM/FiltersMenu.cpp:60
+#: libapper/PkStrings.cpp:359
+msgid "Installed"
+msgstr "Yüklü"
+
+#. i18n: ectx: property (text), widget (QCheckBox, developmentCB)
+#: Apper/BackendDetails.ui:385 ApperKCM/FiltersMenu.cpp:90
+msgid "Development"
+msgstr "Geliştirme"
+
+#. i18n: ectx: property (text), widget (QCheckBox, visibleCB)
+#: Apper/BackendDetails.ui:395
+msgid "Package is visible"
+msgstr "Paket görülebilir"
+
+#. i18n: ectx: property (text), widget (QCheckBox, newestCB)
+#: Apper/BackendDetails.ui:405
+msgid "Newest"
+msgstr "En yeni"
+
+#. i18n: ectx: property (text), widget (QCheckBox, guiCB)
+#: Apper/BackendDetails.ui:415
+msgid "GUI"
+msgstr "Arayüz"
+
+#. i18n: ectx: property (text), widget (QCheckBox, freeCB)
+#: Apper/BackendDetails.ui:425
+msgid "Free software"
+msgstr "Özgür yazılım"
+
+#. i18n: ectx: property (text), widget (QCheckBox, supportedCB)
+#: Apper/BackendDetails.ui:435
+msgid "Supported"
+msgstr "Desteklenen"
+
+#. i18n: ectx: property (text), widget (QCheckBox, archCB)
+#: Apper/BackendDetails.ui:445
+#, fuzzy
+#| msgid "Only text"
+msgid "Only native"
+msgstr "Sadece metin"
+
+#: Apper/main.cpp:54 PkSession/main.cpp:34
+msgid "Apper"
+msgstr "Apper"
+
+#: Apper/main.cpp:56
+#, fuzzy
+#| msgid "KPackageKit is an application to get and manage software"
+msgid "Apper is an Application to Get and Manage Software"
+msgstr ""
+"KPackageKit yazılımları indirmek ve yönetmek için kullanılan bir uygulamadır"
+
+#: Apper/main.cpp:58 ApperKCM/ApperKCM.cpp:86
+#, fuzzy
+#| msgid "(C) 2008-2010 Daniel Nicoletti"
+msgid "(C) 2008-2011 Daniel Nicoletti"
+msgstr "(C) 2008-2010 Daniel Nicoletti"
+
+#: Apper/main.cpp:60 PkSession/main.cpp:40
+msgid "Daniel Nicoletti"
+msgstr "Daniel Nicoletti"
+
+#: Apper/main.cpp:61 PkSession/main.cpp:43
+msgid "Adrien Bustany"
+msgstr "Adrien Bustany"
+
+#: Apper/main.cpp:61 PkSession/main.cpp:43
+msgid "libpackagekit-qt and other stuff"
+msgstr "libpackagekit-qt ve diğer bölümler"
+
+#: Apper/main.cpp:66
+msgid "Show updates"
+msgstr "Güncellemeleri göster"
+
+#: Apper/main.cpp:67
+msgid "Show settings"
+msgstr "Ayarları göster"
+
+#: Apper/main.cpp:68
+msgid "Show backend details"
+msgstr "Arka uç ayrıntıları"
+
+#: Apper/main.cpp:69
+msgid "Mime type installer"
+msgstr "Mime tipi yükleyici"
+
+#: Apper/main.cpp:70
+msgid "Package name installer"
+msgstr "Paket ismi yükleyicisi"
+
+#: Apper/main.cpp:71
+msgid "Single file installer"
+msgstr "Tek dosya yükleyici"
+
+#: Apper/main.cpp:72
+msgid "Font resource installer"
+msgstr "Yazı tipi kaynağı kurucu"
+
+#: Apper/main.cpp:73
+msgid "Catalog installer"
+msgstr "Katalog yükleyici"
+
+#: Apper/main.cpp:74
+msgid "Single package remover"
+msgstr "Tek paket kaldırıcı"
+
+#: Apper/main.cpp:75
+msgid "Package file to install"
+msgstr "Yüklenecek paket dosyası"
+
+#: apperd/DistroUpgrade.cpp:91
+msgid "Distribution upgrade available"
+msgstr "Dağıtım yükseltme mevcut"
+
+#: apperd/DistroUpgrade.cpp:95
+msgid "Start upgrade now"
+msgstr "Güncellemeyi şimdi başlatın"
+
+#: apperd/DistroUpgrade.cpp:146
+msgid "Distribution upgrade finished. "
+msgstr "Dağıtım yükseltme bitti."
+
+#: apperd/DistroUpgrade.cpp:149 ApperKCM/Updater/DistroUpgrade.cpp:89
+#, kde-format
+msgid "Distribution upgrade process exited with code %1."
+msgstr "Dağıtım yükseltme süreci kod %1 ile çıktı."
+
+#: apperd/DistroUpgrade.cpp:167 ApperKCM/Updater/DistroUpgrade.cpp:101
+msgid "The distribution upgrade process failed to start."
+msgstr "Dağıtım yükseltme süreci başlatılamadı."
+
+#: apperd/DistroUpgrade.cpp:170 ApperKCM/Updater/DistroUpgrade.cpp:105
+msgid ""
+"The distribution upgrade process crashed some time after starting "
+"successfully."
+msgstr ""
+"Dağıtım yükseltme süreci başarılı bir şekilde başladıktan bir süre sonra "
+"çöktü."
+
+#: apperd/DistroUpgrade.cpp:173 ApperKCM/Updater/DistroUpgrade.cpp:109
+msgid "The distribution upgrade process failed with an unknown error."
+msgstr "Dağıtım yükseltme süreci bilinmeyen bir hata ile başarısız oldu."
+
+#: apperd/TransactionWatcher.cpp:169
+#, kde-format
+msgid "Package: %2"
+msgid_plural "Packages: %2"
+msgstr[0] "Paketler: %2"
+
+#: apperd/TransactionWatcher.cpp:178
+#, fuzzy
+#| msgctxt "Restart the computer"
+#| msgid "Restart"
+msgid "Restart"
+msgstr "Yeniden Başlat"
+
+#: apperd/TransactionWatcher.cpp:231 ApperKCM/TransactionModel.cpp:48
+#: AppSetup/SetupWizard.cpp:199
+msgid "Details"
+msgstr "Ayrıntılar"
+
+#: apperd/Updater.cpp:160
+msgid "Updates are being automatically installed."
+msgstr "Güncellemeler otomatik olarak yükleniyor."
+
+#: apperd/Updater.cpp:170
+msgid "Security updates are being automatically installed."
+msgstr "Güvenlik güncellemeleri otomatik olarak yükleniyor."
+
+#: apperd/Updater.cpp:180
+#, fuzzy
+#| msgid "Updates are being automatically installed."
+msgid "Updates are being automatically downloaded."
+msgstr "Güncellemeler otomatik olarak yükleniyor."
+
+#: apperd/Updater.cpp:214
+msgid "System update was successful."
+msgstr "Sistem güncellemesi başarılı oldu."
+
+#: apperd/Updater.cpp:221
+#, fuzzy
+#| msgid "The automated software update failed."
+msgid "The software update failed."
+msgstr "Otomatik yazılım güncellemesi başarısız oldu."
+
+#: apperd/Updater.cpp:275
+#, fuzzy, kde-format
+#| msgid "Check for new Updates"
+msgid "There is one new update"
+msgid_plural "There are %1 new updates"
+msgstr[0] "Yeni Güncellemeleri Kontrol Et"
+
+#: apperd/Updater.cpp:290
+#, fuzzy
+#| msgid "Review Change"
+#| msgid_plural "Review Changes"
+msgid "Review"
+msgstr "Değişiklikleri Gözden Geçir"
+
+#: apperd/Updater.cpp:292 libapper/ApplicationsDelegate.cpp:40
+msgid "Install"
+msgstr "Yükle"
+
+#: ApperKCM/ApperKCM.cpp:82
+msgid "Application Manager"
+msgstr "Uygulama Yöneticisi"
+
+#: ApperKCM/ApperKCM.cpp:84
+msgid "KDE interface for managing software"
+msgstr "Yazılımları yönetmek için KDE arayüzü"
+
+#: ApperKCM/ApperKCM.cpp:114 ApperKCM/ApperKCM.cpp:298
+msgid "Find"
+msgstr "Bul"
+
+#: ApperKCM/ApperKCM.cpp:209
+msgid "History"
+msgstr "Geçmiş"
+
+#. i18n: ectx: property (windowTitle), widget (QWidget, Settings)
+#: ApperKCM/ApperKCM.cpp:215 ApperKCM/Settings/Settings.ui:14
+msgid "Settings"
+msgstr "Ayarlar"
+
+#: ApperKCM/ApperKCM.cpp:275 ApperKCM/ApperKCM.cpp:276
+#: ApperKCM/ApperKCM.cpp:277 ApperKCM/ApperKCM.cpp:278
+msgid "&Cancel"
+msgstr "&İptal"
+
+#. i18n: ectx: property (text), widget (CategorizedView, changesView)
+#: ApperKCM/ApperKCM.cpp:285 ApperKCM/ApperKCM.ui:346
+msgid "Find by &name"
+msgstr "&İsme göre bul"
+
+#. i18n: ectx: property (text), widget (CategorizedView, changesView)
+#: ApperKCM/ApperKCM.cpp:286 ApperKCM/ApperKCM.ui:356
+msgid "Find by f&ile name"
+msgstr "D&osya adına göre bul"
+
+#. i18n: ectx: property (text), widget (CategorizedView, changesView)
+#: ApperKCM/ApperKCM.cpp:287 ApperKCM/ApperKCM.ui:351
+msgid "Find by &description"
+msgstr "Açıklamaya göre &bul"
+
+#: ApperKCM/ApperKCM.cpp:431
+msgid ""
+"The settings of the current module have changed.\n"
+"Do you want to apply the changes or discard them?"
+msgstr ""
+"Etkin modülde kaydedilmemiş değişiklikler var.\n"
+"Değişiklikleri kaydetmek mi yok saymak mı istiyorsunuz?"
+
+#: ApperKCM/ApperKCM.cpp:433
+msgid "Apply Settings"
+msgstr "Ayarları Uygula"
+
+#: ApperKCM/ApperKCM.cpp:670
+#, fuzzy
+#| msgid "<h3>Do you want to install this catalog?</h3><ul><li>%2</li></ul>"
+#| msgid_plural ""
+#| "<h3>Do you want to install these catalogs?</h3><ul><li>%2</li></ul>"
+msgid "Could not find an application that matched this category"
+msgstr "<h3>Bu katalogları yüklemek istiyor musunuz?</h3><ul><li>%2</li></ul>"
+
+#. i18n: ectx: property (windowTitle), widget (QWidget, ApperKCM)
+#: ApperKCM/ApperKCM.ui:20
+msgid "Add and Remove Software"
+msgstr "Yazılım Ekle ve Kaldır"
+
+#. i18n: ectx: property (clickMessage), widget (KLineEdit, searchKLE)
+#: ApperKCM/ApperKCM.ui:58
+msgid "Search packages"
+msgstr "Paket ara"
+
+#. i18n: ectx: property (text), widget (QPushButton, changesPB)
+#: ApperKCM/ApperKCM.ui:127
+msgid "Pending Changes"
+msgstr "Bekleyen Değişiklikler"
+
+#. i18n: ectx: property (text), widget (QPushButton, checkUpdatesPB)
+#: ApperKCM/ApperKCM.ui:161
+msgid "Check for new Updates"
+msgstr "Yeni Güncellemeleri Kontrol Et"
+
+#. i18n: ectx: property (text), widget (QPushButton, generalSettingsPB)
+#: ApperKCM/ApperKCM.ui:195
+msgid "General Settings"
+msgstr "Genel Ayarlar"
+
+#. i18n: ectx: property (text), widget (QPushButton, repoSettingsPB)
+#: ApperKCM/ApperKCM.ui:214
+msgid "Software Origins"
+msgstr "Yazılım Kaynakları"
+
+#. i18n: ectx: property (text), widget (QToolButton, backTB)
+#: ApperKCM/ApperKCM.ui:267 AppSetup/SetupWizard.cpp:152
+msgid "Back"
+msgstr "Geri"
+
+#: ApperKCM/BrowseView.cpp:90 ApperKCM/Updater/Updater.cpp:104
+msgid "Show Versions"
+msgstr "Sürümleri Göster"
+
+#: ApperKCM/BrowseView.cpp:97 ApperKCM/Updater/Updater.cpp:118
+msgid "Show Architectures"
+msgstr "Mimarileri Göster"
+
+#: ApperKCM/BrowseView.cpp:104 ApperKCM/Updater/Updater.cpp:125
+msgid "Show Origins"
+msgstr "Kaynakları Göster"
+
+#: ApperKCM/BrowseView.cpp:111 ApperKCM/Updater/Updater.cpp:132
+msgid "Show Sizes"
+msgstr "Boyutları Göster"
+
+#. i18n: ectx: property (text), widget (QPushButton, exportInstalledPB)
+#: ApperKCM/BrowseView.ui:140
+msgid "Export Installed Package List..."
+msgstr "Kurulu Paketler Listesini Dışarıya Aktar..."
+
+#. i18n: ectx: property (text), widget (QPushButton, importInstalledPB)
+#: ApperKCM/BrowseView.ui:150
+msgid "Install Packages from List..."
+msgstr "Paketleri listeden kur..."
+
+#: ApperKCM/CategoryModel.cpp:50
+msgid "Installed Software"
+msgstr "Kurulu Yazılımlar"
+
+#: ApperKCM/CategoryModel.cpp:53 ApperKCM/CategoryModel.cpp:61
+msgid "Lists"
+msgstr "Listeler"
+
+#: ApperKCM/CategoryModel.cpp:58
+msgid "Updates"
+msgstr "Güncelleştirmeler"
+
+#: ApperKCM/CategoryModel.cpp:161 ApperKCM/CategoryModel.cpp:359
+msgid "Categories"
+msgstr "Kategoriler"
+
+#: ApperKCM/CategoryModel.cpp:218
+msgid "Groups"
+msgstr "Gruplar"
+
+#: ApperKCM/FiltersMenu.cpp:37
+msgid "Collections"
+msgstr "Koleksiyonlar"
+
+#: ApperKCM/FiltersMenu.cpp:44
+msgid "Only collections"
+msgstr "Sadece koleksiyonlar"
+
+#: ApperKCM/FiltersMenu.cpp:51
+msgid "Exclude collections"
+msgstr "Koleksiyonları hariç tut"
+
+#: ApperKCM/FiltersMenu.cpp:67
+msgid "Only installed"
+msgstr "Sadece kurulu"
+
+#: ApperKCM/FiltersMenu.cpp:74
+msgid "Only available"
+msgstr "Sadece kullanılabilir olanlar"
+
+#: ApperKCM/FiltersMenu.cpp:81 ApperKCM/FiltersMenu.cpp:111
+#: ApperKCM/FiltersMenu.cpp:141 ApperKCM/FiltersMenu.cpp:171
+#: ApperKCM/FiltersMenu.cpp:202 ApperKCM/FiltersMenu.cpp:233
+msgid "No filter"
+msgstr "Filtre yok"
+
+#: ApperKCM/FiltersMenu.cpp:97
+msgid "Only development"
+msgstr "Sadece geliştirme"
+
+#: ApperKCM/FiltersMenu.cpp:104
+msgid "Only end user files"
+msgstr "Sadece son kullanıcı dosyaları"
+
+#: ApperKCM/FiltersMenu.cpp:120
+msgid "Graphical"
+msgstr "Grafiksel"
+
+#: ApperKCM/FiltersMenu.cpp:127
+msgid "Only graphical"
+msgstr "Sadece grafiksel"
+
+#: ApperKCM/FiltersMenu.cpp:134
+msgid "Only text"
+msgstr "Sadece metin"
+
+#: ApperKCM/FiltersMenu.cpp:150
+msgctxt "Filter for free packages"
+msgid "Free"
+msgstr "Özgür"
+
+#: ApperKCM/FiltersMenu.cpp:157
+msgid "Only free software"
+msgstr "Sadece özgür yazılım"
+
+#: ApperKCM/FiltersMenu.cpp:164
+msgid "Only non-free software"
+msgstr "Sadece özgür olmayan yazılım"
+
+#: ApperKCM/FiltersMenu.cpp:181
+msgctxt "Filter for supported packages"
+msgid "Supported"
+msgstr "Desteklenen"
+
+#: ApperKCM/FiltersMenu.cpp:188
+msgid "Only supported software"
+msgstr "Sadece desteklenen yazılımlar"
+
+#: ApperKCM/FiltersMenu.cpp:195
+msgid "Only non-supported software"
+msgstr "Sadece desteklenmeyen yazılımlar"
+
+#: ApperKCM/FiltersMenu.cpp:212
+msgctxt "Filter for source packages"
+msgid "Source"
+msgstr "Kaynak"
+
+#: ApperKCM/FiltersMenu.cpp:219
+msgid "Only sourcecode"
+msgstr "Sadece kaynak kod"
+
+#: ApperKCM/FiltersMenu.cpp:226
+msgid "Only non-sourcecode"
+msgstr "Sadece kaynak kod olmayan"
+
+#: ApperKCM/FiltersMenu.cpp:248
+msgid "Hide Subpackages"
+msgstr "Alt Paketleri Gizle"
+
+#: ApperKCM/FiltersMenu.cpp:250
+msgid "Only show one package, not subpackages"
+msgstr "Sadece bir paket göster, alt paketleri gösterme"
+
+#: ApperKCM/FiltersMenu.cpp:257
+#, fuzzy
+#| msgid "Only newest packages"
+msgid "Only Newest Packages"
+msgstr "Sadece en yeni paketler"
+
+#: ApperKCM/FiltersMenu.cpp:262
+msgid "Only show the newest available package"
+msgstr "Sadece en yeni kullanılabilir paketleri göster"
+
+#: ApperKCM/FiltersMenu.cpp:269
+#, fuzzy
+#| msgid "Only newest packages"
+msgid "Only Native Packages"
+msgstr "Sadece en yeni paketler"
+
+#: ApperKCM/FiltersMenu.cpp:274
+msgid "Only show packages matching the machine architecture"
+msgstr ""
+
+#: ApperKCM/FiltersMenu.cpp:283
+#, fuzzy
+#| msgid "Only show applications"
+msgid "Only Show Applications"
+msgstr "Sadece uygulamaları göster"
+
+#: ApperKCM/FiltersMenu.cpp:286
+#, fuzzy
+#| msgid "Packages are not compatible"
+msgid "Hide packages that are not applications"
+msgstr "Paketler uyumlu değil"
+
+#: ApperKCM/PackageDetails.cpp:85
+msgid "Display"
+msgstr "Göster"
+
+#: ApperKCM/PackageDetails.cpp:92 AppSetup/SetupWizard.cpp:254
+msgid "Description"
+msgstr "Açıklama"
+
+#: ApperKCM/PackageDetails.cpp:100
+msgid "Depends On"
+msgstr "Bağımlı"
+
+#: ApperKCM/PackageDetails.cpp:129
+msgid "Required By"
+msgstr "Gereksinim Duyan Paket"
+
+#: ApperKCM/PackageDetails.cpp:158
+msgid "File List"
+msgstr "Dosya Listesi"
+
+#: ApperKCM/PackageDetails.cpp:518
+msgid "No files were found."
+msgstr "Hiç dosya bulunamadı."
+
+#: ApperKCM/PackageDetails.cpp:566
+msgid "Could not fetch software details"
+msgstr ""
+
+#: ApperKCM/PackageDetails.cpp:608
+msgid "Applications"
+msgstr "Uygulamalar"
+
+#. i18n: ectx: property (text), widget (QLabel, licenseL)
+#: ApperKCM/PackageDetails.ui:146
+msgid "License:"
+msgstr "Lisans:"
+
+#. i18n: ectx: property (text), widget (QToolButton, hideTB)
+#: ApperKCM/PackageDetails.ui:359 ApperKCM/Updater/UpdateDetails.ui:20
+msgid "Hide"
+msgstr "Gizle"
+
+#: ApperKCM/ScreenShotViewer.cpp:90
+msgid "Could not find screen shot."
+msgstr "Ekran görüntüsü bulunamadı."
+
+#: ApperKCM/Settings/OriginModel.cpp:39
+msgid "Origin of Packages"
+msgstr "Paket Kaynakları"
+
+#: ApperKCM/Settings/Settings.cpp:81
+#, fuzzy
+#| msgctxt "Never refresh package cache"
+#| msgid "Never"
+msgctxt "Inform about distribution upgrades"
+msgid "Never"
+msgstr "Asla"
+
+#: ApperKCM/Settings/Settings.cpp:84
+#, fuzzy
+#| msgid "Only installed"
+msgctxt "Inform about distribution upgrades"
+msgid "Only stable"
+msgstr "Sadece kurulu"
+
+#: ApperKCM/Settings/Settings.cpp:89
+#, fuzzy
+#| msgid "Only development"
+msgctxt "Inform about distribution upgrades"
+msgid "Stable and development"
+msgstr "Sadece geliştirme"
+
+#: ApperKCM/Settings/Settings.cpp:93
+msgctxt "Hourly refresh the package cache"
+msgid "Hourly"
+msgstr "Saatlik"
+
+#: ApperKCM/Settings/Settings.cpp:94
+msgctxt "Daily refresh the package cache"
+msgid "Daily"
+msgstr "Günlük"
+
+#: ApperKCM/Settings/Settings.cpp:95
+msgctxt "Weekly refresh the package cache"
+msgid "Weekly"
+msgstr "Haftalık"
+
+#: ApperKCM/Settings/Settings.cpp:96
+msgctxt "Monthly refresh the package cache"
+msgid "Monthly"
+msgstr "Aylık"
+
+#: ApperKCM/Settings/Settings.cpp:97
+msgctxt "Never refresh package cache"
+msgid "Never"
+msgstr "Asla"
+
+#: ApperKCM/Settings/Settings.cpp:99
+msgctxt "No updates will be automatically installed"
+msgid "None"
+msgstr "Hiçbiri"
+
+#: ApperKCM/Settings/Settings.cpp:100
+#, fuzzy
+#| msgid "Downloading"
+msgid "Download only"
+msgstr "İndiriliyor"
+
+#: ApperKCM/Settings/Settings.cpp:101
+msgid "Security only"
+msgstr "Sadece güvenlik"
+
+#: ApperKCM/Settings/Settings.cpp:102
+msgid "All updates"
+msgstr "Tüm güncellemeler"
+
+#: ApperKCM/Settings/Settings.cpp:314 libapper/PkStrings.cpp:968
+msgid "You do not have the necessary privileges to perform this action."
+msgstr "Bu eylemi gerçekleştirmek için gerekli olan haklara sahip değilsiniz."
+
+#: ApperKCM/Settings/Settings.cpp:315
+msgid "Failed to set origin data"
+msgstr "Kaynak verisi ayarlanamadı"
+
+#. i18n: ectx: property (text), widget (QLabel, intervalL)
+#: ApperKCM/Settings/Settings.ui:50
+#, fuzzy
+#| msgid "Check for new Updates"
+msgid "Check for new updates:"
+msgstr "Yeni Güncellemeleri Kontrol Et"
+
+#. i18n: ectx: property (text), widget (QCheckBox, checkUpdatesMobileCB)
+#. i18n: ectx: property (text), widget (QCheckBox, installUpdatesMobileCB)
+#: ApperKCM/Settings/Settings.ui:91 ApperKCM/Settings/Settings.ui:159
+msgid "when on a mobile broadband network connection"
+msgstr ""
+
+#. i18n: ectx: property (text), widget (QCheckBox, checkUpdatesBatteryCB)
+#. i18n: ectx: property (text), widget (QCheckBox, installUpdatesBatteryCB)
+#: ApperKCM/Settings/Settings.ui:98 ApperKCM/Settings/Settings.ui:152
+msgid "when running on battery"
+msgstr ""
+
+#. i18n: ectx: property (text), widget (QLabel, autoInsL)
+#: ApperKCM/Settings/Settings.ui:117
+#, fuzzy
+#| msgid "Automatically install:"
+msgid "Automatically update:"
+msgstr "Otomatik olarak yükle:"
+
+#. i18n: ectx: property (text), widget (QCheckBox, appLauncherCB)
+#: ApperKCM/Settings/Settings.ui:175
+msgid "Show application launcher after installing new applications"
+msgstr "Yeni uygulamalar kurulduğunda uygulama başlatıcıyı göster"
+
+#. i18n: ectx: property (text), widget (QCheckBox, autoConfirmCB)
+#: ApperKCM/Settings/Settings.ui:182
+msgid "Show confirmation dialog when installing or updating packages"
+msgstr "Paketler yüklenirken veya güncellenirken doğrulama penceresini göster"
+
+#. i18n: ectx: property (text), widget (QLabel, label)
+#: ApperKCM/Settings/Settings.ui:189
+#, fuzzy
+#| msgctxt "The role of the transaction, in past tense"
+#| msgid "Got distribution upgrades"
+msgid "Check for distribution upgrades:"
+msgstr "Dağıtım yükseltmesi alındı"
+
+#. i18n: ectx: property (text), widget (QCheckBox, showOriginsCB)
+#: ApperKCM/Settings/Settings.ui:227
+msgid "&Show origins of debug and development packages"
+msgstr "Onarım ve geliştirme paketlerinin kaynağını &göster"
+
+#. i18n: ectx: property (text), widget (QPushButton, editOriginsPB)
+#: ApperKCM/Settings/Settings.ui:247
+msgid "Edit Origins"
+msgstr "Kaynakları Düzenle"
+
+#: ApperKCM/TransactionHistory.cpp:66
+msgid "Refresh transactions list"
+msgstr "Aktarım listesini yenile"
+
+#: ApperKCM/TransactionHistory.cpp:87
+#, kde-format
+msgid "Time since last cache refresh: %1"
+msgstr "Son önbellek tazelemesinden sonra geçen süre: %1"
+
+#: ApperKCM/TransactionModel.cpp:46
+msgid "Date"
+msgstr "Tarih"
+
+#: ApperKCM/TransactionModel.cpp:47 libapper/PackageModel.cpp:222
+msgid "Action"
+msgstr "Eylem"
+
+#: ApperKCM/TransactionModel.cpp:49
+msgctxt "Machine user who issued the transaction"
+msgid "Username"
+msgstr "Kullanıcı adı"
+
+#: ApperKCM/TransactionModel.cpp:50
+msgid "Application"
+msgstr "Uygulama"
+
+#: ApperKCM/Updater/DistroUpgrade.cpp:40
+#, fuzzy
+#| msgid "Upgrade to %1"
+msgid "Upgrade"
+msgstr "%1 sürümüne güncelle"
+
+#: ApperKCM/Updater/DistroUpgrade.cpp:47
+#, fuzzy, kde-format
+#| msgid "Distribution upgrade available"
+msgid "Distribution upgrade available: %1"
+msgstr "Dağıtım yükseltme mevcut"
+
+#: ApperKCM/Updater/DistroUpgrade.cpp:61
+msgid ""
+"You are about to upgrade your distribution to the latest version. This is "
+"usually a very lengthy process and takes a lot longer than simply upgrading "
+"your packages."
+msgstr ""
+"Dağıtımınızı en son sürüme yükseltmek üzeresiniz. Bu genelde çok uzun bir "
+"süreçtir ve basitçe paketlerinizi güncellemekten daha çok vakit alır."
+
+#: ApperKCM/Updater/DistroUpgrade.cpp:66
+msgid "It is recommended to plug in your computer before proceeding."
+msgstr "Devam etmeden önce bilgisayarınızı prize takmanız önerilir."
+
+#: ApperKCM/Updater/DistroUpgrade.cpp:68
+msgid ""
+"It is recommended that you keep your computer plugged in while the upgrade "
+"is being performed."
+msgstr ""
+"Güncelleme uygulanırken bilgisayarınızı prize takılı tutmanız önerilir."
+
+#: ApperKCM/Updater/DistroUpgrade.cpp:87
+msgid "Distribution upgrade complete."
+msgstr "Dağıtım yükseltme tamamlandı."
+
+#: ApperKCM/Updater/UpdateDetails.cpp:187
+msgid "This update will add new features and expand functionality."
+msgstr ""
+
+#: ApperKCM/Updater/UpdateDetails.cpp:191
+msgid "This update will fix bugs and other non-critical problems."
+msgstr ""
+
+#: ApperKCM/Updater/UpdateDetails.cpp:195
+msgid "This update is important as it may solve critical problems."
+msgstr ""
+
+#: ApperKCM/Updater/UpdateDetails.cpp:199
+msgid ""
+"This update is needed to fix a security vulnerability with this package."
+msgstr ""
+
+#: ApperKCM/Updater/UpdateDetails.cpp:203
+msgid "This update is blocked."
+msgstr "Bu güncelleme engellenmiş."
+
+#: ApperKCM/Updater/UpdateDetails.cpp:210
+#, kde-format
+msgid "This notification was issued on %1 and last updated on %2."
+msgstr ""
+
+#: ApperKCM/Updater/UpdateDetails.cpp:216
+#, kde-format
+msgid "This notification was issued on %1."
+msgstr ""
+
+#: ApperKCM/Updater/UpdateDetails.cpp:235
+msgid "For more information about this update please visit this website:"
+msgid_plural ""
+"For more information about this update please visit these websites:"
+msgstr[0] ""
+
+#: ApperKCM/Updater/UpdateDetails.cpp:245
+msgid ""
+"For more information about bugs fixed by this update please visit this "
+"website:"
+msgid_plural ""
+"For more information about bugs fixed by this update please visit these "
+"websites:"
+msgstr[0] ""
+
+#: ApperKCM/Updater/UpdateDetails.cpp:255
+msgid ""
+"For more information about this security update please visit this website:"
+msgid_plural ""
+"For more information about this security update please visit these websites:"
+msgstr[0] ""
+
+#: ApperKCM/Updater/UpdateDetails.cpp:265
+msgid ""
+"The computer will have to be restarted after the update for the changes to "
+"take effect."
+msgstr ""
+"Değişikliklerinin etkinleştirilebilmesi için bilgisayarını yeniden "
+"başlatılması gerekiyor."
+
+#: ApperKCM/Updater/UpdateDetails.cpp:269
+msgid ""
+"You will need to log out and back in after the update for the changes to "
+"take effect."
+msgstr ""
+"Değişikliklerinin etkinleştirilebilmesi için oturumun kapatılıp yeniden "
+"başlatılması gerekiyor."
+
+#: ApperKCM/Updater/UpdateDetails.cpp:276
+msgid ""
+"The classification of this update is unstable which means it is not designed "
+"for production use."
+msgstr ""
+
+#: ApperKCM/Updater/UpdateDetails.cpp:280
+msgid ""
+"This is a test update, and is not designed for normal use. Please report any "
+"problems or regressions you encounter."
+msgstr ""
+
+#: ApperKCM/Updater/UpdateDetails.cpp:290
+msgid ""
+"The developer logs will be shown as no description is available for this "
+"update:"
+msgstr ""
+
+#: ApperKCM/Updater/UpdateDetails.cpp:298
+msgid "Updates:"
+msgstr "Güncellemeler:"
+
+#: ApperKCM/Updater/UpdateDetails.cpp:308
+msgid "Obsoletes:"
+msgstr "Gereksizler:"
+
+#: ApperKCM/Updater/UpdateDetails.cpp:318
+#, fuzzy, kde-format
+#| msgid "Repository:"
+msgid "Repository: %1"
+msgstr "Depo:"
+
+#: ApperKCM/Updater/UpdateDetails.cpp:340
+msgid "No update description was found."
+msgstr "Hiçbir güncelleme açıklaması bulunamadı."
+
+#: ApperKCM/Updater/Updater.cpp:111
+#, fuzzy
+#| msgid "Show Versions"
+msgid "Show Current Versions"
+msgstr "Sürümleri Göster"
+
+#: ApperKCM/Updater/Updater.cpp:239
+#, kde-format
+msgid "Estimated download size: %1"
+msgstr ""
+
+#: ApperKCM/Updater/Updater.cpp:358 plasmoid/updaterapplet.cpp:57
+#, fuzzy
+#| msgid "Check for new Updates"
+msgid "Check for new updates"
+msgstr "Yeni Güncellemeleri Kontrol Et"
+
+#. i18n: ectx: property (text), widget (QRadioButton, acceptedRB)
+#: AppSetup/LicensePage.ui:98
+msgid "I agree to the above terms and conditions"
+msgstr ""
+
+#. i18n: ectx: property (text), widget (QRadioButton, rejectedRB)
+#: AppSetup/LicensePage.ui:111
+msgid "I don't agree"
+msgstr ""
+
+#: AppSetup/main.cpp:34 AppSetup/main.cpp:35
+msgid "KDE Application Installer"
+msgstr "KDE Uygulama Yükleyici"
+
+#: AppSetup/main.cpp:36
+msgid "(C) 2012, Matthias Klumpp"
+msgstr "(C) 2012, Matthias Klumpp"
+
+#: AppSetup/main.cpp:38
+msgctxt "@info:credit"
+msgid "Daniel Nicoletti"
+msgstr "Daniel Nicoletti"
+
+#: AppSetup/main.cpp:38 AppSetup/main.cpp:40
+msgid "Developer"
+msgstr "Geliştirici"
+
+#: AppSetup/main.cpp:40
+msgctxt "@info:credit"
+msgid "Matthias Klumpp"
+msgstr "Matthias Klumpp"
+
+#: AppSetup/main.cpp:47
+msgid "Show verbose information"
+msgstr "Ayrıntılı bilgileri göster"
+
+#: AppSetup/main.cpp:48
+#, fuzzy
+#| msgid "Invalid package file"
+msgid "IPK package filename"
+msgstr "Geçersiz paket dosyası"
+
+#: AppSetup/main.cpp:75
+msgid "Sorry, we didn't get an existing IPK package as parameter."
+msgstr ""
+
+#: AppSetup/main.cpp:76
+msgid "Package not found!"
+msgstr "Paket bulunamadı!"
+
+#: AppSetup/SetupWizard.cpp:87
+msgid "Installation finished!"
+msgstr "Kurulum tamamlandı!"
+
+#: AppSetup/SetupWizard.cpp:88
+#, kde-format
+msgid "%1 has been installed successfully!"
+msgstr "%1 başarılı bir şekilde kuruldu!"
+
+#: AppSetup/SetupWizard.cpp:102 libapper/PkTransaction.cpp:133
+#: libapper/PkTransaction.cpp:151 libapper/PkTransaction.cpp:170
+#: libapper/PkTransaction.cpp:193
+msgid "Error"
+msgstr "Hata"
+
+#: AppSetup/SetupWizard.cpp:103 AppSetup/SetupWizard.cpp:117
+msgid "An error occurred"
+msgstr "Bir hata oluştu"
+
+#: AppSetup/SetupWizard.cpp:150 libapper/Requirements.cpp:58
+#: PkSession/SessionTask.cpp:71
+msgid "Continue"
+msgstr "Devam Et"
+
+#: AppSetup/SetupWizard.cpp:188
+msgid "Welcome!"
+msgstr "Hoş geldiniz!"
+
+#: AppSetup/SetupWizard.cpp:189
+#, fuzzy, kde-format
+#| msgctxt "The role of the transaction, in past tense"
+#| msgid "Got old transactions"
+msgid "Welcome to the installation of %1!"
+msgstr "Önceki aktarımlar alındı"
+
+#: AppSetup/SetupWizard.cpp:190
+msgid ""
+"Please be careful while installing 3rd-party applications.<br>They may "
+"eventually <b>damage</b> your system or have <b>malicious behaviour</b>, "
+"like spying out your passwords.<br>Please do only install this software if "
+"you <b>trust the publisher and the author</b> of it."
+msgstr ""
+
+#: AppSetup/SetupWizard.cpp:200
+msgid "Details about this installation"
+msgstr "Bu kurulum hakkında bilgiler"
+
+#: AppSetup/SetupWizard.cpp:236
+#, fuzzy
+#| msgid "Install for all users (as root)"
+msgid "Install for all users"
+msgstr "Tüm kullanıcılar için kur (root olarak)"
+
+#: AppSetup/SetupWizard.cpp:253
+msgid "Application description"
+msgstr "Uygulama açıklaması"
+
+#: AppSetup/SetupWizard.cpp:262
+#, fuzzy
+#| msgctxt "The group type"
+#| msgid "Software sources"
+msgid "Software license"
+msgstr "Yazılım kaynakları"
+
+#: AppSetup/SetupWizard.cpp:263
+#, fuzzy
+#| msgid "Please read the following important information before continuing:"
+msgid "Please read the following terms and conditions carefully!"
+msgstr "Lütfen devam etmeden önce aşağıdaki önemli bilgiyi okuyun:"
+
+#: AppSetup/SetupWizard.cpp:270
+#, fuzzy
+#| msgctxt "transaction state, scanning for running processes"
+#| msgid "Scanning installed applications"
+msgid "Running installation"
+msgstr "Kurulu uygulamalar taranıyor"
+
+#: AppSetup/SetupWizard.cpp:271
+#, kde-format
+msgid "Installing %1..."
+msgstr "%1 kuruluyor..."
+
+#: AppSetup/SetupWizard.cpp:306
+msgid ""
+"Installing this package will make the following native packages obsolete. "
+"You might consider removing them manually."
+msgstr ""
+
+#: AppSetup/SetupWizard.cpp:307
+#, fuzzy
+#| msgid "Simulate Update Packages"
+msgid "Similar native packages found"
+msgstr "Paket Güncelleme İşleminin Benzetimini Yap"
+
+#: AppSetup/SetupWizard.cpp:402
+msgid ""
+"You want to install this application as root!\n"
+"This can damage your system or install malicious software for all users.\n"
+"Please only proceed, if you really know what you're doing!\n"
+"Continue?"
+msgstr ""
+
+#: AppSetup/SetupWizard.cpp:405
+msgid "Really install as superuser?"
+msgstr ""
+
+#: AppSetup/SetupWizard.cpp:422
+#, kde-format
+msgid "This package has the following security level: <b>%1</b>"
+msgstr ""
+
+#: AppSetup/SetupWizard.cpp:424
+#, kde-format
+msgid "It was signed with a key belonging to these user-ids: %1"
+msgstr ""
+
+#: AppSetup/SetupWizard.cpp:428
+#, fuzzy
+#| msgid "Security only"
+msgid "Security hints"
+msgstr "Sadece güvenlik"
+
+#: libapper/ApplicationLauncher.cpp:96
+#, fuzzy
+#| msgid "No network connection available"
+msgid "New application available"
+msgid_plural "New applications available"
+msgstr[0] "Kullanılabilir ağ bağantısı yok"
+
+#: libapper/ApplicationLauncher.cpp:99
+#, fuzzy
+#| msgid "The following application was just installed, click on it to launch:"
+#| msgid_plural ""
+#| "The following applications where just installed, click on them to launch:"
+msgid "The following application was just installed. Click on it to launch:"
+msgid_plural ""
+"The following applications were just installed. Click on them to launch:"
+msgstr[0] "Bu uygulamalar yeni kuruldu, çalıştırmak için üzerine tıklayın:"
+
+#. i18n: ectx: property (text), widget (QCheckBox, showCB)
+#: libapper/ApplicationLauncher.ui:72
+msgid "Do not show this dialog again"
+msgstr "Bu pencereyi tekrar gösterme"
+
+#: libapper/ApplicationsDelegate.cpp:42
+msgid "Remove"
+msgstr "Kaldır"
+
+#: libapper/ApplicationsDelegate.cpp:44 libapper/ChangesDelegate.cpp:51
+msgid "Deselect"
+msgstr "Seçimi Kaldır"
+
+#: libapper/ChangesDelegate.cpp:47
+#, fuzzy
+#| msgid "To be Installed"
+msgid "Do not Install"
+msgstr "Kurulacak"
+
+#: libapper/ChangesDelegate.cpp:49
+#, fuzzy
+#| msgid "To be Removed"
+msgid "Do not Remove"
+msgstr "Kaldırılacak"
+
+#: libapper/CustomProgressBar.cpp:38
+#, kde-format
+msgid "%1 remaining"
+msgstr "%1 kaldı"
+
+#: libapper/LicenseAgreement.cpp:40
+msgid "Accept Agreement"
+msgstr "Sözleşmeyi Kabul Et"
+
+#. i18n: ectx: property (windowTitle), widget (QWidget, LicenseAgreement)
+#: libapper/LicenseAgreement.cpp:41 libapper/LicenseAgreement.ui:14
+msgid "License Agreement Required"
+msgstr "Lisans Sözleşmesi Gerekli"
+
+#: libapper/LicenseAgreement.cpp:42
+#, kde-format
+msgid "License required for %1 by %2"
+msgstr "%2 tarafından %1 için lisans gerekli"
+
+#. i18n: ectx: property (text), widget (QLabel, label_2)
+#: libapper/LicenseAgreement.ui:40
+msgid "Please read the following important information before continuing:"
+msgstr "Lütfen devam etmeden önce aşağıdaki önemli bilgiyi okuyun:"
+
+#: libapper/PackageModel.cpp:203
+#, fuzzy
+#| msgid "name"
+msgid "Name"
+msgstr "isim"
+
+#: libapper/PackageModel.cpp:207
+msgid "Version"
+msgstr "Sürüm"
+
+#: libapper/PackageModel.cpp:210
+#, fuzzy
+#| msgctxt "The role of the transaction, in past tense"
+#| msgid "Installed signature"
+msgid "Installed Version"
+msgstr "Yüklenmiş imza"
+
+#: libapper/PackageModel.cpp:213
+msgid "Arch"
+msgstr ""
+
+#: libapper/PackageModel.cpp:216
+#, fuzzy
+#| msgid "Edit Origins"
+msgid "Origin"
+msgstr "Kaynakları Düzenle"
+
+#: libapper/PackageModel.cpp:219
+msgid "Size"
+msgstr "Boyut"
+
+#: libapper/PackageModel.cpp:317
+#, fuzzy, kde-format
+#| msgid "Architectures"
+msgid ""
+"Version: %1\n"
+"Architecture: %2"
+msgstr "Mimarlık"
+
+#: libapper/PackageModel.cpp:363
+msgid "To be Removed"
+msgstr "Kaldırılacak"
+
+#: libapper/PackageModel.cpp:365
+msgid "To be Installed"
+msgstr "Kurulacak"
+
+#: libapper/PkStrings.cpp:36
+msgctxt "This is when the transaction status is not known"
+msgid "Unknown state"
+msgstr "Bilinmeyen durum"
+
+#: libapper/PkStrings.cpp:39
+msgctxt "transaction state, the daemon is in the process of starting"
+msgid "Waiting for service to start"
+msgstr "Servisin başlaması bekleniyor"
+
+#: libapper/PkStrings.cpp:42
+msgctxt "transaction state, the transaction is waiting for another to complete"
+msgid "Waiting for other tasks"
+msgstr "Diğer görevler bekleniyor"
+
+#: libapper/PkStrings.cpp:45
+msgctxt "transaction state, just started"
+msgid "Running task"
+msgstr "Çalışan görev"
+
+#: libapper/PkStrings.cpp:48
+msgctxt "transaction state, is querying data"
+msgid "Querying"
+msgstr "Sorgulanıyor"
+
+#: libapper/PkStrings.cpp:51
+msgctxt "transaction state, getting data from a server"
+msgid "Getting information"
+msgstr "Bilgi alınıyor"
+
+#: libapper/PkStrings.cpp:54
+msgctxt "transaction state, removing packages"
+msgid "Removing packages"
+msgstr "Paketler kaldırılıyor"
+
+#: libapper/PkStrings.cpp:58
+#, fuzzy, kde-format
+#| msgid "Downloading packages at %1/s"
+msgctxt "transaction state, downloading package files"
+msgid "Downloading at %1/s, %2 remaining"
+msgstr "Paketler %1/s hızıyla indiriliyor"
+
+#: libapper/PkStrings.cpp:63
+#, fuzzy, kde-format
+#| msgid "Downloading packages at %1/s"
+msgctxt "transaction state, downloading package files"
+msgid "Downloading at %1/s"
+msgstr "Paketler %1/s hızıyla indiriliyor"
+
+#: libapper/PkStrings.cpp:67
+#, fuzzy, kde-format
+#| msgid "Downloading packages at %1/s"
+msgctxt "transaction state, downloading package files"
+msgid "Downloading, %1 remaining"
+msgstr "Paketler %1/s hızıyla indiriliyor"
+
+#: libapper/PkStrings.cpp:71
+#, fuzzy
+#| msgid "Downloading"
+msgctxt "transaction state, downloading package files"
+msgid "Downloading"
+msgstr "İndiriliyor"
+
+#: libapper/PkStrings.cpp:75
+msgctxt "transaction state, installing packages"
+msgid "Installing packages"
+msgstr "Paketler yükleniyor"
+
+#: libapper/PkStrings.cpp:78
+msgctxt "transaction state, refreshing internal lists"
+msgid "Refreshing software list"
+msgstr "Yazılım listesi güncelleniyor"
+
+#: libapper/PkStrings.cpp:81
+msgctxt "transaction state, installing updates"
+msgid "Updating packages"
+msgstr "Paketler güncelleniyor"
+
+#: libapper/PkStrings.cpp:84
+msgctxt "transaction state, removing old packages, and cleaning config files"
+msgid "Cleaning up packages"
+msgstr "Paketler temizleniyor"
+
+#: libapper/PkStrings.cpp:87
+msgctxt "transaction state, obsoleting old packages"
+msgid "Obsoleting packages"
+msgstr "Paketler gereksiz olarak işaretleniyor"
+
+#: libapper/PkStrings.cpp:90
+msgctxt "transaction state, checking the transaction before we do it"
+msgid "Resolving dependencies"
+msgstr "Bağımlılıklar çözümleniyor"
+
+#: libapper/PkStrings.cpp:93
+msgctxt ""
+"transaction state, checking if we have all the security keys for the "
+"operation"
+msgid "Checking signatures"
+msgstr "İmzalar kontrol ediliyor"
+
+#: libapper/PkStrings.cpp:96
+msgctxt "transaction state, when we're doing a test transaction"
+msgid "Testing changes"
+msgstr "Değişiklikler test ediliyor"
+
+#: libapper/PkStrings.cpp:99
+msgctxt "transaction state, when we're writing to the system package database"
+msgid "Committing changes"
+msgstr "Değişiklikler uygulanıyor"
+
+#: libapper/PkStrings.cpp:102
+msgctxt "transaction state, requesting data from a server"
+msgid "Requesting data"
+msgstr "Veri isteniyor"
+
+#: libapper/PkStrings.cpp:105
+msgctxt "transaction state, all done!"
+msgid "Finished"
+msgstr "Bitti"
+
+#: libapper/PkStrings.cpp:108
+msgctxt "transaction state, in the process of cancelling"
+msgid "Cancelling"
+msgstr "İptal ediliyor"
+
+#: libapper/PkStrings.cpp:111
+msgctxt "transaction state, downloading metadata"
+msgid "Downloading repository information"
+msgstr "Depo bilgisi indiriliyor"
+
+#: libapper/PkStrings.cpp:114
+msgctxt "transaction state, downloading metadata"
+msgid "Downloading list of packages"
+msgstr "Paket listesi indiriliyor"
+
+#: libapper/PkStrings.cpp:117
+msgctxt "transaction state, downloading metadata"
+msgid "Downloading file lists"
+msgstr "Dosya listesi indiriliyor"
+
+#: libapper/PkStrings.cpp:120
+msgctxt "transaction state, downloading metadata"
+msgid "Downloading lists of changes"
+msgstr "Değişiklik listesi indiriliyor"
+
+#: libapper/PkStrings.cpp:123
+msgctxt "transaction state, downloading metadata"
+msgid "Downloading groups"
+msgstr "Gruplar indiriliyor"
+
+#: libapper/PkStrings.cpp:126
+msgctxt "transaction state, downloading metadata"
+msgid "Downloading update information"
+msgstr "Güncelleme bilgileri indiriliyor"
+
+#: libapper/PkStrings.cpp:129
+msgctxt "transaction state, repackaging delta files"
+msgid "Repackaging files"
+msgstr "Dosyalar yeniden paketleniyor"
+
+#: libapper/PkStrings.cpp:132
+msgctxt "transaction state, loading databases"
+msgid "Loading cache"
+msgstr "Önbellek yükleniyor"
+
+#: libapper/PkStrings.cpp:135
+msgctxt "transaction state, scanning for running processes"
+msgid "Scanning installed applications"
+msgstr "Kurulu uygulamalar taranıyor"
+
+#: libapper/PkStrings.cpp:138
+msgctxt ""
+"transaction state, generating a list of packages installed on the system"
+msgid "Generating package lists"
+msgstr "Paket listesi oluşturuluyor"
+
+#: libapper/PkStrings.cpp:141
+msgctxt "transaction state, when we're waiting for the native tools to exit"
+msgid "Waiting for package manager lock"
+msgstr "Paket yöneticisinin kilitlenmesi bekleniyor"
+
+#: libapper/PkStrings.cpp:144
+msgctxt "waiting for user to type in a password"
+msgid "Waiting for authentication"
+msgstr "Kimlik doğrulaması için bekleniyor"
+
+#: libapper/PkStrings.cpp:147
+msgctxt "we are updating the list of processes"
+msgid "Updating the list of running applications"
+msgstr "Çalışan uygulamalar listesi güncelleniyor"
+
+#: libapper/PkStrings.cpp:150
+msgctxt "we are checking executable files in use"
+msgid "Checking for applications currently in use"
+msgstr "Şimdi kullanılan uygulamalar denetleniyor"
+
+#: libapper/PkStrings.cpp:153
+msgctxt "we are checking for libraries in use"
+msgid "Checking for libraries currently in use"
+msgstr "Şimdi kullanılan kitaplıklar denetleniyor"
+
+#: libapper/PkStrings.cpp:156
+msgctxt "we are copying package files to prepare to install"
+msgid "Copying files"
+msgstr "Dosyalar kopyalanıyor"
+
+#: libapper/PkStrings.cpp:166
+msgctxt "The action of the package, in past tense"
+msgid "Downloaded"
+msgstr "İndirildi"
+
+#: libapper/PkStrings.cpp:168
+msgctxt "The action of the package, in past tense"
+msgid "Updated"
+msgstr "Güncellenen"
+
+#: libapper/PkStrings.cpp:170
+msgctxt "The action of the package, in past tense"
+msgid "Installed"
+msgstr "Yüklü"
+
+#: libapper/PkStrings.cpp:172
+msgctxt "The action of the package, in past tense"
+msgid "Removed"
+msgstr "Kaldırıldı"
+
+#: libapper/PkStrings.cpp:174
+msgctxt "The action of the package, in past tense"
+msgid "Cleaned Up"
+msgstr "Temizlendi"
+
+#: libapper/PkStrings.cpp:176
+msgctxt "The action of the package, in past tense"
+msgid "Obsoleted"
+msgstr "Gereksiz Olarak İşaretlendi"
+
+#: libapper/PkStrings.cpp:188
+msgctxt "The role of the transaction, in present tense"
+msgid "Unknown role type"
+msgstr "Bilinmeyen rol tipi"
+
+#: libapper/PkStrings.cpp:190
+msgctxt "The role of the transaction, in present tense"
+msgid "Getting dependencies"
+msgstr "Bağımlılıklar alınıyor"
+
+#: libapper/PkStrings.cpp:192
+msgctxt "The role of the transaction, in present tense"
+msgid "Getting update detail"
+msgstr "Güncelleme ayrıntıları alınıyor"
+
+#: libapper/PkStrings.cpp:194
+msgctxt "The role of the transaction, in present tense"
+msgid "Getting details"
+msgstr "Ayrıntılar alınıyor"
+
+#: libapper/PkStrings.cpp:196
+msgctxt "The role of the transaction, in present tense"
+msgid "Getting requires"
+msgstr "Ön bağımlılıklar alınıyor"
+
+#: libapper/PkStrings.cpp:198
+msgctxt "The role of the transaction, in present tense"
+msgid "Getting updates"
+msgstr "Güncellemeler alınıyor"
+
+#: libapper/PkStrings.cpp:200
+msgctxt "The role of the transaction, in present tense"
+msgid "Searching details"
+msgstr "Ayrıntılar aranıyor"
+
+#: libapper/PkStrings.cpp:202
+msgctxt "The role of the transaction, in present tense"
+msgid "Searching for file"
+msgstr "Dosya aranıyor"
+
+#: libapper/PkStrings.cpp:204
+msgctxt "The role of the transaction, in present tense"
+msgid "Searching groups"
+msgstr "Gruplar aranıyor"
+
+#: libapper/PkStrings.cpp:206
+msgctxt "The role of the transaction, in present tense"
+msgid "Searching by package name"
+msgstr "Paket adına göre aranıyor"
+
+#: libapper/PkStrings.cpp:208
+msgctxt "The role of the transaction, in present tense"
+msgid "Removing"
+msgstr "Kaldırıyor"
+
+#: libapper/PkStrings.cpp:210
+msgctxt "The role of the transaction, in present tense"
+msgid "Installing"
+msgstr "Kuruluyor"
+
+#: libapper/PkStrings.cpp:212
+msgctxt "The role of the transaction, in present tense"
+msgid "Installing file"
+msgstr "Dosya yükleniyor"
+
+#: libapper/PkStrings.cpp:214
+msgctxt "The role of the transaction, in present tense"
+msgid "Refreshing package cache"
+msgstr "Paket önbelleği tazeleniyor"
+
+#: libapper/PkStrings.cpp:216
+msgctxt "The role of the transaction, in present tense"
+msgid "Updating packages"
+msgstr "Paketler güncelleniyor"
+
+#: libapper/PkStrings.cpp:218
+msgctxt "The role of the transaction, in present tense"
+msgid "Canceling"
+msgstr "İptal ediliyor"
+
+#: libapper/PkStrings.cpp:220
+msgctxt "The role of the transaction, in present tense"
+msgid "Getting list of repositories"
+msgstr "Depo listesi alınıyor"
+
+#: libapper/PkStrings.cpp:222
+msgctxt "The role of the transaction, in present tense"
+msgid "Enabling repository"
+msgstr "Depo etkinleştiriliyor"
+
+#: libapper/PkStrings.cpp:224
+msgctxt "The role of the transaction, in present tense"
+msgid "Setting repository data"
+msgstr "Depo verileri ayarlanıyor"
+
+#: libapper/PkStrings.cpp:226
+msgctxt "The role of the transaction, in present tense"
+msgid "Resolving"
+msgstr "Çözümleniyor"
+
+#: libapper/PkStrings.cpp:228
+msgctxt "The role of the transaction, in present tense"
+msgid "Getting file list"
+msgstr "Dosya listesi alınıyor"
+
+#: libapper/PkStrings.cpp:230
+msgctxt "The role of the transaction, in present tense"
+msgid "Getting what provides"
+msgstr ""
+
+#: libapper/PkStrings.cpp:232
+msgctxt "The role of the transaction, in present tense"
+msgid "Installing signature"
+msgstr "İmza yükleniyor"
+
+#: libapper/PkStrings.cpp:234
+msgctxt "The role of the transaction, in present tense"
+msgid "Getting package lists"
+msgstr "Paket listesi alınıyor"
+
+#: libapper/PkStrings.cpp:236
+msgctxt "The role of the transaction, in present tense"
+msgid "Accepting EULA"
+msgstr "Son Kullanıcı Lisans Sözleşmesi Kabul Ediliyor"
+
+#: libapper/PkStrings.cpp:238
+msgctxt "The role of the transaction, in present tense"
+msgid "Downloading packages"
+msgstr "Paketler indiriliyor"
+
+#: libapper/PkStrings.cpp:240
+msgctxt "The role of the transaction, in present tense"
+msgid "Getting distribution upgrade information"
+msgstr "Dağıtım yükseltme bilgileri alınıyor"
+
+#: libapper/PkStrings.cpp:242
+msgctxt "The role of the transaction, in present tense"
+msgid "Getting categories"
+msgstr "Kategoriler alınıyor"
+
+#: libapper/PkStrings.cpp:244
+msgctxt "The role of the transaction, in present tense"
+msgid "Getting old transactions"
+msgstr "Önceki aktarımlar alınıyor"
+
+#: libapper/PkStrings.cpp:246
+#, fuzzy
+#| msgctxt "The role of the transaction, in present tense"
+#| msgid "Updating system"
+msgctxt "The role of the transaction, in present tense"
+msgid "Upgrading system"
+msgstr "Sistem güncelleniyor"
+
+#: libapper/PkStrings.cpp:248
+#, fuzzy
+#| msgctxt "The role of the transaction, in present tense"
+#| msgid "Updating system"
+msgctxt "The role of the transaction, in present tense"
+msgid "Repairing system"
+msgstr "Sistem güncelleniyor"
+
+#: libapper/PkStrings.cpp:258
+msgctxt "The role of the transaction, in past tense"
+msgid "Unknown role type"
+msgstr "Bilinmeyen rol tipi"
+
+#: libapper/PkStrings.cpp:260
+msgctxt "The role of the transaction, in past tense"
+msgid "Got dependencies"
+msgstr "Bağımlılıklar alındı"
+
+#: libapper/PkStrings.cpp:262
+msgctxt "The role of the transaction, in past tense"
+msgid "Got update detail"
+msgstr "Güncelleme ayrıntıları alındı"
+
+#: libapper/PkStrings.cpp:264
+msgctxt "The role of the transaction, in past tense"
+msgid "Got details"
+msgstr "Ayrıntılar alındı"
+
+#: libapper/PkStrings.cpp:266
+msgctxt "The role of the transaction, in past tense"
+msgid "Got requires"
+msgstr "Ön bağımlılıklar alındı"
+
+#: libapper/PkStrings.cpp:268
+msgctxt "The role of the transaction, in past tense"
+msgid "Got updates"
+msgstr "Güncellemeler alındı"
+
+#: libapper/PkStrings.cpp:270
+msgctxt "The role of the transaction, in past tense"
+msgid "Searched for package details"
+msgstr "Paketlerin ayrıntılarında ara"
+
+#: libapper/PkStrings.cpp:272
+msgctxt "The role of the transaction, in past tense"
+msgid "Searched for file"
+msgstr "Dosya ara"
+
+#: libapper/PkStrings.cpp:274
+msgctxt "The role of the transaction, in past tense"
+msgid "Searched groups"
+msgstr "Grup ara"
+
+#: libapper/PkStrings.cpp:276
+msgctxt "The role of the transaction, in past tense"
+msgid "Searched for package name"
+msgstr "Paket adı ara"
+
+#: libapper/PkStrings.cpp:278
+msgctxt "The role of the transaction, in past tense"
+msgid "Removed packages"
+msgstr "Kaldırılan paketler"
+
+#: libapper/PkStrings.cpp:280
+msgctxt "The role of the transaction, in past tense"
+msgid "Installed packages"
+msgstr "Kurulu paketler"
+
+#: libapper/PkStrings.cpp:282
+msgctxt "The role of the transaction, in past tense"
+msgid "Installed local files"
+msgstr "Kurulu yerel dosyalar"
+
+#: libapper/PkStrings.cpp:284
+msgctxt "The role of the transaction, in past tense"
+msgid "Refreshed package cache"
+msgstr "Paket önbelleği tazelendi"
+
+#: libapper/PkStrings.cpp:286
+msgctxt "The role of the transaction, in past tense"
+msgid "Updated packages"
+msgstr "Güncellenen paketler"
+
+#: libapper/PkStrings.cpp:288
+msgctxt "The role of the transaction, in past tense"
+msgid "Canceled"
+msgstr "İptal edildi"
+
+#: libapper/PkStrings.cpp:290
+msgctxt "The role of the transaction, in past tense"
+msgid "Got list of repositories"
+msgstr "Depo listesi alındı"
+
+#: libapper/PkStrings.cpp:292
+msgctxt "The role of the transaction, in past tense"
+msgid "Enabled repository"
+msgstr "Etkinleştirilmiş depo"
+
+#: libapper/PkStrings.cpp:294
+msgctxt "The role of the transaction, in past tense"
+msgid "Set repository data"
+msgstr "Depo verilerini ayarla"
+
+#: libapper/PkStrings.cpp:296
+msgctxt "The role of the transaction, in past tense"
+msgid "Resolved"
+msgstr "Çözümlendi"
+
+#: libapper/PkStrings.cpp:298
+msgctxt "The role of the transaction, in past tense"
+msgid "Got file list"
+msgstr "Dosya listesi alındı"
+
+#: libapper/PkStrings.cpp:300
+msgctxt "The role of the transaction, in past tense"
+msgid "Got what provides"
+msgstr ""
+
+#: libapper/PkStrings.cpp:302
+msgctxt "The role of the transaction, in past tense"
+msgid "Installed signature"
+msgstr "Yüklenmiş imza"
+
+#: libapper/PkStrings.cpp:304
+msgctxt "The role of the transaction, in past tense"
+msgid "Got package lists"
+msgstr "Paket listesi alındı"
+
+#: libapper/PkStrings.cpp:306
+msgctxt "The role of the transaction, in past tense"
+msgid "Accepted EULA"
+msgstr "Kabul Edilen Son Kullanıcı Lisans Sözleşmesi"
+
+#: libapper/PkStrings.cpp:308
+msgctxt "The role of the transaction, in past tense"
+msgid "Downloaded packages"
+msgstr "Paketler indirildi"
+
+#: libapper/PkStrings.cpp:310
+msgctxt "The role of the transaction, in past tense"
+msgid "Got distribution upgrades"
+msgstr "Dağıtım yükseltmesi alındı"
+
+#: libapper/PkStrings.cpp:312
+msgctxt "The role of the transaction, in past tense"
+msgid "Got categories"
+msgstr "Kategoriler alındı"
+
+#: libapper/PkStrings.cpp:314
+msgctxt "The role of the transaction, in past tense"
+msgid "Got old transactions"
+msgstr "Önceki aktarımlar alındı"
+
+#: libapper/PkStrings.cpp:316
+#, fuzzy
+#| msgctxt "The role of the transaction, in past tense"
+#| msgid "Updated system"
+msgctxt "The role of the transaction, in past tense"
+msgid "Upgraded system"
+msgstr "Sistem güncellendi"
+
+#: libapper/PkStrings.cpp:318
+#, fuzzy
+#| msgctxt "The role of the transaction, in past tense"
+#| msgid "Updated system"
+msgctxt "The role of the transaction, in past tense"
+msgid "Repaired system"
+msgstr "Sistem güncellendi"
+
+#: libapper/PkStrings.cpp:328
+msgid "Downloading"
+msgstr "İndiriliyor"
+
+#: libapper/PkStrings.cpp:330
+msgid "Updating"
+msgstr "Güncelleniyor"
+
+#: libapper/PkStrings.cpp:332
+msgid "Installing"
+msgstr "Kuruluyor"
+
+#: libapper/PkStrings.cpp:334
+msgid "Removing"
+msgstr "Kaldırılıyor"
+
+#: libapper/PkStrings.cpp:336
+msgid "Cleaning up"
+msgstr "Temizleniyor"
+
+#: libapper/PkStrings.cpp:338
+msgid "Obsoleting"
+msgstr "Gereksiz hale getiriliyor"
+
+#: libapper/PkStrings.cpp:340
+msgid "Reinstalling"
+msgstr "Yeniden Kuruluyor"
+
+#: libapper/PkStrings.cpp:342
+msgid "Preparing"
+msgstr "Hazırlanıyor"
+
+#: libapper/PkStrings.cpp:344
+msgid "Decompressing"
+msgstr "Açılıyor"
+
+#: libapper/PkStrings.cpp:355
+msgid "Downloaded"
+msgstr "İndirildi"
+
+#: libapper/PkStrings.cpp:357
+msgid "Updated"
+msgstr "Güncellenen"
+
+#: libapper/PkStrings.cpp:361
+msgid "Removed"
+msgstr "Kaldırıldı"
+
+#: libapper/PkStrings.cpp:363
+msgid "Cleaned up"
+msgstr "Temizlendi"
+
+#: libapper/PkStrings.cpp:365
+msgid "Obsoleted"
+msgstr "Gereksiz Olarak İşaretlendi"
+
+#: libapper/PkStrings.cpp:367
+msgid "Reinstalled"
+msgstr "Yeniden Kuruldu"
+
+#: libapper/PkStrings.cpp:369
+msgid "Prepared"
+msgstr "Hazırlandı"
+
+#: libapper/PkStrings.cpp:371
+msgid "Decompressed"
+msgstr "Açıldı"
+
+#: libapper/PkStrings.cpp:382
+msgid "No network connection available"
+msgstr "Kullanılabilir ağ bağantısı yok"
+
+#: libapper/PkStrings.cpp:384
+msgid "No package cache is available"
+msgstr "Hiçbir paket önbelleği mevcut değil"
+
+#: libapper/PkStrings.cpp:386
+msgid "Out of memory"
+msgstr "Yetersiz bellek"
+
+#: libapper/PkStrings.cpp:388
+msgid "Failed to create a thread"
+msgstr "Bir iş parçacığı oluşturma başarısız"
+
+#: libapper/PkStrings.cpp:390
+msgid "Not supported by this backend"
+msgstr "Bu arka uç tarafından desteklenmiyor"
+
+#: libapper/PkStrings.cpp:392
+msgid "An internal system error has occurred"
+msgstr "Bir iç hata oluştu"
+
+#: libapper/PkStrings.cpp:394
+msgid "A security trust relationship is not present"
+msgstr "Güvenli bir güven ilişkisi mevcut değil"
+
+#: libapper/PkStrings.cpp:396
+msgid "The package is not installed"
+msgstr "Paket kurulu değil"
+
+#: libapper/PkStrings.cpp:398
+msgid "The package was not found"
+msgstr "Paket bulunamadı"
+
+#: libapper/PkStrings.cpp:400
+msgid "The package is already installed"
+msgstr "Paket zaten yüklenmiş"
+
+#: libapper/PkStrings.cpp:402
+msgid "The package download failed"
+msgstr "Paket indirme işlemi başarısız oldu"
+
+#: libapper/PkStrings.cpp:404
+msgid "The group was not found"
+msgstr "Grup bulunamadı"
+
+#: libapper/PkStrings.cpp:406
+msgid "The group list was invalid"
+msgstr "Grup listesi geçersiz"
+
+#: libapper/PkStrings.cpp:408
+msgid "Dependency resolution failed"
+msgstr "Bağımlılık çözümleme işlemi başarısız oldu"
+
+#: libapper/PkStrings.cpp:410
+msgid "Search filter was invalid"
+msgstr "Arama filtresi geçersiz"
+
+#: libapper/PkStrings.cpp:412
+msgid "The package identifier was not well formed"
+msgstr "Paket tanımlayıcısı iyi biçimlendirilmedi"
+
+#: libapper/PkStrings.cpp:414
+msgid "Transaction error"
+msgstr "Aktarım hatası"
+
+#: libapper/PkStrings.cpp:416
+msgid "Repository name was not found"
+msgstr "Depo adı bulunamadı"
+
+#: libapper/PkStrings.cpp:418
+msgid "Could not remove a protected system package"
+msgstr "Korumalı bir sistem paketi kaldırılamadı"
+
+#: libapper/PkStrings.cpp:420
+msgid "The task was canceled"
+msgstr "Görev iptal edildi"
+
+#: libapper/PkStrings.cpp:422
+msgid "The task was forcibly canceled"
+msgstr "Görev zorla iptal edildi"
+
+#: libapper/PkStrings.cpp:424
+msgid "Reading the config file failed"
+msgstr "Yapılandırma dosyası okunamadı"
+
+#: libapper/PkStrings.cpp:426
+msgid "The task cannot be cancelled"
+msgstr "Görev iptal edilemez"
+
+#: libapper/PkStrings.cpp:428
+msgid "Source packages cannot be installed"
+msgstr "Kaynak paketler yüklenemez"
+
+#: libapper/PkStrings.cpp:430
+msgid "The license agreement failed"
+msgstr "Lisans sözleşmesi başarısız"
+
+#: libapper/PkStrings.cpp:432
+msgid "Local file conflict between packages"
+msgstr "Paketler arasında yerel dosya çakışması"
+
+#: libapper/PkStrings.cpp:434
+msgid "Packages are not compatible"
+msgstr "Paketler uyumlu değil"
+
+#: libapper/PkStrings.cpp:436
+msgid "Problem connecting to a software origin"
+msgstr "Yazılım kaynağına bağlanma sorunu"
+
+#: libapper/PkStrings.cpp:438
+msgid "Failed to initialize"
+msgstr "Başlatılamadı"
+
+#: libapper/PkStrings.cpp:440
+msgid "Failed to finalize"
+msgstr "Bitirilemedi"
+
+#: libapper/PkStrings.cpp:442
+msgid "Cannot get lock"
+msgstr "Kilit alınamıyor"
+
+#: libapper/PkStrings.cpp:444
+msgid "No packages to update"
+msgstr "Güncellenecek paket yok"
+
+#: libapper/PkStrings.cpp:446
+msgid "Cannot write repository configuration"
+msgstr "Depo bilgileri yazılamadı"
+
+#: libapper/PkStrings.cpp:448
+msgid "Local install failed"
+msgstr "Yerel kurulum başarısız oldu"
+
+#: libapper/PkStrings.cpp:450
+msgid "Bad GPG signature"
+msgstr "Hatalı GPG imzası"
+
+#: libapper/PkStrings.cpp:452
+msgid "Missing GPG signature"
+msgstr "GPG imzası kayıp"
+
+#: libapper/PkStrings.cpp:454
+msgid "Repository configuration invalid"
+msgstr "Depo yapılandırması geçersiz"
+
+#: libapper/PkStrings.cpp:456
+msgid "Invalid package file"
+msgstr "Geçersiz paket dosyası"
+
+#: libapper/PkStrings.cpp:458
+msgid "Package install blocked"
+msgstr "Paket kurulumu engellendi"
+
+#: libapper/PkStrings.cpp:460
+msgid "Package is corrupt"
+msgstr "Paket bozuk"
+
+#: libapper/PkStrings.cpp:462
+msgid "All packages are already installed"
+msgstr "Tüm paketler zaten yüklendi"
+
+#: libapper/PkStrings.cpp:464
+msgid "The specified file could not be found"
+msgstr "Belirtilen dosya bulunamadı"
+
+#: libapper/PkStrings.cpp:466
+msgid "No more mirrors are available"
+msgstr "Kullanılabilir yansı yok"
+
+#: libapper/PkStrings.cpp:468
+msgid "No distribution upgrade data is available"
+msgstr "Hiçbir dağıtım yükseltme verisi yok"
+
+#: libapper/PkStrings.cpp:470
+msgid "Package is incompatible with this system"
+msgstr "Paket bu sistem ile uyumsuz"
+
+#: libapper/PkStrings.cpp:472
+msgid "No space is left on the disk"
+msgstr "Disk üzerinde boş alan yok"
+
+#: libapper/PkStrings.cpp:474 libapper/PkTransaction.cpp:418
+msgid "A media change is required"
+msgstr "Ortam değiştirmeniz gerekiyor"
+
+#: libapper/PkStrings.cpp:476
+msgid "Authorization failed"
+msgstr "Kimlik doğrulama işlemi başarısız oldu"
+
+#: libapper/PkStrings.cpp:478
+msgid "Update not found"
+msgstr "Güncelleme bulunamadı"
+
+#: libapper/PkStrings.cpp:480
+msgid "Cannot install from untrusted origin"
+msgstr "Güvenilmeyen kaynaktan kurulamadı"
+
+#: libapper/PkStrings.cpp:482
+msgid "Cannot update from untrusted origin"
+msgstr "Güvenilmeyen kaynaktan güncelleme yapılamadı"
+
+#: libapper/PkStrings.cpp:484
+msgid "Cannot get the file list"
+msgstr "Dosya listesi alınamadı"
+
+#: libapper/PkStrings.cpp:486
+msgid "Cannot get package requires"
+msgstr ""
+
+#: libapper/PkStrings.cpp:488
+msgid "Cannot disable origin"
+msgstr "Kaynak pasifleştirilemedi"
+
+#: libapper/PkStrings.cpp:490
+msgid "The download failed"
+msgstr "İndirme işlemi başarısız oldu"
+
+#: libapper/PkStrings.cpp:492
+msgid "Package failed to configure"
+msgstr "Paket yapılandırılamadı"
+
+#: libapper/PkStrings.cpp:494
+msgid "Package failed to build"
+msgstr "Paket inşa edilemedi"
+
+#: libapper/PkStrings.cpp:496
+msgid "Package failed to install"
+msgstr "Paket kurulamadı"
+
+#: libapper/PkStrings.cpp:498
+msgid "Package failed to be removed"
+msgstr "Paket kaldırılamadı"
+
+#: libapper/PkStrings.cpp:500
+msgid "Update failed due to running process"
+msgstr ""
+
+#: libapper/PkStrings.cpp:502
+msgid "The package database was changed"
+msgstr "Paket veritabanı değiştirildi"
+
+#: libapper/PkStrings.cpp:504
+msgid "Virtual provide type is not supported"
+msgstr ""
+
+#: libapper/PkStrings.cpp:506
+msgid "Install root is invalid"
+msgstr ""
+
+#: libapper/PkStrings.cpp:508
+#, fuzzy
+#| msgid "Cannot get lock"
+msgid "Cannot fetch install sources"
+msgstr "Kilit alınamıyor"
+
+#: libapper/PkStrings.cpp:510
+msgid "Rescheduled due to priority"
+msgstr ""
+
+#: libapper/PkStrings.cpp:512
+#, fuzzy
+#| msgctxt "The role of the transaction, in present tense"
+#| msgid "Getting old transactions"
+msgid "Unfinished transaction"
+msgstr "Önceki aktarımlar alınıyor"
+
+#: libapper/PkStrings.cpp:514
+#, fuzzy
+#| msgctxt "The role of the transaction, in past tense"
+#| msgid "Got requires"
+msgid "Lock required"
+msgstr "Ön bağımlılıklar alındı"
+
+#: libapper/PkStrings.cpp:516
+msgid "Unknown error"
+msgstr "Bilinmeyen hata"
+
+#: libapper/PkStrings.cpp:526
+msgid ""
+"There is no network connection available.\n"
+"Please check your connection settings and try again"
+msgstr ""
+"Ağ bağlantısı yok.\n"
+"Lütfen bağlantı ayarlarınızı kontrol edin ve yeniden deneyin."
+
+#: libapper/PkStrings.cpp:529
+msgid ""
+"The package list needs to be rebuilt.\n"
+"This should have been done by the backend automatically."
+msgstr ""
+"Paket listesinin yeniden oluşturulması gerekiyor.\n"
+"Bu işlem arka uç tarafından otomatik olarak yapılmalıdır."
+
+#: libapper/PkStrings.cpp:532
+msgid ""
+"The service that is responsible for handling user requests is out of "
+"memory.\n"
+"Please close some programs or restart your computer."
+msgstr ""
+"Kullanıcı isteklerini işlemekten sorumlu olan hizmet bellek dışı.\n"
+"Lütfen bazı programları kapatın ve bilgisayarınızı yeniden başlatın."
+
+#: libapper/PkStrings.cpp:535
+msgid "A thread could not be created to service the user request."
+msgstr ""
+"Bir iş parçacığı, kullanıcının talep ettiği hizmet için oluşturulamadı."
+
+#: libapper/PkStrings.cpp:537
+msgid ""
+"The action is not supported by this backend.\n"
+"Please report a bug as this should not have happened."
+msgstr ""
+"Eylem bu arka uç tarafından desteklenmiyor.\n"
+"Bu olmaması gerektiğinden lütfen bir hata raporu bildirin."
+
+#: libapper/PkStrings.cpp:540
+msgid ""
+"A problem that we were not expecting has occurred.\n"
+"Please report this bug with the error description."
+msgstr ""
+"Beklemediğimiz bir problem meydana geldi.\\ Lütfen bu yanlışı hata tanımıyla "
+"birlikte bildirin."
+
+#: libapper/PkStrings.cpp:543
+msgid ""
+"A security trust relationship could not be made with the software origin.\n"
+"Please check your software signature settings."
+msgstr ""
+"Yazılım kaynağı ile güvenli bir güven ilişkisi kurulamadı.\n"
+"Lütfen yazılım imza ayarlarınızı kontrol edin."
+
+#: libapper/PkStrings.cpp:546
+msgid ""
+"The package that is trying to be removed or updated is not already installed."
+msgstr ""
+"Kaldırılmaya veya güncellenmeye çalışılan paket halihazırda kurulu değil."
+
+#: libapper/PkStrings.cpp:548
+msgid ""
+"The package that is being modified was not found on your system or in any "
+"software origin."
+msgstr ""
+"Değiştirilmiş olan paket sisteminizde veya herhangi yazılım kaynağında "
+"bulunmadı."
+
+#: libapper/PkStrings.cpp:550
+msgid "The package that is trying to be installed is already installed."
+msgstr "Yüklemek istediğiniz paket zaten yüklenmiş."
+
+#: libapper/PkStrings.cpp:552
+msgid ""
+"The package download failed.\n"
+"Please check your network connectivity."
+msgstr ""
+"Paket indirme işlemi başarısız oldu.\n"
+"Lütfen ağ bağlantınızı kontrol edin."
+
+#: libapper/PkStrings.cpp:555
+msgid ""
+"The group type was not found.\n"
+"Please check your group list and try again."
+msgstr ""
+"Grup tipi bulunamadı.\n"
+"Lütfen grup listenizi kontrol edin ve yeniden deneyin."
+
+#: libapper/PkStrings.cpp:558
+msgid ""
+"The group list could not be loaded.\n"
+"Refreshing your cache may help, although this is normally a software origin "
+"error."
+msgstr ""
+"Grup listesi yüklenemedi.\n"
+"Bu normalde bir yazılım kaynağı hatası olsa da, önbelleğinizi yenilemek "
+"yardımcı olabilir."
+
+#: libapper/PkStrings.cpp:562
+msgid ""
+"A package dependency could not be found.\n"
+"More information is available in the detailed report."
+msgstr ""
+"Bir paket bağımlılığı bulunamadı.\n"
+"Detaylı raporda daha fazla bilgi mevcut."
+
+#: libapper/PkStrings.cpp:565
+msgid "The search filter was not correctly formed."
+msgstr "Arama filtresi doğru bir şekilde biçimlendirilmemiş."
+
+#: libapper/PkStrings.cpp:567
+msgid ""
+"The package identifier was not well formed when sent to the system daemon.\n"
+"This normally indicates an internal bug and should be reported."
+msgstr ""
+"Paket tanımlayıcısı, sistem artalan sürecine gönderilirken iyi "
+"biçimlendirilmedi.\n"
+"Bu, normalde dahili bir hataya işaret etmektedir ve bildirilmelidir."
+
+#: libapper/PkStrings.cpp:570
+msgid ""
+"An error occurred while running the transaction.\n"
+"More information is available in the detailed report."
+msgstr ""
+"Aktarım çalıştırılırken bir hata meydana geldi.\n"
+"Detaylı raporda daha fazla bilgi mevcut."
+
+#: libapper/PkStrings.cpp:573
+msgid ""
+"The remote software origin name was not found.\n"
+"You may need to enable an item in Software Origins."
+msgstr ""
+"Uzak yazılım kaynağının adı bulunamadı.\n"
+"Yazılım Kaynaklarında bir ögeyi etkinleştirmeniz gerekebilir."
+
+#: libapper/PkStrings.cpp:576
+msgid "Removing a protected system package is not allowed."
+msgstr "Korumalı bir sistem paketini kaldırmaya izin verilmiyor."
+
+#: libapper/PkStrings.cpp:578
+msgid "The task was canceled successfully and no packages were changed."
+msgstr ""
+"Görev başarılı bir şekilde iptal edildi ve hiç bir paket değiştirilmedi."
+
+#: libapper/PkStrings.cpp:580
+msgid ""
+"The task was canceled successfully and no packages were changed.\n"
+"The backend did not exit cleanly."
+msgstr ""
+"Görev başarılı bir şekilde iptal edildi ve hiçbir paket değiştirilmedi.\n"
+"Arka uç temiz bir şekilde çıkmadı."
+
+#: libapper/PkStrings.cpp:583
+msgid ""
+"The native package configuration file could not be opened.\n"
+"Please make sure your system's configuration is valid."
+msgstr ""
+"Yerli paket yapılandırma dosyası açılamadı.\n"
+"Lütfen sistem yapılandırmanızın geçerli olduğundan emin olun."
+
+#: libapper/PkStrings.cpp:586
+msgid "The task is not safe to be cancelled at this time."
+msgstr "Görevin bu aşamada iptal edilmesi güvenli değil."
+
+#: libapper/PkStrings.cpp:588
+msgid ""
+"Source packages are not normally installed this way.\n"
+"Check the extension of the file you are trying to install."
+msgstr ""
+"Kaynak paketleri normalde bu şekilde kurulmadı.\n"
+"Kurmayı denediğiniz dosyanın uzantısını kontrol edin."
+
+#: libapper/PkStrings.cpp:591
+msgid ""
+"The license agreement was not agreed to.\n"
+"To use this software you have to accept the license."
+msgstr ""
+"Lisans sözleşmesi kabul edilmedi.\n"
+"Bu yazılımı kullanmak için lisans sözleşmesini kabul etmek zorundasınız."
+
+#: libapper/PkStrings.cpp:594
+msgid ""
+"Two packages provide the same file.\n"
+"This is usually due to mixing packages for different software origins."
+msgstr ""
+"İki paket aynı dosyayı sağlıyor.\n"
+"Buna genellikle farklı yazılım kaynaklarındaki paketleri karıştırmak sebep "
+"olur."
+
+#: libapper/PkStrings.cpp:597
+msgid ""
+"Multiple packages exist that are not compatible with each other.\n"
+"This is usually due to mixing packages from different software origins."
+msgstr ""
+"Birbiriyle uyumlu olmayan birden fazla paket var.\n"
+"Buna genellikle farklı yazılım kaynaklarındaki paketleri karıştırmak sebep "
+"olur."
+
+#: libapper/PkStrings.cpp:600
+msgid ""
+"There was a (possibly temporary) problem connecting to a software origins.\n"
+"Please check the detailed error for further details."
+msgstr ""
+"Bir yazılım kaynağına bağlanırken (muhtemelen geçici) bir sorun oluştu.\n"
+"Lütfen daha fazla bilgi için ayrıntılı hatayı kontrol edin."
+
+#: libapper/PkStrings.cpp:603
+msgid ""
+"Failed to initialize packaging backend.\n"
+"This may occur if other packaging tools are being used simultaneously."
+msgstr ""
+"Paketleme arka ucunu ilklendirmek başarısız.\n"
+"Bu, aynı anda diğer paketleme araçlarının kullanılmasıyla meydana gelebilir."
+
+#: libapper/PkStrings.cpp:606
+msgid ""
+"Failed to close down the backend instance.\n"
+"This error can normally be ignored."
+msgstr ""
+"Arka ucu kapatma başarısız.\n"
+"Bu hata normalde yok sayılabilir."
+
+#: libapper/PkStrings.cpp:609
+msgid ""
+"Cannot get the exclusive lock on the packaging backend.\n"
+"Please close any other legacy packaging tools that may be open."
+msgstr ""
+"Paketleme arka ucundaki dışlayıcı kilit getirilemiyor.\n"
+"Lütfen açık olabilecek diğer eskiden kalan paketleme araçlarını kapatın."
+
+#: libapper/PkStrings.cpp:612
+msgid "None of the selected packages could be updated."
+msgstr "Seçili paketlerin hiçbiri güncellenemedi."
+
+#: libapper/PkStrings.cpp:614
+msgid "The repository configuration could not be modified."
+msgstr "Depo yapılandırması değiştirilemedi."
+
+#: libapper/PkStrings.cpp:616
+msgid ""
+"Installing the local file failed.\n"
+"More information is available in the detailed report."
+msgstr ""
+"Yerel dosyanın kurulması başarısız.\n"
+"Detaylı raporda daha fazla bilgi mevcut."
+
+#: libapper/PkStrings.cpp:619
+msgid "The package signature could not be verified."
+msgstr "Paket imzası doğrulanamadı."
+
+#: libapper/PkStrings.cpp:621
+msgid ""
+"The package signature was missing and this package is untrusted.\n"
+"This package was not signed with a GPG key when created."
+msgstr ""
+"Paket imzası kayıp ve bu paket güvenilir değil.\n"
+"Bu paket oluşturulduğunda bir GPG anahtarıyla imzalanmadı."
+
+#: libapper/PkStrings.cpp:624
+msgid "Repository configuration was invalid and could not be read."
+msgstr "Depo yapılandırması geçersizdi ve okunamadı."
+
+#: libapper/PkStrings.cpp:626
+msgid ""
+"The package you are attempting to install is not valid.\n"
+"The package file could be corrupt, or not a proper package."
+msgstr ""
+"Kurmayı denediğiniz paket geçerli değil.\n"
+"Paket dosyası bozuk olabilir, veya uygun bir paket değil."
+
+#: libapper/PkStrings.cpp:629
+msgid ""
+"Installation of this package was prevented by your packaging system's "
+"configuration."
+msgstr ""
+"Bu paketin kurulması paketleme sisteminizin yapılandırması tarafından "
+"önlendi."
+
+#: libapper/PkStrings.cpp:631
+msgid ""
+"The package that was downloaded is corrupt and needs to be downloaded again."
+msgstr "Karşıdan yüklenen paket bozuk ve yeniden yüklenmesi gerekiyor."
+
+#: libapper/PkStrings.cpp:633
+msgid ""
+"All of the packages selected for install are already installed on the system."
+msgstr "Yüklemek için seçilen tüm paketler sistemde zaten yüklü."
+
+#: libapper/PkStrings.cpp:635
+msgid ""
+"The specified file could not be found on the system.\n"
+"Check that the file still exists and has not been deleted."
+msgstr ""
+"Belirtilen dosya sistemde bulunamadı.\n"
+"Dosyanın hâlâ var olduğunu ve silinmediğini kontrol edin."
+
+#: libapper/PkStrings.cpp:638
+msgid ""
+"Required data could not be found on any of the configured software origins.\n"
+"There were no more download mirrors that could be tried."
+msgstr ""
+"Gerekli veri yapılandırılmış yazılım kaynaklarının hiçbirisinde bulunamadı.\n"
+"Sınanabilen daha fazla karşıdan yükleme yansısı yoktu."
+
+#: libapper/PkStrings.cpp:641
+msgid ""
+"Required upgrade data could not be found in any of the configured software "
+"origins.\n"
+"The list of distribution upgrades will be unavailable."
+msgstr ""
+"Gerekli yükseltme verileri yapılandırılmış yazılım kaynaklarının "
+"hiçbirisinde bulunamadı.\n"
+"Dağıtım güncellemesi listesi erişilemez duruma getirilecektir."
+
+#: libapper/PkStrings.cpp:644
+msgid ""
+"The package that is trying to be installed is incompatible with this system."
+msgstr "Yüklenmeye çalışılan paket bu sistem ile uyumsuz."
+
+#: libapper/PkStrings.cpp:646
+msgid ""
+"There is insufficient space on the device.\n"
+"Free some space on the system disk to perform this operation."
+msgstr ""
+"Disk üzerinde yetersiz boş alan var.\n"
+"Bu işlemi yapmak için sistem diski üzerinde biraz boş alan açın."
+
+#: libapper/PkStrings.cpp:649
+msgid "Additional media is required to complete the transaction."
+msgstr "Aktarımı tamamlamak için ek ortam gerekiyor."
+
+#: libapper/PkStrings.cpp:651
+msgid ""
+"You have failed to provide correct authentication.\n"
+"Please check any passwords or account settings."
+msgstr ""
+
+#: libapper/PkStrings.cpp:654
+msgid ""
+"The specified update could not be found.\n"
+"It could have already been installed or no longer available on the remote "
+"server."
+msgstr ""
+
+#: libapper/PkStrings.cpp:657
+msgid "The package could not be installed from untrusted origin."
+msgstr "Paket güvenilmeyen kaynaktan kurulamadı."
+
+#: libapper/PkStrings.cpp:659
+msgid "The package could not be updated from untrusted origin."
+msgstr "Paket güvenilmeyen kaynaktan güncellenemedi."
+
+#: libapper/PkStrings.cpp:661
+msgid "The file list is not available for this package."
+msgstr "Bu paket için dosya listesi kullanılabilir değil."
+
+#: libapper/PkStrings.cpp:663
+msgid "The information about what requires this package could not be obtained."
+msgstr ""
+
+#: libapper/PkStrings.cpp:665
+msgid "The specified software origin could not be disabled."
+msgstr "Belirtilen yazılım kaynağı pasifleştirilemedi."
+
+#: libapper/PkStrings.cpp:667
+msgid ""
+"The download could not be done automatically and should be done manually.\n"
+"More information is available in the detailed report."
+msgstr ""
+"İndirme işlemi otomatik olarak yapılamadı, bu işlemi kendiniz "
+"tamamlamalısınız.\n"
+"Ayrıntılı raporda daha fazla bilgi bulabilirsiniz."
+
+#: libapper/PkStrings.cpp:670
+msgid ""
+"One of the selected packages failed to configure correctly.\n"
+"More information is available in the detailed report."
+msgstr ""
+"Seçilen paketlerden biri doğru bir şekilde yapılandırılamadı.\n"
+"Ayrıntılı raporda daha fazla bilgi bulabilirsiniz."
+
+#: libapper/PkStrings.cpp:673
+msgid ""
+"One of the selected packages failed to build correctly.\n"
+"More information is available in the detailed report."
+msgstr ""
+"Seçilen paketlerden biri doğru bir şekilde inşa edilemedi.\n"
+"Ayrıntılı raporda daha fazla bilgi bulabilirsiniz."
+
+#: libapper/PkStrings.cpp:676
+msgid ""
+"One of the selected packages failed to install correctly.\n"
+"More information is available in the detailed report."
+msgstr ""
+"Seçilen paketlerden biri doğru bir şekilde kurulamadı.\n"
+"Ayrıntılı raporda daha fazla bilgi bulabilirsiniz."
+
+#: libapper/PkStrings.cpp:679
+msgid ""
+"One of the selected packages failed to be removed correctly.\n"
+"More information is available in the detailed report."
+msgstr ""
+"Seçilen paketlerden biri doğru bir şekilde kaldırılamadı.\n"
+"Ayrıntılı raporda daha fazla bilgi bulabilirsiniz."
+
+#: libapper/PkStrings.cpp:682
+msgid ""
+"A program is running that has to be closed before the update can proceed.\n"
+"More information is available in the detailed report."
+msgstr ""
+"Güncelleme yapılmadan önce kapatılması gereken bir uygulama çalışıyor.\n"
+"Detaylı raporda daha fazla bilgi bulabilirsiniz."
+
+#: libapper/PkStrings.cpp:685
+msgid "The package database was changed while the request was running."
+msgstr "İstek çalıştırılırken paket veritabanı değiştirildi."
+
+#: libapper/PkStrings.cpp:687
+msgid "The virtual provide type is not supported by this system."
+msgstr ""
+
+#: libapper/PkStrings.cpp:689
+msgid "The install root is invalid. Please contact your administrator."
+msgstr ""
+
+#: libapper/PkStrings.cpp:691
+#, fuzzy
+#| msgid "The specified software origin could not be disabled."
+msgid "The list of software could not be downloaded."
+msgstr "Belirtilen yazılım kaynağı pasifleştirilemedi."
+
+#: libapper/PkStrings.cpp:693
+msgid ""
+"The transaction has been cancelled and will be retried when the system is "
+"idle."
+msgstr ""
+
+#: libapper/PkStrings.cpp:695
+msgid "A previous package management transaction was interrupted."
+msgstr ""
+
+#: libapper/PkStrings.cpp:697
+#, fuzzy
+#| msgid "A media change is required"
+msgid "A package manager lock is required."
+msgstr "Ortam değiştirmeniz gerekiyor"
+
+#: libapper/PkStrings.cpp:699
+msgid ""
+"Unknown error, please report a bug.\n"
+"More information is available in the detailed report."
+msgstr ""
+"Bilinmeyen hata, lütfen hatayı bildirin.\n"
+"Ayrıntılı raporda daha fazla bilgi bulabilirsiniz."
+
+#: libapper/PkStrings.cpp:710
+msgctxt "The group type"
+msgid "Accessibility"
+msgstr "Erişilebilirlik"
+
+#: libapper/PkStrings.cpp:712
+msgctxt "The group type"
+msgid "Accessories"
+msgstr "Yardımcı araçlar"
+
+#: libapper/PkStrings.cpp:714
+msgctxt "The group type"
+msgid "Education"
+msgstr "Eğitim"
+
+#: libapper/PkStrings.cpp:716
+msgctxt "The group type"
+msgid "Games"
+msgstr "Oyunlar"
+
+#: libapper/PkStrings.cpp:718
+msgctxt "The group type"
+msgid "Graphics"
+msgstr "Grafik"
+
+#: libapper/PkStrings.cpp:720
+msgctxt "The group type"
+msgid "Internet"
+msgstr "İnternet"
+
+#: libapper/PkStrings.cpp:722
+msgctxt "The group type"
+msgid "Office"
+msgstr "Ofis"
+
+#: libapper/PkStrings.cpp:724
+msgctxt "The group type"
+msgid "Others"
+msgstr "Diğer"
+
+#: libapper/PkStrings.cpp:726
+msgctxt "The group type"
+msgid "Development"
+msgstr "Geliştirme"
+
+#: libapper/PkStrings.cpp:728
+msgctxt "The group type"
+msgid "Multimedia"
+msgstr "Çokluortam"
+
+#: libapper/PkStrings.cpp:730
+msgctxt "The group type"
+msgid "System"
+msgstr "Sistem"
+
+#: libapper/PkStrings.cpp:732
+msgctxt "The group type"
+msgid "GNOME desktop"
+msgstr "GNOME masaüstü"
+
+#: libapper/PkStrings.cpp:734
+msgctxt "The group type"
+msgid "KDE desktop"
+msgstr "KDE masaüstü"
+
+#: libapper/PkStrings.cpp:736
+msgctxt "The group type"
+msgid "XFCE desktop"
+msgstr "XFCE masaüstü"
+
+#: libapper/PkStrings.cpp:738
+msgctxt "The group type"
+msgid "Other desktops"
+msgstr "Diğer masaüstleri"
+
+#: libapper/PkStrings.cpp:740
+msgctxt "The group type"
+msgid "Publishing"
+msgstr "Yayıncılık"
+
+#: libapper/PkStrings.cpp:742
+msgctxt "The group type"
+msgid "Servers"
+msgstr "Sunucular"
+
+#: libapper/PkStrings.cpp:744
+msgctxt "The group type"
+msgid "Fonts"
+msgstr "Yazı tipleri"
+
+#: libapper/PkStrings.cpp:746
+msgctxt "The group type"
+msgid "Admin tools"
+msgstr "Yönetici araçları"
+
+#: libapper/PkStrings.cpp:748
+msgctxt "The group type"
+msgid "Legacy"
+msgstr "Kalıt"
+
+#: libapper/PkStrings.cpp:750
+msgctxt "The group type"
+msgid "Localization"
+msgstr "Yerini Belirleme"
+
+#: libapper/PkStrings.cpp:752
+msgctxt "The group type"
+msgid "Virtualization"
+msgstr "Sanallaştırma"
+
+#: libapper/PkStrings.cpp:754
+msgctxt "The group type"
+msgid "Security"
+msgstr "Güvenlik"
+
+#: libapper/PkStrings.cpp:756
+msgctxt "The group type"
+msgid "Power management"
+msgstr "Güç yönetimi"
+
+#: libapper/PkStrings.cpp:758
+msgctxt "The group type"
+msgid "Communication"
+msgstr "İletişim"
+
+#: libapper/PkStrings.cpp:760
+msgctxt "The group type"
+msgid "Network"
+msgstr "Ağ"
+
+#: libapper/PkStrings.cpp:762
+msgctxt "The group type"
+msgid "Maps"
+msgstr "Haritalar"
+
+#: libapper/PkStrings.cpp:764
+msgctxt "The group type"
+msgid "Software sources"
+msgstr "Yazılım kaynakları"
+
+#: libapper/PkStrings.cpp:766
+msgctxt "The group type"
+msgid "Science"
+msgstr "Bilim"
+
+#: libapper/PkStrings.cpp:768
+msgctxt "The group type"
+msgid "Documentation"
+msgstr "Belgelendirme"
+
+#: libapper/PkStrings.cpp:770
+msgctxt "The group type"
+msgid "Electronics"
+msgstr "Elektronik"
+
+#: libapper/PkStrings.cpp:772
+msgctxt "The group type"
+msgid "Package collections"
+msgstr "Paket koleksiyonları"
+
+#: libapper/PkStrings.cpp:774
+msgctxt "The group type"
+msgid "Vendor"
+msgstr "Sağlayıcı"
+
+#: libapper/PkStrings.cpp:776
+msgctxt "The group type"
+msgid "Newest packages"
+msgstr "En yeni paketler"
+
+#: libapper/PkStrings.cpp:778
+msgctxt "The group type"
+msgid "Unknown group"
+msgstr "Bilinmeyen grup"
+
+#: libapper/PkStrings.cpp:789
+msgctxt "The type of update"
+msgid "Trivial update"
+msgstr "Küçük güncelleme"
+
+#: libapper/PkStrings.cpp:791
+msgctxt "The type of update"
+msgid "Normal update"
+msgstr "Normal güncelleme"
+
+#: libapper/PkStrings.cpp:793
+msgctxt "The type of update"
+msgid "Important update"
+msgstr "Önemli güncelleme"
+
+#: libapper/PkStrings.cpp:795
+msgctxt "The type of update"
+msgid "Security update"
+msgstr "Güvenlik güncellemesi"
+
+#: libapper/PkStrings.cpp:797
+msgctxt "The type of update"
+msgid "Bug fix update"
+msgstr "Hata düzeltme güncellemesi"
+
+#: libapper/PkStrings.cpp:799
+msgctxt "The type of update"
+msgid "Enhancement update"
+msgstr "Geliştirme güncellemesi"
+
+#: libapper/PkStrings.cpp:801
+msgctxt "The type of update"
+msgid "Blocked update"
+msgstr "Engellenmiş güncelleme"
+
+#: libapper/PkStrings.cpp:804
+msgctxt "The type of update"
+msgid "Installed"
+msgstr "Kurulu"
+
+#: libapper/PkStrings.cpp:807
+msgctxt "The type of update"
+msgid "Available"
+msgstr "Kullanılabilir"
+
+#: libapper/PkStrings.cpp:809
+msgctxt "The type of update"
+msgid "Unknown update"
+msgstr "Bilinmeyen güncelleme"
+
+#: libapper/PkStrings.cpp:820
+msgid "No Updates Available"
+msgstr "Güncelleme Yok"
+
+#: libapper/PkStrings.cpp:823
+#, kde-format
+msgctxt "Some updates were selected on the view"
+msgid "1 Update Selected"
+msgid_plural "%1 Updates Selected"
+msgstr[0] "%1 Güncelleme Seçildi"
+
+#: libapper/PkStrings.cpp:827
+#, kde-format
+msgctxt "Some updates are being shown on the screen"
+msgid "1 Update"
+msgid_plural "%1 Updates"
+msgstr[0] "%1 Güncelleme"
+
+#: libapper/PkStrings.cpp:830
+#, kde-format
+msgctxt "Type of update, in the case it's just an update"
+msgid "%1, %2"
+msgstr "%1, %2"
+
+#: libapper/PkStrings.cpp:831
+#, kde-format
+msgctxt "Part of: %1 Updates, %1 Selected"
+msgid "%1 Update"
+msgid_plural "%1 Updates"
+msgstr[0] "%1 Güncelleme"
+
+#: libapper/PkStrings.cpp:832
+#, kde-format
+msgctxt "Part of: %1 Updates, %1 Selected"
+msgid "%1 Selected"
+msgid_plural "%1 Selected"
+msgstr[0] "%1 Seçildi"
+
+#: libapper/PkStrings.cpp:836
+msgid "No Packages"
+msgstr "Paket Yok"
+
+#: libapper/PkStrings.cpp:838
+#, kde-format
+msgid "1 Package"
+msgid_plural "%1 Packages"
+msgstr[0] "%1 Paket"
+
+#: libapper/PkStrings.cpp:846
+msgid "No restart is necessary"
+msgstr "Yeniden başlatma gerekmiyor"
+
+#: libapper/PkStrings.cpp:848
+msgid "You will be required to restart this application"
+msgstr "Bu uygulamayı yeniden başlatmanız gerekecek"
+
+#: libapper/PkStrings.cpp:850
+msgid "You will be required to log out and back in"
+msgstr "Çıkış yaparak oturumu yeniden başlatmanız gerekecek"
+
+#: libapper/PkStrings.cpp:852
+msgid "A restart will be required"
+msgstr "Sistemi yeniden başlatmanız gerekecek"
+
+#: libapper/PkStrings.cpp:854
+msgid "You will be required to log out and back in due to a security update."
+msgstr ""
+"Bi güvenlik güncellemesi nedeniyle çıkış yaparak oturumu yeniden başlatmanız "
+"gerekecek."
+
+#: libapper/PkStrings.cpp:856
+msgid "A restart will be required due to a security update."
+msgstr ""
+"Bir güvenlik güncellemesi nedeniyle sistemi yeniden başlatmanız gerekecek."
+
+#: libapper/PkStrings.cpp:869
+msgid "No restart is required"
+msgstr "Yeniden başlatma gerekmiyor"
+
+#: libapper/PkStrings.cpp:871
+msgid "A restart is required"
+msgstr "Sistemi yeniden başlatmanız gerekiyor"
+
+#: libapper/PkStrings.cpp:873
+msgid "You need to log out and log back in"
+msgstr "Çıkış yaparak oturumu yeniden başlatmanız gerekiyor"
+
+#: libapper/PkStrings.cpp:875
+msgid "You need to restart the application"
+msgstr "Uygulamayı yeniden başlatmanız gerekiyor"
+
+#: libapper/PkStrings.cpp:877
+msgid "You need to log out and log back in to remain secure."
+msgstr ""
+"Güvenlik nedeniyle çıkış yaparak oturumu yeniden başlatmanız gerekiyor."
+
+#: libapper/PkStrings.cpp:879
+msgid "A restart is required to remain secure."
+msgstr "Güvenlik nedeniyle sistemi yeniden başlatmanız gerekiyor."
+
+#: libapper/PkStrings.cpp:892
+msgid "Stable"
+msgstr "Kararlı"
+
+#: libapper/PkStrings.cpp:894
+msgid "Unstable"
+msgstr "Kararsız"
+
+#: libapper/PkStrings.cpp:896
+msgid "Testing"
+msgstr "Deneme"
+
+#: libapper/PkStrings.cpp:909
+#, kde-format
+msgid "Please insert the CD labeled '%1', and press continue."
+msgstr "Lütfen '%1' etiketli CD'yi takın ve devama basın."
+
+#: libapper/PkStrings.cpp:911
+#, kde-format
+msgid "Please insert the DVD labeled '%1', and press continue."
+msgstr "Lütfen '%1' etiketli DVD'yi takın ve devama basın."
+
+#: libapper/PkStrings.cpp:913
+#, kde-format
+msgid "Please insert the disc labeled '%1', and press continue."
+msgstr "Lütfen '%1' etiketli diski takın ve devama basın."
+
+#: libapper/PkStrings.cpp:915 libapper/PkStrings.cpp:918
+#, kde-format
+msgid "Please insert the medium labeled '%1', and press continue."
+msgstr "Lütfen '%1' etiketli ortamı takın ve devama basın."
+
+#: libapper/PkStrings.cpp:925
+msgid "A mirror is possibly broken"
+msgstr "Bir yansı muhtemelen bozuk"
+
+#: libapper/PkStrings.cpp:927
+msgid "The connection was refused"
+msgstr "Bağlantı reddedildi."
+
+#: libapper/PkStrings.cpp:929
+msgid "The parameter was invalid"
+msgstr "Parametre geçersiz"
+
+#: libapper/PkStrings.cpp:931
+msgid "The priority was invalid"
+msgstr "Öncelik geçersiz"
+
+#: libapper/PkStrings.cpp:933
+msgid "Backend warning"
+msgstr "Arka uç uyarısı"
+
+#: libapper/PkStrings.cpp:935
+msgid "Daemon warning"
+msgstr "Servis uyarısı"
+
+#: libapper/PkStrings.cpp:937
+msgid "The package list cache is being rebuilt"
+msgstr "Paket listesi önbelleği yeniden inşa ediliyor"
+
+#: libapper/PkStrings.cpp:939
+msgid "An untrusted package was installed"
+msgstr "Güvenilmeyen bir paket kuruldu"
+
+#: libapper/PkStrings.cpp:941
+msgid "A newer package exists"
+msgstr "Daha yeni bir paket var"
+
+#: libapper/PkStrings.cpp:943
+msgid "Could not find package"
+msgstr "Paket bulunamadı"
+
+#: libapper/PkStrings.cpp:945
+msgid "Configuration files were changed"
+msgstr "Yapılandırma dosyaları değiştirildi"
+
+#: libapper/PkStrings.cpp:947
+msgid "Package is already installed"
+msgstr "Paket zaten yüklenmiş"
+
+#: libapper/PkStrings.cpp:949
+msgid "Automatic cleanup is being ignored"
+msgstr "Otomatik temizleme yoksayılıyor"
+
+#: libapper/PkStrings.cpp:951
+msgid "Software source download failed"
+msgstr "Yazılım kaynağı indirme işlemi başarısız oldu"
+
+#: libapper/PkStrings.cpp:953
+msgid "This software source is for developers only"
+msgstr "Bu yazılım kaynağı sadece yazılım geliştiricileri içindir"
+
+#: libapper/PkStrings.cpp:955
+msgid "Other updates have been held back"
+msgstr ""
+
+#: libapper/PkStrings.cpp:970
+msgid "Could not get a transaction id from packagekitd."
+msgstr "Packagekitd servisinden bir aktarım kimliği alınamadı."
+
+#: libapper/PkStrings.cpp:972
+msgid "Cannot connect to this transaction id."
+msgstr "Aktarım kimliğine bağlanılamadı."
+
+#: libapper/PkStrings.cpp:974
+msgid "This action is unknown."
+msgstr "Bu eylem bilinmiyor."
+
+#: libapper/PkStrings.cpp:976
+msgid "The packagekitd service could not be started."
+msgstr "Packagekitd servisi başlatılamadı."
+
+#: libapper/PkStrings.cpp:978
+msgid "The query is not valid."
+msgstr "Bu sorgu geçerli değil."
+
+#: libapper/PkStrings.cpp:980
+msgid "The file is not valid."
+msgstr "Bu dosya geçerli değil."
+
+#: libapper/PkStrings.cpp:982
+msgid "This function is not yet supported."
+msgstr "Bu işlev henüz desteklenmiyor."
+
+#: libapper/PkStrings.cpp:984
+msgid "Could not talk to packagekitd."
+msgstr "Packagekitd servisi ile iletişim kurulamadı."
+
+#: libapper/PkStrings.cpp:988 libapper/PkStrings.cpp:991
+msgid "An unknown error happened."
+msgstr "Bilinmeyen bir hata oluştu."
+
+#: libapper/PkStrings.cpp:1005 plasmoid/updaterapplet.cpp:146
+msgid "Your system is up to date"
+msgstr "Sisteminiz güncel"
+
+#: libapper/PkStrings.cpp:1007
+msgid "You have no updates"
+msgstr "Güncelleme yok"
+
+#: libapper/PkStrings.cpp:1009
+msgid "Last check for updates was more than a month ago"
+msgstr ""
+
+#: libapper/PkStrings.cpp:1017
+#, kde-format
+msgid "Verified %1 ago"
+msgstr ""
+
+#: libapper/PkStrings.cpp:1019
+msgid "It's strongly recommended that you check for new updates now"
+msgstr ""
+
+#: libapper/PkTransaction.cpp:129
+#, fuzzy
+#| msgid "Failed to simulate package install"
+msgid "Failed to simulate file install"
+msgstr "Paket kurma benzetimi yapılamadı"
+
+#: libapper/PkTransaction.cpp:133
+#, fuzzy
+#| msgid "Current backend does not support installing packages."
+msgid "Current backend does not support installing files."
+msgstr "Geçerli arka uç paket yüklemeyi desteklemiyor."
+
+#: libapper/PkTransaction.cpp:147
+msgid "Failed to simulate package install"
+msgstr "Paket kurma benzetimi yapılamadı"
+
+#: libapper/PkTransaction.cpp:151
+msgid "Current backend does not support installing packages."
+msgstr "Geçerli arka uç paket yüklemeyi desteklemiyor."
+
+#: libapper/PkTransaction.cpp:166
+msgid "Failed to simulate package removal"
+msgstr "Paket kaldırma benzetimi yapılamadı"
+
+#: libapper/PkTransaction.cpp:170
+msgid "The current backend does not support removing packages."
+msgstr "Geçerli arka uç paketlerin kaldırılmasını desteklemiyor."
+
+#: libapper/PkTransaction.cpp:189
+#, fuzzy
+#| msgid "Failed to simulate package removal"
+msgid "Failed to simulate package update"
+msgstr "Paket kaldırma benzetimi yapılamadı"
+
+#: libapper/PkTransaction.cpp:193
+#, fuzzy
+#| msgid "The current backend does not support removing packages."
+msgid "The current backend does not support updating packages."
+msgstr "Geçerli arka uç paketlerin kaldırılmasını desteklemiyor."
+
+#: libapper/PkTransaction.cpp:234
+msgid "Failed to install package"
+msgstr "Paket kurulamadı"
+
+#: libapper/PkTransaction.cpp:244 PkSession/PkInstallProvideFiles.cpp:101
+msgid "Failed to install file"
+msgid_plural "Failed to install files"
+msgstr[0] "Dosyalar yüklenemedi"
+
+#: libapper/PkTransaction.cpp:255
+msgid "Failed to remove package"
+msgstr "Paket kaldırılamadı"
+
+#: libapper/PkTransaction.cpp:265
+#, fuzzy
+#| msgid "Failed to find package"
+msgid "Failed to update package"
+msgstr "Paket bulunamadı"
+
+#: libapper/PkTransaction.cpp:331
+msgid ""
+"You are about to install unsigned packages that can compromise your system, "
+"as it is impossible to verify if the software came from a trusted source.\n"
+"\n"
+"Are you sure you want to proceed with the installation?"
+msgstr ""
+"İmzalanmamış paketlerin kurulması, yazılımın güvenli bir kaynaktan gelip "
+"gelmediğini doğrulamanın imkansız olmasından dolayı sisteminizi tehlikeye "
+"atabilir.\n"
+"Kuruluma devam etmek istediğinizden emin misiniz?"
+
+#: libapper/PkTransaction.cpp:334
+msgid "Installing unsigned software"
+msgstr "İmzalanmamış yazılım yükleniyor"
+
+#: libapper/PkTransaction.cpp:379 libapper/PkTransaction.cpp:463
+msgid "Failed to install signature"
+msgstr "İmza yüklenemedi"
+
+#. i18n: ectx: property (text), widget (QLabel, label)
+#: libapper/PkTransactionWidget.ui:38
+msgid "icon"
+msgstr "simge"
+
+#. i18n: ectx: property (text), widget (QLabel, currentL)
+#: libapper/PkTransactionWidget.ui:64
+msgid "Downloading Packages"
+msgstr "Paketler İndiriliyor"
+
+#. i18n: ectx: property (windowTitle), widget (QWidget, RepoSig)
+#: libapper/RepoSig.cpp:52 libapper/RepoSig.ui:14
+msgid "Software signature is required"
+msgstr "Yazılım imzası gerekli"
+
+#. i18n: ectx: property (text), widget (QLabel, label)
+#: libapper/RepoSig.ui:23
+msgid "Do you trust the origin of packages?"
+msgstr "Paketlerin kaynağına güveniyor musunuz?"
+
+#. i18n: ectx: property (text), widget (QLabel, label_2)
+#: libapper/RepoSig.ui:47
+msgid "Repository name:"
+msgstr "Depo adı:"
+
+#. i18n: ectx: property (text), widget (QLabel, label_3)
+#: libapper/RepoSig.ui:73
+msgid "Signature URL:"
+msgstr "İmza Adresi:"
+
+#. i18n: ectx: property (text), widget (QLabel, label_4)
+#: libapper/RepoSig.ui:99
+msgid "Signature user identifier:"
+msgstr "İmza kullanıcısı tanımlayıcı:"
+
+#. i18n: ectx: property (text), widget (QLabel, label_5)
+#: libapper/RepoSig.ui:125
+msgid "Signature identifier:"
+msgstr "İmza tanımlayıcısı:"
+
+#: libapper/Requirements.cpp:55
+msgid "Additional changes"
+msgstr "Ek değişiklikler"
+
+#: libapper/Requirements.cpp:77
+#, kde-format
+msgid "1 package to remove"
+msgid_plural "%1 packages to remove"
+msgstr[0] "%1 paket kaldırılacak"
+
+#: libapper/Requirements.cpp:92
+#, kde-format
+msgid "1 package to downgrade"
+msgid_plural "%1 packages to downgrade"
+msgstr[0] "%1 paket eski sürüme döndürülecek"
+
+#: libapper/Requirements.cpp:107
+#, kde-format
+msgid "1 package to reinstall"
+msgid_plural "%1 packages to reinstall"
+msgstr[0] "%1 paket yeniden yüklenecek"
+
+#: libapper/Requirements.cpp:120
+#, kde-format
+msgid "1 package to install"
+msgid_plural "%1 packages to install"
+msgstr[0] "%1 paket yüklenecek"
+
+#: libapper/Requirements.cpp:133
+#, kde-format
+msgid "1 package to update"
+msgid_plural "%1 packages to update"
+msgstr[0] "%1 paket güncellenecek"
+
+#: libapper/Requirements.cpp:146
+#, fuzzy, kde-format
+#| msgid "1 installed package"
+#| msgid_plural "%1 installed packages"
+msgid "1 untrusted package"
+msgid_plural "%1 untrusted packages"
+msgstr[0] "%1 kurulu paket"
+
+#: libapper/Requirements.cpp:242
+#, fuzzy
+#| msgid ""
+#| "You are about to install unsigned packages that can compromise your "
+#| "system, as it is impossible to verify if the software came from a trusted "
+#| "source.\n"
+#| "\n"
+#| "Are you sure you want to proceed with the installation?"
+msgid ""
+"You are about to install unsigned packages that can compromise your system, "
+"as it is impossible to verify if the software came from a trusted source."
+msgstr ""
+"İmzalanmamış paketlerin kurulması, yazılımın güvenli bir kaynaktan gelip "
+"gelmediğini doğrulamanın imkansız olmasından dolayı sisteminizi tehlikeye "
+"atabilir.\n"
+"Kuruluma devam etmek istediğinizden emin misiniz?"
+
+#. i18n: ectx: property (text), widget (QLabel, label)
+#: libapper/Requirements.ui:31
+msgid "Additional changes are required to complete the task"
+msgstr "Görevi tamamlamak için ek değişiklikler gerekiyor"
+
+#. i18n: ectx: property (text), widget (QCheckBox, confirmCB)
+#: libapper/Requirements.ui:87
+#, fuzzy
+#| msgid ""
+#| "Do not show this confirmation when installing or updating additional "
+#| "packages"
+msgid "Do not confirm when installing or updating additional packages"
+msgstr "Ek paketler yüklenirken bu doğrulama penceresini gösterme"
+
+#. i18n: ectx: property (text), widget (QLabel, descriptionL)
+#: PkSession/IntroDialog.ui:65
+msgid "TextLabel"
+msgstr "MetinEtiketi"
+
+#: PkSession/main.cpp:36
+msgid "Apper PackageKit Session helper"
+msgstr ""
+
+#: PkSession/main.cpp:38
+#, fuzzy
+#| msgid "(C) 2008-2010 Daniel Nicoletti"
+msgid "(C) 2008-2012 Daniel Nicoletti"
+msgstr "(C) 2008-2010 Daniel Nicoletti"
+
+#: PkSession/main.cpp:41
+msgid "Trever Fischer"
+msgstr "Trever Fisher"
+
+#: PkSession/PkInstallCatalogs.cpp:46
+#, fuzzy
+#| msgid "Install Packages"
+msgid "Install Packages Catalogs"
+msgstr "Paketleri Kur"
+
+#: PkSession/PkInstallCatalogs.cpp:65
+msgid "You can drop more catalogs in here"
+msgstr ""
+
+#: PkSession/PkInstallCatalogs.cpp:85
+#, fuzzy
+#| msgid "No update description was found."
+msgid "No supported catalog was found"
+msgstr "Hiçbir güncelleme açıklaması bulunamadı."
+
+#: PkSession/PkInstallCatalogs.cpp:87
+#, fuzzy
+#| msgid "<h3>Do you want to install this catalog?</h3><ul><li>%2</li></ul>"
+#| msgid_plural ""
+#| "<h3>Do you want to install these catalogs?</h3><ul><li>%2</li></ul>"
+msgid "Do you want to install this catalog?"
+msgid_plural "Do you want to install these catalogs?"
+msgstr[0] ""
+"<h3>Bu katalogları yüklemek istiyor musunuz?</h3><ul><li>%2</li></ul>"
+
+#: PkSession/PkInstallCatalogs.cpp:96
+#, fuzzy
+#| msgid "A program wants to install a package"
+#| msgid_plural "A program wants to install packages"
+msgid "An application wants to install a catalog"
+msgid_plural "An application wants to install catalogs"
+msgstr[0] "Bir uygulama paket kurmak istiyor"
+
+#: PkSession/PkInstallCatalogs.cpp:100
+#, fuzzy, kde-format
+#| msgid "%2 wants to install a package"
+#| msgid_plural "%2 wants to install packages"
+msgid "The application <i>%2</i> wants to install a catalog"
+msgid_plural "The application <i>%2</i> wants to install catalogs"
+msgstr[0] "%2 paket kurmak istiyor"
+
+#: PkSession/PkInstallCatalogs.cpp:137
+msgid "Not supported"
+msgstr "Desteklenmeyen"
+
+#: PkSession/PkInstallCatalogs.cpp:138
+msgid ""
+"Your backend does not support any of the needed methods to install a catalog"
+msgstr ""
+"Kullandığınız arka uç katalog yüklemek için gereken hiçbir yöntemi "
+"desteklemiyor"
+
+#: PkSession/PkInstallCatalogs.cpp:177
+#, fuzzy
+#| msgid "Update not found"
+msgid "Catalog not found"
+msgstr "Güncelleme bulunamadı"
+
+#: PkSession/PkInstallCatalogs.cpp:178
+#, fuzzy
+#| msgid "Could not find package"
+msgid "Could not find a catalog to install"
+msgstr "Paket bulunamadı"
+
+#: PkSession/PkInstallCatalogs.cpp:185
+#, kde-format
+msgid "Catalog %2 failed to open"
+msgid_plural "Catalogs %2 failed to open"
+msgstr[0] ""
+
+#: PkSession/PkInstallCatalogs.cpp:189
+msgid "Failed to open"
+msgstr "Açılamadı"
+
+#: PkSession/PkInstallCatalogs.cpp:195
+msgid "Catalog is Empty"
+msgstr "Katalog Boş"
+
+#: PkSession/PkInstallCatalogs.cpp:196
+#, fuzzy
+#| msgid "<h3>Do you want to install this catalog?</h3><ul><li>%2</li></ul>"
+#| msgid_plural ""
+#| "<h3>Do you want to install these catalogs?</h3><ul><li>%2</li></ul>"
+msgid "Could not find any package to install in this catalog"
+msgstr "<h3>Bu katalogları yüklemek istiyor musunuz?</h3><ul><li>%2</li></ul>"
+
+#: PkSession/PkInstallCatalogs.cpp:278 PkSession/PkInstallPackageNames.cpp:97
+#: PkSession/PkIsInstalled.cpp:46
+msgid "Failed to start resolve transaction"
+msgstr "Çözümleme işlemi başlatılamadı"
+
+#: PkSession/PkInstallFontconfigResources.cpp:41
+msgid "Installs new Fonts"
+msgstr ""
+
+#: PkSession/PkInstallFontconfigResources.cpp:73
+msgid "Could interpret request"
+msgstr ""
+
+#: PkSession/PkInstallFontconfigResources.cpp:73
+msgid "Please verify if the request was valid"
+msgstr ""
+
+#: PkSession/PkInstallFontconfigResources.cpp:107
+#, fuzzy
+#| msgid ""
+#| "An additional font is required to view this document correctly. Do you "
+#| "want to search for a suitable package now?"
+#| msgid_plural ""
+#| "Additional fonts are required to view this document correctly. Do you "
+#| "want to search for suitable packages now?"
+msgid ""
+"An additional font is required to view this document correctly.\n"
+"Do you want to search for a suitable package now?"
+msgid_plural ""
+"Additional fonts are required to view this document correctly.\n"
+"Do you want to search for suitable packages now?"
+msgstr[0] ""
+"Bu belgeyi görüntüleyebilmek için ek yazı tipleri gerekiyor. Uygun paketleri "
+"şimdi aramak istiyor musunuz?"
+
+#: PkSession/PkInstallFontconfigResources.cpp:117
+msgid "A program wants to install a font"
+msgid_plural "A program wants to install fonts"
+msgstr[0] "Bir uygulama yazı tipi kurmak istiyor"
+
+#: PkSession/PkInstallFontconfigResources.cpp:121
+#, fuzzy, kde-format
+#| msgid "%2 wants to install a package"
+#| msgid_plural "%2 wants to install packages"
+msgid "The application %2 wants to install a font"
+msgid_plural "The application %2 wants to install fonts"
+msgstr[0] "%2 paket kurmak istiyor"
+
+#: PkSession/PkInstallFontconfigResources.cpp:145
+#: PkSession/PkInstallFontconfigResources.cpp:166
+#: PkSession/PkInstallGStreamerResources.cpp:136
+#: PkSession/PkInstallMimeTypes.cpp:92
+#: PkSession/PkInstallPlasmaResources.cpp:101
+#: PkSession/PkInstallPrinterDrivers.cpp:74
+msgid "Failed to search for provides"
+msgstr "Sağlayıcılar aranamadı"
+
+#: PkSession/PkInstallFontconfigResources.cpp:155
+#: PkSession/PkInstallFontconfigResources.cpp:164
+msgid "Failed to find font"
+msgstr "Yazı tipi bulunamadı"
+
+#: PkSession/PkInstallFontconfigResources.cpp:157
+#, fuzzy
+#| msgid "No new fonts can be found for this document"
+msgid "No new fonts could be found for this document"
+msgstr "Bu belge için yeni yazı tipi bulunamadı"
+
+#: PkSession/PkInstallGStreamerResources.cpp:39
+msgid "Install GStreamer Resources"
+msgstr ""
+
+#: PkSession/PkInstallGStreamerResources.cpp:68
+#, fuzzy
+#| msgid ""
+#| "The following plugin is required: <ul><li>%2</li></ul>Do you want to "
+#| "search for this now?"
+#| msgid_plural ""
+#| "The following plugins are required: <ul><li>%2</li></ul>Do you want to "
+#| "search for these now?"
+msgid "The following plugin is required. Do you want to search for this now?"
+msgid_plural ""
+"The following plugins are required. Do you want to search for these now?"
+msgstr[0] ""
+"Bu eklentiler gerekli: <ul><li>%2</li></ul>Şimdi bu eklentileri aramak "
+"istiyor musunuz?"
+
+#: PkSession/PkInstallGStreamerResources.cpp:80
+msgid "A program requires an additional plugin to decode this file"
+msgid_plural "A program requires additional plugins to decode this file"
+msgstr[0] ""
+"Bir program bu dosyanın kodlamasını açmak için eklentilere gereksinim duyuyor"
+
+#: PkSession/PkInstallGStreamerResources.cpp:85
+msgid "A program requires an additional plugin to encode this file"
+msgid_plural "A program requires additional plugins to encode this file"
+msgstr[0] "Bir program bu dosyayı kodlamak için eklentilere gereksinim duyuyor"
+
+#: PkSession/PkInstallGStreamerResources.cpp:90
+msgid "A program requires an additional plugin for this operation"
+msgid_plural "A program requires additional plugins for this operation"
+msgstr[0] "Bir program bu işlem için eklentilere gereksinim duyuyor"
+
+#: PkSession/PkInstallGStreamerResources.cpp:97
+#, kde-format
+msgid "%2 requires an additional plugin to decode this file"
+msgid_plural "%2 requires additional plugins to decode this file"
+msgstr[0] ""
+"%2 bu dosyanın kodlamasını açmak için eklentilere gereksinim duyuyor"
+
+#: PkSession/PkInstallGStreamerResources.cpp:103
+#, kde-format
+msgid "%2 requires an additional plugin to encode this file"
+msgid_plural "%2 requires additional plugins to encode this file"
+msgstr[0] "%2 bu dosyayı kodlamak için eklentilere gereksinim duyuyor"
+
+#: PkSession/PkInstallGStreamerResources.cpp:109
+#, kde-format
+msgid "%2 requires an additional plugin for this operation"
+msgid_plural "%2 requires additional plugins for this operation"
+msgstr[0] "%2 bu işlem için eklentilere gereksinim duyuyor"
+
+#: PkSession/PkInstallGStreamerResources.cpp:147
+#, fuzzy
+#| msgid "No files were found."
+msgid "No results found"
+msgstr "Hiç dosya bulunamadı."
+
+#: PkSession/PkInstallGStreamerResources.cpp:149
+msgid "Could not find plugin in any configured software source"
+msgstr "Eklenti herhangi bir yazılım kaynağında bulunamadı"
+
+#: PkSession/PkInstallMimeTypes.cpp:39
+#, fuzzy
+#| msgid "Install Files"
+msgid "Install Support for File Types"
+msgstr "Dosyaları Yükle"
+
+#: PkSession/PkInstallMimeTypes.cpp:50
+#, fuzzy
+#| msgid "Do you want to search for and install this package now?"
+#| msgid_plural "Do you want to search for and install these packages now?"
+msgid "Do you want to search for a program that can open this file type?"
+msgid_plural ""
+"Do you want to search for a program that can open these file types?"
+msgstr[0] "Bu paketleri aramak ve kurmak istiyor musunuz?"
+
+#: PkSession/PkInstallMimeTypes.cpp:55
+#, fuzzy
+#| msgid "No files were found."
+msgid "No valid file types were provided"
+msgstr "Hiç dosya bulunamadı."
+
+#: PkSession/PkInstallMimeTypes.cpp:62
+#, fuzzy
+#| msgid "A program requires an additional plugin to decode this file"
+#| msgid_plural "A program requires additional plugins to decode this file"
+msgid "A program is requiring support to open this kind of files"
+msgid_plural "A program is requiring support to open these kinds of files"
+msgstr[0] ""
+"Bir program bu dosyanın kodlamasını açmak için eklentilere gereksinim duyuyor"
+
+#: PkSession/PkInstallMimeTypes.cpp:66
+#, fuzzy, kde-format
+#| msgid "A program requires an additional plugin to decode this file"
+#| msgid_plural "A program requires additional plugins to decode this file"
+msgid "The application %2 is requiring support to open this kind of files"
+msgid_plural ""
+"The application %2 is requiring support to open these kinds of files"
+msgstr[0] ""
+"Bir program bu dosyanın kodlamasını açmak için eklentilere gereksinim duyuyor"
+
+#: PkSession/PkInstallMimeTypes.cpp:101
+#, fuzzy
+#| msgid "Failed to find software"
+msgid "Could not find software"
+msgstr "Yazılım bulunamadı"
+
+#: PkSession/PkInstallMimeTypes.cpp:103
+msgid "No new applications can be found to handle this type of file"
+msgstr "Bu dosya tipini açabilecek bir yeni uygulama yok"
+
+#: PkSession/PkInstallPackageFiles.cpp:38
+#, fuzzy
+#| msgid "Install Packages"
+msgid "Install Packages Files"
+msgstr "Paketleri Kur"
+
+#: PkSession/PkInstallPackageFiles.cpp:42
+#: PkSession/PkRemovePackageByFiles.cpp:43
+msgid "You can drop more files in here"
+msgstr ""
+
+#: PkSession/PkInstallPackageFiles.cpp:52
+#, fuzzy
+#| msgid "Not supported"
+msgid "Not Supported"
+msgstr "Desteklenmeyen"
+
+#: PkSession/PkInstallPackageFiles.cpp:53
+#, fuzzy
+#| msgid "Current backend does not support installing packages."
+msgid "Your current backend does not support installing files"
+msgstr "Geçerli arka uç paket yüklemeyi desteklemiyor."
+
+#: PkSession/PkInstallPackageFiles.cpp:68
+#: PkSession/PkRemovePackageByFiles.cpp:64
+#, fuzzy
+#| msgid "No files were found."
+msgid "No supported files were provided"
+msgstr "Hiç dosya bulunamadı."
+
+#: PkSession/PkInstallPackageFiles.cpp:70
+#, fuzzy
+#| msgid "Do you want to install this file?"
+#| msgid_plural "Do you want to install these files?"
+msgid "Press <i>Continue</i> if you want to install this file"
+msgid_plural "Press <i>Continue</i> if you want to install these files"
+msgstr[0] "Bu %1 dosyayı yüklemek istiyor musunuz?"
+
+#: PkSession/PkInstallPackageFiles.cpp:79
+#: PkSession/PkInstallPackageNames.cpp:71
+#, fuzzy
+#| msgid "A program wants to install a package"
+#| msgid_plural "A program wants to install packages"
+msgid "An application wants to install a package"
+msgid_plural "An application wants to install packages"
+msgstr[0] "Bir uygulama paket kurmak istiyor"
+
+#: PkSession/PkInstallPackageFiles.cpp:83
+#: PkSession/PkInstallPackageNames.cpp:75
+#, fuzzy, kde-format
+#| msgid "%2 wants to install a package"
+#| msgid_plural "%2 wants to install packages"
+msgid "The application <i>%2</i> wants to install a package"
+msgid_plural "The application <i>%2</i> wants to install packages"
+msgstr[0] "%2 paket kurmak istiyor"
+
+#: PkSession/PkInstallPackageFiles.cpp:106
+#, fuzzy
+#| msgctxt "The role of the transaction, in present tense"
+#| msgid "Installing file"
+msgid "Installation Complete"
+msgstr "Dosya yükleniyor"
+
+#: PkSession/PkInstallPackageFiles.cpp:107
+msgid "File was installed successfully"
+msgid_plural "Files were installed successfully"
+msgstr[0] "Dosyalar başarılı bir şekilde yüklendi"
+
+#: PkSession/PkInstallPackageFiles.cpp:118
+#, fuzzy
+#| msgid "Failed to install file"
+#| msgid_plural "Failed to install files"
+msgid "Failed to install files"
+msgstr "Dosyalar yüklenemedi"
+
+#: PkSession/PkInstallPackageFiles.cpp:119
+#: PkSession/PkInstallPackageFiles.cpp:121
+#, fuzzy
+#| msgid "Failed to install file"
+#| msgid_plural "Failed to install files"
+msgid "Could not install files"
+msgstr "Dosyalar yüklenemedi"
+
+#: PkSession/PkInstallPackageNames.cpp:41
+#, fuzzy
+#| msgid "Install Packages"
+msgid "Install Packages by Name"
+msgstr "Paketleri Kur"
+
+#: PkSession/PkInstallPackageNames.cpp:58
+#, fuzzy
+#| msgid "No files were found."
+msgid "No package names were provided"
+msgstr "Hiç dosya bulunamadı."
+
+#: PkSession/PkInstallPackageNames.cpp:61
+msgid "Do you want to search for and install this package now?"
+msgid_plural "Do you want to search for and install these packages now?"
+msgstr[0] "Bu paketleri aramak ve kurmak istiyor musunuz?"
+
+#: PkSession/PkInstallPackageNames.cpp:109
+msgid "Failed to install packages"
+msgstr "Paketler kurulamadı"
+
+#: PkSession/PkInstallPackageNames.cpp:110
+#, kde-format
+msgid "The package %2 is already installed"
+msgid_plural "The packages %2 are already installed"
+msgstr[0] "%2 paket zaten kurulmuş"
+
+#: PkSession/PkInstallPackageNames.cpp:118
+#: PkSession/PkRemovePackageByFiles.cpp:149 PkSession/PkSearchFile.cpp:89
+#, kde-format
+msgid "Could not find %1"
+msgstr "%1 bulunamadı"
+
+#: PkSession/PkInstallPackageNames.cpp:119
+msgid "The package could not be found in any software source"
+msgid_plural "The packages could not be found in any software source"
+msgstr[0] "Bu paketler herhangi bir yazılım kaynağında bulunamadı"
+
+#: PkSession/PkInstallPlasmaResources.cpp:40
+#, fuzzy
+#| msgid "Install Packages"
+msgid "Install Plasma Resources"
+msgstr "Paketleri Kur"
+
+#: PkSession/PkInstallPlasmaResources.cpp:53
+#, fuzzy, kde-format
+#| msgctxt "Part of: %1 Updates, %1 Selected"
+#| msgid "%1 Update"
+#| msgid_plural "%1 Updates"
+msgid "%1 data engine"
+msgstr "%1 Güncelleme"
+
+#: PkSession/PkInstallPlasmaResources.cpp:55
+#, kde-format
+msgid "%1 script engine"
+msgstr ""
+
+#: PkSession/PkInstallPlasmaResources.cpp:67
+#, fuzzy
+#| msgid "No files were found."
+msgid "No supported resources were provided"
+msgstr "Hiç dosya bulunamadı."
+
+#: PkSession/PkInstallPlasmaResources.cpp:69
+#, fuzzy
+#| msgid ""
+#| "The following plugin is required: <ul><li>%2</li></ul>Do you want to "
+#| "search for this now?"
+#| msgid_plural ""
+#| "The following plugins are required: <ul><li>%2</li></ul>Do you want to "
+#| "search for these now?"
+msgid "The following service is required. Do you want to search for this now?"
+msgid_plural ""
+"The following services are required. Do you want to search for these now?"
+msgstr[0] ""
+"Bu eklentiler gerekli: <ul><li>%2</li></ul>Şimdi bu eklentileri aramak "
+"istiyor musunuz?"
+
+#: PkSession/PkInstallPlasmaResources.cpp:78
+#, fuzzy
+#| msgid "%2 requires an additional plugin for this operation"
+#| msgid_plural "%2 requires additional plugins for this operation"
+msgid "Plasma requires an additional service for this operation"
+msgid_plural "Plasma requires additional services for this operation"
+msgstr[0] "%2 bu işlem için eklentilere gereksinim duyuyor"
+
+#: PkSession/PkInstallPlasmaResources.cpp:112
+#, fuzzy
+#| msgid "Failed to search for provides"
+msgid "Failed to search for Plasma service"
+msgstr "Sağlayıcılar aranamadı"
+
+#: PkSession/PkInstallPlasmaResources.cpp:115
+#, fuzzy
+#| msgid "Could not find plugin in any configured software source"
+msgid "Could not find service in any configured software source"
+msgstr "Eklenti herhangi bir yazılım kaynağında bulunamadı"
+
+#: PkSession/PkInstallPrinterDrivers.cpp:39
+#, fuzzy
+#| msgctxt "The role of the transaction, in present tense"
+#| msgid "Installing file"
+msgid "Install Printer Drivers"
+msgstr "Dosya yükleniyor"
+
+#: PkSession/PkInstallPrinterDrivers.cpp:87
+#, fuzzy
+#| msgid "Failed to search for provides"
+msgid "Failed to search for printer driver"
+msgstr "Sağlayıcılar aranamadı"
+
+#: PkSession/PkInstallPrinterDrivers.cpp:88
+#, fuzzy
+#| msgid "Could not find plugin in any configured software source"
+msgid "Could not find printer driver in any configured software source"
+msgstr "Eklenti herhangi bir yazılım kaynağında bulunamadı"
+
+#: PkSession/PkInstallProvideFiles.cpp:39
+#, fuzzy
+#| msgid "Install Packages from List..."
+msgid "Install Packages that Provides Files"
+msgstr "Paketleri listeden kur..."
+
+#: PkSession/PkInstallProvideFiles.cpp:49
+#, fuzzy
+#| msgid "No files were found."
+msgid "No files were provided"
+msgstr "Hiç dosya bulunamadı."
+
+#: PkSession/PkInstallProvideFiles.cpp:52
+msgid "Do you want to search for this now?"
+msgid_plural "Do you want to search for these now?"
+msgstr[0] "Bunları aramak ister misiniz?"
+
+#: PkSession/PkInstallProvideFiles.cpp:62
+msgid "A program wants to install a file"
+msgid_plural "A program wants to install files"
+msgstr[0] "Bir uygulama dosya kurmak istiyor"
+
+#: PkSession/PkInstallProvideFiles.cpp:66
+#, fuzzy, kde-format
+#| msgid "%2 wants to install a package"
+#| msgid_plural "%2 wants to install packages"
+msgid "The application %2 is asking to install a file"
+msgid_plural "The application %2 is asking to install files"
+msgstr[0] "%2 paket kurmak istiyor"
+
+#: PkSession/PkInstallProvideFiles.cpp:88
+#: PkSession/PkRemovePackageByFiles.cpp:128 PkSession/PkSearchFile.cpp:55
+msgid "Failed to start search file transaction"
+msgstr "Dosya aktarımı başlatılamadı"
+
+#: PkSession/PkInstallProvideFiles.cpp:102
+#, kde-format
+msgid "The %1 package already provides this file"
+msgstr "%1 paketi bu dosyayı zaten sağlıyor"
+
+#: PkSession/PkInstallProvideFiles.cpp:108
+msgid "Failed to find package"
+msgstr "Paket bulunamadı"
+
+#: PkSession/PkInstallProvideFiles.cpp:109
+msgid "The file could not be found in any packages"
+msgid_plural "The files could not be found in any packages"
+msgstr[0] "Dosyalar herhangi bir paket içerisinde bulunamadı"
+
+#: PkSession/PkIsInstalled.cpp:36
+#, fuzzy
+#| msgid "The package is not installed"
+msgid "Querying if a Package is Installed"
+msgstr "Paket kurulu değil"
+
+#: PkSession/PkIsInstalled.cpp:67
+msgid "User canceled the transaction"
+msgstr "Kullanıcı aktarımı iptal etti"
+
+#: PkSession/PkIsInstalled.cpp:69
+msgid "An unknown error happened"
+msgstr "Bilinmeyen bir hata oluştu"
+
+#: PkSession/PkRemovePackageByFiles.cpp:40
+#, fuzzy
+#| msgid "Remove Packages"
+msgid "Remove Packages that Provides Files"
+msgstr "Paketleri Kaldır"
+
+#: PkSession/PkRemovePackageByFiles.cpp:67
+#, fuzzy
+#| msgid "You need to restart the application"
+msgid "Do you want to remove the following application?"
+msgid_plural "Do you want to remove the following applications?"
+msgstr[0] "Uygulamayı yeniden başlatmanız gerekiyor"
+
+#: PkSession/PkRemovePackageByFiles.cpp:71
+#, fuzzy
+#| msgid "Do you want to search for and install this package now?"
+#| msgid_plural "Do you want to search for and install these packages now?"
+msgid "Do you want to search for a package providing this file?"
+msgid_plural "Do you want to search for a package providing these files?"
+msgstr[0] "Bu paketleri aramak ve kurmak istiyor musunuz?"
+
+#: PkSession/PkRemovePackageByFiles.cpp:82
+#, fuzzy
+#| msgid "%2 wants to install a package"
+#| msgid_plural "%2 wants to install packages"
+msgid "An application is asking to remove an application"
+msgid_plural "An application is asking to remove applications"
+msgstr[0] "%2 paket kurmak istiyor"
+
+#: PkSession/PkRemovePackageByFiles.cpp:86
+#, fuzzy
+#| msgid "%2 wants to install a package"
+#| msgid_plural "%2 wants to install packages"
+msgid "An application is asking to remove a file"
+msgid_plural "An application is asking to remove files"
+msgstr[0] "%2 paket kurmak istiyor"
+
+#: PkSession/PkRemovePackageByFiles.cpp:92
+#, fuzzy, kde-format
+#| msgid "%2 wants to install a package"
+#| msgid_plural "%2 wants to install packages"
+msgid "The application <i>%2</i> is asking to remove an application"
+msgid_plural "The application <i>%2</i> is asking to remove applications"
+msgstr[0] "%2 paket kurmak istiyor"
+
+#: PkSession/PkRemovePackageByFiles.cpp:97
+#, fuzzy, kde-format
+#| msgid "%2 wants to install a package"
+#| msgid_plural "%2 wants to install packages"
+msgid "The application <i>%2</i> is asking to remove a file"
+msgid_plural "The application <i>%2</i> is asking to remove files"
+msgstr[0] "%2 paket kurmak istiyor"
+
+#: PkSession/PkRemovePackageByFiles.cpp:103
+#, fuzzy
+#| msgid "No update description was found."
+msgid "No application was found"
+msgstr "Hiçbir güncelleme açıklaması bulunamadı."
+
+#: PkSession/PkRemovePackageByFiles.cpp:150
+msgid "The file could not be found in any installed package"
+msgid_plural "The files could not be found in any installed package"
+msgstr[0] "Dosyalar hiçbir yüklü paket içerisinde bulunamadı"
+
+#: PkSession/PkSearchFile.cpp:38
+#, fuzzy
+#| msgctxt "The role of the transaction, in past tense"
+#| msgid "Searched for package details"
+msgid "Search Packages that Provides Files"
+msgstr "Paketlerin ayrıntılarında ara"
+
+#: PkSession/PkSearchFile.cpp:88
+msgid "The file name could not be found in any software source"
+msgstr "Dosya adı herhangi bir yazılım kaynağında bulunamadı"
+
+#: PkSession/ReviewChanges.cpp:50
+msgid "The following package was found"
+msgid_plural "The following packages were found"
+msgstr[0] "Aşağıdaki paketler bulundu"
+
+#: PkSession/SessionTask.cpp:373
+#, fuzzy
+#| msgid "The package is not installed"
+msgid "There are no packages to Install or Remove"
+msgstr "Paket kurulu değil"
+
+#: PkSession/SessionTask.cpp:374
+#, fuzzy
+#| msgid "This action is unknown."
+msgid "This action should not happen"
+msgstr "Bu eylem bilinmiyor."
+
+#: PkSession/SessionTask.cpp:405
+#, fuzzy
+#| msgid "Could not find %1"
+msgid "Could not find"
+msgstr "%1 bulunamadı"
+
+#: PkSession/SessionTask.cpp:406 PkSession/SessionTask.cpp:415
+#, fuzzy
+#| msgid "No package was found to be installed"
+msgid "No packages were found that meet the request"
+msgstr "Yüklenecek paket bulunamadı"
+
+#: PkSession/SessionTask.cpp:414
+#, fuzzy
+#| msgid "Failed to find font"
+msgid "Failed to find"
+msgstr "Yazı tipi bulunamadı"
+
+#: PkSession/SessionTask.cpp:436
+msgid "Transaction did not finish with success"
+msgstr "Aktarım başarılı bir şekilde tamamlanmadı"
+
+#: PkSession/SessionTask.cpp:442
+#, fuzzy
+#| msgid "Obsoleted"
+msgid "Task completed"
+msgstr "Gereksiz Olarak İşaretlendi"
+
+#: PkSession/SessionTask.cpp:442
+#, fuzzy
+#| msgid "File was installed successfully"
+#| msgid_plural "Files were installed successfully"
+msgid "All operations were committed successfully"
+msgstr "Dosyalar başarılı bir şekilde yüklendi"
+
+#: plasmoid/updaterapplet.cpp:148
+#, kde-format
+msgid "You have one update"
+msgid_plural "You have %1 updates"
+msgstr[0] "%1 güncellemeniz var"
+
+#, fuzzy
+
+
+
+
+
+
+
+
+
+
+
+
+
+#, fuzzy
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+#, fuzzy
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+#, fuzzy
+
+
+
+
+#, fuzzy
+
+
+
+
+
+
+
+
+
+#, fuzzy
+
+
+
+
+
+
+
+
+
+
+
+
+
+#, fuzzy
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+#, fuzzy
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+#, fuzzy
+
+
+
+
+
+#, fuzzy
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+#, fuzzy
+
+
+
+
+
+
+#, fuzzy
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+#, fuzzy
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+#, fuzzy
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+#, fuzzy
+
+
+
+
+
+
+
+
+
+
+
+
+
+#, fuzzy
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+#, fuzzy
+
+
+
+
+
+
+
+
+
+
+#, fuzzy
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+#, fuzzy
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+#, fuzzy
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+#, fuzzy
+
+
+
+
+#, fuzzy
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+#, fuzzy
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+#, fuzzy
+
+
+
+
+
+
+
+
+
+
+#, fuzzy
+
+
+
+
+
+
+
+
+
+#, fuzzy
+
+
+
+
+
+
+
+
+#, fuzzy
+
+
+
+
+
+#, fuzzy
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+#, fuzzy
+
+
+
+
+#, fuzzy
