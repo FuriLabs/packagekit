@@ -10,7 +10,7 @@ usr/lib/*/pm-utils/sleep.d/95packagekit usr/lib/pm-utils/sleep.d/95packagekit
 usr/lib/packagekit/packagekitd
 usr/lib/packagekit/pk-clear-offline-update
 usr/lib/packagekit/pk-offline-update
-usr/lib/packagekit/pk-trigger-offline
+usr/lib/packagekit/pk-trigger-offline-update
 usr/share/PackageKit/helpers/test_spawn/*
 usr/share/PackageKit/pk-upgrade-distro.sh
 usr/share/dbus-1/interfaces
