@@ -37,6 +37,7 @@ Homepage: http://www.packagekit.org
 
 Package: packagekit
 Architecture: any
+Multi-Arch: foreign
 Depends: libglib2.0-bin,
          libpackagekit-glib2-16 (= ${binary:Version}),
          packagekit-backend-aptcc (= ${binary:Version}),
@@ -65,6 +66,7 @@ Description: Provides a package management service
 Package: packagekit-tools
 Architecture: any
 Section: libs
+Multi-Arch: foreign
 Depends: packagekit (= ${binary:Version}),
          ${misc:Depends},
          ${shlibs:Depends}
@@ -212,8 +214,8 @@ Depends: gdebi-core (>= 0.8.2),
          ${shlibs:Depends}
 XB-Python-Version: ${python:Versions}
 Recommends: appstream-index,
-            apt-xapian-index,
             packagekit (= ${binary:Version})
+Suggests: apt-xapian-index
 Description: APT backend for PackageKit
  PackageKit allows performing simple software management tasks over a DBus
  interface e.g. refreshing the cache, updating, installing and removing
