@@ -100,13 +100,14 @@ sub vendor() {
 
 sub get_package_id {
   my ($pkg) = @_;
-  return $pkg->name . ";" . $pkg->version . "-" . $pkg->release . ";" . $pkg->arch . vendor();
+  return join(';', $pkg->name, $pkg->version . "-" . $pkg->release, $pkg->arch, vendor());
 }
 
+# From Rpmdrake::formatting:
 sub pkg2medium {
   my ($p, $urpm) = @_;
   return if !ref $p;
-  return { name => N("None (installed)") } if !$p->id; # if installed
+  return { name => N("None (installed)") } if !defined($p->id); # if installed
   URPM::pkg2media($urpm->{media}, $p) || undef;
 }
 
@@ -115,7 +116,7 @@ sub fullname_to_package_id {
   my ($pkg_string) = @_;
   chomp($pkg_string);
   if ($pkg_string =~ /^(.*)-([^-]*)-([^-]*)\.([^\.]*)$/) {
-      return $1 . $2 . $3 . $4 . vendor();
+      return join(';', $1, $2, $3, $4, vendor());
   }
 }
 
@@ -160,11 +161,9 @@ sub get_installed_fullname_pkid {
   my $pkgname = $pkg->name;
   my $db = open_rpm_db();
   my $installed_pkid;
-  $db->traverse(sub {
+  $db->traverse_tag_find('name', $pkgname, sub {
       my ($pkg) = @_;
-      if ($pkg->name =~ /^$pkgname$/) {
-        $installed_pkid = get_package_id($pkg);
-      }
+      $installed_pkid = get_package_id($pkg);
     });
   return $installed_pkid;
 }

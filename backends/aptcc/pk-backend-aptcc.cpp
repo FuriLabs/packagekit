@@ -20,17 +20,18 @@
  */
 
 #include <stdio.h>
-#include <apt-pkg/init.h>
+#include <stdlib.h>
 
 #include <config.h>
 #include <pk-backend.h>
 #include <pk-backend-spawn.h>
 
+#include <apt-pkg/init.h>
+
 #include "apt-intf.h"
 #include "AptCacheFile.h"
 #include "apt-messages.h"
 #include "acqpkitstatus.h"
-#include "pkg_acqfile.h"
 #include "apt-sourceslist.h"
 
 /* static bodges */
@@ -69,17 +70,16 @@ void pk_backend_initialize(PkBackend *backend)
 {
     g_debug("APTcc Initializing");
 
-    if (pkgInitConfig(*_config) == false ||
-            pkgInitSystem(*_config, _system) == false) {
-        g_debug("ERROR initializing backend");
-    }
-
     // Disable apt-listbugs as it freezes PK
     setenv("APT_LISTBUGS_FRONTEND", "none", 1);
 
     // Set apt-listchanges frontend to "debconf" to make it's output visible
     // (without using the debconf frontend, PK will freeze)
     setenv("APT_LISTCHANGES_FRONTEND", "debconf", 1);
+
+    // Make sure the config is ready for the get-filters
+    // call which needs to know about multi-arch
+    pkgInitConfig(*_config);
 
     spawn = pk_backend_spawn_new();
 //     pk_backend_spawn_set_job(spawn, backend);
@@ -217,7 +217,7 @@ static void backend_get_depends_or_requires_thread(PkBackendJob *job, GVariant *
     pk_backend_job_set_allow_cancel(job, true);
 
     AptIntf *apt = static_cast<AptIntf*>(pk_backend_job_get_user_data(job));
-    if (apt->init()) {
+    if (!apt->init()) {
         g_debug("Failed to create apt cache");
         apt->emitFinished();
         return;
@@ -238,7 +238,7 @@ static void backend_get_depends_or_requires_thread(PkBackendJob *job, GVariant *
             return;
         }
 
-        const pkgCache::VerIterator &ver = apt->findPackageId(pi);
+        const pkgCache::VerIterator &ver = apt->aptCacheFile()->resolvePkgID(pi);
         if (ver.end()) {
             pk_backend_job_error_code(job,
                                       PK_ERROR_ENUM_PACKAGE_NOT_FOUND,
@@ -299,7 +299,7 @@ static void backend_get_files_thread(PkBackendJob *job, GVariant *params, gpoint
                   &package_ids);
 
     AptIntf *apt = static_cast<AptIntf*>(pk_backend_job_get_user_data(job));
-    if (apt->init()) {
+    if (!apt->init()) {
         g_debug("Failed to create apt cache");
         apt->emitFinished();
         return;
@@ -325,7 +325,7 @@ static void backend_get_files_thread(PkBackendJob *job, GVariant *params, gpoint
             return;
         }
 
-        const pkgCache::VerIterator &ver = apt->findPackageId(pi);
+        const pkgCache::VerIterator &ver = apt->aptCacheFile()->resolvePkgID(pi);
         if (ver.end()) {
             pk_backend_job_error_code(job,
                                       PK_ERROR_ENUM_PACKAGE_NOT_FOUND,
@@ -359,7 +359,7 @@ static void backend_get_details_thread(PkBackendJob *job, GVariant *params, gpoi
                   &package_ids);
 
     AptIntf *apt = static_cast<AptIntf*>(pk_backend_job_get_user_data(job));
-    if (apt->init()) {
+    if (!apt->init()) {
         g_debug ("Failed to create apt cache");
         apt->emitFinished();
         return;
@@ -367,17 +367,11 @@ static void backend_get_details_thread(PkBackendJob *job, GVariant *params, gpoi
 
     if (package_ids == NULL) {
         pk_backend_job_error_code(job,
-                              PK_ERROR_ENUM_PACKAGE_ID_INVALID,
-                              "Invalid package id");
+                                  PK_ERROR_ENUM_PACKAGE_ID_INVALID,
+                                  "Invalid package id");
         pk_backend_job_finished(job);
         apt->emitFinished();
         return;
-    }
-
-    if (role == PK_ROLE_ENUM_GET_UPDATE_DETAIL) {
-        // this is needed to compare the changelog verstion to
-        // current package using DoCmpVersion()
-        pkgInitSystem(*_config, _system);
     }
 
     pk_backend_job_set_status(job, PK_STATUS_ENUM_QUERY);
@@ -411,12 +405,12 @@ void pk_backend_get_details(PkBackend *backend, PkBackendJob *job, gchar **packa
 static void backend_get_updates_thread(PkBackendJob *job, GVariant *params, gpointer user_data)
 {
     PkBitfield filters;
-    bool getUpdates;
+    g_variant_get(params, "(t)", &filters);
 
     pk_backend_job_set_allow_cancel(job, true);
 
     AptIntf *apt = static_cast<AptIntf*>(pk_backend_job_get_user_data(job));
-    if (apt->init()) {
+    if (!apt->init()) {
         g_debug("Failed to create apt cache");
         apt->emitFinished();
         return;
@@ -424,54 +418,12 @@ static void backend_get_updates_thread(PkBackendJob *job, GVariant *params, gpoi
 
     pk_backend_job_set_status(job, PK_STATUS_ENUM_QUERY);
 
-    AptCacheFile cache(job);
-    int timeout = 10;
-    // TODO test this
-    while (cache.Open() == false || cache.CheckDeps() == false) {
-        if (timeout <= 0) {
-            pk_backend_job_error_code(job,
-                                      PK_ERROR_ENUM_NO_CACHE,
-                                      "Could not open package cache.");
-            apt->emitFinished();
-            return;
-        } else {
-            pk_backend_job_set_status(job, PK_STATUS_ENUM_WAITING_FOR_LOCK);
-            sleep(1);
-            timeout--;
-        }
-    }
-    pk_backend_job_set_status(job, PK_STATUS_ENUM_RUNNING);
-
-    if (cache.DistUpgrade() == false) {
-        cache.ShowBroken(false);
-        g_debug("Internal error, DistUpgrade broke stuff");
-        apt->emitFinished();
-        return;
-    }
-
-    g_variant_get(params, "(t)",
-                    &filters);
-
     PkgList updates;
-    PkgList kept;
-    for (pkgCache::PkgIterator pkg = cache->PkgBegin(); !pkg.end(); ++pkg) {
-        if (cache[pkg].Upgrade() == true && cache[pkg].NewInstall() == false) {
-            const pkgCache::VerIterator &ver = cache.findCandidateVer(pkg);
-            if (!ver.end()) {
-                updates.push_back(ver);
-            }
-        } else if (cache[pkg].Upgradable() == true &&
-                   pkg->CurrentVer != 0 &&
-                   cache[pkg].Delete() == false) {
-            const pkgCache::VerIterator &ver = cache.findCandidateVer(pkg);
-            if (!ver.end()) {
-                kept.push_back(ver);
-            }
-        }
-    }
+    PkgList blocked;
+    updates = apt->getUpdates(blocked);
 
     apt->emitUpdates(updates, filters);
-    apt->emitPackages(kept, filters, PK_INFO_ENUM_BLOCKED);
+    apt->emitPackages(blocked, filters, PK_INFO_ENUM_BLOCKED);
 
     apt->emitFinished();
 }
@@ -505,7 +457,7 @@ static void backend_what_provides_thread(PkBackendJob *job, GVariant *params, gp
             provides == PK_PROVIDES_ENUM_MIMETYPE ||
             provides == PK_PROVIDES_ENUM_CODEC ||
             provides == PK_PROVIDES_ENUM_ANY) {
-        if (apt->init()) {
+        if (!apt->init()) {
             g_debug("Failed to create apt cache");
             g_strfreev(values);
             apt->emitFinished();
@@ -569,7 +521,7 @@ static void pk_backend_download_packages_thread(PkBackendJob *job, GVariant *par
     pk_backend_job_set_allow_cancel(job, true);
 
     AptIntf *apt = static_cast<AptIntf*>(pk_backend_job_get_user_data(job));
-    if (apt->init()) {
+    if (!apt->init()) {
         g_debug("Failed to create apt cache");
         apt->emitFinished();
         return;
@@ -619,7 +571,7 @@ static void pk_backend_download_packages_thread(PkBackendJob *job, GVariant *par
             break;
         }
 
-        const pkgCache::VerIterator &ver = apt->findPackageId(pi);
+        const pkgCache::VerIterator &ver = apt->aptCacheFile()->resolvePkgID(pi);
         // Ignore packages that could not be found or that exist only due to dependencies.
         if (ver.end()) {
             _error->Error("Can't find this package id \"%s\".", pi);
@@ -682,41 +634,16 @@ static void pk_backend_refresh_cache_thread(PkBackendJob *job, GVariant *params,
     pk_backend_job_set_allow_cancel(job, true);
 
     AptIntf *apt = static_cast<AptIntf*>(pk_backend_job_get_user_data(job));
-    if (apt->init()) {
+    if (!apt->init()) {
         g_debug("Failed to create apt cache");
         apt->emitFinished();
         return;
     }
 
-    pk_backend_job_set_status(job, PK_STATUS_ENUM_REFRESH_CACHE);
-    // Lock the list directory
-    FileFd Lock;
-    if (_config->FindB("Debug::NoLocking", false) == false) {
-        Lock.Fd(GetLock(_config->FindDir("Dir::State::Lists") + "lock"));
-        if (_error->PendingError() == true) {
-            pk_backend_job_error_code(job, PK_ERROR_ENUM_CANNOT_GET_LOCK, "Unable to lock the list directory");
-            apt->emitFinished();
-            return;
-            // 	 return _error->Error(_("Unable to lock the list directory"));
-        }
-    }
-
     apt->refreshCache();
-
-    // Rebuild the cache.
-    AptCacheFile cache(job);
-    if (cache.BuildCaches(true) == false) {
-        if (_error->PendingError() == true) {
-            show_errors(job, PK_ERROR_ENUM_CANNOT_FETCH_SOURCES, true);
-        }
-        apt->emitFinished();
-        return;
-    }
-
-    // missing repo gpg signature would appear here
-    if (_error->PendingError() == false && _error->empty() == false) {
-        // TODO we need a repo warning
-        show_warnings(job, PK_MESSAGE_ENUM_BROKEN_MIRROR);
+    
+    if (_error->PendingError() == true) {
+        show_errors(job, PK_ERROR_ENUM_CANNOT_FETCH_SOURCES, true);
     }
 
     apt->emitFinished();
@@ -741,7 +668,7 @@ static void pk_backend_resolve_thread(PkBackendJob *job, GVariant *params, gpoin
     pk_backend_job_set_allow_cancel(job, true);
 
     AptIntf *apt = static_cast<AptIntf*>(pk_backend_job_get_user_data(job));
-    if (apt->init()) {
+    if (!apt->init()) {
         g_debug("Failed to create apt cache");
         apt->emitFinished();
         return;
@@ -777,7 +704,7 @@ static void pk_backend_search_files_thread(PkBackendJob *job, GVariant *params, 
 
     // as we can only search for installed files lets avoid the opposite
     if (!pk_bitfield_contain(filters, PK_FILTER_ENUM_NOT_INSTALLED)) {
-        if (apt->init()) {
+        if (!apt->init()) {
             g_debug("Failed to create apt cache");
             apt->emitFinished();
             return;
@@ -812,7 +739,7 @@ static void backend_search_groups_thread(PkBackendJob *job, GVariant *params, gp
                   &search);
 
     AptIntf *apt = static_cast<AptIntf*>(pk_backend_job_get_user_data(job));
-    if (apt->init()) {
+    if (!apt->init()) {
         g_debug("Failed to create apt cache");
         apt->emitFinished();
         return;
@@ -851,7 +778,7 @@ static void backend_search_package_thread(PkBackendJob *job, GVariant *params, g
     search = g_strjoinv("|", values);
 
     AptIntf *apt = static_cast<AptIntf*>(pk_backend_job_get_user_data(job));
-    if (apt->init()) {
+    if (!apt->init()) {
         g_debug("Failed to create apt cache");
         g_free(search);
         apt->emitFinished();
@@ -956,7 +883,7 @@ static void backend_manage_packages_thread(PkBackendJob *job, GVariant *params, 
     pk_backend_job_set_allow_cancel(job, true);
 
     AptIntf *apt = static_cast<AptIntf*>(pk_backend_job_get_user_data(job));
-    if (apt->init()) {
+    if (!apt->init()) {
         g_debug("Failed to create apt cache");
         apt->emitFinished();
         return;
@@ -1222,7 +1149,7 @@ static void backend_get_packages_thread(PkBackendJob *job, GVariant *params, gpo
     pk_backend_job_set_allow_cancel(job, true);
 
     AptIntf *apt = static_cast<AptIntf*>(pk_backend_job_get_user_data(job));
-    if (apt->init()) {
+    if (!apt->init()) {
         g_debug("Failed to create apt cache");
         apt->emitFinished();
         return;

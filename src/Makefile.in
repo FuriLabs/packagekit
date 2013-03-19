@@ -72,9 +72,9 @@ DIST_COMMON = $(dist_introspection_DATA) $(plugininclude_HEADERS) \
 	$(top_srcdir)/build-aux/depcomp
 ACLOCAL_M4 = $(top_srcdir)/aclocal.m4
 am__aclocal_m4_deps = $(top_srcdir)/m4/gtk-doc.m4 \
-	$(top_srcdir)/m4/intltool.m4 $(top_srcdir)/m4/libtool.m4 \
-	$(top_srcdir)/m4/ltoptions.m4 $(top_srcdir)/m4/ltsugar.m4 \
-	$(top_srcdir)/m4/ltversion.m4 $(top_srcdir)/acinclude.m4 \
+	$(top_srcdir)/m4/libtool.m4 $(top_srcdir)/m4/ltoptions.m4 \
+	$(top_srcdir)/m4/ltsugar.m4 $(top_srcdir)/m4/ltversion.m4 \
+	$(top_srcdir)/m4/lt~obsolete.m4 $(top_srcdir)/acinclude.m4 \
 	$(top_srcdir)/configure.ac
 am__configure_deps = $(am__aclocal_m4_deps) $(CONFIGURE_DEPENDENCIES) \
 	$(ACLOCAL_M4)
@@ -649,7 +649,7 @@ NULL =
 PK_GLIB2_LIBS = $(top_builddir)/lib/packagekit-glib2/libpackagekit-glib2.la	\
 		$(NULL)
 
-INCLUDES = \
+AM_CPPFLAGS = \
 	$(GIO_CFLAGS)					\
 	$(GLIB_CFLAGS)					\
 	$(SQLITE_CFLAGS)				\
@@ -729,7 +729,7 @@ packagekitd_CFLAGS = \
 	$(WARNINGFLAGS_C)				\
 	$(NULL)
 
-@BACKEND_TYPE_BOX_TRUE@packagekitd_INCLUDES = \
+@BACKEND_TYPE_BOX_TRUE@packagekitd_AM_CPPFLAGS = \
 @BACKEND_TYPE_BOX_TRUE@	$(BOX_CFLAGS)
 
 BUILT_SOURCES = \
@@ -790,7 +790,7 @@ CLEANFILES = $(BUILT_SOURCES) pk-marshal.c pk-marshal.h \
 @HAVE_INTROSPECTION_TRUE@	$(NULL)
 
 @HAVE_INTROSPECTION_TRUE@PackageKitPlugin_1_0_gir_INCLUDES = GObject-2.0 Gio-2.0
-@HAVE_INTROSPECTION_TRUE@PackageKitPlugin_1_0_gir_CFLAGS = $(INCLUDES)						\
+@HAVE_INTROSPECTION_TRUE@PackageKitPlugin_1_0_gir_CFLAGS = $(AM_CPPFLAGS)						\
 @HAVE_INTROSPECTION_TRUE@				-DI_KNOW_THE_PACKAGEKIT_GLIB2_API_IS_SUBJECT_TO_CHANGE	\
 @HAVE_INTROSPECTION_TRUE@				-DI_KNOW_THE_PACKAGEKIT_PLUGIN_API_IS_SUBJECT_TO_CHANGE
 
