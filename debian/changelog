@@ -1,11 +1,23 @@
+packagekit (0.8.7-1) UNRELEASED; urgency=low
+
+  * New upstream release: 0.8.7
+  * Change mail to my Debian address
+
+ -- Matthias Klumpp <mak@debian.org>  Tue, 19 Mar 2013 20:24:14 +0100
+
 packagekit (0.8.6-1) experimental; urgency=low
 
   * Remove Aptcc trigger which became useless
   * Recommend gdebi-core again (LP: #1060395)
   * New upstream release: 0.8.6
     - Many improvements and bugfixes
+  * Remove Qt bindings, have been split out to new source package
+  * Build PackageKit with Python3
+  * Bump standards version (no changes needed)
+  * Don't create extra package for offline-updates
+  * Make PackageKit work on non-Linux archs again
 
- -- Matthias Klumpp <matthias@tenstral.net>  Tue, 28 Nov 2012 14:11:49 +0100
+ -- Matthias Klumpp <matthias@tenstral.net>  Tue, 28 Nov 2012 14:12:40 +0100
 
 packagekit (0.8.4-1) experimental; urgency=low
 

@@ -44,7 +44,8 @@ Depends: libglib2.0-bin,
          ${shlibs:Depends}
 Breaks: packagekit-backend-apt (<< ${binary:Version}),
         packagekit-backend-aptcc (<< ${binary:Version}),
-        packagekit-backend-smart (<< ${binary:Version})
+        packagekit-backend-smart (<< ${binary:Version}),
+        packagekit-offline-update (<< ${binary:Version})
 Provides: packagekit-system-interface
 Suggests: packagekit-backend-smart
 Recommends: packagekit-tools
