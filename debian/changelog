@@ -1,7 +1,8 @@
-packagekit (0.8.7-1) UNRELEASED; urgency=low
+packagekit (0.8.7-1) experimental; urgency=low
 
   * New upstream release: 0.8.7
   * Change mail to my Debian address
+  * Apply DEP-5 specs to (new) copyright file
 
  -- Matthias Klumpp <mak@debian.org>  Tue, 19 Mar 2013 20:24:14 +0100
 
