@@ -1,22 +1,16 @@
-A quick list of things that need to be done.
+*** Timeframe: 0.3.x ***
 
-- Find or create a Markdown Qt parser to HTML (update/package descriptions use Markdown)
-  (Daniel)
+* Enable GetUpdateDetail to handle arrays for 'updates' and 'obsoletes'
+  Until then, use ^ to delimit package_id's
 
-- Ddd the "Uninstall" action to kickoff :D
-  (Daniel)
+* Perhaps add RepoAdd(s=repo_id,as=urls,as=auth) and RepoRemove(s=repo_id)
 
-- Push KPK into KDE.
-  (Daniel)
+*** Timeframe: Sometime in the future ***
 
-- Documentation. And lots of it.
-  (Trever, Daniel)
+* Fix ServicePack to work correctly:
+  http://lists.freedesktop.org/archives/packagekit/2008-March/002434.html
 
-- Poke Richard (PackageKit) to:
-  - Don't emit restartRequired while simulating
-  - Don't emit message while simulating
-  - Emit trust needed when simulating install
-  - We need to emit packages(UNTRUSTED) so the user knows which ones
+* Don't display install if something is upgradable
+  Return update when we search for something that is installed, but an
+  update exists for
 
-- Add a DBus interface to KpkTransactions so that when the user
-  clicks on the systray we don't get duplicated windows

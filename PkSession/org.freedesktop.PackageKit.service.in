@@ -1,3 +1,0 @@
-[D-BUS Service]
-Name=org.freedesktop.PackageKit
-Exec=@LIBEXEC_INSTALL_DIR@/apper-pk-session
