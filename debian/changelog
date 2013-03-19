@@ -1,4 +1,4 @@
-packagekit (0.8.6-1) UNRELEASED; urgency=low
+packagekit (0.8.6-1) experimental; urgency=low
 
   * Remove Aptcc trigger which became useless
   * Recommend gdebi-core again (LP: #1060395)
