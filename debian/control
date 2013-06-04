@@ -5,7 +5,8 @@ Maintainer: Matthias Klumpp <mak@debian.org>
 Uploaders: Julian Andres Klode <jak@debian.org>
 Vcs-Git: git://anonscm.debian.org/pkg-packagekit/packagekit.git
 Vcs-Browser: http://anonscm.debian.org/gitweb/?p=pkg-packagekit/packagekit.git
-Build-Depends: debhelper (>= 9.0.0),
+Build-Depends: bash-completion,
+               debhelper (>= 9.0.0),
                dh-autoreconf (>= 4),
                docbook-utils,
                gir1.2-glib-2.0 (>= 0.10.1),
