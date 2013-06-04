@@ -1,9 +1,22 @@
+packagekit (0.8.9-1) experimental; urgency=low
+
+  * New upstream release: 0.8.9
+    - Many bugfixes and new features, see the NEWS file for details
+  * Remove system-interface virtual package
+    - Was only used in Ubuntu, and not really useful there, since they
+      had to patch PackageKit anyway. It also made finding issues in Debian
+      harder.
+  * Drop 01_compile-nonlinux.patch: Applied upstream
+  * Install bash-completion for pkcon
+
+ -- Matthias Klumpp <mak@debian.org>  Tue, 04 Jun 2013 14:08:24 +0200
+
 packagekit (0.8.7-2) experimental; urgency=low
 
   * Make PackageKit compile on non-Linux platforms (Closes: #705797)
     - Thanks to Petr Salinger for the patch!
 
- -- Matthias Klumpp <matthias@tenstral.net>  Mon, 22 Apr 2013 18:18:08 +0200
+ -- Matthias Klumpp <mak@debian.org>  Mon, 22 Apr 2013 18:18:08 +0200
 
 packagekit (0.8.7-1) experimental; urgency=low
 
