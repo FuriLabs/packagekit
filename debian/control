@@ -46,7 +46,6 @@ Breaks: packagekit-backend-apt (<< ${binary:Version}),
         packagekit-backend-aptcc (<< ${binary:Version}),
         packagekit-backend-smart (<< ${binary:Version}),
         packagekit-offline-update (<< ${binary:Version})
-Provides: packagekit-system-interface
 Suggests: packagekit-backend-smart
 Recommends: packagekit-tools
 Description: Provides a package management service
@@ -95,7 +94,7 @@ Multi-Arch: same
 Pre-Depends: ${misc:Pre-Depends}
 Depends: ${misc:Depends},
          ${shlibs:Depends}
-Recommends: packagekit-system-interface | packagekit (= ${binary:Version})
+Recommends: packagekit (= ${binary:Version})
 Description: Library for accessing PackageKit using GLib
  PackageKit allows performing simple software management tasks over a DBus
  interface e.g. refreshing the cache, updating, installing and removing
