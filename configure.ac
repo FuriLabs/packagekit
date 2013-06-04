@@ -1,8 +1,8 @@
-# Copyright (C) 2007-2011 Richard Hughes <richard@hughsie.com>
+# Copyright (C) 2007-2012 Richard Hughes <richard@hughsie.com>
 
 m4_define([pk_major_version], [0])
 m4_define([pk_minor_version], [8])
-m4_define([pk_micro_version], [7])
+m4_define([pk_micro_version], [9])
 m4_define([pk_version],
           [pk_major_version.pk_minor_version.pk_micro_version])
 
@@ -53,7 +53,7 @@ AC_SUBST(PK_VERSION)
 #   fixed, change:
 #      REVISION += 1
 LT_CURRENT=16
-LT_REVISION=3
+LT_REVISION=5
 LT_AGE=0
 AC_SUBST(LT_CURRENT)
 AC_SUBST(LT_REVISION)
@@ -149,6 +149,18 @@ else
 fi
 AC_SUBST(WARNINGFLAGS_C)
 AC_SUBST(WARNINGFLAGS_CPP)
+
+# check for PIE (position independent executable) support
+AX_CHECK_COMPILE_FLAG([-fPIE],
+		      [AX_CHECK_LINK_FLAG([-fPIE -pie],
+					  [PIE_CFLAGS="-fPIE" PIE_LDFLAGS="-pie"])])
+AC_SUBST(PIE_CFLAGS)
+AC_SUBST(PIE_LDFLAGS)
+
+# check for full RELRO (relocation read-only) support
+AX_CHECK_LINK_FLAG([-Wl,-z,relro,-z,now],
+		   [RELRO_LDFLAGS="-Wl,-z,relro,-z,now"])
+AC_SUBST([RELRO_LDFLAGS])
 
 dnl ---------------------------------------------------------------------------
 dnl - gettext stuff
@@ -283,6 +295,16 @@ else
 	XSLTPROC=no
 fi
 AM_CONDITIONAL(HAVE_XSLTPROC, [test "$XSLTPROC" != "no"])
+
+dnl **** Bash completion ****
+AC_ARG_ENABLE(bash_completion, AS_HELP_STRING([--enable-bash-completion],[Enable bash completion]),
+	      enable_bash_completion=$enableval, enable_bash_completion=yes)
+if test x$enable_bash_completion != xno; then
+	PKG_CHECK_MODULES([BASH_COMPLETION], [bash-completion >= 2.0])
+	BASH_COMPLETIONS_DIR="`pkg-config --variable=completionsdir bash-completion`"
+	AC_SUBST([BASH_COMPLETIONS_DIR])
+fi
+AM_CONDITIONAL([HAVE_BASH_COMPLETION],[test "x$enable_bash_completion" = "xyes"])
 
 dnl ---------------------------------------------------------------------------
 dnl - Make paths available for source files
@@ -460,8 +482,8 @@ if test x$build_systemd_updates = xyes; then
 		    [],
 		    [with_systemdsystemunitdir=$($PKG_CONFIG --variable=systemdsystemunitdir systemd)])
 	AC_SUBST([systemdsystemunitdir], [$with_systemdsystemunitdir])
-	AM_CONDITIONAL(HAVE_SYSTEMD, [test -n "$with_systemdsystemunitdir"])
 fi
+AM_CONDITIONAL(HAVE_SYSTEMD, [test -n "$with_systemdsystemunitdir"])
 
 # backends
 AC_ARG_ENABLE(alpm, AS_HELP_STRING([--enable-alpm],[use the ALPM backend]),enable_alpm=$enableval,enable_alpm=no)
@@ -681,9 +703,7 @@ if test x$enable_opkg = xyes; then
 fi
 
 if test x$enable_alpm = xyes; then
-	AC_CHECK_HEADER([alpm.h],
-			[],
-			[AC_MSG_ERROR([No ALPM headers found])])
+	PKG_CHECK_MODULES(ALPM, libalpm >= 4.1.0)
 fi
 
 if test x$enable_poldek = xyes; then

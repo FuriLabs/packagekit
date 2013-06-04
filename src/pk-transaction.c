@@ -1810,19 +1810,17 @@ pk_transaction_update_detail_cb (PkBackend *backend,
 				 PkUpdateDetail *item,
 				 PkTransaction *transaction)
 {
-	gchar *empty[] = { NULL };
-	gchar *package_id;
-	gchar **updates;
-	gchar **obsoletes;
-	gchar **vendor_urls;
+	const gchar *changelog;
+	const gchar *issued;
+	const gchar *package_id;
+	const gchar *updated;
+	const gchar *update_text;
 	gchar **bugzilla_urls;
 	gchar **cve_urls;
-	gchar *update_text;
-	gchar *changelog;
-	gchar *issued;
-	gchar *updated;
-	PkRestartEnum restart;
-	PkUpdateStateEnum state;
+	gchar *empty[] = { NULL };
+	gchar **obsoletes;
+	gchar **updates;
+	gchar **vendor_urls;
 
 	g_return_if_fail (PK_IS_TRANSACTION (transaction));
 	g_return_if_fail (transaction->priv->tid != NULL);
@@ -1830,24 +1828,18 @@ pk_transaction_update_detail_cb (PkBackend *backend,
 	/* add to results */
 	pk_results_add_update_detail (transaction->priv->results, item);
 
-	/* get data */
-	g_object_get (item,
-		      "restart", &restart,
-		      "state", &state,
-		      "package-id", &package_id,
-		      "updates", &updates,
-		      "obsoletes", &obsoletes,
-		      "vendor-urls", &vendor_urls,
-		      "bugzilla-urls", &bugzilla_urls,
-		      "cve-urls", &cve_urls,
-		      "update-text", &update_text,
-		      "changelog", &changelog,
-		      "issued", &issued,
-		      "updated", &updated,
-		      NULL);
-
 	/* emit */
-	g_debug ("emitting update-detail");
+	package_id = pk_update_detail_get_package_id (item);
+	updates = pk_update_detail_get_updates (item);
+	obsoletes = pk_update_detail_get_obsoletes (item);
+	vendor_urls = pk_update_detail_get_vendor_urls (item);
+	bugzilla_urls = pk_update_detail_get_bugzilla_urls (item);
+	cve_urls = pk_update_detail_get_cve_urls (item);
+	update_text = pk_update_detail_get_update_text (item);
+	changelog = pk_update_detail_get_changelog (item);
+	issued = pk_update_detail_get_issued (item);
+	updated = pk_update_detail_get_updated (item);
+	g_debug ("emitting update-detail for %s", package_id);
 	g_dbus_connection_emit_signal (transaction->priv->connection,
 				       NULL,
 				       transaction->priv->tid,
@@ -1860,24 +1852,13 @@ pk_transaction_update_detail_cb (PkBackend *backend,
 						      vendor_urls != NULL ? vendor_urls : empty,
 						      bugzilla_urls != NULL ? bugzilla_urls : empty,
 						      cve_urls != NULL ? cve_urls : empty,
-						      restart,
+						      pk_update_detail_get_restart (item),
 						      update_text != NULL ? update_text : "",
 						      changelog != NULL ? changelog : "",
-						      state,
+						      pk_update_detail_get_state (item),
 						      issued != NULL ? issued : "",
 						      updated != NULL ? updated : ""),
 				       NULL);
-
-	g_free (package_id);
-	g_strfreev (updates);
-	g_strfreev (obsoletes);
-	g_strfreev (vendor_urls);
-	g_strfreev (bugzilla_urls);
-	g_strfreev (cve_urls);
-	g_free (update_text);
-	g_free (changelog);
-	g_free (issued);
-	g_free (updated);
 }
 
 /**
@@ -4213,6 +4194,11 @@ pk_transaction_install_files (PkTransaction *transaction,
 	transaction->priv->cached_full_paths = g_strdupv (full_paths);
 	pk_transaction_set_role (transaction, PK_ROLE_ENUM_INSTALL_FILES);
 
+	/* this changed */
+	pk_transaction_emit_property_changed (transaction,
+					      "TransactionFlags",
+					      g_variant_new_uint64 (transaction_flags));
+
 	/* try to get authorization */
 	ret = pk_transaction_obtain_authorization (transaction,
 						   PK_ROLE_ENUM_INSTALL_FILES,
@@ -4289,6 +4275,11 @@ pk_transaction_install_packages (PkTransaction *transaction,
 	transaction->priv->cached_transaction_flags = transaction_flags;
 	transaction->priv->cached_package_ids = g_strdupv (package_ids);
 	pk_transaction_set_role (transaction, PK_ROLE_ENUM_INSTALL_PACKAGES);
+
+	/* this changed */
+	pk_transaction_emit_property_changed (transaction,
+					      "TransactionFlags",
+					      g_variant_new_uint64 (transaction_flags));
 
 	/* try to get authorization */
 	ret = pk_transaction_obtain_authorization (transaction,
@@ -4488,6 +4479,11 @@ pk_transaction_remove_packages (PkTransaction *transaction,
 	transaction->priv->cached_allow_deps = allow_deps;
 	transaction->priv->cached_autoremove = autoremove;
 	pk_transaction_set_role (transaction, PK_ROLE_ENUM_REMOVE_PACKAGES);
+
+	/* this changed */
+	pk_transaction_emit_property_changed (transaction,
+					      "TransactionFlags",
+					      g_variant_new_uint64 (transaction_flags));
 
 	/* try to get authorization */
 	ret = pk_transaction_obtain_authorization (transaction,
@@ -5170,6 +5166,11 @@ pk_transaction_update_packages (PkTransaction *transaction,
 	transaction->priv->cached_package_ids = g_strdupv (package_ids);
 	pk_transaction_set_role (transaction, PK_ROLE_ENUM_UPDATE_PACKAGES);
 
+	/* this changed */
+	pk_transaction_emit_property_changed (transaction,
+					      "TransactionFlags",
+					      g_variant_new_uint64 (transaction_flags));
+
 	/* try to get authorization */
 	ret = pk_transaction_obtain_authorization (transaction,
 						   PK_ROLE_ENUM_UPDATE_PACKAGES,
@@ -5328,6 +5329,11 @@ pk_transaction_repair_system (PkTransaction *transaction,
 	transaction->priv->cached_transaction_flags = transaction_flags;
 	pk_transaction_set_role (transaction, PK_ROLE_ENUM_REPAIR_SYSTEM);
 
+	/* this changed */
+	pk_transaction_emit_property_changed (transaction,
+					      "TransactionFlags",
+					      g_variant_new_uint64 (transaction_flags));
+
 	/* try to get authorization */
 	ret = pk_transaction_obtain_authorization (transaction,
 						   PK_ROLE_ENUM_REPAIR_SYSTEM,
@@ -5407,6 +5413,10 @@ pk_transaction_get_property (GDBusConnection *connection_, const gchar *sender,
 	}
 	if (g_strcmp0 (property_name, "DownloadSizeRemaining") == 0) {
 		retval = g_variant_new_uint64 (priv->download_size_remaining);
+		goto out;
+	}
+	if (g_strcmp0 (property_name, "TransactionFlags") == 0) {
+		retval = g_variant_new_uint64 (priv->cached_transaction_flags);
 		goto out;
 	}
 out:

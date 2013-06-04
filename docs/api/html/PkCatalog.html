@@ -3,7 +3,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>PkCatalog</title>
-<meta name="generator" content="DocBook XSL Stylesheets V1.77.1">
+<meta name="generator" content="DocBook XSL Stylesheets V1.78.1">
 <link rel="home" href="index.html" title="PackageKit Reference Manual">
 <link rel="up" href="libpackagekit-gobject.html" title="libpackagekit GObjects">
 <link rel="prev" href="libpackagekit-gobject.html" title="libpackagekit GObjects">
@@ -40,13 +40,18 @@
 <div class="refsynopsisdiv">
 <a name="PkCatalog.synopsis"></a><h2>Synopsis</h2>
 <a name="PkCatalogError"></a><pre class="synopsis">#define             <a class="link" href="PkCatalog.html#PK-CATALOG-ERROR:CAPS" title="PK_CATALOG_ERROR">PK_CATALOG_ERROR</a>
+#define             <a class="link" href="PkCatalog.html#PK-CATALOG-TYPE-ERROR:CAPS" title="PK_CATALOG_TYPE_ERROR">PK_CATALOG_TYPE_ERROR</a>
 #define             <a class="link" href="PkCatalog.html#PK-CATALOG-FILE-EXTENSION:CAPS" title="PK_CATALOG_FILE_EXTENSION">PK_CATALOG_FILE_EXTENSION</a>
 #define             <a class="link" href="PkCatalog.html#PK-CATALOG-FILE-HEADER:CAPS" title="PK_CATALOG_FILE_HEADER">PK_CATALOG_FILE_HEADER</a>
-#define             <a class="link" href="PkCatalog.html#PK-CATALOG-TYPE-ERROR:CAPS" title="PK_CATALOG_TYPE_ERROR">PK_CATALOG_TYPE_ERROR</a>
+enum                <a class="link" href="PkCatalog.html#PkCatalogError-enum" title="enum PkCatalogError">PkCatalogError</a>;
 struct              <a class="link" href="PkCatalog.html#PkCatalog-struct" title="struct PkCatalog">PkCatalog</a>;
 struct              <a class="link" href="PkCatalog.html#PkCatalogClass" title="struct PkCatalogClass">PkCatalogClass</a>;
-enum                <a class="link" href="PkCatalog.html#PkCatalogError-enum" title="enum PkCatalogError">PkCatalogError</a>;
 <a href="http://library.gnome.org/devel/glib/unstable/glib-Quarks.html#GQuark"><span class="returnvalue">GQuark</span></a>              <a class="link" href="PkCatalog.html#pk-catalog-error-quark" title="pk_catalog_error_quark ()">pk_catalog_error_quark</a>              (<em class="parameter"><code><span class="type">void</span></code></em>);
+<a class="link" href="PkCatalog.html" title="PkCatalog"><span class="returnvalue">PkCatalog</span></a> *         <a class="link" href="PkCatalog.html#pk-catalog-new" title="pk_catalog_new ()">pk_catalog_new</a>                      (<em class="parameter"><code><span class="type">void</span></code></em>);
+<span class="returnvalue">void</span>                <a class="link" href="PkCatalog.html#pk-catalog-test" title="pk_catalog_test ()">pk_catalog_test</a>                     (<em class="parameter"><code><a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gpointer"><span class="type">gpointer</span></a> user_data</code></em>);
+<a href="http://library.gnome.org/devel/glib/unstable/glib-Pointer-Arrays.html#GPtrArray"><span class="returnvalue">GPtrArray</span></a> *         <a class="link" href="PkCatalog.html#pk-catalog-lookup-finish" title="pk_catalog_lookup_finish ()">pk_catalog_lookup_finish</a>            (<em class="parameter"><code><a class="link" href="PkCatalog.html" title="PkCatalog"><span class="type">PkCatalog</span></a> *catalog</code></em>,
+                                                         <em class="parameter"><code><a href="http://library.gnome.org/devel/gio/unstable/GAsyncResult.html"><span class="type">GAsyncResult</span></a> *res</code></em>,
+                                                         <em class="parameter"><code><a href="http://library.gnome.org/devel/glib/unstable/glib-Error-Reporting.html#GError"><span class="type">GError</span></a> **error</code></em>);
 <span class="returnvalue">void</span>                <a class="link" href="PkCatalog.html#pk-catalog-lookup-async" title="pk_catalog_lookup_async ()">pk_catalog_lookup_async</a>             (<em class="parameter"><code><a class="link" href="PkCatalog.html" title="PkCatalog"><span class="type">PkCatalog</span></a> *catalog</code></em>,
                                                          <em class="parameter"><code>const <a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a> *filename</code></em>,
                                                          <em class="parameter"><code><a href="http://library.gnome.org/devel/gio/unstable/GCancellable.html"><span class="type">GCancellable</span></a> *cancellable</code></em>,
@@ -54,22 +59,17 @@ enum                <a class="link" href="PkCatalog.html#PkCatalogError-enum" ti
                                                          <em class="parameter"><code><a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gpointer"><span class="type">gpointer</span></a> progress_user_data</code></em>,
                                                          <em class="parameter"><code><a href="http://library.gnome.org/devel/gio/unstable/GAsyncResult.html#GAsyncReadyCallback"><span class="type">GAsyncReadyCallback</span></a> callback</code></em>,
                                                          <em class="parameter"><code><a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gpointer"><span class="type">gpointer</span></a> user_data</code></em>);
-<a href="http://library.gnome.org/devel/glib/unstable/glib-Pointer-Arrays.html#GPtrArray"><span class="returnvalue">GPtrArray</span></a> *         <a class="link" href="PkCatalog.html#pk-catalog-lookup-finish" title="pk_catalog_lookup_finish ()">pk_catalog_lookup_finish</a>            (<em class="parameter"><code><a class="link" href="PkCatalog.html" title="PkCatalog"><span class="type">PkCatalog</span></a> *catalog</code></em>,
-                                                         <em class="parameter"><code><a href="http://library.gnome.org/devel/gio/unstable/GAsyncResult.html"><span class="type">GAsyncResult</span></a> *res</code></em>,
-                                                         <em class="parameter"><code><a href="http://library.gnome.org/devel/glib/unstable/glib-Error-Reporting.html#GError"><span class="type">GError</span></a> **error</code></em>);
-<a class="link" href="PkCatalog.html" title="PkCatalog"><span class="returnvalue">PkCatalog</span></a> *         <a class="link" href="PkCatalog.html#pk-catalog-new" title="pk_catalog_new ()">pk_catalog_new</a>                      (<em class="parameter"><code><span class="type">void</span></code></em>);
-<span class="returnvalue">void</span>                <a class="link" href="PkCatalog.html#pk-catalog-test" title="pk_catalog_test ()">pk_catalog_test</a>                     (<em class="parameter"><code><a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gpointer"><span class="type">gpointer</span></a> user_data</code></em>);
 </pre>
 </div>
 <div class="refsect1">
 <a name="PkCatalog.object-hierarchy"></a><h2>Object Hierarchy</h2>
 <pre class="synopsis">
-  <a href="http://library.gnome.org/devel/gobject/unstable/gobject-The-Base-Object-Type.html#GObject">GObject</a>
-   +----PkCatalog
-</pre>
-<pre class="synopsis">
   GEnum
    +----PkCatalogError
+</pre>
+<pre class="synopsis">
+  <a href="http://library.gnome.org/devel/gobject/unstable/gobject-The-Base-Object-Type.html#GObject">GObject</a>
+   +----PkCatalog
 </pre>
 </div>
 <div class="refsect1">
@@ -87,6 +87,12 @@ Clients can use this GObject for installing catalog files.
 </div>
 <hr>
 <div class="refsect2">
+<a name="PK-CATALOG-TYPE-ERROR:CAPS"></a><h3>PK_CATALOG_TYPE_ERROR</h3>
+<pre class="programlisting">#define PK_CATALOG_TYPE_ERROR (pk_catalog_error_get_type ())
+</pre>
+</div>
+<hr>
+<div class="refsect2">
 <a name="PK-CATALOG-FILE-EXTENSION:CAPS"></a><h3>PK_CATALOG_FILE_EXTENSION</h3>
 <pre class="programlisting">#define PK_CATALOG_FILE_EXTENSION "catalog"
 </pre>
@@ -99,8 +105,10 @@ Clients can use this GObject for installing catalog files.
 </div>
 <hr>
 <div class="refsect2">
-<a name="PK-CATALOG-TYPE-ERROR:CAPS"></a><h3>PK_CATALOG_TYPE_ERROR</h3>
-<pre class="programlisting">#define PK_CATALOG_TYPE_ERROR (pk_catalog_error_get_type ())
+<a name="PkCatalogError-enum"></a><h3>enum PkCatalogError</h3>
+<pre class="programlisting">typedef enum {
+	PK_CATALOG_ERROR_FAILED
+} PkCatalogError;
 </pre>
 </div>
 <hr>
@@ -123,14 +131,6 @@ Clients can use this GObject for installing catalog files.
 </div>
 <hr>
 <div class="refsect2">
-<a name="PkCatalogError-enum"></a><h3>enum PkCatalogError</h3>
-<pre class="programlisting">typedef enum {
-	PK_CATALOG_ERROR_FAILED
-} PkCatalogError;
-</pre>
-</div>
-<hr>
-<div class="refsect2">
 <a name="pk-catalog-error-quark"></a><h3>pk_catalog_error_quark ()</h3>
 <pre class="programlisting"><a href="http://library.gnome.org/devel/glib/unstable/glib-Quarks.html#GQuark"><span class="returnvalue">GQuark</span></a>              pk_catalog_error_quark              (<em class="parameter"><code><span class="type">void</span></code></em>);</pre>
 <div class="variablelist"><table border="0" class="variablelist">
@@ -142,6 +142,65 @@ Clients can use this GObject for installing catalog files.
 <td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
 <td>Our personal error quark.</td>
 </tr></tbody>
+</table></div>
+<p class="since">Since 0.5.3</p>
+</div>
+<hr>
+<div class="refsect2">
+<a name="pk-catalog-new"></a><h3>pk_catalog_new ()</h3>
+<pre class="programlisting"><a class="link" href="PkCatalog.html" title="PkCatalog"><span class="returnvalue">PkCatalog</span></a> *         pk_catalog_new                      (<em class="parameter"><code><span class="type">void</span></code></em>);</pre>
+<div class="variablelist"><table border="0" class="variablelist">
+<colgroup>
+<col align="left" valign="top">
+<col>
+</colgroup>
+<tbody><tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td>A new catalog class instance.</td>
+</tr></tbody>
+</table></div>
+<p class="since">Since 0.5.3</p>
+</div>
+<hr>
+<div class="refsect2">
+<a name="pk-catalog-test"></a><h3>pk_catalog_test ()</h3>
+<pre class="programlisting"><span class="returnvalue">void</span>                pk_catalog_test                     (<em class="parameter"><code><a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gpointer"><span class="type">gpointer</span></a> user_data</code></em>);</pre>
+</div>
+<hr>
+<div class="refsect2">
+<a name="pk-catalog-lookup-finish"></a><h3>pk_catalog_lookup_finish ()</h3>
+<pre class="programlisting"><a href="http://library.gnome.org/devel/glib/unstable/glib-Pointer-Arrays.html#GPtrArray"><span class="returnvalue">GPtrArray</span></a> *         pk_catalog_lookup_finish            (<em class="parameter"><code><a class="link" href="PkCatalog.html" title="PkCatalog"><span class="type">PkCatalog</span></a> *catalog</code></em>,
+                                                         <em class="parameter"><code><a href="http://library.gnome.org/devel/gio/unstable/GAsyncResult.html"><span class="type">GAsyncResult</span></a> *res</code></em>,
+                                                         <em class="parameter"><code><a href="http://library.gnome.org/devel/glib/unstable/glib-Error-Reporting.html#GError"><span class="type">GError</span></a> **error</code></em>);</pre>
+<p>
+Gets the result from the asynchronous function.
+</p>
+<div class="variablelist"><table border="0" class="variablelist">
+<colgroup>
+<col align="left" valign="top">
+<col>
+</colgroup>
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>catalog</code></em> :</span></p></td>
+<td>a valid <a class="link" href="PkCatalog.html" title="PkCatalog"><span class="type">PkCatalog</span></a> instance</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>res</code></em> :</span></p></td>
+<td>the <a href="http://library.gnome.org/devel/gio/unstable/GAsyncResult.html"><span class="type">GAsyncResult</span></a>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>error</code></em> :</span></p></td>
+<td>A <a href="http://library.gnome.org/devel/glib/unstable/glib-Error-Reporting.html#GError"><span class="type">GError</span></a> or <a href="/usr/share/gtk-doc/html/liboil/liboil-liboiljunk.html#NULL:CAPS"><code class="literal">NULL</code></a>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td>the <a href="http://library.gnome.org/devel/glib/unstable/glib-Pointer-Arrays.html#GPtrArray"><span class="type">GPtrArray</span></a> of <a class="link" href="PkPackage.html" title="PkPackage"><span class="type">PkPackage</span></a>'s, or <a href="/usr/share/gtk-doc/html/liboil/liboil-liboiljunk.html#NULL:CAPS"><code class="literal">NULL</code></a>. Free with <a href="http://library.gnome.org/devel/glib/unstable/glib-Pointer-Arrays.html#g-ptr-array-unref"><code class="function">g_ptr_array_unref()</code></a>. <span class="annotation">[<acronym title="Free data container after the code is done."><span class="acronym">transfer container</span></acronym>]</span>
+</td>
+</tr>
+</tbody>
 </table></div>
 <p class="since">Since 0.5.3</p>
 </div>
@@ -174,7 +233,7 @@ Simulate the install of a catalog file.
 </tr>
 <tr>
 <td><p><span class="term"><em class="parameter"><code>cancellable</code></em> :</span></p></td>
-<td>a <a href="http://library.gnome.org/devel/gio/unstable/GCancellable.html"><span class="type">GCancellable</span></a> or <a href="http://library.gnome.org/devel/glib/unstable/glib-Standard-Macros.html#NULL:CAPS"><code class="literal">NULL</code></a>
+<td>a <a href="http://library.gnome.org/devel/gio/unstable/GCancellable.html"><span class="type">GCancellable</span></a> or <a href="/usr/share/gtk-doc/html/liboil/liboil-liboiljunk.html#NULL:CAPS"><code class="literal">NULL</code></a>
 </td>
 </tr>
 <tr>
@@ -199,65 +258,6 @@ Simulate the install of a catalog file.
 </tbody>
 </table></div>
 <p class="since">Since 0.5.3</p>
-</div>
-<hr>
-<div class="refsect2">
-<a name="pk-catalog-lookup-finish"></a><h3>pk_catalog_lookup_finish ()</h3>
-<pre class="programlisting"><a href="http://library.gnome.org/devel/glib/unstable/glib-Pointer-Arrays.html#GPtrArray"><span class="returnvalue">GPtrArray</span></a> *         pk_catalog_lookup_finish            (<em class="parameter"><code><a class="link" href="PkCatalog.html" title="PkCatalog"><span class="type">PkCatalog</span></a> *catalog</code></em>,
-                                                         <em class="parameter"><code><a href="http://library.gnome.org/devel/gio/unstable/GAsyncResult.html"><span class="type">GAsyncResult</span></a> *res</code></em>,
-                                                         <em class="parameter"><code><a href="http://library.gnome.org/devel/glib/unstable/glib-Error-Reporting.html#GError"><span class="type">GError</span></a> **error</code></em>);</pre>
-<p>
-Gets the result from the asynchronous function.
-</p>
-<div class="variablelist"><table border="0" class="variablelist">
-<colgroup>
-<col align="left" valign="top">
-<col>
-</colgroup>
-<tbody>
-<tr>
-<td><p><span class="term"><em class="parameter"><code>catalog</code></em> :</span></p></td>
-<td>a valid <a class="link" href="PkCatalog.html" title="PkCatalog"><span class="type">PkCatalog</span></a> instance</td>
-</tr>
-<tr>
-<td><p><span class="term"><em class="parameter"><code>res</code></em> :</span></p></td>
-<td>the <a href="http://library.gnome.org/devel/gio/unstable/GAsyncResult.html"><span class="type">GAsyncResult</span></a>
-</td>
-</tr>
-<tr>
-<td><p><span class="term"><em class="parameter"><code>error</code></em> :</span></p></td>
-<td>A <a href="http://library.gnome.org/devel/glib/unstable/glib-Error-Reporting.html#GError"><span class="type">GError</span></a> or <a href="http://library.gnome.org/devel/glib/unstable/glib-Standard-Macros.html#NULL:CAPS"><code class="literal">NULL</code></a>
-</td>
-</tr>
-<tr>
-<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
-<td>the <a href="http://library.gnome.org/devel/glib/unstable/glib-Pointer-Arrays.html#GPtrArray"><span class="type">GPtrArray</span></a> of <a class="link" href="PkPackage.html" title="PkPackage"><span class="type">PkPackage</span></a>'s, or <a href="http://library.gnome.org/devel/glib/unstable/glib-Standard-Macros.html#NULL:CAPS"><code class="literal">NULL</code></a>. Free with <a href="http://library.gnome.org/devel/glib/unstable/glib-Pointer-Arrays.html#g-ptr-array-unref"><code class="function">g_ptr_array_unref()</code></a>. <span class="annotation">[<acronym title="Free data container after the code is done."><span class="acronym">transfer container</span></acronym>]</span>
-</td>
-</tr>
-</tbody>
-</table></div>
-<p class="since">Since 0.5.3</p>
-</div>
-<hr>
-<div class="refsect2">
-<a name="pk-catalog-new"></a><h3>pk_catalog_new ()</h3>
-<pre class="programlisting"><a class="link" href="PkCatalog.html" title="PkCatalog"><span class="returnvalue">PkCatalog</span></a> *         pk_catalog_new                      (<em class="parameter"><code><span class="type">void</span></code></em>);</pre>
-<div class="variablelist"><table border="0" class="variablelist">
-<colgroup>
-<col align="left" valign="top">
-<col>
-</colgroup>
-<tbody><tr>
-<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
-<td>A new catalog class instance.</td>
-</tr></tbody>
-</table></div>
-<p class="since">Since 0.5.3</p>
-</div>
-<hr>
-<div class="refsect2">
-<a name="pk-catalog-test"></a><h3>pk_catalog_test ()</h3>
-<pre class="programlisting"><span class="returnvalue">void</span>                pk_catalog_test                     (<em class="parameter"><code><a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gpointer"><span class="type">gpointer</span></a> user_data</code></em>);</pre>
 </div>
 </div>
 </div>

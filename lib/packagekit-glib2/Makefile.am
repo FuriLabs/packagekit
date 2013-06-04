@@ -180,6 +180,7 @@ libpackagekit_glib2_la_LDFLAGS =				\
 	$(NULL)
 
 libpackagekit_glib2_la_CFLAGS =					\
+	$(PIE_CFLAGS)						\
 	$(WARNINGFLAGS_C)					\
 	$(NULL)
 
@@ -198,6 +199,7 @@ libpackagekitprivate_a_SOURCES =				\
 	$(NULL)
 
 libpackagekitprivate_a_CFLAGS =					\
+	$(PIE_CFLAGS)						\
 	$(WARNINGFLAGS_C)					\
 	$(NULL)
 
@@ -266,7 +268,7 @@ PackageKitGlib-1.0.gir: libpackagekit-glib2.la
 PackageKitGlib_1_0_gir_INCLUDES = GObject-2.0 Gio-2.0
 PackageKitGlib_1_0_gir_CFLAGS = $(AM_CPPFLAGS) -DI_KNOW_THE_PACKAGEKIT_GLIB2_API_IS_SUBJECT_TO_CHANGE
 PackageKitGlib_1_0_gir_SCANNERFLAGS = --identifier-prefix=Pk \
-					--symbol-prefix=pk_ \
+					--symbol-prefix=pk \
 					--warn-all \
 					--add-include-path=$(srcdir) \
 					--c-include="packagekit-glib2/packagekit.h"

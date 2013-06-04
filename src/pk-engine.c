@@ -79,6 +79,7 @@ struct PkEnginePrivate
 	GFileMonitor		*monitor_conf;
 	GFileMonitor		*monitor_binary;
 	PkBitfield		 roles;
+	PkBitfield		 provides;
 	PkBitfield		 groups;
 	PkBitfield		 filters;
 	gchar			**mime_types;
@@ -265,7 +266,7 @@ pk_engine_inhibit (PkEngine *engine)
 	/* block shutdown and idle */
 	res = g_dbus_proxy_call_sync (engine->priv->logind_proxy,
 				      "Inhibit",
-				      g_variant_new ("ssss",
+				      g_variant_new ("(ssss)",
 						     "shutdown:idle",
 						     "Package Updater",
 						     "Package Update in Progress",
@@ -1144,6 +1145,7 @@ pk_engine_load_backend (PkEngine *engine, GError **error)
 
 	/* create a new backend so we can get the static stuff */
 	engine->priv->roles = pk_backend_get_roles (engine->priv->backend);
+	engine->priv->provides = pk_backend_get_provides (engine->priv->backend);
 	engine->priv->groups = pk_backend_get_groups (engine->priv->backend);
 	engine->priv->filters = pk_backend_get_filters (engine->priv->backend);
 	engine->priv->mime_types = pk_backend_get_mime_types (engine->priv->backend);
@@ -1208,6 +1210,10 @@ pk_engine_daemon_get_property (GDBusConnection *connection_, const gchar *sender
 		retval = g_variant_new_uint64 (engine->priv->roles);
 		goto out;
 	}
+	if (g_strcmp0 (property_name, "Provides") == 0) {
+		retval = g_variant_new_uint64 (engine->priv->provides);
+		goto out;
+	}
 	if (g_strcmp0 (property_name, "Groups") == 0) {
 		retval = g_variant_new_uint64 (engine->priv->groups);
 		goto out;
@@ -1232,8 +1238,13 @@ pk_engine_daemon_get_property (GDBusConnection *connection_, const gchar *sender
 		retval = _g_variant_new_maybe_string (engine->priv->distro_id);
 		goto out;
 	}
-	g_critical ("failed to get property %s",
-		    property_name);
+
+	/* return an error */
+	g_set_error (error,
+		     PK_ENGINE_ERROR,
+		     PK_ENGINE_ERROR_NOT_SUPPORTED,
+		     "failed to get property '%s'",
+		     property_name);
 out:
 	return retval;
 }

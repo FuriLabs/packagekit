@@ -62,6 +62,7 @@ from entropy.i18n import _, _LOCALE
 from entropy.const import etpConst, const_convert_to_rawstring, \
     const_convert_to_unicode, const_get_stringtype
 from entropy.client.interfaces import Client
+from entropy.client.interfaces.db import InstalledPackagesRepository
 from entropy.core.settings.base import SystemSettings
 from entropy.misc import LogFile
 from entropy.cache import EntropyCacher
@@ -156,7 +157,10 @@ class PackageKitEntropyMixin(object):
                 "Invalid metadata passed")
 
         # if installed, repo should be 'installed', packagekit rule
-        if repo_name == etpConst['clientdbid']:
+        cl_repo_name = etpConst.get(
+            'clientdbid', # forward compatibility
+            getattr(InstalledPackagesRepository, "NAME", None))
+        if repo_name == cl_repo_name:
             repo_name = "installed"
 
         # openoffice-clipart;2.6.22;ppc64;fedora
@@ -1332,7 +1336,14 @@ class PackageKitEntropyBackend(PackageKitBaseBackend, PackageKitEntropyMixin):
         # this is the part that takes time
         self.percentage(0)
         try:
-            update, remove, fine, spm_fine = self._entropy.calculate_updates()
+            outcome = self._entropy.calculate_updates()
+
+            if isinstance(outcome, dict):
+                update, remove, fine, spm_fine = outcome['update'], \
+                    outcome['remove'], outcome['fine'], outcome['spm_fine']
+            else:
+                update, remove, fine, spm_fine = outcome
+
         except SystemDatabaseError as err:
             self.error(ERROR_DEP_RESOLUTION_FAILED,
                 "System Repository error: %s" % (err,))

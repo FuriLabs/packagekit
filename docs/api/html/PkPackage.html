@@ -3,7 +3,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>PkPackage</title>
-<meta name="generator" content="DocBook XSL Stylesheets V1.77.1">
+<meta name="generator" content="DocBook XSL Stylesheets V1.78.1">
 <link rel="home" href="index.html" title="PackageKit Reference Manual">
 <link rel="up" href="libpackagekit-gobject.html" title="libpackagekit GObjects">
 <link rel="prev" href="PkPackageSack.html" title="PkPackageSack">
@@ -46,23 +46,23 @@
 <pre class="synopsis">#define             <a class="link" href="PkPackage.html#PK-PACKAGE-TYPE-ERROR:CAPS" title="PK_PACKAGE_TYPE_ERROR">PK_PACKAGE_TYPE_ERROR</a>
 struct              <a class="link" href="PkPackage.html#PkPackage-struct" title="struct PkPackage">PkPackage</a>;
 struct              <a class="link" href="PkPackage.html#PkPackageClass" title="struct PkPackageClass">PkPackageClass</a>;
+<a class="link" href="PkPackage.html" title="PkPackage"><span class="returnvalue">PkPackage</span></a> *         <a class="link" href="PkPackage.html#pk-package-new" title="pk_package_new ()">pk_package_new</a>                      (<em class="parameter"><code><span class="type">void</span></code></em>);
+<span class="returnvalue">void</span>                <a class="link" href="PkPackage.html#pk-package-test" title="pk_package_test ()">pk_package_test</a>                     (<em class="parameter"><code><a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gpointer"><span class="type">gpointer</span></a> user_data</code></em>);
+<a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gboolean"><span class="returnvalue">gboolean</span></a>            <a class="link" href="PkPackage.html#pk-package-set-id" title="pk_package_set_id ()">pk_package_set_id</a>                   (<em class="parameter"><code><a class="link" href="PkPackage.html" title="PkPackage"><span class="type">PkPackage</span></a> *package</code></em>,
+                                                         <em class="parameter"><code>const <a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a> *package_id</code></em>,
+                                                         <em class="parameter"><code><a href="http://library.gnome.org/devel/glib/unstable/glib-Error-Reporting.html#GError"><span class="type">GError</span></a> **error</code></em>);
+<span class="returnvalue">void</span>                <a class="link" href="PkPackage.html#pk-package-print" title="pk_package_print ()">pk_package_print</a>                    (<em class="parameter"><code><a class="link" href="PkPackage.html" title="PkPackage"><span class="type">PkPackage</span></a> *package</code></em>);
 <a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gboolean"><span class="returnvalue">gboolean</span></a>            <a class="link" href="PkPackage.html#pk-package-equal" title="pk_package_equal ()">pk_package_equal</a>                    (<em class="parameter"><code><a class="link" href="PkPackage.html" title="PkPackage"><span class="type">PkPackage</span></a> *package1</code></em>,
                                                          <em class="parameter"><code><a class="link" href="PkPackage.html" title="PkPackage"><span class="type">PkPackage</span></a> *package2</code></em>);
 <a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gboolean"><span class="returnvalue">gboolean</span></a>            <a class="link" href="PkPackage.html#pk-package-equal-id" title="pk_package_equal_id ()">pk_package_equal_id</a>                 (<em class="parameter"><code><a class="link" href="PkPackage.html" title="PkPackage"><span class="type">PkPackage</span></a> *package1</code></em>,
                                                          <em class="parameter"><code><a class="link" href="PkPackage.html" title="PkPackage"><span class="type">PkPackage</span></a> *package2</code></em>);
-const <a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gchar"><span class="returnvalue">gchar</span></a> *       <a class="link" href="PkPackage.html#pk-package-get-arch" title="pk_package_get_arch ()">pk_package_get_arch</a>                 (<em class="parameter"><code><a class="link" href="PkPackage.html" title="PkPackage"><span class="type">PkPackage</span></a> *package</code></em>);
-const <a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gchar"><span class="returnvalue">gchar</span></a> *       <a class="link" href="PkPackage.html#pk-package-get-data" title="pk_package_get_data ()">pk_package_get_data</a>                 (<em class="parameter"><code><a class="link" href="PkPackage.html" title="PkPackage"><span class="type">PkPackage</span></a> *package</code></em>);
 const <a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gchar"><span class="returnvalue">gchar</span></a> *       <a class="link" href="PkPackage.html#pk-package-get-id" title="pk_package_get_id ()">pk_package_get_id</a>                   (<em class="parameter"><code><a class="link" href="PkPackage.html" title="PkPackage"><span class="type">PkPackage</span></a> *package</code></em>);
 <a class="link" href="PackageKit-pk-enum.html#PkInfoEnum"><span class="returnvalue">PkInfoEnum</span></a>          <a class="link" href="PkPackage.html#pk-package-get-info" title="pk_package_get_info ()">pk_package_get_info</a>                 (<em class="parameter"><code><a class="link" href="PkPackage.html" title="PkPackage"><span class="type">PkPackage</span></a> *package</code></em>);
-const <a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gchar"><span class="returnvalue">gchar</span></a> *       <a class="link" href="PkPackage.html#pk-package-get-name" title="pk_package_get_name ()">pk_package_get_name</a>                 (<em class="parameter"><code><a class="link" href="PkPackage.html" title="PkPackage"><span class="type">PkPackage</span></a> *package</code></em>);
 const <a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gchar"><span class="returnvalue">gchar</span></a> *       <a class="link" href="PkPackage.html#pk-package-get-summary" title="pk_package_get_summary ()">pk_package_get_summary</a>              (<em class="parameter"><code><a class="link" href="PkPackage.html" title="PkPackage"><span class="type">PkPackage</span></a> *package</code></em>);
+const <a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gchar"><span class="returnvalue">gchar</span></a> *       <a class="link" href="PkPackage.html#pk-package-get-name" title="pk_package_get_name ()">pk_package_get_name</a>                 (<em class="parameter"><code><a class="link" href="PkPackage.html" title="PkPackage"><span class="type">PkPackage</span></a> *package</code></em>);
 const <a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gchar"><span class="returnvalue">gchar</span></a> *       <a class="link" href="PkPackage.html#pk-package-get-version" title="pk_package_get_version ()">pk_package_get_version</a>              (<em class="parameter"><code><a class="link" href="PkPackage.html" title="PkPackage"><span class="type">PkPackage</span></a> *package</code></em>);
-<a class="link" href="PkPackage.html" title="PkPackage"><span class="returnvalue">PkPackage</span></a> *         <a class="link" href="PkPackage.html#pk-package-new" title="pk_package_new ()">pk_package_new</a>                      (<em class="parameter"><code><span class="type">void</span></code></em>);
-<span class="returnvalue">void</span>                <a class="link" href="PkPackage.html#pk-package-print" title="pk_package_print ()">pk_package_print</a>                    (<em class="parameter"><code><a class="link" href="PkPackage.html" title="PkPackage"><span class="type">PkPackage</span></a> *package</code></em>);
-<a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gboolean"><span class="returnvalue">gboolean</span></a>            <a class="link" href="PkPackage.html#pk-package-set-id" title="pk_package_set_id ()">pk_package_set_id</a>                   (<em class="parameter"><code><a class="link" href="PkPackage.html" title="PkPackage"><span class="type">PkPackage</span></a> *package</code></em>,
-                                                         <em class="parameter"><code>const <a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a> *package_id</code></em>,
-                                                         <em class="parameter"><code><a href="http://library.gnome.org/devel/glib/unstable/glib-Error-Reporting.html#GError"><span class="type">GError</span></a> **error</code></em>);
-<span class="returnvalue">void</span>                <a class="link" href="PkPackage.html#pk-package-test" title="pk_package_test ()">pk_package_test</a>                     (<em class="parameter"><code><a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gpointer"><span class="type">gpointer</span></a> user_data</code></em>);
+const <a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gchar"><span class="returnvalue">gchar</span></a> *       <a class="link" href="PkPackage.html#pk-package-get-arch" title="pk_package_get_arch ()">pk_package_get_arch</a>                 (<em class="parameter"><code><a class="link" href="PkPackage.html" title="PkPackage"><span class="type">PkPackage</span></a> *package</code></em>);
+const <a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gchar"><span class="returnvalue">gchar</span></a> *       <a class="link" href="PkPackage.html#pk-package-get-data" title="pk_package_get_data ()">pk_package_get_data</a>                 (<em class="parameter"><code><a class="link" href="PkPackage.html" title="PkPackage"><span class="type">PkPackage</span></a> *package</code></em>);
 </pre>
 </div>
 <div class="refsect1">
@@ -142,6 +142,83 @@ often present in lists (<a class="link" href="PkResults.html" title="PkResults">
 </div>
 <hr>
 <div class="refsect2">
+<a name="pk-package-new"></a><h3>pk_package_new ()</h3>
+<pre class="programlisting"><a class="link" href="PkPackage.html" title="PkPackage"><span class="returnvalue">PkPackage</span></a> *         pk_package_new                      (<em class="parameter"><code><span class="type">void</span></code></em>);</pre>
+<div class="variablelist"><table border="0" class="variablelist">
+<colgroup>
+<col align="left" valign="top">
+<col>
+</colgroup>
+<tbody><tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td>a new PkPackage object.</td>
+</tr></tbody>
+</table></div>
+<p class="since">Since 0.5.4</p>
+</div>
+<hr>
+<div class="refsect2">
+<a name="pk-package-test"></a><h3>pk_package_test ()</h3>
+<pre class="programlisting"><span class="returnvalue">void</span>                pk_package_test                     (<em class="parameter"><code><a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gpointer"><span class="type">gpointer</span></a> user_data</code></em>);</pre>
+</div>
+<hr>
+<div class="refsect2">
+<a name="pk-package-set-id"></a><h3>pk_package_set_id ()</h3>
+<pre class="programlisting"><a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gboolean"><span class="returnvalue">gboolean</span></a>            pk_package_set_id                   (<em class="parameter"><code><a class="link" href="PkPackage.html" title="PkPackage"><span class="type">PkPackage</span></a> *package</code></em>,
+                                                         <em class="parameter"><code>const <a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a> *package_id</code></em>,
+                                                         <em class="parameter"><code><a href="http://library.gnome.org/devel/glib/unstable/glib-Error-Reporting.html#GError"><span class="type">GError</span></a> **error</code></em>);</pre>
+<p>
+Sets the package object to have the given ID
+</p>
+<div class="variablelist"><table border="0" class="variablelist">
+<colgroup>
+<col align="left" valign="top">
+<col>
+</colgroup>
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>package</code></em> :</span></p></td>
+<td>a valid <a class="link" href="PkPackage.html" title="PkPackage"><span class="type">PkPackage</span></a> instance</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>package_id</code></em> :</span></p></td>
+<td>the valid package_id</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>error</code></em> :</span></p></td>
+<td>a <a href="http://library.gnome.org/devel/glib/unstable/glib-Error-Reporting.html#GError"><code class="literal">GError</code></a> to put the error code and message in, or <a href="/usr/share/gtk-doc/html/liboil/liboil-liboiljunk.html#NULL:CAPS"><code class="literal">NULL</code></a>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td>
+<a href="http://library.gnome.org/devel/glib/unstable/glib-Standard-Macros.html#TRUE:CAPS"><code class="literal">TRUE</code></a> if the package_id was set</td>
+</tr>
+</tbody>
+</table></div>
+<p class="since">Since 0.5.4</p>
+</div>
+<hr>
+<div class="refsect2">
+<a name="pk-package-print"></a><h3>pk_package_print ()</h3>
+<pre class="programlisting"><span class="returnvalue">void</span>                pk_package_print                    (<em class="parameter"><code><a class="link" href="PkPackage.html" title="PkPackage"><span class="type">PkPackage</span></a> *package</code></em>);</pre>
+<p>
+Prints details about the package to standard out.
+</p>
+<div class="variablelist"><table border="0" class="variablelist">
+<colgroup>
+<col align="left" valign="top">
+<col>
+</colgroup>
+<tbody><tr>
+<td><p><span class="term"><em class="parameter"><code>package</code></em> :</span></p></td>
+<td>a valid <a class="link" href="PkPackage.html" title="PkPackage"><span class="type">PkPackage</span></a> instance</td>
+</tr></tbody>
+</table></div>
+<p class="since">Since 0.5.4</p>
+</div>
+<hr>
+<div class="refsect2">
 <a name="pk-package-equal"></a><h3>pk_package_equal ()</h3>
 <pre class="programlisting"><a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gboolean"><span class="returnvalue">gboolean</span></a>            pk_package_equal                    (<em class="parameter"><code><a class="link" href="PkPackage.html" title="PkPackage"><span class="type">PkPackage</span></a> *package1</code></em>,
                                                          <em class="parameter"><code><a class="link" href="PkPackage.html" title="PkPackage"><span class="type">PkPackage</span></a> *package2</code></em>);</pre>
@@ -204,58 +281,6 @@ Do the <a class="link" href="PkPackage.html" title="PkPackage"><span class="type
 </div>
 <hr>
 <div class="refsect2">
-<a name="pk-package-get-arch"></a><h3>pk_package_get_arch ()</h3>
-<pre class="programlisting">const <a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gchar"><span class="returnvalue">gchar</span></a> *       pk_package_get_arch                 (<em class="parameter"><code><a class="link" href="PkPackage.html" title="PkPackage"><span class="type">PkPackage</span></a> *package</code></em>);</pre>
-<p>
-Gets the package arch.
-</p>
-<div class="variablelist"><table border="0" class="variablelist">
-<colgroup>
-<col align="left" valign="top">
-<col>
-</colgroup>
-<tbody>
-<tr>
-<td><p><span class="term"><em class="parameter"><code>package</code></em> :</span></p></td>
-<td>a valid <a class="link" href="PkPackage.html" title="PkPackage"><span class="type">PkPackage</span></a> instance</td>
-</tr>
-<tr>
-<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
-<td>the arch, or <a href="http://library.gnome.org/devel/glib/unstable/glib-Standard-Macros.html#NULL:CAPS"><code class="literal">NULL</code></a> if unset</td>
-</tr>
-</tbody>
-</table></div>
-<p class="since">Since 0.6.4</p>
-</div>
-<hr>
-<div class="refsect2">
-<a name="pk-package-get-data"></a><h3>pk_package_get_data ()</h3>
-<pre class="programlisting">const <a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gchar"><span class="returnvalue">gchar</span></a> *       pk_package_get_data                 (<em class="parameter"><code><a class="link" href="PkPackage.html" title="PkPackage"><span class="type">PkPackage</span></a> *package</code></em>);</pre>
-<p>
-Gets the package data, which is usually the repository ID that contains the
-package. Special ID's include "installed" for installed packages, and "local"
-for local packages that exist on disk but not in a repoitory.
-</p>
-<div class="variablelist"><table border="0" class="variablelist">
-<colgroup>
-<col align="left" valign="top">
-<col>
-</colgroup>
-<tbody>
-<tr>
-<td><p><span class="term"><em class="parameter"><code>package</code></em> :</span></p></td>
-<td>a valid <a class="link" href="PkPackage.html" title="PkPackage"><span class="type">PkPackage</span></a> instance</td>
-</tr>
-<tr>
-<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
-<td>the data, or <a href="http://library.gnome.org/devel/glib/unstable/glib-Standard-Macros.html#NULL:CAPS"><code class="literal">NULL</code></a> if unset</td>
-</tr>
-</tbody>
-</table></div>
-<p class="since">Since 0.6.4</p>
-</div>
-<hr>
-<div class="refsect2">
 <a name="pk-package-get-id"></a><h3>pk_package_get_id ()</h3>
 <pre class="programlisting">const <a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gchar"><span class="returnvalue">gchar</span></a> *       pk_package_get_id                   (<em class="parameter"><code><a class="link" href="PkPackage.html" title="PkPackage"><span class="type">PkPackage</span></a> *package</code></em>);</pre>
 <p>
@@ -273,7 +298,7 @@ Gets the package object ID
 </tr>
 <tr>
 <td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
-<td>the ID, or <a href="http://library.gnome.org/devel/glib/unstable/glib-Standard-Macros.html#NULL:CAPS"><code class="literal">NULL</code></a> if unset</td>
+<td>the ID, or <a href="/usr/share/gtk-doc/html/liboil/liboil-liboiljunk.html#NULL:CAPS"><code class="literal">NULL</code></a> if unset</td>
 </tr>
 </tbody>
 </table></div>
@@ -307,31 +332,6 @@ Gets the package object ID
 </div>
 <hr>
 <div class="refsect2">
-<a name="pk-package-get-name"></a><h3>pk_package_get_name ()</h3>
-<pre class="programlisting">const <a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gchar"><span class="returnvalue">gchar</span></a> *       pk_package_get_name                 (<em class="parameter"><code><a class="link" href="PkPackage.html" title="PkPackage"><span class="type">PkPackage</span></a> *package</code></em>);</pre>
-<p>
-Gets the package name.
-</p>
-<div class="variablelist"><table border="0" class="variablelist">
-<colgroup>
-<col align="left" valign="top">
-<col>
-</colgroup>
-<tbody>
-<tr>
-<td><p><span class="term"><em class="parameter"><code>package</code></em> :</span></p></td>
-<td>a valid <a class="link" href="PkPackage.html" title="PkPackage"><span class="type">PkPackage</span></a> instance</td>
-</tr>
-<tr>
-<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
-<td>the name, or <a href="http://library.gnome.org/devel/glib/unstable/glib-Standard-Macros.html#NULL:CAPS"><code class="literal">NULL</code></a> if unset</td>
-</tr>
-</tbody>
-</table></div>
-<p class="since">Since 0.6.4</p>
-</div>
-<hr>
-<div class="refsect2">
 <a name="pk-package-get-summary"></a><h3>pk_package_get_summary ()</h3>
 <pre class="programlisting">const <a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gchar"><span class="returnvalue">gchar</span></a> *       pk_package_get_summary              (<em class="parameter"><code><a class="link" href="PkPackage.html" title="PkPackage"><span class="type">PkPackage</span></a> *package</code></em>);</pre>
 <p>
@@ -349,11 +349,36 @@ Gets the package object ID
 </tr>
 <tr>
 <td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
-<td>the summary, or <a href="http://library.gnome.org/devel/glib/unstable/glib-Standard-Macros.html#NULL:CAPS"><code class="literal">NULL</code></a> if unset</td>
+<td>the summary, or <a href="/usr/share/gtk-doc/html/liboil/liboil-liboiljunk.html#NULL:CAPS"><code class="literal">NULL</code></a> if unset</td>
 </tr>
 </tbody>
 </table></div>
 <p class="since">Since 0.5.4</p>
+</div>
+<hr>
+<div class="refsect2">
+<a name="pk-package-get-name"></a><h3>pk_package_get_name ()</h3>
+<pre class="programlisting">const <a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gchar"><span class="returnvalue">gchar</span></a> *       pk_package_get_name                 (<em class="parameter"><code><a class="link" href="PkPackage.html" title="PkPackage"><span class="type">PkPackage</span></a> *package</code></em>);</pre>
+<p>
+Gets the package name.
+</p>
+<div class="variablelist"><table border="0" class="variablelist">
+<colgroup>
+<col align="left" valign="top">
+<col>
+</colgroup>
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>package</code></em> :</span></p></td>
+<td>a valid <a class="link" href="PkPackage.html" title="PkPackage"><span class="type">PkPackage</span></a> instance</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td>the name, or <a href="/usr/share/gtk-doc/html/liboil/liboil-liboiljunk.html#NULL:CAPS"><code class="literal">NULL</code></a> if unset</td>
+</tr>
+</tbody>
+</table></div>
+<p class="since">Since 0.6.4</p>
 </div>
 <hr>
 <div class="refsect2">
@@ -374,7 +399,7 @@ Gets the package version.
 </tr>
 <tr>
 <td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
-<td>the version, or <a href="http://library.gnome.org/devel/glib/unstable/glib-Standard-Macros.html#NULL:CAPS"><code class="literal">NULL</code></a> if unset</td>
+<td>the version, or <a href="/usr/share/gtk-doc/html/liboil/liboil-liboiljunk.html#NULL:CAPS"><code class="literal">NULL</code></a> if unset</td>
 </tr>
 </tbody>
 </table></div>
@@ -382,47 +407,10 @@ Gets the package version.
 </div>
 <hr>
 <div class="refsect2">
-<a name="pk-package-new"></a><h3>pk_package_new ()</h3>
-<pre class="programlisting"><a class="link" href="PkPackage.html" title="PkPackage"><span class="returnvalue">PkPackage</span></a> *         pk_package_new                      (<em class="parameter"><code><span class="type">void</span></code></em>);</pre>
-<div class="variablelist"><table border="0" class="variablelist">
-<colgroup>
-<col align="left" valign="top">
-<col>
-</colgroup>
-<tbody><tr>
-<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
-<td>a new PkPackage object.</td>
-</tr></tbody>
-</table></div>
-<p class="since">Since 0.5.4</p>
-</div>
-<hr>
-<div class="refsect2">
-<a name="pk-package-print"></a><h3>pk_package_print ()</h3>
-<pre class="programlisting"><span class="returnvalue">void</span>                pk_package_print                    (<em class="parameter"><code><a class="link" href="PkPackage.html" title="PkPackage"><span class="type">PkPackage</span></a> *package</code></em>);</pre>
+<a name="pk-package-get-arch"></a><h3>pk_package_get_arch ()</h3>
+<pre class="programlisting">const <a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gchar"><span class="returnvalue">gchar</span></a> *       pk_package_get_arch                 (<em class="parameter"><code><a class="link" href="PkPackage.html" title="PkPackage"><span class="type">PkPackage</span></a> *package</code></em>);</pre>
 <p>
-Prints details about the package to standard out.
-</p>
-<div class="variablelist"><table border="0" class="variablelist">
-<colgroup>
-<col align="left" valign="top">
-<col>
-</colgroup>
-<tbody><tr>
-<td><p><span class="term"><em class="parameter"><code>package</code></em> :</span></p></td>
-<td>a valid <a class="link" href="PkPackage.html" title="PkPackage"><span class="type">PkPackage</span></a> instance</td>
-</tr></tbody>
-</table></div>
-<p class="since">Since 0.5.4</p>
-</div>
-<hr>
-<div class="refsect2">
-<a name="pk-package-set-id"></a><h3>pk_package_set_id ()</h3>
-<pre class="programlisting"><a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gboolean"><span class="returnvalue">gboolean</span></a>            pk_package_set_id                   (<em class="parameter"><code><a class="link" href="PkPackage.html" title="PkPackage"><span class="type">PkPackage</span></a> *package</code></em>,
-                                                         <em class="parameter"><code>const <a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a> *package_id</code></em>,
-                                                         <em class="parameter"><code><a href="http://library.gnome.org/devel/glib/unstable/glib-Error-Reporting.html#GError"><span class="type">GError</span></a> **error</code></em>);</pre>
-<p>
-Sets the package object to have the given ID
+Gets the package arch.
 </p>
 <div class="variablelist"><table border="0" class="variablelist">
 <colgroup>
@@ -435,27 +423,39 @@ Sets the package object to have the given ID
 <td>a valid <a class="link" href="PkPackage.html" title="PkPackage"><span class="type">PkPackage</span></a> instance</td>
 </tr>
 <tr>
-<td><p><span class="term"><em class="parameter"><code>package_id</code></em> :</span></p></td>
-<td>the valid package_id</td>
-</tr>
-<tr>
-<td><p><span class="term"><em class="parameter"><code>error</code></em> :</span></p></td>
-<td>a <a href="http://library.gnome.org/devel/glib/unstable/glib-Error-Reporting.html#GError"><code class="literal">GError</code></a> to put the error code and message in, or <a href="http://library.gnome.org/devel/glib/unstable/glib-Standard-Macros.html#NULL:CAPS"><code class="literal">NULL</code></a>
-</td>
-</tr>
-<tr>
 <td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
-<td>
-<a href="http://library.gnome.org/devel/glib/unstable/glib-Standard-Macros.html#TRUE:CAPS"><code class="literal">TRUE</code></a> if the package_id was set</td>
+<td>the arch, or <a href="/usr/share/gtk-doc/html/liboil/liboil-liboiljunk.html#NULL:CAPS"><code class="literal">NULL</code></a> if unset</td>
 </tr>
 </tbody>
 </table></div>
-<p class="since">Since 0.5.4</p>
+<p class="since">Since 0.6.4</p>
 </div>
 <hr>
 <div class="refsect2">
-<a name="pk-package-test"></a><h3>pk_package_test ()</h3>
-<pre class="programlisting"><span class="returnvalue">void</span>                pk_package_test                     (<em class="parameter"><code><a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gpointer"><span class="type">gpointer</span></a> user_data</code></em>);</pre>
+<a name="pk-package-get-data"></a><h3>pk_package_get_data ()</h3>
+<pre class="programlisting">const <a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gchar"><span class="returnvalue">gchar</span></a> *       pk_package_get_data                 (<em class="parameter"><code><a class="link" href="PkPackage.html" title="PkPackage"><span class="type">PkPackage</span></a> *package</code></em>);</pre>
+<p>
+Gets the package data, which is usually the repository ID that contains the
+package. Special ID's include "installed" for installed packages, and "local"
+for local packages that exist on disk but not in a repoitory.
+</p>
+<div class="variablelist"><table border="0" class="variablelist">
+<colgroup>
+<col align="left" valign="top">
+<col>
+</colgroup>
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>package</code></em> :</span></p></td>
+<td>a valid <a class="link" href="PkPackage.html" title="PkPackage"><span class="type">PkPackage</span></a> instance</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td>the data, or <a href="/usr/share/gtk-doc/html/liboil/liboil-liboiljunk.html#NULL:CAPS"><code class="literal">NULL</code></a> if unset</td>
+</tr>
+</tbody>
+</table></div>
+<p class="since">Since 0.6.4</p>
 </div>
 </div>
 <div class="refsect1">

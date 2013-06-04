@@ -205,7 +205,7 @@ static void backend_get_depends_or_requires_thread(PkBackendJob *job, GVariant *
     PkRoleEnum role;
     PkBitfield filters;
     gchar **package_ids;
-    bool recursive;
+    gboolean recursive;
     gchar *pi;
 
     g_variant_get(params, "(t^a&sb)",
@@ -233,6 +233,7 @@ static void backend_get_depends_or_requires_thread(PkBackendJob *job, GVariant *
         if (pk_package_id_check(pi) == false) {
             pk_backend_job_error_code(job,
                                       PK_ERROR_ENUM_PACKAGE_ID_INVALID,
+                                      "%s",
                                       pi);
             apt->emitFinished();
             return;
@@ -320,6 +321,7 @@ static void backend_get_files_thread(PkBackendJob *job, GVariant *params, gpoint
         if (pk_package_id_check(pi) == false) {
             pk_backend_job_error_code(job,
                                       PK_ERROR_ENUM_PACKAGE_ID_INVALID,
+                                      "%s",
                                       pi);
             apt->emitFinished();
             return;
@@ -527,90 +529,98 @@ static void pk_backend_download_packages_thread(PkBackendJob *job, GVariant *par
         return;
     }
 
-    pk_backend_job_set_status(job, PK_STATUS_ENUM_QUERY);
-    // Create the progress
-    AcqPackageKitStatus Stat(apt, job);
+    PkBackend *backend = PK_BACKEND(pk_backend_job_get_backend(job));
+    if (pk_backend_is_online(backend)) {
+        pk_backend_job_set_status(job, PK_STATUS_ENUM_QUERY);
+        // Create the progress
+        AcqPackageKitStatus Stat(apt, job);
 
-    // get a fetcher
-    pkgAcquire fetcher;
-    fetcher.Setup(&Stat);
-    string filelist;
-    gchar *pi;
+        // get a fetcher
+        pkgAcquire fetcher;
+        fetcher.Setup(&Stat);
+        string filelist;
+        gchar *pi;
 
-    // TODO this might be useful when the item is in the cache
-    // 	for (pkgAcquire::ItemIterator I = fetcher.ItemsBegin(); I < fetcher.ItemsEnd();)
-    // 	{
-    // 		if ((*I)->Local == true)
-    // 		{
-    // 			I++;
-    // 			continue;
-    // 		}
-    //
-    // 		// Close the item and check if it was found in cache
-    // 		(*I)->Finished();
-    // 		if ((*I)->Complete == false) {
-    // 			Transient = true;
-    // 		}
-    //
-    // 		// Clear it out of the fetch list
-    // 		delete *I;
-    // 		I = fetcher.ItemsBegin();
-    // 	}
+        // TODO this might be useful when the item is in the cache
+        // 	for (pkgAcquire::ItemIterator I = fetcher.ItemsBegin(); I < fetcher.ItemsEnd();)
+        // 	{
+        // 		if ((*I)->Local == true)
+        // 		{
+        // 			I++;
+        // 			continue;
+        // 		}
+        //
+        // 		// Close the item and check if it was found in cache
+        // 		(*I)->Finished();
+        // 		if ((*I)->Complete == false) {
+        // 			Transient = true;
+        // 		}
+        //
+        // 		// Clear it out of the fetch list
+        // 		delete *I;
+        // 		I = fetcher.ItemsBegin();
+        // 	}
 
-    for (uint i = 0; i < g_strv_length(package_ids); ++i) {
-        pi = package_ids[i];
-        if (pk_package_id_check(pi) == false) {
-            pk_backend_job_error_code(job,
-                                      PK_ERROR_ENUM_PACKAGE_ID_INVALID,
-                                      pi);
+        for (uint i = 0; i < g_strv_length(package_ids); ++i) {
+            pi = package_ids[i];
+            if (pk_package_id_check(pi) == false) {
+                pk_backend_job_error_code(job,
+                                        PK_ERROR_ENUM_PACKAGE_ID_INVALID,
+                                        "%s",
+                                        pi);
+                apt->emitFinished();
+                return;
+            }
+
+            if (apt->cancelled()) {
+                break;
+            }
+
+            const pkgCache::VerIterator &ver = apt->aptCacheFile()->resolvePkgID(pi);
+            // Ignore packages that could not be found or that exist only due to dependencies.
+            if (ver.end()) {
+                _error->Error("Can't find this package id \"%s\".", pi);
+                continue;
+            } else {
+                if(!ver.Downloadable()) {
+                    _error->Error("No downloadable files for %s,"
+                                "perhaps it is a local or obsolete" "package?",
+                                pi);
+                    continue;
+                }
+
+                string storeFileName;
+                if (!apt->getArchive(&fetcher,
+                                    ver,
+                                    directory,
+                                    storeFileName)) {
+                    apt->emitFinished();
+                    return;
+                }
+                string destFile = directory + "/" + flNotDir(storeFileName);
+                if (filelist.empty()) {
+                    filelist = destFile;
+                } else {
+                    filelist.append(";" + destFile);
+                }
+            }
+        }
+
+        if (fetcher.Run() != pkgAcquire::Continue
+                && apt->cancelled() == false) {
+            // We failed and we did not cancel
+            show_errors(job, PK_ERROR_ENUM_PACKAGE_DOWNLOAD_FAILED);
             apt->emitFinished();
             return;
         }
 
-        if (apt->cancelled()) {
-            break;
-        }
-
-        const pkgCache::VerIterator &ver = apt->aptCacheFile()->resolvePkgID(pi);
-        // Ignore packages that could not be found or that exist only due to dependencies.
-        if (ver.end()) {
-            _error->Error("Can't find this package id \"%s\".", pi);
-            continue;
-        } else {
-            if(!ver.Downloadable()) {
-                _error->Error("No downloadable files for %s,"
-                              "perhaps it is a local or obsolete" "package?",
-                              pi);
-                continue;
-            }
-
-            string storeFileName;
-            if (!apt->getArchive(&fetcher,
-                                 ver,
-                                 directory,
-                                 storeFileName)) {
-                apt->emitFinished();
-                return;
-            }
-            string destFile = directory + "/" + flNotDir(storeFileName);
-            if (filelist.empty()) {
-                filelist = destFile;
-            } else {
-                filelist.append(";" + destFile);
-            }
-        }
+        // send the filelist
+        pk_backend_job_files(job, NULL, filelist.c_str());
+    } else {
+        pk_backend_job_error_code(job,
+                                  PK_ERROR_ENUM_NO_NETWORK,
+                                  "Cannot download packages whilst offline");
     }
-
-    if (fetcher.Run() != pkgAcquire::Continue
-            && apt->cancelled() == false) {
-        // We failed and we did not cancel
-        show_errors(job, PK_ERROR_ENUM_PACKAGE_DOWNLOAD_FAILED);
-        apt->emitFinished();
-        return;
-    }
-
-    // send the filelist
-    pk_backend_job_files(job, NULL, filelist.c_str());
 
     apt->emitFinished();
 }
@@ -639,11 +649,18 @@ static void pk_backend_refresh_cache_thread(PkBackendJob *job, GVariant *params,
         apt->emitFinished();
         return;
     }
-
-    apt->refreshCache();
     
-    if (_error->PendingError() == true) {
-        show_errors(job, PK_ERROR_ENUM_CANNOT_FETCH_SOURCES, true);
+    PkBackend *backend = PK_BACKEND(pk_backend_job_get_backend(job));
+    if (pk_backend_is_online(backend)) {
+        apt->refreshCache();
+        
+        if (_error->PendingError() == true) {
+            show_errors(job, PK_ERROR_ENUM_CANNOT_FETCH_SOURCES, true);
+        }
+    } else {
+        pk_backend_job_error_code(job,
+                                  PK_ERROR_ENUM_NO_NETWORK,
+                                  "Cannot refresh cache whilst offline");
     }
 
     apt->emitFinished();
@@ -832,8 +849,8 @@ static void backend_manage_packages_thread(PkBackendJob *job, GVariant *params, 
 {
     // Transaction flags
     PkBitfield transaction_flags = 0;
-    bool allow_deps = false;
-    bool autoremove = false;
+    gboolean allow_deps = false;
+    gboolean autoremove = false;
     bool fileInstall = false;
     gchar **full_paths = NULL;
     gchar **package_ids = NULL;
@@ -860,9 +877,6 @@ static void backend_manage_packages_thread(PkBackendJob *job, GVariant *params, 
                       &transaction_flags,
                       &package_ids);
     }
-
-    //FIXME: Workaround for a strange bug which clears the transaction flag in the params GVariant in rare cases
-    transaction_flags = pk_backend_job_get_transaction_flags (job);
 
     // Check if we should only simulate the install (calculate dependencies)
     bool simulate;
@@ -1028,7 +1042,7 @@ static void backend_repo_manager_thread(PkBackendJob *job, GVariant *params, gpo
     PkBitfield filters;
     // enable
     const gchar *repo_id;
-    bool enabled;
+    gboolean enabled;
     bool found = false;
     // generic
     PkRoleEnum role;
@@ -1042,7 +1056,7 @@ static void backend_repo_manager_thread(PkBackendJob *job, GVariant *params, gpo
                       &filters);
     } else {
         pk_backend_job_set_status(job, PK_STATUS_ENUM_REQUEST);
-        g_variant_get (params, "(^sb)",
+        g_variant_get (params, "(&sb)",
                        &repo_id,
                        &enabled);
     }
@@ -1228,4 +1242,20 @@ PkBitfield pk_backend_get_roles(PkBackend *backend)
     }
 
     return roles;
+}
+
+/**
+ * pk_backend_get_provides:
+ */
+PkBitfield pk_backend_get_provides(PkBackend *backend)
+{
+    PkBitfield provides;
+    provides = pk_bitfield_from_enums(
+        PK_PROVIDES_ENUM_SHARED_LIB,
+        PK_PROVIDES_ENUM_MIMETYPE,
+        PK_PROVIDES_ENUM_CODEC,
+        PK_PROVIDES_ENUM_ANY,
+        -1);
+
+    return provides;
 }

@@ -160,6 +160,7 @@ in'u'upgrade_kind)
 <link linkend="Transaction:RemainingTime">'RemainingTime'</link>read'u'
 <link linkend="Transaction:Speed">'Speed'</link>read'u'
 <link linkend="Transaction:DownloadSizeRemaining">'DownloadSizeRemaining'</link>read't'
+<link linkend="Transaction:TransactionFlags">'TransactionFlags'</link>read't'
 </synopsis>
   </refsect1>
   <refsect1 role="desc">
@@ -1606,6 +1607,11 @@ in'u'upgrade_kind)</programlisting></refsect2>
 </programlisting></refsect2>
           <para>
             The number of bytes remaining to download, 0 if nothing is left to download.
+          </para>
+        <variablelist role="params"/><refsect2><title><anchor role="function" id="Transaction:TransactionFlags"/>The "TransactionFlags" property</title><indexterm><primary>TransactionFlags</primary><secondary>Transaction</secondary></indexterm><programlisting>'TransactionFlags'read't'
+</programlisting></refsect2>
+          <para>
+            The flags set for this transaction, e.g. SIMULATE or ONLY_DOWNLOAD.
           </para>
         <variablelist role="params"/></refsect1>
 </refentry>
