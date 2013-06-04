@@ -1051,30 +1051,108 @@ out:
 }
 
 /**
+ * pk_backend_what_provides_decompose:
+ */
+static gchar **
+pk_backend_what_provides_decompose (PkBackendJob *job,
+				    PkProvidesEnum provides,
+				    gchar **values)
+{
+	guint i;
+	guint len;
+	gchar **search = NULL;
+	GPtrArray *array = NULL;
+
+	/* iter on each provide string, and wrap it with the fedora prefix */
+	len = g_strv_length (values);
+	array = g_ptr_array_new_with_free_func (g_free);
+	for (i=0; i<len; i++) {
+		/* compatibility with previous versions of GPK */
+		if (g_str_has_prefix (values[i], "gstreamer0.10(") ||
+		    g_str_has_prefix (values[i], "gstreamer1(")) {
+			g_ptr_array_add (array, g_strdup (values[i]));
+		} else if (provides == PK_PROVIDES_ENUM_CODEC) {
+			g_ptr_array_add (array, g_strdup_printf ("gstreamer0.10(%s)", values[i]));
+			g_ptr_array_add (array, g_strdup_printf ("gstreamer1(%s)", values[i]));
+		} else if (provides == PK_PROVIDES_ENUM_FONT) {
+			g_ptr_array_add (array, g_strdup_printf ("font(%s)", values[i]));
+		} else if (provides == PK_PROVIDES_ENUM_MIMETYPE) {
+			g_ptr_array_add (array, g_strdup_printf ("mimehandler(%s)", values[i]));
+		} else if (provides == PK_PROVIDES_ENUM_POSTSCRIPT_DRIVER) {
+			g_ptr_array_add (array, g_strdup_printf ("postscriptdriver(%s)", values[i]));
+		} else if (provides == PK_PROVIDES_ENUM_PLASMA_SERVICE) {
+			/* We need to allow the Plasma version to be specified. */
+			if (g_str_has_prefix (values[i], "plasma")) {
+				g_ptr_array_add (array, g_strdup (values[i]));
+			} else {
+				/* For compatibility, we default to plasma4. */
+				g_ptr_array_add (array, g_strdup_printf ("plasma4(%s)", values[i]));
+			}
+		} else if (provides == PK_PROVIDES_ENUM_ANY) {
+			/* We need to allow the Plasma version to be specified. */
+			if (g_str_has_prefix (values[i], "plasma")) {
+				g_ptr_array_add (array, g_strdup (values[i]));
+			} else {
+				g_ptr_array_add (array, g_strdup_printf ("gstreamer0.10(%s)", values[i]));
+				g_ptr_array_add (array, g_strdup_printf ("gstreamer1(%s)", values[i]));
+				g_ptr_array_add (array, g_strdup_printf ("font(%s)", values[i]));
+				g_ptr_array_add (array, g_strdup_printf ("mimehandler(%s)", values[i]));
+				g_ptr_array_add (array, g_strdup_printf ("postscriptdriver(%s)", values[i]));
+				g_ptr_array_add (array, g_strdup_printf ("plasma4(%s)", values[i]));
+				g_ptr_array_add (array, g_strdup_printf ("plasma5(%s)", values[i]));
+			}
+		} else {
+			pk_backend_job_error_code (job,
+						   PK_ERROR_ENUM_PROVIDE_TYPE_NOT_SUPPORTED,
+						  "provide type %s not supported",
+						  pk_provides_enum_to_string (provides));
+			goto out;
+		}
+	}
+	search = pk_ptr_array_to_strv (array);
+	for (i = 0; search[i] != NULL; i++)
+		g_debug ("Querying provide '%s'", search[i]);
+out:
+	return search;
+}
+
+/**
  * pk_backend_search_thread:
  */
 static void
 pk_backend_search_thread (PkBackendJob *job, GVariant *params, gpointer user_data)
 {
 	gboolean ret;
-	gchar **search;
+	gchar **search = NULL;
+	gchar **search_tmp;
 	GError *error = NULL;
 	GPtrArray *array = NULL;
 	GPtrArray *result;
 	GPtrArray *store_array = NULL;
 	guint i;
 	guint recent;
+	PkBackendZifJobData *job_data = pk_backend_job_get_user_data (job);
 	PkBitfield filters;
+	PkProvidesEnum provides;
 	PkRoleEnum role;
 	ZifState *state_local;
-	PkBackendZifJobData *job_data = pk_backend_job_get_user_data (job);
 
 	role = pk_backend_job_get_role (job);
 	if (role == PK_ROLE_ENUM_GET_PACKAGES) {
 		g_variant_get (params, "(t)",
 			       &filters);
+	} else if (role == PK_ROLE_ENUM_WHAT_PROVIDES) {
+		g_variant_get (params, "(tu^a&s)",
+			       &filters,
+			       &provides,
+			       &search_tmp);
+		search = pk_backend_what_provides_decompose (job,
+							     provides,
+							     search_tmp);
+		if (search == NULL)
+			goto out;
 	} else {
-		g_variant_get (params, "(t^a&s)",
+		g_variant_get (params, "(t^as)",
 			       &filters,
 			       &search);
 	}
@@ -1279,6 +1357,7 @@ pk_backend_search_thread (PkBackendJob *job, GVariant *params, gpointer user_dat
 		goto out;
 	}
 out:
+	g_strfreev (search);
 	if (store_array != NULL)
 		g_ptr_array_unref (store_array);
 	if (array != NULL)
@@ -2110,6 +2189,7 @@ pk_backend_get_depends_thread (PkBackendJob *job, GVariant *params, gpointer use
 	PkBitfield filters;
 	ZifPackage *package;
 	ZifPackage *package_provide;
+	ZifState *state_stuck;
 	ZifState *state_local;
 	ZifState *state_loop;
 	PkBackendZifJobData *job_data = pk_backend_job_get_user_data (job);
@@ -2161,11 +2241,13 @@ pk_backend_get_depends_thread (PkBackendJob *job, GVariant *params, gpointer use
 	array = g_ptr_array_new_with_free_func ((GDestroyNotify) g_object_unref);
 
 	pk_backend_job_set_status (job, PK_STATUS_ENUM_QUERY);
+	state_stuck = zif_state_get_child (job_data->state);
+	zif_state_set_number_steps (state_stuck, g_strv_length (package_ids));
 	for (i=0; package_ids[i] != NULL; i++) {
 		id = package_ids[i];
 
 		/* set up state */
-		state_local = zif_state_get_child (job_data->state);
+		state_local = zif_state_get_child (state_stuck);
 		ret = zif_state_set_steps (state_local,
 					   NULL,
 					   50, /* find package */
@@ -2246,6 +2328,17 @@ pk_backend_get_depends_thread (PkBackendJob *job, GVariant *params, gpointer use
 
 		/* this section done */
 		ret = zif_state_done (state_local, &error);
+		if (!ret) {
+			pk_backend_job_error_code (job,
+					       PK_ERROR_ENUM_TRANSACTION_CANCELLED,
+					       "cancelled: %s",
+					       error->message);
+			g_error_free (error);
+			goto out;
+		}
+
+		/* this section done */
+		ret = zif_state_done (state_stuck, &error);
 		if (!ret) {
 			pk_backend_job_error_code (job,
 					       PK_ERROR_ENUM_TRANSACTION_CANCELLED,
@@ -2366,7 +2459,7 @@ pk_backend_get_requires_thread (PkBackendJob *job, GVariant *params, gpointer us
 
 	/* find all the packages */
 	state_local = zif_state_get_child (job_data->state);
-	store_array = pk_backend_get_store_array_for_filter (0,
+	store_array = pk_backend_get_store_array_for_filter (filters,
 							     state_local,
 							     &error);
 	if (store_array == NULL) {
@@ -3150,9 +3243,19 @@ pk_backend_get_updates_thread (PkBackendJob *job, GVariant *params, gpointer use
 		for (j=0; j<updates->len; j++) {
 			package_update = ZIF_PACKAGE (g_ptr_array_index (updates, j));
 
+			/* correct package name and arch */
+			val = zif_package_compare_full (package_update,
+							package,
+							ZIF_PACKAGE_COMPARE_FLAG_CHECK_NAME |
+							ZIF_PACKAGE_COMPARE_FLAG_CHECK_ARCH);
+			if (val != 0)
+				continue;
+
 			/* newer? */
-			val = zif_package_compare (package_update, package);
-			if (val == G_MAXINT)
+			val = zif_package_compare_full (package_update,
+							package,
+							ZIF_PACKAGE_COMPARE_FLAG_CHECK_VERSION);
+			if (val == 0)
 				continue;
 			if (val > 0) {
 				g_debug ("*** update %s from %s to %s",
@@ -3701,8 +3804,8 @@ pk_backend_job_run_transaction (PkBackendJob *job, PkBitfield transaction_flags,
 		if (error->domain == ZIF_TRANSACTION_ERROR &&
 		    error->code == ZIF_TRANSACTION_ERROR_NOTHING_TO_DO) {
 			pk_backend_job_error_code (job,
-					       PK_ERROR_ENUM_ALL_PACKAGES_ALREADY_INSTALLED,
-					       error->message);
+						   PK_ERROR_ENUM_ALL_PACKAGES_ALREADY_INSTALLED,
+						   "%s", error->message);
 		} else {
 			pk_backend_job_error_code (job,
 					       PK_ERROR_ENUM_DEP_RESOLUTION_FAILED,
@@ -4764,8 +4867,8 @@ pk_backend_repo_enable_thread (PkBackendJob *job, GVariant *params, gpointer use
 					   "If this is not correct, please disable the %s software source.",
 					   repo_id);
 		pk_backend_job_message (job,
-				    PK_MESSAGE_ENUM_REPO_FOR_DEVELOPERS_ONLY,
-				    warning);
+					PK_MESSAGE_ENUM_REPO_FOR_DEVELOPERS_ONLY,
+					"%s", warning);
 	}
 out:
 	pk_backend_job_finished (job);
@@ -5319,59 +5422,23 @@ void
 pk_backend_what_provides (PkBackend *backend, PkBackendJob *job, PkBitfield filters,
 			  PkProvidesEnum provides, gchar **values)
 {
-	guint i;
-	guint len;
-	gchar **search = NULL;
-	GPtrArray *array = NULL;
-
-	/* iter on each provide string, and wrap it with the fedora prefix */
-	len = g_strv_length (values);
-	array = g_ptr_array_new_with_free_func (g_free);
-	for (i=0; i<len; i++) {
-		/* compatibility with previous versions of GPK */
-		if (g_str_has_prefix (values[i], "gstreamer0.10(") ||
-		    g_str_has_prefix (values[i], "gstreamer1(")) {
-			g_ptr_array_add (array, g_strdup (values[i]));
-		} else if (provides == PK_PROVIDES_ENUM_CODEC) {
-			g_ptr_array_add (array, g_strdup_printf ("gstreamer0.10(%s)", values[i]));
-			g_ptr_array_add (array, g_strdup_printf ("gstreamer1(%s)", values[i]));
-		} else if (provides == PK_PROVIDES_ENUM_FONT) {
-			g_ptr_array_add (array, g_strdup_printf ("font(%s)", values[i]));
-		} else if (provides == PK_PROVIDES_ENUM_MIMETYPE) {
-			g_ptr_array_add (array, g_strdup_printf ("mimehandler(%s)", values[i]));
-		} else if (provides == PK_PROVIDES_ENUM_POSTSCRIPT_DRIVER) {
-			g_ptr_array_add (array, g_strdup_printf ("postscriptdriver(%s)", values[i]));
-		} else if (provides == PK_PROVIDES_ENUM_PLASMA_SERVICE) {
-			/* We need to allow the Plasma version to be specified. */
-			if (g_str_has_prefix (values[i], "plasma")) {
-				g_ptr_array_add (array, g_strdup (values[i]));
-			} else {
-				/* For compatibility, we default to plasma4. */
-				g_ptr_array_add (array, g_strdup_printf ("plasma4(%s)", values[i]));
-			}
-		} else if (provides == PK_PROVIDES_ENUM_ANY) {
-			/* We need to allow the Plasma version to be specified. */
-			if (g_str_has_prefix (values[i], "plasma")) {
-				g_ptr_array_add (array, g_strdup (values[i]));
-			} else {
-				g_ptr_array_add (array, g_strdup_printf ("gstreamer0.10(%s)", values[i]));
-				g_ptr_array_add (array, g_strdup_printf ("gstreamer1(%s)", values[i]));
-				g_ptr_array_add (array, g_strdup_printf ("font(%s)", values[i]));
-				g_ptr_array_add (array, g_strdup_printf ("mimehandler(%s)", values[i]));
-				g_ptr_array_add (array, g_strdup_printf ("postscriptdriver(%s)", values[i]));
-				g_ptr_array_add (array, g_strdup_printf ("plasma4(%s)", values[i]));
-				g_ptr_array_add (array, g_strdup_printf ("plasma5(%s)", values[i]));
-			}
-		} else {
-			pk_backend_job_error_code (job,
-				       PK_ERROR_ENUM_PROVIDE_TYPE_NOT_SUPPORTED,
-					       "provide type %s not supported", pk_provides_enum_to_string (provides));
-		}
-	}
-
-	/* set the search terms and run */
-	search = pk_ptr_array_to_strv (array);
 	pk_backend_job_thread_create (job, pk_backend_search_thread, NULL, NULL);
-	g_strfreev (search);
-	g_ptr_array_unref (array);
+}
+
+/**
+ * pk_backend_get_provides:
+ */
+PkBitfield pk_backend_get_provides(PkBackend *backend)
+{
+	PkBitfield provides;
+	provides = pk_bitfield_from_enums(
+		PK_PROVIDES_ENUM_CODEC,
+		PK_PROVIDES_ENUM_FONT,
+		PK_PROVIDES_ENUM_MIMETYPE,
+		PK_PROVIDES_ENUM_POSTSCRIPT_DRIVER,
+		PK_PROVIDES_ENUM_PLASMA_SERVICE,
+		PK_PROVIDES_ENUM_ANY,
+		-1);
+
+	return provides;
 }

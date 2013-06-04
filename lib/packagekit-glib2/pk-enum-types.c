@@ -708,6 +708,7 @@ pk_progress_type_get_type (void)
             { PK_PROGRESS_TYPE_UID, "PK_PROGRESS_TYPE_UID", "uid" },
             { PK_PROGRESS_TYPE_PACKAGE, "PK_PROGRESS_TYPE_PACKAGE", "package" },
             { PK_PROGRESS_TYPE_ITEM_PROGRESS, "PK_PROGRESS_TYPE_ITEM_PROGRESS", "item-progress" },
+            { PK_PROGRESS_TYPE_TRANSACTION_FLAGS, "PK_PROGRESS_TYPE_TRANSACTION_FLAGS", "transaction-flags" },
             { PK_PROGRESS_TYPE_INVALID, "PK_PROGRESS_TYPE_INVALID", "invalid" },
             { 0, NULL, NULL }
         };

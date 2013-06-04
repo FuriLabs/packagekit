@@ -51,6 +51,7 @@ in's'pac)
 <link linkend="PackageKit:BackendDescription">'BackendDescription'</link>read's'
 <link linkend="PackageKit:BackendAuthor">'BackendAuthor'</link>read's'
 <link linkend="PackageKit:Roles">'Roles'</link>read't'
+<link linkend="PackageKit:Provides">'Provides'</link>read't'
 <link linkend="PackageKit:Groups">'Groups'</link>read't'
 <link linkend="PackageKit:Filters">'Filters'</link>read't'
 <link linkend="PackageKit:MimeTypes">'MimeTypes'</link>read'as'
@@ -237,6 +238,11 @@ in's'pac)</programlisting></refsect2>
 </programlisting></refsect2>
           <para>
             The roles the backend supports, e.g. search-name|refresh-cache.
+          </para>
+        <variablelist role="params"/><refsect2><title><anchor role="function" id="PackageKit:Provides"/>The "Provides" property</title><indexterm><primary>Provides</primary><secondary>PackageKit</secondary></indexterm><programlisting>'Provides'read't'
+</programlisting></refsect2>
+          <para>
+            The provides the backend supports, e.g. codec|font|hardware-driver.
           </para>
         <variablelist role="params"/><refsect2><title><anchor role="function" id="PackageKit:Groups"/>The "Groups" property</title><indexterm><primary>Groups</primary><secondary>PackageKit</secondary></indexterm><programlisting>'Groups'read't'
 </programlisting></refsect2>

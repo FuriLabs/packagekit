@@ -44,6 +44,7 @@ from yum.callbacks import *
 from yum.misc import prco_tuple_to_string, unique
 from yum.packages import YumLocalPackage, parsePackages
 from yum.packageSack import MetaSack
+from yum.Errors import YumBaseError
 import rpmUtils
 import exceptions
 import types
@@ -120,7 +121,9 @@ def sigquit(signum, frame):
     sys.exit(1)
 
 def _to_unicode(txt, encoding='utf-8'):
-    if isinstance(txt, basestring):
+    if isinstance(txt, YumBaseError):
+        txt = unicode(txt)
+    elif isinstance(txt, basestring):
         if not isinstance(txt, unicode):
             txt = unicode(txt, encoding, errors='replace')
     return txt
@@ -1316,12 +1319,9 @@ class PackageKitYumBackend(PackageKitBaseBackend, PackagekitPackage):
                 self.error(ERROR_NO_SPACE_ON_DEVICE, "Disk error: %s" % _to_unicode(e))
             except Exception, e:
                 self.error(ERROR_INTERNAL_ERROR, _format_str(traceback.format_exc()))
-            if rc != 2:
-                self.error(ERROR_DEP_RESOLUTION_FAILED, _format_msgs(msgs))
-            else:
-                for txmbr in self.yumbase.tsInfo:
-                    if txmbr.po not in deps_list:
-                        deps_list.append(txmbr.po)
+            for txmbr in self.yumbase.tsInfo:
+                if txmbr.po not in deps_list:
+                    deps_list.append(txmbr.po)
 
         # remove any of the original names
         for pkg in resolve_list:
@@ -3101,9 +3101,9 @@ class PackageKitYumBackend(PackageKitBaseBackend, PackagekitPackage):
 
         # we are working offline
         if not self.has_network:
+            self.yumbase.conf.cache = 1
             for repo in self.yumbase.repos.listEnabled():
                 repo.metadata_expire = -1  # never refresh
-            self.yumbase.conf.cache = 1
 
         # choose a good default if the client didn't specify a timeout
         if self.cache_age == 0:

@@ -1053,7 +1053,7 @@ pk_console_get_requires (PkBitfield filters, gchar **packages, GError **error)
 	gchar **package_ids = NULL;
 	GError *error_local = NULL;
 
-	package_ids = pk_console_resolve_packages (PK_CLIENT(task), pk_bitfield_value (PK_FILTER_ENUM_NONE), packages, &error_local);
+	package_ids = pk_console_resolve_packages (PK_CLIENT(task), filters, packages, &error_local);
 	if (package_ids == NULL) {
 		/* TRANSLATORS: There was an error getting the list of files for the package. The detailed error follows */
 		*error = g_error_new (1, 0, _("This tool could not find all the packages: %s"), error_local->message);
@@ -1063,7 +1063,11 @@ pk_console_get_requires (PkBitfield filters, gchar **packages, GError **error)
 	}
 
 	/* do the async action */
-	pk_task_get_requires_async (PK_TASK (task),filters, package_ids, TRUE, cancellable,
+	pk_task_get_requires_async (PK_TASK (task),
+				    pk_bitfield_value (PK_FILTER_ENUM_INSTALLED),
+				    package_ids,
+				    TRUE,
+				    cancellable,
 				    (PkProgressCallback) pk_console_progress_cb, NULL,
 				    (GAsyncReadyCallback) pk_console_finished_cb, NULL);
 out:
@@ -1384,7 +1388,9 @@ main (int argc, char *argv[])
 	if (! g_thread_supported ())
 		g_thread_init (NULL);
 #endif
+#if (GLIB_MAJOR_VERSION == 2 && GLIB_MINOR_VERSION < 35)
 	g_type_init ();
+#endif
 
 	/* do stuff on ctrl-c */
 	signal (SIGINT, pk_console_sigint_cb);
@@ -1809,6 +1815,26 @@ main (int argc, char *argv[])
 		g_strdelimit (text, ";", '\n');
 		g_print ("%s\n", text);
 		g_free (text);
+		run_mainloop = FALSE;
+
+	} else if (strcmp (mode, "backend-details") == 0) {
+		gchar *backend_author = NULL;
+		gchar *backend_description = NULL;
+		gchar *backend_name = NULL;
+		g_object_get (control,
+			      "backend-author", &backend_author,
+			      "backend-description", &backend_description,
+			      "backend-name", &backend_name,
+			      NULL);
+		if (backend_name != NULL && backend_name[0] != '\0')
+			g_print ("Name:\t\t%s\n", backend_name);
+		if (backend_description != NULL && backend_description[0] != '\0')
+			g_print ("Description:\t%s\n", backend_description);
+		if (backend_author != NULL && backend_author[0] != '\0')
+			g_print ("Author:\t\t%s\n", backend_author);
+		g_free (backend_name);
+		g_free (backend_description);
+		g_free (backend_author);
 		run_mainloop = FALSE;
 
 	} else if (strcmp (mode, "get-groups") == 0) {

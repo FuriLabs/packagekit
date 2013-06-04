@@ -3,7 +3,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>PkResults</title>
-<meta name="generator" content="DocBook XSL Stylesheets V1.77.1">
+<meta name="generator" content="DocBook XSL Stylesheets V1.78.1">
 <link rel="home" href="index.html" title="PackageKit Reference Manual">
 <link rel="up" href="libpackagekit-gobject.html" title="libpackagekit GObjects">
 <link rel="prev" href="PkRequireRestart.html" title="PkRequireRestart">
@@ -44,63 +44,63 @@
 <pre class="synopsis">#define             <a class="link" href="PkResults.html#PK-RESULTS-TYPE-ERROR:CAPS" title="PK_RESULTS_TYPE_ERROR">PK_RESULTS_TYPE_ERROR</a>
 struct              <a class="link" href="PkResults.html#PkResults-struct" title="struct PkResults">PkResults</a>;
 struct              <a class="link" href="PkResults.html#PkResultsClass" title="struct PkResultsClass">PkResultsClass</a>;
-<a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gboolean"><span class="returnvalue">gboolean</span></a>            <a class="link" href="PkResults.html#pk-results-add-category" title="pk_results_add_category ()">pk_results_add_category</a>             (<em class="parameter"><code><a class="link" href="PkResults.html" title="PkResults"><span class="type">PkResults</span></a> *results</code></em>,
-                                                         <em class="parameter"><code><a class="link" href="PkCategory.html" title="PkCategory"><span class="type">PkCategory</span></a> *item</code></em>);
-<a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gboolean"><span class="returnvalue">gboolean</span></a>            <a class="link" href="PkResults.html#pk-results-add-details" title="pk_results_add_details ()">pk_results_add_details</a>              (<em class="parameter"><code><a class="link" href="PkResults.html" title="PkResults"><span class="type">PkResults</span></a> *results</code></em>,
-                                                         <em class="parameter"><code><a class="link" href="PkDetails.html" title="PkDetails"><span class="type">PkDetails</span></a> *item</code></em>);
-<a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gboolean"><span class="returnvalue">gboolean</span></a>            <a class="link" href="PkResults.html#pk-results-add-distro-upgrade" title="pk_results_add_distro_upgrade ()">pk_results_add_distro_upgrade</a>       (<em class="parameter"><code><a class="link" href="PkResults.html" title="PkResults"><span class="type">PkResults</span></a> *results</code></em>,
-                                                         <em class="parameter"><code><a class="link" href="PkDistroUpgrade.html" title="PkDistroUpgrade"><span class="type">PkDistroUpgrade</span></a> *item</code></em>);
-<a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gboolean"><span class="returnvalue">gboolean</span></a>            <a class="link" href="PkResults.html#pk-results-add-eula-required" title="pk_results_add_eula_required ()">pk_results_add_eula_required</a>        (<em class="parameter"><code><a class="link" href="PkResults.html" title="PkResults"><span class="type">PkResults</span></a> *results</code></em>,
-                                                         <em class="parameter"><code><a class="link" href="PkEulaRequired.html" title="PkEulaRequired"><span class="type">PkEulaRequired</span></a> *item</code></em>);
-<a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gboolean"><span class="returnvalue">gboolean</span></a>            <a class="link" href="PkResults.html#pk-results-add-files" title="pk_results_add_files ()">pk_results_add_files</a>                (<em class="parameter"><code><a class="link" href="PkResults.html" title="PkResults"><span class="type">PkResults</span></a> *results</code></em>,
-                                                         <em class="parameter"><code><a class="link" href="PkFiles.html" title="PkFiles"><span class="type">PkFiles</span></a> *item</code></em>);
-<a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gboolean"><span class="returnvalue">gboolean</span></a>            <a class="link" href="PkResults.html#pk-results-add-media-change-required" title="pk_results_add_media_change_required ()">pk_results_add_media_change_required</a>
-                                                        (<em class="parameter"><code><a class="link" href="PkResults.html" title="PkResults"><span class="type">PkResults</span></a> *results</code></em>,
-                                                         <em class="parameter"><code><a class="link" href="PkMediaChangeRequired.html" title="PkMediaChangeRequired"><span class="type">PkMediaChangeRequired</span></a> *item</code></em>);
-<a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gboolean"><span class="returnvalue">gboolean</span></a>            <a class="link" href="PkResults.html#pk-results-add-message" title="pk_results_add_message ()">pk_results_add_message</a>              (<em class="parameter"><code><a class="link" href="PkResults.html" title="PkResults"><span class="type">PkResults</span></a> *results</code></em>,
-                                                         <em class="parameter"><code><a class="link" href="PkMessage.html" title="PkMessage"><span class="type">PkMessage</span></a> *item</code></em>);
+<a class="link" href="PkResults.html" title="PkResults"><span class="returnvalue">PkResults</span></a> *         <a class="link" href="PkResults.html#pk-results-new" title="pk_results_new ()">pk_results_new</a>                      (<em class="parameter"><code><span class="type">void</span></code></em>);
+<span class="returnvalue">void</span>                <a class="link" href="PkResults.html#pk-results-test" title="pk_results_test ()">pk_results_test</a>                     (<em class="parameter"><code><a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gpointer"><span class="type">gpointer</span></a> user_data</code></em>);
+<a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gboolean"><span class="returnvalue">gboolean</span></a>            <a class="link" href="PkResults.html#pk-results-set-exit-code" title="pk_results_set_exit_code ()">pk_results_set_exit_code</a>            (<em class="parameter"><code><a class="link" href="PkResults.html" title="PkResults"><span class="type">PkResults</span></a> *results</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="PackageKit-pk-enum.html#PkExitEnum"><span class="type">PkExitEnum</span></a> exit_enum</code></em>);
+<a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gboolean"><span class="returnvalue">gboolean</span></a>            <a class="link" href="PkResults.html#pk-results-set-error-code" title="pk_results_set_error_code ()">pk_results_set_error_code</a>           (<em class="parameter"><code><a class="link" href="PkResults.html" title="PkResults"><span class="type">PkResults</span></a> *results</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="PkError.html" title="PkError"><span class="type">PkError</span></a> *item</code></em>);
 <a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gboolean"><span class="returnvalue">gboolean</span></a>            <a class="link" href="PkResults.html#pk-results-add-package" title="pk_results_add_package ()">pk_results_add_package</a>              (<em class="parameter"><code><a class="link" href="PkResults.html" title="PkResults"><span class="type">PkResults</span></a> *results</code></em>,
                                                          <em class="parameter"><code><a class="link" href="PkPackage.html" title="PkPackage"><span class="type">PkPackage</span></a> *item</code></em>);
-<a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gboolean"><span class="returnvalue">gboolean</span></a>            <a class="link" href="PkResults.html#pk-results-add-repo-detail" title="pk_results_add_repo_detail ()">pk_results_add_repo_detail</a>          (<em class="parameter"><code><a class="link" href="PkResults.html" title="PkResults"><span class="type">PkResults</span></a> *results</code></em>,
-                                                         <em class="parameter"><code><a class="link" href="PkRepoDetail.html" title="PkRepoDetail"><span class="type">PkRepoDetail</span></a> *item</code></em>);
-<a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gboolean"><span class="returnvalue">gboolean</span></a>            <a class="link" href="PkResults.html#pk-results-add-repo-signature-required" title="pk_results_add_repo_signature_required ()">pk_results_add_repo_signature_required</a>
-                                                        (<em class="parameter"><code><a class="link" href="PkResults.html" title="PkResults"><span class="type">PkResults</span></a> *results</code></em>,
-                                                         <em class="parameter"><code><a class="link" href="PkRepoSignatureRequired.html" title="PkRepoSignatureRequired"><span class="type">PkRepoSignatureRequired</span></a> *item</code></em>);
+<a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gboolean"><span class="returnvalue">gboolean</span></a>            <a class="link" href="PkResults.html#pk-results-add-details" title="pk_results_add_details ()">pk_results_add_details</a>              (<em class="parameter"><code><a class="link" href="PkResults.html" title="PkResults"><span class="type">PkResults</span></a> *results</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="PkDetails.html" title="PkDetails"><span class="type">PkDetails</span></a> *item</code></em>);
+<a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gboolean"><span class="returnvalue">gboolean</span></a>            <a class="link" href="PkResults.html#pk-results-add-update-detail" title="pk_results_add_update_detail ()">pk_results_add_update_detail</a>        (<em class="parameter"><code><a class="link" href="PkResults.html" title="PkResults"><span class="type">PkResults</span></a> *results</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="PkUpdateDetail.html" title="PkUpdateDetail"><span class="type">PkUpdateDetail</span></a> *item</code></em>);
+<a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gboolean"><span class="returnvalue">gboolean</span></a>            <a class="link" href="PkResults.html#pk-results-add-category" title="pk_results_add_category ()">pk_results_add_category</a>             (<em class="parameter"><code><a class="link" href="PkResults.html" title="PkResults"><span class="type">PkResults</span></a> *results</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="PkCategory.html" title="PkCategory"><span class="type">PkCategory</span></a> *item</code></em>);
+<a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gboolean"><span class="returnvalue">gboolean</span></a>            <a class="link" href="PkResults.html#pk-results-add-distro-upgrade" title="pk_results_add_distro_upgrade ()">pk_results_add_distro_upgrade</a>       (<em class="parameter"><code><a class="link" href="PkResults.html" title="PkResults"><span class="type">PkResults</span></a> *results</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="PkDistroUpgrade.html" title="PkDistroUpgrade"><span class="type">PkDistroUpgrade</span></a> *item</code></em>);
 <a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gboolean"><span class="returnvalue">gboolean</span></a>            <a class="link" href="PkResults.html#pk-results-add-require-restart" title="pk_results_add_require_restart ()">pk_results_add_require_restart</a>      (<em class="parameter"><code><a class="link" href="PkResults.html" title="PkResults"><span class="type">PkResults</span></a> *results</code></em>,
                                                          <em class="parameter"><code><a class="link" href="PkRequireRestart.html" title="PkRequireRestart"><span class="type">PkRequireRestart</span></a> *item</code></em>);
 <a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gboolean"><span class="returnvalue">gboolean</span></a>            <a class="link" href="PkResults.html#pk-results-add-transaction" title="pk_results_add_transaction ()">pk_results_add_transaction</a>          (<em class="parameter"><code><a class="link" href="PkResults.html" title="PkResults"><span class="type">PkResults</span></a> *results</code></em>,
                                                          <em class="parameter"><code><a class="link" href="PkTransactionPast.html" title="PkTransactionPast"><span class="type">PkTransactionPast</span></a> *item</code></em>);
-<a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gboolean"><span class="returnvalue">gboolean</span></a>            <a class="link" href="PkResults.html#pk-results-add-update-detail" title="pk_results_add_update_detail ()">pk_results_add_update_detail</a>        (<em class="parameter"><code><a class="link" href="PkResults.html" title="PkResults"><span class="type">PkResults</span></a> *results</code></em>,
-                                                         <em class="parameter"><code><a class="link" href="PkUpdateDetail.html" title="PkUpdateDetail"><span class="type">PkUpdateDetail</span></a> *item</code></em>);
-<a href="http://library.gnome.org/devel/glib/unstable/glib-Pointer-Arrays.html#GPtrArray"><span class="returnvalue">GPtrArray</span></a> *         <a class="link" href="PkResults.html#pk-results-get-category-array" title="pk_results_get_category_array ()">pk_results_get_category_array</a>       (<em class="parameter"><code><a class="link" href="PkResults.html" title="PkResults"><span class="type">PkResults</span></a> *results</code></em>);
-<a href="http://library.gnome.org/devel/glib/unstable/glib-Pointer-Arrays.html#GPtrArray"><span class="returnvalue">GPtrArray</span></a> *         <a class="link" href="PkResults.html#pk-results-get-details-array" title="pk_results_get_details_array ()">pk_results_get_details_array</a>        (<em class="parameter"><code><a class="link" href="PkResults.html" title="PkResults"><span class="type">PkResults</span></a> *results</code></em>);
-<a href="http://library.gnome.org/devel/glib/unstable/glib-Pointer-Arrays.html#GPtrArray"><span class="returnvalue">GPtrArray</span></a> *         <a class="link" href="PkResults.html#pk-results-get-distro-upgrade-array" title="pk_results_get_distro_upgrade_array ()">pk_results_get_distro_upgrade_array</a> (<em class="parameter"><code><a class="link" href="PkResults.html" title="PkResults"><span class="type">PkResults</span></a> *results</code></em>);
-<a class="link" href="PkError.html" title="PkError"><span class="returnvalue">PkError</span></a> *           <a class="link" href="PkResults.html#pk-results-get-error-code" title="pk_results_get_error_code ()">pk_results_get_error_code</a>           (<em class="parameter"><code><a class="link" href="PkResults.html" title="PkResults"><span class="type">PkResults</span></a> *results</code></em>);
-<a href="http://library.gnome.org/devel/glib/unstable/glib-Pointer-Arrays.html#GPtrArray"><span class="returnvalue">GPtrArray</span></a> *         <a class="link" href="PkResults.html#pk-results-get-eula-required-array" title="pk_results_get_eula_required_array ()">pk_results_get_eula_required_array</a>  (<em class="parameter"><code><a class="link" href="PkResults.html" title="PkResults"><span class="type">PkResults</span></a> *results</code></em>);
+<a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gboolean"><span class="returnvalue">gboolean</span></a>            <a class="link" href="PkResults.html#pk-results-add-files" title="pk_results_add_files ()">pk_results_add_files</a>                (<em class="parameter"><code><a class="link" href="PkResults.html" title="PkResults"><span class="type">PkResults</span></a> *results</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="PkFiles.html" title="PkFiles"><span class="type">PkFiles</span></a> *item</code></em>);
+<a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gboolean"><span class="returnvalue">gboolean</span></a>            <a class="link" href="PkResults.html#pk-results-add-repo-signature-required" title="pk_results_add_repo_signature_required ()">pk_results_add_repo_signature_required</a>
+                                                        (<em class="parameter"><code><a class="link" href="PkResults.html" title="PkResults"><span class="type">PkResults</span></a> *results</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="PkRepoSignatureRequired.html" title="PkRepoSignatureRequired"><span class="type">PkRepoSignatureRequired</span></a> *item</code></em>);
+<a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gboolean"><span class="returnvalue">gboolean</span></a>            <a class="link" href="PkResults.html#pk-results-add-eula-required" title="pk_results_add_eula_required ()">pk_results_add_eula_required</a>        (<em class="parameter"><code><a class="link" href="PkResults.html" title="PkResults"><span class="type">PkResults</span></a> *results</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="PkEulaRequired.html" title="PkEulaRequired"><span class="type">PkEulaRequired</span></a> *item</code></em>);
+<a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gboolean"><span class="returnvalue">gboolean</span></a>            <a class="link" href="PkResults.html#pk-results-add-media-change-required" title="pk_results_add_media_change_required ()">pk_results_add_media_change_required</a>
+                                                        (<em class="parameter"><code><a class="link" href="PkResults.html" title="PkResults"><span class="type">PkResults</span></a> *results</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="PkMediaChangeRequired.html" title="PkMediaChangeRequired"><span class="type">PkMediaChangeRequired</span></a> *item</code></em>);
+<a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gboolean"><span class="returnvalue">gboolean</span></a>            <a class="link" href="PkResults.html#pk-results-add-repo-detail" title="pk_results_add_repo_detail ()">pk_results_add_repo_detail</a>          (<em class="parameter"><code><a class="link" href="PkResults.html" title="PkResults"><span class="type">PkResults</span></a> *results</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="PkRepoDetail.html" title="PkRepoDetail"><span class="type">PkRepoDetail</span></a> *item</code></em>);
+<a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gboolean"><span class="returnvalue">gboolean</span></a>            <a class="link" href="PkResults.html#pk-results-add-message" title="pk_results_add_message ()">pk_results_add_message</a>              (<em class="parameter"><code><a class="link" href="PkResults.html" title="PkResults"><span class="type">PkResults</span></a> *results</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="PkMessage.html" title="PkMessage"><span class="type">PkMessage</span></a> *item</code></em>);
 <a class="link" href="PackageKit-pk-enum.html#PkExitEnum"><span class="returnvalue">PkExitEnum</span></a>          <a class="link" href="PkResults.html#pk-results-get-exit-code" title="pk_results_get_exit_code ()">pk_results_get_exit_code</a>            (<em class="parameter"><code><a class="link" href="PkResults.html" title="PkResults"><span class="type">PkResults</span></a> *results</code></em>);
-<a href="http://library.gnome.org/devel/glib/unstable/glib-Pointer-Arrays.html#GPtrArray"><span class="returnvalue">GPtrArray</span></a> *         <a class="link" href="PkResults.html#pk-results-get-files-array" title="pk_results_get_files_array ()">pk_results_get_files_array</a>          (<em class="parameter"><code><a class="link" href="PkResults.html" title="PkResults"><span class="type">PkResults</span></a> *results</code></em>);
-<a href="http://library.gnome.org/devel/glib/unstable/glib-Pointer-Arrays.html#GPtrArray"><span class="returnvalue">GPtrArray</span></a> *         <a class="link" href="PkResults.html#pk-results-get-media-change-required-array" title="pk_results_get_media_change_required_array ()">pk_results_get_media_change_required_array</a>
-                                                        (<em class="parameter"><code><a class="link" href="PkResults.html" title="PkResults"><span class="type">PkResults</span></a> *results</code></em>);
-<a href="http://library.gnome.org/devel/glib/unstable/glib-Pointer-Arrays.html#GPtrArray"><span class="returnvalue">GPtrArray</span></a> *         <a class="link" href="PkResults.html#pk-results-get-message-array" title="pk_results_get_message_array ()">pk_results_get_message_array</a>        (<em class="parameter"><code><a class="link" href="PkResults.html" title="PkResults"><span class="type">PkResults</span></a> *results</code></em>);
-<a href="http://library.gnome.org/devel/glib/unstable/glib-Pointer-Arrays.html#GPtrArray"><span class="returnvalue">GPtrArray</span></a> *         <a class="link" href="PkResults.html#pk-results-get-package-array" title="pk_results_get_package_array ()">pk_results_get_package_array</a>        (<em class="parameter"><code><a class="link" href="PkResults.html" title="PkResults"><span class="type">PkResults</span></a> *results</code></em>);
 <a class="link" href="PkPackageSack.html" title="PkPackageSack"><span class="returnvalue">PkPackageSack</span></a> *     <a class="link" href="PkResults.html#pk-results-get-package-sack" title="pk_results_get_package_sack ()">pk_results_get_package_sack</a>         (<em class="parameter"><code><a class="link" href="PkResults.html" title="PkResults"><span class="type">PkResults</span></a> *results</code></em>);
-<a href="http://library.gnome.org/devel/glib/unstable/glib-Pointer-Arrays.html#GPtrArray"><span class="returnvalue">GPtrArray</span></a> *         <a class="link" href="PkResults.html#pk-results-get-repo-detail-array" title="pk_results_get_repo_detail_array ()">pk_results_get_repo_detail_array</a>    (<em class="parameter"><code><a class="link" href="PkResults.html" title="PkResults"><span class="type">PkResults</span></a> *results</code></em>);
-<a href="http://library.gnome.org/devel/glib/unstable/glib-Pointer-Arrays.html#GPtrArray"><span class="returnvalue">GPtrArray</span></a> *         <a class="link" href="PkResults.html#pk-results-get-repo-signature-required-array" title="pk_results_get_repo_signature_required_array ()">pk_results_get_repo_signature_required_array</a>
-                                                        (<em class="parameter"><code><a class="link" href="PkResults.html" title="PkResults"><span class="type">PkResults</span></a> *results</code></em>);
-<a href="http://library.gnome.org/devel/glib/unstable/glib-Pointer-Arrays.html#GPtrArray"><span class="returnvalue">GPtrArray</span></a> *         <a class="link" href="PkResults.html#pk-results-get-require-restart-array" title="pk_results_get_require_restart_array ()">pk_results_get_require_restart_array</a>
-                                                        (<em class="parameter"><code><a class="link" href="PkResults.html" title="PkResults"><span class="type">PkResults</span></a> *results</code></em>);
+<a class="link" href="PkError.html" title="PkError"><span class="returnvalue">PkError</span></a> *           <a class="link" href="PkResults.html#pk-results-get-error-code" title="pk_results_get_error_code ()">pk_results_get_error_code</a>           (<em class="parameter"><code><a class="link" href="PkResults.html" title="PkResults"><span class="type">PkResults</span></a> *results</code></em>);
+<a class="link" href="PackageKit-pk-enum.html#PkRoleEnum"><span class="returnvalue">PkRoleEnum</span></a>          <a class="link" href="PkResults.html#pk-results-get-role" title="pk_results_get_role ()">pk_results_get_role</a>                 (<em class="parameter"><code><a class="link" href="PkResults.html" title="PkResults"><span class="type">PkResults</span></a> *results</code></em>);
+<a class="link" href="PackageKit-pk-bitfield.html#PkBitfield" title="PkBitfield"><span class="returnvalue">PkBitfield</span></a>          <a class="link" href="PkResults.html#pk-results-get-transaction-flags" title="pk_results_get_transaction_flags ()">pk_results_get_transaction_flags</a>    (<em class="parameter"><code><a class="link" href="PkResults.html" title="PkResults"><span class="type">PkResults</span></a> *results</code></em>);
 <a class="link" href="PackageKit-pk-enum.html#PkRestartEnum"><span class="returnvalue">PkRestartEnum</span></a>       <a class="link" href="PkResults.html#pk-results-get-require-restart-worst" title="pk_results_get_require_restart_worst ()">pk_results_get_require_restart_worst</a>
                                                         (<em class="parameter"><code><a class="link" href="PkResults.html" title="PkResults"><span class="type">PkResults</span></a> *results</code></em>);
-<a class="link" href="PackageKit-pk-enum.html#PkRoleEnum"><span class="returnvalue">PkRoleEnum</span></a>          <a class="link" href="PkResults.html#pk-results-get-role" title="pk_results_get_role ()">pk_results_get_role</a>                 (<em class="parameter"><code><a class="link" href="PkResults.html" title="PkResults"><span class="type">PkResults</span></a> *results</code></em>);
-<a href="http://library.gnome.org/devel/glib/unstable/glib-Pointer-Arrays.html#GPtrArray"><span class="returnvalue">GPtrArray</span></a> *         <a class="link" href="PkResults.html#pk-results-get-transaction-array" title="pk_results_get_transaction_array ()">pk_results_get_transaction_array</a>    (<em class="parameter"><code><a class="link" href="PkResults.html" title="PkResults"><span class="type">PkResults</span></a> *results</code></em>);
-<a class="link" href="PackageKit-pk-bitfield.html#PkBitfield" title="PkBitfield"><span class="returnvalue">PkBitfield</span></a>          <a class="link" href="PkResults.html#pk-results-get-transaction-flags" title="pk_results_get_transaction_flags ()">pk_results_get_transaction_flags</a>    (<em class="parameter"><code><a class="link" href="PkResults.html" title="PkResults"><span class="type">PkResults</span></a> *results</code></em>);
+<a href="http://library.gnome.org/devel/glib/unstable/glib-Pointer-Arrays.html#GPtrArray"><span class="returnvalue">GPtrArray</span></a> *         <a class="link" href="PkResults.html#pk-results-get-package-array" title="pk_results_get_package_array ()">pk_results_get_package_array</a>        (<em class="parameter"><code><a class="link" href="PkResults.html" title="PkResults"><span class="type">PkResults</span></a> *results</code></em>);
+<a href="http://library.gnome.org/devel/glib/unstable/glib-Pointer-Arrays.html#GPtrArray"><span class="returnvalue">GPtrArray</span></a> *         <a class="link" href="PkResults.html#pk-results-get-details-array" title="pk_results_get_details_array ()">pk_results_get_details_array</a>        (<em class="parameter"><code><a class="link" href="PkResults.html" title="PkResults"><span class="type">PkResults</span></a> *results</code></em>);
 <a href="http://library.gnome.org/devel/glib/unstable/glib-Pointer-Arrays.html#GPtrArray"><span class="returnvalue">GPtrArray</span></a> *         <a class="link" href="PkResults.html#pk-results-get-update-detail-array" title="pk_results_get_update_detail_array ()">pk_results_get_update_detail_array</a>  (<em class="parameter"><code><a class="link" href="PkResults.html" title="PkResults"><span class="type">PkResults</span></a> *results</code></em>);
-<a class="link" href="PkResults.html" title="PkResults"><span class="returnvalue">PkResults</span></a> *         <a class="link" href="PkResults.html#pk-results-new" title="pk_results_new ()">pk_results_new</a>                      (<em class="parameter"><code><span class="type">void</span></code></em>);
-<a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gboolean"><span class="returnvalue">gboolean</span></a>            <a class="link" href="PkResults.html#pk-results-set-error-code" title="pk_results_set_error_code ()">pk_results_set_error_code</a>           (<em class="parameter"><code><a class="link" href="PkResults.html" title="PkResults"><span class="type">PkResults</span></a> *results</code></em>,
-                                                         <em class="parameter"><code><a class="link" href="PkError.html" title="PkError"><span class="type">PkError</span></a> *item</code></em>);
-<a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gboolean"><span class="returnvalue">gboolean</span></a>            <a class="link" href="PkResults.html#pk-results-set-exit-code" title="pk_results_set_exit_code ()">pk_results_set_exit_code</a>            (<em class="parameter"><code><a class="link" href="PkResults.html" title="PkResults"><span class="type">PkResults</span></a> *results</code></em>,
-                                                         <em class="parameter"><code><a class="link" href="PackageKit-pk-enum.html#PkExitEnum"><span class="type">PkExitEnum</span></a> exit_enum</code></em>);
-<span class="returnvalue">void</span>                <a class="link" href="PkResults.html#pk-results-test" title="pk_results_test ()">pk_results_test</a>                     (<em class="parameter"><code><a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gpointer"><span class="type">gpointer</span></a> user_data</code></em>);
+<a href="http://library.gnome.org/devel/glib/unstable/glib-Pointer-Arrays.html#GPtrArray"><span class="returnvalue">GPtrArray</span></a> *         <a class="link" href="PkResults.html#pk-results-get-category-array" title="pk_results_get_category_array ()">pk_results_get_category_array</a>       (<em class="parameter"><code><a class="link" href="PkResults.html" title="PkResults"><span class="type">PkResults</span></a> *results</code></em>);
+<a href="http://library.gnome.org/devel/glib/unstable/glib-Pointer-Arrays.html#GPtrArray"><span class="returnvalue">GPtrArray</span></a> *         <a class="link" href="PkResults.html#pk-results-get-distro-upgrade-array" title="pk_results_get_distro_upgrade_array ()">pk_results_get_distro_upgrade_array</a> (<em class="parameter"><code><a class="link" href="PkResults.html" title="PkResults"><span class="type">PkResults</span></a> *results</code></em>);
+<a href="http://library.gnome.org/devel/glib/unstable/glib-Pointer-Arrays.html#GPtrArray"><span class="returnvalue">GPtrArray</span></a> *         <a class="link" href="PkResults.html#pk-results-get-require-restart-array" title="pk_results_get_require_restart_array ()">pk_results_get_require_restart_array</a>
+                                                        (<em class="parameter"><code><a class="link" href="PkResults.html" title="PkResults"><span class="type">PkResults</span></a> *results</code></em>);
+<a href="http://library.gnome.org/devel/glib/unstable/glib-Pointer-Arrays.html#GPtrArray"><span class="returnvalue">GPtrArray</span></a> *         <a class="link" href="PkResults.html#pk-results-get-transaction-array" title="pk_results_get_transaction_array ()">pk_results_get_transaction_array</a>    (<em class="parameter"><code><a class="link" href="PkResults.html" title="PkResults"><span class="type">PkResults</span></a> *results</code></em>);
+<a href="http://library.gnome.org/devel/glib/unstable/glib-Pointer-Arrays.html#GPtrArray"><span class="returnvalue">GPtrArray</span></a> *         <a class="link" href="PkResults.html#pk-results-get-files-array" title="pk_results_get_files_array ()">pk_results_get_files_array</a>          (<em class="parameter"><code><a class="link" href="PkResults.html" title="PkResults"><span class="type">PkResults</span></a> *results</code></em>);
+<a href="http://library.gnome.org/devel/glib/unstable/glib-Pointer-Arrays.html#GPtrArray"><span class="returnvalue">GPtrArray</span></a> *         <a class="link" href="PkResults.html#pk-results-get-repo-signature-required-array" title="pk_results_get_repo_signature_required_array ()">pk_results_get_repo_signature_required_array</a>
+                                                        (<em class="parameter"><code><a class="link" href="PkResults.html" title="PkResults"><span class="type">PkResults</span></a> *results</code></em>);
+<a href="http://library.gnome.org/devel/glib/unstable/glib-Pointer-Arrays.html#GPtrArray"><span class="returnvalue">GPtrArray</span></a> *         <a class="link" href="PkResults.html#pk-results-get-eula-required-array" title="pk_results_get_eula_required_array ()">pk_results_get_eula_required_array</a>  (<em class="parameter"><code><a class="link" href="PkResults.html" title="PkResults"><span class="type">PkResults</span></a> *results</code></em>);
+<a href="http://library.gnome.org/devel/glib/unstable/glib-Pointer-Arrays.html#GPtrArray"><span class="returnvalue">GPtrArray</span></a> *         <a class="link" href="PkResults.html#pk-results-get-media-change-required-array" title="pk_results_get_media_change_required_array ()">pk_results_get_media_change_required_array</a>
+                                                        (<em class="parameter"><code><a class="link" href="PkResults.html" title="PkResults"><span class="type">PkResults</span></a> *results</code></em>);
+<a href="http://library.gnome.org/devel/glib/unstable/glib-Pointer-Arrays.html#GPtrArray"><span class="returnvalue">GPtrArray</span></a> *         <a class="link" href="PkResults.html#pk-results-get-repo-detail-array" title="pk_results_get_repo_detail_array ()">pk_results_get_repo_detail_array</a>    (<em class="parameter"><code><a class="link" href="PkResults.html" title="PkResults"><span class="type">PkResults</span></a> *results</code></em>);
+<a href="http://library.gnome.org/devel/glib/unstable/glib-Pointer-Arrays.html#GPtrArray"><span class="returnvalue">GPtrArray</span></a> *         <a class="link" href="PkResults.html#pk-results-get-message-array" title="pk_results_get_message_array ()">pk_results_get_message_array</a>        (<em class="parameter"><code><a class="link" href="PkResults.html" title="PkResults"><span class="type">PkResults</span></a> *results</code></em>);
 </pre>
 </div>
 <div class="refsect1">
@@ -156,11 +156,32 @@ data.
 </div>
 <hr>
 <div class="refsect2">
-<a name="pk-results-add-category"></a><h3>pk_results_add_category ()</h3>
-<pre class="programlisting"><a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gboolean"><span class="returnvalue">gboolean</span></a>            pk_results_add_category             (<em class="parameter"><code><a class="link" href="PkResults.html" title="PkResults"><span class="type">PkResults</span></a> *results</code></em>,
-                                                         <em class="parameter"><code><a class="link" href="PkCategory.html" title="PkCategory"><span class="type">PkCategory</span></a> *item</code></em>);</pre>
+<a name="pk-results-new"></a><h3>pk_results_new ()</h3>
+<pre class="programlisting"><a class="link" href="PkResults.html" title="PkResults"><span class="returnvalue">PkResults</span></a> *         pk_results_new                      (<em class="parameter"><code><span class="type">void</span></code></em>);</pre>
+<div class="variablelist"><table border="0" class="variablelist">
+<colgroup>
+<col align="left" valign="top">
+<col>
+</colgroup>
+<tbody><tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td>a new PkResults object.</td>
+</tr></tbody>
+</table></div>
+<p class="since">Since 0.5.2</p>
+</div>
+<hr>
+<div class="refsect2">
+<a name="pk-results-test"></a><h3>pk_results_test ()</h3>
+<pre class="programlisting"><span class="returnvalue">void</span>                pk_results_test                     (<em class="parameter"><code><a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gpointer"><span class="type">gpointer</span></a> user_data</code></em>);</pre>
+</div>
+<hr>
+<div class="refsect2">
+<a name="pk-results-set-exit-code"></a><h3>pk_results_set_exit_code ()</h3>
+<pre class="programlisting"><a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gboolean"><span class="returnvalue">gboolean</span></a>            pk_results_set_exit_code            (<em class="parameter"><code><a class="link" href="PkResults.html" title="PkResults"><span class="type">PkResults</span></a> *results</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="PackageKit-pk-enum.html#PkExitEnum"><span class="type">PkExitEnum</span></a> exit_enum</code></em>);</pre>
 <p>
-Adds a category item to the results set.
+Sets the results object to have the given exit code.
 </p>
 <div class="variablelist"><table border="0" class="variablelist">
 <colgroup>
@@ -173,8 +194,8 @@ Adds a category item to the results set.
 <td>a valid <a class="link" href="PkResults.html" title="PkResults"><span class="type">PkResults</span></a> instance</td>
 </tr>
 <tr>
-<td><p><span class="term"><em class="parameter"><code>item</code></em> :</span></p></td>
-<td>the object to add to the array</td>
+<td><p><span class="term"><em class="parameter"><code>exit_enum</code></em> :</span></p></td>
+<td>the exit code</td>
 </tr>
 <tr>
 <td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
@@ -187,167 +208,11 @@ Adds a category item to the results set.
 </div>
 <hr>
 <div class="refsect2">
-<a name="pk-results-add-details"></a><h3>pk_results_add_details ()</h3>
-<pre class="programlisting"><a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gboolean"><span class="returnvalue">gboolean</span></a>            pk_results_add_details              (<em class="parameter"><code><a class="link" href="PkResults.html" title="PkResults"><span class="type">PkResults</span></a> *results</code></em>,
-                                                         <em class="parameter"><code><a class="link" href="PkDetails.html" title="PkDetails"><span class="type">PkDetails</span></a> *item</code></em>);</pre>
+<a name="pk-results-set-error-code"></a><h3>pk_results_set_error_code ()</h3>
+<pre class="programlisting"><a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gboolean"><span class="returnvalue">gboolean</span></a>            pk_results_set_error_code           (<em class="parameter"><code><a class="link" href="PkResults.html" title="PkResults"><span class="type">PkResults</span></a> *results</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="PkError.html" title="PkError"><span class="type">PkError</span></a> *item</code></em>);</pre>
 <p>
-Adds some package details to the results set.
-</p>
-<div class="variablelist"><table border="0" class="variablelist">
-<colgroup>
-<col align="left" valign="top">
-<col>
-</colgroup>
-<tbody>
-<tr>
-<td><p><span class="term"><em class="parameter"><code>results</code></em> :</span></p></td>
-<td>a valid <a class="link" href="PkResults.html" title="PkResults"><span class="type">PkResults</span></a> instance</td>
-</tr>
-<tr>
-<td><p><span class="term"><em class="parameter"><code>item</code></em> :</span></p></td>
-<td>the object to add to the array</td>
-</tr>
-<tr>
-<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
-<td>
-<a href="http://library.gnome.org/devel/glib/unstable/glib-Standard-Macros.html#TRUE:CAPS"><code class="literal">TRUE</code></a> if the value was set</td>
-</tr>
-</tbody>
-</table></div>
-<p class="since">Since 0.5.2</p>
-</div>
-<hr>
-<div class="refsect2">
-<a name="pk-results-add-distro-upgrade"></a><h3>pk_results_add_distro_upgrade ()</h3>
-<pre class="programlisting"><a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gboolean"><span class="returnvalue">gboolean</span></a>            pk_results_add_distro_upgrade       (<em class="parameter"><code><a class="link" href="PkResults.html" title="PkResults"><span class="type">PkResults</span></a> *results</code></em>,
-                                                         <em class="parameter"><code><a class="link" href="PkDistroUpgrade.html" title="PkDistroUpgrade"><span class="type">PkDistroUpgrade</span></a> *item</code></em>);</pre>
-<p>
-Adds a distribution upgrade item to the results set.
-</p>
-<div class="variablelist"><table border="0" class="variablelist">
-<colgroup>
-<col align="left" valign="top">
-<col>
-</colgroup>
-<tbody>
-<tr>
-<td><p><span class="term"><em class="parameter"><code>results</code></em> :</span></p></td>
-<td>a valid <a class="link" href="PkResults.html" title="PkResults"><span class="type">PkResults</span></a> instance</td>
-</tr>
-<tr>
-<td><p><span class="term"><em class="parameter"><code>item</code></em> :</span></p></td>
-<td>the object to add to the array</td>
-</tr>
-<tr>
-<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
-<td>
-<a href="http://library.gnome.org/devel/glib/unstable/glib-Standard-Macros.html#TRUE:CAPS"><code class="literal">TRUE</code></a> if the value was set</td>
-</tr>
-</tbody>
-</table></div>
-<p class="since">Since 0.5.2</p>
-</div>
-<hr>
-<div class="refsect2">
-<a name="pk-results-add-eula-required"></a><h3>pk_results_add_eula_required ()</h3>
-<pre class="programlisting"><a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gboolean"><span class="returnvalue">gboolean</span></a>            pk_results_add_eula_required        (<em class="parameter"><code><a class="link" href="PkResults.html" title="PkResults"><span class="type">PkResults</span></a> *results</code></em>,
-                                                         <em class="parameter"><code><a class="link" href="PkEulaRequired.html" title="PkEulaRequired"><span class="type">PkEulaRequired</span></a> *item</code></em>);</pre>
-<p>
-Adds some EULA details to the results set.
-</p>
-<div class="variablelist"><table border="0" class="variablelist">
-<colgroup>
-<col align="left" valign="top">
-<col>
-</colgroup>
-<tbody>
-<tr>
-<td><p><span class="term"><em class="parameter"><code>results</code></em> :</span></p></td>
-<td>a valid <a class="link" href="PkResults.html" title="PkResults"><span class="type">PkResults</span></a> instance</td>
-</tr>
-<tr>
-<td><p><span class="term"><em class="parameter"><code>item</code></em> :</span></p></td>
-<td>the object to add to the array</td>
-</tr>
-<tr>
-<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
-<td>
-<a href="http://library.gnome.org/devel/glib/unstable/glib-Standard-Macros.html#TRUE:CAPS"><code class="literal">TRUE</code></a> if the value was set</td>
-</tr>
-</tbody>
-</table></div>
-<p class="since">Since 0.5.2</p>
-</div>
-<hr>
-<div class="refsect2">
-<a name="pk-results-add-files"></a><h3>pk_results_add_files ()</h3>
-<pre class="programlisting"><a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gboolean"><span class="returnvalue">gboolean</span></a>            pk_results_add_files                (<em class="parameter"><code><a class="link" href="PkResults.html" title="PkResults"><span class="type">PkResults</span></a> *results</code></em>,
-                                                         <em class="parameter"><code><a class="link" href="PkFiles.html" title="PkFiles"><span class="type">PkFiles</span></a> *item</code></em>);</pre>
-<p>
-Adds some files details to the results set.
-</p>
-<div class="variablelist"><table border="0" class="variablelist">
-<colgroup>
-<col align="left" valign="top">
-<col>
-</colgroup>
-<tbody>
-<tr>
-<td><p><span class="term"><em class="parameter"><code>results</code></em> :</span></p></td>
-<td>a valid <a class="link" href="PkResults.html" title="PkResults"><span class="type">PkResults</span></a> instance</td>
-</tr>
-<tr>
-<td><p><span class="term"><em class="parameter"><code>item</code></em> :</span></p></td>
-<td>the object to add to the array</td>
-</tr>
-<tr>
-<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
-<td>
-<a href="http://library.gnome.org/devel/glib/unstable/glib-Standard-Macros.html#TRUE:CAPS"><code class="literal">TRUE</code></a> if the value was set</td>
-</tr>
-</tbody>
-</table></div>
-<p class="since">Since 0.5.2</p>
-</div>
-<hr>
-<div class="refsect2">
-<a name="pk-results-add-media-change-required"></a><h3>pk_results_add_media_change_required ()</h3>
-<pre class="programlisting"><a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gboolean"><span class="returnvalue">gboolean</span></a>            pk_results_add_media_change_required
-                                                        (<em class="parameter"><code><a class="link" href="PkResults.html" title="PkResults"><span class="type">PkResults</span></a> *results</code></em>,
-                                                         <em class="parameter"><code><a class="link" href="PkMediaChangeRequired.html" title="PkMediaChangeRequired"><span class="type">PkMediaChangeRequired</span></a> *item</code></em>);</pre>
-<p>
-Adds some media change details to the results set.
-</p>
-<div class="variablelist"><table border="0" class="variablelist">
-<colgroup>
-<col align="left" valign="top">
-<col>
-</colgroup>
-<tbody>
-<tr>
-<td><p><span class="term"><em class="parameter"><code>results</code></em> :</span></p></td>
-<td>a valid <a class="link" href="PkResults.html" title="PkResults"><span class="type">PkResults</span></a> instance</td>
-</tr>
-<tr>
-<td><p><span class="term"><em class="parameter"><code>item</code></em> :</span></p></td>
-<td>the object to add to the array</td>
-</tr>
-<tr>
-<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
-<td>
-<a href="http://library.gnome.org/devel/glib/unstable/glib-Standard-Macros.html#TRUE:CAPS"><code class="literal">TRUE</code></a> if the value was set</td>
-</tr>
-</tbody>
-</table></div>
-<p class="since">Since 0.5.2</p>
-</div>
-<hr>
-<div class="refsect2">
-<a name="pk-results-add-message"></a><h3>pk_results_add_message ()</h3>
-<pre class="programlisting"><a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gboolean"><span class="returnvalue">gboolean</span></a>            pk_results_add_message              (<em class="parameter"><code><a class="link" href="PkResults.html" title="PkResults"><span class="type">PkResults</span></a> *results</code></em>,
-                                                         <em class="parameter"><code><a class="link" href="PkMessage.html" title="PkMessage"><span class="type">PkMessage</span></a> *item</code></em>);</pre>
-<p>
-Adds some message details to the results set.
+Adds some error details to the results set.
 </p>
 <div class="variablelist"><table border="0" class="variablelist">
 <colgroup>
@@ -405,11 +270,11 @@ Adds a package to the results set.
 </div>
 <hr>
 <div class="refsect2">
-<a name="pk-results-add-repo-detail"></a><h3>pk_results_add_repo_detail ()</h3>
-<pre class="programlisting"><a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gboolean"><span class="returnvalue">gboolean</span></a>            pk_results_add_repo_detail          (<em class="parameter"><code><a class="link" href="PkResults.html" title="PkResults"><span class="type">PkResults</span></a> *results</code></em>,
-                                                         <em class="parameter"><code><a class="link" href="PkRepoDetail.html" title="PkRepoDetail"><span class="type">PkRepoDetail</span></a> *item</code></em>);</pre>
+<a name="pk-results-add-details"></a><h3>pk_results_add_details ()</h3>
+<pre class="programlisting"><a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gboolean"><span class="returnvalue">gboolean</span></a>            pk_results_add_details              (<em class="parameter"><code><a class="link" href="PkResults.html" title="PkResults"><span class="type">PkResults</span></a> *results</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="PkDetails.html" title="PkDetails"><span class="type">PkDetails</span></a> *item</code></em>);</pre>
 <p>
-Adds some repository details to the results set.
+Adds some package details to the results set.
 </p>
 <div class="variablelist"><table border="0" class="variablelist">
 <colgroup>
@@ -436,12 +301,73 @@ Adds some repository details to the results set.
 </div>
 <hr>
 <div class="refsect2">
-<a name="pk-results-add-repo-signature-required"></a><h3>pk_results_add_repo_signature_required ()</h3>
-<pre class="programlisting"><a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gboolean"><span class="returnvalue">gboolean</span></a>            pk_results_add_repo_signature_required
-                                                        (<em class="parameter"><code><a class="link" href="PkResults.html" title="PkResults"><span class="type">PkResults</span></a> *results</code></em>,
-                                                         <em class="parameter"><code><a class="link" href="PkRepoSignatureRequired.html" title="PkRepoSignatureRequired"><span class="type">PkRepoSignatureRequired</span></a> *item</code></em>);</pre>
+<a name="pk-results-add-update-detail"></a><h3>pk_results_add_update_detail ()</h3>
+<pre class="programlisting"><a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gboolean"><span class="returnvalue">gboolean</span></a>            pk_results_add_update_detail        (<em class="parameter"><code><a class="link" href="PkResults.html" title="PkResults"><span class="type">PkResults</span></a> *results</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="PkUpdateDetail.html" title="PkUpdateDetail"><span class="type">PkUpdateDetail</span></a> *item</code></em>);</pre>
 <p>
-Adds some repository signature details to the results set.
+Adds some update details to the results set.
+</p>
+<div class="variablelist"><table border="0" class="variablelist">
+<colgroup>
+<col align="left" valign="top">
+<col>
+</colgroup>
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>results</code></em> :</span></p></td>
+<td>a valid <a class="link" href="PkResults.html" title="PkResults"><span class="type">PkResults</span></a> instance</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>item</code></em> :</span></p></td>
+<td>the object to add to the array</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td>
+<a href="http://library.gnome.org/devel/glib/unstable/glib-Standard-Macros.html#TRUE:CAPS"><code class="literal">TRUE</code></a> if the value was set</td>
+</tr>
+</tbody>
+</table></div>
+<p class="since">Since 0.5.2</p>
+</div>
+<hr>
+<div class="refsect2">
+<a name="pk-results-add-category"></a><h3>pk_results_add_category ()</h3>
+<pre class="programlisting"><a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gboolean"><span class="returnvalue">gboolean</span></a>            pk_results_add_category             (<em class="parameter"><code><a class="link" href="PkResults.html" title="PkResults"><span class="type">PkResults</span></a> *results</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="PkCategory.html" title="PkCategory"><span class="type">PkCategory</span></a> *item</code></em>);</pre>
+<p>
+Adds a category item to the results set.
+</p>
+<div class="variablelist"><table border="0" class="variablelist">
+<colgroup>
+<col align="left" valign="top">
+<col>
+</colgroup>
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>results</code></em> :</span></p></td>
+<td>a valid <a class="link" href="PkResults.html" title="PkResults"><span class="type">PkResults</span></a> instance</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>item</code></em> :</span></p></td>
+<td>the object to add to the array</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td>
+<a href="http://library.gnome.org/devel/glib/unstable/glib-Standard-Macros.html#TRUE:CAPS"><code class="literal">TRUE</code></a> if the value was set</td>
+</tr>
+</tbody>
+</table></div>
+<p class="since">Since 0.5.2</p>
+</div>
+<hr>
+<div class="refsect2">
+<a name="pk-results-add-distro-upgrade"></a><h3>pk_results_add_distro_upgrade ()</h3>
+<pre class="programlisting"><a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gboolean"><span class="returnvalue">gboolean</span></a>            pk_results_add_distro_upgrade       (<em class="parameter"><code><a class="link" href="PkResults.html" title="PkResults"><span class="type">PkResults</span></a> *results</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="PkDistroUpgrade.html" title="PkDistroUpgrade"><span class="type">PkDistroUpgrade</span></a> *item</code></em>);</pre>
+<p>
+Adds a distribution upgrade item to the results set.
 </p>
 <div class="variablelist"><table border="0" class="variablelist">
 <colgroup>
@@ -530,11 +456,11 @@ Adds a transaction item to the results set.
 </div>
 <hr>
 <div class="refsect2">
-<a name="pk-results-add-update-detail"></a><h3>pk_results_add_update_detail ()</h3>
-<pre class="programlisting"><a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gboolean"><span class="returnvalue">gboolean</span></a>            pk_results_add_update_detail        (<em class="parameter"><code><a class="link" href="PkResults.html" title="PkResults"><span class="type">PkResults</span></a> *results</code></em>,
-                                                         <em class="parameter"><code><a class="link" href="PkUpdateDetail.html" title="PkUpdateDetail"><span class="type">PkUpdateDetail</span></a> *item</code></em>);</pre>
+<a name="pk-results-add-files"></a><h3>pk_results_add_files ()</h3>
+<pre class="programlisting"><a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gboolean"><span class="returnvalue">gboolean</span></a>            pk_results_add_files                (<em class="parameter"><code><a class="link" href="PkResults.html" title="PkResults"><span class="type">PkResults</span></a> *results</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="PkFiles.html" title="PkFiles"><span class="type">PkFiles</span></a> *item</code></em>);</pre>
 <p>
-Adds some update details to the results set.
+Adds some files details to the results set.
 </p>
 <div class="variablelist"><table border="0" class="variablelist">
 <colgroup>
@@ -561,10 +487,12 @@ Adds some update details to the results set.
 </div>
 <hr>
 <div class="refsect2">
-<a name="pk-results-get-category-array"></a><h3>pk_results_get_category_array ()</h3>
-<pre class="programlisting"><a href="http://library.gnome.org/devel/glib/unstable/glib-Pointer-Arrays.html#GPtrArray"><span class="returnvalue">GPtrArray</span></a> *         pk_results_get_category_array       (<em class="parameter"><code><a class="link" href="PkResults.html" title="PkResults"><span class="type">PkResults</span></a> *results</code></em>);</pre>
+<a name="pk-results-add-repo-signature-required"></a><h3>pk_results_add_repo_signature_required ()</h3>
+<pre class="programlisting"><a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gboolean"><span class="returnvalue">gboolean</span></a>            pk_results_add_repo_signature_required
+                                                        (<em class="parameter"><code><a class="link" href="PkResults.html" title="PkResults"><span class="type">PkResults</span></a> *results</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="PkRepoSignatureRequired.html" title="PkRepoSignatureRequired"><span class="type">PkRepoSignatureRequired</span></a> *item</code></em>);</pre>
 <p>
-Gets the categories from the transaction.
+Adds some repository signature details to the results set.
 </p>
 <div class="variablelist"><table border="0" class="variablelist">
 <colgroup>
@@ -577,9 +505,13 @@ Gets the categories from the transaction.
 <td>a valid <a class="link" href="PkResults.html" title="PkResults"><span class="type">PkResults</span></a> instance</td>
 </tr>
 <tr>
+<td><p><span class="term"><em class="parameter"><code>item</code></em> :</span></p></td>
+<td>the object to add to the array</td>
+</tr>
+<tr>
 <td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
-<td>A <a href="http://library.gnome.org/devel/glib/unstable/glib-Pointer-Arrays.html#GPtrArray"><span class="type">GPtrArray</span></a> array of <a class="link" href="PkCategory.html" title="PkCategory"><span class="type">PkCategory</span></a>'s, free with <a href="http://library.gnome.org/devel/glib/unstable/glib-Pointer-Arrays.html#g-ptr-array-unref"><code class="function">g_ptr_array_unref()</code></a>. <span class="annotation">[<acronym title="Generics and defining elements of containers and arrays."><span class="acronym">element-type</span></acronym> PkCategory][<acronym title="Free data container after the code is done."><span class="acronym">transfer container</span></acronym>]</span>
-</td>
+<td>
+<a href="http://library.gnome.org/devel/glib/unstable/glib-Standard-Macros.html#TRUE:CAPS"><code class="literal">TRUE</code></a> if the value was set</td>
 </tr>
 </tbody>
 </table></div>
@@ -587,10 +519,11 @@ Gets the categories from the transaction.
 </div>
 <hr>
 <div class="refsect2">
-<a name="pk-results-get-details-array"></a><h3>pk_results_get_details_array ()</h3>
-<pre class="programlisting"><a href="http://library.gnome.org/devel/glib/unstable/glib-Pointer-Arrays.html#GPtrArray"><span class="returnvalue">GPtrArray</span></a> *         pk_results_get_details_array        (<em class="parameter"><code><a class="link" href="PkResults.html" title="PkResults"><span class="type">PkResults</span></a> *results</code></em>);</pre>
+<a name="pk-results-add-eula-required"></a><h3>pk_results_add_eula_required ()</h3>
+<pre class="programlisting"><a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gboolean"><span class="returnvalue">gboolean</span></a>            pk_results_add_eula_required        (<em class="parameter"><code><a class="link" href="PkResults.html" title="PkResults"><span class="type">PkResults</span></a> *results</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="PkEulaRequired.html" title="PkEulaRequired"><span class="type">PkEulaRequired</span></a> *item</code></em>);</pre>
 <p>
-Gets the package details from the transaction.
+Adds some EULA details to the results set.
 </p>
 <div class="variablelist"><table border="0" class="variablelist">
 <colgroup>
@@ -603,9 +536,13 @@ Gets the package details from the transaction.
 <td>a valid <a class="link" href="PkResults.html" title="PkResults"><span class="type">PkResults</span></a> instance</td>
 </tr>
 <tr>
+<td><p><span class="term"><em class="parameter"><code>item</code></em> :</span></p></td>
+<td>the object to add to the array</td>
+</tr>
+<tr>
 <td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
-<td>A <a href="http://library.gnome.org/devel/glib/unstable/glib-Pointer-Arrays.html#GPtrArray"><span class="type">GPtrArray</span></a> array of <a class="link" href="PkDetails.html" title="PkDetails"><span class="type">PkDetails</span></a>'s, free with <a href="http://library.gnome.org/devel/glib/unstable/glib-Pointer-Arrays.html#g-ptr-array-unref"><code class="function">g_ptr_array_unref()</code></a>. <span class="annotation">[<acronym title="Generics and defining elements of containers and arrays."><span class="acronym">element-type</span></acronym> PkDetails][<acronym title="Free data container after the code is done."><span class="acronym">transfer container</span></acronym>]</span>
-</td>
+<td>
+<a href="http://library.gnome.org/devel/glib/unstable/glib-Standard-Macros.html#TRUE:CAPS"><code class="literal">TRUE</code></a> if the value was set</td>
 </tr>
 </tbody>
 </table></div>
@@ -613,10 +550,12 @@ Gets the package details from the transaction.
 </div>
 <hr>
 <div class="refsect2">
-<a name="pk-results-get-distro-upgrade-array"></a><h3>pk_results_get_distro_upgrade_array ()</h3>
-<pre class="programlisting"><a href="http://library.gnome.org/devel/glib/unstable/glib-Pointer-Arrays.html#GPtrArray"><span class="returnvalue">GPtrArray</span></a> *         pk_results_get_distro_upgrade_array (<em class="parameter"><code><a class="link" href="PkResults.html" title="PkResults"><span class="type">PkResults</span></a> *results</code></em>);</pre>
+<a name="pk-results-add-media-change-required"></a><h3>pk_results_add_media_change_required ()</h3>
+<pre class="programlisting"><a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gboolean"><span class="returnvalue">gboolean</span></a>            pk_results_add_media_change_required
+                                                        (<em class="parameter"><code><a class="link" href="PkResults.html" title="PkResults"><span class="type">PkResults</span></a> *results</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="PkMediaChangeRequired.html" title="PkMediaChangeRequired"><span class="type">PkMediaChangeRequired</span></a> *item</code></em>);</pre>
 <p>
-Gets the distribution upgrades from the transaction.
+Adds some media change details to the results set.
 </p>
 <div class="variablelist"><table border="0" class="variablelist">
 <colgroup>
@@ -629,9 +568,13 @@ Gets the distribution upgrades from the transaction.
 <td>a valid <a class="link" href="PkResults.html" title="PkResults"><span class="type">PkResults</span></a> instance</td>
 </tr>
 <tr>
+<td><p><span class="term"><em class="parameter"><code>item</code></em> :</span></p></td>
+<td>the object to add to the array</td>
+</tr>
+<tr>
 <td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
-<td>A <a href="http://library.gnome.org/devel/glib/unstable/glib-Pointer-Arrays.html#GPtrArray"><span class="type">GPtrArray</span></a> array of <a class="link" href="PkDistroUpgrade.html" title="PkDistroUpgrade"><span class="type">PkDistroUpgrade</span></a>'s, free with <a href="http://library.gnome.org/devel/glib/unstable/glib-Pointer-Arrays.html#g-ptr-array-unref"><code class="function">g_ptr_array_unref()</code></a>. <span class="annotation">[<acronym title="Generics and defining elements of containers and arrays."><span class="acronym">element-type</span></acronym> PkDistroUpgrade][<acronym title="Free data container after the code is done."><span class="acronym">transfer container</span></acronym>]</span>
-</td>
+<td>
+<a href="http://library.gnome.org/devel/glib/unstable/glib-Standard-Macros.html#TRUE:CAPS"><code class="literal">TRUE</code></a> if the value was set</td>
 </tr>
 </tbody>
 </table></div>
@@ -639,10 +582,11 @@ Gets the distribution upgrades from the transaction.
 </div>
 <hr>
 <div class="refsect2">
-<a name="pk-results-get-error-code"></a><h3>pk_results_get_error_code ()</h3>
-<pre class="programlisting"><a class="link" href="PkError.html" title="PkError"><span class="returnvalue">PkError</span></a> *           pk_results_get_error_code           (<em class="parameter"><code><a class="link" href="PkResults.html" title="PkResults"><span class="type">PkResults</span></a> *results</code></em>);</pre>
+<a name="pk-results-add-repo-detail"></a><h3>pk_results_add_repo_detail ()</h3>
+<pre class="programlisting"><a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gboolean"><span class="returnvalue">gboolean</span></a>            pk_results_add_repo_detail          (<em class="parameter"><code><a class="link" href="PkResults.html" title="PkResults"><span class="type">PkResults</span></a> *results</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="PkRepoDetail.html" title="PkRepoDetail"><span class="type">PkRepoDetail</span></a> *item</code></em>);</pre>
 <p>
-Gets the last error code from the transaction.
+Adds some repository details to the results set.
 </p>
 <div class="variablelist"><table border="0" class="variablelist">
 <colgroup>
@@ -655,9 +599,13 @@ Gets the last error code from the transaction.
 <td>a valid <a class="link" href="PkResults.html" title="PkResults"><span class="type">PkResults</span></a> instance</td>
 </tr>
 <tr>
+<td><p><span class="term"><em class="parameter"><code>item</code></em> :</span></p></td>
+<td>the object to add to the array</td>
+</tr>
+<tr>
 <td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
-<td>A <a class="link" href="PkError.html" title="PkError"><span class="type">PkError</span></a>, or <a href="http://library.gnome.org/devel/glib/unstable/glib-Standard-Macros.html#NULL:CAPS"><code class="literal">NULL</code></a>, free with <a href="http://library.gnome.org/devel/gobject/unstable/gobject-The-Base-Object-Type.html#g-object-unref"><code class="function">g_object_unref()</code></a>. <span class="annotation">[<acronym title="Free data after the code is done."><span class="acronym">transfer full</span></acronym>]</span>
-</td>
+<td>
+<a href="http://library.gnome.org/devel/glib/unstable/glib-Standard-Macros.html#TRUE:CAPS"><code class="literal">TRUE</code></a> if the value was set</td>
 </tr>
 </tbody>
 </table></div>
@@ -665,10 +613,11 @@ Gets the last error code from the transaction.
 </div>
 <hr>
 <div class="refsect2">
-<a name="pk-results-get-eula-required-array"></a><h3>pk_results_get_eula_required_array ()</h3>
-<pre class="programlisting"><a href="http://library.gnome.org/devel/glib/unstable/glib-Pointer-Arrays.html#GPtrArray"><span class="returnvalue">GPtrArray</span></a> *         pk_results_get_eula_required_array  (<em class="parameter"><code><a class="link" href="PkResults.html" title="PkResults"><span class="type">PkResults</span></a> *results</code></em>);</pre>
+<a name="pk-results-add-message"></a><h3>pk_results_add_message ()</h3>
+<pre class="programlisting"><a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gboolean"><span class="returnvalue">gboolean</span></a>            pk_results_add_message              (<em class="parameter"><code><a class="link" href="PkResults.html" title="PkResults"><span class="type">PkResults</span></a> *results</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="PkMessage.html" title="PkMessage"><span class="type">PkMessage</span></a> *item</code></em>);</pre>
 <p>
-Gets the eulas required from the transaction.
+Adds some message details to the results set.
 </p>
 <div class="variablelist"><table border="0" class="variablelist">
 <colgroup>
@@ -681,9 +630,13 @@ Gets the eulas required from the transaction.
 <td>a valid <a class="link" href="PkResults.html" title="PkResults"><span class="type">PkResults</span></a> instance</td>
 </tr>
 <tr>
+<td><p><span class="term"><em class="parameter"><code>item</code></em> :</span></p></td>
+<td>the object to add to the array</td>
+</tr>
+<tr>
 <td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
-<td>A <a href="http://library.gnome.org/devel/glib/unstable/glib-Pointer-Arrays.html#GPtrArray"><span class="type">GPtrArray</span></a> array of <a class="link" href="PkEulaRequired.html" title="PkEulaRequired"><span class="type">PkEulaRequired</span></a>'s, free with <a href="http://library.gnome.org/devel/glib/unstable/glib-Pointer-Arrays.html#g-ptr-array-unref"><code class="function">g_ptr_array_unref()</code></a>. <span class="annotation">[<acronym title="Generics and defining elements of containers and arrays."><span class="acronym">element-type</span></acronym> PkEulaRequired][<acronym title="Free data container after the code is done."><span class="acronym">transfer container</span></acronym>]</span>
-</td>
+<td>
+<a href="http://library.gnome.org/devel/glib/unstable/glib-Standard-Macros.html#TRUE:CAPS"><code class="literal">TRUE</code></a> if the value was set</td>
 </tr>
 </tbody>
 </table></div>
@@ -709,112 +662,7 @@ instead using the much more useful <a class="link" href="PkResults.html#pk-resul
 </tr>
 <tr>
 <td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
-<td>The <a class="link" href="PackageKit-pk-enum.html#PkExitEnum"><span class="type">PkExitEnum</span></a> or <code class="literal">PK_EXIT_ENUM_UNKNOWN</code> for error or if it was not set</td>
-</tr>
-</tbody>
-</table></div>
-<p class="since">Since 0.5.2</p>
-</div>
-<hr>
-<div class="refsect2">
-<a name="pk-results-get-files-array"></a><h3>pk_results_get_files_array ()</h3>
-<pre class="programlisting"><a href="http://library.gnome.org/devel/glib/unstable/glib-Pointer-Arrays.html#GPtrArray"><span class="returnvalue">GPtrArray</span></a> *         pk_results_get_files_array          (<em class="parameter"><code><a class="link" href="PkResults.html" title="PkResults"><span class="type">PkResults</span></a> *results</code></em>);</pre>
-<p>
-Gets the files from the transaction.
-</p>
-<div class="variablelist"><table border="0" class="variablelist">
-<colgroup>
-<col align="left" valign="top">
-<col>
-</colgroup>
-<tbody>
-<tr>
-<td><p><span class="term"><em class="parameter"><code>results</code></em> :</span></p></td>
-<td>a valid <a class="link" href="PkResults.html" title="PkResults"><span class="type">PkResults</span></a> instance</td>
-</tr>
-<tr>
-<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
-<td>A <a href="http://library.gnome.org/devel/glib/unstable/glib-Pointer-Arrays.html#GPtrArray"><span class="type">GPtrArray</span></a> array of <a class="link" href="PkFiles.html" title="PkFiles"><span class="type">PkFiles</span></a>'s, free with <a href="http://library.gnome.org/devel/glib/unstable/glib-Pointer-Arrays.html#g-ptr-array-unref"><code class="function">g_ptr_array_unref()</code></a>. <span class="annotation">[<acronym title="Generics and defining elements of containers and arrays."><span class="acronym">element-type</span></acronym> PkFiles][<acronym title="Free data container after the code is done."><span class="acronym">transfer container</span></acronym>]</span>
-</td>
-</tr>
-</tbody>
-</table></div>
-<p class="since">Since 0.5.2</p>
-</div>
-<hr>
-<div class="refsect2">
-<a name="pk-results-get-media-change-required-array"></a><h3>pk_results_get_media_change_required_array ()</h3>
-<pre class="programlisting"><a href="http://library.gnome.org/devel/glib/unstable/glib-Pointer-Arrays.html#GPtrArray"><span class="returnvalue">GPtrArray</span></a> *         pk_results_get_media_change_required_array
-                                                        (<em class="parameter"><code><a class="link" href="PkResults.html" title="PkResults"><span class="type">PkResults</span></a> *results</code></em>);</pre>
-<p>
-Gets the media changes required from the transaction.
-</p>
-<div class="variablelist"><table border="0" class="variablelist">
-<colgroup>
-<col align="left" valign="top">
-<col>
-</colgroup>
-<tbody>
-<tr>
-<td><p><span class="term"><em class="parameter"><code>results</code></em> :</span></p></td>
-<td>a valid <a class="link" href="PkResults.html" title="PkResults"><span class="type">PkResults</span></a> instance</td>
-</tr>
-<tr>
-<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
-<td>A <a href="http://library.gnome.org/devel/glib/unstable/glib-Pointer-Arrays.html#GPtrArray"><span class="type">GPtrArray</span></a> array of <a class="link" href="PkMediaChangeRequired.html" title="PkMediaChangeRequired"><span class="type">PkMediaChangeRequired</span></a>'s, free with <a href="http://library.gnome.org/devel/glib/unstable/glib-Pointer-Arrays.html#g-ptr-array-unref"><code class="function">g_ptr_array_unref()</code></a>. <span class="annotation">[<acronym title="Generics and defining elements of containers and arrays."><span class="acronym">element-type</span></acronym> PkMediaChangeRequired][<acronym title="Free data container after the code is done."><span class="acronym">transfer container</span></acronym>]</span>
-</td>
-</tr>
-</tbody>
-</table></div>
-<p class="since">Since 0.5.2</p>
-</div>
-<hr>
-<div class="refsect2">
-<a name="pk-results-get-message-array"></a><h3>pk_results_get_message_array ()</h3>
-<pre class="programlisting"><a href="http://library.gnome.org/devel/glib/unstable/glib-Pointer-Arrays.html#GPtrArray"><span class="returnvalue">GPtrArray</span></a> *         pk_results_get_message_array        (<em class="parameter"><code><a class="link" href="PkResults.html" title="PkResults"><span class="type">PkResults</span></a> *results</code></em>);</pre>
-<p>
-Gets the messages from the transaction.
-</p>
-<div class="variablelist"><table border="0" class="variablelist">
-<colgroup>
-<col align="left" valign="top">
-<col>
-</colgroup>
-<tbody>
-<tr>
-<td><p><span class="term"><em class="parameter"><code>results</code></em> :</span></p></td>
-<td>a valid <a class="link" href="PkResults.html" title="PkResults"><span class="type">PkResults</span></a> instance</td>
-</tr>
-<tr>
-<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
-<td>A <a href="http://library.gnome.org/devel/glib/unstable/glib-Pointer-Arrays.html#GPtrArray"><span class="type">GPtrArray</span></a> array of <a class="link" href="PkMessage.html" title="PkMessage"><span class="type">PkMessage</span></a>'s, free with <a href="http://library.gnome.org/devel/glib/unstable/glib-Pointer-Arrays.html#g-ptr-array-unref"><code class="function">g_ptr_array_unref()</code></a>. <span class="annotation">[<acronym title="Generics and defining elements of containers and arrays."><span class="acronym">element-type</span></acronym> PkMessage][<acronym title="Free data container after the code is done."><span class="acronym">transfer container</span></acronym>]</span>
-</td>
-</tr>
-</tbody>
-</table></div>
-<p class="since">Since 0.5.2</p>
-</div>
-<hr>
-<div class="refsect2">
-<a name="pk-results-get-package-array"></a><h3>pk_results_get_package_array ()</h3>
-<pre class="programlisting"><a href="http://library.gnome.org/devel/glib/unstable/glib-Pointer-Arrays.html#GPtrArray"><span class="returnvalue">GPtrArray</span></a> *         pk_results_get_package_array        (<em class="parameter"><code><a class="link" href="PkResults.html" title="PkResults"><span class="type">PkResults</span></a> *results</code></em>);</pre>
-<p>
-Gets the packages from the transaction.
-</p>
-<div class="variablelist"><table border="0" class="variablelist">
-<colgroup>
-<col align="left" valign="top">
-<col>
-</colgroup>
-<tbody>
-<tr>
-<td><p><span class="term"><em class="parameter"><code>results</code></em> :</span></p></td>
-<td>a valid <a class="link" href="PkResults.html" title="PkResults"><span class="type">PkResults</span></a> instance</td>
-</tr>
-<tr>
-<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
-<td>A <a href="http://library.gnome.org/devel/glib/unstable/glib-Pointer-Arrays.html#GPtrArray"><span class="type">GPtrArray</span></a> array of <a class="link" href="PkPackage.html" title="PkPackage"><span class="type">PkPackage</span></a>'s, free with <a href="http://library.gnome.org/devel/glib/unstable/glib-Pointer-Arrays.html#g-ptr-array-unref"><code class="function">g_ptr_array_unref()</code></a>. <span class="annotation">[<acronym title="Generics and defining elements of containers and arrays."><span class="acronym">element-type</span></acronym> PkPackage][<acronym title="Free data container after the code is done."><span class="acronym">transfer container</span></acronym>]</span>
-</td>
+<td>The <a class="link" href="PackageKit-pk-enum.html#PkExitEnum"><span class="type">PkExitEnum</span></a> or <a href="/usr/share/gtk-doc/html/PackageKit/PackageKit-pk-enum.html#PK-EXIT-ENUM-UNKNOWN:CAPS"><code class="literal">PK_EXIT_ENUM_UNKNOWN</code></a> for error or if it was not set</td>
 </tr>
 </tbody>
 </table></div>
@@ -848,10 +696,10 @@ Gets a package sack from the transaction.
 </div>
 <hr>
 <div class="refsect2">
-<a name="pk-results-get-repo-detail-array"></a><h3>pk_results_get_repo_detail_array ()</h3>
-<pre class="programlisting"><a href="http://library.gnome.org/devel/glib/unstable/glib-Pointer-Arrays.html#GPtrArray"><span class="returnvalue">GPtrArray</span></a> *         pk_results_get_repo_detail_array    (<em class="parameter"><code><a class="link" href="PkResults.html" title="PkResults"><span class="type">PkResults</span></a> *results</code></em>);</pre>
+<a name="pk-results-get-error-code"></a><h3>pk_results_get_error_code ()</h3>
+<pre class="programlisting"><a class="link" href="PkError.html" title="PkError"><span class="returnvalue">PkError</span></a> *           pk_results_get_error_code           (<em class="parameter"><code><a class="link" href="PkResults.html" title="PkResults"><span class="type">PkResults</span></a> *results</code></em>);</pre>
 <p>
-Gets the repository details from the transaction.
+Gets the last error code from the transaction.
 </p>
 <div class="variablelist"><table border="0" class="variablelist">
 <colgroup>
@@ -865,7 +713,7 @@ Gets the repository details from the transaction.
 </tr>
 <tr>
 <td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
-<td>A <a href="http://library.gnome.org/devel/glib/unstable/glib-Pointer-Arrays.html#GPtrArray"><span class="type">GPtrArray</span></a> array of <a class="link" href="PkRepoDetail.html" title="PkRepoDetail"><span class="type">PkRepoDetail</span></a>'s, free with <a href="http://library.gnome.org/devel/glib/unstable/glib-Pointer-Arrays.html#g-ptr-array-unref"><code class="function">g_ptr_array_unref()</code></a>. <span class="annotation">[<acronym title="Generics and defining elements of containers and arrays."><span class="acronym">element-type</span></acronym> PkRepoDetail][<acronym title="Free data container after the code is done."><span class="acronym">transfer container</span></acronym>]</span>
+<td>A <a class="link" href="PkError.html" title="PkError"><span class="type">PkError</span></a>, or <a href="/usr/share/gtk-doc/html/liboil/liboil-liboiljunk.html#NULL:CAPS"><code class="literal">NULL</code></a>, free with <a href="http://library.gnome.org/devel/gobject/unstable/gobject-The-Base-Object-Type.html#g-object-unref"><code class="function">g_object_unref()</code></a>. <span class="annotation">[<acronym title="Free data after the code is done."><span class="acronym">transfer full</span></acronym>]</span>
 </td>
 </tr>
 </tbody>
@@ -874,11 +722,10 @@ Gets the repository details from the transaction.
 </div>
 <hr>
 <div class="refsect2">
-<a name="pk-results-get-repo-signature-required-array"></a><h3>pk_results_get_repo_signature_required_array ()</h3>
-<pre class="programlisting"><a href="http://library.gnome.org/devel/glib/unstable/glib-Pointer-Arrays.html#GPtrArray"><span class="returnvalue">GPtrArray</span></a> *         pk_results_get_repo_signature_required_array
-                                                        (<em class="parameter"><code><a class="link" href="PkResults.html" title="PkResults"><span class="type">PkResults</span></a> *results</code></em>);</pre>
+<a name="pk-results-get-role"></a><h3>pk_results_get_role ()</h3>
+<pre class="programlisting"><a class="link" href="PackageKit-pk-enum.html#PkRoleEnum"><span class="returnvalue">PkRoleEnum</span></a>          pk_results_get_role                 (<em class="parameter"><code><a class="link" href="PkResults.html" title="PkResults"><span class="type">PkResults</span></a> *results</code></em>);</pre>
 <p>
-Gets the repository signatures required from the transaction.
+Gets the role that produced these results.
 </p>
 <div class="variablelist"><table border="0" class="variablelist">
 <colgroup>
@@ -892,20 +739,18 @@ Gets the repository signatures required from the transaction.
 </tr>
 <tr>
 <td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
-<td>A <a href="http://library.gnome.org/devel/glib/unstable/glib-Pointer-Arrays.html#GPtrArray"><span class="type">GPtrArray</span></a> array of <a class="link" href="PkRepoSignatureRequired.html" title="PkRepoSignatureRequired"><span class="type">PkRepoSignatureRequired</span></a>'s, free with <a href="http://library.gnome.org/devel/glib/unstable/glib-Pointer-Arrays.html#g-ptr-array-unref"><code class="function">g_ptr_array_unref()</code></a>. <span class="annotation">[<acronym title="Generics and defining elements of containers and arrays."><span class="acronym">element-type</span></acronym> PkRepoSignatureRequired][<acronym title="Free data container after the code is done."><span class="acronym">transfer container</span></acronym>]</span>
-</td>
+<td>The <a class="link" href="PackageKit-pk-enum.html#PkRoleEnum"><span class="type">PkRoleEnum</span></a> or <a href="/usr/share/gtk-doc/html/PackageKit/PackageKit-pk-enum.html#PK-ROLE-ENUM-UNKNOWN:CAPS"><code class="literal">PK_ROLE_ENUM_UNKNOWN</code></a> if not set</td>
 </tr>
 </tbody>
 </table></div>
-<p class="since">Since 0.5.2</p>
+<p class="since">Since 0.7.5</p>
 </div>
 <hr>
 <div class="refsect2">
-<a name="pk-results-get-require-restart-array"></a><h3>pk_results_get_require_restart_array ()</h3>
-<pre class="programlisting"><a href="http://library.gnome.org/devel/glib/unstable/glib-Pointer-Arrays.html#GPtrArray"><span class="returnvalue">GPtrArray</span></a> *         pk_results_get_require_restart_array
-                                                        (<em class="parameter"><code><a class="link" href="PkResults.html" title="PkResults"><span class="type">PkResults</span></a> *results</code></em>);</pre>
+<a name="pk-results-get-transaction-flags"></a><h3>pk_results_get_transaction_flags ()</h3>
+<pre class="programlisting"><a class="link" href="PackageKit-pk-bitfield.html#PkBitfield" title="PkBitfield"><span class="returnvalue">PkBitfield</span></a>          pk_results_get_transaction_flags    (<em class="parameter"><code><a class="link" href="PkResults.html" title="PkResults"><span class="type">PkResults</span></a> *results</code></em>);</pre>
 <p>
-Gets the require restarts from the transaction.
+Gets the transaction flag for these results.
 </p>
 <div class="variablelist"><table border="0" class="variablelist">
 <colgroup>
@@ -919,12 +764,11 @@ Gets the require restarts from the transaction.
 </tr>
 <tr>
 <td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
-<td>A <a href="http://library.gnome.org/devel/glib/unstable/glib-Pointer-Arrays.html#GPtrArray"><span class="type">GPtrArray</span></a> array of <a class="link" href="PkRequireRestart.html" title="PkRequireRestart"><span class="type">PkRequireRestart</span></a>'s, free with <a href="http://library.gnome.org/devel/glib/unstable/glib-Pointer-Arrays.html#g-ptr-array-unref"><code class="function">g_ptr_array_unref()</code></a>. <span class="annotation">[<acronym title="Generics and defining elements of containers and arrays."><span class="acronym">element-type</span></acronym> PkRequireRestart][<acronym title="Free data container after the code is done."><span class="acronym">transfer container</span></acronym>]</span>
-</td>
+<td>The <a class="link" href="PackageKit-pk-bitfield.html#PkBitfield" title="PkBitfield"><span class="type">PkBitfield</span></a> or 0 if not set</td>
 </tr>
 </tbody>
 </table></div>
-<p class="since">Since 0.5.2</p>
+<p class="since">Since 0.8.1</p>
 </div>
 <hr>
 <div class="refsect2">
@@ -961,10 +805,10 @@ system as a session restart is implied with a system restart.
 </div>
 <hr>
 <div class="refsect2">
-<a name="pk-results-get-role"></a><h3>pk_results_get_role ()</h3>
-<pre class="programlisting"><a class="link" href="PackageKit-pk-enum.html#PkRoleEnum"><span class="returnvalue">PkRoleEnum</span></a>          pk_results_get_role                 (<em class="parameter"><code><a class="link" href="PkResults.html" title="PkResults"><span class="type">PkResults</span></a> *results</code></em>);</pre>
+<a name="pk-results-get-package-array"></a><h3>pk_results_get_package_array ()</h3>
+<pre class="programlisting"><a href="http://library.gnome.org/devel/glib/unstable/glib-Pointer-Arrays.html#GPtrArray"><span class="returnvalue">GPtrArray</span></a> *         pk_results_get_package_array        (<em class="parameter"><code><a class="link" href="PkResults.html" title="PkResults"><span class="type">PkResults</span></a> *results</code></em>);</pre>
 <p>
-Gets the role that produced these results.
+Gets the packages from the transaction.
 </p>
 <div class="variablelist"><table border="0" class="variablelist">
 <colgroup>
@@ -978,32 +822,7 @@ Gets the role that produced these results.
 </tr>
 <tr>
 <td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
-<td>The <a class="link" href="PackageKit-pk-enum.html#PkRoleEnum"><span class="type">PkRoleEnum</span></a> or <code class="literal">PK_ROLE_ENUM_UNKNOWN</code> if not set</td>
-</tr>
-</tbody>
-</table></div>
-<p class="since">Since 0.7.5</p>
-</div>
-<hr>
-<div class="refsect2">
-<a name="pk-results-get-transaction-array"></a><h3>pk_results_get_transaction_array ()</h3>
-<pre class="programlisting"><a href="http://library.gnome.org/devel/glib/unstable/glib-Pointer-Arrays.html#GPtrArray"><span class="returnvalue">GPtrArray</span></a> *         pk_results_get_transaction_array    (<em class="parameter"><code><a class="link" href="PkResults.html" title="PkResults"><span class="type">PkResults</span></a> *results</code></em>);</pre>
-<p>
-Gets the transactions from the transaction.
-</p>
-<div class="variablelist"><table border="0" class="variablelist">
-<colgroup>
-<col align="left" valign="top">
-<col>
-</colgroup>
-<tbody>
-<tr>
-<td><p><span class="term"><em class="parameter"><code>results</code></em> :</span></p></td>
-<td>a valid <a class="link" href="PkResults.html" title="PkResults"><span class="type">PkResults</span></a> instance</td>
-</tr>
-<tr>
-<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
-<td>A <a href="http://library.gnome.org/devel/glib/unstable/glib-Pointer-Arrays.html#GPtrArray"><span class="type">GPtrArray</span></a> array of <a class="link" href="PkTransactionPast.html" title="PkTransactionPast"><span class="type">PkTransactionPast</span></a>'s, free with <a href="http://library.gnome.org/devel/glib/unstable/glib-Pointer-Arrays.html#g-ptr-array-unref"><code class="function">g_ptr_array_unref()</code></a>. <span class="annotation">[<acronym title="Generics and defining elements of containers and arrays."><span class="acronym">element-type</span></acronym> PkTransactionPast][<acronym title="Free data container after the code is done."><span class="acronym">transfer container</span></acronym>]</span>
+<td>A <a href="http://library.gnome.org/devel/glib/unstable/glib-Pointer-Arrays.html#GPtrArray"><span class="type">GPtrArray</span></a> array of <a class="link" href="PkPackage.html" title="PkPackage"><span class="type">PkPackage</span></a>'s, free with <a href="http://library.gnome.org/devel/glib/unstable/glib-Pointer-Arrays.html#g-ptr-array-unref"><code class="function">g_ptr_array_unref()</code></a>. <span class="annotation">[<acronym title="Generics and defining elements of containers and arrays."><span class="acronym">element-type</span></acronym> PkPackage][<acronym title="Free data container after the code is done."><span class="acronym">transfer container</span></acronym>]</span>
 </td>
 </tr>
 </tbody>
@@ -1012,10 +831,10 @@ Gets the transactions from the transaction.
 </div>
 <hr>
 <div class="refsect2">
-<a name="pk-results-get-transaction-flags"></a><h3>pk_results_get_transaction_flags ()</h3>
-<pre class="programlisting"><a class="link" href="PackageKit-pk-bitfield.html#PkBitfield" title="PkBitfield"><span class="returnvalue">PkBitfield</span></a>          pk_results_get_transaction_flags    (<em class="parameter"><code><a class="link" href="PkResults.html" title="PkResults"><span class="type">PkResults</span></a> *results</code></em>);</pre>
+<a name="pk-results-get-details-array"></a><h3>pk_results_get_details_array ()</h3>
+<pre class="programlisting"><a href="http://library.gnome.org/devel/glib/unstable/glib-Pointer-Arrays.html#GPtrArray"><span class="returnvalue">GPtrArray</span></a> *         pk_results_get_details_array        (<em class="parameter"><code><a class="link" href="PkResults.html" title="PkResults"><span class="type">PkResults</span></a> *results</code></em>);</pre>
 <p>
-Gets the transaction flag for these results.
+Gets the package details from the transaction.
 </p>
 <div class="variablelist"><table border="0" class="variablelist">
 <colgroup>
@@ -1029,11 +848,12 @@ Gets the transaction flag for these results.
 </tr>
 <tr>
 <td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
-<td>The <a class="link" href="PackageKit-pk-bitfield.html#PkBitfield" title="PkBitfield"><span class="type">PkBitfield</span></a> or 0 if not set</td>
+<td>A <a href="http://library.gnome.org/devel/glib/unstable/glib-Pointer-Arrays.html#GPtrArray"><span class="type">GPtrArray</span></a> array of <a class="link" href="PkDetails.html" title="PkDetails"><span class="type">PkDetails</span></a>'s, free with <a href="http://library.gnome.org/devel/glib/unstable/glib-Pointer-Arrays.html#g-ptr-array-unref"><code class="function">g_ptr_array_unref()</code></a>. <span class="annotation">[<acronym title="Generics and defining elements of containers and arrays."><span class="acronym">element-type</span></acronym> PkDetails][<acronym title="Free data container after the code is done."><span class="acronym">transfer container</span></acronym>]</span>
+</td>
 </tr>
 </tbody>
 </table></div>
-<p class="since">Since 0.8.1</p>
+<p class="since">Since 0.5.2</p>
 </div>
 <hr>
 <div class="refsect2">
@@ -1063,27 +883,10 @@ Gets the update details from the transaction.
 </div>
 <hr>
 <div class="refsect2">
-<a name="pk-results-new"></a><h3>pk_results_new ()</h3>
-<pre class="programlisting"><a class="link" href="PkResults.html" title="PkResults"><span class="returnvalue">PkResults</span></a> *         pk_results_new                      (<em class="parameter"><code><span class="type">void</span></code></em>);</pre>
-<div class="variablelist"><table border="0" class="variablelist">
-<colgroup>
-<col align="left" valign="top">
-<col>
-</colgroup>
-<tbody><tr>
-<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
-<td>a new PkResults object.</td>
-</tr></tbody>
-</table></div>
-<p class="since">Since 0.5.2</p>
-</div>
-<hr>
-<div class="refsect2">
-<a name="pk-results-set-error-code"></a><h3>pk_results_set_error_code ()</h3>
-<pre class="programlisting"><a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gboolean"><span class="returnvalue">gboolean</span></a>            pk_results_set_error_code           (<em class="parameter"><code><a class="link" href="PkResults.html" title="PkResults"><span class="type">PkResults</span></a> *results</code></em>,
-                                                         <em class="parameter"><code><a class="link" href="PkError.html" title="PkError"><span class="type">PkError</span></a> *item</code></em>);</pre>
+<a name="pk-results-get-category-array"></a><h3>pk_results_get_category_array ()</h3>
+<pre class="programlisting"><a href="http://library.gnome.org/devel/glib/unstable/glib-Pointer-Arrays.html#GPtrArray"><span class="returnvalue">GPtrArray</span></a> *         pk_results_get_category_array       (<em class="parameter"><code><a class="link" href="PkResults.html" title="PkResults"><span class="type">PkResults</span></a> *results</code></em>);</pre>
 <p>
-Adds some error details to the results set.
+Gets the categories from the transaction.
 </p>
 <div class="variablelist"><table border="0" class="variablelist">
 <colgroup>
@@ -1096,13 +899,9 @@ Adds some error details to the results set.
 <td>a valid <a class="link" href="PkResults.html" title="PkResults"><span class="type">PkResults</span></a> instance</td>
 </tr>
 <tr>
-<td><p><span class="term"><em class="parameter"><code>item</code></em> :</span></p></td>
-<td>the object to add to the array</td>
-</tr>
-<tr>
 <td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
-<td>
-<a href="http://library.gnome.org/devel/glib/unstable/glib-Standard-Macros.html#TRUE:CAPS"><code class="literal">TRUE</code></a> if the value was set</td>
+<td>A <a href="http://library.gnome.org/devel/glib/unstable/glib-Pointer-Arrays.html#GPtrArray"><span class="type">GPtrArray</span></a> array of <a class="link" href="PkCategory.html" title="PkCategory"><span class="type">PkCategory</span></a>'s, free with <a href="http://library.gnome.org/devel/glib/unstable/glib-Pointer-Arrays.html#g-ptr-array-unref"><code class="function">g_ptr_array_unref()</code></a>. <span class="annotation">[<acronym title="Generics and defining elements of containers and arrays."><span class="acronym">element-type</span></acronym> PkCategory][<acronym title="Free data container after the code is done."><span class="acronym">transfer container</span></acronym>]</span>
+</td>
 </tr>
 </tbody>
 </table></div>
@@ -1110,11 +909,10 @@ Adds some error details to the results set.
 </div>
 <hr>
 <div class="refsect2">
-<a name="pk-results-set-exit-code"></a><h3>pk_results_set_exit_code ()</h3>
-<pre class="programlisting"><a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gboolean"><span class="returnvalue">gboolean</span></a>            pk_results_set_exit_code            (<em class="parameter"><code><a class="link" href="PkResults.html" title="PkResults"><span class="type">PkResults</span></a> *results</code></em>,
-                                                         <em class="parameter"><code><a class="link" href="PackageKit-pk-enum.html#PkExitEnum"><span class="type">PkExitEnum</span></a> exit_enum</code></em>);</pre>
+<a name="pk-results-get-distro-upgrade-array"></a><h3>pk_results_get_distro_upgrade_array ()</h3>
+<pre class="programlisting"><a href="http://library.gnome.org/devel/glib/unstable/glib-Pointer-Arrays.html#GPtrArray"><span class="returnvalue">GPtrArray</span></a> *         pk_results_get_distro_upgrade_array (<em class="parameter"><code><a class="link" href="PkResults.html" title="PkResults"><span class="type">PkResults</span></a> *results</code></em>);</pre>
 <p>
-Sets the results object to have the given exit code.
+Gets the distribution upgrades from the transaction.
 </p>
 <div class="variablelist"><table border="0" class="variablelist">
 <colgroup>
@@ -1127,13 +925,9 @@ Sets the results object to have the given exit code.
 <td>a valid <a class="link" href="PkResults.html" title="PkResults"><span class="type">PkResults</span></a> instance</td>
 </tr>
 <tr>
-<td><p><span class="term"><em class="parameter"><code>exit_enum</code></em> :</span></p></td>
-<td>the exit code</td>
-</tr>
-<tr>
 <td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
-<td>
-<a href="http://library.gnome.org/devel/glib/unstable/glib-Standard-Macros.html#TRUE:CAPS"><code class="literal">TRUE</code></a> if the value was set</td>
+<td>A <a href="http://library.gnome.org/devel/glib/unstable/glib-Pointer-Arrays.html#GPtrArray"><span class="type">GPtrArray</span></a> array of <a class="link" href="PkDistroUpgrade.html" title="PkDistroUpgrade"><span class="type">PkDistroUpgrade</span></a>'s, free with <a href="http://library.gnome.org/devel/glib/unstable/glib-Pointer-Arrays.html#g-ptr-array-unref"><code class="function">g_ptr_array_unref()</code></a>. <span class="annotation">[<acronym title="Generics and defining elements of containers and arrays."><span class="acronym">element-type</span></acronym> PkDistroUpgrade][<acronym title="Free data container after the code is done."><span class="acronym">transfer container</span></acronym>]</span>
+</td>
 </tr>
 </tbody>
 </table></div>
@@ -1141,8 +935,214 @@ Sets the results object to have the given exit code.
 </div>
 <hr>
 <div class="refsect2">
-<a name="pk-results-test"></a><h3>pk_results_test ()</h3>
-<pre class="programlisting"><span class="returnvalue">void</span>                pk_results_test                     (<em class="parameter"><code><a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gpointer"><span class="type">gpointer</span></a> user_data</code></em>);</pre>
+<a name="pk-results-get-require-restart-array"></a><h3>pk_results_get_require_restart_array ()</h3>
+<pre class="programlisting"><a href="http://library.gnome.org/devel/glib/unstable/glib-Pointer-Arrays.html#GPtrArray"><span class="returnvalue">GPtrArray</span></a> *         pk_results_get_require_restart_array
+                                                        (<em class="parameter"><code><a class="link" href="PkResults.html" title="PkResults"><span class="type">PkResults</span></a> *results</code></em>);</pre>
+<p>
+Gets the require restarts from the transaction.
+</p>
+<div class="variablelist"><table border="0" class="variablelist">
+<colgroup>
+<col align="left" valign="top">
+<col>
+</colgroup>
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>results</code></em> :</span></p></td>
+<td>a valid <a class="link" href="PkResults.html" title="PkResults"><span class="type">PkResults</span></a> instance</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td>A <a href="http://library.gnome.org/devel/glib/unstable/glib-Pointer-Arrays.html#GPtrArray"><span class="type">GPtrArray</span></a> array of <a class="link" href="PkRequireRestart.html" title="PkRequireRestart"><span class="type">PkRequireRestart</span></a>'s, free with <a href="http://library.gnome.org/devel/glib/unstable/glib-Pointer-Arrays.html#g-ptr-array-unref"><code class="function">g_ptr_array_unref()</code></a>. <span class="annotation">[<acronym title="Generics and defining elements of containers and arrays."><span class="acronym">element-type</span></acronym> PkRequireRestart][<acronym title="Free data container after the code is done."><span class="acronym">transfer container</span></acronym>]</span>
+</td>
+</tr>
+</tbody>
+</table></div>
+<p class="since">Since 0.5.2</p>
+</div>
+<hr>
+<div class="refsect2">
+<a name="pk-results-get-transaction-array"></a><h3>pk_results_get_transaction_array ()</h3>
+<pre class="programlisting"><a href="http://library.gnome.org/devel/glib/unstable/glib-Pointer-Arrays.html#GPtrArray"><span class="returnvalue">GPtrArray</span></a> *         pk_results_get_transaction_array    (<em class="parameter"><code><a class="link" href="PkResults.html" title="PkResults"><span class="type">PkResults</span></a> *results</code></em>);</pre>
+<p>
+Gets the transactions from the transaction.
+</p>
+<div class="variablelist"><table border="0" class="variablelist">
+<colgroup>
+<col align="left" valign="top">
+<col>
+</colgroup>
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>results</code></em> :</span></p></td>
+<td>a valid <a class="link" href="PkResults.html" title="PkResults"><span class="type">PkResults</span></a> instance</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td>A <a href="http://library.gnome.org/devel/glib/unstable/glib-Pointer-Arrays.html#GPtrArray"><span class="type">GPtrArray</span></a> array of <a class="link" href="PkTransactionPast.html" title="PkTransactionPast"><span class="type">PkTransactionPast</span></a>'s, free with <a href="http://library.gnome.org/devel/glib/unstable/glib-Pointer-Arrays.html#g-ptr-array-unref"><code class="function">g_ptr_array_unref()</code></a>. <span class="annotation">[<acronym title="Generics and defining elements of containers and arrays."><span class="acronym">element-type</span></acronym> PkTransactionPast][<acronym title="Free data container after the code is done."><span class="acronym">transfer container</span></acronym>]</span>
+</td>
+</tr>
+</tbody>
+</table></div>
+<p class="since">Since 0.5.2</p>
+</div>
+<hr>
+<div class="refsect2">
+<a name="pk-results-get-files-array"></a><h3>pk_results_get_files_array ()</h3>
+<pre class="programlisting"><a href="http://library.gnome.org/devel/glib/unstable/glib-Pointer-Arrays.html#GPtrArray"><span class="returnvalue">GPtrArray</span></a> *         pk_results_get_files_array          (<em class="parameter"><code><a class="link" href="PkResults.html" title="PkResults"><span class="type">PkResults</span></a> *results</code></em>);</pre>
+<p>
+Gets the files from the transaction.
+</p>
+<div class="variablelist"><table border="0" class="variablelist">
+<colgroup>
+<col align="left" valign="top">
+<col>
+</colgroup>
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>results</code></em> :</span></p></td>
+<td>a valid <a class="link" href="PkResults.html" title="PkResults"><span class="type">PkResults</span></a> instance</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td>A <a href="http://library.gnome.org/devel/glib/unstable/glib-Pointer-Arrays.html#GPtrArray"><span class="type">GPtrArray</span></a> array of <a class="link" href="PkFiles.html" title="PkFiles"><span class="type">PkFiles</span></a>'s, free with <a href="http://library.gnome.org/devel/glib/unstable/glib-Pointer-Arrays.html#g-ptr-array-unref"><code class="function">g_ptr_array_unref()</code></a>. <span class="annotation">[<acronym title="Generics and defining elements of containers and arrays."><span class="acronym">element-type</span></acronym> PkFiles][<acronym title="Free data container after the code is done."><span class="acronym">transfer container</span></acronym>]</span>
+</td>
+</tr>
+</tbody>
+</table></div>
+<p class="since">Since 0.5.2</p>
+</div>
+<hr>
+<div class="refsect2">
+<a name="pk-results-get-repo-signature-required-array"></a><h3>pk_results_get_repo_signature_required_array ()</h3>
+<pre class="programlisting"><a href="http://library.gnome.org/devel/glib/unstable/glib-Pointer-Arrays.html#GPtrArray"><span class="returnvalue">GPtrArray</span></a> *         pk_results_get_repo_signature_required_array
+                                                        (<em class="parameter"><code><a class="link" href="PkResults.html" title="PkResults"><span class="type">PkResults</span></a> *results</code></em>);</pre>
+<p>
+Gets the repository signatures required from the transaction.
+</p>
+<div class="variablelist"><table border="0" class="variablelist">
+<colgroup>
+<col align="left" valign="top">
+<col>
+</colgroup>
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>results</code></em> :</span></p></td>
+<td>a valid <a class="link" href="PkResults.html" title="PkResults"><span class="type">PkResults</span></a> instance</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td>A <a href="http://library.gnome.org/devel/glib/unstable/glib-Pointer-Arrays.html#GPtrArray"><span class="type">GPtrArray</span></a> array of <a class="link" href="PkRepoSignatureRequired.html" title="PkRepoSignatureRequired"><span class="type">PkRepoSignatureRequired</span></a>'s, free with <a href="http://library.gnome.org/devel/glib/unstable/glib-Pointer-Arrays.html#g-ptr-array-unref"><code class="function">g_ptr_array_unref()</code></a>. <span class="annotation">[<acronym title="Generics and defining elements of containers and arrays."><span class="acronym">element-type</span></acronym> PkRepoSignatureRequired][<acronym title="Free data container after the code is done."><span class="acronym">transfer container</span></acronym>]</span>
+</td>
+</tr>
+</tbody>
+</table></div>
+<p class="since">Since 0.5.2</p>
+</div>
+<hr>
+<div class="refsect2">
+<a name="pk-results-get-eula-required-array"></a><h3>pk_results_get_eula_required_array ()</h3>
+<pre class="programlisting"><a href="http://library.gnome.org/devel/glib/unstable/glib-Pointer-Arrays.html#GPtrArray"><span class="returnvalue">GPtrArray</span></a> *         pk_results_get_eula_required_array  (<em class="parameter"><code><a class="link" href="PkResults.html" title="PkResults"><span class="type">PkResults</span></a> *results</code></em>);</pre>
+<p>
+Gets the eulas required from the transaction.
+</p>
+<div class="variablelist"><table border="0" class="variablelist">
+<colgroup>
+<col align="left" valign="top">
+<col>
+</colgroup>
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>results</code></em> :</span></p></td>
+<td>a valid <a class="link" href="PkResults.html" title="PkResults"><span class="type">PkResults</span></a> instance</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td>A <a href="http://library.gnome.org/devel/glib/unstable/glib-Pointer-Arrays.html#GPtrArray"><span class="type">GPtrArray</span></a> array of <a class="link" href="PkEulaRequired.html" title="PkEulaRequired"><span class="type">PkEulaRequired</span></a>'s, free with <a href="http://library.gnome.org/devel/glib/unstable/glib-Pointer-Arrays.html#g-ptr-array-unref"><code class="function">g_ptr_array_unref()</code></a>. <span class="annotation">[<acronym title="Generics and defining elements of containers and arrays."><span class="acronym">element-type</span></acronym> PkEulaRequired][<acronym title="Free data container after the code is done."><span class="acronym">transfer container</span></acronym>]</span>
+</td>
+</tr>
+</tbody>
+</table></div>
+<p class="since">Since 0.5.2</p>
+</div>
+<hr>
+<div class="refsect2">
+<a name="pk-results-get-media-change-required-array"></a><h3>pk_results_get_media_change_required_array ()</h3>
+<pre class="programlisting"><a href="http://library.gnome.org/devel/glib/unstable/glib-Pointer-Arrays.html#GPtrArray"><span class="returnvalue">GPtrArray</span></a> *         pk_results_get_media_change_required_array
+                                                        (<em class="parameter"><code><a class="link" href="PkResults.html" title="PkResults"><span class="type">PkResults</span></a> *results</code></em>);</pre>
+<p>
+Gets the media changes required from the transaction.
+</p>
+<div class="variablelist"><table border="0" class="variablelist">
+<colgroup>
+<col align="left" valign="top">
+<col>
+</colgroup>
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>results</code></em> :</span></p></td>
+<td>a valid <a class="link" href="PkResults.html" title="PkResults"><span class="type">PkResults</span></a> instance</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td>A <a href="http://library.gnome.org/devel/glib/unstable/glib-Pointer-Arrays.html#GPtrArray"><span class="type">GPtrArray</span></a> array of <a class="link" href="PkMediaChangeRequired.html" title="PkMediaChangeRequired"><span class="type">PkMediaChangeRequired</span></a>'s, free with <a href="http://library.gnome.org/devel/glib/unstable/glib-Pointer-Arrays.html#g-ptr-array-unref"><code class="function">g_ptr_array_unref()</code></a>. <span class="annotation">[<acronym title="Generics and defining elements of containers and arrays."><span class="acronym">element-type</span></acronym> PkMediaChangeRequired][<acronym title="Free data container after the code is done."><span class="acronym">transfer container</span></acronym>]</span>
+</td>
+</tr>
+</tbody>
+</table></div>
+<p class="since">Since 0.5.2</p>
+</div>
+<hr>
+<div class="refsect2">
+<a name="pk-results-get-repo-detail-array"></a><h3>pk_results_get_repo_detail_array ()</h3>
+<pre class="programlisting"><a href="http://library.gnome.org/devel/glib/unstable/glib-Pointer-Arrays.html#GPtrArray"><span class="returnvalue">GPtrArray</span></a> *         pk_results_get_repo_detail_array    (<em class="parameter"><code><a class="link" href="PkResults.html" title="PkResults"><span class="type">PkResults</span></a> *results</code></em>);</pre>
+<p>
+Gets the repository details from the transaction.
+</p>
+<div class="variablelist"><table border="0" class="variablelist">
+<colgroup>
+<col align="left" valign="top">
+<col>
+</colgroup>
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>results</code></em> :</span></p></td>
+<td>a valid <a class="link" href="PkResults.html" title="PkResults"><span class="type">PkResults</span></a> instance</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td>A <a href="http://library.gnome.org/devel/glib/unstable/glib-Pointer-Arrays.html#GPtrArray"><span class="type">GPtrArray</span></a> array of <a class="link" href="PkRepoDetail.html" title="PkRepoDetail"><span class="type">PkRepoDetail</span></a>'s, free with <a href="http://library.gnome.org/devel/glib/unstable/glib-Pointer-Arrays.html#g-ptr-array-unref"><code class="function">g_ptr_array_unref()</code></a>. <span class="annotation">[<acronym title="Generics and defining elements of containers and arrays."><span class="acronym">element-type</span></acronym> PkRepoDetail][<acronym title="Free data container after the code is done."><span class="acronym">transfer container</span></acronym>]</span>
+</td>
+</tr>
+</tbody>
+</table></div>
+<p class="since">Since 0.5.2</p>
+</div>
+<hr>
+<div class="refsect2">
+<a name="pk-results-get-message-array"></a><h3>pk_results_get_message_array ()</h3>
+<pre class="programlisting"><a href="http://library.gnome.org/devel/glib/unstable/glib-Pointer-Arrays.html#GPtrArray"><span class="returnvalue">GPtrArray</span></a> *         pk_results_get_message_array        (<em class="parameter"><code><a class="link" href="PkResults.html" title="PkResults"><span class="type">PkResults</span></a> *results</code></em>);</pre>
+<p>
+Gets the messages from the transaction.
+</p>
+<div class="variablelist"><table border="0" class="variablelist">
+<colgroup>
+<col align="left" valign="top">
+<col>
+</colgroup>
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>results</code></em> :</span></p></td>
+<td>a valid <a class="link" href="PkResults.html" title="PkResults"><span class="type">PkResults</span></a> instance</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td>A <a href="http://library.gnome.org/devel/glib/unstable/glib-Pointer-Arrays.html#GPtrArray"><span class="type">GPtrArray</span></a> array of <a class="link" href="PkMessage.html" title="PkMessage"><span class="type">PkMessage</span></a>'s, free with <a href="http://library.gnome.org/devel/glib/unstable/glib-Pointer-Arrays.html#g-ptr-array-unref"><code class="function">g_ptr_array_unref()</code></a>. <span class="annotation">[<acronym title="Generics and defining elements of containers and arrays."><span class="acronym">element-type</span></acronym> PkMessage][<acronym title="Free data container after the code is done."><span class="acronym">transfer container</span></acronym>]</span>
+</td>
+</tr>
+</tbody>
+</table></div>
+<p class="since">Since 0.5.2</p>
 </div>
 </div>
 <div class="refsect1">
