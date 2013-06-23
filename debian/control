@@ -43,7 +43,9 @@ Depends: libglib2.0-bin,
          packagekit-backend-aptcc (= ${binary:Version}),
          ${misc:Depends},
          ${shlibs:Depends}
-Breaks: packagekit-backend-apt (<< ${binary:Version}),
+Breaks: libpackagekit-glib2-14,
+        libpackagekit-qt2-2,
+        packagekit-backend-apt (<< ${binary:Version}),
         packagekit-backend-aptcc (<< ${binary:Version}),
         packagekit-backend-smart (<< ${binary:Version}),
         packagekit-offline-update (<< ${binary:Version})
