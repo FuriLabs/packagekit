@@ -215,8 +215,7 @@ Depends: gdebi-core (>= 0.8.2),
          ${misc:Depends},
          ${shlibs:Depends}
 XB-Python-Version: ${python:Versions}
-Recommends: appstream-index,
-            packagekit (= ${binary:Version})
+Recommends: packagekit (= ${binary:Version})
 Suggests: apt-xapian-index
 Description: APT backend for PackageKit
  PackageKit allows performing simple software management tasks over a DBus
