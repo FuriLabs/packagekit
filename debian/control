@@ -29,7 +29,7 @@ Build-Depends: bash-completion,
                network-manager-dev [linux-any],
                pm-utils [linux-any],
                policykit-1,
-               python3-dev (>= 3.2),
+               python3 (>= 3.2),
                xmlto,
                xulrunner-dev (>= 8.0) | firefox-dev (>= 8.0)
 Standards-Version: 3.9.4
