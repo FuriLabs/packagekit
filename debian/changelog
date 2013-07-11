@@ -1,3 +1,11 @@
+packagekit (0.8.9-3) unstable; urgency=low
+
+  * Don't make aptcc backend recommend appstream-index
+    - Frontends will recommend it if they support it
+  * Drop unneeded build-dependency on python3-dev
+
+ -- Matthias Klumpp <mak@debian.org>  Thu, 11 Jul 2013 18:48:42 +0200
+
 packagekit (0.8.9-2) unstable; urgency=low
 
   * Upload to unstable (Closes: #709580)
