@@ -19,7 +19,7 @@ AM_CPPFLAGS = \
 	-DPK_DB_DIR=\""$(PK_DB_DIR)"\" 				\
 	-DG_LOG_DOMAIN=\"PackageKit\"				\
 	-DLOCALSTATEDIR=\""$(localstatedir)"\" 			\
-	-DTESTDATADIR=\""$(top_srcdir)/data/tests"\"		\
+	-DTESTDATADIR=\""$(abs_top_srcdir)/data/tests"\"		\
 	-DPACKAGE_DATA_DIR=\""$(datadir)"\"			\
 	-DPACKAGE_LOCALE_DIR=\""$(prefix)/$(DATADIRNAME)/locale"\"
 
@@ -226,7 +226,7 @@ pk_self_test_LDADD =						\
 	$(ARCHIVE_LIBS)						\
 	$(NULL)
 
-pk_self_test_CFLAGS = -DEGG_TEST $(AM_CFLAGS) $(WARNINGFLAGS_C)
+pk_self_test_CFLAGS = $(AM_CFLAGS) $(WARNINGFLAGS_C)
 
 TESTS = pk-self-test
 endif

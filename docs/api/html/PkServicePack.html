@@ -8,7 +8,7 @@
 <link rel="up" href="libpackagekit-gobject.html" title="libpackagekit GObjects">
 <link rel="prev" href="PkResults.html" title="PkResults">
 <link rel="next" href="PkTask.html" title="PkTask">
-<meta name="generator" content="GTK-Doc V1.18 (XML mode)">
+<meta name="generator" content="GTK-Doc V1.19 (XML mode)">
 <link rel="stylesheet" href="style.css" type="text/css">
 </head>
 <body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF">
@@ -125,6 +125,38 @@ Clients can use this GObject for reading and writing service packs.
 	PK_SERVICE_PACK_ERROR_NOT_COMPATIBLE
 } PkServicePackError;
 </pre>
+<div class="variablelist"><table border="0" class="variablelist">
+<colgroup>
+<col align="left" valign="top">
+<col>
+</colgroup>
+<tbody>
+<tr>
+<td><p><a name="PK-SERVICE-PACK-ERROR-FAILED-SETUP:CAPS"></a><span class="term"><code class="literal">PK_SERVICE_PACK_ERROR_FAILED_SETUP</code></span></p></td>
+<td></td>
+</tr>
+<tr>
+<td><p><a name="PK-SERVICE-PACK-ERROR-FAILED-DOWNLOAD:CAPS"></a><span class="term"><code class="literal">PK_SERVICE_PACK_ERROR_FAILED_DOWNLOAD</code></span></p></td>
+<td></td>
+</tr>
+<tr>
+<td><p><a name="PK-SERVICE-PACK-ERROR-FAILED-EXTRACTION:CAPS"></a><span class="term"><code class="literal">PK_SERVICE_PACK_ERROR_FAILED_EXTRACTION</code></span></p></td>
+<td></td>
+</tr>
+<tr>
+<td><p><a name="PK-SERVICE-PACK-ERROR-FAILED-CREATE:CAPS"></a><span class="term"><code class="literal">PK_SERVICE_PACK_ERROR_FAILED_CREATE</code></span></p></td>
+<td></td>
+</tr>
+<tr>
+<td><p><a name="PK-SERVICE-PACK-ERROR-NOTHING-TO-DO:CAPS"></a><span class="term"><code class="literal">PK_SERVICE_PACK_ERROR_NOTHING_TO_DO</code></span></p></td>
+<td></td>
+</tr>
+<tr>
+<td><p><a name="PK-SERVICE-PACK-ERROR-NOT-COMPATIBLE:CAPS"></a><span class="term"><code class="literal">PK_SERVICE_PACK_ERROR_NOT_COMPATIBLE</code></span></p></td>
+<td></td>
+</tr>
+</tbody>
+</table></div>
 </div>
 <hr>
 <div class="refsect2">
@@ -206,7 +238,7 @@ Checks to see if a service pack file is valid, and usable with this system.
 </tr>
 <tr>
 <td><p><span class="term"><em class="parameter"><code>error</code></em> :</span></p></td>
-<td>a <a href="http://library.gnome.org/devel/glib/unstable/glib-Error-Reporting.html#GError"><code class="literal">GError</code></a> to put the error code and message in, or <a href="/usr/share/gtk-doc/html/liboil/liboil-liboiljunk.html#NULL:CAPS"><code class="literal">NULL</code></a>
+<td>a <a href="http://library.gnome.org/devel/glib/unstable/glib-Error-Reporting.html#GError"><code class="literal">GError</code></a> to put the error code and message in, or <a href="http://library.gnome.org/devel/glib/unstable/glib-Standard-Macros.html#NULL:CAPS"><code class="literal">NULL</code></a>
 </td>
 </tr>
 <tr>
@@ -238,7 +270,7 @@ Sets the directory to use when decompressing the service pack
 </tr>
 <tr>
 <td><p><span class="term"><em class="parameter"><code>directory</code></em> :</span></p></td>
-<td>the directory to use, or <a href="/usr/share/gtk-doc/html/liboil/liboil-liboiljunk.html#NULL:CAPS"><code class="literal">NULL</code></a> to use the default</td>
+<td>the directory to use, or <a href="http://library.gnome.org/devel/glib/unstable/glib-Standard-Macros.html#NULL:CAPS"><code class="literal">NULL</code></a> to use the default</td>
 </tr>
 <tr>
 <td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
@@ -275,7 +307,7 @@ Gets the result from the asynchronous function.
 </tr>
 <tr>
 <td><p><span class="term"><em class="parameter"><code>error</code></em> :</span></p></td>
-<td>A <a href="http://library.gnome.org/devel/glib/unstable/glib-Error-Reporting.html#GError"><span class="type">GError</span></a> or <a href="/usr/share/gtk-doc/html/liboil/liboil-liboiljunk.html#NULL:CAPS"><code class="literal">NULL</code></a>
+<td>A <a href="http://library.gnome.org/devel/glib/unstable/glib-Error-Reporting.html#GError"><span class="type">GError</span></a> or <a href="http://library.gnome.org/devel/glib/unstable/glib-Standard-Macros.html#NULL:CAPS"><code class="literal">NULL</code></a>
 </td>
 </tr>
 <tr>
@@ -323,12 +355,12 @@ Create a service pack for the specified Package IDs
 </tr>
 <tr>
 <td><p><span class="term"><em class="parameter"><code>package_ids_exclude</code></em> :</span></p></td>
-<td>An array of packages to exclude, or <a href="/usr/share/gtk-doc/html/liboil/liboil-liboiljunk.html#NULL:CAPS"><code class="literal">NULL</code></a>
+<td>An array of packages to exclude, or <a href="http://library.gnome.org/devel/glib/unstable/glib-Standard-Macros.html#NULL:CAPS"><code class="literal">NULL</code></a>
 </td>
 </tr>
 <tr>
 <td><p><span class="term"><em class="parameter"><code>cancellable</code></em> :</span></p></td>
-<td>a <a href="http://library.gnome.org/devel/gio/unstable/GCancellable.html"><span class="type">GCancellable</span></a> or <a href="/usr/share/gtk-doc/html/liboil/liboil-liboiljunk.html#NULL:CAPS"><code class="literal">NULL</code></a>
+<td>a <a href="http://library.gnome.org/devel/gio/unstable/GCancellable.html"><span class="type">GCancellable</span></a> or <a href="http://library.gnome.org/devel/glib/unstable/glib-Standard-Macros.html#NULL:CAPS"><code class="literal">NULL</code></a>
 </td>
 </tr>
 <tr>
@@ -385,12 +417,12 @@ Create a service pack for the specified Package IDs
 </tr>
 <tr>
 <td><p><span class="term"><em class="parameter"><code>package_ids_exclude</code></em> :</span></p></td>
-<td>An array of packages to exclude, or <a href="/usr/share/gtk-doc/html/liboil/liboil-liboiljunk.html#NULL:CAPS"><code class="literal">NULL</code></a>
+<td>An array of packages to exclude, or <a href="http://library.gnome.org/devel/glib/unstable/glib-Standard-Macros.html#NULL:CAPS"><code class="literal">NULL</code></a>
 </td>
 </tr>
 <tr>
 <td><p><span class="term"><em class="parameter"><code>cancellable</code></em> :</span></p></td>
-<td>a <a href="http://library.gnome.org/devel/gio/unstable/GCancellable.html"><span class="type">GCancellable</span></a> or <a href="/usr/share/gtk-doc/html/liboil/liboil-liboiljunk.html#NULL:CAPS"><code class="literal">NULL</code></a>
+<td>a <a href="http://library.gnome.org/devel/gio/unstable/GCancellable.html"><span class="type">GCancellable</span></a> or <a href="http://library.gnome.org/devel/glib/unstable/glib-Standard-Macros.html#NULL:CAPS"><code class="literal">NULL</code></a>
 </td>
 </tr>
 <tr>
@@ -420,6 +452,6 @@ Create a service pack for the specified Package IDs
 </div>
 <div class="footer">
 <hr>
-          Generated by GTK-Doc V1.18</div>
+          Generated by GTK-Doc V1.19</div>
 </body>
 </html>

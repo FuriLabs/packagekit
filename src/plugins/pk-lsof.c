@@ -181,7 +181,11 @@ pk_lsof_refresh (PkLsof *lsof)
 	g_return_val_if_fail (PK_IS_LSOF (lsof), FALSE);
 
 	/* try to find lsof */
+#ifndef __FreeBSD__
 	lsof_name = "/usr/sbin/lsof";
+#else
+	lsof_name = "/usr/local/sbin/lsof";	/* sysutils/lsof */
+#endif
 	ret = g_file_test (lsof_name, G_FILE_TEST_EXISTS);
 	if (!ret) {
 		lsof_name = "/usr/bin/lsof";
@@ -230,6 +234,7 @@ pk_lsof_refresh (PkLsof *lsof)
 			break;
 		case 'n':
 			if (type == PK_LSOF_TYPE_DEL ||
+			    type == PK_LSOF_TYPE_TXT ||
 			    type == PK_LSOF_TYPE_MEM) {
 
 				/* no valid pid found */

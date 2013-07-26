@@ -442,7 +442,7 @@ main (int argc, char *argv[])
 	GFile *file = NULL;
 	gint retval;
 	GMainLoop *loop = NULL;
-	PkResults *results;
+	PkResults *results = NULL;
 	PkTask *task = NULL;
 	PkProgressBar *progressbar = NULL;
 
@@ -500,16 +500,20 @@ main (int argc, char *argv[])
 	pk_progress_bar_end (progressbar);
 	pk_offline_update_write_results (results);
 
-	/* delete prepared-update file */
+	/* delete prepared-update file if it's not already been done by the
+	 * pk-plugin-systemd-update daemon plugin */
 	file = g_file_new_for_path (PK_OFFLINE_PREPARED_UPDATE_FILENAME);
 	ret = g_file_delete (file, NULL, &error);
 	if (!ret) {
-		retval = EXIT_FAILURE;
-		g_warning ("failed to delete %s: %s",
-			   PK_OFFLINE_PREPARED_UPDATE_FILENAME,
-			   error->message);
-		g_error_free (error);
-		goto out;
+		if (!g_error_matches (error, G_IO_ERROR, G_IO_ERROR_NOT_FOUND)) {
+			retval = EXIT_FAILURE;
+			g_warning ("failed to delete %s: %s",
+				   PK_OFFLINE_PREPARED_UPDATE_FILENAME,
+				   error->message);
+			g_error_free (error);
+			goto out;
+		}
+		g_clear_error (&error);
 	}
 
 	retval = EXIT_SUCCESS;
@@ -527,6 +531,8 @@ out:
 		g_object_unref (progressbar);
 	if (file != NULL)
 		g_object_unref (file);
+	if (results != NULL)
+		g_object_unref (results);
 	if (task != NULL)
 		g_object_unref (task);
 	if (loop != NULL)
