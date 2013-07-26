@@ -1,4 +1,4 @@
-packagekit (0.8.10-1) UNRELEASED; urgency=low
+packagekit (0.8.10-1) unstable; urgency=low
 
   * New upstream release: 0.8.10
   * Adjusted Debian default settings to new upstream configuration
@@ -11,8 +11,9 @@ packagekit (0.8.10-1) UNRELEASED; urgency=low
     - These changes will take effect with PolicyKit >= 0.110
   * Fix package-install policy, was changed temporarily
     by upstream (Closes: #717742)
+  * Provide symbols-file for libpackagekit-glib2 (Closes: #700204)
 
- -- Matthias Klumpp <matthias@tenstral.net>  Fri, 26 Jul 2013 17:29:20 +0200
+ -- Matthias Klumpp <mak@debian.org>  Fri, 26 Jul 2013 16:32:20 +0200
 
 packagekit (0.8.9-3) unstable; urgency=low
 
