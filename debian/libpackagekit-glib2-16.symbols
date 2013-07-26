@@ -1,4 +1,4 @@
-libpackagekit-glib2.so.16 libpackagekit-glib2 #MINVER#
+libpackagekit-glib2.so.16 libpackagekit-glib2-16 #MINVER#
  pk_authorize_enum_get_type@Base 0.8.10
  pk_authorize_type_enum_from_string@Base 0.8.10
  pk_authorize_type_enum_to_string@Base 0.8.10
