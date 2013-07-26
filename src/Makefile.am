@@ -38,7 +38,7 @@ AM_CPPFLAGS =						\
 	-DPK_DATA=\"$(pkgdatadir)\"			\
 	-DLOCALSTATEDIR=\""$(localstatedir)"\"		\
 	-DPK_DB_DIR=\""$(PK_DB_DIR)"\"			\
-	-DTESTDATADIR=\""$(top_srcdir)/data/tests"\"	\
+	-DTESTDATADIR=\""$(abs_top_srcdir)/data/tests"\"	\
 	-DPK_COMPILATION				\
 	-DPOLKIT_LOCAL_I_KNOW_API_IS_SUBJECT_TO_CHANGE	\
 	-DG_LOG_DOMAIN=\"PackageKit\"			\
@@ -216,6 +216,7 @@ endif
 install-data-hook:
 	if test -w $(DESTDIR)$(prefix)/; then \
 		mkdir -p $(DESTDIR)$(localstatedir)/cache/PackageKit/downloads; \
+		mkdir -p $(DESTDIR)$(localstatedir)/cache/PackageKit/metadata; \
 		mkdir -p $(DESTDIR)$(PK_LOG_DIR); \
 	fi
 

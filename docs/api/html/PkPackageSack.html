@@ -8,7 +8,7 @@
 <link rel="up" href="libpackagekit-gobject.html" title="libpackagekit GObjects">
 <link rel="prev" href="PkMessage.html" title="PkMessage">
 <link rel="next" href="PkPackage.html" title="PkPackage">
-<meta name="generator" content="GTK-Doc V1.18 (XML mode)">
+<meta name="generator" content="GTK-Doc V1.19 (XML mode)">
 <link rel="stylesheet" href="style.css" type="text/css">
 </head>
 <body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF">
@@ -166,6 +166,34 @@ to add package or update details.
 	PK_PACKAGE_SACK_SORT_TYPE_LAST
 } PkPackageSackSortType;
 </pre>
+<div class="variablelist"><table border="0" class="variablelist">
+<colgroup>
+<col align="left" valign="top">
+<col>
+</colgroup>
+<tbody>
+<tr>
+<td><p><a name="PK-PACKAGE-SACK-SORT-TYPE-NAME:CAPS"></a><span class="term"><code class="literal">PK_PACKAGE_SACK_SORT_TYPE_NAME</code></span></p></td>
+<td></td>
+</tr>
+<tr>
+<td><p><a name="PK-PACKAGE-SACK-SORT-TYPE-INFO:CAPS"></a><span class="term"><code class="literal">PK_PACKAGE_SACK_SORT_TYPE_INFO</code></span></p></td>
+<td></td>
+</tr>
+<tr>
+<td><p><a name="PK-PACKAGE-SACK-SORT-TYPE-PACKAGE-ID:CAPS"></a><span class="term"><code class="literal">PK_PACKAGE_SACK_SORT_TYPE_PACKAGE_ID</code></span></p></td>
+<td></td>
+</tr>
+<tr>
+<td><p><a name="PK-PACKAGE-SACK-SORT-TYPE-SUMMARY:CAPS"></a><span class="term"><code class="literal">PK_PACKAGE_SACK_SORT_TYPE_SUMMARY</code></span></p></td>
+<td></td>
+</tr>
+<tr>
+<td><p><a name="PK-PACKAGE-SACK-SORT-TYPE-LAST:CAPS"></a><span class="term"><code class="literal">PK_PACKAGE_SACK_SORT_TYPE_LAST</code></span></p></td>
+<td></td>
+</tr>
+</tbody>
+</table></div>
 </div>
 <hr>
 <div class="refsect2">
@@ -352,7 +380,7 @@ Adds a package reference to the sack.
 </tr>
 <tr>
 <td><p><span class="term"><em class="parameter"><code>error</code></em> :</span></p></td>
-<td>a <a href="http://library.gnome.org/devel/glib/unstable/glib-Error-Reporting.html#GError"><code class="literal">GError</code></a> to put the error code and message in, or <a href="/usr/share/gtk-doc/html/liboil/liboil-liboiljunk.html#NULL:CAPS"><code class="literal">NULL</code></a>
+<td>a <a href="http://library.gnome.org/devel/glib/unstable/glib-Error-Reporting.html#GError"><code class="literal">GError</code></a> to put the error code and message in, or <a href="http://library.gnome.org/devel/glib/unstable/glib-Standard-Macros.html#NULL:CAPS"><code class="literal">NULL</code></a>
 </td>
 </tr>
 <tr>
@@ -390,7 +418,7 @@ Write the contents of a PkPackageSack to a package-list file.
 </tr>
 <tr>
 <td><p><span class="term"><em class="parameter"><code>error</code></em> :</span></p></td>
-<td>a <a href="http://library.gnome.org/devel/glib/unstable/glib-Error-Reporting.html#GError"><code class="literal">GError</code></a> to put the error code and message in, or <a href="/usr/share/gtk-doc/html/liboil/liboil-liboiljunk.html#NULL:CAPS"><code class="literal">NULL</code></a>
+<td>a <a href="http://library.gnome.org/devel/glib/unstable/glib-Error-Reporting.html#GError"><code class="literal">GError</code></a> to put the error code and message in, or <a href="http://library.gnome.org/devel/glib/unstable/glib-Standard-Macros.html#NULL:CAPS"><code class="literal">NULL</code></a>
 </td>
 </tr>
 <tr>
@@ -537,7 +565,7 @@ the search is stopped.
 </tr>
 <tr>
 <td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
-<td>the <a class="link" href="PkPackage.html" title="PkPackage"><span class="type">PkPackage</span></a> object, or <a href="/usr/share/gtk-doc/html/liboil/liboil-liboiljunk.html#NULL:CAPS"><code class="literal">NULL</code></a> if unfound. Free with <a href="http://library.gnome.org/devel/gobject/unstable/gobject-The-Base-Object-Type.html#g-object-unref"><code class="function">g_object_unref()</code></a>. <span class="annotation">[<acronym title="Free data after the code is done."><span class="acronym">transfer full</span></acronym>]</span>
+<td>the <a class="link" href="PkPackage.html" title="PkPackage"><span class="type">PkPackage</span></a> object, or <a href="http://library.gnome.org/devel/glib/unstable/glib-Standard-Macros.html#NULL:CAPS"><code class="literal">NULL</code></a> if unfound. Free with <a href="http://library.gnome.org/devel/gobject/unstable/gobject-The-Base-Object-Type.html#g-object-unref"><code class="function">g_object_unref()</code></a>. <span class="annotation">[<acronym title="Free data after the code is done."><span class="acronym">transfer full</span></acronym>]</span>
 </td>
 </tr>
 </tbody>
@@ -667,7 +695,7 @@ Gets the result from the asynchronous function.
 </tr>
 <tr>
 <td><p><span class="term"><em class="parameter"><code>error</code></em> :</span></p></td>
-<td>A <a href="http://library.gnome.org/devel/glib/unstable/glib-Error-Reporting.html#GError"><span class="type">GError</span></a> or <a href="/usr/share/gtk-doc/html/liboil/liboil-liboiljunk.html#NULL:CAPS"><code class="literal">NULL</code></a>
+<td>A <a href="http://library.gnome.org/devel/glib/unstable/glib-Error-Reporting.html#GError"><span class="type">GError</span></a> or <a href="http://library.gnome.org/devel/glib/unstable/glib-Standard-Macros.html#NULL:CAPS"><code class="literal">NULL</code></a>
 </td>
 </tr>
 <tr>
@@ -703,7 +731,7 @@ Merges in details about packages using resolve.
 </tr>
 <tr>
 <td><p><span class="term"><em class="parameter"><code>cancellable</code></em> :</span></p></td>
-<td>a <a href="http://library.gnome.org/devel/gio/unstable/GCancellable.html"><span class="type">GCancellable</span></a> or <a href="/usr/share/gtk-doc/html/liboil/liboil-liboiljunk.html#NULL:CAPS"><code class="literal">NULL</code></a>
+<td>a <a href="http://library.gnome.org/devel/gio/unstable/GCancellable.html"><span class="type">GCancellable</span></a> or <a href="http://library.gnome.org/devel/glib/unstable/glib-Standard-Macros.html#NULL:CAPS"><code class="literal">NULL</code></a>
 </td>
 </tr>
 <tr>
@@ -753,7 +781,7 @@ Merges in details about packages.
 </tr>
 <tr>
 <td><p><span class="term"><em class="parameter"><code>cancellable</code></em> :</span></p></td>
-<td>a <a href="http://library.gnome.org/devel/gio/unstable/GCancellable.html"><span class="type">GCancellable</span></a> or <a href="/usr/share/gtk-doc/html/liboil/liboil-liboiljunk.html#NULL:CAPS"><code class="literal">NULL</code></a>
+<td>a <a href="http://library.gnome.org/devel/gio/unstable/GCancellable.html"><span class="type">GCancellable</span></a> or <a href="http://library.gnome.org/devel/glib/unstable/glib-Standard-Macros.html#NULL:CAPS"><code class="literal">NULL</code></a>
 </td>
 </tr>
 <tr>
@@ -803,7 +831,7 @@ Merges in update details about packages.
 </tr>
 <tr>
 <td><p><span class="term"><em class="parameter"><code>cancellable</code></em> :</span></p></td>
-<td>a <a href="http://library.gnome.org/devel/gio/unstable/GCancellable.html"><span class="type">GCancellable</span></a> or <a href="/usr/share/gtk-doc/html/liboil/liboil-liboiljunk.html#NULL:CAPS"><code class="literal">NULL</code></a>
+<td>a <a href="http://library.gnome.org/devel/gio/unstable/GCancellable.html"><span class="type">GCancellable</span></a> or <a href="http://library.gnome.org/devel/glib/unstable/glib-Standard-Macros.html#NULL:CAPS"><code class="literal">NULL</code></a>
 </td>
 </tr>
 <tr>
@@ -838,6 +866,6 @@ Merges in update details about packages.
 </div>
 <div class="footer">
 <hr>
-          Generated by GTK-Doc V1.18</div>
+          Generated by GTK-Doc V1.19</div>
 </body>
 </html>

@@ -661,7 +661,7 @@ pk_transaction_files_cb (PkBackendJob *job,
 				       PK_DBUS_INTERFACE_TRANSACTION,
 				       "Files",
 				       g_variant_new ("(s^as)",
-						      package_id,
+						      package_id != NULL ? package_id : "",
 						      files),
 				       NULL);
 	g_free (package_id);
@@ -2829,6 +2829,61 @@ pk_transaction_role_to_action_allow_untrusted (PkRoleEnum role)
 }
 
 /**
+ * pk_transaction_plugin_get_action:
+ *
+ * Allow plugins to override the default PolicyKit action.
+ **/
+static const gchar *
+pk_transaction_plugin_get_action (PkTransaction *transaction,
+				  const gchar *action_id)
+{
+	const gchar *function = "pk_plugin_transaction_get_action";
+	gboolean ran_one = FALSE;
+	gboolean ret;
+	guint i;
+	PkBackendJob *job;
+	PkPlugin *plugin;
+	PkPluginGetActionFunc plugin_func = NULL;
+
+	if (transaction->priv->plugins == NULL)
+		goto out;
+
+	/* run each plugin */
+	for (i = 0; i < transaction->priv->plugins->len; i++) {
+		plugin = g_ptr_array_index (transaction->priv->plugins, i);
+		ret = g_module_symbol (plugin->module,
+				       function,
+				       (gpointer *) &plugin_func);
+		if (!ret)
+			continue;
+
+		ran_one = TRUE;
+		g_debug ("run %s on %s",
+			 function,
+			 g_module_name (plugin->module));
+		job = pk_backend_job_new ();
+		pk_backend_start_job (transaction->priv->backend, job);
+		pk_transaction_signals_reset (transaction, job);
+		plugin->job = job;
+		plugin->backend = transaction->priv->backend;
+		action_id = plugin_func (plugin, transaction, action_id);
+		pk_backend_stop_job (transaction->priv->backend, job);
+		plugin->job = NULL;
+		plugin->backend = NULL;
+	}
+
+out:
+	/* set this to a known state */
+	if (transaction->priv->job != NULL) {
+		pk_transaction_signals_reset (transaction,
+					      transaction->priv->job);
+	}
+	if (!ran_one)
+		g_debug ("no plugins provided %s", function);
+	return action_id;
+}
+
+/**
  * pk_transaction_obtain_authorization:
  *
  * Only valid from an async caller, which is fine, as we won't prompt the user
@@ -2886,6 +2941,10 @@ pk_transaction_obtain_authorization (PkTransaction *transaction,
 	} else {
 		action_id = pk_transaction_role_to_action_allow_untrusted (role);
 	}
+
+	/* allow plugins to override */
+	action_id = pk_transaction_plugin_get_action (transaction, action_id);
+
 	if (action_id == NULL) {
 		g_set_error (error, PK_TRANSACTION_ERROR, PK_TRANSACTION_ERROR_REFUSED_BY_POLICY, "policykit type required for '%s'", pk_role_enum_to_string (role));
 		goto out;
@@ -4169,8 +4228,14 @@ pk_transaction_install_files (PkTransaction *transaction,
 		/* supported content type? */
 		ret = pk_transaction_is_supported_content_type (transaction, content_type);
 		if (!ret) {
-			error = g_error_new (PK_TRANSACTION_ERROR, PK_TRANSACTION_ERROR_MIME_TYPE_NOT_SUPPORTED,
-					     "MIME type '%s' not supported %s", content_type, full_paths[i]);
+			if (g_strcmp0 ("application/x-app-package", content_type) == 0 ||
+			    g_str_has_suffix (full_paths[i], ".ipk") == TRUE) {
+				error = g_error_new (PK_TRANSACTION_ERROR, PK_TRANSACTION_ERROR_MIME_TYPE_NOT_SUPPORTED,
+						"Listaller is required to install %s", full_paths[i]);
+			} else {
+				error = g_error_new (PK_TRANSACTION_ERROR, PK_TRANSACTION_ERROR_MIME_TYPE_NOT_SUPPORTED,
+						"MIME type '%s' not supported %s", content_type, full_paths[i]);
+			}
 			pk_transaction_release_tid (transaction);
 				goto out;
 		}
@@ -5703,6 +5768,7 @@ pk_transaction_class_init (PkTransactionClass *klass)
 static void
 pk_transaction_init (PkTransaction *transaction)
 {
+	gboolean ret;
 	GError *error = NULL;
 	transaction->priv = PK_TRANSACTION_GET_PRIVATE (transaction);
 	transaction->priv->allow_cancel = TRUE;
@@ -5733,6 +5799,12 @@ pk_transaction_init (PkTransaction *transaction)
 #endif
 
 	transaction->priv->transaction_db = pk_transaction_db_new ();
+	ret = pk_transaction_db_load (transaction->priv->transaction_db, &error);
+	if (!ret) {
+		g_error ("PkEngine: failed to load transaction db: %s",
+			 error->message);
+		g_error_free (error);
+	}
 	g_signal_connect (transaction->priv->transaction_db, "transaction",
 			  G_CALLBACK (pk_transaction_transaction_cb), transaction);
 

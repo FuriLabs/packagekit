@@ -2,7 +2,7 @@
 
 m4_define([pk_major_version], [0])
 m4_define([pk_minor_version], [8])
-m4_define([pk_micro_version], [9])
+m4_define([pk_micro_version], [10])
 m4_define([pk_version],
           [pk_major_version.pk_minor_version.pk_micro_version])
 
@@ -53,7 +53,7 @@ AC_SUBST(PK_VERSION)
 #   fixed, change:
 #      REVISION += 1
 LT_CURRENT=16
-LT_REVISION=5
+LT_REVISION=6
 LT_AGE=0
 AC_SUBST(LT_CURRENT)
 AC_SUBST(LT_REVISION)
@@ -174,7 +174,7 @@ AM_GLIB_GNU_GETTEXT
 dnl ---------------------------------------------------------------------------
 dnl - Library dependencies
 dnl ---------------------------------------------------------------------------
-GLIB_REQUIRED=2.26.0
+GLIB_REQUIRED=2.30.0
 GIO_REQUIRED=2.16.1
 NETWORK_MANAGER_REQUIRED=0.6.4
 POLKIT_GOBJECT_REQUIRED=0.98
@@ -482,6 +482,7 @@ if test x$build_systemd_updates = xyes; then
 		    [],
 		    [with_systemdsystemunitdir=$($PKG_CONFIG --variable=systemdsystemunitdir systemd)])
 	AC_SUBST([systemdsystemunitdir], [$with_systemdsystemunitdir])
+	AC_DEFINE(PK_HAS_OFFLINE_UPDATES,1,[Has offline updates])
 fi
 AM_CONDITIONAL(HAVE_SYSTEMD, [test -n "$with_systemdsystemunitdir"])
 
@@ -493,6 +494,7 @@ AC_ARG_ENABLE(box, AS_HELP_STRING([--enable-box],[use the BOX backend]),enable_b
 AC_ARG_ENABLE(conary, AS_HELP_STRING([--enable-conary],[use the CONARY backend]),enable_conary=$enableval,enable_conary=no)
 AC_ARG_ENABLE(dummy, AS_HELP_STRING([--enable-dummy],[use the dummy backend]),enable_dummy=$enableval,enable_dummy=yes)
 AC_ARG_ENABLE(entropy, AS_HELP_STRING([--enable-entropy],[use the entropy backend]),enable_entropy=$enableval,enable_entropy=no)
+AC_ARG_ENABLE(hawkey, AS_HELP_STRING([--enable-hawkey],[use the hawkey backend]),enable_hawkey=$enableval,enable_hawkey=no)
 AC_ARG_ENABLE(opkg, AS_HELP_STRING([--enable-opkg],[use the OPKG backend]),enable_opkg=$enableval,enable_opkg=no)
 AC_ARG_ENABLE(pisi, AS_HELP_STRING([--enable-pisi],[use the PiSi backend]),enable_pisi=$enableval,enable_pisi=no)
 AC_ARG_ENABLE(poldek, AS_HELP_STRING([--enable-poldek],[use the poldek backend]),enable_poldek=$enableval,enable_poldek=no)
@@ -513,6 +515,7 @@ AM_CONDITIONAL(BACKEND_TYPE_BOX, [test x$enable_box = xyes])
 AM_CONDITIONAL(BACKEND_TYPE_CONARY, [test x$enable_conary = xyes])
 AM_CONDITIONAL(BACKEND_TYPE_DUMMY, [test x$enable_dummy = xyes])
 AM_CONDITIONAL(BACKEND_TYPE_ENTROPY, [test x$enable_entropy = xyes])
+AM_CONDITIONAL(BACKEND_TYPE_HAWKEY, [test x$enable_hawkey = xyes])
 AM_CONDITIONAL(BACKEND_TYPE_OPKG, [test x$enable_opkg = xyes])
 AM_CONDITIONAL(BACKEND_TYPE_PISI, [test x$enable_pisi = xyes])
 AM_CONDITIONAL(BACKEND_TYPE_POLDEK, [test x$enable_poldek = xyes])
@@ -578,7 +581,7 @@ dnl ---------------------------------------------------------------------------
 AC_ARG_WITH([default_backend],
 	    AS_HELP_STRING([--with-default-backend=<option>],
 			   [Default backend to use
-                           auto,alpm,apt,aptcc,box,conary,dummy,entropy,opkg,pisi,portage,ports,slapt,smart,urpmi,yum,zif,zypp (dummy)]))
+                           auto,alpm,apt,aptcc,box,conary,dummy,entropy,hawkey,opkg,pisi,portage,ports,slapt,smart,urpmi,yum,zif,zypp (dummy)]))
 # default to a sane option for the installed tool
 if test x$with_default_backend = x; then
 	if test -f /usr/bin/yum ; then
@@ -635,6 +638,20 @@ if test x$enable_zif = xyes; then
 	fi
 fi
 AM_CONDITIONAL(PK_BUILD_ZIF, test $build_zif = "yes")
+
+build_hawkey=no
+if test x$enable_hawkey = xyes; then
+	AC_ARG_ENABLE(hawkey, AS_HELP_STRING([--enable-hawkey],[Build Hawkey experimental code]),
+		      enable_hawkey=$enableval,enable_hawkey=yes)
+	if test x$enable_hawkey = xyes; then
+		PKG_CHECK_MODULES(HAWKEY, hawkey >= 0.2.8 librepo rpm >= 4.11.0,
+			          build_hawkey=yes, build_hawkey=no)
+	fi
+	if test "x$build_hawkey" = "xyes"; then
+		AC_DEFINE([HAVE_HAWKEY], [1], [If Hawkey support should be enabled])
+	fi
+fi
+AM_CONDITIONAL(PK_BUILD_HAWKEY, test $build_hawkey = "yes")
 
 if test x$enable_apt = xyes; then
 	PY_CHECK_MOD([apt_pkg],,,AC_MSG_ERROR([Apt backend needs python-apt]))
@@ -779,6 +796,7 @@ backends/box/Makefile
 backends/conary/Makefile
 backends/dummy/Makefile
 backends/entropy/Makefile
+backends/hawkey/Makefile
 backends/opkg/Makefile
 backends/slapt/Makefile
 backends/smart/Makefile
@@ -799,6 +817,9 @@ backends/zypp/Makefile
 data/Makefile
 data/org.freedesktop.PackageKit.conf
 data/tests/Makefile
+data/tests/pk-client-helper-test.py
+data/tests/pk-spawn-dispatcher.py
+data/tests/pk-spawn-test-sigquit.py
 lib/Makefile
 lib/packagekit-glib2/pk-version.h
 lib/packagekit-glib2/Makefile
@@ -812,6 +833,10 @@ src/plugins/packagekit-plugin.pc
 client/Makefile
 tools/Makefile
 po/Makefile.in
+],[
+chmod +x data/tests/pk-client-helper-test.py
+chmod +x data/tests/pk-spawn-dispatcher.py
+chmod +x data/tests/pk-spawn-test-sigquit.py
 ])
 AC_OUTPUT
 
@@ -850,6 +875,7 @@ echo "
         CONARY backend:            ${enable_conary}
         dummy backend:             ${enable_dummy}
         Entropy backend:           ${enable_entropy}
+        Hawkey backend:            ${enable_hawkey}
         OPKG backend:              ${enable_opkg}
         PiSi backend:              ${enable_pisi}
         poldek backend:            ${enable_poldek}

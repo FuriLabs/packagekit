@@ -258,6 +258,8 @@ pk_filter_enum_get_type (void)
             { PK_FILTER_ENUM_NOT_COLLECTIONS, "PK_FILTER_ENUM_NOT_COLLECTIONS", "not-collections" },
             { PK_FILTER_ENUM_APPLICATION, "PK_FILTER_ENUM_APPLICATION", "application" },
             { PK_FILTER_ENUM_NOT_APPLICATION, "PK_FILTER_ENUM_NOT_APPLICATION", "not-application" },
+            { PK_FILTER_ENUM_DOWNLOADED, "PK_FILTER_ENUM_DOWNLOADED", "downloaded" },
+            { PK_FILTER_ENUM_NOT_DOWNLOADED, "PK_FILTER_ENUM_NOT_DOWNLOADED", "not-downloaded" },
             { PK_FILTER_ENUM_LAST, "PK_FILTER_ENUM_LAST", "last" },
             { 0, NULL, NULL }
         };
