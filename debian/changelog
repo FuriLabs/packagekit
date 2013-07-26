@@ -1,3 +1,19 @@
+packagekit (0.8.10-1) UNRELEASED; urgency=low
+
+  * New upstream release: 0.8.10
+  * Adjusted Debian default settings to new upstream configuration
+  * Updated security policy, the following config is valid:
+    - Allow any local, active user in the "sudo" group to perform
+      system-updates, trigger offline-updates and install signed packages
+      from trusted sources.
+    - Allow any user to refresh the package cache
+    - Restrict all other tasks to users with superuser-privileges
+    - These changes will take effect with PolicyKit >= 0.110
+  * Fix package-install policy, was changed temporarily
+    by upstream (Closes: #717742)
+
+ -- Matthias Klumpp <matthias@tenstral.net>  Fri, 26 Jul 2013 17:29:20 +0200
+
 packagekit (0.8.9-3) unstable; urgency=low
 
   * Don't make aptcc backend recommend appstream-index
