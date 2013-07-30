@@ -12,7 +12,7 @@ Last-Update: 2012-08-14
 +      <allow_active>auth_admin_keep</allow_active>
      </defaults>
    </action>
-
+ 
 @@ -133,7 +133,7 @@
      <defaults>
        <allow_any>no</allow_any>
@@ -21,9 +21,9 @@ Last-Update: 2012-08-14
 +      <allow_active>auth_admin_keep</allow_active>
      </defaults>
    </action>
-
+ 
 @@ -236,7 +236,7 @@
-
+ 
    <action id="org.freedesktop.packagekit.trigger-offline-update">
      <!-- SECURITY:
 -          - Normal users are able to ask updates to be installed at
@@ -42,20 +42,13 @@ Last-Update: 2012-08-14
    </action>
 --- a/policy/org.freedesktop.packagekit.rules
 +++ b/policy/org.freedesktop.packagekit.rules
-@@ -1,7 +1,16 @@
+@@ -1,7 +1,8 @@
  polkit.addRule(function(action, subject) {
-     if (action.id == "org.freedesktop.packagekit.package-install" &&
-         subject.active == true && subject.local == true &&
--        subject.isInGroup("wheel")) {
-+        subject.isInGroup("sudo")) {
-+            return polkit.Result.YES;
-+    }
-+});
-+
-+polkit.addRule(function(action, subject) {
+-    if (action.id == "org.freedesktop.packagekit.package-install" &&
 +    if ((action.id == "org.freedesktop.packagekit.upgrade-system" ||
 +         action.id == "org.freedesktop.packagekit.trigger-offline-update") &&
-+        subject.active == true && subject.local == true &&
+         subject.active == true && subject.local == true &&
+-        subject.isInGroup("wheel")) {
 +        subject.isInGroup("sudo")) {
              return polkit.Result.YES;
      }
