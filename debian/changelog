@@ -1,3 +1,14 @@
+packagekit (0.8.10-2) unstable; urgency=low
+
+  * Always ask for passwort when installing packages
+    - Ask for password even if packages are trusted and user
+      is in sudo group.
+    - This is a more conservative default, since apparently software
+      on servers started using PackageKit too.
+    - Sudo-people are still able to perform updates
+
+ -- Matthias Klumpp <mak@debian.org>  Fri, 02 Aug 2013 20:48:42 +0200
+
 packagekit (0.8.10-1) unstable; urgency=low
 
   * New upstream release: 0.8.10
