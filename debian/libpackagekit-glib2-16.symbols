@@ -139,7 +139,13 @@ libpackagekit-glib2.so.16 libpackagekit-glib2-16 #MINVER#
  pk_desktop_get_type@Base 0.8.10
  pk_desktop_new@Base 0.8.10
  pk_desktop_open_database@Base 0.8.10
+ pk_details_get_description@Base 0.8.12
+ pk_details_get_group@Base 0.8.12
+ pk_details_get_license@Base 0.8.12
+ pk_details_get_package_id@Base 0.8.12
+ pk_details_get_size@Base 0.8.12
  pk_details_get_type@Base 0.8.10
+ pk_details_get_url@Base 0.8.12
  pk_details_new@Base 0.8.10
  pk_distro_upgrade_enum_from_string@Base 0.8.10
  pk_distro_upgrade_enum_get_type@Base 0.8.10
@@ -184,6 +190,7 @@ libpackagekit-glib2.so.16 libpackagekit-glib2-16 #MINVER#
  pk_iso8601_from_date@Base 0.8.10
  pk_iso8601_present@Base 0.8.10
  pk_iso8601_to_date@Base 0.8.10
+ pk_iso8601_to_datetime@Base 0.8.12
  pk_item_progress_get_package_id@Base 0.8.10
  pk_item_progress_get_percentage@Base 0.8.10
  pk_item_progress_get_status@Base 0.8.10
@@ -264,6 +271,7 @@ libpackagekit-glib2.so.16 libpackagekit-glib2-16 #MINVER#
  pk_package_ids_remove_id@Base 0.8.10
  pk_package_ids_to_string@Base 0.8.10
  pk_package_new@Base 0.8.10
+ pk_package_parse@Base 0.8.12
  pk_package_print@Base 0.8.10
  pk_package_sack_add_package@Base 0.8.10
  pk_package_sack_add_package_by_id@Base 0.8.10
@@ -449,7 +457,17 @@ libpackagekit-glib2.so.16 libpackagekit-glib2-16 #MINVER#
  pk_transaction_list_get_ids@Base 0.8.10
  pk_transaction_list_get_type@Base 0.8.10
  pk_transaction_list_new@Base 0.8.10
+ pk_transaction_past_get_cmdline@Base 0.8.12
+ pk_transaction_past_get_data@Base 0.8.12
+ pk_transaction_past_get_datetime@Base 0.8.12
+ pk_transaction_past_get_duration@Base 0.8.12
+ pk_transaction_past_get_id@Base 0.8.12
+ pk_transaction_past_get_role@Base 0.8.12
+ pk_transaction_past_get_succeeded@Base 0.8.12
+ pk_transaction_past_get_timespec@Base 0.8.12
+ pk_transaction_past_get_timestamp@Base 0.8.12
  pk_transaction_past_get_type@Base 0.8.10
+ pk_transaction_past_get_uid@Base 0.8.12
  pk_transaction_past_new@Base 0.8.10
  pk_update_detail_get_bugzilla_urls@Base 0.8.10
  pk_update_detail_get_changelog@Base 0.8.10
