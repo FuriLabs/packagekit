@@ -9,8 +9,8 @@ Last-Update: 2010-11-24
  #
  # default=http://www.packagekit.org/pk-package-not-found.html
 -DefaultUrl=http://www.packagekit.org/pk-package-not-found.html
-+DefaultUrl=DefaultUrl=https://help.ubuntu.com/community/Repositories/
- 
++DefaultUrl=https://help.ubuntu.com/community/Repositories/
+
  # The URL which is shown to the user when a codec could not be found.
  # It should explain why certain codecs cannot be used, and perhaps show
 @@ -21,7 +21,7 @@
@@ -19,7 +19,7 @@ Last-Update: 2010-11-24
  # default=none
 -CodecUrl=none
 +CodecUrl=http://shop.canonical.com/index.php?cPath=19&osCsid=f1e370ea7563ed5e654c10450364ff24
- 
+
  # The URL which is shown to the user when hardware drivers could not be found.
  # It should explain why some hardware is not supported, and links to futher
 @@ -54,9 +54,9 @@
@@ -28,7 +28,7 @@ Last-Update: 2010-11-24
  # default=My Vendor
 -VendorName=My Vendor
 +VendorName=Ubuntu
- 
+
  # The vendor icon name shown for the 'vendor' group
  #
  # default=emblem-favorite
