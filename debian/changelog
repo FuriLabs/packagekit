@@ -1,3 +1,13 @@
+packagekit (0.8.12-1) unstable; urgency=low
+
+  * New upstream release: 0.8.12
+  * Depend on policykit-1 (Closes: #719569)
+  * Update symbols file
+  * Remove TODO from docs
+  * Fix default URL for Ubuntu vendor
+
+ -- Matthias Klumpp <mak@debian.org>  Sun, 20 Oct 2013 18:42:46 +0200
+
 packagekit (0.8.10-2) unstable; urgency=low
 
   * Always ask for passwort when installing packages
