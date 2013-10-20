@@ -41,6 +41,7 @@ Multi-Arch: foreign
 Depends: libglib2.0-bin,
          libpackagekit-glib2-16 (= ${binary:Version}),
          packagekit-backend-aptcc (= ${binary:Version}),
+         policykit-1,
          ${misc:Depends},
          ${shlibs:Depends}
 Breaks: libpackagekit-glib2-14 (<= 0.7.6-4),
