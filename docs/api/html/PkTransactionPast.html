@@ -44,6 +44,16 @@
 <pre class="synopsis">struct              <a class="link" href="PkTransactionPast.html#PkTransactionPast-struct" title="struct PkTransactionPast">PkTransactionPast</a>;
 struct              <a class="link" href="PkTransactionPast.html#PkTransactionPastClass" title="struct PkTransactionPastClass">PkTransactionPastClass</a>;
 <a class="link" href="PkTransactionPast.html" title="PkTransactionPast"><span class="returnvalue">PkTransactionPast</span></a> * <a class="link" href="PkTransactionPast.html#pk-transaction-past-new" title="pk_transaction_past_new ()">pk_transaction_past_new</a>             (<em class="parameter"><code><span class="type">void</span></code></em>);
+const <a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gchar"><span class="returnvalue">gchar</span></a> *       <a class="link" href="PkTransactionPast.html#pk-transaction-past-get-cmdline" title="pk_transaction_past_get_cmdline ()">pk_transaction_past_get_cmdline</a>     (<em class="parameter"><code><a class="link" href="PkTransactionPast.html" title="PkTransactionPast"><span class="type">PkTransactionPast</span></a> *past</code></em>);
+const <a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gchar"><span class="returnvalue">gchar</span></a> *       <a class="link" href="PkTransactionPast.html#pk-transaction-past-get-data" title="pk_transaction_past_get_data ()">pk_transaction_past_get_data</a>        (<em class="parameter"><code><a class="link" href="PkTransactionPast.html" title="PkTransactionPast"><span class="type">PkTransactionPast</span></a> *past</code></em>);
+const <a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gchar"><span class="returnvalue">gchar</span></a> *       <a class="link" href="PkTransactionPast.html#pk-transaction-past-get-id" title="pk_transaction_past_get_id ()">pk_transaction_past_get_id</a>          (<em class="parameter"><code><a class="link" href="PkTransactionPast.html" title="PkTransactionPast"><span class="type">PkTransactionPast</span></a> *past</code></em>);
+const <a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gchar"><span class="returnvalue">gchar</span></a> *       <a class="link" href="PkTransactionPast.html#pk-transaction-past-get-timespec" title="pk_transaction_past_get_timespec ()">pk_transaction_past_get_timespec</a>    (<em class="parameter"><code><a class="link" href="PkTransactionPast.html" title="PkTransactionPast"><span class="type">PkTransactionPast</span></a> *past</code></em>);
+<a href="http://library.gnome.org/devel/glib/unstable/glib-GDateTime.html#GDateTime"><span class="returnvalue">GDateTime</span></a> *         <a class="link" href="PkTransactionPast.html#pk-transaction-past-get-datetime" title="pk_transaction_past_get_datetime ()">pk_transaction_past_get_datetime</a>    (<em class="parameter"><code><a class="link" href="PkTransactionPast.html" title="PkTransactionPast"><span class="type">PkTransactionPast</span></a> *past</code></em>);
+<a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gint64"><span class="returnvalue">gint64</span></a>              <a class="link" href="PkTransactionPast.html#pk-transaction-past-get-timestamp" title="pk_transaction_past_get_timestamp ()">pk_transaction_past_get_timestamp</a>   (<em class="parameter"><code><a class="link" href="PkTransactionPast.html" title="PkTransactionPast"><span class="type">PkTransactionPast</span></a> *past</code></em>);
+<a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gboolean"><span class="returnvalue">gboolean</span></a>            <a class="link" href="PkTransactionPast.html#pk-transaction-past-get-succeeded" title="pk_transaction_past_get_succeeded ()">pk_transaction_past_get_succeeded</a>   (<em class="parameter"><code><a class="link" href="PkTransactionPast.html" title="PkTransactionPast"><span class="type">PkTransactionPast</span></a> *past</code></em>);
+<a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#guint"><span class="returnvalue">guint</span></a>               <a class="link" href="PkTransactionPast.html#pk-transaction-past-get-duration" title="pk_transaction_past_get_duration ()">pk_transaction_past_get_duration</a>    (<em class="parameter"><code><a class="link" href="PkTransactionPast.html" title="PkTransactionPast"><span class="type">PkTransactionPast</span></a> *past</code></em>);
+<a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#guint"><span class="returnvalue">guint</span></a>               <a class="link" href="PkTransactionPast.html#pk-transaction-past-get-uid" title="pk_transaction_past_get_uid ()">pk_transaction_past_get_uid</a>         (<em class="parameter"><code><a class="link" href="PkTransactionPast.html" title="PkTransactionPast"><span class="type">PkTransactionPast</span></a> *past</code></em>);
+<a class="link" href="PackageKit-pk-enum.html#PkRoleEnum"><span class="returnvalue">PkRoleEnum</span></a>          <a class="link" href="PkTransactionPast.html#pk-transaction-past-get-role" title="pk_transaction_past_get_role ()">pk_transaction_past_get_role</a>        (<em class="parameter"><code><a class="link" href="PkTransactionPast.html" title="PkTransactionPast"><span class="type">PkTransactionPast</span></a> *past</code></em>);
 </pre>
 </div>
 <div class="refsect1">
@@ -110,6 +120,256 @@ often present in lists (<a class="link" href="PkResults.html" title="PkResults">
 </tr></tbody>
 </table></div>
 <p class="since">Since 0.5.4</p>
+</div>
+<hr>
+<div class="refsect2">
+<a name="pk-transaction-past-get-cmdline"></a><h3>pk_transaction_past_get_cmdline ()</h3>
+<pre class="programlisting">const <a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gchar"><span class="returnvalue">gchar</span></a> *       pk_transaction_past_get_cmdline     (<em class="parameter"><code><a class="link" href="PkTransactionPast.html" title="PkTransactionPast"><span class="type">PkTransactionPast</span></a> *past</code></em>);</pre>
+<p>
+Gets the past transaction cmdline value;
+</p>
+<div class="variablelist"><table border="0" class="variablelist">
+<colgroup>
+<col align="left" valign="top">
+<col>
+</colgroup>
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>past</code></em> :</span></p></td>
+<td>a valid <a class="link" href="PkTransactionPast.html" title="PkTransactionPast"><span class="type">PkTransactionPast</span></a> instance</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td>The transaction data</td>
+</tr>
+</tbody>
+</table></div>
+<p class="since">Since 0.8.11</p>
+</div>
+<hr>
+<div class="refsect2">
+<a name="pk-transaction-past-get-data"></a><h3>pk_transaction_past_get_data ()</h3>
+<pre class="programlisting">const <a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gchar"><span class="returnvalue">gchar</span></a> *       pk_transaction_past_get_data        (<em class="parameter"><code><a class="link" href="PkTransactionPast.html" title="PkTransactionPast"><span class="type">PkTransactionPast</span></a> *past</code></em>);</pre>
+<p>
+Gets the past transaction data;
+</p>
+<div class="variablelist"><table border="0" class="variablelist">
+<colgroup>
+<col align="left" valign="top">
+<col>
+</colgroup>
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>past</code></em> :</span></p></td>
+<td>a valid <a class="link" href="PkTransactionPast.html" title="PkTransactionPast"><span class="type">PkTransactionPast</span></a> instance</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td>The transaction data</td>
+</tr>
+</tbody>
+</table></div>
+<p class="since">Since 0.8.11</p>
+</div>
+<hr>
+<div class="refsect2">
+<a name="pk-transaction-past-get-id"></a><h3>pk_transaction_past_get_id ()</h3>
+<pre class="programlisting">const <a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gchar"><span class="returnvalue">gchar</span></a> *       pk_transaction_past_get_id          (<em class="parameter"><code><a class="link" href="PkTransactionPast.html" title="PkTransactionPast"><span class="type">PkTransactionPast</span></a> *past</code></em>);</pre>
+<p>
+Gets the past transaction ID value;
+</p>
+<div class="variablelist"><table border="0" class="variablelist">
+<colgroup>
+<col align="left" valign="top">
+<col>
+</colgroup>
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>past</code></em> :</span></p></td>
+<td>a valid <a class="link" href="PkTransactionPast.html" title="PkTransactionPast"><span class="type">PkTransactionPast</span></a> instance</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td>The transaction data</td>
+</tr>
+</tbody>
+</table></div>
+<p class="since">Since 0.8.11</p>
+</div>
+<hr>
+<div class="refsect2">
+<a name="pk-transaction-past-get-timespec"></a><h3>pk_transaction_past_get_timespec ()</h3>
+<pre class="programlisting">const <a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gchar"><span class="returnvalue">gchar</span></a> *       pk_transaction_past_get_timespec    (<em class="parameter"><code><a class="link" href="PkTransactionPast.html" title="PkTransactionPast"><span class="type">PkTransactionPast</span></a> *past</code></em>);</pre>
+<p>
+Gets the past transaction timespec value;
+</p>
+<div class="variablelist"><table border="0" class="variablelist">
+<colgroup>
+<col align="left" valign="top">
+<col>
+</colgroup>
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>past</code></em> :</span></p></td>
+<td>a valid <a class="link" href="PkTransactionPast.html" title="PkTransactionPast"><span class="type">PkTransactionPast</span></a> instance</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td>The transaction data</td>
+</tr>
+</tbody>
+</table></div>
+<p class="since">Since 0.8.11</p>
+</div>
+<hr>
+<div class="refsect2">
+<a name="pk-transaction-past-get-datetime"></a><h3>pk_transaction_past_get_datetime ()</h3>
+<pre class="programlisting"><a href="http://library.gnome.org/devel/glib/unstable/glib-GDateTime.html#GDateTime"><span class="returnvalue">GDateTime</span></a> *         pk_transaction_past_get_datetime    (<em class="parameter"><code><a class="link" href="PkTransactionPast.html" title="PkTransactionPast"><span class="type">PkTransactionPast</span></a> *past</code></em>);</pre>
+<p>
+Gets the past transaction date &amp; time value;
+</p>
+<div class="variablelist"><table border="0" class="variablelist">
+<colgroup>
+<col align="left" valign="top">
+<col>
+</colgroup>
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>past</code></em> :</span></p></td>
+<td>a valid <a class="link" href="PkTransactionPast.html" title="PkTransactionPast"><span class="type">PkTransactionPast</span></a> instance</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td>The transaction data, or <a href="/usr/share/gtk-doc/html/liboil/liboil-liboiljunk.html#NULL:CAPS"><code class="literal">NULL</code></a> if it's not available</td>
+</tr>
+</tbody>
+</table></div>
+<p class="since">Since 0.8.11</p>
+</div>
+<hr>
+<div class="refsect2">
+<a name="pk-transaction-past-get-timestamp"></a><h3>pk_transaction_past_get_timestamp ()</h3>
+<pre class="programlisting"><a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gint64"><span class="returnvalue">gint64</span></a>              pk_transaction_past_get_timestamp   (<em class="parameter"><code><a class="link" href="PkTransactionPast.html" title="PkTransactionPast"><span class="type">PkTransactionPast</span></a> *past</code></em>);</pre>
+<p>
+Gets the past transaction timestamp
+</p>
+<div class="variablelist"><table border="0" class="variablelist">
+<colgroup>
+<col align="left" valign="top">
+<col>
+</colgroup>
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>past</code></em> :</span></p></td>
+<td>a valid <a class="link" href="PkTransactionPast.html" title="PkTransactionPast"><span class="type">PkTransactionPast</span></a> instance</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td>The transaction data, or 0 if it's not available</td>
+</tr>
+</tbody>
+</table></div>
+<p class="since">Since 0.8.11</p>
+</div>
+<hr>
+<div class="refsect2">
+<a name="pk-transaction-past-get-succeeded"></a><h3>pk_transaction_past_get_succeeded ()</h3>
+<pre class="programlisting"><a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gboolean"><span class="returnvalue">gboolean</span></a>            pk_transaction_past_get_succeeded   (<em class="parameter"><code><a class="link" href="PkTransactionPast.html" title="PkTransactionPast"><span class="type">PkTransactionPast</span></a> *past</code></em>);</pre>
+<p>
+Gets the past transaction succeeded value;
+</p>
+<div class="variablelist"><table border="0" class="variablelist">
+<colgroup>
+<col align="left" valign="top">
+<col>
+</colgroup>
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>past</code></em> :</span></p></td>
+<td>a valid <a class="link" href="PkTransactionPast.html" title="PkTransactionPast"><span class="type">PkTransactionPast</span></a> instance</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td>The transaction data</td>
+</tr>
+</tbody>
+</table></div>
+<p class="since">Since 0.8.11</p>
+</div>
+<hr>
+<div class="refsect2">
+<a name="pk-transaction-past-get-duration"></a><h3>pk_transaction_past_get_duration ()</h3>
+<pre class="programlisting"><a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#guint"><span class="returnvalue">guint</span></a>               pk_transaction_past_get_duration    (<em class="parameter"><code><a class="link" href="PkTransactionPast.html" title="PkTransactionPast"><span class="type">PkTransactionPast</span></a> *past</code></em>);</pre>
+<p>
+Gets the past transaction duration;
+</p>
+<div class="variablelist"><table border="0" class="variablelist">
+<colgroup>
+<col align="left" valign="top">
+<col>
+</colgroup>
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>past</code></em> :</span></p></td>
+<td>a valid <a class="link" href="PkTransactionPast.html" title="PkTransactionPast"><span class="type">PkTransactionPast</span></a> instance</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td>The transaction data</td>
+</tr>
+</tbody>
+</table></div>
+<p class="since">Since 0.8.11</p>
+</div>
+<hr>
+<div class="refsect2">
+<a name="pk-transaction-past-get-uid"></a><h3>pk_transaction_past_get_uid ()</h3>
+<pre class="programlisting"><a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#guint"><span class="returnvalue">guint</span></a>               pk_transaction_past_get_uid         (<em class="parameter"><code><a class="link" href="PkTransactionPast.html" title="PkTransactionPast"><span class="type">PkTransactionPast</span></a> *past</code></em>);</pre>
+<p>
+Gets the past transaction uid;
+</p>
+<div class="variablelist"><table border="0" class="variablelist">
+<colgroup>
+<col align="left" valign="top">
+<col>
+</colgroup>
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>past</code></em> :</span></p></td>
+<td>a valid <a class="link" href="PkTransactionPast.html" title="PkTransactionPast"><span class="type">PkTransactionPast</span></a> instance</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td>The transaction data</td>
+</tr>
+</tbody>
+</table></div>
+<p class="since">Since 0.8.11</p>
+</div>
+<hr>
+<div class="refsect2">
+<a name="pk-transaction-past-get-role"></a><h3>pk_transaction_past_get_role ()</h3>
+<pre class="programlisting"><a class="link" href="PackageKit-pk-enum.html#PkRoleEnum"><span class="returnvalue">PkRoleEnum</span></a>          pk_transaction_past_get_role        (<em class="parameter"><code><a class="link" href="PkTransactionPast.html" title="PkTransactionPast"><span class="type">PkTransactionPast</span></a> *past</code></em>);</pre>
+<p>
+Gets the past transaction role;
+</p>
+<div class="variablelist"><table border="0" class="variablelist">
+<colgroup>
+<col align="left" valign="top">
+<col>
+</colgroup>
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>past</code></em> :</span></p></td>
+<td>a valid <a class="link" href="PkTransactionPast.html" title="PkTransactionPast"><span class="type">PkTransactionPast</span></a> instance</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td>The transaction data</td>
+</tr>
+</tbody>
+</table></div>
+<p class="since">Since 0.8.11</p>
 </div>
 </div>
 <div class="refsect1">

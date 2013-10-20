@@ -50,14 +50,12 @@ struct _PkTaskPrivate
 	GPtrArray			*array;
 	gboolean			 simulate;
 	gboolean			 only_download;
-	gboolean			 interactive;
 };
 
 enum {
 	PROP_0,
 	PROP_SIMULATE,
 	PROP_ONLY_PREPARE,
-	PROP_INTERACTIVE,
 	PROP_LAST
 };
 
@@ -726,8 +724,8 @@ out:
 gboolean
 pk_task_user_accepted (PkTask *task, guint request)
 {
-	guint idle_id;
 	PkTaskState *state;
+	GSource *idle_source;
 
 	/* get the not-yet-completed request */
 	state = pk_task_find_by_request (task, request);
@@ -736,8 +734,10 @@ pk_task_user_accepted (PkTask *task, guint request)
 		return FALSE;
 	}
 
-	idle_id = g_idle_add ((GSourceFunc) pk_task_user_accepted_idle_cb, state);
-	g_source_set_name_by_id (idle_id, "[PkTask] user-accept");
+	idle_source = g_idle_source_new ();
+	g_source_set_callback (idle_source, (GSourceFunc) pk_task_user_accepted_idle_cb, state, NULL);
+	g_source_set_name (idle_source, "[PkTask] user-accept");
+	g_source_attach (idle_source, g_main_context_get_thread_default ());
 	return TRUE;
 }
 
@@ -776,8 +776,8 @@ out:
 gboolean
 pk_task_user_declined (PkTask *task, guint request)
 {
-	guint idle_id;
 	PkTaskState *state;
+	GSource *idle_source;
 
 	/* get the not-yet-completed request */
 	state = pk_task_find_by_request (task, request);
@@ -786,8 +786,10 @@ pk_task_user_declined (PkTask *task, guint request)
 		return FALSE;
 	}
 
-	idle_id = g_idle_add ((GSourceFunc) pk_task_user_declined_idle_cb, state);
-	g_source_set_name_by_id (idle_id, "[PkTask] user-declined");
+	idle_source = g_idle_source_new ();
+	g_source_set_callback (idle_source, (GSourceFunc) pk_task_user_declined_idle_cb, state, NULL);
+	g_source_set_name (idle_source, "[PkTask] user-accept");
+	g_source_attach (idle_source, g_main_context_get_thread_default ());
 	return TRUE;
 }
 
@@ -813,6 +815,7 @@ pk_task_ready_cb (GObject *source_object, GAsyncResult *res, PkTaskState *state)
 	PkTaskClass *klass = PK_TASK_GET_CLASS (task);
 	GError *error = NULL;
 	PkResults *results;
+	gboolean interactive;
 
 	/* old results no longer valid */
 	if (state->results != NULL) {
@@ -834,13 +837,16 @@ pk_task_ready_cb (GObject *source_object, GAsyncResult *res, PkTaskState *state)
 	/* get exit code */
 	state->exit_enum = pk_results_get_exit_code (state->results);
 
+	/* can we ask the user questions? */
+	interactive = pk_client_get_interactive (PK_CLIENT (task));
+
 	/* need untrusted */
 	if (state->exit_enum == PK_EXIT_ENUM_NEED_UNTRUSTED) {
 		pk_bitfield_remove (state->transaction_flags,
 				    PK_TRANSACTION_FLAG_ENUM_ONLY_TRUSTED);
 
 		/* running non-interactive */
-		if (!state->task->priv->interactive) {
+		if (!interactive) {
 			g_debug ("working non-interactive, so calling accept");
 			pk_task_user_accepted (state->task, state->request);
 			goto out;
@@ -864,7 +870,7 @@ pk_task_ready_cb (GObject *source_object, GAsyncResult *res, PkTaskState *state)
 	if (state->exit_enum == PK_EXIT_ENUM_KEY_REQUIRED) {
 
 		/* running non-interactive */
-		if (!state->task->priv->interactive) {
+		if (!interactive) {
 			g_debug ("working non-interactive, so calling accept");
 			pk_task_user_accepted (state->task, state->request);
 			goto out;
@@ -888,7 +894,7 @@ pk_task_ready_cb (GObject *source_object, GAsyncResult *res, PkTaskState *state)
 	if (state->exit_enum == PK_EXIT_ENUM_EULA_REQUIRED) {
 
 		/* running non-interactive */
-		if (!state->task->priv->interactive) {
+		if (!interactive) {
 			g_debug ("working non-interactive, so calling accept");
 			pk_task_user_accepted (state->task, state->request);
 			goto out;
@@ -912,7 +918,7 @@ pk_task_ready_cb (GObject *source_object, GAsyncResult *res, PkTaskState *state)
 	if (state->exit_enum == PK_EXIT_ENUM_MEDIA_CHANGE_REQUIRED) {
 
 		/* running non-interactive */
-		if (!state->task->priv->interactive) {
+		if (!interactive) {
 			g_debug ("working non-interactive, so calling accept");
 			pk_task_user_accepted (state->task, state->request);
 			goto out;
@@ -2277,14 +2283,15 @@ pk_task_get_only_download (PkTask *task)
  * Sets the interactive mode, i.e. if the user is allowed to ask
  * questions.
  *
+ * This method is deprecated, use pk_client_set_interactive() instead.
+ *
  * Since: 0.6.10
  **/
 void
 pk_task_set_interactive (PkTask *task, gboolean interactive)
 {
 	g_return_if_fail (PK_IS_TASK (task));
-	task->priv->interactive = interactive;
-	g_object_notify (G_OBJECT (task), "interactive");
+	pk_client_set_interactive (PK_CLIENT (task), interactive);
 }
 
 /**
@@ -2292,6 +2299,8 @@ pk_task_set_interactive (PkTask *task, gboolean interactive)
  * @task: a valid #PkTask instance
  *
  * Gets if the transaction is interactive.
+ *
+ * This method is deprecated, use pk_client_get_interactive() instead.
  *
  * Return value: %TRUE for an interactive transaction.
  *
@@ -2301,7 +2310,7 @@ gboolean
 pk_task_get_interactive (PkTask *task)
 {
 	g_return_val_if_fail (PK_IS_TASK (task), FALSE);
-	return task->priv->interactive;
+	return pk_client_get_interactive (PK_CLIENT (task));
 }
 
 /**
@@ -2316,9 +2325,6 @@ pk_task_get_property (GObject *object, guint prop_id, GValue *value, GParamSpec 
 	switch (prop_id) {
 	case PROP_SIMULATE:
 		g_value_set_boolean (value, priv->simulate);
-		break;
-	case PROP_INTERACTIVE:
-		g_value_set_boolean (value, priv->interactive);
 		break;
 	case PROP_ONLY_PREPARE:
 		g_value_set_boolean (value, priv->only_download);
@@ -2341,9 +2347,6 @@ pk_task_set_property (GObject *object, guint prop_id, const GValue *value, GPara
 	switch (prop_id) {
 	case PROP_SIMULATE:
 		priv->simulate = g_value_get_boolean (value);
-		break;
-	case PROP_INTERACTIVE:
-		priv->interactive = g_value_get_boolean (value);
 		break;
 	case PROP_ONLY_PREPARE:
 		priv->only_download = g_value_get_boolean (value);
@@ -2377,16 +2380,6 @@ pk_task_class_init (PkTaskClass *klass)
 	g_object_class_install_property (object_class, PROP_SIMULATE, pspec);
 
 	/**
-	 * PkTask:interactive:
-	 *
-	 * Since: 0.6.7
-	 */
-	pspec = g_param_spec_boolean ("interactive", NULL, NULL,
-				      TRUE,
-				      G_PARAM_READWRITE);
-	g_object_class_install_property (object_class, PROP_INTERACTIVE, pspec);
-
-	/**
 	 * PkTask:only-download:
 	 *
 	 * Since: 0.8.1
@@ -2408,7 +2401,6 @@ pk_task_init (PkTask *task)
 	task->priv = PK_TASK_GET_PRIVATE (task);
 	task->priv->array = g_ptr_array_new ();
 	task->priv->simulate = TRUE;
-	task->priv->interactive = TRUE;
 }
 
 /**

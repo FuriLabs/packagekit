@@ -51,6 +51,9 @@ out'u'seconds)
 <a class="link" href="PackageKit.html#PackageKit.GetTransactionList">GetTransactionList</a>(out'ao'transactions)
 <a class="link" href="PackageKit.html#PackageKit.StateHasChanged">StateHasChanged</a>(in's'reason)
 <a class="link" href="PackageKit.html#PackageKit.SuggestDaemonQuit">SuggestDaemonQuit</a>()
+<a class="link" href="PackageKit.html#PackageKit.GetPackageHistory">GetPackageHistory</a>(in'as'names,
+in'u'count,
+out'a{saa{sv}}'history)
 <a class="link" href="PackageKit.html#PackageKit.GetDaemonState">GetDaemonState</a>(out's'state)
 <a class="link" href="PackageKit.html#PackageKit.SetProxy">SetProxy</a>(in's'proxy_http,
 in's'proxy_https,
@@ -271,6 +274,59 @@ out'u'seconds)</pre>
 <hr>
 <div class="refsect2">
 <a name="id-1.3.3.8.20"></a><h3>
+<a name="PackageKit.GetPackageHistory"></a>GetPackageHistory ()</h3>
+<pre class="programlisting">GetPackageHistory (in'as'names,
+in'u'count,
+out'a{saa{sv}}'history)</pre>
+</div>
+<p>
+            Gets the history for a given package name.
+            This uses the internal PackageKit history database and will not
+            return transactions done outside of PackageKit using a distribution
+            native tool.
+          </p>
+<div class="variablelist"><table border="0" class="variablelist">
+<colgroup>
+<col align="left" valign="top">
+<col>
+</colgroup>
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>names</code></em>:</span></p></td>
+<td>
+            
+              The package names to return history for, e.g. [ colord ].
+            
+          </td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>count</code></em>:</span></p></td>
+<td>
+            
+              The maximum number of past transactions to return, or 0 for no limit.
+            
+          </td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>history</code></em>:</span></p></td>
+<td>
+            
+              The list of actions performed on this package. The array may contain
+              the following keys of types:
+              info[uint],
+              user-id[uint],
+              version[string],
+              source[string],
+              timestamp[uint64].
+              Other keys and values may be added in the future.
+            
+          </td>
+</tr>
+</tbody>
+</table></div>
+<hr>
+<div class="refsect2">
+<a name="id-1.3.3.8.23"></a><h3>
 <a name="PackageKit.GetDaemonState"></a>GetDaemonState ()</h3>
 <pre class="programlisting">GetDaemonState (out's'state)</pre>
 </div>
@@ -294,7 +350,7 @@ out'u'seconds)</pre>
 </table></div>
 <hr>
 <div class="refsect2">
-<a name="id-1.3.3.8.23"></a><h3>
+<a name="id-1.3.3.8.26"></a><h3>
 <a name="PackageKit.SetProxy"></a>SetProxy ()</h3>
 <pre class="programlisting">SetProxy (in's'proxy_http,
 in's'proxy_https,

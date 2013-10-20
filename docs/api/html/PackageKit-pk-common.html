@@ -49,6 +49,7 @@
 <a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gchar"><span class="returnvalue">gchar</span></a> *             <a class="link" href="PackageKit-pk-common.html#pk-iso8601-present" title="pk_iso8601_present ()">pk_iso8601_present</a>                  (<em class="parameter"><code><span class="type">void</span></code></em>);
 <a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gchar"><span class="returnvalue">gchar</span></a> *             <a class="link" href="PackageKit-pk-common.html#pk-iso8601-from-date" title="pk_iso8601_from_date ()">pk_iso8601_from_date</a>                (<em class="parameter"><code>const <a href="http://library.gnome.org/devel/glib/unstable/glib-Date-and-Time-Functions.html#GDate"><span class="type">GDate</span></a> *date</code></em>);
 <a href="http://library.gnome.org/devel/glib/unstable/glib-Date-and-Time-Functions.html#GDate"><span class="returnvalue">GDate</span></a> *             <a class="link" href="PackageKit-pk-common.html#pk-iso8601-to-date" title="pk_iso8601_to_date ()">pk_iso8601_to_date</a>                  (<em class="parameter"><code>const <a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a> *iso_date</code></em>);
+<a href="http://library.gnome.org/devel/glib/unstable/glib-GDateTime.html#GDateTime"><span class="returnvalue">GDateTime</span></a> *         <a class="link" href="PackageKit-pk-common.html#pk-iso8601-to-datetime" title="pk_iso8601_to_datetime ()">pk_iso8601_to_datetime</a>              (<em class="parameter"><code>const <a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a> *iso_date</code></em>);
 <a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gchar"><span class="returnvalue">gchar</span></a> *             <a class="link" href="PackageKit-pk-common.html#pk-get-distro-id" title="pk_get_distro_id ()">pk_get_distro_id</a>                    (<em class="parameter"><code><span class="type">void</span></code></em>);
 </pre>
 </div>
@@ -141,7 +142,7 @@ The data in the GPtrArray is copied.
 </tr>
 <tr>
 <td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
-<td>the string array, or <a href="http://library.gnome.org/devel/glib/unstable/glib-Standard-Macros.html#NULL:CAPS"><code class="literal">NULL</code></a> if invalid. <span class="annotation">[<acronym title="Free data after the code is done."><span class="acronym">transfer full</span></acronym>]</span>
+<td>the string array, or <a href="/usr/share/gtk-doc/html/liboil/liboil-liboiljunk.html#NULL:CAPS"><code class="literal">NULL</code></a> if invalid. <span class="annotation">[<acronym title="Free data after the code is done."><span class="acronym">transfer full</span></acronym>]</span>
 </td>
 </tr>
 </tbody>
@@ -207,6 +208,28 @@ The data in the GPtrArray is copied.
 </tbody>
 </table></div>
 <p class="since">Since 0.5.2</p>
+</div>
+<hr>
+<div class="refsect2">
+<a name="pk-iso8601-to-datetime"></a><h3>pk_iso8601_to_datetime ()</h3>
+<pre class="programlisting"><a href="http://library.gnome.org/devel/glib/unstable/glib-GDateTime.html#GDateTime"><span class="returnvalue">GDateTime</span></a> *         pk_iso8601_to_datetime              (<em class="parameter"><code>const <a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a> *iso_date</code></em>);</pre>
+<div class="variablelist"><table border="0" class="variablelist">
+<colgroup>
+<col align="left" valign="top">
+<col>
+</colgroup>
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>iso_date</code></em> :</span></p></td>
+<td>The ISO8601 date to convert</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td>If valid then a new <a href="http://library.gnome.org/devel/glib/unstable/glib-GDateTime.html#GDateTime"><code class="literal">GDateTime</code></a>, else NULL</td>
+</tr>
+</tbody>
+</table></div>
+<p class="since">Since 0.8.11</p>
 </div>
 <hr>
 <div class="refsect2">

@@ -78,6 +78,7 @@
     <keyword type="" name="GetTransactionList ()" link="PackageKit.html#PackageKit.GetTransactionList"/>
     <keyword type="" name="StateHasChanged ()" link="PackageKit.html#PackageKit.StateHasChanged"/>
     <keyword type="" name="SuggestDaemonQuit ()" link="PackageKit.html#PackageKit.SuggestDaemonQuit"/>
+    <keyword type="" name="GetPackageHistory ()" link="PackageKit.html#PackageKit.GetPackageHistory"/>
     <keyword type="" name="GetDaemonState ()" link="PackageKit.html#PackageKit.GetDaemonState"/>
     <keyword type="" name="SetProxy ()" link="PackageKit.html#PackageKit.SetProxy"/>
     <keyword type="" name="The TransactionListChanged signal" link="PackageKit.html#PackageKit::TransactionListChanged"/>
@@ -385,6 +386,7 @@
     <keyword type="function" name="pk_package_new ()" link="PkPackage.html#pk-package-new" since="0.5.4"/>
     <keyword type="function" name="pk_package_test ()" link="PkPackage.html#pk-package-test"/>
     <keyword type="function" name="pk_package_set_id ()" link="PkPackage.html#pk-package-set-id" since="0.5.4"/>
+    <keyword type="function" name="pk_package_parse ()" link="PkPackage.html#pk-package-parse" since="0.8.11"/>
     <keyword type="function" name="pk_package_print ()" link="PkPackage.html#pk-package-print" since="0.5.4"/>
     <keyword type="function" name="pk_package_equal ()" link="PkPackage.html#pk-package-equal" since="0.5.4"/>
     <keyword type="function" name="pk_package_equal_id ()" link="PkPackage.html#pk-package-equal-id" since="0.5.4"/>
@@ -568,12 +570,21 @@
     <keyword type="function" name="pk_task_get_interactive ()" link="PkTask.html#pk-task-get-interactive" since="0.6.10"/>
     <keyword type="function" name="pk_task_set_only_download ()" link="PkTask.html#pk-task-set-only-download" since="0.8.1"/>
     <keyword type="function" name="pk_task_get_only_download ()" link="PkTask.html#pk-task-get-only-download" since="0.8.1"/>
-    <keyword type="property" name="The &quot;interactive&quot; property" link="PkTask.html#PkTask--interactive"/>
     <keyword type="property" name="The &quot;only-download&quot; property" link="PkTask.html#PkTask--only-download"/>
     <keyword type="property" name="The &quot;simulate&quot; property" link="PkTask.html#PkTask--simulate"/>
     <keyword type="struct" name="struct PkTransactionPast" link="PkTransactionPast.html#PkTransactionPast-struct"/>
     <keyword type="struct" name="struct PkTransactionPastClass" link="PkTransactionPast.html#PkTransactionPastClass"/>
     <keyword type="function" name="pk_transaction_past_new ()" link="PkTransactionPast.html#pk-transaction-past-new" since="0.5.4"/>
+    <keyword type="function" name="pk_transaction_past_get_cmdline ()" link="PkTransactionPast.html#pk-transaction-past-get-cmdline" since="0.8.11"/>
+    <keyword type="function" name="pk_transaction_past_get_data ()" link="PkTransactionPast.html#pk-transaction-past-get-data" since="0.8.11"/>
+    <keyword type="function" name="pk_transaction_past_get_id ()" link="PkTransactionPast.html#pk-transaction-past-get-id" since="0.8.11"/>
+    <keyword type="function" name="pk_transaction_past_get_timespec ()" link="PkTransactionPast.html#pk-transaction-past-get-timespec" since="0.8.11"/>
+    <keyword type="function" name="pk_transaction_past_get_datetime ()" link="PkTransactionPast.html#pk-transaction-past-get-datetime" since="0.8.11"/>
+    <keyword type="function" name="pk_transaction_past_get_timestamp ()" link="PkTransactionPast.html#pk-transaction-past-get-timestamp" since="0.8.11"/>
+    <keyword type="function" name="pk_transaction_past_get_succeeded ()" link="PkTransactionPast.html#pk-transaction-past-get-succeeded" since="0.8.11"/>
+    <keyword type="function" name="pk_transaction_past_get_duration ()" link="PkTransactionPast.html#pk-transaction-past-get-duration" since="0.8.11"/>
+    <keyword type="function" name="pk_transaction_past_get_uid ()" link="PkTransactionPast.html#pk-transaction-past-get-uid" since="0.8.11"/>
+    <keyword type="function" name="pk_transaction_past_get_role ()" link="PkTransactionPast.html#pk-transaction-past-get-role" since="0.8.11"/>
     <keyword type="property" name="The &quot;cmdline&quot; property" link="PkTransactionPast.html#PkTransactionPast--cmdline"/>
     <keyword type="property" name="The &quot;data&quot; property" link="PkTransactionPast.html#PkTransactionPast--data"/>
     <keyword type="property" name="The &quot;duration&quot; property" link="PkTransactionPast.html#PkTransactionPast--duration"/>
@@ -670,6 +681,7 @@
     <keyword type="function" name="pk_iso8601_present ()" link="PackageKit-pk-common.html#pk-iso8601-present" since="0.5.2"/>
     <keyword type="function" name="pk_iso8601_from_date ()" link="PackageKit-pk-common.html#pk-iso8601-from-date" since="0.5.2"/>
     <keyword type="function" name="pk_iso8601_to_date ()" link="PackageKit-pk-common.html#pk-iso8601-to-date" since="0.5.2"/>
+    <keyword type="function" name="pk_iso8601_to_datetime ()" link="PackageKit-pk-common.html#pk-iso8601-to-datetime" since="0.8.11"/>
     <keyword type="function" name="pk_get_distro_id ()" link="PackageKit-pk-common.html#pk-get-distro-id"/>
     <keyword type="function" name="pk_control_get_properties ()" link="PackageKit-pk-control-sync.html#pk-control-get-properties" since="0.5.3"/>
     <keyword type="function" name="pk_control_get_transaction_list ()" link="PackageKit-pk-control-sync.html#pk-control-get-transaction-list" since="0.5.3"/>

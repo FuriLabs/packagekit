@@ -1,9 +1,9 @@
 <ANCHOR id="annotation-glossterm-array" href="PackageKit/specification.html#annotation-glossterm-array">
-<ANCHOR id="annotation-glossterm-element-type" href="PackageKit/specification.html#annotation-glossterm-element-type">
-<ANCHOR id="annotation-glossterm-transfer container" href="PackageKit/specification.html#annotation-glossterm-transfer container">
 <ANCHOR id="annotation-glossterm-transfer full" href="PackageKit/specification.html#annotation-glossterm-transfer full">
-<ANCHOR id="annotation-glossterm-scope call" href="PackageKit/specification.html#annotation-glossterm-scope call">
+<ANCHOR id="annotation-glossterm-transfer container" href="PackageKit/specification.html#annotation-glossterm-transfer container">
 <ANCHOR id="annotation-glossterm-transfer none" href="PackageKit/specification.html#annotation-glossterm-transfer none">
+<ANCHOR id="annotation-glossterm-scope call" href="PackageKit/specification.html#annotation-glossterm-scope call">
+<ANCHOR id="annotation-glossterm-element-type" href="PackageKit/specification.html#annotation-glossterm-element-type">
 <ANCHOR id="PackageKit" href="PackageKit/PackageKit.html">
 <ANCHOR id="PackageKit.CanAuthorize" href="PackageKit/PackageKit.html#PackageKit.CanAuthorize">
 <ANCHOR id="PackageKit.CreateTransaction" href="PackageKit/PackageKit.html#PackageKit.CreateTransaction">
@@ -11,6 +11,7 @@
 <ANCHOR id="PackageKit.GetTransactionList" href="PackageKit/PackageKit.html#PackageKit.GetTransactionList">
 <ANCHOR id="PackageKit.StateHasChanged" href="PackageKit/PackageKit.html#PackageKit.StateHasChanged">
 <ANCHOR id="PackageKit.SuggestDaemonQuit" href="PackageKit/PackageKit.html#PackageKit.SuggestDaemonQuit">
+<ANCHOR id="PackageKit.GetPackageHistory" href="PackageKit/PackageKit.html#PackageKit.GetPackageHistory">
 <ANCHOR id="PackageKit.GetDaemonState" href="PackageKit/PackageKit.html#PackageKit.GetDaemonState">
 <ANCHOR id="PackageKit.SetProxy" href="PackageKit/PackageKit.html#PackageKit.SetProxy">
 <ANCHOR id="PackageKit::TransactionListChanged" href="PackageKit/PackageKit.html#PackageKit::TransactionListChanged">
@@ -436,6 +437,7 @@
 <ANCHOR id="pk-package-new" href="PackageKit/PkPackage.html#pk-package-new">
 <ANCHOR id="pk-package-test" href="PackageKit/PkPackage.html#pk-package-test">
 <ANCHOR id="pk-package-set-id" href="PackageKit/PkPackage.html#pk-package-set-id">
+<ANCHOR id="pk-package-parse" href="PackageKit/PkPackage.html#pk-package-parse">
 <ANCHOR id="pk-package-print" href="PackageKit/PkPackage.html#pk-package-print">
 <ANCHOR id="pk-package-equal" href="PackageKit/PkPackage.html#pk-package-equal">
 <ANCHOR id="pk-package-equal-id" href="PackageKit/PkPackage.html#pk-package-equal-id">
@@ -692,7 +694,6 @@
 <ANCHOR id="pk-task-set-only-download" href="PackageKit/PkTask.html#pk-task-set-only-download">
 <ANCHOR id="pk-task-get-only-download" href="PackageKit/PkTask.html#pk-task-get-only-download">
 <ANCHOR id="PkTask.property-details" href="PackageKit/PkTask.html#PkTask.property-details">
-<ANCHOR id="PkTask--interactive" href="PackageKit/PkTask.html#PkTask--interactive">
 <ANCHOR id="PkTask--only-download" href="PackageKit/PkTask.html#PkTask--only-download">
 <ANCHOR id="PkTask--simulate" href="PackageKit/PkTask.html#PkTask--simulate">
 <ANCHOR id="PkTransactionPast" href="PackageKit/PkTransactionPast.html">
@@ -704,6 +705,16 @@
 <ANCHOR id="PkTransactionPast-struct" href="PackageKit/PkTransactionPast.html#PkTransactionPast-struct">
 <ANCHOR id="PkTransactionPastClass" href="PackageKit/PkTransactionPast.html#PkTransactionPastClass">
 <ANCHOR id="pk-transaction-past-new" href="PackageKit/PkTransactionPast.html#pk-transaction-past-new">
+<ANCHOR id="pk-transaction-past-get-cmdline" href="PackageKit/PkTransactionPast.html#pk-transaction-past-get-cmdline">
+<ANCHOR id="pk-transaction-past-get-data" href="PackageKit/PkTransactionPast.html#pk-transaction-past-get-data">
+<ANCHOR id="pk-transaction-past-get-id" href="PackageKit/PkTransactionPast.html#pk-transaction-past-get-id">
+<ANCHOR id="pk-transaction-past-get-timespec" href="PackageKit/PkTransactionPast.html#pk-transaction-past-get-timespec">
+<ANCHOR id="pk-transaction-past-get-datetime" href="PackageKit/PkTransactionPast.html#pk-transaction-past-get-datetime">
+<ANCHOR id="pk-transaction-past-get-timestamp" href="PackageKit/PkTransactionPast.html#pk-transaction-past-get-timestamp">
+<ANCHOR id="pk-transaction-past-get-succeeded" href="PackageKit/PkTransactionPast.html#pk-transaction-past-get-succeeded">
+<ANCHOR id="pk-transaction-past-get-duration" href="PackageKit/PkTransactionPast.html#pk-transaction-past-get-duration">
+<ANCHOR id="pk-transaction-past-get-uid" href="PackageKit/PkTransactionPast.html#pk-transaction-past-get-uid">
+<ANCHOR id="pk-transaction-past-get-role" href="PackageKit/PkTransactionPast.html#pk-transaction-past-get-role">
 <ANCHOR id="PkTransactionPast.property-details" href="PackageKit/PkTransactionPast.html#PkTransactionPast.property-details">
 <ANCHOR id="PkTransactionPast--cmdline" href="PackageKit/PkTransactionPast.html#PkTransactionPast--cmdline">
 <ANCHOR id="PkTransactionPast--data" href="PackageKit/PkTransactionPast.html#PkTransactionPast--data">
@@ -820,6 +831,7 @@
 <ANCHOR id="pk-iso8601-present" href="PackageKit/PackageKit-pk-common.html#pk-iso8601-present">
 <ANCHOR id="pk-iso8601-from-date" href="PackageKit/PackageKit-pk-common.html#pk-iso8601-from-date">
 <ANCHOR id="pk-iso8601-to-date" href="PackageKit/PackageKit-pk-common.html#pk-iso8601-to-date">
+<ANCHOR id="pk-iso8601-to-datetime" href="PackageKit/PackageKit-pk-common.html#pk-iso8601-to-datetime">
 <ANCHOR id="pk-get-distro-id" href="PackageKit/PackageKit-pk-common.html#pk-get-distro-id">
 <ANCHOR id="PackageKit-pk-control-sync" href="PackageKit/PackageKit-pk-control-sync.html">
 <ANCHOR id="PackageKit-pk-control-sync.synopsis" href="PackageKit/PackageKit-pk-control-sync.html#PackageKit-pk-control-sync.synopsis">

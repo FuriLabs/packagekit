@@ -130,6 +130,7 @@ libpk_backend_hawkey_la_DEPENDENCIES = $(am__DEPENDENCIES_1) \
 am_libpk_backend_hawkey_la_OBJECTS =  \
 	libpk_backend_hawkey_la-pk-backend-hawkey.lo \
 	libpk_backend_hawkey_la-hif-config.lo \
+	libpk_backend_hawkey_la-hif-db.lo \
 	libpk_backend_hawkey_la-hif-goal.lo \
 	libpk_backend_hawkey_la-hif-keyring.lo \
 	libpk_backend_hawkey_la-hif-lock.lo \
@@ -479,6 +480,7 @@ top_srcdir = @top_srcdir@
 AM_CPPFLAGS = \
 	$(HAWKEY_CFLAGS)						\
 	-DSYSCONFDIR=\""$(sysconfdir)"\"				\
+	-DLOCALSTATEDIR=\""$(localstatedir)"\"				\
 	-DG_LOG_DOMAIN=\"PackageKit-Hawkey\"
 
 plugindir = $(PK_PLUGIN_DIR)
@@ -487,6 +489,8 @@ libpk_backend_hawkey_la_SOURCES = \
 	pk-backend-hawkey.c						\
 	hif-config.c							\
 	hif-config.h							\
+	hif-db.c							\
+	hif-db.h							\
 	hif-goal.c							\
 	hif-goal.h							\
 	hif-keyring.c							\
@@ -587,6 +591,7 @@ distclean-compile:
 	-rm -f *.tab.c
 
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libpk_backend_hawkey_la-hif-config.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libpk_backend_hawkey_la-hif-db.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libpk_backend_hawkey_la-hif-goal.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libpk_backend_hawkey_la-hif-keyring.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libpk_backend_hawkey_la-hif-lock.Plo@am__quote@
@@ -631,6 +636,13 @@ libpk_backend_hawkey_la-hif-config.lo: hif-config.c
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='hif-config.c' object='libpk_backend_hawkey_la-hif-config.lo' libtool=yes @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libpk_backend_hawkey_la_CFLAGS) $(CFLAGS) -c -o libpk_backend_hawkey_la-hif-config.lo `test -f 'hif-config.c' || echo '$(srcdir)/'`hif-config.c
+
+libpk_backend_hawkey_la-hif-db.lo: hif-db.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libpk_backend_hawkey_la_CFLAGS) $(CFLAGS) -MT libpk_backend_hawkey_la-hif-db.lo -MD -MP -MF $(DEPDIR)/libpk_backend_hawkey_la-hif-db.Tpo -c -o libpk_backend_hawkey_la-hif-db.lo `test -f 'hif-db.c' || echo '$(srcdir)/'`hif-db.c
+@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/libpk_backend_hawkey_la-hif-db.Tpo $(DEPDIR)/libpk_backend_hawkey_la-hif-db.Plo
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='hif-db.c' object='libpk_backend_hawkey_la-hif-db.lo' libtool=yes @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libpk_backend_hawkey_la_CFLAGS) $(CFLAGS) -c -o libpk_backend_hawkey_la-hif-db.lo `test -f 'hif-db.c' || echo '$(srcdir)/'`hif-db.c
 
 libpk_backend_hawkey_la-hif-goal.lo: hif-goal.c
 @am__fastdepCC_TRUE@	$(AM_V_CC)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libpk_backend_hawkey_la_CFLAGS) $(CFLAGS) -MT libpk_backend_hawkey_la-hif-goal.lo -MD -MP -MF $(DEPDIR)/libpk_backend_hawkey_la-hif-goal.Tpo -c -o libpk_backend_hawkey_la-hif-goal.lo `test -f 'hif-goal.c' || echo '$(srcdir)/'`hif-goal.c

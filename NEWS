@@ -1,3 +1,54 @@
+Version 0.8.12
+~~~~~~~~~~~~~~
+Released: 2013-10-18
+
+Libraries:
+ - Add a method to parse a PkPackage from it's description (Richard Hughes)
+ - Add pk_transaction_past_get_timestamp() as a helper (Richard Hughes)
+ - Add some simple getters for PkDetails (Richard Hughes)
+ - Add some simple getters for PkTransactionPast (Richard Hughes)
+ - Destroy and re-create the control proxy if the server changes (Richard Hughes)
+ - Do not have duplicate 'interactive' properties (Richard Hughes)
+ - Make PkTask thread-default-context aware (Giovanni Campagna)
+
+Backends:
+ - pisi: Detect when reboot is required and report it (Ikey Doherty)
+ - pisi: Fix parsing of package update messages (Ikey Doherty)
+ - pisi: Support INFO_BUGFIX when listing new updates (Ikey Doherty)
+
+New Features:
+ - Add GetPackageHistory() that returns history data for packages (Richard Hughes)
+
+Bugfixes:
+ - Check for packagekitd in the right location (Dominique Leuenberger)
+ - Do not send the backend a cache age of -308 when using UINT_MAX (Richard Hughes)
+
+Version 0.8.11
+~~~~~~~~~~~~~~
+Released: 2013-09-02
+
+Backends:
+ - hawkey: Adapt to the new API in librepo (Richard Hughes)
+ - hawkey: Do not abort the refresh if a specific repo is not available (Richard Hughes)
+ - hawkey: Do not fail to refresh if a single repo is unavailable (Richard Hughes)
+ - hawkey: Do not hardcode version numbers and architecture details (Richard Hughes)
+ - hawkey: Port to the new librepo API (Richard Hughes)
+ - hawkey: Write to the yumdb when running a transaction (Richard Hughes)
+ - pisi: Major code cleanups to pass lint tests (Ikey Doherty)
+ - yum: Do not check for infra packages when getting the update list (Richard Hughes)
+ - yum: Do not use network access if we're filtering with ONLY_DOWNLOAD (Richard Hughes)
+ - zif: Do not use network access if we're filtering with ONLY_DOWNLOAD (Richard Hughes)
+ - zypp: Adapt to pk_backend_job_files change (Dominique Leuenberger)
+
+New Features:
+ - Make it possible to cancel an offline update (Matthias Clasen)
+
+Bugfixes:
+ - Add offline update commands to the pkcon man page (Matthias Clasen)
+ - Make sure basic stuff is set up before entering the STARTED plugin phase (Matthias Klumpp)
+ - pkcon: Add a few missing subcommands to the help output (Matthias Clasen)
+ - pkcon: Document commands and options (Matthias Clasen)
+
 Version 0.8.10
 ~~~~~~~~~~~~~~
 Released: 2013-07-26

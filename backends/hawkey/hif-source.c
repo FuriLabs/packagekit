@@ -28,6 +28,7 @@
 #include <librepo/librepo.h>
 #include <hawkey/util.h>
 
+#include "hif-config.h"
 #include "hif-source.h"
 #include "hif-utils.h"
 
@@ -40,9 +41,9 @@ struct HifSource {
 	gchar		*packages;	/* /var/cache/PackageKit/metadata/fedora/packages */
 	GKeyFile	*keyfile;
 	HyRepo		 repo;
-	lr_Handle	 repo_handle;
-	lr_Result	 repo_result;
-	lr_UrlVars	*urlvars;
+	LrHandle	*repo_handle;
+	LrResult	*repo_result;
+	LrUrlVars	*urlvars;
 };
 
 /**
@@ -140,11 +141,14 @@ hif_source_parse (GPtrArray *sources,
 	gboolean has_enabled;
 	gboolean is_enabled;
 	gboolean ret = TRUE;
+	gchar *basearch = NULL;
+	gchar *fedora_release = NULL;
 	gchar **repos = NULL;
 	gint rc;
 	GKeyFile *keyfile;
 	guint64 val;
 	guint i;
+	HifConfig *config = NULL;
 
 	/* load non-standard keyfile */
 	keyfile = hif_load_multiline_key_file (filename, error);
@@ -152,6 +156,11 @@ hif_source_parse (GPtrArray *sources,
 		ret = FALSE;
 		goto out;
 	}
+
+	/* get common things */
+	config = hif_config_new ();
+	basearch = hif_config_get_string (config, "basearch", NULL);
+	fedora_release = hif_config_get_string (config, "os-version-id", NULL);
 
 	/* save all the repos listed in the file */
 	repos = g_key_file_get_groups (keyfile, NULL);
@@ -184,8 +193,12 @@ hif_source_parse (GPtrArray *sources,
 		src->location = g_build_filename ("/var/cache/PackageKit/metadata", repos[i], NULL);
 		src->packages = g_build_filename (src->location, "packages", NULL);
 		src->repo_handle = lr_handle_init ();
-		lr_handle_setopt (src->repo_handle, LRO_REPOTYPE, LR_YUMREPO);
-		lr_handle_setopt (src->repo_handle, LRO_USERAGENT, "PackageKit-hawkey");
+		ret = lr_handle_setopt (src->repo_handle, error, LRO_REPOTYPE, LR_YUMREPO);
+		if (!ret)
+			goto out;
+		ret = lr_handle_setopt (src->repo_handle, error, LRO_USERAGENT, "PackageKit-hawkey");
+		if (!ret)
+			goto out;
 		src->repo_result = lr_result_init ();
 
 		//FIXME: only set if a gpgkry is also set?
@@ -193,9 +206,11 @@ hif_source_parse (GPtrArray *sources,
 		src->gpgcheck = (val == 1) ? 1 : 0;
 
 		// FIXME: don't hardcode
-		src->urlvars = lr_urlvars_set (src->urlvars, "releasever", "19");
-		src->urlvars = lr_urlvars_set (src->urlvars, "basearch", "x86_64");
-		lr_handle_setopt (src->repo_handle, LRO_VARSUB, src->urlvars);
+		src->urlvars = lr_urlvars_set (src->urlvars, "releasever", fedora_release);
+		src->urlvars = lr_urlvars_set (src->urlvars, "basearch", basearch);
+		ret = lr_handle_setopt (src->repo_handle, error, LRO_VARSUB, src->urlvars);
+		if (!ret)
+			goto out;
 
 		/* ensure exists */
 		if (!g_file_test (src->location, G_FILE_TEST_EXISTS)) {
@@ -227,7 +242,11 @@ hif_source_parse (GPtrArray *sources,
 		g_ptr_array_add (sources, src);
 	}
 out:
+	g_free (basearch);
+	g_free (fedora_release);
 	g_strfreev (repos);
+	if (config != NULL)
+		g_object_unref (config);
 	if (keyfile != NULL)
 		g_key_file_unref (keyfile);
 	return ret;
@@ -344,49 +363,59 @@ hif_source_check (HifSource *src, HifState *state, GError **error)
 					 NULL};
 	const gchar *tmp;
 	gboolean ret = TRUE;
-	lr_Rc rc;
-	lr_YumRepo yum_repo;
+	GError *error_local = NULL;
+	LrYumRepo *yum_repo;
+	const gchar *urls[] = { "", NULL };
 
 	/* Yum metadata */
 	hif_state_action_start (state, PK_STATUS_ENUM_LOADING_CACHE, NULL);
-	lr_handle_setopt (src->repo_handle, LRO_URL, src->location);
-	lr_handle_setopt (src->repo_handle, LRO_LOCAL, TRUE);
-	lr_handle_setopt (src->repo_handle, LRO_CHECKSUM, TRUE);
-	lr_handle_setopt (src->repo_handle, LRO_YUMDLIST, download_list);
+	urls[0] = src->location;
+	ret = lr_handle_setopt (src->repo_handle, error, LRO_URLS, urls);
+	if (!ret)
+		goto out;
+	ret = lr_handle_setopt (src->repo_handle, error, LRO_LOCAL, TRUE);
+	if (!ret)
+		goto out;
+	ret = lr_handle_setopt (src->repo_handle, error, LRO_CHECKSUM, TRUE);
+	if (!ret)
+		goto out;
+	ret = lr_handle_setopt (src->repo_handle, error, LRO_YUMDLIST, download_list);
+	if (!ret)
+		goto out;
 	lr_result_clear (src->repo_result);
-	rc = lr_handle_perform (src->repo_handle, src->repo_result);
-	if (rc) {
-		ret = FALSE;
+	ret = lr_handle_perform (src->repo_handle, src->repo_result, &error_local);
+	if (!ret) {
 		g_set_error (error,
 			     HIF_ERROR,
 			     PK_ERROR_ENUM_INTERNAL_ERROR,
 			     "repodata %s was not complete: %s",
-			     src->id, lr_strerror (rc));
+			     src->id, error_local->message);
+		g_error_free (error_local);
 		goto out;
 	}
 
 	/* get the metadata file locations */
-	rc = lr_result_getinfo (src->repo_result, LRR_YUM_REPO, &yum_repo);
-	if (rc) {
-		ret = FALSE;
+	ret = lr_result_getinfo (src->repo_result, &error_local, LRR_YUM_REPO, &yum_repo);
+	if (!ret) {
 		g_set_error (error,
 			     HIF_ERROR,
 			     PK_ERROR_ENUM_INTERNAL_ERROR,
 			     "failed to get yum-repo: %s",
-			     lr_strerror (rc));
+			     error_local->message);
+		g_error_free (error_local);
 		goto out;
 	}
 
 	/* create a HyRepo */
 	src->repo = hy_repo_create (src->id);
 	hy_repo_set_string (src->repo, HY_REPO_MD_FN, yum_repo->repomd);
-	tmp = lr_yum_repo_path(yum_repo, "primary");
+	tmp = lr_yum_repo_path (yum_repo, "primary");
 	if (tmp != NULL)
 		hy_repo_set_string (src->repo, HY_REPO_PRIMARY_FN, tmp);
-	tmp = lr_yum_repo_path(yum_repo, "filelists");
+	tmp = lr_yum_repo_path (yum_repo, "filelists");
 	if (tmp != NULL)
 		hy_repo_set_string (src->repo, HY_REPO_FILELISTS_FN, tmp);
-	tmp = lr_yum_repo_path(yum_repo, "updateinfo");
+	tmp = lr_yum_repo_path (yum_repo, "updateinfo");
 	if (tmp != NULL)
 		hy_repo_set_string (src->repo, HY_REPO_UPDATEINFO_FN, tmp);
 out:
@@ -430,37 +459,49 @@ hif_source_get_username_password_string (const gchar *user, const gchar *pass)
 /**
  * hif_source_set_keyfile_data:
  */
-static void
-hif_source_set_keyfile_data (HifSource *src)
+static gboolean
+hif_source_set_keyfile_data (HifSource *src, GError **error)
 {
-	gchar *pwd;
-	gchar *str;
-	gchar *usr;
+	gchar *pwd = NULL;
+	gchar *str = NULL;
+	gchar *usr = NULL;
+	gchar **baseurls;
+	gboolean ret;
 
 	/* baseurl is optional */
-	str = g_key_file_get_string (src->keyfile, src->id, "baseurl", NULL);
-	lr_handle_setopt (src->repo_handle, LRO_URL, str);
-	g_free (str);
+	baseurls = g_key_file_get_string_list (src->keyfile, src->id, "baseurl", NULL, NULL);
+	ret = lr_handle_setopt (src->repo_handle, error, LRO_URLS, baseurls);
+	if (!ret)
+		goto out;
+	g_strfreev (baseurls);
 
 	/* mirrorlist is optional */
 	str = g_key_file_get_string (src->keyfile, src->id, "mirrorlist", NULL);
-	lr_handle_setopt (src->repo_handle, LRO_MIRRORLIST, str);
+	ret = lr_handle_setopt (src->repo_handle, error, LRO_MIRRORLIST, str);
+	if (!ret)
+		goto out;
 	g_free (str);
 
 	/* gpgcheck is optional */
 	// FIXME: https://github.com/Tojaj/librepo/issues/16
-	//lr_handle_setopt (src->repo_handle, LRO_GPGCHECK, src->gpgcheck == 1 ? 1 : 0);
+	//ret = lr_handle_setopt (src->repo_handle, error, LRO_GPGCHECK, src->gpgcheck == 1 ? 1 : 0);
+	//if (!ret)
+	//	goto out;
 
 	/* proxy is optional */
 	str = g_key_file_get_string (src->keyfile, src->id, "proxy", NULL);
-	lr_handle_setopt (src->repo_handle, LRO_PROXY, str);
+	ret = lr_handle_setopt (src->repo_handle, error, LRO_PROXY, str);
+	if (!ret)
+		goto out;
 	g_free (str);
 
 	/* both parts of the proxy auth are optional */
 	usr = g_key_file_get_string (src->keyfile, src->id, "proxy_username", NULL);
 	pwd = g_key_file_get_string (src->keyfile, src->id, "proxy_password", NULL);
 	str = hif_source_get_username_password_string (usr, pwd);
-	lr_handle_setopt (src->repo_handle, LRO_PROXYUSERPWD, str);
+	ret = lr_handle_setopt (src->repo_handle, error, LRO_PROXYUSERPWD, str);
+	if (!ret)
+		goto out;
 	g_free (usr);
 	g_free (pwd);
 	g_free (str);
@@ -469,11 +510,14 @@ hif_source_set_keyfile_data (HifSource *src)
 	usr = g_key_file_get_string (src->keyfile, src->id, "username", NULL);
 	pwd = g_key_file_get_string (src->keyfile, src->id, "password", NULL);
 	str = hif_source_get_username_password_string (usr, pwd);
-	lr_handle_setopt (src->repo_handle, LRO_USERPWD, str);
+	ret = lr_handle_setopt (src->repo_handle, error, LRO_USERPWD, str);
+	if (!ret)
+		goto out;
+out:
 	g_free (usr);
 	g_free (pwd);
 	g_free (str);
-
+	return ret;
 //gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-fedora-$basearch
 }
 
@@ -484,8 +528,8 @@ gboolean
 hif_source_update (HifSource *src, HifState *state, GError **error)
 {
 	gboolean ret;
+	GError *error_local = NULL;
 	HifState *state_local;
-	lr_Rc rc;
 
 	/* set state */
 	ret = hif_state_set_steps (state, error,
@@ -501,27 +545,37 @@ hif_source_update (HifSource *src, HifState *state, GError **error)
 		goto out;
 
 	g_debug ("Attempting to update %s", src->id);
-	lr_handle_setopt (src->repo_handle, LRO_LOCAL, FALSE);
-//	lr_handle_setopt (src->repo_handle, LRO_UPDATE, TRUE);
-	lr_handle_setopt (src->repo_handle, LRO_DESTDIR, src->location);
-	hif_source_set_keyfile_data (src);
+	ret = lr_handle_setopt (src->repo_handle, error, LRO_LOCAL, FALSE);
+	if (!ret)
+		goto out;
+//	ret = lr_handle_setopt (src->repo_handle, error, LRO_UPDATE, TRUE);
+//	if (!ret)
+//		goto out;
+	ret = lr_handle_setopt (src->repo_handle, error, LRO_DESTDIR, src->location);
+	if (!ret)
+		goto out;
+	ret = hif_source_set_keyfile_data (src, error);
+	if (!ret)
+		goto out;
 
 	// Callback to display progress of downloading
 	state_local = hif_state_get_child (state);
-	lr_handle_setopt (src->repo_handle, LRO_PROGRESSDATA, state_local);
-	lr_handle_setopt (src->repo_handle, LRO_PROGRESSCB, hif_source_update_state_cb);
+	ret = lr_handle_setopt (src->repo_handle, error, LRO_PROGRESSDATA, state_local);
+	if (!ret)
+		goto out;
+	ret = lr_handle_setopt (src->repo_handle, error, LRO_PROGRESSCB, hif_source_update_state_cb);
+	if (!ret)
+		goto out;
 	lr_result_clear (src->repo_result);
 	hif_state_action_start (state_local, PK_STATUS_ENUM_DOWNLOAD_REPOSITORY, NULL);
-	rc = lr_handle_perform (src->repo_handle, src->repo_result);
-	if (rc) {
-		ret = FALSE;
+	ret = lr_handle_perform (src->repo_handle, src->repo_result, &error_local);
+	if (!ret) {
 		g_set_error (error,
 			     HIF_ERROR,
-			     PK_ERROR_ENUM_INTERNAL_ERROR,
-			     "cannot update repo: %s [%s:%s]",
-			     lr_strerror (rc),
-			     lr_handle_last_curl_strerror (src->repo_handle),
-			     lr_handle_last_curlm_strerror (src->repo_handle));
+			     PK_ERROR_ENUM_CANNOT_FETCH_SOURCES,
+			     "cannot update repo: %s",
+			     error_local->message);
+		g_error_free (error_local);
 		goto out;
 	}
 
@@ -541,8 +595,8 @@ hif_source_update (HifSource *src, HifState *state, GError **error)
 	if (!ret)
 		goto out;
 out:
-	lr_handle_setopt (src->repo_handle, LRO_PROGRESSCB, NULL);
-	lr_handle_setopt (src->repo_handle, LRO_PROGRESSDATA, 0xdeadbeef);
+	lr_handle_setopt (src->repo_handle, NULL, LRO_PROGRESSCB, NULL);
+	lr_handle_setopt (src->repo_handle, NULL, LRO_PROGRESSDATA, 0xdeadbeef);
 	return ret;
 }
 
@@ -680,7 +734,7 @@ hif_source_is_devel (HifSource *src)
 /**
  * hif_source_checksum_hy_to_lr:
  **/
-static lr_ChecksumType
+static LrChecksumType
 hif_source_checksum_hy_to_lr (int checksum_hy)
 {
 	if (checksum_hy == HY_CHKSUM_MD5)
@@ -704,12 +758,13 @@ hif_source_download_package (HifSource *src,
 {
 	char *checksum_str = NULL;
 	const unsigned char *checksum;
+	gboolean ret;
 	gchar *basename = NULL;
 	gchar *directory_slash;
 	gchar *loc = NULL;
 	gchar *package_id = NULL;
+	GError *error_local = NULL;
 	int checksum_type;
-	int rc;
 
 	/* if nothing specified then use cachedir */
 	if (directory == NULL) {
@@ -722,34 +777,48 @@ hif_source_download_package (HifSource *src,
 	}
 
 	/* setup the repo remote */
-	hif_source_set_keyfile_data (src);
-	lr_handle_setopt (src->repo_handle, LRO_PROGRESSDATA, state);
+	ret = hif_source_set_keyfile_data (src, error);
+	if (!ret)
+		goto out;
+	ret = lr_handle_setopt (src->repo_handle, error, LRO_PROGRESSDATA, state);
+	if (!ret)
+		goto out;
 	//TODO: this doesn't actually report sane things
-	lr_handle_setopt (src->repo_handle, LRO_PROGRESSCB, hif_source_update_state_cb);
+	ret = lr_handle_setopt (src->repo_handle, error, LRO_PROGRESSCB, hif_source_update_state_cb);
+	if (!ret)
+		goto out;
 	g_debug ("downloading %s to %s", hy_package_get_location (pkg), directory_slash);
 
 	checksum = hy_package_get_chksum (pkg, &checksum_type);
 	checksum_str = hy_chksum_str (checksum, checksum_type);
 	package_id = hif_package_get_id (pkg);
 	hif_state_action_start (state, PK_STATUS_ENUM_DOWNLOAD, package_id);
-	rc = lr_download_package (src->repo_handle,
+	ret = lr_download_package (src->repo_handle,
 				  hy_package_get_location (pkg),
 				  directory_slash,
 				  hif_source_checksum_hy_to_lr (checksum_type),
 				  checksum_str,
+				  0, /* size unknown */
 				  NULL, /* baseurl not required */
-				  TRUE);
-	if (rc && rc != LRE_ALREADYDOWNLOADED) {
-		g_set_error (error,
-			     HIF_ERROR,
-			     PK_ERROR_ENUM_INTERNAL_ERROR,
-			     "cannot download %s to %s: %s [%s:%s]",
-			     hy_package_get_location (pkg),
-			     directory_slash,
-			     lr_strerror (rc),
-			     lr_handle_last_curl_strerror (src->repo_handle),
-			     lr_handle_last_curlm_strerror (src->repo_handle));
-		goto out;
+				  TRUE,
+				  &error_local);
+	if (!ret) {
+		if (g_error_matches (error_local,
+				     LR_PACKAGE_DOWNLOADER_ERROR,
+				     LRE_ALREADYDOWNLOADED)) {
+			/* ignore */
+			g_clear_error (&error_local);
+		} else {
+			g_set_error (error,
+				     HIF_ERROR,
+				     PK_ERROR_ENUM_INTERNAL_ERROR,
+				     "cannot download %s to %s: %s",
+				     hy_package_get_location (pkg),
+				     directory_slash,
+				     error_local->message);
+			g_error_free (error_local);
+			goto out;
+		}
 	}
 
 	/* build return value */
@@ -758,8 +827,8 @@ hif_source_download_package (HifSource *src,
 				basename,
 				NULL);
 out:
-	lr_handle_setopt (src->repo_handle, LRO_PROGRESSCB, NULL);
-	lr_handle_setopt (src->repo_handle, LRO_PROGRESSDATA, 0xdeadbeef);
+	lr_handle_setopt (src->repo_handle, NULL, LRO_PROGRESSCB, NULL);
+	lr_handle_setopt (src->repo_handle, NULL, LRO_PROGRESSDATA, 0xdeadbeef);
 	hy_free (checksum_str);
 	g_free (basename);
 	g_free (package_id);
