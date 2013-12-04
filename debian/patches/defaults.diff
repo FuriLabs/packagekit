@@ -1,24 +1,27 @@
 Description: Set PackageKit default config
 Forwarded: not-needed
-Author: Matthias Klumpp <matthias@tenstral.net>
-Last-Update: 2011-07-14
+Author: Matthias Klumpp <mak@debian.org>
+Last-Update: 2013-12-04
 --- a/etc/PackageKit.conf.in
 +++ b/etc/PackageKit.conf.in
-@@ -221,7 +221,7 @@
+@@ -96,16 +96,16 @@
+ # cause errors if the desktop client is trying to resolve a large number of
  # packages in one method.
  #
- # default=1200
+-# default=1200
 -MaximumItemsToResolve=1200
-+MaximumItemsToResolve=4000
- 
++# default=4800
++MaximumItemsToResolve=4800
+
  # The maximum number of packages that can be processed in one method
  #
-@@ -285,6 +285,8 @@
- # Separate entries can be separated with the ';' character.
+ # Setting this lower decreases the risk of a local denial of service, but may
+ # cause errors if the desktop client is trying to do a large transaction.
  #
- # default=/usr/lib*/*/firefox
-+# NOTE: On Debian, updating of Firefox/Iceweasel while running should work.
-+#       If it does not, please file a bug report.
- NoUpdateProcessList=
- 
- # If background tasks should be cancelled if a foreground one is committed
+-# default=5000
+-MaximumPackagesToProcess=5000
++# default=5200
++MaximumPackagesToProcess=5200
+
+ # How long the transaction is valid before it's destroyed, in seconds
+ #
