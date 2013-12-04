@@ -1,6 +1,7 @@
 /* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*-
  *
  * Copyright (C) 2009 Mounir Lamouri (volkmar) <mounir.lamouri@gmail.com>
+ * Copyright (C) 2010-2013 Fabio Erculiani (lxnay) <lxnay@gentoo.org>
  *
  * Licensed under the GNU General Public License Version 2
  *
@@ -47,12 +48,6 @@ void
 pk_backend_initialize (PkBackend *backend)
 {
 	g_debug ("backend: initialize");
-
-	/* BACKEND MAINTAINER: feel free to remove this when you've
-	 * added support for ONLY_DOWNLOAD and merged the simulate
-	 * methods as specified in backends/PORTING.txt */
-	g_error ("Backend needs to be ported to 0.8.x -- "
-		 "see backends/PORTING.txt for details");
 
 	spawn = pk_backend_spawn_new ();
 	pk_backend_spawn_set_name (spawn, "portage");
@@ -166,15 +161,10 @@ pk_backend_get_roles (PkBackend *backend)
 	PK_ROLE_ENUM_SEARCH_GROUP,
 	PK_ROLE_ENUM_SEARCH_NAME,
 	PK_ROLE_ENUM_UPDATE_PACKAGES,
-	PK_ROLE_ENUM_UPDATE_SYSTEM,
 	PK_ROLE_ENUM_GET_REPO_LIST,
 	PK_ROLE_ENUM_REPO_ENABLE,
 	//PK_ROLE_ENUM_REPO_SET_DATA,
 	PK_ROLE_ENUM_GET_CATEGORIES,
-	//PK_ROLE_ENUM_SIMULATE_INSTALL_FILES,
-	PK_ROLE_ENUM_SIMULATE_INSTALL_PACKAGES,
-	PK_ROLE_ENUM_SIMULATE_UPDATE_PACKAGES,
-	PK_ROLE_ENUM_SIMULATE_REMOVE_PACKAGES,
 	-1);
 
     return roles;
@@ -274,6 +264,7 @@ void
 pk_backend_install_packages (PkBackend *backend, PkBackendJob *job, PkBitfield transaction_flags, gchar **package_ids)
 {
 	gchar *package_ids_temp;
+	gchar *transaction_flags_temp;
 
 	/*
 	 * TODO: portage manage to install when offline
@@ -284,7 +275,9 @@ pk_backend_install_packages (PkBackend *backend, PkBackendJob *job, PkBitfield t
 
 	/* send the complete list as stdin */
 	package_ids_temp = pk_package_ids_to_string (package_ids);
-	pk_backend_spawn_helper (spawn, job, BACKEND_FILE, "install-packages", pk_backend_bool_to_string (only_trusted), package_ids_temp, NULL);
+	transaction_flags_temp = pk_transaction_flag_bitfield_to_string (transaction_flags);
+	pk_backend_spawn_helper (spawn, job, BACKEND_FILE, "install-packages", transaction_flags_temp, package_ids_temp, NULL);
+	g_free(transaction_flags_temp);
 	g_free (package_ids_temp);
 }
 
@@ -308,12 +301,15 @@ pk_backend_refresh_cache (PkBackend *backend, PkBackendJob *job, gboolean force)
  * pk_backend_remove_packages:
  */
 void
-pk_backend_remove_packages (PkBackend *backend, PkBackendJob *job, gchar **package_ids, gboolean allow_deps, gboolean autoremove)
+pk_backend_remove_packages (PkBackend *backend, PkBackendJob *job, PkBitfield transaction_flags, gchar **package_ids, gboolean allow_deps, gboolean autoremove)
 {
 	gchar *package_ids_temp;
+	gchar *transaction_flags_temp;
 
 	package_ids_temp = pk_package_ids_to_string (package_ids);
-	pk_backend_spawn_helper (spawn, job, BACKEND_FILE, "remove-packages", pk_backend_bool_to_string (allow_deps), pk_backend_bool_to_string (autoremove), package_ids_temp, NULL);
+	transaction_flags_temp = pk_transaction_flag_bitfield_to_string (transaction_flags);
+	pk_backend_spawn_helper (spawn, job, BACKEND_FILE, "remove-packages", transaction_flags_temp, package_ids_temp, pk_backend_bool_to_string (allow_deps), pk_backend_bool_to_string (autoremove), NULL);
+	g_free (transaction_flags_temp);
 	g_free (package_ids_temp);
 }
 
@@ -409,10 +405,13 @@ void
 pk_backend_update_packages (PkBackend *backend, PkBackendJob *job, PkBitfield transaction_flags, gchar **package_ids)
 {
 	gchar *package_ids_temp;
+	gchar *transaction_flags_temp;
 
 	/* send the complete list as stdin */
 	package_ids_temp = pk_package_ids_to_string (package_ids);
-	pk_backend_spawn_helper (spawn, job, BACKEND_FILE, "update-packages", pk_backend_bool_to_string (only_trusted), package_ids_temp, NULL);
+	transaction_flags_temp = pk_transaction_flag_bitfield_to_string (transaction_flags);
+	pk_backend_spawn_helper (spawn, job, BACKEND_FILE, "update-packages", transaction_flags_temp, package_ids_temp, NULL);
+	g_free(transaction_flags_temp);
 	g_free (package_ids_temp);
 }
 
@@ -459,57 +458,6 @@ pk_backend_get_requires (PkBackend *backend, PkBackendJob *job, PkBitfield filte
 }
 
 /**
- * pk_backend_update_system:
- */
-void
-pk_backend_update_system (PkBackend *backend, PkBackendJob *job, PkBitfield transaction_flags)
-{
-	pk_backend_spawn_helper (spawn, job, BACKEND_FILE, "update-system", pk_backend_bool_to_string (only_trusted), NULL);
-}
-
-/**
- * pk_backend_simulate_remove_packages:
- */
-void
-pk_backend_simulate_remove_packages (PkBackend *backend, gchar **package_ids, gboolean autoremove)
-{
-    gchar *package_ids_temp;
-
-    /* send the complete list as stdin */
-    package_ids_temp = pk_package_ids_to_string (package_ids);
-    pk_backend_spawn_helper (spawn, job, BACKEND_FILE, "simulate-remove-packages", package_ids_temp, NULL);
-    g_free (package_ids_temp);
-}
-
-/**
- * pk_backend_simulate_update_packages:
- */
-void
-pk_backend_simulate_update_packages (PkBackend *backend, gchar **package_ids)
-{
-    gchar *package_ids_temp;
-
-    /* send the complete list as stdin */
-    package_ids_temp = pk_package_ids_to_string (package_ids);
-    pk_backend_spawn_helper (spawn, job, BACKEND_FILE, "simulate-update-packages", package_ids_temp, NULL);
-    g_free (package_ids_temp);
-}
-
-/**
- * pk_backend_simulate_install_packages:
- */
-void
-pk_backend_simulate_install_packages (PkBackend *backend, gchar **package_ids)
-{
-    gchar *package_ids_temp;
-
-    /* send the complete list as stdin */
-    package_ids_temp = pk_package_ids_to_string (package_ids);
-    pk_backend_spawn_helper (spawn, job, BACKEND_FILE, "simulate-install-packages", package_ids_temp, NULL);
-    g_free (package_ids_temp);
-}
-
-/**
  * pk_backend_get_description:
  */
 const gchar *
@@ -525,4 +473,13 @@ const gchar *
 pk_backend_get_author (PkBackend *backend)
 {
     return "Mounir Lamouri (volkmar) <mounir.lamouri@gmail.com>, Fabio Erculiani <lxnay@sabayon.org>";
+}
+
+/**
+ * pk_backend_supports_parallelization:
+ */
+gboolean
+pk_backend_supports_parallelization (PkBackend *backend)
+{
+	return TRUE;
 }

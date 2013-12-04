@@ -28,14 +28,6 @@ if PK_BUILD_DEBUGINFO_INSTALL
 SUBDIRS += debuginfo-install
 endif
 
-if PK_BUILD_PM_UTILS
-SUBDIRS += pm-utils
-endif
-
-if PK_BUILD_DEVICE_REBIND
-SUBDIRS += device-rebind
-endif
-
 if PK_BUILD_SYSTEMD_UPDATES
 SUBDIRS += systemd-updates
 endif

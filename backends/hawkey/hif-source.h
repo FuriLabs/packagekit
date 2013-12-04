@@ -19,6 +19,9 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
 
+#ifndef __HIF_SOURCE_H
+#define __HIF_SOURCE_H
+
 #include <glib.h>
 
 #include <hawkey/repo.h>
@@ -34,7 +37,7 @@ typedef enum {
 	HIF_SOURCE_SCAN_FLAG_LAST
 } HifSourceScanFlags;
 
-GPtrArray	*hif_source_find_all		(const gchar		*repos_dir,
+GPtrArray	*hif_source_find_all		(GKeyFile		*config,
 						 HifSourceScanFlags	 flags,
 						 GError			**error);
 HifSource	*hif_source_filter_by_id	(GPtrArray		*sources,
@@ -64,3 +67,5 @@ gchar		*hif_source_download_package	(HifSource		*src,
 						 const gchar		*directory,
 						 HifState		*state,
 						 GError			**error);
+
+#endif /* __HIF_SOURCE_H */

@@ -79,15 +79,13 @@ PRE_UNINSTALL = :
 POST_UNINSTALL = :
 build_triplet = @build@
 host_triplet = @host@
-@EGG_BUILD_TESTS_TRUE@check_PROGRAMS = pk-self-test$(EXEEXT)
-@EGG_BUILD_TESTS_TRUE@TESTS = pk-self-test$(EXEEXT)
 subdir = src/plugins
 DIST_COMMON = $(srcdir)/Makefile.in $(srcdir)/Makefile.am \
 	$(srcdir)/packagekit-plugin.pc.in \
-	$(top_srcdir)/build-aux/depcomp \
-	$(top_srcdir)/build-aux/test-driver
+	$(top_srcdir)/build-aux/depcomp
 ACLOCAL_M4 = $(top_srcdir)/aclocal.m4
-am__aclocal_m4_deps = $(top_srcdir)/m4/ax_check_compile_flag.m4 \
+am__aclocal_m4_deps = $(top_srcdir)/m4/as-linguas.m4 \
+	$(top_srcdir)/m4/ax_check_compile_flag.m4 \
 	$(top_srcdir)/m4/ax_check_link_flag.m4 \
 	$(top_srcdir)/m4/gtk-doc.m4 $(top_srcdir)/m4/intltool.m4 \
 	$(top_srcdir)/m4/libtool.m4 $(top_srcdir)/m4/ltoptions.m4 \
@@ -128,58 +126,17 @@ am__uninstall_files_from_dir = { \
          $(am__cd) "$$dir" && rm -f $$files; }; \
   }
 am__installdirs = "$(DESTDIR)$(plugindir)" "$(DESTDIR)$(pkgconfigdir)"
-LTLIBRARIES = $(noinst_LTLIBRARIES) $(plugin_LTLIBRARIES)
+LTLIBRARIES = $(plugin_LTLIBRARIES)
 am__DEPENDENCIES_1 =
-libpk_plugin_check_shared_libraries_in_use_la_DEPENDENCIES =  \
-	$(am__DEPENDENCIES_1)
-am_libpk_plugin_check_shared_libraries_in_use_la_OBJECTS = libpk_plugin_check_shared_libraries_in_use_la-pk-plugin-check-shared-libraries-in-use.lo \
-	libpk_plugin_check_shared_libraries_in_use_la-pk-lsof.lo
-libpk_plugin_check_shared_libraries_in_use_la_OBJECTS =  \
-	$(am_libpk_plugin_check_shared_libraries_in_use_la_OBJECTS)
-AM_V_lt = $(am__v_lt_@AM_V@)
-am__v_lt_ = $(am__v_lt_@AM_DEFAULT_V@)
-am__v_lt_0 = --silent
-am__v_lt_1 = 
-libpk_plugin_check_shared_libraries_in_use_la_LINK = $(LIBTOOL) \
-	$(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) \
-	--mode=link $(CCLD) \
-	$(libpk_plugin_check_shared_libraries_in_use_la_CFLAGS) \
-	$(CFLAGS) \
-	$(libpk_plugin_check_shared_libraries_in_use_la_LDFLAGS) \
-	$(LDFLAGS) -o $@
-libpk_plugin_clear_firmware_requests_la_DEPENDENCIES =  \
-	$(am__DEPENDENCIES_1)
-am_libpk_plugin_clear_firmware_requests_la_OBJECTS = libpk_plugin_clear_firmware_requests_la-pk-plugin-clear-firmware-requests.lo
-libpk_plugin_clear_firmware_requests_la_OBJECTS =  \
-	$(am_libpk_plugin_clear_firmware_requests_la_OBJECTS)
-libpk_plugin_clear_firmware_requests_la_LINK = $(LIBTOOL) $(AM_V_lt) \
-	--tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=link \
-	$(CCLD) $(libpk_plugin_clear_firmware_requests_la_CFLAGS) \
-	$(CFLAGS) $(libpk_plugin_clear_firmware_requests_la_LDFLAGS) \
-	$(LDFLAGS) -o $@
-libpk_plugin_no_update_process_la_DEPENDENCIES =  \
-	$(am__DEPENDENCIES_1)
-am_libpk_plugin_no_update_process_la_OBJECTS = libpk_plugin_no_update_process_la-pk-plugin-no-update-process.lo
-libpk_plugin_no_update_process_la_OBJECTS =  \
-	$(am_libpk_plugin_no_update_process_la_OBJECTS)
-libpk_plugin_no_update_process_la_LINK = $(LIBTOOL) $(AM_V_lt) \
-	--tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=link \
-	$(CCLD) $(libpk_plugin_no_update_process_la_CFLAGS) $(CFLAGS) \
-	$(libpk_plugin_no_update_process_la_LDFLAGS) $(LDFLAGS) -o $@
-libpk_plugin_require_restart_la_DEPENDENCIES = $(am__DEPENDENCIES_1)
-am_libpk_plugin_require_restart_la_OBJECTS =  \
-	libpk_plugin_require_restart_la-pk-plugin-require-restart.lo
-libpk_plugin_require_restart_la_OBJECTS =  \
-	$(am_libpk_plugin_require_restart_la_OBJECTS)
-libpk_plugin_require_restart_la_LINK = $(LIBTOOL) $(AM_V_lt) --tag=CC \
-	$(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=link $(CCLD) \
-	$(libpk_plugin_require_restart_la_CFLAGS) $(CFLAGS) \
-	$(libpk_plugin_require_restart_la_LDFLAGS) $(LDFLAGS) -o $@
 libpk_plugin_scan_desktop_files_la_DEPENDENCIES =  \
 	$(am__DEPENDENCIES_1)
 am_libpk_plugin_scan_desktop_files_la_OBJECTS = libpk_plugin_scan_desktop_files_la-pk-plugin-scan-desktop-files.lo
 libpk_plugin_scan_desktop_files_la_OBJECTS =  \
 	$(am_libpk_plugin_scan_desktop_files_la_OBJECTS)
+AM_V_lt = $(am__v_lt_@AM_V@)
+am__v_lt_ = $(am__v_lt_@AM_DEFAULT_V@)
+am__v_lt_0 = --silent
+am__v_lt_1 = 
 libpk_plugin_scan_desktop_files_la_LINK = $(LIBTOOL) $(AM_V_lt) \
 	--tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=link \
 	$(CCLD) $(libpk_plugin_scan_desktop_files_la_CFLAGS) $(CFLAGS) \
@@ -193,16 +150,6 @@ libpk_plugin_systemd_updates_la_LINK = $(LIBTOOL) $(AM_V_lt) --tag=CC \
 	$(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=link $(CCLD) \
 	$(libpk_plugin_systemd_updates_la_CFLAGS) $(CFLAGS) \
 	$(libpk_plugin_systemd_updates_la_LDFLAGS) $(LDFLAGS) -o $@
-libpk_plugin_update_check_processes_la_DEPENDENCIES =  \
-	$(am__DEPENDENCIES_1)
-am_libpk_plugin_update_check_processes_la_OBJECTS = libpk_plugin_update_check_processes_la-pk-plugin-update-check-processes.lo
-libpk_plugin_update_check_processes_la_OBJECTS =  \
-	$(am_libpk_plugin_update_check_processes_la_OBJECTS)
-libpk_plugin_update_check_processes_la_LINK = $(LIBTOOL) $(AM_V_lt) \
-	--tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=link \
-	$(CCLD) $(libpk_plugin_update_check_processes_la_CFLAGS) \
-	$(CFLAGS) $(libpk_plugin_update_check_processes_la_LDFLAGS) \
-	$(LDFLAGS) -o $@
 libpk_plugin_update_package_cache_la_DEPENDENCIES =  \
 	$(am__DEPENDENCIES_1)
 am_libpk_plugin_update_package_cache_la_OBJECTS = libpk_plugin_update_package_cache_la-pk-plugin-update-package-cache.lo \
@@ -214,15 +161,6 @@ libpk_plugin_update_package_cache_la_LINK = $(LIBTOOL) $(AM_V_lt) \
 	$(CCLD) $(libpk_plugin_update_package_cache_la_CFLAGS) \
 	$(CFLAGS) $(libpk_plugin_update_package_cache_la_LDFLAGS) \
 	$(LDFLAGS) -o $@
-libpk_plugin_example_la_DEPENDENCIES = $(am__DEPENDENCIES_1)
-am_libpk_plugin_example_la_OBJECTS =  \
-	libpk_plugin_example_la-pk-plugin-example.lo
-libpk_plugin_example_la_OBJECTS =  \
-	$(am_libpk_plugin_example_la_OBJECTS)
-libpk_plugin_example_la_LINK = $(LIBTOOL) $(AM_V_lt) --tag=CC \
-	$(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=link $(CCLD) \
-	$(libpk_plugin_example_la_CFLAGS) $(CFLAGS) \
-	$(libpk_plugin_example_la_LDFLAGS) $(LDFLAGS) -o $@
 libpk_plugin_scripts_la_DEPENDENCIES = $(am__DEPENDENCIES_1)
 am_libpk_plugin_scripts_la_OBJECTS =  \
 	libpk_plugin_scripts_la-pk-plugin-scripts.lo
@@ -232,19 +170,6 @@ libpk_plugin_scripts_la_LINK = $(LIBTOOL) $(AM_V_lt) --tag=CC \
 	$(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=link $(CCLD) \
 	$(libpk_plugin_scripts_la_CFLAGS) $(CFLAGS) \
 	$(libpk_plugin_scripts_la_LDFLAGS) $(LDFLAGS) -o $@
-am__pk_self_test_SOURCES_DIST = pk-self-test.c pk-lsof.h pk-lsof.c
-@EGG_BUILD_TESTS_TRUE@am_pk_self_test_OBJECTS =  \
-@EGG_BUILD_TESTS_TRUE@	pk_self_test-pk-self-test.$(OBJEXT) \
-@EGG_BUILD_TESTS_TRUE@	pk_self_test-pk-lsof.$(OBJEXT)
-pk_self_test_OBJECTS = $(am_pk_self_test_OBJECTS)
-@EGG_BUILD_TESTS_TRUE@pk_self_test_DEPENDENCIES =  \
-@EGG_BUILD_TESTS_TRUE@	$(am__DEPENDENCIES_1) \
-@EGG_BUILD_TESTS_TRUE@	$(am__DEPENDENCIES_1) \
-@EGG_BUILD_TESTS_TRUE@	$(am__DEPENDENCIES_1) $(PK_GLIB2_LIBS) \
-@EGG_BUILD_TESTS_TRUE@	$(am__DEPENDENCIES_1)
-pk_self_test_LINK = $(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) \
-	$(LIBTOOLFLAGS) --mode=link $(CCLD) $(pk_self_test_CFLAGS) \
-	$(CFLAGS) $(AM_LDFLAGS) $(LDFLAGS) -o $@
 AM_V_P = $(am__v_P_@AM_V@)
 am__v_P_ = $(am__v_P_@AM_DEFAULT_V@)
 am__v_P_0 = false
@@ -279,28 +204,14 @@ AM_V_CCLD = $(am__v_CCLD_@AM_V@)
 am__v_CCLD_ = $(am__v_CCLD_@AM_DEFAULT_V@)
 am__v_CCLD_0 = @echo "  CCLD    " $@;
 am__v_CCLD_1 = 
-SOURCES = $(libpk_plugin_check_shared_libraries_in_use_la_SOURCES) \
-	$(libpk_plugin_clear_firmware_requests_la_SOURCES) \
-	$(libpk_plugin_no_update_process_la_SOURCES) \
-	$(libpk_plugin_require_restart_la_SOURCES) \
-	$(libpk_plugin_scan_desktop_files_la_SOURCES) \
+SOURCES = $(libpk_plugin_scan_desktop_files_la_SOURCES) \
 	$(libpk_plugin_systemd_updates_la_SOURCES) \
-	$(libpk_plugin_update_check_processes_la_SOURCES) \
 	$(libpk_plugin_update_package_cache_la_SOURCES) \
-	$(libpk_plugin_example_la_SOURCES) \
-	$(libpk_plugin_scripts_la_SOURCES) $(pk_self_test_SOURCES)
-DIST_SOURCES =  \
-	$(libpk_plugin_check_shared_libraries_in_use_la_SOURCES) \
-	$(libpk_plugin_clear_firmware_requests_la_SOURCES) \
-	$(libpk_plugin_no_update_process_la_SOURCES) \
-	$(libpk_plugin_require_restart_la_SOURCES) \
-	$(libpk_plugin_scan_desktop_files_la_SOURCES) \
+	$(libpk_plugin_scripts_la_SOURCES)
+DIST_SOURCES = $(libpk_plugin_scan_desktop_files_la_SOURCES) \
 	$(libpk_plugin_systemd_updates_la_SOURCES) \
-	$(libpk_plugin_update_check_processes_la_SOURCES) \
 	$(libpk_plugin_update_package_cache_la_SOURCES) \
-	$(libpk_plugin_example_la_SOURCES) \
-	$(libpk_plugin_scripts_la_SOURCES) \
-	$(am__pk_self_test_SOURCES_DIST)
+	$(libpk_plugin_scripts_la_SOURCES)
 am__can_run_installinfo = \
   case $$AM_UPDATE_INFO_DIR in \
     n|no|NO) false;; \
@@ -326,183 +237,6 @@ am__define_uniq_tagged_files = \
   done | $(am__uniquify_input)`
 ETAGS = etags
 CTAGS = ctags
-am__tty_colors_dummy = \
-  mgn= red= grn= lgn= blu= brg= std=; \
-  am__color_tests=no
-am__tty_colors = { \
-  $(am__tty_colors_dummy); \
-  if test "X$(AM_COLOR_TESTS)" = Xno; then \
-    am__color_tests=no; \
-  elif test "X$(AM_COLOR_TESTS)" = Xalways; then \
-    am__color_tests=yes; \
-  elif test "X$$TERM" != Xdumb && { test -t 1; } 2>/dev/null; then \
-    am__color_tests=yes; \
-  fi; \
-  if test $$am__color_tests = yes; then \
-    red='[0;31m'; \
-    grn='[0;32m'; \
-    lgn='[1;32m'; \
-    blu='[1;34m'; \
-    mgn='[0;35m'; \
-    brg='[1m'; \
-    std='[m'; \
-  fi; \
-}
-am__recheck_rx = ^[ 	]*:recheck:[ 	]*
-am__global_test_result_rx = ^[ 	]*:global-test-result:[ 	]*
-am__copy_in_global_log_rx = ^[ 	]*:copy-in-global-log:[ 	]*
-# A command that, given a newline-separated list of test names on the
-# standard input, print the name of the tests that are to be re-run
-# upon "make recheck".
-am__list_recheck_tests = $(AWK) '{ \
-  recheck = 1; \
-  while ((rc = (getline line < ($$0 ".trs"))) != 0) \
-    { \
-      if (rc < 0) \
-        { \
-          if ((getline line2 < ($$0 ".log")) < 0) \
-	    recheck = 0; \
-          break; \
-        } \
-      else if (line ~ /$(am__recheck_rx)[nN][Oo]/) \
-        { \
-          recheck = 0; \
-          break; \
-        } \
-      else if (line ~ /$(am__recheck_rx)[yY][eE][sS]/) \
-        { \
-          break; \
-        } \
-    }; \
-  if (recheck) \
-    print $$0; \
-  close ($$0 ".trs"); \
-  close ($$0 ".log"); \
-}'
-# A command that, given a newline-separated list of test names on the
-# standard input, create the global log from their .trs and .log files.
-am__create_global_log = $(AWK) ' \
-function fatal(msg) \
-{ \
-  print "fatal: making $@: " msg | "cat >&2"; \
-  exit 1; \
-} \
-function rst_section(header) \
-{ \
-  print header; \
-  len = length(header); \
-  for (i = 1; i <= len; i = i + 1) \
-    printf "="; \
-  printf "\n\n"; \
-} \
-{ \
-  copy_in_global_log = 1; \
-  global_test_result = "RUN"; \
-  while ((rc = (getline line < ($$0 ".trs"))) != 0) \
-    { \
-      if (rc < 0) \
-         fatal("failed to read from " $$0 ".trs"); \
-      if (line ~ /$(am__global_test_result_rx)/) \
-        { \
-          sub("$(am__global_test_result_rx)", "", line); \
-          sub("[ 	]*$$", "", line); \
-          global_test_result = line; \
-        } \
-      else if (line ~ /$(am__copy_in_global_log_rx)[nN][oO]/) \
-        copy_in_global_log = 0; \
-    }; \
-  if (copy_in_global_log) \
-    { \
-      rst_section(global_test_result ": " $$0); \
-      while ((rc = (getline line < ($$0 ".log"))) != 0) \
-      { \
-        if (rc < 0) \
-          fatal("failed to read from " $$0 ".log"); \
-        print line; \
-      }; \
-      printf "\n"; \
-    }; \
-  close ($$0 ".trs"); \
-  close ($$0 ".log"); \
-}'
-# Restructured Text title.
-am__rst_title = { sed 's/.*/   &   /;h;s/./=/g;p;x;s/ *$$//;p;g' && echo; }
-# Solaris 10 'make', and several other traditional 'make' implementations,
-# pass "-e" to $(SHELL), and POSIX 2008 even requires this.  Work around it
-# by disabling -e (using the XSI extension "set +e") if it's set.
-am__sh_e_setup = case $$- in *e*) set +e;; esac
-# Default flags passed to test drivers.
-am__common_driver_flags = \
-  --color-tests "$$am__color_tests" \
-  --enable-hard-errors "$$am__enable_hard_errors" \
-  --expect-failure "$$am__expect_failure"
-# To be inserted before the command running the test.  Creates the
-# directory for the log if needed.  Stores in $dir the directory
-# containing $f, in $tst the test, in $log the log.  Executes the
-# developer- defined test setup AM_TESTS_ENVIRONMENT (if any), and
-# passes TESTS_ENVIRONMENT.  Set up options for the wrapper that
-# will run the test scripts (or their associated LOG_COMPILER, if
-# thy have one).
-am__check_pre = \
-$(am__sh_e_setup);					\
-$(am__vpath_adj_setup) $(am__vpath_adj)			\
-$(am__tty_colors);					\
-srcdir=$(srcdir); export srcdir;			\
-case "$@" in						\
-  */*) am__odir=`echo "./$@" | sed 's|/[^/]*$$||'`;;	\
-    *) am__odir=.;; 					\
-esac;							\
-test "x$$am__odir" = x"." || test -d "$$am__odir" 	\
-  || $(MKDIR_P) "$$am__odir" || exit $$?;		\
-if test -f "./$$f"; then dir=./;			\
-elif test -f "$$f"; then dir=;				\
-else dir="$(srcdir)/"; fi;				\
-tst=$$dir$$f; log='$@'; 				\
-if test -n '$(DISABLE_HARD_ERRORS)'; then		\
-  am__enable_hard_errors=no; 				\
-else							\
-  am__enable_hard_errors=yes; 				\
-fi; 							\
-case " $(XFAIL_TESTS) " in				\
-  *[\ \	]$$f[\ \	]* | *[\ \	]$$dir$$f[\ \	]*) \
-    am__expect_failure=yes;;				\
-  *)							\
-    am__expect_failure=no;;				\
-esac; 							\
-$(AM_TESTS_ENVIRONMENT) $(TESTS_ENVIRONMENT)
-# A shell command to get the names of the tests scripts with any registered
-# extension removed (i.e., equivalently, the names of the test logs, with
-# the '.log' extension removed).  The result is saved in the shell variable
-# '$bases'.  This honors runtime overriding of TESTS and TEST_LOGS.  Sadly,
-# we cannot use something simpler, involving e.g., "$(TEST_LOGS:.log=)",
-# since that might cause problem with VPATH rewrites for suffix-less tests.
-# See also 'test-harness-vpath-rewrite.sh' and 'test-trs-basic.sh'.
-am__set_TESTS_bases = \
-  bases='$(TEST_LOGS)'; \
-  bases=`for i in $$bases; do echo $$i; done | sed 's/\.log$$//'`; \
-  bases=`echo $$bases`
-RECHECK_LOGS = $(TEST_LOGS)
-AM_RECURSIVE_TARGETS = check recheck
-TEST_SUITE_LOG = test-suite.log
-TEST_EXTENSIONS = @EXEEXT@ .test
-LOG_DRIVER = $(SHELL) $(top_srcdir)/build-aux/test-driver
-LOG_COMPILE = $(LOG_COMPILER) $(AM_LOG_FLAGS) $(LOG_FLAGS)
-am__set_b = \
-  case '$@' in \
-    */*) \
-      case '$*' in \
-        */*) b='$*';; \
-          *) b=`echo '$@' | sed 's/\.log$$//'`; \
-       esac;; \
-    *) \
-      b='$*';; \
-  esac
-am__test_logs1 = $(TESTS:=.log)
-am__test_logs2 = $(am__test_logs1:@EXEEXT@.log=.log)
-TEST_LOGS = $(am__test_logs2:.test.log=.log)
-TEST_LOG_DRIVER = $(SHELL) $(top_srcdir)/build-aux/test-driver
-TEST_LOG_COMPILE = $(TEST_LOG_COMPILER) $(AM_TEST_LOG_FLAGS) \
-	$(TEST_LOG_FLAGS)
 DISTFILES = $(DIST_COMMON) $(DIST_SOURCES) $(TEXINFOS) $(EXTRA_DIST)
 ACLOCAL = @ACLOCAL@
 ALL_LINGUAS = @ALL_LINGUAS@
@@ -513,7 +247,6 @@ AM_DEFAULT_VERBOSITY = @AM_DEFAULT_VERBOSITY@
 APTCC_CFLAGS = @APTCC_CFLAGS@
 APTCC_LIBS = @APTCC_LIBS@
 AR = @AR@
-ARCHIVE_LIBS = @ARCHIVE_LIBS@
 AUTOCONF = @AUTOCONF@
 AUTOHEADER = @AUTOHEADER@
 AUTOMAKE = @AUTOMAKE@
@@ -522,8 +255,6 @@ BASH_COMPLETIONS_DIR = @BASH_COMPLETIONS_DIR@
 BASH_COMPLETION_CFLAGS = @BASH_COMPLETION_CFLAGS@
 BASH_COMPLETION_LIBS = @BASH_COMPLETION_LIBS@
 BINDIR = @BINDIR@
-BOX_CFLAGS = @BOX_CFLAGS@
-BOX_LIBS = @BOX_LIBS@
 CATALOGS = @CATALOGS@
 CATOBJEXT = @CATOBJEXT@
 CC = @CC@
@@ -575,8 +306,6 @@ GTKDOC_DEPS_CFLAGS = @GTKDOC_DEPS_CFLAGS@
 GTKDOC_DEPS_LIBS = @GTKDOC_DEPS_LIBS@
 GTKDOC_MKPDF = @GTKDOC_MKPDF@
 GTKDOC_REBASE = @GTKDOC_REBASE@
-GUDEV_CFLAGS = @GUDEV_CFLAGS@
-GUDEV_LIBS = @GUDEV_LIBS@
 HAWKEY_CFLAGS = @HAWKEY_CFLAGS@
 HAWKEY_LIBS = @HAWKEY_LIBS@
 HTML_DIR = @HTML_DIR@
@@ -609,6 +338,8 @@ LIBDIR = @LIBDIR@
 LIBEXECDIR = @LIBEXECDIR@
 LIBOBJS = @LIBOBJS@
 LIBS = @LIBS@
+LIBSYSTEMD_JOURNAL_CFLAGS = @LIBSYSTEMD_JOURNAL_CFLAGS@
+LIBSYSTEMD_JOURNAL_LIBS = @LIBSYSTEMD_JOURNAL_LIBS@
 LIBTOOL = @LIBTOOL@
 LIPO = @LIPO@
 LN_S = @LN_S@
@@ -669,8 +400,6 @@ PK_PLUGIN_DIR = @PK_PLUGIN_DIR@
 PK_PLUGIN_LIBS = @PK_PLUGIN_LIBS@
 PK_VERSION = @PK_VERSION@
 PK_YUM_PLUGIN_DIR = @PK_YUM_PLUGIN_DIR@
-PM_UTILS_CFLAGS = @PM_UTILS_CFLAGS@
-PM_UTILS_LIBS = @PM_UTILS_LIBS@
 POFILES = @POFILES@
 POLDEK_CFLAGS = @POLDEK_CFLAGS@
 POLDEK_LIBS = @POLDEK_LIBS@
@@ -705,8 +434,6 @@ WARNINGFLAGS_C = @WARNINGFLAGS_C@
 WARNINGFLAGS_CPP = @WARNINGFLAGS_CPP@
 XGETTEXT = @XGETTEXT@
 XSLTPROC = @XSLTPROC@
-ZIF_CFLAGS = @ZIF_CFLAGS@
-ZIF_LIBS = @ZIF_LIBS@
 ZYPP_CFLAGS = @ZYPP_CFLAGS@
 ZYPP_LIBS = @ZYPP_LIBS@
 abs_builddir = @abs_builddir@
@@ -762,7 +489,6 @@ psdir = @psdir@
 pyexecdir = @pyexecdir@
 pythondir = @pythondir@
 sbindir = @sbindir@
-security_framework = @security_framework@
 sharedstatedir = @sharedstatedir@
 srcdir = @srcdir@
 sysconfdir = @sysconfdir@
@@ -794,40 +520,15 @@ pkgconfigdir = $(libdir)/pkgconfig
 pkgconfig_DATA = \
 	packagekit-plugin.pc
 
-@EGG_BUILD_TESTS_TRUE@pk_self_test_SOURCES = \
-@EGG_BUILD_TESTS_TRUE@	pk-self-test.c					\
-@EGG_BUILD_TESTS_TRUE@	pk-lsof.h					\
-@EGG_BUILD_TESTS_TRUE@	pk-lsof.c
-
-@EGG_BUILD_TESTS_TRUE@pk_self_test_LDADD = \
-@EGG_BUILD_TESTS_TRUE@	$(GLIB_LIBS)					\
-@EGG_BUILD_TESTS_TRUE@	$(GMODULE_LIBS)					\
-@EGG_BUILD_TESTS_TRUE@	$(SQLITE_LIBS)					\
-@EGG_BUILD_TESTS_TRUE@	$(PK_GLIB2_LIBS)				\
-@EGG_BUILD_TESTS_TRUE@	$(GIO_LIBS)
-
-@EGG_BUILD_TESTS_TRUE@pk_self_test_CFLAGS = -DEGG_TEST $(AM_CFLAGS)
 
 # plugins
 plugindir = $(LIBDIR)/packagekit-plugins
-noinst_LTLIBRARIES = \
-	libpk_plugin_example.la
-
 plugin_LTLIBRARIES = \
 	libpk_plugin_scripts.la				\
 	libpk_plugin-update-package-cache.la		\
-	libpk_plugin-no-update-process.la		\
 	libpk_plugin-scan-desktop-files.la		\
-	libpk_plugin-systemd-updates.la			\
-	libpk_plugin-update-check-processes.la		\
-	libpk_plugin-check-shared-libraries-in-use.la	\
-	libpk_plugin-require-restart.la			\
-	libpk_plugin-clear-firmware-requests.la
+	libpk_plugin-systemd-updates.la
 
-libpk_plugin_example_la_SOURCES = pk-plugin-example.c
-libpk_plugin_example_la_LIBADD = $(PK_PLUGIN_LIBS)
-libpk_plugin_example_la_LDFLAGS = -module -avoid-version
-libpk_plugin_example_la_CFLAGS = $(PK_PLUGIN_CFLAGS) $(WARNINGFLAGS_C)
 libpk_plugin_systemd_updates_la_SOURCES = pk-plugin-systemd-updates.c
 libpk_plugin_systemd_updates_la_LIBADD = $(PK_PLUGIN_LIBS)
 libpk_plugin_systemd_updates_la_LDFLAGS = -module -avoid-version
@@ -836,10 +537,6 @@ libpk_plugin_scripts_la_SOURCES = pk-plugin-scripts.c
 libpk_plugin_scripts_la_LIBADD = $(PK_PLUGIN_LIBS)
 libpk_plugin_scripts_la_LDFLAGS = -module -avoid-version
 libpk_plugin_scripts_la_CFLAGS = $(PK_PLUGIN_CFLAGS) $(WARNINGFLAGS_C)
-libpk_plugin_clear_firmware_requests_la_SOURCES = pk-plugin-clear-firmware-requests.c
-libpk_plugin_clear_firmware_requests_la_LIBADD = $(PK_PLUGIN_LIBS)
-libpk_plugin_clear_firmware_requests_la_LDFLAGS = -module -avoid-version
-libpk_plugin_clear_firmware_requests_la_CFLAGS = $(PK_PLUGIN_CFLAGS) $(WARNINGFLAGS_C)
 libpk_plugin_update_package_cache_la_SOURCES = \
 						pk-plugin-update-package-cache.c \
 						pk-package-cache.h \
@@ -848,40 +545,14 @@ libpk_plugin_update_package_cache_la_SOURCES = \
 libpk_plugin_update_package_cache_la_LIBADD = $(PK_PLUGIN_LIBS)
 libpk_plugin_update_package_cache_la_LDFLAGS = -module -avoid-version
 libpk_plugin_update_package_cache_la_CFLAGS = $(PK_PLUGIN_CFLAGS) $(WARNINGFLAGS_C)
-libpk_plugin_no_update_process_la_SOURCES = \
-	pk-plugin-no-update-process.c
-
-libpk_plugin_no_update_process_la_LIBADD = $(PK_PLUGIN_LIBS)
-libpk_plugin_no_update_process_la_LDFLAGS = -module -avoid-version
-libpk_plugin_no_update_process_la_CFLAGS = $(PK_PLUGIN_CFLAGS) $(WARNINGFLAGS_C)
 libpk_plugin_scan_desktop_files_la_SOURCES = pk-plugin-scan-desktop-files.c
 libpk_plugin_scan_desktop_files_la_LIBADD = $(PK_PLUGIN_LIBS)
 libpk_plugin_scan_desktop_files_la_LDFLAGS = -module -avoid-version
 libpk_plugin_scan_desktop_files_la_CFLAGS = $(PK_PLUGIN_CFLAGS) $(WARNINGFLAGS_C)
-libpk_plugin_update_check_processes_la_SOURCES = \
-	pk-plugin-update-check-processes.c
-
-libpk_plugin_update_check_processes_la_LIBADD = $(PK_PLUGIN_LIBS)
-libpk_plugin_update_check_processes_la_LDFLAGS = -module -avoid-version
-libpk_plugin_update_check_processes_la_CFLAGS = $(PK_PLUGIN_CFLAGS) $(WARNINGFLAGS_C)
-libpk_plugin_check_shared_libraries_in_use_la_SOURCES = \
-	pk-plugin-check-shared-libraries-in-use.c	\
-	pk-lsof.h					\
-	pk-lsof.c
-
-libpk_plugin_check_shared_libraries_in_use_la_LIBADD = $(PK_PLUGIN_LIBS)
-libpk_plugin_check_shared_libraries_in_use_la_LDFLAGS = -module -avoid-version
-libpk_plugin_check_shared_libraries_in_use_la_CFLAGS = $(PK_PLUGIN_CFLAGS) $(WARNINGFLAGS_C)
-libpk_plugin_require_restart_la_SOURCES = \
-	pk-plugin-require-restart.c
-
-libpk_plugin_require_restart_la_LIBADD = $(PK_PLUGIN_LIBS)
-libpk_plugin_require_restart_la_LDFLAGS = -module -avoid-version
-libpk_plugin_require_restart_la_CFLAGS = $(PK_PLUGIN_CFLAGS) $(WARNINGFLAGS_C)
 all: all-am
 
 .SUFFIXES:
-.SUFFIXES: .c .lo .log .o .obj .test .test$(EXEEXT) .trs
+.SUFFIXES: .c .lo .o .obj
 $(srcdir)/Makefile.in: @MAINTAINER_MODE_TRUE@ $(srcdir)/Makefile.am  $(am__configure_deps)
 	@for dep in $?; do \
 	  case '$(am__configure_deps)' in \
@@ -914,17 +585,6 @@ $(ACLOCAL_M4): @MAINTAINER_MODE_TRUE@ $(am__aclocal_m4_deps)
 $(am__aclocal_m4_deps):
 packagekit-plugin.pc: $(top_builddir)/config.status $(srcdir)/packagekit-plugin.pc.in
 	cd $(top_builddir) && $(SHELL) ./config.status $(subdir)/$@
-
-clean-noinstLTLIBRARIES:
-	-test -z "$(noinst_LTLIBRARIES)" || rm -f $(noinst_LTLIBRARIES)
-	@list='$(noinst_LTLIBRARIES)'; \
-	locs=`for p in $$list; do echo $$p; done | \
-	      sed 's|^[^/]*$$|.|; s|/[^/]*$$||; s|$$|/so_locations|' | \
-	      sort -u`; \
-	test -z "$$locs" || { \
-	  echo rm -f $${locs}; \
-	  rm -f $${locs}; \
-	}
 
 install-pluginLTLIBRARIES: $(plugin_LTLIBRARIES)
 	@$(NORMAL_INSTALL)
@@ -961,48 +621,17 @@ clean-pluginLTLIBRARIES:
 	  rm -f $${locs}; \
 	}
 
-libpk_plugin-check-shared-libraries-in-use.la: $(libpk_plugin_check_shared_libraries_in_use_la_OBJECTS) $(libpk_plugin_check_shared_libraries_in_use_la_DEPENDENCIES) $(EXTRA_libpk_plugin_check_shared_libraries_in_use_la_DEPENDENCIES) 
-	$(AM_V_CCLD)$(libpk_plugin_check_shared_libraries_in_use_la_LINK) -rpath $(plugindir) $(libpk_plugin_check_shared_libraries_in_use_la_OBJECTS) $(libpk_plugin_check_shared_libraries_in_use_la_LIBADD) $(LIBS)
-
-libpk_plugin-clear-firmware-requests.la: $(libpk_plugin_clear_firmware_requests_la_OBJECTS) $(libpk_plugin_clear_firmware_requests_la_DEPENDENCIES) $(EXTRA_libpk_plugin_clear_firmware_requests_la_DEPENDENCIES) 
-	$(AM_V_CCLD)$(libpk_plugin_clear_firmware_requests_la_LINK) -rpath $(plugindir) $(libpk_plugin_clear_firmware_requests_la_OBJECTS) $(libpk_plugin_clear_firmware_requests_la_LIBADD) $(LIBS)
-
-libpk_plugin-no-update-process.la: $(libpk_plugin_no_update_process_la_OBJECTS) $(libpk_plugin_no_update_process_la_DEPENDENCIES) $(EXTRA_libpk_plugin_no_update_process_la_DEPENDENCIES) 
-	$(AM_V_CCLD)$(libpk_plugin_no_update_process_la_LINK) -rpath $(plugindir) $(libpk_plugin_no_update_process_la_OBJECTS) $(libpk_plugin_no_update_process_la_LIBADD) $(LIBS)
-
-libpk_plugin-require-restart.la: $(libpk_plugin_require_restart_la_OBJECTS) $(libpk_plugin_require_restart_la_DEPENDENCIES) $(EXTRA_libpk_plugin_require_restart_la_DEPENDENCIES) 
-	$(AM_V_CCLD)$(libpk_plugin_require_restart_la_LINK) -rpath $(plugindir) $(libpk_plugin_require_restart_la_OBJECTS) $(libpk_plugin_require_restart_la_LIBADD) $(LIBS)
-
 libpk_plugin-scan-desktop-files.la: $(libpk_plugin_scan_desktop_files_la_OBJECTS) $(libpk_plugin_scan_desktop_files_la_DEPENDENCIES) $(EXTRA_libpk_plugin_scan_desktop_files_la_DEPENDENCIES) 
 	$(AM_V_CCLD)$(libpk_plugin_scan_desktop_files_la_LINK) -rpath $(plugindir) $(libpk_plugin_scan_desktop_files_la_OBJECTS) $(libpk_plugin_scan_desktop_files_la_LIBADD) $(LIBS)
 
 libpk_plugin-systemd-updates.la: $(libpk_plugin_systemd_updates_la_OBJECTS) $(libpk_plugin_systemd_updates_la_DEPENDENCIES) $(EXTRA_libpk_plugin_systemd_updates_la_DEPENDENCIES) 
 	$(AM_V_CCLD)$(libpk_plugin_systemd_updates_la_LINK) -rpath $(plugindir) $(libpk_plugin_systemd_updates_la_OBJECTS) $(libpk_plugin_systemd_updates_la_LIBADD) $(LIBS)
 
-libpk_plugin-update-check-processes.la: $(libpk_plugin_update_check_processes_la_OBJECTS) $(libpk_plugin_update_check_processes_la_DEPENDENCIES) $(EXTRA_libpk_plugin_update_check_processes_la_DEPENDENCIES) 
-	$(AM_V_CCLD)$(libpk_plugin_update_check_processes_la_LINK) -rpath $(plugindir) $(libpk_plugin_update_check_processes_la_OBJECTS) $(libpk_plugin_update_check_processes_la_LIBADD) $(LIBS)
-
 libpk_plugin-update-package-cache.la: $(libpk_plugin_update_package_cache_la_OBJECTS) $(libpk_plugin_update_package_cache_la_DEPENDENCIES) $(EXTRA_libpk_plugin_update_package_cache_la_DEPENDENCIES) 
 	$(AM_V_CCLD)$(libpk_plugin_update_package_cache_la_LINK) -rpath $(plugindir) $(libpk_plugin_update_package_cache_la_OBJECTS) $(libpk_plugin_update_package_cache_la_LIBADD) $(LIBS)
 
-libpk_plugin_example.la: $(libpk_plugin_example_la_OBJECTS) $(libpk_plugin_example_la_DEPENDENCIES) $(EXTRA_libpk_plugin_example_la_DEPENDENCIES) 
-	$(AM_V_CCLD)$(libpk_plugin_example_la_LINK)  $(libpk_plugin_example_la_OBJECTS) $(libpk_plugin_example_la_LIBADD) $(LIBS)
-
 libpk_plugin_scripts.la: $(libpk_plugin_scripts_la_OBJECTS) $(libpk_plugin_scripts_la_DEPENDENCIES) $(EXTRA_libpk_plugin_scripts_la_DEPENDENCIES) 
 	$(AM_V_CCLD)$(libpk_plugin_scripts_la_LINK) -rpath $(plugindir) $(libpk_plugin_scripts_la_OBJECTS) $(libpk_plugin_scripts_la_LIBADD) $(LIBS)
-
-clean-checkPROGRAMS:
-	@list='$(check_PROGRAMS)'; test -n "$$list" || exit 0; \
-	echo " rm -f" $$list; \
-	rm -f $$list || exit $$?; \
-	test -n "$(EXEEXT)" || exit 0; \
-	list=`for p in $$list; do echo "$$p"; done | sed 's/$(EXEEXT)$$//'`; \
-	echo " rm -f" $$list; \
-	rm -f $$list
-
-pk-self-test$(EXEEXT): $(pk_self_test_OBJECTS) $(pk_self_test_DEPENDENCIES) $(EXTRA_pk_self_test_DEPENDENCIES) 
-	@rm -f pk-self-test$(EXEEXT)
-	$(AM_V_CCLD)$(pk_self_test_LINK) $(pk_self_test_OBJECTS) $(pk_self_test_LDADD) $(LIBS)
 
 mostlyclean-compile:
 	-rm -f *.$(OBJEXT)
@@ -1010,20 +639,11 @@ mostlyclean-compile:
 distclean-compile:
 	-rm -f *.tab.c
 
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libpk_plugin_check_shared_libraries_in_use_la-pk-lsof.Plo@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libpk_plugin_check_shared_libraries_in_use_la-pk-plugin-check-shared-libraries-in-use.Plo@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libpk_plugin_clear_firmware_requests_la-pk-plugin-clear-firmware-requests.Plo@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libpk_plugin_example_la-pk-plugin-example.Plo@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libpk_plugin_no_update_process_la-pk-plugin-no-update-process.Plo@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libpk_plugin_require_restart_la-pk-plugin-require-restart.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libpk_plugin_scan_desktop_files_la-pk-plugin-scan-desktop-files.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libpk_plugin_scripts_la-pk-plugin-scripts.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libpk_plugin_systemd_updates_la-pk-plugin-systemd-updates.Plo@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libpk_plugin_update_check_processes_la-pk-plugin-update-check-processes.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libpk_plugin_update_package_cache_la-pk-package-cache.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libpk_plugin_update_package_cache_la-pk-plugin-update-package-cache.Plo@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/pk_self_test-pk-lsof.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/pk_self_test-pk-self-test.Po@am__quote@
 
 .c.o:
 @am__fastdepCC_TRUE@	$(AM_V_CC)$(COMPILE) -MT $@ -MD -MP -MF $(DEPDIR)/$*.Tpo -c -o $@ $<
@@ -1046,41 +666,6 @@ distclean-compile:
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(LTCOMPILE) -c -o $@ $<
 
-libpk_plugin_check_shared_libraries_in_use_la-pk-plugin-check-shared-libraries-in-use.lo: pk-plugin-check-shared-libraries-in-use.c
-@am__fastdepCC_TRUE@	$(AM_V_CC)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libpk_plugin_check_shared_libraries_in_use_la_CFLAGS) $(CFLAGS) -MT libpk_plugin_check_shared_libraries_in_use_la-pk-plugin-check-shared-libraries-in-use.lo -MD -MP -MF $(DEPDIR)/libpk_plugin_check_shared_libraries_in_use_la-pk-plugin-check-shared-libraries-in-use.Tpo -c -o libpk_plugin_check_shared_libraries_in_use_la-pk-plugin-check-shared-libraries-in-use.lo `test -f 'pk-plugin-check-shared-libraries-in-use.c' || echo '$(srcdir)/'`pk-plugin-check-shared-libraries-in-use.c
-@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/libpk_plugin_check_shared_libraries_in_use_la-pk-plugin-check-shared-libraries-in-use.Tpo $(DEPDIR)/libpk_plugin_check_shared_libraries_in_use_la-pk-plugin-check-shared-libraries-in-use.Plo
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='pk-plugin-check-shared-libraries-in-use.c' object='libpk_plugin_check_shared_libraries_in_use_la-pk-plugin-check-shared-libraries-in-use.lo' libtool=yes @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libpk_plugin_check_shared_libraries_in_use_la_CFLAGS) $(CFLAGS) -c -o libpk_plugin_check_shared_libraries_in_use_la-pk-plugin-check-shared-libraries-in-use.lo `test -f 'pk-plugin-check-shared-libraries-in-use.c' || echo '$(srcdir)/'`pk-plugin-check-shared-libraries-in-use.c
-
-libpk_plugin_check_shared_libraries_in_use_la-pk-lsof.lo: pk-lsof.c
-@am__fastdepCC_TRUE@	$(AM_V_CC)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libpk_plugin_check_shared_libraries_in_use_la_CFLAGS) $(CFLAGS) -MT libpk_plugin_check_shared_libraries_in_use_la-pk-lsof.lo -MD -MP -MF $(DEPDIR)/libpk_plugin_check_shared_libraries_in_use_la-pk-lsof.Tpo -c -o libpk_plugin_check_shared_libraries_in_use_la-pk-lsof.lo `test -f 'pk-lsof.c' || echo '$(srcdir)/'`pk-lsof.c
-@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/libpk_plugin_check_shared_libraries_in_use_la-pk-lsof.Tpo $(DEPDIR)/libpk_plugin_check_shared_libraries_in_use_la-pk-lsof.Plo
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='pk-lsof.c' object='libpk_plugin_check_shared_libraries_in_use_la-pk-lsof.lo' libtool=yes @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libpk_plugin_check_shared_libraries_in_use_la_CFLAGS) $(CFLAGS) -c -o libpk_plugin_check_shared_libraries_in_use_la-pk-lsof.lo `test -f 'pk-lsof.c' || echo '$(srcdir)/'`pk-lsof.c
-
-libpk_plugin_clear_firmware_requests_la-pk-plugin-clear-firmware-requests.lo: pk-plugin-clear-firmware-requests.c
-@am__fastdepCC_TRUE@	$(AM_V_CC)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libpk_plugin_clear_firmware_requests_la_CFLAGS) $(CFLAGS) -MT libpk_plugin_clear_firmware_requests_la-pk-plugin-clear-firmware-requests.lo -MD -MP -MF $(DEPDIR)/libpk_plugin_clear_firmware_requests_la-pk-plugin-clear-firmware-requests.Tpo -c -o libpk_plugin_clear_firmware_requests_la-pk-plugin-clear-firmware-requests.lo `test -f 'pk-plugin-clear-firmware-requests.c' || echo '$(srcdir)/'`pk-plugin-clear-firmware-requests.c
-@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/libpk_plugin_clear_firmware_requests_la-pk-plugin-clear-firmware-requests.Tpo $(DEPDIR)/libpk_plugin_clear_firmware_requests_la-pk-plugin-clear-firmware-requests.Plo
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='pk-plugin-clear-firmware-requests.c' object='libpk_plugin_clear_firmware_requests_la-pk-plugin-clear-firmware-requests.lo' libtool=yes @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libpk_plugin_clear_firmware_requests_la_CFLAGS) $(CFLAGS) -c -o libpk_plugin_clear_firmware_requests_la-pk-plugin-clear-firmware-requests.lo `test -f 'pk-plugin-clear-firmware-requests.c' || echo '$(srcdir)/'`pk-plugin-clear-firmware-requests.c
-
-libpk_plugin_no_update_process_la-pk-plugin-no-update-process.lo: pk-plugin-no-update-process.c
-@am__fastdepCC_TRUE@	$(AM_V_CC)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libpk_plugin_no_update_process_la_CFLAGS) $(CFLAGS) -MT libpk_plugin_no_update_process_la-pk-plugin-no-update-process.lo -MD -MP -MF $(DEPDIR)/libpk_plugin_no_update_process_la-pk-plugin-no-update-process.Tpo -c -o libpk_plugin_no_update_process_la-pk-plugin-no-update-process.lo `test -f 'pk-plugin-no-update-process.c' || echo '$(srcdir)/'`pk-plugin-no-update-process.c
-@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/libpk_plugin_no_update_process_la-pk-plugin-no-update-process.Tpo $(DEPDIR)/libpk_plugin_no_update_process_la-pk-plugin-no-update-process.Plo
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='pk-plugin-no-update-process.c' object='libpk_plugin_no_update_process_la-pk-plugin-no-update-process.lo' libtool=yes @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libpk_plugin_no_update_process_la_CFLAGS) $(CFLAGS) -c -o libpk_plugin_no_update_process_la-pk-plugin-no-update-process.lo `test -f 'pk-plugin-no-update-process.c' || echo '$(srcdir)/'`pk-plugin-no-update-process.c
-
-libpk_plugin_require_restart_la-pk-plugin-require-restart.lo: pk-plugin-require-restart.c
-@am__fastdepCC_TRUE@	$(AM_V_CC)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libpk_plugin_require_restart_la_CFLAGS) $(CFLAGS) -MT libpk_plugin_require_restart_la-pk-plugin-require-restart.lo -MD -MP -MF $(DEPDIR)/libpk_plugin_require_restart_la-pk-plugin-require-restart.Tpo -c -o libpk_plugin_require_restart_la-pk-plugin-require-restart.lo `test -f 'pk-plugin-require-restart.c' || echo '$(srcdir)/'`pk-plugin-require-restart.c
-@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/libpk_plugin_require_restart_la-pk-plugin-require-restart.Tpo $(DEPDIR)/libpk_plugin_require_restart_la-pk-plugin-require-restart.Plo
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='pk-plugin-require-restart.c' object='libpk_plugin_require_restart_la-pk-plugin-require-restart.lo' libtool=yes @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libpk_plugin_require_restart_la_CFLAGS) $(CFLAGS) -c -o libpk_plugin_require_restart_la-pk-plugin-require-restart.lo `test -f 'pk-plugin-require-restart.c' || echo '$(srcdir)/'`pk-plugin-require-restart.c
-
 libpk_plugin_scan_desktop_files_la-pk-plugin-scan-desktop-files.lo: pk-plugin-scan-desktop-files.c
 @am__fastdepCC_TRUE@	$(AM_V_CC)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libpk_plugin_scan_desktop_files_la_CFLAGS) $(CFLAGS) -MT libpk_plugin_scan_desktop_files_la-pk-plugin-scan-desktop-files.lo -MD -MP -MF $(DEPDIR)/libpk_plugin_scan_desktop_files_la-pk-plugin-scan-desktop-files.Tpo -c -o libpk_plugin_scan_desktop_files_la-pk-plugin-scan-desktop-files.lo `test -f 'pk-plugin-scan-desktop-files.c' || echo '$(srcdir)/'`pk-plugin-scan-desktop-files.c
 @am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/libpk_plugin_scan_desktop_files_la-pk-plugin-scan-desktop-files.Tpo $(DEPDIR)/libpk_plugin_scan_desktop_files_la-pk-plugin-scan-desktop-files.Plo
@@ -1094,13 +679,6 @@ libpk_plugin_systemd_updates_la-pk-plugin-systemd-updates.lo: pk-plugin-systemd-
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='pk-plugin-systemd-updates.c' object='libpk_plugin_systemd_updates_la-pk-plugin-systemd-updates.lo' libtool=yes @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libpk_plugin_systemd_updates_la_CFLAGS) $(CFLAGS) -c -o libpk_plugin_systemd_updates_la-pk-plugin-systemd-updates.lo `test -f 'pk-plugin-systemd-updates.c' || echo '$(srcdir)/'`pk-plugin-systemd-updates.c
-
-libpk_plugin_update_check_processes_la-pk-plugin-update-check-processes.lo: pk-plugin-update-check-processes.c
-@am__fastdepCC_TRUE@	$(AM_V_CC)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libpk_plugin_update_check_processes_la_CFLAGS) $(CFLAGS) -MT libpk_plugin_update_check_processes_la-pk-plugin-update-check-processes.lo -MD -MP -MF $(DEPDIR)/libpk_plugin_update_check_processes_la-pk-plugin-update-check-processes.Tpo -c -o libpk_plugin_update_check_processes_la-pk-plugin-update-check-processes.lo `test -f 'pk-plugin-update-check-processes.c' || echo '$(srcdir)/'`pk-plugin-update-check-processes.c
-@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/libpk_plugin_update_check_processes_la-pk-plugin-update-check-processes.Tpo $(DEPDIR)/libpk_plugin_update_check_processes_la-pk-plugin-update-check-processes.Plo
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='pk-plugin-update-check-processes.c' object='libpk_plugin_update_check_processes_la-pk-plugin-update-check-processes.lo' libtool=yes @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libpk_plugin_update_check_processes_la_CFLAGS) $(CFLAGS) -c -o libpk_plugin_update_check_processes_la-pk-plugin-update-check-processes.lo `test -f 'pk-plugin-update-check-processes.c' || echo '$(srcdir)/'`pk-plugin-update-check-processes.c
 
 libpk_plugin_update_package_cache_la-pk-plugin-update-package-cache.lo: pk-plugin-update-package-cache.c
 @am__fastdepCC_TRUE@	$(AM_V_CC)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libpk_plugin_update_package_cache_la_CFLAGS) $(CFLAGS) -MT libpk_plugin_update_package_cache_la-pk-plugin-update-package-cache.lo -MD -MP -MF $(DEPDIR)/libpk_plugin_update_package_cache_la-pk-plugin-update-package-cache.Tpo -c -o libpk_plugin_update_package_cache_la-pk-plugin-update-package-cache.lo `test -f 'pk-plugin-update-package-cache.c' || echo '$(srcdir)/'`pk-plugin-update-package-cache.c
@@ -1116,47 +694,12 @@ libpk_plugin_update_package_cache_la-pk-package-cache.lo: pk-package-cache.c
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libpk_plugin_update_package_cache_la_CFLAGS) $(CFLAGS) -c -o libpk_plugin_update_package_cache_la-pk-package-cache.lo `test -f 'pk-package-cache.c' || echo '$(srcdir)/'`pk-package-cache.c
 
-libpk_plugin_example_la-pk-plugin-example.lo: pk-plugin-example.c
-@am__fastdepCC_TRUE@	$(AM_V_CC)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libpk_plugin_example_la_CFLAGS) $(CFLAGS) -MT libpk_plugin_example_la-pk-plugin-example.lo -MD -MP -MF $(DEPDIR)/libpk_plugin_example_la-pk-plugin-example.Tpo -c -o libpk_plugin_example_la-pk-plugin-example.lo `test -f 'pk-plugin-example.c' || echo '$(srcdir)/'`pk-plugin-example.c
-@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/libpk_plugin_example_la-pk-plugin-example.Tpo $(DEPDIR)/libpk_plugin_example_la-pk-plugin-example.Plo
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='pk-plugin-example.c' object='libpk_plugin_example_la-pk-plugin-example.lo' libtool=yes @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libpk_plugin_example_la_CFLAGS) $(CFLAGS) -c -o libpk_plugin_example_la-pk-plugin-example.lo `test -f 'pk-plugin-example.c' || echo '$(srcdir)/'`pk-plugin-example.c
-
 libpk_plugin_scripts_la-pk-plugin-scripts.lo: pk-plugin-scripts.c
 @am__fastdepCC_TRUE@	$(AM_V_CC)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libpk_plugin_scripts_la_CFLAGS) $(CFLAGS) -MT libpk_plugin_scripts_la-pk-plugin-scripts.lo -MD -MP -MF $(DEPDIR)/libpk_plugin_scripts_la-pk-plugin-scripts.Tpo -c -o libpk_plugin_scripts_la-pk-plugin-scripts.lo `test -f 'pk-plugin-scripts.c' || echo '$(srcdir)/'`pk-plugin-scripts.c
 @am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/libpk_plugin_scripts_la-pk-plugin-scripts.Tpo $(DEPDIR)/libpk_plugin_scripts_la-pk-plugin-scripts.Plo
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='pk-plugin-scripts.c' object='libpk_plugin_scripts_la-pk-plugin-scripts.lo' libtool=yes @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libpk_plugin_scripts_la_CFLAGS) $(CFLAGS) -c -o libpk_plugin_scripts_la-pk-plugin-scripts.lo `test -f 'pk-plugin-scripts.c' || echo '$(srcdir)/'`pk-plugin-scripts.c
-
-pk_self_test-pk-self-test.o: pk-self-test.c
-@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(pk_self_test_CFLAGS) $(CFLAGS) -MT pk_self_test-pk-self-test.o -MD -MP -MF $(DEPDIR)/pk_self_test-pk-self-test.Tpo -c -o pk_self_test-pk-self-test.o `test -f 'pk-self-test.c' || echo '$(srcdir)/'`pk-self-test.c
-@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/pk_self_test-pk-self-test.Tpo $(DEPDIR)/pk_self_test-pk-self-test.Po
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='pk-self-test.c' object='pk_self_test-pk-self-test.o' libtool=no @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(pk_self_test_CFLAGS) $(CFLAGS) -c -o pk_self_test-pk-self-test.o `test -f 'pk-self-test.c' || echo '$(srcdir)/'`pk-self-test.c
-
-pk_self_test-pk-self-test.obj: pk-self-test.c
-@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(pk_self_test_CFLAGS) $(CFLAGS) -MT pk_self_test-pk-self-test.obj -MD -MP -MF $(DEPDIR)/pk_self_test-pk-self-test.Tpo -c -o pk_self_test-pk-self-test.obj `if test -f 'pk-self-test.c'; then $(CYGPATH_W) 'pk-self-test.c'; else $(CYGPATH_W) '$(srcdir)/pk-self-test.c'; fi`
-@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/pk_self_test-pk-self-test.Tpo $(DEPDIR)/pk_self_test-pk-self-test.Po
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='pk-self-test.c' object='pk_self_test-pk-self-test.obj' libtool=no @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(pk_self_test_CFLAGS) $(CFLAGS) -c -o pk_self_test-pk-self-test.obj `if test -f 'pk-self-test.c'; then $(CYGPATH_W) 'pk-self-test.c'; else $(CYGPATH_W) '$(srcdir)/pk-self-test.c'; fi`
-
-pk_self_test-pk-lsof.o: pk-lsof.c
-@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(pk_self_test_CFLAGS) $(CFLAGS) -MT pk_self_test-pk-lsof.o -MD -MP -MF $(DEPDIR)/pk_self_test-pk-lsof.Tpo -c -o pk_self_test-pk-lsof.o `test -f 'pk-lsof.c' || echo '$(srcdir)/'`pk-lsof.c
-@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/pk_self_test-pk-lsof.Tpo $(DEPDIR)/pk_self_test-pk-lsof.Po
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='pk-lsof.c' object='pk_self_test-pk-lsof.o' libtool=no @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(pk_self_test_CFLAGS) $(CFLAGS) -c -o pk_self_test-pk-lsof.o `test -f 'pk-lsof.c' || echo '$(srcdir)/'`pk-lsof.c
-
-pk_self_test-pk-lsof.obj: pk-lsof.c
-@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(pk_self_test_CFLAGS) $(CFLAGS) -MT pk_self_test-pk-lsof.obj -MD -MP -MF $(DEPDIR)/pk_self_test-pk-lsof.Tpo -c -o pk_self_test-pk-lsof.obj `if test -f 'pk-lsof.c'; then $(CYGPATH_W) 'pk-lsof.c'; else $(CYGPATH_W) '$(srcdir)/pk-lsof.c'; fi`
-@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/pk_self_test-pk-lsof.Tpo $(DEPDIR)/pk_self_test-pk-lsof.Po
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='pk-lsof.c' object='pk_self_test-pk-lsof.obj' libtool=no @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(pk_self_test_CFLAGS) $(CFLAGS) -c -o pk_self_test-pk-lsof.obj `if test -f 'pk-lsof.c'; then $(CYGPATH_W) 'pk-lsof.c'; else $(CYGPATH_W) '$(srcdir)/pk-lsof.c'; fi`
 
 mostlyclean-libtool:
 	-rm -f *.lo
@@ -1237,169 +780,6 @@ cscopelist-am: $(am__tagged_files)
 distclean-tags:
 	-rm -f TAGS ID GTAGS GRTAGS GSYMS GPATH tags
 
-# Recover from deleted '.trs' file; this should ensure that
-# "rm -f foo.log; make foo.trs" re-run 'foo.test', and re-create
-# both 'foo.log' and 'foo.trs'.  Break the recipe in two subshells
-# to avoid problems with "make -n".
-.log.trs:
-	rm -f $< $@
-	$(MAKE) $(AM_MAKEFLAGS) $<
-
-# Leading 'am--fnord' is there to ensure the list of targets does not
-# expand to empty, as could happen e.g. with make check TESTS=''.
-am--fnord $(TEST_LOGS) $(TEST_LOGS:.log=.trs): $(am__force_recheck)
-am--force-recheck:
-	@:
-
-$(TEST_SUITE_LOG): $(TEST_LOGS)
-	@$(am__set_TESTS_bases); \
-	am__f_ok () { test -f "$$1" && test -r "$$1"; }; \
-	redo_bases=`for i in $$bases; do \
-	              am__f_ok $$i.trs && am__f_ok $$i.log || echo $$i; \
-	            done`; \
-	if test -n "$$redo_bases"; then \
-	  redo_logs=`for i in $$redo_bases; do echo $$i.log; done`; \
-	  redo_results=`for i in $$redo_bases; do echo $$i.trs; done`; \
-	  if $(am__make_dryrun); then :; else \
-	    rm -f $$redo_logs && rm -f $$redo_results || exit 1; \
-	  fi; \
-	fi; \
-	if test -n "$$am__remaking_logs"; then \
-	  echo "fatal: making $(TEST_SUITE_LOG): possible infinite" \
-	       "recursion detected" >&2; \
-	else \
-	  am__remaking_logs=yes $(MAKE) $(AM_MAKEFLAGS) $$redo_logs; \
-	fi; \
-	if $(am__make_dryrun); then :; else \
-	  st=0;  \
-	  errmsg="fatal: making $(TEST_SUITE_LOG): failed to create"; \
-	  for i in $$redo_bases; do \
-	    test -f $$i.trs && test -r $$i.trs \
-	      || { echo "$$errmsg $$i.trs" >&2; st=1; }; \
-	    test -f $$i.log && test -r $$i.log \
-	      || { echo "$$errmsg $$i.log" >&2; st=1; }; \
-	  done; \
-	  test $$st -eq 0 || exit 1; \
-	fi
-	@$(am__sh_e_setup); $(am__tty_colors); $(am__set_TESTS_bases); \
-	ws='[ 	]'; \
-	results=`for b in $$bases; do echo $$b.trs; done`; \
-	test -n "$$results" || results=/dev/null; \
-	all=`  grep "^$$ws*:test-result:"           $$results | wc -l`; \
-	pass=` grep "^$$ws*:test-result:$$ws*PASS"  $$results | wc -l`; \
-	fail=` grep "^$$ws*:test-result:$$ws*FAIL"  $$results | wc -l`; \
-	skip=` grep "^$$ws*:test-result:$$ws*SKIP"  $$results | wc -l`; \
-	xfail=`grep "^$$ws*:test-result:$$ws*XFAIL" $$results | wc -l`; \
-	xpass=`grep "^$$ws*:test-result:$$ws*XPASS" $$results | wc -l`; \
-	error=`grep "^$$ws*:test-result:$$ws*ERROR" $$results | wc -l`; \
-	if test `expr $$fail + $$xpass + $$error` -eq 0; then \
-	  success=true; \
-	else \
-	  success=false; \
-	fi; \
-	br='==================='; br=$$br$$br$$br$$br; \
-	result_count () \
-	{ \
-	    if test x"$$1" = x"--maybe-color"; then \
-	      maybe_colorize=yes; \
-	    elif test x"$$1" = x"--no-color"; then \
-	      maybe_colorize=no; \
-	    else \
-	      echo "$@: invalid 'result_count' usage" >&2; exit 4; \
-	    fi; \
-	    shift; \
-	    desc=$$1 count=$$2; \
-	    if test $$maybe_colorize = yes && test $$count -gt 0; then \
-	      color_start=$$3 color_end=$$std; \
-	    else \
-	      color_start= color_end=; \
-	    fi; \
-	    echo "$${color_start}# $$desc $$count$${color_end}"; \
-	}; \
-	create_testsuite_report () \
-	{ \
-	  result_count $$1 "TOTAL:" $$all   "$$brg"; \
-	  result_count $$1 "PASS: " $$pass  "$$grn"; \
-	  result_count $$1 "SKIP: " $$skip  "$$blu"; \
-	  result_count $$1 "XFAIL:" $$xfail "$$lgn"; \
-	  result_count $$1 "FAIL: " $$fail  "$$red"; \
-	  result_count $$1 "XPASS:" $$xpass "$$red"; \
-	  result_count $$1 "ERROR:" $$error "$$mgn"; \
-	}; \
-	{								\
-	  echo "$(PACKAGE_STRING): $(subdir)/$(TEST_SUITE_LOG)" |	\
-	    $(am__rst_title);						\
-	  create_testsuite_report --no-color;				\
-	  echo;								\
-	  echo ".. contents:: :depth: 2";				\
-	  echo;								\
-	  for b in $$bases; do echo $$b; done				\
-	    | $(am__create_global_log);					\
-	} >$(TEST_SUITE_LOG).tmp || exit 1;				\
-	mv $(TEST_SUITE_LOG).tmp $(TEST_SUITE_LOG);			\
-	if $$success; then						\
-	  col="$$grn";							\
-	 else								\
-	  col="$$red";							\
-	  test x"$$VERBOSE" = x || cat $(TEST_SUITE_LOG);		\
-	fi;								\
-	echo "$${col}$$br$${std}"; 					\
-	echo "$${col}Testsuite summary for $(PACKAGE_STRING)$${std}";	\
-	echo "$${col}$$br$${std}"; 					\
-	create_testsuite_report --maybe-color;				\
-	echo "$$col$$br$$std";						\
-	if $$success; then :; else					\
-	  echo "$${col}See $(subdir)/$(TEST_SUITE_LOG)$${std}";		\
-	  if test -n "$(PACKAGE_BUGREPORT)"; then			\
-	    echo "$${col}Please report to $(PACKAGE_BUGREPORT)$${std}";	\
-	  fi;								\
-	  echo "$$col$$br$$std";					\
-	fi;								\
-	$$success || exit 1
-
-check-TESTS:
-	@list='$(RECHECK_LOGS)';           test -z "$$list" || rm -f $$list
-	@list='$(RECHECK_LOGS:.log=.trs)'; test -z "$$list" || rm -f $$list
-	@test -z "$(TEST_SUITE_LOG)" || rm -f $(TEST_SUITE_LOG)
-	@set +e; $(am__set_TESTS_bases); \
-	log_list=`for i in $$bases; do echo $$i.log; done`; \
-	trs_list=`for i in $$bases; do echo $$i.trs; done`; \
-	log_list=`echo $$log_list`; trs_list=`echo $$trs_list`; \
-	$(MAKE) $(AM_MAKEFLAGS) $(TEST_SUITE_LOG) TEST_LOGS="$$log_list"; \
-	exit $$?;
-recheck: all $(check_PROGRAMS)
-	@test -z "$(TEST_SUITE_LOG)" || rm -f $(TEST_SUITE_LOG)
-	@set +e; $(am__set_TESTS_bases); \
-	bases=`for i in $$bases; do echo $$i; done \
-	         | $(am__list_recheck_tests)` || exit 1; \
-	log_list=`for i in $$bases; do echo $$i.log; done`; \
-	log_list=`echo $$log_list`; \
-	$(MAKE) $(AM_MAKEFLAGS) $(TEST_SUITE_LOG) \
-	        am__force_recheck=am--force-recheck \
-	        TEST_LOGS="$$log_list"; \
-	exit $$?
-pk-self-test.log: pk-self-test$(EXEEXT)
-	@p='pk-self-test$(EXEEXT)'; \
-	b='pk-self-test'; \
-	$(am__check_pre) $(LOG_DRIVER) --test-name "$$f" \
-	--log-file $$b.log --trs-file $$b.trs \
-	$(am__common_driver_flags) $(AM_LOG_DRIVER_FLAGS) $(LOG_DRIVER_FLAGS) -- $(LOG_COMPILE) \
-	"$$tst" $(AM_TESTS_FD_REDIRECT)
-.test.log:
-	@p='$<'; \
-	$(am__set_b); \
-	$(am__check_pre) $(TEST_LOG_DRIVER) --test-name "$$f" \
-	--log-file $$b.log --trs-file $$b.trs \
-	$(am__common_driver_flags) $(AM_TEST_LOG_DRIVER_FLAGS) $(TEST_LOG_DRIVER_FLAGS) -- $(TEST_LOG_COMPILE) \
-	"$$tst" $(AM_TESTS_FD_REDIRECT)
-@am__EXEEXT_TRUE@.test$(EXEEXT).log:
-@am__EXEEXT_TRUE@	@p='$<'; \
-@am__EXEEXT_TRUE@	$(am__set_b); \
-@am__EXEEXT_TRUE@	$(am__check_pre) $(TEST_LOG_DRIVER) --test-name "$$f" \
-@am__EXEEXT_TRUE@	--log-file $$b.log --trs-file $$b.trs \
-@am__EXEEXT_TRUE@	$(am__common_driver_flags) $(AM_TEST_LOG_DRIVER_FLAGS) $(TEST_LOG_DRIVER_FLAGS) -- $(TEST_LOG_COMPILE) \
-@am__EXEEXT_TRUE@	"$$tst" $(AM_TESTS_FD_REDIRECT)
-
 distdir: $(DISTFILES)
 	@srcdirstrip=`echo "$(srcdir)" | sed 's/[].[^$$\\*]/\\\\&/g'`; \
 	topsrcdirstrip=`echo "$(top_srcdir)" | sed 's/[].[^$$\\*]/\\\\&/g'`; \
@@ -1431,8 +811,6 @@ distdir: $(DISTFILES)
 	  fi; \
 	done
 check-am: all-am
-	$(MAKE) $(AM_MAKEFLAGS) $(check_PROGRAMS)
-	$(MAKE) $(AM_MAKEFLAGS) check-TESTS
 check: check-am
 all-am: Makefile $(LTLIBRARIES) $(DATA)
 installdirs:
@@ -1459,9 +837,6 @@ install-strip:
 	    "INSTALL_PROGRAM_ENV=STRIPPROG='$(STRIP)'" install; \
 	fi
 mostlyclean-generic:
-	-test -z "$(TEST_LOGS)" || rm -f $(TEST_LOGS)
-	-test -z "$(TEST_LOGS:.log=.trs)" || rm -f $(TEST_LOGS:.log=.trs)
-	-test -z "$(TEST_SUITE_LOG)" || rm -f $(TEST_SUITE_LOG)
 
 clean-generic:
 
@@ -1474,8 +849,8 @@ maintainer-clean-generic:
 	@echo "it deletes files that may require special tools to rebuild."
 clean: clean-am
 
-clean-am: clean-checkPROGRAMS clean-generic clean-libtool clean-local \
-	clean-noinstLTLIBRARIES clean-pluginLTLIBRARIES mostlyclean-am
+clean-am: clean-generic clean-libtool clean-local \
+	clean-pluginLTLIBRARIES mostlyclean-am
 
 distclean: distclean-am
 	-rm -rf ./$(DEPDIR)
@@ -1543,23 +918,22 @@ ps-am:
 
 uninstall-am: uninstall-pkgconfigDATA uninstall-pluginLTLIBRARIES
 
-.MAKE: check-am install-am install-strip
+.MAKE: install-am install-strip
 
-.PHONY: CTAGS GTAGS TAGS all all-am check check-TESTS check-am clean \
-	clean-checkPROGRAMS clean-generic clean-libtool clean-local \
-	clean-noinstLTLIBRARIES clean-pluginLTLIBRARIES cscopelist-am \
-	ctags ctags-am distclean distclean-compile distclean-generic \
-	distclean-libtool distclean-tags distdir dvi dvi-am html \
-	html-am info info-am install install-am install-data \
-	install-data-am install-dvi install-dvi-am install-exec \
-	install-exec-am install-html install-html-am install-info \
-	install-info-am install-man install-pdf install-pdf-am \
-	install-pkgconfigDATA install-pluginLTLIBRARIES install-ps \
-	install-ps-am install-strip installcheck installcheck-am \
-	installdirs maintainer-clean maintainer-clean-generic \
-	mostlyclean mostlyclean-compile mostlyclean-generic \
-	mostlyclean-libtool pdf pdf-am ps ps-am recheck tags tags-am \
-	uninstall uninstall-am uninstall-pkgconfigDATA \
+.PHONY: CTAGS GTAGS TAGS all all-am check check-am clean clean-generic \
+	clean-libtool clean-local clean-pluginLTLIBRARIES \
+	cscopelist-am ctags ctags-am distclean distclean-compile \
+	distclean-generic distclean-libtool distclean-tags distdir dvi \
+	dvi-am html html-am info info-am install install-am \
+	install-data install-data-am install-dvi install-dvi-am \
+	install-exec install-exec-am install-html install-html-am \
+	install-info install-info-am install-man install-pdf \
+	install-pdf-am install-pkgconfigDATA install-pluginLTLIBRARIES \
+	install-ps install-ps-am install-strip installcheck \
+	installcheck-am installdirs maintainer-clean \
+	maintainer-clean-generic mostlyclean mostlyclean-compile \
+	mostlyclean-generic mostlyclean-libtool pdf pdf-am ps ps-am \
+	tags tags-am uninstall uninstall-am uninstall-pkgconfigDATA \
 	uninstall-pluginLTLIBRARIES
 
 

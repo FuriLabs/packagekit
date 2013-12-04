@@ -32,7 +32,6 @@ PkCatalog
 PkCatalogClass
 pk_catalog_error_quark
 pk_catalog_new
-pk_catalog_test
 pk_catalog_lookup_finish
 pk_catalog_lookup_async
 <SUBSECTION Standard>
@@ -306,6 +305,12 @@ pk_desktop_get_type
 PkDetails
 PkDetailsClass
 pk_details_new
+pk_details_get_package_id
+pk_details_get_license
+pk_details_get_group
+pk_details_get_description
+pk_details_get_url
+pk_details_get_size
 <SUBSECTION Standard>
 PK_DETAILS
 PK_DETAILS_CLASS
@@ -580,7 +585,9 @@ pk_package_equal
 pk_package_equal_id
 pk_package_get_id
 pk_package_get_info
+pk_package_set_info
 pk_package_get_summary
+pk_package_set_summary
 pk_package_get_name
 pk_package_get_version
 pk_package_get_arch

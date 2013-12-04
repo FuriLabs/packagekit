@@ -242,60 +242,6 @@ pk_test_bitfield_func (void)
 	g_assert_cmpint (value, ==, PK_ROLE_ENUM_SEARCH_GROUP);
 }
 
-static void
-pk_test_catalog_lookup_cb (GObject *object, GAsyncResult *res, gpointer user_data)
-{
-	PkCatalog *catalog = PK_CATALOG (object);
-	GError *error = NULL;
-	GPtrArray *array;
-	guint i;
-	PkPackage *package;
-
-	/* get the results */
-	array = pk_catalog_lookup_finish (catalog, res, &error);
-	g_assert_no_error (error);
-	g_assert (array != NULL);
-	g_assert_cmpint (array->len, ==, 3);
-
-	/* list for shits and giggles */
-	for (i=0; i<array->len; i++) {
-		package = g_ptr_array_index (array, i);
-		g_debug ("%i\t%s", i, pk_package_get_id (package));
-	}
-	g_ptr_array_unref (array);
-	_g_test_loop_quit ();
-}
-
-static void
-pk_test_catalog_progress_cb (PkProgress *progress, PkProgressType type, gpointer user_data)
-{
-	PkStatusEnum status;
-	if (type == PK_PROGRESS_TYPE_STATUS) {
-		g_object_get (progress,
-		      "status", &status,
-		      NULL);
-		g_debug ("now %s", pk_status_enum_to_string (status));
-	}
-}
-
-static void
-pk_test_catalog_func (void)
-{
-	PkCatalog *catalog;
-
-	catalog = pk_catalog_new ();
-	g_assert (catalog != NULL);
-
-	/* lookup catalog */
-	pk_catalog_lookup_async (catalog, TESTDATADIR "/test.catalog", NULL,
-				 (PkProgressCallback) pk_test_catalog_progress_cb, NULL,
-				 (GAsyncReadyCallback) pk_test_catalog_lookup_cb, NULL);
-	_g_test_loop_run_with_timeout (150000);
-	g_debug ("resolvd, searched, etc. in %f", g_test_timer_elapsed ());
-
-	g_object_unref (catalog);
-}
-
 /**
  * pk_test_client_helper_output_cb:
  **/
@@ -647,7 +593,7 @@ pk_test_client_update_system_socket_test_cb (GObject *object, GAsyncResult *res,
 	PkClient *client = PK_CLIENT (object);
 	GError *error = NULL;
 	PkResults *results = NULL;
-	GPtrArray *messages;
+	GPtrArray *categories;
 
 	/* get the results */
 	results = pk_client_generic_finish (client, res, &error);
@@ -655,9 +601,9 @@ pk_test_client_update_system_socket_test_cb (GObject *object, GAsyncResult *res,
 	g_assert (results != NULL);
 
 	/* make sure we handled the ping/pong frontend-socket thing, which is 5 + 1 */
-	messages = pk_results_get_message_array (results);
-	g_assert_cmpint (messages->len, ==, 6);
-	g_ptr_array_unref (messages);
+	categories = pk_results_get_category_array (results);
+	g_assert_cmpint (categories->len, ==, 1);
+	g_ptr_array_unref (categories);
 
 	g_object_unref (results);
 	_g_test_loop_quit ();
@@ -1679,58 +1625,6 @@ pk_test_results_func (void)
 }
 
 static void
-pk_test_service_pack_create_cb (GObject *object, GAsyncResult *res, gpointer user_data)
-{
-	PkServicePack *pack = PK_SERVICE_PACK (object);
-	GError *error = NULL;
-	gboolean ret;
-
-	/* get the results */
-	ret = pk_service_pack_generic_finish (pack, res, &error);
-	g_assert_no_error (error);
-	g_assert (ret);
-
-	_g_test_loop_quit ();
-}
-
-static void
-pk_test_service_pack_progress_cb (PkProgress *progress, PkProgressType type, gpointer user_data)
-{
-	PkStatusEnum status;
-	if (type == PK_PROGRESS_TYPE_STATUS) {
-		g_object_get (progress,
-		      "status", &status,
-		      NULL);
-		g_debug ("now %s", pk_status_enum_to_string (status));
-	}
-}
-
-static void
-pk_test_service_pack_func (void)
-{
-	PkServicePack *pack;
-	gchar **package_ids;
-	gboolean ret;
-
-	pack = pk_service_pack_new ();
-	g_assert (pack != NULL);
-
-	ret = pk_service_pack_set_temp_directory (pack, NULL);
-	g_assert (ret);
-
-	/* install package */
-	package_ids = pk_package_ids_from_id ("glib2;2.14.0;i386;fedora");
-	pk_service_pack_create_for_package_ids_async (pack, "dave.servicepack", package_ids, NULL, NULL,
-		        (PkProgressCallback) pk_test_service_pack_progress_cb, NULL,
-		        (GAsyncReadyCallback) pk_test_service_pack_create_cb, NULL);
-	g_strfreev (package_ids);
-	_g_test_loop_run_with_timeout (150000);
-	g_debug ("installed in %f", g_test_timer_elapsed ());
-
-	g_object_unref (pack);
-}
-
-static void
 pk_test_task_install_packages_cb (GObject *object, GAsyncResult *res, gpointer user_data)
 {
 	PkTask *task = PK_TASK (object);
@@ -2024,6 +1918,7 @@ pk_test_package_func (void)
 	PkPackage *package;
 	const gchar *id;
 	gchar *text;
+	GError *error = NULL;
 
 	/* get package */
 	package = pk_package_new ();
@@ -2039,19 +1934,40 @@ pk_test_package_func (void)
 	g_free (text);
 
 	/* set invalid id */
-	ret = pk_package_set_id (package, "gnome-power-manager", NULL);
+	ret = pk_package_set_id (package, "gnome-power-manager", &error);
+	g_assert_error (error, 1, 0);
 	g_assert (!ret);
+	g_object_unref (package);
+	g_clear_error (&error);
 
 	/* set invalid id (sections) */
-	ret = pk_package_set_id (package, "gnome-power-manager;0.1.2;i386", NULL);
+	package = pk_package_new ();
+	ret = pk_package_set_id (package, "gnome-power-manager;0.1.2;i386", &error);
+	g_assert_error (error, 1, 0);
 	g_assert (!ret);
+	g_object_unref (package);
+	g_clear_error (&error);
+
+	/* set invalid id (sections) */
+	package = pk_package_new ();
+	ret = pk_package_set_id (package, "gnome-power-manager;0.1.2;i386;fedora;dave", &error);
+	g_assert_error (error, 1, 0);
+	g_assert (!ret);
+	g_object_unref (package);
+	g_clear_error (&error);
 
 	/* set invalid name */
-	ret = pk_package_set_id (package, ";0.1.2;i386;fedora", NULL);
+	package = pk_package_new ();
+	ret = pk_package_set_id (package, ";0.1.2;i386;fedora", &error);
+	g_assert_error (error, 1, 0);
 	g_assert (!ret);
+	g_object_unref (package);
+	g_clear_error (&error);
 
 	/* set valid name */
-	ret = pk_package_set_id (package, "gnome-power-manager;0.1.2;i386;fedora", NULL);
+	package = pk_package_new ();
+	ret = pk_package_set_id (package, "gnome-power-manager;0.1.2;i386;fedora", &error);
+	g_assert_no_error (error);
 	g_assert (ret);
 
 	/* get id of set package */
@@ -2078,6 +1994,10 @@ main (int argc, char **argv)
 	pk_debug_set_verbose (TRUE);
 	pk_debug_add_log_domain (G_LOG_DOMAIN);
 
+	/* don't run when using make distcheck */
+	if (g_strcmp0 (DEFAULT_BACKEND, "dummy") == 0)
+		return 0;
+
 	/* some libraries need to know */
 	g_setenv ("PK_SELF_TEST", "1", TRUE);
 
@@ -2095,14 +2015,12 @@ main (int argc, char **argv)
 	g_test_add_func ("/packagekit-glib2/transaction-list", pk_test_transaction_list_func);
 	g_test_add_func ("/packagekit-glib2/client-helper", pk_test_client_helper_func);
 	g_test_add_func ("/packagekit-glib2/client", pk_test_client_func);
-	g_test_add_func ("/packagekit-glib2/catalog", pk_test_catalog_func);
 	g_test_add_func ("/packagekit-glib2/package-sack", pk_test_package_sack_func);
 	g_test_add_func ("/packagekit-glib2/task", pk_test_task_func);
 	g_test_add_func ("/packagekit-glib2/task-wrapper", pk_test_task_wrapper_func);
 	g_test_add_func ("/packagekit-glib2/task-text", pk_test_task_text_func);
 	g_test_add_func ("/packagekit-glib2/console", pk_test_console_func);
 	g_test_add_func ("/packagekit-glib2/progress-bar", pk_test_progress_bar);
-	g_test_add_func ("/packagekit-glib2/service-pack", pk_test_service_pack_func);
 
 	return g_test_run ();
 }

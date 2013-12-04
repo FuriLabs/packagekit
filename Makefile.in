@@ -91,7 +91,8 @@ DIST_COMMON = INSTALL NEWS README AUTHORS ChangeLog \
 	$(top_srcdir)/build-aux/ltmain.sh \
 	$(top_srcdir)/build-aux/missing
 ACLOCAL_M4 = $(top_srcdir)/aclocal.m4
-am__aclocal_m4_deps = $(top_srcdir)/m4/ax_check_compile_flag.m4 \
+am__aclocal_m4_deps = $(top_srcdir)/m4/as-linguas.m4 \
+	$(top_srcdir)/m4/ax_check_compile_flag.m4 \
 	$(top_srcdir)/m4/ax_check_link_flag.m4 \
 	$(top_srcdir)/m4/gtk-doc.m4 $(top_srcdir)/m4/intltool.m4 \
 	$(top_srcdir)/m4/libtool.m4 $(top_srcdir)/m4/ltoptions.m4 \
@@ -214,7 +215,6 @@ AM_DEFAULT_VERBOSITY = @AM_DEFAULT_VERBOSITY@
 APTCC_CFLAGS = @APTCC_CFLAGS@
 APTCC_LIBS = @APTCC_LIBS@
 AR = @AR@
-ARCHIVE_LIBS = @ARCHIVE_LIBS@
 AUTOCONF = @AUTOCONF@
 AUTOHEADER = @AUTOHEADER@
 AUTOMAKE = @AUTOMAKE@
@@ -223,8 +223,6 @@ BASH_COMPLETIONS_DIR = @BASH_COMPLETIONS_DIR@
 BASH_COMPLETION_CFLAGS = @BASH_COMPLETION_CFLAGS@
 BASH_COMPLETION_LIBS = @BASH_COMPLETION_LIBS@
 BINDIR = @BINDIR@
-BOX_CFLAGS = @BOX_CFLAGS@
-BOX_LIBS = @BOX_LIBS@
 CATALOGS = @CATALOGS@
 CATOBJEXT = @CATOBJEXT@
 CC = @CC@
@@ -276,8 +274,6 @@ GTKDOC_DEPS_CFLAGS = @GTKDOC_DEPS_CFLAGS@
 GTKDOC_DEPS_LIBS = @GTKDOC_DEPS_LIBS@
 GTKDOC_MKPDF = @GTKDOC_MKPDF@
 GTKDOC_REBASE = @GTKDOC_REBASE@
-GUDEV_CFLAGS = @GUDEV_CFLAGS@
-GUDEV_LIBS = @GUDEV_LIBS@
 HAWKEY_CFLAGS = @HAWKEY_CFLAGS@
 HAWKEY_LIBS = @HAWKEY_LIBS@
 HTML_DIR = @HTML_DIR@
@@ -310,6 +306,8 @@ LIBDIR = @LIBDIR@
 LIBEXECDIR = @LIBEXECDIR@
 LIBOBJS = @LIBOBJS@
 LIBS = @LIBS@
+LIBSYSTEMD_JOURNAL_CFLAGS = @LIBSYSTEMD_JOURNAL_CFLAGS@
+LIBSYSTEMD_JOURNAL_LIBS = @LIBSYSTEMD_JOURNAL_LIBS@
 LIBTOOL = @LIBTOOL@
 LIPO = @LIPO@
 LN_S = @LN_S@
@@ -370,8 +368,6 @@ PK_PLUGIN_DIR = @PK_PLUGIN_DIR@
 PK_PLUGIN_LIBS = @PK_PLUGIN_LIBS@
 PK_VERSION = @PK_VERSION@
 PK_YUM_PLUGIN_DIR = @PK_YUM_PLUGIN_DIR@
-PM_UTILS_CFLAGS = @PM_UTILS_CFLAGS@
-PM_UTILS_LIBS = @PM_UTILS_LIBS@
 POFILES = @POFILES@
 POLDEK_CFLAGS = @POLDEK_CFLAGS@
 POLDEK_LIBS = @POLDEK_LIBS@
@@ -406,8 +402,6 @@ WARNINGFLAGS_C = @WARNINGFLAGS_C@
 WARNINGFLAGS_CPP = @WARNINGFLAGS_CPP@
 XGETTEXT = @XGETTEXT@
 XSLTPROC = @XSLTPROC@
-ZIF_CFLAGS = @ZIF_CFLAGS@
-ZIF_LIBS = @ZIF_LIBS@
 ZYPP_CFLAGS = @ZYPP_CFLAGS@
 ZYPP_LIBS = @ZYPP_LIBS@
 abs_builddir = @abs_builddir@
@@ -463,7 +457,6 @@ psdir = @psdir@
 pyexecdir = @pyexecdir@
 pythondir = @pythondir@
 sbindir = @sbindir@
-security_framework = @security_framework@
 sharedstatedir = @sharedstatedir@
 srcdir = @srcdir@
 sysconfdir = @sysconfdir@
@@ -482,7 +475,6 @@ SUBDIRS = \
 	lib						\
 	src						\
 	client						\
-	tools						\
 	backends					\
 	contrib						\
 	docs
@@ -528,9 +520,8 @@ EXTRA_DIST = \
 DISTCHECK_CONFIGURE_FLAGS = \
 	--disable-bash-completion			\
 	--enable-gtk-doc				\
-	--with-security-framework=dummy			\
-	--with-systemdsystemunitdir=/tmp		\
-	--disable-tests
+	--with-default-backend=dummy			\
+	--with-systemdsystemunitdir=/tmp
 
 all: config.h
 	$(MAKE) $(AM_MAKEFLAGS) all-recursive
@@ -1043,7 +1034,7 @@ coverity:
 ChangeLog:
 	@echo Creating $@
 	@if test -d "$(srcdir)/.git"; then \
-	  (GIT_DIR=$(top_srcdir)/.git ./missing --run git log PACKAGEKIT_0_5_X.. --stat -M -C --name-status  --date=short --no-color) | fmt --split-only > $@.tmp \
+	  (GIT_DIR=$(top_srcdir)/.git ./missing --run git log PACKAGEKIT_0_7_X.. --stat -M -C --name-status  --date=short --no-color) | fmt --split-only > $@.tmp \
 	  && mv -f $@.tmp $@ \
 	  || ($(RM) $@.tmp; \
 	      echo Failed to generate ChangeLog, your ChangeLog may be outdated >&2; \

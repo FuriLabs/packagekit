@@ -27,29 +27,7 @@ import signal
 import time
 import traceback
 
-from packagekit.enums import ERROR_PACKAGE_ID_INVALID, ERROR_REPO_NOT_FOUND, \
-    ERROR_INTERNAL_ERROR, \
-    ERROR_CANNOT_DISABLE_REPOSITORY, ERROR_PACKAGE_FAILED_TO_INSTALL, \
-    ERROR_DEP_RESOLUTION_FAILED, ERROR_PACKAGE_FAILED_TO_CONFIGURE, \
-    ERROR_PACKAGE_FAILED_TO_REMOVE, ERROR_GROUP_LIST_INVALID, \
-    ERROR_UPDATE_NOT_FOUND, ERROR_REPO_CONFIGURATION_ERROR, \
-    ERROR_PACKAGE_NOT_FOUND, ERROR_MISSING_GPG_SIGNATURE, FILTER_INSTALLED, \
-    FILTER_NOT_INSTALLED, ERROR_GROUP_LIST_INVALID, FILTER_NOT_DEVELOPMENT, \
-    FILTER_FREE, GROUP_ACCESSIBILITY, GROUP_PROGRAMMING, GROUP_GAMES, \
-    GROUP_DESKTOP_GNOME, GROUP_DESKTOP_KDE, GROUP_DESKTOP_OTHER, \
-    GROUP_MULTIMEDIA, GROUP_NETWORK, GROUP_OFFICE, GROUP_SCIENCE, \
-    GROUP_SYSTEM, GROUP_SECURITY, GROUP_OTHER, GROUP_DESKTOP_XFCE, \
-    GROUP_UNKNOWN, INFO_IMPORTANT, INFO_NORMAL, INFO_DOWNLOADING, \
-    INFO_INSTALLED, INFO_REMOVING, INFO_INSTALLING, \
-    ERROR_INVALID_PACKAGE_FILE, ERROR_FILE_NOT_FOUND, \
-    INFO_AVAILABLE, MESSAGE_UNKNOWN, \
-    MESSAGE_AUTOREMOVE_IGNORED, MESSAGE_CONFIG_FILES_CHANGED, STATUS_INFO, \
-    MESSAGE_COULD_NOT_FIND_PACKAGE, MESSAGE_REPO_METADATA_DOWNLOAD_FAILED, \
-    STATUS_QUERY, STATUS_DEP_RESOLVE, STATUS_REMOVE, STATUS_DOWNLOAD, \
-    STATUS_INSTALL, STATUS_RUNNING, STATUS_REFRESH_CACHE, \
-    UPDATE_STATE_TESTING, UPDATE_STATE_STABLE, EXIT_EULA_REQUIRED, \
-    PROVIDES_MIMETYPE, PROVIDES_HARDWARE_DRIVER, PROVIDES_FONT, \
-    PROVIDES_CODEC, ERROR_NOT_SUPPORTED
+from packagekit.enums import *
 
 from packagekit.backend import PackageKitBaseBackend, get_package_id, \
     split_package_id
@@ -67,7 +45,7 @@ from entropy.core.settings.base import SystemSettings
 from entropy.misc import LogFile
 from entropy.cache import EntropyCacher
 from entropy.exceptions import SystemDatabaseError, DependenciesNotFound, \
-    DependenciesCollision
+    DependenciesCollision, EntropyPackageException
 from entropy.db.exceptions import Error as EntropyRepositoryError
 try:
     from entropy.exceptions import DependenciesNotRemovable
@@ -427,11 +405,17 @@ class PackageKitEntropyMixin(object):
         Return translated Entropy packages category description.
         """
         cat_desc = "No description"
-        cat_desc_data = self._entropy.get_category_description(category)
-        if _LOCALE in cat_desc_data:
-            cat_desc = cat_desc_data[_LOCALE]
-        elif 'en' in cat_desc_data:
-            cat_desc = cat_desc_data['en']
+
+        for repository_id in self._entropy.repositories():
+            repo = self._entropy.open_repository(repository_id)
+            cat_desc_data = repo.retrieveCategoryDescription(category)
+            if cat_desc_data:
+                if _LOCALE in cat_desc_data:
+                    cat_desc = cat_desc_data[_LOCALE]
+                elif 'en' in cat_desc_data:
+                    cat_desc = cat_desc_data['en']
+                break
+
         return cat_desc
 
     def _execute_etp_pkgs_remove(self, pkgs, allowdep, autoremove,
@@ -534,18 +518,24 @@ class PackageKitEntropyMixin(object):
 
             metaopts = {}
             metaopts['removeconfig'] = False
-            package = self._entropy.Package()
-            package.prepare((pkg_id,), "remove", metaopts)
-            if 'remove_installed_vanished' not in package.pkgmeta:
-                x_rc = package.run()
-                if x_rc != 0:
-                    pk_pkg = match_map.get(pkg_id, (None, None, None))[2]
-                    self.error(ERROR_PACKAGE_FAILED_TO_REMOVE,
-                        "Cannot remove package: %s" % (pk_pkg,))
-                    return
 
-            package.kill()
-            del package
+            if self._action_factory is None:
+                package = self._entropy.Package()
+                package.prepare((pkg_id,), self._remove_action, metaopts)
+                x_rc = package.run()
+                package.kill()
+            else:
+                package = self._action_factory.get(
+                    self._remove_action, (pkg_id, pkg_c_repo.name),
+                    opts=metaopts)
+                x_rc = package.start()
+                package.finalize()
+
+            if x_rc != 0:
+                pk_pkg = match_map.get(pkg_id, (None, None, None))[2]
+                self.error(ERROR_PACKAGE_FAILED_TO_REMOVE,
+                           "Cannot remove package: %s" % (pk_pkg,))
+                return
 
         self.finished()
 
@@ -677,6 +667,7 @@ class PackageKitEntropyMixin(object):
             self.percentage(percent)
 
             pkg_id, pkg_c_repo, pk_pkg = match_map.get(match)
+            pkg_repo = pkg_c_repo.name
             pkg_desc = pkg_c_repo.retrieveDescription(pkg_id)
             self.package(pk_pkg, INFO_DOWNLOADING, pkg_desc)
 
@@ -689,23 +680,34 @@ class PackageKitEntropyMixin(object):
             if fetch_path is not None:
                 metaopts['fetch_path'] = fetch_path
 
-            package = self._entropy.Package()
-            package.prepare(match, "fetch", metaopts)
-            myrepo = package.pkgmeta['repository']
-            obj = down_data.setdefault(myrepo, set())
-            obj.add(entropy.dep.dep_getkey(package.pkgmeta['atom']))
+            pkg_atom = pkg_c_repo.retrieveAtom(pkg_id)
+            obj = down_data.setdefault(pkg_repo, set())
+            obj.add(entropy.dep.dep_getkey(pkg_atom))
 
-            x_rc = package.run()
+            if self._action_factory is None:
+                package = self._entropy.Package()
+                package.prepare(match, self._fetch_action, metaopts)
+                x_rc = package.run()
+                package_path = package.pkgmeta['pkgpath']
+                package.kill()
+            else:
+                package = self._action_factory.get(
+                    self._fetch_action, match,
+                    opts = metaopts)
+                x_rc = package.start()
+                package_path = package.package_path()
+                package.finalize()
+
             if x_rc != 0:
                 self.error(ERROR_PACKAGE_FAILED_TO_CONFIGURE,
                     "Cannot download package: %s" % (pk_pkg,))
                 return
 
             # emit the file we downloaded
-            self.files(pk_pkg, package.pkgmeta['pkgpath'])
-
-            package.kill()
-            del package
+            if self._action_factory is None:
+                self.files(pk_pkg, package_path)
+            else:
+                self.files(pk_pkg, package_path)
 
         # spawn UGC
         if not simulate:
@@ -746,17 +748,21 @@ class PackageKitEntropyMixin(object):
                 metaopts['install_source'] = \
                     etpConst['install_sources']['automatic_dependency']
 
-            package = self._entropy.Package()
-            package.prepare(match, "install", metaopts)
+            if self._action_factory is None:
+                package = self._entropy.Package()
+                package.prepare(match, self._install_action, metaopts)
+                x_rc = package.run()
+                package.kill()
+            else:
+                package = self._action_factory.get(
+                    self._install_action, match, opts=metaopts)
+                x_rc = package.start()
+                package.finalize()
 
-            x_rc = package.run()
             if x_rc != 0:
                 self.error(ERROR_PACKAGE_FAILED_TO_INSTALL,
                     "Cannot install package: %s" % (pk_pkg,))
                 return
-
-            package.kill()
-            del package
 
         self._config_files_message()
         self.finished()
@@ -851,29 +857,25 @@ class PackageKitEntropyBackend(PackageKitBaseBackend, PackageKitEntropyMixin):
         'unknown': GROUP_UNKNOWN,
     }
 
-    def __sigquit(self, signum, frame):
-        self._entropy.shutdown()
-        raise SystemExit(0)
-
-    def destroy(self):
-        if hasattr(self, "_entropy"):
-            try:
-                self._entropy.shutdown()
-            except NameError:
-                EntropyCacher().stop()
-                self._entropy.destroy()
-
-    def __del__(self):
-        self.destroy()
-
     def __init__(self, args):
         PackageKitEntropyMixin.__init__(self)
         PackageKitBaseBackend.__init__(self, args)
 
         self._entropy = PackageKitEntropyClient()
+        try:
+            self._action_factory = self._entropy.PackageActionFactory()
+            self._remove_action = self._action_factory.REMOVE_ACTION
+            self._install_action = self._action_factory.INSTALL_ACTION
+            self._fetch_action = self._action_factory.FETCH_ACTION
+        except AttributeError:
+            # old API
+            self._action_factory = None
+            self._remove_action = "remove"
+            self._install_action = "install"
+            self._fetch_action = "fetch"
+
         self.doLock()
-        signal.signal(signal.SIGQUIT, self.__sigquit)
-        PkUrlFetcher._pk_progress = self.sub_percentage
+        # PkUrlFetcher._pk_progress = self.sub_percentage
         self._repo_name_cache = {}
         PackageKitEntropyClient._pk_progress = self.percentage
         PackageKitEntropyClient._pk_message = self._generic_message
@@ -884,7 +886,6 @@ class PackageKitEntropyBackend(PackageKitBaseBackend, PackageKitEntropyMixin):
             filename = self._log_fname, header = "[packagekit]")
 
     def unLock(self):
-        self.destroy()
         PackageKitBaseBackend.unLock(self)
 
     def _convert_date_to_iso8601(self, unix_time_str):
@@ -930,6 +931,16 @@ class PackageKitEntropyBackend(PackageKitBaseBackend, PackageKitEntropyMixin):
             else:
                 info = INFO_AVAILABLE
         return self.package(self._etp_to_id(pkg_match), info, desc)
+
+    def _is_only_trusted(self, transaction_flags):
+        return (TRANSACTION_FLAG_ONLY_TRUSTED in transaction_flags) or (
+            TRANSACTION_FLAG_SIMULATE in transaction_flags)
+
+    def _is_simulate(self, transaction_flags):
+        return TRANSACTION_FLAG_SIMULATE in transaction_flags
+
+    def _is_only_download(self, transaction_flags):
+        return TRANSACTION_FLAG_ONLY_DOWNLOAD in transaction_flags
 
     def get_depends(self, filters, package_ids, recursive):
 
@@ -1372,13 +1383,10 @@ class PackageKitEntropyBackend(PackageKitBaseBackend, PackageKitEntropyMixin):
 
         self.percentage(100)
 
-    def install_files(self, only_trusted, inst_files):
-        return self._install_files(only_trusted, inst_files)
+    def install_files(self, transaction_flags, inst_files):
 
-    def simulate_install_files(self, inst_files):
-        return self._install_files(False, inst_files, simulate = True)
-
-    def _install_files(self, only_trusted, inst_files, simulate = False):
+        only_trusted = self._is_only_trusted(transaction_flags)
+        simulate = self._is_simulate(transaction_flags)
 
         self._log_message(__name__, "install_files: got", only_trusted,
             "and", inst_files, "and", simulate)
@@ -1399,14 +1407,16 @@ class PackageKitEntropyBackend(PackageKitBaseBackend, PackageKitEntropyMixin):
 
         pkg_ids = []
         for etp_file in inst_files:
-            repo_id = os.path.basename(etp_file)
-            status, atomsfound = self._entropy.add_package_to_repositories(
-                etp_file)
-            if status != 0:
+            try:
+                atomsfound = self._entropy.add_package_repository(etp_file)
+            except EntropyPackageException:
+                atomsfound = None
+
+            if not atomsfound:
                 self.error(ERROR_INVALID_PACKAGE_FILE,
-                    "Error while trying to add %s repository" % (repo_id,))
+                    "Error while trying to add %s repository" % (etp_file,))
                 return
-            for idpackage, atom in atomsfound:
+            for idpackage, repo_id in atomsfound:
                 pkg_ids.append((idpackage, repo_id))
 
         self._log_message(__name__, "install_files: generated", pkg_ids)
@@ -1425,7 +1435,11 @@ class PackageKitEntropyBackend(PackageKitBaseBackend, PackageKitEntropyMixin):
 
         self._execute_etp_pkgs_install(pkgs, only_trusted, simulate = simulate)
 
-    def _install_packages(self, only_trusted, pk_pkgs, simulate = False):
+    def install_packages(self, transaction_flags, pk_pkgs):
+
+        only_trusted = self._is_only_trusted(transaction_flags)
+        simulate = self._is_simulate(transaction_flags)
+        only_download = self._is_only_download(transaction_flags)
 
         self._log_message(__name__, "install_packages: got", only_trusted,
             "and", pk_pkgs, "and", simulate)
@@ -1442,13 +1456,9 @@ class PackageKitEntropyBackend(PackageKitBaseBackend, PackageKitEntropyMixin):
                 continue
             pkgs.append((pkg[0], pkg[1], pk_pkg,))
 
-        self._execute_etp_pkgs_install(pkgs, only_trusted, simulate = simulate)
-
-    def install_packages(self, only_trusted, package_ids):
-        return self._install_packages(only_trusted, package_ids)
-
-    def simulate_install_packages(self, package_ids):
-        return self._install_packages(False, package_ids, simulate = True)
+        self._execute_etp_pkgs_install(
+            pkgs, only_trusted, simulate = simulate,
+            only_fetch = only_download, calculate_deps = not only_download)
 
     def download_packages(self, directory, package_ids):
 
@@ -1517,9 +1527,6 @@ class PackageKitEntropyBackend(PackageKitBaseBackend, PackageKitEntropyMixin):
 
     def remove_packages(self, allowdep, autoremove, package_ids):
         return self._remove_packages(allowdep, autoremove, package_ids)
-
-    def simulate_remove_packages(self, package_ids):
-        return self._remove_packages(True, False, package_ids, simulate = True)
 
     def _remove_packages(self, allowdep, autoremove, pk_pkgs, simulate = False):
 
@@ -1808,13 +1815,11 @@ class PackageKitEntropyBackend(PackageKitBaseBackend, PackageKitEntropyMixin):
 
         self.percentage(100)
 
-    def update_packages(self, only_trusted, package_ids):
-        return self._update_packages(only_trusted, package_ids)
+    def update_packages(self, transaction_flags, pk_pkgs):
 
-    def simulate_update_packages(self, package_ids):
-        return self._update_packages(False, package_ids, simulate = True)
-
-    def _update_packages(self, only_trusted, pk_pkgs, simulate = False):
+        only_trusted = self._is_only_trusted(transaction_flags)
+        simulate = self._is_simulate(transaction_flags)
+        only_download = self._is_only_download(transaction_flags)
 
         self._log_message(__name__, "update_packages: got", only_trusted,
             "and", pk_pkgs, "and", simulate)
@@ -1831,34 +1836,9 @@ class PackageKitEntropyBackend(PackageKitBaseBackend, PackageKitEntropyMixin):
                 continue
             pkgs.append((pkg[0], pkg[1], pk_pkg,))
 
-        self._execute_etp_pkgs_install(pkgs, only_trusted, simulate = simulate)
-
-    def update_system(self, only_trusted):
-
-        self._log_message(__name__, "update_system: got %s" % (
-            only_trusted,))
-
-        self.status(STATUS_RUNNING)
-        self.allow_cancel(True)
-
-        # this is the part that takes time
-        self.percentage(0)
-        try:
-            update, remove, fine, spm_fine = self._entropy.calculate_updates()
-        except SystemDatabaseError as err:
-            self.error(ERROR_DEP_RESOLUTION_FAILED,
-                "System Repository error: %s" % (err,))
-            return
-        self.percentage(100)
-
-        pkgs = []
-        for pkg_id, repo_id in update:
-            repo_db = self._entropy.open_repository(repo_id)
-            pkg = (pkg_id, repo_db)
-            pk_pkg = self._etp_to_id(pkg)
-            pkgs.append((pkg[0], pkg[1], pk_pkg,))
-
-        self._execute_etp_pkgs_install(pkgs, only_trusted)
+        self._execute_etp_pkgs_install(
+            pkgs, only_trusted, simulate = simulate,
+            only_fetch = only_download, calculate_deps = not only_download)
 
     def _what_provides_mime(self, filters, values):
 

@@ -8,8 +8,6 @@ plugindir = $(PK_PLUGIN_DIR)
 plugin_LTLIBRARIES = libpk_backend_hawkey.la
 libpk_backend_hawkey_la_SOURCES =					\
 	pk-backend-hawkey.c						\
-	hif-config.c							\
-	hif-config.h							\
 	hif-db.c							\
 	hif-db.h							\
 	hif-goal.c							\
@@ -22,6 +20,8 @@ libpk_backend_hawkey_la_SOURCES =					\
 	hif-package.h							\
 	hif-rpmts.c							\
 	hif-rpmts.h							\
+	hif-sack.c							\
+	hif-sack.h							\
 	hif-source.c							\
 	hif-source.h							\
 	hif-state.c							\

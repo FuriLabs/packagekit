@@ -530,26 +530,6 @@ pk_console_details_cb (PkDetails *item, gpointer data)
 }
 
 /**
- * pk_console_message_cb:
- **/
-static void
-pk_console_message_cb (PkMessage *item, gpointer data)
-{
-	gchar *details;
-	PkMessageEnum type;
-
-	/* get data */
-	g_object_get (item,
-		      "details", &details,
-		      "type", &type,
-		      NULL);
-
-	/* TRANSLATORS: This a message (like a little note that may be of interest) from the transaction */
-	g_print ("%s %s: %s\n", _("Message:"), pk_message_enum_to_string (type), details);
-	g_free (details);
-}
-
-/**
  * pk_console_files_cb:
  **/
 static void
@@ -817,11 +797,6 @@ pk_console_finished_cb (GObject *object, GAsyncResult *res, gpointer data)
 	if (array->len == 0 && role == PK_ROLE_ENUM_GET_DETAILS)
 		retval = PK_EXIT_CODE_NOTHING_USEFUL;
 
-	g_ptr_array_unref (array);
-
-	/* message */
-	array = pk_results_get_message_array (results);
-	g_ptr_array_foreach (array, (GFunc) pk_console_message_cb, NULL);
 	g_ptr_array_unref (array);
 
 	/* don't print files if we are DownloadPackages */
@@ -1502,7 +1477,7 @@ main (int argc, char *argv[])
 		{ "noninteractive", 'y', 0, G_OPTION_ARG_NONE, &noninteractive,
 			/* command line argument, do we ask questions */
 			_("Install the packages without asking for confirmation"), NULL },
-		{ "only-download", 'y', 0, G_OPTION_ARG_NONE, &only_download,
+		{ "only-download", 'd', 0, G_OPTION_ARG_NONE, &only_download,
 			/* command line argument, do we just download or apply changes */
 			_("Prepare the transaction by downloading pakages only"), NULL },
 		{ "background", 'n', 0, G_OPTION_ARG_NONE, &background,

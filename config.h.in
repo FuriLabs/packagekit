@@ -3,17 +3,11 @@
 /* default backend prefix */
 #undef DEFAULT_BACKEND
 
-/* Build test code */
-#undef EGG_BUILD_TESTS
-
 /* always defined to indicate that i18n is enabled */
 #undef ENABLE_NLS
 
 /* Name of default gettext domain */
 #undef GETTEXT_PACKAGE
-
-/* Define to 1 if you have the <archive.h> header file. */
-#undef HAVE_ARCHIVE_H
 
 /* Define to 1 if you have the `bind_textdomain_codeset' function. */
 #undef HAVE_BIND_TEXTDOMAIN_CODESET
@@ -35,9 +29,6 @@
 
 /* Define if the GNU gettext() function is already present or preinstalled. */
 #undef HAVE_GETTEXT
-
-/* If Hawkey support should be enabled */
-#undef HAVE_HAWKEY
 
 /* Define to 1 if you have the <inttypes.h> header file. */
 #undef HAVE_INTTYPES_H
@@ -86,9 +77,6 @@
 
 /* Define to 1 if you have the <unistd.h> header file. */
 #undef HAVE_UNISTD_H
-
-/* If Zif support should be enabled */
-#undef HAVE_ZIF
 
 /* Define to the sub-directory in which libtool stores uninstalled libraries.
    */
@@ -142,17 +130,8 @@
 /* Define to 1 if you have the ANSI C header files. */
 #undef STDC_HEADERS
 
-/* if we should use a dummy security framework */
-#undef USE_SECURITY_DUMMY
-
-/* if we should use PolicyKit */
-#undef USE_SECURITY_POLKIT
-
 /* Version number of package */
 #undef VERSION
 
 /* define if libzypp returns package size in bytes */
 #undef ZYPP_RETURN_BYTES
-
-/* default security framework */
-#undef security_framework

@@ -27,14 +27,11 @@
 
 #include "pk-backend.h"
 #include "pk-backend-spawn.h"
-#include "pk-cache.h"
 #include "pk-conf.h"
 #include "pk-dbus.h"
 #include "pk-engine.h"
 #include "pk-notify.h"
 #include "pk-spawn.h"
-#include "pk-store.h"
-#include "pk-syslog.h"
 #include "pk-time.h"
 #include "pk-transaction-db.h"
 #include "pk-transaction.h"
@@ -182,10 +179,8 @@ pk_test_backend_func (void)
 	PkBackendJob *job;
 	PkConf *conf;
 	const gchar *text;
-	gchar *text_safe;
 	gboolean ret;
 	const gchar *filename;
-	gboolean developer_mode;
 	GError *error = NULL;
 
 	/* get an backend */
@@ -341,13 +336,6 @@ pk_test_backend_func (void)
 	pk_backend_reset_job (backend, job);
 	pk_backend_job_set_allow_cancel (job, FALSE);
 
-	/* if running in developer mode, then expect a Message */
-	developer_mode = pk_conf_get_bool (conf, "DeveloperMode");
-	if (developer_mode) {
-		/* check we enforce finished after error_code */
-		g_assert_cmpint (number_messages, ==, 1);
-	}
-
 	/* stop the job again */
 	pk_backend_stop_job (backend, job);
 
@@ -388,10 +376,8 @@ pk_test_backend_spawn_func (void)
 	PkBackendJob *job;
 	PkConf *conf;
 	const gchar *text;
-	guint refcount;
 	gboolean ret;
 	gchar *uri;
-	gchar **array;
 
 	/* get an backend_spawn */
 	backend_spawn = pk_backend_spawn_new ();
@@ -440,7 +426,7 @@ pk_test_backend_spawn_func (void)
 	ret = pk_backend_spawn_inject_data (backend_spawn, job, "percentage", NULL);
 	g_assert (!ret);
 
-	/* test pk_backend_spawn_inject_data NoPercentageUpdates");
+	/* test pk_backend_spawn_inject_data NoPercentageUpdates */
 	ret = pk_backend_spawn_inject_data (backend_spawn, job, "no-percentage-updates", NULL);
 	g_assert (ret);
 
@@ -545,17 +531,6 @@ pk_test_backend_spawn_func (void)
 }
 
 static void
-pk_test_cache_func (void)
-{
-	PkCache *cache;
-
-	cache = pk_cache_new ();
-	g_assert (cache != NULL);
-
-	g_object_unref (cache);
-}
-
-static void
 pk_test_conf_func (void)
 {
 	PkConf *conf;
@@ -567,12 +542,12 @@ pk_test_conf_func (void)
 
 	/* get the default backend */
 	text = pk_conf_get_string (conf, "DefaultBackend");
-	g_assert (text != PK_CONF_VALUE_STRING_MISSING);
+	g_assert (text != NULL);
 	g_free (text);
 
 	/* get a string that doesn't exist */
 	text = pk_conf_get_string (conf, "FooBarBaz");
-	g_assert (text == PK_CONF_VALUE_STRING_MISSING);
+	g_assert (text == NULL);
 	g_free (text);
 
 	/* get the shutdown timeout */
@@ -601,96 +576,6 @@ pk_test_dbus_func (void)
 	g_assert (dbus != NULL);
 
 	g_object_unref (dbus);
-}
-
-static PkNotify *notify = NULL;
-static gboolean _quit = FALSE;
-static gboolean _locked = FALSE;
-static gboolean _restart_schedule = FALSE;
-
-/**
- * pk_test_engine_quit_cb:
- **/
-static void
-pk_test_engine_quit_cb (PkEngine *engine, gpointer user_data)
-{
-	_quit = TRUE;
-}
-
-/**
- * pk_test_engine_changed_cb:
- **/
-static void
-pk_test_engine_changed_cb (PkEngine *engine, gpointer user_data)
-{
-	g_object_get (engine,
-		      "locked", &_locked,
-		      NULL);
-}
-
-/**
- * pk_test_engine_updates_changed_cb:
- **/
-static void
-pk_test_engine_updates_changed_cb (PkEngine *engine, gpointer user_data)
-{
-	_g_test_loop_quit ();
-}
-
-/**
- * pk_test_engine_repo_list_changed_cb:
- **/
-static void
-pk_test_engine_repo_list_changed_cb (PkEngine *engine, gpointer user_data)
-{
-	_g_test_loop_quit ();
-}
-
-/**
- * pk_test_engine_restart_schedule_cb:
- **/
-static void
-pk_test_engine_restart_schedule_cb (PkEngine *engine, gpointer user_data)
-{
-	_restart_schedule = TRUE;
-	_g_test_loop_quit ();
-}
-
-/**
- * pk_test_engine_emit_updates_changed_cb:
- **/
-static gboolean
-pk_test_engine_emit_updates_changed_cb (void)
-{
-	PkNotify *notify2;
-	notify2 = pk_notify_new ();
-	pk_notify_updates_changed (notify2);
-	g_object_unref (notify2);
-	return FALSE;
-}
-
-/**
- * pk_test_engine_emit_repo_list_changed_cb:
- **/
-static gboolean
-pk_test_engine_emit_repo_list_changed_cb (void)
-{
-	PkNotify *notify2;
-	notify2 = pk_notify_new ();
-	pk_notify_repo_list_changed (notify2);
-	g_object_unref (notify2);
-	return FALSE;
-}
-
-static void
-pk_test_notify_func (void)
-{
-	PkNotify *notify;
-
-	notify = pk_notify_new ();
-	g_assert (notify != NULL);
-
-	g_object_unref (notify);
 }
 
 PkSpawnExitType mexit = PK_SPAWN_EXIT_TYPE_UNKNOWN;
@@ -754,17 +639,15 @@ pk_test_spawn_func (void)
 	PkSpawn *spawn = NULL;
 	GError *error = NULL;
 	gboolean ret;
-	gchar *file;
 	gchar **argv;
 	gchar **envp;
-	guint elapsed;
 
 	new_spawn_object (&spawn);
 
 	/* make sure return error for missing file */
 	mexit = PK_SPAWN_EXIT_TYPE_UNKNOWN;
 	argv = g_strsplit ("pk-spawn-test-xxx.sh", " ", 0);
-	ret = pk_spawn_argv (spawn, argv, NULL, &error);
+	ret = pk_spawn_argv (spawn, argv, NULL, PK_SPAWN_ARGV_FLAGS_NONE, &error);
 	g_assert_error (error, 1, 0);
 	g_strfreev (argv);
 	g_assert (!ret);
@@ -776,7 +659,7 @@ pk_test_spawn_func (void)
 	/* make sure run correct helper */
 	mexit = -1;
 	argv = g_strsplit (TESTDATADIR "/pk-spawn-test.sh", " ", 0);
-	ret = pk_spawn_argv (spawn, argv, NULL, &error);
+	ret = pk_spawn_argv (spawn, argv, NULL, PK_SPAWN_ARGV_FLAGS_NONE, &error);
 	g_assert_no_error (error);
 	g_assert (ret);
 	g_strfreev (argv);
@@ -801,7 +684,7 @@ pk_test_spawn_func (void)
 	argv = g_strsplit (TESTDATADIR "/pk-spawn-proxy.sh", " ", 0);
 	envp = g_strsplit ("http_proxy=username:password@server:port "
 			   "ftp_proxy=username:password@server:port", " ", 0);
-	ret = pk_spawn_argv (spawn, argv, envp, &error);
+	ret = pk_spawn_argv (spawn, argv, envp, PK_SPAWN_ARGV_FLAGS_NONE, &error);
 	g_assert_no_error (error);
 	g_assert (ret);
 	g_strfreev (argv);
@@ -816,7 +699,7 @@ pk_test_spawn_func (void)
 	/* make sure run correct helper, and cancel it using SIGKILL */
 	mexit = PK_SPAWN_EXIT_TYPE_UNKNOWN;
 	argv = g_strsplit (TESTDATADIR "/pk-spawn-test.sh", " ", 0);
-	ret = pk_spawn_argv (spawn, argv, NULL, &error);
+	ret = pk_spawn_argv (spawn, argv, NULL, PK_SPAWN_ARGV_FLAGS_NONE, &error);
 	g_assert_no_error (error);
 	g_assert (ret);
 	g_strfreev (argv);
@@ -837,7 +720,7 @@ pk_test_spawn_func (void)
 	g_object_set (spawn,
 		      "allow-sigkill", FALSE,
 		      NULL);
-	ret = pk_spawn_argv (spawn, argv, NULL, &error);
+	ret = pk_spawn_argv (spawn, argv, NULL, PK_SPAWN_ARGV_FLAGS_NONE, &error);
 	g_assert_no_error (error);
 	g_assert (ret);
 	g_strfreev (argv);
@@ -855,7 +738,7 @@ pk_test_spawn_func (void)
 	/* make sure run correct helper, and SIGQUIT it */
 	mexit = PK_SPAWN_EXIT_TYPE_UNKNOWN;
 	argv = g_strsplit (TESTDATADIR "/pk-spawn-test-sigquit.py", " ", 0);
-	ret = pk_spawn_argv (spawn, argv, NULL, &error);
+	ret = pk_spawn_argv (spawn, argv, NULL, PK_SPAWN_ARGV_FLAGS_NONE, &error);
 	g_assert_no_error (error);
 	g_assert (ret);
 	g_strfreev (argv);
@@ -869,7 +752,7 @@ pk_test_spawn_func (void)
 
 	/* run lots of data for profiling */
 	argv = g_strsplit (TESTDATADIR "/pk-spawn-test-profiling.sh", " ", 0);
-	ret = pk_spawn_argv (spawn, argv, NULL, &error);
+	ret = pk_spawn_argv (spawn, argv, NULL, PK_SPAWN_ARGV_FLAGS_NONE, &error);
 	g_assert_no_error (error);
 	g_assert (ret);
 	g_strfreev (argv);
@@ -881,7 +764,7 @@ pk_test_spawn_func (void)
 	mexit = PK_SPAWN_EXIT_TYPE_UNKNOWN;
 	argv = g_strsplit (TESTDATADIR "/pk-spawn-dispatcher.py\tsearch-name\tnone\tpower manager", "\t", 0);
 	envp = g_strsplit ("NETWORK=TRUE LANG=C BACKGROUND=TRUE INTERACTIVE=TRUE", " ", 0);
-	ret = pk_spawn_argv (spawn, argv, envp, &error);
+	ret = pk_spawn_argv (spawn, argv, envp, PK_SPAWN_ARGV_FLAGS_NONE, &error);
 	g_assert_no_error (error);
 	g_assert (ret);
 
@@ -895,7 +778,7 @@ pk_test_spawn_func (void)
 	g_assert (pk_spawn_is_running (spawn));
 
 	/* run the dispatcher with new input */
-	ret = pk_spawn_argv (spawn, argv, envp, &error);
+	ret = pk_spawn_argv (spawn, argv, envp, PK_SPAWN_ARGV_FLAGS_NONE, &error);
 	g_assert_no_error (error);
 	g_assert (ret);
 
@@ -932,80 +815,6 @@ pk_test_spawn_func (void)
 	g_strfreev (argv);
 	g_strfreev (envp);
 	g_object_unref (spawn);
-}
-
-static void
-pk_test_store_func (void)
-{
-	PkStore *store;
-	gboolean ret;
-	const gchar *data_string;
-	guint data_uint;
-	gboolean data_bool;
-
-	store = pk_store_new ();
-	g_assert (store != NULL);
-
-	/* set a blank string */
-	ret = pk_store_set_string (store, "dave2", "");
-	g_assert (ret);
-
-	/* set a ~bool */
-	ret = pk_store_set_bool (store, "roger2", FALSE);
-	g_assert (ret);
-
-	/* set a zero uint */
-	ret = pk_store_set_uint (store, "linda2", 0);
-	g_assert (ret);
-
-	/* get a blank string */
-	data_string = pk_store_get_string (store, "dave2");
-	g_assert_cmpstr (data_string, ==, "");
-
-	/* get a ~bool */
-	data_bool = pk_store_get_bool (store, "roger2");
-	g_assert (!data_bool);
-
-	/* get a zero uint */
-	data_uint = pk_store_get_uint (store, "linda2");
-	g_assert_cmpint (data_uint, ==, 0);
-
-	/* set a string */
-	ret = pk_store_set_string (store, "dave", "ania");
-	g_assert (ret);
-
-	/* set a bool */
-	ret = pk_store_set_bool (store, "roger", TRUE);
-	g_assert (ret);
-
-	/* set a uint */
-	ret = pk_store_set_uint (store, "linda", 999);
-	g_assert (ret);
-
-	/* get a string */
-	data_string = pk_store_get_string (store, "dave");
-	g_assert_cmpstr (data_string, ==, "ania");
-
-	/* get a bool */
-	data_bool = pk_store_get_bool (store, "roger");
-	g_assert (data_bool);
-
-	/* get a uint */
-	data_uint = pk_store_get_uint (store, "linda");
-	g_assert_cmpint (data_uint, ==, 999);
-
-	g_object_unref (store);
-}
-
-static void
-pk_test_syslog_func (void)
-{
-	PkSyslog *syslog;
-
-	syslog = pk_syslog_new ();
-	g_assert (syslog != NULL);
-
-	g_object_unref (syslog);
 }
 
 static void
@@ -1077,9 +886,13 @@ pk_test_transaction_func (void)
 	PkTransaction *transaction = NULL;
 	gboolean ret;
 	GError *error = NULL;
+	GDBusNodeInfo *introspection;
+
+	introspection = pk_load_introspection (PK_DBUS_INTERFACE_TRANSACTION ".xml", NULL);
+	g_assert (introspection != NULL);
 
 	/* get PkTransaction object */
-	transaction = pk_transaction_new ();
+	transaction = pk_transaction_new (introspection);
 	g_assert (transaction != NULL);
 
 	/* validate incorrect text */
@@ -1095,6 +908,7 @@ pk_test_transaction_func (void)
 	g_clear_error (&error);
 
 	g_object_unref (transaction);
+	g_dbus_node_info_unref (introspection);
 }
 
 static void
@@ -1107,7 +921,7 @@ pk_test_transaction_db_func (void)
 	gdouble ms;
 	gchar *proxy_http = NULL;
 	gchar *proxy_ftp = NULL;
-	guint seconds;
+	GError *error = NULL;
 
 	/* remove the self check file */
 #if PK_BUILD_LOCAL
@@ -1119,10 +933,12 @@ pk_test_transaction_db_func (void)
 		g_assert (value == 0);
 	}
 #endif
-
 	/* check we created quickly */
 	g_test_timer_start ();
 	db = pk_transaction_db_new ();
+	ret = pk_transaction_db_load (db, &error);
+	g_assert_no_error (error);
+	g_assert (ret);
 	ms = g_test_timer_elapsed ();
 	g_assert_cmpfloat (ms, <, 1.5);
 	g_object_unref (db);
@@ -1130,6 +946,9 @@ pk_test_transaction_db_func (void)
 	/* check we opened quickly */
 	g_test_timer_start ();
 	db = pk_transaction_db_new ();
+	ret = pk_transaction_db_load (db, &error);
+	g_assert_no_error (error);
+	g_assert (ret);
 	ms = g_test_timer_elapsed ();
 	g_assert_cmpfloat (ms, <, 0.1);
 
@@ -1157,12 +976,7 @@ pk_test_transaction_db_func (void)
 
 	/* do the deferred write */
 	g_test_timer_start ();
-	while (g_main_context_pending (NULL))
-		g_main_context_iteration (NULL, TRUE);
-	ms = g_test_timer_elapsed ();
-	g_assert_cmpfloat (ms, >, 0.001);
-
-	g_usleep (2*1000*1000);
+	_g_test_loop_wait (2000);
 
 	/* do we get the correct time */
 	value = pk_transaction_db_action_time_since (db, PK_ROLE_ENUM_REFRESH_CACHE);
@@ -1262,7 +1076,6 @@ static void
 pk_test_transaction_list_func (void)
 {
 	PkTransactionList *tlist;
-	PkCache *cache;
 	gboolean ret;
 	gchar *tid;
 	guint size;
@@ -1273,6 +1086,7 @@ pk_test_transaction_list_func (void)
 	gchar *tid_item3;
 	PkBackend *backend;
 	PkConf *conf;
+	GError *error = NULL;
 
 	/* remove the self check file */
 #if PK_BUILD_LOCAL
@@ -1285,9 +1099,10 @@ pk_test_transaction_list_func (void)
 	}
 #endif
 
-	/* we get a cache object to reproduce the engine having it ref'd */
-	cache = pk_cache_new ();
 	db = pk_transaction_db_new ();
+	ret = pk_transaction_db_load (db, &error);
+	g_assert_no_error (error);
+	g_assert (ret);
 
 	/* try to load a valid backend */
 	backend = pk_backend_new ();
@@ -1377,6 +1192,8 @@ pk_test_transaction_list_func (void)
 	size = g_strv_length (array);
 	g_assert_cmpint (size, ==, 1);
 	g_strfreev (array);
+
+//g_error ("Moo");
 
 	/* wait for Finished */
 	_g_test_loop_run_with_timeout (2000);
@@ -1563,7 +1380,6 @@ pk_test_transaction_list_func (void)
 
 	g_object_unref (tlist);
 	g_object_unref (backend);
-	g_object_unref (cache);
 	g_object_unref (db);
 	g_object_unref (conf);
 }
@@ -1572,7 +1388,6 @@ static void
 pk_test_transaction_list_parallel_func (void)
 {
 	PkTransactionList *tlist;
-	PkCache *cache;
 	guint size;
 	gboolean ret;
 	guint i;
@@ -1580,7 +1395,6 @@ pk_test_transaction_list_parallel_func (void)
 	PkTransaction *transaction1;
 	PkTransaction *transaction2;
 	PkTransaction *transaction3;
-	PkTransactionState state;
 	gchar *tid_item1;
 	gchar *tid_item2;
 	gchar *tid_item3;
@@ -1588,10 +1402,12 @@ pk_test_transaction_list_parallel_func (void)
 	gchar *tid_item5;
 	PkBackend *backend;
 	PkConf *conf;
+	GError *error = NULL;
 
-	/* we get a cache object to reproduce the engine having it ref'd */
-	cache = pk_cache_new ();
 	db = pk_transaction_db_new ();
+	ret = pk_transaction_db_load (db, &error);
+	g_assert_no_error (error);
+	g_assert (ret);
 
 	/* try to load a valid backend */
 	backend = pk_backend_new ();
@@ -1781,7 +1597,6 @@ pk_test_transaction_list_parallel_func (void)
 
 	g_object_unref (tlist);
 	g_object_unref (backend);
-	g_object_unref (cache);
 	g_object_unref (db);
 	g_object_unref (conf);
 }
@@ -1794,6 +1609,10 @@ main (int argc, char **argv)
 #endif
 	g_test_init (&argc, &argv, NULL);
 
+	/* don't run when using make distcheck */
+	if (g_strcmp0 (DEFAULT_BACKEND, "dummy") == 0)
+		return 0;
+
 #ifndef PK_BUILD_LOCAL
 	g_warning ("you need to compile with --enable-local for make check support");
 #endif
@@ -1801,10 +1620,7 @@ main (int argc, char **argv)
 	/* components */
 	g_test_add_func ("/packagekit/time", pk_test_time_func);
 	g_test_add_func ("/packagekit/dbus", pk_test_dbus_func);
-	g_test_add_func ("/packagekit/syslog", pk_test_dbus_func);
 	g_test_add_func ("/packagekit/conf", pk_test_conf_func);
-	g_test_add_func ("/packagekit/cache", pk_test_conf_func);
-	g_test_add_func ("/packagekit/store", pk_test_store_func);
 	g_test_add_func ("/packagekit/spawn", pk_test_spawn_func);
 	g_test_add_func ("/packagekit/transaction", pk_test_transaction_func);
 	g_test_add_func ("/packagekit/transaction-list", pk_test_transaction_list_func);

@@ -10,7 +10,6 @@ SUBDIRS = 						\
 	lib						\
 	src						\
 	client						\
-	tools						\
 	backends					\
 	contrib						\
 	docs
@@ -65,9 +64,8 @@ EXTRA_DIST =						\
 DISTCHECK_CONFIGURE_FLAGS =				\
 	--disable-bash-completion			\
 	--enable-gtk-doc				\
-	--with-security-framework=dummy			\
-	--with-systemdsystemunitdir=/tmp		\
-	--disable-tests
+	--with-default-backend=dummy			\
+	--with-systemdsystemunitdir=/tmp
 
 distclean-local:
 	if test $(srdcir) = .; then :; else \
@@ -95,7 +93,7 @@ coverity:
 ChangeLog:
 	@echo Creating $@
 	@if test -d "$(srcdir)/.git"; then \
-	  (GIT_DIR=$(top_srcdir)/.git ./missing --run git log PACKAGEKIT_0_5_X.. --stat -M -C --name-status  --date=short --no-color) | fmt --split-only > $@.tmp \
+	  (GIT_DIR=$(top_srcdir)/.git ./missing --run git log PACKAGEKIT_0_7_X.. --stat -M -C --name-status  --date=short --no-color) | fmt --split-only > $@.tmp \
 	  && mv -f $@.tmp $@ \
 	  || ($(RM) $@.tmp; \
 	      echo Failed to generate ChangeLog, your ChangeLog may be outdated >&2; \

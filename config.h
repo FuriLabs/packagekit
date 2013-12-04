@@ -2,19 +2,13 @@
 /* config.h.in.  Generated from configure.ac by autoheader.  */
 
 /* default backend prefix */
-#define DEFAULT_BACKEND "yum"
-
-/* Build test code */
-#define EGG_BUILD_TESTS 1
+#define DEFAULT_BACKEND "hawkey"
 
 /* always defined to indicate that i18n is enabled */
 #define ENABLE_NLS 1
 
 /* Name of default gettext domain */
 #define GETTEXT_PACKAGE "PackageKit"
-
-/* Define to 1 if you have the <archive.h> header file. */
-#define HAVE_ARCHIVE_H 1
 
 /* Define to 1 if you have the `bind_textdomain_codeset' function. */
 #define HAVE_BIND_TEXTDOMAIN_CODESET 1
@@ -36,9 +30,6 @@
 
 /* Define if the GNU gettext() function is already present or preinstalled. */
 #define HAVE_GETTEXT 1
-
-/* If Hawkey support should be enabled */
-#define HAVE_HAWKEY 1
 
 /* Define to 1 if you have the <inttypes.h> header file. */
 #define HAVE_INTTYPES_H 1
@@ -88,9 +79,6 @@
 /* Define to 1 if you have the <unistd.h> header file. */
 #define HAVE_UNISTD_H 1
 
-/* If Zif support should be enabled */
-#define HAVE_ZIF 1
-
 /* Define to the sub-directory in which libtool stores uninstalled libraries.
    */
 #define LT_OBJDIR ".libs/"
@@ -111,7 +99,7 @@
 #define PACKAGE_NAME "PackageKit"
 
 /* Define to the full name and version of this package. */
-#define PACKAGE_STRING "PackageKit 0.8.12"
+#define PACKAGE_STRING "PackageKit 0.8.14"
 
 /* Define to the one symbol short name of this package. */
 #define PACKAGE_TARNAME "PackageKit"
@@ -120,7 +108,7 @@
 #define PACKAGE_URL "http://www.packagekit.org/"
 
 /* Define to the version of this package. */
-#define PACKAGE_VERSION "0.8.12"
+#define PACKAGE_VERSION "0.8.14"
 
 /* define if Connection Manager is installed */
 /* #undef PK_BUILD_CONNMAN */
@@ -143,17 +131,8 @@
 /* Define to 1 if you have the ANSI C header files. */
 #define STDC_HEADERS 1
 
-/* if we should use a dummy security framework */
-/* #undef USE_SECURITY_DUMMY */
-
-/* if we should use PolicyKit */
-#define USE_SECURITY_POLKIT 1
-
 /* Version number of package */
-#define VERSION "0.8.12"
+#define VERSION "0.8.14"
 
 /* define if libzypp returns package size in bytes */
 /* #undef ZYPP_RETURN_BYTES */
-
-/* default security framework */
-#define security_framework "polkit"

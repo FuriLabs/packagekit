@@ -61,7 +61,11 @@ struct              <a class="link" href="PkPackage.html#PkPackageClass" title="
                                                          <em class="parameter"><code><a class="link" href="PkPackage.html" title="PkPackage"><span class="type">PkPackage</span></a> *package2</code></em>);
 const <a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gchar"><span class="returnvalue">gchar</span></a> *       <a class="link" href="PkPackage.html#pk-package-get-id" title="pk_package_get_id ()">pk_package_get_id</a>                   (<em class="parameter"><code><a class="link" href="PkPackage.html" title="PkPackage"><span class="type">PkPackage</span></a> *package</code></em>);
 <a class="link" href="PackageKit-pk-enum.html#PkInfoEnum"><span class="returnvalue">PkInfoEnum</span></a>          <a class="link" href="PkPackage.html#pk-package-get-info" title="pk_package_get_info ()">pk_package_get_info</a>                 (<em class="parameter"><code><a class="link" href="PkPackage.html" title="PkPackage"><span class="type">PkPackage</span></a> *package</code></em>);
+<span class="returnvalue">void</span>                <a class="link" href="PkPackage.html#pk-package-set-info" title="pk_package_set_info ()">pk_package_set_info</a>                 (<em class="parameter"><code><a class="link" href="PkPackage.html" title="PkPackage"><span class="type">PkPackage</span></a> *package</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="PackageKit-pk-enum.html#PkInfoEnum"><span class="type">PkInfoEnum</span></a> info</code></em>);
 const <a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gchar"><span class="returnvalue">gchar</span></a> *       <a class="link" href="PkPackage.html#pk-package-get-summary" title="pk_package_get_summary ()">pk_package_get_summary</a>              (<em class="parameter"><code><a class="link" href="PkPackage.html" title="PkPackage"><span class="type">PkPackage</span></a> *package</code></em>);
+<span class="returnvalue">void</span>                <a class="link" href="PkPackage.html#pk-package-set-summary" title="pk_package_set_summary ()">pk_package_set_summary</a>              (<em class="parameter"><code><a class="link" href="PkPackage.html" title="PkPackage"><span class="type">PkPackage</span></a> *package</code></em>,
+                                                         <em class="parameter"><code>const <a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a> *summary</code></em>);
 const <a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gchar"><span class="returnvalue">gchar</span></a> *       <a class="link" href="PkPackage.html#pk-package-get-name" title="pk_package_get_name ()">pk_package_get_name</a>                 (<em class="parameter"><code><a class="link" href="PkPackage.html" title="PkPackage"><span class="type">PkPackage</span></a> *package</code></em>);
 const <a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gchar"><span class="returnvalue">gchar</span></a> *       <a class="link" href="PkPackage.html#pk-package-get-version" title="pk_package_get_version ()">pk_package_get_version</a>              (<em class="parameter"><code><a class="link" href="PkPackage.html" title="PkPackage"><span class="type">PkPackage</span></a> *package</code></em>);
 const <a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gchar"><span class="returnvalue">gchar</span></a> *       <a class="link" href="PkPackage.html#pk-package-get-arch" title="pk_package_get_arch ()">pk_package_get_arch</a>                 (<em class="parameter"><code><a class="link" href="PkPackage.html" title="PkPackage"><span class="type">PkPackage</span></a> *package</code></em>);
@@ -372,6 +376,33 @@ Gets the package object ID
 </div>
 <hr>
 <div class="refsect2">
+<a name="pk-package-set-info"></a><h3>pk_package_set_info ()</h3>
+<pre class="programlisting"><span class="returnvalue">void</span>                pk_package_set_info                 (<em class="parameter"><code><a class="link" href="PkPackage.html" title="PkPackage"><span class="type">PkPackage</span></a> *package</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="PackageKit-pk-enum.html#PkInfoEnum"><span class="type">PkInfoEnum</span></a> info</code></em>);</pre>
+<p>
+Sets the package info enum.
+</p>
+<div class="variablelist"><table border="0" class="variablelist">
+<colgroup>
+<col align="left" valign="top">
+<col>
+</colgroup>
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>package</code></em> :</span></p></td>
+<td>a valid <a class="link" href="PkPackage.html" title="PkPackage"><span class="type">PkPackage</span></a> instance</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>info</code></em> :</span></p></td>
+<td>the <a class="link" href="PackageKit-pk-enum.html#PkInfoEnum"><code class="literal">PkInfoEnum</code></a>
+</td>
+</tr>
+</tbody>
+</table></div>
+<p class="since">Since 0.8.14</p>
+</div>
+<hr>
+<div class="refsect2">
 <a name="pk-package-get-summary"></a><h3>pk_package_get_summary ()</h3>
 <pre class="programlisting">const <a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gchar"><span class="returnvalue">gchar</span></a> *       pk_package_get_summary              (<em class="parameter"><code><a class="link" href="PkPackage.html" title="PkPackage"><span class="type">PkPackage</span></a> *package</code></em>);</pre>
 <p>
@@ -394,6 +425,32 @@ Gets the package object ID
 </tbody>
 </table></div>
 <p class="since">Since 0.5.4</p>
+</div>
+<hr>
+<div class="refsect2">
+<a name="pk-package-set-summary"></a><h3>pk_package_set_summary ()</h3>
+<pre class="programlisting"><span class="returnvalue">void</span>                pk_package_set_summary              (<em class="parameter"><code><a class="link" href="PkPackage.html" title="PkPackage"><span class="type">PkPackage</span></a> *package</code></em>,
+                                                         <em class="parameter"><code>const <a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a> *summary</code></em>);</pre>
+<p>
+Sets the package summary.
+</p>
+<div class="variablelist"><table border="0" class="variablelist">
+<colgroup>
+<col align="left" valign="top">
+<col>
+</colgroup>
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>package</code></em> :</span></p></td>
+<td>a valid <a class="link" href="PkPackage.html" title="PkPackage"><span class="type">PkPackage</span></a> instance</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>summary</code></em> :</span></p></td>
+<td>the package summary</td>
+</tr>
+</tbody>
+</table></div>
+<p class="since">Since 0.8.14</p>
 </div>
 <hr>
 <div class="refsect2">

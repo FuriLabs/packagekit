@@ -83,8 +83,8 @@ POST_UNINSTALL = :
 build_triplet = @build@
 host_triplet = @host@
 noinst_PROGRAMS = pk-socket-example$(EXEEXT)
-@EGG_BUILD_TESTS_TRUE@check_PROGRAMS = pk-self-test$(EXEEXT)
-@EGG_BUILD_TESTS_TRUE@TESTS = pk-self-test$(EXEEXT)
+check_PROGRAMS = pk-self-test$(EXEEXT)
+TESTS = pk-self-test$(EXEEXT)
 @HAVE_INTROSPECTION_TRUE@am__append_1 = $(gir_DATA) $(typelib_DATA)
 subdir = lib/packagekit-glib2
 DIST_COMMON = $(srcdir)/Makefile.in $(srcdir)/Makefile.am \
@@ -93,7 +93,8 @@ DIST_COMMON = $(srcdir)/Makefile.in $(srcdir)/Makefile.am \
 	$(libpackagekit_glib2_include_HEADERS) \
 	$(top_srcdir)/build-aux/test-driver COPYING
 ACLOCAL_M4 = $(top_srcdir)/aclocal.m4
-am__aclocal_m4_deps = $(top_srcdir)/m4/ax_check_compile_flag.m4 \
+am__aclocal_m4_deps = $(top_srcdir)/m4/as-linguas.m4 \
+	$(top_srcdir)/m4/ax_check_compile_flag.m4 \
 	$(top_srcdir)/m4/ax_check_link_flag.m4 \
 	$(top_srcdir)/m4/gtk-doc.m4 $(top_srcdir)/m4/intltool.m4 \
 	$(top_srcdir)/m4/libtool.m4 $(top_srcdir)/m4/ltoptions.m4 \
@@ -114,13 +115,11 @@ am__v_AR_0 = @echo "  AR      " $@;
 am__v_AR_1 = 
 libpackagekitprivate_a_AR = $(AR) $(ARFLAGS)
 libpackagekitprivate_a_LIBADD =
-am__objects_1 =
 am_libpackagekitprivate_a_OBJECTS =  \
 	libpackagekitprivate_a-pk-console-shared.$(OBJEXT) \
 	libpackagekitprivate_a-pk-progress-bar.$(OBJEXT) \
 	libpackagekitprivate_a-pk-task-text.$(OBJEXT) \
-	libpackagekitprivate_a-pk-task-wrapper.$(OBJEXT) \
-	$(am__objects_1)
+	libpackagekitprivate_a-pk-task-wrapper.$(OBJEXT)
 libpackagekitprivate_a_OBJECTS = $(am_libpackagekitprivate_a_OBJECTS)
 am__vpath_adj_setup = srcdirstrip=`echo "$(srcdir)" | sed 's|.|.|g'`;
 am__vpath_adj = case $$p in \
@@ -155,7 +154,6 @@ am__installdirs = "$(DESTDIR)$(libdir)" "$(DESTDIR)$(girdir)" \
 LTLIBRARIES = $(lib_LTLIBRARIES)
 am__DEPENDENCIES_1 =
 libpackagekit_glib2_la_DEPENDENCIES = $(am__DEPENDENCIES_1) \
-	$(am__DEPENDENCIES_1) $(am__DEPENDENCIES_1) \
 	$(am__DEPENDENCIES_1) $(am__DEPENDENCIES_1)
 am_libpackagekit_glib2_la_OBJECTS =  \
 	libpackagekit_glib2_la-pk-bitfield.lo \
@@ -176,7 +174,6 @@ am_libpackagekit_glib2_la_OBJECTS =  \
 	libpackagekit_glib2_la-pk-error.lo \
 	libpackagekit_glib2_la-pk-eula-required.lo \
 	libpackagekit_glib2_la-pk-files.lo \
-	libpackagekit_glib2_la-pk-marshal.lo \
 	libpackagekit_glib2_la-pk-media-change-required.lo \
 	libpackagekit_glib2_la-pk-message.lo \
 	libpackagekit_glib2_la-pk-item-progress.lo \
@@ -197,8 +194,7 @@ am_libpackagekit_glib2_la_OBJECTS =  \
 	libpackagekit_glib2_la-pk-transaction-past.lo \
 	libpackagekit_glib2_la-pk-transaction-list.lo \
 	libpackagekit_glib2_la-pk-update-detail.lo \
-	libpackagekit_glib2_la-pk-spawn-polkit-agent.lo \
-	$(am__objects_1)
+	libpackagekit_glib2_la-pk-spawn-polkit-agent.lo
 libpackagekit_glib2_la_OBJECTS = $(am_libpackagekit_glib2_la_OBJECTS)
 AM_V_lt = $(am__v_lt_@AM_V@)
 am__v_lt_ = $(am__v_lt_@AM_DEFAULT_V@)
@@ -209,19 +205,11 @@ libpackagekit_glib2_la_LINK = $(LIBTOOL) $(AM_V_lt) --tag=CC \
 	$(libpackagekit_glib2_la_CFLAGS) $(CFLAGS) \
 	$(libpackagekit_glib2_la_LDFLAGS) $(LDFLAGS) -o $@
 PROGRAMS = $(noinst_PROGRAMS)
-am__pk_self_test_SOURCES_DIST = pk-self-test.c
-@EGG_BUILD_TESTS_TRUE@am_pk_self_test_OBJECTS =  \
-@EGG_BUILD_TESTS_TRUE@	pk_self_test-pk-self-test.$(OBJEXT) \
-@EGG_BUILD_TESTS_TRUE@	$(am__objects_1)
+am_pk_self_test_OBJECTS = pk_self_test-pk-self-test.$(OBJEXT)
 pk_self_test_OBJECTS = $(am_pk_self_test_OBJECTS)
-@EGG_BUILD_TESTS_TRUE@pk_self_test_DEPENDENCIES =  \
-@EGG_BUILD_TESTS_TRUE@	libpackagekit-glib2.la \
-@EGG_BUILD_TESTS_TRUE@	libpackagekitprivate.a \
-@EGG_BUILD_TESTS_TRUE@	$(am__DEPENDENCIES_1) \
-@EGG_BUILD_TESTS_TRUE@	$(am__DEPENDENCIES_1) \
-@EGG_BUILD_TESTS_TRUE@	$(am__DEPENDENCIES_1) \
-@EGG_BUILD_TESTS_TRUE@	$(am__DEPENDENCIES_1) \
-@EGG_BUILD_TESTS_TRUE@	$(am__DEPENDENCIES_1)
+pk_self_test_DEPENDENCIES = libpackagekit-glib2.la \
+	libpackagekitprivate.a $(am__DEPENDENCIES_1) \
+	$(am__DEPENDENCIES_1) $(am__DEPENDENCIES_1)
 pk_self_test_LINK = $(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) \
 	$(LIBTOOLFLAGS) --mode=link $(CCLD) $(pk_self_test_CFLAGS) \
 	$(CFLAGS) $(AM_LDFLAGS) $(LDFLAGS) -o $@
@@ -272,8 +260,8 @@ SOURCES = $(libpackagekitprivate_a_SOURCES) \
 	$(libpackagekit_glib2_la_SOURCES) $(pk_self_test_SOURCES) \
 	$(pk_socket_example_SOURCES)
 DIST_SOURCES = $(libpackagekitprivate_a_SOURCES) \
-	$(libpackagekit_glib2_la_SOURCES) \
-	$(am__pk_self_test_SOURCES_DIST) $(pk_socket_example_SOURCES)
+	$(libpackagekit_glib2_la_SOURCES) $(pk_self_test_SOURCES) \
+	$(pk_socket_example_SOURCES)
 am__can_run_installinfo = \
   case $$AM_UPDATE_INFO_DIR in \
     n|no|NO) false;; \
@@ -487,7 +475,6 @@ AM_DEFAULT_VERBOSITY = @AM_DEFAULT_VERBOSITY@
 APTCC_CFLAGS = @APTCC_CFLAGS@
 APTCC_LIBS = @APTCC_LIBS@
 AR = @AR@
-ARCHIVE_LIBS = @ARCHIVE_LIBS@
 AUTOCONF = @AUTOCONF@
 AUTOHEADER = @AUTOHEADER@
 AUTOMAKE = @AUTOMAKE@
@@ -496,8 +483,6 @@ BASH_COMPLETIONS_DIR = @BASH_COMPLETIONS_DIR@
 BASH_COMPLETION_CFLAGS = @BASH_COMPLETION_CFLAGS@
 BASH_COMPLETION_LIBS = @BASH_COMPLETION_LIBS@
 BINDIR = @BINDIR@
-BOX_CFLAGS = @BOX_CFLAGS@
-BOX_LIBS = @BOX_LIBS@
 CATALOGS = @CATALOGS@
 CATOBJEXT = @CATOBJEXT@
 CC = @CC@
@@ -549,8 +534,6 @@ GTKDOC_DEPS_CFLAGS = @GTKDOC_DEPS_CFLAGS@
 GTKDOC_DEPS_LIBS = @GTKDOC_DEPS_LIBS@
 GTKDOC_MKPDF = @GTKDOC_MKPDF@
 GTKDOC_REBASE = @GTKDOC_REBASE@
-GUDEV_CFLAGS = @GUDEV_CFLAGS@
-GUDEV_LIBS = @GUDEV_LIBS@
 HAWKEY_CFLAGS = @HAWKEY_CFLAGS@
 HAWKEY_LIBS = @HAWKEY_LIBS@
 HTML_DIR = @HTML_DIR@
@@ -583,6 +566,8 @@ LIBDIR = @LIBDIR@
 LIBEXECDIR = @LIBEXECDIR@
 LIBOBJS = @LIBOBJS@
 LIBS = @LIBS@
+LIBSYSTEMD_JOURNAL_CFLAGS = @LIBSYSTEMD_JOURNAL_CFLAGS@
+LIBSYSTEMD_JOURNAL_LIBS = @LIBSYSTEMD_JOURNAL_LIBS@
 LIBTOOL = @LIBTOOL@
 LIPO = @LIPO@
 LN_S = @LN_S@
@@ -643,8 +628,6 @@ PK_PLUGIN_DIR = @PK_PLUGIN_DIR@
 PK_PLUGIN_LIBS = @PK_PLUGIN_LIBS@
 PK_VERSION = @PK_VERSION@
 PK_YUM_PLUGIN_DIR = @PK_YUM_PLUGIN_DIR@
-PM_UTILS_CFLAGS = @PM_UTILS_CFLAGS@
-PM_UTILS_LIBS = @PM_UTILS_LIBS@
 POFILES = @POFILES@
 POLDEK_CFLAGS = @POLDEK_CFLAGS@
 POLDEK_LIBS = @POLDEK_LIBS@
@@ -679,8 +662,6 @@ WARNINGFLAGS_C = @WARNINGFLAGS_C@
 WARNINGFLAGS_CPP = @WARNINGFLAGS_CPP@
 XGETTEXT = @XGETTEXT@
 XSLTPROC = @XSLTPROC@
-ZIF_CFLAGS = @ZIF_CFLAGS@
-ZIF_LIBS = @ZIF_LIBS@
 ZYPP_CFLAGS = @ZYPP_CFLAGS@
 ZYPP_LIBS = @ZYPP_LIBS@
 abs_builddir = @abs_builddir@
@@ -736,7 +717,6 @@ psdir = @psdir@
 pyexecdir = @pyexecdir@
 pythondir = @pythondir@
 sbindir = @sbindir@
-security_framework = @security_framework@
 sharedstatedir = @sharedstatedir@
 srcdir = @srcdir@
 sysconfdir = @sysconfdir@
@@ -745,7 +725,6 @@ target_alias = @target_alias@
 top_build_prefix = @top_build_prefix@
 top_builddir = @top_builddir@
 top_srcdir = @top_srcdir@
-NULL = 
 @HAVE_INTROSPECTION_TRUE@INTROSPECTION_GIRS = PackageKitGlib-1.0.gir
 @HAVE_INTROSPECTION_TRUE@INTROSPECTION_SCANNER_ARGS = --add-include-path=$(srcdir)
 @HAVE_INTROSPECTION_TRUE@INTROSPECTION_COMPILER_ARGS = --includedir=$(srcdir)
@@ -767,12 +746,10 @@ AM_CPPFLAGS = \
 
 pkgconfigdir = $(libdir)/pkgconfig
 pkgconfig_DATA = \
-	packagekit-glib2.pc					\
-	$(NULL)
+	packagekit-glib2.pc
 
 lib_LTLIBRARIES = \
-	libpackagekit-glib2.la					\
-	$(NULL)
+	libpackagekit-glib2.la
 
 libpackagekit_glib2_includedir = $(includedir)/PackageKit/packagekit-glib2
 HEADER_FILES = \
@@ -813,13 +790,11 @@ HEADER_FILES = \
 	pk-transaction-past.h					\
 	pk-transaction-list.h					\
 	pk-update-detail.h					\
-	pk-version.h						\
-	$(NULL)
+	pk-version.h
 
 libpackagekit_glib2_include_HEADERS = \
 	$(HEADER_FILES)						\
-	pk-enum-types.h						\
-	$(NULL)
+	pk-enum-types.h
 
 libpackagekit_glib2_la_SOURCES = \
 	packagekit.h						\
@@ -859,8 +834,6 @@ libpackagekit_glib2_la_SOURCES = \
 	pk-eula-required.h					\
 	pk-files.c						\
 	pk-files.h						\
-	pk-marshal.c						\
-	pk-marshal.h						\
 	pk-media-change-required.c				\
 	pk-media-change-required.h				\
 	pk-message.c						\
@@ -903,27 +876,23 @@ libpackagekit_glib2_la_SOURCES = \
 	pk-update-detail.h					\
 	pk-spawn-polkit-agent.c				\
 	pk-spawn-polkit-agent.h				\
-	pk-version.h						\
-	$(NULL)
+	pk-version.h
 
 libpackagekit_glib2_la_LIBADD = \
 	$(GLIB_LIBS)						\
 	$(GIO_LIBS)						\
 	$(ARCHIVE_LIBS)						\
-	$(SQLITE_LIBS)						\
-	$(NULL)
+	$(SQLITE_LIBS)
 
 libpackagekit_glib2_la_LDFLAGS = \
 	-version-info $(LT_CURRENT):$(LT_REVISION):$(LT_AGE)	\
 	-export-dynamic						\
 	-no-undefined						\
-	-export-symbols-regex '^pk_.*'				\
-	$(NULL)
+	-export-symbols-regex '^pk_.*'
 
 libpackagekit_glib2_la_CFLAGS = \
 	$(PIE_CFLAGS)						\
-	$(WARNINGFLAGS_C)					\
-	$(NULL)
+	$(WARNINGFLAGS_C)
 
 noinst_LIBRARIES = libpackagekitprivate.a
 libpackagekitprivate_a_SOURCES = \
@@ -936,46 +905,37 @@ libpackagekitprivate_a_SOURCES = \
 	pk-task-text.h						\
 	pk-task-wrapper.c					\
 	pk-task-wrapper.h					\
-	pk-spawn-polkit-agent.h				\
-	$(NULL)
+	pk-spawn-polkit-agent.h
 
 libpackagekitprivate_a_CFLAGS = \
 	$(PIE_CFLAGS)						\
-	$(WARNINGFLAGS_C)					\
-	$(NULL)
+	$(WARNINGFLAGS_C)
 
 pk_socket_example_SOURCES = pk-socket-example.c
 pk_socket_example_LDADD = $(GIO_LIBS) $(GLIB_LIBS)
 pk_socket_example_CFLAGS = $(WARNINGFLAGS_C)
-@EGG_BUILD_TESTS_TRUE@pk_self_test_SOURCES = \
-@EGG_BUILD_TESTS_TRUE@	pk-self-test.c						\
-@EGG_BUILD_TESTS_TRUE@	$(NULL)
+pk_self_test_SOURCES = \
+	pk-self-test.c
 
-@EGG_BUILD_TESTS_TRUE@pk_self_test_LDADD = \
-@EGG_BUILD_TESTS_TRUE@	libpackagekit-glib2.la					\
-@EGG_BUILD_TESTS_TRUE@	libpackagekitprivate.a					\
-@EGG_BUILD_TESTS_TRUE@	$(GLIB_LIBS)						\
-@EGG_BUILD_TESTS_TRUE@	$(SELFTEST_LIBS)					\
-@EGG_BUILD_TESTS_TRUE@	$(POLKIT_LIBS)						\
-@EGG_BUILD_TESTS_TRUE@	$(SQLITE_LIBS)						\
-@EGG_BUILD_TESTS_TRUE@	$(ARCHIVE_LIBS)						\
-@EGG_BUILD_TESTS_TRUE@	$(NULL)
+pk_self_test_LDADD = \
+	libpackagekit-glib2.la					\
+	libpackagekitprivate.a					\
+	$(GLIB_LIBS)						\
+	$(SELFTEST_LIBS)					\
+	$(POLKIT_LIBS)						\
+	$(SQLITE_LIBS)						\
+	$(ARCHIVE_LIBS)
 
-@EGG_BUILD_TESTS_TRUE@pk_self_test_CFLAGS = $(AM_CFLAGS) $(WARNINGFLAGS_C)
+pk_self_test_CFLAGS = $(AM_CFLAGS) $(WARNINGFLAGS_C)
 EXTRA_DIST = \
 	packagekit-glib2.pc.in					\
 	pk-version.h.in						\
-	pk-marshal.list						\
 	pk-enum-types.h.template				\
-	pk-enum-types.c.template				\
-	$(NULL)
+	pk-enum-types.c.template
 
 BUILT_SOURCES = \
-	pk-marshal.c						\
-	pk-marshal.h						\
 	pk-enum-types.h						\
-	pk-enum-types.c						\
-	$(NULL)
+	pk-enum-types.c
 
 CLEANFILES = $(BUILT_SOURCES) *.a *.servicepack $(am__append_1)
 @HAVE_INTROSPECTION_TRUE@introspection_sources = $(libpackagekit_glib2_la_SOURCES)
@@ -1131,7 +1091,6 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libpackagekit_glib2_la-pk-eula-required.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libpackagekit_glib2_la-pk-files.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libpackagekit_glib2_la-pk-item-progress.Plo@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libpackagekit_glib2_la-pk-marshal.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libpackagekit_glib2_la-pk-media-change-required.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libpackagekit_glib2_la-pk-message.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libpackagekit_glib2_la-pk-package-id.Plo@am__quote@
@@ -1361,13 +1320,6 @@ libpackagekit_glib2_la-pk-files.lo: pk-files.c
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='pk-files.c' object='libpackagekit_glib2_la-pk-files.lo' libtool=yes @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libpackagekit_glib2_la_CFLAGS) $(CFLAGS) -c -o libpackagekit_glib2_la-pk-files.lo `test -f 'pk-files.c' || echo '$(srcdir)/'`pk-files.c
-
-libpackagekit_glib2_la-pk-marshal.lo: pk-marshal.c
-@am__fastdepCC_TRUE@	$(AM_V_CC)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libpackagekit_glib2_la_CFLAGS) $(CFLAGS) -MT libpackagekit_glib2_la-pk-marshal.lo -MD -MP -MF $(DEPDIR)/libpackagekit_glib2_la-pk-marshal.Tpo -c -o libpackagekit_glib2_la-pk-marshal.lo `test -f 'pk-marshal.c' || echo '$(srcdir)/'`pk-marshal.c
-@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/libpackagekit_glib2_la-pk-marshal.Tpo $(DEPDIR)/libpackagekit_glib2_la-pk-marshal.Plo
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='pk-marshal.c' object='libpackagekit_glib2_la-pk-marshal.lo' libtool=yes @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libpackagekit_glib2_la_CFLAGS) $(CFLAGS) -c -o libpackagekit_glib2_la-pk-marshal.lo `test -f 'pk-marshal.c' || echo '$(srcdir)/'`pk-marshal.c
 
 libpackagekit_glib2_la-pk-media-change-required.lo: pk-media-change-required.c
 @am__fastdepCC_TRUE@	$(AM_V_CC)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libpackagekit_glib2_la_CFLAGS) $(CFLAGS) -MT libpackagekit_glib2_la-pk-media-change-required.lo -MD -MP -MF $(DEPDIR)/libpackagekit_glib2_la-pk-media-change-required.Tpo -c -o libpackagekit_glib2_la-pk-media-change-required.lo `test -f 'pk-media-change-required.c' || echo '$(srcdir)/'`pk-media-change-required.c
@@ -2025,15 +1977,7 @@ uninstall-am: uninstall-girDATA uninstall-libLTLIBRARIES \
 	uninstall-libpackagekit_glib2_includeHEADERS \
 	uninstall-pkgconfigDATA uninstall-typelibDATA
 
-
 @HAVE_INTROSPECTION_TRUE@-include $(INTROSPECTION_MAKEFILE)
-
-pk-marshal.c: pk-marshal.list
-	echo "#include \"pk-marshal.h\"" > $@ && \
-	@GLIB_GENMARSHAL@ $< --prefix=pk_marshal --body >> $@
-
-pk-marshal.h: pk-marshal.list
-	@GLIB_GENMARSHAL@ $< --prefix=pk_marshal --header > $@
 
 pk-enum-types.h: pk-enum-types.h.template $(HEADER_FILES)
 	$(AM_V_GEN) $(GLIB_MKENUMS) --template $^ > $@

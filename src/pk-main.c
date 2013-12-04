@@ -24,6 +24,7 @@
 #include <errno.h>
 #include <string.h>
 #include <signal.h>
+#include <syslog.h>
 #include <unistd.h>
 #include <stdlib.h>
 #include <locale.h>
@@ -34,7 +35,6 @@
 
 #include "pk-conf.h"
 #include "pk-engine.h"
-#include "pk-syslog.h"
 #include "pk-transaction.h"
 
 static guint exit_idle_time;
@@ -172,15 +172,12 @@ main (int argc, char *argv[])
 	gboolean ret = TRUE;
 	gboolean disable_timer = FALSE;
 	gboolean version = FALSE;
-	gboolean use_daemon = FALSE;
 	gboolean timed_exit = FALSE;
 	gboolean immediate_exit = FALSE;
 	gboolean keep_environment = FALSE;
-	gboolean do_logging = FALSE;
 	gchar *backend_name = NULL;
 	PkEngine *engine = NULL;
 	PkConf *conf = NULL;
-	PkSyslog *syslog = NULL;
 	GError *error = NULL;
 	GOptionContext *context;
 	guint timer_id = 0;
@@ -189,9 +186,6 @@ main (int argc, char *argv[])
 		{ "backend", '\0', 0, G_OPTION_ARG_STRING, &backend_name,
 		  /* TRANSLATORS: a backend is the system package tool, e.g. yum, apt */
 		  _("Packaging backend to use, e.g. dummy"), NULL },
-		{ "daemonize", '\0', 0, G_OPTION_ARG_NONE, &use_daemon,
-		  /* TRANSLATORS: if we should run in the background */
-		  _("Daemonize and detach from the terminal"), NULL },
 		{ "disable-timer", '\0', 0, G_OPTION_ARG_NONE, &disable_timer,
 		  /* TRANSLATORS: if we should not monitor how long we are inactive for */
 		  _("Disable the idle timer"), NULL },
@@ -214,6 +208,7 @@ main (int argc, char *argv[])
 	bindtextdomain (GETTEXT_PACKAGE, PACKAGE_LOCALE_DIR);
 	bind_textdomain_codeset (GETTEXT_PACKAGE, "UTF-8");
 	textdomain (GETTEXT_PACKAGE);
+	openlog ("PackageKit", LOG_NDELAY, LOG_USER);
 
 #if (GLIB_MAJOR_VERSION == 2 && GLIB_MINOR_VERSION < 35)
 	g_type_init ();
@@ -228,12 +223,6 @@ main (int argc, char *argv[])
 
 	if (version) {
 		g_print ("Version %s\n", VERSION);
-		goto exit_program;
-	}
-
-	/* we need to daemonize before we get a system connection */
-	if (use_daemon && daemon (0, 0)) {
-		g_print ("Could not daemonize: %s\n", g_strerror (errno));
 		goto exit_program;
 	}
 
@@ -253,12 +242,7 @@ main (int argc, char *argv[])
 	pk_conf_set_bool (conf, "KeepEnvironment", keep_environment);
 
 	/* log the startup */
-	syslog = pk_syslog_new ();
-	pk_syslog_add (syslog, PK_SYSLOG_TYPE_INFO, "daemon start");
-
-	/* do we log? */
-	do_logging = pk_conf_get_bool (conf, "TransactionLogging");
-	g_debug ("Log all transactions: %i", do_logging);
+	syslog (LOG_DAEMON, "daemon start");
 
 	/* after how long do we timeout? */
 	exit_idle_time = pk_conf_get_int (conf, "ShutdownTimeout");
@@ -326,14 +310,14 @@ main (int argc, char *argv[])
 	g_main_loop_run (loop);
 out:
 	/* log the shutdown */
-	pk_syslog_add (syslog, PK_SYSLOG_TYPE_INFO, "daemon quit");
+	syslog (LOG_DAEMON, "daemon quit");
+	closelog ();
 
 	if (timer_id > 0)
 		g_source_remove (timer_id);
 
 	if (loop != NULL)
 		g_main_loop_unref (loop);
-	g_object_unref (syslog);
 	g_object_unref (conf);
 	if (engine != NULL)
 		g_object_unref (engine);

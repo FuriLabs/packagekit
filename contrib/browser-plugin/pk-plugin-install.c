@@ -36,8 +36,6 @@
 
 #include "pk-plugin-install.h"
 
-//#define PK_PLUGIN_INSTALL_USE_DESKTOP_FOR_INSTALLED
-
 #define PK_PLUGIN_INSTALL_GET_PRIVATE(o) (G_TYPE_INSTANCE_GET_PRIVATE ((o), PK_TYPE_PLUGIN_INSTALL, PkPluginInstallPrivate))
 
 typedef enum {
@@ -182,58 +180,6 @@ pk_plugin_install_set_installed_version (PkPluginInstall *self, const gchar *ver
 }
 
 /**
- * pk_plugin_install_get_best_desktop_file:
- **/
-static gchar *
-pk_plugin_install_get_best_desktop_file (PkPluginInstall *self)
-{
-	gchar *data = NULL;
-#ifdef PK_PLUGIN_INSTALL_USE_DESKTOP_FOR_INSTALLED
-	GPtrArray *array = NULL;
-	PkDesktop *desktop;
-	GError *error = NULL;
-	gboolean ret;
-	const gchar *package;
-
-	/* open desktop database */
-	desktop = pk_desktop_new ();
-	ret = pk_desktop_open_database (desktop, &error);
-	if (!ret) {
-		g_warning ("failed to open database: %s", error->message);
-		g_error_free (error);
-		goto out;
-	}
-
-	/* get files */
-	package = self->priv->installed_package_name;
-	if (package == NULL) {
-		g_warning ("installed_package_name NULL so cannot get desktop file");
-		goto out;
-	}
-	array = pk_desktop_get_shown_for_package (desktop, package, &error);
-	if (array == NULL) {
-		g_debug ("no data: %s", error->message);
-		g_error_free (error);
-		goto out;
-	}
-	if (array->len == 0) {
-		g_debug ("no matches for %s", package);
-		goto out;
-	}
-
-	/* just use the first entry */
-	data = g_strdup (g_ptr_array_index (array, 0));
-out:
-	if (array != NULL) {
-		g_ptr_array_foreach (array, (GFunc) g_free, NULL);
-		g_ptr_array_free (array, TRUE);
-	}
-	g_object_unref (desktop);
-#endif
-	return data;
-}
-
-/**
  * pk_plugin_install_finished_cb:
  **/
 static void
@@ -299,13 +245,6 @@ pk_plugin_install_finished_cb (GObject *object, GAsyncResult *res, PkPluginInsta
 		pk_plugin_install_set_available_package_name (self, split[0]);
 		pk_plugin_install_set_available_version (self, split[1]);
 		g_strfreev (split);
-#if 0
-		/* if we have data from the repo, override the user:
-		 *  * we don't want the remote site pretending to install another package
-		 *  * it might be localised if the backend supports it */
-		if (summary != NULL && summary[0] != '\0')
-			self->priv->display_name = g_strdup (summary);
-#endif
 
 		pk_plugin_install_clear_layout (self);
 		pk_plugin_install_refresh (self);
@@ -319,16 +258,6 @@ pk_plugin_install_finished_cb (GObject *object, GAsyncResult *res, PkPluginInsta
 		pk_plugin_install_set_installed_package_name (self, split[0]);
 		pk_plugin_install_set_installed_version (self, split[1]);
 		g_strfreev (split);
-
-		/* get desktop file information */
-		filename = pk_plugin_install_get_best_desktop_file (self);
-		if (filename != NULL) {
-			self->priv->app_info = G_APP_INFO (g_desktop_app_info_new_from_filename (filename));
-#if 0
-			/* override, as this will have translation */
-			self->priv->display_name = g_strdup (g_app_info_get_name (self->priv->app_info));
-#endif
-		}
 
 		pk_plugin_install_set_status (self, INSTALLED);
 		pk_plugin_install_clear_layout (self);
@@ -376,19 +305,6 @@ pk_plugin_install_recheck (PkPluginInstall *self)
 		data = pk_plugin_get_data (PK_PLUGIN (self), "packagenames");
 		self->priv->package_names = g_strsplit (data, " ", -1);
 	}
-
-#if 0
-	for (i=0; self->priv->package_names[i] != NULL; i++) {
-		package_ids = pk_package_ids_from_id (self->priv->package_names[i]);
-
-		/* do async resolve */
-		pk_client_resolve_async (self->priv->client, pk_bitfield_from_enums (PK_FILTER_ENUM_NEWEST, -1), package_ids, NULL,
-					 (PkProgressCallback) pk_plugin_install_progress_cb, self,
-					 (GAsyncReadyCallback) pk_plugin_install_finished_cb, self);
-
-		g_strfreev (package_ids);
-	}
-#endif
 
 	/* do async resolve */
 	pk_client_resolve_async (self->priv->client, pk_bitfield_from_enums (PK_FILTER_ENUM_NEWEST, -1),
@@ -563,42 +479,6 @@ pk_plugin_install_ensure_layout (PkPluginInstall *self,
 }
 
 /**
- * pk_plugin_install_get_package_icon:
- **/
-static gchar *
-pk_plugin_install_get_package_icon (PkPluginInstall *self)
-{
-	gboolean ret;
-	GKeyFile *file = NULL;
-	gchar *data = NULL;
-	const gchar *filename;
-
-	/* do we have data? */
-	if (self->priv->installed_package_name == NULL) {
-		g_debug ("installed_package_name NULL, so cannot get icon");
-		goto out;
-	}
-
-	/* get data from the best file */
-	file = g_key_file_new ();
-	filename = pk_plugin_install_get_best_desktop_file (self);
-	if (filename == NULL) {
-		g_debug ("no desktop file");
-		goto out;
-	}
-	ret = g_key_file_load_from_file (file, filename, G_KEY_FILE_NONE, NULL);
-	if (!ret) {
-		g_warning ("failed to open %s", filename);
-		goto out;
-	}
-	data = g_key_file_get_string (file, G_KEY_FILE_DESKTOP_GROUP, G_KEY_FILE_DESKTOP_KEY_ICON, NULL);
-out:
-	if (file != NULL)
-		g_key_file_free (file);
-	return data;
-}
-
-/**
  * pk_plugin_install_start:
  **/
 static gboolean
@@ -699,7 +579,6 @@ pk_plugin_install_draw (PkPlugin *plugin, cairo_t *cr)
 	guint width;
 	guint height;
 	guint radius;
-	gchar *filename = NULL;
 	GtkIconTheme *theme;
 	GdkPixbuf *pixbuf = NULL;
 	PangoRectangle rect;
@@ -758,11 +637,9 @@ pk_plugin_install_draw (PkPlugin *plugin, cairo_t *cr)
 	cairo_stroke (cr);
 
 	/* get themed icon */
-	filename = pk_plugin_install_get_package_icon (self);
-	if (filename == NULL)
-		filename = g_strdup ("package-x-generic");
 	theme = gtk_icon_theme_get_default ();
-	pixbuf = gtk_icon_theme_load_icon (theme, filename, 48, GTK_ICON_LOOKUP_FORCE_SIZE, NULL);
+	pixbuf = gtk_icon_theme_load_icon (theme, "package-x-generic", 48,
+					   GTK_ICON_LOOKUP_FORCE_SIZE, NULL);
 	if (pixbuf == NULL)
 		goto skip;
 
@@ -798,7 +675,6 @@ update_spinner:
 	}
 	if (pixbuf != NULL)
 		g_object_unref (pixbuf);
-	g_free (filename);
 	return TRUE;
 }
 

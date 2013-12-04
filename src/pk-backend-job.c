@@ -106,7 +106,7 @@ struct PkBackendJobPrivate
 	PkHintEnum		 interactive;
 	gboolean		 locked;
 	PkPackage		*last_package;
-	PkResults		*results;
+	PkErrorEnum		 last_error_code;
 	PkRoleEnum		 role;
 	PkStatusEnum		 status;
 	PkTime			*time;
@@ -721,8 +721,8 @@ pk_backend_job_set_role (PkBackendJob *job, PkRoleEnum role)
 	if (job->priv->role != PK_ROLE_ENUM_UNKNOWN &&
 	    job->priv->role != role) {
 		g_warning ("cannot set role to %s, already %s",
-			     pk_role_enum_to_string (role),
-			     pk_role_enum_to_string (job->priv->role));
+			   pk_role_enum_to_string (role),
+			   pk_role_enum_to_string (job->priv->role));
 	}
 
 	/* reset the timer */
@@ -784,6 +784,10 @@ pk_backend_job_thread_setup (gpointer thread_data)
 	/* run original function */
 	helper->func (helper->job, helper->job->priv->params, helper->user_data);
 
+	/* unref the thread here as it holds a reference itself and we do
+	 * not need to join() this at any stage */
+	g_thread_unref (helper->job->priv->thread);
+
 	/* destroy helper */
 	g_object_unref (helper->job);
 	if (helper->destroy_func != NULL)
@@ -822,16 +826,9 @@ pk_backend_job_thread_create (PkBackendJob *job,
 	helper->user_data = user_data;
 
 	/* create a thread */
-#if GLIB_CHECK_VERSION(2,31,0)
 	job->priv->thread = g_thread_new ("PK-Backend",
 					  pk_backend_job_thread_setup,
 					  helper);
-#else
-	job->priv->thread = g_thread_create (pk_backend_job_thread_setup,
-					     helper,
-					     FALSE,
-					     NULL);
-#endif
 	if (job->priv->thread == NULL) {
 		g_warning ("failed to create thread");
 		ret = FALSE;
@@ -853,7 +850,7 @@ pk_backend_job_set_percentage (PkBackendJob *job, guint percentage)
 
 	/* have we already set an error? */
 	if (job->priv->set_error) {
-		g_warning ("already set error, cannot process: percentage %i", percentage);
+		g_warning ("already set error: percentage %i", percentage);
 		return;
 	}
 
@@ -865,9 +862,7 @@ pk_backend_job_set_percentage (PkBackendJob *job, guint percentage)
 
 	/* check over */
 	if (percentage > PK_BACKEND_PERCENTAGE_INVALID) {
-		pk_backend_job_message (job, PK_MESSAGE_ENUM_BACKEND_ERROR,
-					"percentage value is invalid: %i",
-					percentage);
+		g_warning ("percentage value is invalid: %i", percentage);
 		return;
 	}
 
@@ -875,10 +870,8 @@ pk_backend_job_set_percentage (PkBackendJob *job, guint percentage)
 	if (percentage < 100 &&
 	    job->priv->percentage < 100 &&
 	    percentage < job->priv->percentage) {
-		pk_backend_job_message (job, PK_MESSAGE_ENUM_BACKEND_ERROR,
-					"percentage value is going down to %i from %i",
-					percentage,
-					job->priv->percentage);
+		g_warning ("percentage value is going down to %i from %i",
+			   percentage, job->priv->percentage);
 		return;
 	}
 
@@ -916,7 +909,7 @@ pk_backend_job_set_speed (PkBackendJob *job, guint speed)
 
 	/* have we already set an error? */
 	if (job->priv->set_error) {
-		g_warning ("already set error, cannot process: speed %i", speed);
+		g_warning ("already set error: speed %i", speed);
 		return;
 	}
 
@@ -945,7 +938,7 @@ pk_backend_job_set_download_size_remaining (PkBackendJob *job, guint64 download_
 
 	/* have we already set an error? */
 	if (job->priv->set_error) {
-		g_warning ("already set error, cannot process: download-size-remaining");
+		g_warning ("already set error: download-size-remaining");
 		return;
 	}
 
@@ -981,7 +974,7 @@ pk_backend_job_set_item_progress (PkBackendJob *job,
 
 	/* have we already set an error? */
 	if (job->priv->set_error) {
-		g_warning ("already set error, cannot process: item-progress %i", percentage);
+		g_warning ("already set error: item-progress %i", percentage);
 		return;
 	}
 
@@ -1014,24 +1007,21 @@ pk_backend_job_set_status (PkBackendJob *job, PkStatusEnum status)
 
 	/* already this? */
 	if (job->priv->status == status) {
-		g_debug ("already set same status");
+		g_debug ("already set same status '%s",
+			 pk_status_enum_to_string (status));
 		return;
 	}
 
 	/* have we already set an error? */
 	if (job->priv->set_error && status != PK_STATUS_ENUM_FINISHED) {
-		g_warning ("already set error, cannot process: status %s",
+		g_warning ("already set error: status %s",
 			   pk_status_enum_to_string (status));
 		return;
 	}
 
 	/* backends don't do this */
 	if (status == PK_STATUS_ENUM_WAIT) {
-		g_warning ("backend tried to WAIT, only the runner should set this value");
-		pk_backend_job_message (job,
-					PK_MESSAGE_ENUM_BACKEND_ERROR,
-					"%s shouldn't use STATUS_WAIT",
-					pk_role_enum_to_string (job->priv->role));
+		g_warning ("backend tried to status WAIT");
 		return;
 	}
 
@@ -1048,45 +1038,27 @@ pk_backend_job_set_status (PkBackendJob *job, PkStatusEnum status)
 
 	job->priv->status = status;
 
+	/* don't emit some states when simulating */
+	if (pk_bitfield_contain (job->priv->transaction_flags,
+				 PK_TRANSACTION_FLAG_ENUM_SIMULATE)) {
+		switch (status) {
+		case PK_STATUS_ENUM_DOWNLOAD:
+		case PK_STATUS_ENUM_UPDATE:
+		case PK_STATUS_ENUM_INSTALL:
+		case PK_STATUS_ENUM_REMOVE:
+		case PK_STATUS_ENUM_CLEANUP:
+		case PK_STATUS_ENUM_OBSOLETE:
+			return;
+		default:
+			break;
+		}
+	}
+
 	/* emit */
 	pk_backend_job_call_vfunc (job,
 				   PK_BACKEND_SIGNAL_STATUS_CHANGED,
 				   GUINT_TO_POINTER (status),
 				   NULL);
-}
-
-/**
- * pk_backend_strsafe:
- * @text: The input text to make safe
- *
- * Replaces chars in the text that may be dangerous, or that may print
- * incorrectly. These chars include new lines, tabs and line feed, and are
- * replaced by spaces.
- *
- * Return value: the new string with no insane chars
- **/
-static gchar *
-pk_backend_strsafe (const gchar *text)
-{
-	gchar *text_safe;
-	gboolean ret;
-	const gchar *delimiters;
-
-	if (text == NULL)
-		return NULL;
-
-	/* is valid UTF8? */
-	ret = g_utf8_validate (text, -1, NULL);
-	if (!ret) {
-		g_warning ("text '%s' was not valid UTF8!", text);
-		return NULL;
-	}
-
-	/* rip out any insane characters */
-	delimiters = "\\\f\r\t";
-	text_safe = g_strdup (text);
-	g_strdelimit (text_safe, delimiters, ' ');
-	return text_safe;
 }
 
 /**
@@ -1098,7 +1070,6 @@ pk_backend_job_package (PkBackendJob *job,
 			const gchar *package_id,
 			const gchar *summary)
 {
-	gchar *summary_safe = NULL;
 	PkPackage *item = NULL;
 	gboolean ret;
 	GError *error = NULL;
@@ -1115,18 +1086,12 @@ pk_backend_job_package (PkBackendJob *job,
 		g_error_free (error);
 		goto out;
 	}
-
-	/* replace unsafe chars */
-	summary_safe = pk_backend_strsafe (summary);
-
-	/* create a new package object AFTER we emulate the info value */
-	g_object_set (item,
-		      "info", info,
-		      "summary", summary_safe,
-		      NULL);
+	pk_package_set_info (item, info);
+	pk_package_set_summary (item, summary);
 
 	/* is it the same? */
-	ret = (job->priv->last_package != NULL && pk_package_equal (job->priv->last_package, item));
+	ret = (job->priv->last_package != NULL &&
+	       pk_package_equal (job->priv->last_package, item));
 	if (ret) {
 		g_debug ("skipping duplicate %s", package_id);
 		goto out;
@@ -1139,7 +1104,7 @@ pk_backend_job_package (PkBackendJob *job,
 
 	/* have we already set an error? */
 	if (job->priv->set_error) {
-		g_warning ("already set error, cannot process: package %s", package_id);
+		g_warning ("already set error: package %s", package_id);
 		goto out;
 	}
 
@@ -1162,17 +1127,12 @@ pk_backend_job_package (PkBackendJob *job,
 
 	/* emit */
 	pk_backend_job_call_vfunc (job,
-				PK_BACKEND_SIGNAL_PACKAGE,
-				g_object_ref (item),
+				   PK_BACKEND_SIGNAL_PACKAGE,
+				   g_object_ref (item),
 				   g_object_unref);
-
-	/* add to results if meaningful */
-	if (info != PK_INFO_ENUM_FINISHED)
-		pk_results_add_package (job->priv->results, item);
 out:
 	if (item != NULL)
 		g_object_unref (item);
-	g_free (summary_safe);
 }
 
 /**
@@ -1193,7 +1153,6 @@ pk_backend_job_update_detail (PkBackendJob *job,
 			      const gchar *issued_text,
 			      const gchar *updated_text)
 {
-	gchar *update_text_safe = NULL;
 	PkUpdateDetail *item = NULL;
 	GTimeVal timeval;
 	gboolean ret;
@@ -1203,7 +1162,7 @@ pk_backend_job_update_detail (PkBackendJob *job,
 
 	/* have we already set an error? */
 	if (job->priv->set_error) {
-		g_warning ("already set error, cannot process: update_detail %s", package_id);
+		g_warning ("already set error: update_detail %s", package_id);
 		goto out;
 	}
 
@@ -1225,9 +1184,6 @@ pk_backend_job_update_detail (PkBackendJob *job,
 			g_warning ("failed to parse updated '%s'", updated_text);
 	}
 
-	/* replace unsafe chars */
-	update_text_safe = pk_backend_strsafe (update_text);
-
 	/* form PkUpdateDetail struct */
 	item = pk_update_detail_new ();
 	g_object_set (item,
@@ -1238,7 +1194,7 @@ pk_backend_job_update_detail (PkBackendJob *job,
 		      "bugzilla-urls", bugzilla_urls,
 		      "cve-urls", cve_urls,
 		      "restart", restart,
-		      "update-text", update_text_safe,
+		      "update-text", update_text,
 		      "changelog", changelog,
 		      "state", state,
 		      "issued", issued_text,
@@ -1250,11 +1206,9 @@ pk_backend_job_update_detail (PkBackendJob *job,
 				   PK_BACKEND_SIGNAL_UPDATE_DETAIL,
 				   g_object_ref (item),
 				   g_object_unref);
-	pk_results_add_update_detail (job->priv->results, item);
 out:
 	if (item != NULL)
 		g_object_unref (item);
-	g_free (update_text_safe);
 }
 
 /**
@@ -1272,7 +1226,7 @@ pk_backend_job_require_restart (PkBackendJob *job,
 
 	/* have we already set an error? */
 	if (job->priv->set_error) {
-		g_warning ("already set error, cannot process: require-restart %s", pk_restart_enum_to_string (restart));
+		g_warning ("already set error: require-restart %s", pk_restart_enum_to_string (restart));
 		goto out;
 	}
 
@@ -1295,7 +1249,6 @@ pk_backend_job_require_restart (PkBackendJob *job,
 				   PK_BACKEND_SIGNAL_REQUIRE_RESTART,
 				   g_object_ref (item),
 				   g_object_unref);
-	pk_results_add_require_restart (job->priv->results, item);
 out:
 	if (item != NULL)
 		g_object_unref (item);
@@ -1317,7 +1270,10 @@ pk_backend_job_message (PkBackendJob *job,
 
 	/* have we already set an error? */
 	if (job->priv->set_error && message != PK_MESSAGE_ENUM_BACKEND_ERROR) {
-		g_warning ("already set error, cannot process: message %s", pk_message_enum_to_string (message));
+G_GNUC_BEGIN_IGNORE_DEPRECATIONS
+		g_warning ("already set error: message %s",
+			   pk_message_enum_to_string (message));
+G_GNUC_END_IGNORE_DEPRECATIONS
 		goto out;
 	}
 
@@ -1326,7 +1282,9 @@ pk_backend_job_message (PkBackendJob *job,
 	va_end (args);
 
 	/* form PkMessage struct */
+G_GNUC_BEGIN_IGNORE_DEPRECATIONS
 	item = pk_message_new ();
+G_GNUC_END_IGNORE_DEPRECATIONS
 	g_object_set (item,
 		      "type", message,
 		      "details", buffer,
@@ -1337,7 +1295,6 @@ pk_backend_job_message (PkBackendJob *job,
 				   PK_BACKEND_SIGNAL_MESSAGE,
 				   g_object_ref (item),
 				   g_object_unref);
-	pk_results_add_message (job->priv->results, item);
 out:
 	g_free (buffer);
 	if (item != NULL)
@@ -1356,7 +1313,6 @@ pk_backend_job_details (PkBackendJob *job,
 			const gchar *url,
 			gulong size)
 {
-	gchar *description_safe = NULL;
 	PkDetails *item = NULL;
 
 	g_return_if_fail (PK_IS_BACKEND_JOB (job));
@@ -1364,12 +1320,9 @@ pk_backend_job_details (PkBackendJob *job,
 
 	/* have we already set an error? */
 	if (job->priv->set_error) {
-		g_warning ("already set error, cannot process: details %s", package_id);
+		g_warning ("already set error: details %s", package_id);
 		goto out;
 	}
-
-	/* replace unsafe chars */
-	description_safe = pk_backend_strsafe (description);
 
 	/* form PkDetails struct */
 	item = pk_details_new ();
@@ -1377,7 +1330,7 @@ pk_backend_job_details (PkBackendJob *job,
 		      "package-id", package_id,
 		      "license", license,
 		      "group", group,
-		      "description", description_safe,
+		      "description", description,
 		      "url", url,
 		      "size", (guint64) size,
 		      NULL);
@@ -1387,11 +1340,9 @@ pk_backend_job_details (PkBackendJob *job,
 			       PK_BACKEND_SIGNAL_DETAILS,
 			       g_object_ref (item),
 				   g_object_unref);
-	pk_results_add_details (job->priv->results, item);
 out:
 	if (item != NULL)
 		g_object_unref (item);
-	g_free (description_safe);
 }
 
 /**
@@ -1412,7 +1363,7 @@ pk_backend_job_files (PkBackendJob *job,
 
 	/* have we already set an error? */
 	if (job->priv->set_error) {
-		g_warning ("already set error, cannot process: files %s", package_id);
+		g_warning ("already set error: files %s", package_id);
 		goto out;
 	}
 
@@ -1437,7 +1388,6 @@ pk_backend_job_files (PkBackendJob *job,
 				   PK_BACKEND_SIGNAL_FILES,
 				   g_object_ref (item),
 				   g_object_unref);
-	pk_results_add_files (job->priv->results, item);
 
 	/* success */
 	job->priv->download_files++;
@@ -1455,8 +1405,6 @@ pk_backend_job_distro_upgrade (PkBackendJob *job,
 			       const gchar *name,
 			       const gchar *summary)
 {
-	gchar *name_safe = NULL;
-	gchar *summary_safe = NULL;
 	PkDistroUpgrade *item = NULL;
 
 	g_return_if_fail (PK_IS_BACKEND_JOB (job));
@@ -1466,20 +1414,16 @@ pk_backend_job_distro_upgrade (PkBackendJob *job,
 
 	/* have we already set an error? */
 	if (job->priv->set_error) {
-		g_warning ("already set error, cannot process: distro-upgrade");
+		g_warning ("already set error: distro-upgrade");
 		goto out;
 	}
-
-	/* replace unsafe chars */
-	name_safe = pk_backend_strsafe (name);
-	summary_safe = pk_backend_strsafe (summary);
 
 	/* form PkDistroUpgrade struct */
 	item = pk_distro_upgrade_new ();
 	g_object_set (item,
 		      "state", state,
-		      "name", name_safe,
-		      "summary", summary_safe,
+		      "name", name,
+		      "summary", summary,
 		      NULL);
 
 	/* emit */
@@ -1487,12 +1431,9 @@ pk_backend_job_distro_upgrade (PkBackendJob *job,
 				   PK_BACKEND_SIGNAL_DISTRO_UPGRADE,
 				   g_object_ref (item),
 				   g_object_unref);
-	pk_results_add_distro_upgrade (job->priv->results, item);
 out:
 	if (item != NULL)
 		g_object_unref (item);
-	g_free (name_safe);
-	g_free (summary_safe);
 }
 
 /**
@@ -1516,7 +1457,7 @@ pk_backend_job_repo_signature_required (PkBackendJob *job,
 
 	/* have we already set an error? */
 	if (job->priv->set_error) {
-		g_warning ("already set error, cannot process: repo-sig-reqd");
+		g_warning ("already set error: repo-sig-reqd");
 		goto out;
 	}
 
@@ -1544,7 +1485,6 @@ pk_backend_job_repo_signature_required (PkBackendJob *job,
 				   PK_BACKEND_SIGNAL_REPO_SIGNATURE_REQUIRED,
 				   g_object_ref (item),
 				   g_object_unref);
-	pk_results_add_repo_signature_required (job->priv->results, item);
 
 	/* success */
 	job->priv->set_signature = TRUE;
@@ -1573,7 +1513,7 @@ pk_backend_job_eula_required (PkBackendJob *job,
 
 	/* have we already set an error? */
 	if (job->priv->set_error) {
-		g_warning ("already set error, cannot process: eula required");
+		g_warning ("already set error: eula required");
 		goto out;
 	}
 
@@ -1597,7 +1537,6 @@ pk_backend_job_eula_required (PkBackendJob *job,
 				   PK_BACKEND_SIGNAL_EULA_REQUIRED,
 				   g_object_ref (item),
 				   g_object_unref);
-	pk_results_add_eula_required (job->priv->results, item);
 
 	/* success */
 	job->priv->set_eula = TRUE;
@@ -1623,7 +1562,7 @@ pk_backend_job_media_change_required (PkBackendJob *job,
 
 	/* have we already set an error? */
 	if (job->priv->set_error) {
-		g_warning ("already set error, cannot process: media change required");
+		g_warning ("already set error: media change required");
 		goto out;
 	}
 
@@ -1640,7 +1579,6 @@ pk_backend_job_media_change_required (PkBackendJob *job,
 				   PK_BACKEND_SIGNAL_MEDIA_CHANGE_REQUIRED,
 				   g_object_ref (item),
 				   g_object_unref);
-	pk_results_add_media_change_required (job->priv->results, item);
 out:
 	if (item != NULL)
 		g_object_unref (item);
@@ -1655,7 +1593,6 @@ pk_backend_job_repo_detail (PkBackendJob *job,
 			    const gchar *description,
 			    gboolean enabled)
 {
-	gchar *description_safe = NULL;
 	PkRepoDetail *item = NULL;
 
 	g_return_if_fail (PK_IS_BACKEND_JOB (job));
@@ -1663,12 +1600,9 @@ pk_backend_job_repo_detail (PkBackendJob *job,
 
 	/* have we already set an error? */
 	if (job->priv->set_error) {
-		g_warning ("already set error, cannot process: repo-detail %s", repo_id);
+		g_warning ("already set error: repo-detail %s", repo_id);
 		goto out;
 	}
-
-	/* replace unsafe chars */
-	description_safe = pk_backend_strsafe (description);
 
 	/* form PkRepoDetail struct */
 	item = pk_repo_detail_new ();
@@ -1683,11 +1617,9 @@ pk_backend_job_repo_detail (PkBackendJob *job,
 				   PK_BACKEND_SIGNAL_REPO_DETAIL,
 				   g_object_ref (item),
 				   g_object_unref);
-	pk_results_add_repo_detail (job->priv->results, item);
 out:
 	if (item != NULL)
 		g_object_unref (item);
-	g_free (description_safe);
 }
 
 /**
@@ -1701,7 +1633,6 @@ pk_backend_job_category (PkBackendJob *job,
 			 const gchar *summary,
 			 const gchar *icon)
 {
-	gchar *summary_safe = NULL;
 	PkCategory *item = NULL;
 
 	g_return_if_fail (PK_IS_BACKEND_JOB (job));
@@ -1709,12 +1640,9 @@ pk_backend_job_category (PkBackendJob *job,
 
 	/* have we already set an error? */
 	if (job->priv->set_error) {
-		g_warning ("already set error, cannot process: category %s", cat_id);
+		g_warning ("already set error: category %s", cat_id);
 		goto out;
 	}
-
-	/* replace unsafe chars */
-	summary_safe = pk_backend_strsafe (summary);
 
 	/* form PkCategory struct */
 	item = pk_category_new ();
@@ -1731,11 +1659,9 @@ pk_backend_job_category (PkBackendJob *job,
 				   PK_BACKEND_SIGNAL_CATEGORY,
 				   g_object_ref (item),
 				   g_object_unref);
-	pk_results_add_category (job->priv->results, item);
 out:
 	if (item != NULL)
 		g_object_unref (item);
-	g_free (summary_safe);
 }
 
 /**
@@ -1771,7 +1697,6 @@ pk_backend_job_error_code (PkBackendJob *job,
 	gchar *buffer;
 	gboolean need_untrusted;
 	PkError *error = NULL;
-	PkError *error_old = NULL;
 
 	g_return_if_fail (PK_IS_BACKEND_JOB (job));
 
@@ -1782,8 +1707,7 @@ pk_backend_job_error_code (PkBackendJob *job,
 	/* did we set a duplicate error? (we can override LOCK_REQUIRED errors,
 	 * so the transaction list can fail transactions) */
 	if (job->priv->set_error) {
-		error_old = pk_results_get_error_code (job->priv->results);
-		if (pk_error_get_code (error_old) == PK_ERROR_ENUM_LOCK_REQUIRED) {
+		if (job->priv->last_error_code == PK_ERROR_ENUM_LOCK_REQUIRED) {
 			/* reset the exit status, we're resetting the error now */
 			job->priv->exit = PK_EXIT_ENUM_UNKNOWN;
 			job->priv->finished = FALSE;
@@ -1808,6 +1732,9 @@ pk_backend_job_error_code (PkBackendJob *job,
 		pk_backend_job_set_exit_code (job, PK_EXIT_ENUM_REPAIR_REQUIRED);
 	}
 
+	/* save so we can check the parallel failure later */
+	job->priv->last_error_code = error_code;
+
 	/* form PkError struct */
 	error = pk_error_new ();
 	g_object_set (error,
@@ -1820,12 +1747,9 @@ pk_backend_job_error_code (PkBackendJob *job,
 				   PK_BACKEND_SIGNAL_ERROR_CODE,
 				   g_object_ref (error),
 				   g_object_unref);
-	pk_results_set_error_code (job->priv->results, error);
 out:
 	if (error != NULL)
 		g_object_unref (error);
-	if (error_old != NULL)
-		g_object_unref (error_old);
 	g_free (buffer);
 }
 
@@ -1867,7 +1791,7 @@ pk_backend_job_set_allow_cancel (PkBackendJob *job, gboolean allow_cancel)
 
 	/* have we already set an error? */
 	if (job->priv->set_error && allow_cancel) {
-		g_warning ("already set error, cannot process: allow-cancel %i", allow_cancel);
+		g_warning ("already set error: allow-cancel %i", allow_cancel);
 		return;
 	}
 
@@ -1957,13 +1881,6 @@ pk_backend_job_get_exit_code (PkBackendJob *job)
 gboolean
 pk_backend_job_use_background (PkBackendJob *job)
 {
-	gboolean ret;
-
-	/* check we are allowed */
-	ret = pk_conf_get_bool (job->priv->conf, "UseIdleBandwidth");
-	if (!ret)
-		return FALSE;
-
 	/* the session has set it one way or the other */
 	if (job->priv->background == PK_HINT_ENUM_TRUE)
 		return TRUE;
@@ -1997,16 +1914,13 @@ pk_backend_job_finished (PkBackendJob *job)
 	if (!job->priv->set_error &&
 	    job->priv->role == PK_ROLE_ENUM_DOWNLOAD_PACKAGES &&
 	    job->priv->download_files == 0) {
-		pk_backend_job_message (job, PK_MESSAGE_ENUM_BACKEND_ERROR,
-				    "Backends should send multiple Files() for each package_id!");
+		g_warning ("required multiple Files() for each package_id!");
 	}
 
 	/* check we sent at least one status calls */
 	if (job->priv->set_error == FALSE &&
 	    job->priv->status == PK_STATUS_ENUM_SETUP) {
-		pk_backend_job_message (job, PK_MESSAGE_ENUM_BACKEND_ERROR,
-				    "Backends should send status <value> signals for %s!", role_text);
-		g_warning ("GUI will remain unchanged!");
+		g_warning ("required status signals for %s!", role_text);
 	}
 
 	/* make any UI insensitive */
@@ -2042,7 +1956,7 @@ pk_backend_job_finalize (GObject *object)
 	job = PK_BACKEND_JOB (object);
 
 	if (pk_backend_job_get_started (job)) {
-		g_warning ("FINALIZED JOB WITHOUT STOPPING IT BEFORE! Please stop jobs before freeing them!");
+		g_warning ("finalized job without stopping it before");
 		pk_backend_stop_job (job->priv->backend, job);
 	}
 
@@ -2061,7 +1975,6 @@ pk_backend_job_finalize (GObject *object)
 	}
 	if (job->priv->params != NULL)
 		g_variant_unref (job->priv->params);
-	g_object_unref (job->priv->results);
 	g_object_unref (job->priv->time);
 	g_object_unref (job->priv->conf);
 
@@ -2086,9 +1999,9 @@ static void
 pk_backend_job_init (PkBackendJob *job)
 {
 	job->priv = PK_BACKEND_JOB_GET_PRIVATE (job);
-	job->priv->results = pk_results_new ();
 	job->priv->time = pk_time_new ();
 	job->priv->conf = pk_conf_new ();
+	job->priv->last_error_code = PK_ERROR_ENUM_UNKNOWN;
 	pk_backend_job_reset (job);
 }
 
