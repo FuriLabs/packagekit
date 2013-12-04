@@ -83,7 +83,8 @@ subdir = data
 DIST_COMMON = $(srcdir)/Makefile.in $(srcdir)/Makefile.am \
 	$(srcdir)/org.freedesktop.PackageKit.conf.in $(dist_dbus_DATA)
 ACLOCAL_M4 = $(top_srcdir)/aclocal.m4
-am__aclocal_m4_deps = $(top_srcdir)/m4/ax_check_compile_flag.m4 \
+am__aclocal_m4_deps = $(top_srcdir)/m4/as-linguas.m4 \
+	$(top_srcdir)/m4/ax_check_compile_flag.m4 \
 	$(top_srcdir)/m4/ax_check_link_flag.m4 \
 	$(top_srcdir)/m4/gtk-doc.m4 $(top_srcdir)/m4/intltool.m4 \
 	$(top_srcdir)/m4/libtool.m4 $(top_srcdir)/m4/ltoptions.m4 \
@@ -125,7 +126,7 @@ am__uninstall_files_from_dir = { \
   }
 am__installdirs = "$(DESTDIR)$(upgradescriptdir)" \
 	"$(DESTDIR)$(databasedir)" "$(DESTDIR)$(dbusdir)" \
-	"$(DESTDIR)$(mimedir)" "$(DESTDIR)$(servicemaindir)"
+	"$(DESTDIR)$(servicemaindir)" "$(DESTDIR)$(systemdservicedir)"
 SCRIPTS = $(upgradescript_SCRIPTS)
 AM_V_P = $(am__v_P_@AM_V@)
 am__v_P_ = $(am__v_P_@AM_DEFAULT_V@)
@@ -154,8 +155,8 @@ am__can_run_installinfo = \
     n|no|NO) false;; \
     *) (install-info --version) >/dev/null 2>&1;; \
   esac
-DATA = $(database_DATA) $(dist_dbus_DATA) $(mime_DATA) \
-	$(servicemain_DATA)
+DATA = $(database_DATA) $(dist_dbus_DATA) $(servicemain_DATA) \
+	$(systemdservice_DATA)
 RECURSIVE_CLEAN_TARGETS = mostlyclean-recursive clean-recursive	\
   distclean-recursive maintainer-clean-recursive
 am__recursive_targets = \
@@ -219,7 +220,6 @@ AM_DEFAULT_VERBOSITY = @AM_DEFAULT_VERBOSITY@
 APTCC_CFLAGS = @APTCC_CFLAGS@
 APTCC_LIBS = @APTCC_LIBS@
 AR = @AR@
-ARCHIVE_LIBS = @ARCHIVE_LIBS@
 AUTOCONF = @AUTOCONF@
 AUTOHEADER = @AUTOHEADER@
 AUTOMAKE = @AUTOMAKE@
@@ -228,8 +228,6 @@ BASH_COMPLETIONS_DIR = @BASH_COMPLETIONS_DIR@
 BASH_COMPLETION_CFLAGS = @BASH_COMPLETION_CFLAGS@
 BASH_COMPLETION_LIBS = @BASH_COMPLETION_LIBS@
 BINDIR = @BINDIR@
-BOX_CFLAGS = @BOX_CFLAGS@
-BOX_LIBS = @BOX_LIBS@
 CATALOGS = @CATALOGS@
 CATOBJEXT = @CATOBJEXT@
 CC = @CC@
@@ -281,8 +279,6 @@ GTKDOC_DEPS_CFLAGS = @GTKDOC_DEPS_CFLAGS@
 GTKDOC_DEPS_LIBS = @GTKDOC_DEPS_LIBS@
 GTKDOC_MKPDF = @GTKDOC_MKPDF@
 GTKDOC_REBASE = @GTKDOC_REBASE@
-GUDEV_CFLAGS = @GUDEV_CFLAGS@
-GUDEV_LIBS = @GUDEV_LIBS@
 HAWKEY_CFLAGS = @HAWKEY_CFLAGS@
 HAWKEY_LIBS = @HAWKEY_LIBS@
 HTML_DIR = @HTML_DIR@
@@ -315,6 +311,8 @@ LIBDIR = @LIBDIR@
 LIBEXECDIR = @LIBEXECDIR@
 LIBOBJS = @LIBOBJS@
 LIBS = @LIBS@
+LIBSYSTEMD_JOURNAL_CFLAGS = @LIBSYSTEMD_JOURNAL_CFLAGS@
+LIBSYSTEMD_JOURNAL_LIBS = @LIBSYSTEMD_JOURNAL_LIBS@
 LIBTOOL = @LIBTOOL@
 LIPO = @LIPO@
 LN_S = @LN_S@
@@ -375,8 +373,6 @@ PK_PLUGIN_DIR = @PK_PLUGIN_DIR@
 PK_PLUGIN_LIBS = @PK_PLUGIN_LIBS@
 PK_VERSION = @PK_VERSION@
 PK_YUM_PLUGIN_DIR = @PK_YUM_PLUGIN_DIR@
-PM_UTILS_CFLAGS = @PM_UTILS_CFLAGS@
-PM_UTILS_LIBS = @PM_UTILS_LIBS@
 POFILES = @POFILES@
 POLDEK_CFLAGS = @POLDEK_CFLAGS@
 POLDEK_LIBS = @POLDEK_LIBS@
@@ -411,8 +407,6 @@ WARNINGFLAGS_C = @WARNINGFLAGS_C@
 WARNINGFLAGS_CPP = @WARNINGFLAGS_CPP@
 XGETTEXT = @XGETTEXT@
 XSLTPROC = @XSLTPROC@
-ZIF_CFLAGS = @ZIF_CFLAGS@
-ZIF_LIBS = @ZIF_LIBS@
 ZYPP_CFLAGS = @ZYPP_CFLAGS@
 ZYPP_LIBS = @ZYPP_LIBS@
 abs_builddir = @abs_builddir@
@@ -468,7 +462,6 @@ psdir = @psdir@
 pyexecdir = @pyexecdir@
 pythondir = @pythondir@
 sbindir = @sbindir@
-security_framework = @security_framework@
 sharedstatedir = @sharedstatedir@
 srcdir = @srcdir@
 sysconfdir = @sysconfdir@
@@ -480,52 +473,41 @@ top_srcdir = @top_srcdir@
 AUTOMAKE_OPTIONS = 1.7
 NULL = 
 SUBDIRS = \
-	tests						\
-	$(NULL)
+	tests
 
 upgradescriptdir = $(datadir)/PackageKit
 upgradescript_SCRIPTS = pk-upgrade-distro.sh
-mimedir = $(datadir)/mime/packages
-mime_in_files = \
-	packagekit-catalog.xml.in			\
-	packagekit-package-list.xml.in			\
-	packagekit-servicepack.xml.in			\
-	$(NULL)						
-
-mime_DATA = $(mime_in_files:.xml.in=.xml)
 dbusdir = ${DBUS_SYS_DIR}
 dist_dbus_DATA = \
-	org.freedesktop.PackageKit.conf			\
-	$(NULL)
+	org.freedesktop.PackageKit.conf
 
 servicemaindir = $(DBUS_SERVICES_DIR)
 servicemain_in_files = org.freedesktop.PackageKit.service.in
 servicemain_DATA = $(servicemain_in_files:.service.in=.service)
+systemdservice_in_files = packagekit.service.in
+@PK_BUILD_SYSTEMD_TRUE@systemdservicedir = $(systemdsystemunitdir)
+@PK_BUILD_SYSTEMD_TRUE@systemdservice_DATA = $(systemdservice_in_files:.service.in=.service)
 databasedir = $(PK_DB_DIR)
 database_DATA = \
-	transactions.db					\
-	$(NULL)
+	transactions.db
 
 EXTRA_DIST = \
 	org.freedesktop.PackageKit.conf.in		\
 	$(servicemain_in_files)				\
 	$(servicetest_in_files)				\
 	$(serviceapt_in_files)				\
-	$(mime_in_files)				\
+	$(systemdservice_in_files)			\
 	$(localcache_DATA)				\
 	$(database_DATA)				\
-	$(upgradescript_SCRIPTS)			\
-	$(NULL)
+	$(upgradescript_SCRIPTS)
 
 DISTCLEANFILES = \
-	$(mime_DATA)					\
-	org.freedesktop.PackageKit.service		\
-	$(NULL)
+	$(systemdservice_DATA)				\
+	org.freedesktop.PackageKit.service
 
 MAINTAINERCLEANFILES = \
-	*~			      			\
-	Makefile.in					\
-	$(NULL)
+	*~						\
+	Makefile.in
 
 all: all-recursive
 
@@ -645,27 +627,6 @@ uninstall-dist_dbusDATA:
 	@list='$(dist_dbus_DATA)'; test -n "$(dbusdir)" || list=; \
 	files=`for p in $$list; do echo $$p; done | sed -e 's|^.*/||'`; \
 	dir='$(DESTDIR)$(dbusdir)'; $(am__uninstall_files_from_dir)
-install-mimeDATA: $(mime_DATA)
-	@$(NORMAL_INSTALL)
-	@list='$(mime_DATA)'; test -n "$(mimedir)" || list=; \
-	if test -n "$$list"; then \
-	  echo " $(MKDIR_P) '$(DESTDIR)$(mimedir)'"; \
-	  $(MKDIR_P) "$(DESTDIR)$(mimedir)" || exit 1; \
-	fi; \
-	for p in $$list; do \
-	  if test -f "$$p"; then d=; else d="$(srcdir)/"; fi; \
-	  echo "$$d$$p"; \
-	done | $(am__base_list) | \
-	while read files; do \
-	  echo " $(INSTALL_DATA) $$files '$(DESTDIR)$(mimedir)'"; \
-	  $(INSTALL_DATA) $$files "$(DESTDIR)$(mimedir)" || exit $$?; \
-	done
-
-uninstall-mimeDATA:
-	@$(NORMAL_UNINSTALL)
-	@list='$(mime_DATA)'; test -n "$(mimedir)" || list=; \
-	files=`for p in $$list; do echo $$p; done | sed -e 's|^.*/||'`; \
-	dir='$(DESTDIR)$(mimedir)'; $(am__uninstall_files_from_dir)
 install-servicemainDATA: $(servicemain_DATA)
 	@$(NORMAL_INSTALL)
 	@list='$(servicemain_DATA)'; test -n "$(servicemaindir)" || list=; \
@@ -687,6 +648,27 @@ uninstall-servicemainDATA:
 	@list='$(servicemain_DATA)'; test -n "$(servicemaindir)" || list=; \
 	files=`for p in $$list; do echo $$p; done | sed -e 's|^.*/||'`; \
 	dir='$(DESTDIR)$(servicemaindir)'; $(am__uninstall_files_from_dir)
+install-systemdserviceDATA: $(systemdservice_DATA)
+	@$(NORMAL_INSTALL)
+	@list='$(systemdservice_DATA)'; test -n "$(systemdservicedir)" || list=; \
+	if test -n "$$list"; then \
+	  echo " $(MKDIR_P) '$(DESTDIR)$(systemdservicedir)'"; \
+	  $(MKDIR_P) "$(DESTDIR)$(systemdservicedir)" || exit 1; \
+	fi; \
+	for p in $$list; do \
+	  if test -f "$$p"; then d=; else d="$(srcdir)/"; fi; \
+	  echo "$$d$$p"; \
+	done | $(am__base_list) | \
+	while read files; do \
+	  echo " $(INSTALL_DATA) $$files '$(DESTDIR)$(systemdservicedir)'"; \
+	  $(INSTALL_DATA) $$files "$(DESTDIR)$(systemdservicedir)" || exit $$?; \
+	done
+
+uninstall-systemdserviceDATA:
+	@$(NORMAL_UNINSTALL)
+	@list='$(systemdservice_DATA)'; test -n "$(systemdservicedir)" || list=; \
+	files=`for p in $$list; do echo $$p; done | sed -e 's|^.*/||'`; \
+	dir='$(DESTDIR)$(systemdservicedir)'; $(am__uninstall_files_from_dir)
 
 # This directory's subdirectories are mostly independent; you can cd
 # into them and run 'make' without going through this Makefile.
@@ -847,7 +829,7 @@ check: check-recursive
 all-am: Makefile $(SCRIPTS) $(DATA)
 installdirs: installdirs-recursive
 installdirs-am:
-	for dir in "$(DESTDIR)$(upgradescriptdir)" "$(DESTDIR)$(databasedir)" "$(DESTDIR)$(dbusdir)" "$(DESTDIR)$(mimedir)" "$(DESTDIR)$(servicemaindir)"; do \
+	for dir in "$(DESTDIR)$(upgradescriptdir)" "$(DESTDIR)$(databasedir)" "$(DESTDIR)$(dbusdir)" "$(DESTDIR)$(servicemaindir)" "$(DESTDIR)$(systemdservicedir)"; do \
 	  test -z "$$dir" || $(MKDIR_P) "$$dir"; \
 	done
 install: install-recursive
@@ -903,7 +885,7 @@ info: info-recursive
 info-am:
 
 install-data-am: install-databaseDATA install-dist_dbusDATA \
-	install-mimeDATA install-servicemainDATA \
+	install-servicemainDATA install-systemdserviceDATA \
 	install-upgradescriptSCRIPTS
 	@$(NORMAL_INSTALL)
 	$(MAKE) $(AM_MAKEFLAGS) install-data-hook
@@ -950,7 +932,7 @@ ps: ps-recursive
 ps-am:
 
 uninstall-am: uninstall-databaseDATA uninstall-dist_dbusDATA \
-	uninstall-mimeDATA uninstall-servicemainDATA \
+	uninstall-servicemainDATA uninstall-systemdserviceDATA \
 	uninstall-upgradescriptSCRIPTS
 
 .MAKE: $(am__recursive_targets) install-am install-data-am \
@@ -964,21 +946,20 @@ uninstall-am: uninstall-databaseDATA uninstall-dist_dbusDATA \
 	install-data-am install-data-hook install-databaseDATA \
 	install-dist_dbusDATA install-dvi install-dvi-am install-exec \
 	install-exec-am install-html install-html-am install-info \
-	install-info-am install-man install-mimeDATA install-pdf \
-	install-pdf-am install-ps install-ps-am \
-	install-servicemainDATA install-strip \
-	install-upgradescriptSCRIPTS installcheck installcheck-am \
-	installdirs installdirs-am maintainer-clean \
-	maintainer-clean-generic mostlyclean mostlyclean-generic \
-	mostlyclean-libtool pdf pdf-am ps ps-am tags tags-am uninstall \
-	uninstall-am uninstall-databaseDATA uninstall-dist_dbusDATA \
-	uninstall-mimeDATA uninstall-servicemainDATA \
-	uninstall-upgradescriptSCRIPTS
+	install-info-am install-man install-pdf install-pdf-am \
+	install-ps install-ps-am install-servicemainDATA install-strip \
+	install-systemdserviceDATA install-upgradescriptSCRIPTS \
+	installcheck installcheck-am installdirs installdirs-am \
+	maintainer-clean maintainer-clean-generic mostlyclean \
+	mostlyclean-generic mostlyclean-libtool pdf pdf-am ps ps-am \
+	tags tags-am uninstall uninstall-am uninstall-databaseDATA \
+	uninstall-dist_dbusDATA uninstall-servicemainDATA \
+	uninstall-systemdserviceDATA uninstall-upgradescriptSCRIPTS
 
-
-@INTLTOOL_XML_RULE@
 $(servicemain_DATA): $(servicemain_in_files) Makefile
 	@sed -e "s|\@servicedir\@|$(libexecdir)|" -e "s|\@PACKAGEKIT_USER\@|$(PACKAGEKIT_USER)|" $< > $@
+@PK_BUILD_SYSTEMD_TRUE@$(systemdservice_DATA): $(systemdservice_in_files) Makefile
+@PK_BUILD_SYSTEMD_TRUE@	@sed -e "s|\@servicedir\@|$(libexecdir)|" -e "s|\@PACKAGEKIT_USER\@|$(PACKAGEKIT_USER)|" $< > $@.tmp && mv $@.tmp $@
 
 install-data-hook:
 	@for file in $(database_DATA); do \

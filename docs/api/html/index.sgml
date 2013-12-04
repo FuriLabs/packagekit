@@ -1,9 +1,9 @@
 <ANCHOR id="annotation-glossterm-array" href="PackageKit/specification.html#annotation-glossterm-array">
-<ANCHOR id="annotation-glossterm-transfer full" href="PackageKit/specification.html#annotation-glossterm-transfer full">
-<ANCHOR id="annotation-glossterm-transfer container" href="PackageKit/specification.html#annotation-glossterm-transfer container">
-<ANCHOR id="annotation-glossterm-transfer none" href="PackageKit/specification.html#annotation-glossterm-transfer none">
-<ANCHOR id="annotation-glossterm-scope call" href="PackageKit/specification.html#annotation-glossterm-scope call">
 <ANCHOR id="annotation-glossterm-element-type" href="PackageKit/specification.html#annotation-glossterm-element-type">
+<ANCHOR id="annotation-glossterm-scope call" href="PackageKit/specification.html#annotation-glossterm-scope call">
+<ANCHOR id="annotation-glossterm-transfer container" href="PackageKit/specification.html#annotation-glossterm-transfer container">
+<ANCHOR id="annotation-glossterm-transfer full" href="PackageKit/specification.html#annotation-glossterm-transfer full">
+<ANCHOR id="annotation-glossterm-transfer none" href="PackageKit/specification.html#annotation-glossterm-transfer none">
 <ANCHOR id="PackageKit" href="PackageKit/PackageKit.html">
 <ANCHOR id="PackageKit.CanAuthorize" href="PackageKit/PackageKit.html#PackageKit.CanAuthorize">
 <ANCHOR id="PackageKit.CreateTransaction" href="PackageKit/PackageKit.html#PackageKit.CreateTransaction">
@@ -95,25 +95,6 @@
 <ANCHOR id="Transaction:Speed" href="PackageKit/Transaction.html#Transaction:Speed">
 <ANCHOR id="Transaction:DownloadSizeRemaining" href="PackageKit/Transaction.html#Transaction:DownloadSizeRemaining">
 <ANCHOR id="Transaction:TransactionFlags" href="PackageKit/Transaction.html#Transaction:TransactionFlags">
-<ANCHOR id="PkCatalog" href="PackageKit/PkCatalog.html">
-<ANCHOR id="PkCatalog.synopsis" href="PackageKit/PkCatalog.html#PkCatalog.synopsis">
-<ANCHOR id="PkCatalogError" href="PackageKit/PkCatalog.html#PkCatalogError">
-<ANCHOR id="PkCatalog.object-hierarchy" href="PackageKit/PkCatalog.html#PkCatalog.object-hierarchy">
-<ANCHOR id="PkCatalog.description" href="PackageKit/PkCatalog.html#PkCatalog.description">
-<ANCHOR id="PkCatalog.details" href="PackageKit/PkCatalog.html#PkCatalog.details">
-<ANCHOR id="PK-CATALOG-ERROR:CAPS" href="PackageKit/PkCatalog.html#PK-CATALOG-ERROR:CAPS">
-<ANCHOR id="PK-CATALOG-TYPE-ERROR:CAPS" href="PackageKit/PkCatalog.html#PK-CATALOG-TYPE-ERROR:CAPS">
-<ANCHOR id="PK-CATALOG-FILE-EXTENSION:CAPS" href="PackageKit/PkCatalog.html#PK-CATALOG-FILE-EXTENSION:CAPS">
-<ANCHOR id="PK-CATALOG-FILE-HEADER:CAPS" href="PackageKit/PkCatalog.html#PK-CATALOG-FILE-HEADER:CAPS">
-<ANCHOR id="PkCatalogError-enum" href="PackageKit/PkCatalog.html#PkCatalogError-enum">
-<ANCHOR id="PK-CATALOG-ERROR-FAILED:CAPS" href="PackageKit/PkCatalog.html#PK-CATALOG-ERROR-FAILED:CAPS">
-<ANCHOR id="PkCatalog-struct" href="PackageKit/PkCatalog.html#PkCatalog-struct">
-<ANCHOR id="PkCatalogClass" href="PackageKit/PkCatalog.html#PkCatalogClass">
-<ANCHOR id="pk-catalog-error-quark" href="PackageKit/PkCatalog.html#pk-catalog-error-quark">
-<ANCHOR id="pk-catalog-new" href="PackageKit/PkCatalog.html#pk-catalog-new">
-<ANCHOR id="pk-catalog-test" href="PackageKit/PkCatalog.html#pk-catalog-test">
-<ANCHOR id="pk-catalog-lookup-finish" href="PackageKit/PkCatalog.html#pk-catalog-lookup-finish">
-<ANCHOR id="pk-catalog-lookup-async" href="PackageKit/PkCatalog.html#pk-catalog-lookup-async">
 <ANCHOR id="PkCategory" href="PackageKit/PkCategory.html">
 <ANCHOR id="PkCategory.synopsis" href="PackageKit/PkCategory.html#PkCategory.synopsis">
 <ANCHOR id="PkCategory.object-hierarchy" href="PackageKit/PkCategory.html#PkCategory.object-hierarchy">
@@ -295,6 +276,12 @@
 <ANCHOR id="PkDetails-struct" href="PackageKit/PkDetails.html#PkDetails-struct">
 <ANCHOR id="PkDetailsClass" href="PackageKit/PkDetails.html#PkDetailsClass">
 <ANCHOR id="pk-details-new" href="PackageKit/PkDetails.html#pk-details-new">
+<ANCHOR id="pk-details-get-package-id" href="PackageKit/PkDetails.html#pk-details-get-package-id">
+<ANCHOR id="pk-details-get-license" href="PackageKit/PkDetails.html#pk-details-get-license">
+<ANCHOR id="pk-details-get-group" href="PackageKit/PkDetails.html#pk-details-get-group">
+<ANCHOR id="pk-details-get-description" href="PackageKit/PkDetails.html#pk-details-get-description">
+<ANCHOR id="pk-details-get-url" href="PackageKit/PkDetails.html#pk-details-get-url">
+<ANCHOR id="pk-details-get-size" href="PackageKit/PkDetails.html#pk-details-get-size">
 <ANCHOR id="PkDetails.property-details" href="PackageKit/PkDetails.html#PkDetails.property-details">
 <ANCHOR id="PkDetails--description" href="PackageKit/PkDetails.html#PkDetails--description">
 <ANCHOR id="PkDetails--group" href="PackageKit/PkDetails.html#PkDetails--group">
@@ -443,7 +430,9 @@
 <ANCHOR id="pk-package-equal-id" href="PackageKit/PkPackage.html#pk-package-equal-id">
 <ANCHOR id="pk-package-get-id" href="PackageKit/PkPackage.html#pk-package-get-id">
 <ANCHOR id="pk-package-get-info" href="PackageKit/PkPackage.html#pk-package-get-info">
+<ANCHOR id="pk-package-set-info" href="PackageKit/PkPackage.html#pk-package-set-info">
 <ANCHOR id="pk-package-get-summary" href="PackageKit/PkPackage.html#pk-package-get-summary">
+<ANCHOR id="pk-package-set-summary" href="PackageKit/PkPackage.html#pk-package-set-summary">
 <ANCHOR id="pk-package-get-name" href="PackageKit/PkPackage.html#pk-package-get-name">
 <ANCHOR id="pk-package-get-version" href="PackageKit/PkPackage.html#pk-package-get-version">
 <ANCHOR id="pk-package-get-arch" href="PackageKit/PkPackage.html#pk-package-get-arch">
@@ -624,32 +613,6 @@
 <ANCHOR id="PkResults--progress" href="PackageKit/PkResults.html#PkResults--progress">
 <ANCHOR id="PkResults--role" href="PackageKit/PkResults.html#PkResults--role">
 <ANCHOR id="PkResults--transaction-flags" href="PackageKit/PkResults.html#PkResults--transaction-flags">
-<ANCHOR id="PkServicePack" href="PackageKit/PkServicePack.html">
-<ANCHOR id="PkServicePack.synopsis" href="PackageKit/PkServicePack.html#PkServicePack.synopsis">
-<ANCHOR id="PkServicePackError" href="PackageKit/PkServicePack.html#PkServicePackError">
-<ANCHOR id="PkServicePack.object-hierarchy" href="PackageKit/PkServicePack.html#PkServicePack.object-hierarchy">
-<ANCHOR id="PkServicePack.description" href="PackageKit/PkServicePack.html#PkServicePack.description">
-<ANCHOR id="PkServicePack.details" href="PackageKit/PkServicePack.html#PkServicePack.details">
-<ANCHOR id="PK-SERVICE-PACK-ERROR:CAPS" href="PackageKit/PkServicePack.html#PK-SERVICE-PACK-ERROR:CAPS">
-<ANCHOR id="PK-SERVICE-PACK-TYPE-ERROR:CAPS" href="PackageKit/PkServicePack.html#PK-SERVICE-PACK-TYPE-ERROR:CAPS">
-<ANCHOR id="PK-SERVICE-PACK-FILE-EXTENSION:CAPS" href="PackageKit/PkServicePack.html#PK-SERVICE-PACK-FILE-EXTENSION:CAPS">
-<ANCHOR id="PkServicePackError-enum" href="PackageKit/PkServicePack.html#PkServicePackError-enum">
-<ANCHOR id="PK-SERVICE-PACK-ERROR-FAILED-SETUP:CAPS" href="PackageKit/PkServicePack.html#PK-SERVICE-PACK-ERROR-FAILED-SETUP:CAPS">
-<ANCHOR id="PK-SERVICE-PACK-ERROR-FAILED-DOWNLOAD:CAPS" href="PackageKit/PkServicePack.html#PK-SERVICE-PACK-ERROR-FAILED-DOWNLOAD:CAPS">
-<ANCHOR id="PK-SERVICE-PACK-ERROR-FAILED-EXTRACTION:CAPS" href="PackageKit/PkServicePack.html#PK-SERVICE-PACK-ERROR-FAILED-EXTRACTION:CAPS">
-<ANCHOR id="PK-SERVICE-PACK-ERROR-FAILED-CREATE:CAPS" href="PackageKit/PkServicePack.html#PK-SERVICE-PACK-ERROR-FAILED-CREATE:CAPS">
-<ANCHOR id="PK-SERVICE-PACK-ERROR-NOTHING-TO-DO:CAPS" href="PackageKit/PkServicePack.html#PK-SERVICE-PACK-ERROR-NOTHING-TO-DO:CAPS">
-<ANCHOR id="PK-SERVICE-PACK-ERROR-NOT-COMPATIBLE:CAPS" href="PackageKit/PkServicePack.html#PK-SERVICE-PACK-ERROR-NOT-COMPATIBLE:CAPS">
-<ANCHOR id="PkServicePack-struct" href="PackageKit/PkServicePack.html#PkServicePack-struct">
-<ANCHOR id="PkServicePackClass" href="PackageKit/PkServicePack.html#PkServicePackClass">
-<ANCHOR id="pk-service-pack-error-quark" href="PackageKit/PkServicePack.html#pk-service-pack-error-quark">
-<ANCHOR id="pk-service-pack-new" href="PackageKit/PkServicePack.html#pk-service-pack-new">
-<ANCHOR id="pk-service-pack-test" href="PackageKit/PkServicePack.html#pk-service-pack-test">
-<ANCHOR id="pk-service-pack-check-valid" href="PackageKit/PkServicePack.html#pk-service-pack-check-valid">
-<ANCHOR id="pk-service-pack-set-temp-directory" href="PackageKit/PkServicePack.html#pk-service-pack-set-temp-directory">
-<ANCHOR id="pk-service-pack-generic-finish" href="PackageKit/PkServicePack.html#pk-service-pack-generic-finish">
-<ANCHOR id="pk-service-pack-create-for-package-ids-async" href="PackageKit/PkServicePack.html#pk-service-pack-create-for-package-ids-async">
-<ANCHOR id="pk-service-pack-create-for-updates-async" href="PackageKit/PkServicePack.html#pk-service-pack-create-for-updates-async">
 <ANCHOR id="PkTask" href="PackageKit/PkTask.html">
 <ANCHOR id="PkTask.synopsis" href="PackageKit/PkTask.html#PkTask.synopsis">
 <ANCHOR id="PkTask.object-hierarchy" href="PackageKit/PkTask.html#PkTask.object-hierarchy">

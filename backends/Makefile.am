@@ -12,10 +12,6 @@ if BACKEND_TYPE_APTCC
 SUBDIRS += aptcc
 endif
 
-if BACKEND_TYPE_BOX
-SUBDIRS += box
-endif
-
 if BACKEND_TYPE_CONARY
 SUBDIRS += conary
 endif
@@ -58,10 +54,6 @@ endif
 
 if BACKEND_TYPE_ZYPP
 SUBDIRS += zypp
-endif
-
-if BACKEND_TYPE_ZIF
-SUBDIRS += zif
 endif
 
 if BACKEND_TYPE_POLDEK

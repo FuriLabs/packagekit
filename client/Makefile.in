@@ -78,13 +78,13 @@ PRE_UNINSTALL = :
 POST_UNINSTALL = :
 build_triplet = @build@
 host_triplet = @host@
-bin_PROGRAMS = pkcon$(EXEEXT) pkmon$(EXEEXT) pkgenpack$(EXEEXT) \
-	$(am__EXEEXT_1)
+bin_PROGRAMS = pkcon$(EXEEXT) pkmon$(EXEEXT)
 subdir = client
 DIST_COMMON = $(srcdir)/Makefile.in $(srcdir)/Makefile.am \
 	$(top_srcdir)/build-aux/depcomp
 ACLOCAL_M4 = $(top_srcdir)/aclocal.m4
-am__aclocal_m4_deps = $(top_srcdir)/m4/ax_check_compile_flag.m4 \
+am__aclocal_m4_deps = $(top_srcdir)/m4/as-linguas.m4 \
+	$(top_srcdir)/m4/ax_check_compile_flag.m4 \
 	$(top_srcdir)/m4/ax_check_link_flag.m4 \
 	$(top_srcdir)/m4/gtk-doc.m4 $(top_srcdir)/m4/intltool.m4 \
 	$(top_srcdir)/m4/libtool.m4 $(top_srcdir)/m4/ltoptions.m4 \
@@ -97,20 +97,13 @@ mkinstalldirs = $(install_sh) -d
 CONFIG_HEADER = $(top_builddir)/config.h
 CONFIG_CLEAN_FILES =
 CONFIG_CLEAN_VPATH_FILES =
-am__EXEEXT_1 =
 am__installdirs = "$(DESTDIR)$(bindir)" "$(DESTDIR)$(man1dir)"
 PROGRAMS = $(bin_PROGRAMS)
-am__objects_1 =
-am_pkcon_OBJECTS = pkcon-pk-console.$(OBJEXT) $(am__objects_1)
+am_pkcon_OBJECTS = pkcon-pk-console.$(OBJEXT)
 pkcon_OBJECTS = $(am_pkcon_OBJECTS)
 am__DEPENDENCIES_1 =
-am__DEPENDENCIES_2 =  \
-	$(top_builddir)/lib/packagekit-glib2/libpackagekit-glib2.la \
-	$(top_builddir)/lib/packagekit-glib2/libpackagekitprivate.a \
-	$(am__DEPENDENCIES_1)
 pkcon_DEPENDENCIES = $(am__DEPENDENCIES_1) $(am__DEPENDENCIES_1) \
-	$(am__DEPENDENCIES_1) $(am__DEPENDENCIES_2) \
-	$(am__DEPENDENCIES_1)
+	$(am__DEPENDENCIES_1) $(PK_GLIB2_LIBS)
 AM_V_lt = $(am__v_lt_@AM_V@)
 am__v_lt_ = $(am__v_lt_@AM_DEFAULT_V@)
 am__v_lt_0 = --silent
@@ -118,20 +111,10 @@ am__v_lt_1 =
 pkcon_LINK = $(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) \
 	$(LIBTOOLFLAGS) --mode=link $(CCLD) $(pkcon_CFLAGS) $(CFLAGS) \
 	$(pkcon_LDFLAGS) $(LDFLAGS) -o $@
-am_pkgenpack_OBJECTS = pkgenpack-pk-generate-pack.$(OBJEXT) \
-	$(am__objects_1)
-pkgenpack_OBJECTS = $(am_pkgenpack_OBJECTS)
-pkgenpack_DEPENDENCIES = $(am__DEPENDENCIES_1) $(am__DEPENDENCIES_1) \
-	$(am__DEPENDENCIES_1) $(am__DEPENDENCIES_1) \
-	$(am__DEPENDENCIES_2) $(am__DEPENDENCIES_1)
-pkgenpack_LINK = $(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) \
-	$(LIBTOOLFLAGS) --mode=link $(CCLD) $(pkgenpack_CFLAGS) \
-	$(CFLAGS) $(pkgenpack_LDFLAGS) $(LDFLAGS) -o $@
-am_pkmon_OBJECTS = pkmon-pk-monitor.$(OBJEXT) $(am__objects_1)
+am_pkmon_OBJECTS = pkmon-pk-monitor.$(OBJEXT)
 pkmon_OBJECTS = $(am_pkmon_OBJECTS)
 pkmon_DEPENDENCIES = $(am__DEPENDENCIES_1) $(am__DEPENDENCIES_1) \
-	$(am__DEPENDENCIES_1) $(am__DEPENDENCIES_2) \
-	$(am__DEPENDENCIES_1)
+	$(am__DEPENDENCIES_1) $(PK_GLIB2_LIBS)
 pkmon_LINK = $(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) \
 	$(LIBTOOLFLAGS) --mode=link $(CCLD) $(pkmon_CFLAGS) $(CFLAGS) \
 	$(pkmon_LDFLAGS) $(LDFLAGS) -o $@
@@ -169,8 +152,8 @@ AM_V_CCLD = $(am__v_CCLD_@AM_V@)
 am__v_CCLD_ = $(am__v_CCLD_@AM_DEFAULT_V@)
 am__v_CCLD_0 = @echo "  CCLD    " $@;
 am__v_CCLD_1 = 
-SOURCES = $(pkcon_SOURCES) $(pkgenpack_SOURCES) $(pkmon_SOURCES)
-DIST_SOURCES = $(pkcon_SOURCES) $(pkgenpack_SOURCES) $(pkmon_SOURCES)
+SOURCES = $(pkcon_SOURCES) $(pkmon_SOURCES)
+DIST_SOURCES = $(pkcon_SOURCES) $(pkmon_SOURCES)
 am__can_run_installinfo = \
   case $$AM_UPDATE_INFO_DIR in \
     n|no|NO) false;; \
@@ -235,7 +218,6 @@ AM_DEFAULT_VERBOSITY = @AM_DEFAULT_VERBOSITY@
 APTCC_CFLAGS = @APTCC_CFLAGS@
 APTCC_LIBS = @APTCC_LIBS@
 AR = @AR@
-ARCHIVE_LIBS = @ARCHIVE_LIBS@
 AUTOCONF = @AUTOCONF@
 AUTOHEADER = @AUTOHEADER@
 AUTOMAKE = @AUTOMAKE@
@@ -244,8 +226,6 @@ BASH_COMPLETIONS_DIR = @BASH_COMPLETIONS_DIR@
 BASH_COMPLETION_CFLAGS = @BASH_COMPLETION_CFLAGS@
 BASH_COMPLETION_LIBS = @BASH_COMPLETION_LIBS@
 BINDIR = @BINDIR@
-BOX_CFLAGS = @BOX_CFLAGS@
-BOX_LIBS = @BOX_LIBS@
 CATALOGS = @CATALOGS@
 CATOBJEXT = @CATOBJEXT@
 CC = @CC@
@@ -297,8 +277,6 @@ GTKDOC_DEPS_CFLAGS = @GTKDOC_DEPS_CFLAGS@
 GTKDOC_DEPS_LIBS = @GTKDOC_DEPS_LIBS@
 GTKDOC_MKPDF = @GTKDOC_MKPDF@
 GTKDOC_REBASE = @GTKDOC_REBASE@
-GUDEV_CFLAGS = @GUDEV_CFLAGS@
-GUDEV_LIBS = @GUDEV_LIBS@
 HAWKEY_CFLAGS = @HAWKEY_CFLAGS@
 HAWKEY_LIBS = @HAWKEY_LIBS@
 HTML_DIR = @HTML_DIR@
@@ -331,6 +309,8 @@ LIBDIR = @LIBDIR@
 LIBEXECDIR = @LIBEXECDIR@
 LIBOBJS = @LIBOBJS@
 LIBS = @LIBS@
+LIBSYSTEMD_JOURNAL_CFLAGS = @LIBSYSTEMD_JOURNAL_CFLAGS@
+LIBSYSTEMD_JOURNAL_LIBS = @LIBSYSTEMD_JOURNAL_LIBS@
 LIBTOOL = @LIBTOOL@
 LIPO = @LIPO@
 LN_S = @LN_S@
@@ -391,8 +371,6 @@ PK_PLUGIN_DIR = @PK_PLUGIN_DIR@
 PK_PLUGIN_LIBS = @PK_PLUGIN_LIBS@
 PK_VERSION = @PK_VERSION@
 PK_YUM_PLUGIN_DIR = @PK_YUM_PLUGIN_DIR@
-PM_UTILS_CFLAGS = @PM_UTILS_CFLAGS@
-PM_UTILS_LIBS = @PM_UTILS_LIBS@
 POFILES = @POFILES@
 POLDEK_CFLAGS = @POLDEK_CFLAGS@
 POLDEK_LIBS = @POLDEK_LIBS@
@@ -427,8 +405,6 @@ WARNINGFLAGS_C = @WARNINGFLAGS_C@
 WARNINGFLAGS_CPP = @WARNINGFLAGS_CPP@
 XGETTEXT = @XGETTEXT@
 XSLTPROC = @XSLTPROC@
-ZIF_CFLAGS = @ZIF_CFLAGS@
-ZIF_LIBS = @ZIF_LIBS@
 ZYPP_CFLAGS = @ZYPP_CFLAGS@
 ZYPP_LIBS = @ZYPP_LIBS@
 abs_builddir = @abs_builddir@
@@ -484,7 +460,6 @@ psdir = @psdir@
 pyexecdir = @pyexecdir@
 pythondir = @pythondir@
 sbindir = @sbindir@
-security_framework = @security_framework@
 sharedstatedir = @sharedstatedir@
 srcdir = @srcdir@
 sysconfdir = @sysconfdir@
@@ -494,18 +469,13 @@ top_build_prefix = @top_build_prefix@
 top_builddir = @top_builddir@
 top_srcdir = @top_srcdir@
 AUTOMAKE_OPTIONS = 1.7
-NULL = 
 EXTRA_DIST = \
 	pkcon.xml					\
-	pkmon.xml					\
-	pkgenpack.xml					\
-	$(NULL)
+	pkmon.xml
 
 @HAVE_XSLTPROC_TRUE@man_MANS = \
 @HAVE_XSLTPROC_TRUE@	pkcon.1						\
-@HAVE_XSLTPROC_TRUE@	pkmon.1						\
-@HAVE_XSLTPROC_TRUE@	pkgenpack.1					\
-@HAVE_XSLTPROC_TRUE@	$(NULL)
+@HAVE_XSLTPROC_TRUE@	pkmon.1
 
 AM_CPPFLAGS = \
 	$(PIE_CFLAGS)					\
@@ -527,80 +497,48 @@ AM_CPPFLAGS = \
 	-DPK_COMPILATION				\
 	-DG_LOG_DOMAIN=\"PackageKit\"			\
 	-I$(top_builddir)/lib				\
-	-I$(top_srcdir)/lib				\
-	$(NULL)
+	-I$(top_srcdir)/lib
 
 PK_GLIB2_LIBS = \
 	$(top_builddir)/lib/packagekit-glib2/libpackagekit-glib2.la	\
-	$(top_builddir)/lib/packagekit-glib2/libpackagekitprivate.a	\
-	$(NULL)
+	$(top_builddir)/lib/packagekit-glib2/libpackagekitprivate.a
 
 pkcon_SOURCES = \
-	pk-console.c					\
-	$(NULL)
+	pk-console.c
 
 pkcon_LDADD = \
 	$(GLIB_LIBS)					\
 	$(GIO_LIBS)					\
 	$(DBUS_LIBS)					\
 	$(SQLITE_LIBS)					\
-	$(PK_GLIB2_LIBS)				\
-	$(NULL)
+	$(PK_GLIB2_LIBS)
 
 pkcon_LDFLAGS = \
 	$(PIE_LDFLAGS)
 
 pkcon_CFLAGS = \
-	$(WARNINGFLAGS_C)				\
-	$(NULL)
+	$(WARNINGFLAGS_C)
 
 pkmon_SOURCES = \
-	pk-monitor.c					\
-	$(NULL)
+	pk-monitor.c
 
 pkmon_LDADD = \
 	$(GLIB_LIBS)					\
 	$(GIO_LIBS)					\
 	$(DBUS_LIBS)					\
 	$(SQLITE_LIBS)					\
-	$(PK_GLIB2_LIBS)				\
-	$(NULL)
+	$(PK_GLIB2_LIBS)
 
 pkmon_LDFLAGS = \
 	$(PIE_LDFLAGS)
 
 pkmon_CFLAGS = \
-	$(WARNINGFLAGS_C)				\
-	$(NULL)
-
-pkgenpack_SOURCES = \
-	pk-generate-pack.c				\
-	$(NULL)
-
-pkgenpack_LDADD = \
-	$(ARCHIVE_LIBS)					\
-	$(GLIB_LIBS)					\
-	$(GIO_LIBS)					\
-	$(DBUS_LIBS)					\
-	$(SQLITE_LIBS)					\
-	$(PK_GLIB2_LIBS)				\
-	$(NULL)
-
-pkgenpack_LDFLAGS = \
-	$(PIE_LDFLAGS)
-
-pkgenpack_CFLAGS = \
-	$(WARNINGFLAGS_C)				\
-	$(NULL)
+	$(WARNINGFLAGS_C)
 
 CLEANFILES = $(BUILT_SOURCES) $(man_MANS)
-DISTCLEANFILES = \
-	$(NULL)
-
 MAINTAINERCLEANFILES = \
-	*~			      			\
-	Makefile.in					\
-	$(NULL)
+	*~						\
+	Makefile.in
 
 all: all-am
 
@@ -690,10 +628,6 @@ pkcon$(EXEEXT): $(pkcon_OBJECTS) $(pkcon_DEPENDENCIES) $(EXTRA_pkcon_DEPENDENCIE
 	@rm -f pkcon$(EXEEXT)
 	$(AM_V_CCLD)$(pkcon_LINK) $(pkcon_OBJECTS) $(pkcon_LDADD) $(LIBS)
 
-pkgenpack$(EXEEXT): $(pkgenpack_OBJECTS) $(pkgenpack_DEPENDENCIES) $(EXTRA_pkgenpack_DEPENDENCIES) 
-	@rm -f pkgenpack$(EXEEXT)
-	$(AM_V_CCLD)$(pkgenpack_LINK) $(pkgenpack_OBJECTS) $(pkgenpack_LDADD) $(LIBS)
-
 pkmon$(EXEEXT): $(pkmon_OBJECTS) $(pkmon_DEPENDENCIES) $(EXTRA_pkmon_DEPENDENCIES) 
 	@rm -f pkmon$(EXEEXT)
 	$(AM_V_CCLD)$(pkmon_LINK) $(pkmon_OBJECTS) $(pkmon_LDADD) $(LIBS)
@@ -705,7 +639,6 @@ distclean-compile:
 	-rm -f *.tab.c
 
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/pkcon-pk-console.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/pkgenpack-pk-generate-pack.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/pkmon-pk-monitor.Po@am__quote@
 
 .c.o:
@@ -742,20 +675,6 @@ pkcon-pk-console.obj: pk-console.c
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='pk-console.c' object='pkcon-pk-console.obj' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(pkcon_CFLAGS) $(CFLAGS) -c -o pkcon-pk-console.obj `if test -f 'pk-console.c'; then $(CYGPATH_W) 'pk-console.c'; else $(CYGPATH_W) '$(srcdir)/pk-console.c'; fi`
-
-pkgenpack-pk-generate-pack.o: pk-generate-pack.c
-@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(pkgenpack_CFLAGS) $(CFLAGS) -MT pkgenpack-pk-generate-pack.o -MD -MP -MF $(DEPDIR)/pkgenpack-pk-generate-pack.Tpo -c -o pkgenpack-pk-generate-pack.o `test -f 'pk-generate-pack.c' || echo '$(srcdir)/'`pk-generate-pack.c
-@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/pkgenpack-pk-generate-pack.Tpo $(DEPDIR)/pkgenpack-pk-generate-pack.Po
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='pk-generate-pack.c' object='pkgenpack-pk-generate-pack.o' libtool=no @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(pkgenpack_CFLAGS) $(CFLAGS) -c -o pkgenpack-pk-generate-pack.o `test -f 'pk-generate-pack.c' || echo '$(srcdir)/'`pk-generate-pack.c
-
-pkgenpack-pk-generate-pack.obj: pk-generate-pack.c
-@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(pkgenpack_CFLAGS) $(CFLAGS) -MT pkgenpack-pk-generate-pack.obj -MD -MP -MF $(DEPDIR)/pkgenpack-pk-generate-pack.Tpo -c -o pkgenpack-pk-generate-pack.obj `if test -f 'pk-generate-pack.c'; then $(CYGPATH_W) 'pk-generate-pack.c'; else $(CYGPATH_W) '$(srcdir)/pk-generate-pack.c'; fi`
-@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/pkgenpack-pk-generate-pack.Tpo $(DEPDIR)/pkgenpack-pk-generate-pack.Po
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='pk-generate-pack.c' object='pkgenpack-pk-generate-pack.obj' libtool=no @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(pkgenpack_CFLAGS) $(CFLAGS) -c -o pkgenpack-pk-generate-pack.obj `if test -f 'pk-generate-pack.c'; then $(CYGPATH_W) 'pk-generate-pack.c'; else $(CYGPATH_W) '$(srcdir)/pk-generate-pack.c'; fi`
 
 pkmon-pk-monitor.o: pk-monitor.c
 @am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(pkmon_CFLAGS) $(CFLAGS) -MT pkmon-pk-monitor.o -MD -MP -MF $(DEPDIR)/pkmon-pk-monitor.Tpo -c -o pkmon-pk-monitor.o `test -f 'pk-monitor.c' || echo '$(srcdir)/'`pk-monitor.c
@@ -936,7 +855,6 @@ clean-generic:
 distclean-generic:
 	-test -z "$(CONFIG_CLEAN_FILES)" || rm -f $(CONFIG_CLEAN_FILES)
 	-test . = "$(srcdir)" || test -z "$(CONFIG_CLEAN_VPATH_FILES)" || rm -f $(CONFIG_CLEAN_VPATH_FILES)
-	-test -z "$(DISTCLEANFILES)" || rm -f $(DISTCLEANFILES)
 
 maintainer-clean-generic:
 	@echo "This command is intended for maintainers to use"
@@ -1038,9 +956,6 @@ uninstall-man: uninstall-man1
 @HAVE_XSLTPROC_TRUE@	xsltproc http://docbook.sourceforge.net/release/xsl/current/manpages/docbook.xsl $? &> /dev/null
 
 @HAVE_XSLTPROC_TRUE@pkmon.1: pkmon.xml
-@HAVE_XSLTPROC_TRUE@	xsltproc http://docbook.sourceforge.net/release/xsl/current/manpages/docbook.xsl $? &> /dev/null
-
-@HAVE_XSLTPROC_TRUE@pkgenpack.1: pkgenpack.xml
 @HAVE_XSLTPROC_TRUE@	xsltproc http://docbook.sourceforge.net/release/xsl/current/manpages/docbook.xsl $? &> /dev/null
 
 clean-local:

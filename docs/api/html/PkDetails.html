@@ -44,6 +44,12 @@
 <pre class="synopsis">struct              <a class="link" href="PkDetails.html#PkDetails-struct" title="struct PkDetails">PkDetails</a>;
 struct              <a class="link" href="PkDetails.html#PkDetailsClass" title="struct PkDetailsClass">PkDetailsClass</a>;
 <a class="link" href="PkDetails.html" title="PkDetails"><span class="returnvalue">PkDetails</span></a> *         <a class="link" href="PkDetails.html#pk-details-new" title="pk_details_new ()">pk_details_new</a>                      (<em class="parameter"><code><span class="type">void</span></code></em>);
+const <a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gchar"><span class="returnvalue">gchar</span></a> *       <a class="link" href="PkDetails.html#pk-details-get-package-id" title="pk_details_get_package_id ()">pk_details_get_package_id</a>           (<em class="parameter"><code><a class="link" href="PkDetails.html" title="PkDetails"><span class="type">PkDetails</span></a> *details</code></em>);
+const <a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gchar"><span class="returnvalue">gchar</span></a> *       <a class="link" href="PkDetails.html#pk-details-get-license" title="pk_details_get_license ()">pk_details_get_license</a>              (<em class="parameter"><code><a class="link" href="PkDetails.html" title="PkDetails"><span class="type">PkDetails</span></a> *details</code></em>);
+<a class="link" href="PackageKit-pk-enum.html#PkGroupEnum"><span class="returnvalue">PkGroupEnum</span></a>         <a class="link" href="PkDetails.html#pk-details-get-group" title="pk_details_get_group ()">pk_details_get_group</a>                (<em class="parameter"><code><a class="link" href="PkDetails.html" title="PkDetails"><span class="type">PkDetails</span></a> *details</code></em>);
+const <a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gchar"><span class="returnvalue">gchar</span></a> *       <a class="link" href="PkDetails.html#pk-details-get-description" title="pk_details_get_description ()">pk_details_get_description</a>          (<em class="parameter"><code><a class="link" href="PkDetails.html" title="PkDetails"><span class="type">PkDetails</span></a> *details</code></em>);
+const <a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gchar"><span class="returnvalue">gchar</span></a> *       <a class="link" href="PkDetails.html#pk-details-get-url" title="pk_details_get_url ()">pk_details_get_url</a>                  (<em class="parameter"><code><a class="link" href="PkDetails.html" title="PkDetails"><span class="type">PkDetails</span></a> *details</code></em>);
+<a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#guint64"><span class="returnvalue">guint64</span></a>             <a class="link" href="PkDetails.html#pk-details-get-size" title="pk_details_get_size ()">pk_details_get_size</a>                 (<em class="parameter"><code><a class="link" href="PkDetails.html" title="PkDetails"><span class="type">PkDetails</span></a> *details</code></em>);
 </pre>
 </div>
 <div class="refsect1">
@@ -108,6 +114,156 @@ often present in lists (<a class="link" href="PkResults.html" title="PkResults">
 </tr></tbody>
 </table></div>
 <p class="since">Since 0.5.4</p>
+</div>
+<hr>
+<div class="refsect2">
+<a name="pk-details-get-package-id"></a><h3>pk_details_get_package_id ()</h3>
+<pre class="programlisting">const <a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gchar"><span class="returnvalue">gchar</span></a> *       pk_details_get_package_id           (<em class="parameter"><code><a class="link" href="PkDetails.html" title="PkDetails"><span class="type">PkDetails</span></a> *details</code></em>);</pre>
+<p>
+Gets the PackageId for the details object.
+</p>
+<div class="variablelist"><table border="0" class="variablelist">
+<colgroup>
+<col align="left" valign="top">
+<col>
+</colgroup>
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>details</code></em> :</span></p></td>
+<td>a <a class="link" href="PkDetails.html" title="PkDetails"><span class="type">PkDetails</span></a> instance</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td>string value</td>
+</tr>
+</tbody>
+</table></div>
+<p class="since">Since 0.8.12</p>
+</div>
+<hr>
+<div class="refsect2">
+<a name="pk-details-get-license"></a><h3>pk_details_get_license ()</h3>
+<pre class="programlisting">const <a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gchar"><span class="returnvalue">gchar</span></a> *       pk_details_get_license              (<em class="parameter"><code><a class="link" href="PkDetails.html" title="PkDetails"><span class="type">PkDetails</span></a> *details</code></em>);</pre>
+<p>
+Gets the license for the details object.
+</p>
+<div class="variablelist"><table border="0" class="variablelist">
+<colgroup>
+<col align="left" valign="top">
+<col>
+</colgroup>
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>details</code></em> :</span></p></td>
+<td>a <a class="link" href="PkDetails.html" title="PkDetails"><span class="type">PkDetails</span></a> instance</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td>string value</td>
+</tr>
+</tbody>
+</table></div>
+<p class="since">Since 0.8.12</p>
+</div>
+<hr>
+<div class="refsect2">
+<a name="pk-details-get-group"></a><h3>pk_details_get_group ()</h3>
+<pre class="programlisting"><a class="link" href="PackageKit-pk-enum.html#PkGroupEnum"><span class="returnvalue">PkGroupEnum</span></a>         pk_details_get_group                (<em class="parameter"><code><a class="link" href="PkDetails.html" title="PkDetails"><span class="type">PkDetails</span></a> *details</code></em>);</pre>
+<p>
+Gets the group for the details object.
+</p>
+<div class="variablelist"><table border="0" class="variablelist">
+<colgroup>
+<col align="left" valign="top">
+<col>
+</colgroup>
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>details</code></em> :</span></p></td>
+<td>a <a class="link" href="PkDetails.html" title="PkDetails"><span class="type">PkDetails</span></a> instance</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td>string value</td>
+</tr>
+</tbody>
+</table></div>
+<p class="since">Since 0.8.12</p>
+</div>
+<hr>
+<div class="refsect2">
+<a name="pk-details-get-description"></a><h3>pk_details_get_description ()</h3>
+<pre class="programlisting">const <a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gchar"><span class="returnvalue">gchar</span></a> *       pk_details_get_description          (<em class="parameter"><code><a class="link" href="PkDetails.html" title="PkDetails"><span class="type">PkDetails</span></a> *details</code></em>);</pre>
+<p>
+Gets the description for the details object.
+</p>
+<div class="variablelist"><table border="0" class="variablelist">
+<colgroup>
+<col align="left" valign="top">
+<col>
+</colgroup>
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>details</code></em> :</span></p></td>
+<td>a <a class="link" href="PkDetails.html" title="PkDetails"><span class="type">PkDetails</span></a> instance</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td>string value</td>
+</tr>
+</tbody>
+</table></div>
+<p class="since">Since 0.8.12</p>
+</div>
+<hr>
+<div class="refsect2">
+<a name="pk-details-get-url"></a><h3>pk_details_get_url ()</h3>
+<pre class="programlisting">const <a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gchar"><span class="returnvalue">gchar</span></a> *       pk_details_get_url                  (<em class="parameter"><code><a class="link" href="PkDetails.html" title="PkDetails"><span class="type">PkDetails</span></a> *details</code></em>);</pre>
+<p>
+Gets the url for the details object.
+</p>
+<div class="variablelist"><table border="0" class="variablelist">
+<colgroup>
+<col align="left" valign="top">
+<col>
+</colgroup>
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>details</code></em> :</span></p></td>
+<td>a <a class="link" href="PkDetails.html" title="PkDetails"><span class="type">PkDetails</span></a> instance</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td>string value</td>
+</tr>
+</tbody>
+</table></div>
+<p class="since">Since 0.8.12</p>
+</div>
+<hr>
+<div class="refsect2">
+<a name="pk-details-get-size"></a><h3>pk_details_get_size ()</h3>
+<pre class="programlisting"><a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#guint64"><span class="returnvalue">guint64</span></a>             pk_details_get_size                 (<em class="parameter"><code><a class="link" href="PkDetails.html" title="PkDetails"><span class="type">PkDetails</span></a> *details</code></em>);</pre>
+<p>
+Gets the size for the details object.
+</p>
+<div class="variablelist"><table border="0" class="variablelist">
+<colgroup>
+<col align="left" valign="top">
+<col>
+</colgroup>
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>details</code></em> :</span></p></td>
+<td>a <a class="link" href="PkDetails.html" title="PkDetails"><span class="type">PkDetails</span></a> instance</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td>string value</td>
+</tr>
+</tbody>
+</table></div>
+<p class="since">Since 0.8.12</p>
 </div>
 </div>
 <div class="refsect1">

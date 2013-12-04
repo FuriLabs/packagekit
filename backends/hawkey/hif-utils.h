@@ -19,6 +19,9 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
 
+#ifndef __HIF_UTILS_H
+#define __HIF_UTILS_H
+
 #include <glib.h>
 #include <pk-backend.h>
 
@@ -27,6 +30,8 @@
 
 #define HIF_ERROR				(hif_error_quark ())
 
+#define HIF_CONFIG_GROUP_NAME			"HawkeyConfig"
+
 gboolean	 hif_rc_to_gerror		(gint			 rc,
 						 GError			**error);
 PkErrorEnum	 hif_rc_to_error_enum		(gint			 rc);
@@ -34,7 +39,6 @@ const gchar	*hif_rc_to_error_str		(gint			 rc);
 PkInfoEnum	 hif_update_severity_to_info_enum (HyUpdateSeverity	 severity);
 GQuark		 hif_error_quark		(void);
 
-gchar		*hif_package_get_id		(HyPackage		 pkg);
 void		 hif_emit_package		(PkBackendJob		*job,
 						 PkInfoEnum		 info,
 						 HyPackage		 pkg);
@@ -48,3 +52,5 @@ void		 hif_emit_package_list_filter	(PkBackendJob		*job,
 						 PkBitfield		 filters,
 						 HyPackageList		 pkglist);
 PkBitfield	 hif_get_filter_for_ids		(gchar			**package_ids);
+
+#endif /* __HIF_UTILS_H */

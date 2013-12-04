@@ -80,26 +80,25 @@ host_triplet = @host@
 @BACKEND_TYPE_ALPM_TRUE@am__append_1 = alpm
 @BACKEND_TYPE_APT_TRUE@am__append_2 = apt
 @BACKEND_TYPE_APTCC_TRUE@am__append_3 = aptcc
-@BACKEND_TYPE_BOX_TRUE@am__append_4 = box
-@BACKEND_TYPE_CONARY_TRUE@am__append_5 = conary
-@BACKEND_TYPE_DUMMY_TRUE@am__append_6 = dummy
-@BACKEND_TYPE_ENTROPY_TRUE@am__append_7 = entropy
-@BACKEND_TYPE_HAWKEY_TRUE@am__append_8 = hawkey
-@BACKEND_TYPE_OPKG_TRUE@am__append_9 = opkg
-@BACKEND_TYPE_SLAPT_TRUE@am__append_10 = slapt
-@BACKEND_TYPE_SMART_TRUE@am__append_11 = smart
-@BACKEND_TYPE_URPMI_TRUE@am__append_12 = urpmi
-@BACKEND_TYPE_YUM_TRUE@am__append_13 = yum
-@BACKEND_TYPE_PISI_TRUE@am__append_14 = pisi
-@BACKEND_TYPE_ZYPP_TRUE@am__append_15 = zypp
-@BACKEND_TYPE_ZIF_TRUE@am__append_16 = zif
-@BACKEND_TYPE_POLDEK_TRUE@am__append_17 = poldek
-@BACKEND_TYPE_PORTAGE_TRUE@am__append_18 = portage
-@BACKEND_TYPE_PORTS_TRUE@am__append_19 = ports
+@BACKEND_TYPE_CONARY_TRUE@am__append_4 = conary
+@BACKEND_TYPE_DUMMY_TRUE@am__append_5 = dummy
+@BACKEND_TYPE_ENTROPY_TRUE@am__append_6 = entropy
+@BACKEND_TYPE_HAWKEY_TRUE@am__append_7 = hawkey
+@BACKEND_TYPE_OPKG_TRUE@am__append_8 = opkg
+@BACKEND_TYPE_SLAPT_TRUE@am__append_9 = slapt
+@BACKEND_TYPE_SMART_TRUE@am__append_10 = smart
+@BACKEND_TYPE_URPMI_TRUE@am__append_11 = urpmi
+@BACKEND_TYPE_YUM_TRUE@am__append_12 = yum
+@BACKEND_TYPE_PISI_TRUE@am__append_13 = pisi
+@BACKEND_TYPE_ZYPP_TRUE@am__append_14 = zypp
+@BACKEND_TYPE_POLDEK_TRUE@am__append_15 = poldek
+@BACKEND_TYPE_PORTAGE_TRUE@am__append_16 = portage
+@BACKEND_TYPE_PORTS_TRUE@am__append_17 = ports
 subdir = backends
 DIST_COMMON = $(srcdir)/Makefile.in $(srcdir)/Makefile.am
 ACLOCAL_M4 = $(top_srcdir)/aclocal.m4
-am__aclocal_m4_deps = $(top_srcdir)/m4/ax_check_compile_flag.m4 \
+am__aclocal_m4_deps = $(top_srcdir)/m4/as-linguas.m4 \
+	$(top_srcdir)/m4/ax_check_compile_flag.m4 \
 	$(top_srcdir)/m4/ax_check_link_flag.m4 \
 	$(top_srcdir)/m4/gtk-doc.m4 $(top_srcdir)/m4/intltool.m4 \
 	$(top_srcdir)/m4/libtool.m4 $(top_srcdir)/m4/ltoptions.m4 \
@@ -166,8 +165,8 @@ am__define_uniq_tagged_files = \
   done | $(am__uniquify_input)`
 ETAGS = etags
 CTAGS = ctags
-DIST_SUBDIRS = test alpm apt aptcc box conary dummy entropy hawkey \
-	opkg slapt smart urpmi yum pisi zypp zif poldek portage ports
+DIST_SUBDIRS = test alpm apt aptcc conary dummy entropy hawkey opkg \
+	slapt smart urpmi yum pisi zypp poldek portage ports
 DISTFILES = $(DIST_COMMON) $(DIST_SOURCES) $(TEXINFOS) $(EXTRA_DIST)
 am__relativize = \
   dir0=`pwd`; \
@@ -203,7 +202,6 @@ AM_DEFAULT_VERBOSITY = @AM_DEFAULT_VERBOSITY@
 APTCC_CFLAGS = @APTCC_CFLAGS@
 APTCC_LIBS = @APTCC_LIBS@
 AR = @AR@
-ARCHIVE_LIBS = @ARCHIVE_LIBS@
 AUTOCONF = @AUTOCONF@
 AUTOHEADER = @AUTOHEADER@
 AUTOMAKE = @AUTOMAKE@
@@ -212,8 +210,6 @@ BASH_COMPLETIONS_DIR = @BASH_COMPLETIONS_DIR@
 BASH_COMPLETION_CFLAGS = @BASH_COMPLETION_CFLAGS@
 BASH_COMPLETION_LIBS = @BASH_COMPLETION_LIBS@
 BINDIR = @BINDIR@
-BOX_CFLAGS = @BOX_CFLAGS@
-BOX_LIBS = @BOX_LIBS@
 CATALOGS = @CATALOGS@
 CATOBJEXT = @CATOBJEXT@
 CC = @CC@
@@ -265,8 +261,6 @@ GTKDOC_DEPS_CFLAGS = @GTKDOC_DEPS_CFLAGS@
 GTKDOC_DEPS_LIBS = @GTKDOC_DEPS_LIBS@
 GTKDOC_MKPDF = @GTKDOC_MKPDF@
 GTKDOC_REBASE = @GTKDOC_REBASE@
-GUDEV_CFLAGS = @GUDEV_CFLAGS@
-GUDEV_LIBS = @GUDEV_LIBS@
 HAWKEY_CFLAGS = @HAWKEY_CFLAGS@
 HAWKEY_LIBS = @HAWKEY_LIBS@
 HTML_DIR = @HTML_DIR@
@@ -299,6 +293,8 @@ LIBDIR = @LIBDIR@
 LIBEXECDIR = @LIBEXECDIR@
 LIBOBJS = @LIBOBJS@
 LIBS = @LIBS@
+LIBSYSTEMD_JOURNAL_CFLAGS = @LIBSYSTEMD_JOURNAL_CFLAGS@
+LIBSYSTEMD_JOURNAL_LIBS = @LIBSYSTEMD_JOURNAL_LIBS@
 LIBTOOL = @LIBTOOL@
 LIPO = @LIPO@
 LN_S = @LN_S@
@@ -359,8 +355,6 @@ PK_PLUGIN_DIR = @PK_PLUGIN_DIR@
 PK_PLUGIN_LIBS = @PK_PLUGIN_LIBS@
 PK_VERSION = @PK_VERSION@
 PK_YUM_PLUGIN_DIR = @PK_YUM_PLUGIN_DIR@
-PM_UTILS_CFLAGS = @PM_UTILS_CFLAGS@
-PM_UTILS_LIBS = @PM_UTILS_LIBS@
 POFILES = @POFILES@
 POLDEK_CFLAGS = @POLDEK_CFLAGS@
 POLDEK_LIBS = @POLDEK_LIBS@
@@ -395,8 +389,6 @@ WARNINGFLAGS_C = @WARNINGFLAGS_C@
 WARNINGFLAGS_CPP = @WARNINGFLAGS_CPP@
 XGETTEXT = @XGETTEXT@
 XSLTPROC = @XSLTPROC@
-ZIF_CFLAGS = @ZIF_CFLAGS@
-ZIF_LIBS = @ZIF_LIBS@
 ZYPP_CFLAGS = @ZYPP_CFLAGS@
 ZYPP_LIBS = @ZYPP_LIBS@
 abs_builddir = @abs_builddir@
@@ -452,7 +444,6 @@ psdir = @psdir@
 pyexecdir = @pyexecdir@
 pythondir = @pythondir@
 sbindir = @sbindir@
-security_framework = @security_framework@
 sharedstatedir = @sharedstatedir@
 srcdir = @srcdir@
 sysconfdir = @sysconfdir@
@@ -466,8 +457,7 @@ SUBDIRS = test $(am__append_1) $(am__append_2) $(am__append_3) \
 	$(am__append_7) $(am__append_8) $(am__append_9) \
 	$(am__append_10) $(am__append_11) $(am__append_12) \
 	$(am__append_13) $(am__append_14) $(am__append_15) \
-	$(am__append_16) $(am__append_17) $(am__append_18) \
-	$(am__append_19)
+	$(am__append_16) $(am__append_17)
 all: all-recursive
 
 .SUFFIXES:

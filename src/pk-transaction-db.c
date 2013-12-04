@@ -47,10 +47,9 @@ static void     pk_transaction_db_finalize	(GObject        *object);
 
 #define PK_TRANSACTION_DB_GET_PRIVATE(o) (G_TYPE_INSTANCE_GET_PRIVATE ((o), PK_TYPE_TRANSACTION_DB, PkTransactionDbPrivate))
 
-#define PK_TRANSACTION_DB_ID_FILE_OBSOLETE	LOCALSTATEDIR "/lib/PackageKit/job_count.dat"
-
 struct PkTransactionDbPrivate
 {
+	gboolean		 loaded;
 	sqlite3			*db;
 	guint			 job_count;
 	guint			 database_save_id;
@@ -521,25 +520,30 @@ pk_transaction_db_defer_write_job_count_cb (PkTransactionDb *tdb)
 	gchar *error_msg = NULL;
 	gint rc;
 
+	/* not loaded! */
+	if (tdb->priv->db == NULL) {
+		g_warning ("PkTransactionDb not loaded");
+		goto out;
+	}
+
 	/* force fsync as we don't want to repeat this number */
 	sqlite3_exec (tdb->priv->db, "PRAGMA synchronous=ON", NULL, NULL, NULL);
 
 	/* save the job count */
 	g_debug ("doing deferred write syncronous");
-	statement = g_strdup_printf ("UPDATE config SET value = '%i' WHERE key = 'job_count'", tdb->priv->job_count);
+	statement = g_strdup_printf ("UPDATE config SET value = '%i' WHERE key = 'job_count'",
+				     tdb->priv->job_count);
 	rc = sqlite3_exec (tdb->priv->db, statement, NULL, NULL, &error_msg);
 	if (rc != SQLITE_OK) {
-		g_error ("failed to set job id: %s\n", error_msg);
+		g_warning ("failed to set job id: %s\n", error_msg);
 		sqlite3_free (error_msg);
 		goto out;
 	}
 
 	/* turn off fsync */
 	sqlite3_exec (tdb->priv->db, "PRAGMA synchronous=OFF", NULL, NULL, NULL);
-
-	/* allow this to happen again */
-	tdb->priv->database_save_id = 0;
 out:
+	tdb->priv->database_save_id = 0;
 	g_free (statement);
 	return FALSE;
 }
@@ -891,6 +895,10 @@ pk_transaction_db_load (PkTransactionDb *tdb, GError **error)
 
 	g_return_val_if_fail (PK_IS_TRANSACTION_DB (tdb), FALSE);
 
+	/* already loaded */
+	if (tdb->priv->loaded)
+		return TRUE;
+
 	g_debug ("trying to open database '%s'", PK_TRANSACTION_DB_FILE);
 	pk_transaction_db_ensure_file_directory (PK_TRANSACTION_DB_FILE);
 	rc = sqlite3_open (PK_TRANSACTION_DB_FILE, &tdb->priv->db);
@@ -929,21 +937,6 @@ pk_transaction_db_load (PkTransactionDb *tdb, GError **error)
 			goto out;
 	}
 
-	/* check transactions has enough data (since 0.3.11) */
-	ret = pk_transaction_db_execute (tdb, "SELECT uid, cmdline FROM transactions LIMIT 1", &error_local);
-	if (!ret) {
-		g_debug ("altering table to repair: %s", error_local->message);
-		g_clear_error (&error_local);
-		statement = "ALTER TABLE transactions ADD COLUMN uid INTEGER DEFAULT 0;";
-		ret = pk_transaction_db_execute (tdb, statement, error);
-		if (!ret)
-			goto out;
-		statement = "ALTER TABLE transactions ADD COLUMN cmdline TEXT;";
-		ret = pk_transaction_db_execute (tdb, statement, error);
-		if (!ret)
-			goto out;
-	}
-
 	/* check last_action (since 0.3.10) */
 	ret = pk_transaction_db_execute (tdb, "SELECT * FROM last_action LIMIT 1", &error_local);
 	if (!ret) {
@@ -966,21 +959,8 @@ pk_transaction_db_load (PkTransactionDb *tdb, GError **error)
 		if (!ret)
 			goto out;
 
-		/* save creation version */
-		text = g_strdup_printf ("INSERT INTO config (key, value) VALUES ('version', '%s')", PACKAGE_VERSION);
-		ret = pk_transaction_db_execute (tdb, text, error);
-		if (!ret)
-			goto out;
-		g_free (text);
-
-		/* get the old job count from the text file (this is a legacy file) */
-		ret = g_file_get_contents (PK_TRANSACTION_DB_ID_FILE_OBSOLETE, &text, NULL, NULL);
-		if (ret)
-			pk_strtouint (text, &tdb->priv->job_count);
-		g_free (text);
-
 		/* save job id */
-		text = g_strdup_printf ("INSERT INTO config (key, value) VALUES ('job_count', '%i')", tdb->priv->job_count);
+		text = g_strdup_printf ("INSERT INTO config (key, value) VALUES ('job_count', '%i')", 1);
 		ret = pk_transaction_db_execute (tdb, text, error);
 		if (!ret)
 			goto out;
@@ -1009,30 +989,8 @@ pk_transaction_db_load (PkTransactionDb *tdb, GError **error)
 			goto out;
 	}
 
-	/* session no_proxy proxy */
-	ret = pk_transaction_db_execute (tdb, "SELECT no_proxy FROM proxy LIMIT 1", &error_local);
-	if (!ret) {
-		g_debug ("altering table to repair: %s", error_local->message);
-		g_clear_error (&error_local);
-		statement = "ALTER TABLE proxy ADD COLUMN proxy_https TEXT;";
-		ret = pk_transaction_db_execute (tdb, statement, error);
-		if (!ret)
-			goto out;
-		statement = "ALTER TABLE proxy ADD COLUMN proxy_socks TEXT;";
-		ret = pk_transaction_db_execute (tdb, statement, error);
-		if (!ret)
-			goto out;
-		statement = "ALTER TABLE proxy ADD COLUMN no_proxy TEXT;";
-		ret = pk_transaction_db_execute (tdb, statement, error);
-		if (!ret)
-			goto out;
-		statement = "ALTER TABLE proxy ADD COLUMN pac TEXT;";
-		ret = pk_transaction_db_execute (tdb, statement, error);
-		if (!ret)
-			goto out;
-	}
-
 	/* success */
+	tdb->priv->loaded = TRUE;
 	ret = TRUE;
 out:
 	return ret;

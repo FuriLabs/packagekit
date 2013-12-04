@@ -41,7 +41,6 @@
 #include <glib/gi18n.h>
 
 #include "pk-spawn.h"
-#include "pk-marshal.h"
 #include "pk-shared.h"
 #include "pk-conf.h"
 
@@ -183,6 +182,7 @@ pk_spawn_check_child (PkSpawn *spawn)
 	/* this shouldn't happen */
 	if (spawn->priv->finished) {
 		g_warning ("finished twice!");
+		spawn->priv->poll_id = 0;
 		return FALSE;
 	}
 
@@ -289,6 +289,7 @@ pk_spawn_check_child (PkSpawn *spawn)
 	g_debug ("emitting exit %s", pk_spawn_exit_type_enum_to_string (spawn->priv->exit));
 	g_signal_emit (spawn, signals [SIGNAL_EXIT], 0, spawn->priv->exit);
 
+	spawn->priv->poll_id = 0;
 	return FALSE;
 }
 
@@ -303,7 +304,7 @@ pk_spawn_sigkill_cb (PkSpawn *spawn)
 	/* check if process has already gone */
 	if (spawn->priv->finished) {
 		g_debug ("already finished, ignoring");
-		return FALSE;
+		goto out;
 	}
 
 	/* set this in case the script catches the signal and exits properly */
@@ -313,13 +314,14 @@ pk_spawn_sigkill_cb (PkSpawn *spawn)
 	retval = kill (spawn->priv->child_pid, SIGKILL);
 	if (retval == EINVAL) {
 		g_warning ("The signum argument is an invalid or unsupported number");
-		return FALSE;
+		goto out;
 	} else if (retval == EPERM) {
 		g_warning ("You do not have the privilege to send a signal to the process");
-		return FALSE;
+		goto out;
 	}
-
+out:
 	/* never repeat */
+	spawn->priv->kill_id = 0;
 	return FALSE;
 }
 
@@ -521,11 +523,11 @@ pk_strvequal (gchar **id1, gchar **id2)
  *
  **/
 gboolean
-pk_spawn_argv (PkSpawn *spawn, gchar **argv, gchar **envp, GError **error)
+pk_spawn_argv (PkSpawn *spawn, gchar **argv, gchar **envp,
+	       PkSpawnArgvFlags flags, GError **error)
 {
 	gboolean ret = TRUE;
 	GError *error_local = NULL;
-	gboolean idleio;
 	guint i;
 	guint len;
 	gint nice_value;
@@ -562,6 +564,8 @@ pk_spawn_argv (PkSpawn *spawn, gchar **argv, gchar **envp, GError **error)
 			g_debug ("argv did not match, not reusing");
 		} else if (!pk_strvequal (spawn->priv->last_envp, envp)) {
 			g_debug ("envp did not match, not reusing");
+		} else if ((flags & PK_SPAWN_ARGV_FLAGS_NEVER_REUSE) > 0) {
+			g_debug ("not re-using instance due to policy");
 		} else {
 			/* join with tabs, as spaces could be in file name */
 			command = g_strjoinv ("\t", &argv[1]);
@@ -624,12 +628,8 @@ pk_spawn_argv (PkSpawn *spawn, gchar **argv, gchar **envp, GError **error)
 	}
 #endif
 
-	/* perhaps set idle IO priority */
-	key = "BackendSpawnIdleIO";
-	if (spawn->priv->background)
-		key = "BackendSpawnIdleIOBackground";
-	idleio = pk_conf_get_bool (spawn->priv->conf, key);
-	if (idleio) {
+	/* set idle IO priority */
+	if (spawn->priv->background) {
 		g_debug ("setting ioprio class to idle");
 		pk_ioprio_set_idle (spawn->priv->child_pid);
 	}

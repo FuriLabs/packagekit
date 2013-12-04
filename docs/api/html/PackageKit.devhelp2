@@ -7,7 +7,6 @@
       <sub name="PackageKit Introduction" link="introduction.html">
         <sub name="Overall Description" link="introduction.html#introduction-description"/>
         <sub name="Backends" link="introduction-backends.html"/>
-        <sub name="Daemon Config Options" link="config-main.html"/>
       </sub>
       <sub name="Important Concepts" link="concepts.html">
         <sub name="Package ID" link="concepts.html#introduction-ideas-packageid"/>
@@ -22,8 +21,6 @@
       <sub name="Compiled Backends" link="backend-compiled.html"/>
       <sub name="Spawned Backends" link="backend-spawn.html">
         <sub name="Introduction" link="backend-spawn.html#backends-spawn-intro"/>
-        <sub name="Methods" link="backends-spawn-methods.html"/>
-        <sub name="Common function outputs" link="backends-spawn-common.html"/>
       </sub>
     </sub>
     <sub name="D-Bus API Reference" link="api-reference.html">
@@ -31,7 +28,6 @@
       <sub name="org.freedesktop.PackageKit.Transaction" link="Transaction.html"/>
     </sub>
     <sub name="libpackagekit GObjects" link="libpackagekit-gobject.html">
-      <sub name="PkCatalog" link="PkCatalog.html"/>
       <sub name="PkCategory" link="PkCategory.html"/>
       <sub name="PkClient" link="PkClient.html"/>
       <sub name="PkControl" link="PkControl.html"/>
@@ -50,7 +46,6 @@
       <sub name="PkRepoSignatureRequired" link="PkRepoSignatureRequired.html"/>
       <sub name="PkRequireRestart" link="PkRequireRestart.html"/>
       <sub name="PkResults" link="PkResults.html"/>
-      <sub name="PkServicePack" link="PkServicePack.html"/>
       <sub name="PkTask" link="PkTask.html"/>
       <sub name="PkTransactionPast" link="PkTransactionPast.html"/>
       <sub name="PkUpdateDetail" link="PkUpdateDetail.html"/>
@@ -64,11 +59,6 @@
       <sub name="pk-package-ids" link="PackageKit-pk-package-ids.html"/>
       <sub name="pk-package-id" link="PackageKit-pk-package-id.html"/>
       <sub name="pk-task-sync" link="PackageKit-pk-task-sync.html"/>
-    </sub>
-    <sub name="Frequently asked questions" link="faq.html">
-      <sub name="Developer FAQ" link="developer-faq.html">
-        <sub name="Notify warnings..." link="developer-faq.html#developer-faq-libnotify"/>
-      </sub>
     </sub>
   </chapters>
   <functions>
@@ -161,18 +151,6 @@
     <keyword type="" name="The &quot;Speed&quot; property" link="Transaction.html#Transaction:Speed"/>
     <keyword type="" name="The &quot;DownloadSizeRemaining&quot; property" link="Transaction.html#Transaction:DownloadSizeRemaining"/>
     <keyword type="" name="The &quot;TransactionFlags&quot; property" link="Transaction.html#Transaction:TransactionFlags"/>
-    <keyword type="macro" name="PK_CATALOG_ERROR" link="PkCatalog.html#PK-CATALOG-ERROR:CAPS"/>
-    <keyword type="macro" name="PK_CATALOG_TYPE_ERROR" link="PkCatalog.html#PK-CATALOG-TYPE-ERROR:CAPS"/>
-    <keyword type="macro" name="PK_CATALOG_FILE_EXTENSION" link="PkCatalog.html#PK-CATALOG-FILE-EXTENSION:CAPS"/>
-    <keyword type="macro" name="PK_CATALOG_FILE_HEADER" link="PkCatalog.html#PK-CATALOG-FILE-HEADER:CAPS"/>
-    <keyword type="enum" name="enum PkCatalogError" link="PkCatalog.html#PkCatalogError-enum"/>
-    <keyword type="struct" name="struct PkCatalog" link="PkCatalog.html#PkCatalog-struct"/>
-    <keyword type="struct" name="struct PkCatalogClass" link="PkCatalog.html#PkCatalogClass"/>
-    <keyword type="function" name="pk_catalog_error_quark ()" link="PkCatalog.html#pk-catalog-error-quark" since="0.5.3"/>
-    <keyword type="function" name="pk_catalog_new ()" link="PkCatalog.html#pk-catalog-new" since="0.5.3"/>
-    <keyword type="function" name="pk_catalog_test ()" link="PkCatalog.html#pk-catalog-test"/>
-    <keyword type="function" name="pk_catalog_lookup_finish ()" link="PkCatalog.html#pk-catalog-lookup-finish" since="0.5.3"/>
-    <keyword type="function" name="pk_catalog_lookup_async ()" link="PkCatalog.html#pk-catalog-lookup-async" since="0.5.3"/>
     <keyword type="struct" name="struct PkCategory" link="PkCategory.html#PkCategory-struct"/>
     <keyword type="struct" name="struct PkCategoryClass" link="PkCategory.html#PkCategoryClass"/>
     <keyword type="function" name="pk_category_new ()" link="PkCategory.html#pk-category-new" since="0.5.4"/>
@@ -305,6 +283,12 @@
     <keyword type="struct" name="struct PkDetails" link="PkDetails.html#PkDetails-struct"/>
     <keyword type="struct" name="struct PkDetailsClass" link="PkDetails.html#PkDetailsClass"/>
     <keyword type="function" name="pk_details_new ()" link="PkDetails.html#pk-details-new" since="0.5.4"/>
+    <keyword type="function" name="pk_details_get_package_id ()" link="PkDetails.html#pk-details-get-package-id" since="0.8.12"/>
+    <keyword type="function" name="pk_details_get_license ()" link="PkDetails.html#pk-details-get-license" since="0.8.12"/>
+    <keyword type="function" name="pk_details_get_group ()" link="PkDetails.html#pk-details-get-group" since="0.8.12"/>
+    <keyword type="function" name="pk_details_get_description ()" link="PkDetails.html#pk-details-get-description" since="0.8.12"/>
+    <keyword type="function" name="pk_details_get_url ()" link="PkDetails.html#pk-details-get-url" since="0.8.12"/>
+    <keyword type="function" name="pk_details_get_size ()" link="PkDetails.html#pk-details-get-size" since="0.8.12"/>
     <keyword type="property" name="The &quot;description&quot; property" link="PkDetails.html#PkDetails--description"/>
     <keyword type="property" name="The &quot;group&quot; property" link="PkDetails.html#PkDetails--group"/>
     <keyword type="property" name="The &quot;license&quot; property" link="PkDetails.html#PkDetails--license"/>
@@ -392,7 +376,9 @@
     <keyword type="function" name="pk_package_equal_id ()" link="PkPackage.html#pk-package-equal-id" since="0.5.4"/>
     <keyword type="function" name="pk_package_get_id ()" link="PkPackage.html#pk-package-get-id" since="0.5.4"/>
     <keyword type="function" name="pk_package_get_info ()" link="PkPackage.html#pk-package-get-info" since="0.5.4"/>
+    <keyword type="function" name="pk_package_set_info ()" link="PkPackage.html#pk-package-set-info" since="0.8.14"/>
     <keyword type="function" name="pk_package_get_summary ()" link="PkPackage.html#pk-package-get-summary" since="0.5.4"/>
+    <keyword type="function" name="pk_package_set_summary ()" link="PkPackage.html#pk-package-set-summary" since="0.8.14"/>
     <keyword type="function" name="pk_package_get_name ()" link="PkPackage.html#pk-package-get-name" since="0.6.4"/>
     <keyword type="function" name="pk_package_get_version ()" link="PkPackage.html#pk-package-get-version" since="0.6.4"/>
     <keyword type="function" name="pk_package_get_arch ()" link="PkPackage.html#pk-package-get-arch" since="0.6.4"/>
@@ -519,20 +505,6 @@
     <keyword type="property" name="The &quot;progress&quot; property" link="PkResults.html#PkResults--progress"/>
     <keyword type="property" name="The &quot;role&quot; property" link="PkResults.html#PkResults--role"/>
     <keyword type="property" name="The &quot;transaction-flags&quot; property" link="PkResults.html#PkResults--transaction-flags"/>
-    <keyword type="macro" name="PK_SERVICE_PACK_ERROR" link="PkServicePack.html#PK-SERVICE-PACK-ERROR:CAPS"/>
-    <keyword type="macro" name="PK_SERVICE_PACK_TYPE_ERROR" link="PkServicePack.html#PK-SERVICE-PACK-TYPE-ERROR:CAPS"/>
-    <keyword type="macro" name="PK_SERVICE_PACK_FILE_EXTENSION" link="PkServicePack.html#PK-SERVICE-PACK-FILE-EXTENSION:CAPS"/>
-    <keyword type="enum" name="enum PkServicePackError" link="PkServicePack.html#PkServicePackError-enum"/>
-    <keyword type="struct" name="struct PkServicePack" link="PkServicePack.html#PkServicePack-struct"/>
-    <keyword type="struct" name="struct PkServicePackClass" link="PkServicePack.html#PkServicePackClass"/>
-    <keyword type="function" name="pk_service_pack_error_quark ()" link="PkServicePack.html#pk-service-pack-error-quark" since="0.5.2"/>
-    <keyword type="function" name="pk_service_pack_new ()" link="PkServicePack.html#pk-service-pack-new" since="0.5.2"/>
-    <keyword type="function" name="pk_service_pack_test ()" link="PkServicePack.html#pk-service-pack-test"/>
-    <keyword type="function" name="pk_service_pack_check_valid ()" link="PkServicePack.html#pk-service-pack-check-valid" since="0.5.2"/>
-    <keyword type="function" name="pk_service_pack_set_temp_directory ()" link="PkServicePack.html#pk-service-pack-set-temp-directory" since="0.5.2"/>
-    <keyword type="function" name="pk_service_pack_generic_finish ()" link="PkServicePack.html#pk-service-pack-generic-finish" since="0.5.2"/>
-    <keyword type="function" name="pk_service_pack_create_for_package_ids_async ()" link="PkServicePack.html#pk-service-pack-create-for-package-ids-async" since="0.5.2"/>
-    <keyword type="function" name="pk_service_pack_create_for_updates_async ()" link="PkServicePack.html#pk-service-pack-create-for-updates-async" since="0.5.2"/>
     <keyword type="macro" name="PK_TASK_TYPE_ERROR" link="PkTask.html#PK-TASK-TYPE-ERROR:CAPS"/>
     <keyword type="struct" name="struct PkTask" link="PkTask.html#PkTask-struct"/>
     <keyword type="struct" name="struct PkTaskClass" link="PkTask.html#PkTaskClass"/>
@@ -795,7 +767,6 @@
     <keyword type="function" name="pk_task_get_repo_list_sync ()" link="PackageKit-pk-task-sync.html#pk-task-get-repo-list-sync" since="0.6.5"/>
     <keyword type="function" name="pk_task_repo_enable_sync ()" link="PackageKit-pk-task-sync.html#pk-task-repo-enable-sync" since="0.6.5"/>
     <keyword type="function" name="pk_task_repair_system_sync ()" link="PackageKit-pk-task-sync.html#pk-task-repair-system-sync" since="0.7.2"/>
-    <keyword type="constant" name="PK_CATALOG_ERROR_FAILED" link="PkCatalog.html#PK-CATALOG-ERROR-FAILED:CAPS"/>
     <keyword type="constant" name="PK_CLIENT_ERROR_FAILED" link="PkClient.html#PK-CLIENT-ERROR-FAILED:CAPS"/>
     <keyword type="constant" name="PK_CLIENT_ERROR_FAILED_AUTH" link="PkClient.html#PK-CLIENT-ERROR-FAILED-AUTH:CAPS"/>
     <keyword type="constant" name="PK_CLIENT_ERROR_NO_TID" link="PkClient.html#PK-CLIENT-ERROR-NO-TID:CAPS"/>
@@ -830,12 +801,6 @@
     <keyword type="constant" name="PK_PROGRESS_TYPE_ITEM_PROGRESS" link="PkProgress.html#PK-PROGRESS-TYPE-ITEM-PROGRESS:CAPS"/>
     <keyword type="constant" name="PK_PROGRESS_TYPE_TRANSACTION_FLAGS" link="PkProgress.html#PK-PROGRESS-TYPE-TRANSACTION-FLAGS:CAPS"/>
     <keyword type="constant" name="PK_PROGRESS_TYPE_INVALID" link="PkProgress.html#PK-PROGRESS-TYPE-INVALID:CAPS"/>
-    <keyword type="constant" name="PK_SERVICE_PACK_ERROR_FAILED_SETUP" link="PkServicePack.html#PK-SERVICE-PACK-ERROR-FAILED-SETUP:CAPS"/>
-    <keyword type="constant" name="PK_SERVICE_PACK_ERROR_FAILED_DOWNLOAD" link="PkServicePack.html#PK-SERVICE-PACK-ERROR-FAILED-DOWNLOAD:CAPS"/>
-    <keyword type="constant" name="PK_SERVICE_PACK_ERROR_FAILED_EXTRACTION" link="PkServicePack.html#PK-SERVICE-PACK-ERROR-FAILED-EXTRACTION:CAPS"/>
-    <keyword type="constant" name="PK_SERVICE_PACK_ERROR_FAILED_CREATE" link="PkServicePack.html#PK-SERVICE-PACK-ERROR-FAILED-CREATE:CAPS"/>
-    <keyword type="constant" name="PK_SERVICE_PACK_ERROR_NOTHING_TO_DO" link="PkServicePack.html#PK-SERVICE-PACK-ERROR-NOTHING-TO-DO:CAPS"/>
-    <keyword type="constant" name="PK_SERVICE_PACK_ERROR_NOT_COMPATIBLE" link="PkServicePack.html#PK-SERVICE-PACK-ERROR-NOT-COMPATIBLE:CAPS"/>
     <keyword type="constant" name="PK_ROLE_ENUM_UNKNOWN" link="PackageKit-pk-enum.html#PK-ROLE-ENUM-UNKNOWN:CAPS"/>
     <keyword type="constant" name="PK_ROLE_ENUM_CANCEL" link="PackageKit-pk-enum.html#PK-ROLE-ENUM-CANCEL:CAPS"/>
     <keyword type="constant" name="PK_ROLE_ENUM_GET_DEPENDS" link="PackageKit-pk-enum.html#PK-ROLE-ENUM-GET-DEPENDS:CAPS"/>

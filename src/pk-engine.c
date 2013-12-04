@@ -38,16 +38,12 @@
 #include <glib/gi18n.h>
 #include <glib/gstdio.h>
 #include <packagekit-glib2/pk-version.h>
-#ifdef USE_SECURITY_POLKIT
 #include <polkit/polkit.h>
-#endif
 
 #include "pk-backend.h"
-#include "pk-cache.h"
 #include "pk-conf.h"
 #include "pk-dbus.h"
 #include "pk-engine.h"
-#include "pk-marshal.h"
 #include "pk-network.h"
 #include "pk-notify.h"
 #include "pk-plugin.h"
@@ -67,10 +63,8 @@ struct PkEnginePrivate
 	GTimer			*timer;
 	gboolean		 notify_clients_of_upgrade;
 	gboolean		 shutdown_as_soon_as_possible;
-	gboolean		 using_hardcoded_proxy;
 	PkTransactionList	*transaction_list;
 	PkTransactionDb		*transaction_db;
-	PkCache			*cache;
 	PkBackend		*backend;
 	PkNetwork		*network;
 	PkNotify		*notify;
@@ -91,9 +85,7 @@ struct PkEnginePrivate
 	guint			 timeout_normal;
 	guint			 timeout_priority_id;
 	guint			 timeout_normal_id;
-#ifdef USE_SECURITY_POLKIT
 	PolkitAuthority		*authority;
-#endif
 	gboolean		 locked;
 	PkNetworkEnum		 network_state;
 	GPtrArray		*plugins;
@@ -391,9 +383,6 @@ pk_engine_state_changed_cb (gpointer data)
 		return TRUE;
 	}
 
-	g_debug ("unreffing updates cache as state may have changed");
-	pk_cache_invalidate (engine->priv->cache);
-
 	pk_notify_updates_changed (engine->priv->notify);
 
 	/* reset, now valid */
@@ -507,7 +496,6 @@ out:
 	return ret;
 }
 
-#ifdef USE_SECURITY_POLKIT
 typedef struct {
 	GDBusMethodInvocation	*context;
 	PkEngine		*engine;
@@ -519,9 +507,7 @@ typedef struct {
 	gchar			*value5;
 	gchar			*value6;
 } PkEngineDbusState;
-#endif
 
-#ifdef USE_SECURITY_POLKIT
 /**
  * pk_engine_action_obtain_authorization:
  **/
@@ -554,13 +540,6 @@ pk_engine_action_obtain_proxy_authorization_finished_cb (PolkitAuthority *author
 		error = g_error_new_literal (PK_ENGINE_ERROR, PK_ENGINE_ERROR_CANNOT_SET_PROXY,
 					     "failed to obtain auth");
 		g_dbus_method_invocation_return_gerror (state->context, error);
-		goto out;
-	}
-
-	/* admin already set value, so silently refuse value */
-	if (priv->using_hardcoded_proxy) {
-		g_debug ("cannot override admin set proxy");
-		g_dbus_method_invocation_return_value (state->context, NULL);
 		goto out;
 	}
 
@@ -601,7 +580,6 @@ out:
 	g_free (state->value2);
 	g_free (state);
 }
-#endif
 
 /**
  * pk_engine_is_proxy_unchanged:
@@ -688,10 +666,9 @@ pk_engine_set_proxy (PkEngine *engine,
 	GError *error = NULL;
 	gboolean ret;
 	const gchar *sender;
-#ifdef USE_SECURITY_POLKIT
-	PolkitSubject *subject;
+	PolkitSubject *subject = NULL;
 	PkEngineDbusState *state;
-#endif
+
 	g_return_if_fail (PK_IS_ENGINE (engine));
 
 	/* blank is NULL */
@@ -739,7 +716,6 @@ pk_engine_set_proxy (PkEngine *engine,
 		goto out;
 	}
 
-#ifdef USE_SECURITY_POLKIT
 	/* check subject */
 	subject = polkit_system_bus_name_new (sender);
 
@@ -763,35 +739,10 @@ pk_engine_set_proxy (PkEngine *engine,
 					      NULL,
 					      (GAsyncReadyCallback) pk_engine_action_obtain_proxy_authorization_finished_cb,
 					      state);
-#else
-	g_warning ("*** THERE IS NO SECURITY MODEL BEING USED!!! ***");
-
-	/* try to set the new proxy and save to database */
-	ret = pk_engine_set_proxy_internal (engine, sender,
-					    proxy_http,
-					    proxy_https,
-					    proxy_ftp,
-					    proxy_socks,
-					    no_proxy,
-					    pac);
-	if (!ret) {
-		error = g_error_new_literal (PK_ENGINE_ERROR,
-					     PK_ENGINE_ERROR_CANNOT_SET_PROXY,
-					     "setting the proxy failed");
-		g_dbus_method_invocation_return_gerror (context, error);
-		goto out;
-	}
-
-	/* all okay */
-	g_dbus_method_invocation_return_value (context, NULL);
-#endif
 
 	/* reset the timer */
 	pk_engine_reset_timer (engine);
-
-#ifdef USE_SECURITY_POLKIT
 	g_object_unref (subject);
-#endif
 out:
 	return;
 }
@@ -805,7 +756,6 @@ pk_engine_can_authorize_action_id (PkEngine *engine,
 				   const gchar *sender,
 				   GError **error)
 {
-#ifdef USE_SECURITY_POLKIT
 	gboolean ret;
 	PkAuthorizeEnum authorize;
 	PolkitAuthorizationResult *res;
@@ -848,9 +798,6 @@ out:
 		g_object_unref (res);
 	g_object_unref (subject);
 	return authorize;
-#else
-	return PK_AUTHORIZE_ENUM_YES;
-#endif
 }
 
 /**
@@ -1753,14 +1700,12 @@ static void
 pk_engine_init (PkEngine *engine)
 {
 	gchar *filename;
-	gchar *proxy_http;
 	GError *error = NULL;
 
 	engine->priv = PK_ENGINE_GET_PRIVATE (engine);
 
-	/* load introspection from file */
-	engine->priv->introspection = pk_load_introspection (DATADIR "/dbus-1/interfaces/"
-							     PK_DBUS_INTERFACE ".xml",
+	/* load introspection */
+	engine->priv->introspection = pk_load_introspection (PK_DBUS_INTERFACE ".xml",
 							     &error);
 	if (engine->priv->introspection == NULL) {
 		g_error ("PkEngine: failed to load daemon introspection: %s",
@@ -1791,9 +1736,6 @@ pk_engine_init (PkEngine *engine)
 
 	engine->priv->timer = g_timer_new ();
 
-	/* we save a cache of the latest update lists sowe can do cached responses */
-	engine->priv->cache = pk_cache_new ();
-
 	/* we need the uid and the session for the proxy setting mechanism */
 	engine->priv->dbus = pk_dbus_new ();
 
@@ -1811,21 +1753,12 @@ pk_engine_init (PkEngine *engine)
 	/* setup file watches */
 	pk_engine_setup_file_monitors (engine);
 
-#ifdef USE_SECURITY_POLKIT
 	/* protect the session SetProxy with a PolicyKit action */
 	engine->priv->authority = polkit_authority_get_sync (NULL, &error);
 	if (engine->priv->authority == NULL) {
 		g_error ("failed to get pokit authority: %s", error->message);
 		g_error_free (error);
 	}
-#endif
-
-	/* set the default proxy */
-	proxy_http = pk_conf_get_string (engine->priv->conf, "ProxyHTTP");
-
-	/* ignore the users proxy setting */
-	if (proxy_http != NULL)
-		engine->priv->using_hardcoded_proxy = TRUE;
 
 	/* get the StateHasChanged timeouts */
 	engine->priv->timeout_priority = (guint) pk_conf_get_int (engine->priv->conf, "StateChangedTimeoutPriority");
@@ -1860,8 +1793,6 @@ pk_engine_init (PkEngine *engine)
 	/* initialize plugins */
 	pk_engine_plugin_phase (engine,
 				PK_PLUGIN_PHASE_INIT);
-
-	g_free (proxy_http);
 }
 
 /**
@@ -1924,12 +1855,9 @@ pk_engine_finalize (GObject *object)
 	g_object_unref (engine->priv->transaction_list);
 	g_object_unref (engine->priv->transaction_db);
 	g_object_unref (engine->priv->network);
-#ifdef USE_SECURITY_POLKIT
 	g_object_unref (engine->priv->authority);
-#endif
 	g_object_unref (engine->priv->notify);
 	g_object_unref (engine->priv->backend);
-	g_object_unref (engine->priv->cache);
 	g_object_unref (engine->priv->conf);
 	g_object_unref (engine->priv->dbus);
 	g_ptr_array_unref (engine->priv->plugins);

@@ -118,6 +118,7 @@
     <description xml:lang="as">চহি কৰা সৰঞ্জাম সংস্থাপন কৰক</description>
     <description xml:lang="bg">Инсталиране на подписан пакет</description>
     <description xml:lang="bn_IN">স্বাক্ষরিত প্যাকেজ ইনস্টল করুন</description>
+    <description xml:lang="br">Staliañ ur pakad sinet</description>
     <description xml:lang="ca">Instal·la el paquet signat</description>
     <description xml:lang="cs">Nainstalovat podepsaný balíček</description>
     <description xml:lang="da">Installér signeret pakke</description>
@@ -175,6 +176,7 @@
     <message xml:lang="it">È richiesto autenticarsi per installare un pacchetto</message>
     <message xml:lang="ja">パッケージをインストールするには認証が必要です</message>
     <message xml:lang="ko">패키지를 설치하려면 인증이 필요합니다</message>
+    <message xml:lang="lt">Paketui įdiegti būtina patvirtinti tapatybę</message>
     <message xml:lang="lv">Lai instalētu pakotni, jāautentificējas</message>
     <message xml:lang="nl">Authenticatie is vereist om pakketten te kunnen installeren</message>
     <message xml:lang="pa">ਪੈਕੇਜ ਇੰਸਟਾਲ ਕਰਨ ਲਈ ਪਰਮਾਣਕਿਤਾ ਚਾਹੀਦੀ ਹੈ</message>
@@ -1034,6 +1036,7 @@
     <description xml:lang="as">যন্ত্ৰ পুনঃ লোড কৰক</description>
     <description xml:lang="bg">Презареждане на устройство</description>
     <description xml:lang="bn_IN">ডিভাইস পুনরায় লোড করুন</description>
+    <description xml:lang="br">Adloc'hañ un drobarzhell</description>
     <description xml:lang="ca">Recarrega un dispositiu</description>
     <description xml:lang="cs">Znovu zavést zařízení</description>
     <description xml:lang="da">Genindlæs en enhed</description>
@@ -1133,6 +1136,7 @@
     
     <description>Upgrade System</description>
     <description xml:lang="bg">Надграждане на системата</description>
+    <description xml:lang="br">Bremanaat ar reizhiad</description>
     <description xml:lang="cs">Povýšit systém</description>
     <description xml:lang="da">Opgradér system</description>
     <description xml:lang="de">Systemaktualisierung</description>
@@ -1201,6 +1205,7 @@
   <action id="org.freedesktop.packagekit.repair-system">
     
     <description>Repair System</description>
+    <description xml:lang="br">Pareañ ar reizhiad</description>
     <description xml:lang="cs">Opravit systém</description>
     <description xml:lang="da">Reparér system</description>
     <description xml:lang="de">System reparieren</description>
@@ -1216,6 +1221,7 @@
     <description xml:lang="it">Ripara sistema</description>
     <description xml:lang="ja">システムの復旧</description>
     <description xml:lang="ko">시스템 복구</description>
+    <description xml:lang="lt">Taisyti sistemą</description>
     <description xml:lang="lv">Salabot sistēmu</description>
     <description xml:lang="nl">Repareer Systeem</description>
     <description xml:lang="pa">ਸਿਸਟਮ ਰਿਪੇਅਰ</description>
@@ -1242,6 +1248,7 @@
     <message xml:lang="it">È richiesto autenticarsi per riparare il software installato</message>
     <message xml:lang="ja">インストールされたソフトウェアを復旧するには認証が必要です</message>
     <message xml:lang="ko">설치된 소프트웨어를 복구하려면 인증이 필요합니다</message>
+    <message xml:lang="lt">Įdiegtai programinei įrangai sutaisyti būtina patvirtinti tapatybę</message>
     <message xml:lang="lv">Vajag autentificēties, lai salabotu un instalētu programmatūru</message>
     <message xml:lang="nl">Authenticatie is vereist om de geïnstalleerde software te kunnen repareren</message>
     <message xml:lang="pa">ਇੰਸਟਾਲ ਹੋਏ ਸਾਫਟਵੇਅਰ ਨੂੰ ਰਿਪੇਅਰ ਕਰਨ ਲਈ ਪਰਮਾਣਕਿਤਾ ਚਾਹੀਦੀ ਹੈ</message>
@@ -1277,6 +1284,7 @@
     <description xml:lang="it">Abilita aggiornamenti offline</description>
     <description xml:lang="ja">オフライン更新の開始</description>
     <description xml:lang="ko">오프라인 업데이트 실행</description>
+    <description xml:lang="lt">Sukelti atnaujinimus atsijungus</description>
     <description xml:lang="lv">Izpildīt nesaistes atjauninājumus</description>
     <description xml:lang="nl">Activeer offline-updates</description>
     <description xml:lang="pa">ਆਫਲਾਈਨ ਅੱਪਡੇਟ ਬਦਲੋ</description>
@@ -1301,6 +1309,7 @@
     <message xml:lang="it">È richiesto autenticarsi per abilitare gli aggiornamento offline</message>
     <message xml:lang="ja">オフライン更新を開始するには認証が必要です</message>
     <message xml:lang="ko">오프라인 업데이트를 실행하려면 인증이 필요합니다</message>
+    <message xml:lang="lt">Atnaujinimams atsijungus sukelti būtina patvirtinti tapatybę</message>
     <message xml:lang="lv">Lai palaistu nesaistes atjauninājumus, jāautentificējas</message>
     <message xml:lang="nl">Authenticatie is vereist om offline-updates te kunnen activeren</message>
     <message xml:lang="pa">ਆਫਲਾਈਨ ਅੱਪਡੇਟ ਬਦਲਣ ਲਈ ਪਰਮਾਣਕਿਤਾ ਚਾਹੀਦੀ ਹੈ</message>
@@ -1336,6 +1345,7 @@
     <description xml:lang="it">Cancella messaggi di aggiornamenti offline</description>
     <description xml:lang="ja">オフライン更新メッセージの削除</description>
     <description xml:lang="ko">오프라인 업데이트 메시지 지우기</description>
+    <description xml:lang="lt">Išvalyti atnaujinimo atsijungus pranešimą</description>
     <description xml:lang="lv">Attīrīt nesaistes atjaunināšanas ziņojumus</description>
     <description xml:lang="nl">Wis offline-updatebericht</description>
     <description xml:lang="pa">ਆਫਲਾਈਨ ਅੱਪਡੇਟ ਸੁਨੇਹਾ ਸਾਫ਼ ਕਰੋ</description>
@@ -1360,6 +1370,7 @@
     <message xml:lang="it">È richiesto autenticarsi per ripulire i messaggi degli aggiornamenti offline</message>
     <message xml:lang="ja">オフライン更新メッセージを削除するには認証が必要です</message>
     <message xml:lang="ko">오프라인 업데이트 메시지를 지우려면 인증이 필요합니다</message>
+    <message xml:lang="lt">Atnaujinimo atsijungus pranešimui išvalyti būtina patvirtinti tapatybę</message>
     <message xml:lang="lv">Lai attīrītu nesaistes atjaunināšanas ziņojumus, jāautentificējas</message>
     <message xml:lang="nl">Authenticatie is vereist om offline-updateberichten te kunnen wissen</message>
     <message xml:lang="pa">ਆਫਲਾਈਨ ਅੱਪਡੇਟ ਸੁਨੇਹਾ ਸਾਫ਼ ਕਰਨ ਲਈ ਪਰਮਾਣਕਿਤਾ ਚਾਹੀਦੀ ਹੈ</message>

@@ -3,6 +3,7 @@
 # vim:set shiftwidth=4 tabstop=4 expandtab:
 #
 # Copyright (C) 2009 Mounir Lamouri (volkmar) <mounir.lamouri@gmail.com>
+# Copyright (C) 2010-2013 Fabio Erculiani (lxnay) <lxnay@gentoo.org>
 #
 # Licensed under the GNU General Public License Version 2
 #
@@ -25,31 +26,7 @@ import traceback
 
 
 # packagekit imports
-from packagekit.enums import ERROR_PACKAGE_ID_INVALID, ERROR_REPO_NOT_FOUND, \
-    ERROR_INTERNAL_ERROR, ERROR_CANNOT_REMOVE_SYSTEM_PACKAGE, \
-    ERROR_CANNOT_DISABLE_REPOSITORY, ERROR_PACKAGE_FAILED_TO_INSTALL, \
-    ERROR_DEP_RESOLUTION_FAILED, ERROR_PACKAGE_FAILED_TO_CONFIGURE, \
-    ERROR_PACKAGE_FAILED_TO_REMOVE, ERROR_GROUP_LIST_INVALID, \
-    ERROR_UPDATE_NOT_FOUND, ERROR_REPO_CONFIGURATION_ERROR, \
-    ERROR_RESTRICTED_DOWNLOAD, ERROR_PACKAGE_FAILED_TO_BUILD, \
-    ERROR_CANNOT_GET_FILELIST, ERROR_CANNOT_GET_REQUIRES, \
-    ERROR_PACKAGE_ALREADY_INSTALLED, ERROR_PACKAGE_NOT_INSTALLED, \
-    ERROR_PACKAGE_NOT_FOUND, ERROR_MISSING_GPG_SIGNATURE, FILTER_INSTALLED, \
-    FILTER_NOT_INSTALLED, ERROR_GROUP_LIST_INVALID, FILTER_NOT_DEVELOPMENT, \
-    FILTER_FREE, GROUP_ACCESSIBILITY, GROUP_PROGRAMMING, GROUP_GAMES, \
-    FILTER_NOT_FREE, FILTER_NEWEST, \
-    GROUP_DESKTOP_GNOME, GROUP_DESKTOP_KDE, GROUP_DESKTOP_OTHER, \
-    GROUP_MULTIMEDIA, GROUP_NETWORK, GROUP_OFFICE, GROUP_SCIENCE, \
-    GROUP_SYSTEM, GROUP_SECURITY, GROUP_OTHER, GROUP_DESKTOP_XFCE, \
-    GROUP_UNKNOWN, INFO_IMPORTANT, INFO_NORMAL, INFO_DOWNLOADING, \
-    INFO_INSTALLED, INFO_REMOVING, INFO_INSTALLING, INFO_SECURITY, \
-    ERROR_INVALID_PACKAGE_FILE, ERROR_FILE_NOT_FOUND, \
-    INFO_AVAILABLE, MESSAGE_UNKNOWN, \
-    MESSAGE_AUTOREMOVE_IGNORED, MESSAGE_CONFIG_FILES_CHANGED, STATUS_INFO, \
-    MESSAGE_COULD_NOT_FIND_PACKAGE, MESSAGE_REPO_METADATA_DOWNLOAD_FAILED, \
-    STATUS_QUERY, STATUS_DEP_RESOLVE, STATUS_REMOVE, STATUS_DOWNLOAD, \
-    STATUS_INSTALL, STATUS_RUNNING, STATUS_REFRESH_CACHE, \
-    UPDATE_STATE_TESTING, UPDATE_STATE_STABLE, EXIT_EULA_REQUIRED
+from packagekit.enums import *
 
 from packagekit.backend import PackageKitBaseBackend, \
     get_package_id, split_package_id
@@ -250,6 +227,16 @@ class PackageKitPortageMixin(object):
     def _unblock_output(self):
         sys.stdout = sys.__stdout__
         sys.stderr = sys.__stderr__
+
+    def _is_only_trusted(self, transaction_flags):
+        return (TRANSACTION_FLAG_ONLY_TRUSTED in transaction_flags) or (
+            TRANSACTION_FLAG_SIMULATE in transaction_flags)
+
+    def _is_simulate(self, transaction_flags):
+        return TRANSACTION_FLAG_SIMULATE in transaction_flags
+
+    def _is_only_download(self, transaction_flags):
+        return TRANSACTION_FLAG_ONLY_DOWNLOAD in transaction_flags
 
     def _is_repo_enabled(self, layman_db, repo_name):
         if repo_name in layman_db.overlays.keys():
@@ -1294,13 +1281,17 @@ class PackageKitPortageBackend(PackageKitPortageMixin, PackageKitBaseBackend):
                 for cpv in cpv_updates[cp][slot]:
                     self._package(cpv, INFO_NORMAL)
 
-    def simulate_install_packages(self, pkgs):
-        return self._install_packages(False, pkgs, simulate=True)
+    def install_packages(self, transaction_flags, pkgs):
 
-    def install_packages(self, only_trusted, pkgs):
-        return self._install_packages(False, pkgs)
+        only_trusted = self._is_only_trusted(transaction_flags)
+        simulate = self._is_simulate(transaction_flags)
+        only_download = self._is_only_download(transaction_flags)
 
-    def _install_packages(self, only_trusted, pkgs, simulate=False):
+        return self._install_packages(only_trusted, pkgs, simulate=simulate,
+                                      only_download=only_download)
+
+    def _install_packages(self, only_trusted, pkgs, simulate=False,
+                          only_download=False):
         # NOTES:
         # can't install an already installed packages
         # even if it happens to be needed in Gentoo but probably not this API
@@ -1337,6 +1328,9 @@ class PackageKitPortageBackend(PackageKitPortageMixin, PackageKitBaseBackend):
 
         # creating installation depgraph
         myopts = {}
+        if only_download:
+            myopts['--fetchonly'] = True
+
         favorites = []
         myparams = _emerge.create_depgraph_params.create_depgraph_params(
                 myopts, "")
@@ -1424,9 +1418,6 @@ class PackageKitPortageBackend(PackageKitPortageMixin, PackageKitBaseBackend):
 
     def remove_packages(self, allowdep, autoremove, pkgs):
         return self._remove_packages(allowdep, autoremove, pkgs)
-
-    def simulate_remove_packages(self, pkgs):
-        return self._remove_packages(True, False, pkgs, simulate=True)
 
     def _remove_packages(self, allowdep, autoremove, pkgs, simulate=False):
         # TODO: every to-be-removed pkg should emit self.package()
@@ -1787,13 +1778,17 @@ class PackageKitPortageBackend(PackageKitPortageMixin, PackageKitBaseBackend):
 
         self.percentage(100)
 
-    def update_packages(self, only_trusted, pkgs):
-        return self._update_packages(only_trusted, pkgs)
+    def update_packages(self, transaction_flags, pkgs):
 
-    def simulate_update_packages(self, pkgs):
-        return self._update_packages(False, pkgs, simulate=True)
+        only_trusted = self._is_only_trusted(transaction_flags)
+        simulate = self._is_simulate(transaction_flags)
+        only_download = self._is_only_download(transaction_flags)
 
-    def _update_packages(self, only_trusted, pkgs, simulate=False):
+        return self._update_packages(only_trusted, pkgs, simulate=simulate,
+                                     only_download=only_download)
+
+    def _update_packages(self, only_trusted, pkgs, simulate=False,
+                         only_download=False):
         # TODO: manage errors
         # TODO: manage config file updates
         # TODO: every updated pkg should emit self.package()
@@ -1824,6 +1819,8 @@ class PackageKitPortageBackend(PackageKitPortageMixin, PackageKitBaseBackend):
 
         # creating update depgraph
         myopts = {}
+        if only_download:
+            myopts['--fetchonly'] = True
         favorites = []
         myparams = _emerge.create_depgraph_params.create_depgraph_params(
                 myopts, "")
@@ -1872,66 +1869,6 @@ class PackageKitPortageBackend(PackageKitPortageMixin, PackageKitBaseBackend):
 
         self._signal_config_update()
 
-    def update_system(self, only_trusted):
-        self.status(STATUS_RUNNING)
-        self.allow_cancel(False)
-        self.percentage(None)
-
-        if only_trusted:
-            self.error(ERROR_MISSING_GPG_SIGNATURE,
-                    "Portage backend does not support GPG signature")
-            return
-
-        myopts = {}
-        myopts["--deep"] = True
-        myopts["--newuse"] = True
-        myopts["--update"] = True
-
-        myparams = _emerge.create_depgraph_params.create_depgraph_params(
-                myopts, "")
-
-        self.status(STATUS_DEP_RESOLVE)
-
-        # creating list of ebuilds needed for the system update
-        # using backtrack_depgraph to prevent errors
-        retval, depgraph, _ = _emerge.depgraph.backtrack_depgraph(
-                self.pvar.settings, self.pvar.trees, myopts, myparams, "",
-                ["@system", "@world"], None)
-        if not retval:
-            self.error(ERROR_INTERNAL_ERROR,
-                    "Wasn't able to get dependency graph")
-            return
-
-        # check fetch restrict, can stop the function via error signal
-        self._check_fetch_restrict(depgraph.altlist())
-
-        self.status(STATUS_INSTALL)
-
-        # get elog messages
-        portage.elog.add_listener(self._elog_listener)
-
-        try:
-            self._block_output()
-            # compiling/installing
-            mergetask = _emerge.Scheduler.Scheduler(self.pvar.settings,
-                    self.pvar.trees, self.pvar.mtimedb, myopts, None,
-                    depgraph.altlist(), None, depgraph.schedulerGraph())
-            rval = mergetask.merge()
-        finally:
-            self._unblock_output()
-
-        # when an error is found print error messages
-        if rval != os.EX_OK:
-            self._send_merge_error(ERROR_PACKAGE_FAILED_TO_INSTALL)
-
-        # show elog messages and clean
-        portage.elog.remove_listener(self._elog_listener)
-        for msg in self._elog_messages:
-            # TODO: use specific message ?
-            self.message(MESSAGE_UNKNOWN, msg)
-        self._elog_messages = []
-
-        self._signal_config_update()
 
 def main():
     backend = PackageKitPortageBackend("")

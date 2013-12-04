@@ -2,7 +2,7 @@
 
 m4_define([pk_major_version], [0])
 m4_define([pk_minor_version], [8])
-m4_define([pk_micro_version], [12])
+m4_define([pk_micro_version], [14])
 m4_define([pk_version],
           [pk_major_version.pk_minor_version.pk_micro_version])
 
@@ -53,12 +53,13 @@ AC_SUBST(PK_VERSION)
 #   fixed, change:
 #      REVISION += 1
 LT_CURRENT=17
-LT_REVISION=0
+LT_REVISION=1
 LT_AGE=1
 AC_SUBST(LT_CURRENT)
 AC_SUBST(LT_REVISION)
 AC_SUBST(LT_AGE)
 
+AS_ALL_LINGUAS
 AC_PROG_CC
 AC_PROG_CXX
 AC_PROG_INSTALL
@@ -93,24 +94,6 @@ fi
 
 PYTHON_PACKAGE_DIR=${pythondir}/packagekit
 AC_SUBST(PYTHON_PACKAGE_DIR)
-
-dnl ---------------------------------------------------------------------------
-dnl - Use strict options (default enabled for devs, disabled in releases)
-dnl ---------------------------------------------------------------------------
-dnl if .git directory is present, considering we are working in the repository
-if test -d ".git"; then
-	default_strict=yes
-else
-	default_strict=no
-fi
-
-AC_ARG_ENABLE(strict, AS_HELP_STRING([--enable-strict],[Enable strict compilation options]), enable_strict=$enableval,
-							enable_strict=$default_strict)
-if test x$enable_strict != xno; then
-	if test "$GCC" = "yes"; then
-		WARNINGFLAGS_CPP="$WARNINGFLAGS_CPP -Werror"
-	fi
-fi
 
 if test "$GCC" = "yes"; then
 	# work both in C and C++
@@ -174,7 +157,7 @@ AM_GLIB_GNU_GETTEXT
 dnl ---------------------------------------------------------------------------
 dnl - Library dependencies
 dnl ---------------------------------------------------------------------------
-GLIB_REQUIRED=2.30.0
+GLIB_REQUIRED=2.32.0
 GIO_REQUIRED=2.16.1
 NETWORK_MANAGER_REQUIRED=0.6.4
 POLKIT_GOBJECT_REQUIRED=0.98
@@ -188,29 +171,8 @@ PKG_CHECK_MODULES(SQLITE, sqlite3)
 PKG_CHECK_MODULES(GIO, \
  gio-2.0 >= $GIO_REQUIRED \
  gio-unix-2.0 >= $GIO_REQUIRED)
-
-dnl ---------------------------------------------------------------------------
-dnl - Service Packs (default enabled)
-dnl ---------------------------------------------------------------------------
-AC_ARG_ENABLE(service-packs, AS_HELP_STRING([--disable-service-packs],[Disable Service Packs support]), enable_servicepacks=$enableval)
-if test x$enable_servicepacks != xno; then
-	AC_CHECK_HEADERS(archive.h,
-			 HAVE_ARCHIVE_H="yes",
-			 HAVE_ARCHIVE_H="no")
-	if test "x$HAVE_ARCHIVE_H" = "xyes"; then
-			AC_DEFINE(HAVE_ARCHIVE_H)
-			ARCHIVE_LIBS=-larchive
-			AC_SUBST(ARCHIVE_LIBS)
-	else
-		if test x$enable_servicepacks = xyes; then
-			AC_MSG_ERROR([Service Packs support need libarchive])
-		fi
-	fi
-else
-	HAVE_ARCHIVE_H="no"
-fi
-
-AM_CONDITIONAL(HAVE_ARCHIVE_H, test x$HAVE_ARCHIVE_H = xyes)
+PKG_CHECK_MODULES(POLKIT, \
+		  polkit-gobject-1 >= $POLKIT_GOBJECT_REQUIRED)
 
 dnl ---------------------------------------------------------------------------
 dnl - FreeBSD compatibility
@@ -225,7 +187,6 @@ networking_apis="unix"
 dnl ---------------------------------------------------------------------------
 dnl - Haiku compatibility
 dnl ---------------------------------------------------------------------------
-AC_SEARCH_LIBS([daemon], [bsd])
 AC_CHECK_FUNCS(setpriority)
 
 dnl ---------------------------------------------------------------------------
@@ -277,8 +238,14 @@ AC_ARG_ENABLE(systemd, AS_HELP_STRING([--enable-systemd],[enable systemd and log
 AM_CONDITIONAL(PK_BUILD_SYSTEMD, test x$enable_systemd = xyes)
 if test x$enable_systemd = xyes; then
 	PKG_CHECK_MODULES(SYSTEMD, libsystemd-login)
+	AC_ARG_WITH([systemdsystemunitdir],
+		    AS_HELP_STRING([--with-systemdsystemunitdir=DIR], [Directory for systemd service files]),
+		    [],
+		    [with_systemdsystemunitdir=$($PKG_CONFIG --variable=systemdsystemunitdir systemd)])
 	AC_DEFINE(PK_BUILD_SYSTEMD,1,[Build systemd code])
+	AC_SUBST([systemdsystemunitdir], [$with_systemdsystemunitdir])
 fi
+AM_CONDITIONAL(HAVE_SYSTEMD, [test -n "$with_systemdsystemunitdir"])
 
 dnl ---------------------------------------------------------------------------
 dnl - Generate man pages ? (default enabled)
@@ -327,16 +294,6 @@ else
 fi
 AC_SUBST(PACKAGEKIT_USER)
 AC_DEFINE_UNQUOTED(PACKAGEKIT_USER,"$PACKAGEKIT_USER", [User for running the PackageKit daemon])
-
-dnl ---------------------------------------------------------------------------
-dnl - Build self tests
-dnl ---------------------------------------------------------------------------
-AC_ARG_ENABLE(tests, AS_HELP_STRING([--enable-tests],[enable unit test code]),
-	      enable_tests=$enableval,enable_tests=yes)
-AM_CONDITIONAL(EGG_BUILD_TESTS, test x$enable_tests = xyes)
-if test x$enable_tests = xyes; then
-	AC_DEFINE(EGG_BUILD_TESTS,1,[Build test code])
-fi
 
 dnl ---------------------------------------------------------------------------
 dnl - Able to run from a checkout?
@@ -445,52 +402,20 @@ AC_ARG_ENABLE(debuginfo-install, AS_HELP_STRING([--enable-debuginfo-install],[Bu
 AM_CONDITIONAL(PK_BUILD_DEBUGINFO_INSTALL, test $build_debuginfo_install = "yes")
 
 dnl ---------------------------------------------------------------------------
-dnl - Able to use device rebind functionality
-dnl ---------------------------------------------------------------------------
-AC_ARG_ENABLE(device-rebind, AS_HELP_STRING([--enable-device-rebind],[Build device rebind functionality]),
-	      build_device_rebind=$enableval,build_device_rebind=yes)
-if test x$build_device_rebind = xyes; then
-	PKG_CHECK_MODULES(GUDEV, gudev-1.0,
-			  build_device_rebind=yes, build_device_rebind=no)
-else
-	build_device_rebind=no
-fi
-AM_CONDITIONAL(PK_BUILD_DEVICE_REBIND, test $build_device_rebind = "yes")
-
-dnl ---------------------------------------------------------------------------
-dnl - Able to build pm-utils script functionality
-dnl ---------------------------------------------------------------------------
-AC_ARG_ENABLE(pm_utils, AS_HELP_STRING([--enable-pm-utils],[Build pm-utils script functionality]),
-	      build_pm_utils=$enableval,build_pm_utils=yes)
-if test x$build_pm_utils = xyes; then
-	PKG_CHECK_MODULES(PM_UTILS, pm-utils,
-	                  build_pm_utils=yes, build_pm_utils=no)
-else
-	build_pm_utils=no
-fi
-AM_CONDITIONAL(PK_BUILD_PM_UTILS, test $build_pm_utils = "yes")
-
-dnl ---------------------------------------------------------------------------
 dnl - Able to use systemd updates functionality
 dnl ---------------------------------------------------------------------------
 AC_ARG_ENABLE(systemd-updates, AS_HELP_STRING([--enable-systemd-updates],[Build systemd updates functionality]),
 	      build_systemd_updates=$enableval,build_systemd_updates=yes)
 AM_CONDITIONAL(PK_BUILD_SYSTEMD_UPDATES, test $build_systemd_updates = "yes")
 if test x$build_systemd_updates = xyes; then
-	AC_ARG_WITH([systemdsystemunitdir],
-		    AS_HELP_STRING([--with-systemdsystemunitdir=DIR], [Directory for systemd service files]),
-		    [],
-		    [with_systemdsystemunitdir=$($PKG_CONFIG --variable=systemdsystemunitdir systemd)])
-	AC_SUBST([systemdsystemunitdir], [$with_systemdsystemunitdir])
+	PKG_CHECK_MODULES(LIBSYSTEMD_JOURNAL, libsystemd-journal)
 	AC_DEFINE(PK_HAS_OFFLINE_UPDATES,1,[Has offline updates])
 fi
-AM_CONDITIONAL(HAVE_SYSTEMD, [test -n "$with_systemdsystemunitdir"])
 
 # backends
 AC_ARG_ENABLE(alpm, AS_HELP_STRING([--enable-alpm],[use the ALPM backend]),enable_alpm=$enableval,enable_alpm=no)
 AC_ARG_ENABLE(apt, AS_HELP_STRING([--enable-apt],[use the APT backend]),enable_apt=$enableval,enable_apt=no)
 AC_ARG_ENABLE(aptcc, AS_HELP_STRING([--enable-aptcc],[use the APTcc backend]),enable_aptcc=$enableval,enable_aptcc=no)
-AC_ARG_ENABLE(box, AS_HELP_STRING([--enable-box],[use the BOX backend]),enable_box=$enableval,enable_box=no)
 AC_ARG_ENABLE(conary, AS_HELP_STRING([--enable-conary],[use the CONARY backend]),enable_conary=$enableval,enable_conary=no)
 AC_ARG_ENABLE(dummy, AS_HELP_STRING([--enable-dummy],[use the dummy backend]),enable_dummy=$enableval,enable_dummy=yes)
 AC_ARG_ENABLE(entropy, AS_HELP_STRING([--enable-entropy],[use the entropy backend]),enable_entropy=$enableval,enable_entropy=no)
@@ -504,14 +429,12 @@ AC_ARG_ENABLE(slapt, AS_HELP_STRING([--enable-slapt],[use the slapt backend]),en
 AC_ARG_ENABLE(smart, AS_HELP_STRING([--enable-smart],[use the SMART backend]),enable_smart=$enableval,enable_smart=no)
 AC_ARG_ENABLE(urpmi, AS_HELP_STRING([--enable-urpmi],[use the URPMI backend]),enable_urpmi=$enableval,enable_urpmi=no)
 AC_ARG_ENABLE(yum, AS_HELP_STRING([--enable-yum],[use the YUM backend]),enable_yum=$enableval,enable_yum=no)
-AC_ARG_ENABLE(zif, AS_HELP_STRING([--enable-zif],[use the Zif backend]),enable_zif=$enableval,enable_zif=no)
 AC_ARG_ENABLE(zypp, AS_HELP_STRING([--enable-zypp],[use the Zypp backend]),enable_zypp=$enableval,enable_zypp=no)
 
 # export to Makefile.am's
 AM_CONDITIONAL(BACKEND_TYPE_ALPM, [test x$enable_alpm = xyes])
 AM_CONDITIONAL(BACKEND_TYPE_APT, [test x$enable_apt = xyes])
 AM_CONDITIONAL(BACKEND_TYPE_APTCC, [test x$enable_aptcc = xyes])
-AM_CONDITIONAL(BACKEND_TYPE_BOX, [test x$enable_box = xyes])
 AM_CONDITIONAL(BACKEND_TYPE_CONARY, [test x$enable_conary = xyes])
 AM_CONDITIONAL(BACKEND_TYPE_DUMMY, [test x$enable_dummy = xyes])
 AM_CONDITIONAL(BACKEND_TYPE_ENTROPY, [test x$enable_entropy = xyes])
@@ -525,7 +448,6 @@ AM_CONDITIONAL(BACKEND_TYPE_SLAPT, [test x$enable_slapt = xyes])
 AM_CONDITIONAL(BACKEND_TYPE_SMART, [test x$enable_smart = xyes])
 AM_CONDITIONAL(BACKEND_TYPE_URPMI, [test x$enable_urpmi = xyes])
 AM_CONDITIONAL(BACKEND_TYPE_YUM, [test x$enable_yum = xyes])
-AM_CONDITIONAL(BACKEND_TYPE_ZIF, [test x$enable_zif = xyes])
 AM_CONDITIONAL(BACKEND_TYPE_ZYPP, [test x$enable_zypp = xyes])
 
 dnl ---------------------------------------------------------------------------
@@ -549,109 +471,21 @@ AC_SUBST(DBUS_SYS_DIR)
 AC_SUBST(DBUS_SERVICES_DIR)
 
 dnl ---------------------------------------------------------------------------
-dnl - Compile time default choice of security framework
-dnl ---------------------------------------------------------------------------
-AC_ARG_WITH([security_framework],
-	    AS_HELP_STRING([--with-security-framework=<option>],
-			   [Default security framework to use polkit,dummy]))
-# try and guess this if nothing is listed
-if test x$with_security_framework = x; then
-	with_security_framework=polkit
-fi
-
-AC_DEFINE_UNQUOTED(security_framework, "$with_security_framework", [default security framework])
-AC_SUBST(security_framework, "$with_security_framework")
-
-if test x$with_security_framework = xpolkit; then
-	PKG_CHECK_MODULES(POLKIT, \
-			  polkit-gobject-1 >= $POLKIT_GOBJECT_REQUIRED)
-	AC_DEFINE(USE_SECURITY_POLKIT, 1, [if we should use PolicyKit])
-elif test x$with_security_framework = xdummy; then
-	AC_DEFINE(USE_SECURITY_DUMMY, 1, [if we should use a dummy security framework])
-else
-	AC_MSG_ERROR([No valid security framework specified])
-fi
-
-AM_CONDITIONAL(SECURITY_TYPE_DUMMY, [test x$with_security_framework = xdummy])
-AM_CONDITIONAL(SECURITY_TYPE_POLKIT, [test x$with_security_framework = xpolkit])
-
-dnl ---------------------------------------------------------------------------
 dnl - Compile time default choice of backend
 dnl ---------------------------------------------------------------------------
 AC_ARG_WITH([default_backend],
 	    AS_HELP_STRING([--with-default-backend=<option>],
 			   [Default backend to use
-                           auto,alpm,apt,aptcc,box,conary,dummy,entropy,hawkey,opkg,pisi,portage,ports,slapt,smart,urpmi,yum,zif,zypp (dummy)]))
-# default to a sane option for the installed tool
+                           auto,alpm,apt,aptcc,conary,dummy,entropy,hawkey,opkg,pisi,portage,ports,slapt,smart,urpmi,yum,zypp (auto)]))
 if test x$with_default_backend = x; then
-	if test -f /usr/bin/yum ; then
-		with_default_backend=yum
-	elif test -f /usr/bin/zif; then
-		with_default_backend=zif
-	elif test -f /usr/lib/libalpm.so; then
-		with_default_backend=alpm
-	elif test -f /usr/bin/apt-get ; then
-		with_default_backend=aptcc
-	elif test -f /usr/bin/conary ; then
-		with_default_backend=conary
-	elif test -f /usr/bin/box-repos ; then
-		with_default_backend=box
-	elif test -f /usr/sbin/slapt-get ; then
-		with_default_backend=slapt
-	elif test -f /usr/bin/smart ; then
-		with_default_backend=smart
-	elif test -f /usr/bin/pisi ; then
-		with_default_backend=pisi
-	elif test -f /usr/bin/poldek ; then
-		with_default_backend=poldek
-	elif test -f /usr/bin/urpmq ; then
-		with_default_backend=urpmi
-	elif test -f /usr/bin/zypper ; then
-		with_default_backend=zypp
-	elif test -d /usr/lib/entropy ; then
-		with_default_backend=entropy
-	elif test -f /usr/bin/emerge ; then
-		with_default_backend=portage
-	elif test -f /usr/local/sbin/portupgrade ; then
-		with_default_backend=ports
-	else
-		with_default_backend=dummy
-	fi
+	with_default_backend=auto
 fi
-
 AC_DEFINE_UNQUOTED(DEFAULT_BACKEND, "$with_default_backend", [default backend prefix])
 AC_SUBST(DEFAULT_BACKEND, "$with_default_backend")
 
-build_zif=no
-if test x$enable_zif = xyes; then
-	dnl ---------------------------------------------------------------------------
-	dnl - Zif is an experimental library for direct metadata access
-	dnl ---------------------------------------------------------------------------
-	AC_ARG_ENABLE(zif, AS_HELP_STRING([--enable-zif],[Build ZIF experimental code]),
-		      enable_zif=$enableval,enable_zif=yes)
-	if test x$enable_zif = xyes; then
-		PKG_CHECK_MODULES(ZIF, zif >= 0.2.8,
-			          build_zif=yes, build_zif=no)
-	fi
-	if test "x$build_zif" = "xyes"; then
-		AC_DEFINE([HAVE_ZIF], [1], [If Zif support should be enabled])
-	fi
-fi
-AM_CONDITIONAL(PK_BUILD_ZIF, test $build_zif = "yes")
-
-build_hawkey=no
 if test x$enable_hawkey = xyes; then
-	AC_ARG_ENABLE(hawkey, AS_HELP_STRING([--enable-hawkey],[Build Hawkey experimental code]),
-		      enable_hawkey=$enableval,enable_hawkey=yes)
-	if test x$enable_hawkey = xyes; then
-		PKG_CHECK_MODULES(HAWKEY, hawkey >= 0.2.8 librepo rpm >= 4.11.0,
-			          build_hawkey=yes, build_hawkey=no)
-	fi
-	if test "x$build_hawkey" = "xyes"; then
-		AC_DEFINE([HAVE_HAWKEY], [1], [If Hawkey support should be enabled])
-	fi
+	PKG_CHECK_MODULES(HAWKEY, hawkey >= 0.4.5 librepo rpm >= 4.11.0)
 fi
-AM_CONDITIONAL(PK_BUILD_HAWKEY, test $build_hawkey = "yes")
 
 if test x$enable_apt = xyes; then
 	PY_CHECK_MOD([apt_pkg],,,AC_MSG_ERROR([Apt backend needs python-apt]))
@@ -709,10 +543,6 @@ if test x$enable_aptcc = xyes; then
 	LDFLAGS="$save_LDFLAGS"
 	CFLAGS="$save_CFLAGS"
 	LIBS="$save_LIBS"
-fi
-
-if test x$enable_box = xyes; then
-	PKG_CHECK_MODULES(BOX, libbox >= 0.1.4 )
 fi
 
 if test x$enable_opkg = xyes; then
@@ -785,14 +615,11 @@ contrib/yum-packagekit/Makefile
 contrib/command-not-found/Makefile
 contrib/cron/Makefile
 contrib/debuginfo-install/Makefile
-contrib/device-rebind/Makefile
-contrib/pm-utils/Makefile
 contrib/systemd-updates/Makefile
 backends/Makefile
 backends/alpm/Makefile
 backends/apt/Makefile
 backends/aptcc/Makefile
-backends/box/Makefile
 backends/conary/Makefile
 backends/dummy/Makefile
 backends/entropy/Makefile
@@ -807,7 +634,6 @@ backends/urpmi/helpers/Makefile
 backends/urpmi/helpers/perl_packagekit/Makefile
 backends/urpmi/helpers/urpmi_backend/Makefile
 backends/yum/Makefile
-backends/zif/Makefile
 backends/pisi/Makefile
 backends/poldek/Makefile
 backends/portage/Makefile
@@ -831,7 +657,6 @@ src/Makefile
 src/plugins/Makefile
 src/plugins/packagekit-plugin.pc
 client/Makefile
-tools/Makefile
 po/Makefile.in
 ],[
 chmod +x data/tests/pk-client-helper-test.py
@@ -853,7 +678,6 @@ echo "
         Building unit tests:       ${enable_tests}
         Able to run locally:       ${enable_local}
         Use systemd:               ${enable_systemd}
-        Security framework:        ${with_security_framework}
         Networking stacks:         ${networking_apis}
         Browser plugin:            ${build_browser_plugin}
         GStreamer plugin:          ${build_gstreamer_plugin}
@@ -862,16 +686,14 @@ echo "
         BASH Command not found:    ${build_command_not_found}
         Cron scripts:              ${build_cron}
         debuginfo-install:         ${build_debuginfo_install}
-        device-rebind:             ${build_device_rebind}
         systemd-updates:           ${build_systemd_updates}
-        pm-utils scripts:          ${build_pm_utils}
         python3:                   ${enable_python3}
+        systemd system unit dir:   ${with_systemdsystemunitdir}
 
         Backends:
         ALPM backend:              ${enable_alpm}
         APT backend:               ${enable_apt}
         APTcc backend:             ${enable_aptcc}
-        BOX backend:               ${enable_box}
         CONARY backend:            ${enable_conary}
         dummy backend:             ${enable_dummy}
         Entropy backend:           ${enable_entropy}
@@ -885,15 +707,6 @@ echo "
         SMART backend:             ${enable_smart}
         URPMI backend:             ${enable_urpmi}
         YUM backend:               ${enable_yum}
-        Zif backend:               ${enable_zif}
         Zypp backend:              ${enable_zypp}
         Default backend:           ${with_default_backend}
 "
-
-# warn that dummy is basically broken
-if test x$with_security_framework = xdummy; then
-	echo "*******************************************************************"
-	echo "** YOU ARE NOT USING A SECURE DAEMON. ALL USERS CAN DO ANYTHING! **"
-	echo "*******************************************************************"
-fi
-

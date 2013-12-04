@@ -44,14 +44,17 @@
 
 #include "pk-backend.h"
 #include "pk-backend-spawn.h"
-#include "pk-marshal.h"
 #include "pk-spawn.h"
 #include "pk-shared.h"
 #include "pk-time.h"
 #include "pk-conf.h"
 
+//#define ENABLE_STRACE
+
 #define PK_BACKEND_SPAWN_GET_PRIVATE(o) (G_TYPE_INSTANCE_GET_PRIVATE ((o), PK_TYPE_BACKEND_SPAWN, PkBackendSpawnPrivate))
 #define PK_BACKEND_SPAWN_PERCENTAGE_INVALID	101
+
+#define	PK_UNSAFE_DELIMITERS	"\\\f\r\t"
 
 struct PkBackendSpawnPrivate
 {
@@ -118,6 +121,7 @@ pk_backend_spawn_exit_timeout_cb (PkBackendSpawn *backend_spawn)
 		g_debug ("closing dispatcher as running and is idle");
 		pk_spawn_exit (backend_spawn->priv->spawn);
 	}
+	backend_spawn->priv->kill_id = 0;
 	return FALSE;
 }
 
@@ -210,6 +214,15 @@ pk_backend_spawn_parse_stdout (PkBackendSpawn *backend_spawn,
 			ret = FALSE;
 			goto out;
 		}
+		g_strdelimit (sections[3], PK_UNSAFE_DELIMITERS, ' ');
+		ret = g_utf8_validate (sections[3], -1, NULL);
+		if (!ret) {
+			g_set_error (error, 1, 0,
+				     "text '%s' was not valid UTF8!",
+				     sections[3]);
+			ret = FALSE;
+			goto out;
+		}
 		pk_backend_job_package (job, info, sections[2], sections[3]);
 	} else if (g_strcmp0 (command, "details") == 0) {
 		if (size != 7) {
@@ -223,6 +236,15 @@ pk_backend_spawn_parse_stdout (PkBackendSpawn *backend_spawn,
 		package_size = atol (sections[6]);
 		if (package_size > 1073741824) {
 			g_set_error_literal (error, 1, 0, "package size cannot be larger than one Gb");
+			ret = FALSE;
+			goto out;
+		}
+		g_strdelimit (sections[4], PK_UNSAFE_DELIMITERS, ' ');
+		ret = g_utf8_validate (sections[4], -1, NULL);
+		if (!ret) {
+			g_set_error (error, 1, 0,
+				     "text '%s' was not valid UTF8!",
+				     sections[4]);
 			ret = FALSE;
 			goto out;
 		}
@@ -260,6 +282,15 @@ pk_backend_spawn_parse_stdout (PkBackendSpawn *backend_spawn,
 			ret = FALSE;
 			goto out;
 		}
+		g_strdelimit (sections[2], PK_UNSAFE_DELIMITERS, ' ');
+		ret = g_utf8_validate (sections[2], -1, NULL);
+		if (!ret) {
+			g_set_error (error, 1, 0,
+				     "text '%s' was not valid UTF8!",
+				     sections[2]);
+			ret = FALSE;
+			goto out;
+		}
 		if (g_strcmp0 (sections[3], "true") == 0) {
 			pk_backend_job_repo_detail (job, sections[1], sections[2], TRUE);
 		} else if (g_strcmp0 (sections[3], "false") == 0) {
@@ -283,6 +314,15 @@ pk_backend_spawn_parse_stdout (PkBackendSpawn *backend_spawn,
 		restart = pk_restart_enum_from_string (sections[7]);
 		if (restart == PK_RESTART_ENUM_UNKNOWN) {
 			g_set_error (error, 1, 0, "Restart enum not recognised, and hence ignored: '%s'", sections[7]);
+			ret = FALSE;
+			goto out;
+		}
+		g_strdelimit (sections[12], PK_UNSAFE_DELIMITERS, ' ');
+		ret = g_utf8_validate (sections[12], -1, NULL);
+		if (!ret) {
+			g_set_error (error, 1, 0,
+				     "text '%s' was not valid UTF8!",
+				     sections[12]);
 			ret = FALSE;
 			goto out;
 		}
@@ -408,7 +448,9 @@ pk_backend_spawn_parse_stdout (PkBackendSpawn *backend_spawn,
 			ret = FALSE;
 			goto out;
 		}
+G_GNUC_BEGIN_IGNORE_DEPRECATIONS
 		message_enum = pk_message_enum_from_string (sections[1]);
+G_GNUC_END_IGNORE_DEPRECATIONS
 		if (message_enum == PK_MESSAGE_ENUM_UNKNOWN) {
 			g_set_error (error, 1, 0, "Message enum not recognised, and hence ignored: '%s'", sections[1]);
 			ret = FALSE;
@@ -417,7 +459,9 @@ pk_backend_spawn_parse_stdout (PkBackendSpawn *backend_spawn,
 		text = g_strdup (sections[2]);
 		/* convert ; to \n as we can't emit them on stdout */
 		g_strdelimit (text, ";", '\n');
+G_GNUC_BEGIN_IGNORE_DEPRECATIONS
 		pk_backend_job_message (job, message_enum, "%s", text);
+G_GNUC_END_IGNORE_DEPRECATIONS
 		g_free (text);
 	} else if (g_strcmp0 (command, "status") == 0) {
 		if (size != 2) {
@@ -575,6 +619,15 @@ pk_backend_spawn_parse_stdout (PkBackendSpawn *backend_spawn,
 			ret = FALSE;
 			goto out;
 		}
+		g_strdelimit (sections[3], PK_UNSAFE_DELIMITERS, ' ');
+		ret = g_utf8_validate (sections[3], -1, NULL);
+		if (!ret) {
+			g_set_error (error, 1, 0,
+				     "text '%s' was not valid UTF8!",
+				     sections[3]);
+			ret = FALSE;
+			goto out;
+		}
 
 		pk_backend_job_distro_upgrade (job, distro_upgrade_enum, sections[2], sections[3]);
 		goto out;
@@ -597,6 +650,15 @@ pk_backend_spawn_parse_stdout (PkBackendSpawn *backend_spawn,
 		}
 		if (pk_strzero (sections[3])) {
 			g_set_error_literal (error, 1, 0, "name cannot not blank");
+			ret = FALSE;
+			goto out;
+		}
+		g_strdelimit (sections[4], PK_UNSAFE_DELIMITERS, ' ');
+		ret = g_utf8_validate (sections[4], -1, NULL);
+		if (!ret) {
+			g_set_error (error, 1, 0,
+				     "text '%s' was not valid UTF8!",
+				     sections[4]);
 			ret = FALSE;
 			goto out;
 		}
@@ -695,9 +757,6 @@ pk_backend_spawn_stdout_cb (PkBackendSpawn *spawn, const gchar *line, PkBackendS
 					    line,
 					    &error);
 	if (!ret) {
-		pk_backend_job_message (backend_spawn->priv->job,
-					PK_MESSAGE_ENUM_BACKEND_ERROR,
-					"Failed to parse output: %s", error->message);
 		g_warning ("failed to parse: %s: %s", line, error->message);
 		g_error_free (error);
 	}
@@ -718,10 +777,7 @@ pk_backend_spawn_stderr_cb (PkBackendSpawn *spawn, const gchar *line, PkBackendS
 		if (!ret)
 			return;
 	}
-
-	/* send warning up to session, this is never going to be pretty... */
 	g_warning ("STDERR: %s", line);
-	pk_backend_job_message (backend_spawn->priv->job, PK_MESSAGE_ENUM_BACKEND_ERROR, "%s", line);
 }
 
 /**
@@ -919,6 +975,12 @@ pk_backend_spawn_get_envp (PkBackendSpawn *backend_spawn)
 	return envp;
 }
 
+#ifdef ENABLE_STRACE
+ #define PK_BACKEND_SPAWN_ARGV0		4
+#else
+ #define PK_BACKEND_SPAWN_ARGV0		0
+#endif
+
 /**
  * pk_backend_spawn_va_list_to_argv:
  * @string_first: the first string
@@ -932,7 +994,6 @@ static gchar **
 pk_backend_spawn_va_list_to_argv (const gchar *string_first, va_list *args)
 {
 	GPtrArray *ptr_array;
-	gchar **array;
 	gchar *value_temp;
 	guint i;
 
@@ -941,6 +1002,13 @@ pk_backend_spawn_va_list_to_argv (const gchar *string_first, va_list *args)
 
 	/* find how many elements we have in a temp array */
 	ptr_array = g_ptr_array_new ();
+#ifdef ENABLE_STRACE
+	g_ptr_array_add (ptr_array, g_strdup ("strace"));
+	g_ptr_array_add (ptr_array, g_strdup ("-T"));
+	g_ptr_array_add (ptr_array, g_strdup ("-tt"));
+	g_ptr_array_add (ptr_array, g_strdup_printf ("-o/var/log/PackageKit-strace-%06i",
+						     g_random_int_range (1, 999999)));
+#endif
 	g_ptr_array_add (ptr_array, g_strdup (string_first));
 
 	/* process all the va_list entries */
@@ -951,13 +1019,8 @@ pk_backend_spawn_va_list_to_argv (const gchar *string_first, va_list *args)
 		g_ptr_array_add (ptr_array, g_strdup (value_temp));
 	}
 
-	/* convert the array to a strv type */
-	array = pk_ptr_array_to_strv (ptr_array);
-
-	/* get rid of the array, and free the contents */
-	g_ptr_array_foreach (ptr_array, (GFunc) g_free, NULL);
-	g_ptr_array_free (ptr_array, TRUE);
-	return array;
+	g_ptr_array_add (ptr_array, NULL);
+	return (gchar **) g_ptr_array_free (ptr_array, FALSE);
 }
 
 /**
@@ -976,6 +1039,7 @@ pk_backend_spawn_helper_va_list (PkBackendSpawn *backend_spawn,
 	PkHintEnum background;
 	GError *error = NULL;
 	PkBackendSpawnPrivate *priv = backend_spawn->priv;
+	PkSpawnArgvFlags flags = PK_SPAWN_ARGV_FLAGS_NONE;
 #if PK_BUILD_LOCAL
 	const gchar *directory;
 #endif
@@ -995,25 +1059,29 @@ pk_backend_spawn_helper_va_list (PkBackendSpawn *backend_spawn,
 	if (g_str_has_prefix (directory, "test_"))
 		directory = "test";
 
-	filename = g_build_filename ("..", "backends", directory, "helpers", argv[0], NULL);
+	filename = g_build_filename ("..", "backends", directory, "helpers",
+				     argv[PK_BACKEND_SPAWN_ARGV0], NULL);
 	if (g_file_test (filename, G_FILE_TEST_EXISTS) == FALSE) {
 		g_debug ("local helper not found '%s'", filename);
 		g_free (filename);
-		filename = g_build_filename ("..", "backends", directory, argv[0], NULL);
+		filename = g_build_filename ("..", "backends", directory,
+					     argv[PK_BACKEND_SPAWN_ARGV0], NULL);
 	}
 	if (g_file_test (filename, G_FILE_TEST_EXISTS) == FALSE) {
 		g_debug ("local helper not found '%s'", filename);
 		g_free (filename);
-		filename = g_build_filename (DATADIR, "PackageKit", "helpers", priv->name, argv[0], NULL);
+		filename = g_build_filename (DATADIR, "PackageKit", "helpers",
+					     priv->name, argv[PK_BACKEND_SPAWN_ARGV0], NULL);
 	}
 #else
-	filename = g_build_filename (DATADIR, "PackageKit", "helpers", priv->name, argv[0], NULL);
+	filename = g_build_filename (DATADIR, "PackageKit", "helpers",
+				     priv->name, argv[PK_BACKEND_SPAWN_ARGV0], NULL);
 #endif
 	g_debug ("using spawn filename %s", filename);
 
 	/* replace the filename with the full path */
-	g_free (argv[0]);
-	argv[0] = g_strdup (filename);
+	g_free (argv[PK_BACKEND_SPAWN_ARGV0]);
+	argv[PK_BACKEND_SPAWN_ARGV0] = g_strdup (filename);
 
 	/* copy idle setting from backend to PkSpawn instance */
 	background = pk_backend_job_get_background (job);
@@ -1021,14 +1089,20 @@ pk_backend_spawn_helper_va_list (PkBackendSpawn *backend_spawn,
 		      "background", (background == PK_HINT_ENUM_TRUE),
 		      NULL);
 
+#ifdef ENABLE_STRACE
+	/* we can't reuse when using strace */
+	flags |= PK_SPAWN_ARGV_FLAGS_NEVER_REUSE;
+#endif
+
 	priv->finished = FALSE;
 	envp = pk_backend_spawn_get_envp (backend_spawn);
-	ret = pk_spawn_argv (priv->spawn, argv, envp, &error);
+	ret = pk_spawn_argv (priv->spawn, argv, envp, flags, &error);
 	if (!ret) {
 		pk_backend_job_error_code (priv->job,
 					   PK_ERROR_ENUM_INTERNAL_ERROR,
 					   "Spawn of helper '%s' failed: %s",
-					   argv[0], error->message);
+					   argv[PK_BACKEND_SPAWN_ARGV0],
+					   error->message);
 		g_error_free (error);
 		pk_backend_job_finished (priv->job);
 	}
@@ -1140,26 +1214,13 @@ pk_backend_spawn_helper (PkBackendSpawn *backend_spawn,
 /**
  * pk_backend_spawn_set_allow_sigkill:
  **/
-gboolean
+void
 pk_backend_spawn_set_allow_sigkill (PkBackendSpawn *backend_spawn, gboolean allow_sigkill)
 {
-	gboolean ret = TRUE;
-
-	g_return_val_if_fail (PK_IS_BACKEND_SPAWN (backend_spawn), FALSE);
-
-	/* have we banned this in the config ile */
-	if (!backend_spawn->priv->allow_sigkill && allow_sigkill) {
-		g_warning ("cannot set allow_cancel TRUE as BackendSpawnAllowSIGKILL is set to FALSE in PackageKit.conf");
-		ret = FALSE;
-		goto out;
-	}
-
-	/* set this property */
+	g_return_if_fail (PK_IS_BACKEND_SPAWN (backend_spawn));
 	g_object_set (backend_spawn->priv->spawn,
 		      "allow-sigkill", allow_sigkill,
 		      NULL);
-out:
-	return ret;
 }
 
 /**
@@ -1217,12 +1278,6 @@ pk_backend_spawn_init (PkBackendSpawn *backend_spawn)
 			  G_CALLBACK (pk_backend_spawn_stdout_cb), backend_spawn);
 	g_signal_connect (backend_spawn->priv->spawn, "stderr",
 			  G_CALLBACK (pk_backend_spawn_stderr_cb), backend_spawn);
-
-	/* set if SIGKILL is allowed */
-	backend_spawn->priv->allow_sigkill = pk_conf_get_bool (backend_spawn->priv->conf, "BackendSpawnAllowSIGKILL");
-	g_object_set (backend_spawn->priv->spawn,
-		      "allow-sigkill", backend_spawn->priv->allow_sigkill,
-		      NULL);
 }
 
 /**
