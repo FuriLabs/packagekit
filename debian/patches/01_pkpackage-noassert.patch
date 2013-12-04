@@ -1,0 +1,74 @@
+From 9a6e31aac2ddf6c4bd28c70c60b333e81680ef3c Mon Sep 17 00:00:00 2001
+From: Richard Hughes <richard@hughsie.com>
+Date: Tue, 3 Dec 2013 09:22:12 +0000
+Subject: [PATCH] Do not assert when re-using a PkPackage instance
+
+This fixes commit 8d26af195536cd50f5cd8e6124df4439bb21d287 which added the
+additional restriction that the PkPackage couldn't be re-used. This restriction
+made the daemon crash when getting package history in gnome-software.
+
+Resolves: https://bugzilla.redhat.com/show_bug.cgi?id=1036837
+---
+ lib/packagekit-glib2/pk-package.c   |    5 ++++-
+ lib/packagekit-glib2/pk-self-test.c |    8 --------
+ 2 files changed, 4 insertions(+), 9 deletions(-)
+
+diff --git a/lib/packagekit-glib2/pk-package.c b/lib/packagekit-glib2/pk-package.c
+index beaad5f..a9560bb 100644
+--- a/lib/packagekit-glib2/pk-package.c
++++ b/lib/packagekit-glib2/pk-package.c
+@@ -166,7 +166,10 @@ pk_package_set_id (PkPackage *package, const gchar *package_id, GError **error)
+ 
+ 	g_return_val_if_fail (PK_IS_PACKAGE (package), FALSE);
+ 	g_return_val_if_fail (error == NULL || *error == NULL, FALSE);
+-	g_return_val_if_fail (priv->package_id == NULL, FALSE);
++
++	/* free old data */
++	g_free (priv->package_id);
++	g_free (priv->package_id_data);
+ 
+ 	/* copy the package-id into package_id_data, change the ';' into '\0'
+ 	 * and reference the pointers in the const gchar * array */
+diff --git a/lib/packagekit-glib2/pk-self-test.c b/lib/packagekit-glib2/pk-self-test.c
+index 753810d..a5e139c 100644
+--- a/lib/packagekit-glib2/pk-self-test.c
++++ b/lib/packagekit-glib2/pk-self-test.c
+@@ -1937,35 +1937,27 @@ pk_test_package_func (void)
+ 	ret = pk_package_set_id (package, "gnome-power-manager", &error);
+ 	g_assert_error (error, 1, 0);
+ 	g_assert (!ret);
+-	g_object_unref (package);
+ 	g_clear_error (&error);
+ 
+ 	/* set invalid id (sections) */
+-	package = pk_package_new ();
+ 	ret = pk_package_set_id (package, "gnome-power-manager;0.1.2;i386", &error);
+ 	g_assert_error (error, 1, 0);
+ 	g_assert (!ret);
+-	g_object_unref (package);
+ 	g_clear_error (&error);
+ 
+ 	/* set invalid id (sections) */
+-	package = pk_package_new ();
+ 	ret = pk_package_set_id (package, "gnome-power-manager;0.1.2;i386;fedora;dave", &error);
+ 	g_assert_error (error, 1, 0);
+ 	g_assert (!ret);
+-	g_object_unref (package);
+ 	g_clear_error (&error);
+ 
+ 	/* set invalid name */
+-	package = pk_package_new ();
+ 	ret = pk_package_set_id (package, ";0.1.2;i386;fedora", &error);
+ 	g_assert_error (error, 1, 0);
+ 	g_assert (!ret);
+-	g_object_unref (package);
+ 	g_clear_error (&error);
+ 
+ 	/* set valid name */
+-	package = pk_package_new ();
+ 	ret = pk_package_set_id (package, "gnome-power-manager;0.1.2;i386;fedora", &error);
+ 	g_assert_no_error (error);
+ 	g_assert (ret);
+-- 
+1.7.1
+
