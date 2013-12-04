@@ -2,4 +2,3 @@ vendor-debian.diff
 defaults.diff
 policy.diff
 01_pkpackage-noassert.patch
-02_selftest-config-option.patch

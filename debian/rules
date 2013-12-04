@@ -9,7 +9,6 @@ DEB_HOST_MULTIARCH ?= $(shell dpkg-architecture -qDEB_HOST_MULTIARCH)
 PK_CONFIGURE_FLAGS = --libexecdir=/usr/lib/packagekit \
 		--disable-static \
 		--disable-local \
-		--disable-tests \
 		--disable-command-not-found \
 		--disable-cron \
 		--enable-python3 \
@@ -48,6 +47,10 @@ extrainstallfiles-stamp:
 override_dh_auto_configure:
 	cp -dpr $(CURDIR)/docs/api $(CURDIR)/docs/api.orig
 	dh_auto_configure -- $(PK_CONFIGURE_FLAGS)
+
+# The testsuite needs some manual intervention and a special
+# set-up, so we don't run it during build.
+override_dh_auto_test:
 
 override_dh_auto_install:
 	dh_auto_install --destdir=$(INSTALLDIR)
