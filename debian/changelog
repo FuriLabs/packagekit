@@ -8,7 +8,7 @@ packagekit (0.8.14-1) UNRELEASED; urgency=low
       http://lists.freedesktop.org/archives/packagekit/2013-December/026185.html
   *
 
- -- Matthias Klumpp <matthias@tenstral.net>  Wed, 04 Dec 2013 18:04:32 +0100
+ -- Matthias Klumpp <mak@debian.org>  Wed, 04 Dec 2013 18:04:32 +0100
 
 packagekit (0.8.12-1) unstable; urgency=low
 
