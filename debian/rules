@@ -40,8 +40,8 @@ INSTALLDIR = $(CURDIR)/debian/tmp
 	dh $@ --parallel --with python3 --with autoreconf
 
 extrainstallfiles-stamp:
-	grep -E -v 'pk-offline-update|pk-trigger-offline-update|pk-clear-offline-update|/pm-utils/' debian/packagekit.install > debian/packagekit.install.kfreebsd
-	grep -E -v 'pk-offline-update|pk-trigger-offline-update|pk-clear-offline-update|/pm-utils/' debian/packagekit.install > debian/packagekit.install.hurd
+	grep -E -v 'pk-offline-update|pk-trigger-offline-update|pk-clear-offline-update' debian/packagekit.install > debian/packagekit.install.kfreebsd
+	grep -E -v 'pk-offline-update|pk-trigger-offline-update|pk-clear-offline-update' debian/packagekit.install > debian/packagekit.install.hurd
 	touch $@
 
 override_dh_auto_configure:
