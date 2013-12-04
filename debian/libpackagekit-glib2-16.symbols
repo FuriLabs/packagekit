@@ -196,42 +196,6 @@ libpackagekit-glib2.so.16 libpackagekit-glib2-16 #MINVER#
  pk_item_progress_get_status@Base 0.8.10
  pk_item_progress_get_type@Base 0.8.10
  pk_item_progress_new@Base 0.8.10
- pk_marshal_VOID__POINTER_UINT_STRING@Base 0.8.10
- pk_marshal_VOID__POINTER_UINT_UINT@Base 0.8.10
- pk_marshal_VOID__STRING_BOOLEAN@Base 0.8.10
- pk_marshal_VOID__STRING_BOXED@Base 0.8.10
- pk_marshal_VOID__STRING_STRING@Base 0.8.10
- pk_marshal_VOID__STRING_STRING_BOOLEAN@Base 0.8.10
- pk_marshal_VOID__STRING_STRING_BOOLEAN_STRING_UINT_STRING_UINT_STRING@Base 0.8.10
- pk_marshal_VOID__STRING_STRING_BOOLEAN_UINT_UINT_STRING_UINT_STRING@Base 0.8.10
- pk_marshal_VOID__STRING_STRING_STRING@Base 0.8.10
- pk_marshal_VOID__STRING_STRING_STRING_BOOLEAN@Base 0.8.10
- pk_marshal_VOID__STRING_STRING_STRING_BOOLEAN_STRING_UINT_STRING_UINT_STRING@Base 0.8.10
- pk_marshal_VOID__STRING_STRING_STRING_STRING@Base 0.8.10
- pk_marshal_VOID__STRING_STRING_STRING_STRING_STRING@Base 0.8.10
- pk_marshal_VOID__STRING_STRING_STRING_STRING_STRING_STRING@Base 0.8.10
- pk_marshal_VOID__STRING_STRING_STRING_STRING_STRING_STRING_STRING@Base 0.8.10
- pk_marshal_VOID__STRING_STRING_STRING_STRING_STRING_STRING_STRING_STRING@Base 0.8.10
- pk_marshal_VOID__STRING_STRING_STRING_STRING_STRING_STRING_STRING_STRING_STRING@Base 0.8.10
- pk_marshal_VOID__STRING_STRING_STRING_STRING_STRING_STRING_STRING_STRING_STRING_STRING@Base 0.8.10
- pk_marshal_VOID__STRING_STRING_STRING_STRING_STRING_STRING_STRING_STRING_STRING_STRING_STRING@Base 0.8.10
- pk_marshal_VOID__STRING_STRING_STRING_STRING_STRING_STRING_STRING_STRING_STRING_STRING_STRING_STRING@Base 0.8.10
- pk_marshal_VOID__STRING_STRING_STRING_STRING_STRING_STRING_STRING_UINT@Base 0.8.10
- pk_marshal_VOID__STRING_STRING_STRING_STRING_STRING_STRING_UINT64@Base 0.8.10
- pk_marshal_VOID__STRING_STRING_STRING_STRING_STRING_STRING_UINT@Base 0.8.10
- pk_marshal_VOID__STRING_STRING_STRING_STRING_STRING_STRING_UINT_STRING@Base 0.8.10
- pk_marshal_VOID__STRING_STRING_STRING_STRING_STRING_UINT64@Base 0.8.10
- pk_marshal_VOID__STRING_STRING_UINT@Base 0.8.10
- pk_marshal_VOID__STRING_STRING_UINT_STRING_STRING_UINT64@Base 0.8.10
- pk_marshal_VOID__STRING_STRING_UINT_UINT_UINT@Base 0.8.10
- pk_marshal_VOID__STRING_UINT@Base 0.8.10
- pk_marshal_VOID__STRING_UINT_STRING_STRING@Base 0.8.10
- pk_marshal_VOID__STRING_UINT_UINT_UINT_UINT@Base 0.8.10
- pk_marshal_VOID__UINT_STRING@Base 0.8.10
- pk_marshal_VOID__UINT_STRING_STRING@Base 0.8.10
- pk_marshal_VOID__UINT_STRING_UINT@Base 0.8.10
- pk_marshal_VOID__UINT_UINT@Base 0.8.10
- pk_marshal_VOID__UINT_UINT_UINT_UINT@Base 0.8.10
  pk_media_change_required_get_type@Base 0.8.10
  pk_media_change_required_new@Base 0.8.10
  pk_media_type_enum_from_string@Base 0.8.10
@@ -300,6 +264,8 @@ libpackagekit-glib2.so.16 libpackagekit-glib2-16 #MINVER#
  pk_package_sack_sort_type_get_type@Base 0.8.10
  pk_package_sack_to_file@Base 0.8.10
  pk_package_set_id@Base 0.8.10
+ pk_package_set_info@Base 0.8.14
+ pk_package_set_summary@Base 0.8.14
  pk_polkit_agent_close@Base 0.8.10
  pk_polkit_agent_open@Base 0.8.10
  pk_progress_get_type@Base 0.8.10
