@@ -1,12 +1,15 @@
-packagekit (0.8.14-1) UNRELEASED; urgency=low
+packagekit (0.8.14-1) unstable; urgency=low
 
   * New upstream release: 0.8.14
     - This release brings lots of speed improvements
-    - Please note that some functions have been removed from
-      PackageKit, although we keep API stability.
+    - Please note that some features have been removed from
+      PackageKit.
       You can find information about removed features at
       http://lists.freedesktop.org/archives/packagekit/2013-December/026185.html
-  *
+  * Adjust default configuration and vendor information
+  * Update symbols file
+  * 01_pkpackage-noassert.patch: Make PkPackage reusable again, fixes GPK crash
+  * Clean up build dependencies
 
  -- Matthias Klumpp <mak@debian.org>  Wed, 04 Dec 2013 18:04:32 +0100
 
