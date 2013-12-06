@@ -17,3 +17,4 @@ usr/share/dbus-1/system-services/org.freedesktop.PackageKit.service
 usr/share/locale/*/LC_MESSAGES/PackageKit.mo
 usr/share/polkit-1/actions/org.freedesktop.packagekit.policy
 usr/share/polkit-1/rules.d/*
+lib/systemd/system/*
