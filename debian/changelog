@@ -9,6 +9,7 @@ packagekit (0.8.14-1) unstable; urgency=low
   * Adjust default configuration and vendor information
   * Update symbols file
   * 01_pkpackage-noassert.patch: Make PkPackage reusable again, fixes GPK crash
+  * 02_new-cve-format.patch: Update CVE RegEx to new CVE format
   * Clean up build dependencies
 
  -- Matthias Klumpp <mak@debian.org>  Wed, 04 Dec 2013 18:04:32 +0100
