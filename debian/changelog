@@ -1,3 +1,12 @@
+packagekit (0.8.14-2) unstable; urgency=low
+
+  * Explicitly set systemd unit dir (Closes: #731556)
+  * 03_syslog-nodebug.patch: Don't send debug messages to syslog
+    by default (Closes: #731569)
+  * Fix build on kFreeBSD/Hurd (Closes: #731680)
+
+ -- Matthias Klumpp <mak@debian.org>  Sun, 08 Dec 2013 21:46:28 +0100
+
 packagekit (0.8.14-1) unstable; urgency=low
 
   * New upstream release: 0.8.14
