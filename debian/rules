@@ -23,7 +23,8 @@ PK_CONFIGURE_FLAGS = --libexecdir=/usr/lib/packagekit \
 ifneq ($(DEB_HOST_ARCH_OS), linux)
 	PK_CONFIGURE_FLAGS += --disable-networkmanager \
 		--disable-connman \
-		--disable-systemd
+		--disable-systemd \
+		--disable-systemd-updates
 endif
 
 LDFLAGS += -Wl,--as-needed
