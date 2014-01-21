@@ -32,20 +32,31 @@
 typedef struct HifSource HifSource;
 
 typedef enum {
-	HIF_SOURCE_SCAN_FLAG_NONE		= 0,
-	HIF_SOURCE_SCAN_FLAG_ONLY_ENABLED	= 1,
-	HIF_SOURCE_SCAN_FLAG_LAST
-} HifSourceScanFlags;
+	HIF_SOURCE_UPDATE_FLAG_NONE		= 0,
+	HIF_SOURCE_UPDATE_FLAG_FORCE		= 1,
+	HIF_SOURCE_UPDATE_FLAG_LAST
+} HifSourceUpdateFlags;
 
-GPtrArray	*hif_source_find_all		(GKeyFile		*config,
-						 HifSourceScanFlags	 flags,
+typedef enum {
+	HIF_SOURCE_KIND_REMOTE,
+	HIF_SOURCE_KIND_MEDIA,
+	HIF_SOURCE_KIND_LAST
+} HifSourceKind;
+
+void		 hif_source_free		(HifSource		*src);
+gboolean	 hif_source_parse		(GKeyFile		*config,
+						 GPtrArray		*sources,
+						 const gchar		*filename,
 						 GError			**error);
-HifSource	*hif_source_filter_by_id	(GPtrArray		*sources,
-						 const gchar		*id,
+gboolean	 hif_source_add_media		(GPtrArray		*sources,
+						 const gchar		*mount_point,
+						 guint			 idx,
 						 GError			**error);
 const gchar	*hif_source_get_id		(HifSource		*src);
 const gchar	*hif_source_get_location	(HifSource		*src);
 gboolean	 hif_source_get_enabled		(HifSource		*src);
+guint		 hif_source_get_cost		(HifSource		*src);
+HifSourceKind	 hif_source_get_kind		(HifSource		*src);
 gboolean	 hif_source_get_gpgcheck	(HifSource		*src);
 gchar		*hif_source_get_description	(HifSource		*src);
 HyRepo		 hif_source_get_repo		(HifSource		*src);
@@ -54,6 +65,7 @@ gboolean	 hif_source_check		(HifSource		*src,
 						 HifState		*state,
 						 GError			**error);
 gboolean	 hif_source_update		(HifSource		*src,
+						 HifSourceUpdateFlags	 flags,
 						 HifState		*state,
 						 GError			**error);
 gboolean	 hif_source_clean		(HifSource		*src,

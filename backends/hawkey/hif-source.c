@@ -39,11 +39,14 @@
 struct HifSource {
 	gboolean	 enabled;
 	gboolean	 gpgcheck;
+	guint		 cost;
 	gchar		*filename;
 	gchar		*id;
 	gchar		*location;	/* /var/cache/PackageKit/metadata/fedora */
 	gchar		*location_tmp;	/* /var/cache/PackageKit/metadata/fedora.tmp */
+	gint64		 timestamp;
 	GKeyFile	*keyfile;
+	HifSourceKind	 kind;
 	HyRepo		 repo;
 	LrHandle	*repo_handle;
 	LrResult	*repo_result;
@@ -53,10 +56,9 @@ struct HifSource {
 /**
  * hif_source_free:
  */
-static void
-hif_source_free (gpointer data)
+void
+hif_source_free (HifSource *src)
 {
-	HifSource *src = (HifSource *) data;
 	g_free (src->filename);
 	g_free (src->id);
 	g_free (src->location_tmp);
@@ -67,7 +69,8 @@ hif_source_free (gpointer data)
 		lr_handle_free (src->repo_handle);
 	if (src->repo != NULL)
 		hy_repo_free (src->repo);
-	g_key_file_unref (src->keyfile);
+	if (src->keyfile != NULL)
+		g_key_file_unref (src->keyfile);
 	g_slice_free (HifSource, src);
 }
 
@@ -134,13 +137,78 @@ out:
 }
 
 /**
+ * hif_source_add_media:
+ */
+gboolean
+hif_source_add_media (GPtrArray *sources,
+		      const gchar *mount_point,
+		      guint idx,
+		      GError **error)
+{
+	GKeyFile *treeinfo;
+	HifSource *src;
+	gboolean ret = TRUE;
+	gchar *basearch = NULL;
+	gchar *release = NULL;
+	gchar *treeinfo_fn;
+
+	/* get common things */
+	treeinfo_fn = g_build_filename (mount_point, ".treeinfo", NULL);
+	treeinfo = g_key_file_new ();
+	ret = g_key_file_load_from_file (treeinfo, treeinfo_fn, 0, error);
+	if (!ret)
+		goto out;
+	basearch = g_key_file_get_string (treeinfo, "general", "arch", error);
+	if (basearch == NULL) {
+		ret = FALSE;
+		goto out;
+	}
+	release = g_key_file_get_string (treeinfo, "general", "version", error);
+	if (release == NULL) {
+		ret = FALSE;
+		goto out;
+	}
+
+	/* create read-only location */
+	src = g_slice_new0 (HifSource);
+	src->enabled = TRUE;
+	src->kind = HIF_SOURCE_KIND_MEDIA;
+	src->cost = 100;
+	src->keyfile = g_key_file_ref (treeinfo);
+	if (idx == 0)
+		src->id = g_strdup ("media");
+	else
+		src->id = g_strdup_printf ("media-%i", idx);
+	src->location = g_strdup (mount_point);
+	src->repo_handle = lr_handle_init ();
+	ret = lr_handle_setopt (src->repo_handle, error, LRO_REPOTYPE, LR_YUMREPO);
+	if (!ret)
+		goto out;
+	src->repo_result = lr_result_init ();
+	src->gpgcheck = TRUE;
+	src->urlvars = lr_urlvars_set (src->urlvars, "releasever", release);
+	src->urlvars = lr_urlvars_set (src->urlvars, "basearch", basearch);
+	ret = lr_handle_setopt (src->repo_handle, error, LRO_VARSUB, src->urlvars);
+	if (!ret)
+		goto out;
+
+	g_debug ("added source %s", src->id);
+	g_ptr_array_add (sources, src);
+out:
+	g_free (basearch);
+	g_free (release);
+	g_free (treeinfo_fn);
+	g_key_file_unref (treeinfo);
+	return ret;
+}
+
+/**
  * hif_source_parse:
  */
-static gboolean
+gboolean
 hif_source_parse (GKeyFile *config,
 		  GPtrArray *sources,
 		  const gchar *filename,
-		  HifSourceScanFlags flags,
 		  GError **error)
 {
 	gboolean has_enabled;
@@ -164,13 +232,13 @@ hif_source_parse (GKeyFile *config,
 	/* get common things */
 	basearch = g_key_file_get_string (config,
 					  HIF_CONFIG_GROUP_NAME,
-					  "Hawkey::BaseArch", NULL);
+					  "BaseArch", NULL);
 	fedora_release = g_key_file_get_string (config,
 						HIF_CONFIG_GROUP_NAME,
-						"Hawkey::ReleaseVersion", NULL);
+						"ReleaseVersion", NULL);
 	cache_dir = g_key_file_get_string (config,
 					   HIF_CONFIG_GROUP_NAME,
-					   "Hawkey::CacheDir", NULL);
+					   "CacheDir", NULL);
 
 	/* save all the repos listed in the file */
 	repos = g_key_file_get_groups (keyfile, NULL);
@@ -191,12 +259,12 @@ hif_source_parse (GKeyFile *config,
 			is_enabled = TRUE;
 		}
 
-		/* do not create object if we're not interested */
-		if (is_enabled == FALSE && (flags & HIF_SOURCE_SCAN_FLAG_ONLY_ENABLED) > 0)
-			continue;
-
 		src = g_slice_new0 (HifSource);
 		src->enabled = is_enabled;
+		src->kind = HIF_SOURCE_KIND_REMOTE;
+		src->cost = g_key_file_get_integer (keyfile, repos[i], "cost", NULL);
+		if (src->cost == 0)
+			src->cost = 1000;
 		src->keyfile = g_key_file_ref (keyfile);
 		src->filename = g_strdup (filename);
 		src->id = g_strdup (repos[i]);
@@ -233,84 +301,6 @@ out:
 	if (keyfile != NULL)
 		g_key_file_unref (keyfile);
 	return ret;
-}
-
-/**
- * hif_source_find_all:
- */
-GPtrArray *
-hif_source_find_all (GKeyFile *config,
-		     HifSourceScanFlags flags,
-		     GError **error)
-{
-	const gchar *file;
-	gboolean ret;
-	gchar *path_tmp;
-	gchar *repo_path;
-	GDir *dir;
-	GPtrArray *array = NULL;
-	GPtrArray *sources = NULL;
-
-	/* get the repo dir */
-	repo_path = g_key_file_get_string (config,
-					   HIF_CONFIG_GROUP_NAME,
-					   "Hawkey::ReposDir", error);
-	if (repo_path == NULL)
-		goto out;
-
-	/* open dir */
-	dir = g_dir_open (repo_path, 0, error);
-	if (dir == NULL)
-		goto out;
-
-	/* find all the .repo files */
-	array = g_ptr_array_new_with_free_func (hif_source_free);
-	while ((file = g_dir_read_name (dir)) != NULL) {
-		if (!g_str_has_suffix (file, ".repo"))
-			continue;
-		path_tmp = g_build_filename (repo_path, file, NULL);
-		ret = hif_source_parse (config, array, path_tmp, flags, error);
-		g_free (path_tmp);
-		if (!ret)
-			goto out;
-	}
-
-	/* all okay */
-	sources = g_ptr_array_ref (array);
-out:
-	g_free (repo_path);
-	if (array != NULL)
-		g_ptr_array_unref (array);
-	if (dir != NULL)
-		g_dir_close (dir);
-	return sources;
-}
-
-/**
- * hif_source_filter_by_id:
- */
-HifSource *
-hif_source_filter_by_id (GPtrArray *sources, const gchar *id, GError **error)
-{
-	guint i;
-	HifSource *tmp;
-	HifSource *src = NULL;
-
-	for (i = 0; i < sources->len; i++) {
-		tmp = g_ptr_array_index (sources, i);
-		if (g_strcmp0 (tmp->id, id) == 0) {
-			src = tmp;
-			goto out;
-		}
-	}
-
-	/* we didn't find anything */
-	g_set_error (error,
-		     HIF_ERROR,
-		     PK_ERROR_ENUM_REPO_NOT_FOUND,
-		     "failed to find %s", id);
-out:
-	return src;
 }
 
 /**
@@ -368,6 +358,13 @@ hif_source_check (HifSource *src, HifState *state, GError **error)
 	LrYumRepo *yum_repo;
 	const gchar *urls[] = { "", NULL };
 
+	/* has the media repo vanished? */
+	if (src->kind == HIF_SOURCE_KIND_MEDIA &&
+	    !g_file_test (src->location, G_FILE_TEST_EXISTS)) {
+		src->enabled = FALSE;
+		goto out;
+	}
+
 	/* Yum metadata */
 	hif_state_action_start (state, PK_STATUS_ENUM_LOADING_CACHE, NULL);
 	urls[0] = src->location;
@@ -402,6 +399,19 @@ hif_source_check (HifSource *src, HifState *state, GError **error)
 			     HIF_ERROR,
 			     PK_ERROR_ENUM_INTERNAL_ERROR,
 			     "failed to get yum-repo: %s",
+			     error_local->message);
+		g_error_free (error_local);
+		goto out;
+	}
+
+	/* get timestamp */
+	ret = lr_result_getinfo (src->repo_result, &error_local,
+				 LRR_YUM_TIMESTAMP, &src->timestamp);
+	if (!ret) {
+		g_set_error (error,
+			     HIF_ERROR,
+			     PK_ERROR_ENUM_INTERNAL_ERROR,
+			     "failed to get timestamp: %s",
 			     error_local->message);
 		g_error_free (error_local);
 		goto out;
@@ -536,12 +546,26 @@ out:
  * hif_source_update:
  */
 gboolean
-hif_source_update (HifSource *src, HifState *state, GError **error)
+hif_source_update (HifSource *src,
+		   HifSourceUpdateFlags flags,
+		   HifState *state,
+		   GError **error)
 {
 	GError *error_local = NULL;
 	HifState *state_local;
 	gboolean ret;
 	gint rc;
+	gint64 timestamp_new = 0;
+
+	/* cannot change DVD contents */
+	if (src->kind == HIF_SOURCE_KIND_MEDIA) {
+		ret = FALSE;
+		g_set_error_literal (error,
+				     HIF_ERROR,
+				     PK_ERROR_ENUM_REPO_NOT_AVAILABLE,
+				     "Cannot update read-only source");
+		goto out;
+	}
 
 	/* set state */
 	ret = hif_state_set_steps (state, error,
@@ -613,6 +637,24 @@ hif_source_update (HifSource *src, HifState *state, GError **error)
 			     "cannot update repo: %s",
 			     error_local->message);
 		g_error_free (error_local);
+		goto out;
+	}
+
+	/* check the newer metadata is newer */
+	ret = lr_result_getinfo (src->repo_result, &error_local,
+				 LRR_YUM_TIMESTAMP, &timestamp_new);
+	if (!ret) {
+		g_set_error (error,
+			     HIF_ERROR,
+			     PK_ERROR_ENUM_INTERNAL_ERROR,
+			     "failed to get timestamp: %s",
+			     error_local->message);
+		g_error_free (error_local);
+		goto out;
+	}
+	if ((flags & HIF_SOURCE_UPDATE_FLAG_FORCE) == 0 ||
+	    timestamp_new < src->timestamp) {
+		g_debug ("fresh metadata was older than what we have, ignoring");
 		goto out;
 	}
 
@@ -702,13 +744,21 @@ hif_source_get_description (HifSource *src)
 	gchar *substituted = NULL;
 	gchar *tmp;
 
+	/* is DVD */
+	if (src->kind == HIF_SOURCE_KIND_MEDIA) {
+		tmp = g_key_file_get_string (src->keyfile, "general", "name", NULL);
+		if (tmp == NULL)
+			goto out;
+	} else {
+		tmp = g_key_file_get_string (src->keyfile,
+					     hif_source_get_id (src),
+					     "name",
+					     NULL);
+		if (tmp == NULL)
+			goto out;
+	}
+
 	/* have to substitute things like $releasever and $basearch */
-	tmp = g_key_file_get_string (src->keyfile,
-				     hif_source_get_id (src),
-				     "name",
-				     NULL);
-	if (tmp == NULL)
-		goto out;
 	substituted = hif_source_substitute (src, tmp);
 out:
 	g_free (tmp);
@@ -722,6 +772,24 @@ gboolean
 hif_source_get_enabled (HifSource *src)
 {
 	return src->enabled;
+}
+
+/**
+ * hif_source_get_cost:
+ */
+guint
+hif_source_get_cost (HifSource *src)
+{
+	return src->cost;
+}
+
+/**
+ * hif_source_get_kind:
+ */
+HifSourceKind
+hif_source_get_kind (HifSource *src)
+{
+	return src->kind;
 }
 
 /**
@@ -753,6 +821,17 @@ hif_source_set_data (HifSource *src,
 {
 	gboolean ret;
 	gchar *data = NULL;
+
+	/* cannot change DVD contents */
+	if (src->kind == HIF_SOURCE_KIND_MEDIA) {
+		ret = FALSE;
+		g_set_error (error,
+			     HIF_ERROR,
+			     PK_ERROR_ENUM_CANNOT_WRITE_REPO_CONFIG,
+			     "Cannot set repo parameter %s=%s on read-only media",
+			     parameter, value);
+		goto out;
+	}
 
 	/* save change to keyfile and dump updated file to disk */
 	g_key_file_set_string (src->keyfile,
@@ -805,6 +884,49 @@ hif_source_checksum_hy_to_lr (int checksum_hy)
 }
 
 /**
+ * hif_source_copy_progress_cb:
+ **/
+static void
+hif_source_copy_progress_cb (goffset current, goffset total, gpointer user_data)
+{
+	HifState *state = HIF_STATE (user_data);
+	hif_state_set_percentage (state, 100.0f * current / total);
+}
+
+/**
+ * hif_source_copy_package:
+ **/
+static gboolean
+hif_source_copy_package (HyPackage pkg,
+			 const gchar *directory,
+			 HifState *state,
+			 GError **error)
+{
+	GFile *file_dest;
+	GFile *file_source;
+	gboolean ret;
+	gchar *basename = NULL;
+	gchar *dest = NULL;
+
+	/* copy the file with progress */
+	file_source = g_file_new_for_path (hif_package_get_filename (pkg));
+	basename = g_path_get_basename (hy_package_get_location (pkg));
+	dest = g_build_filename (directory, basename, NULL);
+	file_dest = g_file_new_for_path (dest);
+	ret = g_file_copy (file_source, file_dest, G_FILE_COPY_NONE,
+			   hif_state_get_cancellable (state),
+			   hif_source_copy_progress_cb, state, error);
+	if (!ret)
+		goto out;
+out:
+	g_object_unref (file_source);
+	g_object_unref (file_dest);
+	g_free (basename);
+	g_free (dest);
+	return ret;
+}
+
+/**
  * hif_source_download_package:
  **/
 gchar *
@@ -843,6 +965,15 @@ hif_source_download_package (HifSource *src,
 		 * output directory is fully specified as a filename, but
 		 * basename needs a trailing '/' to detect it's not a filename */
 		directory_slash = g_build_filename (directory, "/", NULL);
+	}
+
+	/* is a local repo, i.e. we just need to copy */
+	if (src->keyfile == NULL) {
+		hif_package_set_source (pkg, src);
+		ret = hif_source_copy_package (pkg, directory, state, error);
+		if (!ret)
+			goto out;
+		goto done;
 	}
 
 	/* setup the repo remote */
@@ -894,12 +1025,10 @@ hif_source_download_package (HifSource *src,
 			goto out;
 		}
 	}
-
+done:
 	/* build return value */
 	basename = g_path_get_basename (hy_package_get_location (pkg));
-	loc = g_build_filename (directory_slash,
-				basename,
-				NULL);
+	loc = g_build_filename (directory_slash, basename, NULL);
 out:
 	lr_handle_setopt (src->repo_handle, NULL, LRO_PROGRESSCB, NULL);
 	lr_handle_setopt (src->repo_handle, NULL, LRO_PROGRESSDATA, 0xdeadbeef);

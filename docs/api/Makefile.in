@@ -276,6 +276,9 @@ INTROSPECTION_LIBS = @INTROSPECTION_LIBS@
 INTROSPECTION_MAKEFILE = @INTROSPECTION_MAKEFILE@
 INTROSPECTION_SCANNER = @INTROSPECTION_SCANNER@
 INTROSPECTION_TYPELIBDIR = @INTROSPECTION_TYPELIBDIR@
+KATJA_CFLAGS = @KATJA_CFLAGS@
+KATJA_LIBS = @KATJA_LIBS@
+KATJA_PKGMAIN = @KATJA_PKGMAIN@
 LD = @LD@
 LDFLAGS = @LDFLAGS@
 LIBDIR = @LIBDIR@
@@ -327,15 +330,12 @@ PKG_CONFIG_LIBDIR = @PKG_CONFIG_LIBDIR@
 PKG_CONFIG_PATH = @PKG_CONFIG_PATH@
 PK_BROWSER_PLUGIN_CFLAGS = @PK_BROWSER_PLUGIN_CFLAGS@
 PK_BROWSER_PLUGIN_LIBS = @PK_BROWSER_PLUGIN_LIBS@
-PK_CONF_DIR = @PK_CONF_DIR@
-PK_DB_DIR = @PK_DB_DIR@
 PK_GSTREAMER_PLUGIN_CFLAGS = @PK_GSTREAMER_PLUGIN_CFLAGS@
 PK_GSTREAMER_PLUGIN_LIBS = @PK_GSTREAMER_PLUGIN_LIBS@
 PK_GTK_MODULE_CFLAGS = @PK_GTK_MODULE_CFLAGS@
 PK_GTK_MODULE_GTK2_CFLAGS = @PK_GTK_MODULE_GTK2_CFLAGS@
 PK_GTK_MODULE_GTK2_LIBS = @PK_GTK_MODULE_GTK2_LIBS@
 PK_GTK_MODULE_LIBS = @PK_GTK_MODULE_LIBS@
-PK_LOG_DIR = @PK_LOG_DIR@
 PK_MAJOR_VERSION = @PK_MAJOR_VERSION@
 PK_MICRO_VERSION = @PK_MICRO_VERSION@
 PK_MINOR_VERSION = @PK_MINOR_VERSION@
@@ -343,7 +343,6 @@ PK_PLUGIN_CFLAGS = @PK_PLUGIN_CFLAGS@
 PK_PLUGIN_DIR = @PK_PLUGIN_DIR@
 PK_PLUGIN_LIBS = @PK_PLUGIN_LIBS@
 PK_VERSION = @PK_VERSION@
-PK_YUM_PLUGIN_DIR = @PK_YUM_PLUGIN_DIR@
 POFILES = @POFILES@
 POLDEK_CFLAGS = @POLDEK_CFLAGS@
 POLDEK_LIBS = @POLDEK_LIBS@
@@ -364,8 +363,6 @@ SBINDIR = @SBINDIR@
 SED = @SED@
 SET_MAKE = @SET_MAKE@
 SHELL = @SHELL@
-SLAPT_CFLAGS = @SLAPT_CFLAGS@
-SLAPT_LIBS = @SLAPT_LIBS@
 SQLITE_CFLAGS = @SQLITE_CFLAGS@
 SQLITE_LIBS = @SQLITE_LIBS@
 STRIP = @STRIP@
@@ -453,10 +450,10 @@ DOC_MODULE = PackageKit
 # The top-level SGML file.
 DOC_MAIN_SGML_FILE = $(DOC_MODULE)-docs.sgml
 
-# The directory containing the source code. Relative to $(srcdir).
+# The directory containing the source code.
 # gtk-doc will search all .c & .h files beneath here for inline comments
 # documenting the functions and macros.
-DOC_SOURCE_DIR = ../../lib/packagekit-glib2
+DOC_SOURCE_DIR = $(top_srcdir)/lib/packagekit-glib2
 
 # Extra options to pass to gtkdoc-scangobj. Not normally needed.
 SCANGOBJ_OPTIONS = 
@@ -503,7 +500,11 @@ HTML_IMAGES = \
 content_files = \
 	version.xml					\
 	dbus/org.freedesktop.PackageKit.ref.xml		\
-	dbus/org.freedesktop.PackageKit.Transaction.ref.xml
+	dbus/org.freedesktop.PackageKit.Transaction.ref.xml \
+	spec/pk-backend-compiled.xml			\
+	spec/pk-backend-spawn.xml			\
+	spec/pk-concepts.xml				\
+	spec/pk-introduction.xml
 
 
 # SGML files where gtk-doc abbrevations (#GtkWidget) are expanded
@@ -575,17 +576,9 @@ REPORT_FILES = \
 	$(DOC_MODULE)-undeclared.txt \
 	$(DOC_MODULE)-unused.txt
 
-CLEANFILES = \
-	*.txt						\
-	*.types						\
-	*.args						\
-	*.hierarchy					\
-	*.interfaces					\
-	*.prerequisites					\
-	*.signals					\
-	*.stamp						\
-	tmpl
-
+CLEANFILES = $(SCANOBJ_FILES) $(REPORT_FILES) $(DOC_STAMPS) *.txt \
+	*.types *.args *.hierarchy *.interfaces *.prerequisites \
+	*.signals *.stamp tmpl
 @ENABLE_GTK_DOC_TRUE@@GTK_DOC_BUILD_HTML_FALSE@HTML_BUILD_STAMP = 
 @ENABLE_GTK_DOC_TRUE@@GTK_DOC_BUILD_HTML_TRUE@HTML_BUILD_STAMP = html-build.stamp
 @ENABLE_GTK_DOC_TRUE@@GTK_DOC_BUILD_PDF_FALSE@PDF_BUILD_STAMP = 

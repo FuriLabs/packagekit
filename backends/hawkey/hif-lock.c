@@ -43,8 +43,6 @@
 
 #define HIF_LOCK_GET_PRIVATE(o) (G_TYPE_INSTANCE_GET_PRIVATE ((o), HIF_TYPE_LOCK, HifLockPrivate))
 
-#define HIF_LOCK_PID_FILE "/var/run/hif"
-
 /**
  * HifLockPrivate:
  *
@@ -53,7 +51,7 @@
 struct _HifLockPrivate
 {
 	GMutex			 mutex;
-	GPtrArray		*item_array;
+	GPtrArray		*item_array; /* of HifLockItem */
 };
 
 typedef struct {
@@ -218,7 +216,7 @@ hif_lock_get_filename_for_type (HifLock *lock,
 {
 	gchar *filename = NULL;
 	filename = g_strdup_printf ("%s-%s.lock",
-				    HIF_LOCK_PID_FILE,
+				    PIDFILE,
 				    hif_lock_type_to_string (type));
 	return filename;
 }
@@ -376,7 +374,7 @@ hif_lock_take (HifLock *lock,
 	if (item->owner != g_thread_self ()) {
 		g_set_error (error,
 			     HIF_ERROR,
-			     PK_ERROR_ENUM_CANNOT_GET_LOCK,
+			     PK_ERROR_ENUM_LOCK_REQUIRED,
 			     "failed to obtain lock '%s' already taken by thread %p",
 			     hif_lock_type_to_string (type),
 			     item->owner);

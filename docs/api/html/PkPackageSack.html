@@ -75,6 +75,9 @@ enum                <a class="link" href="PkPackageSack.html#PkPackageSackSortTy
                                                          <em class="parameter"><code><a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gpointer"><span class="type">gpointer</span></a> user_data</code></em>);
 <a class="link" href="PkPackage.html" title="PkPackage"><span class="returnvalue">PkPackage</span></a> *         <a class="link" href="PkPackageSack.html#pk-package-sack-find-by-id" title="pk_package_sack_find_by_id ()">pk_package_sack_find_by_id</a>          (<em class="parameter"><code><a class="link" href="PkPackageSack.html" title="PkPackageSack"><span class="type">PkPackageSack</span></a> *sack</code></em>,
                                                          <em class="parameter"><code>const <a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a> *package_id</code></em>);
+<a class="link" href="PkPackage.html" title="PkPackage"><span class="returnvalue">PkPackage</span></a> *         <a class="link" href="PkPackageSack.html#pk-package-sack-find-by-id-name-arch" title="pk_package_sack_find_by_id_name_arch ()">pk_package_sack_find_by_id_name_arch</a>
+                                                        (<em class="parameter"><code><a class="link" href="PkPackageSack.html" title="PkPackageSack"><span class="type">PkPackageSack</span></a> *sack</code></em>,
+                                                         <em class="parameter"><code>const <a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a> *package_id</code></em>);
 <a class="link" href="PkPackageSack.html" title="PkPackageSack"><span class="returnvalue">PkPackageSack</span></a> *     <a class="link" href="PkPackageSack.html#pk-package-sack-filter-by-info" title="pk_package_sack_filter_by_info ()">pk_package_sack_filter_by_info</a>      (<em class="parameter"><code><a class="link" href="PkPackageSack.html" title="PkPackageSack"><span class="type">PkPackageSack</span></a> *sack</code></em>,
                                                          <em class="parameter"><code><a class="link" href="PackageKit-pk-enum.html#PkInfoEnum"><span class="type">PkInfoEnum</span></a> info</code></em>);
 <a class="link" href="PkPackageSack.html" title="PkPackageSack"><span class="returnvalue">PkPackageSack</span></a> *     <a class="link" href="PkPackageSack.html#pk-package-sack-filter" title="pk_package_sack_filter ()">pk_package_sack_filter</a>              (<em class="parameter"><code><a class="link" href="PkPackageSack.html" title="PkPackageSack"><span class="type">PkPackageSack</span></a> *sack</code></em>,
@@ -571,6 +574,39 @@ the search is stopped.
 </tbody>
 </table></div>
 <p class="since">Since 0.5.2</p>
+</div>
+<hr>
+<div class="refsect2">
+<a name="pk-package-sack-find-by-id-name-arch"></a><h3>pk_package_sack_find_by_id_name_arch ()</h3>
+<pre class="programlisting"><a class="link" href="PkPackage.html" title="PkPackage"><span class="returnvalue">PkPackage</span></a> *         pk_package_sack_find_by_id_name_arch
+                                                        (<em class="parameter"><code><a class="link" href="PkPackageSack.html" title="PkPackageSack"><span class="type">PkPackageSack</span></a> *sack</code></em>,
+                                                         <em class="parameter"><code>const <a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a> *package_id</code></em>);</pre>
+<p>
+Finds a package in a sack by package name and architecture. As soon as one
+package is found the search is stopped.
+</p>
+<div class="variablelist"><table border="0" class="variablelist">
+<colgroup>
+<col align="left" valign="top">
+<col>
+</colgroup>
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>sack</code></em> :</span></p></td>
+<td>a valid <a class="link" href="PkPackageSack.html" title="PkPackageSack"><span class="type">PkPackageSack</span></a> instance</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>package_id</code></em> :</span></p></td>
+<td>a package_id descriptor</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td>the <a class="link" href="PkPackage.html" title="PkPackage"><span class="type">PkPackage</span></a> object, or <a href="/usr/share/gtk-doc/html/liboil/liboil-liboiljunk.html#NULL:CAPS"><code class="literal">NULL</code></a> if not found. <span class="annotation">[<acronym title="Free data after the code is done."><span class="acronym">transfer full</span></acronym>]</span>
+</td>
+</tr>
+</tbody>
+</table></div>
+<p class="since">Since 0.8.16</p>
 </div>
 <hr>
 <div class="refsect2">

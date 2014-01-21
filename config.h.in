@@ -124,9 +124,6 @@
 /* Has offline updates */
 #undef PK_HAS_OFFLINE_UPDATES
 
-/* Define to 1 if GPGME is available to Slapt */
-#undef SLAPT_HAS_GPGME
-
 /* Define to 1 if you have the ANSI C header files. */
 #undef STDC_HEADERS
 

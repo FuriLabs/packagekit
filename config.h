@@ -99,7 +99,7 @@
 #define PACKAGE_NAME "PackageKit"
 
 /* Define to the full name and version of this package. */
-#define PACKAGE_STRING "PackageKit 0.8.14"
+#define PACKAGE_STRING "PackageKit 0.8.16"
 
 /* Define to the one symbol short name of this package. */
 #define PACKAGE_TARNAME "PackageKit"
@@ -108,7 +108,7 @@
 #define PACKAGE_URL "http://www.packagekit.org/"
 
 /* Define to the version of this package. */
-#define PACKAGE_VERSION "0.8.14"
+#define PACKAGE_VERSION "0.8.16"
 
 /* define if Connection Manager is installed */
 /* #undef PK_BUILD_CONNMAN */
@@ -125,14 +125,11 @@
 /* Has offline updates */
 #define PK_HAS_OFFLINE_UPDATES 1
 
-/* Define to 1 if GPGME is available to Slapt */
-/* #undef SLAPT_HAS_GPGME */
-
 /* Define to 1 if you have the ANSI C header files. */
 #define STDC_HEADERS 1
 
 /* Version number of package */
-#define VERSION "0.8.14"
+#define VERSION "0.8.16"
 
 /* define if libzypp returns package size in bytes */
 /* #undef ZYPP_RETURN_BYTES */

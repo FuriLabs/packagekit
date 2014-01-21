@@ -213,8 +213,6 @@ pk_get_distro_id
 pk_console_test
 pk_console_get_number
 pk_console_get_prompt
-pk_console_resolve_package
-pk_console_resolve_packages
 </SECTION>
 
 <SECTION>
@@ -609,7 +607,6 @@ PK_PACKAGE_ID_NAME
 PK_PACKAGE_ID_VERSION
 PK_PACKAGE_ID_ARCH
 PK_PACKAGE_ID_DATA
-pk_package_id_test
 pk_package_id_build
 pk_package_id_check
 pk_package_id_split
@@ -656,6 +653,7 @@ pk_package_sack_remove_package
 pk_package_sack_remove_package_by_id
 pk_package_sack_remove_by_filter
 pk_package_sack_find_by_id
+pk_package_sack_find_by_id_name_arch
 pk_package_sack_filter_by_info
 pk_package_sack_filter
 pk_package_sack_get_total_bytes

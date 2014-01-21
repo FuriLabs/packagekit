@@ -403,6 +403,7 @@
 <ANCHOR id="pk-package-sack-remove-package-by-id" href="PackageKit/PkPackageSack.html#pk-package-sack-remove-package-by-id">
 <ANCHOR id="pk-package-sack-remove-by-filter" href="PackageKit/PkPackageSack.html#pk-package-sack-remove-by-filter">
 <ANCHOR id="pk-package-sack-find-by-id" href="PackageKit/PkPackageSack.html#pk-package-sack-find-by-id">
+<ANCHOR id="pk-package-sack-find-by-id-name-arch" href="PackageKit/PkPackageSack.html#pk-package-sack-find-by-id-name-arch">
 <ANCHOR id="pk-package-sack-filter-by-info" href="PackageKit/PkPackageSack.html#pk-package-sack-filter-by-info">
 <ANCHOR id="pk-package-sack-filter" href="PackageKit/PkPackageSack.html#pk-package-sack-filter">
 <ANCHOR id="pk-package-sack-get-total-bytes" href="PackageKit/PkPackageSack.html#pk-package-sack-get-total-bytes">
@@ -1233,7 +1234,6 @@
 <ANCHOR id="PK-PACKAGE-ID-VERSION:CAPS" href="PackageKit/PackageKit-pk-package-id.html#PK-PACKAGE-ID-VERSION:CAPS">
 <ANCHOR id="PK-PACKAGE-ID-ARCH:CAPS" href="PackageKit/PackageKit-pk-package-id.html#PK-PACKAGE-ID-ARCH:CAPS">
 <ANCHOR id="PK-PACKAGE-ID-DATA:CAPS" href="PackageKit/PackageKit-pk-package-id.html#PK-PACKAGE-ID-DATA:CAPS">
-<ANCHOR id="pk-package-id-test" href="PackageKit/PackageKit-pk-package-id.html#pk-package-id-test">
 <ANCHOR id="pk-package-id-build" href="PackageKit/PackageKit-pk-package-id.html#pk-package-id-build">
 <ANCHOR id="pk-package-id-check" href="PackageKit/PackageKit-pk-package-id.html#pk-package-id-check">
 <ANCHOR id="pk-package-id-split" href="PackageKit/PackageKit-pk-package-id.html#pk-package-id-split">
