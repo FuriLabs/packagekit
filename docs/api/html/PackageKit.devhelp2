@@ -356,6 +356,7 @@
     <keyword type="function" name="pk_package_sack_remove_package_by_id ()" link="PkPackageSack.html#pk-package-sack-remove-package-by-id" since="0.5.2"/>
     <keyword type="function" name="pk_package_sack_remove_by_filter ()" link="PkPackageSack.html#pk-package-sack-remove-by-filter" since="0.6.3"/>
     <keyword type="function" name="pk_package_sack_find_by_id ()" link="PkPackageSack.html#pk-package-sack-find-by-id" since="0.5.2"/>
+    <keyword type="function" name="pk_package_sack_find_by_id_name_arch ()" link="PkPackageSack.html#pk-package-sack-find-by-id-name-arch" since="0.8.16"/>
     <keyword type="function" name="pk_package_sack_filter_by_info ()" link="PkPackageSack.html#pk-package-sack-filter-by-info" since="0.6.2"/>
     <keyword type="function" name="pk_package_sack_filter ()" link="PkPackageSack.html#pk-package-sack-filter" since="0.6.3"/>
     <keyword type="function" name="pk_package_sack_get_total_bytes ()" link="PkPackageSack.html#pk-package-sack-get-total-bytes" since="0.5.2"/>
@@ -738,7 +739,6 @@
     <keyword type="macro" name="PK_PACKAGE_ID_VERSION" link="PackageKit-pk-package-id.html#PK-PACKAGE-ID-VERSION:CAPS"/>
     <keyword type="macro" name="PK_PACKAGE_ID_ARCH" link="PackageKit-pk-package-id.html#PK-PACKAGE-ID-ARCH:CAPS"/>
     <keyword type="macro" name="PK_PACKAGE_ID_DATA" link="PackageKit-pk-package-id.html#PK-PACKAGE-ID-DATA:CAPS"/>
-    <keyword type="function" name="pk_package_id_test ()" link="PackageKit-pk-package-id.html#pk-package-id-test"/>
     <keyword type="function" name="pk_package_id_build ()" link="PackageKit-pk-package-id.html#pk-package-id-build" since="0.5.0"/>
     <keyword type="function" name="pk_package_id_check ()" link="PackageKit-pk-package-id.html#pk-package-id-check" since="0.5.0"/>
     <keyword type="function" name="pk_package_id_split ()" link="PackageKit-pk-package-id.html#pk-package-id-split" since="0.5.3"/>

@@ -45,10 +45,8 @@ struct _HifStatePrivate
 	GCancellable		*cancellable;
 	gchar			*action_hint;
 	gchar			*id;
-	gdouble			 global_share;
 	gdouble			*step_profile;
 	gpointer		 error_handler_user_data;
-	gpointer		 lock_handler_user_data;
 	GTimer			*timer;
 	guint64			 speed;
 	guint64			*speed_data;
@@ -61,13 +59,11 @@ struct _HifStatePrivate
 	gulong			 notify_speed_child_id;
 	gulong			 allow_cancel_child_id;
 	gulong			 percentage_child_id;
-	gulong			 subpercentage_child_id;
 	PkStatusEnum		 action;
 	PkStatusEnum		 last_action;
 	PkStatusEnum		 child_action;
 	HifState		*child;
 	HifStateErrorHandlerCb	 error_handler_cb;
-	HifStateLockHandlerCb	 lock_handler_cb;
 	HifState		*parent;
 	GPtrArray		*lock_ids;
 	HifLock			*lock;
@@ -115,25 +111,6 @@ hif_state_set_enable_profile (HifState *state, gboolean enable_profile)
 }
 
 /**
- * hif_state_set_lock_handler:
- **/
-void
-hif_state_set_lock_handler (HifState *state,
-			    HifStateLockHandlerCb lock_handler_cb,
-			    gpointer user_data)
-{
-	state->priv->lock_handler_cb = lock_handler_cb;
-	state->priv->lock_handler_user_data = user_data;
-
-	/* if there is an existing child, set the handler on this too */
-	if (state->priv->child != NULL) {
-		hif_state_set_lock_handler (state->priv->child,
-					    lock_handler_cb,
-					    user_data);
-	}
-}
-
-/**
  * hif_state_take_lock:
  **/
 gboolean
@@ -146,23 +123,14 @@ hif_state_take_lock (HifState *state,
 	guint lock_id = 0;
 
 	/* no custom handler */
-	if (state->priv->lock_handler_cb == NULL) {
-		lock_id = hif_lock_take (state->priv->lock,
-					 lock_type,
-					 lock_mode,
-					 error);
-		if (lock_id == 0)
-			ret = FALSE;
-	} else {
-		lock_id = G_MAXUINT;
-		ret = state->priv->lock_handler_cb (state,
-						    state->priv->lock,
-						    lock_type,
-						    error,
-						    state->priv->lock_handler_user_data);
-	}
-	if (!ret)
+	lock_id = hif_lock_take (state->priv->lock,
+				 lock_type,
+				 lock_mode,
+				 error);
+	if (lock_id == 0) {
+		ret = FALSE;
 		goto out;
+	}
 
 	/* add the lock to an array so we can release on completion */
 	g_debug ("adding lock %i", lock_id);
@@ -390,10 +358,6 @@ hif_state_set_percentage (HifState *state, guint percentage)
 	/* save */
 	state->priv->last_percentage = percentage;
 
-	/* are we so low we don't care */
-	if (state->priv->global_share < 0.001)
-		goto out;
-
 	/* emit */
 	g_signal_emit (state, signals [SIGNAL_PERCENTAGE_CHANGED], 0, percentage);
 
@@ -413,22 +377,6 @@ hif_state_get_percentage (HifState *state)
 }
 
 /**
- * hif_state_set_subpercentage:
- **/
-static gboolean
-hif_state_set_subpercentage (HifState *state, guint percentage)
-{
-	/* are we so low we don't care */
-	if (state->priv->global_share < 0.01)
-		goto out;
-
-	/* just emit */
-	g_signal_emit (state, signals [SIGNAL_SUBPERCENTAGE_CHANGED], 0, percentage);
-out:
-	return TRUE;
-}
-
-/**
  * hif_state_action_start:
  **/
 gboolean
@@ -444,10 +392,8 @@ hif_state_action_start (HifState *state, PkStatusEnum action, const gchar *actio
 
 	/* is different? */
 	if (state->priv->action == action &&
-	    g_strcmp0 (action_hint, state->priv->action_hint) == 0) {
-		g_debug ("same action as before, ignoring");
+	    g_strcmp0 (action_hint, state->priv->action_hint) == 0)
 		return FALSE;
-	}
 
 	/* remember for stop */
 	state->priv->last_action = state->priv->action;
@@ -551,9 +497,6 @@ hif_state_child_percentage_changed_cb (HifState *child, guint percentage, HifSta
 	if (state->priv->steps == 0)
 		return;
 
-	/* always provide two levels of signals */
-	hif_state_set_subpercentage (state, percentage);
-
 	/* already at >= 100% */
 	if (state->priv->current >= state->priv->steps) {
 		g_warning ("already at %i/%i steps on %p", state->priv->current, state->priv->steps, state);
@@ -586,8 +529,10 @@ hif_state_child_percentage_changed_cb (HifState *child, guint percentage, HifSta
 	/* restore the pre-child action */
 	if (percentage == 100) {
 		state->priv->last_action = state->priv->child_action;
-		g_debug ("restoring last action %s",
-			 pk_status_enum_to_string (state->priv->child_action));
+		if (state->priv->child_action != PK_STATUS_ENUM_UNKNOWN) {
+			g_debug ("restoring last action %s",
+				 pk_status_enum_to_string (state->priv->child_action));
+		}
 	}
 
 	/* get the extra contributed by the child */
@@ -597,20 +542,6 @@ hif_state_child_percentage_changed_cb (HifState *child, guint percentage, HifSta
 	parent_percentage = (guint) (offset + extra);
 out:
 	hif_state_set_percentage (state, parent_percentage);
-}
-
-/**
- * hif_state_child_subpercentage_changed_cb:
- **/
-static void
-hif_state_child_subpercentage_changed_cb (HifState *child, guint percentage, HifState *state)
-{
-	/* discard this, unless the HifState has only one step */
-	if (state->priv->steps != 1)
-		return;
-
-	/* propagate up the stack as if the parent didn't exist */
-	hif_state_set_subpercentage (state, percentage);
 }
 
 /**
@@ -686,11 +617,6 @@ hif_state_reset (HifState *state)
 					     state->priv->percentage_child_id);
 		state->priv->percentage_child_id = 0;
 	}
-	if (state->priv->subpercentage_child_id != 0) {
-		g_signal_handler_disconnect (state->priv->child,
-					     state->priv->subpercentage_child_id);
-		state->priv->subpercentage_child_id = 0;
-	}
 	if (state->priv->allow_cancel_child_id != 0) {
 		g_signal_handler_disconnect (state->priv->child,
 					     state->priv->allow_cancel_child_id);
@@ -731,15 +657,6 @@ out:
 }
 
 /**
- * hif_state_set_global_share:
- **/
-static void
-hif_state_set_global_share (HifState *state, gdouble global_share)
-{
-	state->priv->global_share = global_share;
-}
-
-/**
  * hif_state_child_notify_speed_cb:
  **/
 static void
@@ -772,8 +689,6 @@ hif_state_get_child (HifState *state)
 		g_signal_handler_disconnect (state->priv->child,
 					     state->priv->percentage_child_id);
 		g_signal_handler_disconnect (state->priv->child,
-					     state->priv->subpercentage_child_id);
-		g_signal_handler_disconnect (state->priv->child,
 					     state->priv->allow_cancel_child_id);
 		g_signal_handler_disconnect (state->priv->child,
 					     state->priv->action_child_id);
@@ -791,10 +706,6 @@ hif_state_get_child (HifState *state)
 	state->priv->percentage_child_id =
 		g_signal_connect (child, "percentage-changed",
 				  G_CALLBACK (hif_state_child_percentage_changed_cb),
-				  state);
-	state->priv->subpercentage_child_id =
-		g_signal_connect (child, "subpercentage-changed",
-				  G_CALLBACK (hif_state_child_subpercentage_changed_cb),
 				  state);
 	state->priv->allow_cancel_child_id =
 		g_signal_connect (child, "allow-cancel-changed",
@@ -821,20 +732,10 @@ hif_state_get_child (HifState *state)
 	child->priv->action = state->priv->action;
 	state->priv->child_action = state->priv->action;
 
-	/* set the global share on the new child */
-	hif_state_set_global_share (child, state->priv->global_share);
-
 	/* set cancellable, creating if required */
 	if (state->priv->cancellable == NULL)
 		state->priv->cancellable = g_cancellable_new ();
 	hif_state_set_cancellable (child, state->priv->cancellable);
-
-	/* set the lock handler if one exists on the child */
-	if (state->priv->lock_handler_cb != NULL) {
-		hif_state_set_lock_handler (child,
-					    state->priv->lock_handler_cb,
-					    state->priv->lock_handler_user_data);
-	}
 
 	/* set the profile state */
 	hif_state_set_enable_profile (child,
@@ -881,14 +782,8 @@ hif_state_set_number_steps_real (HifState *state, guint steps, const gchar *strl
 	if (state->priv->enable_profile)
 		g_timer_start (state->priv->timer);
 
-	/* imply reset */
-	hif_state_reset (state);
-
 	/* set steps */
 	state->priv->steps = steps;
-
-	/* global share just got smaller */
-	state->priv->global_share /= steps;
 
 	/* success */
 	ret = TRUE;
@@ -1275,13 +1170,6 @@ hif_state_class_init (HifStateClass *klass)
 			      NULL, NULL, g_cclosure_marshal_VOID__UINT,
 			      G_TYPE_NONE, 1, G_TYPE_UINT);
 
-	signals [SIGNAL_SUBPERCENTAGE_CHANGED] =
-		g_signal_new ("subpercentage-changed",
-			      G_TYPE_FROM_CLASS (object_class), G_SIGNAL_RUN_LAST,
-			      G_STRUCT_OFFSET (HifStateClass, subpercentage_changed),
-			      NULL, NULL, g_cclosure_marshal_VOID__UINT,
-			      G_TYPE_NONE, 1, G_TYPE_UINT);
-
 	signals [SIGNAL_ALLOW_CANCEL_CHANGED] =
 		g_signal_new ("allow-cancel-changed",
 			      G_TYPE_FROM_CLASS (object_class), G_SIGNAL_RUN_LAST,
@@ -1315,7 +1203,6 @@ hif_state_init (HifState *state)
 	state->priv = HIF_STATE_GET_PRIVATE (state);
 	state->priv->allow_cancel = TRUE;
 	state->priv->allow_cancel_child = TRUE;
-	state->priv->global_share = 1.0f;
 	state->priv->action = PK_STATUS_ENUM_UNKNOWN;
 	state->priv->last_action = PK_STATUS_ENUM_UNKNOWN;
 	state->priv->timer = g_timer_new ();

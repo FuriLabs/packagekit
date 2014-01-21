@@ -39,6 +39,7 @@
 
 typedef struct {
 	char		*checksum_str;
+	char		*nevra;
 	gboolean	 user_action;
 	gchar		*filename;
 	gchar		*package_id;
@@ -56,6 +57,7 @@ hif_package_destroy_func (void *userdata)
 	g_free (priv->filename);
 	g_free (priv->package_id);
 	hy_free (priv->checksum_str);
+	hy_free (priv->nevra);
 	g_slice_free (HifPackagePrivate, priv);
 }
 
@@ -66,9 +68,32 @@ const gchar *
 hif_package_get_filename (HyPackage pkg)
 {
 	HifPackagePrivate *priv;
+	gchar *basename;
+
 	priv = hy_package_get_userdata (pkg);
 	if (priv == NULL)
 		return NULL;
+	if (hy_package_installed (pkg))
+		return NULL;
+
+	/* default cache filename location */
+	if (priv->filename == NULL && priv->src != NULL) {
+		/* do not strip the path for media sources as we're using this
+		 * directly rather than copying into the cachedir */
+		if (hif_source_get_kind (priv->src) == HIF_SOURCE_KIND_MEDIA) {
+			priv->filename = g_build_filename (hif_source_get_location (priv->src),
+							   hy_package_get_location (pkg),
+							   NULL);
+		} else {
+			basename = g_path_get_basename (hy_package_get_location (pkg));
+			priv->filename = g_build_filename (hif_source_get_location (priv->src),
+							   "packages",
+							   basename,
+							   NULL);
+			g_free (basename);
+		}
+	}
+
 	return priv->filename;
 }
 
@@ -116,7 +141,6 @@ out:
 	return priv->checksum_str;
 }
 
-
 /**
  * hif_package_get_id:
  **/
@@ -136,12 +160,42 @@ hif_package_get_id (HyPackage pkg)
 	reponame = hy_package_get_reponame (pkg);
 	if (g_strcmp0 (reponame, HY_SYSTEM_REPO_NAME) == 0)
 		reponame = "installed";
+	else if (g_strcmp0 (reponame, HY_CMDLINE_REPO_NAME) == 0)
+		reponame = "local";
 	priv->package_id = pk_package_id_build (hy_package_get_name (pkg),
 						hy_package_get_evr (pkg),
 						hy_package_get_arch (pkg),
 						reponame);
 out:
 	return priv->package_id;
+}
+
+/**
+ * hif_package_get_nevra:
+ **/
+const gchar *
+hif_package_get_nevra (HyPackage pkg)
+{
+	HifPackagePrivate *priv;
+	priv = hif_package_get_priv (pkg);
+	if (priv->nevra == NULL)
+		priv->nevra = hy_package_get_nevra (pkg);
+	return priv->nevra;
+}
+
+/**
+ * hif_package_get_cost:
+ **/
+guint
+hif_package_get_cost (HyPackage pkg)
+{
+	HifPackagePrivate *priv;
+	priv = hif_package_get_priv (pkg);
+	if (priv->src == NULL) {
+		g_warning ("no src for %s", hif_package_get_id (pkg));
+		return G_MAXUINT;
+	}
+	return hif_source_get_cost (priv->src);
 }
 
 /**
@@ -167,24 +221,10 @@ void
 hif_package_set_source (HyPackage pkg, HifSource *src)
 {
 	HifPackagePrivate *priv;
-	gchar *basename = NULL;
-
-	/* replace contents */
 	priv = hif_package_get_priv (pkg);
 	if (priv == NULL)
 		return;
 	priv->src = src;
-
-	/* default cache filename location */
-	if (!hy_package_installed (pkg)) {
-		basename = g_path_get_basename (hy_package_get_location (pkg));
-		g_free (priv->filename);
-		priv->filename = g_build_filename (hif_source_get_location (src),
-						   "packages",
-						   basename,
-						   NULL);
-		g_free (basename);
-	}
 }
 
 /**

@@ -1470,8 +1470,6 @@ G_GNUC_END_IGNORE_DEPRECATIONS
 	if (g_strcmp0 (signal_name, "Destroy") == 0) {
 		return;
 	}
-
-	g_warning ("Unknown signal: %s", signal_name);
 }
 
 /**
@@ -1542,6 +1540,8 @@ static void
 pk_client_set_role (PkClientState *state, PkRoleEnum role)
 {
 	gboolean ret;
+	pk_progress_set_transaction_flags (state->progress,
+					   state->transaction_flags);
 	ret = pk_progress_set_role (state->progress, role);
 	if (ret && state->progress_callback != NULL) {
 		state->progress_callback (state->progress,

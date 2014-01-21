@@ -663,6 +663,9 @@ INTROSPECTION_LIBS = @INTROSPECTION_LIBS@
 INTROSPECTION_MAKEFILE = @INTROSPECTION_MAKEFILE@
 INTROSPECTION_SCANNER = @INTROSPECTION_SCANNER@
 INTROSPECTION_TYPELIBDIR = @INTROSPECTION_TYPELIBDIR@
+KATJA_CFLAGS = @KATJA_CFLAGS@
+KATJA_LIBS = @KATJA_LIBS@
+KATJA_PKGMAIN = @KATJA_PKGMAIN@
 LD = @LD@
 LDFLAGS = @LDFLAGS@
 LIBDIR = @LIBDIR@
@@ -714,15 +717,12 @@ PKG_CONFIG_LIBDIR = @PKG_CONFIG_LIBDIR@
 PKG_CONFIG_PATH = @PKG_CONFIG_PATH@
 PK_BROWSER_PLUGIN_CFLAGS = @PK_BROWSER_PLUGIN_CFLAGS@
 PK_BROWSER_PLUGIN_LIBS = @PK_BROWSER_PLUGIN_LIBS@
-PK_CONF_DIR = @PK_CONF_DIR@
-PK_DB_DIR = @PK_DB_DIR@
 PK_GSTREAMER_PLUGIN_CFLAGS = @PK_GSTREAMER_PLUGIN_CFLAGS@
 PK_GSTREAMER_PLUGIN_LIBS = @PK_GSTREAMER_PLUGIN_LIBS@
 PK_GTK_MODULE_CFLAGS = @PK_GTK_MODULE_CFLAGS@
 PK_GTK_MODULE_GTK2_CFLAGS = @PK_GTK_MODULE_GTK2_CFLAGS@
 PK_GTK_MODULE_GTK2_LIBS = @PK_GTK_MODULE_GTK2_LIBS@
 PK_GTK_MODULE_LIBS = @PK_GTK_MODULE_LIBS@
-PK_LOG_DIR = @PK_LOG_DIR@
 PK_MAJOR_VERSION = @PK_MAJOR_VERSION@
 PK_MICRO_VERSION = @PK_MICRO_VERSION@
 PK_MINOR_VERSION = @PK_MINOR_VERSION@
@@ -730,7 +730,6 @@ PK_PLUGIN_CFLAGS = @PK_PLUGIN_CFLAGS@
 PK_PLUGIN_DIR = @PK_PLUGIN_DIR@
 PK_PLUGIN_LIBS = @PK_PLUGIN_LIBS@
 PK_VERSION = @PK_VERSION@
-PK_YUM_PLUGIN_DIR = @PK_YUM_PLUGIN_DIR@
 POFILES = @POFILES@
 POLDEK_CFLAGS = @POLDEK_CFLAGS@
 POLDEK_LIBS = @POLDEK_LIBS@
@@ -751,8 +750,6 @@ SBINDIR = @SBINDIR@
 SED = @SED@
 SET_MAKE = @SET_MAKE@
 SHELL = @SHELL@
-SLAPT_CFLAGS = @SLAPT_CFLAGS@
-SLAPT_LIBS = @SLAPT_LIBS@
 SQLITE_CFLAGS = @SQLITE_CFLAGS@
 SQLITE_LIBS = @SQLITE_LIBS@
 STRIP = @STRIP@
@@ -859,7 +856,6 @@ AM_CPPFLAGS = \
 	-DVERSION="\"$(VERSION)\""			\
 	-DPK_DATA=\"$(pkgdatadir)\"			\
 	-DLOCALSTATEDIR=\""$(localstatedir)"\"		\
-	-DPK_DB_DIR=\""$(PK_DB_DIR)"\"			\
 	-DTESTDATADIR=\""$(abs_top_srcdir)/data/tests"\"	\
 	-DPK_COMPILATION				\
 	-DPOLKIT_LOCAL_I_KNOW_API_IS_SUBJECT_TO_CHANGE	\
@@ -914,6 +910,10 @@ packagekitd_SOURCES = \
 	pk-main.c					\
 	$(shared_SOURCES)
 
+packagekitd_CPPFLAGS = \
+	$(AM_CPPFLAGS)					\
+	-DPK_DB_DIR=\""$(localstatedir)/lib/PackageKit"\"
+
 packagekitd_LDADD = \
 	$(GLIB_LIBS)					\
 	$(GMODULE_LIBS)					\
@@ -951,6 +951,10 @@ pk_self_test_LDADD = \
 	$(ARCHIVE_LIBS)					\
 	$(SYSTEMD_LIBS)
 
+pk_self_test_CPPFLAGS = \
+	$(AM_CPPFLAGS)					\
+	-DPK_DB_DIR=\""."\"
+
 pk_self_test_CFLAGS = \
 	$(AM_CFLAGS)					\
 	$(WARNINGFLAGS_C)
@@ -979,6 +983,10 @@ EXTRA_DIST = \
 @HAVE_INTROSPECTION_TRUE@	$(GIO_LIBS)					\
 @HAVE_INTROSPECTION_TRUE@	$(ARCHIVE_LIBS)					\
 @HAVE_INTROSPECTION_TRUE@	$(SYSTEMD_LIBS)
+
+@HAVE_INTROSPECTION_TRUE@libpkplugins_la_CPPFLAGS = \
+@HAVE_INTROSPECTION_TRUE@	$(AM_CPPFLAGS)					\
+@HAVE_INTROSPECTION_TRUE@	-DPK_DB_DIR=\""$(localstatedir)/lib/PackageKit"\"
 
 @HAVE_INTROSPECTION_TRUE@libpkplugins_la_CFLAGS = \
 @HAVE_INTROSPECTION_TRUE@	$(PIE_CFLAGS)					\
@@ -1211,732 +1219,732 @@ distclean-compile:
 @am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(LTCOMPILE) -c -o $@ $<
 
 libpkplugins_la-pk-backend.lo: pk-backend.c
-@am__fastdepCC_TRUE@	$(AM_V_CC)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libpkplugins_la_CFLAGS) $(CFLAGS) -MT libpkplugins_la-pk-backend.lo -MD -MP -MF $(DEPDIR)/libpkplugins_la-pk-backend.Tpo -c -o libpkplugins_la-pk-backend.lo `test -f 'pk-backend.c' || echo '$(srcdir)/'`pk-backend.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libpkplugins_la_CPPFLAGS) $(CPPFLAGS) $(libpkplugins_la_CFLAGS) $(CFLAGS) -MT libpkplugins_la-pk-backend.lo -MD -MP -MF $(DEPDIR)/libpkplugins_la-pk-backend.Tpo -c -o libpkplugins_la-pk-backend.lo `test -f 'pk-backend.c' || echo '$(srcdir)/'`pk-backend.c
 @am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/libpkplugins_la-pk-backend.Tpo $(DEPDIR)/libpkplugins_la-pk-backend.Plo
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='pk-backend.c' object='libpkplugins_la-pk-backend.lo' libtool=yes @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libpkplugins_la_CFLAGS) $(CFLAGS) -c -o libpkplugins_la-pk-backend.lo `test -f 'pk-backend.c' || echo '$(srcdir)/'`pk-backend.c
+@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libpkplugins_la_CPPFLAGS) $(CPPFLAGS) $(libpkplugins_la_CFLAGS) $(CFLAGS) -c -o libpkplugins_la-pk-backend.lo `test -f 'pk-backend.c' || echo '$(srcdir)/'`pk-backend.c
 
 libpkplugins_la-pk-backend-job.lo: pk-backend-job.c
-@am__fastdepCC_TRUE@	$(AM_V_CC)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libpkplugins_la_CFLAGS) $(CFLAGS) -MT libpkplugins_la-pk-backend-job.lo -MD -MP -MF $(DEPDIR)/libpkplugins_la-pk-backend-job.Tpo -c -o libpkplugins_la-pk-backend-job.lo `test -f 'pk-backend-job.c' || echo '$(srcdir)/'`pk-backend-job.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libpkplugins_la_CPPFLAGS) $(CPPFLAGS) $(libpkplugins_la_CFLAGS) $(CFLAGS) -MT libpkplugins_la-pk-backend-job.lo -MD -MP -MF $(DEPDIR)/libpkplugins_la-pk-backend-job.Tpo -c -o libpkplugins_la-pk-backend-job.lo `test -f 'pk-backend-job.c' || echo '$(srcdir)/'`pk-backend-job.c
 @am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/libpkplugins_la-pk-backend-job.Tpo $(DEPDIR)/libpkplugins_la-pk-backend-job.Plo
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='pk-backend-job.c' object='libpkplugins_la-pk-backend-job.lo' libtool=yes @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libpkplugins_la_CFLAGS) $(CFLAGS) -c -o libpkplugins_la-pk-backend-job.lo `test -f 'pk-backend-job.c' || echo '$(srcdir)/'`pk-backend-job.c
+@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libpkplugins_la_CPPFLAGS) $(CPPFLAGS) $(libpkplugins_la_CFLAGS) $(CFLAGS) -c -o libpkplugins_la-pk-backend-job.lo `test -f 'pk-backend-job.c' || echo '$(srcdir)/'`pk-backend-job.c
 
 libpkplugins_la-pk-transaction.lo: pk-transaction.c
-@am__fastdepCC_TRUE@	$(AM_V_CC)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libpkplugins_la_CFLAGS) $(CFLAGS) -MT libpkplugins_la-pk-transaction.lo -MD -MP -MF $(DEPDIR)/libpkplugins_la-pk-transaction.Tpo -c -o libpkplugins_la-pk-transaction.lo `test -f 'pk-transaction.c' || echo '$(srcdir)/'`pk-transaction.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libpkplugins_la_CPPFLAGS) $(CPPFLAGS) $(libpkplugins_la_CFLAGS) $(CFLAGS) -MT libpkplugins_la-pk-transaction.lo -MD -MP -MF $(DEPDIR)/libpkplugins_la-pk-transaction.Tpo -c -o libpkplugins_la-pk-transaction.lo `test -f 'pk-transaction.c' || echo '$(srcdir)/'`pk-transaction.c
 @am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/libpkplugins_la-pk-transaction.Tpo $(DEPDIR)/libpkplugins_la-pk-transaction.Plo
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='pk-transaction.c' object='libpkplugins_la-pk-transaction.lo' libtool=yes @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libpkplugins_la_CFLAGS) $(CFLAGS) -c -o libpkplugins_la-pk-transaction.lo `test -f 'pk-transaction.c' || echo '$(srcdir)/'`pk-transaction.c
+@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libpkplugins_la_CPPFLAGS) $(CPPFLAGS) $(libpkplugins_la_CFLAGS) $(CFLAGS) -c -o libpkplugins_la-pk-transaction.lo `test -f 'pk-transaction.c' || echo '$(srcdir)/'`pk-transaction.c
 
 libpkplugins_la-pk-conf.lo: pk-conf.c
-@am__fastdepCC_TRUE@	$(AM_V_CC)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libpkplugins_la_CFLAGS) $(CFLAGS) -MT libpkplugins_la-pk-conf.lo -MD -MP -MF $(DEPDIR)/libpkplugins_la-pk-conf.Tpo -c -o libpkplugins_la-pk-conf.lo `test -f 'pk-conf.c' || echo '$(srcdir)/'`pk-conf.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libpkplugins_la_CPPFLAGS) $(CPPFLAGS) $(libpkplugins_la_CFLAGS) $(CFLAGS) -MT libpkplugins_la-pk-conf.lo -MD -MP -MF $(DEPDIR)/libpkplugins_la-pk-conf.Tpo -c -o libpkplugins_la-pk-conf.lo `test -f 'pk-conf.c' || echo '$(srcdir)/'`pk-conf.c
 @am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/libpkplugins_la-pk-conf.Tpo $(DEPDIR)/libpkplugins_la-pk-conf.Plo
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='pk-conf.c' object='libpkplugins_la-pk-conf.lo' libtool=yes @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libpkplugins_la_CFLAGS) $(CFLAGS) -c -o libpkplugins_la-pk-conf.lo `test -f 'pk-conf.c' || echo '$(srcdir)/'`pk-conf.c
+@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libpkplugins_la_CPPFLAGS) $(CPPFLAGS) $(libpkplugins_la_CFLAGS) $(CFLAGS) -c -o libpkplugins_la-pk-conf.lo `test -f 'pk-conf.c' || echo '$(srcdir)/'`pk-conf.c
 
 libpkplugins_la-pk-resources.lo: pk-resources.c
-@am__fastdepCC_TRUE@	$(AM_V_CC)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libpkplugins_la_CFLAGS) $(CFLAGS) -MT libpkplugins_la-pk-resources.lo -MD -MP -MF $(DEPDIR)/libpkplugins_la-pk-resources.Tpo -c -o libpkplugins_la-pk-resources.lo `test -f 'pk-resources.c' || echo '$(srcdir)/'`pk-resources.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libpkplugins_la_CPPFLAGS) $(CPPFLAGS) $(libpkplugins_la_CFLAGS) $(CFLAGS) -MT libpkplugins_la-pk-resources.lo -MD -MP -MF $(DEPDIR)/libpkplugins_la-pk-resources.Tpo -c -o libpkplugins_la-pk-resources.lo `test -f 'pk-resources.c' || echo '$(srcdir)/'`pk-resources.c
 @am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/libpkplugins_la-pk-resources.Tpo $(DEPDIR)/libpkplugins_la-pk-resources.Plo
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='pk-resources.c' object='libpkplugins_la-pk-resources.lo' libtool=yes @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libpkplugins_la_CFLAGS) $(CFLAGS) -c -o libpkplugins_la-pk-resources.lo `test -f 'pk-resources.c' || echo '$(srcdir)/'`pk-resources.c
+@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libpkplugins_la_CPPFLAGS) $(CPPFLAGS) $(libpkplugins_la_CFLAGS) $(CFLAGS) -c -o libpkplugins_la-pk-resources.lo `test -f 'pk-resources.c' || echo '$(srcdir)/'`pk-resources.c
 
 libpkplugins_la-pk-shared.lo: pk-shared.c
-@am__fastdepCC_TRUE@	$(AM_V_CC)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libpkplugins_la_CFLAGS) $(CFLAGS) -MT libpkplugins_la-pk-shared.lo -MD -MP -MF $(DEPDIR)/libpkplugins_la-pk-shared.Tpo -c -o libpkplugins_la-pk-shared.lo `test -f 'pk-shared.c' || echo '$(srcdir)/'`pk-shared.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libpkplugins_la_CPPFLAGS) $(CPPFLAGS) $(libpkplugins_la_CFLAGS) $(CFLAGS) -MT libpkplugins_la-pk-shared.lo -MD -MP -MF $(DEPDIR)/libpkplugins_la-pk-shared.Tpo -c -o libpkplugins_la-pk-shared.lo `test -f 'pk-shared.c' || echo '$(srcdir)/'`pk-shared.c
 @am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/libpkplugins_la-pk-shared.Tpo $(DEPDIR)/libpkplugins_la-pk-shared.Plo
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='pk-shared.c' object='libpkplugins_la-pk-shared.lo' libtool=yes @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libpkplugins_la_CFLAGS) $(CFLAGS) -c -o libpkplugins_la-pk-shared.lo `test -f 'pk-shared.c' || echo '$(srcdir)/'`pk-shared.c
+@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libpkplugins_la_CPPFLAGS) $(CPPFLAGS) $(libpkplugins_la_CFLAGS) $(CFLAGS) -c -o libpkplugins_la-pk-shared.lo `test -f 'pk-shared.c' || echo '$(srcdir)/'`pk-shared.c
 
 libpkplugins_la-pk-dbus.lo: pk-dbus.c
-@am__fastdepCC_TRUE@	$(AM_V_CC)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libpkplugins_la_CFLAGS) $(CFLAGS) -MT libpkplugins_la-pk-dbus.lo -MD -MP -MF $(DEPDIR)/libpkplugins_la-pk-dbus.Tpo -c -o libpkplugins_la-pk-dbus.lo `test -f 'pk-dbus.c' || echo '$(srcdir)/'`pk-dbus.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libpkplugins_la_CPPFLAGS) $(CPPFLAGS) $(libpkplugins_la_CFLAGS) $(CFLAGS) -MT libpkplugins_la-pk-dbus.lo -MD -MP -MF $(DEPDIR)/libpkplugins_la-pk-dbus.Tpo -c -o libpkplugins_la-pk-dbus.lo `test -f 'pk-dbus.c' || echo '$(srcdir)/'`pk-dbus.c
 @am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/libpkplugins_la-pk-dbus.Tpo $(DEPDIR)/libpkplugins_la-pk-dbus.Plo
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='pk-dbus.c' object='libpkplugins_la-pk-dbus.lo' libtool=yes @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libpkplugins_la_CFLAGS) $(CFLAGS) -c -o libpkplugins_la-pk-dbus.lo `test -f 'pk-dbus.c' || echo '$(srcdir)/'`pk-dbus.c
+@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libpkplugins_la_CPPFLAGS) $(CPPFLAGS) $(libpkplugins_la_CFLAGS) $(CFLAGS) -c -o libpkplugins_la-pk-dbus.lo `test -f 'pk-dbus.c' || echo '$(srcdir)/'`pk-dbus.c
 
 libpkplugins_la-pk-network.lo: pk-network.c
-@am__fastdepCC_TRUE@	$(AM_V_CC)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libpkplugins_la_CFLAGS) $(CFLAGS) -MT libpkplugins_la-pk-network.lo -MD -MP -MF $(DEPDIR)/libpkplugins_la-pk-network.Tpo -c -o libpkplugins_la-pk-network.lo `test -f 'pk-network.c' || echo '$(srcdir)/'`pk-network.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libpkplugins_la_CPPFLAGS) $(CPPFLAGS) $(libpkplugins_la_CFLAGS) $(CFLAGS) -MT libpkplugins_la-pk-network.lo -MD -MP -MF $(DEPDIR)/libpkplugins_la-pk-network.Tpo -c -o libpkplugins_la-pk-network.lo `test -f 'pk-network.c' || echo '$(srcdir)/'`pk-network.c
 @am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/libpkplugins_la-pk-network.Tpo $(DEPDIR)/libpkplugins_la-pk-network.Plo
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='pk-network.c' object='libpkplugins_la-pk-network.lo' libtool=yes @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libpkplugins_la_CFLAGS) $(CFLAGS) -c -o libpkplugins_la-pk-network.lo `test -f 'pk-network.c' || echo '$(srcdir)/'`pk-network.c
+@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libpkplugins_la_CPPFLAGS) $(CPPFLAGS) $(libpkplugins_la_CFLAGS) $(CFLAGS) -c -o libpkplugins_la-pk-network.lo `test -f 'pk-network.c' || echo '$(srcdir)/'`pk-network.c
 
 libpkplugins_la-pk-time.lo: pk-time.c
-@am__fastdepCC_TRUE@	$(AM_V_CC)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libpkplugins_la_CFLAGS) $(CFLAGS) -MT libpkplugins_la-pk-time.lo -MD -MP -MF $(DEPDIR)/libpkplugins_la-pk-time.Tpo -c -o libpkplugins_la-pk-time.lo `test -f 'pk-time.c' || echo '$(srcdir)/'`pk-time.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libpkplugins_la_CPPFLAGS) $(CPPFLAGS) $(libpkplugins_la_CFLAGS) $(CFLAGS) -MT libpkplugins_la-pk-time.lo -MD -MP -MF $(DEPDIR)/libpkplugins_la-pk-time.Tpo -c -o libpkplugins_la-pk-time.lo `test -f 'pk-time.c' || echo '$(srcdir)/'`pk-time.c
 @am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/libpkplugins_la-pk-time.Tpo $(DEPDIR)/libpkplugins_la-pk-time.Plo
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='pk-time.c' object='libpkplugins_la-pk-time.lo' libtool=yes @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libpkplugins_la_CFLAGS) $(CFLAGS) -c -o libpkplugins_la-pk-time.lo `test -f 'pk-time.c' || echo '$(srcdir)/'`pk-time.c
+@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libpkplugins_la_CPPFLAGS) $(CPPFLAGS) $(libpkplugins_la_CFLAGS) $(CFLAGS) -c -o libpkplugins_la-pk-time.lo `test -f 'pk-time.c' || echo '$(srcdir)/'`pk-time.c
 
 libpkplugins_la-pk-network-stack.lo: pk-network-stack.c
-@am__fastdepCC_TRUE@	$(AM_V_CC)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libpkplugins_la_CFLAGS) $(CFLAGS) -MT libpkplugins_la-pk-network-stack.lo -MD -MP -MF $(DEPDIR)/libpkplugins_la-pk-network-stack.Tpo -c -o libpkplugins_la-pk-network-stack.lo `test -f 'pk-network-stack.c' || echo '$(srcdir)/'`pk-network-stack.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libpkplugins_la_CPPFLAGS) $(CPPFLAGS) $(libpkplugins_la_CFLAGS) $(CFLAGS) -MT libpkplugins_la-pk-network-stack.lo -MD -MP -MF $(DEPDIR)/libpkplugins_la-pk-network-stack.Tpo -c -o libpkplugins_la-pk-network-stack.lo `test -f 'pk-network-stack.c' || echo '$(srcdir)/'`pk-network-stack.c
 @am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/libpkplugins_la-pk-network-stack.Tpo $(DEPDIR)/libpkplugins_la-pk-network-stack.Plo
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='pk-network-stack.c' object='libpkplugins_la-pk-network-stack.lo' libtool=yes @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libpkplugins_la_CFLAGS) $(CFLAGS) -c -o libpkplugins_la-pk-network-stack.lo `test -f 'pk-network-stack.c' || echo '$(srcdir)/'`pk-network-stack.c
+@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libpkplugins_la_CPPFLAGS) $(CPPFLAGS) $(libpkplugins_la_CFLAGS) $(CFLAGS) -c -o libpkplugins_la-pk-network-stack.lo `test -f 'pk-network-stack.c' || echo '$(srcdir)/'`pk-network-stack.c
 
 libpkplugins_la-pk-network-stack-unix.lo: pk-network-stack-unix.c
-@am__fastdepCC_TRUE@	$(AM_V_CC)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libpkplugins_la_CFLAGS) $(CFLAGS) -MT libpkplugins_la-pk-network-stack-unix.lo -MD -MP -MF $(DEPDIR)/libpkplugins_la-pk-network-stack-unix.Tpo -c -o libpkplugins_la-pk-network-stack-unix.lo `test -f 'pk-network-stack-unix.c' || echo '$(srcdir)/'`pk-network-stack-unix.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libpkplugins_la_CPPFLAGS) $(CPPFLAGS) $(libpkplugins_la_CFLAGS) $(CFLAGS) -MT libpkplugins_la-pk-network-stack-unix.lo -MD -MP -MF $(DEPDIR)/libpkplugins_la-pk-network-stack-unix.Tpo -c -o libpkplugins_la-pk-network-stack-unix.lo `test -f 'pk-network-stack-unix.c' || echo '$(srcdir)/'`pk-network-stack-unix.c
 @am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/libpkplugins_la-pk-network-stack-unix.Tpo $(DEPDIR)/libpkplugins_la-pk-network-stack-unix.Plo
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='pk-network-stack-unix.c' object='libpkplugins_la-pk-network-stack-unix.lo' libtool=yes @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libpkplugins_la_CFLAGS) $(CFLAGS) -c -o libpkplugins_la-pk-network-stack-unix.lo `test -f 'pk-network-stack-unix.c' || echo '$(srcdir)/'`pk-network-stack-unix.c
+@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libpkplugins_la_CPPFLAGS) $(CPPFLAGS) $(libpkplugins_la_CFLAGS) $(CFLAGS) -c -o libpkplugins_la-pk-network-stack-unix.lo `test -f 'pk-network-stack-unix.c' || echo '$(srcdir)/'`pk-network-stack-unix.c
 
 libpkplugins_la-pk-notify.lo: pk-notify.c
-@am__fastdepCC_TRUE@	$(AM_V_CC)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libpkplugins_la_CFLAGS) $(CFLAGS) -MT libpkplugins_la-pk-notify.lo -MD -MP -MF $(DEPDIR)/libpkplugins_la-pk-notify.Tpo -c -o libpkplugins_la-pk-notify.lo `test -f 'pk-notify.c' || echo '$(srcdir)/'`pk-notify.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libpkplugins_la_CPPFLAGS) $(CPPFLAGS) $(libpkplugins_la_CFLAGS) $(CFLAGS) -MT libpkplugins_la-pk-notify.lo -MD -MP -MF $(DEPDIR)/libpkplugins_la-pk-notify.Tpo -c -o libpkplugins_la-pk-notify.lo `test -f 'pk-notify.c' || echo '$(srcdir)/'`pk-notify.c
 @am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/libpkplugins_la-pk-notify.Tpo $(DEPDIR)/libpkplugins_la-pk-notify.Plo
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='pk-notify.c' object='libpkplugins_la-pk-notify.lo' libtool=yes @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libpkplugins_la_CFLAGS) $(CFLAGS) -c -o libpkplugins_la-pk-notify.lo `test -f 'pk-notify.c' || echo '$(srcdir)/'`pk-notify.c
+@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libpkplugins_la_CPPFLAGS) $(CPPFLAGS) $(libpkplugins_la_CFLAGS) $(CFLAGS) -c -o libpkplugins_la-pk-notify.lo `test -f 'pk-notify.c' || echo '$(srcdir)/'`pk-notify.c
 
 libpkplugins_la-pk-spawn.lo: pk-spawn.c
-@am__fastdepCC_TRUE@	$(AM_V_CC)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libpkplugins_la_CFLAGS) $(CFLAGS) -MT libpkplugins_la-pk-spawn.lo -MD -MP -MF $(DEPDIR)/libpkplugins_la-pk-spawn.Tpo -c -o libpkplugins_la-pk-spawn.lo `test -f 'pk-spawn.c' || echo '$(srcdir)/'`pk-spawn.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libpkplugins_la_CPPFLAGS) $(CPPFLAGS) $(libpkplugins_la_CFLAGS) $(CFLAGS) -MT libpkplugins_la-pk-spawn.lo -MD -MP -MF $(DEPDIR)/libpkplugins_la-pk-spawn.Tpo -c -o libpkplugins_la-pk-spawn.lo `test -f 'pk-spawn.c' || echo '$(srcdir)/'`pk-spawn.c
 @am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/libpkplugins_la-pk-spawn.Tpo $(DEPDIR)/libpkplugins_la-pk-spawn.Plo
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='pk-spawn.c' object='libpkplugins_la-pk-spawn.lo' libtool=yes @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libpkplugins_la_CFLAGS) $(CFLAGS) -c -o libpkplugins_la-pk-spawn.lo `test -f 'pk-spawn.c' || echo '$(srcdir)/'`pk-spawn.c
+@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libpkplugins_la_CPPFLAGS) $(CPPFLAGS) $(libpkplugins_la_CFLAGS) $(CFLAGS) -c -o libpkplugins_la-pk-spawn.lo `test -f 'pk-spawn.c' || echo '$(srcdir)/'`pk-spawn.c
 
 libpkplugins_la-pk-sysdep.lo: pk-sysdep.c
-@am__fastdepCC_TRUE@	$(AM_V_CC)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libpkplugins_la_CFLAGS) $(CFLAGS) -MT libpkplugins_la-pk-sysdep.lo -MD -MP -MF $(DEPDIR)/libpkplugins_la-pk-sysdep.Tpo -c -o libpkplugins_la-pk-sysdep.lo `test -f 'pk-sysdep.c' || echo '$(srcdir)/'`pk-sysdep.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libpkplugins_la_CPPFLAGS) $(CPPFLAGS) $(libpkplugins_la_CFLAGS) $(CFLAGS) -MT libpkplugins_la-pk-sysdep.lo -MD -MP -MF $(DEPDIR)/libpkplugins_la-pk-sysdep.Tpo -c -o libpkplugins_la-pk-sysdep.lo `test -f 'pk-sysdep.c' || echo '$(srcdir)/'`pk-sysdep.c
 @am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/libpkplugins_la-pk-sysdep.Tpo $(DEPDIR)/libpkplugins_la-pk-sysdep.Plo
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='pk-sysdep.c' object='libpkplugins_la-pk-sysdep.lo' libtool=yes @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libpkplugins_la_CFLAGS) $(CFLAGS) -c -o libpkplugins_la-pk-sysdep.lo `test -f 'pk-sysdep.c' || echo '$(srcdir)/'`pk-sysdep.c
+@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libpkplugins_la_CPPFLAGS) $(CPPFLAGS) $(libpkplugins_la_CFLAGS) $(CFLAGS) -c -o libpkplugins_la-pk-sysdep.lo `test -f 'pk-sysdep.c' || echo '$(srcdir)/'`pk-sysdep.c
 
 libpkplugins_la-pk-engine.lo: pk-engine.c
-@am__fastdepCC_TRUE@	$(AM_V_CC)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libpkplugins_la_CFLAGS) $(CFLAGS) -MT libpkplugins_la-pk-engine.lo -MD -MP -MF $(DEPDIR)/libpkplugins_la-pk-engine.Tpo -c -o libpkplugins_la-pk-engine.lo `test -f 'pk-engine.c' || echo '$(srcdir)/'`pk-engine.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libpkplugins_la_CPPFLAGS) $(CPPFLAGS) $(libpkplugins_la_CFLAGS) $(CFLAGS) -MT libpkplugins_la-pk-engine.lo -MD -MP -MF $(DEPDIR)/libpkplugins_la-pk-engine.Tpo -c -o libpkplugins_la-pk-engine.lo `test -f 'pk-engine.c' || echo '$(srcdir)/'`pk-engine.c
 @am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/libpkplugins_la-pk-engine.Tpo $(DEPDIR)/libpkplugins_la-pk-engine.Plo
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='pk-engine.c' object='libpkplugins_la-pk-engine.lo' libtool=yes @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libpkplugins_la_CFLAGS) $(CFLAGS) -c -o libpkplugins_la-pk-engine.lo `test -f 'pk-engine.c' || echo '$(srcdir)/'`pk-engine.c
+@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libpkplugins_la_CPPFLAGS) $(CPPFLAGS) $(libpkplugins_la_CFLAGS) $(CFLAGS) -c -o libpkplugins_la-pk-engine.lo `test -f 'pk-engine.c' || echo '$(srcdir)/'`pk-engine.c
 
 libpkplugins_la-pk-backend-spawn.lo: pk-backend-spawn.c
-@am__fastdepCC_TRUE@	$(AM_V_CC)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libpkplugins_la_CFLAGS) $(CFLAGS) -MT libpkplugins_la-pk-backend-spawn.lo -MD -MP -MF $(DEPDIR)/libpkplugins_la-pk-backend-spawn.Tpo -c -o libpkplugins_la-pk-backend-spawn.lo `test -f 'pk-backend-spawn.c' || echo '$(srcdir)/'`pk-backend-spawn.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libpkplugins_la_CPPFLAGS) $(CPPFLAGS) $(libpkplugins_la_CFLAGS) $(CFLAGS) -MT libpkplugins_la-pk-backend-spawn.lo -MD -MP -MF $(DEPDIR)/libpkplugins_la-pk-backend-spawn.Tpo -c -o libpkplugins_la-pk-backend-spawn.lo `test -f 'pk-backend-spawn.c' || echo '$(srcdir)/'`pk-backend-spawn.c
 @am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/libpkplugins_la-pk-backend-spawn.Tpo $(DEPDIR)/libpkplugins_la-pk-backend-spawn.Plo
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='pk-backend-spawn.c' object='libpkplugins_la-pk-backend-spawn.lo' libtool=yes @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libpkplugins_la_CFLAGS) $(CFLAGS) -c -o libpkplugins_la-pk-backend-spawn.lo `test -f 'pk-backend-spawn.c' || echo '$(srcdir)/'`pk-backend-spawn.c
+@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libpkplugins_la_CPPFLAGS) $(CPPFLAGS) $(libpkplugins_la_CFLAGS) $(CFLAGS) -c -o libpkplugins_la-pk-backend-spawn.lo `test -f 'pk-backend-spawn.c' || echo '$(srcdir)/'`pk-backend-spawn.c
 
 libpkplugins_la-pk-transaction-db.lo: pk-transaction-db.c
-@am__fastdepCC_TRUE@	$(AM_V_CC)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libpkplugins_la_CFLAGS) $(CFLAGS) -MT libpkplugins_la-pk-transaction-db.lo -MD -MP -MF $(DEPDIR)/libpkplugins_la-pk-transaction-db.Tpo -c -o libpkplugins_la-pk-transaction-db.lo `test -f 'pk-transaction-db.c' || echo '$(srcdir)/'`pk-transaction-db.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libpkplugins_la_CPPFLAGS) $(CPPFLAGS) $(libpkplugins_la_CFLAGS) $(CFLAGS) -MT libpkplugins_la-pk-transaction-db.lo -MD -MP -MF $(DEPDIR)/libpkplugins_la-pk-transaction-db.Tpo -c -o libpkplugins_la-pk-transaction-db.lo `test -f 'pk-transaction-db.c' || echo '$(srcdir)/'`pk-transaction-db.c
 @am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/libpkplugins_la-pk-transaction-db.Tpo $(DEPDIR)/libpkplugins_la-pk-transaction-db.Plo
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='pk-transaction-db.c' object='libpkplugins_la-pk-transaction-db.lo' libtool=yes @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libpkplugins_la_CFLAGS) $(CFLAGS) -c -o libpkplugins_la-pk-transaction-db.lo `test -f 'pk-transaction-db.c' || echo '$(srcdir)/'`pk-transaction-db.c
+@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libpkplugins_la_CPPFLAGS) $(CPPFLAGS) $(libpkplugins_la_CFLAGS) $(CFLAGS) -c -o libpkplugins_la-pk-transaction-db.lo `test -f 'pk-transaction-db.c' || echo '$(srcdir)/'`pk-transaction-db.c
 
 libpkplugins_la-pk-transaction-list.lo: pk-transaction-list.c
-@am__fastdepCC_TRUE@	$(AM_V_CC)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libpkplugins_la_CFLAGS) $(CFLAGS) -MT libpkplugins_la-pk-transaction-list.lo -MD -MP -MF $(DEPDIR)/libpkplugins_la-pk-transaction-list.Tpo -c -o libpkplugins_la-pk-transaction-list.lo `test -f 'pk-transaction-list.c' || echo '$(srcdir)/'`pk-transaction-list.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libpkplugins_la_CPPFLAGS) $(CPPFLAGS) $(libpkplugins_la_CFLAGS) $(CFLAGS) -MT libpkplugins_la-pk-transaction-list.lo -MD -MP -MF $(DEPDIR)/libpkplugins_la-pk-transaction-list.Tpo -c -o libpkplugins_la-pk-transaction-list.lo `test -f 'pk-transaction-list.c' || echo '$(srcdir)/'`pk-transaction-list.c
 @am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/libpkplugins_la-pk-transaction-list.Tpo $(DEPDIR)/libpkplugins_la-pk-transaction-list.Plo
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='pk-transaction-list.c' object='libpkplugins_la-pk-transaction-list.lo' libtool=yes @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libpkplugins_la_CFLAGS) $(CFLAGS) -c -o libpkplugins_la-pk-transaction-list.lo `test -f 'pk-transaction-list.c' || echo '$(srcdir)/'`pk-transaction-list.c
+@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libpkplugins_la_CPPFLAGS) $(CPPFLAGS) $(libpkplugins_la_CFLAGS) $(CFLAGS) -c -o libpkplugins_la-pk-transaction-list.lo `test -f 'pk-transaction-list.c' || echo '$(srcdir)/'`pk-transaction-list.c
 
 libpkplugins_la-pk-network-stack-nm.lo: pk-network-stack-nm.c
-@am__fastdepCC_TRUE@	$(AM_V_CC)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libpkplugins_la_CFLAGS) $(CFLAGS) -MT libpkplugins_la-pk-network-stack-nm.lo -MD -MP -MF $(DEPDIR)/libpkplugins_la-pk-network-stack-nm.Tpo -c -o libpkplugins_la-pk-network-stack-nm.lo `test -f 'pk-network-stack-nm.c' || echo '$(srcdir)/'`pk-network-stack-nm.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libpkplugins_la_CPPFLAGS) $(CPPFLAGS) $(libpkplugins_la_CFLAGS) $(CFLAGS) -MT libpkplugins_la-pk-network-stack-nm.lo -MD -MP -MF $(DEPDIR)/libpkplugins_la-pk-network-stack-nm.Tpo -c -o libpkplugins_la-pk-network-stack-nm.lo `test -f 'pk-network-stack-nm.c' || echo '$(srcdir)/'`pk-network-stack-nm.c
 @am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/libpkplugins_la-pk-network-stack-nm.Tpo $(DEPDIR)/libpkplugins_la-pk-network-stack-nm.Plo
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='pk-network-stack-nm.c' object='libpkplugins_la-pk-network-stack-nm.lo' libtool=yes @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libpkplugins_la_CFLAGS) $(CFLAGS) -c -o libpkplugins_la-pk-network-stack-nm.lo `test -f 'pk-network-stack-nm.c' || echo '$(srcdir)/'`pk-network-stack-nm.c
+@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libpkplugins_la_CPPFLAGS) $(CPPFLAGS) $(libpkplugins_la_CFLAGS) $(CFLAGS) -c -o libpkplugins_la-pk-network-stack-nm.lo `test -f 'pk-network-stack-nm.c' || echo '$(srcdir)/'`pk-network-stack-nm.c
 
 libpkplugins_la-pk-network-stack-connman.lo: pk-network-stack-connman.c
-@am__fastdepCC_TRUE@	$(AM_V_CC)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libpkplugins_la_CFLAGS) $(CFLAGS) -MT libpkplugins_la-pk-network-stack-connman.lo -MD -MP -MF $(DEPDIR)/libpkplugins_la-pk-network-stack-connman.Tpo -c -o libpkplugins_la-pk-network-stack-connman.lo `test -f 'pk-network-stack-connman.c' || echo '$(srcdir)/'`pk-network-stack-connman.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libpkplugins_la_CPPFLAGS) $(CPPFLAGS) $(libpkplugins_la_CFLAGS) $(CFLAGS) -MT libpkplugins_la-pk-network-stack-connman.lo -MD -MP -MF $(DEPDIR)/libpkplugins_la-pk-network-stack-connman.Tpo -c -o libpkplugins_la-pk-network-stack-connman.lo `test -f 'pk-network-stack-connman.c' || echo '$(srcdir)/'`pk-network-stack-connman.c
 @am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/libpkplugins_la-pk-network-stack-connman.Tpo $(DEPDIR)/libpkplugins_la-pk-network-stack-connman.Plo
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='pk-network-stack-connman.c' object='libpkplugins_la-pk-network-stack-connman.lo' libtool=yes @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libpkplugins_la_CFLAGS) $(CFLAGS) -c -o libpkplugins_la-pk-network-stack-connman.lo `test -f 'pk-network-stack-connman.c' || echo '$(srcdir)/'`pk-network-stack-connman.c
+@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libpkplugins_la_CPPFLAGS) $(CPPFLAGS) $(libpkplugins_la_CFLAGS) $(CFLAGS) -c -o libpkplugins_la-pk-network-stack-connman.lo `test -f 'pk-network-stack-connman.c' || echo '$(srcdir)/'`pk-network-stack-connman.c
 
 packagekitd-pk-main.o: pk-main.c
-@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(packagekitd_CFLAGS) $(CFLAGS) -MT packagekitd-pk-main.o -MD -MP -MF $(DEPDIR)/packagekitd-pk-main.Tpo -c -o packagekitd-pk-main.o `test -f 'pk-main.c' || echo '$(srcdir)/'`pk-main.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(packagekitd_CPPFLAGS) $(CPPFLAGS) $(packagekitd_CFLAGS) $(CFLAGS) -MT packagekitd-pk-main.o -MD -MP -MF $(DEPDIR)/packagekitd-pk-main.Tpo -c -o packagekitd-pk-main.o `test -f 'pk-main.c' || echo '$(srcdir)/'`pk-main.c
 @am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/packagekitd-pk-main.Tpo $(DEPDIR)/packagekitd-pk-main.Po
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='pk-main.c' object='packagekitd-pk-main.o' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(packagekitd_CFLAGS) $(CFLAGS) -c -o packagekitd-pk-main.o `test -f 'pk-main.c' || echo '$(srcdir)/'`pk-main.c
+@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(packagekitd_CPPFLAGS) $(CPPFLAGS) $(packagekitd_CFLAGS) $(CFLAGS) -c -o packagekitd-pk-main.o `test -f 'pk-main.c' || echo '$(srcdir)/'`pk-main.c
 
 packagekitd-pk-main.obj: pk-main.c
-@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(packagekitd_CFLAGS) $(CFLAGS) -MT packagekitd-pk-main.obj -MD -MP -MF $(DEPDIR)/packagekitd-pk-main.Tpo -c -o packagekitd-pk-main.obj `if test -f 'pk-main.c'; then $(CYGPATH_W) 'pk-main.c'; else $(CYGPATH_W) '$(srcdir)/pk-main.c'; fi`
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(packagekitd_CPPFLAGS) $(CPPFLAGS) $(packagekitd_CFLAGS) $(CFLAGS) -MT packagekitd-pk-main.obj -MD -MP -MF $(DEPDIR)/packagekitd-pk-main.Tpo -c -o packagekitd-pk-main.obj `if test -f 'pk-main.c'; then $(CYGPATH_W) 'pk-main.c'; else $(CYGPATH_W) '$(srcdir)/pk-main.c'; fi`
 @am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/packagekitd-pk-main.Tpo $(DEPDIR)/packagekitd-pk-main.Po
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='pk-main.c' object='packagekitd-pk-main.obj' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(packagekitd_CFLAGS) $(CFLAGS) -c -o packagekitd-pk-main.obj `if test -f 'pk-main.c'; then $(CYGPATH_W) 'pk-main.c'; else $(CYGPATH_W) '$(srcdir)/pk-main.c'; fi`
+@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(packagekitd_CPPFLAGS) $(CPPFLAGS) $(packagekitd_CFLAGS) $(CFLAGS) -c -o packagekitd-pk-main.obj `if test -f 'pk-main.c'; then $(CYGPATH_W) 'pk-main.c'; else $(CYGPATH_W) '$(srcdir)/pk-main.c'; fi`
 
 packagekitd-pk-dbus.o: pk-dbus.c
-@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(packagekitd_CFLAGS) $(CFLAGS) -MT packagekitd-pk-dbus.o -MD -MP -MF $(DEPDIR)/packagekitd-pk-dbus.Tpo -c -o packagekitd-pk-dbus.o `test -f 'pk-dbus.c' || echo '$(srcdir)/'`pk-dbus.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(packagekitd_CPPFLAGS) $(CPPFLAGS) $(packagekitd_CFLAGS) $(CFLAGS) -MT packagekitd-pk-dbus.o -MD -MP -MF $(DEPDIR)/packagekitd-pk-dbus.Tpo -c -o packagekitd-pk-dbus.o `test -f 'pk-dbus.c' || echo '$(srcdir)/'`pk-dbus.c
 @am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/packagekitd-pk-dbus.Tpo $(DEPDIR)/packagekitd-pk-dbus.Po
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='pk-dbus.c' object='packagekitd-pk-dbus.o' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(packagekitd_CFLAGS) $(CFLAGS) -c -o packagekitd-pk-dbus.o `test -f 'pk-dbus.c' || echo '$(srcdir)/'`pk-dbus.c
+@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(packagekitd_CPPFLAGS) $(CPPFLAGS) $(packagekitd_CFLAGS) $(CFLAGS) -c -o packagekitd-pk-dbus.o `test -f 'pk-dbus.c' || echo '$(srcdir)/'`pk-dbus.c
 
 packagekitd-pk-dbus.obj: pk-dbus.c
-@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(packagekitd_CFLAGS) $(CFLAGS) -MT packagekitd-pk-dbus.obj -MD -MP -MF $(DEPDIR)/packagekitd-pk-dbus.Tpo -c -o packagekitd-pk-dbus.obj `if test -f 'pk-dbus.c'; then $(CYGPATH_W) 'pk-dbus.c'; else $(CYGPATH_W) '$(srcdir)/pk-dbus.c'; fi`
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(packagekitd_CPPFLAGS) $(CPPFLAGS) $(packagekitd_CFLAGS) $(CFLAGS) -MT packagekitd-pk-dbus.obj -MD -MP -MF $(DEPDIR)/packagekitd-pk-dbus.Tpo -c -o packagekitd-pk-dbus.obj `if test -f 'pk-dbus.c'; then $(CYGPATH_W) 'pk-dbus.c'; else $(CYGPATH_W) '$(srcdir)/pk-dbus.c'; fi`
 @am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/packagekitd-pk-dbus.Tpo $(DEPDIR)/packagekitd-pk-dbus.Po
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='pk-dbus.c' object='packagekitd-pk-dbus.obj' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(packagekitd_CFLAGS) $(CFLAGS) -c -o packagekitd-pk-dbus.obj `if test -f 'pk-dbus.c'; then $(CYGPATH_W) 'pk-dbus.c'; else $(CYGPATH_W) '$(srcdir)/pk-dbus.c'; fi`
+@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(packagekitd_CPPFLAGS) $(CPPFLAGS) $(packagekitd_CFLAGS) $(CFLAGS) -c -o packagekitd-pk-dbus.obj `if test -f 'pk-dbus.c'; then $(CYGPATH_W) 'pk-dbus.c'; else $(CYGPATH_W) '$(srcdir)/pk-dbus.c'; fi`
 
 packagekitd-pk-transaction.o: pk-transaction.c
-@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(packagekitd_CFLAGS) $(CFLAGS) -MT packagekitd-pk-transaction.o -MD -MP -MF $(DEPDIR)/packagekitd-pk-transaction.Tpo -c -o packagekitd-pk-transaction.o `test -f 'pk-transaction.c' || echo '$(srcdir)/'`pk-transaction.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(packagekitd_CPPFLAGS) $(CPPFLAGS) $(packagekitd_CFLAGS) $(CFLAGS) -MT packagekitd-pk-transaction.o -MD -MP -MF $(DEPDIR)/packagekitd-pk-transaction.Tpo -c -o packagekitd-pk-transaction.o `test -f 'pk-transaction.c' || echo '$(srcdir)/'`pk-transaction.c
 @am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/packagekitd-pk-transaction.Tpo $(DEPDIR)/packagekitd-pk-transaction.Po
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='pk-transaction.c' object='packagekitd-pk-transaction.o' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(packagekitd_CFLAGS) $(CFLAGS) -c -o packagekitd-pk-transaction.o `test -f 'pk-transaction.c' || echo '$(srcdir)/'`pk-transaction.c
+@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(packagekitd_CPPFLAGS) $(CPPFLAGS) $(packagekitd_CFLAGS) $(CFLAGS) -c -o packagekitd-pk-transaction.o `test -f 'pk-transaction.c' || echo '$(srcdir)/'`pk-transaction.c
 
 packagekitd-pk-transaction.obj: pk-transaction.c
-@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(packagekitd_CFLAGS) $(CFLAGS) -MT packagekitd-pk-transaction.obj -MD -MP -MF $(DEPDIR)/packagekitd-pk-transaction.Tpo -c -o packagekitd-pk-transaction.obj `if test -f 'pk-transaction.c'; then $(CYGPATH_W) 'pk-transaction.c'; else $(CYGPATH_W) '$(srcdir)/pk-transaction.c'; fi`
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(packagekitd_CPPFLAGS) $(CPPFLAGS) $(packagekitd_CFLAGS) $(CFLAGS) -MT packagekitd-pk-transaction.obj -MD -MP -MF $(DEPDIR)/packagekitd-pk-transaction.Tpo -c -o packagekitd-pk-transaction.obj `if test -f 'pk-transaction.c'; then $(CYGPATH_W) 'pk-transaction.c'; else $(CYGPATH_W) '$(srcdir)/pk-transaction.c'; fi`
 @am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/packagekitd-pk-transaction.Tpo $(DEPDIR)/packagekitd-pk-transaction.Po
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='pk-transaction.c' object='packagekitd-pk-transaction.obj' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(packagekitd_CFLAGS) $(CFLAGS) -c -o packagekitd-pk-transaction.obj `if test -f 'pk-transaction.c'; then $(CYGPATH_W) 'pk-transaction.c'; else $(CYGPATH_W) '$(srcdir)/pk-transaction.c'; fi`
+@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(packagekitd_CPPFLAGS) $(CPPFLAGS) $(packagekitd_CFLAGS) $(CFLAGS) -c -o packagekitd-pk-transaction.obj `if test -f 'pk-transaction.c'; then $(CYGPATH_W) 'pk-transaction.c'; else $(CYGPATH_W) '$(srcdir)/pk-transaction.c'; fi`
 
 packagekitd-pk-backend.o: pk-backend.c
-@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(packagekitd_CFLAGS) $(CFLAGS) -MT packagekitd-pk-backend.o -MD -MP -MF $(DEPDIR)/packagekitd-pk-backend.Tpo -c -o packagekitd-pk-backend.o `test -f 'pk-backend.c' || echo '$(srcdir)/'`pk-backend.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(packagekitd_CPPFLAGS) $(CPPFLAGS) $(packagekitd_CFLAGS) $(CFLAGS) -MT packagekitd-pk-backend.o -MD -MP -MF $(DEPDIR)/packagekitd-pk-backend.Tpo -c -o packagekitd-pk-backend.o `test -f 'pk-backend.c' || echo '$(srcdir)/'`pk-backend.c
 @am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/packagekitd-pk-backend.Tpo $(DEPDIR)/packagekitd-pk-backend.Po
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='pk-backend.c' object='packagekitd-pk-backend.o' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(packagekitd_CFLAGS) $(CFLAGS) -c -o packagekitd-pk-backend.o `test -f 'pk-backend.c' || echo '$(srcdir)/'`pk-backend.c
+@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(packagekitd_CPPFLAGS) $(CPPFLAGS) $(packagekitd_CFLAGS) $(CFLAGS) -c -o packagekitd-pk-backend.o `test -f 'pk-backend.c' || echo '$(srcdir)/'`pk-backend.c
 
 packagekitd-pk-backend.obj: pk-backend.c
-@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(packagekitd_CFLAGS) $(CFLAGS) -MT packagekitd-pk-backend.obj -MD -MP -MF $(DEPDIR)/packagekitd-pk-backend.Tpo -c -o packagekitd-pk-backend.obj `if test -f 'pk-backend.c'; then $(CYGPATH_W) 'pk-backend.c'; else $(CYGPATH_W) '$(srcdir)/pk-backend.c'; fi`
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(packagekitd_CPPFLAGS) $(CPPFLAGS) $(packagekitd_CFLAGS) $(CFLAGS) -MT packagekitd-pk-backend.obj -MD -MP -MF $(DEPDIR)/packagekitd-pk-backend.Tpo -c -o packagekitd-pk-backend.obj `if test -f 'pk-backend.c'; then $(CYGPATH_W) 'pk-backend.c'; else $(CYGPATH_W) '$(srcdir)/pk-backend.c'; fi`
 @am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/packagekitd-pk-backend.Tpo $(DEPDIR)/packagekitd-pk-backend.Po
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='pk-backend.c' object='packagekitd-pk-backend.obj' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(packagekitd_CFLAGS) $(CFLAGS) -c -o packagekitd-pk-backend.obj `if test -f 'pk-backend.c'; then $(CYGPATH_W) 'pk-backend.c'; else $(CYGPATH_W) '$(srcdir)/pk-backend.c'; fi`
+@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(packagekitd_CPPFLAGS) $(CPPFLAGS) $(packagekitd_CFLAGS) $(CFLAGS) -c -o packagekitd-pk-backend.obj `if test -f 'pk-backend.c'; then $(CYGPATH_W) 'pk-backend.c'; else $(CYGPATH_W) '$(srcdir)/pk-backend.c'; fi`
 
 packagekitd-pk-backend-job.o: pk-backend-job.c
-@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(packagekitd_CFLAGS) $(CFLAGS) -MT packagekitd-pk-backend-job.o -MD -MP -MF $(DEPDIR)/packagekitd-pk-backend-job.Tpo -c -o packagekitd-pk-backend-job.o `test -f 'pk-backend-job.c' || echo '$(srcdir)/'`pk-backend-job.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(packagekitd_CPPFLAGS) $(CPPFLAGS) $(packagekitd_CFLAGS) $(CFLAGS) -MT packagekitd-pk-backend-job.o -MD -MP -MF $(DEPDIR)/packagekitd-pk-backend-job.Tpo -c -o packagekitd-pk-backend-job.o `test -f 'pk-backend-job.c' || echo '$(srcdir)/'`pk-backend-job.c
 @am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/packagekitd-pk-backend-job.Tpo $(DEPDIR)/packagekitd-pk-backend-job.Po
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='pk-backend-job.c' object='packagekitd-pk-backend-job.o' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(packagekitd_CFLAGS) $(CFLAGS) -c -o packagekitd-pk-backend-job.o `test -f 'pk-backend-job.c' || echo '$(srcdir)/'`pk-backend-job.c
+@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(packagekitd_CPPFLAGS) $(CPPFLAGS) $(packagekitd_CFLAGS) $(CFLAGS) -c -o packagekitd-pk-backend-job.o `test -f 'pk-backend-job.c' || echo '$(srcdir)/'`pk-backend-job.c
 
 packagekitd-pk-backend-job.obj: pk-backend-job.c
-@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(packagekitd_CFLAGS) $(CFLAGS) -MT packagekitd-pk-backend-job.obj -MD -MP -MF $(DEPDIR)/packagekitd-pk-backend-job.Tpo -c -o packagekitd-pk-backend-job.obj `if test -f 'pk-backend-job.c'; then $(CYGPATH_W) 'pk-backend-job.c'; else $(CYGPATH_W) '$(srcdir)/pk-backend-job.c'; fi`
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(packagekitd_CPPFLAGS) $(CPPFLAGS) $(packagekitd_CFLAGS) $(CFLAGS) -MT packagekitd-pk-backend-job.obj -MD -MP -MF $(DEPDIR)/packagekitd-pk-backend-job.Tpo -c -o packagekitd-pk-backend-job.obj `if test -f 'pk-backend-job.c'; then $(CYGPATH_W) 'pk-backend-job.c'; else $(CYGPATH_W) '$(srcdir)/pk-backend-job.c'; fi`
 @am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/packagekitd-pk-backend-job.Tpo $(DEPDIR)/packagekitd-pk-backend-job.Po
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='pk-backend-job.c' object='packagekitd-pk-backend-job.obj' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(packagekitd_CFLAGS) $(CFLAGS) -c -o packagekitd-pk-backend-job.obj `if test -f 'pk-backend-job.c'; then $(CYGPATH_W) 'pk-backend-job.c'; else $(CYGPATH_W) '$(srcdir)/pk-backend-job.c'; fi`
+@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(packagekitd_CPPFLAGS) $(CPPFLAGS) $(packagekitd_CFLAGS) $(CFLAGS) -c -o packagekitd-pk-backend-job.obj `if test -f 'pk-backend-job.c'; then $(CYGPATH_W) 'pk-backend-job.c'; else $(CYGPATH_W) '$(srcdir)/pk-backend-job.c'; fi`
 
 packagekitd-pk-network.o: pk-network.c
-@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(packagekitd_CFLAGS) $(CFLAGS) -MT packagekitd-pk-network.o -MD -MP -MF $(DEPDIR)/packagekitd-pk-network.Tpo -c -o packagekitd-pk-network.o `test -f 'pk-network.c' || echo '$(srcdir)/'`pk-network.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(packagekitd_CPPFLAGS) $(CPPFLAGS) $(packagekitd_CFLAGS) $(CFLAGS) -MT packagekitd-pk-network.o -MD -MP -MF $(DEPDIR)/packagekitd-pk-network.Tpo -c -o packagekitd-pk-network.o `test -f 'pk-network.c' || echo '$(srcdir)/'`pk-network.c
 @am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/packagekitd-pk-network.Tpo $(DEPDIR)/packagekitd-pk-network.Po
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='pk-network.c' object='packagekitd-pk-network.o' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(packagekitd_CFLAGS) $(CFLAGS) -c -o packagekitd-pk-network.o `test -f 'pk-network.c' || echo '$(srcdir)/'`pk-network.c
+@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(packagekitd_CPPFLAGS) $(CPPFLAGS) $(packagekitd_CFLAGS) $(CFLAGS) -c -o packagekitd-pk-network.o `test -f 'pk-network.c' || echo '$(srcdir)/'`pk-network.c
 
 packagekitd-pk-network.obj: pk-network.c
-@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(packagekitd_CFLAGS) $(CFLAGS) -MT packagekitd-pk-network.obj -MD -MP -MF $(DEPDIR)/packagekitd-pk-network.Tpo -c -o packagekitd-pk-network.obj `if test -f 'pk-network.c'; then $(CYGPATH_W) 'pk-network.c'; else $(CYGPATH_W) '$(srcdir)/pk-network.c'; fi`
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(packagekitd_CPPFLAGS) $(CPPFLAGS) $(packagekitd_CFLAGS) $(CFLAGS) -MT packagekitd-pk-network.obj -MD -MP -MF $(DEPDIR)/packagekitd-pk-network.Tpo -c -o packagekitd-pk-network.obj `if test -f 'pk-network.c'; then $(CYGPATH_W) 'pk-network.c'; else $(CYGPATH_W) '$(srcdir)/pk-network.c'; fi`
 @am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/packagekitd-pk-network.Tpo $(DEPDIR)/packagekitd-pk-network.Po
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='pk-network.c' object='packagekitd-pk-network.obj' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(packagekitd_CFLAGS) $(CFLAGS) -c -o packagekitd-pk-network.obj `if test -f 'pk-network.c'; then $(CYGPATH_W) 'pk-network.c'; else $(CYGPATH_W) '$(srcdir)/pk-network.c'; fi`
+@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(packagekitd_CPPFLAGS) $(CPPFLAGS) $(packagekitd_CFLAGS) $(CFLAGS) -c -o packagekitd-pk-network.obj `if test -f 'pk-network.c'; then $(CYGPATH_W) 'pk-network.c'; else $(CYGPATH_W) '$(srcdir)/pk-network.c'; fi`
 
 packagekitd-pk-shared.o: pk-shared.c
-@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(packagekitd_CFLAGS) $(CFLAGS) -MT packagekitd-pk-shared.o -MD -MP -MF $(DEPDIR)/packagekitd-pk-shared.Tpo -c -o packagekitd-pk-shared.o `test -f 'pk-shared.c' || echo '$(srcdir)/'`pk-shared.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(packagekitd_CPPFLAGS) $(CPPFLAGS) $(packagekitd_CFLAGS) $(CFLAGS) -MT packagekitd-pk-shared.o -MD -MP -MF $(DEPDIR)/packagekitd-pk-shared.Tpo -c -o packagekitd-pk-shared.o `test -f 'pk-shared.c' || echo '$(srcdir)/'`pk-shared.c
 @am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/packagekitd-pk-shared.Tpo $(DEPDIR)/packagekitd-pk-shared.Po
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='pk-shared.c' object='packagekitd-pk-shared.o' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(packagekitd_CFLAGS) $(CFLAGS) -c -o packagekitd-pk-shared.o `test -f 'pk-shared.c' || echo '$(srcdir)/'`pk-shared.c
+@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(packagekitd_CPPFLAGS) $(CPPFLAGS) $(packagekitd_CFLAGS) $(CFLAGS) -c -o packagekitd-pk-shared.o `test -f 'pk-shared.c' || echo '$(srcdir)/'`pk-shared.c
 
 packagekitd-pk-shared.obj: pk-shared.c
-@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(packagekitd_CFLAGS) $(CFLAGS) -MT packagekitd-pk-shared.obj -MD -MP -MF $(DEPDIR)/packagekitd-pk-shared.Tpo -c -o packagekitd-pk-shared.obj `if test -f 'pk-shared.c'; then $(CYGPATH_W) 'pk-shared.c'; else $(CYGPATH_W) '$(srcdir)/pk-shared.c'; fi`
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(packagekitd_CPPFLAGS) $(CPPFLAGS) $(packagekitd_CFLAGS) $(CFLAGS) -MT packagekitd-pk-shared.obj -MD -MP -MF $(DEPDIR)/packagekitd-pk-shared.Tpo -c -o packagekitd-pk-shared.obj `if test -f 'pk-shared.c'; then $(CYGPATH_W) 'pk-shared.c'; else $(CYGPATH_W) '$(srcdir)/pk-shared.c'; fi`
 @am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/packagekitd-pk-shared.Tpo $(DEPDIR)/packagekitd-pk-shared.Po
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='pk-shared.c' object='packagekitd-pk-shared.obj' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(packagekitd_CFLAGS) $(CFLAGS) -c -o packagekitd-pk-shared.obj `if test -f 'pk-shared.c'; then $(CYGPATH_W) 'pk-shared.c'; else $(CYGPATH_W) '$(srcdir)/pk-shared.c'; fi`
+@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(packagekitd_CPPFLAGS) $(CPPFLAGS) $(packagekitd_CFLAGS) $(CFLAGS) -c -o packagekitd-pk-shared.obj `if test -f 'pk-shared.c'; then $(CYGPATH_W) 'pk-shared.c'; else $(CYGPATH_W) '$(srcdir)/pk-shared.c'; fi`
 
 packagekitd-pk-time.o: pk-time.c
-@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(packagekitd_CFLAGS) $(CFLAGS) -MT packagekitd-pk-time.o -MD -MP -MF $(DEPDIR)/packagekitd-pk-time.Tpo -c -o packagekitd-pk-time.o `test -f 'pk-time.c' || echo '$(srcdir)/'`pk-time.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(packagekitd_CPPFLAGS) $(CPPFLAGS) $(packagekitd_CFLAGS) $(CFLAGS) -MT packagekitd-pk-time.o -MD -MP -MF $(DEPDIR)/packagekitd-pk-time.Tpo -c -o packagekitd-pk-time.o `test -f 'pk-time.c' || echo '$(srcdir)/'`pk-time.c
 @am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/packagekitd-pk-time.Tpo $(DEPDIR)/packagekitd-pk-time.Po
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='pk-time.c' object='packagekitd-pk-time.o' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(packagekitd_CFLAGS) $(CFLAGS) -c -o packagekitd-pk-time.o `test -f 'pk-time.c' || echo '$(srcdir)/'`pk-time.c
+@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(packagekitd_CPPFLAGS) $(CPPFLAGS) $(packagekitd_CFLAGS) $(CFLAGS) -c -o packagekitd-pk-time.o `test -f 'pk-time.c' || echo '$(srcdir)/'`pk-time.c
 
 packagekitd-pk-time.obj: pk-time.c
-@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(packagekitd_CFLAGS) $(CFLAGS) -MT packagekitd-pk-time.obj -MD -MP -MF $(DEPDIR)/packagekitd-pk-time.Tpo -c -o packagekitd-pk-time.obj `if test -f 'pk-time.c'; then $(CYGPATH_W) 'pk-time.c'; else $(CYGPATH_W) '$(srcdir)/pk-time.c'; fi`
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(packagekitd_CPPFLAGS) $(CPPFLAGS) $(packagekitd_CFLAGS) $(CFLAGS) -MT packagekitd-pk-time.obj -MD -MP -MF $(DEPDIR)/packagekitd-pk-time.Tpo -c -o packagekitd-pk-time.obj `if test -f 'pk-time.c'; then $(CYGPATH_W) 'pk-time.c'; else $(CYGPATH_W) '$(srcdir)/pk-time.c'; fi`
 @am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/packagekitd-pk-time.Tpo $(DEPDIR)/packagekitd-pk-time.Po
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='pk-time.c' object='packagekitd-pk-time.obj' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(packagekitd_CFLAGS) $(CFLAGS) -c -o packagekitd-pk-time.obj `if test -f 'pk-time.c'; then $(CYGPATH_W) 'pk-time.c'; else $(CYGPATH_W) '$(srcdir)/pk-time.c'; fi`
+@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(packagekitd_CPPFLAGS) $(CPPFLAGS) $(packagekitd_CFLAGS) $(CFLAGS) -c -o packagekitd-pk-time.obj `if test -f 'pk-time.c'; then $(CYGPATH_W) 'pk-time.c'; else $(CYGPATH_W) '$(srcdir)/pk-time.c'; fi`
 
 packagekitd-pk-network-stack.o: pk-network-stack.c
-@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(packagekitd_CFLAGS) $(CFLAGS) -MT packagekitd-pk-network-stack.o -MD -MP -MF $(DEPDIR)/packagekitd-pk-network-stack.Tpo -c -o packagekitd-pk-network-stack.o `test -f 'pk-network-stack.c' || echo '$(srcdir)/'`pk-network-stack.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(packagekitd_CPPFLAGS) $(CPPFLAGS) $(packagekitd_CFLAGS) $(CFLAGS) -MT packagekitd-pk-network-stack.o -MD -MP -MF $(DEPDIR)/packagekitd-pk-network-stack.Tpo -c -o packagekitd-pk-network-stack.o `test -f 'pk-network-stack.c' || echo '$(srcdir)/'`pk-network-stack.c
 @am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/packagekitd-pk-network-stack.Tpo $(DEPDIR)/packagekitd-pk-network-stack.Po
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='pk-network-stack.c' object='packagekitd-pk-network-stack.o' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(packagekitd_CFLAGS) $(CFLAGS) -c -o packagekitd-pk-network-stack.o `test -f 'pk-network-stack.c' || echo '$(srcdir)/'`pk-network-stack.c
+@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(packagekitd_CPPFLAGS) $(CPPFLAGS) $(packagekitd_CFLAGS) $(CFLAGS) -c -o packagekitd-pk-network-stack.o `test -f 'pk-network-stack.c' || echo '$(srcdir)/'`pk-network-stack.c
 
 packagekitd-pk-network-stack.obj: pk-network-stack.c
-@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(packagekitd_CFLAGS) $(CFLAGS) -MT packagekitd-pk-network-stack.obj -MD -MP -MF $(DEPDIR)/packagekitd-pk-network-stack.Tpo -c -o packagekitd-pk-network-stack.obj `if test -f 'pk-network-stack.c'; then $(CYGPATH_W) 'pk-network-stack.c'; else $(CYGPATH_W) '$(srcdir)/pk-network-stack.c'; fi`
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(packagekitd_CPPFLAGS) $(CPPFLAGS) $(packagekitd_CFLAGS) $(CFLAGS) -MT packagekitd-pk-network-stack.obj -MD -MP -MF $(DEPDIR)/packagekitd-pk-network-stack.Tpo -c -o packagekitd-pk-network-stack.obj `if test -f 'pk-network-stack.c'; then $(CYGPATH_W) 'pk-network-stack.c'; else $(CYGPATH_W) '$(srcdir)/pk-network-stack.c'; fi`
 @am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/packagekitd-pk-network-stack.Tpo $(DEPDIR)/packagekitd-pk-network-stack.Po
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='pk-network-stack.c' object='packagekitd-pk-network-stack.obj' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(packagekitd_CFLAGS) $(CFLAGS) -c -o packagekitd-pk-network-stack.obj `if test -f 'pk-network-stack.c'; then $(CYGPATH_W) 'pk-network-stack.c'; else $(CYGPATH_W) '$(srcdir)/pk-network-stack.c'; fi`
+@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(packagekitd_CPPFLAGS) $(CPPFLAGS) $(packagekitd_CFLAGS) $(CFLAGS) -c -o packagekitd-pk-network-stack.obj `if test -f 'pk-network-stack.c'; then $(CYGPATH_W) 'pk-network-stack.c'; else $(CYGPATH_W) '$(srcdir)/pk-network-stack.c'; fi`
 
 packagekitd-pk-network-stack-unix.o: pk-network-stack-unix.c
-@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(packagekitd_CFLAGS) $(CFLAGS) -MT packagekitd-pk-network-stack-unix.o -MD -MP -MF $(DEPDIR)/packagekitd-pk-network-stack-unix.Tpo -c -o packagekitd-pk-network-stack-unix.o `test -f 'pk-network-stack-unix.c' || echo '$(srcdir)/'`pk-network-stack-unix.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(packagekitd_CPPFLAGS) $(CPPFLAGS) $(packagekitd_CFLAGS) $(CFLAGS) -MT packagekitd-pk-network-stack-unix.o -MD -MP -MF $(DEPDIR)/packagekitd-pk-network-stack-unix.Tpo -c -o packagekitd-pk-network-stack-unix.o `test -f 'pk-network-stack-unix.c' || echo '$(srcdir)/'`pk-network-stack-unix.c
 @am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/packagekitd-pk-network-stack-unix.Tpo $(DEPDIR)/packagekitd-pk-network-stack-unix.Po
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='pk-network-stack-unix.c' object='packagekitd-pk-network-stack-unix.o' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(packagekitd_CFLAGS) $(CFLAGS) -c -o packagekitd-pk-network-stack-unix.o `test -f 'pk-network-stack-unix.c' || echo '$(srcdir)/'`pk-network-stack-unix.c
+@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(packagekitd_CPPFLAGS) $(CPPFLAGS) $(packagekitd_CFLAGS) $(CFLAGS) -c -o packagekitd-pk-network-stack-unix.o `test -f 'pk-network-stack-unix.c' || echo '$(srcdir)/'`pk-network-stack-unix.c
 
 packagekitd-pk-network-stack-unix.obj: pk-network-stack-unix.c
-@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(packagekitd_CFLAGS) $(CFLAGS) -MT packagekitd-pk-network-stack-unix.obj -MD -MP -MF $(DEPDIR)/packagekitd-pk-network-stack-unix.Tpo -c -o packagekitd-pk-network-stack-unix.obj `if test -f 'pk-network-stack-unix.c'; then $(CYGPATH_W) 'pk-network-stack-unix.c'; else $(CYGPATH_W) '$(srcdir)/pk-network-stack-unix.c'; fi`
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(packagekitd_CPPFLAGS) $(CPPFLAGS) $(packagekitd_CFLAGS) $(CFLAGS) -MT packagekitd-pk-network-stack-unix.obj -MD -MP -MF $(DEPDIR)/packagekitd-pk-network-stack-unix.Tpo -c -o packagekitd-pk-network-stack-unix.obj `if test -f 'pk-network-stack-unix.c'; then $(CYGPATH_W) 'pk-network-stack-unix.c'; else $(CYGPATH_W) '$(srcdir)/pk-network-stack-unix.c'; fi`
 @am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/packagekitd-pk-network-stack-unix.Tpo $(DEPDIR)/packagekitd-pk-network-stack-unix.Po
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='pk-network-stack-unix.c' object='packagekitd-pk-network-stack-unix.obj' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(packagekitd_CFLAGS) $(CFLAGS) -c -o packagekitd-pk-network-stack-unix.obj `if test -f 'pk-network-stack-unix.c'; then $(CYGPATH_W) 'pk-network-stack-unix.c'; else $(CYGPATH_W) '$(srcdir)/pk-network-stack-unix.c'; fi`
+@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(packagekitd_CPPFLAGS) $(CPPFLAGS) $(packagekitd_CFLAGS) $(CFLAGS) -c -o packagekitd-pk-network-stack-unix.obj `if test -f 'pk-network-stack-unix.c'; then $(CYGPATH_W) 'pk-network-stack-unix.c'; else $(CYGPATH_W) '$(srcdir)/pk-network-stack-unix.c'; fi`
 
 packagekitd-pk-conf.o: pk-conf.c
-@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(packagekitd_CFLAGS) $(CFLAGS) -MT packagekitd-pk-conf.o -MD -MP -MF $(DEPDIR)/packagekitd-pk-conf.Tpo -c -o packagekitd-pk-conf.o `test -f 'pk-conf.c' || echo '$(srcdir)/'`pk-conf.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(packagekitd_CPPFLAGS) $(CPPFLAGS) $(packagekitd_CFLAGS) $(CFLAGS) -MT packagekitd-pk-conf.o -MD -MP -MF $(DEPDIR)/packagekitd-pk-conf.Tpo -c -o packagekitd-pk-conf.o `test -f 'pk-conf.c' || echo '$(srcdir)/'`pk-conf.c
 @am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/packagekitd-pk-conf.Tpo $(DEPDIR)/packagekitd-pk-conf.Po
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='pk-conf.c' object='packagekitd-pk-conf.o' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(packagekitd_CFLAGS) $(CFLAGS) -c -o packagekitd-pk-conf.o `test -f 'pk-conf.c' || echo '$(srcdir)/'`pk-conf.c
+@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(packagekitd_CPPFLAGS) $(CPPFLAGS) $(packagekitd_CFLAGS) $(CFLAGS) -c -o packagekitd-pk-conf.o `test -f 'pk-conf.c' || echo '$(srcdir)/'`pk-conf.c
 
 packagekitd-pk-conf.obj: pk-conf.c
-@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(packagekitd_CFLAGS) $(CFLAGS) -MT packagekitd-pk-conf.obj -MD -MP -MF $(DEPDIR)/packagekitd-pk-conf.Tpo -c -o packagekitd-pk-conf.obj `if test -f 'pk-conf.c'; then $(CYGPATH_W) 'pk-conf.c'; else $(CYGPATH_W) '$(srcdir)/pk-conf.c'; fi`
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(packagekitd_CPPFLAGS) $(CPPFLAGS) $(packagekitd_CFLAGS) $(CFLAGS) -MT packagekitd-pk-conf.obj -MD -MP -MF $(DEPDIR)/packagekitd-pk-conf.Tpo -c -o packagekitd-pk-conf.obj `if test -f 'pk-conf.c'; then $(CYGPATH_W) 'pk-conf.c'; else $(CYGPATH_W) '$(srcdir)/pk-conf.c'; fi`
 @am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/packagekitd-pk-conf.Tpo $(DEPDIR)/packagekitd-pk-conf.Po
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='pk-conf.c' object='packagekitd-pk-conf.obj' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(packagekitd_CFLAGS) $(CFLAGS) -c -o packagekitd-pk-conf.obj `if test -f 'pk-conf.c'; then $(CYGPATH_W) 'pk-conf.c'; else $(CYGPATH_W) '$(srcdir)/pk-conf.c'; fi`
+@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(packagekitd_CPPFLAGS) $(CPPFLAGS) $(packagekitd_CFLAGS) $(CFLAGS) -c -o packagekitd-pk-conf.obj `if test -f 'pk-conf.c'; then $(CYGPATH_W) 'pk-conf.c'; else $(CYGPATH_W) '$(srcdir)/pk-conf.c'; fi`
 
 packagekitd-pk-notify.o: pk-notify.c
-@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(packagekitd_CFLAGS) $(CFLAGS) -MT packagekitd-pk-notify.o -MD -MP -MF $(DEPDIR)/packagekitd-pk-notify.Tpo -c -o packagekitd-pk-notify.o `test -f 'pk-notify.c' || echo '$(srcdir)/'`pk-notify.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(packagekitd_CPPFLAGS) $(CPPFLAGS) $(packagekitd_CFLAGS) $(CFLAGS) -MT packagekitd-pk-notify.o -MD -MP -MF $(DEPDIR)/packagekitd-pk-notify.Tpo -c -o packagekitd-pk-notify.o `test -f 'pk-notify.c' || echo '$(srcdir)/'`pk-notify.c
 @am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/packagekitd-pk-notify.Tpo $(DEPDIR)/packagekitd-pk-notify.Po
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='pk-notify.c' object='packagekitd-pk-notify.o' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(packagekitd_CFLAGS) $(CFLAGS) -c -o packagekitd-pk-notify.o `test -f 'pk-notify.c' || echo '$(srcdir)/'`pk-notify.c
+@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(packagekitd_CPPFLAGS) $(CPPFLAGS) $(packagekitd_CFLAGS) $(CFLAGS) -c -o packagekitd-pk-notify.o `test -f 'pk-notify.c' || echo '$(srcdir)/'`pk-notify.c
 
 packagekitd-pk-notify.obj: pk-notify.c
-@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(packagekitd_CFLAGS) $(CFLAGS) -MT packagekitd-pk-notify.obj -MD -MP -MF $(DEPDIR)/packagekitd-pk-notify.Tpo -c -o packagekitd-pk-notify.obj `if test -f 'pk-notify.c'; then $(CYGPATH_W) 'pk-notify.c'; else $(CYGPATH_W) '$(srcdir)/pk-notify.c'; fi`
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(packagekitd_CPPFLAGS) $(CPPFLAGS) $(packagekitd_CFLAGS) $(CFLAGS) -MT packagekitd-pk-notify.obj -MD -MP -MF $(DEPDIR)/packagekitd-pk-notify.Tpo -c -o packagekitd-pk-notify.obj `if test -f 'pk-notify.c'; then $(CYGPATH_W) 'pk-notify.c'; else $(CYGPATH_W) '$(srcdir)/pk-notify.c'; fi`
 @am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/packagekitd-pk-notify.Tpo $(DEPDIR)/packagekitd-pk-notify.Po
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='pk-notify.c' object='packagekitd-pk-notify.obj' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(packagekitd_CFLAGS) $(CFLAGS) -c -o packagekitd-pk-notify.obj `if test -f 'pk-notify.c'; then $(CYGPATH_W) 'pk-notify.c'; else $(CYGPATH_W) '$(srcdir)/pk-notify.c'; fi`
+@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(packagekitd_CPPFLAGS) $(CPPFLAGS) $(packagekitd_CFLAGS) $(CFLAGS) -c -o packagekitd-pk-notify.obj `if test -f 'pk-notify.c'; then $(CYGPATH_W) 'pk-notify.c'; else $(CYGPATH_W) '$(srcdir)/pk-notify.c'; fi`
 
 packagekitd-pk-resources.o: pk-resources.c
-@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(packagekitd_CFLAGS) $(CFLAGS) -MT packagekitd-pk-resources.o -MD -MP -MF $(DEPDIR)/packagekitd-pk-resources.Tpo -c -o packagekitd-pk-resources.o `test -f 'pk-resources.c' || echo '$(srcdir)/'`pk-resources.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(packagekitd_CPPFLAGS) $(CPPFLAGS) $(packagekitd_CFLAGS) $(CFLAGS) -MT packagekitd-pk-resources.o -MD -MP -MF $(DEPDIR)/packagekitd-pk-resources.Tpo -c -o packagekitd-pk-resources.o `test -f 'pk-resources.c' || echo '$(srcdir)/'`pk-resources.c
 @am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/packagekitd-pk-resources.Tpo $(DEPDIR)/packagekitd-pk-resources.Po
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='pk-resources.c' object='packagekitd-pk-resources.o' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(packagekitd_CFLAGS) $(CFLAGS) -c -o packagekitd-pk-resources.o `test -f 'pk-resources.c' || echo '$(srcdir)/'`pk-resources.c
+@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(packagekitd_CPPFLAGS) $(CPPFLAGS) $(packagekitd_CFLAGS) $(CFLAGS) -c -o packagekitd-pk-resources.o `test -f 'pk-resources.c' || echo '$(srcdir)/'`pk-resources.c
 
 packagekitd-pk-resources.obj: pk-resources.c
-@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(packagekitd_CFLAGS) $(CFLAGS) -MT packagekitd-pk-resources.obj -MD -MP -MF $(DEPDIR)/packagekitd-pk-resources.Tpo -c -o packagekitd-pk-resources.obj `if test -f 'pk-resources.c'; then $(CYGPATH_W) 'pk-resources.c'; else $(CYGPATH_W) '$(srcdir)/pk-resources.c'; fi`
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(packagekitd_CPPFLAGS) $(CPPFLAGS) $(packagekitd_CFLAGS) $(CFLAGS) -MT packagekitd-pk-resources.obj -MD -MP -MF $(DEPDIR)/packagekitd-pk-resources.Tpo -c -o packagekitd-pk-resources.obj `if test -f 'pk-resources.c'; then $(CYGPATH_W) 'pk-resources.c'; else $(CYGPATH_W) '$(srcdir)/pk-resources.c'; fi`
 @am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/packagekitd-pk-resources.Tpo $(DEPDIR)/packagekitd-pk-resources.Po
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='pk-resources.c' object='packagekitd-pk-resources.obj' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(packagekitd_CFLAGS) $(CFLAGS) -c -o packagekitd-pk-resources.obj `if test -f 'pk-resources.c'; then $(CYGPATH_W) 'pk-resources.c'; else $(CYGPATH_W) '$(srcdir)/pk-resources.c'; fi`
+@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(packagekitd_CPPFLAGS) $(CPPFLAGS) $(packagekitd_CFLAGS) $(CFLAGS) -c -o packagekitd-pk-resources.obj `if test -f 'pk-resources.c'; then $(CYGPATH_W) 'pk-resources.c'; else $(CYGPATH_W) '$(srcdir)/pk-resources.c'; fi`
 
 packagekitd-pk-spawn.o: pk-spawn.c
-@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(packagekitd_CFLAGS) $(CFLAGS) -MT packagekitd-pk-spawn.o -MD -MP -MF $(DEPDIR)/packagekitd-pk-spawn.Tpo -c -o packagekitd-pk-spawn.o `test -f 'pk-spawn.c' || echo '$(srcdir)/'`pk-spawn.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(packagekitd_CPPFLAGS) $(CPPFLAGS) $(packagekitd_CFLAGS) $(CFLAGS) -MT packagekitd-pk-spawn.o -MD -MP -MF $(DEPDIR)/packagekitd-pk-spawn.Tpo -c -o packagekitd-pk-spawn.o `test -f 'pk-spawn.c' || echo '$(srcdir)/'`pk-spawn.c
 @am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/packagekitd-pk-spawn.Tpo $(DEPDIR)/packagekitd-pk-spawn.Po
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='pk-spawn.c' object='packagekitd-pk-spawn.o' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(packagekitd_CFLAGS) $(CFLAGS) -c -o packagekitd-pk-spawn.o `test -f 'pk-spawn.c' || echo '$(srcdir)/'`pk-spawn.c
+@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(packagekitd_CPPFLAGS) $(CPPFLAGS) $(packagekitd_CFLAGS) $(CFLAGS) -c -o packagekitd-pk-spawn.o `test -f 'pk-spawn.c' || echo '$(srcdir)/'`pk-spawn.c
 
 packagekitd-pk-spawn.obj: pk-spawn.c
-@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(packagekitd_CFLAGS) $(CFLAGS) -MT packagekitd-pk-spawn.obj -MD -MP -MF $(DEPDIR)/packagekitd-pk-spawn.Tpo -c -o packagekitd-pk-spawn.obj `if test -f 'pk-spawn.c'; then $(CYGPATH_W) 'pk-spawn.c'; else $(CYGPATH_W) '$(srcdir)/pk-spawn.c'; fi`
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(packagekitd_CPPFLAGS) $(CPPFLAGS) $(packagekitd_CFLAGS) $(CFLAGS) -MT packagekitd-pk-spawn.obj -MD -MP -MF $(DEPDIR)/packagekitd-pk-spawn.Tpo -c -o packagekitd-pk-spawn.obj `if test -f 'pk-spawn.c'; then $(CYGPATH_W) 'pk-spawn.c'; else $(CYGPATH_W) '$(srcdir)/pk-spawn.c'; fi`
 @am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/packagekitd-pk-spawn.Tpo $(DEPDIR)/packagekitd-pk-spawn.Po
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='pk-spawn.c' object='packagekitd-pk-spawn.obj' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(packagekitd_CFLAGS) $(CFLAGS) -c -o packagekitd-pk-spawn.obj `if test -f 'pk-spawn.c'; then $(CYGPATH_W) 'pk-spawn.c'; else $(CYGPATH_W) '$(srcdir)/pk-spawn.c'; fi`
+@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(packagekitd_CPPFLAGS) $(CPPFLAGS) $(packagekitd_CFLAGS) $(CFLAGS) -c -o packagekitd-pk-spawn.obj `if test -f 'pk-spawn.c'; then $(CYGPATH_W) 'pk-spawn.c'; else $(CYGPATH_W) '$(srcdir)/pk-spawn.c'; fi`
 
 packagekitd-pk-sysdep.o: pk-sysdep.c
-@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(packagekitd_CFLAGS) $(CFLAGS) -MT packagekitd-pk-sysdep.o -MD -MP -MF $(DEPDIR)/packagekitd-pk-sysdep.Tpo -c -o packagekitd-pk-sysdep.o `test -f 'pk-sysdep.c' || echo '$(srcdir)/'`pk-sysdep.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(packagekitd_CPPFLAGS) $(CPPFLAGS) $(packagekitd_CFLAGS) $(CFLAGS) -MT packagekitd-pk-sysdep.o -MD -MP -MF $(DEPDIR)/packagekitd-pk-sysdep.Tpo -c -o packagekitd-pk-sysdep.o `test -f 'pk-sysdep.c' || echo '$(srcdir)/'`pk-sysdep.c
 @am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/packagekitd-pk-sysdep.Tpo $(DEPDIR)/packagekitd-pk-sysdep.Po
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='pk-sysdep.c' object='packagekitd-pk-sysdep.o' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(packagekitd_CFLAGS) $(CFLAGS) -c -o packagekitd-pk-sysdep.o `test -f 'pk-sysdep.c' || echo '$(srcdir)/'`pk-sysdep.c
+@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(packagekitd_CPPFLAGS) $(CPPFLAGS) $(packagekitd_CFLAGS) $(CFLAGS) -c -o packagekitd-pk-sysdep.o `test -f 'pk-sysdep.c' || echo '$(srcdir)/'`pk-sysdep.c
 
 packagekitd-pk-sysdep.obj: pk-sysdep.c
-@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(packagekitd_CFLAGS) $(CFLAGS) -MT packagekitd-pk-sysdep.obj -MD -MP -MF $(DEPDIR)/packagekitd-pk-sysdep.Tpo -c -o packagekitd-pk-sysdep.obj `if test -f 'pk-sysdep.c'; then $(CYGPATH_W) 'pk-sysdep.c'; else $(CYGPATH_W) '$(srcdir)/pk-sysdep.c'; fi`
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(packagekitd_CPPFLAGS) $(CPPFLAGS) $(packagekitd_CFLAGS) $(CFLAGS) -MT packagekitd-pk-sysdep.obj -MD -MP -MF $(DEPDIR)/packagekitd-pk-sysdep.Tpo -c -o packagekitd-pk-sysdep.obj `if test -f 'pk-sysdep.c'; then $(CYGPATH_W) 'pk-sysdep.c'; else $(CYGPATH_W) '$(srcdir)/pk-sysdep.c'; fi`
 @am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/packagekitd-pk-sysdep.Tpo $(DEPDIR)/packagekitd-pk-sysdep.Po
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='pk-sysdep.c' object='packagekitd-pk-sysdep.obj' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(packagekitd_CFLAGS) $(CFLAGS) -c -o packagekitd-pk-sysdep.obj `if test -f 'pk-sysdep.c'; then $(CYGPATH_W) 'pk-sysdep.c'; else $(CYGPATH_W) '$(srcdir)/pk-sysdep.c'; fi`
+@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(packagekitd_CPPFLAGS) $(CPPFLAGS) $(packagekitd_CFLAGS) $(CFLAGS) -c -o packagekitd-pk-sysdep.obj `if test -f 'pk-sysdep.c'; then $(CYGPATH_W) 'pk-sysdep.c'; else $(CYGPATH_W) '$(srcdir)/pk-sysdep.c'; fi`
 
 packagekitd-pk-engine.o: pk-engine.c
-@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(packagekitd_CFLAGS) $(CFLAGS) -MT packagekitd-pk-engine.o -MD -MP -MF $(DEPDIR)/packagekitd-pk-engine.Tpo -c -o packagekitd-pk-engine.o `test -f 'pk-engine.c' || echo '$(srcdir)/'`pk-engine.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(packagekitd_CPPFLAGS) $(CPPFLAGS) $(packagekitd_CFLAGS) $(CFLAGS) -MT packagekitd-pk-engine.o -MD -MP -MF $(DEPDIR)/packagekitd-pk-engine.Tpo -c -o packagekitd-pk-engine.o `test -f 'pk-engine.c' || echo '$(srcdir)/'`pk-engine.c
 @am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/packagekitd-pk-engine.Tpo $(DEPDIR)/packagekitd-pk-engine.Po
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='pk-engine.c' object='packagekitd-pk-engine.o' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(packagekitd_CFLAGS) $(CFLAGS) -c -o packagekitd-pk-engine.o `test -f 'pk-engine.c' || echo '$(srcdir)/'`pk-engine.c
+@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(packagekitd_CPPFLAGS) $(CPPFLAGS) $(packagekitd_CFLAGS) $(CFLAGS) -c -o packagekitd-pk-engine.o `test -f 'pk-engine.c' || echo '$(srcdir)/'`pk-engine.c
 
 packagekitd-pk-engine.obj: pk-engine.c
-@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(packagekitd_CFLAGS) $(CFLAGS) -MT packagekitd-pk-engine.obj -MD -MP -MF $(DEPDIR)/packagekitd-pk-engine.Tpo -c -o packagekitd-pk-engine.obj `if test -f 'pk-engine.c'; then $(CYGPATH_W) 'pk-engine.c'; else $(CYGPATH_W) '$(srcdir)/pk-engine.c'; fi`
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(packagekitd_CPPFLAGS) $(CPPFLAGS) $(packagekitd_CFLAGS) $(CFLAGS) -MT packagekitd-pk-engine.obj -MD -MP -MF $(DEPDIR)/packagekitd-pk-engine.Tpo -c -o packagekitd-pk-engine.obj `if test -f 'pk-engine.c'; then $(CYGPATH_W) 'pk-engine.c'; else $(CYGPATH_W) '$(srcdir)/pk-engine.c'; fi`
 @am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/packagekitd-pk-engine.Tpo $(DEPDIR)/packagekitd-pk-engine.Po
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='pk-engine.c' object='packagekitd-pk-engine.obj' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(packagekitd_CFLAGS) $(CFLAGS) -c -o packagekitd-pk-engine.obj `if test -f 'pk-engine.c'; then $(CYGPATH_W) 'pk-engine.c'; else $(CYGPATH_W) '$(srcdir)/pk-engine.c'; fi`
+@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(packagekitd_CPPFLAGS) $(CPPFLAGS) $(packagekitd_CFLAGS) $(CFLAGS) -c -o packagekitd-pk-engine.obj `if test -f 'pk-engine.c'; then $(CYGPATH_W) 'pk-engine.c'; else $(CYGPATH_W) '$(srcdir)/pk-engine.c'; fi`
 
 packagekitd-pk-backend-spawn.o: pk-backend-spawn.c
-@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(packagekitd_CFLAGS) $(CFLAGS) -MT packagekitd-pk-backend-spawn.o -MD -MP -MF $(DEPDIR)/packagekitd-pk-backend-spawn.Tpo -c -o packagekitd-pk-backend-spawn.o `test -f 'pk-backend-spawn.c' || echo '$(srcdir)/'`pk-backend-spawn.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(packagekitd_CPPFLAGS) $(CPPFLAGS) $(packagekitd_CFLAGS) $(CFLAGS) -MT packagekitd-pk-backend-spawn.o -MD -MP -MF $(DEPDIR)/packagekitd-pk-backend-spawn.Tpo -c -o packagekitd-pk-backend-spawn.o `test -f 'pk-backend-spawn.c' || echo '$(srcdir)/'`pk-backend-spawn.c
 @am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/packagekitd-pk-backend-spawn.Tpo $(DEPDIR)/packagekitd-pk-backend-spawn.Po
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='pk-backend-spawn.c' object='packagekitd-pk-backend-spawn.o' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(packagekitd_CFLAGS) $(CFLAGS) -c -o packagekitd-pk-backend-spawn.o `test -f 'pk-backend-spawn.c' || echo '$(srcdir)/'`pk-backend-spawn.c
+@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(packagekitd_CPPFLAGS) $(CPPFLAGS) $(packagekitd_CFLAGS) $(CFLAGS) -c -o packagekitd-pk-backend-spawn.o `test -f 'pk-backend-spawn.c' || echo '$(srcdir)/'`pk-backend-spawn.c
 
 packagekitd-pk-backend-spawn.obj: pk-backend-spawn.c
-@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(packagekitd_CFLAGS) $(CFLAGS) -MT packagekitd-pk-backend-spawn.obj -MD -MP -MF $(DEPDIR)/packagekitd-pk-backend-spawn.Tpo -c -o packagekitd-pk-backend-spawn.obj `if test -f 'pk-backend-spawn.c'; then $(CYGPATH_W) 'pk-backend-spawn.c'; else $(CYGPATH_W) '$(srcdir)/pk-backend-spawn.c'; fi`
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(packagekitd_CPPFLAGS) $(CPPFLAGS) $(packagekitd_CFLAGS) $(CFLAGS) -MT packagekitd-pk-backend-spawn.obj -MD -MP -MF $(DEPDIR)/packagekitd-pk-backend-spawn.Tpo -c -o packagekitd-pk-backend-spawn.obj `if test -f 'pk-backend-spawn.c'; then $(CYGPATH_W) 'pk-backend-spawn.c'; else $(CYGPATH_W) '$(srcdir)/pk-backend-spawn.c'; fi`
 @am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/packagekitd-pk-backend-spawn.Tpo $(DEPDIR)/packagekitd-pk-backend-spawn.Po
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='pk-backend-spawn.c' object='packagekitd-pk-backend-spawn.obj' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(packagekitd_CFLAGS) $(CFLAGS) -c -o packagekitd-pk-backend-spawn.obj `if test -f 'pk-backend-spawn.c'; then $(CYGPATH_W) 'pk-backend-spawn.c'; else $(CYGPATH_W) '$(srcdir)/pk-backend-spawn.c'; fi`
+@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(packagekitd_CPPFLAGS) $(CPPFLAGS) $(packagekitd_CFLAGS) $(CFLAGS) -c -o packagekitd-pk-backend-spawn.obj `if test -f 'pk-backend-spawn.c'; then $(CYGPATH_W) 'pk-backend-spawn.c'; else $(CYGPATH_W) '$(srcdir)/pk-backend-spawn.c'; fi`
 
 packagekitd-pk-transaction-db.o: pk-transaction-db.c
-@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(packagekitd_CFLAGS) $(CFLAGS) -MT packagekitd-pk-transaction-db.o -MD -MP -MF $(DEPDIR)/packagekitd-pk-transaction-db.Tpo -c -o packagekitd-pk-transaction-db.o `test -f 'pk-transaction-db.c' || echo '$(srcdir)/'`pk-transaction-db.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(packagekitd_CPPFLAGS) $(CPPFLAGS) $(packagekitd_CFLAGS) $(CFLAGS) -MT packagekitd-pk-transaction-db.o -MD -MP -MF $(DEPDIR)/packagekitd-pk-transaction-db.Tpo -c -o packagekitd-pk-transaction-db.o `test -f 'pk-transaction-db.c' || echo '$(srcdir)/'`pk-transaction-db.c
 @am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/packagekitd-pk-transaction-db.Tpo $(DEPDIR)/packagekitd-pk-transaction-db.Po
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='pk-transaction-db.c' object='packagekitd-pk-transaction-db.o' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(packagekitd_CFLAGS) $(CFLAGS) -c -o packagekitd-pk-transaction-db.o `test -f 'pk-transaction-db.c' || echo '$(srcdir)/'`pk-transaction-db.c
+@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(packagekitd_CPPFLAGS) $(CPPFLAGS) $(packagekitd_CFLAGS) $(CFLAGS) -c -o packagekitd-pk-transaction-db.o `test -f 'pk-transaction-db.c' || echo '$(srcdir)/'`pk-transaction-db.c
 
 packagekitd-pk-transaction-db.obj: pk-transaction-db.c
-@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(packagekitd_CFLAGS) $(CFLAGS) -MT packagekitd-pk-transaction-db.obj -MD -MP -MF $(DEPDIR)/packagekitd-pk-transaction-db.Tpo -c -o packagekitd-pk-transaction-db.obj `if test -f 'pk-transaction-db.c'; then $(CYGPATH_W) 'pk-transaction-db.c'; else $(CYGPATH_W) '$(srcdir)/pk-transaction-db.c'; fi`
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(packagekitd_CPPFLAGS) $(CPPFLAGS) $(packagekitd_CFLAGS) $(CFLAGS) -MT packagekitd-pk-transaction-db.obj -MD -MP -MF $(DEPDIR)/packagekitd-pk-transaction-db.Tpo -c -o packagekitd-pk-transaction-db.obj `if test -f 'pk-transaction-db.c'; then $(CYGPATH_W) 'pk-transaction-db.c'; else $(CYGPATH_W) '$(srcdir)/pk-transaction-db.c'; fi`
 @am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/packagekitd-pk-transaction-db.Tpo $(DEPDIR)/packagekitd-pk-transaction-db.Po
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='pk-transaction-db.c' object='packagekitd-pk-transaction-db.obj' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(packagekitd_CFLAGS) $(CFLAGS) -c -o packagekitd-pk-transaction-db.obj `if test -f 'pk-transaction-db.c'; then $(CYGPATH_W) 'pk-transaction-db.c'; else $(CYGPATH_W) '$(srcdir)/pk-transaction-db.c'; fi`
+@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(packagekitd_CPPFLAGS) $(CPPFLAGS) $(packagekitd_CFLAGS) $(CFLAGS) -c -o packagekitd-pk-transaction-db.obj `if test -f 'pk-transaction-db.c'; then $(CYGPATH_W) 'pk-transaction-db.c'; else $(CYGPATH_W) '$(srcdir)/pk-transaction-db.c'; fi`
 
 packagekitd-pk-transaction-list.o: pk-transaction-list.c
-@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(packagekitd_CFLAGS) $(CFLAGS) -MT packagekitd-pk-transaction-list.o -MD -MP -MF $(DEPDIR)/packagekitd-pk-transaction-list.Tpo -c -o packagekitd-pk-transaction-list.o `test -f 'pk-transaction-list.c' || echo '$(srcdir)/'`pk-transaction-list.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(packagekitd_CPPFLAGS) $(CPPFLAGS) $(packagekitd_CFLAGS) $(CFLAGS) -MT packagekitd-pk-transaction-list.o -MD -MP -MF $(DEPDIR)/packagekitd-pk-transaction-list.Tpo -c -o packagekitd-pk-transaction-list.o `test -f 'pk-transaction-list.c' || echo '$(srcdir)/'`pk-transaction-list.c
 @am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/packagekitd-pk-transaction-list.Tpo $(DEPDIR)/packagekitd-pk-transaction-list.Po
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='pk-transaction-list.c' object='packagekitd-pk-transaction-list.o' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(packagekitd_CFLAGS) $(CFLAGS) -c -o packagekitd-pk-transaction-list.o `test -f 'pk-transaction-list.c' || echo '$(srcdir)/'`pk-transaction-list.c
+@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(packagekitd_CPPFLAGS) $(CPPFLAGS) $(packagekitd_CFLAGS) $(CFLAGS) -c -o packagekitd-pk-transaction-list.o `test -f 'pk-transaction-list.c' || echo '$(srcdir)/'`pk-transaction-list.c
 
 packagekitd-pk-transaction-list.obj: pk-transaction-list.c
-@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(packagekitd_CFLAGS) $(CFLAGS) -MT packagekitd-pk-transaction-list.obj -MD -MP -MF $(DEPDIR)/packagekitd-pk-transaction-list.Tpo -c -o packagekitd-pk-transaction-list.obj `if test -f 'pk-transaction-list.c'; then $(CYGPATH_W) 'pk-transaction-list.c'; else $(CYGPATH_W) '$(srcdir)/pk-transaction-list.c'; fi`
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(packagekitd_CPPFLAGS) $(CPPFLAGS) $(packagekitd_CFLAGS) $(CFLAGS) -MT packagekitd-pk-transaction-list.obj -MD -MP -MF $(DEPDIR)/packagekitd-pk-transaction-list.Tpo -c -o packagekitd-pk-transaction-list.obj `if test -f 'pk-transaction-list.c'; then $(CYGPATH_W) 'pk-transaction-list.c'; else $(CYGPATH_W) '$(srcdir)/pk-transaction-list.c'; fi`
 @am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/packagekitd-pk-transaction-list.Tpo $(DEPDIR)/packagekitd-pk-transaction-list.Po
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='pk-transaction-list.c' object='packagekitd-pk-transaction-list.obj' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(packagekitd_CFLAGS) $(CFLAGS) -c -o packagekitd-pk-transaction-list.obj `if test -f 'pk-transaction-list.c'; then $(CYGPATH_W) 'pk-transaction-list.c'; else $(CYGPATH_W) '$(srcdir)/pk-transaction-list.c'; fi`
+@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(packagekitd_CPPFLAGS) $(CPPFLAGS) $(packagekitd_CFLAGS) $(CFLAGS) -c -o packagekitd-pk-transaction-list.obj `if test -f 'pk-transaction-list.c'; then $(CYGPATH_W) 'pk-transaction-list.c'; else $(CYGPATH_W) '$(srcdir)/pk-transaction-list.c'; fi`
 
 packagekitd-pk-network-stack-nm.o: pk-network-stack-nm.c
-@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(packagekitd_CFLAGS) $(CFLAGS) -MT packagekitd-pk-network-stack-nm.o -MD -MP -MF $(DEPDIR)/packagekitd-pk-network-stack-nm.Tpo -c -o packagekitd-pk-network-stack-nm.o `test -f 'pk-network-stack-nm.c' || echo '$(srcdir)/'`pk-network-stack-nm.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(packagekitd_CPPFLAGS) $(CPPFLAGS) $(packagekitd_CFLAGS) $(CFLAGS) -MT packagekitd-pk-network-stack-nm.o -MD -MP -MF $(DEPDIR)/packagekitd-pk-network-stack-nm.Tpo -c -o packagekitd-pk-network-stack-nm.o `test -f 'pk-network-stack-nm.c' || echo '$(srcdir)/'`pk-network-stack-nm.c
 @am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/packagekitd-pk-network-stack-nm.Tpo $(DEPDIR)/packagekitd-pk-network-stack-nm.Po
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='pk-network-stack-nm.c' object='packagekitd-pk-network-stack-nm.o' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(packagekitd_CFLAGS) $(CFLAGS) -c -o packagekitd-pk-network-stack-nm.o `test -f 'pk-network-stack-nm.c' || echo '$(srcdir)/'`pk-network-stack-nm.c
+@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(packagekitd_CPPFLAGS) $(CPPFLAGS) $(packagekitd_CFLAGS) $(CFLAGS) -c -o packagekitd-pk-network-stack-nm.o `test -f 'pk-network-stack-nm.c' || echo '$(srcdir)/'`pk-network-stack-nm.c
 
 packagekitd-pk-network-stack-nm.obj: pk-network-stack-nm.c
-@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(packagekitd_CFLAGS) $(CFLAGS) -MT packagekitd-pk-network-stack-nm.obj -MD -MP -MF $(DEPDIR)/packagekitd-pk-network-stack-nm.Tpo -c -o packagekitd-pk-network-stack-nm.obj `if test -f 'pk-network-stack-nm.c'; then $(CYGPATH_W) 'pk-network-stack-nm.c'; else $(CYGPATH_W) '$(srcdir)/pk-network-stack-nm.c'; fi`
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(packagekitd_CPPFLAGS) $(CPPFLAGS) $(packagekitd_CFLAGS) $(CFLAGS) -MT packagekitd-pk-network-stack-nm.obj -MD -MP -MF $(DEPDIR)/packagekitd-pk-network-stack-nm.Tpo -c -o packagekitd-pk-network-stack-nm.obj `if test -f 'pk-network-stack-nm.c'; then $(CYGPATH_W) 'pk-network-stack-nm.c'; else $(CYGPATH_W) '$(srcdir)/pk-network-stack-nm.c'; fi`
 @am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/packagekitd-pk-network-stack-nm.Tpo $(DEPDIR)/packagekitd-pk-network-stack-nm.Po
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='pk-network-stack-nm.c' object='packagekitd-pk-network-stack-nm.obj' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(packagekitd_CFLAGS) $(CFLAGS) -c -o packagekitd-pk-network-stack-nm.obj `if test -f 'pk-network-stack-nm.c'; then $(CYGPATH_W) 'pk-network-stack-nm.c'; else $(CYGPATH_W) '$(srcdir)/pk-network-stack-nm.c'; fi`
+@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(packagekitd_CPPFLAGS) $(CPPFLAGS) $(packagekitd_CFLAGS) $(CFLAGS) -c -o packagekitd-pk-network-stack-nm.obj `if test -f 'pk-network-stack-nm.c'; then $(CYGPATH_W) 'pk-network-stack-nm.c'; else $(CYGPATH_W) '$(srcdir)/pk-network-stack-nm.c'; fi`
 
 packagekitd-pk-network-stack-connman.o: pk-network-stack-connman.c
-@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(packagekitd_CFLAGS) $(CFLAGS) -MT packagekitd-pk-network-stack-connman.o -MD -MP -MF $(DEPDIR)/packagekitd-pk-network-stack-connman.Tpo -c -o packagekitd-pk-network-stack-connman.o `test -f 'pk-network-stack-connman.c' || echo '$(srcdir)/'`pk-network-stack-connman.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(packagekitd_CPPFLAGS) $(CPPFLAGS) $(packagekitd_CFLAGS) $(CFLAGS) -MT packagekitd-pk-network-stack-connman.o -MD -MP -MF $(DEPDIR)/packagekitd-pk-network-stack-connman.Tpo -c -o packagekitd-pk-network-stack-connman.o `test -f 'pk-network-stack-connman.c' || echo '$(srcdir)/'`pk-network-stack-connman.c
 @am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/packagekitd-pk-network-stack-connman.Tpo $(DEPDIR)/packagekitd-pk-network-stack-connman.Po
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='pk-network-stack-connman.c' object='packagekitd-pk-network-stack-connman.o' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(packagekitd_CFLAGS) $(CFLAGS) -c -o packagekitd-pk-network-stack-connman.o `test -f 'pk-network-stack-connman.c' || echo '$(srcdir)/'`pk-network-stack-connman.c
+@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(packagekitd_CPPFLAGS) $(CPPFLAGS) $(packagekitd_CFLAGS) $(CFLAGS) -c -o packagekitd-pk-network-stack-connman.o `test -f 'pk-network-stack-connman.c' || echo '$(srcdir)/'`pk-network-stack-connman.c
 
 packagekitd-pk-network-stack-connman.obj: pk-network-stack-connman.c
-@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(packagekitd_CFLAGS) $(CFLAGS) -MT packagekitd-pk-network-stack-connman.obj -MD -MP -MF $(DEPDIR)/packagekitd-pk-network-stack-connman.Tpo -c -o packagekitd-pk-network-stack-connman.obj `if test -f 'pk-network-stack-connman.c'; then $(CYGPATH_W) 'pk-network-stack-connman.c'; else $(CYGPATH_W) '$(srcdir)/pk-network-stack-connman.c'; fi`
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(packagekitd_CPPFLAGS) $(CPPFLAGS) $(packagekitd_CFLAGS) $(CFLAGS) -MT packagekitd-pk-network-stack-connman.obj -MD -MP -MF $(DEPDIR)/packagekitd-pk-network-stack-connman.Tpo -c -o packagekitd-pk-network-stack-connman.obj `if test -f 'pk-network-stack-connman.c'; then $(CYGPATH_W) 'pk-network-stack-connman.c'; else $(CYGPATH_W) '$(srcdir)/pk-network-stack-connman.c'; fi`
 @am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/packagekitd-pk-network-stack-connman.Tpo $(DEPDIR)/packagekitd-pk-network-stack-connman.Po
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='pk-network-stack-connman.c' object='packagekitd-pk-network-stack-connman.obj' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(packagekitd_CFLAGS) $(CFLAGS) -c -o packagekitd-pk-network-stack-connman.obj `if test -f 'pk-network-stack-connman.c'; then $(CYGPATH_W) 'pk-network-stack-connman.c'; else $(CYGPATH_W) '$(srcdir)/pk-network-stack-connman.c'; fi`
+@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(packagekitd_CPPFLAGS) $(CPPFLAGS) $(packagekitd_CFLAGS) $(CFLAGS) -c -o packagekitd-pk-network-stack-connman.obj `if test -f 'pk-network-stack-connman.c'; then $(CYGPATH_W) 'pk-network-stack-connman.c'; else $(CYGPATH_W) '$(srcdir)/pk-network-stack-connman.c'; fi`
 
 pk_self_test-pk-self-test.o: pk-self-test.c
-@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(pk_self_test_CFLAGS) $(CFLAGS) -MT pk_self_test-pk-self-test.o -MD -MP -MF $(DEPDIR)/pk_self_test-pk-self-test.Tpo -c -o pk_self_test-pk-self-test.o `test -f 'pk-self-test.c' || echo '$(srcdir)/'`pk-self-test.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(pk_self_test_CPPFLAGS) $(CPPFLAGS) $(pk_self_test_CFLAGS) $(CFLAGS) -MT pk_self_test-pk-self-test.o -MD -MP -MF $(DEPDIR)/pk_self_test-pk-self-test.Tpo -c -o pk_self_test-pk-self-test.o `test -f 'pk-self-test.c' || echo '$(srcdir)/'`pk-self-test.c
 @am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/pk_self_test-pk-self-test.Tpo $(DEPDIR)/pk_self_test-pk-self-test.Po
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='pk-self-test.c' object='pk_self_test-pk-self-test.o' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(pk_self_test_CFLAGS) $(CFLAGS) -c -o pk_self_test-pk-self-test.o `test -f 'pk-self-test.c' || echo '$(srcdir)/'`pk-self-test.c
+@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(pk_self_test_CPPFLAGS) $(CPPFLAGS) $(pk_self_test_CFLAGS) $(CFLAGS) -c -o pk_self_test-pk-self-test.o `test -f 'pk-self-test.c' || echo '$(srcdir)/'`pk-self-test.c
 
 pk_self_test-pk-self-test.obj: pk-self-test.c
-@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(pk_self_test_CFLAGS) $(CFLAGS) -MT pk_self_test-pk-self-test.obj -MD -MP -MF $(DEPDIR)/pk_self_test-pk-self-test.Tpo -c -o pk_self_test-pk-self-test.obj `if test -f 'pk-self-test.c'; then $(CYGPATH_W) 'pk-self-test.c'; else $(CYGPATH_W) '$(srcdir)/pk-self-test.c'; fi`
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(pk_self_test_CPPFLAGS) $(CPPFLAGS) $(pk_self_test_CFLAGS) $(CFLAGS) -MT pk_self_test-pk-self-test.obj -MD -MP -MF $(DEPDIR)/pk_self_test-pk-self-test.Tpo -c -o pk_self_test-pk-self-test.obj `if test -f 'pk-self-test.c'; then $(CYGPATH_W) 'pk-self-test.c'; else $(CYGPATH_W) '$(srcdir)/pk-self-test.c'; fi`
 @am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/pk_self_test-pk-self-test.Tpo $(DEPDIR)/pk_self_test-pk-self-test.Po
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='pk-self-test.c' object='pk_self_test-pk-self-test.obj' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(pk_self_test_CFLAGS) $(CFLAGS) -c -o pk_self_test-pk-self-test.obj `if test -f 'pk-self-test.c'; then $(CYGPATH_W) 'pk-self-test.c'; else $(CYGPATH_W) '$(srcdir)/pk-self-test.c'; fi`
+@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(pk_self_test_CPPFLAGS) $(CPPFLAGS) $(pk_self_test_CFLAGS) $(CFLAGS) -c -o pk_self_test-pk-self-test.obj `if test -f 'pk-self-test.c'; then $(CYGPATH_W) 'pk-self-test.c'; else $(CYGPATH_W) '$(srcdir)/pk-self-test.c'; fi`
 
 pk_self_test-pk-dbus.o: pk-dbus.c
-@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(pk_self_test_CFLAGS) $(CFLAGS) -MT pk_self_test-pk-dbus.o -MD -MP -MF $(DEPDIR)/pk_self_test-pk-dbus.Tpo -c -o pk_self_test-pk-dbus.o `test -f 'pk-dbus.c' || echo '$(srcdir)/'`pk-dbus.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(pk_self_test_CPPFLAGS) $(CPPFLAGS) $(pk_self_test_CFLAGS) $(CFLAGS) -MT pk_self_test-pk-dbus.o -MD -MP -MF $(DEPDIR)/pk_self_test-pk-dbus.Tpo -c -o pk_self_test-pk-dbus.o `test -f 'pk-dbus.c' || echo '$(srcdir)/'`pk-dbus.c
 @am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/pk_self_test-pk-dbus.Tpo $(DEPDIR)/pk_self_test-pk-dbus.Po
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='pk-dbus.c' object='pk_self_test-pk-dbus.o' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(pk_self_test_CFLAGS) $(CFLAGS) -c -o pk_self_test-pk-dbus.o `test -f 'pk-dbus.c' || echo '$(srcdir)/'`pk-dbus.c
+@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(pk_self_test_CPPFLAGS) $(CPPFLAGS) $(pk_self_test_CFLAGS) $(CFLAGS) -c -o pk_self_test-pk-dbus.o `test -f 'pk-dbus.c' || echo '$(srcdir)/'`pk-dbus.c
 
 pk_self_test-pk-dbus.obj: pk-dbus.c
-@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(pk_self_test_CFLAGS) $(CFLAGS) -MT pk_self_test-pk-dbus.obj -MD -MP -MF $(DEPDIR)/pk_self_test-pk-dbus.Tpo -c -o pk_self_test-pk-dbus.obj `if test -f 'pk-dbus.c'; then $(CYGPATH_W) 'pk-dbus.c'; else $(CYGPATH_W) '$(srcdir)/pk-dbus.c'; fi`
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(pk_self_test_CPPFLAGS) $(CPPFLAGS) $(pk_self_test_CFLAGS) $(CFLAGS) -MT pk_self_test-pk-dbus.obj -MD -MP -MF $(DEPDIR)/pk_self_test-pk-dbus.Tpo -c -o pk_self_test-pk-dbus.obj `if test -f 'pk-dbus.c'; then $(CYGPATH_W) 'pk-dbus.c'; else $(CYGPATH_W) '$(srcdir)/pk-dbus.c'; fi`
 @am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/pk_self_test-pk-dbus.Tpo $(DEPDIR)/pk_self_test-pk-dbus.Po
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='pk-dbus.c' object='pk_self_test-pk-dbus.obj' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(pk_self_test_CFLAGS) $(CFLAGS) -c -o pk_self_test-pk-dbus.obj `if test -f 'pk-dbus.c'; then $(CYGPATH_W) 'pk-dbus.c'; else $(CYGPATH_W) '$(srcdir)/pk-dbus.c'; fi`
+@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(pk_self_test_CPPFLAGS) $(CPPFLAGS) $(pk_self_test_CFLAGS) $(CFLAGS) -c -o pk_self_test-pk-dbus.obj `if test -f 'pk-dbus.c'; then $(CYGPATH_W) 'pk-dbus.c'; else $(CYGPATH_W) '$(srcdir)/pk-dbus.c'; fi`
 
 pk_self_test-pk-transaction.o: pk-transaction.c
-@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(pk_self_test_CFLAGS) $(CFLAGS) -MT pk_self_test-pk-transaction.o -MD -MP -MF $(DEPDIR)/pk_self_test-pk-transaction.Tpo -c -o pk_self_test-pk-transaction.o `test -f 'pk-transaction.c' || echo '$(srcdir)/'`pk-transaction.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(pk_self_test_CPPFLAGS) $(CPPFLAGS) $(pk_self_test_CFLAGS) $(CFLAGS) -MT pk_self_test-pk-transaction.o -MD -MP -MF $(DEPDIR)/pk_self_test-pk-transaction.Tpo -c -o pk_self_test-pk-transaction.o `test -f 'pk-transaction.c' || echo '$(srcdir)/'`pk-transaction.c
 @am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/pk_self_test-pk-transaction.Tpo $(DEPDIR)/pk_self_test-pk-transaction.Po
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='pk-transaction.c' object='pk_self_test-pk-transaction.o' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(pk_self_test_CFLAGS) $(CFLAGS) -c -o pk_self_test-pk-transaction.o `test -f 'pk-transaction.c' || echo '$(srcdir)/'`pk-transaction.c
+@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(pk_self_test_CPPFLAGS) $(CPPFLAGS) $(pk_self_test_CFLAGS) $(CFLAGS) -c -o pk_self_test-pk-transaction.o `test -f 'pk-transaction.c' || echo '$(srcdir)/'`pk-transaction.c
 
 pk_self_test-pk-transaction.obj: pk-transaction.c
-@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(pk_self_test_CFLAGS) $(CFLAGS) -MT pk_self_test-pk-transaction.obj -MD -MP -MF $(DEPDIR)/pk_self_test-pk-transaction.Tpo -c -o pk_self_test-pk-transaction.obj `if test -f 'pk-transaction.c'; then $(CYGPATH_W) 'pk-transaction.c'; else $(CYGPATH_W) '$(srcdir)/pk-transaction.c'; fi`
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(pk_self_test_CPPFLAGS) $(CPPFLAGS) $(pk_self_test_CFLAGS) $(CFLAGS) -MT pk_self_test-pk-transaction.obj -MD -MP -MF $(DEPDIR)/pk_self_test-pk-transaction.Tpo -c -o pk_self_test-pk-transaction.obj `if test -f 'pk-transaction.c'; then $(CYGPATH_W) 'pk-transaction.c'; else $(CYGPATH_W) '$(srcdir)/pk-transaction.c'; fi`
 @am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/pk_self_test-pk-transaction.Tpo $(DEPDIR)/pk_self_test-pk-transaction.Po
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='pk-transaction.c' object='pk_self_test-pk-transaction.obj' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(pk_self_test_CFLAGS) $(CFLAGS) -c -o pk_self_test-pk-transaction.obj `if test -f 'pk-transaction.c'; then $(CYGPATH_W) 'pk-transaction.c'; else $(CYGPATH_W) '$(srcdir)/pk-transaction.c'; fi`
+@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(pk_self_test_CPPFLAGS) $(CPPFLAGS) $(pk_self_test_CFLAGS) $(CFLAGS) -c -o pk_self_test-pk-transaction.obj `if test -f 'pk-transaction.c'; then $(CYGPATH_W) 'pk-transaction.c'; else $(CYGPATH_W) '$(srcdir)/pk-transaction.c'; fi`
 
 pk_self_test-pk-backend.o: pk-backend.c
-@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(pk_self_test_CFLAGS) $(CFLAGS) -MT pk_self_test-pk-backend.o -MD -MP -MF $(DEPDIR)/pk_self_test-pk-backend.Tpo -c -o pk_self_test-pk-backend.o `test -f 'pk-backend.c' || echo '$(srcdir)/'`pk-backend.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(pk_self_test_CPPFLAGS) $(CPPFLAGS) $(pk_self_test_CFLAGS) $(CFLAGS) -MT pk_self_test-pk-backend.o -MD -MP -MF $(DEPDIR)/pk_self_test-pk-backend.Tpo -c -o pk_self_test-pk-backend.o `test -f 'pk-backend.c' || echo '$(srcdir)/'`pk-backend.c
 @am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/pk_self_test-pk-backend.Tpo $(DEPDIR)/pk_self_test-pk-backend.Po
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='pk-backend.c' object='pk_self_test-pk-backend.o' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(pk_self_test_CFLAGS) $(CFLAGS) -c -o pk_self_test-pk-backend.o `test -f 'pk-backend.c' || echo '$(srcdir)/'`pk-backend.c
+@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(pk_self_test_CPPFLAGS) $(CPPFLAGS) $(pk_self_test_CFLAGS) $(CFLAGS) -c -o pk_self_test-pk-backend.o `test -f 'pk-backend.c' || echo '$(srcdir)/'`pk-backend.c
 
 pk_self_test-pk-backend.obj: pk-backend.c
-@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(pk_self_test_CFLAGS) $(CFLAGS) -MT pk_self_test-pk-backend.obj -MD -MP -MF $(DEPDIR)/pk_self_test-pk-backend.Tpo -c -o pk_self_test-pk-backend.obj `if test -f 'pk-backend.c'; then $(CYGPATH_W) 'pk-backend.c'; else $(CYGPATH_W) '$(srcdir)/pk-backend.c'; fi`
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(pk_self_test_CPPFLAGS) $(CPPFLAGS) $(pk_self_test_CFLAGS) $(CFLAGS) -MT pk_self_test-pk-backend.obj -MD -MP -MF $(DEPDIR)/pk_self_test-pk-backend.Tpo -c -o pk_self_test-pk-backend.obj `if test -f 'pk-backend.c'; then $(CYGPATH_W) 'pk-backend.c'; else $(CYGPATH_W) '$(srcdir)/pk-backend.c'; fi`
 @am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/pk_self_test-pk-backend.Tpo $(DEPDIR)/pk_self_test-pk-backend.Po
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='pk-backend.c' object='pk_self_test-pk-backend.obj' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(pk_self_test_CFLAGS) $(CFLAGS) -c -o pk_self_test-pk-backend.obj `if test -f 'pk-backend.c'; then $(CYGPATH_W) 'pk-backend.c'; else $(CYGPATH_W) '$(srcdir)/pk-backend.c'; fi`
+@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(pk_self_test_CPPFLAGS) $(CPPFLAGS) $(pk_self_test_CFLAGS) $(CFLAGS) -c -o pk_self_test-pk-backend.obj `if test -f 'pk-backend.c'; then $(CYGPATH_W) 'pk-backend.c'; else $(CYGPATH_W) '$(srcdir)/pk-backend.c'; fi`
 
 pk_self_test-pk-backend-job.o: pk-backend-job.c
-@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(pk_self_test_CFLAGS) $(CFLAGS) -MT pk_self_test-pk-backend-job.o -MD -MP -MF $(DEPDIR)/pk_self_test-pk-backend-job.Tpo -c -o pk_self_test-pk-backend-job.o `test -f 'pk-backend-job.c' || echo '$(srcdir)/'`pk-backend-job.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(pk_self_test_CPPFLAGS) $(CPPFLAGS) $(pk_self_test_CFLAGS) $(CFLAGS) -MT pk_self_test-pk-backend-job.o -MD -MP -MF $(DEPDIR)/pk_self_test-pk-backend-job.Tpo -c -o pk_self_test-pk-backend-job.o `test -f 'pk-backend-job.c' || echo '$(srcdir)/'`pk-backend-job.c
 @am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/pk_self_test-pk-backend-job.Tpo $(DEPDIR)/pk_self_test-pk-backend-job.Po
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='pk-backend-job.c' object='pk_self_test-pk-backend-job.o' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(pk_self_test_CFLAGS) $(CFLAGS) -c -o pk_self_test-pk-backend-job.o `test -f 'pk-backend-job.c' || echo '$(srcdir)/'`pk-backend-job.c
+@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(pk_self_test_CPPFLAGS) $(CPPFLAGS) $(pk_self_test_CFLAGS) $(CFLAGS) -c -o pk_self_test-pk-backend-job.o `test -f 'pk-backend-job.c' || echo '$(srcdir)/'`pk-backend-job.c
 
 pk_self_test-pk-backend-job.obj: pk-backend-job.c
-@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(pk_self_test_CFLAGS) $(CFLAGS) -MT pk_self_test-pk-backend-job.obj -MD -MP -MF $(DEPDIR)/pk_self_test-pk-backend-job.Tpo -c -o pk_self_test-pk-backend-job.obj `if test -f 'pk-backend-job.c'; then $(CYGPATH_W) 'pk-backend-job.c'; else $(CYGPATH_W) '$(srcdir)/pk-backend-job.c'; fi`
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(pk_self_test_CPPFLAGS) $(CPPFLAGS) $(pk_self_test_CFLAGS) $(CFLAGS) -MT pk_self_test-pk-backend-job.obj -MD -MP -MF $(DEPDIR)/pk_self_test-pk-backend-job.Tpo -c -o pk_self_test-pk-backend-job.obj `if test -f 'pk-backend-job.c'; then $(CYGPATH_W) 'pk-backend-job.c'; else $(CYGPATH_W) '$(srcdir)/pk-backend-job.c'; fi`
 @am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/pk_self_test-pk-backend-job.Tpo $(DEPDIR)/pk_self_test-pk-backend-job.Po
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='pk-backend-job.c' object='pk_self_test-pk-backend-job.obj' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(pk_self_test_CFLAGS) $(CFLAGS) -c -o pk_self_test-pk-backend-job.obj `if test -f 'pk-backend-job.c'; then $(CYGPATH_W) 'pk-backend-job.c'; else $(CYGPATH_W) '$(srcdir)/pk-backend-job.c'; fi`
+@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(pk_self_test_CPPFLAGS) $(CPPFLAGS) $(pk_self_test_CFLAGS) $(CFLAGS) -c -o pk_self_test-pk-backend-job.obj `if test -f 'pk-backend-job.c'; then $(CYGPATH_W) 'pk-backend-job.c'; else $(CYGPATH_W) '$(srcdir)/pk-backend-job.c'; fi`
 
 pk_self_test-pk-network.o: pk-network.c
-@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(pk_self_test_CFLAGS) $(CFLAGS) -MT pk_self_test-pk-network.o -MD -MP -MF $(DEPDIR)/pk_self_test-pk-network.Tpo -c -o pk_self_test-pk-network.o `test -f 'pk-network.c' || echo '$(srcdir)/'`pk-network.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(pk_self_test_CPPFLAGS) $(CPPFLAGS) $(pk_self_test_CFLAGS) $(CFLAGS) -MT pk_self_test-pk-network.o -MD -MP -MF $(DEPDIR)/pk_self_test-pk-network.Tpo -c -o pk_self_test-pk-network.o `test -f 'pk-network.c' || echo '$(srcdir)/'`pk-network.c
 @am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/pk_self_test-pk-network.Tpo $(DEPDIR)/pk_self_test-pk-network.Po
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='pk-network.c' object='pk_self_test-pk-network.o' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(pk_self_test_CFLAGS) $(CFLAGS) -c -o pk_self_test-pk-network.o `test -f 'pk-network.c' || echo '$(srcdir)/'`pk-network.c
+@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(pk_self_test_CPPFLAGS) $(CPPFLAGS) $(pk_self_test_CFLAGS) $(CFLAGS) -c -o pk_self_test-pk-network.o `test -f 'pk-network.c' || echo '$(srcdir)/'`pk-network.c
 
 pk_self_test-pk-network.obj: pk-network.c
-@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(pk_self_test_CFLAGS) $(CFLAGS) -MT pk_self_test-pk-network.obj -MD -MP -MF $(DEPDIR)/pk_self_test-pk-network.Tpo -c -o pk_self_test-pk-network.obj `if test -f 'pk-network.c'; then $(CYGPATH_W) 'pk-network.c'; else $(CYGPATH_W) '$(srcdir)/pk-network.c'; fi`
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(pk_self_test_CPPFLAGS) $(CPPFLAGS) $(pk_self_test_CFLAGS) $(CFLAGS) -MT pk_self_test-pk-network.obj -MD -MP -MF $(DEPDIR)/pk_self_test-pk-network.Tpo -c -o pk_self_test-pk-network.obj `if test -f 'pk-network.c'; then $(CYGPATH_W) 'pk-network.c'; else $(CYGPATH_W) '$(srcdir)/pk-network.c'; fi`
 @am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/pk_self_test-pk-network.Tpo $(DEPDIR)/pk_self_test-pk-network.Po
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='pk-network.c' object='pk_self_test-pk-network.obj' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(pk_self_test_CFLAGS) $(CFLAGS) -c -o pk_self_test-pk-network.obj `if test -f 'pk-network.c'; then $(CYGPATH_W) 'pk-network.c'; else $(CYGPATH_W) '$(srcdir)/pk-network.c'; fi`
+@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(pk_self_test_CPPFLAGS) $(CPPFLAGS) $(pk_self_test_CFLAGS) $(CFLAGS) -c -o pk_self_test-pk-network.obj `if test -f 'pk-network.c'; then $(CYGPATH_W) 'pk-network.c'; else $(CYGPATH_W) '$(srcdir)/pk-network.c'; fi`
 
 pk_self_test-pk-shared.o: pk-shared.c
-@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(pk_self_test_CFLAGS) $(CFLAGS) -MT pk_self_test-pk-shared.o -MD -MP -MF $(DEPDIR)/pk_self_test-pk-shared.Tpo -c -o pk_self_test-pk-shared.o `test -f 'pk-shared.c' || echo '$(srcdir)/'`pk-shared.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(pk_self_test_CPPFLAGS) $(CPPFLAGS) $(pk_self_test_CFLAGS) $(CFLAGS) -MT pk_self_test-pk-shared.o -MD -MP -MF $(DEPDIR)/pk_self_test-pk-shared.Tpo -c -o pk_self_test-pk-shared.o `test -f 'pk-shared.c' || echo '$(srcdir)/'`pk-shared.c
 @am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/pk_self_test-pk-shared.Tpo $(DEPDIR)/pk_self_test-pk-shared.Po
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='pk-shared.c' object='pk_self_test-pk-shared.o' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(pk_self_test_CFLAGS) $(CFLAGS) -c -o pk_self_test-pk-shared.o `test -f 'pk-shared.c' || echo '$(srcdir)/'`pk-shared.c
+@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(pk_self_test_CPPFLAGS) $(CPPFLAGS) $(pk_self_test_CFLAGS) $(CFLAGS) -c -o pk_self_test-pk-shared.o `test -f 'pk-shared.c' || echo '$(srcdir)/'`pk-shared.c
 
 pk_self_test-pk-shared.obj: pk-shared.c
-@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(pk_self_test_CFLAGS) $(CFLAGS) -MT pk_self_test-pk-shared.obj -MD -MP -MF $(DEPDIR)/pk_self_test-pk-shared.Tpo -c -o pk_self_test-pk-shared.obj `if test -f 'pk-shared.c'; then $(CYGPATH_W) 'pk-shared.c'; else $(CYGPATH_W) '$(srcdir)/pk-shared.c'; fi`
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(pk_self_test_CPPFLAGS) $(CPPFLAGS) $(pk_self_test_CFLAGS) $(CFLAGS) -MT pk_self_test-pk-shared.obj -MD -MP -MF $(DEPDIR)/pk_self_test-pk-shared.Tpo -c -o pk_self_test-pk-shared.obj `if test -f 'pk-shared.c'; then $(CYGPATH_W) 'pk-shared.c'; else $(CYGPATH_W) '$(srcdir)/pk-shared.c'; fi`
 @am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/pk_self_test-pk-shared.Tpo $(DEPDIR)/pk_self_test-pk-shared.Po
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='pk-shared.c' object='pk_self_test-pk-shared.obj' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(pk_self_test_CFLAGS) $(CFLAGS) -c -o pk_self_test-pk-shared.obj `if test -f 'pk-shared.c'; then $(CYGPATH_W) 'pk-shared.c'; else $(CYGPATH_W) '$(srcdir)/pk-shared.c'; fi`
+@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(pk_self_test_CPPFLAGS) $(CPPFLAGS) $(pk_self_test_CFLAGS) $(CFLAGS) -c -o pk_self_test-pk-shared.obj `if test -f 'pk-shared.c'; then $(CYGPATH_W) 'pk-shared.c'; else $(CYGPATH_W) '$(srcdir)/pk-shared.c'; fi`
 
 pk_self_test-pk-time.o: pk-time.c
-@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(pk_self_test_CFLAGS) $(CFLAGS) -MT pk_self_test-pk-time.o -MD -MP -MF $(DEPDIR)/pk_self_test-pk-time.Tpo -c -o pk_self_test-pk-time.o `test -f 'pk-time.c' || echo '$(srcdir)/'`pk-time.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(pk_self_test_CPPFLAGS) $(CPPFLAGS) $(pk_self_test_CFLAGS) $(CFLAGS) -MT pk_self_test-pk-time.o -MD -MP -MF $(DEPDIR)/pk_self_test-pk-time.Tpo -c -o pk_self_test-pk-time.o `test -f 'pk-time.c' || echo '$(srcdir)/'`pk-time.c
 @am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/pk_self_test-pk-time.Tpo $(DEPDIR)/pk_self_test-pk-time.Po
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='pk-time.c' object='pk_self_test-pk-time.o' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(pk_self_test_CFLAGS) $(CFLAGS) -c -o pk_self_test-pk-time.o `test -f 'pk-time.c' || echo '$(srcdir)/'`pk-time.c
+@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(pk_self_test_CPPFLAGS) $(CPPFLAGS) $(pk_self_test_CFLAGS) $(CFLAGS) -c -o pk_self_test-pk-time.o `test -f 'pk-time.c' || echo '$(srcdir)/'`pk-time.c
 
 pk_self_test-pk-time.obj: pk-time.c
-@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(pk_self_test_CFLAGS) $(CFLAGS) -MT pk_self_test-pk-time.obj -MD -MP -MF $(DEPDIR)/pk_self_test-pk-time.Tpo -c -o pk_self_test-pk-time.obj `if test -f 'pk-time.c'; then $(CYGPATH_W) 'pk-time.c'; else $(CYGPATH_W) '$(srcdir)/pk-time.c'; fi`
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(pk_self_test_CPPFLAGS) $(CPPFLAGS) $(pk_self_test_CFLAGS) $(CFLAGS) -MT pk_self_test-pk-time.obj -MD -MP -MF $(DEPDIR)/pk_self_test-pk-time.Tpo -c -o pk_self_test-pk-time.obj `if test -f 'pk-time.c'; then $(CYGPATH_W) 'pk-time.c'; else $(CYGPATH_W) '$(srcdir)/pk-time.c'; fi`
 @am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/pk_self_test-pk-time.Tpo $(DEPDIR)/pk_self_test-pk-time.Po
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='pk-time.c' object='pk_self_test-pk-time.obj' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(pk_self_test_CFLAGS) $(CFLAGS) -c -o pk_self_test-pk-time.obj `if test -f 'pk-time.c'; then $(CYGPATH_W) 'pk-time.c'; else $(CYGPATH_W) '$(srcdir)/pk-time.c'; fi`
+@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(pk_self_test_CPPFLAGS) $(CPPFLAGS) $(pk_self_test_CFLAGS) $(CFLAGS) -c -o pk_self_test-pk-time.obj `if test -f 'pk-time.c'; then $(CYGPATH_W) 'pk-time.c'; else $(CYGPATH_W) '$(srcdir)/pk-time.c'; fi`
 
 pk_self_test-pk-network-stack.o: pk-network-stack.c
-@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(pk_self_test_CFLAGS) $(CFLAGS) -MT pk_self_test-pk-network-stack.o -MD -MP -MF $(DEPDIR)/pk_self_test-pk-network-stack.Tpo -c -o pk_self_test-pk-network-stack.o `test -f 'pk-network-stack.c' || echo '$(srcdir)/'`pk-network-stack.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(pk_self_test_CPPFLAGS) $(CPPFLAGS) $(pk_self_test_CFLAGS) $(CFLAGS) -MT pk_self_test-pk-network-stack.o -MD -MP -MF $(DEPDIR)/pk_self_test-pk-network-stack.Tpo -c -o pk_self_test-pk-network-stack.o `test -f 'pk-network-stack.c' || echo '$(srcdir)/'`pk-network-stack.c
 @am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/pk_self_test-pk-network-stack.Tpo $(DEPDIR)/pk_self_test-pk-network-stack.Po
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='pk-network-stack.c' object='pk_self_test-pk-network-stack.o' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(pk_self_test_CFLAGS) $(CFLAGS) -c -o pk_self_test-pk-network-stack.o `test -f 'pk-network-stack.c' || echo '$(srcdir)/'`pk-network-stack.c
+@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(pk_self_test_CPPFLAGS) $(CPPFLAGS) $(pk_self_test_CFLAGS) $(CFLAGS) -c -o pk_self_test-pk-network-stack.o `test -f 'pk-network-stack.c' || echo '$(srcdir)/'`pk-network-stack.c
 
 pk_self_test-pk-network-stack.obj: pk-network-stack.c
-@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(pk_self_test_CFLAGS) $(CFLAGS) -MT pk_self_test-pk-network-stack.obj -MD -MP -MF $(DEPDIR)/pk_self_test-pk-network-stack.Tpo -c -o pk_self_test-pk-network-stack.obj `if test -f 'pk-network-stack.c'; then $(CYGPATH_W) 'pk-network-stack.c'; else $(CYGPATH_W) '$(srcdir)/pk-network-stack.c'; fi`
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(pk_self_test_CPPFLAGS) $(CPPFLAGS) $(pk_self_test_CFLAGS) $(CFLAGS) -MT pk_self_test-pk-network-stack.obj -MD -MP -MF $(DEPDIR)/pk_self_test-pk-network-stack.Tpo -c -o pk_self_test-pk-network-stack.obj `if test -f 'pk-network-stack.c'; then $(CYGPATH_W) 'pk-network-stack.c'; else $(CYGPATH_W) '$(srcdir)/pk-network-stack.c'; fi`
 @am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/pk_self_test-pk-network-stack.Tpo $(DEPDIR)/pk_self_test-pk-network-stack.Po
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='pk-network-stack.c' object='pk_self_test-pk-network-stack.obj' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(pk_self_test_CFLAGS) $(CFLAGS) -c -o pk_self_test-pk-network-stack.obj `if test -f 'pk-network-stack.c'; then $(CYGPATH_W) 'pk-network-stack.c'; else $(CYGPATH_W) '$(srcdir)/pk-network-stack.c'; fi`
+@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(pk_self_test_CPPFLAGS) $(CPPFLAGS) $(pk_self_test_CFLAGS) $(CFLAGS) -c -o pk_self_test-pk-network-stack.obj `if test -f 'pk-network-stack.c'; then $(CYGPATH_W) 'pk-network-stack.c'; else $(CYGPATH_W) '$(srcdir)/pk-network-stack.c'; fi`
 
 pk_self_test-pk-network-stack-unix.o: pk-network-stack-unix.c
-@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(pk_self_test_CFLAGS) $(CFLAGS) -MT pk_self_test-pk-network-stack-unix.o -MD -MP -MF $(DEPDIR)/pk_self_test-pk-network-stack-unix.Tpo -c -o pk_self_test-pk-network-stack-unix.o `test -f 'pk-network-stack-unix.c' || echo '$(srcdir)/'`pk-network-stack-unix.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(pk_self_test_CPPFLAGS) $(CPPFLAGS) $(pk_self_test_CFLAGS) $(CFLAGS) -MT pk_self_test-pk-network-stack-unix.o -MD -MP -MF $(DEPDIR)/pk_self_test-pk-network-stack-unix.Tpo -c -o pk_self_test-pk-network-stack-unix.o `test -f 'pk-network-stack-unix.c' || echo '$(srcdir)/'`pk-network-stack-unix.c
 @am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/pk_self_test-pk-network-stack-unix.Tpo $(DEPDIR)/pk_self_test-pk-network-stack-unix.Po
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='pk-network-stack-unix.c' object='pk_self_test-pk-network-stack-unix.o' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(pk_self_test_CFLAGS) $(CFLAGS) -c -o pk_self_test-pk-network-stack-unix.o `test -f 'pk-network-stack-unix.c' || echo '$(srcdir)/'`pk-network-stack-unix.c
+@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(pk_self_test_CPPFLAGS) $(CPPFLAGS) $(pk_self_test_CFLAGS) $(CFLAGS) -c -o pk_self_test-pk-network-stack-unix.o `test -f 'pk-network-stack-unix.c' || echo '$(srcdir)/'`pk-network-stack-unix.c
 
 pk_self_test-pk-network-stack-unix.obj: pk-network-stack-unix.c
-@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(pk_self_test_CFLAGS) $(CFLAGS) -MT pk_self_test-pk-network-stack-unix.obj -MD -MP -MF $(DEPDIR)/pk_self_test-pk-network-stack-unix.Tpo -c -o pk_self_test-pk-network-stack-unix.obj `if test -f 'pk-network-stack-unix.c'; then $(CYGPATH_W) 'pk-network-stack-unix.c'; else $(CYGPATH_W) '$(srcdir)/pk-network-stack-unix.c'; fi`
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(pk_self_test_CPPFLAGS) $(CPPFLAGS) $(pk_self_test_CFLAGS) $(CFLAGS) -MT pk_self_test-pk-network-stack-unix.obj -MD -MP -MF $(DEPDIR)/pk_self_test-pk-network-stack-unix.Tpo -c -o pk_self_test-pk-network-stack-unix.obj `if test -f 'pk-network-stack-unix.c'; then $(CYGPATH_W) 'pk-network-stack-unix.c'; else $(CYGPATH_W) '$(srcdir)/pk-network-stack-unix.c'; fi`
 @am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/pk_self_test-pk-network-stack-unix.Tpo $(DEPDIR)/pk_self_test-pk-network-stack-unix.Po
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='pk-network-stack-unix.c' object='pk_self_test-pk-network-stack-unix.obj' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(pk_self_test_CFLAGS) $(CFLAGS) -c -o pk_self_test-pk-network-stack-unix.obj `if test -f 'pk-network-stack-unix.c'; then $(CYGPATH_W) 'pk-network-stack-unix.c'; else $(CYGPATH_W) '$(srcdir)/pk-network-stack-unix.c'; fi`
+@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(pk_self_test_CPPFLAGS) $(CPPFLAGS) $(pk_self_test_CFLAGS) $(CFLAGS) -c -o pk_self_test-pk-network-stack-unix.obj `if test -f 'pk-network-stack-unix.c'; then $(CYGPATH_W) 'pk-network-stack-unix.c'; else $(CYGPATH_W) '$(srcdir)/pk-network-stack-unix.c'; fi`
 
 pk_self_test-pk-conf.o: pk-conf.c
-@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(pk_self_test_CFLAGS) $(CFLAGS) -MT pk_self_test-pk-conf.o -MD -MP -MF $(DEPDIR)/pk_self_test-pk-conf.Tpo -c -o pk_self_test-pk-conf.o `test -f 'pk-conf.c' || echo '$(srcdir)/'`pk-conf.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(pk_self_test_CPPFLAGS) $(CPPFLAGS) $(pk_self_test_CFLAGS) $(CFLAGS) -MT pk_self_test-pk-conf.o -MD -MP -MF $(DEPDIR)/pk_self_test-pk-conf.Tpo -c -o pk_self_test-pk-conf.o `test -f 'pk-conf.c' || echo '$(srcdir)/'`pk-conf.c
 @am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/pk_self_test-pk-conf.Tpo $(DEPDIR)/pk_self_test-pk-conf.Po
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='pk-conf.c' object='pk_self_test-pk-conf.o' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(pk_self_test_CFLAGS) $(CFLAGS) -c -o pk_self_test-pk-conf.o `test -f 'pk-conf.c' || echo '$(srcdir)/'`pk-conf.c
+@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(pk_self_test_CPPFLAGS) $(CPPFLAGS) $(pk_self_test_CFLAGS) $(CFLAGS) -c -o pk_self_test-pk-conf.o `test -f 'pk-conf.c' || echo '$(srcdir)/'`pk-conf.c
 
 pk_self_test-pk-conf.obj: pk-conf.c
-@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(pk_self_test_CFLAGS) $(CFLAGS) -MT pk_self_test-pk-conf.obj -MD -MP -MF $(DEPDIR)/pk_self_test-pk-conf.Tpo -c -o pk_self_test-pk-conf.obj `if test -f 'pk-conf.c'; then $(CYGPATH_W) 'pk-conf.c'; else $(CYGPATH_W) '$(srcdir)/pk-conf.c'; fi`
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(pk_self_test_CPPFLAGS) $(CPPFLAGS) $(pk_self_test_CFLAGS) $(CFLAGS) -MT pk_self_test-pk-conf.obj -MD -MP -MF $(DEPDIR)/pk_self_test-pk-conf.Tpo -c -o pk_self_test-pk-conf.obj `if test -f 'pk-conf.c'; then $(CYGPATH_W) 'pk-conf.c'; else $(CYGPATH_W) '$(srcdir)/pk-conf.c'; fi`
 @am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/pk_self_test-pk-conf.Tpo $(DEPDIR)/pk_self_test-pk-conf.Po
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='pk-conf.c' object='pk_self_test-pk-conf.obj' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(pk_self_test_CFLAGS) $(CFLAGS) -c -o pk_self_test-pk-conf.obj `if test -f 'pk-conf.c'; then $(CYGPATH_W) 'pk-conf.c'; else $(CYGPATH_W) '$(srcdir)/pk-conf.c'; fi`
+@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(pk_self_test_CPPFLAGS) $(CPPFLAGS) $(pk_self_test_CFLAGS) $(CFLAGS) -c -o pk_self_test-pk-conf.obj `if test -f 'pk-conf.c'; then $(CYGPATH_W) 'pk-conf.c'; else $(CYGPATH_W) '$(srcdir)/pk-conf.c'; fi`
 
 pk_self_test-pk-notify.o: pk-notify.c
-@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(pk_self_test_CFLAGS) $(CFLAGS) -MT pk_self_test-pk-notify.o -MD -MP -MF $(DEPDIR)/pk_self_test-pk-notify.Tpo -c -o pk_self_test-pk-notify.o `test -f 'pk-notify.c' || echo '$(srcdir)/'`pk-notify.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(pk_self_test_CPPFLAGS) $(CPPFLAGS) $(pk_self_test_CFLAGS) $(CFLAGS) -MT pk_self_test-pk-notify.o -MD -MP -MF $(DEPDIR)/pk_self_test-pk-notify.Tpo -c -o pk_self_test-pk-notify.o `test -f 'pk-notify.c' || echo '$(srcdir)/'`pk-notify.c
 @am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/pk_self_test-pk-notify.Tpo $(DEPDIR)/pk_self_test-pk-notify.Po
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='pk-notify.c' object='pk_self_test-pk-notify.o' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(pk_self_test_CFLAGS) $(CFLAGS) -c -o pk_self_test-pk-notify.o `test -f 'pk-notify.c' || echo '$(srcdir)/'`pk-notify.c
+@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(pk_self_test_CPPFLAGS) $(CPPFLAGS) $(pk_self_test_CFLAGS) $(CFLAGS) -c -o pk_self_test-pk-notify.o `test -f 'pk-notify.c' || echo '$(srcdir)/'`pk-notify.c
 
 pk_self_test-pk-notify.obj: pk-notify.c
-@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(pk_self_test_CFLAGS) $(CFLAGS) -MT pk_self_test-pk-notify.obj -MD -MP -MF $(DEPDIR)/pk_self_test-pk-notify.Tpo -c -o pk_self_test-pk-notify.obj `if test -f 'pk-notify.c'; then $(CYGPATH_W) 'pk-notify.c'; else $(CYGPATH_W) '$(srcdir)/pk-notify.c'; fi`
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(pk_self_test_CPPFLAGS) $(CPPFLAGS) $(pk_self_test_CFLAGS) $(CFLAGS) -MT pk_self_test-pk-notify.obj -MD -MP -MF $(DEPDIR)/pk_self_test-pk-notify.Tpo -c -o pk_self_test-pk-notify.obj `if test -f 'pk-notify.c'; then $(CYGPATH_W) 'pk-notify.c'; else $(CYGPATH_W) '$(srcdir)/pk-notify.c'; fi`
 @am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/pk_self_test-pk-notify.Tpo $(DEPDIR)/pk_self_test-pk-notify.Po
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='pk-notify.c' object='pk_self_test-pk-notify.obj' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(pk_self_test_CFLAGS) $(CFLAGS) -c -o pk_self_test-pk-notify.obj `if test -f 'pk-notify.c'; then $(CYGPATH_W) 'pk-notify.c'; else $(CYGPATH_W) '$(srcdir)/pk-notify.c'; fi`
+@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(pk_self_test_CPPFLAGS) $(CPPFLAGS) $(pk_self_test_CFLAGS) $(CFLAGS) -c -o pk_self_test-pk-notify.obj `if test -f 'pk-notify.c'; then $(CYGPATH_W) 'pk-notify.c'; else $(CYGPATH_W) '$(srcdir)/pk-notify.c'; fi`
 
 pk_self_test-pk-resources.o: pk-resources.c
-@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(pk_self_test_CFLAGS) $(CFLAGS) -MT pk_self_test-pk-resources.o -MD -MP -MF $(DEPDIR)/pk_self_test-pk-resources.Tpo -c -o pk_self_test-pk-resources.o `test -f 'pk-resources.c' || echo '$(srcdir)/'`pk-resources.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(pk_self_test_CPPFLAGS) $(CPPFLAGS) $(pk_self_test_CFLAGS) $(CFLAGS) -MT pk_self_test-pk-resources.o -MD -MP -MF $(DEPDIR)/pk_self_test-pk-resources.Tpo -c -o pk_self_test-pk-resources.o `test -f 'pk-resources.c' || echo '$(srcdir)/'`pk-resources.c
 @am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/pk_self_test-pk-resources.Tpo $(DEPDIR)/pk_self_test-pk-resources.Po
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='pk-resources.c' object='pk_self_test-pk-resources.o' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(pk_self_test_CFLAGS) $(CFLAGS) -c -o pk_self_test-pk-resources.o `test -f 'pk-resources.c' || echo '$(srcdir)/'`pk-resources.c
+@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(pk_self_test_CPPFLAGS) $(CPPFLAGS) $(pk_self_test_CFLAGS) $(CFLAGS) -c -o pk_self_test-pk-resources.o `test -f 'pk-resources.c' || echo '$(srcdir)/'`pk-resources.c
 
 pk_self_test-pk-resources.obj: pk-resources.c
-@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(pk_self_test_CFLAGS) $(CFLAGS) -MT pk_self_test-pk-resources.obj -MD -MP -MF $(DEPDIR)/pk_self_test-pk-resources.Tpo -c -o pk_self_test-pk-resources.obj `if test -f 'pk-resources.c'; then $(CYGPATH_W) 'pk-resources.c'; else $(CYGPATH_W) '$(srcdir)/pk-resources.c'; fi`
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(pk_self_test_CPPFLAGS) $(CPPFLAGS) $(pk_self_test_CFLAGS) $(CFLAGS) -MT pk_self_test-pk-resources.obj -MD -MP -MF $(DEPDIR)/pk_self_test-pk-resources.Tpo -c -o pk_self_test-pk-resources.obj `if test -f 'pk-resources.c'; then $(CYGPATH_W) 'pk-resources.c'; else $(CYGPATH_W) '$(srcdir)/pk-resources.c'; fi`
 @am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/pk_self_test-pk-resources.Tpo $(DEPDIR)/pk_self_test-pk-resources.Po
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='pk-resources.c' object='pk_self_test-pk-resources.obj' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(pk_self_test_CFLAGS) $(CFLAGS) -c -o pk_self_test-pk-resources.obj `if test -f 'pk-resources.c'; then $(CYGPATH_W) 'pk-resources.c'; else $(CYGPATH_W) '$(srcdir)/pk-resources.c'; fi`
+@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(pk_self_test_CPPFLAGS) $(CPPFLAGS) $(pk_self_test_CFLAGS) $(CFLAGS) -c -o pk_self_test-pk-resources.obj `if test -f 'pk-resources.c'; then $(CYGPATH_W) 'pk-resources.c'; else $(CYGPATH_W) '$(srcdir)/pk-resources.c'; fi`
 
 pk_self_test-pk-spawn.o: pk-spawn.c
-@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(pk_self_test_CFLAGS) $(CFLAGS) -MT pk_self_test-pk-spawn.o -MD -MP -MF $(DEPDIR)/pk_self_test-pk-spawn.Tpo -c -o pk_self_test-pk-spawn.o `test -f 'pk-spawn.c' || echo '$(srcdir)/'`pk-spawn.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(pk_self_test_CPPFLAGS) $(CPPFLAGS) $(pk_self_test_CFLAGS) $(CFLAGS) -MT pk_self_test-pk-spawn.o -MD -MP -MF $(DEPDIR)/pk_self_test-pk-spawn.Tpo -c -o pk_self_test-pk-spawn.o `test -f 'pk-spawn.c' || echo '$(srcdir)/'`pk-spawn.c
 @am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/pk_self_test-pk-spawn.Tpo $(DEPDIR)/pk_self_test-pk-spawn.Po
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='pk-spawn.c' object='pk_self_test-pk-spawn.o' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(pk_self_test_CFLAGS) $(CFLAGS) -c -o pk_self_test-pk-spawn.o `test -f 'pk-spawn.c' || echo '$(srcdir)/'`pk-spawn.c
+@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(pk_self_test_CPPFLAGS) $(CPPFLAGS) $(pk_self_test_CFLAGS) $(CFLAGS) -c -o pk_self_test-pk-spawn.o `test -f 'pk-spawn.c' || echo '$(srcdir)/'`pk-spawn.c
 
 pk_self_test-pk-spawn.obj: pk-spawn.c
-@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(pk_self_test_CFLAGS) $(CFLAGS) -MT pk_self_test-pk-spawn.obj -MD -MP -MF $(DEPDIR)/pk_self_test-pk-spawn.Tpo -c -o pk_self_test-pk-spawn.obj `if test -f 'pk-spawn.c'; then $(CYGPATH_W) 'pk-spawn.c'; else $(CYGPATH_W) '$(srcdir)/pk-spawn.c'; fi`
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(pk_self_test_CPPFLAGS) $(CPPFLAGS) $(pk_self_test_CFLAGS) $(CFLAGS) -MT pk_self_test-pk-spawn.obj -MD -MP -MF $(DEPDIR)/pk_self_test-pk-spawn.Tpo -c -o pk_self_test-pk-spawn.obj `if test -f 'pk-spawn.c'; then $(CYGPATH_W) 'pk-spawn.c'; else $(CYGPATH_W) '$(srcdir)/pk-spawn.c'; fi`
 @am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/pk_self_test-pk-spawn.Tpo $(DEPDIR)/pk_self_test-pk-spawn.Po
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='pk-spawn.c' object='pk_self_test-pk-spawn.obj' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(pk_self_test_CFLAGS) $(CFLAGS) -c -o pk_self_test-pk-spawn.obj `if test -f 'pk-spawn.c'; then $(CYGPATH_W) 'pk-spawn.c'; else $(CYGPATH_W) '$(srcdir)/pk-spawn.c'; fi`
+@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(pk_self_test_CPPFLAGS) $(CPPFLAGS) $(pk_self_test_CFLAGS) $(CFLAGS) -c -o pk_self_test-pk-spawn.obj `if test -f 'pk-spawn.c'; then $(CYGPATH_W) 'pk-spawn.c'; else $(CYGPATH_W) '$(srcdir)/pk-spawn.c'; fi`
 
 pk_self_test-pk-sysdep.o: pk-sysdep.c
-@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(pk_self_test_CFLAGS) $(CFLAGS) -MT pk_self_test-pk-sysdep.o -MD -MP -MF $(DEPDIR)/pk_self_test-pk-sysdep.Tpo -c -o pk_self_test-pk-sysdep.o `test -f 'pk-sysdep.c' || echo '$(srcdir)/'`pk-sysdep.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(pk_self_test_CPPFLAGS) $(CPPFLAGS) $(pk_self_test_CFLAGS) $(CFLAGS) -MT pk_self_test-pk-sysdep.o -MD -MP -MF $(DEPDIR)/pk_self_test-pk-sysdep.Tpo -c -o pk_self_test-pk-sysdep.o `test -f 'pk-sysdep.c' || echo '$(srcdir)/'`pk-sysdep.c
 @am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/pk_self_test-pk-sysdep.Tpo $(DEPDIR)/pk_self_test-pk-sysdep.Po
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='pk-sysdep.c' object='pk_self_test-pk-sysdep.o' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(pk_self_test_CFLAGS) $(CFLAGS) -c -o pk_self_test-pk-sysdep.o `test -f 'pk-sysdep.c' || echo '$(srcdir)/'`pk-sysdep.c
+@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(pk_self_test_CPPFLAGS) $(CPPFLAGS) $(pk_self_test_CFLAGS) $(CFLAGS) -c -o pk_self_test-pk-sysdep.o `test -f 'pk-sysdep.c' || echo '$(srcdir)/'`pk-sysdep.c
 
 pk_self_test-pk-sysdep.obj: pk-sysdep.c
-@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(pk_self_test_CFLAGS) $(CFLAGS) -MT pk_self_test-pk-sysdep.obj -MD -MP -MF $(DEPDIR)/pk_self_test-pk-sysdep.Tpo -c -o pk_self_test-pk-sysdep.obj `if test -f 'pk-sysdep.c'; then $(CYGPATH_W) 'pk-sysdep.c'; else $(CYGPATH_W) '$(srcdir)/pk-sysdep.c'; fi`
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(pk_self_test_CPPFLAGS) $(CPPFLAGS) $(pk_self_test_CFLAGS) $(CFLAGS) -MT pk_self_test-pk-sysdep.obj -MD -MP -MF $(DEPDIR)/pk_self_test-pk-sysdep.Tpo -c -o pk_self_test-pk-sysdep.obj `if test -f 'pk-sysdep.c'; then $(CYGPATH_W) 'pk-sysdep.c'; else $(CYGPATH_W) '$(srcdir)/pk-sysdep.c'; fi`
 @am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/pk_self_test-pk-sysdep.Tpo $(DEPDIR)/pk_self_test-pk-sysdep.Po
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='pk-sysdep.c' object='pk_self_test-pk-sysdep.obj' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(pk_self_test_CFLAGS) $(CFLAGS) -c -o pk_self_test-pk-sysdep.obj `if test -f 'pk-sysdep.c'; then $(CYGPATH_W) 'pk-sysdep.c'; else $(CYGPATH_W) '$(srcdir)/pk-sysdep.c'; fi`
+@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(pk_self_test_CPPFLAGS) $(CPPFLAGS) $(pk_self_test_CFLAGS) $(CFLAGS) -c -o pk_self_test-pk-sysdep.obj `if test -f 'pk-sysdep.c'; then $(CYGPATH_W) 'pk-sysdep.c'; else $(CYGPATH_W) '$(srcdir)/pk-sysdep.c'; fi`
 
 pk_self_test-pk-engine.o: pk-engine.c
-@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(pk_self_test_CFLAGS) $(CFLAGS) -MT pk_self_test-pk-engine.o -MD -MP -MF $(DEPDIR)/pk_self_test-pk-engine.Tpo -c -o pk_self_test-pk-engine.o `test -f 'pk-engine.c' || echo '$(srcdir)/'`pk-engine.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(pk_self_test_CPPFLAGS) $(CPPFLAGS) $(pk_self_test_CFLAGS) $(CFLAGS) -MT pk_self_test-pk-engine.o -MD -MP -MF $(DEPDIR)/pk_self_test-pk-engine.Tpo -c -o pk_self_test-pk-engine.o `test -f 'pk-engine.c' || echo '$(srcdir)/'`pk-engine.c
 @am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/pk_self_test-pk-engine.Tpo $(DEPDIR)/pk_self_test-pk-engine.Po
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='pk-engine.c' object='pk_self_test-pk-engine.o' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(pk_self_test_CFLAGS) $(CFLAGS) -c -o pk_self_test-pk-engine.o `test -f 'pk-engine.c' || echo '$(srcdir)/'`pk-engine.c
+@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(pk_self_test_CPPFLAGS) $(CPPFLAGS) $(pk_self_test_CFLAGS) $(CFLAGS) -c -o pk_self_test-pk-engine.o `test -f 'pk-engine.c' || echo '$(srcdir)/'`pk-engine.c
 
 pk_self_test-pk-engine.obj: pk-engine.c
-@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(pk_self_test_CFLAGS) $(CFLAGS) -MT pk_self_test-pk-engine.obj -MD -MP -MF $(DEPDIR)/pk_self_test-pk-engine.Tpo -c -o pk_self_test-pk-engine.obj `if test -f 'pk-engine.c'; then $(CYGPATH_W) 'pk-engine.c'; else $(CYGPATH_W) '$(srcdir)/pk-engine.c'; fi`
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(pk_self_test_CPPFLAGS) $(CPPFLAGS) $(pk_self_test_CFLAGS) $(CFLAGS) -MT pk_self_test-pk-engine.obj -MD -MP -MF $(DEPDIR)/pk_self_test-pk-engine.Tpo -c -o pk_self_test-pk-engine.obj `if test -f 'pk-engine.c'; then $(CYGPATH_W) 'pk-engine.c'; else $(CYGPATH_W) '$(srcdir)/pk-engine.c'; fi`
 @am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/pk_self_test-pk-engine.Tpo $(DEPDIR)/pk_self_test-pk-engine.Po
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='pk-engine.c' object='pk_self_test-pk-engine.obj' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(pk_self_test_CFLAGS) $(CFLAGS) -c -o pk_self_test-pk-engine.obj `if test -f 'pk-engine.c'; then $(CYGPATH_W) 'pk-engine.c'; else $(CYGPATH_W) '$(srcdir)/pk-engine.c'; fi`
+@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(pk_self_test_CPPFLAGS) $(CPPFLAGS) $(pk_self_test_CFLAGS) $(CFLAGS) -c -o pk_self_test-pk-engine.obj `if test -f 'pk-engine.c'; then $(CYGPATH_W) 'pk-engine.c'; else $(CYGPATH_W) '$(srcdir)/pk-engine.c'; fi`
 
 pk_self_test-pk-backend-spawn.o: pk-backend-spawn.c
-@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(pk_self_test_CFLAGS) $(CFLAGS) -MT pk_self_test-pk-backend-spawn.o -MD -MP -MF $(DEPDIR)/pk_self_test-pk-backend-spawn.Tpo -c -o pk_self_test-pk-backend-spawn.o `test -f 'pk-backend-spawn.c' || echo '$(srcdir)/'`pk-backend-spawn.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(pk_self_test_CPPFLAGS) $(CPPFLAGS) $(pk_self_test_CFLAGS) $(CFLAGS) -MT pk_self_test-pk-backend-spawn.o -MD -MP -MF $(DEPDIR)/pk_self_test-pk-backend-spawn.Tpo -c -o pk_self_test-pk-backend-spawn.o `test -f 'pk-backend-spawn.c' || echo '$(srcdir)/'`pk-backend-spawn.c
 @am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/pk_self_test-pk-backend-spawn.Tpo $(DEPDIR)/pk_self_test-pk-backend-spawn.Po
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='pk-backend-spawn.c' object='pk_self_test-pk-backend-spawn.o' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(pk_self_test_CFLAGS) $(CFLAGS) -c -o pk_self_test-pk-backend-spawn.o `test -f 'pk-backend-spawn.c' || echo '$(srcdir)/'`pk-backend-spawn.c
+@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(pk_self_test_CPPFLAGS) $(CPPFLAGS) $(pk_self_test_CFLAGS) $(CFLAGS) -c -o pk_self_test-pk-backend-spawn.o `test -f 'pk-backend-spawn.c' || echo '$(srcdir)/'`pk-backend-spawn.c
 
 pk_self_test-pk-backend-spawn.obj: pk-backend-spawn.c
-@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(pk_self_test_CFLAGS) $(CFLAGS) -MT pk_self_test-pk-backend-spawn.obj -MD -MP -MF $(DEPDIR)/pk_self_test-pk-backend-spawn.Tpo -c -o pk_self_test-pk-backend-spawn.obj `if test -f 'pk-backend-spawn.c'; then $(CYGPATH_W) 'pk-backend-spawn.c'; else $(CYGPATH_W) '$(srcdir)/pk-backend-spawn.c'; fi`
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(pk_self_test_CPPFLAGS) $(CPPFLAGS) $(pk_self_test_CFLAGS) $(CFLAGS) -MT pk_self_test-pk-backend-spawn.obj -MD -MP -MF $(DEPDIR)/pk_self_test-pk-backend-spawn.Tpo -c -o pk_self_test-pk-backend-spawn.obj `if test -f 'pk-backend-spawn.c'; then $(CYGPATH_W) 'pk-backend-spawn.c'; else $(CYGPATH_W) '$(srcdir)/pk-backend-spawn.c'; fi`
 @am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/pk_self_test-pk-backend-spawn.Tpo $(DEPDIR)/pk_self_test-pk-backend-spawn.Po
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='pk-backend-spawn.c' object='pk_self_test-pk-backend-spawn.obj' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(pk_self_test_CFLAGS) $(CFLAGS) -c -o pk_self_test-pk-backend-spawn.obj `if test -f 'pk-backend-spawn.c'; then $(CYGPATH_W) 'pk-backend-spawn.c'; else $(CYGPATH_W) '$(srcdir)/pk-backend-spawn.c'; fi`
+@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(pk_self_test_CPPFLAGS) $(CPPFLAGS) $(pk_self_test_CFLAGS) $(CFLAGS) -c -o pk_self_test-pk-backend-spawn.obj `if test -f 'pk-backend-spawn.c'; then $(CYGPATH_W) 'pk-backend-spawn.c'; else $(CYGPATH_W) '$(srcdir)/pk-backend-spawn.c'; fi`
 
 pk_self_test-pk-transaction-db.o: pk-transaction-db.c
-@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(pk_self_test_CFLAGS) $(CFLAGS) -MT pk_self_test-pk-transaction-db.o -MD -MP -MF $(DEPDIR)/pk_self_test-pk-transaction-db.Tpo -c -o pk_self_test-pk-transaction-db.o `test -f 'pk-transaction-db.c' || echo '$(srcdir)/'`pk-transaction-db.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(pk_self_test_CPPFLAGS) $(CPPFLAGS) $(pk_self_test_CFLAGS) $(CFLAGS) -MT pk_self_test-pk-transaction-db.o -MD -MP -MF $(DEPDIR)/pk_self_test-pk-transaction-db.Tpo -c -o pk_self_test-pk-transaction-db.o `test -f 'pk-transaction-db.c' || echo '$(srcdir)/'`pk-transaction-db.c
 @am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/pk_self_test-pk-transaction-db.Tpo $(DEPDIR)/pk_self_test-pk-transaction-db.Po
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='pk-transaction-db.c' object='pk_self_test-pk-transaction-db.o' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(pk_self_test_CFLAGS) $(CFLAGS) -c -o pk_self_test-pk-transaction-db.o `test -f 'pk-transaction-db.c' || echo '$(srcdir)/'`pk-transaction-db.c
+@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(pk_self_test_CPPFLAGS) $(CPPFLAGS) $(pk_self_test_CFLAGS) $(CFLAGS) -c -o pk_self_test-pk-transaction-db.o `test -f 'pk-transaction-db.c' || echo '$(srcdir)/'`pk-transaction-db.c
 
 pk_self_test-pk-transaction-db.obj: pk-transaction-db.c
-@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(pk_self_test_CFLAGS) $(CFLAGS) -MT pk_self_test-pk-transaction-db.obj -MD -MP -MF $(DEPDIR)/pk_self_test-pk-transaction-db.Tpo -c -o pk_self_test-pk-transaction-db.obj `if test -f 'pk-transaction-db.c'; then $(CYGPATH_W) 'pk-transaction-db.c'; else $(CYGPATH_W) '$(srcdir)/pk-transaction-db.c'; fi`
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(pk_self_test_CPPFLAGS) $(CPPFLAGS) $(pk_self_test_CFLAGS) $(CFLAGS) -MT pk_self_test-pk-transaction-db.obj -MD -MP -MF $(DEPDIR)/pk_self_test-pk-transaction-db.Tpo -c -o pk_self_test-pk-transaction-db.obj `if test -f 'pk-transaction-db.c'; then $(CYGPATH_W) 'pk-transaction-db.c'; else $(CYGPATH_W) '$(srcdir)/pk-transaction-db.c'; fi`
 @am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/pk_self_test-pk-transaction-db.Tpo $(DEPDIR)/pk_self_test-pk-transaction-db.Po
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='pk-transaction-db.c' object='pk_self_test-pk-transaction-db.obj' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(pk_self_test_CFLAGS) $(CFLAGS) -c -o pk_self_test-pk-transaction-db.obj `if test -f 'pk-transaction-db.c'; then $(CYGPATH_W) 'pk-transaction-db.c'; else $(CYGPATH_W) '$(srcdir)/pk-transaction-db.c'; fi`
+@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(pk_self_test_CPPFLAGS) $(CPPFLAGS) $(pk_self_test_CFLAGS) $(CFLAGS) -c -o pk_self_test-pk-transaction-db.obj `if test -f 'pk-transaction-db.c'; then $(CYGPATH_W) 'pk-transaction-db.c'; else $(CYGPATH_W) '$(srcdir)/pk-transaction-db.c'; fi`
 
 pk_self_test-pk-transaction-list.o: pk-transaction-list.c
-@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(pk_self_test_CFLAGS) $(CFLAGS) -MT pk_self_test-pk-transaction-list.o -MD -MP -MF $(DEPDIR)/pk_self_test-pk-transaction-list.Tpo -c -o pk_self_test-pk-transaction-list.o `test -f 'pk-transaction-list.c' || echo '$(srcdir)/'`pk-transaction-list.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(pk_self_test_CPPFLAGS) $(CPPFLAGS) $(pk_self_test_CFLAGS) $(CFLAGS) -MT pk_self_test-pk-transaction-list.o -MD -MP -MF $(DEPDIR)/pk_self_test-pk-transaction-list.Tpo -c -o pk_self_test-pk-transaction-list.o `test -f 'pk-transaction-list.c' || echo '$(srcdir)/'`pk-transaction-list.c
 @am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/pk_self_test-pk-transaction-list.Tpo $(DEPDIR)/pk_self_test-pk-transaction-list.Po
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='pk-transaction-list.c' object='pk_self_test-pk-transaction-list.o' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(pk_self_test_CFLAGS) $(CFLAGS) -c -o pk_self_test-pk-transaction-list.o `test -f 'pk-transaction-list.c' || echo '$(srcdir)/'`pk-transaction-list.c
+@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(pk_self_test_CPPFLAGS) $(CPPFLAGS) $(pk_self_test_CFLAGS) $(CFLAGS) -c -o pk_self_test-pk-transaction-list.o `test -f 'pk-transaction-list.c' || echo '$(srcdir)/'`pk-transaction-list.c
 
 pk_self_test-pk-transaction-list.obj: pk-transaction-list.c
-@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(pk_self_test_CFLAGS) $(CFLAGS) -MT pk_self_test-pk-transaction-list.obj -MD -MP -MF $(DEPDIR)/pk_self_test-pk-transaction-list.Tpo -c -o pk_self_test-pk-transaction-list.obj `if test -f 'pk-transaction-list.c'; then $(CYGPATH_W) 'pk-transaction-list.c'; else $(CYGPATH_W) '$(srcdir)/pk-transaction-list.c'; fi`
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(pk_self_test_CPPFLAGS) $(CPPFLAGS) $(pk_self_test_CFLAGS) $(CFLAGS) -MT pk_self_test-pk-transaction-list.obj -MD -MP -MF $(DEPDIR)/pk_self_test-pk-transaction-list.Tpo -c -o pk_self_test-pk-transaction-list.obj `if test -f 'pk-transaction-list.c'; then $(CYGPATH_W) 'pk-transaction-list.c'; else $(CYGPATH_W) '$(srcdir)/pk-transaction-list.c'; fi`
 @am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/pk_self_test-pk-transaction-list.Tpo $(DEPDIR)/pk_self_test-pk-transaction-list.Po
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='pk-transaction-list.c' object='pk_self_test-pk-transaction-list.obj' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(pk_self_test_CFLAGS) $(CFLAGS) -c -o pk_self_test-pk-transaction-list.obj `if test -f 'pk-transaction-list.c'; then $(CYGPATH_W) 'pk-transaction-list.c'; else $(CYGPATH_W) '$(srcdir)/pk-transaction-list.c'; fi`
+@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(pk_self_test_CPPFLAGS) $(CPPFLAGS) $(pk_self_test_CFLAGS) $(CFLAGS) -c -o pk_self_test-pk-transaction-list.obj `if test -f 'pk-transaction-list.c'; then $(CYGPATH_W) 'pk-transaction-list.c'; else $(CYGPATH_W) '$(srcdir)/pk-transaction-list.c'; fi`
 
 pk_self_test-pk-network-stack-nm.o: pk-network-stack-nm.c
-@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(pk_self_test_CFLAGS) $(CFLAGS) -MT pk_self_test-pk-network-stack-nm.o -MD -MP -MF $(DEPDIR)/pk_self_test-pk-network-stack-nm.Tpo -c -o pk_self_test-pk-network-stack-nm.o `test -f 'pk-network-stack-nm.c' || echo '$(srcdir)/'`pk-network-stack-nm.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(pk_self_test_CPPFLAGS) $(CPPFLAGS) $(pk_self_test_CFLAGS) $(CFLAGS) -MT pk_self_test-pk-network-stack-nm.o -MD -MP -MF $(DEPDIR)/pk_self_test-pk-network-stack-nm.Tpo -c -o pk_self_test-pk-network-stack-nm.o `test -f 'pk-network-stack-nm.c' || echo '$(srcdir)/'`pk-network-stack-nm.c
 @am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/pk_self_test-pk-network-stack-nm.Tpo $(DEPDIR)/pk_self_test-pk-network-stack-nm.Po
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='pk-network-stack-nm.c' object='pk_self_test-pk-network-stack-nm.o' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(pk_self_test_CFLAGS) $(CFLAGS) -c -o pk_self_test-pk-network-stack-nm.o `test -f 'pk-network-stack-nm.c' || echo '$(srcdir)/'`pk-network-stack-nm.c
+@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(pk_self_test_CPPFLAGS) $(CPPFLAGS) $(pk_self_test_CFLAGS) $(CFLAGS) -c -o pk_self_test-pk-network-stack-nm.o `test -f 'pk-network-stack-nm.c' || echo '$(srcdir)/'`pk-network-stack-nm.c
 
 pk_self_test-pk-network-stack-nm.obj: pk-network-stack-nm.c
-@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(pk_self_test_CFLAGS) $(CFLAGS) -MT pk_self_test-pk-network-stack-nm.obj -MD -MP -MF $(DEPDIR)/pk_self_test-pk-network-stack-nm.Tpo -c -o pk_self_test-pk-network-stack-nm.obj `if test -f 'pk-network-stack-nm.c'; then $(CYGPATH_W) 'pk-network-stack-nm.c'; else $(CYGPATH_W) '$(srcdir)/pk-network-stack-nm.c'; fi`
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(pk_self_test_CPPFLAGS) $(CPPFLAGS) $(pk_self_test_CFLAGS) $(CFLAGS) -MT pk_self_test-pk-network-stack-nm.obj -MD -MP -MF $(DEPDIR)/pk_self_test-pk-network-stack-nm.Tpo -c -o pk_self_test-pk-network-stack-nm.obj `if test -f 'pk-network-stack-nm.c'; then $(CYGPATH_W) 'pk-network-stack-nm.c'; else $(CYGPATH_W) '$(srcdir)/pk-network-stack-nm.c'; fi`
 @am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/pk_self_test-pk-network-stack-nm.Tpo $(DEPDIR)/pk_self_test-pk-network-stack-nm.Po
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='pk-network-stack-nm.c' object='pk_self_test-pk-network-stack-nm.obj' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(pk_self_test_CFLAGS) $(CFLAGS) -c -o pk_self_test-pk-network-stack-nm.obj `if test -f 'pk-network-stack-nm.c'; then $(CYGPATH_W) 'pk-network-stack-nm.c'; else $(CYGPATH_W) '$(srcdir)/pk-network-stack-nm.c'; fi`
+@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(pk_self_test_CPPFLAGS) $(CPPFLAGS) $(pk_self_test_CFLAGS) $(CFLAGS) -c -o pk_self_test-pk-network-stack-nm.obj `if test -f 'pk-network-stack-nm.c'; then $(CYGPATH_W) 'pk-network-stack-nm.c'; else $(CYGPATH_W) '$(srcdir)/pk-network-stack-nm.c'; fi`
 
 pk_self_test-pk-network-stack-connman.o: pk-network-stack-connman.c
-@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(pk_self_test_CFLAGS) $(CFLAGS) -MT pk_self_test-pk-network-stack-connman.o -MD -MP -MF $(DEPDIR)/pk_self_test-pk-network-stack-connman.Tpo -c -o pk_self_test-pk-network-stack-connman.o `test -f 'pk-network-stack-connman.c' || echo '$(srcdir)/'`pk-network-stack-connman.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(pk_self_test_CPPFLAGS) $(CPPFLAGS) $(pk_self_test_CFLAGS) $(CFLAGS) -MT pk_self_test-pk-network-stack-connman.o -MD -MP -MF $(DEPDIR)/pk_self_test-pk-network-stack-connman.Tpo -c -o pk_self_test-pk-network-stack-connman.o `test -f 'pk-network-stack-connman.c' || echo '$(srcdir)/'`pk-network-stack-connman.c
 @am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/pk_self_test-pk-network-stack-connman.Tpo $(DEPDIR)/pk_self_test-pk-network-stack-connman.Po
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='pk-network-stack-connman.c' object='pk_self_test-pk-network-stack-connman.o' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(pk_self_test_CFLAGS) $(CFLAGS) -c -o pk_self_test-pk-network-stack-connman.o `test -f 'pk-network-stack-connman.c' || echo '$(srcdir)/'`pk-network-stack-connman.c
+@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(pk_self_test_CPPFLAGS) $(CPPFLAGS) $(pk_self_test_CFLAGS) $(CFLAGS) -c -o pk_self_test-pk-network-stack-connman.o `test -f 'pk-network-stack-connman.c' || echo '$(srcdir)/'`pk-network-stack-connman.c
 
 pk_self_test-pk-network-stack-connman.obj: pk-network-stack-connman.c
-@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(pk_self_test_CFLAGS) $(CFLAGS) -MT pk_self_test-pk-network-stack-connman.obj -MD -MP -MF $(DEPDIR)/pk_self_test-pk-network-stack-connman.Tpo -c -o pk_self_test-pk-network-stack-connman.obj `if test -f 'pk-network-stack-connman.c'; then $(CYGPATH_W) 'pk-network-stack-connman.c'; else $(CYGPATH_W) '$(srcdir)/pk-network-stack-connman.c'; fi`
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(pk_self_test_CPPFLAGS) $(CPPFLAGS) $(pk_self_test_CFLAGS) $(CFLAGS) -MT pk_self_test-pk-network-stack-connman.obj -MD -MP -MF $(DEPDIR)/pk_self_test-pk-network-stack-connman.Tpo -c -o pk_self_test-pk-network-stack-connman.obj `if test -f 'pk-network-stack-connman.c'; then $(CYGPATH_W) 'pk-network-stack-connman.c'; else $(CYGPATH_W) '$(srcdir)/pk-network-stack-connman.c'; fi`
 @am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/pk_self_test-pk-network-stack-connman.Tpo $(DEPDIR)/pk_self_test-pk-network-stack-connman.Po
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='pk-network-stack-connman.c' object='pk_self_test-pk-network-stack-connman.obj' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(pk_self_test_CFLAGS) $(CFLAGS) -c -o pk_self_test-pk-network-stack-connman.obj `if test -f 'pk-network-stack-connman.c'; then $(CYGPATH_W) 'pk-network-stack-connman.c'; else $(CYGPATH_W) '$(srcdir)/pk-network-stack-connman.c'; fi`
+@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(pk_self_test_CPPFLAGS) $(CPPFLAGS) $(pk_self_test_CFLAGS) $(CFLAGS) -c -o pk_self_test-pk-network-stack-connman.obj `if test -f 'pk-network-stack-connman.c'; then $(CYGPATH_W) 'pk-network-stack-connman.c'; else $(CYGPATH_W) '$(srcdir)/pk-network-stack-connman.c'; fi`
 
 mostlyclean-libtool:
 	-rm -f *.lo
@@ -2518,7 +2526,7 @@ install-data-hook:
 	if test -w $(DESTDIR)$(prefix)/; then \
 		mkdir -p $(DESTDIR)$(localstatedir)/cache/PackageKit/downloads; \
 		mkdir -p $(DESTDIR)$(localstatedir)/cache/PackageKit/metadata; \
-		mkdir -p $(DESTDIR)$(PK_LOG_DIR); \
+		mkdir -p $(DESTDIR)$(localstatedir)/log; \
 	fi
 
 clean-local:

@@ -54,8 +54,6 @@ struct _HifStateClass
 	/* Signals */
 	void		(* percentage_changed)		(HifState	*state,
 							 guint		 value);
-	void		(* subpercentage_changed)	(HifState	*state,
-							 guint		 value);
 	void		(* allow_cancel_changed)	(HifState	*state,
 							 gboolean	 allow_cancel);
 	void		(* action_changed)		(HifState	*state,
@@ -73,11 +71,6 @@ struct _HifStateClass
 #define hif_state_set_steps(state, error, value, args...)	hif_state_set_steps_real(state, error, G_STRLOC, value, ## args)
 
 typedef gboolean (*HifStateErrorHandlerCb)		(const GError		*error,
-							 gpointer		 user_data);
-typedef gboolean (*HifStateLockHandlerCb)		(HifState		*state,
-							 HifLock		*lock,
-							 HifLockType		 lock_type,
-							 GError			**error,
 							 gpointer		 user_data);
 
 GType		 hif_state_get_type			(void);
@@ -134,9 +127,6 @@ void		 hif_state_set_speed			(HifState		*state,
 							 guint64		 speed);
 
 /* lock handling */
-void		 hif_state_set_lock_handler		(HifState		*state,
-							 HifStateLockHandlerCb	 lock_handler_cb,
-							 gpointer		 user_data);
 gboolean	 hif_state_take_lock			(HifState		*state,
 							 HifLockType		 lock_type,
 							 HifLockMode		 lock_mode,

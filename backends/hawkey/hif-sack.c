@@ -23,6 +23,8 @@
 #  include <config.h>
 #endif
 
+#include <hawkey/errno.h>
+
 #include "hif-sack.h"
 #include "hif-utils.h"
 
@@ -58,7 +60,10 @@ hif_sack_add_source (HySack sack,
 			 error_local->message);
 		g_clear_error (&error_local);
 		hif_state_reset (state_local);
-		ret = hif_source_update (src, state_local, &error_local);
+		ret = hif_source_update (src,
+					 HIF_SOURCE_UPDATE_FLAG_FORCE,
+					 state_local,
+					 &error_local);
 		if (!ret) {
 			if (g_error_matches (error_local,
 					     HIF_ERROR,
@@ -90,6 +95,8 @@ hif_sack_add_source (HySack sack,
 	g_debug ("Loading repo %s", hif_source_get_id (src));
 	hif_state_action_start (state, PK_STATUS_ENUM_LOADING_CACHE, NULL);
 	rc = hy_sack_load_yum_repo (sack, hif_source_get_repo (src), flags_hy);
+	if (rc == HY_E_FAILED)
+		rc = hy_get_errno ();
 	ret = hif_rc_to_gerror (rc, error);
 	if (!ret) {
 		g_prefix_error (error, "Failed to load repo %s: ",
@@ -116,14 +123,24 @@ hif_sack_add_sources (HySack sack,
 		      GError **error)
 {
 	gboolean ret = TRUE;
+	guint cnt = 0;
 	guint i;
 	HifSource *src;
 	HifState *state_local;
 
-	/* add each repo */
-	hif_state_set_number_steps (state, sources->len);
+	/* count the enabled sources */
 	for (i = 0; i < sources->len; i++) {
 		src = g_ptr_array_index (sources, i);
+		if (hif_source_get_enabled (src))
+			cnt++;
+	}
+
+	/* add each repo */
+	hif_state_set_number_steps (state, cnt);
+	for (i = 0; i < sources->len; i++) {
+		src = g_ptr_array_index (sources, i);
+		if (!hif_source_get_enabled (src))
+			continue;
 
 		state_local = hif_state_get_child (state);
 		ret = hif_sack_add_source (sack, src, flags, state_local, error);

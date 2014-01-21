@@ -2,7 +2,7 @@
 
 m4_define([pk_major_version], [0])
 m4_define([pk_minor_version], [8])
-m4_define([pk_micro_version], [14])
+m4_define([pk_micro_version], [16])
 m4_define([pk_version],
           [pk_major_version.pk_minor_version.pk_micro_version])
 
@@ -52,9 +52,9 @@ AC_SUBST(PK_VERSION)
 # - If the interface is the same as the previous version, but bugs are
 #   fixed, change:
 #      REVISION += 1
-LT_CURRENT=17
-LT_REVISION=1
-LT_AGE=1
+LT_CURRENT=19
+LT_REVISION=0
+LT_AGE=3
 AC_SUBST(LT_CURRENT)
 AC_SUBST(LT_REVISION)
 AC_SUBST(LT_AGE)
@@ -425,7 +425,7 @@ AC_ARG_ENABLE(pisi, AS_HELP_STRING([--enable-pisi],[use the PiSi backend]),enabl
 AC_ARG_ENABLE(poldek, AS_HELP_STRING([--enable-poldek],[use the poldek backend]),enable_poldek=$enableval,enable_poldek=no)
 AC_ARG_ENABLE(portage, AS_HELP_STRING([--enable-portage],[use the portage backend]),enable_portage=$enableval,enable_portage=no)
 AC_ARG_ENABLE(ports, AS_HELP_STRING([--enable-ports],[use the ports backend]),enable_ports=$enableval,enable_ports=no)
-AC_ARG_ENABLE(slapt, AS_HELP_STRING([--enable-slapt],[use the slapt backend]),enable_slapt=$enableval,enable_slapt=no)
+AC_ARG_ENABLE(katja, AS_HELP_STRING([--enable-katja],[use the Slackware backend]),enable_katja=$enableval,enable_katja=no)
 AC_ARG_ENABLE(smart, AS_HELP_STRING([--enable-smart],[use the SMART backend]),enable_smart=$enableval,enable_smart=no)
 AC_ARG_ENABLE(urpmi, AS_HELP_STRING([--enable-urpmi],[use the URPMI backend]),enable_urpmi=$enableval,enable_urpmi=no)
 AC_ARG_ENABLE(yum, AS_HELP_STRING([--enable-yum],[use the YUM backend]),enable_yum=$enableval,enable_yum=no)
@@ -444,7 +444,7 @@ AM_CONDITIONAL(BACKEND_TYPE_PISI, [test x$enable_pisi = xyes])
 AM_CONDITIONAL(BACKEND_TYPE_POLDEK, [test x$enable_poldek = xyes])
 AM_CONDITIONAL(BACKEND_TYPE_PORTAGE, [test x$enable_portage = xyes])
 AM_CONDITIONAL(BACKEND_TYPE_PORTS, [test x$enable_ports = xyes])
-AM_CONDITIONAL(BACKEND_TYPE_SLAPT, [test x$enable_slapt = xyes])
+AM_CONDITIONAL(BACKEND_TYPE_KATJA, [test x$enable_katja = xyes])
 AM_CONDITIONAL(BACKEND_TYPE_SMART, [test x$enable_smart = xyes])
 AM_CONDITIONAL(BACKEND_TYPE_URPMI, [test x$enable_urpmi = xyes])
 AM_CONDITIONAL(BACKEND_TYPE_YUM, [test x$enable_yum = xyes])
@@ -476,7 +476,7 @@ dnl ---------------------------------------------------------------------------
 AC_ARG_WITH([default_backend],
 	    AS_HELP_STRING([--with-default-backend=<option>],
 			   [Default backend to use
-                           auto,alpm,apt,aptcc,conary,dummy,entropy,hawkey,opkg,pisi,portage,ports,slapt,smart,urpmi,yum,zypp (auto)]))
+                           auto,alpm,apt,aptcc,conary,dummy,entropy,hawkey,opkg,pisi,portage,ports,katja,smart,urpmi,yum,zypp (auto)]))
 if test x$with_default_backend = x; then
 	with_default_backend=auto
 fi
@@ -484,7 +484,7 @@ AC_DEFINE_UNQUOTED(DEFAULT_BACKEND, "$with_default_backend", [default backend pr
 AC_SUBST(DEFAULT_BACKEND, "$with_default_backend")
 
 if test x$enable_hawkey = xyes; then
-	PKG_CHECK_MODULES(HAWKEY, hawkey >= 0.4.5 librepo rpm >= 4.11.0)
+	PKG_CHECK_MODULES(HAWKEY, hawkey >= 0.4.6 librepo >= 0.1.5 rpm >= 4.11.0)
 fi
 
 if test x$enable_apt = xyes; then
@@ -568,30 +568,25 @@ if test x$enable_zypp = xyes; then
 	fi
 fi
 
-if test x$enable_slapt = xyes; then
-	with_default_backend=dummy
-	AC_CHECK_HEADER([slapt.h],
-			[with_default_backend=slapt],
-			[AC_MSG_WARN([No slapt headers found - falling back to dummy backend])])
+if test x$enable_katja = xyes; then
 	AC_CHECK_LIB(curl, curl_version, [
 	    CURL_CFLAGS="`curl-config --cflags`"
 	    CURL_LIBS="`curl-config --libs`"
-	    ], [AC_MSG_ERROR([Can't find curl])])
-	AC_CHECK_LIB(gpgme, gpgme_check_version, [
-		AC_DEFINE(SLAPT_HAS_GPGME, 1, [Define to 1 if GPGME is available to Slapt])
-	    GPGME_CFLAGS="`gpgme-config --cflags`"
-	    GPGME_LIBS="`gpgme-config --libs`"
-	    ], [AC_MSG_WARN([Can't find gpgme])])
-	SLAPT_CFLAGS="$CURL_CFLAGS $GPGME_CFLAGS"
-	SLAPT_LIBS="$CURL_LIBS $GPGME_LIBS -lslapt"
-	AC_SUBST(SLAPT_CFLAGS)
-	AC_SUBST(SLAPT_LIBS)
+	    ], [AC_MSG_ERROR([Cant find curl])])
+	case "`uname -m`" in
+		x86-64|x86_64|X86-64|X86_64)
+			KATJA_PKGMAIN="slackware64"
+			;;
+		*)
+			KATJA_PKGMAIN="slackware"
+	esac
+	KATJA_CFLAGS="$CURL_CFLAGS"
+	KATJA_LIBS="$CURL_LIBS"
+	AC_SUBST(KATJA_PKGMAIN)
+	AC_SUBST(KATJA_CFLAGS)
+	AC_SUBST(KATJA_LIBS)
 fi
 
-AC_SUBST(PK_CONF_DIR, "\$(sysconfdir)/PackageKit")
-AC_SUBST(PK_YUM_PLUGIN_DIR, "\$(prefix)/lib/yum-plugins")
-AC_SUBST(PK_DB_DIR, "\$(localstatedir)/lib/PackageKit")
-AC_SUBST(PK_LOG_DIR, "\$(localstatedir)/log")
 AC_SUBST(PK_PLUGIN_DIR, "\$(libdir)/packagekit-backend")
 AC_SUBST(PK_PLUGIN_CFLAGS, "-I\$(top_srcdir)/src -I\$(top_srcdir)/lib -DPK_COMPILATION $GLIB_CFLAGS $GMODULE_CFLAGS $GIO_CFLAGS")
 AC_SUBST(PK_PLUGIN_LIBS, "$GLIB_LIBS $GMODULE_LIBS $GIO_LIBS")
@@ -625,7 +620,7 @@ backends/dummy/Makefile
 backends/entropy/Makefile
 backends/hawkey/Makefile
 backends/opkg/Makefile
-backends/slapt/Makefile
+backends/katja/Makefile
 backends/smart/Makefile
 backends/test/Makefile
 backends/test/helpers/Makefile
@@ -675,7 +670,6 @@ echo "
         compiler:                  ${CC}
         cflags:                    ${CFLAGS}
         cppflags:                  ${CPPFLAGS}
-        Building unit tests:       ${enable_tests}
         Able to run locally:       ${enable_local}
         Use systemd:               ${enable_systemd}
         Networking stacks:         ${networking_apis}
@@ -703,7 +697,7 @@ echo "
         poldek backend:            ${enable_poldek}
         Portage backend:           ${enable_portage}
         Ports backend:             ${enable_ports}
-        Slapt backend:             ${enable_slapt}
+        Katja backend:             ${enable_katja}
         SMART backend:             ${enable_smart}
         URPMI backend:             ${enable_urpmi}
         YUM backend:               ${enable_yum}

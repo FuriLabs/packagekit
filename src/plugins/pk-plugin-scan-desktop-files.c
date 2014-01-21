@@ -614,6 +614,11 @@ pk_plugin_files_cb (PkBackendJob *job,
 		if (!ret)
 			continue;
 
+		/* in the datadir */
+		ret = g_str_has_prefix (filenames[i], "/usr/share/applications");
+		if (!ret)
+			continue;
+
 		g_debug ("adding filename %s", filenames[i]);
 		md5 = pk_plugin_get_filename_md5 (filenames[i]);
 		pk_plugin_sqlite_add_filename_details (plugin,
@@ -697,9 +702,9 @@ pk_plugin_transaction_finished_results (PkPlugin *plugin,
 	}
 
 	/* process file lists on these packages */
-	g_debug ("processing %i packags for desktop files", list->len);
 	if (list->len == 0)
 		goto out;
+	g_debug ("processing %i packages for desktop files", list->len);
 
 	/* get all the files touched in the packages we just installed */
 	pk_backend_reset_job (plugin->backend, plugin->job);

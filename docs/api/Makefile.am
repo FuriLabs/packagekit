@@ -13,10 +13,10 @@ DOC_MODULE=PackageKit
 # The top-level SGML file.
 DOC_MAIN_SGML_FILE=$(DOC_MODULE)-docs.sgml
 
-# The directory containing the source code. Relative to $(srcdir).
+# The directory containing the source code.
 # gtk-doc will search all .c & .h files beneath here for inline comments
 # documenting the functions and macros.
-DOC_SOURCE_DIR=../../lib/packagekit-glib2
+DOC_SOURCE_DIR=$(top_srcdir)/lib/packagekit-glib2
 
 # Extra options to pass to gtkdoc-scangobj. Not normally needed.
 SCANGOBJ_OPTIONS=
@@ -61,7 +61,12 @@ HTML_IMAGES =						\
 content_files =						\
 	version.xml					\
 	dbus/org.freedesktop.PackageKit.ref.xml		\
-	dbus/org.freedesktop.PackageKit.Transaction.ref.xml
+	dbus/org.freedesktop.PackageKit.Transaction.ref.xml \
+	spec/pk-backend-compiled.xml			\
+	spec/pk-backend-spawn.xml			\
+	spec/pk-concepts.xml				\
+	spec/pk-introduction.xml
+
 
 # SGML files where gtk-doc abbrevations (#GtkWidget) are expanded
 # These files must be listed here *and* in content_files
@@ -97,7 +102,7 @@ include $(top_srcdir)/gtk-doc.make
 # Other files to distribute
 EXTRA_DIST += version.xml.in
 
-CLEANFILES =						\
+CLEANFILES +=						\
 	*.txt						\
 	*.types						\
 	*.args						\
