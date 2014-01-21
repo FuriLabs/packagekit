@@ -244,6 +244,7 @@ libpackagekit-glib2.so.16 libpackagekit-glib2-16 #MINVER#
  pk_package_sack_filter@Base 0.8.10
  pk_package_sack_filter_by_info@Base 0.8.10
  pk_package_sack_find_by_id@Base 0.8.10
+ pk_package_sack_find_by_id_name_arch@Base 0.8.16
  pk_package_sack_get_array@Base 0.8.10
  pk_package_sack_get_details@Base 0.8.10
  pk_package_sack_get_details_async@Base 0.8.10
