@@ -1,6 +1,3 @@
 vendor-ubuntu.diff
 defaults.diff
 policy.diff
-01_pkpackage-noassert.patch
-02_new-cve-format.patch
-03_syslog-nodebug.patch
