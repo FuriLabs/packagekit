@@ -1,12 +1,14 @@
-packagekit (0.8.16-1) UNRELEASED; urgency=low
+packagekit (0.8.16-1) unstable; urgency=low
 
   * New upstream release: 0.8.16
     - Adds missing annotations to DBus spec,
-      which closes #735812
+      which closes: #735812
     - Increases aptcc notification timeout, which likely
-      closes #688428
+      closes: #688428
     - Verious other improvements and bugfixes
   * Bump standards version: No change needed
+  * Drop patches: Applied upstream
+  * Update symbols file
 
  -- Matthias Klumpp <mak@debian.org>  Tue, 21 Jan 2014 21:04:48 +0100
 
