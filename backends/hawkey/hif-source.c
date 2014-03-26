@@ -40,11 +40,14 @@ struct HifSource {
 	gboolean	 enabled;
 	gboolean	 gpgcheck;
 	guint		 cost;
-	gchar		*filename;
+	gchar		*filename;	/* /etc/yum.repos.d/updates.repo */
 	gchar		*id;
 	gchar		*location;	/* /var/cache/PackageKit/metadata/fedora */
 	gchar		*location_tmp;	/* /var/cache/PackageKit/metadata/fedora.tmp */
-	gint64		 timestamp;
+	gchar		*packages;	/* /var/cache/PackageKit/metadata/fedora/packages */
+	gchar		*packages_tmp;	/* /var/cache/PackageKit/metadata/fedora.tmp/packages */
+	gint64		 timestamp_generated;	/* µs */
+	gint64		 timestamp_modified;	/* µs */
 	GKeyFile	*keyfile;
 	HifSourceKind	 kind;
 	HyRepo		 repo;
@@ -63,6 +66,8 @@ hif_source_free (HifSource *src)
 	g_free (src->id);
 	g_free (src->location_tmp);
 	g_free (src->location);
+	g_free (src->packages);
+	g_free (src->packages_tmp);
 	if (src->repo_result != NULL)
 		lr_result_free (src->repo_result);
 	if (src->repo_handle != NULL)
@@ -180,6 +185,7 @@ hif_source_add_media (GPtrArray *sources,
 	else
 		src->id = g_strdup_printf ("media-%i", idx);
 	src->location = g_strdup (mount_point);
+	src->packages = g_build_filename (src->location, "packages", NULL);
 	src->repo_handle = lr_handle_init ();
 	ret = lr_handle_setopt (src->repo_handle, error, LRO_REPOTYPE, LR_YUMREPO);
 	if (!ret)
@@ -270,6 +276,8 @@ hif_source_parse (GKeyFile *config,
 		src->id = g_strdup (repos[i]);
 		src->location = g_build_filename (cache_dir, repos[i], NULL);
 		src->location_tmp = g_strdup_printf ("%s.tmp", src->location);
+		src->packages = g_build_filename (src->location, "packages", NULL);
+		src->packages_tmp = g_build_filename (src->location_tmp, "packages", NULL);
 		src->repo_handle = lr_handle_init ();
 		ret = lr_handle_setopt (src->repo_handle, error, LRO_REPOTYPE, LR_YUMREPO);
 		if (!ret)
@@ -342,10 +350,48 @@ hif_source_update_state_cb (void *user_data,
 }
 
 /**
+ * hif_source_set_timestamp_modified:
+ */
+static gboolean
+hif_source_set_timestamp_modified (HifSource *src, GError **error)
+{
+	gboolean ret = TRUE;
+	gchar *filename;
+	GFile *file;
+	GFileInfo *info;
+
+	filename = g_build_filename (src->location, "repodata", "repomd.xml", NULL);
+	file = g_file_new_for_path (filename);
+	info = g_file_query_info (file,
+				  G_FILE_ATTRIBUTE_TIME_MODIFIED ","
+				  G_FILE_ATTRIBUTE_TIME_MODIFIED_USEC,
+				  G_FILE_QUERY_INFO_NONE,
+				  NULL,
+				  error);
+	if (info == NULL) {
+		ret = FALSE;
+		goto out;
+	}
+	src->timestamp_modified = g_file_info_get_attribute_uint64 (info,
+					G_FILE_ATTRIBUTE_TIME_MODIFIED) * G_USEC_PER_SEC;
+	src->timestamp_modified += g_file_info_get_attribute_uint32 (info,
+					G_FILE_ATTRIBUTE_TIME_MODIFIED_USEC);
+out:
+	g_free (filename);
+	g_object_unref (file);
+	if (info != NULL)
+		g_object_unref (info);
+	return ret;
+}
+
+/**
  * hif_source_check:
  */
 gboolean
-hif_source_check (HifSource *src, HifState *state, GError **error)
+hif_source_check (HifSource *src,
+		  guint permissible_cache_age,
+		  HifState *state,
+		  GError **error)
 {
 	const gchar *download_list[] = { "primary",
 					 "filelists",
@@ -357,6 +403,7 @@ hif_source_check (HifSource *src, HifState *state, GError **error)
 	GError *error_local = NULL;
 	LrYumRepo *yum_repo;
 	const gchar *urls[] = { "", NULL };
+	gint64 age_of_data; /* in seconds */
 
 	/* has the media repo vanished? */
 	if (src->kind == HIF_SOURCE_KIND_MEDIA &&
@@ -406,7 +453,7 @@ hif_source_check (HifSource *src, HifState *state, GError **error)
 
 	/* get timestamp */
 	ret = lr_result_getinfo (src->repo_result, &error_local,
-				 LRR_YUM_TIMESTAMP, &src->timestamp);
+				 LRR_YUM_TIMESTAMP, &src->timestamp_generated);
 	if (!ret) {
 		g_set_error (error,
 			     HIF_ERROR,
@@ -415,6 +462,23 @@ hif_source_check (HifSource *src, HifState *state, GError **error)
 			     error_local->message);
 		g_error_free (error_local);
 		goto out;
+	}
+
+	/* check metadata age */
+	if (permissible_cache_age != G_MAXUINT) {
+		ret = hif_source_set_timestamp_modified (src, error);
+		if (!ret)
+			goto out;
+		age_of_data = (g_get_real_time () - src->timestamp_modified) / G_USEC_PER_SEC;
+		if (age_of_data > permissible_cache_age) {
+			ret = FALSE;
+			g_set_error (error,
+				     HIF_ERROR,
+				     PK_ERROR_ENUM_INTERNAL_ERROR,
+				     "cache too old: %"G_GINT64_FORMAT" > %i",
+				     age_of_data, permissible_cache_age);
+			goto out;
+		}
 	}
 
 	/* create a HyRepo */
@@ -653,9 +717,23 @@ hif_source_update (HifSource *src,
 		goto out;
 	}
 	if ((flags & HIF_SOURCE_UPDATE_FLAG_FORCE) == 0 ||
-	    timestamp_new < src->timestamp) {
+	    timestamp_new < src->timestamp_generated) {
 		g_debug ("fresh metadata was older than what we have, ignoring");
 		goto out;
+	}
+
+	/* move the packages directory from the old cache to the new cache */
+	if (g_file_test (src->packages, G_FILE_TEST_EXISTS)) {
+		rc = g_rename (src->packages, src->packages_tmp);
+		if (rc != 0) {
+			ret = FALSE;
+			g_set_error (error,
+				     HIF_ERROR,
+				     PK_ERROR_ENUM_CANNOT_FETCH_SOURCES,
+				     "cannot move %s to %s",
+				     src->packages, src->packages_tmp);
+			goto out;
+		}
 	}
 
 	/* delete old /var/cache/PackageKit/metadata/$REPO/ */
@@ -686,7 +764,7 @@ hif_source_update (HifSource *src,
 
 	/* now setup internal hawkey stuff */
 	state_local = hif_state_get_child (state);
-	ret = hif_source_check (src, state_local, error);
+	ret = hif_source_check (src, G_MAXUINT, state_local, error);
 	if (!ret)
 		goto out;
 
@@ -695,6 +773,7 @@ hif_source_update (HifSource *src,
 	if (!ret)
 		goto out;
 out:
+	hif_state_release_locks (state);
 	lr_handle_setopt (src->repo_handle, NULL, LRO_PROGRESSCB, NULL);
 	lr_handle_setopt (src->repo_handle, NULL, LRO_PROGRESSDATA, 0xdeadbeef);
 	return ret;
@@ -716,6 +795,24 @@ const gchar *
 hif_source_get_location (HifSource *src)
 {
 	return src->location;
+}
+
+/**
+ * hif_source_get_filename:
+ */
+const gchar *
+hif_source_get_filename (HifSource *src)
+{
+	return src->filename;
+}
+
+/**
+ * hif_source_get_packages:
+ */
+const gchar *
+hif_source_get_packages (HifSource *src)
+{
+	return src->packages;
 }
 
 /**
@@ -863,8 +960,44 @@ hif_source_is_devel (HifSource *src)
 		return TRUE;
 	if (g_str_has_suffix (src->id, "-development"))
 		return TRUE;
+	return FALSE;
+}
+
+/**
+ * hif_source_is_source:
+ **/
+gboolean
+hif_source_is_source (HifSource *src)
+{
 	if (g_str_has_suffix (src->id, "-source"))
 		return TRUE;
+	return FALSE;
+}
+
+/**
+ * hif_source_is_supported:
+ **/
+gboolean
+hif_source_is_supported (HifSource *src)
+{
+	guint i;
+	const gchar *valid[] = { "fedora",
+				 "fedora-debuginfo",
+				 "fedora-source",
+				 "rawhide",
+				 "rawhide-debuginfo",
+				 "rawhide-source",
+				 "updates",
+				 "updates-debuginfo",
+				 "updates-source",
+				 "updates-testing",
+				 "updates-testing-debuginfo",
+				 "updates-testing-source",
+				 NULL };
+	for (i = 0; valid[i] != NULL; i++) {
+		if (g_strcmp0 (src->id, valid[i]) == 0)
+			return TRUE;
+	}
 	return FALSE;
 }
 
@@ -948,7 +1081,7 @@ hif_source_download_package (HifSource *src,
 
 	/* if nothing specified then use cachedir */
 	if (directory == NULL) {
-		directory_slash = g_build_filename (src->location, "packages", "/", NULL);
+		directory_slash = g_build_filename (src->packages, "/", NULL);
 		if (!g_file_test (directory_slash, G_FILE_TEST_EXISTS)) {
 			rc = g_mkdir (directory_slash, 0755);
 			if (rc != 0) {

@@ -2,34 +2,28 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>PkMediaChangeRequired</title>
+<title>PackageKit Reference Manual: PkMediaChangeRequired</title>
 <meta name="generator" content="DocBook XSL Stylesheets V1.78.1">
 <link rel="home" href="index.html" title="PackageKit Reference Manual">
 <link rel="up" href="libpackagekit-gobject.html" title="libpackagekit GObjects">
 <link rel="prev" href="PkFiles.html" title="PkFiles">
 <link rel="next" href="PkMessage.html" title="PkMessage">
-<meta name="generator" content="GTK-Doc V1.19 (XML mode)">
+<meta name="generator" content="GTK-Doc V1.20 (XML mode)">
 <link rel="stylesheet" href="style.css" type="text/css">
 </head>
 <body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF">
-<table class="navigation" id="top" width="100%" summary="Navigation header" cellpadding="2" cellspacing="2">
-<tr valign="middle">
-<td><a accesskey="p" href="PkFiles.html"><img src="left.png" width="24" height="24" border="0" alt="Prev"></a></td>
-<td><a accesskey="u" href="libpackagekit-gobject.html"><img src="up.png" width="24" height="24" border="0" alt="Up"></a></td>
-<td><a accesskey="h" href="index.html"><img src="home.png" width="24" height="24" border="0" alt="Home"></a></td>
-<th width="100%" align="center">PackageKit Reference Manual</th>
-<td><a accesskey="n" href="PkMessage.html"><img src="right.png" width="24" height="24" border="0" alt="Next"></a></td>
-</tr>
-<tr><td colspan="5" class="shortcuts">
-<a href="#PkMediaChangeRequired.synopsis" class="shortcut">Top</a>
-                   | 
-                  <a href="#PkMediaChangeRequired.description" class="shortcut">Description</a>
-                   | 
-                  <a href="#PkMediaChangeRequired.object-hierarchy" class="shortcut">Object Hierarchy</a>
-                   | 
-                  <a href="#PkMediaChangeRequired.properties" class="shortcut">Properties</a>
-</td></tr>
-</table>
+<table class="navigation" id="top" width="100%" summary="Navigation header" cellpadding="2" cellspacing="10"><tr valign="middle">
+<td width="100%" align="left" class="shortcuts">
+<a href="#" class="shortcut">Top</a><span id="nav_description"> <span class="dim">|</span> 
+                  <a href="#PkMediaChangeRequired.description" class="shortcut">Description</a></span><span id="nav_hierarchy"> <span class="dim">|</span> 
+                  <a href="#PkMediaChangeRequired.object-hierarchy" class="shortcut">Object Hierarchy</a></span><span id="nav_properties"> <span class="dim">|</span> 
+                  <a href="#PkMediaChangeRequired.properties" class="shortcut">Properties</a></span>
+</td>
+<td><a accesskey="h" href="index.html"><img src="home.png" width="16" height="16" border="0" alt="Home"></a></td>
+<td><a accesskey="u" href="libpackagekit-gobject.html"><img src="up.png" width="16" height="16" border="0" alt="Up"></a></td>
+<td><a accesskey="p" href="PkFiles.html"><img src="left.png" width="16" height="16" border="0" alt="Prev"></a></td>
+<td><a accesskey="n" href="PkMessage.html"><img src="right.png" width="16" height="16" border="0" alt="Next"></a></td>
+</tr></table>
 <div class="refentry">
 <a name="PkMediaChangeRequired"></a><div class="titlepage"></div>
 <div class="refnamediv"><table width="100%"><tr>
@@ -37,41 +31,102 @@
 <h2><span class="refentrytitle"><a name="PkMediaChangeRequired.top_of_page"></a>PkMediaChangeRequired</span></h2>
 <p>PkMediaChangeRequired — MediaChangeRequired object</p>
 </td>
-<td valign="top" align="right"></td>
+<td class="gallery_image" valign="top" align="right"></td>
 </tr></table></div>
-<div class="refsynopsisdiv">
-<a name="PkMediaChangeRequired.synopsis"></a><h2>Synopsis</h2>
-<pre class="synopsis">struct              <a class="link" href="PkMediaChangeRequired.html#PkMediaChangeRequired-struct" title="struct PkMediaChangeRequired">PkMediaChangeRequired</a>;
-struct              <a class="link" href="PkMediaChangeRequired.html#PkMediaChangeRequiredClass" title="struct PkMediaChangeRequiredClass">PkMediaChangeRequiredClass</a>;
-<a class="link" href="PkMediaChangeRequired.html" title="PkMediaChangeRequired"><span class="returnvalue">PkMediaChangeRequired</span></a> * <a class="link" href="PkMediaChangeRequired.html#pk-media-change-required-new" title="pk_media_change_required_new ()">pk_media_change_required_new</a>    (<em class="parameter"><code><span class="type">void</span></code></em>);
-</pre>
-</div>
 <div class="refsect1">
-<a name="PkMediaChangeRequired.object-hierarchy"></a><h2>Object Hierarchy</h2>
-<pre class="synopsis">
-  <a href="http://library.gnome.org/devel/gobject/unstable/gobject-The-Base-Object-Type.html#GObject">GObject</a>
-   +----PkSource
-         +----PkMediaChangeRequired
-</pre>
+<a name="PkMediaChangeRequired.functions"></a><h2>Functions</h2>
+<div class="informaltable"><table width="100%" border="0">
+<colgroup>
+<col width="150px" class="functions_return">
+<col class="functions_name">
+</colgroup>
+<tbody><tr>
+<td class="function_type">
+<a class="link" href="PkMediaChangeRequired.html" title="PkMediaChangeRequired"><span class="returnvalue">PkMediaChangeRequired</span></a> *
+</td>
+<td class="function_name">
+<a class="link" href="PkMediaChangeRequired.html#pk-media-change-required-new" title="pk_media_change_required_new ()">pk_media_change_required_new</a> <span class="c_punctuation">()</span>
+</td>
+</tr></tbody>
+</table></div>
 </div>
 <div class="refsect1">
 <a name="PkMediaChangeRequired.properties"></a><h2>Properties</h2>
-<pre class="synopsis">
-  "<a class="link" href="PkMediaChangeRequired.html#PkMediaChangeRequired--media-id" title='The "media-id" property'>media-id</a>"                 <a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a>*                : Read / Write
-  "<a class="link" href="PkMediaChangeRequired.html#PkMediaChangeRequired--media-text" title='The "media-text" property'>media-text</a>"               <a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a>*                : Read / Write
-  "<a class="link" href="PkMediaChangeRequired.html#PkMediaChangeRequired--media-type" title='The "media-type" property'>media-type</a>"               <a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#guint"><span class="type">guint</span></a>                 : Read / Write
+<div class="informaltable"><table border="0">
+<colgroup>
+<col width="150px" class="properties_type">
+<col width="300px" class="properties_name">
+<col width="200px" class="properties_flags">
+</colgroup>
+<tbody>
+<tr>
+<td class="property_type">
+<a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a> *</td>
+<td class="property_name"><a class="link" href="PkMediaChangeRequired.html#PkMediaChangeRequired--media-id" title="The “media-id” property">media-id</a></td>
+<td class="property_flags">Read / Write</td>
+</tr>
+<tr>
+<td class="property_type">
+<a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a> *</td>
+<td class="property_name"><a class="link" href="PkMediaChangeRequired.html#PkMediaChangeRequired--media-text" title="The “media-text” property">media-text</a></td>
+<td class="property_flags">Read / Write</td>
+</tr>
+<tr>
+<td class="property_type"><a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#guint"><span class="type">guint</span></a></td>
+<td class="property_name"><a class="link" href="PkMediaChangeRequired.html#PkMediaChangeRequired--media-type" title="The “media-type” property">media-type</a></td>
+<td class="property_flags">Read / Write</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<div class="refsect1">
+<a name="PkMediaChangeRequired.other"></a><h2>Types and Values</h2>
+<div class="informaltable"><table width="100%" border="0">
+<colgroup>
+<col width="150px" class="name">
+<col class="description">
+</colgroup>
+<tbody>
+<tr>
+<td class="datatype_keyword">struct</td>
+<td class="function_name"><a class="link" href="PkMediaChangeRequired.html#PkMediaChangeRequired-struct" title="struct PkMediaChangeRequired">PkMediaChangeRequired</a></td>
+</tr>
+<tr>
+<td class="datatype_keyword">struct</td>
+<td class="function_name"><a class="link" href="PkMediaChangeRequired.html#PkMediaChangeRequiredClass" title="struct PkMediaChangeRequiredClass">PkMediaChangeRequiredClass</a></td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<div class="refsect1">
+<a name="PkMediaChangeRequired.object-hierarchy"></a><h2>Object Hierarchy</h2>
+<pre class="screen">    <a href="http://library.gnome.org/devel/gobject/unstable/gobject-The-Base-Object-Type.html#GObject">GObject</a>
+    <span class="lineart">╰──</span> PkSource
+        <span class="lineart">╰──</span> PkMediaChangeRequired
 </pre>
 </div>
 <div class="refsect1">
 <a name="PkMediaChangeRequired.description"></a><h2>Description</h2>
-<p>
-This GObject represents a media_change_required from a transaction.
+<p>This GObject represents a media_change_required from a transaction.
 These objects represent single items of data from the transaction, and are
-often present in lists (<a class="link" href="PkResults.html" title="PkResults"><span class="type">PkResults</span></a>) or just refcounted in client programs.
-</p>
+often present in lists (<a class="link" href="PkResults.html" title="PkResults"><span class="type">PkResults</span></a>) or just refcounted in client programs.</p>
 </div>
 <div class="refsect1">
-<a name="PkMediaChangeRequired.details"></a><h2>Details</h2>
+<a name="PkMediaChangeRequired.functions_details"></a><h2>Functions</h2>
+<div class="refsect2">
+<a name="pk-media-change-required-new"></a><h3>pk_media_change_required_new ()</h3>
+<pre class="programlisting"><a class="link" href="PkMediaChangeRequired.html" title="PkMediaChangeRequired"><span class="returnvalue">PkMediaChangeRequired</span></a> *
+pk_media_change_required_new (<em class="parameter"><code><span class="type">void</span></code></em>);</pre>
+<div class="refsect3">
+<a name="id-1.4.12.8.2.4"></a><h4>Returns</h4>
+<p> a new PkMediaChangeRequired object.</p>
+<p></p>
+</div>
+<p class="since">Since 0.5.4</p>
+</div>
+</div>
+<div class="refsect1">
+<a name="PkMediaChangeRequired.other_details"></a><h2>Types and Values</h2>
 <div class="refsect2">
 <a name="PkMediaChangeRequired-struct"></a><h3>struct PkMediaChangeRequired</h3>
 <pre class="programlisting">struct PkMediaChangeRequired;</pre>
@@ -90,45 +145,32 @@ often present in lists (<a class="link" href="PkResults.html" title="PkResults">
 };
 </pre>
 </div>
-<hr>
-<div class="refsect2">
-<a name="pk-media-change-required-new"></a><h3>pk_media_change_required_new ()</h3>
-<pre class="programlisting"><a class="link" href="PkMediaChangeRequired.html" title="PkMediaChangeRequired"><span class="returnvalue">PkMediaChangeRequired</span></a> * pk_media_change_required_new    (<em class="parameter"><code><span class="type">void</span></code></em>);</pre>
-<div class="variablelist"><table border="0" class="variablelist">
-<colgroup>
-<col align="left" valign="top">
-<col>
-</colgroup>
-<tbody><tr>
-<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
-<td>a new PkMediaChangeRequired object.</td>
-</tr></tbody>
-</table></div>
-<p class="since">Since 0.5.4</p>
-</div>
 </div>
 <div class="refsect1">
 <a name="PkMediaChangeRequired.property-details"></a><h2>Property Details</h2>
 <div class="refsect2">
-<a name="PkMediaChangeRequired--media-id"></a><h3>The <code class="literal">"media-id"</code> property</h3>
-<pre class="programlisting">  "media-id"                 <a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a>*                : Read / Write</pre>
+<a name="PkMediaChangeRequired--media-id"></a><h3>The <code class="literal">“media-id”</code> property</h3>
+<pre class="programlisting">  “media-id”                 <a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a> *</pre>
 <p></p>
+<p>Flags: Read / Write</p>
 <p>Default value: NULL</p>
 <p class="since">Since 0.5.4</p>
 </div>
 <hr>
 <div class="refsect2">
-<a name="PkMediaChangeRequired--media-text"></a><h3>The <code class="literal">"media-text"</code> property</h3>
-<pre class="programlisting">  "media-text"               <a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a>*                : Read / Write</pre>
+<a name="PkMediaChangeRequired--media-text"></a><h3>The <code class="literal">“media-text”</code> property</h3>
+<pre class="programlisting">  “media-text”               <a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a> *</pre>
 <p></p>
+<p>Flags: Read / Write</p>
 <p>Default value: NULL</p>
 <p class="since">Since 0.5.4</p>
 </div>
 <hr>
 <div class="refsect2">
-<a name="PkMediaChangeRequired--media-type"></a><h3>The <code class="literal">"media-type"</code> property</h3>
-<pre class="programlisting">  "media-type"               <a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#guint"><span class="type">guint</span></a>                 : Read / Write</pre>
+<a name="PkMediaChangeRequired--media-type"></a><h3>The <code class="literal">“media-type”</code> property</h3>
+<pre class="programlisting">  “media-type”               <a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#guint"><span class="type">guint</span></a></pre>
 <p></p>
+<p>Flags: Read / Write</p>
 <p>Default value: 0</p>
 <p class="since">Since 0.5.4</p>
 </div>
@@ -136,6 +178,6 @@ often present in lists (<a class="link" href="PkResults.html" title="PkResults">
 </div>
 <div class="footer">
 <hr>
-          Generated by GTK-Doc V1.19</div>
+          Generated by GTK-Doc V1.20</div>
 </body>
 </html>
