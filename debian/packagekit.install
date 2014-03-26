@@ -3,6 +3,7 @@ etc/PackageKit/Vendor.conf
 etc/PackageKit/events/
 etc/apt/apt.conf.d/20packagekit
 etc/dbus-1/system.d/org.freedesktop.PackageKit.conf
+lib/systemd/system/*
 usr/lib/*/packagekit-backend/libpk_backend_dummy.so
 usr/lib/*/packagekit-backend/libpk_backend_test_*.so
 usr/lib/*/packagekit-plugins/
@@ -17,4 +18,4 @@ usr/share/dbus-1/system-services/org.freedesktop.PackageKit.service
 usr/share/locale/*/LC_MESSAGES/PackageKit.mo
 usr/share/polkit-1/actions/org.freedesktop.packagekit.policy
 usr/share/polkit-1/rules.d/*
-lib/systemd/system/*
+var/lib/PackageKit/*
