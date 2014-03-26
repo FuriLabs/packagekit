@@ -124,7 +124,8 @@ am__uninstall_files_from_dir = { \
     || { echo " ( cd '$$dir' && rm -f" $$files ")"; \
          $(am__cd) "$$dir" && rm -f $$files; }; \
   }
-am__installdirs = "$(DESTDIR)$(plugindir)" "$(DESTDIR)$(confdir)"
+am__installdirs = "$(DESTDIR)$(plugindir)" "$(DESTDIR)$(confdir)" \
+	"$(DESTDIR)$(databasedir)"
 LTLIBRARIES = $(plugin_LTLIBRARIES)
 am__DEPENDENCIES_1 =
 libpk_backend_katja_la_DEPENDENCIES = $(am__DEPENDENCIES_1) \
@@ -185,7 +186,7 @@ am__can_run_installinfo = \
     n|no|NO) false;; \
     *) (install-info --version) >/dev/null 2>&1;; \
   esac
-DATA = $(conf_DATA)
+DATA = $(conf_DATA) $(database_DATA)
 am__tagged_files = $(HEADERS) $(SOURCES) $(TAGS_FILES) $(LISP)
 # Read a list of newline-separated strings from the standard input,
 # and print each of them once, without duplicates.  Input order is
@@ -270,6 +271,7 @@ GSETTINGS_DISABLE_SCHEMAS_COMPILE = @GSETTINGS_DISABLE_SCHEMAS_COMPILE@
 GSTREAMER_CFLAGS = @GSTREAMER_CFLAGS@
 GSTREAMER_LIBS = @GSTREAMER_LIBS@
 GTKDOC_CHECK = @GTKDOC_CHECK@
+GTKDOC_CHECK_PATH = @GTKDOC_CHECK_PATH@
 GTKDOC_DEPS_CFLAGS = @GTKDOC_DEPS_CFLAGS@
 GTKDOC_DEPS_LIBS = @GTKDOC_DEPS_LIBS@
 GTKDOC_MKPDF = @GTKDOC_MKPDF@
@@ -469,20 +471,28 @@ AM_CPPFLAGS = \
 
 plugindir = $(PK_PLUGIN_DIR)
 plugin_LTLIBRARIES = libpk_backend_katja.la
-libpk_backend_katja_la_SOURCES = pk-backend-katja.c \
-									katja-pkgtools.c \
-									katja-binary.c \
-									katja-slackpkg.c \
-									katja-dl.c
+libpk_backend_katja_la_SOURCES = \
+	pk-backend-katja.c \
+	katja-pkgtools.c \
+	katja-pkgtools.h \
+	katja-binary.c \
+	katja-binary.h \
+	katja-slackpkg.c \
+	katja-slackpkg.h \
+	katja-dl.c \
+	katja-dl.h
 
-libpk_backend_katja_la_LIBADD = $(PK_PLUGIN_LIBS) ${KATJA_LIBS}
+libpk_backend_katja_la_LIBADD = -lbz2 $(PK_PLUGIN_LIBS) ${KATJA_LIBS}
 libpk_backend_katja_la_LDFLAGS = -module -avoid-version
 libpk_backend_katja_la_CFLAGS = $(PK_PLUGIN_CFLAGS) $(WARNINGFLAGS_C) $(KATJA_CFLAGS)
 confdir = $(sysconfdir)/PackageKit
 conf_in_files = Katja.conf.in
 conf_DATA = $(conf_in_files:.conf.in=.conf)
+databasedir = $(localstatedir)/cache/PackageKit/metadata
+database_DATA = metadata.db
 EXTRA_DIST = \
-	$(conf_in_files)
+	$(conf_in_files) \
+	$(database_DATA)
 
 all: all-am
 
@@ -651,6 +661,27 @@ uninstall-confDATA:
 	@list='$(conf_DATA)'; test -n "$(confdir)" || list=; \
 	files=`for p in $$list; do echo $$p; done | sed -e 's|^.*/||'`; \
 	dir='$(DESTDIR)$(confdir)'; $(am__uninstall_files_from_dir)
+install-databaseDATA: $(database_DATA)
+	@$(NORMAL_INSTALL)
+	@list='$(database_DATA)'; test -n "$(databasedir)" || list=; \
+	if test -n "$$list"; then \
+	  echo " $(MKDIR_P) '$(DESTDIR)$(databasedir)'"; \
+	  $(MKDIR_P) "$(DESTDIR)$(databasedir)" || exit 1; \
+	fi; \
+	for p in $$list; do \
+	  if test -f "$$p"; then d=; else d="$(srcdir)/"; fi; \
+	  echo "$$d$$p"; \
+	done | $(am__base_list) | \
+	while read files; do \
+	  echo " $(INSTALL_DATA) $$files '$(DESTDIR)$(databasedir)'"; \
+	  $(INSTALL_DATA) $$files "$(DESTDIR)$(databasedir)" || exit $$?; \
+	done
+
+uninstall-databaseDATA:
+	@$(NORMAL_UNINSTALL)
+	@list='$(database_DATA)'; test -n "$(databasedir)" || list=; \
+	files=`for p in $$list; do echo $$p; done | sed -e 's|^.*/||'`; \
+	dir='$(DESTDIR)$(databasedir)'; $(am__uninstall_files_from_dir)
 
 ID: $(am__tagged_files)
 	$(am__define_uniq_tagged_files); mkid -fID $$unique
@@ -738,7 +769,7 @@ check-am: all-am
 check: check-am
 all-am: Makefile $(LTLIBRARIES) $(DATA)
 installdirs:
-	for dir in "$(DESTDIR)$(plugindir)" "$(DESTDIR)$(confdir)"; do \
+	for dir in "$(DESTDIR)$(plugindir)" "$(DESTDIR)$(confdir)" "$(DESTDIR)$(databasedir)"; do \
 	  test -z "$$dir" || $(MKDIR_P) "$$dir"; \
 	done
 install: install-am
@@ -794,7 +825,8 @@ info: info-am
 
 info-am:
 
-install-data-am: install-confDATA install-pluginLTLIBRARIES
+install-data-am: install-confDATA install-databaseDATA \
+	install-pluginLTLIBRARIES
 
 install-dvi: install-dvi-am
 
@@ -840,7 +872,8 @@ ps: ps-am
 
 ps-am:
 
-uninstall-am: uninstall-confDATA uninstall-pluginLTLIBRARIES
+uninstall-am: uninstall-confDATA uninstall-databaseDATA \
+	uninstall-pluginLTLIBRARIES
 
 .MAKE: install-am install-strip
 
@@ -849,15 +882,16 @@ uninstall-am: uninstall-confDATA uninstall-pluginLTLIBRARIES
 	cscopelist-am ctags ctags-am distclean distclean-compile \
 	distclean-generic distclean-libtool distclean-tags distdir dvi \
 	dvi-am html html-am info info-am install install-am \
-	install-confDATA install-data install-data-am install-dvi \
-	install-dvi-am install-exec install-exec-am install-html \
-	install-html-am install-info install-info-am install-man \
-	install-pdf install-pdf-am install-pluginLTLIBRARIES \
-	install-ps install-ps-am install-strip installcheck \
-	installcheck-am installdirs maintainer-clean \
-	maintainer-clean-generic mostlyclean mostlyclean-compile \
-	mostlyclean-generic mostlyclean-libtool pdf pdf-am ps ps-am \
-	tags tags-am uninstall uninstall-am uninstall-confDATA \
+	install-confDATA install-data install-data-am \
+	install-databaseDATA install-dvi install-dvi-am install-exec \
+	install-exec-am install-html install-html-am install-info \
+	install-info-am install-man install-pdf install-pdf-am \
+	install-pluginLTLIBRARIES install-ps install-ps-am \
+	install-strip installcheck installcheck-am installdirs \
+	maintainer-clean maintainer-clean-generic mostlyclean \
+	mostlyclean-compile mostlyclean-generic mostlyclean-libtool \
+	pdf pdf-am ps ps-am tags tags-am uninstall uninstall-am \
+	uninstall-confDATA uninstall-databaseDATA \
 	uninstall-pluginLTLIBRARIES
 
 

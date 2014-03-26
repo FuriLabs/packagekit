@@ -2,30 +2,27 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>pk-bitfield</title>
+<title>PackageKit Reference Manual: pk-bitfield</title>
 <meta name="generator" content="DocBook XSL Stylesheets V1.78.1">
 <link rel="home" href="index.html" title="PackageKit Reference Manual">
 <link rel="up" href="libpackagekit-helpers.html" title="libpackagekit glib helpers">
 <link rel="prev" href="libpackagekit-helpers.html" title="libpackagekit glib helpers">
 <link rel="next" href="PackageKit-pk-client-sync.html" title="pk-client-sync">
-<meta name="generator" content="GTK-Doc V1.19 (XML mode)">
+<meta name="generator" content="GTK-Doc V1.20 (XML mode)">
 <link rel="stylesheet" href="style.css" type="text/css">
 </head>
 <body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF">
-<table class="navigation" id="top" width="100%" summary="Navigation header" cellpadding="2" cellspacing="2">
-<tr valign="middle">
-<td><a accesskey="p" href="libpackagekit-helpers.html"><img src="left.png" width="24" height="24" border="0" alt="Prev"></a></td>
-<td><a accesskey="u" href="libpackagekit-helpers.html"><img src="up.png" width="24" height="24" border="0" alt="Up"></a></td>
-<td><a accesskey="h" href="index.html"><img src="home.png" width="24" height="24" border="0" alt="Home"></a></td>
-<th width="100%" align="center">PackageKit Reference Manual</th>
-<td><a accesskey="n" href="PackageKit-pk-client-sync.html"><img src="right.png" width="24" height="24" border="0" alt="Next"></a></td>
-</tr>
-<tr><td colspan="5" class="shortcuts">
-<a href="#PackageKit-pk-bitfield.synopsis" class="shortcut">Top</a>
-                   | 
-                  <a href="#PackageKit-pk-bitfield.description" class="shortcut">Description</a>
-</td></tr>
-</table>
+<table class="navigation" id="top" width="100%" summary="Navigation header" cellpadding="2" cellspacing="10"><tr valign="middle">
+<td width="100%" align="left" class="shortcuts">
+<a href="#" class="shortcut">Top</a><span id="nav_description"> <span class="dim">|</span> 
+                  <a href="#PackageKit-pk-bitfield.description" class="shortcut">Description</a></span><span id="nav_hierarchy"> <span class="dim">|</span> 
+                  <a href="#PackageKit-pk-bitfield.object-hierarchy" class="shortcut">Object Hierarchy</a></span>
+</td>
+<td><a accesskey="h" href="index.html"><img src="home.png" width="16" height="16" border="0" alt="Home"></a></td>
+<td><a accesskey="u" href="libpackagekit-helpers.html"><img src="up.png" width="16" height="16" border="0" alt="Up"></a></td>
+<td><a accesskey="p" href="libpackagekit-helpers.html"><img src="left.png" width="16" height="16" border="0" alt="Prev"></a></td>
+<td><a accesskey="n" href="PackageKit-pk-client-sync.html"><img src="right.png" width="16" height="16" border="0" alt="Next"></a></td>
+</tr></table>
 <div class="refentry">
 <a name="PackageKit-pk-bitfield"></a><div class="titlepage"></div>
 <div class="refnamediv"><table width="100%"><tr>
@@ -33,56 +30,166 @@
 <h2><span class="refentrytitle"><a name="PackageKit-pk-bitfield.top_of_page"></a>pk-bitfield</span></h2>
 <p>pk-bitfield</p>
 </td>
-<td valign="top" align="right"></td>
+<td class="gallery_image" valign="top" align="right"></td>
 </tr></table></div>
-<div class="refsynopsisdiv">
-<a name="PackageKit-pk-bitfield.synopsis"></a><h2>Synopsis</h2>
-<pre class="synopsis">typedef             <a class="link" href="PackageKit-pk-bitfield.html#PkBitfield" title="PkBitfield">PkBitfield</a>;
-#define             <a class="link" href="PackageKit-pk-bitfield.html#PK-BITFIELD-FORMAT:CAPS" title="PK_BITFIELD_FORMAT">PK_BITFIELD_FORMAT</a>
-#define             <a class="link" href="PackageKit-pk-bitfield.html#pk-bitfield-add" title="pk_bitfield_add()">pk_bitfield_add</a>                     (bitfield,
-                                                         enum)
-#define             <a class="link" href="PackageKit-pk-bitfield.html#pk-bitfield-remove" title="pk_bitfield_remove()">pk_bitfield_remove</a>                  (bitfield,
-                                                         enum)
-#define             <a class="link" href="PackageKit-pk-bitfield.html#pk-bitfield-invert" title="pk_bitfield_invert()">pk_bitfield_invert</a>                  (bitfield,
-                                                         enum)
-#define             <a class="link" href="PackageKit-pk-bitfield.html#pk-bitfield-contain" title="pk_bitfield_contain()">pk_bitfield_contain</a>                 (bitfield,
-                                                         enum)
-#define             <a class="link" href="PackageKit-pk-bitfield.html#pk-bitfield-value" title="pk_bitfield_value()">pk_bitfield_value</a>                   (enum)
-<a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gint"><span class="returnvalue">gint</span></a>                <a class="link" href="PackageKit-pk-bitfield.html#pk-bitfield-contain-priority" title="pk_bitfield_contain_priority ()">pk_bitfield_contain_priority</a>        (<em class="parameter"><code><a class="link" href="PackageKit-pk-bitfield.html#PkBitfield" title="PkBitfield"><span class="type">PkBitfield</span></a> values</code></em>,
-                                                         <em class="parameter"><code><a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gint"><span class="type">gint</span></a> value</code></em>,
-                                                         <em class="parameter"><code>...</code></em>);
-<a class="link" href="PackageKit-pk-bitfield.html#PkBitfield" title="PkBitfield"><span class="returnvalue">PkBitfield</span></a>          <a class="link" href="PackageKit-pk-bitfield.html#pk-bitfield-from-enums" title="pk_bitfield_from_enums ()">pk_bitfield_from_enums</a>              (<em class="parameter"><code><a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gint"><span class="type">gint</span></a> value</code></em>,
-                                                         <em class="parameter"><code>...</code></em>);
-<a class="link" href="PackageKit-pk-bitfield.html#PkBitfield" title="PkBitfield"><span class="returnvalue">PkBitfield</span></a>          <a class="link" href="PackageKit-pk-bitfield.html#pk-role-bitfield-from-string" title="pk_role_bitfield_from_string ()">pk_role_bitfield_from_string</a>        (<em class="parameter"><code>const <a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a> *roles</code></em>);
-<a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gchar"><span class="returnvalue">gchar</span></a> *             <a class="link" href="PackageKit-pk-bitfield.html#pk-role-bitfield-to-string" title="pk_role_bitfield_to_string ()">pk_role_bitfield_to_string</a>          (<em class="parameter"><code><a class="link" href="PackageKit-pk-bitfield.html#PkBitfield" title="PkBitfield"><span class="type">PkBitfield</span></a> roles</code></em>);
-<a class="link" href="PackageKit-pk-bitfield.html#PkBitfield" title="PkBitfield"><span class="returnvalue">PkBitfield</span></a>          <a class="link" href="PackageKit-pk-bitfield.html#pk-group-bitfield-from-string" title="pk_group_bitfield_from_string ()">pk_group_bitfield_from_string</a>       (<em class="parameter"><code>const <a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a> *groups</code></em>);
-<a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gchar"><span class="returnvalue">gchar</span></a> *             <a class="link" href="PackageKit-pk-bitfield.html#pk-group-bitfield-to-string" title="pk_group_bitfield_to_string ()">pk_group_bitfield_to_string</a>         (<em class="parameter"><code><a class="link" href="PackageKit-pk-bitfield.html#PkBitfield" title="PkBitfield"><span class="type">PkBitfield</span></a> groups</code></em>);
-<a class="link" href="PackageKit-pk-bitfield.html#PkBitfield" title="PkBitfield"><span class="returnvalue">PkBitfield</span></a>          <a class="link" href="PackageKit-pk-bitfield.html#pk-filter-bitfield-from-string" title="pk_filter_bitfield_from_string ()">pk_filter_bitfield_from_string</a>      (<em class="parameter"><code>const <a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a> *filters</code></em>);
-<a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gchar"><span class="returnvalue">gchar</span></a> *             <a class="link" href="PackageKit-pk-bitfield.html#pk-filter-bitfield-to-string" title="pk_filter_bitfield_to_string ()">pk_filter_bitfield_to_string</a>        (<em class="parameter"><code><a class="link" href="PackageKit-pk-bitfield.html#PkBitfield" title="PkBitfield"><span class="type">PkBitfield</span></a> filters</code></em>);
-<a class="link" href="PackageKit-pk-bitfield.html#PkBitfield" title="PkBitfield"><span class="returnvalue">PkBitfield</span></a>          <a class="link" href="PackageKit-pk-bitfield.html#pk-transaction-flag-bitfield-from-string" title="pk_transaction_flag_bitfield_from_string ()">pk_transaction_flag_bitfield_from_string</a>
-                                                        (<em class="parameter"><code>const <a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a> *transaction_flags</code></em>);
-<a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gchar"><span class="returnvalue">gchar</span></a> *             <a class="link" href="PackageKit-pk-bitfield.html#pk-transaction-flag-bitfield-to-string" title="pk_transaction_flag_bitfield_to_string ()">pk_transaction_flag_bitfield_to_string</a>
-                                                        (<em class="parameter"><code><a class="link" href="PackageKit-pk-bitfield.html#PkBitfield" title="PkBitfield"><span class="type">PkBitfield</span></a> transaction_flags</code></em>);
-<span class="returnvalue">void</span>                <a class="link" href="PackageKit-pk-bitfield.html#pk-bitfield-test" title="pk_bitfield_test ()">pk_bitfield_test</a>                    (<em class="parameter"><code><a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gpointer"><span class="type">gpointer</span></a> user_data</code></em>);
+<div class="refsect1">
+<a name="PackageKit-pk-bitfield.functions"></a><h2>Functions</h2>
+<div class="informaltable"><table width="100%" border="0">
+<colgroup>
+<col width="150px" class="functions_return">
+<col class="functions_name">
+</colgroup>
+<tbody>
+<tr>
+<td class="define_keyword">#define</td>
+<td class="function_name">
+<a class="link" href="PackageKit-pk-bitfield.html#pk-bitfield-add" title="pk_bitfield_add()">pk_bitfield_add</a><span class="c_punctuation">()</span>
+</td>
+</tr>
+<tr>
+<td class="define_keyword">#define</td>
+<td class="function_name">
+<a class="link" href="PackageKit-pk-bitfield.html#pk-bitfield-remove" title="pk_bitfield_remove()">pk_bitfield_remove</a><span class="c_punctuation">()</span>
+</td>
+</tr>
+<tr>
+<td class="define_keyword">#define</td>
+<td class="function_name">
+<a class="link" href="PackageKit-pk-bitfield.html#pk-bitfield-invert" title="pk_bitfield_invert()">pk_bitfield_invert</a><span class="c_punctuation">()</span>
+</td>
+</tr>
+<tr>
+<td class="define_keyword">#define</td>
+<td class="function_name">
+<a class="link" href="PackageKit-pk-bitfield.html#pk-bitfield-contain" title="pk_bitfield_contain()">pk_bitfield_contain</a><span class="c_punctuation">()</span>
+</td>
+</tr>
+<tr>
+<td class="define_keyword">#define</td>
+<td class="function_name">
+<a class="link" href="PackageKit-pk-bitfield.html#pk-bitfield-value" title="pk_bitfield_value()">pk_bitfield_value</a><span class="c_punctuation">()</span>
+</td>
+</tr>
+<tr>
+<td class="function_type">
+<a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gint"><span class="returnvalue">gint</span></a>
+</td>
+<td class="function_name">
+<a class="link" href="PackageKit-pk-bitfield.html#pk-bitfield-contain-priority" title="pk_bitfield_contain_priority ()">pk_bitfield_contain_priority</a> <span class="c_punctuation">()</span>
+</td>
+</tr>
+<tr>
+<td class="function_type">
+<a class="link" href="PackageKit-pk-bitfield.html#PkBitfield" title="PkBitfield"><span class="returnvalue">PkBitfield</span></a>
+</td>
+<td class="function_name">
+<a class="link" href="PackageKit-pk-bitfield.html#pk-bitfield-from-enums" title="pk_bitfield_from_enums ()">pk_bitfield_from_enums</a> <span class="c_punctuation">()</span>
+</td>
+</tr>
+<tr>
+<td class="function_type">
+<a class="link" href="PackageKit-pk-bitfield.html#PkBitfield" title="PkBitfield"><span class="returnvalue">PkBitfield</span></a>
+</td>
+<td class="function_name">
+<a class="link" href="PackageKit-pk-bitfield.html#pk-role-bitfield-from-string" title="pk_role_bitfield_from_string ()">pk_role_bitfield_from_string</a> <span class="c_punctuation">()</span>
+</td>
+</tr>
+<tr>
+<td class="function_type">
+<a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gchar"><span class="returnvalue">gchar</span></a> *
+</td>
+<td class="function_name">
+<a class="link" href="PackageKit-pk-bitfield.html#pk-role-bitfield-to-string" title="pk_role_bitfield_to_string ()">pk_role_bitfield_to_string</a> <span class="c_punctuation">()</span>
+</td>
+</tr>
+<tr>
+<td class="function_type">
+<a class="link" href="PackageKit-pk-bitfield.html#PkBitfield" title="PkBitfield"><span class="returnvalue">PkBitfield</span></a>
+</td>
+<td class="function_name">
+<a class="link" href="PackageKit-pk-bitfield.html#pk-group-bitfield-from-string" title="pk_group_bitfield_from_string ()">pk_group_bitfield_from_string</a> <span class="c_punctuation">()</span>
+</td>
+</tr>
+<tr>
+<td class="function_type">
+<a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gchar"><span class="returnvalue">gchar</span></a> *
+</td>
+<td class="function_name">
+<a class="link" href="PackageKit-pk-bitfield.html#pk-group-bitfield-to-string" title="pk_group_bitfield_to_string ()">pk_group_bitfield_to_string</a> <span class="c_punctuation">()</span>
+</td>
+</tr>
+<tr>
+<td class="function_type">
+<a class="link" href="PackageKit-pk-bitfield.html#PkBitfield" title="PkBitfield"><span class="returnvalue">PkBitfield</span></a>
+</td>
+<td class="function_name">
+<a class="link" href="PackageKit-pk-bitfield.html#pk-filter-bitfield-from-string" title="pk_filter_bitfield_from_string ()">pk_filter_bitfield_from_string</a> <span class="c_punctuation">()</span>
+</td>
+</tr>
+<tr>
+<td class="function_type">
+<a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gchar"><span class="returnvalue">gchar</span></a> *
+</td>
+<td class="function_name">
+<a class="link" href="PackageKit-pk-bitfield.html#pk-filter-bitfield-to-string" title="pk_filter_bitfield_to_string ()">pk_filter_bitfield_to_string</a> <span class="c_punctuation">()</span>
+</td>
+</tr>
+<tr>
+<td class="function_type">
+<a class="link" href="PackageKit-pk-bitfield.html#PkBitfield" title="PkBitfield"><span class="returnvalue">PkBitfield</span></a>
+</td>
+<td class="function_name">
+<a class="link" href="PackageKit-pk-bitfield.html#pk-transaction-flag-bitfield-from-string" title="pk_transaction_flag_bitfield_from_string ()">pk_transaction_flag_bitfield_from_string</a> <span class="c_punctuation">()</span>
+</td>
+</tr>
+<tr>
+<td class="function_type">
+<a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gchar"><span class="returnvalue">gchar</span></a> *
+</td>
+<td class="function_name">
+<a class="link" href="PackageKit-pk-bitfield.html#pk-transaction-flag-bitfield-to-string" title="pk_transaction_flag_bitfield_to_string ()">pk_transaction_flag_bitfield_to_string</a> <span class="c_punctuation">()</span>
+</td>
+</tr>
+<tr>
+<td class="function_type">
+<span class="returnvalue">void</span>
+</td>
+<td class="function_name">
+<a class="link" href="PackageKit-pk-bitfield.html#pk-bitfield-test" title="pk_bitfield_test ()">pk_bitfield_test</a> <span class="c_punctuation">()</span>
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<div class="refsect1">
+<a name="PackageKit-pk-bitfield.other"></a><h2>Types and Values</h2>
+<div class="informaltable"><table width="100%" border="0">
+<colgroup>
+<col width="150px" class="name">
+<col class="description">
+</colgroup>
+<tbody>
+<tr>
+<td class="typedef_keyword">typedef</td>
+<td class="function_name"><a class="link" href="PackageKit-pk-bitfield.html#PkBitfield" title="PkBitfield">PkBitfield</a></td>
+</tr>
+<tr>
+<td class="define_keyword">#define</td>
+<td class="function_name"><a class="link" href="PackageKit-pk-bitfield.html#PK-BITFIELD-FORMAT:CAPS" title="PK_BITFIELD_FORMAT">PK_BITFIELD_FORMAT</a></td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<div class="refsect1">
+<a name="PackageKit-pk-bitfield.object-hierarchy"></a><h2>Object Hierarchy</h2>
+<pre class="screen">
 </pre>
 </div>
 <div class="refsect1">
 <a name="PackageKit-pk-bitfield.description"></a><h2>Description</h2>
 </div>
 <div class="refsect1">
-<a name="PackageKit-pk-bitfield.details"></a><h2>Details</h2>
-<div class="refsect2">
-<a name="PkBitfield"></a><h3>PkBitfield</h3>
-<pre class="programlisting">typedef guint64 PkBitfield;
-</pre>
-</div>
-<hr>
-<div class="refsect2">
-<a name="PK-BITFIELD-FORMAT:CAPS"></a><h3>PK_BITFIELD_FORMAT</h3>
-<pre class="programlisting">#define PK_BITFIELD_FORMAT G_GUINT64_FORMAT
-</pre>
-</div>
-<hr>
+<a name="PackageKit-pk-bitfield.functions_details"></a><h2>Functions</h2>
 <div class="refsect2">
 <a name="pk-bitfield-add"></a><h3>pk_bitfield_add()</h3>
 <pre class="programlisting">#define pk_bitfield_add(bitfield,enum)		do { ((bitfield) |= (pk_bitfield_value(enum))); } while (0)
@@ -114,249 +221,297 @@
 </div>
 <hr>
 <div class="refsect2">
-<a name="pk-bitfield-contain-priority"></a><h3>pk_bitfield_contain_priority ()</h3>
-<pre class="programlisting"><a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gint"><span class="returnvalue">gint</span></a>                pk_bitfield_contain_priority        (<em class="parameter"><code><a class="link" href="PackageKit-pk-bitfield.html#PkBitfield" title="PkBitfield"><span class="type">PkBitfield</span></a> values</code></em>,
-                                                         <em class="parameter"><code><a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gint"><span class="type">gint</span></a> value</code></em>,
-                                                         <em class="parameter"><code>...</code></em>);</pre>
-<p>
-Finds elements in a list, but with priority going to the preceeding entry
-</p>
-<div class="variablelist"><table border="0" class="variablelist">
+<a name="pk-bitfield-contain-priority"></a><h3>pk_bitfield_contain_priority ()</h3>
+<pre class="programlisting"><a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gint"><span class="returnvalue">gint</span></a>
+pk_bitfield_contain_priority (<em class="parameter"><code><a class="link" href="PackageKit-pk-bitfield.html#PkBitfield" title="PkBitfield"><span class="type">PkBitfield</span></a> values</code></em>,
+                              <em class="parameter"><code><a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gint"><span class="type">gint</span></a> value</code></em>,
+                              <em class="parameter"><code>...</code></em>);</pre>
+<p>Finds elements in a list, but with priority going to the preceeding entry</p>
+<div class="refsect3">
+<a name="id-1.5.3.7.7.5"></a><h4>Parameters</h4>
+<div class="informaltable"><table width="100%" border="0">
 <colgroup>
-<col align="left" valign="top">
-<col>
+<col width="150px" class="parameters_name">
+<col class="parameters_description">
+<col width="200px" class="parameters_annotations">
 </colgroup>
 <tbody>
 <tr>
-<td><p><span class="term"><em class="parameter"><code>values</code></em> :</span></p></td>
-<td>a valid bitfield instance</td>
+<td class="parameter_name"><p>values</p></td>
+<td class="parameter_description"><p>a valid bitfield instance</p></td>
+<td class="parameter_annotations"> </td>
 </tr>
 <tr>
-<td><p><span class="term"><em class="parameter"><code>value</code></em> :</span></p></td>
-<td>the values we are searching for</td>
-</tr>
-<tr>
-<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
-<td>The return enumerated type, or -1 if none are found</td>
+<td class="parameter_name"><p>value</p></td>
+<td class="parameter_description"><p>the values we are searching for</p></td>
+<td class="parameter_annotations"> </td>
 </tr>
 </tbody>
 </table></div>
+</div>
+<div class="refsect3">
+<a name="id-1.5.3.7.7.6"></a><h4>Returns</h4>
+<p> The return enumerated type, or -1 if none are found</p>
+<p></p>
+</div>
 <p class="since">Since 0.5.2</p>
 </div>
 <hr>
 <div class="refsect2">
-<a name="pk-bitfield-from-enums"></a><h3>pk_bitfield_from_enums ()</h3>
-<pre class="programlisting"><a class="link" href="PackageKit-pk-bitfield.html#PkBitfield" title="PkBitfield"><span class="returnvalue">PkBitfield</span></a>          pk_bitfield_from_enums              (<em class="parameter"><code><a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gint"><span class="type">gint</span></a> value</code></em>,
-                                                         <em class="parameter"><code>...</code></em>);</pre>
-<div class="variablelist"><table border="0" class="variablelist">
+<a name="pk-bitfield-from-enums"></a><h3>pk_bitfield_from_enums ()</h3>
+<pre class="programlisting"><a class="link" href="PackageKit-pk-bitfield.html#PkBitfield" title="PkBitfield"><span class="returnvalue">PkBitfield</span></a>
+pk_bitfield_from_enums (<em class="parameter"><code><a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gint"><span class="type">gint</span></a> value</code></em>,
+                        <em class="parameter"><code>...</code></em>);</pre>
+<div class="refsect3">
+<a name="id-1.5.3.7.8.4"></a><h4>Parameters</h4>
+<div class="informaltable"><table width="100%" border="0">
 <colgroup>
-<col align="left" valign="top">
-<col>
+<col width="150px" class="parameters_name">
+<col class="parameters_description">
+<col width="200px" class="parameters_annotations">
 </colgroup>
-<tbody>
-<tr>
-<td><p><span class="term"><em class="parameter"><code>value</code></em> :</span></p></td>
-<td>the values we want to add to the bitfield</td>
-</tr>
-<tr>
-<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
-<td>The return bitfield, or 0 if invalid</td>
-</tr>
-</tbody>
+<tbody><tr>
+<td class="parameter_name"><p>value</p></td>
+<td class="parameter_description"><p>the values we want to add to the bitfield</p></td>
+<td class="parameter_annotations"> </td>
+</tr></tbody>
 </table></div>
+</div>
+<div class="refsect3">
+<a name="id-1.5.3.7.8.5"></a><h4>Returns</h4>
+<p> The return bitfield, or 0 if invalid</p>
+<p></p>
+</div>
 <p class="since">Since 0.5.2</p>
 </div>
 <hr>
 <div class="refsect2">
-<a name="pk-role-bitfield-from-string"></a><h3>pk_role_bitfield_from_string ()</h3>
-<pre class="programlisting"><a class="link" href="PackageKit-pk-bitfield.html#PkBitfield" title="PkBitfield"><span class="returnvalue">PkBitfield</span></a>          pk_role_bitfield_from_string        (<em class="parameter"><code>const <a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a> *roles</code></em>);</pre>
-<p>
-Converts text representation to its enumerated type bitfield
-</p>
-<div class="variablelist"><table border="0" class="variablelist">
+<a name="pk-role-bitfield-from-string"></a><h3>pk_role_bitfield_from_string ()</h3>
+<pre class="programlisting"><a class="link" href="PackageKit-pk-bitfield.html#PkBitfield" title="PkBitfield"><span class="returnvalue">PkBitfield</span></a>
+pk_role_bitfield_from_string (<em class="parameter"><code>const <a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a> *roles</code></em>);</pre>
+<p>Converts text representation to its enumerated type bitfield</p>
+<div class="refsect3">
+<a name="id-1.5.3.7.9.5"></a><h4>Parameters</h4>
+<div class="informaltable"><table width="100%" border="0">
 <colgroup>
-<col align="left" valign="top">
-<col>
+<col width="150px" class="parameters_name">
+<col class="parameters_description">
+<col width="200px" class="parameters_annotations">
 </colgroup>
-<tbody>
-<tr>
-<td><p><span class="term"><em class="parameter"><code>roles</code></em> :</span></p></td>
-<td>the enumerated constant value, e.g. "search-file;update-system"</td>
-</tr>
-<tr>
-<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
-<td>The enumerated type values, or 0 for invalid</td>
-</tr>
-</tbody>
+<tbody><tr>
+<td class="parameter_name"><p>roles</p></td>
+<td class="parameter_description"><p>the enumerated constant value, e.g. "search-file;update-system"</p></td>
+<td class="parameter_annotations"> </td>
+</tr></tbody>
 </table></div>
+</div>
+<div class="refsect3">
+<a name="id-1.5.3.7.9.6"></a><h4>Returns</h4>
+<p> The enumerated type values, or 0 for invalid</p>
+<p></p>
+</div>
 <p class="since">Since 0.5.2</p>
 </div>
 <hr>
 <div class="refsect2">
-<a name="pk-role-bitfield-to-string"></a><h3>pk_role_bitfield_to_string ()</h3>
-<pre class="programlisting"><a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gchar"><span class="returnvalue">gchar</span></a> *             pk_role_bitfield_to_string          (<em class="parameter"><code><a class="link" href="PackageKit-pk-bitfield.html#PkBitfield" title="PkBitfield"><span class="type">PkBitfield</span></a> roles</code></em>);</pre>
-<p>
-Converts a enumerated type bitfield to its text representation
-</p>
-<div class="variablelist"><table border="0" class="variablelist">
+<a name="pk-role-bitfield-to-string"></a><h3>pk_role_bitfield_to_string ()</h3>
+<pre class="programlisting"><a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gchar"><span class="returnvalue">gchar</span></a> *
+pk_role_bitfield_to_string (<em class="parameter"><code><a class="link" href="PackageKit-pk-bitfield.html#PkBitfield" title="PkBitfield"><span class="type">PkBitfield</span></a> roles</code></em>);</pre>
+<p>Converts a enumerated type bitfield to its text representation</p>
+<div class="refsect3">
+<a name="id-1.5.3.7.10.5"></a><h4>Parameters</h4>
+<div class="informaltable"><table width="100%" border="0">
 <colgroup>
-<col align="left" valign="top">
-<col>
+<col width="150px" class="parameters_name">
+<col class="parameters_description">
+<col width="200px" class="parameters_annotations">
 </colgroup>
-<tbody>
-<tr>
-<td><p><span class="term"><em class="parameter"><code>roles</code></em> :</span></p></td>
-<td>The enumerated type values</td>
-</tr>
-<tr>
-<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
-<td>the enumerated constant value, e.g. "install-file;update-system"</td>
-</tr>
-</tbody>
+<tbody><tr>
+<td class="parameter_name"><p>roles</p></td>
+<td class="parameter_description"><p>The enumerated type values</p></td>
+<td class="parameter_annotations"> </td>
+</tr></tbody>
 </table></div>
+</div>
+<div class="refsect3">
+<a name="id-1.5.3.7.10.6"></a><h4>Returns</h4>
+<p> the enumerated constant value, e.g. "install-file;update-system"</p>
+<p></p>
+</div>
 <p class="since">Since 0.5.2</p>
 </div>
 <hr>
 <div class="refsect2">
-<a name="pk-group-bitfield-from-string"></a><h3>pk_group_bitfield_from_string ()</h3>
-<pre class="programlisting"><a class="link" href="PackageKit-pk-bitfield.html#PkBitfield" title="PkBitfield"><span class="returnvalue">PkBitfield</span></a>          pk_group_bitfield_from_string       (<em class="parameter"><code>const <a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a> *groups</code></em>);</pre>
-<p>
-Converts text representation to its enumerated type bitfield
-</p>
-<div class="variablelist"><table border="0" class="variablelist">
+<a name="pk-group-bitfield-from-string"></a><h3>pk_group_bitfield_from_string ()</h3>
+<pre class="programlisting"><a class="link" href="PackageKit-pk-bitfield.html#PkBitfield" title="PkBitfield"><span class="returnvalue">PkBitfield</span></a>
+pk_group_bitfield_from_string (<em class="parameter"><code>const <a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a> *groups</code></em>);</pre>
+<p>Converts text representation to its enumerated type bitfield</p>
+<div class="refsect3">
+<a name="id-1.5.3.7.11.5"></a><h4>Parameters</h4>
+<div class="informaltable"><table width="100%" border="0">
 <colgroup>
-<col align="left" valign="top">
-<col>
+<col width="150px" class="parameters_name">
+<col class="parameters_description">
+<col width="200px" class="parameters_annotations">
 </colgroup>
-<tbody>
-<tr>
-<td><p><span class="term"><em class="parameter"><code>groups</code></em> :</span></p></td>
-<td>the enumerated constant value, e.g. "available;~gui"</td>
-</tr>
-<tr>
-<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
-<td>The enumerated type values, or 0 for invalid</td>
-</tr>
-</tbody>
+<tbody><tr>
+<td class="parameter_name"><p>groups</p></td>
+<td class="parameter_description"><p>the enumerated constant value, e.g. "available;~gui"</p></td>
+<td class="parameter_annotations"> </td>
+</tr></tbody>
 </table></div>
+</div>
+<div class="refsect3">
+<a name="id-1.5.3.7.11.6"></a><h4>Returns</h4>
+<p> The enumerated type values, or 0 for invalid</p>
+<p></p>
+</div>
 <p class="since">Since 0.5.2</p>
 </div>
 <hr>
 <div class="refsect2">
-<a name="pk-group-bitfield-to-string"></a><h3>pk_group_bitfield_to_string ()</h3>
-<pre class="programlisting"><a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gchar"><span class="returnvalue">gchar</span></a> *             pk_group_bitfield_to_string         (<em class="parameter"><code><a class="link" href="PackageKit-pk-bitfield.html#PkBitfield" title="PkBitfield"><span class="type">PkBitfield</span></a> groups</code></em>);</pre>
+<a name="pk-group-bitfield-to-string"></a><h3>pk_group_bitfield_to_string ()</h3>
+<pre class="programlisting"><a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gchar"><span class="returnvalue">gchar</span></a> *
+pk_group_bitfield_to_string (<em class="parameter"><code><a class="link" href="PackageKit-pk-bitfield.html#PkBitfield" title="PkBitfield"><span class="type">PkBitfield</span></a> groups</code></em>);</pre>
 </div>
 <hr>
 <div class="refsect2">
-<a name="pk-filter-bitfield-from-string"></a><h3>pk_filter_bitfield_from_string ()</h3>
-<pre class="programlisting"><a class="link" href="PackageKit-pk-bitfield.html#PkBitfield" title="PkBitfield"><span class="returnvalue">PkBitfield</span></a>          pk_filter_bitfield_from_string      (<em class="parameter"><code>const <a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a> *filters</code></em>);</pre>
-<p>
-Converts text representation to its enumerated type bitfield, or 0 for invalid
-</p>
-<div class="variablelist"><table border="0" class="variablelist">
+<a name="pk-filter-bitfield-from-string"></a><h3>pk_filter_bitfield_from_string ()</h3>
+<pre class="programlisting"><a class="link" href="PackageKit-pk-bitfield.html#PkBitfield" title="PkBitfield"><span class="returnvalue">PkBitfield</span></a>
+pk_filter_bitfield_from_string (<em class="parameter"><code>const <a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a> *filters</code></em>);</pre>
+<p>Converts text representation to its enumerated type bitfield, or 0 for invalid</p>
+<div class="refsect3">
+<a name="id-1.5.3.7.13.5"></a><h4>Parameters</h4>
+<div class="informaltable"><table width="100%" border="0">
 <colgroup>
-<col align="left" valign="top">
-<col>
+<col width="150px" class="parameters_name">
+<col class="parameters_description">
+<col width="200px" class="parameters_annotations">
 </colgroup>
-<tbody>
-<tr>
-<td><p><span class="term"><em class="parameter"><code>filters</code></em> :</span></p></td>
-<td>the enumerated constant value, e.g. "available;~gui"</td>
-</tr>
-<tr>
-<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
-<td>The enumerated type values</td>
-</tr>
-</tbody>
+<tbody><tr>
+<td class="parameter_name"><p>filters</p></td>
+<td class="parameter_description"><p>the enumerated constant value, e.g. "available;~gui"</p></td>
+<td class="parameter_annotations"> </td>
+</tr></tbody>
 </table></div>
+</div>
+<div class="refsect3">
+<a name="id-1.5.3.7.13.6"></a><h4>Returns</h4>
+<p> The enumerated type values</p>
+<p></p>
+</div>
 <p class="since">Since 0.5.2</p>
 </div>
 <hr>
 <div class="refsect2">
-<a name="pk-filter-bitfield-to-string"></a><h3>pk_filter_bitfield_to_string ()</h3>
-<pre class="programlisting"><a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gchar"><span class="returnvalue">gchar</span></a> *             pk_filter_bitfield_to_string        (<em class="parameter"><code><a class="link" href="PackageKit-pk-bitfield.html#PkBitfield" title="PkBitfield"><span class="type">PkBitfield</span></a> filters</code></em>);</pre>
-<p>
-Converts a enumerated type bitfield to its text representation
-</p>
-<div class="variablelist"><table border="0" class="variablelist">
+<a name="pk-filter-bitfield-to-string"></a><h3>pk_filter_bitfield_to_string ()</h3>
+<pre class="programlisting"><a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gchar"><span class="returnvalue">gchar</span></a> *
+pk_filter_bitfield_to_string (<em class="parameter"><code><a class="link" href="PackageKit-pk-bitfield.html#PkBitfield" title="PkBitfield"><span class="type">PkBitfield</span></a> filters</code></em>);</pre>
+<p>Converts a enumerated type bitfield to its text representation</p>
+<div class="refsect3">
+<a name="id-1.5.3.7.14.5"></a><h4>Parameters</h4>
+<div class="informaltable"><table width="100%" border="0">
 <colgroup>
-<col align="left" valign="top">
-<col>
+<col width="150px" class="parameters_name">
+<col class="parameters_description">
+<col width="200px" class="parameters_annotations">
 </colgroup>
-<tbody>
-<tr>
-<td><p><span class="term"><em class="parameter"><code>filters</code></em> :</span></p></td>
-<td>The enumerated type values</td>
-</tr>
-<tr>
-<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
-<td>the enumerated constant value, e.g. "available;~gui"</td>
-</tr>
-</tbody>
+<tbody><tr>
+<td class="parameter_name"><p>filters</p></td>
+<td class="parameter_description"><p>The enumerated type values</p></td>
+<td class="parameter_annotations"> </td>
+</tr></tbody>
 </table></div>
+</div>
+<div class="refsect3">
+<a name="id-1.5.3.7.14.6"></a><h4>Returns</h4>
+<p> the enumerated constant value, e.g. "available;~gui"</p>
+<p></p>
+</div>
 <p class="since">Since 0.5.2</p>
 </div>
 <hr>
 <div class="refsect2">
-<a name="pk-transaction-flag-bitfield-from-string"></a><h3>pk_transaction_flag_bitfield_from_string ()</h3>
-<pre class="programlisting"><a class="link" href="PackageKit-pk-bitfield.html#PkBitfield" title="PkBitfield"><span class="returnvalue">PkBitfield</span></a>          pk_transaction_flag_bitfield_from_string
-                                                        (<em class="parameter"><code>const <a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a> *transaction_flags</code></em>);</pre>
-<p>
-Converts text representation to its enumerated type bitfield, or 0 for invalid
-</p>
-<div class="variablelist"><table border="0" class="variablelist">
+<a name="pk-transaction-flag-bitfield-from-string"></a><h3>pk_transaction_flag_bitfield_from_string ()</h3>
+<pre class="programlisting"><a class="link" href="PackageKit-pk-bitfield.html#PkBitfield" title="PkBitfield"><span class="returnvalue">PkBitfield</span></a>
+pk_transaction_flag_bitfield_from_string
+                               (<em class="parameter"><code>const <a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a> *transaction_flags</code></em>);</pre>
+<p>Converts text representation to its enumerated type bitfield, or 0 for invalid</p>
+<div class="refsect3">
+<a name="id-1.5.3.7.15.5"></a><h4>Parameters</h4>
+<div class="informaltable"><table width="100%" border="0">
 <colgroup>
-<col align="left" valign="top">
-<col>
+<col width="150px" class="parameters_name">
+<col class="parameters_description">
+<col width="200px" class="parameters_annotations">
 </colgroup>
-<tbody>
-<tr>
-<td><p><span class="term"><em class="parameter"><code>transaction_flags</code></em> :</span></p></td>
-<td>the enumerated constant value, e.g. "only-trusted;simulate"</td>
-</tr>
-<tr>
-<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
-<td>The enumerated type values</td>
-</tr>
-</tbody>
+<tbody><tr>
+<td class="parameter_name"><p>transaction_flags</p></td>
+<td class="parameter_description"><p>the enumerated constant value, e.g. "only-trusted;simulate"</p></td>
+<td class="parameter_annotations"> </td>
+</tr></tbody>
 </table></div>
+</div>
+<div class="refsect3">
+<a name="id-1.5.3.7.15.6"></a><h4>Returns</h4>
+<p> The enumerated type values</p>
+<p></p>
+</div>
 <p class="since">Since 0.8.1</p>
 </div>
 <hr>
 <div class="refsect2">
-<a name="pk-transaction-flag-bitfield-to-string"></a><h3>pk_transaction_flag_bitfield_to_string ()</h3>
-<pre class="programlisting"><a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gchar"><span class="returnvalue">gchar</span></a> *             pk_transaction_flag_bitfield_to_string
-                                                        (<em class="parameter"><code><a class="link" href="PackageKit-pk-bitfield.html#PkBitfield" title="PkBitfield"><span class="type">PkBitfield</span></a> transaction_flags</code></em>);</pre>
-<p>
-Converts a enumerated type bitfield to its text representation
-</p>
-<div class="variablelist"><table border="0" class="variablelist">
+<a name="pk-transaction-flag-bitfield-to-string"></a><h3>pk_transaction_flag_bitfield_to_string ()</h3>
+<pre class="programlisting"><a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gchar"><span class="returnvalue">gchar</span></a> *
+pk_transaction_flag_bitfield_to_string
+                               (<em class="parameter"><code><a class="link" href="PackageKit-pk-bitfield.html#PkBitfield" title="PkBitfield"><span class="type">PkBitfield</span></a> transaction_flags</code></em>);</pre>
+<p>Converts a enumerated type bitfield to its text representation</p>
+<div class="refsect3">
+<a name="id-1.5.3.7.16.5"></a><h4>Parameters</h4>
+<div class="informaltable"><table width="100%" border="0">
 <colgroup>
-<col align="left" valign="top">
-<col>
+<col width="150px" class="parameters_name">
+<col class="parameters_description">
+<col width="200px" class="parameters_annotations">
 </colgroup>
-<tbody>
-<tr>
-<td><p><span class="term"><em class="parameter"><code>transaction_flags</code></em> :</span></p></td>
-<td>The enumerated type values</td>
-</tr>
-<tr>
-<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
-<td>the enumerated constant value, e.g. "only-trusted;simulate"</td>
-</tr>
-</tbody>
+<tbody><tr>
+<td class="parameter_name"><p>transaction_flags</p></td>
+<td class="parameter_description"><p>The enumerated type values</p></td>
+<td class="parameter_annotations"> </td>
+</tr></tbody>
 </table></div>
+</div>
+<div class="refsect3">
+<a name="id-1.5.3.7.16.6"></a><h4>Returns</h4>
+<p> the enumerated constant value, e.g. "only-trusted;simulate"</p>
+<p></p>
+</div>
 <p class="since">Since 0.8.1</p>
 </div>
 <hr>
 <div class="refsect2">
-<a name="pk-bitfield-test"></a><h3>pk_bitfield_test ()</h3>
-<pre class="programlisting"><span class="returnvalue">void</span>                pk_bitfield_test                    (<em class="parameter"><code><a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gpointer"><span class="type">gpointer</span></a> user_data</code></em>);</pre>
+<a name="pk-bitfield-test"></a><h3>pk_bitfield_test ()</h3>
+<pre class="programlisting"><span class="returnvalue">void</span>
+pk_bitfield_test (<em class="parameter"><code><a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gpointer"><span class="type">gpointer</span></a> user_data</code></em>);</pre>
+</div>
+</div>
+<div class="refsect1">
+<a name="PackageKit-pk-bitfield.other_details"></a><h2>Types and Values</h2>
+<div class="refsect2">
+<a name="PkBitfield"></a><h3>PkBitfield</h3>
+<pre class="programlisting">typedef guint64 PkBitfield;
+</pre>
+</div>
+<hr>
+<div class="refsect2">
+<a name="PK-BITFIELD-FORMAT:CAPS"></a><h3>PK_BITFIELD_FORMAT</h3>
+<pre class="programlisting">#define PK_BITFIELD_FORMAT G_GUINT64_FORMAT
+</pre>
 </div>
 </div>
 </div>
 <div class="footer">
 <hr>
-          Generated by GTK-Doc V1.19</div>
+          Generated by GTK-Doc V1.20</div>
 </body>
 </html>

@@ -54,6 +54,8 @@ gboolean	 hif_source_add_media		(GPtrArray		*sources,
 						 GError			**error);
 const gchar	*hif_source_get_id		(HifSource		*src);
 const gchar	*hif_source_get_location	(HifSource		*src);
+const gchar	*hif_source_get_filename	(HifSource		*src);
+const gchar	*hif_source_get_packages	(HifSource		*src);
 gboolean	 hif_source_get_enabled		(HifSource		*src);
 guint		 hif_source_get_cost		(HifSource		*src);
 HifSourceKind	 hif_source_get_kind		(HifSource		*src);
@@ -61,7 +63,10 @@ gboolean	 hif_source_get_gpgcheck	(HifSource		*src);
 gchar		*hif_source_get_description	(HifSource		*src);
 HyRepo		 hif_source_get_repo		(HifSource		*src);
 gboolean	 hif_source_is_devel		(HifSource		*src);
+gboolean	 hif_source_is_source		(HifSource		*src);
+gboolean	 hif_source_is_supported	(HifSource		*src);
 gboolean	 hif_source_check		(HifSource		*src,
+						 guint			 permissible_cache_age,
 						 HifState		*state,
 						 GError			**error);
 gboolean	 hif_source_update		(HifSource		*src,

@@ -521,8 +521,10 @@ pk_backend_stop_job (PkBackend *backend, PkBackendJob *job)
 	PkBackendHifJobData *job_data = pk_backend_job_get_user_data (job);
 
 	g_object_unref (job_data->cancellable);
-	if (job_data->state != NULL)
+	if (job_data->state != NULL) {
+		hif_state_release_locks (job_data->state);
 		g_object_unref (job_data->state);
+	}
 	if (job_data->sources != NULL)
 		g_ptr_array_unref (job_data->sources);
 	g_ptr_array_unref (job_data->packages_to_download);
@@ -591,8 +593,12 @@ hif_utils_add_remote (PkBackendJob *job,
 
 	/* add each repo */
 	state_local = hif_state_get_child (state);
-	ret = hif_sack_add_sources (sack, job_data->sources,
-				    flags, state_local, error);
+	ret = hif_sack_add_sources (sack,
+				    job_data->sources,
+				    pk_backend_job_get_cache_age (job),
+				    flags,
+				    state_local,
+				    error);
 	if (!ret)
 		goto out;
 
@@ -645,6 +651,13 @@ hif_utils_create_sack_for_filters (PkBackendJob *job,
 		create_flags &= ~HIF_CREATE_SACK_FLAG_USE_CACHE;
 	}
 	g_timer_reset (priv->repos_timer);
+
+	/* if we've specified a specific cache-age then do not use the cache */
+	if ((flags & HIF_SACK_ADD_FLAG_REMOTE) > 0 &&
+	    pk_backend_job_get_cache_age (job) != G_MAXUINT) {
+		g_debug ("not reusing sack specific cache age requested");
+		create_flags &= ~HIF_CREATE_SACK_FLAG_USE_CACHE;
+	}
 
 	/* do we have anything in the cache */
 	cache_key = g_strdup_printf ("HySack::%i", flags);
@@ -981,32 +994,43 @@ pk_backend_search_thread (PkBackendJob *job, GVariant *params, gpointer user_dat
 	hif_utils_add_query_filters (query, filters);
 	switch (pk_backend_job_get_role (job)) {
 	case PK_ROLE_ENUM_GET_PACKAGES:
+		pkglist = hy_query_run (query);
 		break;
 	case PK_ROLE_ENUM_RESOLVE:
 		hy_query_filter_in (query, HY_PKG_NAME, HY_EQ, (const gchar **) search);
+		pkglist = hy_query_run (query);
 		break;
 	case PK_ROLE_ENUM_SEARCH_FILE:
 		hy_query_filter_in (query, HY_PKG_FILE, HY_EQ, (const gchar **) search);
+		pkglist = hy_query_run (query);
 		break;
 	case PK_ROLE_ENUM_SEARCH_DETAILS:
 		hy_query_filter_in (query, HY_PKG_DESCRIPTION, HY_SUBSTR, (const gchar **) search);
+		pkglist = hy_query_run (query);
 		break;
 	case PK_ROLE_ENUM_SEARCH_NAME:
 		hy_query_filter_in (query, HY_PKG_NAME, HY_SUBSTR, (const gchar **) search);
+		pkglist = hy_query_run (query);
 		break;
 	case PK_ROLE_ENUM_WHAT_PROVIDES:
 		hy_query_filter_provides_in (query, search);
+		pkglist = hy_query_run (query);
 		break;
 	case PK_ROLE_ENUM_GET_UPDATES:
-		//* FIXME: We should really use hy_goal_upgrade_all */
-		hy_query_filter_upgrades (query, TRUE);
-		hy_query_filter_latest_per_arch (query, TRUE);
+		job_data->goal = hy_goal_create (sack);
+		hy_goal_upgrade_all (job_data->goal);
+		ret = hif_goal_depsolve (job_data->goal, &error);
+		if (!ret) {
+			pk_backend_job_error_code (job, error->code, "%s", error->message);
+			g_error_free (error);
+			goto out;
+		}
+		pkglist = hy_goal_list_upgrades (job_data->goal);
 		break;
 	default:
 		g_assert_not_reached ();
 		break;
 	}
-	pkglist = hy_query_run (query);
 
 	/* done */
 	ret = hif_state_done (job_data->state, &error);
@@ -1147,6 +1171,48 @@ pk_backend_get_updates (PkBackend *backend,
 }
 
 /**
+ * pk_backend_source_filter:
+ */
+static gboolean
+pk_backend_source_filter (HifSource *src, PkBitfield filters)
+{
+	/* devel and ~devel */
+	if (pk_bitfield_contain (filters, PK_FILTER_ENUM_DEVELOPMENT) &&
+	    !hif_source_is_devel (src))
+		return FALSE;
+	if (pk_bitfield_contain (filters, PK_FILTER_ENUM_NOT_DEVELOPMENT) &&
+	    hif_source_is_devel (src))
+		return FALSE;
+
+	/* source and ~source */
+	if (pk_bitfield_contain (filters, PK_FILTER_ENUM_SOURCE) &&
+	    !hif_source_is_source (src))
+		return FALSE;
+	if (pk_bitfield_contain (filters, PK_FILTER_ENUM_NOT_SOURCE) &&
+	    hif_source_is_source (src))
+		return FALSE;
+
+	/* installed and ~installed == enabled */
+	if (pk_bitfield_contain (filters, PK_FILTER_ENUM_INSTALLED) &&
+	    !hif_source_get_enabled (src))
+		return FALSE;
+	if (pk_bitfield_contain (filters, PK_FILTER_ENUM_NOT_INSTALLED) &&
+	    hif_source_get_enabled (src))
+		return FALSE;
+
+	/* supported and ~supported == core */
+	if (pk_bitfield_contain (filters, PK_FILTER_ENUM_SUPPORTED) &&
+	    !hif_source_is_supported (src))
+		return FALSE;
+	if (pk_bitfield_contain (filters, PK_FILTER_ENUM_NOT_SUPPORTED) &&
+	    hif_source_is_supported (src))
+		return FALSE;
+
+	/* not filtered */
+	return TRUE;
+}
+
+/**
  * pk_backend_get_repo_list:
  */
 void
@@ -1183,13 +1249,8 @@ pk_backend_get_repo_list (PkBackend *backend,
 	/* emit each repo */
 	for (i = 0; i < sources->len; i++) {
 		src = g_ptr_array_index (sources, i);
-
-		/* allow filtering on devel and ~devel */
-		if (pk_bitfield_contain (filters, PK_FILTER_ENUM_DEVELOPMENT) && !hif_source_is_devel (src))
+		if (!pk_backend_source_filter (src, filters))
 			continue;
-		else if (pk_bitfield_contain (filters, PK_FILTER_ENUM_NOT_DEVELOPMENT) && hif_source_is_devel (src))
-			continue;
-
 		description = hif_source_get_description (src);
 		pk_backend_job_repo_detail (job,
 					    hif_source_get_id (src),
@@ -1304,7 +1365,10 @@ pk_backend_get_mime_types (PkBackend *backend)
  * pk_backend_refresh_source:
  */
 static gboolean
-pk_backend_refresh_source (HifSource *src, HifState *state, GError **error)
+pk_backend_refresh_source (PkBackendJob *job,
+			   HifSource *src,
+			   HifState *state,
+			   GError **error)
 {
 	gboolean ret;
 	gboolean src_okay;
@@ -1321,7 +1385,10 @@ pk_backend_refresh_source (HifSource *src, HifState *state, GError **error)
 
 	/* is the source up to date? */
 	state_local = hif_state_get_child (state);
-	src_okay = hif_source_check (src, state_local, &error_local);
+	src_okay = hif_source_check (src,
+				     pk_backend_job_get_cache_age (job),
+				     state_local,
+				     &error_local);
 	if (!src_okay) {
 		g_debug ("repo %s not okay [%s], refreshing",
 			 hif_source_get_id (src), error_local->message);
@@ -1422,7 +1489,7 @@ pk_backend_refresh_cache_thread (PkBackendJob *job,
 
 		/* check and download */
 		state_local = hif_state_get_child (job_data->state);
-		ret = pk_backend_refresh_source (src, state_local, &error);
+		ret = pk_backend_refresh_source (job, src, state_local, &error);
 		if (!ret) {
 			pk_backend_job_error_code (job, error->code, "%s", error->message);
 			g_error_free (error);
@@ -1531,14 +1598,13 @@ out:
 }
 
 /**
- * pk_backend_get_details:
+ * backend_get_details_thread:
  */
-void
-pk_backend_get_details (PkBackend *backend,
-			PkBackendJob *job,
-			gchar **package_ids)
+static void
+backend_get_details_thread (PkBackendJob *job, GVariant *params, gpointer user_data)
 {
 	gboolean ret;
+	gchar **package_ids;
 	GError *error = NULL;
 	GHashTable *hash = NULL;
 	guint i;
@@ -1547,6 +1613,8 @@ pk_backend_get_details (PkBackend *backend,
 	HySack sack;
 	PkBackendHifJobData *job_data = pk_backend_job_get_user_data (job);
 	PkBitfield filters;
+
+	g_variant_get (params, "(^a&s)", &package_ids);
 
 	/* set state */
 	ret = hif_state_set_steps (job_data->state, NULL,
@@ -1619,6 +1687,15 @@ out:
 	if (hash != NULL)
 		g_hash_table_unref (hash);
 	pk_backend_job_finished (job);
+}
+
+/**
+ * pk_backend_get_details:
+ */
+void
+pk_backend_get_details (PkBackend *backend, PkBackendJob *job, gchar **package_ids)
+{
+	pk_backend_job_thread_create (job, backend_get_details_thread, NULL, NULL);
 }
 
 /**
@@ -2429,6 +2506,7 @@ hif_transaction_delete_packages (GPtrArray *install,
 		if (g_str_has_prefix (filename, cachedir)) {
 			file = g_file_new_for_path (filename);
 			ret = g_file_delete (file, NULL, error);
+			g_object_unref (file);
 			if (!ret)
 				goto out;
 		}
@@ -2954,6 +3032,7 @@ pk_backend_transaction_commit (PkBackendJob *job, HifState *state, GError **erro
 	if (!ret)
 		goto out;
 out:
+	hif_state_release_locks (state);
 	g_free (verbosity_string);
 	if (commit != NULL) {
 		g_timer_destroy (commit->timer);
@@ -3196,18 +3275,20 @@ out:
 }
 
 /**
- * hif_is_installed_package_name:
+ * hif_is_installed_package_id_name:
  */
 static gboolean
-hif_is_installed_package_name (HySack sack, const gchar *name)
+hif_is_installed_package_id_name (HySack sack, const gchar *package_id)
 {
 	gboolean ret;
+	gchar **split;
 	HyPackageList pkglist = NULL;
 	HyQuery query = NULL;
 
 	/* run query */
 	query = hy_query_create (sack);
-	hy_query_filter (query, HY_PKG_NAME, HY_EQ, name);
+	split = pk_package_id_split (package_id);
+	hy_query_filter (query, HY_PKG_NAME, HY_EQ, split[PK_PACKAGE_ID_NAME]);
 	hy_query_filter (query, HY_PKG_REPONAME, HY_EQ, HY_SYSTEM_REPO_NAME);
 	pkglist = hy_query_run (query);
 
@@ -3216,19 +3297,34 @@ hif_is_installed_package_name (HySack sack, const gchar *name)
 
 	hy_packagelist_free (pkglist);
 	hy_query_free (query);
+	g_strfreev (split);
 	return ret;
 }
 
 /**
- * hif_is_installed_package_id:
+ * hif_is_installed_package_id_name_arch:
  */
 static gboolean
-hif_is_installed_package_id (HySack sack, const gchar *package_id)
+hif_is_installed_package_id_name_arch (HySack sack, const gchar *package_id)
 {
 	gboolean ret;
 	gchar **split;
+	HyPackageList pkglist = NULL;
+	HyQuery query = NULL;
+
+	/* run query */
+	query = hy_query_create (sack);
 	split = pk_package_id_split (package_id);
-	ret = hif_is_installed_package_name (sack, split[PK_PACKAGE_ID_NAME]);
+	hy_query_filter (query, HY_PKG_NAME, HY_EQ, split[PK_PACKAGE_ID_NAME]);
+	hy_query_filter (query, HY_PKG_ARCH, HY_EQ, split[PK_PACKAGE_ID_ARCH]);
+	hy_query_filter (query, HY_PKG_REPONAME, HY_EQ, HY_SYSTEM_REPO_NAME);
+	pkglist = hy_query_run (query);
+
+	/* any matches? */
+	ret = hy_packagelist_count (pkglist) > 0;
+
+	hy_packagelist_free (pkglist);
+	hy_query_free (query);
 	g_strfreev (split);
 	return ret;
 }
@@ -3314,7 +3410,7 @@ pk_backend_remove_packages_thread (PkBackendJob *job, GVariant *params, gpointer
 
 	/* ensure packages are already installed */
 	for (i = 0; package_ids[i] != NULL; i++) {
-		ret = hif_is_installed_package_id (sack, package_ids[i]);
+		ret = hif_is_installed_package_id_name_arch (sack, package_ids[i]);
 		if (!ret) {
 			gchar *printable_tmp;
 			printable_tmp = pk_package_id_to_printable (package_ids[i]);
@@ -3457,7 +3553,7 @@ pk_backend_install_packages_thread (PkBackendJob *job, GVariant *params, gpointe
 
 	/* ensure packages are not already installed */
 	for (i = 0; package_ids[i] != NULL; i++) {
-		ret = hif_is_installed_package_id (sack, package_ids[i]);
+		ret = hif_is_installed_package_id_name_arch (sack, package_ids[i]);
 		if (ret) {
 			gchar *printable_tmp;
 			printable_tmp = pk_package_id_to_printable (package_ids[i]);
@@ -3665,6 +3761,65 @@ pk_backend_install_files (PkBackend *backend, PkBackendJob *job,
 }
 
 /**
+ * hy_package_evr_sort_newest_cb:
+ */
+static gint
+hy_package_evr_sort_newest_cb (gconstpointer a, gconstpointer b)
+{
+	HyPackage *pa = (HyPackage *) a;
+	HyPackage *pb = (HyPackage *) b;
+	return -hy_package_evr_cmp (*pa, *pb);
+}
+
+/**
+ * hif_goal_erase_only_n:
+ */
+static void
+hif_goal_erase_only_n (HyGoal goal,
+		       HySack sack_installed,
+		       const gchar *package_name,
+		       guint only_n)
+{
+	GPtrArray *array = NULL;
+	HyPackageList pkglist = NULL;
+	HyPackage pkg;
+	HyQuery query = NULL;
+	guint i;
+
+	/* run query */
+	query = hy_query_create (sack_installed);
+	hy_query_filter (query, HY_PKG_NAME, HY_EQ, package_name);
+	hy_query_filter (query, HY_PKG_REPONAME, HY_EQ, HY_SYSTEM_REPO_NAME);
+	pkglist = hy_query_run (query);
+
+	/* any matches? */
+	if ((guint) hy_packagelist_count (pkglist) < only_n) {
+		g_debug ("only %i %s packages, not removing any",
+			 hy_packagelist_count (pkglist), package_name);
+		goto out;
+	}
+
+	/* remove the oldest */
+	array = g_ptr_array_new ();
+	FOR_PACKAGELIST (pkg, pkglist, i)
+		g_ptr_array_add (array, pkg);
+	g_ptr_array_sort (array, hy_package_evr_sort_newest_cb);
+	for (i = 0; i < array->len; i++) {
+		pkg = g_ptr_array_index (array, i);
+		if (i >= only_n - 1) {
+			g_debug ("removing %s", hif_package_get_nevra (pkg));
+			hy_goal_erase (goal, pkg);
+		}
+	}
+
+out:
+	if (array != NULL)
+		g_ptr_array_unref (array);
+	hy_packagelist_free (pkglist);
+	hy_query_free (query);
+}
+
+/**
  * pk_backend_update_packages_thread:
  */
 static void
@@ -3680,6 +3835,11 @@ pk_backend_update_packages_thread (PkBackendJob *job, GVariant *params, gpointer
 	gboolean ret;
 	gchar **package_ids;
 	guint i;
+	guint j;
+	const gchar *only_n_pkgnames[] = { "kernel",
+					   "kernel-source",
+					   "kernel-devel",
+					   NULL };
 
 	g_variant_get (params, "(t^a&s)",
 		       &job_data->transaction_flags,
@@ -3721,13 +3881,13 @@ pk_backend_update_packages_thread (PkBackendJob *job, GVariant *params, gpointer
 
 	/* ensure packages are not already installed */
 	for (i = 0; package_ids[i] != NULL; i++) {
-		ret = hif_is_installed_package_id (sack, package_ids[i]);
+		ret = hif_is_installed_package_id_name (sack, package_ids[i]);
 		if (!ret) {
 			gchar *printable_tmp;
 			printable_tmp = pk_package_id_to_printable (package_ids[i]);
 			pk_backend_job_error_code (job,
 						   PK_ERROR_ENUM_PACKAGE_NOT_INSTALLED,
-						   "%s is not already installed",
+						   "cannot update: %s is not already installed",
 						   printable_tmp);
 			g_free (printable_tmp);
 			goto out;
@@ -3768,7 +3928,20 @@ pk_backend_update_packages_thread (PkBackendJob *job, GVariant *params, gpointer
 			goto out;
 		}
 		hif_package_set_user_action (pkg, TRUE);
-		hy_goal_upgrade_to (job_data->goal, pkg);
+
+		/* allow some packages to have multiple versions installed,
+		 * but remove any older than the only_n limit */
+		for (j = 0; only_n_pkgnames[j] != NULL; j++) {
+			if (g_strcmp0 (hy_package_get_name (pkg),
+				       only_n_pkgnames[j]) == 0) {
+				hy_goal_install (job_data->goal, pkg);
+				hif_goal_erase_only_n (job_data->goal, sack,
+						       only_n_pkgnames[j],
+						       5);
+			} else {
+				hy_goal_upgrade_to (job_data->goal, pkg);
+			}
+		}
 	}
 
 	/* run transaction */

@@ -124,7 +124,11 @@ pk_console_package_cb (PkPackage *package, PkConsoleCtx *ctx)
 	info_pad = pk_strpad (pk_info_enum_to_localised_past (info), 12);
 
 	/* create printable */
-	printable = pk_package_id_to_printable (package_id);
+	printable = g_strdup_printf ("%s-%s.%s (%s)",
+				     split[PK_PACKAGE_ID_NAME],
+				     split[PK_PACKAGE_ID_VERSION],
+				     split[PK_PACKAGE_ID_ARCH],
+				     split[PK_PACKAGE_ID_DATA]);
 
 	/* don't pretty print */
 	if (!ctx->is_console) {
@@ -133,7 +137,7 @@ pk_console_package_cb (PkPackage *package, PkConsoleCtx *ctx)
 	}
 
 	/* pad the name-version */
-	printable_pad = pk_strpad (printable, 40);
+	printable_pad = pk_strpad (printable, 60);
 	g_print ("%s\t%s\t%s\n", info_pad, printable_pad, summary);
 out:
 	/* free all the data */
@@ -1111,6 +1115,11 @@ pk_console_install_packages (PkConsoleCtx *ctx, gchar **packages, GError **error
 		}
 	}
 
+	/* assume arch filter unless specified otherwise */
+	if (!pk_bitfield_contain (ctx->filters, PK_FILTER_ENUM_ARCH) &&
+	    !pk_bitfield_contain (ctx->filters, PK_FILTER_ENUM_NOT_ARCH))
+		pk_bitfield_add (ctx->filters, PK_FILTER_ENUM_ARCH);
+
 	pk_bitfield_add (ctx->filters, PK_FILTER_ENUM_NOT_INSTALLED);
 	pk_bitfield_add (ctx->filters, PK_FILTER_ENUM_NEWEST);
 	package_ids = pk_console_resolve_packages (ctx, packages, &error_local);
@@ -1801,7 +1810,7 @@ main (int argc, char *argv[])
 	gboolean background = FALSE;
 	gboolean noninteractive = FALSE;
 	gboolean only_download = FALSE;
-	guint cache_age = 0;
+	guint cache_age = G_MAXUINT;
 	gint retval_copy = 0;
 	gboolean plain = FALSE;
 	gboolean program_version = FALSE;

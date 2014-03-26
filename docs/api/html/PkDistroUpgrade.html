@@ -2,34 +2,28 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>PkDistroUpgrade</title>
+<title>PackageKit Reference Manual: PkDistroUpgrade</title>
 <meta name="generator" content="DocBook XSL Stylesheets V1.78.1">
 <link rel="home" href="index.html" title="PackageKit Reference Manual">
 <link rel="up" href="libpackagekit-gobject.html" title="libpackagekit GObjects">
 <link rel="prev" href="PkDetails.html" title="PkDetails">
 <link rel="next" href="PkError.html" title="PkError">
-<meta name="generator" content="GTK-Doc V1.19 (XML mode)">
+<meta name="generator" content="GTK-Doc V1.20 (XML mode)">
 <link rel="stylesheet" href="style.css" type="text/css">
 </head>
 <body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF">
-<table class="navigation" id="top" width="100%" summary="Navigation header" cellpadding="2" cellspacing="2">
-<tr valign="middle">
-<td><a accesskey="p" href="PkDetails.html"><img src="left.png" width="24" height="24" border="0" alt="Prev"></a></td>
-<td><a accesskey="u" href="libpackagekit-gobject.html"><img src="up.png" width="24" height="24" border="0" alt="Up"></a></td>
-<td><a accesskey="h" href="index.html"><img src="home.png" width="24" height="24" border="0" alt="Home"></a></td>
-<th width="100%" align="center">PackageKit Reference Manual</th>
-<td><a accesskey="n" href="PkError.html"><img src="right.png" width="24" height="24" border="0" alt="Next"></a></td>
-</tr>
-<tr><td colspan="5" class="shortcuts">
-<a href="#PkDistroUpgrade.synopsis" class="shortcut">Top</a>
-                   | 
-                  <a href="#PkDistroUpgrade.description" class="shortcut">Description</a>
-                   | 
-                  <a href="#PkDistroUpgrade.object-hierarchy" class="shortcut">Object Hierarchy</a>
-                   | 
-                  <a href="#PkDistroUpgrade.properties" class="shortcut">Properties</a>
-</td></tr>
-</table>
+<table class="navigation" id="top" width="100%" summary="Navigation header" cellpadding="2" cellspacing="10"><tr valign="middle">
+<td width="100%" align="left" class="shortcuts">
+<a href="#" class="shortcut">Top</a><span id="nav_description"> <span class="dim">|</span> 
+                  <a href="#PkDistroUpgrade.description" class="shortcut">Description</a></span><span id="nav_hierarchy"> <span class="dim">|</span> 
+                  <a href="#PkDistroUpgrade.object-hierarchy" class="shortcut">Object Hierarchy</a></span><span id="nav_properties"> <span class="dim">|</span> 
+                  <a href="#PkDistroUpgrade.properties" class="shortcut">Properties</a></span>
+</td>
+<td><a accesskey="h" href="index.html"><img src="home.png" width="16" height="16" border="0" alt="Home"></a></td>
+<td><a accesskey="u" href="libpackagekit-gobject.html"><img src="up.png" width="16" height="16" border="0" alt="Up"></a></td>
+<td><a accesskey="p" href="PkDetails.html"><img src="left.png" width="16" height="16" border="0" alt="Prev"></a></td>
+<td><a accesskey="n" href="PkError.html"><img src="right.png" width="16" height="16" border="0" alt="Next"></a></td>
+</tr></table>
 <div class="refentry">
 <a name="PkDistroUpgrade"></a><div class="titlepage"></div>
 <div class="refnamediv"><table width="100%"><tr>
@@ -37,44 +31,211 @@
 <h2><span class="refentrytitle"><a name="PkDistroUpgrade.top_of_page"></a>PkDistroUpgrade</span></h2>
 <p>PkDistroUpgrade — DistroUpgrade object</p>
 </td>
-<td valign="top" align="right"></td>
+<td class="gallery_image" valign="top" align="right"></td>
 </tr></table></div>
-<div class="refsynopsisdiv">
-<a name="PkDistroUpgrade.synopsis"></a><h2>Synopsis</h2>
-<pre class="synopsis">struct              <a class="link" href="PkDistroUpgrade.html#PkDistroUpgrade-struct" title="struct PkDistroUpgrade">PkDistroUpgrade</a>;
-struct              <a class="link" href="PkDistroUpgrade.html#PkDistroUpgradeClass" title="struct PkDistroUpgradeClass">PkDistroUpgradeClass</a>;
-<a class="link" href="PkDistroUpgrade.html" title="PkDistroUpgrade"><span class="returnvalue">PkDistroUpgrade</span></a> *   <a class="link" href="PkDistroUpgrade.html#pk-distro-upgrade-new" title="pk_distro_upgrade_new ()">pk_distro_upgrade_new</a>               (<em class="parameter"><code><span class="type">void</span></code></em>);
-const <a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gchar"><span class="returnvalue">gchar</span></a> *       <a class="link" href="PkDistroUpgrade.html#pk-distro-upgrade-get-id" title="pk_distro_upgrade_get_id ()">pk_distro_upgrade_get_id</a>            (<em class="parameter"><code><a class="link" href="PkDistroUpgrade.html" title="PkDistroUpgrade"><span class="type">PkDistroUpgrade</span></a> *distro_upgrade</code></em>);
-const <a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gchar"><span class="returnvalue">gchar</span></a> *       <a class="link" href="PkDistroUpgrade.html#pk-distro-upgrade-get-summary" title="pk_distro_upgrade_get_summary ()">pk_distro_upgrade_get_summary</a>       (<em class="parameter"><code><a class="link" href="PkDistroUpgrade.html" title="PkDistroUpgrade"><span class="type">PkDistroUpgrade</span></a> *distro_upgrade</code></em>);
-<a class="link" href="PackageKit-pk-enum.html#PkDistroUpgradeEnum"><span class="returnvalue">PkDistroUpgradeEnum</span></a> <a class="link" href="PkDistroUpgrade.html#pk-distro-upgrade-get-state" title="pk_distro_upgrade_get_state ()">pk_distro_upgrade_get_state</a>         (<em class="parameter"><code><a class="link" href="PkDistroUpgrade.html" title="PkDistroUpgrade"><span class="type">PkDistroUpgrade</span></a> *distro_upgrade</code></em>);
-</pre>
-</div>
 <div class="refsect1">
-<a name="PkDistroUpgrade.object-hierarchy"></a><h2>Object Hierarchy</h2>
-<pre class="synopsis">
-  <a href="http://library.gnome.org/devel/gobject/unstable/gobject-The-Base-Object-Type.html#GObject">GObject</a>
-   +----PkSource
-         +----PkDistroUpgrade
-</pre>
+<a name="PkDistroUpgrade.functions"></a><h2>Functions</h2>
+<div class="informaltable"><table width="100%" border="0">
+<colgroup>
+<col width="150px" class="functions_return">
+<col class="functions_name">
+</colgroup>
+<tbody>
+<tr>
+<td class="function_type">
+<a class="link" href="PkDistroUpgrade.html" title="PkDistroUpgrade"><span class="returnvalue">PkDistroUpgrade</span></a> *
+</td>
+<td class="function_name">
+<a class="link" href="PkDistroUpgrade.html#pk-distro-upgrade-new" title="pk_distro_upgrade_new ()">pk_distro_upgrade_new</a> <span class="c_punctuation">()</span>
+</td>
+</tr>
+<tr>
+<td class="function_type">const <a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gchar"><span class="returnvalue">gchar</span></a> *
+</td>
+<td class="function_name">
+<a class="link" href="PkDistroUpgrade.html#pk-distro-upgrade-get-id" title="pk_distro_upgrade_get_id ()">pk_distro_upgrade_get_id</a> <span class="c_punctuation">()</span>
+</td>
+</tr>
+<tr>
+<td class="function_type">const <a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gchar"><span class="returnvalue">gchar</span></a> *
+</td>
+<td class="function_name">
+<a class="link" href="PkDistroUpgrade.html#pk-distro-upgrade-get-summary" title="pk_distro_upgrade_get_summary ()">pk_distro_upgrade_get_summary</a> <span class="c_punctuation">()</span>
+</td>
+</tr>
+<tr>
+<td class="function_type">
+<a class="link" href="PackageKit-pk-enum.html#PkDistroUpgradeEnum" title="enum PkDistroUpgradeEnum"><span class="returnvalue">PkDistroUpgradeEnum</span></a>
+</td>
+<td class="function_name">
+<a class="link" href="PkDistroUpgrade.html#pk-distro-upgrade-get-state" title="pk_distro_upgrade_get_state ()">pk_distro_upgrade_get_state</a> <span class="c_punctuation">()</span>
+</td>
+</tr>
+</tbody>
+</table></div>
 </div>
 <div class="refsect1">
 <a name="PkDistroUpgrade.properties"></a><h2>Properties</h2>
-<pre class="synopsis">
-  "<a class="link" href="PkDistroUpgrade.html#PkDistroUpgrade--name" title='The "name" property'>name</a>"                     <a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a>*                : Read / Write
-  "<a class="link" href="PkDistroUpgrade.html#PkDistroUpgrade--state" title='The "state" property'>state</a>"                    <a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#guint"><span class="type">guint</span></a>                 : Read / Write
-  "<a class="link" href="PkDistroUpgrade.html#PkDistroUpgrade--summary" title='The "summary" property'>summary</a>"                  <a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a>*                : Read / Write
+<div class="informaltable"><table border="0">
+<colgroup>
+<col width="150px" class="properties_type">
+<col width="300px" class="properties_name">
+<col width="200px" class="properties_flags">
+</colgroup>
+<tbody>
+<tr>
+<td class="property_type">
+<a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a> *</td>
+<td class="property_name"><a class="link" href="PkDistroUpgrade.html#PkDistroUpgrade--name" title="The “name” property">name</a></td>
+<td class="property_flags">Read / Write</td>
+</tr>
+<tr>
+<td class="property_type"><a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#guint"><span class="type">guint</span></a></td>
+<td class="property_name"><a class="link" href="PkDistroUpgrade.html#PkDistroUpgrade--state" title="The “state” property">state</a></td>
+<td class="property_flags">Read / Write</td>
+</tr>
+<tr>
+<td class="property_type">
+<a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a> *</td>
+<td class="property_name"><a class="link" href="PkDistroUpgrade.html#PkDistroUpgrade--summary" title="The “summary” property">summary</a></td>
+<td class="property_flags">Read / Write</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<div class="refsect1">
+<a name="PkDistroUpgrade.other"></a><h2>Types and Values</h2>
+<div class="informaltable"><table width="100%" border="0">
+<colgroup>
+<col width="150px" class="name">
+<col class="description">
+</colgroup>
+<tbody>
+<tr>
+<td class="datatype_keyword">struct</td>
+<td class="function_name"><a class="link" href="PkDistroUpgrade.html#PkDistroUpgrade-struct" title="struct PkDistroUpgrade">PkDistroUpgrade</a></td>
+</tr>
+<tr>
+<td class="datatype_keyword">struct</td>
+<td class="function_name"><a class="link" href="PkDistroUpgrade.html#PkDistroUpgradeClass" title="struct PkDistroUpgradeClass">PkDistroUpgradeClass</a></td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<div class="refsect1">
+<a name="PkDistroUpgrade.object-hierarchy"></a><h2>Object Hierarchy</h2>
+<pre class="screen">    <a href="http://library.gnome.org/devel/gobject/unstable/gobject-The-Base-Object-Type.html#GObject">GObject</a>
+    <span class="lineart">╰──</span> PkSource
+        <span class="lineart">╰──</span> PkDistroUpgrade
 </pre>
 </div>
 <div class="refsect1">
 <a name="PkDistroUpgrade.description"></a><h2>Description</h2>
-<p>
-This GObject represents a distro_upgrade from a transaction.
+<p>This GObject represents a distro_upgrade from a transaction.
 These objects represent single items of data from the transaction, and are
-often present in lists (<a class="link" href="PkResults.html" title="PkResults"><span class="type">PkResults</span></a>) or just refcounted in client programs.
-</p>
+often present in lists (<a class="link" href="PkResults.html" title="PkResults"><span class="type">PkResults</span></a>) or just refcounted in client programs.</p>
 </div>
 <div class="refsect1">
-<a name="PkDistroUpgrade.details"></a><h2>Details</h2>
+<a name="PkDistroUpgrade.functions_details"></a><h2>Functions</h2>
+<div class="refsect2">
+<a name="pk-distro-upgrade-new"></a><h3>pk_distro_upgrade_new ()</h3>
+<pre class="programlisting"><a class="link" href="PkDistroUpgrade.html" title="PkDistroUpgrade"><span class="returnvalue">PkDistroUpgrade</span></a> *
+pk_distro_upgrade_new (<em class="parameter"><code><span class="type">void</span></code></em>);</pre>
+<div class="refsect3">
+<a name="id-1.4.8.8.2.4"></a><h4>Returns</h4>
+<p> a new PkDistroUpgrade object.</p>
+<p></p>
+</div>
+<p class="since">Since 0.5.4</p>
+</div>
+<hr>
+<div class="refsect2">
+<a name="pk-distro-upgrade-get-id"></a><h3>pk_distro_upgrade_get_id ()</h3>
+<pre class="programlisting">const <a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gchar"><span class="returnvalue">gchar</span></a> *
+pk_distro_upgrade_get_id (<em class="parameter"><code><a class="link" href="PkDistroUpgrade.html" title="PkDistroUpgrade"><span class="type">PkDistroUpgrade</span></a> *distro_upgrade</code></em>);</pre>
+<p>Gets the distribution identifier.
+You use this value to call UpgradeSystem.</p>
+<div class="refsect3">
+<a name="id-1.4.8.8.3.5"></a><h4>Parameters</h4>
+<div class="informaltable"><table width="100%" border="0">
+<colgroup>
+<col width="150px" class="parameters_name">
+<col class="parameters_description">
+<col width="200px" class="parameters_annotations">
+</colgroup>
+<tbody><tr>
+<td class="parameter_name"><p>distro_upgrade</p></td>
+<td class="parameter_description"><p>a valid <a class="link" href="PkDistroUpgrade.html" title="PkDistroUpgrade"><span class="type">PkDistroUpgrade</span></a> object.</p></td>
+<td class="parameter_annotations"> </td>
+</tr></tbody>
+</table></div>
+</div>
+<div class="refsect3">
+<a name="id-1.4.8.8.3.6"></a><h4>Returns</h4>
+<p> the distro-id, e.g. "fedora-14"</p>
+<p></p>
+</div>
+<p class="since">Since 0.6.11</p>
+</div>
+<hr>
+<div class="refsect2">
+<a name="pk-distro-upgrade-get-summary"></a><h3>pk_distro_upgrade_get_summary ()</h3>
+<pre class="programlisting">const <a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gchar"><span class="returnvalue">gchar</span></a> *
+pk_distro_upgrade_get_summary (<em class="parameter"><code><a class="link" href="PkDistroUpgrade.html" title="PkDistroUpgrade"><span class="type">PkDistroUpgrade</span></a> *distro_upgrade</code></em>);</pre>
+<p>Gets the description of the distribution upgrade.</p>
+<div class="refsect3">
+<a name="id-1.4.8.8.4.5"></a><h4>Parameters</h4>
+<div class="informaltable"><table width="100%" border="0">
+<colgroup>
+<col width="150px" class="parameters_name">
+<col class="parameters_description">
+<col width="200px" class="parameters_annotations">
+</colgroup>
+<tbody><tr>
+<td class="parameter_name"><p>distro_upgrade</p></td>
+<td class="parameter_description"><p>a valid <a class="link" href="PkDistroUpgrade.html" title="PkDistroUpgrade"><span class="type">PkDistroUpgrade</span></a> object.</p></td>
+<td class="parameter_annotations"> </td>
+</tr></tbody>
+</table></div>
+</div>
+<div class="refsect3">
+<a name="id-1.4.8.8.4.6"></a><h4>Returns</h4>
+<p> the printable name, e.g. "Fedora 14"</p>
+<p></p>
+</div>
+<p class="since">Since 0.6.11</p>
+</div>
+<hr>
+<div class="refsect2">
+<a name="pk-distro-upgrade-get-state"></a><h3>pk_distro_upgrade_get_state ()</h3>
+<pre class="programlisting"><a class="link" href="PackageKit-pk-enum.html#PkDistroUpgradeEnum" title="enum PkDistroUpgradeEnum"><span class="returnvalue">PkDistroUpgradeEnum</span></a>
+pk_distro_upgrade_get_state (<em class="parameter"><code><a class="link" href="PkDistroUpgrade.html" title="PkDistroUpgrade"><span class="type">PkDistroUpgrade</span></a> *distro_upgrade</code></em>);</pre>
+<p>Gets the status of the distribution upgrade.</p>
+<div class="refsect3">
+<a name="id-1.4.8.8.5.5"></a><h4>Parameters</h4>
+<div class="informaltable"><table width="100%" border="0">
+<colgroup>
+<col width="150px" class="parameters_name">
+<col class="parameters_description">
+<col width="200px" class="parameters_annotations">
+</colgroup>
+<tbody><tr>
+<td class="parameter_name"><p>distro_upgrade</p></td>
+<td class="parameter_description"><p>a valid <a class="link" href="PkDistroUpgrade.html" title="PkDistroUpgrade"><span class="type">PkDistroUpgrade</span></a> object.</p></td>
+<td class="parameter_annotations"> </td>
+</tr></tbody>
+</table></div>
+</div>
+<div class="refsect3">
+<a name="id-1.4.8.8.5.6"></a><h4>Returns</h4>
+<p> the printable name, e.g. <a class="link" href="PackageKit-pk-enum.html#PK-DISTRO-UPGRADE-ENUM-UNSTABLE:CAPS"><code class="literal">PK_DISTRO_UPGRADE_ENUM_UNSTABLE</code></a></p>
+<p></p>
+</div>
+<p class="since">Since 0.6.11</p>
+</div>
+</div>
+<div class="refsect1">
+<a name="PkDistroUpgrade.other_details"></a><h2>Types and Values</h2>
 <div class="refsect2">
 <a name="PkDistroUpgrade-struct"></a><h3>struct PkDistroUpgrade</h3>
 <pre class="programlisting">struct PkDistroUpgrade;</pre>
@@ -93,122 +254,32 @@ often present in lists (<a class="link" href="PkResults.html" title="PkResults">
 };
 </pre>
 </div>
-<hr>
-<div class="refsect2">
-<a name="pk-distro-upgrade-new"></a><h3>pk_distro_upgrade_new ()</h3>
-<pre class="programlisting"><a class="link" href="PkDistroUpgrade.html" title="PkDistroUpgrade"><span class="returnvalue">PkDistroUpgrade</span></a> *   pk_distro_upgrade_new               (<em class="parameter"><code><span class="type">void</span></code></em>);</pre>
-<div class="variablelist"><table border="0" class="variablelist">
-<colgroup>
-<col align="left" valign="top">
-<col>
-</colgroup>
-<tbody><tr>
-<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
-<td>a new PkDistroUpgrade object.</td>
-</tr></tbody>
-</table></div>
-<p class="since">Since 0.5.4</p>
-</div>
-<hr>
-<div class="refsect2">
-<a name="pk-distro-upgrade-get-id"></a><h3>pk_distro_upgrade_get_id ()</h3>
-<pre class="programlisting">const <a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gchar"><span class="returnvalue">gchar</span></a> *       pk_distro_upgrade_get_id            (<em class="parameter"><code><a class="link" href="PkDistroUpgrade.html" title="PkDistroUpgrade"><span class="type">PkDistroUpgrade</span></a> *distro_upgrade</code></em>);</pre>
-<p>
-Gets the distribution identifier.
-You use this value to call UpgradeSystem.
-</p>
-<div class="variablelist"><table border="0" class="variablelist">
-<colgroup>
-<col align="left" valign="top">
-<col>
-</colgroup>
-<tbody>
-<tr>
-<td><p><span class="term"><em class="parameter"><code>distro_upgrade</code></em> :</span></p></td>
-<td>a valid <a class="link" href="PkDistroUpgrade.html" title="PkDistroUpgrade"><span class="type">PkDistroUpgrade</span></a> object.</td>
-</tr>
-<tr>
-<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
-<td>the distro-id, e.g. "fedora-14"</td>
-</tr>
-</tbody>
-</table></div>
-<p class="since">Since 0.6.11</p>
-</div>
-<hr>
-<div class="refsect2">
-<a name="pk-distro-upgrade-get-summary"></a><h3>pk_distro_upgrade_get_summary ()</h3>
-<pre class="programlisting">const <a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gchar"><span class="returnvalue">gchar</span></a> *       pk_distro_upgrade_get_summary       (<em class="parameter"><code><a class="link" href="PkDistroUpgrade.html" title="PkDistroUpgrade"><span class="type">PkDistroUpgrade</span></a> *distro_upgrade</code></em>);</pre>
-<p>
-Gets the description of the distribution upgrade.
-</p>
-<div class="variablelist"><table border="0" class="variablelist">
-<colgroup>
-<col align="left" valign="top">
-<col>
-</colgroup>
-<tbody>
-<tr>
-<td><p><span class="term"><em class="parameter"><code>distro_upgrade</code></em> :</span></p></td>
-<td>a valid <a class="link" href="PkDistroUpgrade.html" title="PkDistroUpgrade"><span class="type">PkDistroUpgrade</span></a> object.</td>
-</tr>
-<tr>
-<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
-<td>the printable name, e.g. "Fedora 14"</td>
-</tr>
-</tbody>
-</table></div>
-<p class="since">Since 0.6.11</p>
-</div>
-<hr>
-<div class="refsect2">
-<a name="pk-distro-upgrade-get-state"></a><h3>pk_distro_upgrade_get_state ()</h3>
-<pre class="programlisting"><a class="link" href="PackageKit-pk-enum.html#PkDistroUpgradeEnum"><span class="returnvalue">PkDistroUpgradeEnum</span></a> pk_distro_upgrade_get_state         (<em class="parameter"><code><a class="link" href="PkDistroUpgrade.html" title="PkDistroUpgrade"><span class="type">PkDistroUpgrade</span></a> *distro_upgrade</code></em>);</pre>
-<p>
-Gets the status of the distribution upgrade.
-</p>
-<div class="variablelist"><table border="0" class="variablelist">
-<colgroup>
-<col align="left" valign="top">
-<col>
-</colgroup>
-<tbody>
-<tr>
-<td><p><span class="term"><em class="parameter"><code>distro_upgrade</code></em> :</span></p></td>
-<td>a valid <a class="link" href="PkDistroUpgrade.html" title="PkDistroUpgrade"><span class="type">PkDistroUpgrade</span></a> object.</td>
-</tr>
-<tr>
-<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
-<td>the printable name, e.g. <a class="link" href="PackageKit-pk-enum.html#PK-DISTRO-UPGRADE-ENUM-UNSTABLE:CAPS"><code class="literal">PK_DISTRO_UPGRADE_ENUM_UNSTABLE</code></a>
-</td>
-</tr>
-</tbody>
-</table></div>
-<p class="since">Since 0.6.11</p>
-</div>
 </div>
 <div class="refsect1">
 <a name="PkDistroUpgrade.property-details"></a><h2>Property Details</h2>
 <div class="refsect2">
-<a name="PkDistroUpgrade--name"></a><h3>The <code class="literal">"name"</code> property</h3>
-<pre class="programlisting">  "name"                     <a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a>*                : Read / Write</pre>
+<a name="PkDistroUpgrade--name"></a><h3>The <code class="literal">“name”</code> property</h3>
+<pre class="programlisting">  “name”                     <a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a> *</pre>
 <p></p>
+<p>Flags: Read / Write</p>
 <p>Default value: NULL</p>
 <p class="since">Since 0.5.4</p>
 </div>
 <hr>
 <div class="refsect2">
-<a name="PkDistroUpgrade--state"></a><h3>The <code class="literal">"state"</code> property</h3>
-<pre class="programlisting">  "state"                    <a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#guint"><span class="type">guint</span></a>                 : Read / Write</pre>
+<a name="PkDistroUpgrade--state"></a><h3>The <code class="literal">“state”</code> property</h3>
+<pre class="programlisting">  “state”                    <a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#guint"><span class="type">guint</span></a></pre>
 <p></p>
+<p>Flags: Read / Write</p>
 <p>Default value: 0</p>
 <p class="since">Since 0.5.4</p>
 </div>
 <hr>
 <div class="refsect2">
-<a name="PkDistroUpgrade--summary"></a><h3>The <code class="literal">"summary"</code> property</h3>
-<pre class="programlisting">  "summary"                  <a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a>*                : Read / Write</pre>
+<a name="PkDistroUpgrade--summary"></a><h3>The <code class="literal">“summary”</code> property</h3>
+<pre class="programlisting">  “summary”                  <a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a> *</pre>
 <p></p>
+<p>Flags: Read / Write</p>
 <p>Default value: NULL</p>
 <p class="since">Since 0.5.4</p>
 </div>
@@ -216,6 +287,6 @@ Gets the status of the distribution upgrade.
 </div>
 <div class="footer">
 <hr>
-          Generated by GTK-Doc V1.19</div>
+          Generated by GTK-Doc V1.20</div>
 </body>
 </html>
