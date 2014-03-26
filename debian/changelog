@@ -1,7 +1,9 @@
 packagekit (0.8.17-1) unstable; urgency=low
 
   * New upstream release: 0.8.17
+    - Lots of small enhancements and bugfixes
     - Contains fix for changelog-fetching (Closes: #739172)
+  * Ship transactions.db file by default (Closes: #737556)
 
  -- Matthias Klumpp <mak@debian.org>  Wed, 26 Mar 2014 16:56:24 +0100
 
