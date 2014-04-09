@@ -1,2 +1,2 @@
 version=3
-http://www.packagekit.org/releases/PackageKit-([\d\.]+)\.tar\.xz
+http://www.freedesktop.org/software/PackageKit/releases/PackageKit-([\d\.]+)\.tar\.xz
