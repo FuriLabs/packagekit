@@ -1,3 +1,10 @@
+packagekit (0.8.17-2) unstable; urgency=low
+
+  * Fix default changelog URL (Closes: #739172)
+  * Update debian/watch file
+
+ -- Matthias Klumpp <mak@debian.org>  Thu, 10 Apr 2014 18:54:04 +0200
+
 packagekit (0.8.17-1) unstable; urgency=low
 
   * New upstream release: 0.8.17
