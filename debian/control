@@ -12,6 +12,7 @@ Build-Depends: bash-completion,
                gir1.2-glib-2.0 (>= 1.36),
                gobject-introspection (>= 1.36),
                gtk-doc-tools,
+               iceweasel-dev (>= 30.0-2) | firefox-dev (>= 30.0),
                libapt-pkg-dev (>= 0.8.14),
                libarchive-dev,
                libgirepository1.0-dev (>= 1.36),
@@ -30,8 +31,7 @@ Build-Depends: bash-completion,
                network-manager-dev [linux-any],
                policykit-1,
                python3 (>= 3.2),
-               xmlto,
-               iceweasel-dev (>= 30.0-2) | firefox-dev (>= 30.0)
+               xmlto
 Standards-Version: 3.9.5
 Homepage: http://www.packagekit.org
 
@@ -213,11 +213,10 @@ Description: PackageKit backend Python bindings
 Package: packagekit-backend-aptcc
 Architecture: any
 Depends: gdebi-core (>= 0.8.2),
-         python,
+         python3,
          python3-packagekit (= ${source:Version}),
          ${misc:Depends},
          ${shlibs:Depends}
-XB-Python-Version: ${python:Versions}
 Recommends: packagekit (= ${binary:Version})
 Suggests: apt-xapian-index
 Description: APT backend for PackageKit
@@ -237,7 +236,6 @@ Depends: packagekit (= ${binary:Version}),
          smartpm-core,
          ${misc:Depends},
          ${shlibs:Depends}
-XB-Python-Version: ${python:Versions}
 Description: Smart backend for PackageKit
  PackageKit allows performing simple software management tasks over a DBus
  interface  e.g. refreshing the cache, updating, installing and removing

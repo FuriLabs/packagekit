@@ -30,9 +30,9 @@ endif
 LDFLAGS += -Wl,--as-needed
 
 ifeq ($(shell dpkg-vendor --derives-from Ubuntu && echo yes), yes)
-	SUBSTVARS = -Vdist:Browser="firefox (>> 3.0) | www-browser"
+	SUBSTVARS = -Vdist:Browser="firefox (>> 8.0) | www-browser"
 else
-	SUBSTVARS = -Vdist:Browser="iceweasel (>> 3.0) | www-browser"
+	SUBSTVARS = -Vdist:Browser="iceweasel (>> 8.0) | www-browser"
 endif
 
 # Define install target dir
