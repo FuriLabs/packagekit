@@ -1,3 +1,12 @@
+packagekit (0.8.17-4) unstable; urgency=medium
+
+  * Tighten dependency on iceweasel-dev
+  * aptcc-python3.patch: Use Python3 for aptcc upgrade helper
+  * link-gstreamer1.0.patch: Link against GStreamer 1.0 by default
+  * Build GStreamer 1.0 plugin by default, drop 0.10 plugin
+
+ -- Matthias Klumpp <mak@debian.org>  Sat, 14 Jun 2014 14:10:16 +0200
+
 packagekit (0.8.17-3) unstable; urgency=medium
 
   * Don't ship transactions.db (Closes: #746327)
