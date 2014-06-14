@@ -1,3 +1,11 @@
+packagekit (0.8.17-3) unstable; urgency=medium
+
+  * Don't ship transactions.db (Closes: #746327)
+  * tdb-permissions.patch: Update permissions on the transactions db
+  * Replace xulrunner-dev build-dep with dependency on iceweasel-dev
+
+ -- Matthias Klumpp <mak@debian.org>  Sat, 14 Jun 2014 12:34:04 +0200
+
 packagekit (0.8.17-2) unstable; urgency=low
 
   * Fix default changelog URL (Closes: #739172)
