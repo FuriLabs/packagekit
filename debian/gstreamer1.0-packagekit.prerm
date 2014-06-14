@@ -1,5 +1,5 @@
 #!/bin/sh
-# prerm script for gstreamer0.10-packagekit
+# prerm script for gstreamer1.0-packagekit
 set -e
 
 if [ "$1" = "remove" ] || [ "$1" = "deconfigure" ] ; then
