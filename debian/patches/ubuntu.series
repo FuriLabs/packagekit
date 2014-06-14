@@ -3,5 +3,5 @@ defaults.diff
 policy.diff
 01_changelog-url.patch
 02_tdb-permissions.patch
-03_python3.patch
+03_aptcc-python3.patch
 04_link-gstreamer1.0.patch
