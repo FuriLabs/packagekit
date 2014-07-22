@@ -8,24 +8,6 @@
 #define PK_COMPILATION
 #endif
 
-#include "pk-catalog.h"
-/* enumerations from "pk-catalog.h" */
-GType pk_catalog_error_get_type (void) G_GNUC_CONST;
-
-GType
-pk_catalog_error_get_type (void)
-{
-    static GType etype = 0;
-    if (G_UNLIKELY(etype == 0)) {
-        static const GEnumValue values[] = {
-            { PK_CATALOG_ERROR_FAILED, "PK_CATALOG_ERROR_FAILED", "failed" },
-            { 0, NULL, NULL }
-        };
-        etype = g_enum_register_static (g_intern_static_string ("PkCatalogError"), values);
-    }
-    return etype;
-}
-
 #include "pk-client.h"
 /* enumerations from "pk-client.h" */
 GType pk_client_error_get_type (void) G_GNUC_CONST;
@@ -85,12 +67,12 @@ pk_role_enum_get_type (void)
         static const GEnumValue values[] = {
             { PK_ROLE_ENUM_UNKNOWN, "PK_ROLE_ENUM_UNKNOWN", "unknown" },
             { PK_ROLE_ENUM_CANCEL, "PK_ROLE_ENUM_CANCEL", "cancel" },
-            { PK_ROLE_ENUM_GET_DEPENDS, "PK_ROLE_ENUM_GET_DEPENDS", "get-depends" },
+            { PK_ROLE_ENUM_DEPENDS_ON, "PK_ROLE_ENUM_DEPENDS_ON", "depends-on" },
             { PK_ROLE_ENUM_GET_DETAILS, "PK_ROLE_ENUM_GET_DETAILS", "get-details" },
             { PK_ROLE_ENUM_GET_FILES, "PK_ROLE_ENUM_GET_FILES", "get-files" },
             { PK_ROLE_ENUM_GET_PACKAGES, "PK_ROLE_ENUM_GET_PACKAGES", "get-packages" },
             { PK_ROLE_ENUM_GET_REPO_LIST, "PK_ROLE_ENUM_GET_REPO_LIST", "get-repo-list" },
-            { PK_ROLE_ENUM_GET_REQUIRES, "PK_ROLE_ENUM_GET_REQUIRES", "get-requires" },
+            { PK_ROLE_ENUM_REQUIRED_BY, "PK_ROLE_ENUM_REQUIRED_BY", "required-by" },
             { PK_ROLE_ENUM_GET_UPDATE_DETAIL, "PK_ROLE_ENUM_GET_UPDATE_DETAIL", "get-update-detail" },
             { PK_ROLE_ENUM_GET_UPDATES, "PK_ROLE_ENUM_GET_UPDATES", "get-updates" },
             { PK_ROLE_ENUM_INSTALL_FILES, "PK_ROLE_ENUM_INSTALL_FILES", "install-files" },
@@ -112,8 +94,10 @@ pk_role_enum_get_type (void)
             { PK_ROLE_ENUM_GET_DISTRO_UPGRADES, "PK_ROLE_ENUM_GET_DISTRO_UPGRADES", "get-distro-upgrades" },
             { PK_ROLE_ENUM_GET_CATEGORIES, "PK_ROLE_ENUM_GET_CATEGORIES", "get-categories" },
             { PK_ROLE_ENUM_GET_OLD_TRANSACTIONS, "PK_ROLE_ENUM_GET_OLD_TRANSACTIONS", "get-old-transactions" },
-            { PK_ROLE_ENUM_UPGRADE_SYSTEM, "PK_ROLE_ENUM_UPGRADE_SYSTEM", "upgrade-system" },
             { PK_ROLE_ENUM_REPAIR_SYSTEM, "PK_ROLE_ENUM_REPAIR_SYSTEM", "repair-system" },
+            { PK_ROLE_ENUM_GET_DETAILS_LOCAL, "PK_ROLE_ENUM_GET_DETAILS_LOCAL", "get-details-local" },
+            { PK_ROLE_ENUM_GET_FILES_LOCAL, "PK_ROLE_ENUM_GET_FILES_LOCAL", "get-files-local" },
+            { PK_ROLE_ENUM_REPO_REMOVE, "PK_ROLE_ENUM_REPO_REMOVE", "repo-remove" },
             { PK_ROLE_ENUM_LAST, "PK_ROLE_ENUM_LAST", "last" },
             { 0, NULL, NULL }
         };
@@ -287,38 +271,6 @@ pk_restart_enum_get_type (void)
             { 0, NULL, NULL }
         };
         etype = g_enum_register_static (g_intern_static_string ("PkRestartEnum"), values);
-    }
-    return etype;
-}
-
-GType pk_message_enum_get_type (void) G_GNUC_CONST;
-
-GType
-pk_message_enum_get_type (void)
-{
-    static GType etype = 0;
-    if (G_UNLIKELY(etype == 0)) {
-        static const GEnumValue values[] = {
-            { PK_MESSAGE_ENUM_UNKNOWN, "PK_MESSAGE_ENUM_UNKNOWN", "unknown" },
-            { PK_MESSAGE_ENUM_BROKEN_MIRROR, "PK_MESSAGE_ENUM_BROKEN_MIRROR", "broken-mirror" },
-            { PK_MESSAGE_ENUM_CONNECTION_REFUSED, "PK_MESSAGE_ENUM_CONNECTION_REFUSED", "connection-refused" },
-            { PK_MESSAGE_ENUM_PARAMETER_INVALID, "PK_MESSAGE_ENUM_PARAMETER_INVALID", "parameter-invalid" },
-            { PK_MESSAGE_ENUM_PRIORITY_INVALID, "PK_MESSAGE_ENUM_PRIORITY_INVALID", "priority-invalid" },
-            { PK_MESSAGE_ENUM_BACKEND_ERROR, "PK_MESSAGE_ENUM_BACKEND_ERROR", "backend-error" },
-            { PK_MESSAGE_ENUM_DAEMON_ERROR, "PK_MESSAGE_ENUM_DAEMON_ERROR", "daemon-error" },
-            { PK_MESSAGE_ENUM_CACHE_BEING_REBUILT, "PK_MESSAGE_ENUM_CACHE_BEING_REBUILT", "cache-being-rebuilt" },
-            { PK_MESSAGE_ENUM_NEWER_PACKAGE_EXISTS, "PK_MESSAGE_ENUM_NEWER_PACKAGE_EXISTS", "newer-package-exists" },
-            { PK_MESSAGE_ENUM_COULD_NOT_FIND_PACKAGE, "PK_MESSAGE_ENUM_COULD_NOT_FIND_PACKAGE", "could-not-find-package" },
-            { PK_MESSAGE_ENUM_CONFIG_FILES_CHANGED, "PK_MESSAGE_ENUM_CONFIG_FILES_CHANGED", "config-files-changed" },
-            { PK_MESSAGE_ENUM_PACKAGE_ALREADY_INSTALLED, "PK_MESSAGE_ENUM_PACKAGE_ALREADY_INSTALLED", "package-already-installed" },
-            { PK_MESSAGE_ENUM_AUTOREMOVE_IGNORED, "PK_MESSAGE_ENUM_AUTOREMOVE_IGNORED", "autoremove-ignored" },
-            { PK_MESSAGE_ENUM_REPO_METADATA_DOWNLOAD_FAILED, "PK_MESSAGE_ENUM_REPO_METADATA_DOWNLOAD_FAILED", "repo-metadata-download-failed" },
-            { PK_MESSAGE_ENUM_REPO_FOR_DEVELOPERS_ONLY, "PK_MESSAGE_ENUM_REPO_FOR_DEVELOPERS_ONLY", "repo-for-developers-only" },
-            { PK_MESSAGE_ENUM_OTHER_UPDATES_HELD_BACK, "PK_MESSAGE_ENUM_OTHER_UPDATES_HELD_BACK", "other-updates-held-back" },
-            { PK_MESSAGE_ENUM_LAST, "PK_MESSAGE_ENUM_LAST", "last" },
-            { 0, NULL, NULL }
-        };
-        etype = g_enum_register_static (g_intern_static_string ("PkMessageEnum"), values);
     }
     return etype;
 }
@@ -556,34 +508,6 @@ pk_sig_type_enum_get_type (void)
     return etype;
 }
 
-GType pk_provides_enum_get_type (void) G_GNUC_CONST;
-
-GType
-pk_provides_enum_get_type (void)
-{
-    static GType etype = 0;
-    if (G_UNLIKELY(etype == 0)) {
-        static const GEnumValue values[] = {
-            { PK_PROVIDES_ENUM_UNKNOWN, "PK_PROVIDES_ENUM_UNKNOWN", "unknown" },
-            { PK_PROVIDES_ENUM_ANY, "PK_PROVIDES_ENUM_ANY", "any" },
-            { PK_PROVIDES_ENUM_MODALIAS, "PK_PROVIDES_ENUM_MODALIAS", "modalias" },
-            { PK_PROVIDES_ENUM_CODEC, "PK_PROVIDES_ENUM_CODEC", "codec" },
-            { PK_PROVIDES_ENUM_MIMETYPE, "PK_PROVIDES_ENUM_MIMETYPE", "mimetype" },
-            { PK_PROVIDES_ENUM_FONT, "PK_PROVIDES_ENUM_FONT", "font" },
-            { PK_PROVIDES_ENUM_HARDWARE_DRIVER, "PK_PROVIDES_ENUM_HARDWARE_DRIVER", "hardware-driver" },
-            { PK_PROVIDES_ENUM_POSTSCRIPT_DRIVER, "PK_PROVIDES_ENUM_POSTSCRIPT_DRIVER", "postscript-driver" },
-            { PK_PROVIDES_ENUM_PLASMA_SERVICE, "PK_PROVIDES_ENUM_PLASMA_SERVICE", "plasma-service" },
-            { PK_PROVIDES_ENUM_SHARED_LIB, "PK_PROVIDES_ENUM_SHARED_LIB", "shared-lib" },
-            { PK_PROVIDES_ENUM_PYTHON, "PK_PROVIDES_ENUM_PYTHON", "python" },
-            { PK_PROVIDES_ENUM_LANGUAGE_SUPPORT, "PK_PROVIDES_ENUM_LANGUAGE_SUPPORT", "language-support" },
-            { PK_PROVIDES_ENUM_LAST, "PK_PROVIDES_ENUM_LAST", "last" },
-            { 0, NULL, NULL }
-        };
-        etype = g_enum_register_static (g_intern_static_string ("PkProvidesEnum"), values);
-    }
-    return etype;
-}
-
 GType pk_media_type_enum_get_type (void) G_GNUC_CONST;
 
 GType
@@ -715,29 +639,6 @@ pk_progress_type_get_type (void)
             { 0, NULL, NULL }
         };
         etype = g_enum_register_static (g_intern_static_string ("PkProgressType"), values);
-    }
-    return etype;
-}
-
-#include "pk-service-pack.h"
-/* enumerations from "pk-service-pack.h" */
-GType pk_service_pack_error_get_type (void) G_GNUC_CONST;
-
-GType
-pk_service_pack_error_get_type (void)
-{
-    static GType etype = 0;
-    if (G_UNLIKELY(etype == 0)) {
-        static const GEnumValue values[] = {
-            { PK_SERVICE_PACK_ERROR_FAILED_SETUP, "PK_SERVICE_PACK_ERROR_FAILED_SETUP", "failed-setup" },
-            { PK_SERVICE_PACK_ERROR_FAILED_DOWNLOAD, "PK_SERVICE_PACK_ERROR_FAILED_DOWNLOAD", "failed-download" },
-            { PK_SERVICE_PACK_ERROR_FAILED_EXTRACTION, "PK_SERVICE_PACK_ERROR_FAILED_EXTRACTION", "failed-extraction" },
-            { PK_SERVICE_PACK_ERROR_FAILED_CREATE, "PK_SERVICE_PACK_ERROR_FAILED_CREATE", "failed-create" },
-            { PK_SERVICE_PACK_ERROR_NOTHING_TO_DO, "PK_SERVICE_PACK_ERROR_NOTHING_TO_DO", "nothing-to-do" },
-            { PK_SERVICE_PACK_ERROR_NOT_COMPATIBLE, "PK_SERVICE_PACK_ERROR_NOT_COMPATIBLE", "not-compatible" },
-            { 0, NULL, NULL }
-        };
-        etype = g_enum_register_static (g_intern_static_string ("PkServicePackError"), values);
     }
     return etype;
 }

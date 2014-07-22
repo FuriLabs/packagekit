@@ -15,8 +15,7 @@
 <table class="navigation" id="top" width="100%" summary="Navigation header" cellpadding="2" cellspacing="10"><tr valign="middle">
 <td width="100%" align="left" class="shortcuts">
 <a href="#" class="shortcut">Top</a><span id="nav_description"> <span class="dim">|</span> 
-                  <a href="#PackageKit-pk-client-sync.description" class="shortcut">Description</a></span><span id="nav_hierarchy"> <span class="dim">|</span> 
-                  <a href="#PackageKit-pk-client-sync.object-hierarchy" class="shortcut">Object Hierarchy</a></span>
+                  <a href="#PackageKit-pk-client-sync.description" class="shortcut">Description</a></span>
 </td>
 <td><a accesskey="h" href="index.html"><img src="home.png" width="16" height="16" border="0" alt="Home"></a></td>
 <td><a accesskey="u" href="libpackagekit-helpers.html"><img src="up.png" width="16" height="16" border="0" alt="Up"></a></td>
@@ -93,6 +92,22 @@
 <a class="link" href="PkResults.html" title="PkResults"><span class="returnvalue">PkResults</span></a> *
 </td>
 <td class="function_name">
+<a class="link" href="PackageKit-pk-client-sync.html#pk-client-get-details-local" title="pk_client_get_details_local ()">pk_client_get_details_local</a> <span class="c_punctuation">()</span>
+</td>
+</tr>
+<tr>
+<td class="function_type">
+<a class="link" href="PkResults.html" title="PkResults"><span class="returnvalue">PkResults</span></a> *
+</td>
+<td class="function_name">
+<a class="link" href="PackageKit-pk-client-sync.html#pk-client-get-files-local" title="pk_client_get_files_local ()">pk_client_get_files_local</a> <span class="c_punctuation">()</span>
+</td>
+</tr>
+<tr>
+<td class="function_type">
+<a class="link" href="PkResults.html" title="PkResults"><span class="returnvalue">PkResults</span></a> *
+</td>
+<td class="function_name">
 <a class="link" href="PackageKit-pk-client-sync.html#pk-client-get-update-detail" title="pk_client_get_update_detail ()">pk_client_get_update_detail</a> <span class="c_punctuation">()</span>
 </td>
 </tr>
@@ -125,7 +140,7 @@
 <a class="link" href="PkResults.html" title="PkResults"><span class="returnvalue">PkResults</span></a> *
 </td>
 <td class="function_name">
-<a class="link" href="PackageKit-pk-client-sync.html#pk-client-get-depends" title="pk_client_get_depends ()">pk_client_get_depends</a> <span class="c_punctuation">()</span>
+<a class="link" href="PackageKit-pk-client-sync.html#pk-client-depends-on" title="pk_client_depends_on ()">pk_client_depends_on</a> <span class="c_punctuation">()</span>
 </td>
 </tr>
 <tr>
@@ -141,7 +156,7 @@
 <a class="link" href="PkResults.html" title="PkResults"><span class="returnvalue">PkResults</span></a> *
 </td>
 <td class="function_name">
-<a class="link" href="PackageKit-pk-client-sync.html#pk-client-get-requires" title="pk_client_get_requires ()">pk_client_get_requires</a> <span class="c_punctuation">()</span>
+<a class="link" href="PackageKit-pk-client-sync.html#pk-client-required-by" title="pk_client_required_by ()">pk_client_required_by</a> <span class="c_punctuation">()</span>
 </td>
 </tr>
 <tr>
@@ -261,7 +276,7 @@
 <a class="link" href="PkResults.html" title="PkResults"><span class="returnvalue">PkResults</span></a> *
 </td>
 <td class="function_name">
-<a class="link" href="PackageKit-pk-client-sync.html#pk-client-upgrade-system" title="pk_client_upgrade_system ()">pk_client_upgrade_system</a> <span class="c_punctuation">()</span>
+<a class="link" href="PackageKit-pk-client-sync.html#pk-client-repo-remove" title="pk_client_repo_remove ()">pk_client_repo_remove</a> <span class="c_punctuation">()</span>
 </td>
 </tr>
 <tr>
@@ -292,11 +307,6 @@
 </table></div>
 </div>
 <div class="refsect1">
-<a name="PackageKit-pk-client-sync.object-hierarchy"></a><h2>Object Hierarchy</h2>
-<pre class="screen">
-</pre>
-</div>
-<div class="refsect1">
 <a name="PackageKit-pk-client-sync.description"></a><h2>Description</h2>
 </div>
 <div class="refsect1">
@@ -317,7 +327,7 @@ or is available in a repository.</p>
 <p>Warning: this function is synchronous, and may block. Do not use it in GUI
 applications.</p>
 <div class="refsect3">
-<a name="id-1.5.4.6.2.6"></a><h4>Parameters</h4>
+<a name="id-1.5.4.5.2.6"></a><h4>Parameters</h4>
 <div class="informaltable"><table width="100%" border="0">
 <colgroup>
 <col width="150px" class="parameters_name">
@@ -365,7 +375,7 @@ applications.</p>
 </table></div>
 </div>
 <div class="refsect3">
-<a name="id-1.5.4.6.2.7"></a><h4>Returns</h4>
+<a name="id-1.5.4.5.2.7"></a><h4>Returns</h4>
 <p> a <a class="link" href="PkResults.html" title="PkResults"><code class="literal">PkResults</code></a> object, or NULL for error. </p>
 <p><span class="annotation">[<acronym title="Free data after the code is done."><span class="acronym">transfer full</span></acronym>]</span></p>
 </div>
@@ -387,7 +397,7 @@ that matches a specific name.</p>
 <p>Warning: this function is synchronous, and may block. Do not use it in GUI
 applications.</p>
 <div class="refsect3">
-<a name="id-1.5.4.6.3.6"></a><h4>Parameters</h4>
+<a name="id-1.5.4.5.3.6"></a><h4>Parameters</h4>
 <div class="informaltable"><table width="100%" border="0">
 <colgroup>
 <col width="150px" class="parameters_name">
@@ -435,7 +445,7 @@ applications.</p>
 </table></div>
 </div>
 <div class="refsect3">
-<a name="id-1.5.4.6.3.7"></a><h4>Returns</h4>
+<a name="id-1.5.4.5.3.7"></a><h4>Returns</h4>
 <p> a <a class="link" href="PkResults.html" title="PkResults"><code class="literal">PkResults</code></a> object, or NULL for error. </p>
 <p><span class="annotation">[<acronym title="Free data after the code is done."><span class="acronym">transfer full</span></acronym>]</span></p>
 </div>
@@ -458,7 +468,7 @@ taking longer.</p>
 <p>Warning: this function is synchronous, and may block. Do not use it in GUI
 applications.</p>
 <div class="refsect3">
-<a name="id-1.5.4.6.4.6"></a><h4>Parameters</h4>
+<a name="id-1.5.4.5.4.6"></a><h4>Parameters</h4>
 <div class="informaltable"><table width="100%" border="0">
 <colgroup>
 <col width="150px" class="parameters_name">
@@ -506,7 +516,7 @@ applications.</p>
 </table></div>
 </div>
 <div class="refsect3">
-<a name="id-1.5.4.6.4.7"></a><h4>Returns</h4>
+<a name="id-1.5.4.5.4.7"></a><h4>Returns</h4>
 <p> a <a class="link" href="PkResults.html" title="PkResults"><code class="literal">PkResults</code></a> object, or NULL for error. </p>
 <p><span class="annotation">[<acronym title="Free data after the code is done."><span class="acronym">transfer full</span></acronym>]</span></p>
 </div>
@@ -527,7 +537,7 @@ pk_client_search_groups (<em class="parameter"><code><a class="link" href="PkCli
 <p>Warning: this function is synchronous, and may block. Do not use it in GUI
 applications.</p>
 <div class="refsect3">
-<a name="id-1.5.4.6.5.6"></a><h4>Parameters</h4>
+<a name="id-1.5.4.5.5.6"></a><h4>Parameters</h4>
 <div class="informaltable"><table width="100%" border="0">
 <colgroup>
 <col width="150px" class="parameters_name">
@@ -575,7 +585,7 @@ applications.</p>
 </table></div>
 </div>
 <div class="refsect3">
-<a name="id-1.5.4.6.5.7"></a><h4>Returns</h4>
+<a name="id-1.5.4.5.5.7"></a><h4>Returns</h4>
 <p> a <a class="link" href="PkResults.html" title="PkResults"><code class="literal">PkResults</code></a> object, or NULL for error. </p>
 <p><span class="annotation">[<acronym title="Free data after the code is done."><span class="acronym">transfer full</span></acronym>]</span></p>
 </div>
@@ -596,7 +606,7 @@ pk_client_search_files (<em class="parameter"><code><a class="link" href="PkClie
 <p>Warning: this function is synchronous, and may block. Do not use it in GUI
 applications.</p>
 <div class="refsect3">
-<a name="id-1.5.4.6.6.6"></a><h4>Parameters</h4>
+<a name="id-1.5.4.5.6.6"></a><h4>Parameters</h4>
 <div class="informaltable"><table width="100%" border="0">
 <colgroup>
 <col width="150px" class="parameters_name">
@@ -644,7 +654,7 @@ applications.</p>
 </table></div>
 </div>
 <div class="refsect3">
-<a name="id-1.5.4.6.6.7"></a><h4>Returns</h4>
+<a name="id-1.5.4.5.6.7"></a><h4>Returns</h4>
 <p> a <a class="link" href="PkResults.html" title="PkResults"><code class="literal">PkResults</code></a> object, or NULL for error. </p>
 <p><span class="annotation">[<acronym title="Free data after the code is done."><span class="acronym">transfer full</span></acronym>]</span></p>
 </div>
@@ -665,7 +675,7 @@ or command line tools.</p>
 <p>Warning: this function is synchronous, and may block. Do not use it in GUI
 applications.</p>
 <div class="refsect3">
-<a name="id-1.5.4.6.7.6"></a><h4>Parameters</h4>
+<a name="id-1.5.4.5.7.6"></a><h4>Parameters</h4>
 <div class="informaltable"><table width="100%" border="0">
 <colgroup>
 <col width="150px" class="parameters_name">
@@ -708,11 +718,139 @@ applications.</p>
 </table></div>
 </div>
 <div class="refsect3">
-<a name="id-1.5.4.6.7.7"></a><h4>Returns</h4>
+<a name="id-1.5.4.5.7.7"></a><h4>Returns</h4>
 <p> a <a class="link" href="PkResults.html" title="PkResults"><code class="literal">PkResults</code></a> object, or NULL for error. </p>
 <p><span class="annotation">[<acronym title="Free data after the code is done."><span class="acronym">transfer full</span></acronym>]</span></p>
 </div>
 <p class="since">Since 0.5.3</p>
+</div>
+<hr>
+<div class="refsect2">
+<a name="pk-client-get-details-local"></a><h3>pk_client_get_details_local ()</h3>
+<pre class="programlisting"><a class="link" href="PkResults.html" title="PkResults"><span class="returnvalue">PkResults</span></a> *
+pk_client_get_details_local (<em class="parameter"><code><a class="link" href="PkClient.html" title="PkClient"><span class="type">PkClient</span></a> *client</code></em>,
+                             <em class="parameter"><code><a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a> **files</code></em>,
+                             <em class="parameter"><code><a href="http://library.gnome.org/devel/gio/unstable/GCancellable.html"><span class="type">GCancellable</span></a> *cancellable</code></em>,
+                             <em class="parameter"><code><a class="link" href="PkProgress.html#PkProgressCallback" title="PkProgressCallback ()"><span class="type">PkProgressCallback</span></a> progress_callback</code></em>,
+                             <em class="parameter"><code><a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gpointer"><span class="type">gpointer</span></a> progress_user_data</code></em>,
+                             <em class="parameter"><code><a href="http://library.gnome.org/devel/glib/unstable/glib-Error-Reporting.html#GError"><span class="type">GError</span></a> **error</code></em>);</pre>
+<p>Get details of a local package, so more information can be obtained for GUI
+or command line tools.</p>
+<p>Warning: this function is synchronous, and may block. Do not use it in GUI
+applications.</p>
+<div class="refsect3">
+<a name="id-1.5.4.5.8.6"></a><h4>Parameters</h4>
+<div class="informaltable"><table width="100%" border="0">
+<colgroup>
+<col width="150px" class="parameters_name">
+<col class="parameters_description">
+<col width="200px" class="parameters_annotations">
+</colgroup>
+<tbody>
+<tr>
+<td class="parameter_name"><p>client</p></td>
+<td class="parameter_description"><p>a valid <a class="link" href="PkClient.html" title="PkClient"><span class="type">PkClient</span></a> instance</p></td>
+<td class="parameter_annotations"> </td>
+</tr>
+<tr>
+<td class="parameter_name"><p>files</p></td>
+<td class="parameter_description"><p> a null terminated array of filenames. </p></td>
+<td class="parameter_annotations"><span class="annotation">[<acronym title="Parameter points to an array of items."><span class="acronym">array</span></acronym> zero-terminated=1]</span></td>
+</tr>
+<tr>
+<td class="parameter_name"><p>cancellable</p></td>
+<td class="parameter_description"><p>a <a href="http://library.gnome.org/devel/gio/unstable/GCancellable.html"><span class="type">GCancellable</span></a> or <a href="/usr/share/gtk-doc/html/liboil/liboil-liboiljunk.html#NULL:CAPS"><code class="literal">NULL</code></a></p></td>
+<td class="parameter_annotations"> </td>
+</tr>
+<tr>
+<td class="parameter_name"><p>progress_callback</p></td>
+<td class="parameter_description"><p> the function to run when the progress changes. </p></td>
+<td class="parameter_annotations"><span class="annotation">[<acronym title="The callback is valid only during the call to the method."><span class="acronym">scope call</span></acronym>]</span></td>
+</tr>
+<tr>
+<td class="parameter_name"><p>progress_user_data</p></td>
+<td class="parameter_description"><p>data to pass to <em class="parameter"><code>progress_callback</code></em>
+</p></td>
+<td class="parameter_annotations"> </td>
+</tr>
+<tr>
+<td class="parameter_name"><p>error</p></td>
+<td class="parameter_description"><p>the <a href="http://library.gnome.org/devel/glib/unstable/glib-Error-Reporting.html#GError"><span class="type">GError</span></a> to store any failure, or <a href="/usr/share/gtk-doc/html/liboil/liboil-liboiljunk.html#NULL:CAPS"><code class="literal">NULL</code></a></p></td>
+<td class="parameter_annotations"> </td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<div class="refsect3">
+<a name="id-1.5.4.5.8.7"></a><h4>Returns</h4>
+<p> a <a class="link" href="PkResults.html" title="PkResults"><code class="literal">PkResults</code></a> object, or NULL for error. </p>
+<p><span class="annotation">[<acronym title="Free data after the code is done."><span class="acronym">transfer full</span></acronym>]</span></p>
+</div>
+<p class="since">Since 0.8.17</p>
+</div>
+<hr>
+<div class="refsect2">
+<a name="pk-client-get-files-local"></a><h3>pk_client_get_files_local ()</h3>
+<pre class="programlisting"><a class="link" href="PkResults.html" title="PkResults"><span class="returnvalue">PkResults</span></a> *
+pk_client_get_files_local (<em class="parameter"><code><a class="link" href="PkClient.html" title="PkClient"><span class="type">PkClient</span></a> *client</code></em>,
+                           <em class="parameter"><code><a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a> **files</code></em>,
+                           <em class="parameter"><code><a href="http://library.gnome.org/devel/gio/unstable/GCancellable.html"><span class="type">GCancellable</span></a> *cancellable</code></em>,
+                           <em class="parameter"><code><a class="link" href="PkProgress.html#PkProgressCallback" title="PkProgressCallback ()"><span class="type">PkProgressCallback</span></a> progress_callback</code></em>,
+                           <em class="parameter"><code><a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gpointer"><span class="type">gpointer</span></a> progress_user_data</code></em>,
+                           <em class="parameter"><code><a href="http://library.gnome.org/devel/glib/unstable/glib-Error-Reporting.html#GError"><span class="type">GError</span></a> **error</code></em>);</pre>
+<p>Get file list of a local package, so more information can be obtained for GUI
+or command line tools.</p>
+<p>Warning: this function is synchronous, and may block. Do not use it in GUI
+applications.</p>
+<div class="refsect3">
+<a name="id-1.5.4.5.9.6"></a><h4>Parameters</h4>
+<div class="informaltable"><table width="100%" border="0">
+<colgroup>
+<col width="150px" class="parameters_name">
+<col class="parameters_description">
+<col width="200px" class="parameters_annotations">
+</colgroup>
+<tbody>
+<tr>
+<td class="parameter_name"><p>client</p></td>
+<td class="parameter_description"><p>a valid <a class="link" href="PkClient.html" title="PkClient"><span class="type">PkClient</span></a> instance</p></td>
+<td class="parameter_annotations"> </td>
+</tr>
+<tr>
+<td class="parameter_name"><p>files</p></td>
+<td class="parameter_description"><p> a null terminated array of filenames. </p></td>
+<td class="parameter_annotations"><span class="annotation">[<acronym title="Parameter points to an array of items."><span class="acronym">array</span></acronym> zero-terminated=1]</span></td>
+</tr>
+<tr>
+<td class="parameter_name"><p>cancellable</p></td>
+<td class="parameter_description"><p>a <a href="http://library.gnome.org/devel/gio/unstable/GCancellable.html"><span class="type">GCancellable</span></a> or <a href="/usr/share/gtk-doc/html/liboil/liboil-liboiljunk.html#NULL:CAPS"><code class="literal">NULL</code></a></p></td>
+<td class="parameter_annotations"> </td>
+</tr>
+<tr>
+<td class="parameter_name"><p>progress_callback</p></td>
+<td class="parameter_description"><p> the function to run when the progress changes. </p></td>
+<td class="parameter_annotations"><span class="annotation">[<acronym title="The callback is valid only during the call to the method."><span class="acronym">scope call</span></acronym>]</span></td>
+</tr>
+<tr>
+<td class="parameter_name"><p>progress_user_data</p></td>
+<td class="parameter_description"><p>data to pass to <em class="parameter"><code>progress_callback</code></em>
+</p></td>
+<td class="parameter_annotations"> </td>
+</tr>
+<tr>
+<td class="parameter_name"><p>error</p></td>
+<td class="parameter_description"><p>the <a href="http://library.gnome.org/devel/glib/unstable/glib-Error-Reporting.html#GError"><span class="type">GError</span></a> to store any failure, or <a href="/usr/share/gtk-doc/html/liboil/liboil-liboiljunk.html#NULL:CAPS"><code class="literal">NULL</code></a></p></td>
+<td class="parameter_annotations"> </td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<div class="refsect3">
+<a name="id-1.5.4.5.9.7"></a><h4>Returns</h4>
+<p> a <a class="link" href="PkResults.html" title="PkResults"><code class="literal">PkResults</code></a> object, or NULL for error. </p>
+<p><span class="annotation">[<acronym title="Free data after the code is done."><span class="acronym">transfer full</span></acronym>]</span></p>
+</div>
+<p class="since">Since 0.9.1</p>
 </div>
 <hr>
 <div class="refsect2">
@@ -729,7 +867,7 @@ severity information.</p>
 <p>Warning: this function is synchronous, and may block. Do not use it in GUI
 applications.</p>
 <div class="refsect3">
-<a name="id-1.5.4.6.8.6"></a><h4>Parameters</h4>
+<a name="id-1.5.4.5.10.6"></a><h4>Parameters</h4>
 <div class="informaltable"><table width="100%" border="0">
 <colgroup>
 <col width="150px" class="parameters_name">
@@ -772,7 +910,7 @@ applications.</p>
 </table></div>
 </div>
 <div class="refsect3">
-<a name="id-1.5.4.6.8.7"></a><h4>Returns</h4>
+<a name="id-1.5.4.5.10.7"></a><h4>Returns</h4>
 <p> a <a class="link" href="PkResults.html" title="PkResults"><code class="literal">PkResults</code></a> object, or NULL for error. </p>
 <p><span class="annotation">[<acronym title="Free data after the code is done."><span class="acronym">transfer full</span></acronym>]</span></p>
 </div>
@@ -793,7 +931,7 @@ pk_client_download_packages (<em class="parameter"><code><a class="link" href="P
 <p>Warning: this function is synchronous, and may block. Do not use it in GUI
 applications.</p>
 <div class="refsect3">
-<a name="id-1.5.4.6.9.6"></a><h4>Parameters</h4>
+<a name="id-1.5.4.5.11.6"></a><h4>Parameters</h4>
 <div class="informaltable"><table width="100%" border="0">
 <colgroup>
 <col width="150px" class="parameters_name">
@@ -841,7 +979,7 @@ applications.</p>
 </table></div>
 </div>
 <div class="refsect3">
-<a name="id-1.5.4.6.9.7"></a><h4>Returns</h4>
+<a name="id-1.5.4.5.11.7"></a><h4>Returns</h4>
 <p> a <a class="link" href="PkResults.html" title="PkResults"><code class="literal">PkResults</code></a> object, or NULL for error. </p>
 <p><span class="annotation">[<acronym title="Free data after the code is done."><span class="acronym">transfer full</span></acronym>]</span></p>
 </div>
@@ -861,7 +999,7 @@ pk_client_get_updates (<em class="parameter"><code><a class="link" href="PkClien
 <p>Warning: this function is synchronous, and may block. Do not use it in GUI
 applications.</p>
 <div class="refsect3">
-<a name="id-1.5.4.6.10.6"></a><h4>Parameters</h4>
+<a name="id-1.5.4.5.12.6"></a><h4>Parameters</h4>
 <div class="informaltable"><table width="100%" border="0">
 <colgroup>
 <col width="150px" class="parameters_name">
@@ -904,7 +1042,7 @@ applications.</p>
 </table></div>
 </div>
 <div class="refsect3">
-<a name="id-1.5.4.6.10.7"></a><h4>Returns</h4>
+<a name="id-1.5.4.5.12.7"></a><h4>Returns</h4>
 <p> a <a class="link" href="PkResults.html" title="PkResults"><code class="literal">PkResults</code></a> object, or NULL for error. </p>
 <p><span class="annotation">[<acronym title="Free data after the code is done."><span class="acronym">transfer full</span></acronym>]</span></p>
 </div>
@@ -924,7 +1062,7 @@ pk_client_get_old_transactions (<em class="parameter"><code><a class="link" href
 <p>Warning: this function is synchronous, and may block. Do not use it in GUI
 applications.</p>
 <div class="refsect3">
-<a name="id-1.5.4.6.11.6"></a><h4>Parameters</h4>
+<a name="id-1.5.4.5.13.6"></a><h4>Parameters</h4>
 <div class="informaltable"><table width="100%" border="0">
 <colgroup>
 <col width="150px" class="parameters_name">
@@ -967,7 +1105,7 @@ applications.</p>
 </table></div>
 </div>
 <div class="refsect3">
-<a name="id-1.5.4.6.11.7"></a><h4>Returns</h4>
+<a name="id-1.5.4.5.13.7"></a><h4>Returns</h4>
 <p> a <a class="link" href="PkResults.html" title="PkResults"><code class="literal">PkResults</code></a> object, or NULL for error. </p>
 <p><span class="annotation">[<acronym title="Free data after the code is done."><span class="acronym">transfer full</span></acronym>]</span></p>
 </div>
@@ -975,21 +1113,21 @@ applications.</p>
 </div>
 <hr>
 <div class="refsect2">
-<a name="pk-client-get-depends"></a><h3>pk_client_get_depends ()</h3>
+<a name="pk-client-depends-on"></a><h3>pk_client_depends_on ()</h3>
 <pre class="programlisting"><a class="link" href="PkResults.html" title="PkResults"><span class="returnvalue">PkResults</span></a> *
-pk_client_get_depends (<em class="parameter"><code><a class="link" href="PkClient.html" title="PkClient"><span class="type">PkClient</span></a> *client</code></em>,
-                       <em class="parameter"><code><a class="link" href="PackageKit-pk-bitfield.html#PkBitfield" title="PkBitfield"><span class="type">PkBitfield</span></a> filters</code></em>,
-                       <em class="parameter"><code><a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a> **package_ids</code></em>,
-                       <em class="parameter"><code><a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gboolean"><span class="type">gboolean</span></a> recursive</code></em>,
-                       <em class="parameter"><code><a href="http://library.gnome.org/devel/gio/unstable/GCancellable.html"><span class="type">GCancellable</span></a> *cancellable</code></em>,
-                       <em class="parameter"><code><a class="link" href="PkProgress.html#PkProgressCallback" title="PkProgressCallback ()"><span class="type">PkProgressCallback</span></a> progress_callback</code></em>,
-                       <em class="parameter"><code><a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gpointer"><span class="type">gpointer</span></a> progress_user_data</code></em>,
-                       <em class="parameter"><code><a href="http://library.gnome.org/devel/glib/unstable/glib-Error-Reporting.html#GError"><span class="type">GError</span></a> **error</code></em>);</pre>
+pk_client_depends_on (<em class="parameter"><code><a class="link" href="PkClient.html" title="PkClient"><span class="type">PkClient</span></a> *client</code></em>,
+                      <em class="parameter"><code><a class="link" href="PackageKit-pk-bitfield.html#PkBitfield" title="PkBitfield"><span class="type">PkBitfield</span></a> filters</code></em>,
+                      <em class="parameter"><code><a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a> **package_ids</code></em>,
+                      <em class="parameter"><code><a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gboolean"><span class="type">gboolean</span></a> recursive</code></em>,
+                      <em class="parameter"><code><a href="http://library.gnome.org/devel/gio/unstable/GCancellable.html"><span class="type">GCancellable</span></a> *cancellable</code></em>,
+                      <em class="parameter"><code><a class="link" href="PkProgress.html#PkProgressCallback" title="PkProgressCallback ()"><span class="type">PkProgressCallback</span></a> progress_callback</code></em>,
+                      <em class="parameter"><code><a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gpointer"><span class="type">gpointer</span></a> progress_user_data</code></em>,
+                      <em class="parameter"><code><a href="http://library.gnome.org/devel/glib/unstable/glib-Error-Reporting.html#GError"><span class="type">GError</span></a> **error</code></em>);</pre>
 <p>Get the packages that depend this one, i.e. child.parent.</p>
 <p>Warning: this function is synchronous, and may block. Do not use it in GUI
 applications.</p>
 <div class="refsect3">
-<a name="id-1.5.4.6.12.6"></a><h4>Parameters</h4>
+<a name="id-1.5.4.5.14.6"></a><h4>Parameters</h4>
 <div class="informaltable"><table width="100%" border="0">
 <colgroup>
 <col width="150px" class="parameters_name">
@@ -1042,7 +1180,7 @@ applications.</p>
 </table></div>
 </div>
 <div class="refsect3">
-<a name="id-1.5.4.6.12.7"></a><h4>Returns</h4>
+<a name="id-1.5.4.5.14.7"></a><h4>Returns</h4>
 <p> a <a class="link" href="PkResults.html" title="PkResults"><code class="literal">PkResults</code></a> object, or NULL for error. </p>
 <p><span class="annotation">[<acronym title="Free data after the code is done."><span class="acronym">transfer full</span></acronym>]</span></p>
 </div>
@@ -1062,7 +1200,7 @@ pk_client_get_packages (<em class="parameter"><code><a class="link" href="PkClie
 <p>Warning: this function is synchronous, and may block. Do not use it in GUI
 applications.</p>
 <div class="refsect3">
-<a name="id-1.5.4.6.13.6"></a><h4>Parameters</h4>
+<a name="id-1.5.4.5.15.6"></a><h4>Parameters</h4>
 <div class="informaltable"><table width="100%" border="0">
 <colgroup>
 <col width="150px" class="parameters_name">
@@ -1105,7 +1243,7 @@ applications.</p>
 </table></div>
 </div>
 <div class="refsect3">
-<a name="id-1.5.4.6.13.7"></a><h4>Returns</h4>
+<a name="id-1.5.4.5.15.7"></a><h4>Returns</h4>
 <p> a <a class="link" href="PkResults.html" title="PkResults"><code class="literal">PkResults</code></a> object, or NULL for error. </p>
 <p><span class="annotation">[<acronym title="Free data after the code is done."><span class="acronym">transfer full</span></acronym>]</span></p>
 </div>
@@ -1113,21 +1251,21 @@ applications.</p>
 </div>
 <hr>
 <div class="refsect2">
-<a name="pk-client-get-requires"></a><h3>pk_client_get_requires ()</h3>
+<a name="pk-client-required-by"></a><h3>pk_client_required_by ()</h3>
 <pre class="programlisting"><a class="link" href="PkResults.html" title="PkResults"><span class="returnvalue">PkResults</span></a> *
-pk_client_get_requires (<em class="parameter"><code><a class="link" href="PkClient.html" title="PkClient"><span class="type">PkClient</span></a> *client</code></em>,
-                        <em class="parameter"><code><a class="link" href="PackageKit-pk-bitfield.html#PkBitfield" title="PkBitfield"><span class="type">PkBitfield</span></a> filters</code></em>,
-                        <em class="parameter"><code><a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a> **package_ids</code></em>,
-                        <em class="parameter"><code><a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gboolean"><span class="type">gboolean</span></a> recursive</code></em>,
-                        <em class="parameter"><code><a href="http://library.gnome.org/devel/gio/unstable/GCancellable.html"><span class="type">GCancellable</span></a> *cancellable</code></em>,
-                        <em class="parameter"><code><a class="link" href="PkProgress.html#PkProgressCallback" title="PkProgressCallback ()"><span class="type">PkProgressCallback</span></a> progress_callback</code></em>,
-                        <em class="parameter"><code><a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gpointer"><span class="type">gpointer</span></a> progress_user_data</code></em>,
-                        <em class="parameter"><code><a href="http://library.gnome.org/devel/glib/unstable/glib-Error-Reporting.html#GError"><span class="type">GError</span></a> **error</code></em>);</pre>
+pk_client_required_by (<em class="parameter"><code><a class="link" href="PkClient.html" title="PkClient"><span class="type">PkClient</span></a> *client</code></em>,
+                       <em class="parameter"><code><a class="link" href="PackageKit-pk-bitfield.html#PkBitfield" title="PkBitfield"><span class="type">PkBitfield</span></a> filters</code></em>,
+                       <em class="parameter"><code><a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a> **package_ids</code></em>,
+                       <em class="parameter"><code><a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gboolean"><span class="type">gboolean</span></a> recursive</code></em>,
+                       <em class="parameter"><code><a href="http://library.gnome.org/devel/gio/unstable/GCancellable.html"><span class="type">GCancellable</span></a> *cancellable</code></em>,
+                       <em class="parameter"><code><a class="link" href="PkProgress.html#PkProgressCallback" title="PkProgressCallback ()"><span class="type">PkProgressCallback</span></a> progress_callback</code></em>,
+                       <em class="parameter"><code><a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gpointer"><span class="type">gpointer</span></a> progress_user_data</code></em>,
+                       <em class="parameter"><code><a href="http://library.gnome.org/devel/glib/unstable/glib-Error-Reporting.html#GError"><span class="type">GError</span></a> **error</code></em>);</pre>
 <p>Get the packages that require this one, i.e. parent.child.</p>
 <p>Warning: this function is synchronous, and may block. Do not use it in GUI
 applications.</p>
 <div class="refsect3">
-<a name="id-1.5.4.6.14.6"></a><h4>Parameters</h4>
+<a name="id-1.5.4.5.16.6"></a><h4>Parameters</h4>
 <div class="informaltable"><table width="100%" border="0">
 <colgroup>
 <col width="150px" class="parameters_name">
@@ -1180,7 +1318,7 @@ applications.</p>
 </table></div>
 </div>
 <div class="refsect3">
-<a name="id-1.5.4.6.14.7"></a><h4>Returns</h4>
+<a name="id-1.5.4.5.16.7"></a><h4>Returns</h4>
 <p> a <a class="link" href="PkResults.html" title="PkResults"><code class="literal">PkResults</code></a> object, or NULL for error. </p>
 <p><span class="annotation">[<acronym title="Free data after the code is done."><span class="acronym">transfer full</span></acronym>]</span></p>
 </div>
@@ -1192,7 +1330,6 @@ applications.</p>
 <pre class="programlisting"><a class="link" href="PkResults.html" title="PkResults"><span class="returnvalue">PkResults</span></a> *
 pk_client_what_provides (<em class="parameter"><code><a class="link" href="PkClient.html" title="PkClient"><span class="type">PkClient</span></a> *client</code></em>,
                          <em class="parameter"><code><a class="link" href="PackageKit-pk-bitfield.html#PkBitfield" title="PkBitfield"><span class="type">PkBitfield</span></a> filters</code></em>,
-                         <em class="parameter"><code><a class="link" href="PackageKit-pk-enum.html#PkProvidesEnum" title="enum PkProvidesEnum"><span class="type">PkProvidesEnum</span></a> provides</code></em>,
                          <em class="parameter"><code><a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a> **values</code></em>,
                          <em class="parameter"><code><a href="http://library.gnome.org/devel/gio/unstable/GCancellable.html"><span class="type">GCancellable</span></a> *cancellable</code></em>,
                          <em class="parameter"><code><a class="link" href="PkProgress.html#PkProgressCallback" title="PkProgressCallback ()"><span class="type">PkProgressCallback</span></a> progress_callback</code></em>,
@@ -1204,7 +1341,7 @@ or GStreamer codec string.</p>
 <p>Warning: this function is synchronous, and may block. Do not use it in GUI
 applications.</p>
 <div class="refsect3">
-<a name="id-1.5.4.6.15.6"></a><h4>Parameters</h4>
+<a name="id-1.5.4.5.17.6"></a><h4>Parameters</h4>
 <div class="informaltable"><table width="100%" border="0">
 <colgroup>
 <col width="150px" class="parameters_name">
@@ -1220,11 +1357,6 @@ applications.</p>
 <tr>
 <td class="parameter_name"><p>filters</p></td>
 <td class="parameter_description"><p>a <a class="link" href="PackageKit-pk-bitfield.html#PkBitfield" title="PkBitfield"><code class="literal">PkBitfield</code></a> such as <a class="link" href="PackageKit-pk-enum.html#PK-FILTER-ENUM-GUI:CAPS"><code class="literal">PK_FILTER_ENUM_GUI</code></a> | <a class="link" href="PackageKit-pk-enum.html#PK-FILTER-ENUM-FREE:CAPS"><code class="literal">PK_FILTER_ENUM_FREE</code></a> or <a class="link" href="PackageKit-pk-enum.html#PK-FILTER-ENUM-NONE:CAPS"><code class="literal">PK_FILTER_ENUM_NONE</code></a></p></td>
-<td class="parameter_annotations"> </td>
-</tr>
-<tr>
-<td class="parameter_name"><p>provides</p></td>
-<td class="parameter_description"><p>a <a class="link" href="PackageKit-pk-enum.html#PkProvidesEnum" title="enum PkProvidesEnum"><span class="type">PkProvidesEnum</span></a> value such as PK_PROVIDES_ENUM_CODEC</p></td>
 <td class="parameter_annotations"> </td>
 </tr>
 <tr>
@@ -1257,7 +1389,7 @@ applications.</p>
 </table></div>
 </div>
 <div class="refsect3">
-<a name="id-1.5.4.6.15.7"></a><h4>Returns</h4>
+<a name="id-1.5.4.5.17.7"></a><h4>Returns</h4>
 <p> a <a class="link" href="PkResults.html" title="PkResults"><code class="literal">PkResults</code></a> object, or NULL for error. </p>
 <p><span class="annotation">[<acronym title="Free data after the code is done."><span class="acronym">transfer full</span></acronym>]</span></p>
 </div>
@@ -1277,7 +1409,7 @@ It should not return updates, only major upgrades.</p>
 <p>Warning: this function is synchronous, and may block. Do not use it in GUI
 applications.</p>
 <div class="refsect3">
-<a name="id-1.5.4.6.16.6"></a><h4>Parameters</h4>
+<a name="id-1.5.4.5.18.6"></a><h4>Parameters</h4>
 <div class="informaltable"><table width="100%" border="0">
 <colgroup>
 <col width="150px" class="parameters_name">
@@ -1315,7 +1447,7 @@ applications.</p>
 </table></div>
 </div>
 <div class="refsect3">
-<a name="id-1.5.4.6.16.7"></a><h4>Returns</h4>
+<a name="id-1.5.4.5.18.7"></a><h4>Returns</h4>
 <p> a <a class="link" href="PkResults.html" title="PkResults"><code class="literal">PkResults</code></a> object, or NULL for error. </p>
 <p><span class="annotation">[<acronym title="Free data after the code is done."><span class="acronym">transfer full</span></acronym>]</span></p>
 </div>
@@ -1335,7 +1467,7 @@ pk_client_get_files (<em class="parameter"><code><a class="link" href="PkClient.
 <p>Warning: this function is synchronous, and may block. Do not use it in GUI
 applications.</p>
 <div class="refsect3">
-<a name="id-1.5.4.6.17.6"></a><h4>Parameters</h4>
+<a name="id-1.5.4.5.19.6"></a><h4>Parameters</h4>
 <div class="informaltable"><table width="100%" border="0">
 <colgroup>
 <col width="150px" class="parameters_name">
@@ -1378,7 +1510,7 @@ applications.</p>
 </table></div>
 </div>
 <div class="refsect3">
-<a name="id-1.5.4.6.17.7"></a><h4>Returns</h4>
+<a name="id-1.5.4.5.19.7"></a><h4>Returns</h4>
 <p> a <a class="link" href="PkResults.html" title="PkResults"><code class="literal">PkResults</code></a> object, or NULL for error. </p>
 <p><span class="annotation">[<acronym title="Free data after the code is done."><span class="acronym">transfer full</span></acronym>]</span></p>
 </div>
@@ -1397,7 +1529,7 @@ pk_client_get_categories (<em class="parameter"><code><a class="link" href="PkCl
 <p>Warning: this function is synchronous, and may block. Do not use it in GUI
 applications.</p>
 <div class="refsect3">
-<a name="id-1.5.4.6.18.6"></a><h4>Parameters</h4>
+<a name="id-1.5.4.5.20.6"></a><h4>Parameters</h4>
 <div class="informaltable"><table width="100%" border="0">
 <colgroup>
 <col width="150px" class="parameters_name">
@@ -1435,7 +1567,7 @@ applications.</p>
 </table></div>
 </div>
 <div class="refsect3">
-<a name="id-1.5.4.6.18.7"></a><h4>Returns</h4>
+<a name="id-1.5.4.5.20.7"></a><h4>Returns</h4>
 <p> a <a class="link" href="PkResults.html" title="PkResults"><code class="literal">PkResults</code></a> object, or NULL for error. </p>
 <p><span class="annotation">[<acronym title="Free data after the code is done."><span class="acronym">transfer full</span></acronym>]</span></p>
 </div>
@@ -1460,7 +1592,7 @@ then the transaction would fail.</p>
 <p>Warning: this function is synchronous, and may block. Do not use it in GUI
 applications.</p>
 <div class="refsect3">
-<a name="id-1.5.4.6.19.6"></a><h4>Parameters</h4>
+<a name="id-1.5.4.5.21.6"></a><h4>Parameters</h4>
 <div class="informaltable"><table width="100%" border="0">
 <colgroup>
 <col width="150px" class="parameters_name">
@@ -1518,7 +1650,7 @@ applications.</p>
 </table></div>
 </div>
 <div class="refsect3">
-<a name="id-1.5.4.6.19.7"></a><h4>Returns</h4>
+<a name="id-1.5.4.5.21.7"></a><h4>Returns</h4>
 <p> a <a class="link" href="PkResults.html" title="PkResults"><code class="literal">PkResults</code></a> object, or NULL for error. </p>
 <p><span class="annotation">[<acronym title="Free data after the code is done."><span class="acronym">transfer full</span></acronym>]</span></p>
 </div>
@@ -1541,7 +1673,7 @@ system are idle.</p>
 <p>Warning: this function is synchronous, and may block. Do not use it in GUI
 applications.</p>
 <div class="refsect3">
-<a name="id-1.5.4.6.20.6"></a><h4>Parameters</h4>
+<a name="id-1.5.4.5.22.6"></a><h4>Parameters</h4>
 <div class="informaltable"><table width="100%" border="0">
 <colgroup>
 <col width="150px" class="parameters_name">
@@ -1584,7 +1716,7 @@ applications.</p>
 </table></div>
 </div>
 <div class="refsect3">
-<a name="id-1.5.4.6.20.7"></a><h4>Returns</h4>
+<a name="id-1.5.4.5.22.7"></a><h4>Returns</h4>
 <p> a <a class="link" href="PkResults.html" title="PkResults"><code class="literal">PkResults</code></a> object, or NULL for error. </p>
 <p><span class="annotation">[<acronym title="Free data after the code is done."><span class="acronym">transfer full</span></acronym>]</span></p>
 </div>
@@ -1605,7 +1737,7 @@ pk_client_install_packages (<em class="parameter"><code><a class="link" href="Pk
 <p>Warning: this function is synchronous, and may block. Do not use it in GUI
 applications.</p>
 <div class="refsect3">
-<a name="id-1.5.4.6.21.6"></a><h4>Parameters</h4>
+<a name="id-1.5.4.5.23.6"></a><h4>Parameters</h4>
 <div class="informaltable"><table width="100%" border="0">
 <colgroup>
 <col width="150px" class="parameters_name">
@@ -1653,7 +1785,7 @@ applications.</p>
 </table></div>
 </div>
 <div class="refsect3">
-<a name="id-1.5.4.6.21.7"></a><h4>Returns</h4>
+<a name="id-1.5.4.5.23.7"></a><h4>Returns</h4>
 <p> a <a class="link" href="PkResults.html" title="PkResults"><code class="literal">PkResults</code></a> object, or NULL for error. </p>
 <p><span class="annotation">[<acronym title="Free data after the code is done."><span class="acronym">transfer full</span></acronym>]</span></p>
 </div>
@@ -1675,7 +1807,7 @@ pk_client_install_signature (<em class="parameter"><code><a class="link" href="P
 <p>Warning: this function is synchronous, and may block. Do not use it in GUI
 applications.</p>
 <div class="refsect3">
-<a name="id-1.5.4.6.22.6"></a><h4>Parameters</h4>
+<a name="id-1.5.4.5.24.6"></a><h4>Parameters</h4>
 <div class="informaltable"><table width="100%" border="0">
 <colgroup>
 <col width="150px" class="parameters_name">
@@ -1728,7 +1860,7 @@ applications.</p>
 </table></div>
 </div>
 <div class="refsect3">
-<a name="id-1.5.4.6.22.7"></a><h4>Returns</h4>
+<a name="id-1.5.4.5.24.7"></a><h4>Returns</h4>
 <p> a <a class="link" href="PkResults.html" title="PkResults"><code class="literal">PkResults</code></a> object, or NULL for error. </p>
 <p><span class="annotation">[<acronym title="Free data after the code is done."><span class="acronym">transfer full</span></acronym>]</span></p>
 </div>
@@ -1749,7 +1881,7 @@ pk_client_update_packages (<em class="parameter"><code><a class="link" href="PkC
 <p>Warning: this function is synchronous, and may block. Do not use it in GUI
 applications.</p>
 <div class="refsect3">
-<a name="id-1.5.4.6.23.6"></a><h4>Parameters</h4>
+<a name="id-1.5.4.5.25.6"></a><h4>Parameters</h4>
 <div class="informaltable"><table width="100%" border="0">
 <colgroup>
 <col width="150px" class="parameters_name">
@@ -1797,7 +1929,7 @@ applications.</p>
 </table></div>
 </div>
 <div class="refsect3">
-<a name="id-1.5.4.6.23.7"></a><h4>Returns</h4>
+<a name="id-1.5.4.5.25.7"></a><h4>Returns</h4>
 <p> a <a class="link" href="PkResults.html" title="PkResults"><code class="literal">PkResults</code></a> object, or NULL for error. </p>
 <p><span class="annotation">[<acronym title="Free data after the code is done."><span class="acronym">transfer full</span></acronym>]</span></p>
 </div>
@@ -1819,7 +1951,7 @@ This is useful for double clicking on a .rpm or .deb file.</p>
 <p>Warning: this function is synchronous, and may block. Do not use it in GUI
 applications.</p>
 <div class="refsect3">
-<a name="id-1.5.4.6.24.6"></a><h4>Parameters</h4>
+<a name="id-1.5.4.5.26.6"></a><h4>Parameters</h4>
 <div class="informaltable"><table width="100%" border="0">
 <colgroup>
 <col width="150px" class="parameters_name">
@@ -1867,7 +1999,7 @@ applications.</p>
 </table></div>
 </div>
 <div class="refsect3">
-<a name="id-1.5.4.6.24.7"></a><h4>Returns</h4>
+<a name="id-1.5.4.5.26.7"></a><h4>Returns</h4>
 <p> a <a class="link" href="PkResults.html" title="PkResults"><code class="literal">PkResults</code></a> object, or NULL for error. </p>
 <p><span class="annotation">[<acronym title="Free data after the code is done."><span class="acronym">transfer full</span></acronym>]</span></p>
 </div>
@@ -1887,7 +2019,7 @@ pk_client_accept_eula (<em class="parameter"><code><a class="link" href="PkClien
 <p>Warning: this function is synchronous, and may block. Do not use it in GUI
 applications.</p>
 <div class="refsect3">
-<a name="id-1.5.4.6.25.6"></a><h4>Parameters</h4>
+<a name="id-1.5.4.5.27.6"></a><h4>Parameters</h4>
 <div class="informaltable"><table width="100%" border="0">
 <colgroup>
 <col width="150px" class="parameters_name">
@@ -1930,7 +2062,7 @@ applications.</p>
 </table></div>
 </div>
 <div class="refsect3">
-<a name="id-1.5.4.6.25.7"></a><h4>Returns</h4>
+<a name="id-1.5.4.5.27.7"></a><h4>Returns</h4>
 <p> a <a class="link" href="PkResults.html" title="PkResults"><code class="literal">PkResults</code></a> object, or NULL for error. </p>
 <p><span class="annotation">[<acronym title="Free data after the code is done."><span class="acronym">transfer full</span></acronym>]</span></p>
 </div>
@@ -1950,7 +2082,7 @@ pk_client_get_repo_list (<em class="parameter"><code><a class="link" href="PkCli
 <p>Warning: this function is synchronous, and may block. Do not use it in GUI
 applications.</p>
 <div class="refsect3">
-<a name="id-1.5.4.6.26.6"></a><h4>Parameters</h4>
+<a name="id-1.5.4.5.28.6"></a><h4>Parameters</h4>
 <div class="informaltable"><table width="100%" border="0">
 <colgroup>
 <col width="150px" class="parameters_name">
@@ -1993,7 +2125,7 @@ applications.</p>
 </table></div>
 </div>
 <div class="refsect3">
-<a name="id-1.5.4.6.26.7"></a><h4>Returns</h4>
+<a name="id-1.5.4.5.28.7"></a><h4>Returns</h4>
 <p> a <a class="link" href="PkResults.html" title="PkResults"><code class="literal">PkResults</code></a> object, or NULL for error. </p>
 <p><span class="annotation">[<acronym title="Free data after the code is done."><span class="acronym">transfer full</span></acronym>]</span></p>
 </div>
@@ -2014,7 +2146,7 @@ pk_client_repo_enable (<em class="parameter"><code><a class="link" href="PkClien
 <p>Warning: this function is synchronous, and may block. Do not use it in GUI
 applications.</p>
 <div class="refsect3">
-<a name="id-1.5.4.6.27.6"></a><h4>Parameters</h4>
+<a name="id-1.5.4.5.29.6"></a><h4>Parameters</h4>
 <div class="informaltable"><table width="100%" border="0">
 <colgroup>
 <col width="150px" class="parameters_name">
@@ -2062,7 +2194,7 @@ applications.</p>
 </table></div>
 </div>
 <div class="refsect3">
-<a name="id-1.5.4.6.27.7"></a><h4>Returns</h4>
+<a name="id-1.5.4.5.29.7"></a><h4>Returns</h4>
 <p> a <a class="link" href="PkResults.html" title="PkResults"><code class="literal">PkResults</code></a> object, or NULL for error. </p>
 <p><span class="annotation">[<acronym title="Free data after the code is done."><span class="acronym">transfer full</span></acronym>]</span></p>
 </div>
@@ -2085,7 +2217,7 @@ NOTE: this is free text, and is left to the backend to define a format.</p>
 <p>Warning: this function is synchronous, and may block. Do not use it in GUI
 applications.</p>
 <div class="refsect3">
-<a name="id-1.5.4.6.28.6"></a><h4>Parameters</h4>
+<a name="id-1.5.4.5.30.6"></a><h4>Parameters</h4>
 <div class="informaltable"><table width="100%" border="0">
 <colgroup>
 <col width="150px" class="parameters_name">
@@ -2138,7 +2270,7 @@ applications.</p>
 </table></div>
 </div>
 <div class="refsect3">
-<a name="id-1.5.4.6.28.7"></a><h4>Returns</h4>
+<a name="id-1.5.4.5.30.7"></a><h4>Returns</h4>
 <p> a <a class="link" href="PkResults.html" title="PkResults"><code class="literal">PkResults</code></a> object, or NULL for error. </p>
 <p><span class="annotation">[<acronym title="Free data after the code is done."><span class="acronym">transfer full</span></acronym>]</span></p>
 </div>
@@ -2146,23 +2278,21 @@ applications.</p>
 </div>
 <hr>
 <div class="refsect2">
-<a name="pk-client-upgrade-system"></a><h3>pk_client_upgrade_system ()</h3>
+<a name="pk-client-repo-remove"></a><h3>pk_client_repo_remove ()</h3>
 <pre class="programlisting"><a class="link" href="PkResults.html" title="PkResults"><span class="returnvalue">PkResults</span></a> *
-pk_client_upgrade_system (<em class="parameter"><code><a class="link" href="PkClient.html" title="PkClient"><span class="type">PkClient</span></a> *client</code></em>,
-                          <em class="parameter"><code>const <a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a> *distro_id</code></em>,
-                          <em class="parameter"><code><a class="link" href="PackageKit-pk-enum.html#PkUpgradeKindEnum" title="enum PkUpgradeKindEnum"><span class="type">PkUpgradeKindEnum</span></a> upgrade_kind</code></em>,
-                          <em class="parameter"><code><a href="http://library.gnome.org/devel/gio/unstable/GCancellable.html"><span class="type">GCancellable</span></a> *cancellable</code></em>,
-                          <em class="parameter"><code><a class="link" href="PkProgress.html#PkProgressCallback" title="PkProgressCallback ()"><span class="type">PkProgressCallback</span></a> progress_callback</code></em>,
-                          <em class="parameter"><code><a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gpointer"><span class="type">gpointer</span></a> progress_user_data</code></em>,
-                          <em class="parameter"><code><a href="http://library.gnome.org/devel/glib/unstable/glib-Error-Reporting.html#GError"><span class="type">GError</span></a> **error</code></em>);</pre>
-<p>This transaction will upgrade the distro to the next version, which may
-involve just downloading the installer and setting up the boot device,
-or may involve doing an on-line upgrade.</p>
-<p>The backend will decide what is best to do.</p>
+pk_client_repo_remove (<em class="parameter"><code><a class="link" href="PkClient.html" title="PkClient"><span class="type">PkClient</span></a> *client</code></em>,
+                       <em class="parameter"><code><a class="link" href="PackageKit-pk-bitfield.html#PkBitfield" title="PkBitfield"><span class="type">PkBitfield</span></a> transaction_flags</code></em>,
+                       <em class="parameter"><code>const <a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a> *repo_id</code></em>,
+                       <em class="parameter"><code><a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gboolean"><span class="type">gboolean</span></a> autoremove</code></em>,
+                       <em class="parameter"><code><a href="http://library.gnome.org/devel/gio/unstable/GCancellable.html"><span class="type">GCancellable</span></a> *cancellable</code></em>,
+                       <em class="parameter"><code><a class="link" href="PkProgress.html#PkProgressCallback" title="PkProgressCallback ()"><span class="type">PkProgressCallback</span></a> progress_callback</code></em>,
+                       <em class="parameter"><code><a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gpointer"><span class="type">gpointer</span></a> progress_user_data</code></em>,
+                       <em class="parameter"><code><a href="http://library.gnome.org/devel/glib/unstable/glib-Error-Reporting.html#GError"><span class="type">GError</span></a> **error</code></em>);</pre>
+<p>Removes a repo and optionally the packages installed from it.</p>
 <p>Warning: this function is synchronous, and may block. Do not use it in GUI
 applications.</p>
 <div class="refsect3">
-<a name="id-1.5.4.6.29.7"></a><h4>Parameters</h4>
+<a name="id-1.5.4.5.31.6"></a><h4>Parameters</h4>
 <div class="informaltable"><table width="100%" border="0">
 <colgroup>
 <col width="150px" class="parameters_name">
@@ -2171,13 +2301,23 @@ applications.</p>
 </colgroup>
 <tbody>
 <tr>
-<td class="parameter_name"><p>distro_id</p></td>
-<td class="parameter_description"><p>a distro ID such as "fedora-14"</p></td>
+<td class="parameter_name"><p>client</p></td>
+<td class="parameter_description"><p>a valid <a class="link" href="PkClient.html" title="PkClient"><span class="type">PkClient</span></a> instance</p></td>
 <td class="parameter_annotations"> </td>
 </tr>
 <tr>
-<td class="parameter_name"><p>upgrade_kind</p></td>
-<td class="parameter_description"><p>a <a class="link" href="PackageKit-pk-enum.html#PkUpgradeKindEnum" title="enum PkUpgradeKindEnum"><span class="type">PkUpgradeKindEnum</span></a> such as <a class="link" href="PackageKit-pk-enum.html#PK-UPGRADE-KIND-ENUM-COMPLETE:CAPS"><code class="literal">PK_UPGRADE_KIND_ENUM_COMPLETE</code></a></p></td>
+<td class="parameter_name"><p>transaction_flags</p></td>
+<td class="parameter_description"><p>transaction flags</p></td>
+<td class="parameter_annotations"> </td>
+</tr>
+<tr>
+<td class="parameter_name"><p>repo_id</p></td>
+<td class="parameter_description"><p>a repo_id structure such as "livna-devel"</p></td>
+<td class="parameter_annotations"> </td>
+</tr>
+<tr>
+<td class="parameter_name"><p>autoremove</p></td>
+<td class="parameter_description"><p>If packages should be auto-removed</p></td>
 <td class="parameter_annotations"> </td>
 </tr>
 <tr>
@@ -2205,11 +2345,11 @@ applications.</p>
 </table></div>
 </div>
 <div class="refsect3">
-<a name="id-1.5.4.6.29.8"></a><h4>Returns</h4>
+<a name="id-1.5.4.5.31.7"></a><h4>Returns</h4>
 <p> a <a class="link" href="PkResults.html" title="PkResults"><code class="literal">PkResults</code></a> object, or NULL for error. </p>
 <p><span class="annotation">[<acronym title="Free data after the code is done."><span class="acronym">transfer full</span></acronym>]</span></p>
 </div>
-<p class="since">Since 0.6.11</p>
+<p class="since">Since 0.9.1</p>
 </div>
 <hr>
 <div class="refsect2">
@@ -2229,7 +2369,7 @@ system was shutdown during processing an installation.</p>
 <p>Warning: this function is synchronous, and may block. Do not use it in GUI
 applications.</p>
 <div class="refsect3">
-<a name="id-1.5.4.6.30.7"></a><h4>Parameters</h4>
+<a name="id-1.5.4.5.32.7"></a><h4>Parameters</h4>
 <div class="informaltable"><table width="100%" border="0">
 <colgroup>
 <col width="150px" class="parameters_name">
@@ -2267,7 +2407,7 @@ applications.</p>
 </table></div>
 </div>
 <div class="refsect3">
-<a name="id-1.5.4.6.30.8"></a><h4>Returns</h4>
+<a name="id-1.5.4.5.32.8"></a><h4>Returns</h4>
 <p> a <a class="link" href="PkResults.html" title="PkResults"><code class="literal">PkResults</code></a> object, or NULL for error. </p>
 <p><span class="annotation">[<acronym title="Free data after the code is done."><span class="acronym">transfer full</span></acronym>]</span></p>
 </div>
@@ -2287,7 +2427,7 @@ pk_client_adopt (<em class="parameter"><code><a class="link" href="PkClient.html
 <p>Warning: this function is synchronous, and will block. Do not use it in GUI
 applications.</p>
 <div class="refsect3">
-<a name="id-1.5.4.6.31.6"></a><h4>Parameters</h4>
+<a name="id-1.5.4.5.33.6"></a><h4>Parameters</h4>
 <div class="informaltable"><table width="100%" border="0">
 <colgroup>
 <col width="150px" class="parameters_name">
@@ -2330,7 +2470,7 @@ applications.</p>
 </table></div>
 </div>
 <div class="refsect3">
-<a name="id-1.5.4.6.31.7"></a><h4>Returns</h4>
+<a name="id-1.5.4.5.33.7"></a><h4>Returns</h4>
 <p> a <a class="link" href="PkResults.html" title="PkResults"><code class="literal">PkResults</code></a> object, or NULL for error. </p>
 <p><span class="annotation">[<acronym title="Free data after the code is done."><span class="acronym">transfer full</span></acronym>]</span></p>
 </div>
@@ -2348,7 +2488,7 @@ pk_client_get_progress (<em class="parameter"><code><a class="link" href="PkClie
 <p>Warning: this function is synchronous, and will block. Do not use it in GUI
 applications.</p>
 <div class="refsect3">
-<a name="id-1.5.4.6.32.6"></a><h4>Parameters</h4>
+<a name="id-1.5.4.5.34.6"></a><h4>Parameters</h4>
 <div class="informaltable"><table width="100%" border="0">
 <colgroup>
 <col width="150px" class="parameters_name">
@@ -2380,7 +2520,7 @@ applications.</p>
 </table></div>
 </div>
 <div class="refsect3">
-<a name="id-1.5.4.6.32.7"></a><h4>Returns</h4>
+<a name="id-1.5.4.5.34.7"></a><h4>Returns</h4>
 <p> a <a class="link" href="PkResults.html" title="PkResults"><code class="literal">PkResults</code></a> object, or NULL for error. </p>
 <p><span class="annotation">[<acronym title="Free data after the code is done."><span class="acronym">transfer full</span></acronym>]</span></p>
 </div>

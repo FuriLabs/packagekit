@@ -15,8 +15,7 @@
 <table class="navigation" id="top" width="100%" summary="Navigation header" cellpadding="2" cellspacing="10"><tr valign="middle">
 <td width="100%" align="left" class="shortcuts">
 <a href="#" class="shortcut">Top</a><span id="nav_description"> <span class="dim">|</span> 
-                  <a href="#PackageKit-pk-package-ids.description" class="shortcut">Description</a></span><span id="nav_hierarchy"> <span class="dim">|</span> 
-                  <a href="#PackageKit-pk-package-ids.object-hierarchy" class="shortcut">Object Hierarchy</a></span>
+                  <a href="#PackageKit-pk-package-ids.description" class="shortcut">Description</a></span>
 </td>
 <td><a accesskey="h" href="index.html"><img src="home.png" width="16" height="16" border="0" alt="Home"></a></td>
 <td><a accesskey="u" href="libpackagekit-helpers.html"><img src="up.png" width="16" height="16" border="0" alt="Up"></a></td>
@@ -139,11 +138,6 @@
 </table></div>
 </div>
 <div class="refsect1">
-<a name="PackageKit-pk-package-ids.object-hierarchy"></a><h2>Object Hierarchy</h2>
-<pre class="screen">
-</pre>
-</div>
-<div class="refsect1">
 <a name="PackageKit-pk-package-ids.description"></a><h2>Description</h2>
 <p>Composite PackageId's are difficult to read and create.</p>
 </div>
@@ -162,7 +156,7 @@ pk_package_ids_from_id (<em class="parameter"><code>const <a href="http://librar
 <p>Form a composite string array of package_id's from
 a single package_id</p>
 <div class="refsect3">
-<a name="id-1.5.8.7.3.5"></a><h4>Parameters</h4>
+<a name="id-1.5.8.6.3.5"></a><h4>Parameters</h4>
 <div class="informaltable"><table width="100%" border="0">
 <colgroup>
 <col width="150px" class="parameters_name">
@@ -177,7 +171,7 @@ a single package_id</p>
 </table></div>
 </div>
 <div class="refsect3">
-<a name="id-1.5.8.7.3.6"></a><h4>Returns</h4>
+<a name="id-1.5.8.6.3.6"></a><h4>Returns</h4>
 <p> the string array, or <a href="/usr/share/gtk-doc/html/liboil/liboil-liboiljunk.html#NULL:CAPS"><code class="literal">NULL</code></a> if invalid, free with <a href="http://library.gnome.org/devel/glib/unstable/glib-String-Utility-Functions.html#g-strfreev"><code class="function">g_strfreev()</code></a>. </p>
 <p><span class="annotation">[<acronym title="Free data after the code is done."><span class="acronym">transfer full</span></acronym>]</span></p>
 </div>
@@ -191,7 +185,7 @@ pk_package_ids_from_string (<em class="parameter"><code>const <a href="http://li
 <p>Form a composite string array of package_id's from
 a delimited string</p>
 <div class="refsect3">
-<a name="id-1.5.8.7.4.5"></a><h4>Parameters</h4>
+<a name="id-1.5.8.6.4.5"></a><h4>Parameters</h4>
 <div class="informaltable"><table width="100%" border="0">
 <colgroup>
 <col width="150px" class="parameters_name">
@@ -206,7 +200,7 @@ a delimited string</p>
 </table></div>
 </div>
 <div class="refsect3">
-<a name="id-1.5.8.7.4.6"></a><h4>Returns</h4>
+<a name="id-1.5.8.6.4.6"></a><h4>Returns</h4>
 <p> the string array, or <a href="/usr/share/gtk-doc/html/liboil/liboil-liboiljunk.html#NULL:CAPS"><code class="literal">NULL</code></a> if invalid, free with <a href="http://library.gnome.org/devel/glib/unstable/glib-String-Utility-Functions.html#g-strfreev"><code class="function">g_strfreev()</code></a>. </p>
 <p><span class="annotation">[<acronym title="Free data after the code is done."><span class="acronym">transfer full</span></acronym>]</span></p>
 </div>
@@ -219,7 +213,7 @@ a delimited string</p>
 pk_package_ids_check (<em class="parameter"><code><a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a> **package_ids</code></em>);</pre>
 <p>Check the string array of package_id's for validity</p>
 <div class="refsect3">
-<a name="id-1.5.8.7.5.5"></a><h4>Parameters</h4>
+<a name="id-1.5.8.6.5.5"></a><h4>Parameters</h4>
 <div class="informaltable"><table width="100%" border="0">
 <colgroup>
 <col width="150px" class="parameters_name">
@@ -234,7 +228,7 @@ pk_package_ids_check (<em class="parameter"><code><a href="http://library.gnome.
 </table></div>
 </div>
 <div class="refsect3">
-<a name="id-1.5.8.7.5.6"></a><h4>Returns</h4>
+<a name="id-1.5.8.6.5.6"></a><h4>Returns</h4>
 <p> <a href="http://library.gnome.org/devel/glib/unstable/glib-Standard-Macros.html#TRUE:CAPS"><code class="literal">TRUE</code></a> if the package_ids are all valid.</p>
 <p></p>
 </div>
@@ -247,7 +241,7 @@ pk_package_ids_check (<em class="parameter"><code><a href="http://library.gnome.
 pk_package_ids_to_string (<em class="parameter"><code><a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a> **package_ids</code></em>);</pre>
 <p>Cats the string array of package_id's into one delimited string</p>
 <div class="refsect3">
-<a name="id-1.5.8.7.6.5"></a><h4>Parameters</h4>
+<a name="id-1.5.8.6.6.5"></a><h4>Parameters</h4>
 <div class="informaltable"><table width="100%" border="0">
 <colgroup>
 <col width="150px" class="parameters_name">
@@ -262,7 +256,7 @@ pk_package_ids_to_string (<em class="parameter"><code><a href="http://library.gn
 </table></div>
 </div>
 <div class="refsect3">
-<a name="id-1.5.8.7.6.6"></a><h4>Returns</h4>
+<a name="id-1.5.8.6.6.6"></a><h4>Returns</h4>
 <p> a string representation of all the package_id's.</p>
 <p></p>
 </div>
@@ -276,7 +270,7 @@ pk_package_ids_present_id (<em class="parameter"><code><a href="http://library.g
                            <em class="parameter"><code>const <a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a> *package_id</code></em>);</pre>
 <p>Finds out if a package ID is present in the list.</p>
 <div class="refsect3">
-<a name="id-1.5.8.7.7.5"></a><h4>Parameters</h4>
+<a name="id-1.5.8.6.7.5"></a><h4>Parameters</h4>
 <div class="informaltable"><table width="100%" border="0">
 <colgroup>
 <col width="150px" class="parameters_name">
@@ -298,7 +292,7 @@ pk_package_ids_present_id (<em class="parameter"><code><a href="http://library.g
 </table></div>
 </div>
 <div class="refsect3">
-<a name="id-1.5.8.7.7.6"></a><h4>Returns</h4>
+<a name="id-1.5.8.6.7.6"></a><h4>Returns</h4>
 <p> <a href="http://library.gnome.org/devel/glib/unstable/glib-Standard-Macros.html#TRUE:CAPS"><code class="literal">TRUE</code></a> if the package ID is present</p>
 <p></p>
 </div>
@@ -312,7 +306,7 @@ pk_package_ids_add_id (<em class="parameter"><code><a href="http://library.gnome
                        <em class="parameter"><code>const <a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a> *package_id</code></em>);</pre>
 <p>Adds a package_id to an existing list.</p>
 <div class="refsect3">
-<a name="id-1.5.8.7.8.5"></a><h4>Parameters</h4>
+<a name="id-1.5.8.6.8.5"></a><h4>Parameters</h4>
 <div class="informaltable"><table width="100%" border="0">
 <colgroup>
 <col width="150px" class="parameters_name">
@@ -334,7 +328,7 @@ pk_package_ids_add_id (<em class="parameter"><code><a href="http://library.gnome
 </table></div>
 </div>
 <div class="refsect3">
-<a name="id-1.5.8.7.8.6"></a><h4>Returns</h4>
+<a name="id-1.5.8.6.8.6"></a><h4>Returns</h4>
 <p> the new list, free <a href="http://library.gnome.org/devel/glib/unstable/glib-String-Utility-Functions.html#g-strfreev"><code class="function">g_strfreev()</code></a>. </p>
 <p><span class="annotation">[<acronym title="Free data after the code is done."><span class="acronym">transfer full</span></acronym>]</span></p>
 </div>
@@ -348,7 +342,7 @@ pk_package_ids_add_ids (<em class="parameter"><code><a href="http://library.gnom
                         <em class="parameter"><code><a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a> **package_ids_new</code></em>);</pre>
 <p>Adds a package_id to an existing list.</p>
 <div class="refsect3">
-<a name="id-1.5.8.7.9.5"></a><h4>Parameters</h4>
+<a name="id-1.5.8.6.9.5"></a><h4>Parameters</h4>
 <div class="informaltable"><table width="100%" border="0">
 <colgroup>
 <col width="150px" class="parameters_name">
@@ -370,7 +364,7 @@ pk_package_ids_add_ids (<em class="parameter"><code><a href="http://library.gnom
 </table></div>
 </div>
 <div class="refsect3">
-<a name="id-1.5.8.7.9.6"></a><h4>Returns</h4>
+<a name="id-1.5.8.6.9.6"></a><h4>Returns</h4>
 <p> the new list, free <a href="http://library.gnome.org/devel/glib/unstable/glib-String-Utility-Functions.html#g-strfreev"><code class="function">g_strfreev()</code></a>. </p>
 <p><span class="annotation">[<acronym title="Free data after the code is done."><span class="acronym">transfer full</span></acronym>]</span></p>
 </div>
@@ -384,7 +378,7 @@ pk_package_ids_remove_id (<em class="parameter"><code><a href="http://library.gn
                           <em class="parameter"><code>const <a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a> *package_id</code></em>);</pre>
 <p>Removes a package ID from the the list.</p>
 <div class="refsect3">
-<a name="id-1.5.8.7.10.5"></a><h4>Parameters</h4>
+<a name="id-1.5.8.6.10.5"></a><h4>Parameters</h4>
 <div class="informaltable"><table width="100%" border="0">
 <colgroup>
 <col width="150px" class="parameters_name">
@@ -406,7 +400,7 @@ pk_package_ids_remove_id (<em class="parameter"><code><a href="http://library.gn
 </table></div>
 </div>
 <div class="refsect3">
-<a name="id-1.5.8.7.10.6"></a><h4>Returns</h4>
+<a name="id-1.5.8.6.10.6"></a><h4>Returns</h4>
 <p> the new list, free <a href="http://library.gnome.org/devel/glib/unstable/glib-String-Utility-Functions.html#g-strfreev"><code class="function">g_strfreev()</code></a>. </p>
 <p><span class="annotation">[<acronym title="Free data after the code is done."><span class="acronym">transfer full</span></acronym>]</span></p>
 </div>

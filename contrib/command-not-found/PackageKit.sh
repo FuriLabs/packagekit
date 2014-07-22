@@ -7,8 +7,11 @@
 # (at your option) any later version.
 
 command_not_found_handle () {
-	runcnf=1
-	retval=127
+	local runcnf=1
+	local retval=127
+
+	# only search for the command if we're interactive
+	[[ $- =~ i ]] || runcnf=0
 
 	# don't run if DBus isn't running
 	[ ! -S /var/run/dbus/system_bus_socket ] && runcnf=0
@@ -18,7 +21,7 @@ command_not_found_handle () {
 
 	# run the command, or just print a warning
 	if [ $runcnf -eq 1 ]; then
-		/home/hughsie/.root/libexec/pk-command-not-found $@
+		/home/hughsie/.root/libexec/pk-command-not-found "$@"
 		retval=$?
 	else
 		echo "bash: $1: command not found"

@@ -307,20 +307,10 @@
 <col width="150px" class="name">
 <col class="description">
 </colgroup>
-<tbody>
-<tr>
+<tbody><tr>
 <td class="define_keyword">#define</td>
 <td class="function_name"><a class="link" href="PkPackage.html#PK-PACKAGE-TYPE-ERROR:CAPS" title="PK_PACKAGE_TYPE_ERROR">PK_PACKAGE_TYPE_ERROR</a></td>
-</tr>
-<tr>
-<td class="datatype_keyword">struct</td>
-<td class="function_name"><a class="link" href="PkPackage.html#PkPackage-struct" title="struct PkPackage">PkPackage</a></td>
-</tr>
-<tr>
-<td class="datatype_keyword">struct</td>
-<td class="function_name"><a class="link" href="PkPackage.html#PkPackageClass" title="struct PkPackageClass">PkPackageClass</a></td>
-</tr>
-</tbody>
+</tr></tbody>
 </table></div>
 </div>
 <div class="refsect1">
@@ -343,7 +333,7 @@ often present in lists (<a class="link" href="PkResults.html" title="PkResults">
 <pre class="programlisting"><a class="link" href="PkPackage.html" title="PkPackage"><span class="returnvalue">PkPackage</span></a> *
 pk_package_new (<em class="parameter"><code><span class="type">void</span></code></em>);</pre>
 <div class="refsect3">
-<a name="id-1.4.15.9.2.4"></a><h4>Returns</h4>
+<a name="id-1.4.14.9.2.4"></a><h4>Returns</h4>
 <p> a new PkPackage object.</p>
 <p></p>
 </div>
@@ -364,7 +354,7 @@ pk_package_set_id (<em class="parameter"><code><a class="link" href="PkPackage.h
                    <em class="parameter"><code><a href="http://library.gnome.org/devel/glib/unstable/glib-Error-Reporting.html#GError"><span class="type">GError</span></a> **error</code></em>);</pre>
 <p>Sets the package object to have the given ID</p>
 <div class="refsect3">
-<a name="id-1.4.15.9.4.5"></a><h4>Parameters</h4>
+<a name="id-1.4.14.9.4.5"></a><h4>Parameters</h4>
 <div class="informaltable"><table width="100%" border="0">
 <colgroup>
 <col width="150px" class="parameters_name">
@@ -391,7 +381,7 @@ pk_package_set_id (<em class="parameter"><code><a class="link" href="PkPackage.h
 </table></div>
 </div>
 <div class="refsect3">
-<a name="id-1.4.15.9.4.6"></a><h4>Returns</h4>
+<a name="id-1.4.14.9.4.6"></a><h4>Returns</h4>
 <p> <a href="http://library.gnome.org/devel/glib/unstable/glib-Standard-Macros.html#TRUE:CAPS"><code class="literal">TRUE</code></a> if the package_id was set</p>
 <p></p>
 </div>
@@ -406,7 +396,7 @@ pk_package_parse (<em class="parameter"><code><a class="link" href="PkPackage.ht
                   <em class="parameter"><code><a href="http://library.gnome.org/devel/glib/unstable/glib-Error-Reporting.html#GError"><span class="type">GError</span></a> **error</code></em>);</pre>
 <p>Parses the data to populate the <a class="link" href="PkPackage.html" title="PkPackage"><span class="type">PkPackage</span></a>.</p>
 <div class="refsect3">
-<a name="id-1.4.15.9.5.5"></a><h4>Parameters</h4>
+<a name="id-1.4.14.9.5.5"></a><h4>Parameters</h4>
 <div class="informaltable"><table width="100%" border="0">
 <colgroup>
 <col width="150px" class="parameters_name">
@@ -433,7 +423,7 @@ pk_package_parse (<em class="parameter"><code><a class="link" href="PkPackage.ht
 </table></div>
 </div>
 <div class="refsect3">
-<a name="id-1.4.15.9.5.6"></a><h4>Returns</h4>
+<a name="id-1.4.14.9.5.6"></a><h4>Returns</h4>
 <p> <a href="http://library.gnome.org/devel/glib/unstable/glib-Standard-Macros.html#TRUE:CAPS"><code class="literal">TRUE</code></a> if the data was parsed correcty</p>
 <p></p>
 </div>
@@ -446,7 +436,7 @@ pk_package_parse (<em class="parameter"><code><a class="link" href="PkPackage.ht
 pk_package_print (<em class="parameter"><code><a class="link" href="PkPackage.html" title="PkPackage"><span class="type">PkPackage</span></a> *package</code></em>);</pre>
 <p>Prints details about the package to standard out.</p>
 <div class="refsect3">
-<a name="id-1.4.15.9.6.5"></a><h4>Parameters</h4>
+<a name="id-1.4.14.9.6.5"></a><h4>Parameters</h4>
 <div class="informaltable"><table width="100%" border="0">
 <colgroup>
 <col width="150px" class="parameters_name">
@@ -470,7 +460,7 @@ pk_package_equal (<em class="parameter"><code><a class="link" href="PkPackage.ht
                   <em class="parameter"><code><a class="link" href="PkPackage.html" title="PkPackage"><span class="type">PkPackage</span></a> *package2</code></em>);</pre>
 <p>Do the <a class="link" href="PkPackage.html" title="PkPackage"><span class="type">PkPackage</span></a>'s have the same ID.</p>
 <div class="refsect3">
-<a name="id-1.4.15.9.7.5"></a><h4>Parameters</h4>
+<a name="id-1.4.14.9.7.5"></a><h4>Parameters</h4>
 <div class="informaltable"><table width="100%" border="0">
 <colgroup>
 <col width="150px" class="parameters_name">
@@ -492,7 +482,7 @@ pk_package_equal (<em class="parameter"><code><a class="link" href="PkPackage.ht
 </table></div>
 </div>
 <div class="refsect3">
-<a name="id-1.4.15.9.7.6"></a><h4>Returns</h4>
+<a name="id-1.4.14.9.7.6"></a><h4>Returns</h4>
 <p> <a href="http://library.gnome.org/devel/glib/unstable/glib-Standard-Macros.html#TRUE:CAPS"><code class="literal">TRUE</code></a> if the packages have the same package_id, info and summary.</p>
 <p></p>
 </div>
@@ -506,7 +496,7 @@ pk_package_equal_id (<em class="parameter"><code><a class="link" href="PkPackage
                      <em class="parameter"><code><a class="link" href="PkPackage.html" title="PkPackage"><span class="type">PkPackage</span></a> *package2</code></em>);</pre>
 <p>Do the <a class="link" href="PkPackage.html" title="PkPackage"><span class="type">PkPackage</span></a>'s have the same ID.</p>
 <div class="refsect3">
-<a name="id-1.4.15.9.8.5"></a><h4>Parameters</h4>
+<a name="id-1.4.14.9.8.5"></a><h4>Parameters</h4>
 <div class="informaltable"><table width="100%" border="0">
 <colgroup>
 <col width="150px" class="parameters_name">
@@ -528,7 +518,7 @@ pk_package_equal_id (<em class="parameter"><code><a class="link" href="PkPackage
 </table></div>
 </div>
 <div class="refsect3">
-<a name="id-1.4.15.9.8.6"></a><h4>Returns</h4>
+<a name="id-1.4.14.9.8.6"></a><h4>Returns</h4>
 <p> <a href="http://library.gnome.org/devel/glib/unstable/glib-Standard-Macros.html#TRUE:CAPS"><code class="literal">TRUE</code></a> if the packages have the same package_id.</p>
 <p></p>
 </div>
@@ -541,7 +531,7 @@ pk_package_equal_id (<em class="parameter"><code><a class="link" href="PkPackage
 pk_package_get_id (<em class="parameter"><code><a class="link" href="PkPackage.html" title="PkPackage"><span class="type">PkPackage</span></a> *package</code></em>);</pre>
 <p>Gets the package object ID</p>
 <div class="refsect3">
-<a name="id-1.4.15.9.9.5"></a><h4>Parameters</h4>
+<a name="id-1.4.14.9.9.5"></a><h4>Parameters</h4>
 <div class="informaltable"><table width="100%" border="0">
 <colgroup>
 <col width="150px" class="parameters_name">
@@ -556,7 +546,7 @@ pk_package_get_id (<em class="parameter"><code><a class="link" href="PkPackage.h
 </table></div>
 </div>
 <div class="refsect3">
-<a name="id-1.4.15.9.9.6"></a><h4>Returns</h4>
+<a name="id-1.4.14.9.9.6"></a><h4>Returns</h4>
 <p> the ID, or <a href="/usr/share/gtk-doc/html/liboil/liboil-liboiljunk.html#NULL:CAPS"><code class="literal">NULL</code></a> if unset</p>
 <p></p>
 </div>
@@ -569,7 +559,7 @@ pk_package_get_id (<em class="parameter"><code><a class="link" href="PkPackage.h
 pk_package_get_info (<em class="parameter"><code><a class="link" href="PkPackage.html" title="PkPackage"><span class="type">PkPackage</span></a> *package</code></em>);</pre>
 <p>Gets the package object ID</p>
 <div class="refsect3">
-<a name="id-1.4.15.9.10.5"></a><h4>Parameters</h4>
+<a name="id-1.4.14.9.10.5"></a><h4>Parameters</h4>
 <div class="informaltable"><table width="100%" border="0">
 <colgroup>
 <col width="150px" class="parameters_name">
@@ -584,7 +574,7 @@ pk_package_get_info (<em class="parameter"><code><a class="link" href="PkPackage
 </table></div>
 </div>
 <div class="refsect3">
-<a name="id-1.4.15.9.10.6"></a><h4>Returns</h4>
+<a name="id-1.4.14.9.10.6"></a><h4>Returns</h4>
 <p> the <a class="link" href="PackageKit-pk-enum.html#PkInfoEnum" title="enum PkInfoEnum"><code class="literal">PkInfoEnum</code></a></p>
 <p></p>
 </div>
@@ -598,7 +588,7 @@ pk_package_set_info (<em class="parameter"><code><a class="link" href="PkPackage
                      <em class="parameter"><code><a class="link" href="PackageKit-pk-enum.html#PkInfoEnum" title="enum PkInfoEnum"><span class="type">PkInfoEnum</span></a> info</code></em>);</pre>
 <p>Sets the package info enum.</p>
 <div class="refsect3">
-<a name="id-1.4.15.9.11.5"></a><h4>Parameters</h4>
+<a name="id-1.4.14.9.11.5"></a><h4>Parameters</h4>
 <div class="informaltable"><table width="100%" border="0">
 <colgroup>
 <col width="150px" class="parameters_name">
@@ -628,7 +618,7 @@ pk_package_set_info (<em class="parameter"><code><a class="link" href="PkPackage
 pk_package_get_summary (<em class="parameter"><code><a class="link" href="PkPackage.html" title="PkPackage"><span class="type">PkPackage</span></a> *package</code></em>);</pre>
 <p>Gets the package object ID</p>
 <div class="refsect3">
-<a name="id-1.4.15.9.12.5"></a><h4>Parameters</h4>
+<a name="id-1.4.14.9.12.5"></a><h4>Parameters</h4>
 <div class="informaltable"><table width="100%" border="0">
 <colgroup>
 <col width="150px" class="parameters_name">
@@ -643,7 +633,7 @@ pk_package_get_summary (<em class="parameter"><code><a class="link" href="PkPack
 </table></div>
 </div>
 <div class="refsect3">
-<a name="id-1.4.15.9.12.6"></a><h4>Returns</h4>
+<a name="id-1.4.14.9.12.6"></a><h4>Returns</h4>
 <p> the summary, or <a href="/usr/share/gtk-doc/html/liboil/liboil-liboiljunk.html#NULL:CAPS"><code class="literal">NULL</code></a> if unset</p>
 <p></p>
 </div>
@@ -657,7 +647,7 @@ pk_package_set_summary (<em class="parameter"><code><a class="link" href="PkPack
                         <em class="parameter"><code>const <a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a> *summary</code></em>);</pre>
 <p>Sets the package summary.</p>
 <div class="refsect3">
-<a name="id-1.4.15.9.13.5"></a><h4>Parameters</h4>
+<a name="id-1.4.14.9.13.5"></a><h4>Parameters</h4>
 <div class="informaltable"><table width="100%" border="0">
 <colgroup>
 <col width="150px" class="parameters_name">
@@ -687,7 +677,7 @@ pk_package_set_summary (<em class="parameter"><code><a class="link" href="PkPack
 pk_package_get_name (<em class="parameter"><code><a class="link" href="PkPackage.html" title="PkPackage"><span class="type">PkPackage</span></a> *package</code></em>);</pre>
 <p>Gets the package name.</p>
 <div class="refsect3">
-<a name="id-1.4.15.9.14.5"></a><h4>Parameters</h4>
+<a name="id-1.4.14.9.14.5"></a><h4>Parameters</h4>
 <div class="informaltable"><table width="100%" border="0">
 <colgroup>
 <col width="150px" class="parameters_name">
@@ -702,7 +692,7 @@ pk_package_get_name (<em class="parameter"><code><a class="link" href="PkPackage
 </table></div>
 </div>
 <div class="refsect3">
-<a name="id-1.4.15.9.14.6"></a><h4>Returns</h4>
+<a name="id-1.4.14.9.14.6"></a><h4>Returns</h4>
 <p> the name, or <a href="/usr/share/gtk-doc/html/liboil/liboil-liboiljunk.html#NULL:CAPS"><code class="literal">NULL</code></a> if unset</p>
 <p></p>
 </div>
@@ -715,7 +705,7 @@ pk_package_get_name (<em class="parameter"><code><a class="link" href="PkPackage
 pk_package_get_version (<em class="parameter"><code><a class="link" href="PkPackage.html" title="PkPackage"><span class="type">PkPackage</span></a> *package</code></em>);</pre>
 <p>Gets the package version.</p>
 <div class="refsect3">
-<a name="id-1.4.15.9.15.5"></a><h4>Parameters</h4>
+<a name="id-1.4.14.9.15.5"></a><h4>Parameters</h4>
 <div class="informaltable"><table width="100%" border="0">
 <colgroup>
 <col width="150px" class="parameters_name">
@@ -730,7 +720,7 @@ pk_package_get_version (<em class="parameter"><code><a class="link" href="PkPack
 </table></div>
 </div>
 <div class="refsect3">
-<a name="id-1.4.15.9.15.6"></a><h4>Returns</h4>
+<a name="id-1.4.14.9.15.6"></a><h4>Returns</h4>
 <p> the version, or <a href="/usr/share/gtk-doc/html/liboil/liboil-liboiljunk.html#NULL:CAPS"><code class="literal">NULL</code></a> if unset</p>
 <p></p>
 </div>
@@ -743,7 +733,7 @@ pk_package_get_version (<em class="parameter"><code><a class="link" href="PkPack
 pk_package_get_arch (<em class="parameter"><code><a class="link" href="PkPackage.html" title="PkPackage"><span class="type">PkPackage</span></a> *package</code></em>);</pre>
 <p>Gets the package arch.</p>
 <div class="refsect3">
-<a name="id-1.4.15.9.16.5"></a><h4>Parameters</h4>
+<a name="id-1.4.14.9.16.5"></a><h4>Parameters</h4>
 <div class="informaltable"><table width="100%" border="0">
 <colgroup>
 <col width="150px" class="parameters_name">
@@ -758,7 +748,7 @@ pk_package_get_arch (<em class="parameter"><code><a class="link" href="PkPackage
 </table></div>
 </div>
 <div class="refsect3">
-<a name="id-1.4.15.9.16.6"></a><h4>Returns</h4>
+<a name="id-1.4.14.9.16.6"></a><h4>Returns</h4>
 <p> the arch, or <a href="/usr/share/gtk-doc/html/liboil/liboil-liboiljunk.html#NULL:CAPS"><code class="literal">NULL</code></a> if unset</p>
 <p></p>
 </div>
@@ -773,7 +763,7 @@ pk_package_get_data (<em class="parameter"><code><a class="link" href="PkPackage
 package. Special ID's include "installed" for installed packages, and "local"
 for local packages that exist on disk but not in a repoitory.</p>
 <div class="refsect3">
-<a name="id-1.4.15.9.17.5"></a><h4>Parameters</h4>
+<a name="id-1.4.14.9.17.5"></a><h4>Parameters</h4>
 <div class="informaltable"><table width="100%" border="0">
 <colgroup>
 <col width="150px" class="parameters_name">
@@ -788,7 +778,7 @@ for local packages that exist on disk but not in a repoitory.</p>
 </table></div>
 </div>
 <div class="refsect3">
-<a name="id-1.4.15.9.17.6"></a><h4>Returns</h4>
+<a name="id-1.4.14.9.17.6"></a><h4>Returns</h4>
 <p> the data, or <a href="/usr/share/gtk-doc/html/liboil/liboil-liboiljunk.html#NULL:CAPS"><code class="literal">NULL</code></a> if unset</p>
 <p></p>
 </div>
@@ -800,28 +790,6 @@ for local packages that exist on disk but not in a repoitory.</p>
 <div class="refsect2">
 <a name="PK-PACKAGE-TYPE-ERROR:CAPS"></a><h3>PK_PACKAGE_TYPE_ERROR</h3>
 <pre class="programlisting">#define PK_PACKAGE_TYPE_ERROR (pk_package_error_get_type ())
-</pre>
-</div>
-<hr>
-<div class="refsect2">
-<a name="PkPackage-struct"></a><h3>struct PkPackage</h3>
-<pre class="programlisting">struct PkPackage;</pre>
-</div>
-<hr>
-<div class="refsect2">
-<a name="PkPackageClass"></a><h3>struct PkPackageClass</h3>
-<pre class="programlisting">struct PkPackageClass {
-	PkSourceClass parent_class;
-
-	/* signals */
-	void		(* changed)			(PkPackage *package);
-	/* padding for future expansion */
-	void (*_pk_reserved1) (void);
-	void (*_pk_reserved2) (void);
-	void (*_pk_reserved3) (void);
-	void (*_pk_reserved4) (void);
-	void (*_pk_reserved5) (void);
-};
 </pre>
 </div>
 </div>
@@ -1007,7 +975,7 @@ user_function (<a class="link" href="PkPackage.html" title="PkPackage"><span cla
                <a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gpointer"><span class="type">gpointer</span></a>   user_data)</pre>
 <p>The ::changed signal is emitted when the package data may have changed.</p>
 <div class="refsect3">
-<a name="id-1.4.15.12.2.5"></a><h4>Parameters</h4>
+<a name="id-1.4.14.12.2.5"></a><h4>Parameters</h4>
 <div class="informaltable"><table width="100%" border="0">
 <colgroup>
 <col width="150px" class="parameters_name">

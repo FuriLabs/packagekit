@@ -1,6 +1,6 @@
 /* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*-
  *
- * Copyright (C) 2007-2010 Richard Hughes <richard@hughsie.com>
+ * Copyright (C) 2007-2014 Richard Hughes <richard@hughsie.com>
  *
  * Licensed under the GNU Lesser General Public License Version 2.1
  *
@@ -94,12 +94,14 @@ static const PkEnumMatch enum_status[] = {
 static const PkEnumMatch enum_role[] = {
 	{PK_ROLE_ENUM_UNKNOWN,				"unknown"},	/* fall though value */
 	{PK_ROLE_ENUM_CANCEL,				"cancel"},
-	{PK_ROLE_ENUM_GET_DEPENDS,			"get-depends"},
+	{PK_ROLE_ENUM_DEPENDS_ON,			"depends-on"},
 	{PK_ROLE_ENUM_GET_DETAILS,			"get-details"},
+	{PK_ROLE_ENUM_GET_DETAILS_LOCAL,		"get-details-local"},
+	{PK_ROLE_ENUM_GET_FILES_LOCAL,			"get-files-local"},
 	{PK_ROLE_ENUM_GET_FILES,			"get-files"},
 	{PK_ROLE_ENUM_GET_PACKAGES,			"get-packages"},
 	{PK_ROLE_ENUM_GET_REPO_LIST,			"get-repo-list"},
-	{PK_ROLE_ENUM_GET_REQUIRES,			"get-requires"},
+	{PK_ROLE_ENUM_REQUIRED_BY,			"required-by"},
 	{PK_ROLE_ENUM_GET_UPDATE_DETAIL,		"get-update-detail"},
 	{PK_ROLE_ENUM_GET_UPDATES,			"get-updates"},
 	{PK_ROLE_ENUM_INSTALL_FILES,			"install-files"},
@@ -109,6 +111,7 @@ static const PkEnumMatch enum_role[] = {
 	{PK_ROLE_ENUM_REMOVE_PACKAGES,			"remove-packages"},
 	{PK_ROLE_ENUM_REPO_ENABLE,			"repo-enable"},
 	{PK_ROLE_ENUM_REPO_SET_DATA,			"repo-set-data"},
+	{PK_ROLE_ENUM_REPO_REMOVE,			"repo-remove"},
 	{PK_ROLE_ENUM_RESOLVE,				"resolve"},
 	{PK_ROLE_ENUM_SEARCH_DETAILS,			"search-details"},
 	{PK_ROLE_ENUM_SEARCH_FILE,			"search-file"},
@@ -121,7 +124,6 @@ static const PkEnumMatch enum_role[] = {
 	{PK_ROLE_ENUM_GET_DISTRO_UPGRADES,		"get-distro-upgrades"},
 	{PK_ROLE_ENUM_GET_CATEGORIES,			"get-categories"},
 	{PK_ROLE_ENUM_GET_OLD_TRANSACTIONS,		"get-old-transactions"},
-	{PK_ROLE_ENUM_UPGRADE_SYSTEM,			"upgrade-system"},
 	{PK_ROLE_ENUM_REPAIR_SYSTEM,			"repair-system"},
 	{0, NULL}
 };
@@ -206,26 +208,6 @@ static const PkEnumMatch enum_restart[] = {
 	{PK_RESTART_ENUM_APPLICATION,		"application"},
 	{PK_RESTART_ENUM_SECURITY_SYSTEM,	"security-system"},
 	{PK_RESTART_ENUM_SECURITY_SESSION,	"security-session"},
-	{0, NULL}
-};
-
-static const PkEnumMatch enum_message[] = {
-	{PK_MESSAGE_ENUM_UNKNOWN,		"unknown"},	/* fall though value */
-	{PK_MESSAGE_ENUM_BROKEN_MIRROR,		"broken-mirror"},
-	{PK_MESSAGE_ENUM_CONNECTION_REFUSED,	"connection-refused"},
-	{PK_MESSAGE_ENUM_PARAMETER_INVALID,	"parameter-invalid"},
-	{PK_MESSAGE_ENUM_PRIORITY_INVALID,	"priority-invalid"},
-	{PK_MESSAGE_ENUM_BACKEND_ERROR,		"backend-error"},
-	{PK_MESSAGE_ENUM_DAEMON_ERROR,		"daemon-error"},
-	{PK_MESSAGE_ENUM_CACHE_BEING_REBUILT,	"cache-being-rebuilt"},
-	{PK_MESSAGE_ENUM_NEWER_PACKAGE_EXISTS,	"newer-package-exists"},
-	{PK_MESSAGE_ENUM_COULD_NOT_FIND_PACKAGE,	"could-not-find-package"},
-	{PK_MESSAGE_ENUM_CONFIG_FILES_CHANGED,	"config-files-changed"},
-	{PK_MESSAGE_ENUM_PACKAGE_ALREADY_INSTALLED, "package-already-installed"},
-	{PK_MESSAGE_ENUM_AUTOREMOVE_IGNORED, "autoremove-ignored"},
-	{PK_MESSAGE_ENUM_REPO_METADATA_DOWNLOAD_FAILED, "repo-metadata-download-failed"},
-	{PK_MESSAGE_ENUM_REPO_FOR_DEVELOPERS_ONLY, "repo-for-developers-only"},
-	{PK_MESSAGE_ENUM_OTHER_UPDATES_HELD_BACK, "other-updates-held-back"},
 	{0, NULL}
 };
 
@@ -347,22 +329,6 @@ static const PkEnumMatch enum_upgrade[] = {
 	{PK_DISTRO_UPGRADE_ENUM_UNKNOWN,	"unknown"},	/* fall though value */
 	{PK_DISTRO_UPGRADE_ENUM_STABLE,		"stable"},
 	{PK_DISTRO_UPGRADE_ENUM_UNSTABLE,		"unstable"},
-	{0, NULL}
-};
-
-static const PkEnumMatch enum_provides[] = {
-	{PK_PROVIDES_ENUM_UNKNOWN,		"unknown"},	/* fall though value */
-	{PK_PROVIDES_ENUM_ANY,			"any"},
-	{PK_PROVIDES_ENUM_MODALIAS,		"modalias"},
-	{PK_PROVIDES_ENUM_CODEC,		"codec"},
-	{PK_PROVIDES_ENUM_MIMETYPE,		"mimetype"},
-	{PK_PROVIDES_ENUM_HARDWARE_DRIVER,	"driver"},
-	{PK_PROVIDES_ENUM_FONT,			"font"},
-	{PK_PROVIDES_ENUM_POSTSCRIPT_DRIVER,	"postscript-driver"},
-	{PK_PROVIDES_ENUM_PLASMA_SERVICE,	"plasma-service"},
-	{PK_PROVIDES_ENUM_SHARED_LIB,		"shared-library"},
-	{PK_PROVIDES_ENUM_PYTHON,		"python-module"},
-	{PK_PROVIDES_ENUM_LANGUAGE_SUPPORT,     "language-support"},
 	{0, NULL}
 };
 
@@ -525,38 +491,6 @@ const gchar *
 pk_distro_upgrade_enum_to_string (PkDistroUpgradeEnum upgrade)
 {
 	return pk_enum_find_string (enum_upgrade, upgrade);
-}
-
-/**
- * pk_provides_enum_from_string:
- * @provides: Text describing the enumerated type
- *
- * Converts a text enumerated type to its unsigned integer representation
- *
- * Return value: the enumerated constant value, e.g. PK_PROVIDES_ENUM_MODALIAS
- *
- * Since: 0.5.0
- **/
-PkProvidesEnum
-pk_provides_enum_from_string (const gchar *provides)
-{
-	return pk_enum_find_value (enum_provides, provides);
-}
-
-/**
- * pk_provides_enum_to_string:
- * @provides: The enumerated type value
- *
- * Converts a enumerated type to its text representation
- *
- * Return value: the enumerated constant value, e.g. "codec"
- *
- * Since: 0.5.0
- **/
-const gchar *
-pk_provides_enum_to_string (PkProvidesEnum provides)
-{
-	return pk_enum_find_string (enum_provides, provides);
 }
 
 /**
@@ -781,38 +715,6 @@ const gchar *
 pk_restart_enum_to_string (PkRestartEnum restart)
 {
 	return pk_enum_find_string (enum_restart, restart);
-}
-
-/**
- * pk_message_enum_from_string:
- * @message: Text describing the enumerated type
- *
- * Converts a text enumerated type to its unsigned integer representation
- *
- * Return value: the enumerated constant value, e.g. PK_SIGTYPE_ENUM_GPG
- *
- * Since: 0.5.0
- **/
-PkMessageEnum
-pk_message_enum_from_string (const gchar *message)
-{
-	return pk_enum_find_value (enum_message, message);
-}
-
-/**
- * pk_message_enum_to_string:
- * @message: The enumerated type value
- *
- * Converts a enumerated type to its text representation
- *
- * Return value: the enumerated constant value, e.g. "available"
- *
- * Since: 0.5.0
- **/
-const gchar *
-pk_message_enum_to_string (PkMessageEnum message)
-{
-	return pk_enum_find_string (enum_message, message);
 }
 
 /**
@@ -1215,7 +1117,7 @@ pk_role_enum_to_localised_present (PkRoleEnum role)
 		/* TRANSLATORS: The role of the transaction, in present tense */
 		text = dgettext("PackageKit", "Unknown role type");
 		break;
-	case PK_ROLE_ENUM_GET_DEPENDS:
+	case PK_ROLE_ENUM_DEPENDS_ON:
 		/* TRANSLATORS: The role of the transaction, in present tense */
 		text = dgettext("PackageKit", "Getting dependencies");
 		break;
@@ -1224,10 +1126,11 @@ pk_role_enum_to_localised_present (PkRoleEnum role)
 		text = dgettext("PackageKit", "Getting update details");
 		break;
 	case PK_ROLE_ENUM_GET_DETAILS:
+	case PK_ROLE_ENUM_GET_DETAILS_LOCAL:
 		/* TRANSLATORS: The role of the transaction, in present tense */
 		text = dgettext("PackageKit", "Getting details");
 		break;
-	case PK_ROLE_ENUM_GET_REQUIRES:
+	case PK_ROLE_ENUM_REQUIRED_BY:
 		/* TRANSLATORS: The role of the transaction, in present tense */
 		text = dgettext("PackageKit", "Getting requires");
 		break;
@@ -1287,11 +1190,16 @@ pk_role_enum_to_localised_present (PkRoleEnum role)
 		/* TRANSLATORS: The role of the transaction, in present tense */
 		text = dgettext("PackageKit", "Setting data");
 		break;
+	case PK_ROLE_ENUM_REPO_REMOVE:
+		/* TRANSLATORS: The role of the transaction, in present tense */
+		text = dgettext("PackageKit", "Removing repository");
+		break;
 	case PK_ROLE_ENUM_RESOLVE:
 		/* TRANSLATORS: The role of the transaction, in present tense */
 		text = dgettext("PackageKit", "Resolving");
 		break;
 	case PK_ROLE_ENUM_GET_FILES:
+	case PK_ROLE_ENUM_GET_FILES_LOCAL:
 		/* TRANSLATORS: The role of the transaction, in present tense */
 		text = dgettext("PackageKit", "Getting file list");
 		break;

@@ -1,6 +1,6 @@
 /* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*-
  *
- * Copyright (C) 2009-2012 Richard Hughes <richard@hughsie.com>
+ * Copyright (C) 2009-2014 Richard Hughes <richard@hughsie.com>
  *
  * Licensed under the GNU Lesser General Public License Version 2.1
  *
@@ -161,6 +161,22 @@ void		 pk_client_get_details_async		(PkClient		*client,
 							 GAsyncReadyCallback	 callback_ready,
 							 gpointer		 user_data);
 
+void		 pk_client_get_details_local_async	(PkClient		*client,
+							 gchar			**files,
+							 GCancellable		*cancellable,
+							 PkProgressCallback	 progress_callback,
+							 gpointer		 progress_user_data,
+							 GAsyncReadyCallback	 callback_ready,
+							 gpointer		 user_data);
+
+void		 pk_client_get_files_local_async	(PkClient		*client,
+							 gchar			**files,
+							 GCancellable		*cancellable,
+							 PkProgressCallback	 progress_callback,
+							 gpointer		 progress_user_data,
+							 GAsyncReadyCallback	 callback_ready,
+							 gpointer		 user_data);
+
 void		 pk_client_get_update_detail_async	(PkClient		*client,
 							 gchar			**package_ids,
 							 GCancellable		*cancellable,
@@ -194,7 +210,7 @@ void		 pk_client_get_old_transactions_async	(PkClient		*client,
 							 GAsyncReadyCallback	 callback_ready,
 							 gpointer		 user_data);
 
-void		 pk_client_get_depends_async		(PkClient		*client,
+void		 pk_client_depends_on_async		(PkClient		*client,
 							 PkBitfield		 filters,
 							 gchar			**package_ids,
 							 gboolean		 recursive,
@@ -212,7 +228,7 @@ void		 pk_client_get_packages_async		(PkClient		*client,
 							 GAsyncReadyCallback	 callback_ready,
 							 gpointer		 user_data);
 
-void		 pk_client_get_requires_async		(PkClient		*client,
+void		 pk_client_required_by_async		(PkClient		*client,
 							 PkBitfield		 filters,
 							 gchar			**package_ids,
 							 gboolean		 recursive,
@@ -224,7 +240,6 @@ void		 pk_client_get_requires_async		(PkClient		*client,
 
 void		 pk_client_what_provides_async		(PkClient		*client,
 							 PkBitfield		 filters,
-							 PkProvidesEnum		 provides,
 							 gchar			**values,
 							 GCancellable		*cancellable,
 							 PkProgressCallback	 progress_callback,
@@ -345,9 +360,10 @@ void		 pk_client_repo_set_data_async		(PkClient		*client,
 							 GAsyncReadyCallback	 callback_ready,
 							 gpointer		 user_data);
 
-void		 pk_client_upgrade_system_async		(PkClient		*client,
-							 const gchar		*distro_id,
-							 PkUpgradeKindEnum	 upgrade_kind,
+void		 pk_client_repo_remove_async		(PkClient		*client,
+							 PkBitfield		 transaction_flags,
+							 const gchar		*repo_id,
+							 gboolean		 autoremove,
 							 GCancellable		*cancellable,
 							 PkProgressCallback	 progress_callback,
 							 gpointer		 progress_user_data,

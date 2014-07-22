@@ -175,7 +175,7 @@ transactions, GPG keys and EULA requests.</p>
 <span class="returnvalue">void</span>
 </td>
 <td class="function_name">
-<a class="link" href="PkTask.html#pk-task-get-depends-async" title="pk_task_get_depends_async ()">pk_task_get_depends_async</a> <span class="c_punctuation">()</span>
+<a class="link" href="PkTask.html#pk-task-depends-on-async" title="pk_task_depends_on_async ()">pk_task_depends_on_async</a> <span class="c_punctuation">()</span>
 </td>
 </tr>
 <tr>
@@ -191,7 +191,7 @@ transactions, GPG keys and EULA requests.</p>
 <span class="returnvalue">void</span>
 </td>
 <td class="function_name">
-<a class="link" href="PkTask.html#pk-task-get-requires-async" title="pk_task_get_requires_async ()">pk_task_get_requires_async</a> <span class="c_punctuation">()</span>
+<a class="link" href="PkTask.html#pk-task-required-by-async" title="pk_task_required_by_async ()">pk_task_required_by_async</a> <span class="c_punctuation">()</span>
 </td>
 </tr>
 <tr>
@@ -346,20 +346,10 @@ transactions, GPG keys and EULA requests.</p>
 <col width="150px" class="name">
 <col class="description">
 </colgroup>
-<tbody>
-<tr>
+<tbody><tr>
 <td class="define_keyword">#define</td>
 <td class="function_name"><a class="link" href="PkTask.html#PK-TASK-TYPE-ERROR:CAPS" title="PK_TASK_TYPE_ERROR">PK_TASK_TYPE_ERROR</a></td>
-</tr>
-<tr>
-<td class="datatype_keyword">struct</td>
-<td class="function_name"><a class="link" href="PkTask.html#PkTask-struct" title="struct PkTask">PkTask</a></td>
-</tr>
-<tr>
-<td class="datatype_keyword">struct</td>
-<td class="function_name"><a class="link" href="PkTask.html#PkTaskClass" title="struct PkTaskClass">PkTaskClass</a></td>
-</tr>
-</tbody>
+</tr></tbody>
 </table></div>
 </div>
 <div class="refsect1">
@@ -381,7 +371,7 @@ transactions, GPG keys and EULA requests.</p>
 <pre class="programlisting"><a class="link" href="PkTask.html" title="PkTask"><span class="returnvalue">PkTask</span></a> *
 pk_task_new (<em class="parameter"><code><span class="type">void</span></code></em>);</pre>
 <div class="refsect3">
-<a name="id-1.4.21.8.2.4"></a><h4>Returns</h4>
+<a name="id-1.4.20.8.2.4"></a><h4>Returns</h4>
 <p> a new PkTask object.</p>
 <p></p>
 </div>
@@ -402,7 +392,7 @@ pk_task_generic_finish (<em class="parameter"><code><a class="link" href="PkTask
                         <em class="parameter"><code><a href="http://library.gnome.org/devel/glib/unstable/glib-Error-Reporting.html#GError"><span class="type">GError</span></a> **error</code></em>);</pre>
 <p>Gets the result from the asynchronous function.</p>
 <div class="refsect3">
-<a name="id-1.4.21.8.4.5"></a><h4>Parameters</h4>
+<a name="id-1.4.20.8.4.5"></a><h4>Parameters</h4>
 <div class="informaltable"><table width="100%" border="0">
 <colgroup>
 <col width="150px" class="parameters_name">
@@ -429,7 +419,7 @@ pk_task_generic_finish (<em class="parameter"><code><a class="link" href="PkTask
 </table></div>
 </div>
 <div class="refsect3">
-<a name="id-1.4.21.8.4.6"></a><h4>Returns</h4>
+<a name="id-1.4.20.8.4.6"></a><h4>Returns</h4>
 <p> The <a class="link" href="PkResults.html" title="PkResults"><span class="type">PkResults</span></a> of the transaction. </p>
 <p><span class="annotation">[<acronym title="Free data after the code is done."><span class="acronym">transfer full</span></acronym>]</span></p>
 </div>
@@ -448,7 +438,7 @@ pk_task_install_packages_async (<em class="parameter"><code><a class="link" href
                                 <em class="parameter"><code><a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gpointer"><span class="type">gpointer</span></a> user_data</code></em>);</pre>
 <p>Merges in details about packages using resolve.</p>
 <div class="refsect3">
-<a name="id-1.4.21.8.5.5"></a><h4>Parameters</h4>
+<a name="id-1.4.20.8.5.5"></a><h4>Parameters</h4>
 <div class="informaltable"><table width="100%" border="0">
 <colgroup>
 <col width="150px" class="parameters_name">
@@ -511,7 +501,7 @@ pk_task_update_packages_async (<em class="parameter"><code><a class="link" href=
                                <em class="parameter"><code><a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gpointer"><span class="type">gpointer</span></a> user_data</code></em>);</pre>
 <p>Update specific packages to the newest available versions.</p>
 <div class="refsect3">
-<a name="id-1.4.21.8.6.5"></a><h4>Parameters</h4>
+<a name="id-1.4.20.8.6.5"></a><h4>Parameters</h4>
 <div class="informaltable"><table width="100%" border="0">
 <colgroup>
 <col width="150px" class="parameters_name">
@@ -578,7 +568,7 @@ pk_task_remove_packages_async (<em class="parameter"><code><a class="link" href=
 If <code class="literal">allow_deps</code> is set to <a href="http://library.gnome.org/devel/glib/unstable/glib-Standard-Macros.html#FALSE:CAPS"><code class="literal">FALSE</code></a>, and other packages would have to be removed,
 then the transaction would fail.</p>
 <div class="refsect3">
-<a name="id-1.4.21.8.7.5"></a><h4>Parameters</h4>
+<a name="id-1.4.20.8.7.5"></a><h4>Parameters</h4>
 <div class="informaltable"><table width="100%" border="0">
 <colgroup>
 <col width="150px" class="parameters_name">
@@ -652,7 +642,7 @@ pk_task_install_files_async (<em class="parameter"><code><a class="link" href="P
 <p>Install a file locally, and get the deps from the repositories.
 This is useful for double clicking on a .rpm or .deb file.</p>
 <div class="refsect3">
-<a name="id-1.4.21.8.8.5"></a><h4>Parameters</h4>
+<a name="id-1.4.20.8.8.5"></a><h4>Parameters</h4>
 <div class="informaltable"><table width="100%" border="0">
 <colgroup>
 <col width="150px" class="parameters_name">
@@ -716,7 +706,7 @@ pk_task_resolve_async (<em class="parameter"><code><a class="link" href="PkTask.
                        <em class="parameter"><code><a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gpointer"><span class="type">gpointer</span></a> user_data</code></em>);</pre>
 <p>Resolves a package name to a package-id.</p>
 <div class="refsect3">
-<a name="id-1.4.21.8.9.5"></a><h4>Parameters</h4>
+<a name="id-1.4.20.8.9.5"></a><h4>Parameters</h4>
 <div class="informaltable"><table width="100%" border="0">
 <colgroup>
 <col width="150px" class="parameters_name">
@@ -785,7 +775,7 @@ pk_task_search_names_async (<em class="parameter"><code><a class="link" href="Pk
                             <em class="parameter"><code><a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gpointer"><span class="type">gpointer</span></a> user_data</code></em>);</pre>
 <p>Searches for a package name.</p>
 <div class="refsect3">
-<a name="id-1.4.21.8.10.5"></a><h4>Parameters</h4>
+<a name="id-1.4.20.8.10.5"></a><h4>Parameters</h4>
 <div class="informaltable"><table width="100%" border="0">
 <colgroup>
 <col width="150px" class="parameters_name">
@@ -854,7 +844,7 @@ pk_task_search_details_async (<em class="parameter"><code><a class="link" href="
                               <em class="parameter"><code><a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gpointer"><span class="type">gpointer</span></a> user_data</code></em>);</pre>
 <p>Searches for some package details.</p>
 <div class="refsect3">
-<a name="id-1.4.21.8.11.5"></a><h4>Parameters</h4>
+<a name="id-1.4.20.8.11.5"></a><h4>Parameters</h4>
 <div class="informaltable"><table width="100%" border="0">
 <colgroup>
 <col width="150px" class="parameters_name">
@@ -923,7 +913,7 @@ pk_task_search_groups_async (<em class="parameter"><code><a class="link" href="P
                              <em class="parameter"><code><a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gpointer"><span class="type">gpointer</span></a> user_data</code></em>);</pre>
 <p>Searches the group lists.</p>
 <div class="refsect3">
-<a name="id-1.4.21.8.12.5"></a><h4>Parameters</h4>
+<a name="id-1.4.20.8.12.5"></a><h4>Parameters</h4>
 <div class="informaltable"><table width="100%" border="0">
 <colgroup>
 <col width="150px" class="parameters_name">
@@ -992,7 +982,7 @@ pk_task_search_files_async (<em class="parameter"><code><a class="link" href="Pk
                             <em class="parameter"><code><a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gpointer"><span class="type">gpointer</span></a> user_data</code></em>);</pre>
 <p>Searches for specific files.</p>
 <div class="refsect3">
-<a name="id-1.4.21.8.13.5"></a><h4>Parameters</h4>
+<a name="id-1.4.20.8.13.5"></a><h4>Parameters</h4>
 <div class="informaltable"><table width="100%" border="0">
 <colgroup>
 <col width="150px" class="parameters_name">
@@ -1060,7 +1050,7 @@ pk_task_get_details_async (<em class="parameter"><code><a class="link" href="PkT
                            <em class="parameter"><code><a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gpointer"><span class="type">gpointer</span></a> user_data</code></em>);</pre>
 <p>Gets details about packages.</p>
 <div class="refsect3">
-<a name="id-1.4.21.8.14.5"></a><h4>Parameters</h4>
+<a name="id-1.4.20.8.14.5"></a><h4>Parameters</h4>
 <div class="informaltable"><table width="100%" border="0">
 <colgroup>
 <col width="150px" class="parameters_name">
@@ -1123,7 +1113,7 @@ pk_task_get_update_detail_async (<em class="parameter"><code><a class="link" hre
                                  <em class="parameter"><code><a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gpointer"><span class="type">gpointer</span></a> user_data</code></em>);</pre>
 <p>Gets details about updates.</p>
 <div class="refsect3">
-<a name="id-1.4.21.8.15.5"></a><h4>Parameters</h4>
+<a name="id-1.4.20.8.15.5"></a><h4>Parameters</h4>
 <div class="informaltable"><table width="100%" border="0">
 <colgroup>
 <col width="150px" class="parameters_name">
@@ -1187,7 +1177,7 @@ pk_task_download_packages_async (<em class="parameter"><code><a class="link" hre
                                  <em class="parameter"><code><a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gpointer"><span class="type">gpointer</span></a> user_data</code></em>);</pre>
 <p>Downloads packages</p>
 <div class="refsect3">
-<a name="id-1.4.21.8.16.5"></a><h4>Parameters</h4>
+<a name="id-1.4.20.8.16.5"></a><h4>Parameters</h4>
 <div class="informaltable"><table width="100%" border="0">
 <colgroup>
 <col width="150px" class="parameters_name">
@@ -1255,7 +1245,7 @@ pk_task_get_updates_async (<em class="parameter"><code><a class="link" href="PkT
                            <em class="parameter"><code><a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gpointer"><span class="type">gpointer</span></a> user_data</code></em>);</pre>
 <p>Gets the update lists.</p>
 <div class="refsect3">
-<a name="id-1.4.21.8.17.5"></a><h4>Parameters</h4>
+<a name="id-1.4.20.8.17.5"></a><h4>Parameters</h4>
 <div class="informaltable"><table width="100%" border="0">
 <colgroup>
 <col width="150px" class="parameters_name">
@@ -1307,20 +1297,20 @@ pk_task_get_updates_async (<em class="parameter"><code><a class="link" href="PkT
 </div>
 <hr>
 <div class="refsect2">
-<a name="pk-task-get-depends-async"></a><h3>pk_task_get_depends_async ()</h3>
+<a name="pk-task-depends-on-async"></a><h3>pk_task_depends_on_async ()</h3>
 <pre class="programlisting"><span class="returnvalue">void</span>
-pk_task_get_depends_async (<em class="parameter"><code><a class="link" href="PkTask.html" title="PkTask"><span class="type">PkTask</span></a> *task</code></em>,
-                           <em class="parameter"><code><a class="link" href="PackageKit-pk-bitfield.html#PkBitfield" title="PkBitfield"><span class="type">PkBitfield</span></a> filters</code></em>,
-                           <em class="parameter"><code><a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a> **package_ids</code></em>,
-                           <em class="parameter"><code><a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gboolean"><span class="type">gboolean</span></a> recursive</code></em>,
-                           <em class="parameter"><code><a href="http://library.gnome.org/devel/gio/unstable/GCancellable.html"><span class="type">GCancellable</span></a> *cancellable</code></em>,
-                           <em class="parameter"><code><a class="link" href="PkProgress.html#PkProgressCallback" title="PkProgressCallback ()"><span class="type">PkProgressCallback</span></a> progress_callback</code></em>,
-                           <em class="parameter"><code><a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gpointer"><span class="type">gpointer</span></a> progress_user_data</code></em>,
-                           <em class="parameter"><code><a href="http://library.gnome.org/devel/gio/unstable/GAsyncResult.html#GAsyncReadyCallback"><span class="type">GAsyncReadyCallback</span></a> callback_ready</code></em>,
-                           <em class="parameter"><code><a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gpointer"><span class="type">gpointer</span></a> user_data</code></em>);</pre>
+pk_task_depends_on_async (<em class="parameter"><code><a class="link" href="PkTask.html" title="PkTask"><span class="type">PkTask</span></a> *task</code></em>,
+                          <em class="parameter"><code><a class="link" href="PackageKit-pk-bitfield.html#PkBitfield" title="PkBitfield"><span class="type">PkBitfield</span></a> filters</code></em>,
+                          <em class="parameter"><code><a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a> **package_ids</code></em>,
+                          <em class="parameter"><code><a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gboolean"><span class="type">gboolean</span></a> recursive</code></em>,
+                          <em class="parameter"><code><a href="http://library.gnome.org/devel/gio/unstable/GCancellable.html"><span class="type">GCancellable</span></a> *cancellable</code></em>,
+                          <em class="parameter"><code><a class="link" href="PkProgress.html#PkProgressCallback" title="PkProgressCallback ()"><span class="type">PkProgressCallback</span></a> progress_callback</code></em>,
+                          <em class="parameter"><code><a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gpointer"><span class="type">gpointer</span></a> progress_user_data</code></em>,
+                          <em class="parameter"><code><a href="http://library.gnome.org/devel/gio/unstable/GAsyncResult.html#GAsyncReadyCallback"><span class="type">GAsyncReadyCallback</span></a> callback_ready</code></em>,
+                          <em class="parameter"><code><a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gpointer"><span class="type">gpointer</span></a> user_data</code></em>);</pre>
 <p>Get the list of dependant packages.</p>
 <div class="refsect3">
-<a name="id-1.4.21.8.18.5"></a><h4>Parameters</h4>
+<a name="id-1.4.20.8.18.5"></a><h4>Parameters</h4>
 <div class="informaltable"><table width="100%" border="0">
 <colgroup>
 <col width="150px" class="parameters_name">
@@ -1393,7 +1383,7 @@ pk_task_get_packages_async (<em class="parameter"><code><a class="link" href="Pk
                             <em class="parameter"><code><a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gpointer"><span class="type">gpointer</span></a> user_data</code></em>);</pre>
 <p>Gets the list of packages.</p>
 <div class="refsect3">
-<a name="id-1.4.21.8.19.5"></a><h4>Parameters</h4>
+<a name="id-1.4.20.8.19.5"></a><h4>Parameters</h4>
 <div class="informaltable"><table width="100%" border="0">
 <colgroup>
 <col width="150px" class="parameters_name">
@@ -1445,20 +1435,20 @@ pk_task_get_packages_async (<em class="parameter"><code><a class="link" href="Pk
 </div>
 <hr>
 <div class="refsect2">
-<a name="pk-task-get-requires-async"></a><h3>pk_task_get_requires_async ()</h3>
+<a name="pk-task-required-by-async"></a><h3>pk_task_required_by_async ()</h3>
 <pre class="programlisting"><span class="returnvalue">void</span>
-pk_task_get_requires_async (<em class="parameter"><code><a class="link" href="PkTask.html" title="PkTask"><span class="type">PkTask</span></a> *task</code></em>,
-                            <em class="parameter"><code><a class="link" href="PackageKit-pk-bitfield.html#PkBitfield" title="PkBitfield"><span class="type">PkBitfield</span></a> filters</code></em>,
-                            <em class="parameter"><code><a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a> **package_ids</code></em>,
-                            <em class="parameter"><code><a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gboolean"><span class="type">gboolean</span></a> recursive</code></em>,
-                            <em class="parameter"><code><a href="http://library.gnome.org/devel/gio/unstable/GCancellable.html"><span class="type">GCancellable</span></a> *cancellable</code></em>,
-                            <em class="parameter"><code><a class="link" href="PkProgress.html#PkProgressCallback" title="PkProgressCallback ()"><span class="type">PkProgressCallback</span></a> progress_callback</code></em>,
-                            <em class="parameter"><code><a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gpointer"><span class="type">gpointer</span></a> progress_user_data</code></em>,
-                            <em class="parameter"><code><a href="http://library.gnome.org/devel/gio/unstable/GAsyncResult.html#GAsyncReadyCallback"><span class="type">GAsyncReadyCallback</span></a> callback_ready</code></em>,
-                            <em class="parameter"><code><a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gpointer"><span class="type">gpointer</span></a> user_data</code></em>);</pre>
+pk_task_required_by_async (<em class="parameter"><code><a class="link" href="PkTask.html" title="PkTask"><span class="type">PkTask</span></a> *task</code></em>,
+                           <em class="parameter"><code><a class="link" href="PackageKit-pk-bitfield.html#PkBitfield" title="PkBitfield"><span class="type">PkBitfield</span></a> filters</code></em>,
+                           <em class="parameter"><code><a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a> **package_ids</code></em>,
+                           <em class="parameter"><code><a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gboolean"><span class="type">gboolean</span></a> recursive</code></em>,
+                           <em class="parameter"><code><a href="http://library.gnome.org/devel/gio/unstable/GCancellable.html"><span class="type">GCancellable</span></a> *cancellable</code></em>,
+                           <em class="parameter"><code><a class="link" href="PkProgress.html#PkProgressCallback" title="PkProgressCallback ()"><span class="type">PkProgressCallback</span></a> progress_callback</code></em>,
+                           <em class="parameter"><code><a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gpointer"><span class="type">gpointer</span></a> progress_user_data</code></em>,
+                           <em class="parameter"><code><a href="http://library.gnome.org/devel/gio/unstable/GAsyncResult.html#GAsyncReadyCallback"><span class="type">GAsyncReadyCallback</span></a> callback_ready</code></em>,
+                           <em class="parameter"><code><a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gpointer"><span class="type">gpointer</span></a> user_data</code></em>);</pre>
 <p>Get the packages this package requires.</p>
 <div class="refsect3">
-<a name="id-1.4.21.8.20.5"></a><h4>Parameters</h4>
+<a name="id-1.4.20.8.20.5"></a><h4>Parameters</h4>
 <div class="informaltable"><table width="100%" border="0">
 <colgroup>
 <col width="150px" class="parameters_name">
@@ -1524,7 +1514,6 @@ pk_task_get_requires_async (<em class="parameter"><code><a class="link" href="Pk
 <pre class="programlisting"><span class="returnvalue">void</span>
 pk_task_what_provides_async (<em class="parameter"><code><a class="link" href="PkTask.html" title="PkTask"><span class="type">PkTask</span></a> *task</code></em>,
                              <em class="parameter"><code><a class="link" href="PackageKit-pk-bitfield.html#PkBitfield" title="PkBitfield"><span class="type">PkBitfield</span></a> filters</code></em>,
-                             <em class="parameter"><code><a class="link" href="PackageKit-pk-enum.html#PkProvidesEnum" title="enum PkProvidesEnum"><span class="type">PkProvidesEnum</span></a> provides</code></em>,
                              <em class="parameter"><code><a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a> **values</code></em>,
                              <em class="parameter"><code><a href="http://library.gnome.org/devel/gio/unstable/GCancellable.html"><span class="type">GCancellable</span></a> *cancellable</code></em>,
                              <em class="parameter"><code><a class="link" href="PkProgress.html#PkProgressCallback" title="PkProgressCallback ()"><span class="type">PkProgressCallback</span></a> progress_callback</code></em>,
@@ -1533,7 +1522,7 @@ pk_task_what_provides_async (<em class="parameter"><code><a class="link" href="P
                              <em class="parameter"><code><a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gpointer"><span class="type">gpointer</span></a> user_data</code></em>);</pre>
 <p>Find the package that provides some resource.</p>
 <div class="refsect3">
-<a name="id-1.4.21.8.21.5"></a><h4>Parameters</h4>
+<a name="id-1.4.20.8.21.5"></a><h4>Parameters</h4>
 <div class="informaltable"><table width="100%" border="0">
 <colgroup>
 <col width="150px" class="parameters_name">
@@ -1549,11 +1538,6 @@ pk_task_what_provides_async (<em class="parameter"><code><a class="link" href="P
 <tr>
 <td class="parameter_name"><p>filters</p></td>
 <td class="parameter_description"><p>a bitfield of filters that can be used to limit the results</p></td>
-<td class="parameter_annotations"> </td>
-</tr>
-<tr>
-<td class="parameter_name"><p>provides</p></td>
-<td class="parameter_description"><p>a <a class="link" href="PackageKit-pk-enum.html#PkProvidesEnum" title="enum PkProvidesEnum"><span class="type">PkProvidesEnum</span></a> type</p></td>
 <td class="parameter_annotations"> </td>
 </tr>
 <tr>
@@ -1606,7 +1590,7 @@ pk_task_get_files_async (<em class="parameter"><code><a class="link" href="PkTas
                          <em class="parameter"><code><a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gpointer"><span class="type">gpointer</span></a> user_data</code></em>);</pre>
 <p>Get the files in a package.</p>
 <div class="refsect3">
-<a name="id-1.4.21.8.22.5"></a><h4>Parameters</h4>
+<a name="id-1.4.20.8.22.5"></a><h4>Parameters</h4>
 <div class="informaltable"><table width="100%" border="0">
 <colgroup>
 <col width="150px" class="parameters_name">
@@ -1668,7 +1652,7 @@ pk_task_get_categories_async (<em class="parameter"><code><a class="link" href="
                               <em class="parameter"><code><a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gpointer"><span class="type">gpointer</span></a> user_data</code></em>);</pre>
 <p>Get the categories available.</p>
 <div class="refsect3">
-<a name="id-1.4.21.8.23.5"></a><h4>Parameters</h4>
+<a name="id-1.4.20.8.23.5"></a><h4>Parameters</h4>
 <div class="informaltable"><table width="100%" border="0">
 <colgroup>
 <col width="150px" class="parameters_name">
@@ -1726,7 +1710,7 @@ pk_task_refresh_cache_async (<em class="parameter"><code><a class="link" href="P
                              <em class="parameter"><code><a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gpointer"><span class="type">gpointer</span></a> user_data</code></em>);</pre>
 <p>Refresh the package cache.</p>
 <div class="refsect3">
-<a name="id-1.4.21.8.24.5"></a><h4>Parameters</h4>
+<a name="id-1.4.20.8.24.5"></a><h4>Parameters</h4>
 <div class="informaltable"><table width="100%" border="0">
 <colgroup>
 <col width="150px" class="parameters_name">
@@ -1789,7 +1773,7 @@ pk_task_get_repo_list_async (<em class="parameter"><code><a class="link" href="P
                              <em class="parameter"><code><a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gpointer"><span class="type">gpointer</span></a> user_data</code></em>);</pre>
 <p>Get the list of available repositories.</p>
 <div class="refsect3">
-<a name="id-1.4.21.8.25.5"></a><h4>Parameters</h4>
+<a name="id-1.4.20.8.25.5"></a><h4>Parameters</h4>
 <div class="informaltable"><table width="100%" border="0">
 <colgroup>
 <col width="150px" class="parameters_name">
@@ -1853,7 +1837,7 @@ pk_task_repo_enable_async (<em class="parameter"><code><a class="link" href="PkT
                            <em class="parameter"><code><a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gpointer"><span class="type">gpointer</span></a> user_data</code></em>);</pre>
 <p>Enable or disable a specific repo.</p>
 <div class="refsect3">
-<a name="id-1.4.21.8.26.5"></a><h4>Parameters</h4>
+<a name="id-1.4.20.8.26.5"></a><h4>Parameters</h4>
 <div class="informaltable"><table width="100%" border="0">
 <colgroup>
 <col width="150px" class="parameters_name">
@@ -1920,7 +1904,7 @@ pk_task_repair_system_async (<em class="parameter"><code><a class="link" href="P
                              <em class="parameter"><code><a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gpointer"><span class="type">gpointer</span></a> user_data</code></em>);</pre>
 <p>Recover the system from broken dependencies and aborted installations.</p>
 <div class="refsect3">
-<a name="id-1.4.21.8.27.5"></a><h4>Parameters</h4>
+<a name="id-1.4.20.8.27.5"></a><h4>Parameters</h4>
 <div class="informaltable"><table width="100%" border="0">
 <colgroup>
 <col width="150px" class="parameters_name">
@@ -1989,7 +1973,7 @@ pk_task_set_simulate (<em class="parameter"><code><a class="link" href="PkTask.h
                       <em class="parameter"><code><a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gboolean"><span class="type">gboolean</span></a> simulate</code></em>);</pre>
 <p>If the simulate step should be run without the actual transaction.</p>
 <div class="refsect3">
-<a name="id-1.4.21.8.30.5"></a><h4>Parameters</h4>
+<a name="id-1.4.20.8.30.5"></a><h4>Parameters</h4>
 <div class="informaltable"><table width="100%" border="0">
 <colgroup>
 <col width="150px" class="parameters_name">
@@ -2019,7 +2003,7 @@ pk_task_set_simulate (<em class="parameter"><code><a class="link" href="PkTask.h
 pk_task_get_simulate (<em class="parameter"><code><a class="link" href="PkTask.html" title="PkTask"><span class="type">PkTask</span></a> *task</code></em>);</pre>
 <p>Gets if we are simulating.</p>
 <div class="refsect3">
-<a name="id-1.4.21.8.31.5"></a><h4>Parameters</h4>
+<a name="id-1.4.20.8.31.5"></a><h4>Parameters</h4>
 <div class="informaltable"><table width="100%" border="0">
 <colgroup>
 <col width="150px" class="parameters_name">
@@ -2034,7 +2018,7 @@ pk_task_get_simulate (<em class="parameter"><code><a class="link" href="PkTask.h
 </table></div>
 </div>
 <div class="refsect3">
-<a name="id-1.4.21.8.31.6"></a><h4>Returns</h4>
+<a name="id-1.4.20.8.31.6"></a><h4>Returns</h4>
 <p> <a href="http://library.gnome.org/devel/glib/unstable/glib-Standard-Macros.html#TRUE:CAPS"><code class="literal">TRUE</code></a> if we are simulating</p>
 <p></p>
 </div>
@@ -2046,61 +2030,12 @@ pk_task_get_simulate (<em class="parameter"><code><a class="link" href="PkTask.h
 <pre class="programlisting"><span class="returnvalue">void</span>
 pk_task_set_interactive (<em class="parameter"><code><a class="link" href="PkTask.html" title="PkTask"><span class="type">PkTask</span></a> *task</code></em>,
                          <em class="parameter"><code><a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gboolean"><span class="type">gboolean</span></a> interactive</code></em>);</pre>
-<p>Sets the interactive mode, i.e. if the user is allowed to ask
-questions.</p>
-<p>This method is deprecated, use <a class="link" href="PkClient.html#pk-client-set-interactive" title="pk_client_set_interactive ()"><code class="function">pk_client_set_interactive()</code></a> instead.</p>
-<div class="refsect3">
-<a name="id-1.4.21.8.32.6"></a><h4>Parameters</h4>
-<div class="informaltable"><table width="100%" border="0">
-<colgroup>
-<col width="150px" class="parameters_name">
-<col class="parameters_description">
-<col width="200px" class="parameters_annotations">
-</colgroup>
-<tbody>
-<tr>
-<td class="parameter_name"><p>task</p></td>
-<td class="parameter_description"><p>a valid <a class="link" href="PkTask.html" title="PkTask"><span class="type">PkTask</span></a> instance</p></td>
-<td class="parameter_annotations"> </td>
-</tr>
-<tr>
-<td class="parameter_name"><p>interactive</p></td>
-<td class="parameter_description"><p>if we are interactive</p></td>
-<td class="parameter_annotations"> </td>
-</tr>
-</tbody>
-</table></div>
-</div>
-<p class="since">Since 0.6.10</p>
 </div>
 <hr>
 <div class="refsect2">
 <a name="pk-task-get-interactive"></a><h3>pk_task_get_interactive ()</h3>
 <pre class="programlisting"><a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gboolean"><span class="returnvalue">gboolean</span></a>
 pk_task_get_interactive (<em class="parameter"><code><a class="link" href="PkTask.html" title="PkTask"><span class="type">PkTask</span></a> *task</code></em>);</pre>
-<p>Gets if the transaction is interactive.</p>
-<p>This method is deprecated, use <a class="link" href="PkClient.html#pk-client-get-interactive" title="pk_client_get_interactive ()"><code class="function">pk_client_get_interactive()</code></a> instead.</p>
-<div class="refsect3">
-<a name="id-1.4.21.8.33.6"></a><h4>Parameters</h4>
-<div class="informaltable"><table width="100%" border="0">
-<colgroup>
-<col width="150px" class="parameters_name">
-<col class="parameters_description">
-<col width="200px" class="parameters_annotations">
-</colgroup>
-<tbody><tr>
-<td class="parameter_name"><p>task</p></td>
-<td class="parameter_description"><p>a valid <a class="link" href="PkTask.html" title="PkTask"><span class="type">PkTask</span></a> instance</p></td>
-<td class="parameter_annotations"> </td>
-</tr></tbody>
-</table></div>
-</div>
-<div class="refsect3">
-<a name="id-1.4.21.8.33.7"></a><h4>Returns</h4>
-<p> <a href="http://library.gnome.org/devel/glib/unstable/glib-Standard-Macros.html#TRUE:CAPS"><code class="literal">TRUE</code></a> for an interactive transaction.</p>
-<p></p>
-</div>
-<p class="since">Since 0.6.10</p>
 </div>
 <hr>
 <div class="refsect2">
@@ -2111,7 +2046,7 @@ pk_task_set_only_download (<em class="parameter"><code><a class="link" href="PkT
 <p>If the transaction should be prepared (depsolved, packages
 downloaded, etc) but not committed.</p>
 <div class="refsect3">
-<a name="id-1.4.21.8.34.5"></a><h4>Parameters</h4>
+<a name="id-1.4.20.8.34.5"></a><h4>Parameters</h4>
 <div class="informaltable"><table width="100%" border="0">
 <colgroup>
 <col width="150px" class="parameters_name">
@@ -2141,7 +2076,7 @@ downloaded, etc) but not committed.</p>
 pk_task_get_only_download (<em class="parameter"><code><a class="link" href="PkTask.html" title="PkTask"><span class="type">PkTask</span></a> *task</code></em>);</pre>
 <p>Gets if we are just preparing the transaction for later.</p>
 <div class="refsect3">
-<a name="id-1.4.21.8.35.5"></a><h4>Parameters</h4>
+<a name="id-1.4.20.8.35.5"></a><h4>Parameters</h4>
 <div class="informaltable"><table width="100%" border="0">
 <colgroup>
 <col width="150px" class="parameters_name">
@@ -2156,7 +2091,7 @@ pk_task_get_only_download (<em class="parameter"><code><a class="link" href="PkT
 </table></div>
 </div>
 <div class="refsect3">
-<a name="id-1.4.21.8.35.6"></a><h4>Returns</h4>
+<a name="id-1.4.20.8.35.6"></a><h4>Returns</h4>
 <p> <a href="http://library.gnome.org/devel/glib/unstable/glib-Standard-Macros.html#TRUE:CAPS"><code class="literal">TRUE</code></a> if we are simulating</p>
 <p></p>
 </div>
@@ -2168,40 +2103,6 @@ pk_task_get_only_download (<em class="parameter"><code><a class="link" href="PkT
 <div class="refsect2">
 <a name="PK-TASK-TYPE-ERROR:CAPS"></a><h3>PK_TASK_TYPE_ERROR</h3>
 <pre class="programlisting">#define PK_TASK_TYPE_ERROR (pk_task_error_get_type ())
-</pre>
-</div>
-<hr>
-<div class="refsect2">
-<a name="PkTask-struct"></a><h3>struct PkTask</h3>
-<pre class="programlisting">struct PkTask;</pre>
-</div>
-<hr>
-<div class="refsect2">
-<a name="PkTaskClass"></a><h3>struct PkTaskClass</h3>
-<pre class="programlisting">struct PkTaskClass {
-	PkClientClass		parent_class;
-	void	 (*untrusted_question)			(PkTask			*task,
-							 guint			 request,
-							 PkResults		*results);
-	void	 (*key_question)			(PkTask			*task,
-							 guint			 request,
-							 PkResults		*results);
-	void	 (*eula_question)			(PkTask			*task,
-							 guint			 request,
-							 PkResults		*results);
-	void	 (*media_change_question)		(PkTask			*task,
-							 guint			 request,
-							 PkResults		*results);
-	void	 (*simulate_question)			(PkTask			*task,
-							 guint			 request,
-							 PkResults		*results);
-	/* padding for future expansion */
-	void (*_pk_reserved1) (void);
-	void (*_pk_reserved2) (void);
-	void (*_pk_reserved3) (void);
-	void (*_pk_reserved4) (void);
-	void (*_pk_reserved5) (void);
-};
 </pre>
 </div>
 </div>

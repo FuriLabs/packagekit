@@ -30,7 +30,6 @@
 
 #include "pk-backend.h"
 #include "pk-backend-job.h"
-#include "pk-conf.h"
 #include "pk-shared.h"
 #include "pk-sysdep.h"
 #include "pk-time.h"
@@ -100,7 +99,7 @@ struct PkBackendJobPrivate
 	PkBackend		*backend;
 	PkBackendJobVFuncItem	 vfunc_items[PK_BACKEND_SIGNAL_LAST];
 	PkBitfield		 transaction_flags;
-	PkConf			*conf;
+	GKeyFile		*conf;
 	PkExitEnum		 exit;
 	PkHintEnum		 allow_cancel;
 	PkHintEnum		 background;
@@ -597,8 +596,6 @@ pk_backend_job_signal_to_string (PkBackendJobSignal id)
 		return "DistroUpgrade";
 	if (id == PK_BACKEND_SIGNAL_FINISHED)
 		return "Finished";
-	if (id == PK_BACKEND_SIGNAL_MESSAGE)
-		return "Message";
 	if (id == PK_BACKEND_SIGNAL_PACKAGE)
 		return "Package";
 	if (id == PK_BACKEND_SIGNAL_ITEM_PROGRESS)
@@ -774,6 +771,7 @@ pk_backend_job_get_locked (PkBackendJob *job)
 
 /* simple helper to work around the GThread one pointer limit */
 typedef struct {
+	PkBackend		*backend;
 	PkBackendJob		*job;
 	PkBackendJobThreadFunc	 func;
 	gpointer		 user_data;
@@ -788,8 +786,10 @@ pk_backend_job_thread_setup (gpointer thread_data)
 {
 	PkBackendJobThreadHelper *helper = (PkBackendJobThreadHelper *) thread_data;
 
-	/* run original function */
+	/* run original function with automatic locking */
+	pk_backend_thread_start (helper->backend, helper->job, helper->func);
 	helper->func (helper->job, helper->job->priv->params, helper->user_data);
+	pk_backend_thread_stop (helper->backend, helper->job, helper->func);
 
 	/* set idle IO priority */
 	if (helper->job->priv->background == PK_HINT_ENUM_TRUE) {
@@ -835,6 +835,7 @@ pk_backend_job_thread_create (PkBackendJob *job,
 	/* create a helper object to allow us to call a _setup() function */
 	helper = g_new0 (PkBackendJobThreadHelper, 1);
 	helper->job = g_object_ref (job);
+	helper->backend = job->priv->backend;
 	helper->func = func;
 	helper->user_data = user_data;
 
@@ -1258,58 +1259,12 @@ out:
 }
 
 /**
- * pk_backend_job_message:
- **/
-void
-pk_backend_job_message (PkBackendJob *job,
-			PkMessageEnum message,
-			const gchar *format, ...)
-{
-	va_list args;
-	gchar *buffer = NULL;
-	PkMessage *item = NULL;
-
-	g_return_if_fail (PK_IS_BACKEND_JOB (job));
-
-	/* have we already set an error? */
-	if (job->priv->set_error && message != PK_MESSAGE_ENUM_BACKEND_ERROR) {
-G_GNUC_BEGIN_IGNORE_DEPRECATIONS
-		g_warning ("already set error: message %s",
-			   pk_message_enum_to_string (message));
-G_GNUC_END_IGNORE_DEPRECATIONS
-		goto out;
-	}
-
-	va_start (args, format);
-	g_vasprintf (&buffer, format, args);
-	va_end (args);
-
-	/* form PkMessage struct */
-G_GNUC_BEGIN_IGNORE_DEPRECATIONS
-	item = pk_message_new ();
-G_GNUC_END_IGNORE_DEPRECATIONS
-	g_object_set (item,
-		      "type", message,
-		      "details", buffer,
-		      NULL);
-
-	/* emit */
-	pk_backend_job_call_vfunc (job,
-				   PK_BACKEND_SIGNAL_MESSAGE,
-				   g_object_ref (item),
-				   g_object_unref);
-out:
-	g_free (buffer);
-	if (item != NULL)
-		g_object_unref (item);
-}
-
-/**
  * pk_backend_job_details:
  **/
 void
 pk_backend_job_details (PkBackendJob *job,
 			const gchar *package_id,
+			const gchar *summary,
 			const gchar *license,
 			PkGroupEnum group,
 			const gchar *description,
@@ -1331,6 +1286,7 @@ pk_backend_job_details (PkBackendJob *job,
 	item = pk_details_new ();
 	g_object_set (item,
 		      "package-id", package_id,
+		      "summary", summary,
 		      "license", license,
 		      "group", group,
 		      "description", description,
@@ -1976,7 +1932,7 @@ pk_backend_job_finalize (GObject *object)
 	if (job->priv->params != NULL)
 		g_variant_unref (job->priv->params);
 	g_object_unref (job->priv->time);
-	g_object_unref (job->priv->conf);
+	g_key_file_unref (job->priv->conf);
 
 	G_OBJECT_CLASS (pk_backend_job_parent_class)->finalize (object);
 }
@@ -2000,7 +1956,6 @@ pk_backend_job_init (PkBackendJob *job)
 {
 	job->priv = PK_BACKEND_JOB_GET_PRIVATE (job);
 	job->priv->time = pk_time_new ();
-	job->priv->conf = pk_conf_new ();
 	job->priv->last_error_code = PK_ERROR_ENUM_UNKNOWN;
 	pk_backend_job_reset (job);
 }
@@ -2011,10 +1966,11 @@ pk_backend_job_init (PkBackendJob *job)
  * Return value: A new job class instance.
  **/
 PkBackendJob *
-pk_backend_job_new (void)
+pk_backend_job_new (GKeyFile *conf)
 {
 	PkBackendJob *job;
 	job = g_object_new (PK_TYPE_BACKEND_JOB, NULL);
+	job->priv->conf = g_key_file_ref (conf);
 	return PK_BACKEND_JOB (job);
 }
 

@@ -110,10 +110,6 @@ pk_offline_update_set_plymouth_percentage (guint percentage)
 				  "failed to set percentage for splash: %s",
 				  error->message);
 		g_error_free (error);
-	} else {
-		sd_journal_print (LOG_INFO,
-				  "sent progress to plymouth '%i'",
-				  percentage);
 	}
 	g_free (cmdline);
 }
@@ -155,9 +151,12 @@ pk_offline_update_progress_cb (PkProgress *progress,
 			pk_progress_bar_start (progressbar, msg);
 		}
 		sd_journal_print (LOG_INFO,
-				  "package %s\t%s",
+				  "package %s\t%s-%s.%s (%s)",
 				  pk_info_enum_to_string (info),
-				  pk_package_get_name (pkg));
+				  pk_package_get_name (pkg),
+				  pk_package_get_version (pkg),
+				  pk_package_get_arch (pkg),
+				  pk_package_get_data (pkg));
 		break;
 	case PK_PROGRESS_TYPE_PERCENTAGE:
 		g_object_get (progress, "percentage", &percentage, NULL);
@@ -636,7 +635,7 @@ main (int argc, char *argv[])
 
 	/* just update the system */
 	task = pk_task_new ();
-	pk_task_set_interactive (task, FALSE);
+	pk_client_set_interactive (PK_CLIENT (task), FALSE);
 	pk_offline_update_set_plymouth_mode ("updates");
 	/* TRANSLATORS: we've started doing offline updates */
 	pk_offline_update_set_plymouth_msg (_("Installing updates, this could take a while..."));

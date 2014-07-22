@@ -29,8 +29,8 @@
 /* compile time version
  */
 #define PK_MAJOR_VERSION				(0)
-#define PK_MINOR_VERSION				(8)
-#define PK_MICRO_VERSION				(17)
+#define PK_MINOR_VERSION				(9)
+#define PK_MICRO_VERSION				(4)
 
 /* check whether a PackageKit version equal to or greater than
  * major.minor.micro.

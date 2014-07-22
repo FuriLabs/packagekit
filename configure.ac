@@ -1,8 +1,8 @@
 # Copyright (C) 2007-2012 Richard Hughes <richard@hughsie.com>
 
 m4_define([pk_major_version], [0])
-m4_define([pk_minor_version], [8])
-m4_define([pk_micro_version], [17])
+m4_define([pk_minor_version], [9])
+m4_define([pk_micro_version], [4])
 m4_define([pk_version],
           [pk_major_version.pk_minor_version.pk_micro_version])
 
@@ -52,9 +52,9 @@ AC_SUBST(PK_VERSION)
 # - If the interface is the same as the previous version, but bugs are
 #   fixed, change:
 #      REVISION += 1
-LT_CURRENT=19
+LT_CURRENT=18
 LT_REVISION=0
-LT_AGE=3
+LT_AGE=0
 AC_SUBST(LT_CURRENT)
 AC_SUBST(LT_REVISION)
 AC_SUBST(LT_AGE)
@@ -361,7 +361,7 @@ dnl ---------------------------------------------------------------------------
 AC_ARG_ENABLE(gstreamer_plugin, AS_HELP_STRING([--enable-gstreamer-plugin],[Build gstreamer plugin functionality]),
 	      enable_gstreamer_plugin=$enableval,enable_gstreamer_plugin=yes)
 if test x$enable_gstreamer_plugin = xyes; then
-	PKG_CHECK_MODULES(PK_GSTREAMER_PLUGIN, gstreamer-0.10 gstreamer-plugins-base-0.10 glib-2.0 gio-2.0,
+	PKG_CHECK_MODULES(PK_GSTREAMER_PLUGIN, gstreamer-1.0 gstreamer-plugins-base-1.0 glib-2.0 gio-2.0,
 	                  build_gstreamer_plugin=yes, build_gstreamer_plugin=no)
 else
 	build_gstreamer_plugin=no
@@ -425,7 +425,7 @@ AC_ARG_ENABLE(aptcc, AS_HELP_STRING([--enable-aptcc],[use the APTcc backend]),en
 AC_ARG_ENABLE(conary, AS_HELP_STRING([--enable-conary],[use the CONARY backend]),enable_conary=$enableval,enable_conary=no)
 AC_ARG_ENABLE(dummy, AS_HELP_STRING([--enable-dummy],[use the dummy backend]),enable_dummy=$enableval,enable_dummy=yes)
 AC_ARG_ENABLE(entropy, AS_HELP_STRING([--enable-entropy],[use the entropy backend]),enable_entropy=$enableval,enable_entropy=no)
-AC_ARG_ENABLE(hawkey, AS_HELP_STRING([--enable-hawkey],[use the hawkey backend]),enable_hawkey=$enableval,enable_hawkey=no)
+AC_ARG_ENABLE(hif, AS_HELP_STRING([--enable-hif],[use the hif backend]),enable_hif=$enableval,enable_hif=no)
 AC_ARG_ENABLE(opkg, AS_HELP_STRING([--enable-opkg],[use the OPKG backend]),enable_opkg=$enableval,enable_opkg=no)
 AC_ARG_ENABLE(pisi, AS_HELP_STRING([--enable-pisi],[use the PiSi backend]),enable_pisi=$enableval,enable_pisi=no)
 AC_ARG_ENABLE(poldek, AS_HELP_STRING([--enable-poldek],[use the poldek backend]),enable_poldek=$enableval,enable_poldek=no)
@@ -444,7 +444,7 @@ AM_CONDITIONAL(BACKEND_TYPE_APTCC, [test x$enable_aptcc = xyes])
 AM_CONDITIONAL(BACKEND_TYPE_CONARY, [test x$enable_conary = xyes])
 AM_CONDITIONAL(BACKEND_TYPE_DUMMY, [test x$enable_dummy = xyes])
 AM_CONDITIONAL(BACKEND_TYPE_ENTROPY, [test x$enable_entropy = xyes])
-AM_CONDITIONAL(BACKEND_TYPE_HAWKEY, [test x$enable_hawkey = xyes])
+AM_CONDITIONAL(BACKEND_TYPE_HIF, [test x$enable_hif = xyes])
 AM_CONDITIONAL(BACKEND_TYPE_OPKG, [test x$enable_opkg = xyes])
 AM_CONDITIONAL(BACKEND_TYPE_PISI, [test x$enable_pisi = xyes])
 AM_CONDITIONAL(BACKEND_TYPE_POLDEK, [test x$enable_poldek = xyes])
@@ -482,15 +482,15 @@ dnl ---------------------------------------------------------------------------
 AC_ARG_WITH([default_backend],
 	    AS_HELP_STRING([--with-default-backend=<option>],
 			   [Default backend to use
-                           auto,alpm,apt,aptcc,conary,dummy,entropy,hawkey,opkg,pisi,portage,ports,katja,smart,urpmi,yum,zypp (auto)]))
+                           auto,alpm,apt,aptcc,conary,dummy,entropy,hif,opkg,pisi,portage,ports,katja,smart,urpmi,yum,zypp (auto)]))
 if test x$with_default_backend = x; then
 	with_default_backend=auto
 fi
 AC_DEFINE_UNQUOTED(DEFAULT_BACKEND, "$with_default_backend", [default backend prefix])
 AC_SUBST(DEFAULT_BACKEND, "$with_default_backend")
 
-if test x$enable_hawkey = xyes; then
-	PKG_CHECK_MODULES(HAWKEY, hawkey >= 0.4.6 librepo >= 0.1.5 rpm >= 4.11.0)
+if test x$enable_hif = xyes; then
+	PKG_CHECK_MODULES(HIF, libhif >= 0.1.0)
 fi
 
 if test x$enable_apt = xyes; then
@@ -525,8 +525,8 @@ if test x$enable_aptcc = xyes; then
     AC_SUBST(APTCC_CFLAGS)
     AC_SUBST(APTCC_LIBS)
 
-	PKG_CHECK_MODULES(GSTREAMER, gstreamer-0.10 gstreamer-base-0.10 gstreamer-plugins-base-0.10,,
-					[AC_MSG_ERROR([Can't find the gstreamer libraries -- please install libgstreamermm-0.10-dev])])
+	PKG_CHECK_MODULES(GSTREAMER, gstreamer-1.0 gstreamer-base-1.0 gstreamer-plugins-base-1.0,,
+					[AC_MSG_ERROR([Can't find the gstreamer libraries -- please install libgstreamer-plugins-base1.0-dev])])
 	AC_SUBST(GSTREAMER_CFLAGS)
 	AC_SUBST(GSTREAMER_LIBS)
 
@@ -624,7 +624,7 @@ backends/aptcc/Makefile
 backends/conary/Makefile
 backends/dummy/Makefile
 backends/entropy/Makefile
-backends/hawkey/Makefile
+backends/hif/Makefile
 backends/opkg/Makefile
 backends/katja/Makefile
 backends/smart/Makefile
@@ -698,7 +698,7 @@ echo "
         CONARY backend:            ${enable_conary}
         dummy backend:             ${enable_dummy}
         Entropy backend:           ${enable_entropy}
-        Hawkey backend:            ${enable_hawkey}
+        Hif backend:               ${enable_hif}
         OPKG backend:              ${enable_opkg}
         PiSi backend:              ${enable_pisi}
         poldek backend:            ${enable_poldek}

@@ -1676,7 +1676,7 @@ pk_backend_get_author (PkBackend *backend)
  * This should only be run once per backend load, i.e. not every transaction
  */
 void
-pk_backend_initialize (PkBackend *backend)
+pk_backend_initialize (GKeyFile *conf, PkBackend *backend)
 {
 	/* create private area */
 	priv = new PkBackendZYppPrivate;
@@ -1709,10 +1709,10 @@ zypp_is_no_solvable (const sat::Solvable &solv)
 }
 
 /**
-  * backend_get_requires_thread:
+  * backend_required_by_thread:
   */
 static void
-backend_get_requires_thread (PkBackendJob *job, GVariant *params, gpointer user_data)
+backend_required_by_thread (PkBackendJob *job, GVariant *params, gpointer user_data)
 {
 	MIL << endl;
 
@@ -1749,7 +1749,7 @@ backend_get_requires_thread (PkBackendJob *job, GVariant *params, gpointer user_
 
 		PoolItem package = PoolItem(solvable);
 
-		// get-requires only works for installed packages. It's meaningless for stuff in the repo
+		// required-by only works for installed packages. It's meaningless for stuff in the repo
 		// same with yum backend
 		if (!solvable.isSystem ())
 			continue;
@@ -1791,12 +1791,12 @@ backend_get_requires_thread (PkBackendJob *job, GVariant *params, gpointer user_
 }
 
 /**
-  * pk_backend_get_requires:
+  * pk_backend_required_by:
   */
 void
-pk_backend_get_requires(PkBackend *backend, PkBackendJob *job, PkBitfield filters, gchar **package_ids, gboolean recursive)
+pk_backend_required_by(PkBackend *backend, PkBackendJob *job, PkBitfield filters, gchar **package_ids, gboolean recursive)
 {
-	pk_backend_job_thread_create (job, backend_get_requires_thread, NULL, NULL);
+	pk_backend_job_thread_create (job, backend_required_by_thread, NULL, NULL);
 }
 
 /**
@@ -1846,7 +1846,7 @@ pk_backend_get_filters (PkBackend *backend)
  * clearly often there is no simple answer.
  */
 static void
-backend_get_depends_thread (PkBackendJob *job, GVariant *params, gpointer user_data)
+backend_depends_on_thread (PkBackendJob *job, GVariant *params, gpointer user_data)
 {
 	PkBitfield _filters;
 	gchar **package_ids;
@@ -1895,7 +1895,7 @@ backend_get_depends_thread (PkBackendJob *job, GVariant *params, gpointer user_d
 		vector<string> pkg_names;
 
 		for (Capabilities::const_iterator cap = req.begin (); cap != req.end (); ++cap) {
-			g_debug ("get_depends - capability '%s'", cap->asString().c_str());
+			g_debug ("depends_on - capability '%s'", cap->asString().c_str());
 
 			if (caps.find (cap->asString ()) != caps.end()) {
 				g_debug ("Interesting ! already have capability '%s'", cap->asString().c_str());
@@ -1984,12 +1984,12 @@ backend_get_depends_thread (PkBackendJob *job, GVariant *params, gpointer user_d
 }
 
 /**
- * pk_backend_get_depends:
+ * pk_backend_depends_on:
  */
 void
-pk_backend_get_depends (PkBackend *backend, PkBackendJob *job, PkBitfield filters, gchar **package_ids, gboolean recursive)
+pk_backend_depends_on (PkBackend *backend, PkBackendJob *job, PkBitfield filters, gchar **package_ids, gboolean recursive)
 {
-	pk_backend_job_thread_create (job, backend_get_depends_thread, NULL, NULL);
+	pk_backend_job_thread_create (job, backend_depends_on_thread, NULL, NULL);
 }
 
 static void
@@ -3258,7 +3258,7 @@ backend_repo_set_data_thread (PkBackendJob *job, GVariant *params, gpointer user
 			} else if (g_ascii_strcasecmp (value, "false") == 0) {
 				repo.setAutorefresh (FALSE);
 			} else {
-				pk_backend_job_message (job, PK_MESSAGE_ENUM_PARAMETER_INVALID, "Autorefresh a repo: Enter true or false");
+				pk_backend_job_error_code (job, PK_ERROR_ENUM_NOT_SUPPORTED, "Autorefresh a repo: Enter true or false");
 			}
 
 			manager.modifyRepository (repo_id, repo);
@@ -3269,7 +3269,7 @@ backend_repo_set_data_thread (PkBackendJob *job, GVariant *params, gpointer user
 			} else if (g_ascii_strcasecmp (value, "false") == 0) {
 				repo.setKeepPackages (FALSE);
 			} else {
-				pk_backend_job_message (job, PK_MESSAGE_ENUM_PARAMETER_INVALID, "Keep downloaded packages: Enter true or false");
+				pk_backend_job_error_code (job, PK_ERROR_ENUM_NOT_SUPPORTED, "Keep downloaded packages: Enter true or false");
 			}
 
 			manager.modifyRepository (repo_id, repo);
@@ -3284,13 +3284,13 @@ backend_repo_set_data_thread (PkBackendJob *job, GVariant *params, gpointer user
 			gint length = strlen (value);
 
 			if (length > 2) {
-				pk_backend_job_message (job, PK_MESSAGE_ENUM_PRIORITY_INVALID, "Priorities has to be between 1 (highest) and 99");
+				pk_backend_job_error_code (job, PK_ERROR_ENUM_NOT_SUPPORTED, "Priorities has to be between 1 (highest) and 99");
 			} else {
 				for (gint i = 0; i < length; i++) {
 					gint tmp = g_ascii_digit_value (value[i]);
 
 					if (tmp == -1) {
-						pk_backend_job_message (job, PK_MESSAGE_ENUM_PRIORITY_INVALID, "Priorities has to be a number between 1 (highest) and 99");
+						pk_backend_job_error_code (job, PK_ERROR_ENUM_NOT_SUPPORTED, "Priorities has to be a number between 1 (highest) and 99");
 						prio = 0;
 						break;
 					} else {
@@ -3340,9 +3340,7 @@ pk_backend_repo_set_data (PkBackend *backend, PkBackendJob *job, const gchar *re
  * pk_backend_what_provides_decompose: maps enums to provides
  */
 static gchar **
-pk_backend_what_provides_decompose (PkBackendJob *job,
-				    PkProvidesEnum provides,
-				    gchar **values)
+pk_backend_what_provides_decompose (PkBackendJob *job, gchar **values)
 {
 	guint i;
 	guint len;
@@ -3353,48 +3351,15 @@ pk_backend_what_provides_decompose (PkBackendJob *job,
 	len = g_strv_length (values);
 	array = g_ptr_array_new_with_free_func (g_free);
 	for (i=0; i<len; i++) {
-		MIL << provides << " " << values[i] << endl;
 		/* compatibility with previous versions of GPK */
-		if (g_str_has_prefix (values[i], "gstreamer0.10(") ||
-		    g_str_has_prefix (values[i], "gstreamer1(")) {
-			g_ptr_array_add (array, g_strdup (values[i]));
-		} else if (provides == PK_PROVIDES_ENUM_CODEC) {
-			g_ptr_array_add (array, g_strdup_printf ("gstreamer0.10(%s)", values[i]));
-			g_ptr_array_add (array, g_strdup_printf ("gstreamer1(%s)", values[i]));
-		} else if (provides == PK_PROVIDES_ENUM_FONT) {
-			g_ptr_array_add (array, g_strdup_printf ("font(%s)", values[i]));
-		} else if (provides == PK_PROVIDES_ENUM_MIMETYPE) {
-			g_ptr_array_add (array, g_strdup_printf ("mimehandler(%s)", values[i]));
-		} else if (provides == PK_PROVIDES_ENUM_POSTSCRIPT_DRIVER) {
-			g_ptr_array_add (array, g_strdup_printf ("postscriptdriver(%s)", values[i]));
-		} else if (provides == PK_PROVIDES_ENUM_PLASMA_SERVICE) {
-			/* We need to allow the Plasma version to be specified. */
-			if (g_str_has_prefix (values[i], "plasma")) {
-				g_ptr_array_add (array, g_strdup (values[i]));
-			} else {
-				/* For compatibility, we default to plasma4. */
-				g_ptr_array_add (array, g_strdup_printf ("plasma4(%s)", values[i]));
-			}
-		} else if (provides == PK_PROVIDES_ENUM_ANY) {
-			/* We need to allow the Plasma version to be specified. */
-			if (g_str_has_prefix (values[i], "plasma")) {
-				g_ptr_array_add (array, g_strdup (values[i]));
-			} else {
-				g_ptr_array_add (array, g_strdup_printf ("gstreamer0.10(%s)", values[i]));
-				g_ptr_array_add (array, g_strdup_printf ("gstreamer1(%s)", values[i]));
-				g_ptr_array_add (array, g_strdup_printf ("font(%s)", values[i]));
-				g_ptr_array_add (array, g_strdup_printf ("mimehandler(%s)", values[i]));
-				g_ptr_array_add (array, g_strdup_printf ("postscriptdriver(%s)", values[i]));
-				g_ptr_array_add (array, g_strdup_printf ("plasma4(%s)", values[i]));
-				g_ptr_array_add (array, g_strdup_printf ("plasma5(%s)", values[i]));
-			}
-		} else {
-			pk_backend_job_error_code (job,
-						   PK_ERROR_ENUM_PROVIDE_TYPE_NOT_SUPPORTED,
-						  "provide type %s not supported",
-						  pk_provides_enum_to_string (provides));
-			goto out;
-		}
+		g_ptr_array_add (array, g_strdup (values[i]));
+		g_ptr_array_add (array, g_strdup_printf ("gstreamer0.10(%s)", values[i]));
+		g_ptr_array_add (array, g_strdup_printf ("gstreamer1(%s)", values[i]));
+		g_ptr_array_add (array, g_strdup_printf ("font(%s)", values[i]));
+		g_ptr_array_add (array, g_strdup_printf ("mimehandler(%s)", values[i]));
+		g_ptr_array_add (array, g_strdup_printf ("postscriptdriver(%s)", values[i]));
+		g_ptr_array_add (array, g_strdup_printf ("plasma4(%s)", values[i]));
+		g_ptr_array_add (array, g_strdup_printf ("plasma5(%s)", values[i]));
 	}
 	search = pk_ptr_array_to_strv (array);
 	for (i = 0; search[i] != NULL; i++)
@@ -3410,10 +3375,8 @@ backend_what_provides_thread (PkBackendJob *job, GVariant *params, gpointer user
 	
 	gchar **values;
 	PkBitfield _filters;
-	PkProvidesEnum provides;
-	g_variant_get(params, "(tu^a&s)",
+	g_variant_get(params, "(t^a&s)",
 		      &_filters,
-		      &provides,
 		      &values);
 	
 	ZyppJob zjob(job);
@@ -3427,7 +3390,7 @@ backend_what_provides_thread (PkBackendJob *job, GVariant *params, gpointer user
 
 	ResPool pool = zypp_build_pool (zypp, true);
 
-	if((provides == PK_PROVIDES_ENUM_HARDWARE_DRIVER) || g_ascii_strcasecmp("drivers_for_attached_hardware", values[0]) == 0) {
+	if(g_ascii_strcasecmp("drivers_for_attached_hardware", values[0]) == 0) {
 		// solver run
 		Resolver solver(pool);
 		solver.setIgnoreAlreadyRecommended (TRUE);
@@ -3464,8 +3427,8 @@ backend_what_provides_thread (PkBackendJob *job, GVariant *params, gpointer user
 		solver.setIgnoreAlreadyRecommended (FALSE);
 	} else {
 		gchar **search = pk_backend_what_provides_decompose (job,
-								     provides,
 								     values);
+		GHashTable *installed_hash = g_hash_table_new (g_str_hash, g_str_equal);
 		
 		guint len = g_strv_length (search);
 		for (guint i=0; i<len; i++) {
@@ -3474,13 +3437,28 @@ backend_what_provides_thread (PkBackendJob *job, GVariant *params, gpointer user
 			sat::WhatProvides prov (cap);
 			
 			for (sat::WhatProvides::const_iterator it = prov.begin (); it != prov.end (); ++it) {
+				if (it->isSystem ())
+					g_hash_table_insert (installed_hash,
+							     (const gpointer) make<ResObject>(*it)->summary().c_str (),
+							     GUINT_TO_POINTER (1));
+			}
+
+			for (sat::WhatProvides::const_iterator it = prov.begin (); it != prov.end (); ++it) {
 				if (zypp_filter_solvable (_filters, *it))
 					continue;
-				
+
+				/* If caller asked for uninstalled packages, filter out uninstalled instances from
+				 * remote repos corresponding to locally installed packages */
+				if ((_filters & pk_bitfield_value (PK_FILTER_ENUM_NOT_INSTALLED)) &&
+				    g_hash_table_contains (installed_hash, make<ResObject>(*it)->summary().c_str ()))
+					continue;
+
 				PkInfoEnum info = it->isSystem () ? PK_INFO_ENUM_INSTALLED : PK_INFO_ENUM_AVAILABLE;
 				zypp_backend_package (job, info, *it,  make<ResObject>(*it)->summary().c_str ());
 			}
 		}
+
+		g_hash_table_unref (installed_hash);
 	}
 	pk_backend_job_finished (job);
 }
@@ -3489,7 +3467,7 @@ backend_what_provides_thread (PkBackendJob *job, GVariant *params, gpointer user
   * pk_backend_what_provides
   */
 void
-pk_backend_what_provides (PkBackend *backend, PkBackendJob *job, PkBitfield filters, PkProvidesEnum provide, gchar **values)
+pk_backend_what_provides (PkBackend *backend, PkBackendJob *job, PkBitfield filters, gchar **values)
 {
 	pk_backend_job_thread_create (job, backend_what_provides_thread, NULL, NULL);
 }
@@ -3783,23 +3761,4 @@ ZyppBackend::ZyppBackendReceiver::zypp_signature_required (const string &file)
 		ok = true;
 
 	return ok;
-}
-
-/**
- * pk_backend_get_provides:
- */
-PkBitfield pk_backend_get_provides(PkBackend *backend)
-{
-	PkBitfield provides;
-	provides = pk_bitfield_from_enums(
-		PK_PROVIDES_ENUM_CODEC,
-		PK_PROVIDES_ENUM_FONT,
-		PK_PROVIDES_ENUM_MIMETYPE,
-		PK_PROVIDES_ENUM_POSTSCRIPT_DRIVER,
-		PK_PROVIDES_ENUM_PLASMA_SERVICE,
-		PK_PROVIDES_ENUM_HARDWARE_DRIVER,
-		PK_PROVIDES_ENUM_ANY,
-		-1);
-
-	return provides;
 }

@@ -865,7 +865,7 @@ class PackageKitPortageBackend(PackageKitPortageMixin, PackageKitBaseBackend):
             cat_id = name # same thing
             self.category("", cat_id, name, summary, icon)
 
-    def get_depends(self, filters, pkgs, recursive):
+    def depends_on(self, filters, pkgs, recursive):
         # TODO: use only myparams ?
         # TODO: improve error management / info
 
@@ -981,7 +981,7 @@ class PackageKitPortageBackend(PackageKitPortageMixin, PackageKitBaseBackend):
                     in_dict=True)
             license = self._get_real_license_str(cpv, metadata)
 
-            self.details(self._cpv_to_id(cpv), license,
+            self.details(self._cpv_to_id(cpv), '', license,
                 self._get_pk_group(cpv),
                 metadata["DESCRIPTION"], metadata["HOMEPAGE"],
                 self._get_size(cpv))
@@ -1075,7 +1075,7 @@ class PackageKitPortageBackend(PackageKitPortageMixin, PackageKitBaseBackend):
                     self.repo_detail(o, o,
                             self._is_repo_enabled(installed_layman_db, o))
 
-    def get_requires(self, filters, pkgs, recursive):
+    def required_by(self, filters, pkgs, recursive):
         # TODO: manage non-installed package
 
         # FILTERS:
@@ -1092,7 +1092,7 @@ class PackageKitPortageBackend(PackageKitPortageMixin, PackageKitBaseBackend):
 
         if FILTER_NOT_INSTALLED in filters:
             self.error(ERROR_CANNOT_GET_REQUIRES,
-                    "get-requires returns only installed packages at the moment")
+                    "required-by returns only installed packages at the moment")
             return
 
         for pkg in pkgs:
@@ -1104,7 +1104,7 @@ class PackageKitPortageBackend(PackageKitPortageMixin, PackageKitBaseBackend):
                 continue
             if not self._is_installed(cpv):
                 self.error(ERROR_CANNOT_GET_REQUIRES,
-                        "get-requires is only available for installed packages at the moment")
+                        "required-by is only available for installed packages at the moment")
                 continue
 
             cpv_input.append(cpv)

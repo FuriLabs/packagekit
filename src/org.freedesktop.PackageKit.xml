@@ -87,17 +87,6 @@
     </property>
 
     <!--*********************************************************************-->
-    <property name="Provides" type="t" access="read">
-      <doc:doc>
-        <doc:description>
-          <doc:para>
-            The provides the backend supports, e.g. <doc:tt>codec|font|hardware-driver</doc:tt>.
-          </doc:para>
-        </doc:description>
-      </doc:doc>
-    </property>
-
-    <!--*********************************************************************-->
     <property name="Groups" type="t" access="read">
       <doc:doc>
         <doc:description>
@@ -504,17 +493,6 @@
         <doc:description>
           <doc:para>
             This signal is emitted when the number of updates has changed
-          </doc:para>
-        </doc:description>
-      </doc:doc>
-    </signal>
-
-    <!--*********************************************************************-->
-    <signal name="Changed">
-      <doc:doc>
-        <doc:description>
-          <doc:para>
-            This signal is emitted when a property on the interface changes.
           </doc:para>
         </doc:description>
       </doc:doc>

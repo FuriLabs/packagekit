@@ -38,7 +38,6 @@
       <sub name="PkEulaRequired" link="PkEulaRequired.html"/>
       <sub name="PkFiles" link="PkFiles.html"/>
       <sub name="PkMediaChangeRequired" link="PkMediaChangeRequired.html"/>
-      <sub name="PkMessage" link="PkMessage.html"/>
       <sub name="PkPackageSack" link="PkPackageSack.html"/>
       <sub name="PkPackage" link="PkPackage.html"/>
       <sub name="PkProgress" link="PkProgress.html"/>
@@ -75,7 +74,6 @@
     <keyword type="" name="The RestartSchedule signal" link="PackageKit.html#PackageKit::RestartSchedule"/>
     <keyword type="" name="The RepoListChanged signal" link="PackageKit.html#PackageKit::RepoListChanged"/>
     <keyword type="" name="The UpdatesChanged signal" link="PackageKit.html#PackageKit::UpdatesChanged"/>
-    <keyword type="" name="The Changed signal" link="PackageKit.html#PackageKit::Changed"/>
     <keyword type="" name="The &quot;VersionMajor&quot; property" link="PackageKit.html#PackageKit:VersionMajor"/>
     <keyword type="" name="The &quot;VersionMinor&quot; property" link="PackageKit.html#PackageKit:VersionMinor"/>
     <keyword type="" name="The &quot;VersionMicro&quot; property" link="PackageKit.html#PackageKit:VersionMicro"/>
@@ -83,7 +81,6 @@
     <keyword type="" name="The &quot;BackendDescription&quot; property" link="PackageKit.html#PackageKit:BackendDescription"/>
     <keyword type="" name="The &quot;BackendAuthor&quot; property" link="PackageKit.html#PackageKit:BackendAuthor"/>
     <keyword type="" name="The &quot;Roles&quot; property" link="PackageKit.html#PackageKit:Roles"/>
-    <keyword type="" name="The &quot;Provides&quot; property" link="PackageKit.html#PackageKit:Provides"/>
     <keyword type="" name="The &quot;Groups&quot; property" link="PackageKit.html#PackageKit:Groups"/>
     <keyword type="" name="The &quot;Filters&quot; property" link="PackageKit.html#PackageKit:Filters"/>
     <keyword type="" name="The &quot;MimeTypes&quot; property" link="PackageKit.html#PackageKit:MimeTypes"/>
@@ -95,13 +92,15 @@
     <keyword type="" name="Cancel ()" link="Transaction.html#Transaction.Cancel"/>
     <keyword type="" name="DownloadPackages ()" link="Transaction.html#Transaction.DownloadPackages"/>
     <keyword type="" name="GetCategories ()" link="Transaction.html#Transaction.GetCategories"/>
-    <keyword type="" name="GetDepends ()" link="Transaction.html#Transaction.GetDepends"/>
+    <keyword type="" name="DependsOn ()" link="Transaction.html#Transaction.DependsOn"/>
     <keyword type="" name="GetDetails ()" link="Transaction.html#Transaction.GetDetails"/>
+    <keyword type="" name="GetDetailsLocal ()" link="Transaction.html#Transaction.GetDetailsLocal"/>
+    <keyword type="" name="GetFilesLocal ()" link="Transaction.html#Transaction.GetFilesLocal"/>
     <keyword type="" name="GetFiles ()" link="Transaction.html#Transaction.GetFiles"/>
     <keyword type="" name="GetOldTransactions ()" link="Transaction.html#Transaction.GetOldTransactions"/>
     <keyword type="" name="GetPackages ()" link="Transaction.html#Transaction.GetPackages"/>
     <keyword type="" name="GetRepoList ()" link="Transaction.html#Transaction.GetRepoList"/>
-    <keyword type="" name="GetRequires ()" link="Transaction.html#Transaction.GetRequires"/>
+    <keyword type="" name="RequiredBy ()" link="Transaction.html#Transaction.RequiredBy"/>
     <keyword type="" name="GetUpdateDetail ()" link="Transaction.html#Transaction.GetUpdateDetail"/>
     <keyword type="" name="GetUpdates ()" link="Transaction.html#Transaction.GetUpdates"/>
     <keyword type="" name="GetDistroUpgrades ()" link="Transaction.html#Transaction.GetDistroUpgrades"/>
@@ -112,6 +111,7 @@
     <keyword type="" name="RemovePackages ()" link="Transaction.html#Transaction.RemovePackages"/>
     <keyword type="" name="RepoEnable ()" link="Transaction.html#Transaction.RepoEnable"/>
     <keyword type="" name="RepoSetData ()" link="Transaction.html#Transaction.RepoSetData"/>
+    <keyword type="" name="RepoRemove ()" link="Transaction.html#Transaction.RepoRemove"/>
     <keyword type="" name="Resolve ()" link="Transaction.html#Transaction.Resolve"/>
     <keyword type="" name="SearchDetails ()" link="Transaction.html#Transaction.SearchDetails"/>
     <keyword type="" name="SearchFiles ()" link="Transaction.html#Transaction.SearchFiles"/>
@@ -119,14 +119,12 @@
     <keyword type="" name="SearchNames ()" link="Transaction.html#Transaction.SearchNames"/>
     <keyword type="" name="UpdatePackages ()" link="Transaction.html#Transaction.UpdatePackages"/>
     <keyword type="" name="WhatProvides ()" link="Transaction.html#Transaction.WhatProvides"/>
-    <keyword type="" name="UpgradeSystem ()" link="Transaction.html#Transaction.UpgradeSystem"/>
     <keyword type="" name="RepairSystem ()" link="Transaction.html#Transaction.RepairSystem"/>
     <keyword type="" name="The Category signal" link="Transaction.html#Transaction::Category"/>
     <keyword type="" name="The Details signal" link="Transaction.html#Transaction::Details"/>
     <keyword type="" name="The ErrorCode signal" link="Transaction.html#Transaction::ErrorCode"/>
     <keyword type="" name="The Files signal" link="Transaction.html#Transaction::Files"/>
     <keyword type="" name="The Finished signal" link="Transaction.html#Transaction::Finished"/>
-    <keyword type="" name="The Message signal" link="Transaction.html#Transaction::Message"/>
     <keyword type="" name="The Package signal" link="Transaction.html#Transaction::Package"/>
     <keyword type="" name="The RepoDetail signal" link="Transaction.html#Transaction::RepoDetail"/>
     <keyword type="" name="The RepoSignatureRequired signal" link="Transaction.html#Transaction::RepoSignatureRequired"/>
@@ -137,7 +135,6 @@
     <keyword type="" name="The UpdateDetail signal" link="Transaction.html#Transaction::UpdateDetail"/>
     <keyword type="" name="The DistroUpgrade signal" link="Transaction.html#Transaction::DistroUpgrade"/>
     <keyword type="" name="The ItemProgress signal" link="Transaction.html#Transaction::ItemProgress"/>
-    <keyword type="" name="The Changed signal" link="Transaction.html#Transaction::Changed"/>
     <keyword type="" name="The Destroy signal" link="Transaction.html#Transaction::Destroy"/>
     <keyword type="" name="The &quot;Role&quot; property" link="Transaction.html#Transaction:Role"/>
     <keyword type="" name="The &quot;Status&quot; property" link="Transaction.html#Transaction:Status"/>
@@ -162,8 +159,6 @@
     <keyword type="function" name="pk_category_set_summary ()" link="PkCategory.html#pk-category-set-summary" since="0.6.2"/>
     <keyword type="function" name="pk_category_get_icon ()" link="PkCategory.html#pk-category-get-icon" since="0.6.2"/>
     <keyword type="function" name="pk_category_set_icon ()" link="PkCategory.html#pk-category-set-icon" since="0.6.2"/>
-    <keyword type="struct" name="struct PkCategory" link="PkCategory.html#PkCategory-struct"/>
-    <keyword type="struct" name="struct PkCategoryClass" link="PkCategory.html#PkCategoryClass"/>
     <keyword type="property" name="The “cat-id” property" link="PkCategory.html#PkCategory--cat-id"/>
     <keyword type="property" name="The “icon” property" link="PkCategory.html#PkCategory--icon"/>
     <keyword type="property" name="The “name” property" link="PkCategory.html#PkCategory--name"/>
@@ -179,13 +174,15 @@
     <keyword type="function" name="pk_client_search_groups_async ()" link="PkClient.html#pk-client-search-groups-async" since="0.5.5"/>
     <keyword type="function" name="pk_client_search_files_async ()" link="PkClient.html#pk-client-search-files-async" since="0.5.5"/>
     <keyword type="function" name="pk_client_get_details_async ()" link="PkClient.html#pk-client-get-details-async" since="0.5.2"/>
+    <keyword type="function" name="pk_client_get_details_local_async ()" link="PkClient.html#pk-client-get-details-local-async" since="0.8.17"/>
+    <keyword type="function" name="pk_client_get_files_local_async ()" link="PkClient.html#pk-client-get-files-local-async" since="0.9.1"/>
     <keyword type="function" name="pk_client_get_update_detail_async ()" link="PkClient.html#pk-client-get-update-detail-async" since="0.5.2"/>
     <keyword type="function" name="pk_client_download_packages_async ()" link="PkClient.html#pk-client-download-packages-async" since="0.5.2"/>
     <keyword type="function" name="pk_client_get_updates_async ()" link="PkClient.html#pk-client-get-updates-async" since="0.5.2"/>
     <keyword type="function" name="pk_client_get_old_transactions_async ()" link="PkClient.html#pk-client-get-old-transactions-async" since="0.5.2"/>
-    <keyword type="function" name="pk_client_get_depends_async ()" link="PkClient.html#pk-client-get-depends-async" since="0.5.2"/>
+    <keyword type="function" name="pk_client_depends_on_async ()" link="PkClient.html#pk-client-depends-on-async" since="0.5.2"/>
     <keyword type="function" name="pk_client_get_packages_async ()" link="PkClient.html#pk-client-get-packages-async" since="0.5.2"/>
-    <keyword type="function" name="pk_client_get_requires_async ()" link="PkClient.html#pk-client-get-requires-async" since="0.5.2"/>
+    <keyword type="function" name="pk_client_required_by_async ()" link="PkClient.html#pk-client-required-by-async" since="0.5.2"/>
     <keyword type="function" name="pk_client_what_provides_async ()" link="PkClient.html#pk-client-what-provides-async" since="0.5.2"/>
     <keyword type="function" name="pk_client_get_distro_upgrades_async ()" link="PkClient.html#pk-client-get-distro-upgrades-async" since="0.5.2"/>
     <keyword type="function" name="pk_client_get_files_async ()" link="PkClient.html#pk-client-get-files-async" since="0.5.2"/>
@@ -200,7 +197,7 @@
     <keyword type="function" name="pk_client_get_repo_list_async ()" link="PkClient.html#pk-client-get-repo-list-async" since="0.5.2"/>
     <keyword type="function" name="pk_client_repo_enable_async ()" link="PkClient.html#pk-client-repo-enable-async" since="0.5.2"/>
     <keyword type="function" name="pk_client_repo_set_data_async ()" link="PkClient.html#pk-client-repo-set-data-async" since="0.5.2"/>
-    <keyword type="function" name="pk_client_upgrade_system_async ()" link="PkClient.html#pk-client-upgrade-system-async" since="0.6.11"/>
+    <keyword type="function" name="pk_client_repo_remove_async ()" link="PkClient.html#pk-client-repo-remove-async" since="0.9.1"/>
     <keyword type="function" name="pk_client_repair_system_async ()" link="PkClient.html#pk-client-repair-system-async" since="0.8.1"/>
     <keyword type="function" name="pk_client_adopt_async ()" link="PkClient.html#pk-client-adopt-async" since="0.5.2"/>
     <keyword type="function" name="pk_client_get_progress_finish ()" link="PkClient.html#pk-client-get-progress-finish" since="0.5.2"/>
@@ -217,8 +214,6 @@
     <keyword type="macro" name="PK_CLIENT_ERROR" link="PkClient.html#PK-CLIENT-ERROR:CAPS"/>
     <keyword type="macro" name="PK_CLIENT_TYPE_ERROR" link="PkClient.html#PK-CLIENT-TYPE-ERROR:CAPS"/>
     <keyword type="enum" name="enum PkClientError" link="PkClient.html#PkClientError"/>
-    <keyword type="struct" name="struct PkClient" link="PkClient.html#PkClient-struct"/>
-    <keyword type="struct" name="struct PkClientClass" link="PkClient.html#PkClientClass"/>
     <keyword type="property" name="The “background” property" link="PkClient.html#PkClient--background"/>
     <keyword type="property" name="The “cache-age” property" link="PkClient.html#PkClient--cache-age"/>
     <keyword type="property" name="The “idle” property" link="PkClient.html#PkClient--idle"/>
@@ -247,8 +242,6 @@
     <keyword type="macro" name="PK_CONTROL_ERROR" link="PkControl.html#PK-CONTROL-ERROR:CAPS"/>
     <keyword type="macro" name="PK_CONTROL_TYPE_ERROR" link="PkControl.html#PK-CONTROL-TYPE-ERROR:CAPS"/>
     <keyword type="enum" name="enum PkControlError" link="PkControl.html#PkControlError"/>
-    <keyword type="struct" name="struct PkControl" link="PkControl.html#PkControl-struct"/>
-    <keyword type="struct" name="struct PkControlClass" link="PkControl.html#PkControlClass"/>
     <keyword type="property" name="The “backend-author” property" link="PkControl.html#PkControl--backend-author"/>
     <keyword type="property" name="The “backend-description” property" link="PkControl.html#PkControl--backend-description"/>
     <keyword type="property" name="The “backend-name” property" link="PkControl.html#PkControl--backend-name"/>
@@ -276,8 +269,6 @@
     <keyword type="function" name="pk_desktop_get_package_for_file ()" link="PkDesktop.html#pk-desktop-get-package-for-file" since="0.5.3"/>
     <keyword type="macro" name="PK_DESKTOP_DEFAULT_DATABASE" link="PkDesktop.html#PK-DESKTOP-DEFAULT-DATABASE:CAPS"/>
     <keyword type="macro" name="PK_DESKTOP_DEFAULT_APPLICATION_DIR" link="PkDesktop.html#PK-DESKTOP-DEFAULT-APPLICATION-DIR:CAPS"/>
-    <keyword type="struct" name="struct PkDesktop" link="PkDesktop.html#PkDesktop-struct"/>
-    <keyword type="struct" name="struct PkDesktopClass" link="PkDesktop.html#PkDesktopClass"/>
     <keyword type="function" name="pk_details_new ()" link="PkDetails.html#pk-details-new" since="0.5.4"/>
     <keyword type="function" name="pk_details_get_package_id ()" link="PkDetails.html#pk-details-get-package-id" since="0.8.12"/>
     <keyword type="function" name="pk_details_get_license ()" link="PkDetails.html#pk-details-get-license" since="0.8.12"/>
@@ -285,55 +276,40 @@
     <keyword type="function" name="pk_details_get_description ()" link="PkDetails.html#pk-details-get-description" since="0.8.12"/>
     <keyword type="function" name="pk_details_get_url ()" link="PkDetails.html#pk-details-get-url" since="0.8.12"/>
     <keyword type="function" name="pk_details_get_size ()" link="PkDetails.html#pk-details-get-size" since="0.8.12"/>
-    <keyword type="struct" name="struct PkDetails" link="PkDetails.html#PkDetails-struct"/>
-    <keyword type="struct" name="struct PkDetailsClass" link="PkDetails.html#PkDetailsClass"/>
+    <keyword type="function" name="pk_details_get_summary ()" link="PkDetails.html#pk-details-get-summary" since="0.9.1"/>
     <keyword type="property" name="The “description” property" link="PkDetails.html#PkDetails--description"/>
     <keyword type="property" name="The “group” property" link="PkDetails.html#PkDetails--group"/>
     <keyword type="property" name="The “license” property" link="PkDetails.html#PkDetails--license"/>
     <keyword type="property" name="The “package-id” property" link="PkDetails.html#PkDetails--package-id"/>
     <keyword type="property" name="The “size” property" link="PkDetails.html#PkDetails--size"/>
+    <keyword type="property" name="The “summary” property" link="PkDetails.html#PkDetails--summary"/>
     <keyword type="property" name="The “url” property" link="PkDetails.html#PkDetails--url"/>
     <keyword type="function" name="pk_distro_upgrade_new ()" link="PkDistroUpgrade.html#pk-distro-upgrade-new" since="0.5.4"/>
     <keyword type="function" name="pk_distro_upgrade_get_id ()" link="PkDistroUpgrade.html#pk-distro-upgrade-get-id" since="0.6.11"/>
     <keyword type="function" name="pk_distro_upgrade_get_summary ()" link="PkDistroUpgrade.html#pk-distro-upgrade-get-summary" since="0.6.11"/>
     <keyword type="function" name="pk_distro_upgrade_get_state ()" link="PkDistroUpgrade.html#pk-distro-upgrade-get-state" since="0.6.11"/>
-    <keyword type="struct" name="struct PkDistroUpgrade" link="PkDistroUpgrade.html#PkDistroUpgrade-struct"/>
-    <keyword type="struct" name="struct PkDistroUpgradeClass" link="PkDistroUpgrade.html#PkDistroUpgradeClass"/>
     <keyword type="property" name="The “name” property" link="PkDistroUpgrade.html#PkDistroUpgrade--name"/>
     <keyword type="property" name="The “state” property" link="PkDistroUpgrade.html#PkDistroUpgrade--state"/>
     <keyword type="property" name="The “summary” property" link="PkDistroUpgrade.html#PkDistroUpgrade--summary"/>
     <keyword type="function" name="pk_error_new ()" link="PkError.html#pk-error-new" since="0.5.5"/>
     <keyword type="function" name="pk_error_get_code ()" link="PkError.html#pk-error-get-code" since="0.5.5"/>
     <keyword type="function" name="pk_error_get_details ()" link="PkError.html#pk-error-get-details" since="0.5.5"/>
-    <keyword type="struct" name="struct PkError" link="PkError.html#PkError-struct"/>
-    <keyword type="struct" name="struct PkErrorClass" link="PkError.html#PkErrorClass"/>
     <keyword type="property" name="The “code” property" link="PkError.html#PkError--code"/>
     <keyword type="property" name="The “details” property" link="PkError.html#PkError--details"/>
     <keyword type="function" name="pk_eula_required_new ()" link="PkEulaRequired.html#pk-eula-required-new" since="0.5.4"/>
-    <keyword type="struct" name="struct PkEulaRequired" link="PkEulaRequired.html#PkEulaRequired-struct"/>
-    <keyword type="struct" name="struct PkEulaRequiredClass" link="PkEulaRequired.html#PkEulaRequiredClass"/>
     <keyword type="property" name="The “eula-id” property" link="PkEulaRequired.html#PkEulaRequired--eula-id"/>
     <keyword type="property" name="The “license-agreement” property" link="PkEulaRequired.html#PkEulaRequired--license-agreement"/>
     <keyword type="property" name="The “package-id” property" link="PkEulaRequired.html#PkEulaRequired--package-id"/>
     <keyword type="property" name="The “vendor-name” property" link="PkEulaRequired.html#PkEulaRequired--vendor-name"/>
     <keyword type="function" name="pk_files_new ()" link="PkFiles.html#pk-files-new" since="0.5.4"/>
-    <keyword type="struct" name="struct PkFiles" link="PkFiles.html#PkFiles-struct"/>
-    <keyword type="struct" name="struct PkFilesClass" link="PkFiles.html#PkFilesClass"/>
+    <keyword type="function" name="pk_files_get_package_id ()" link="PkFiles.html#pk-files-get-package-id" since="0.9.1"/>
+    <keyword type="function" name="pk_files_get_files ()" link="PkFiles.html#pk-files-get-files" since="0.9.1"/>
     <keyword type="property" name="The “files” property" link="PkFiles.html#PkFiles--files"/>
     <keyword type="property" name="The “package-id” property" link="PkFiles.html#PkFiles--package-id"/>
     <keyword type="function" name="pk_media_change_required_new ()" link="PkMediaChangeRequired.html#pk-media-change-required-new" since="0.5.4"/>
-    <keyword type="struct" name="struct PkMediaChangeRequired" link="PkMediaChangeRequired.html#PkMediaChangeRequired-struct"/>
-    <keyword type="struct" name="struct PkMediaChangeRequiredClass" link="PkMediaChangeRequired.html#PkMediaChangeRequiredClass"/>
     <keyword type="property" name="The “media-id” property" link="PkMediaChangeRequired.html#PkMediaChangeRequired--media-id"/>
     <keyword type="property" name="The “media-text” property" link="PkMediaChangeRequired.html#PkMediaChangeRequired--media-text"/>
     <keyword type="property" name="The “media-type” property" link="PkMediaChangeRequired.html#PkMediaChangeRequired--media-type"/>
-    <keyword type="function" name="pk_message_new ()" link="PkMessage.html#pk-message-new" deprecated="" since="0.5.4"/>
-    <keyword type="function" name="pk_message_get_details ()" link="PkMessage.html#pk-message-get-details" deprecated="" since="0.6.4"/>
-    <keyword type="function" name="pk_message_get_kind ()" link="PkMessage.html#pk-message-get-kind" deprecated="" since="0.6.4"/>
-    <keyword type="struct" name="struct PkMessage" link="PkMessage.html#PkMessage-struct"/>
-    <keyword type="struct" name="struct PkMessageClass" link="PkMessage.html#PkMessageClass"/>
-    <keyword type="property" name="The “details” property" link="PkMessage.html#PkMessage--details"/>
-    <keyword type="property" name="The “type” property" link="PkMessage.html#PkMessage--type"/>
     <keyword type="function" name="pk_package_sack_new ()" link="PkPackageSack.html#pk-package-sack-new" since="0.5.2"/>
     <keyword type="function" name="pk_package_sack_test ()" link="PkPackageSack.html#pk-package-sack-test"/>
     <keyword type="function" name="PkPackageSackFilterFunc ()" link="PkPackageSack.html#PkPackageSackFilterFunc"/>
@@ -359,8 +335,6 @@
     <keyword type="function" name="pk_package_sack_get_details_async ()" link="PkPackageSack.html#pk-package-sack-get-details-async"/>
     <keyword type="function" name="pk_package_sack_get_update_detail_async ()" link="PkPackageSack.html#pk-package-sack-get-update-detail-async" since="0.5.2"/>
     <keyword type="macro" name="PK_PACKAGE_SACK_TYPE_ERROR" link="PkPackageSack.html#PK-PACKAGE-SACK-TYPE-ERROR:CAPS"/>
-    <keyword type="struct" name="struct PkPackageSack" link="PkPackageSack.html#PkPackageSack-struct"/>
-    <keyword type="struct" name="struct PkPackageSackClass" link="PkPackageSack.html#PkPackageSackClass"/>
     <keyword type="enum" name="enum PkPackageSackSortType" link="PkPackageSack.html#PkPackageSackSortType"/>
     <keyword type="struct" name="PkPackageSackResults" link="PkPackageSack.html#PkPackageSackResults"/>
     <keyword type="function" name="pk_package_new ()" link="PkPackage.html#pk-package-new" since="0.5.4"/>
@@ -380,8 +354,6 @@
     <keyword type="function" name="pk_package_get_arch ()" link="PkPackage.html#pk-package-get-arch" since="0.6.4"/>
     <keyword type="function" name="pk_package_get_data ()" link="PkPackage.html#pk-package-get-data" since="0.6.4"/>
     <keyword type="macro" name="PK_PACKAGE_TYPE_ERROR" link="PkPackage.html#PK-PACKAGE-TYPE-ERROR:CAPS"/>
-    <keyword type="struct" name="struct PkPackage" link="PkPackage.html#PkPackage-struct"/>
-    <keyword type="struct" name="struct PkPackageClass" link="PkPackage.html#PkPackageClass"/>
     <keyword type="property" name="The “description” property" link="PkPackage.html#PkPackage--description"/>
     <keyword type="property" name="The “group” property" link="PkPackage.html#PkPackage--group"/>
     <keyword type="property" name="The “info” property" link="PkPackage.html#PkPackage--info"/>
@@ -421,8 +393,6 @@
     <keyword type="function" name="pk_progress_set_uid ()" link="PkProgress.html#pk-progress-set-uid" since="0.5.2"/>
     <keyword type="function" name="pk_progress_set_package ()" link="PkProgress.html#pk-progress-set-package" since="0.5.2"/>
     <keyword type="macro" name="PK_PROGRESS_TYPE_ERROR" link="PkProgress.html#PK-PROGRESS-TYPE-ERROR:CAPS"/>
-    <keyword type="struct" name="struct PkProgress" link="PkProgress.html#PkProgress-struct"/>
-    <keyword type="struct" name="struct PkProgressClass" link="PkProgress.html#PkProgressClass"/>
     <keyword type="enum" name="enum PkProgressType" link="PkProgress.html#PkProgressType"/>
     <keyword type="property" name="The “allow-cancel” property" link="PkProgress.html#PkProgress--allow-cancel"/>
     <keyword type="property" name="The “caller-active” property" link="PkProgress.html#PkProgress--caller-active"/>
@@ -440,14 +410,13 @@
     <keyword type="property" name="The “transaction-id” property" link="PkProgress.html#PkProgress--transaction-id"/>
     <keyword type="property" name="The “uid” property" link="PkProgress.html#PkProgress--uid"/>
     <keyword type="function" name="pk_repo_detail_new ()" link="PkRepoDetail.html#pk-repo-detail-new" since="0.5.4"/>
-    <keyword type="struct" name="struct PkRepoDetail" link="PkRepoDetail.html#PkRepoDetail-struct"/>
-    <keyword type="struct" name="struct PkRepoDetailClass" link="PkRepoDetail.html#PkRepoDetailClass"/>
+    <keyword type="function" name="pk_repo_detail_get_id ()" link="PkRepoDetail.html#pk-repo-detail-get-id" since="0.9.1"/>
+    <keyword type="function" name="pk_repo_detail_get_description ()" link="PkRepoDetail.html#pk-repo-detail-get-description" since="0.9.1"/>
+    <keyword type="function" name="pk_repo_detail_get_enabled ()" link="PkRepoDetail.html#pk-repo-detail-get-enabled" since="0.9.1"/>
     <keyword type="property" name="The “description” property" link="PkRepoDetail.html#PkRepoDetail--description"/>
     <keyword type="property" name="The “enabled” property" link="PkRepoDetail.html#PkRepoDetail--enabled"/>
     <keyword type="property" name="The “repo-id” property" link="PkRepoDetail.html#PkRepoDetail--repo-id"/>
     <keyword type="function" name="pk_repo_signature_required_new ()" link="PkRepoSignatureRequired.html#pk-repo-signature-required-new" since="0.5.4"/>
-    <keyword type="struct" name="struct PkRepoSignatureRequired" link="PkRepoSignatureRequired.html#PkRepoSignatureRequired-struct"/>
-    <keyword type="struct" name="struct PkRepoSignatureRequiredClass" link="PkRepoSignatureRequired.html#PkRepoSignatureRequiredClass"/>
     <keyword type="property" name="The “key-fingerprint” property" link="PkRepoSignatureRequired.html#PkRepoSignatureRequired--key-fingerprint"/>
     <keyword type="property" name="The “key-id” property" link="PkRepoSignatureRequired.html#PkRepoSignatureRequired--key-id"/>
     <keyword type="property" name="The “key-timestamp” property" link="PkRepoSignatureRequired.html#PkRepoSignatureRequired--key-timestamp"/>
@@ -457,8 +426,6 @@
     <keyword type="property" name="The “repository-name” property" link="PkRepoSignatureRequired.html#PkRepoSignatureRequired--repository-name"/>
     <keyword type="property" name="The “type” property" link="PkRepoSignatureRequired.html#PkRepoSignatureRequired--type"/>
     <keyword type="function" name="pk_require_restart_new ()" link="PkRequireRestart.html#pk-require-restart-new" since="0.5.4"/>
-    <keyword type="struct" name="struct PkRequireRestart" link="PkRequireRestart.html#PkRequireRestart-struct"/>
-    <keyword type="struct" name="struct PkRequireRestartClass" link="PkRequireRestart.html#PkRequireRestartClass"/>
     <keyword type="property" name="The “package-id” property" link="PkRequireRestart.html#PkRequireRestart--package-id"/>
     <keyword type="property" name="The “restart” property" link="PkRequireRestart.html#PkRequireRestart--restart"/>
     <keyword type="function" name="pk_results_new ()" link="PkResults.html#pk-results-new" since="0.5.2"/>
@@ -477,7 +444,6 @@
     <keyword type="function" name="pk_results_add_eula_required ()" link="PkResults.html#pk-results-add-eula-required" since="0.5.2"/>
     <keyword type="function" name="pk_results_add_media_change_required ()" link="PkResults.html#pk-results-add-media-change-required" since="0.5.2"/>
     <keyword type="function" name="pk_results_add_repo_detail ()" link="PkResults.html#pk-results-add-repo-detail" since="0.5.2"/>
-    <keyword type="function" name="pk_results_add_message ()" link="PkResults.html#pk-results-add-message" deprecated="" since="0.5.2"/>
     <keyword type="function" name="pk_results_get_exit_code ()" link="PkResults.html#pk-results-get-exit-code" since="0.5.2"/>
     <keyword type="function" name="pk_results_get_package_sack ()" link="PkResults.html#pk-results-get-package-sack" since="0.5.2"/>
     <keyword type="function" name="pk_results_get_error_code ()" link="PkResults.html#pk-results-get-error-code" since="0.5.2"/>
@@ -496,10 +462,8 @@
     <keyword type="function" name="pk_results_get_eula_required_array ()" link="PkResults.html#pk-results-get-eula-required-array" since="0.5.2"/>
     <keyword type="function" name="pk_results_get_media_change_required_array ()" link="PkResults.html#pk-results-get-media-change-required-array" since="0.5.2"/>
     <keyword type="function" name="pk_results_get_repo_detail_array ()" link="PkResults.html#pk-results-get-repo-detail-array" since="0.5.2"/>
-    <keyword type="function" name="pk_results_get_message_array ()" link="PkResults.html#pk-results-get-message-array" deprecated="" since="0.5.2"/>
+    <keyword type="function" name="pk_results_get_message_array ()" link="PkResults.html#pk-results-get-message-array" deprecated=""/>
     <keyword type="macro" name="PK_RESULTS_TYPE_ERROR" link="PkResults.html#PK-RESULTS-TYPE-ERROR:CAPS"/>
-    <keyword type="struct" name="struct PkResults" link="PkResults.html#PkResults-struct"/>
-    <keyword type="struct" name="struct PkResultsClass" link="PkResults.html#PkResultsClass"/>
     <keyword type="property" name="The “inputs” property" link="PkResults.html#PkResults--inputs"/>
     <keyword type="property" name="The “progress” property" link="PkResults.html#PkResults--progress"/>
     <keyword type="property" name="The “role” property" link="PkResults.html#PkResults--role"/>
@@ -520,9 +484,9 @@
     <keyword type="function" name="pk_task_get_update_detail_async ()" link="PkTask.html#pk-task-get-update-detail-async" since="0.6.5"/>
     <keyword type="function" name="pk_task_download_packages_async ()" link="PkTask.html#pk-task-download-packages-async" since="0.6.5"/>
     <keyword type="function" name="pk_task_get_updates_async ()" link="PkTask.html#pk-task-get-updates-async" since="0.6.5"/>
-    <keyword type="function" name="pk_task_get_depends_async ()" link="PkTask.html#pk-task-get-depends-async" since="0.6.5"/>
+    <keyword type="function" name="pk_task_depends_on_async ()" link="PkTask.html#pk-task-depends-on-async" since="0.6.5"/>
     <keyword type="function" name="pk_task_get_packages_async ()" link="PkTask.html#pk-task-get-packages-async" since="0.6.5"/>
-    <keyword type="function" name="pk_task_get_requires_async ()" link="PkTask.html#pk-task-get-requires-async" since="0.6.5"/>
+    <keyword type="function" name="pk_task_required_by_async ()" link="PkTask.html#pk-task-required-by-async" since="0.6.5"/>
     <keyword type="function" name="pk_task_what_provides_async ()" link="PkTask.html#pk-task-what-provides-async" since="0.6.5"/>
     <keyword type="function" name="pk_task_get_files_async ()" link="PkTask.html#pk-task-get-files-async" since="0.6.5"/>
     <keyword type="function" name="pk_task_get_categories_async ()" link="PkTask.html#pk-task-get-categories-async" since="0.6.5"/>
@@ -534,13 +498,11 @@
     <keyword type="function" name="pk_task_user_declined ()" link="PkTask.html#pk-task-user-declined" since="0.5.2"/>
     <keyword type="function" name="pk_task_set_simulate ()" link="PkTask.html#pk-task-set-simulate" since="0.6.10"/>
     <keyword type="function" name="pk_task_get_simulate ()" link="PkTask.html#pk-task-get-simulate" since="0.6.10"/>
-    <keyword type="function" name="pk_task_set_interactive ()" link="PkTask.html#pk-task-set-interactive" since="0.6.10"/>
-    <keyword type="function" name="pk_task_get_interactive ()" link="PkTask.html#pk-task-get-interactive" since="0.6.10"/>
+    <keyword type="function" name="pk_task_set_interactive ()" link="PkTask.html#pk-task-set-interactive"/>
+    <keyword type="function" name="pk_task_get_interactive ()" link="PkTask.html#pk-task-get-interactive"/>
     <keyword type="function" name="pk_task_set_only_download ()" link="PkTask.html#pk-task-set-only-download" since="0.8.1"/>
     <keyword type="function" name="pk_task_get_only_download ()" link="PkTask.html#pk-task-get-only-download" since="0.8.1"/>
     <keyword type="macro" name="PK_TASK_TYPE_ERROR" link="PkTask.html#PK-TASK-TYPE-ERROR:CAPS"/>
-    <keyword type="struct" name="struct PkTask" link="PkTask.html#PkTask-struct"/>
-    <keyword type="struct" name="struct PkTaskClass" link="PkTask.html#PkTaskClass"/>
     <keyword type="property" name="The “only-download” property" link="PkTask.html#PkTask--only-download"/>
     <keyword type="property" name="The “simulate” property" link="PkTask.html#PkTask--simulate"/>
     <keyword type="function" name="pk_transaction_past_new ()" link="PkTransactionPast.html#pk-transaction-past-new" since="0.5.4"/>
@@ -554,8 +516,6 @@
     <keyword type="function" name="pk_transaction_past_get_duration ()" link="PkTransactionPast.html#pk-transaction-past-get-duration" since="0.8.11"/>
     <keyword type="function" name="pk_transaction_past_get_uid ()" link="PkTransactionPast.html#pk-transaction-past-get-uid" since="0.8.11"/>
     <keyword type="function" name="pk_transaction_past_get_role ()" link="PkTransactionPast.html#pk-transaction-past-get-role" since="0.8.11"/>
-    <keyword type="struct" name="struct PkTransactionPast" link="PkTransactionPast.html#PkTransactionPast-struct"/>
-    <keyword type="struct" name="struct PkTransactionPastClass" link="PkTransactionPast.html#PkTransactionPastClass"/>
     <keyword type="property" name="The “cmdline” property" link="PkTransactionPast.html#PkTransactionPast--cmdline"/>
     <keyword type="property" name="The “data” property" link="PkTransactionPast.html#PkTransactionPast--data"/>
     <keyword type="property" name="The “duration” property" link="PkTransactionPast.html#PkTransactionPast--duration"/>
@@ -577,8 +537,6 @@
     <keyword type="function" name="pk_update_detail_get_state ()" link="PkUpdateDetail.html#pk-update-detail-get-state" since="0.8.8"/>
     <keyword type="function" name="pk_update_detail_get_issued ()" link="PkUpdateDetail.html#pk-update-detail-get-issued" since="0.8.8"/>
     <keyword type="function" name="pk_update_detail_get_updated ()" link="PkUpdateDetail.html#pk-update-detail-get-updated" since="0.8.8"/>
-    <keyword type="struct" name="struct PkUpdateDetail" link="PkUpdateDetail.html#PkUpdateDetail-struct"/>
-    <keyword type="struct" name="struct PkUpdateDetailClass" link="PkUpdateDetail.html#PkUpdateDetailClass"/>
     <keyword type="property" name="The “bugzilla-urls” property" link="PkUpdateDetail.html#PkUpdateDetail--bugzilla-urls"/>
     <keyword type="property" name="The “changelog” property" link="PkUpdateDetail.html#PkUpdateDetail--changelog"/>
     <keyword type="property" name="The “cve-urls” property" link="PkUpdateDetail.html#PkUpdateDetail--cve-urls"/>
@@ -615,13 +573,15 @@
     <keyword type="function" name="pk_client_search_groups ()" link="PackageKit-pk-client-sync.html#pk-client-search-groups" since="0.5.5"/>
     <keyword type="function" name="pk_client_search_files ()" link="PackageKit-pk-client-sync.html#pk-client-search-files" since="0.5.5"/>
     <keyword type="function" name="pk_client_get_details ()" link="PackageKit-pk-client-sync.html#pk-client-get-details" since="0.5.3"/>
+    <keyword type="function" name="pk_client_get_details_local ()" link="PackageKit-pk-client-sync.html#pk-client-get-details-local" since="0.8.17"/>
+    <keyword type="function" name="pk_client_get_files_local ()" link="PackageKit-pk-client-sync.html#pk-client-get-files-local" since="0.9.1"/>
     <keyword type="function" name="pk_client_get_update_detail ()" link="PackageKit-pk-client-sync.html#pk-client-get-update-detail" since="0.5.3"/>
     <keyword type="function" name="pk_client_download_packages ()" link="PackageKit-pk-client-sync.html#pk-client-download-packages" since="0.5.3"/>
     <keyword type="function" name="pk_client_get_updates ()" link="PackageKit-pk-client-sync.html#pk-client-get-updates" since="0.5.3"/>
     <keyword type="function" name="pk_client_get_old_transactions ()" link="PackageKit-pk-client-sync.html#pk-client-get-old-transactions" since="0.5.3"/>
-    <keyword type="function" name="pk_client_get_depends ()" link="PackageKit-pk-client-sync.html#pk-client-get-depends" since="0.5.3"/>
+    <keyword type="function" name="pk_client_depends_on ()" link="PackageKit-pk-client-sync.html#pk-client-depends-on" since="0.5.3"/>
     <keyword type="function" name="pk_client_get_packages ()" link="PackageKit-pk-client-sync.html#pk-client-get-packages" since="0.5.3"/>
-    <keyword type="function" name="pk_client_get_requires ()" link="PackageKit-pk-client-sync.html#pk-client-get-requires" since="0.5.3"/>
+    <keyword type="function" name="pk_client_required_by ()" link="PackageKit-pk-client-sync.html#pk-client-required-by" since="0.5.3"/>
     <keyword type="function" name="pk_client_what_provides ()" link="PackageKit-pk-client-sync.html#pk-client-what-provides" since="0.5.3"/>
     <keyword type="function" name="pk_client_get_distro_upgrades ()" link="PackageKit-pk-client-sync.html#pk-client-get-distro-upgrades" since="0.5.3"/>
     <keyword type="function" name="pk_client_get_files ()" link="PackageKit-pk-client-sync.html#pk-client-get-files" since="0.5.3"/>
@@ -636,7 +596,7 @@
     <keyword type="function" name="pk_client_get_repo_list ()" link="PackageKit-pk-client-sync.html#pk-client-get-repo-list" since="0.5.3"/>
     <keyword type="function" name="pk_client_repo_enable ()" link="PackageKit-pk-client-sync.html#pk-client-repo-enable" since="0.5.3"/>
     <keyword type="function" name="pk_client_repo_set_data ()" link="PackageKit-pk-client-sync.html#pk-client-repo-set-data" since="0.5.3"/>
-    <keyword type="function" name="pk_client_upgrade_system ()" link="PackageKit-pk-client-sync.html#pk-client-upgrade-system" since="0.6.11"/>
+    <keyword type="function" name="pk_client_repo_remove ()" link="PackageKit-pk-client-sync.html#pk-client-repo-remove" since="0.9.1"/>
     <keyword type="function" name="pk_client_repair_system ()" link="PackageKit-pk-client-sync.html#pk-client-repair-system" since="0.8.1"/>
     <keyword type="function" name="pk_client_adopt ()" link="PackageKit-pk-client-sync.html#pk-client-adopt" since="0.5.3"/>
     <keyword type="function" name="pk_client_get_progress ()" link="PackageKit-pk-client-sync.html#pk-client-get-progress" since="0.5.3"/>
@@ -680,14 +640,10 @@
     <keyword type="function" name="pk_error_enum_to_string ()" link="PackageKit-pk-enum.html#pk-error-enum-to-string" since="0.5.0"/>
     <keyword type="function" name="pk_restart_enum_from_string ()" link="PackageKit-pk-enum.html#pk-restart-enum-from-string" since="0.5.0"/>
     <keyword type="function" name="pk_restart_enum_to_string ()" link="PackageKit-pk-enum.html#pk-restart-enum-to-string" since="0.5.0"/>
-    <keyword type="function" name="pk_message_enum_from_string ()" link="PackageKit-pk-enum.html#pk-message-enum-from-string" deprecated="" since="0.5.0"/>
-    <keyword type="function" name="pk_message_enum_to_string ()" link="PackageKit-pk-enum.html#pk-message-enum-to-string" deprecated="" since="0.5.0"/>
     <keyword type="function" name="pk_group_enum_from_string ()" link="PackageKit-pk-enum.html#pk-group-enum-from-string" since="0.5.0"/>
     <keyword type="function" name="pk_group_enum_to_string ()" link="PackageKit-pk-enum.html#pk-group-enum-to-string" since="0.5.0"/>
     <keyword type="function" name="pk_filter_enum_from_string ()" link="PackageKit-pk-enum.html#pk-filter-enum-from-string" since="0.5.0"/>
     <keyword type="function" name="pk_filter_enum_to_string ()" link="PackageKit-pk-enum.html#pk-filter-enum-to-string" since="0.5.0"/>
-    <keyword type="function" name="pk_provides_enum_from_string ()" link="PackageKit-pk-enum.html#pk-provides-enum-from-string" since="0.5.0"/>
-    <keyword type="function" name="pk_provides_enum_to_string ()" link="PackageKit-pk-enum.html#pk-provides-enum-to-string" since="0.5.0"/>
     <keyword type="function" name="pk_distro_upgrade_enum_from_string ()" link="PackageKit-pk-enum.html#pk-distro-upgrade-enum-from-string" since="0.5.0"/>
     <keyword type="function" name="pk_distro_upgrade_enum_to_string ()" link="PackageKit-pk-enum.html#pk-distro-upgrade-enum-to-string" since="0.5.0"/>
     <keyword type="function" name="pk_media_type_enum_from_string ()" link="PackageKit-pk-enum.html#pk-media-type-enum-from-string" since="0.5.0"/>
@@ -709,14 +665,12 @@
     <keyword type="enum" name="enum PkNetworkEnum" link="PackageKit-pk-enum.html#PkNetworkEnum"/>
     <keyword type="enum" name="enum PkFilterEnum" link="PackageKit-pk-enum.html#PkFilterEnum"/>
     <keyword type="enum" name="enum PkRestartEnum" link="PackageKit-pk-enum.html#PkRestartEnum"/>
-    <keyword type="enum" name="enum PkMessageEnum" link="PackageKit-pk-enum.html#PkMessageEnum"/>
     <keyword type="enum" name="enum PkErrorEnum" link="PackageKit-pk-enum.html#PkErrorEnum"/>
     <keyword type="enum" name="enum PkGroupEnum" link="PackageKit-pk-enum.html#PkGroupEnum"/>
     <keyword type="enum" name="enum PkUpdateStateEnum" link="PackageKit-pk-enum.html#PkUpdateStateEnum"/>
     <keyword type="enum" name="enum PkInfoEnum" link="PackageKit-pk-enum.html#PkInfoEnum"/>
     <keyword type="enum" name="enum PkDistroUpgradeEnum" link="PackageKit-pk-enum.html#PkDistroUpgradeEnum"/>
     <keyword type="enum" name="enum PkSigTypeEnum" link="PackageKit-pk-enum.html#PkSigTypeEnum"/>
-    <keyword type="enum" name="enum PkProvidesEnum" link="PackageKit-pk-enum.html#PkProvidesEnum"/>
     <keyword type="enum" name="enum PkMediaTypeEnum" link="PackageKit-pk-enum.html#PkMediaTypeEnum"/>
     <keyword type="enum" name="enum PkAuthorizeEnum" link="PackageKit-pk-enum.html#PkAuthorizeEnum"/>
     <keyword type="enum" name="enum PkUpgradeKindEnum" link="PackageKit-pk-enum.html#PkUpgradeKindEnum"/>
@@ -733,6 +687,7 @@
     <keyword type="macro" name="PK_PACKAGE_IDS_DELIM" link="PackageKit-pk-package-ids.html#PK-PACKAGE-IDS-DELIM:CAPS"/>
     <keyword type="macro" name="pk_package_ids_from_text" link="PackageKit-pk-package-ids.html#pk-package-ids-from-text"/>
     <keyword type="macro" name="pk_package_ids_to_text" link="PackageKit-pk-package-ids.html#pk-package-ids-to-text"/>
+    <keyword type="function" name="pk_package_id_test ()" link="PackageKit-pk-package-id.html#pk-package-id-test"/>
     <keyword type="function" name="pk_package_id_build ()" link="PackageKit-pk-package-id.html#pk-package-id-build" since="0.5.0"/>
     <keyword type="function" name="pk_package_id_check ()" link="PackageKit-pk-package-id.html#pk-package-id-check" since="0.5.0"/>
     <keyword type="function" name="pk_package_id_split ()" link="PackageKit-pk-package-id.html#pk-package-id-split" since="0.5.3"/>
@@ -755,9 +710,9 @@
     <keyword type="function" name="pk_task_get_update_detail_sync ()" link="PackageKit-pk-task-sync.html#pk-task-get-update-detail-sync" since="0.6.5"/>
     <keyword type="function" name="pk_task_download_packages_sync ()" link="PackageKit-pk-task-sync.html#pk-task-download-packages-sync" since="0.6.5"/>
     <keyword type="function" name="pk_task_get_updates_sync ()" link="PackageKit-pk-task-sync.html#pk-task-get-updates-sync" since="0.6.5"/>
-    <keyword type="function" name="pk_task_get_depends_sync ()" link="PackageKit-pk-task-sync.html#pk-task-get-depends-sync" since="0.6.5"/>
+    <keyword type="function" name="pk_task_depends_on_sync ()" link="PackageKit-pk-task-sync.html#pk-task-depends-on-sync" since="0.6.5"/>
     <keyword type="function" name="pk_task_get_packages_sync ()" link="PackageKit-pk-task-sync.html#pk-task-get-packages-sync" since="0.6.5"/>
-    <keyword type="function" name="pk_task_get_requires_sync ()" link="PackageKit-pk-task-sync.html#pk-task-get-requires-sync" since="0.6.5"/>
+    <keyword type="function" name="pk_task_required_by_sync ()" link="PackageKit-pk-task-sync.html#pk-task-required-by-sync" since="0.6.5"/>
     <keyword type="function" name="pk_task_what_provides_sync ()" link="PackageKit-pk-task-sync.html#pk-task-what-provides-sync" since="0.6.5"/>
     <keyword type="function" name="pk_task_get_files_sync ()" link="PackageKit-pk-task-sync.html#pk-task-get-files-sync" since="0.6.5"/>
     <keyword type="function" name="pk_task_get_categories_sync ()" link="PackageKit-pk-task-sync.html#pk-task-get-categories-sync" since="0.6.5"/>

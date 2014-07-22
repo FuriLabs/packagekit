@@ -225,7 +225,7 @@ class PackageKitBaseBackend:
         sys.stdout.write(_to_utf8("data\t%s\n" % data))
         sys.stdout.flush()
 
-    def details(self, package_id, package_license, group, desc, url, bytes):
+    def details(self, package_id, summary, package_license, group, desc, url, bytes):
         '''
         Send 'details' signal
         @param package_id: The package ID name, e.g. openoffice-clipart;2.6.22;ppc64;fedora
@@ -235,7 +235,7 @@ class PackageKitBaseBackend:
         @param url: The upstream project homepage
         @param bytes: The size of the package, in bytes
         '''
-        sys.stdout.write(_to_utf8("details\t%s\t%s\t%s\t%s\t%s\t%ld\n" % (package_id, package_license, group, desc, url, bytes)))
+        sys.stdout.write(_to_utf8("details\t%s\t%s\t%s\t%s\t%s\t%s\t%ld\n" % (package_id, summary, package_license, group, desc, url, bytes)))
         sys.stdout.flush()
 
     def files(self, package_id, file_list):
@@ -374,9 +374,9 @@ class PackageKitBaseBackend:
         '''
         self.error(ERROR_NOT_SUPPORTED, "This function is not implemented in this backend", exit=False)
 
-    def get_depends(self, filters, package_ids, recursive):
+    def depends_on(self, filters, package_ids, recursive):
         '''
-        Implement the {backend}-get-depends functionality
+        Implement the {backend}-depends-on functionality
         Needed to be implemented in a sub class
         '''
         self.error(ERROR_NOT_SUPPORTED, "This function is not implemented in this backend", exit=False)
@@ -388,9 +388,9 @@ class PackageKitBaseBackend:
         '''
         self.error(ERROR_NOT_SUPPORTED, "This function is not implemented in this backend", exit=False)
 
-    def get_requires(self, filters, package_ids, recursive):
+    def required_by(self, filters, package_ids, recursive):
         '''
-        Implement the {backend}-get-requires functionality
+        Implement the {backend}-required-by functionality
         Needed to be implemented in a sub class
         '''
         self.error(ERROR_NOT_SUPPORTED, "This function is not implemented in this backend", exit=False)
@@ -398,13 +398,6 @@ class PackageKitBaseBackend:
     def what_provides(self, filters, provides_type, values):
         '''
         Implement the {backend}-what-provides functionality
-        Needed to be implemented in a sub class
-        '''
-        self.error(ERROR_NOT_SUPPORTED, "This function is not implemented in this backend", exit=False)
-
-    def upgrade_system(self, distro_id):
-        '''
-        Implement the {backend}-update-system functionality
         Needed to be implemented in a sub class
         '''
         self.error(ERROR_NOT_SUPPORTED, "This function is not implemented in this backend", exit=False)
@@ -570,11 +563,11 @@ class PackageKitBaseBackend:
             package_ids = args[1].split(PACKAGE_IDS_DELIM)
             self.download_packages(directory, package_ids)
             self.finished()
-        elif cmd == 'get-depends':
+        elif cmd == 'depends-on':
             filters = args[0].split(';')
             package_ids = args[1].split(PACKAGE_IDS_DELIM)
             recursive = _text_to_bool(args[2])
-            self.get_depends(filters, package_ids, recursive)
+            self.depends_on(filters, package_ids, recursive)
             self.finished()
         elif cmd == 'get-details':
             package_ids = args[0].split(PACKAGE_IDS_DELIM)
@@ -592,11 +585,11 @@ class PackageKitBaseBackend:
             filters = args[0].split(';')
             self.get_repo_list(filters)
             self.finished()
-        elif cmd == 'get-requires':
+        elif cmd == 'required-by':
             filters = args[0].split(';')
             package_ids = args[1].split(PACKAGE_IDS_DELIM)
             recursive = _text_to_bool(args[2])
-            self.get_requires(filters, package_ids, recursive)
+            self.required_by(filters, package_ids, recursive)
             self.finished()
         elif cmd == 'get-update-detail':
             package_ids = args[0].split(PACKAGE_IDS_DELIM)
@@ -693,9 +686,6 @@ class PackageKitBaseBackend:
             self.finished()
         elif cmd == 'get-categories':
             self.get_categories()
-            self.finished()
-        elif cmd == 'upgrade-system':
-            self.upgrade_system(args[0])
             self.finished()
         elif cmd == 'repair-system':
             self.repair_system(args[0])

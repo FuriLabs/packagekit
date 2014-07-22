@@ -1,11 +1,46 @@
 #include "katja-binary.h"
 
-G_DEFINE_TYPE(KatjaBinary, katja_binary, KATJA_TYPE_PKGTOOLS);
+/**
+ * katja_pkgtools_iface_init:
+ **/
+static void katja_pkgtools_iface_init(KatjaPkgtoolsInterface *iface) {
+	iface->get_name = katja_binary_real_get_name;
+	iface->get_mirror = katja_binary_real_get_mirror;
+	iface->get_order = katja_binary_real_get_order;
+	iface->get_blacklist = katja_binary_real_get_blacklist;
+	iface->collect_cache_info = (GSList *(*)(KatjaPkgtools *, const gchar *)) katja_binary_collect_cache_info;
+	iface->generate_cache = (void (*)(KatjaPkgtools *, PkBackendJob *, const gchar *)) katja_binary_generate_cache;
+	iface->download = katja_binary_real_download;
+	iface->install = katja_binary_real_install;
+}
+
+G_DEFINE_TYPE_WITH_CODE(KatjaBinary, katja_binary, G_TYPE_OBJECT,
+						G_IMPLEMENT_INTERFACE (KATJA_TYPE_PKGTOOLS, katja_pkgtools_iface_init));
+
+/**
+ * katja_binary_collect_cache_info:
+ **/
+GSList *katja_binary_collect_cache_info(KatjaBinary *binary, const gchar *tmpl) {
+	g_return_val_if_fail(KATJA_IS_BINARY(binary), NULL);
+	g_return_val_if_fail(KATJA_BINARY_GET_CLASS(binary)->collect_cache_info != NULL, NULL);
+
+	return KATJA_BINARY_GET_CLASS(binary)->collect_cache_info(binary, tmpl);
+}
+
+/**
+ * katja_binary_generate_cache:
+ **/
+void katja_binary_generate_cache(KatjaBinary *binary, PkBackendJob *job, const gchar *tmpl) {
+	g_return_if_fail(KATJA_IS_BINARY(binary));
+	g_return_if_fail(KATJA_BINARY_GET_CLASS(binary)->generate_cache != NULL);
+
+	KATJA_BINARY_GET_CLASS(binary)->generate_cache(binary, job, tmpl);
+}
 
 /**
  * katja_binary_manifest:
  **/
-void katja_binary_manifest(KatjaBinary *binary, const gchar *tmpl, gchar *filename) {
+void katja_binary_manifest(KatjaBinary *binary, PkBackendJob *job, const gchar *tmpl, gchar *filename) {
 	FILE *manifest;
 	gint err, read_len;
 	guint pos;
@@ -15,8 +50,9 @@ void katja_binary_manifest(KatjaBinary *binary, const gchar *tmpl, gchar *filena
 	GRegex *pkg_expr = NULL, *file_expr = NULL;
 	GMatchInfo *match_info;
 	sqlite3_stmt *statement = NULL;
+	PkBackendKatjaJobData *job_data = pk_backend_job_get_user_data(job);
 
-	path = g_build_filename(tmpl, KATJA_PKGTOOLS(binary)->name->str, filename, NULL);
+	path = g_build_filename(tmpl, binary->name, filename, NULL);
 	manifest = fopen(path, "rb");
 	g_free(path);
 
@@ -39,14 +75,14 @@ void katja_binary_manifest(KatjaBinary *binary, const gchar *tmpl, gchar *filena
 		goto out;
 
 	/* Prepare SQL statements */
-	if (sqlite3_prepare_v2(katja_pkgtools_db,
+	if (sqlite3_prepare_v2(job_data->db,
 						   "INSERT INTO filelist (full_name, filename) VALUES (@full_name, @filename)",
 						   -1,
 						   &statement,
 						   NULL) != SQLITE_OK)
 		goto out;
 
-	sqlite3_exec(katja_pkgtools_db, "BEGIN TRANSACTION", NULL, NULL, NULL);
+	sqlite3_exec(job_data->db, "BEGIN TRANSACTION", NULL, NULL, NULL);
 	while ((read_len = BZ2_bzRead(&err, manifest_bz2, buf, KATJA_PKGTOOLS_MAX_BUF_SIZE))) {
 		if ((err != BZ_OK) && (err != BZ_STREAM_END))
 			break;
@@ -90,7 +126,7 @@ void katja_binary_manifest(KatjaBinary *binary, const gchar *tmpl, gchar *filena
 		g_strfreev(lines);
 	}
 
-	sqlite3_exec(katja_pkgtools_db, "END TRANSACTION", NULL, NULL, NULL);
+	sqlite3_exec(job_data->db, "END TRANSACTION", NULL, NULL, NULL);
 	g_free(full_name);
 	BZ2_bzReadClose(&err, manifest_bz2);
 
@@ -105,15 +141,46 @@ out:
 }
 
 /**
+ * katja_binary_real_get_name:
+ **/
+gchar *katja_binary_real_get_name(KatjaPkgtools *pkgtools) {
+	return KATJA_BINARY(pkgtools)->name;
+}
+
+/**
+ * katja_binary_real_get_mirror:
+ **/
+gchar *katja_binary_real_get_mirror(KatjaPkgtools *pkgtools) {
+	return KATJA_BINARY(pkgtools)->mirror;
+}
+
+/**
+ * katja_binary_real_get_order:
+ **/
+gushort katja_binary_real_get_order(KatjaPkgtools *pkgtools) {
+	return KATJA_BINARY(pkgtools)->order;
+}
+
+/**
+ * katja_binary_real_get_blacklist:
+ **/
+GRegex *katja_binary_real_get_blacklist(KatjaPkgtools *pkgtools) {
+	return KATJA_BINARY(pkgtools)->blacklist;
+}
+
+/**
  * katja_binary_real_download:
  **/
-gboolean katja_binary_real_download(KatjaPkgtools *pkgtools, gchar *dest_dir_name, gchar *pkg_name) {
+gboolean katja_binary_real_download(KatjaPkgtools *pkgtools, PkBackendJob *job,
+									gchar *dest_dir_name,
+									gchar *pkg_name) {
 	gchar *dest_filename, *source_url;
 	gboolean ret = FALSE;
 	sqlite3_stmt *statement = NULL;
 	CURL *curl = NULL;
+	PkBackendKatjaJobData *job_data = pk_backend_job_get_user_data(job);
 
-	if ((sqlite3_prepare_v2(katja_pkgtools_db,
+	if ((sqlite3_prepare_v2(job_data->db,
 							"SELECT location, (full_name || '.' || ext) FROM pkglist "
 							"WHERE name LIKE @name AND repo_order = @repo_order",
 							-1,
@@ -122,18 +189,18 @@ gboolean katja_binary_real_download(KatjaPkgtools *pkgtools, gchar *dest_dir_nam
 		return FALSE;
 
 	sqlite3_bind_text(statement, 1, pkg_name, -1, SQLITE_TRANSIENT);
-	sqlite3_bind_int(statement, 2, pkgtools->order);
+	sqlite3_bind_int(statement, 2, katja_pkgtools_get_order(pkgtools));
 
 	if (sqlite3_step(statement) == SQLITE_ROW) {
 		dest_filename = g_build_filename(dest_dir_name, sqlite3_column_text(statement, 1), NULL);
-		source_url = g_strconcat(pkgtools->mirror->str,
+		source_url = g_strconcat(katja_pkgtools_get_mirror(pkgtools),
 								 sqlite3_column_text(statement, 0),
 								 "/",
 								 sqlite3_column_text(statement, 1),
 								 NULL);
 
 		if (!g_file_test(dest_filename, G_FILE_TEST_EXISTS)) {
-			if (katja_pkgtools_get_file(&curl, source_url, dest_filename) == CURLE_OK) {
+			if (katja_get_file(&curl, source_url, dest_filename) == CURLE_OK) {
 				ret = TRUE;
 			}
 		} else {
@@ -154,11 +221,12 @@ gboolean katja_binary_real_download(KatjaPkgtools *pkgtools, gchar *dest_dir_nam
 /**
  * katja_binary_real_install:
  **/
-void katja_binary_real_install(KatjaPkgtools *pkgtools, gchar *pkg_name) {
+void katja_binary_real_install(KatjaPkgtools *pkgtools, PkBackendJob *job, gchar *pkg_name) {
 	gchar *pkg_filename, *cmd_line;
 	sqlite3_stmt *statement = NULL;
+	PkBackendKatjaJobData *job_data = pk_backend_job_get_user_data(job);
 
-	if ((sqlite3_prepare_v2(katja_pkgtools_db,
+	if ((sqlite3_prepare_v2(job_data->db,
 							"SELECT (full_name || '.' || ext) FROM pkglist "
 							"WHERE name LIKE @name AND repo_order = @repo_order",
 							-1,
@@ -167,7 +235,7 @@ void katja_binary_real_install(KatjaPkgtools *pkgtools, gchar *pkg_name) {
 		return;
 
 	sqlite3_bind_text(statement, 1, pkg_name, -1, SQLITE_TRANSIENT);
-	sqlite3_bind_int(statement, 2, pkgtools->order);
+	sqlite3_bind_int(statement, 2, katja_pkgtools_get_order(pkgtools));
 
 	if (sqlite3_step(statement) == SQLITE_ROW) {
 		pkg_filename = g_build_filename(LOCALSTATEDIR,
@@ -189,6 +257,15 @@ void katja_binary_real_install(KatjaPkgtools *pkgtools, gchar *pkg_name) {
  * katja_binary_finalize:
  **/
 static void katja_binary_finalize(GObject *object) {
+	KatjaBinary *binary;
+
+	binary = KATJA_BINARY(object);
+
+	g_free(binary->name);
+	g_free(binary->mirror);
+	if (binary->blacklist)
+		g_object_unref(binary->blacklist);
+
 	G_OBJECT_CLASS(katja_binary_parent_class)->finalize(object);
 }
 
@@ -197,16 +274,16 @@ static void katja_binary_finalize(GObject *object) {
  **/
 static void katja_binary_class_init(KatjaBinaryClass *klass) {
 	GObjectClass *object_class = G_OBJECT_CLASS(klass);
-	KatjaPkgtoolsClass *pkgtools_class = KATJA_PKGTOOLS_CLASS(klass);
 
 	object_class->finalize = katja_binary_finalize;
-
-	pkgtools_class->download = katja_binary_real_download;
-	pkgtools_class->install = katja_binary_real_install;
 }
 
 /**
  * katja_binary_init:
  **/
 static void katja_binary_init(KatjaBinary *binary) {
+	binary->name = NULL;
+	binary->mirror = NULL;
+	binary->blacklist = NULL;
+	binary->order = 0;
 }

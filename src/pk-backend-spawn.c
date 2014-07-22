@@ -47,7 +47,6 @@
 #include "pk-spawn.h"
 #include "pk-shared.h"
 #include "pk-time.h"
-#include "pk-conf.h"
 
 //#define ENABLE_STRACE
 
@@ -63,7 +62,7 @@ struct PkBackendSpawnPrivate
 	PkBackendJob		*job;
 	gchar			*name;
 	guint			 kill_id;
-	PkConf			*conf;
+	GKeyFile		*conf;
 	gboolean		 finished;
 	gboolean		 allow_sigkill;
 	gboolean		 is_busy;
@@ -142,8 +141,8 @@ pk_backend_spawn_start_kill_timer (PkBackendSpawn *backend_spawn)
 		g_source_remove (priv->kill_id);
 
 	/* get policy timeout */
-	timeout = pk_conf_get_int (priv->conf, "BackendShutdownTimeout");
-	if (timeout == PK_CONF_VALUE_INT_MISSING) {
+	timeout = g_key_file_get_integer (priv->conf, "Daemon", "BackendShutdownTimeout", NULL);
+	if (timeout == 0) {
 		g_warning ("using built in default value");
 		timeout = 5;
 	}
@@ -176,7 +175,6 @@ pk_backend_spawn_parse_stdout (PkBackendSpawn *backend_spawn,
 	gint percentage;
 	PkErrorEnum error_enum;
 	PkStatusEnum status_enum;
-	PkMessageEnum message_enum;
 	PkRestartEnum restart_enum;
 	PkSigTypeEnum sig_type;
 	PkUpdateStateEnum update_state_enum;
@@ -225,7 +223,7 @@ pk_backend_spawn_parse_stdout (PkBackendSpawn *backend_spawn,
 		}
 		pk_backend_job_package (job, info, sections[2], sections[3]);
 	} else if (g_strcmp0 (command, "details") == 0) {
-		if (size != 7) {
+		if (size != 7 && size != 8) {
 			g_set_error (error, 1, 0, "invalid command'%s', size %i", command, size);
 			ret = FALSE;
 			goto out;
@@ -251,7 +249,7 @@ pk_backend_spawn_parse_stdout (PkBackendSpawn *backend_spawn,
 		text = g_strdup (sections[4]);
 		/* convert ; to \n as we can't emit them on stdout */
 		g_strdelimit (text, ";", '\n');
-		pk_backend_job_details (job, sections[1], sections[2],
+		pk_backend_job_details (job, sections[1], size == 8 ? sections[7] : NULL, sections[2],
 					group, text, sections[5], package_size);
 		g_free (text);
 	} else if (g_strcmp0 (command, "finished") == 0) {
@@ -442,27 +440,6 @@ pk_backend_spawn_parse_stdout (PkBackendSpawn *backend_spawn,
 			goto out;
 		}
 		pk_backend_job_require_restart (job, restart_enum, sections[2]);
-	} else if (g_strcmp0 (command, "message") == 0) {
-		if (size != 3) {
-			g_set_error (error, 1, 0, "invalid command'%s', size %i", command, size);
-			ret = FALSE;
-			goto out;
-		}
-G_GNUC_BEGIN_IGNORE_DEPRECATIONS
-		message_enum = pk_message_enum_from_string (sections[1]);
-G_GNUC_END_IGNORE_DEPRECATIONS
-		if (message_enum == PK_MESSAGE_ENUM_UNKNOWN) {
-			g_set_error (error, 1, 0, "Message enum not recognised, and hence ignored: '%s'", sections[1]);
-			ret = FALSE;
-			goto out;
-		}
-		text = g_strdup (sections[2]);
-		/* convert ; to \n as we can't emit them on stdout */
-		g_strdelimit (text, ";", '\n');
-G_GNUC_BEGIN_IGNORE_DEPRECATIONS
-		pk_backend_job_message (job, message_enum, "%s", text);
-G_GNUC_END_IGNORE_DEPRECATIONS
-		g_free (text);
 	} else if (g_strcmp0 (command, "status") == 0) {
 		if (size != 2) {
 			g_set_error (error, 1, 0, "invalid command'%s', size %i", command, size);
@@ -841,8 +818,10 @@ pk_backend_spawn_get_envp (PkBackendSpawn *backend_spawn)
 	gboolean keep_environment;
 
 	env_table = g_hash_table_new_full (g_str_hash, g_str_equal, g_free, g_free);
-	keep_environment = pk_conf_get_bool (backend_spawn->priv->conf,
-					     "KeepEnvironment");
+	keep_environment = g_key_file_get_boolean (backend_spawn->priv->conf,
+						   "Daemon",
+						   "KeepEnvironment",
+						   NULL);
 	g_debug ("keep_environment: %i", keep_environment);
 
 	if (keep_environment) {
@@ -1239,7 +1218,7 @@ pk_backend_spawn_finalize (GObject *object)
 		g_source_remove (backend_spawn->priv->kill_id);
 
 	g_free (backend_spawn->priv->name);
-	g_object_unref (backend_spawn->priv->conf);
+	g_key_file_unref (backend_spawn->priv->conf);
 	g_object_unref (backend_spawn->priv->spawn);
 	if (backend_spawn->priv->backend != NULL)
 		g_object_unref (backend_spawn->priv->backend);
@@ -1265,29 +1244,24 @@ static void
 pk_backend_spawn_init (PkBackendSpawn *backend_spawn)
 {
 	backend_spawn->priv = PK_BACKEND_SPAWN_GET_PRIVATE (backend_spawn);
-	backend_spawn->priv->kill_id = 0;
-	backend_spawn->priv->name = NULL;
-	backend_spawn->priv->stdout_func = NULL;
-	backend_spawn->priv->stderr_func = NULL;
-	backend_spawn->priv->finished = FALSE;
-	backend_spawn->priv->conf = pk_conf_new ();
-	backend_spawn->priv->spawn = pk_spawn_new ();
-	g_signal_connect (backend_spawn->priv->spawn, "exit",
-			  G_CALLBACK (pk_backend_spawn_exit_cb), backend_spawn);
-	g_signal_connect (backend_spawn->priv->spawn, "stdout",
-			  G_CALLBACK (pk_backend_spawn_stdout_cb), backend_spawn);
-	g_signal_connect (backend_spawn->priv->spawn, "stderr",
-			  G_CALLBACK (pk_backend_spawn_stderr_cb), backend_spawn);
 }
 
 /**
  * pk_backend_spawn_new:
  **/
 PkBackendSpawn *
-pk_backend_spawn_new (void)
+pk_backend_spawn_new (GKeyFile *conf)
 {
 	PkBackendSpawn *backend_spawn;
 	backend_spawn = g_object_new (PK_TYPE_BACKEND_SPAWN, NULL);
+	backend_spawn->priv->conf = g_key_file_ref (conf);
+	backend_spawn->priv->spawn = pk_spawn_new (backend_spawn->priv->conf);
+	g_signal_connect (backend_spawn->priv->spawn, "exit",
+			  G_CALLBACK (pk_backend_spawn_exit_cb), backend_spawn);
+	g_signal_connect (backend_spawn->priv->spawn, "stdout",
+			  G_CALLBACK (pk_backend_spawn_stdout_cb), backend_spawn);
+	g_signal_connect (backend_spawn->priv->spawn, "stderr",
+			  G_CALLBACK (pk_backend_spawn_stderr_cb), backend_spawn);
 	return PK_BACKEND_SPAWN (backend_spawn);
 }
 

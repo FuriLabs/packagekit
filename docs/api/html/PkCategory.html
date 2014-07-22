@@ -170,25 +170,6 @@
 </table></div>
 </div>
 <div class="refsect1">
-<a name="PkCategory.other"></a><h2>Types and Values</h2>
-<div class="informaltable"><table width="100%" border="0">
-<colgroup>
-<col width="150px" class="name">
-<col class="description">
-</colgroup>
-<tbody>
-<tr>
-<td class="datatype_keyword">struct</td>
-<td class="function_name"><a class="link" href="PkCategory.html#PkCategory-struct" title="struct PkCategory">PkCategory</a></td>
-</tr>
-<tr>
-<td class="datatype_keyword">struct</td>
-<td class="function_name"><a class="link" href="PkCategory.html#PkCategoryClass" title="struct PkCategoryClass">PkCategoryClass</a></td>
-</tr>
-</tbody>
-</table></div>
-</div>
-<div class="refsect1">
 <a name="PkCategory.object-hierarchy"></a><h2>Object Hierarchy</h2>
 <pre class="screen">    <a href="http://library.gnome.org/devel/gobject/unstable/gobject-The-Base-Object-Type.html#GObject">GObject</a>
     <span class="lineart">╰──</span> PkSource
@@ -206,7 +187,7 @@
 <pre class="programlisting"><a class="link" href="PkCategory.html" title="PkCategory"><span class="returnvalue">PkCategory</span></a> *
 pk_category_new (<em class="parameter"><code><span class="type">void</span></code></em>);</pre>
 <div class="refsect3">
-<a name="id-1.4.3.8.2.4"></a><h4>Returns</h4>
+<a name="id-1.4.3.7.2.4"></a><h4>Returns</h4>
 <p> a new PkCategory object.</p>
 <p></p>
 </div>
@@ -219,7 +200,7 @@ pk_category_new (<em class="parameter"><code><span class="type">void</span></cod
 pk_category_get_parent_id (<em class="parameter"><code><a class="link" href="PkCategory.html" title="PkCategory"><span class="type">PkCategory</span></a> *category</code></em>);</pre>
 <p>Gets the parent category id.</p>
 <div class="refsect3">
-<a name="id-1.4.3.8.3.5"></a><h4>Parameters</h4>
+<a name="id-1.4.3.7.3.5"></a><h4>Parameters</h4>
 <div class="informaltable"><table width="100%" border="0">
 <colgroup>
 <col width="150px" class="parameters_name">
@@ -234,7 +215,7 @@ pk_category_get_parent_id (<em class="parameter"><code><a class="link" href="PkC
 </table></div>
 </div>
 <div class="refsect3">
-<a name="id-1.4.3.8.3.6"></a><h4>Returns</h4>
+<a name="id-1.4.3.7.3.6"></a><h4>Returns</h4>
 <p> the string value, or <a href="/usr/share/gtk-doc/html/liboil/liboil-liboiljunk.html#NULL:CAPS"><code class="literal">NULL</code></a> for unset.</p>
 <p></p>
 </div>
@@ -248,7 +229,7 @@ pk_category_set_parent_id (<em class="parameter"><code><a class="link" href="PkC
                            <em class="parameter"><code>const <a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a> *parent_id</code></em>);</pre>
 <p>Sets the parent category id.</p>
 <div class="refsect3">
-<a name="id-1.4.3.8.4.5"></a><h4>Parameters</h4>
+<a name="id-1.4.3.7.4.5"></a><h4>Parameters</h4>
 <div class="informaltable"><table width="100%" border="0">
 <colgroup>
 <col width="150px" class="parameters_name">
@@ -278,7 +259,7 @@ pk_category_set_parent_id (<em class="parameter"><code><a class="link" href="PkC
 pk_category_get_id (<em class="parameter"><code><a class="link" href="PkCategory.html" title="PkCategory"><span class="type">PkCategory</span></a> *category</code></em>);</pre>
 <p>Gets the id specific to this category.</p>
 <div class="refsect3">
-<a name="id-1.4.3.8.5.5"></a><h4>Parameters</h4>
+<a name="id-1.4.3.7.5.5"></a><h4>Parameters</h4>
 <div class="informaltable"><table width="100%" border="0">
 <colgroup>
 <col width="150px" class="parameters_name">
@@ -293,7 +274,7 @@ pk_category_get_id (<em class="parameter"><code><a class="link" href="PkCategory
 </table></div>
 </div>
 <div class="refsect3">
-<a name="id-1.4.3.8.5.6"></a><h4>Returns</h4>
+<a name="id-1.4.3.7.5.6"></a><h4>Returns</h4>
 <p> the string value, or <a href="/usr/share/gtk-doc/html/liboil/liboil-liboiljunk.html#NULL:CAPS"><code class="literal">NULL</code></a> for unset.</p>
 <p></p>
 </div>
@@ -307,7 +288,7 @@ pk_category_set_id (<em class="parameter"><code><a class="link" href="PkCategory
                     <em class="parameter"><code>const <a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a> *cat_id</code></em>);</pre>
 <p>Sets the id specific to this category.</p>
 <div class="refsect3">
-<a name="id-1.4.3.8.6.5"></a><h4>Parameters</h4>
+<a name="id-1.4.3.7.6.5"></a><h4>Parameters</h4>
 <div class="informaltable"><table width="100%" border="0">
 <colgroup>
 <col width="150px" class="parameters_name">
@@ -337,7 +318,7 @@ pk_category_set_id (<em class="parameter"><code><a class="link" href="PkCategory
 pk_category_get_name (<em class="parameter"><code><a class="link" href="PkCategory.html" title="PkCategory"><span class="type">PkCategory</span></a> *category</code></em>);</pre>
 <p>Gets the name.</p>
 <div class="refsect3">
-<a name="id-1.4.3.8.7.5"></a><h4>Parameters</h4>
+<a name="id-1.4.3.7.7.5"></a><h4>Parameters</h4>
 <div class="informaltable"><table width="100%" border="0">
 <colgroup>
 <col width="150px" class="parameters_name">
@@ -352,7 +333,7 @@ pk_category_get_name (<em class="parameter"><code><a class="link" href="PkCatego
 </table></div>
 </div>
 <div class="refsect3">
-<a name="id-1.4.3.8.7.6"></a><h4>Returns</h4>
+<a name="id-1.4.3.7.7.6"></a><h4>Returns</h4>
 <p> the string value, or <a href="/usr/share/gtk-doc/html/liboil/liboil-liboiljunk.html#NULL:CAPS"><code class="literal">NULL</code></a> for unset.</p>
 <p></p>
 </div>
@@ -366,7 +347,7 @@ pk_category_set_name (<em class="parameter"><code><a class="link" href="PkCatego
                       <em class="parameter"><code>const <a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a> *name</code></em>);</pre>
 <p>Sets the name.</p>
 <div class="refsect3">
-<a name="id-1.4.3.8.8.5"></a><h4>Parameters</h4>
+<a name="id-1.4.3.7.8.5"></a><h4>Parameters</h4>
 <div class="informaltable"><table width="100%" border="0">
 <colgroup>
 <col width="150px" class="parameters_name">
@@ -396,7 +377,7 @@ pk_category_set_name (<em class="parameter"><code><a class="link" href="PkCatego
 pk_category_get_summary (<em class="parameter"><code><a class="link" href="PkCategory.html" title="PkCategory"><span class="type">PkCategory</span></a> *category</code></em>);</pre>
 <p>Gets the summary.</p>
 <div class="refsect3">
-<a name="id-1.4.3.8.9.5"></a><h4>Parameters</h4>
+<a name="id-1.4.3.7.9.5"></a><h4>Parameters</h4>
 <div class="informaltable"><table width="100%" border="0">
 <colgroup>
 <col width="150px" class="parameters_name">
@@ -411,7 +392,7 @@ pk_category_get_summary (<em class="parameter"><code><a class="link" href="PkCat
 </table></div>
 </div>
 <div class="refsect3">
-<a name="id-1.4.3.8.9.6"></a><h4>Returns</h4>
+<a name="id-1.4.3.7.9.6"></a><h4>Returns</h4>
 <p> the string value, or <a href="/usr/share/gtk-doc/html/liboil/liboil-liboiljunk.html#NULL:CAPS"><code class="literal">NULL</code></a> for unset.</p>
 <p></p>
 </div>
@@ -425,7 +406,7 @@ pk_category_set_summary (<em class="parameter"><code><a class="link" href="PkCat
                          <em class="parameter"><code>const <a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a> *summary</code></em>);</pre>
 <p>Sets the summary.</p>
 <div class="refsect3">
-<a name="id-1.4.3.8.10.5"></a><h4>Parameters</h4>
+<a name="id-1.4.3.7.10.5"></a><h4>Parameters</h4>
 <div class="informaltable"><table width="100%" border="0">
 <colgroup>
 <col width="150px" class="parameters_name">
@@ -455,7 +436,7 @@ pk_category_set_summary (<em class="parameter"><code><a class="link" href="PkCat
 pk_category_get_icon (<em class="parameter"><code><a class="link" href="PkCategory.html" title="PkCategory"><span class="type">PkCategory</span></a> *category</code></em>);</pre>
 <p>Gets the icon filename.</p>
 <div class="refsect3">
-<a name="id-1.4.3.8.11.5"></a><h4>Parameters</h4>
+<a name="id-1.4.3.7.11.5"></a><h4>Parameters</h4>
 <div class="informaltable"><table width="100%" border="0">
 <colgroup>
 <col width="150px" class="parameters_name">
@@ -470,7 +451,7 @@ pk_category_get_icon (<em class="parameter"><code><a class="link" href="PkCatego
 </table></div>
 </div>
 <div class="refsect3">
-<a name="id-1.4.3.8.11.6"></a><h4>Returns</h4>
+<a name="id-1.4.3.7.11.6"></a><h4>Returns</h4>
 <p> the string value, or <a href="/usr/share/gtk-doc/html/liboil/liboil-liboiljunk.html#NULL:CAPS"><code class="literal">NULL</code></a> for unset.</p>
 <p></p>
 </div>
@@ -484,7 +465,7 @@ pk_category_set_icon (<em class="parameter"><code><a class="link" href="PkCatego
                       <em class="parameter"><code>const <a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a> *icon</code></em>);</pre>
 <p>Sets the icon filename.</p>
 <div class="refsect3">
-<a name="id-1.4.3.8.12.5"></a><h4>Parameters</h4>
+<a name="id-1.4.3.7.12.5"></a><h4>Parameters</h4>
 <div class="informaltable"><table width="100%" border="0">
 <colgroup>
 <col width="150px" class="parameters_name">
@@ -510,24 +491,6 @@ pk_category_set_icon (<em class="parameter"><code><a class="link" href="PkCatego
 </div>
 <div class="refsect1">
 <a name="PkCategory.other_details"></a><h2>Types and Values</h2>
-<div class="refsect2">
-<a name="PkCategory-struct"></a><h3>struct PkCategory</h3>
-<pre class="programlisting">struct PkCategory;</pre>
-</div>
-<hr>
-<div class="refsect2">
-<a name="PkCategoryClass"></a><h3>struct PkCategoryClass</h3>
-<pre class="programlisting">struct PkCategoryClass {
-	PkSourceClass parent_class;
-	/* padding for future expansion */
-	void (*_pk_reserved1) (void);
-	void (*_pk_reserved2) (void);
-	void (*_pk_reserved3) (void);
-	void (*_pk_reserved4) (void);
-	void (*_pk_reserved5) (void);
-};
-</pre>
-</div>
 </div>
 <div class="refsect1">
 <a name="PkCategory.property-details"></a><h2>Property Details</h2>

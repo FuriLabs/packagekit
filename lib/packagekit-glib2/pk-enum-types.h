@@ -12,10 +12,6 @@
 
 G_BEGIN_DECLS
 
-/* enumerations from "pk-catalog.h" */
-GType pk_catalog_error_get_type (void) G_GNUC_CONST;
-#define PK_TYPE_CATALOG_ERROR (pk_catalog_error_get_type ())
-
 /* enumerations from "pk-client.h" */
 GType pk_client_error_get_type (void) G_GNUC_CONST;
 #define PK_TYPE_CLIENT_ERROR (pk_client_error_get_type ())
@@ -37,8 +33,6 @@ GType pk_filter_enum_get_type (void) G_GNUC_CONST;
 #define PK_TYPE_FILTER_ENUM (pk_filter_enum_get_type ())
 GType pk_restart_enum_get_type (void) G_GNUC_CONST;
 #define PK_TYPE_RESTART_ENUM (pk_restart_enum_get_type ())
-GType pk_message_enum_get_type (void) G_GNUC_CONST;
-#define PK_TYPE_MESSAGE_ENUM (pk_message_enum_get_type ())
 GType pk_error_enum_get_type (void) G_GNUC_CONST;
 #define PK_TYPE_ERROR_ENUM (pk_error_enum_get_type ())
 GType pk_group_enum_get_type (void) G_GNUC_CONST;
@@ -51,8 +45,6 @@ GType pk_distro_upgrade_enum_get_type (void) G_GNUC_CONST;
 #define PK_TYPE_DISTRO_UPGRADE_ENUM (pk_distro_upgrade_enum_get_type ())
 GType pk_sig_type_enum_get_type (void) G_GNUC_CONST;
 #define PK_TYPE_SIG_TYPE_ENUM (pk_sig_type_enum_get_type ())
-GType pk_provides_enum_get_type (void) G_GNUC_CONST;
-#define PK_TYPE_PROVIDES_ENUM (pk_provides_enum_get_type ())
 GType pk_media_type_enum_get_type (void) G_GNUC_CONST;
 #define PK_TYPE_MEDIA_TYPE_ENUM (pk_media_type_enum_get_type ())
 GType pk_authorize_enum_get_type (void) G_GNUC_CONST;
@@ -69,10 +61,6 @@ GType pk_package_sack_sort_type_get_type (void) G_GNUC_CONST;
 /* enumerations from "pk-progress.h" */
 GType pk_progress_type_get_type (void) G_GNUC_CONST;
 #define PK_TYPE_PROGRESS_TYPE (pk_progress_type_get_type ())
-
-/* enumerations from "pk-service-pack.h" */
-GType pk_service_pack_error_get_type (void) G_GNUC_CONST;
-#define PK_TYPE_SERVICE_PACK_ERROR (pk_service_pack_error_get_type ())
 G_END_DECLS
 
 #endif /* __PK_ENUM_TYPES_H__ */

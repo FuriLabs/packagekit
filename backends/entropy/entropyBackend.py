@@ -817,7 +817,8 @@ class PackageKitEntropyClient(Client):
     def init_singleton(self):
         Client.init_singleton(self, url_fetcher = PkUrlFetcher)
 
-    def output(self, text, header = "", footer = "", back = False,
+    @classmethod
+    def output(cls, text, header = "", footer = "", back = False,
         importance = 0, level = "info", count = None, percent = False):
         """
         Reimplemented from entropy.output.TextInterface.
@@ -1021,9 +1022,8 @@ class PackageKitEntropyBackend(PackageKitBaseBackend, PackageKitEntropyMixin):
 
     @sharedreslock
     @sharedinstlock
-    def get_depends(self, filters, package_ids, recursive):
-
-        self._log_message(__name__, "get_depends: got %s and %s and %s" % (
+    def depends_on(self, filters, package_ids, recursive):
+        self._log_message(__name__, "depends_on: got %s and %s and %s" % (
             filters, package_ids, recursive,))
 
         self.status(STATUS_INFO)
@@ -1035,11 +1035,11 @@ class PackageKitEntropyBackend(PackageKitBaseBackend, PackageKitEntropyMixin):
 
             pkg = self._id_to_etp(pk_pkg)
             if pkg is None: # wtf!
-                self._log_message(__name__, "get_depends: cannot match %s" % (
+                self._log_message(__name__, "depends_on: cannot match %s" % (
                     pk_pkg,))
                 continue
 
-            self._log_message(__name__, "get_depends: translated %s => %s" % (
+            self._log_message(__name__, "depends_on: translated %s => %s" % (
                 pk_pkg, pkg,))
 
             pkg_id, repo_db = pkg
@@ -1047,7 +1047,7 @@ class PackageKitEntropyBackend(PackageKitBaseBackend, PackageKitEntropyMixin):
             pkgs.add((repo, pkg_id, repo_db,))
 
         matches = [(y, x) for x, y, z in pkgs]
-        self._log_message(__name__, "get_depends: raw matches => %s" % (
+        self._log_message(__name__, "depends_on: raw matches => %s" % (
             matches,))
 
         empty = False
@@ -1084,7 +1084,7 @@ class PackageKitEntropyBackend(PackageKitBaseBackend, PackageKitEntropyMixin):
 
         pkgs = set(install + removal)
 
-        self._log_message(__name__, "get_depends: matches %s" % (
+        self._log_message(__name__, "depends_on: matches %s" % (
             pkgs,))
 
         # now filter
@@ -1131,7 +1131,7 @@ class PackageKitEntropyBackend(PackageKitBaseBackend, PackageKitEntropyMixin):
                     "Package %s was not found in repository" % (pk_pkg,))
                 continue
 
-            self.details(pk_pkg, lic, self._get_pk_group(category),
+            self.details(pk_pkg, '', lic, self._get_pk_group(category),
                 description, homepage, self._get_pkg_size(pkg))
 
         self.percentage(100)
@@ -1299,9 +1299,8 @@ class PackageKitEntropyBackend(PackageKitBaseBackend, PackageKitEntropyMixin):
 
     @sharedreslock
     @sharedinstlock
-    def get_requires(self, filters, package_ids, recursive):
-
-        self._log_message(__name__, "get_requires: got %s and %s and %s" % (
+    def required_by(self, filters, package_ids, recursive):
+        self._log_message(__name__, "required_by: got %s and %s and %s" % (
             filters, package_ids, recursive))
 
         self.status(STATUS_INFO)
@@ -1313,11 +1312,11 @@ class PackageKitEntropyBackend(PackageKitBaseBackend, PackageKitEntropyMixin):
 
             pkg = self._id_to_etp(pk_pkg)
             if pkg is None: # wtf!
-                self._log_message(__name__, "get_requires: cannot match %s" % (
+                self._log_message(__name__, "required_by: cannot match %s" % (
                     pk_pkg,))
                 continue
 
-            self._log_message(__name__, "get_requires: translated %s => %s" % (
+            self._log_message(__name__, "required_by: translated %s => %s" % (
                 pk_pkg, pkg,))
 
             pkg_id, repo_db = pkg
@@ -1326,7 +1325,7 @@ class PackageKitEntropyBackend(PackageKitBaseBackend, PackageKitEntropyMixin):
 
         matches = [(y, x) for x, y, z in pkgs]
 
-        self._log_message(__name__, "get_requires: cooked => %s" % (
+        self._log_message(__name__, "required_by: cooked => %s" % (
             matches,))
 
         empty = False
@@ -1334,13 +1333,13 @@ class PackageKitEntropyBackend(PackageKitBaseBackend, PackageKitEntropyMixin):
         reverse_deps = self._entropy.get_reverse_queue(matches,
             deep = deep, recursive = recursive)
 
-        self._log_message(__name__, "get_requires: reverse_deps => %s" % (
+        self._log_message(__name__, "required_by: reverse_deps => %s" % (
             reverse_deps,))
 
         pkgs = set([(y, x, self._entropy.open_repository(y),) for x, y in \
             reverse_deps])
 
-        self._log_message(__name__, "get_requires: matches %s" % (
+        self._log_message(__name__, "required_by: matches %s" % (
             pkgs,))
 
         # now filter

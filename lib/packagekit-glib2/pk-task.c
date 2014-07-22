@@ -91,7 +91,6 @@ typedef struct {
 	gchar				*transaction_id;
 	gchar				**values;
 	PkBitfield			 filters;
-	PkProvidesEnum			 provides;
 	guint				 retry_id;
 } PkTaskState;
 
@@ -251,20 +250,20 @@ pk_task_do_async_action (PkTaskState *state)
 		pk_client_get_updates_async (PK_CLIENT(state->task), state->filters,
 					     state->cancellable, state->progress_callback, state->progress_user_data,
 					     (GAsyncReadyCallback) pk_task_ready_cb, state);
-	} else if (state->role == PK_ROLE_ENUM_GET_DEPENDS) {
-		pk_client_get_depends_async (PK_CLIENT(state->task), state->filters, state->package_ids, state->recursive,
+	} else if (state->role == PK_ROLE_ENUM_DEPENDS_ON) {
+		pk_client_depends_on_async (PK_CLIENT(state->task), state->filters, state->package_ids, state->recursive,
 					     state->cancellable, state->progress_callback, state->progress_user_data,
 					     (GAsyncReadyCallback) pk_task_ready_cb, state);
 	} else if (state->role == PK_ROLE_ENUM_GET_PACKAGES) {
 		pk_client_get_packages_async (PK_CLIENT(state->task), state->filters,
 					      state->cancellable, state->progress_callback, state->progress_user_data,
 					      (GAsyncReadyCallback) pk_task_ready_cb, state);
-	} else if (state->role == PK_ROLE_ENUM_GET_REQUIRES) {
-		pk_client_get_requires_async (PK_CLIENT(state->task), state->filters, state->package_ids, state->recursive,
+	} else if (state->role == PK_ROLE_ENUM_REQUIRED_BY) {
+		pk_client_required_by_async (PK_CLIENT(state->task), state->filters, state->package_ids, state->recursive,
 					      state->cancellable, state->progress_callback, state->progress_user_data,
 					      (GAsyncReadyCallback) pk_task_ready_cb, state);
 	} else if (state->role == PK_ROLE_ENUM_WHAT_PROVIDES) {
-		pk_client_what_provides_async (PK_CLIENT(state->task), state->filters, state->provides, state->values,
+		pk_client_what_provides_async (PK_CLIENT(state->task), state->filters, state->values,
 					       state->cancellable, state->progress_callback, state->progress_user_data,
 					       (GAsyncReadyCallback) pk_task_ready_cb, state);
 	} else if (state->role == PK_ROLE_ENUM_GET_FILES) {
@@ -688,6 +687,58 @@ out:
 }
 
 /**
+ * pk_task_repair_ready_cb:
+ **/
+static void
+pk_task_repair_ready_cb (GObject *source_object, GAsyncResult *res, PkTaskState *state)
+{
+	PkTask *task = PK_TASK (source_object);
+	GError *error = NULL;
+	PkResults *results;
+	PkError *error_code;
+
+	/* old results no longer valid */
+	if (state->results != NULL) {
+		g_object_unref (state->results);
+		state->results = NULL;
+	}
+
+	/* get the results */
+	results = pk_client_generic_finish (PK_CLIENT(task), res, &error);
+	if (results == NULL) {
+		pk_task_generic_state_finish (state, error);
+		g_error_free (error);
+		goto out;
+	}
+
+	/* we own a copy now */
+	state->results = g_object_ref (G_OBJECT(results));
+
+	/* get exit code */
+	state->exit_enum = pk_results_get_exit_code (state->results);
+
+	/* need untrusted */
+	if (state->exit_enum != PK_EXIT_ENUM_SUCCESS) {
+		error_code = pk_results_get_error_code (state->results);
+		/* TODO: convert the PkErrorEnum to a PK_CLIENT_ERROR_* enum */
+		error = g_error_new (PK_CLIENT_ERROR,
+				     PK_CLIENT_ERROR_FAILED,
+				     "failed to repair: %s",
+				     pk_error_get_details (error_code));
+		pk_task_generic_state_finish (state, error);
+		g_error_free (error);
+		g_object_unref (error_code);
+		goto out;
+	}
+
+	/* now try the action again */
+	pk_task_do_async_action (state);
+out:
+	if (results != NULL)
+		g_object_unref (results);
+}
+
+/**
  * pk_task_user_accepted_idle_cb:
  **/
 static gboolean
@@ -704,6 +755,18 @@ pk_task_user_accepted_idle_cb (PkTaskState *state)
 	if (state->exit_enum == PK_EXIT_ENUM_EULA_REQUIRED) {
 		g_debug ("need to do accept-eula");
 		pk_task_accept_eulas (state);
+		goto out;
+	}
+
+	/* this needs another step in the dance */
+	if (state->exit_enum == PK_EXIT_ENUM_REPAIR_REQUIRED) {
+		g_debug ("need to do repair");
+		pk_client_repair_system_async (PK_CLIENT(state->task),
+					       pk_bitfield_value (PK_TRANSACTION_FLAG_ENUM_NONE),
+					       state->cancellable,
+					       state->progress_callback,
+					       state->progress_user_data,
+					       (GAsyncReadyCallback) pk_task_repair_ready_cb, state);
 		goto out;
 	}
 
@@ -887,6 +950,31 @@ pk_task_ready_cb (GObject *source_object, GAsyncResult *res, PkTaskState *state)
 
 		/* run the callback */
 		klass->key_question (task, state->request, state->results);
+		goto out;
+	}
+
+	/* need repair */
+	if (state->exit_enum == PK_EXIT_ENUM_REPAIR_REQUIRED) {
+
+		/* running non-interactive */
+		if (!interactive) {
+			g_debug ("working non-interactive, so calling accept");
+			pk_task_user_accepted (state->task, state->request);
+			goto out;
+		}
+
+		/* no support */
+		if (klass->repair_question == NULL) {
+			error = g_error_new (PK_CLIENT_ERROR,
+					     PK_CLIENT_ERROR_NOT_SUPPORTED,
+					     "could not do repair question as no klass support");
+			pk_task_generic_state_finish (state, error);
+			g_error_free (error);
+			goto out;
+		}
+
+		/* run the callback */
+		klass->repair_question (task, state->request, state->results);
 		goto out;
 	}
 
@@ -1652,7 +1740,7 @@ pk_task_get_updates_async (PkTask *task, PkBitfield filters, GCancellable *cance
 }
 
 /**
- * pk_task_get_depends_async:
+ * pk_task_depends_on_async:
  * @task: a valid #PkTask instance
  * @filters: a bitfield of filters that can be used to limit the results
  * @package_ids: (array zero-terminated=1): a null terminated array of package_id structures such as "hal;0.0.1;i386;fedora"
@@ -1668,7 +1756,7 @@ pk_task_get_updates_async (PkTask *task, PkBitfield filters, GCancellable *cance
  * Since: 0.6.5
  **/
 void
-pk_task_get_depends_async (PkTask *task, PkBitfield filters, gchar **package_ids, gboolean recursive, GCancellable *cancellable,
+pk_task_depends_on_async (PkTask *task, PkBitfield filters, gchar **package_ids, gboolean recursive, GCancellable *cancellable,
 			   PkProgressCallback progress_callback, gpointer progress_user_data,
 			   GAsyncReadyCallback callback_ready, gpointer user_data)
 {
@@ -1683,7 +1771,7 @@ pk_task_get_depends_async (PkTask *task, PkBitfield filters, gchar **package_ids
 
 	/* save state */
 	state = g_slice_new0 (PkTaskState);
-	state->role = PK_ROLE_ENUM_GET_DEPENDS;
+	state->role = PK_ROLE_ENUM_DEPENDS_ON;
 	state->res = g_object_ref (res);
 	state->task = g_object_ref (task);
 	if (cancellable != NULL)
@@ -1758,7 +1846,7 @@ pk_task_get_packages_async (PkTask *task, PkBitfield filters, GCancellable *canc
 }
 
 /**
- * pk_task_get_requires_async:
+ * pk_task_required_by_async:
  * @task: a valid #PkTask instance
  * @filters: a bitfield of filters that can be used to limit the results
  * @package_ids: (array zero-terminated=1): a null terminated array of package_id structures such as "hal;0.0.1;i386;fedora"
@@ -1774,7 +1862,7 @@ pk_task_get_packages_async (PkTask *task, PkBitfield filters, GCancellable *canc
  * Since: 0.6.5
  **/
 void
-pk_task_get_requires_async (PkTask *task, PkBitfield filters, gchar **package_ids, gboolean recursive, GCancellable *cancellable,
+pk_task_required_by_async (PkTask *task, PkBitfield filters, gchar **package_ids, gboolean recursive, GCancellable *cancellable,
 			    PkProgressCallback progress_callback, gpointer progress_user_data,
 			    GAsyncReadyCallback callback_ready, gpointer user_data)
 {
@@ -1789,7 +1877,7 @@ pk_task_get_requires_async (PkTask *task, PkBitfield filters, gchar **package_id
 
 	/* save state */
 	state = g_slice_new0 (PkTaskState);
-	state->role = PK_ROLE_ENUM_GET_REQUIRES;
+	state->role = PK_ROLE_ENUM_REQUIRED_BY;
 	state->res = g_object_ref (res);
 	state->task = g_object_ref (task);
 	if (cancellable != NULL)
@@ -1816,7 +1904,6 @@ pk_task_get_requires_async (PkTask *task, PkBitfield filters, gchar **package_id
  * pk_task_what_provides_async:
  * @task: a valid #PkTask instance
  * @filters: a bitfield of filters that can be used to limit the results
- * @provides: a #PkProvidesEnum type
  * @values: (array zero-terminated=1): values to search for
  * @cancellable: a #GCancellable or %NULL
  * @progress_callback: (scope call): the function to run when the progress changes
@@ -1829,7 +1916,8 @@ pk_task_get_requires_async (PkTask *task, PkBitfield filters, gchar **package_id
  * Since: 0.6.5
  **/
 void
-pk_task_what_provides_async (PkTask *task, PkBitfield filters, PkProvidesEnum provides, gchar **values, GCancellable *cancellable,
+pk_task_what_provides_async (PkTask *task, PkBitfield filters,
+			     gchar **values, GCancellable *cancellable,
 			     PkProgressCallback progress_callback, gpointer progress_user_data,
 			     GAsyncReadyCallback callback_ready, gpointer user_data)
 {
@@ -1854,7 +1942,6 @@ pk_task_what_provides_async (PkTask *task, PkBitfield filters, PkProvidesEnum pr
 	state->ret = FALSE;
 	state->transaction_flags = pk_bitfield_value (PK_TRANSACTION_FLAG_ENUM_ONLY_TRUSTED);
 	state->filters = filters;
-	state->provides = provides;
 	state->values = g_strdupv (values);
 	state->request = pk_task_generate_request_id ();
 
@@ -2273,44 +2360,6 @@ pk_task_get_only_download (PkTask *task)
 {
 	g_return_val_if_fail (PK_IS_TASK (task), FALSE);
 	return task->priv->only_download;
-}
-
-/**
- * pk_task_set_interactive:
- * @task: a valid #PkTask instance
- * @interactive: if we are interactive
- *
- * Sets the interactive mode, i.e. if the user is allowed to ask
- * questions.
- *
- * This method is deprecated, use pk_client_set_interactive() instead.
- *
- * Since: 0.6.10
- **/
-void
-pk_task_set_interactive (PkTask *task, gboolean interactive)
-{
-	g_return_if_fail (PK_IS_TASK (task));
-	pk_client_set_interactive (PK_CLIENT (task), interactive);
-}
-
-/**
- * pk_task_get_interactive:
- * @task: a valid #PkTask instance
- *
- * Gets if the transaction is interactive.
- *
- * This method is deprecated, use pk_client_get_interactive() instead.
- *
- * Return value: %TRUE for an interactive transaction.
- *
- * Since: 0.6.10
- **/
-gboolean
-pk_task_get_interactive (PkTask *task)
-{
-	g_return_val_if_fail (PK_IS_TASK (task), FALSE);
-	return pk_client_get_interactive (PK_CLIENT (task));
 }
 
 /**

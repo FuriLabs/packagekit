@@ -135,7 +135,8 @@ am_libpk_backend_katja_la_OBJECTS =  \
 	libpk_backend_katja_la-katja-pkgtools.lo \
 	libpk_backend_katja_la-katja-binary.lo \
 	libpk_backend_katja_la-katja-slackpkg.lo \
-	libpk_backend_katja_la-katja-dl.lo
+	libpk_backend_katja_la-katja-dl.lo \
+	libpk_backend_katja_la-katja-utils.lo
 libpk_backend_katja_la_OBJECTS = $(am_libpk_backend_katja_la_OBJECTS)
 AM_V_lt = $(am__v_lt_@AM_V@)
 am__v_lt_ = $(am__v_lt_@AM_DEFAULT_V@)
@@ -276,8 +277,8 @@ GTKDOC_DEPS_CFLAGS = @GTKDOC_DEPS_CFLAGS@
 GTKDOC_DEPS_LIBS = @GTKDOC_DEPS_LIBS@
 GTKDOC_MKPDF = @GTKDOC_MKPDF@
 GTKDOC_REBASE = @GTKDOC_REBASE@
-HAWKEY_CFLAGS = @HAWKEY_CFLAGS@
-HAWKEY_LIBS = @HAWKEY_LIBS@
+HIF_CFLAGS = @HIF_CFLAGS@
+HIF_LIBS = @HIF_LIBS@
 HTML_DIR = @HTML_DIR@
 INSTALL = @INSTALL@
 INSTALL_DATA = @INSTALL_DATA@
@@ -480,7 +481,9 @@ libpk_backend_katja_la_SOURCES = \
 	katja-slackpkg.c \
 	katja-slackpkg.h \
 	katja-dl.c \
-	katja-dl.h
+	katja-dl.h \
+	katja-utils.c \
+	katja-utils.h
 
 libpk_backend_katja_la_LIBADD = -lbz2 $(PK_PLUGIN_LIBS) ${KATJA_LIBS}
 libpk_backend_katja_la_LDFLAGS = -module -avoid-version
@@ -577,6 +580,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libpk_backend_katja_la-katja-dl.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libpk_backend_katja_la-katja-pkgtools.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libpk_backend_katja_la-katja-slackpkg.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libpk_backend_katja_la-katja-utils.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libpk_backend_katja_la-pk-backend-katja.Plo@am__quote@
 
 .c.o:
@@ -634,6 +638,13 @@ libpk_backend_katja_la-katja-dl.lo: katja-dl.c
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='katja-dl.c' object='libpk_backend_katja_la-katja-dl.lo' libtool=yes @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libpk_backend_katja_la_CFLAGS) $(CFLAGS) -c -o libpk_backend_katja_la-katja-dl.lo `test -f 'katja-dl.c' || echo '$(srcdir)/'`katja-dl.c
+
+libpk_backend_katja_la-katja-utils.lo: katja-utils.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libpk_backend_katja_la_CFLAGS) $(CFLAGS) -MT libpk_backend_katja_la-katja-utils.lo -MD -MP -MF $(DEPDIR)/libpk_backend_katja_la-katja-utils.Tpo -c -o libpk_backend_katja_la-katja-utils.lo `test -f 'katja-utils.c' || echo '$(srcdir)/'`katja-utils.c
+@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/libpk_backend_katja_la-katja-utils.Tpo $(DEPDIR)/libpk_backend_katja_la-katja-utils.Plo
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='katja-utils.c' object='libpk_backend_katja_la-katja-utils.lo' libtool=yes @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libpk_backend_katja_la_CFLAGS) $(CFLAGS) -c -o libpk_backend_katja_la-katja-utils.lo `test -f 'katja-utils.c' || echo '$(srcdir)/'`katja-utils.c
 
 mostlyclean-libtool:
 	-rm -f *.lo

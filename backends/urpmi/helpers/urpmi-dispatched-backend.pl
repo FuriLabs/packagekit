@@ -54,8 +54,8 @@ sub dispatch_command {
   my ($urpm, $args) = @_;
 
   my $command = shift(@$args);
-  if ($command eq "get-depends") {
-    get_depends($urpm, $args);
+  if ($command eq "depends-on") {
+    depends_on($urpm, $args);
   } elsif ($command eq "get-details") {
     get_details($urpm, $args);
   } elsif ($command eq "get-distro-upgrades") {
@@ -66,8 +66,8 @@ sub dispatch_command {
     get_packages($urpm, $args);
   } elsif ($command eq "get-repo-list") {
     get_repo_list($urpm);
-  } elsif ($command eq "get-requires") {
-    get_requires($urpm, $args);
+  } elsif ($command eq "required-by") {
+    required_by($urpm, $args);
   } elsif ($command eq "get-update-detail") {
     get_update_detail($urpm, $args);
   } elsif ($command eq "get-updates") {
@@ -106,7 +106,7 @@ sub dispatch_command {
   } else {}
 }
 
-sub get_depends {
+sub depends_on {
   my ($urpm, $args) = @_;
   
   my @filterstab = split(/;/, $args->[0]);
@@ -205,7 +205,7 @@ sub get_distro_upgrades() {
 
   my $newer_version = _get_newer_distrib($distrib->{version}, \@distribs);
   $newer_version or goto finished;
-  pk_print_distro_upgrade(PK_DISTRO_UPGRADE_ENUM_STABLE, join(" ", "Mandriva", $product_id{product}, $newer_version->{version}), "");
+  pk_print_distro_upgrade(PK_DISTRO_UPGRADE_ENUM_STABLE, join(" ", "Mageia", $product_id{product}, $newer_version->{version}), "");
 
   unlink($distribfile_path);
   finished:
@@ -265,7 +265,7 @@ sub get_repo_list {
 }
 
 
-sub get_requires {
+sub required_by {
   my ($urpm, $args) = @_;
   
   my @filterstab = split(/;/, $args->[0]);
@@ -797,9 +797,9 @@ sub _print_package_update_details {
   pk_print_update_detail(get_package_id($pkg),
     join("&", @to_upgrade_pkids),
     join("&", map { fullname_to_package_id($_) } @to_remove),
-    "http://qa.mandriva.com",
-    "http://qa.mandriva.com",
-    "http://qa.mandriva.com",
+    "http://bugs.mageia.org",
+    "http://bugs.mageia.org",
+    "http://bugs.mageia.org",
     $restart ? PK_RESTART_ENUM_SYSTEM : PK_RESTART_ENUM_NONE,
     $desc);
 }
@@ -822,10 +822,9 @@ sub _download_distrib_file {
   
   -x "/usr/bin/wget" or die "wget is missing\n";
   
-  my $api_url = sprintf("http://api.mandriva.com/distributions/%s.%s.list?product=%s",
-                  lc($product_id->{type}),
-                  lc($product_id->{arch}),
-                  lc($product_id->{product}));
+  my $api_url = sprintf("http://mirrors.mageia.org/api/mageia.%s.%s.list",
+                  lc($product_id->{release}),
+                  lc($product_id->{arch}));
   
   my $wget_command = join(" ", 
                           "/usr/bin/wget",

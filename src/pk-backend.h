@@ -1,6 +1,6 @@
 /* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*-
  *
- * Copyright (C) 2007-2012 Richard Hughes <richard@hughsie.com>
+ * Copyright (C) 2007-2014 Richard Hughes <richard@hughsie.com>
  *
  * Licensed under the GNU General Public License Version 2
  *
@@ -67,7 +67,7 @@ typedef struct
 #define PK_BACKEND_PERCENTAGE_INVALID		101
 
 GType		 pk_backend_get_type			(void);
-PkBackend	*pk_backend_new				(void);
+PkBackend	*pk_backend_new				(GKeyFile		*conf);
 
 /* utililties */
 gboolean	 pk_backend_load			(PkBackend	*backend,
@@ -103,10 +103,10 @@ const gchar	*pk_backend_get_author			(PkBackend	*backend)
 PkBitfield	 pk_backend_get_groups			(PkBackend	*backend);
 PkBitfield	 pk_backend_get_filters			(PkBackend	*backend);
 PkBitfield	 pk_backend_get_roles			(PkBackend	*backend);
-PkBitfield	 pk_backend_get_provides		(PkBackend	*backend);
 gchar		**pk_backend_get_mime_types		(PkBackend	*backend);
 gboolean	 pk_backend_supports_parallelization	(PkBackend	*backend);
-void		 pk_backend_initialize			(PkBackend	*backend);
+void		 pk_backend_initialize			(GKeyFile		*conf,
+							 PkBackend	*backend);
 void		 pk_backend_destroy			(PkBackend	*backend);
 void		 pk_backend_start_job			(PkBackend	*backend,
 							 PkBackendJob	*job);
@@ -122,7 +122,7 @@ void		 pk_backend_download_packages		(PkBackend	*backend,
 							 const gchar	*directory);
 void		 pk_backend_get_categories		(PkBackend	*backend,
 							 PkBackendJob	*job);
-void		 pk_backend_get_depends			(PkBackend	*backend,
+void		 pk_backend_depends_on			(PkBackend	*backend,
 							 PkBackendJob	*job,
 							 PkBitfield	 filters,
 							 gchar		**package_ids,
@@ -130,12 +130,18 @@ void		 pk_backend_get_depends			(PkBackend	*backend,
 void		 pk_backend_get_details			(PkBackend	*backend,
 							 PkBackendJob	*job,
 							 gchar		**package_ids);
+void		 pk_backend_get_details_local		(PkBackend	*backend,
+							 PkBackendJob	*job,
+							 gchar		**files);
+void		 pk_backend_get_files_local		(PkBackend	*backend,
+							 PkBackendJob	*job,
+							 gchar		**files);
 void		 pk_backend_get_distro_upgrades		(PkBackend	*backend,
 							 PkBackendJob	*job);
 void		 pk_backend_get_files			(PkBackend	*backend,
 							 PkBackendJob	*job,
 							 gchar		**package_ids);
-void		 pk_backend_get_requires		(PkBackend	*backend,
+void		 pk_backend_required_by		(PkBackend	*backend,
 							 PkBackendJob	*job,
 							 PkBitfield	 filters,
 							 gchar		**package_ids,
@@ -204,21 +210,29 @@ void		 pk_backend_repo_set_data		(PkBackend	*backend,
 							 const gchar	*repo_id,
 							 const gchar	*parameter,
 							 const gchar	*value);
+void		 pk_backend_repo_remove			(PkBackend	*backend,
+							 PkBackendJob	*job,
+							 PkBitfield	 transaction_flags,
+							 const gchar	*repo_id,
+							 gboolean	 autoremove);
 void		 pk_backend_what_provides		(PkBackend	*backend,
 							 PkBackendJob	*job,
 							 PkBitfield	 filters,
-							 PkProvidesEnum provides,
 							 gchar		**search);
 void		 pk_backend_get_packages		(PkBackend	*backend,
 							 PkBackendJob	*job,
 							 PkBitfield	 filters);
-void		 pk_backend_upgrade_system		(PkBackend	*backend,
-							 PkBackendJob	*job,
-							 const gchar	*distro_id,
-							 PkUpgradeKindEnum upgrade_kind);
 void		 pk_backend_repair_system		(PkBackend	*backend,
 							 PkBackendJob	*job,
 							 PkBitfield	 transaction_flags);
+
+/* thread helpers */
+void		 pk_backend_thread_start		(PkBackend	*backend,
+							 PkBackendJob	*job,
+							 gpointer	 func);
+void		 pk_backend_thread_stop			(PkBackend	*backend,
+							 PkBackendJob	*job,
+							 gpointer	 func);
 
 /* global backend state */
 void		 pk_backend_accept_eula			(PkBackend	*backend,

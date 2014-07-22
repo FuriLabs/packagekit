@@ -1,6 +1,6 @@
 /* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*-
  *
- * Copyright (C) 2008-2012 Richard Hughes <richard@hughsie.com>
+ * Copyright (C) 2008-2014 Richard Hughes <richard@hughsie.com>
  *
  * Licensed under the GNU Lesser General Public License Version 2.1
  *
@@ -114,11 +114,9 @@ typedef struct {
 	PkClient			*client;
 	PkProgress			*progress;
 	PkProgressCallback		 progress_callback;
-	PkProvidesEnum			 provides;
 	PkResults			*results;
 	PkRoleEnum			 role;
 	PkSigTypeEnum			 type;
-	PkUpgradeKindEnum		 upgrade_kind;
 	guint				 refcount;
 	PkClientHelper			*client_helper;
 } PkClientState;
@@ -1123,28 +1121,7 @@ pk_client_signal_cb (GDBusProxy *proxy,
 	guint tmp_uint;
 	guint tmp_uint2;
 	guint tmp_uint3;
-	guint64 tmp_uint64;
 
-	/* connect up the signals */
-	if (g_strcmp0 (signal_name, "Message") == 0) {
-		PkMessage *item;
-		g_variant_get (parameters,
-			       "(u&s)",
-			       &tmp_uint,
-			       &tmp_str[1]);
-G_GNUC_BEGIN_IGNORE_DEPRECATIONS
-		item = pk_message_new ();
-		g_object_set (item,
-			      "type", tmp_uint,
-			      "details", tmp_str[1],
-			      "role", state->role,
-			      "transaction-id", state->transaction_id,
-			      NULL);
-		pk_results_add_message (state->results, item);
-G_GNUC_END_IGNORE_DEPRECATIONS
-		g_object_unref (item);
-		return;
-	}
 	if (g_strcmp0 (signal_name, "Finished") == 0) {
 		g_variant_get (parameters,
 			       "(uu)",
@@ -1168,26 +1145,44 @@ G_GNUC_END_IGNORE_DEPRECATIONS
 		return;
 	}
 	if (g_strcmp0 (signal_name, "Details") == 0) {
+		gchar *key;
+		GVariantIter *dictionary;
+		GVariant *value;
 		PkDetails *item;
-		g_variant_get (parameters,
-			       "(&s&su&s&st)",
-			       &tmp_str[0],
-			       &tmp_str[1],
-			       &tmp_uint,
-			       &tmp_str[3],
-			       &tmp_str[4],
-			       &tmp_uint64);
 		item = pk_details_new ();
-		g_object_set (item,
-			      "package-id", tmp_str[0],
-			      "license", tmp_str[1],
-			      "group", tmp_uint,
-			      "description", tmp_str[3],
-			      "url", tmp_str[4],
-			      "size", tmp_uint64,
-			      "role", state->role,
-			      "transaction-id", state->transaction_id,
-			      NULL);
+
+		if (g_variant_is_of_type (parameters, G_VARIANT_TYPE ("(a{sv})"))) {
+			g_variant_get_child (parameters, 0, "a{sv}", &dictionary);
+			while (g_variant_iter_loop (dictionary, "{sv}", &key, &value)) {
+				if (g_strcmp0 (key, "group") == 0)
+					g_object_set (item, "group", g_variant_get_uint32 (value), NULL);
+				else if (g_strcmp0 (key, "size") == 0)
+					g_object_set (item, "size", g_variant_get_uint64 (value), NULL);
+				else
+					g_object_set (item, key, g_variant_get_string (value, NULL), NULL);
+			}
+			g_variant_iter_free (dictionary);
+		} else {
+			guint64 tmp_uint64;
+			g_variant_get (parameters,
+				       "(&s&su&s&st)",
+				       &tmp_str[0],
+				       &tmp_str[1],
+				       &tmp_uint,
+				       &tmp_str[3],
+				       &tmp_str[4],
+				       &tmp_uint64);
+			g_object_set (item,
+				      "package-id", tmp_str[0],
+				      "license", tmp_str[1],
+				      "group", tmp_uint,
+				      "description", tmp_str[3],
+				      "url", tmp_str[4],
+				      "size", tmp_uint64,
+				      "role", state->role,
+				      "transaction-id", state->transaction_id,
+				      NULL);
+		}
 		pk_results_add_details (state->results, item);
 		g_object_unref (item);
 		return;
@@ -1464,9 +1459,6 @@ G_GNUC_END_IGNORE_DEPRECATIONS
 		g_object_unref (item);
 		return;
 	}
-	if (g_strcmp0 (signal_name, "Changed") == 0) {
-		return;
-	}
 	if (g_strcmp0 (signal_name, "Destroy") == 0) {
 		return;
 	}
@@ -1648,6 +1640,30 @@ pk_client_set_hints_cb (GObject *source_object,
 		g_object_set (state->results,
 			      "inputs", g_strv_length (state->package_ids),
 			      NULL);
+	} else if (state->role == PK_ROLE_ENUM_GET_DETAILS_LOCAL) {
+		g_dbus_proxy_call (state->proxy, "GetDetailsLocal",
+				   g_variant_new ("(^a&s)",
+						  state->files),
+				   G_DBUS_CALL_FLAGS_NONE,
+				   PK_CLIENT_DBUS_METHOD_TIMEOUT,
+				   state->cancellable,
+				   pk_client_method_cb,
+				   state);
+		g_object_set (state->results,
+			      "inputs", g_strv_length (state->files),
+			      NULL);
+	} else if (state->role == PK_ROLE_ENUM_GET_FILES_LOCAL) {
+		g_dbus_proxy_call (state->proxy, "GetFilesLocal",
+				   g_variant_new ("(^a&s)",
+						  state->files),
+				   G_DBUS_CALL_FLAGS_NONE,
+				   PK_CLIENT_DBUS_METHOD_TIMEOUT,
+				   state->cancellable,
+				   pk_client_method_cb,
+				   state);
+		g_object_set (state->results,
+			      "inputs", g_strv_length (state->files),
+			      NULL);
 	} else if (state->role == PK_ROLE_ENUM_GET_UPDATE_DETAIL) {
 		g_dbus_proxy_call (state->proxy, "GetUpdateDetail",
 				   g_variant_new ("(^a&s)",
@@ -1691,8 +1707,23 @@ pk_client_set_hints_cb (GObject *source_object,
 				   state->cancellable,
 				   pk_client_method_cb,
 				   state);
-	} else if (state->role == PK_ROLE_ENUM_GET_DEPENDS) {
-		g_dbus_proxy_call (state->proxy, "GetDepends",
+	} else if (state->role == PK_ROLE_ENUM_DEPENDS_ON) {
+		g_dbus_proxy_call (state->proxy, "DependsOn",
+				   g_variant_new ("(t^a&sb)",
+						  state->filters,
+						  state->package_ids,
+						  state->recursive),
+				   G_DBUS_CALL_FLAGS_NONE,
+				   PK_CLIENT_DBUS_METHOD_TIMEOUT,
+				   state->cancellable,
+				   pk_client_method_cb,
+				   state);
+		g_object_set (state->results,
+			      "inputs", g_strv_length (state->package_ids),
+			      NULL);
+
+	} else if (state->role == PK_ROLE_ENUM_REQUIRED_BY) {
+		g_dbus_proxy_call (state->proxy, "RequiredBy",
 				   g_variant_new ("(t^a&sb)",
 						  state->filters,
 						  state->package_ids,
@@ -1714,25 +1745,10 @@ pk_client_set_hints_cb (GObject *source_object,
 				   state->cancellable,
 				   pk_client_method_cb,
 				   state);
-	} else if (state->role == PK_ROLE_ENUM_GET_REQUIRES) {
-		g_dbus_proxy_call (state->proxy, "GetRequires",
-				   g_variant_new ("(t^a&sb)",
-						  state->filters,
-						  state->package_ids,
-						  state->recursive),
-				   G_DBUS_CALL_FLAGS_NONE,
-				   PK_CLIENT_DBUS_METHOD_TIMEOUT,
-				   state->cancellable,
-				   pk_client_method_cb,
-				   state);
-		g_object_set (state->results,
-			      "inputs", g_strv_length (state->package_ids),
-			      NULL);
 	} else if (state->role == PK_ROLE_ENUM_WHAT_PROVIDES) {
 		g_dbus_proxy_call (state->proxy, "WhatProvides",
-				   g_variant_new ("(tu^a&s)",
+				   g_variant_new ("(t^a&s)",
 						  state->filters,
-						  state->provides,
 						  state->search),
 				   G_DBUS_CALL_FLAGS_NONE,
 				   PK_CLIENT_DBUS_METHOD_TIMEOUT,
@@ -1880,11 +1896,12 @@ pk_client_set_hints_cb (GObject *source_object,
 				   state->cancellable,
 				   pk_client_method_cb,
 				   state);
-	} else if (state->role == PK_ROLE_ENUM_UPGRADE_SYSTEM) {
-		g_dbus_proxy_call (state->proxy, "UpgradeSystem",
-				   g_variant_new ("(su)",
-						  state->distro_id,
-						  state->upgrade_kind),
+	} else if (state->role == PK_ROLE_ENUM_REPO_REMOVE) {
+		g_dbus_proxy_call (state->proxy, "RepoRemove",
+				   g_variant_new ("(tsb)",
+						  state->transaction_flags,
+						  state->repo_id,
+						  state->autoremove),
 				   G_DBUS_CALL_FLAGS_NONE,
 				   PK_CLIENT_DBUS_METHOD_TIMEOUT,
 				   state->cancellable,
@@ -2615,6 +2632,154 @@ out:
 }
 
 /**
+ * pk_client_get_details_local_async:
+ * @client: a valid #PkClient instance
+ * @files: (array zero-terminated=1): a null terminated array of filenames
+ * @cancellable: a #GCancellable or %NULL
+ * @progress_callback: (scope call): the function to run when the progress changes
+ * @progress_user_data: data to pass to @progress_callback
+ * @callback_ready: the function to run on completion
+ * @user_data: the data to pass to @callback_ready
+ *
+ * Get details of a package, so more information can be obtained for GUI
+ * or command line tools.
+ *
+ * Since: 0.8.17
+ **/
+void
+pk_client_get_details_local_async (PkClient *client, gchar **files, GCancellable *cancellable,
+				   PkProgressCallback progress_callback, gpointer progress_user_data,
+				   GAsyncReadyCallback callback_ready, gpointer user_data)
+{
+	GSimpleAsyncResult *res;
+	PkClientState *state;
+	GError *error = NULL;
+
+	g_return_if_fail (PK_IS_CLIENT (client));
+	g_return_if_fail (callback_ready != NULL);
+	g_return_if_fail (cancellable == NULL || G_IS_CANCELLABLE (cancellable));
+	g_return_if_fail (files != NULL);
+
+	res = g_simple_async_result_new (G_OBJECT (client), callback_ready, user_data, pk_client_get_details_async);
+
+	/* save state */
+	state = g_slice_new0 (PkClientState);
+	state->role = PK_ROLE_ENUM_GET_DETAILS_LOCAL;
+	state->res = g_object_ref (res);
+	state->client = g_object_ref (client);
+	state->cancellable = g_cancellable_new ();
+	if (cancellable != NULL) {
+		state->cancellable_client = g_object_ref (cancellable);
+		state->cancellable_id = g_cancellable_connect (cancellable,
+							       G_CALLBACK (pk_client_cancellable_cancel_cb),
+							       state,
+							       NULL);
+	}
+	state->progress_callback = progress_callback;
+	state->progress_user_data = progress_user_data;
+	state->progress = pk_progress_new ();
+	state->files = pk_client_convert_real_paths (files, &error);
+	if (state->files == NULL) {
+		pk_client_state_finish (state, error);
+		g_error_free (error);
+		goto out;
+	}
+
+	/* check not already cancelled */
+	if (cancellable != NULL &&
+	    g_cancellable_set_error_if_cancelled (cancellable, &error)) {
+		pk_client_state_finish (state, error);
+		g_error_free (error);
+		goto out;
+	}
+
+	/* identify */
+	pk_client_set_role (state, state->role);
+
+	/* get tid */
+	pk_control_get_tid_async (client->priv->control,
+				  cancellable,
+				  (GAsyncReadyCallback) pk_client_get_tid_cb,
+				  state);
+out:
+	g_object_unref (res);
+}
+
+/**
+ * pk_client_get_files_local_async:
+ * @client: a valid #PkClient instance
+ * @files: (array zero-terminated=1): a null terminated array of filenames
+ * @cancellable: a #GCancellable or %NULL
+ * @progress_callback: (scope call): the function to run when the progress changes
+ * @progress_user_data: data to pass to @progress_callback
+ * @callback_ready: the function to run on completion
+ * @user_data: the data to pass to @callback_ready
+ *
+ * Get file list of a package, so more information can be obtained for GUI
+ * or command line tools.
+ *
+ * Since: 0.9.1
+ **/
+void
+pk_client_get_files_local_async (PkClient *client, gchar **files, GCancellable *cancellable,
+				 PkProgressCallback progress_callback, gpointer progress_user_data,
+				 GAsyncReadyCallback callback_ready, gpointer user_data)
+{
+	GSimpleAsyncResult *res;
+	PkClientState *state;
+	GError *error = NULL;
+
+	g_return_if_fail (PK_IS_CLIENT (client));
+	g_return_if_fail (callback_ready != NULL);
+	g_return_if_fail (cancellable == NULL || G_IS_CANCELLABLE (cancellable));
+	g_return_if_fail (files != NULL);
+
+	res = g_simple_async_result_new (G_OBJECT (client), callback_ready, user_data, pk_client_get_details_async);
+
+	/* save state */
+	state = g_slice_new0 (PkClientState);
+	state->role = PK_ROLE_ENUM_GET_FILES_LOCAL;
+	state->res = g_object_ref (res);
+	state->client = g_object_ref (client);
+	state->cancellable = g_cancellable_new ();
+	if (cancellable != NULL) {
+		state->cancellable_client = g_object_ref (cancellable);
+		state->cancellable_id = g_cancellable_connect (cancellable,
+							       G_CALLBACK (pk_client_cancellable_cancel_cb),
+							       state,
+							       NULL);
+	}
+	state->progress_callback = progress_callback;
+	state->progress_user_data = progress_user_data;
+	state->progress = pk_progress_new ();
+	state->files = pk_client_convert_real_paths (files, &error);
+	if (state->files == NULL) {
+		pk_client_state_finish (state, error);
+		g_error_free (error);
+		goto out;
+	}
+
+	/* check not already cancelled */
+	if (cancellable != NULL &&
+	    g_cancellable_set_error_if_cancelled (cancellable, &error)) {
+		pk_client_state_finish (state, error);
+		g_error_free (error);
+		goto out;
+	}
+
+	/* identify */
+	pk_client_set_role (state, state->role);
+
+	/* get tid */
+	pk_control_get_tid_async (client->priv->control,
+				  cancellable,
+				  (GAsyncReadyCallback) pk_client_get_tid_cb,
+				  state);
+out:
+	g_object_unref (res);
+}
+
+/**
  * pk_client_get_update_detail_async:
  * @client: a valid #PkClient instance
  * @package_ids: (array zero-terminated=1): a null terminated array of package_id structures such as "hal;0.0.1;i386;fedora"
@@ -2888,7 +3053,7 @@ out:
 }
 
 /**
- * pk_client_get_depends_async:
+ * pk_client_depends_on_async:
  * @client: a valid #PkClient instance
  * @filters: a %PkBitfield such as %PK_FILTER_ENUM_GUI | %PK_FILTER_ENUM_FREE or %PK_FILTER_ENUM_NONE
  * @package_ids: (array zero-terminated=1): a null terminated array of package_id structures such as "hal;0.0.1;i386;fedora"
@@ -2904,7 +3069,7 @@ out:
  * Since: 0.5.2
  **/
 void
-pk_client_get_depends_async (PkClient *client, PkBitfield filters, gchar **package_ids, gboolean recursive, GCancellable *cancellable,
+pk_client_depends_on_async (PkClient *client, PkBitfield filters, gchar **package_ids, gboolean recursive, GCancellable *cancellable,
 			     PkProgressCallback progress_callback, gpointer progress_user_data,
 			     GAsyncReadyCallback callback_ready, gpointer user_data)
 {
@@ -2917,11 +3082,11 @@ pk_client_get_depends_async (PkClient *client, PkBitfield filters, gchar **packa
 	g_return_if_fail (cancellable == NULL || G_IS_CANCELLABLE (cancellable));
 	g_return_if_fail (package_ids != NULL);
 
-	res = g_simple_async_result_new (G_OBJECT (client), callback_ready, user_data, pk_client_get_depends_async);
+	res = g_simple_async_result_new (G_OBJECT (client), callback_ready, user_data, pk_client_depends_on_async);
 
 	/* save state */
 	state = g_slice_new0 (PkClientState);
-	state->role = PK_ROLE_ENUM_GET_DEPENDS;
+	state->role = PK_ROLE_ENUM_DEPENDS_ON;
 	state->res = g_object_ref (res);
 	state->client = g_object_ref (client);
 	state->cancellable = g_cancellable_new ();
@@ -3027,7 +3192,7 @@ out:
 }
 
 /**
- * pk_client_get_requires_async:
+ * pk_client_required_by_async:
  * @client: a valid #PkClient instance
  * @filters: a %PkBitfield such as %PK_FILTER_ENUM_GUI | %PK_FILTER_ENUM_FREE or %PK_FILTER_ENUM_NONE
  * @package_ids: (array zero-terminated=1): a null terminated array of package_id structures such as "hal;0.0.1;i386;fedora"
@@ -3043,7 +3208,7 @@ out:
  * Since: 0.5.2
  **/
 void
-pk_client_get_requires_async (PkClient *client, PkBitfield filters, gchar **package_ids, gboolean recursive, GCancellable *cancellable,
+pk_client_required_by_async (PkClient *client, PkBitfield filters, gchar **package_ids, gboolean recursive, GCancellable *cancellable,
 			      PkProgressCallback progress_callback, gpointer progress_user_data,
 			      GAsyncReadyCallback callback_ready, gpointer user_data)
 {
@@ -3056,11 +3221,11 @@ pk_client_get_requires_async (PkClient *client, PkBitfield filters, gchar **pack
 	g_return_if_fail (cancellable == NULL || G_IS_CANCELLABLE (cancellable));
 	g_return_if_fail (package_ids != NULL);
 
-	res = g_simple_async_result_new (G_OBJECT (client), callback_ready, user_data, pk_client_get_requires_async);
+	res = g_simple_async_result_new (G_OBJECT (client), callback_ready, user_data, pk_client_required_by_async);
 
 	/* save state */
 	state = g_slice_new0 (PkClientState);
-	state->role = PK_ROLE_ENUM_GET_REQUIRES;
+	state->role = PK_ROLE_ENUM_REQUIRED_BY;
 	state->res = g_object_ref (res);
 	state->client = g_object_ref (client);
 	state->cancellable = g_cancellable_new ();
@@ -3102,7 +3267,6 @@ out:
  * pk_client_what_provides_async:
  * @client: a valid #PkClient instance
  * @filters: a %PkBitfield such as %PK_FILTER_ENUM_GUI | %PK_FILTER_ENUM_FREE or %PK_FILTER_ENUM_NONE
- * @provides: a #PkProvidesEnum value such as PK_PROVIDES_ENUM_CODEC
  * @values: (array zero-terminated=1): a search term such as "sound/mp3"
  * @cancellable: a #GCancellable or %NULL
  * @progress_callback: (scope call): the function to run when the progress changes
@@ -3117,7 +3281,10 @@ out:
  * Since: 0.5.2
  **/
 void
-pk_client_what_provides_async (PkClient *client, PkBitfield filters, PkProvidesEnum provides, gchar **values, GCancellable *cancellable,
+pk_client_what_provides_async (PkClient *client,
+			       PkBitfield filters,
+			       gchar **values,
+			       GCancellable *cancellable,
 			       PkProgressCallback progress_callback, gpointer progress_user_data,
 			       GAsyncReadyCallback callback_ready, gpointer user_data)
 {
@@ -3145,7 +3312,6 @@ pk_client_what_provides_async (PkClient *client, PkBitfield filters, PkProvidesE
 							       NULL);
 	}
 	state->filters = filters;
-	state->provides = provides;
 	state->search = g_strdupv (values);
 	state->progress_callback = progress_callback;
 	state->progress_user_data = progress_user_data;
@@ -4199,29 +4365,31 @@ out:
 }
 
 /**
- * pk_client_upgrade_system_async:
+ * pk_client_repo_remove_async:
  * @client: a valid #PkClient instance
- * @distro_id: a distro ID such as "fedora-14"
- * @upgrade_kind: a #PkUpgradeKindEnum such as %PK_UPGRADE_KIND_ENUM_COMPLETE
+ * @transaction_flags: transaction flags
+ * @repo_id: a repo_id structure such as "livna-devel"
+ * @autoremove: If packages should be auto-removed
  * @cancellable: a #GCancellable or %NULL
  * @progress_callback: (scope call): the function to run when the progress changes
  * @progress_user_data: data to pass to @progress_callback
  * @callback_ready: the function to run on completion
  * @user_data: the data to pass to @callback_ready
  *
- * This transaction will update the distro to the next version, which may
- * involve just downloading the installer and setting up the boot device,
- * or may involve doing an on-line upgrade.
+ * Removes a repo and optionally the packages installed from it.
  *
- * The backend will decide what is best to do.
- *
- * Since: 0.6.11
+ * Since: 0.9.1
  **/
 void
-pk_client_upgrade_system_async (PkClient *client, const gchar *distro_id, PkUpgradeKindEnum upgrade_kind,
-				GCancellable *cancellable,
-				PkProgressCallback progress_callback, gpointer progress_user_data,
-				GAsyncReadyCallback callback_ready, gpointer user_data)
+pk_client_repo_remove_async (PkClient *client,
+			     PkBitfield transaction_flags,
+			     const gchar *repo_id,
+			     gboolean autoremove,
+			     GCancellable *cancellable,
+			     PkProgressCallback progress_callback,
+			     gpointer progress_user_data,
+			     GAsyncReadyCallback callback_ready,
+			     gpointer user_data)
 {
 	GSimpleAsyncResult *res;
 	PkClientState *state;
@@ -4231,11 +4399,11 @@ pk_client_upgrade_system_async (PkClient *client, const gchar *distro_id, PkUpgr
 	g_return_if_fail (callback_ready != NULL);
 	g_return_if_fail (cancellable == NULL || G_IS_CANCELLABLE (cancellable));
 
-	res = g_simple_async_result_new (G_OBJECT (client), callback_ready, user_data, pk_client_upgrade_system_async);
+	res = g_simple_async_result_new (G_OBJECT (client), callback_ready, user_data, pk_client_repo_remove_async);
 
 	/* save state */
 	state = g_slice_new0 (PkClientState);
-	state->role = PK_ROLE_ENUM_UPGRADE_SYSTEM;
+	state->role = PK_ROLE_ENUM_REPO_REMOVE;
 	state->res = g_object_ref (res);
 	state->client = g_object_ref (client);
 	state->cancellable = g_cancellable_new ();
@@ -4246,8 +4414,9 @@ pk_client_upgrade_system_async (PkClient *client, const gchar *distro_id, PkUpgr
 							       state,
 							       NULL);
 	}
-	state->distro_id = g_strdup (distro_id);
-	state->upgrade_kind = upgrade_kind;
+	state->transaction_flags = transaction_flags;
+	state->repo_id = g_strdup (repo_id);
+	state->autoremove = autoremove;
 	state->progress_callback = progress_callback;
 	state->progress_user_data = progress_user_data;
 	state->progress = pk_progress_new ();

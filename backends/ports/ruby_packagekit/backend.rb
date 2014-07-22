@@ -93,11 +93,11 @@ class PackageKitBaseBackend
         searchterms = args[1].split(PACKAGE_IDS_DELIM)
         search_name(options, searchterms)
         finished()
-    when cmd == 'get-depends'
+    when cmd == 'depends-on'
         filters = args[0].split(FLAGS_DELIM)
         package_ids = args[1].split(PACKAGE_IDS_DELIM)
         recursive = to_b(args[2])
-        get_depends(filters, package_ids, recursive)
+        depends_on(filters, package_ids, recursive)
         finished()
     when cmd == 'get-details'
         package_ids = args[0].split(PACKAGE_IDS_DELIM)
@@ -107,11 +107,11 @@ class PackageKitBaseBackend
         package_ids = args[0].split(PACKAGE_IDS_DELIM)
         get_files(package_ids)
         finished()
-    when cmd == 'get-requires'
+    when cmd == 'required-by'
         filters = args[0].split(FLAGS_DELIM)
         package_ids = args[1].split(PACKAGE_IDS_DELIM)
         recursive = to_b(args[2])
-        get_requires(filters, package_ids, recursive)
+        required_by(filters, package_ids, recursive)
         finished()
     when cmd == 'get-update-detail'
         package_ids = args[0].split(PACKAGE_IDS_DELIM)

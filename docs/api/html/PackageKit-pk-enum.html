@@ -200,21 +200,6 @@
 </tr>
 <tr>
 <td class="function_type">
-<a class="link" href="PackageKit-pk-enum.html#PkMessageEnum" title="enum PkMessageEnum"><span class="returnvalue">PkMessageEnum</span></a>
-</td>
-<td class="function_name">
-<a class="link" href="PackageKit-pk-enum.html#pk-message-enum-from-string" title="pk_message_enum_from_string ()">pk_message_enum_from_string</a> <span class="c_punctuation">()</span>
-</td>
-</tr>
-<tr>
-<td class="function_type">const <a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gchar"><span class="returnvalue">gchar</span></a> *
-</td>
-<td class="function_name">
-<a class="link" href="PackageKit-pk-enum.html#pk-message-enum-to-string" title="pk_message_enum_to_string ()">pk_message_enum_to_string</a> <span class="c_punctuation">()</span>
-</td>
-</tr>
-<tr>
-<td class="function_type">
 <a class="link" href="PackageKit-pk-enum.html#PkGroupEnum" title="enum PkGroupEnum"><span class="returnvalue">PkGroupEnum</span></a>
 </td>
 <td class="function_name">
@@ -241,21 +226,6 @@
 </td>
 <td class="function_name">
 <a class="link" href="PackageKit-pk-enum.html#pk-filter-enum-to-string" title="pk_filter_enum_to_string ()">pk_filter_enum_to_string</a> <span class="c_punctuation">()</span>
-</td>
-</tr>
-<tr>
-<td class="function_type">
-<a class="link" href="PackageKit-pk-enum.html#PkProvidesEnum" title="enum PkProvidesEnum"><span class="returnvalue">PkProvidesEnum</span></a>
-</td>
-<td class="function_name">
-<a class="link" href="PackageKit-pk-enum.html#pk-provides-enum-from-string" title="pk_provides_enum_from_string ()">pk_provides_enum_from_string</a> <span class="c_punctuation">()</span>
-</td>
-</tr>
-<tr>
-<td class="function_type">const <a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gchar"><span class="returnvalue">gchar</span></a> *
-</td>
-<td class="function_name">
-<a class="link" href="PackageKit-pk-enum.html#pk-provides-enum-to-string" title="pk_provides_enum_to_string ()">pk_provides_enum_to_string</a> <span class="c_punctuation">()</span>
 </td>
 </tr>
 <tr>
@@ -402,10 +372,6 @@
 </tr>
 <tr>
 <td class="datatype_keyword">enum</td>
-<td class="function_name"><a class="link" href="PackageKit-pk-enum.html#PkMessageEnum" title="enum PkMessageEnum">PkMessageEnum</a></td>
-</tr>
-<tr>
-<td class="datatype_keyword">enum</td>
 <td class="function_name"><a class="link" href="PackageKit-pk-enum.html#PkErrorEnum" title="enum PkErrorEnum">PkErrorEnum</a></td>
 </tr>
 <tr>
@@ -427,10 +393,6 @@
 <tr>
 <td class="datatype_keyword">enum</td>
 <td class="function_name"><a class="link" href="PackageKit-pk-enum.html#PkSigTypeEnum" title="enum PkSigTypeEnum">PkSigTypeEnum</a></td>
-</tr>
-<tr>
-<td class="datatype_keyword">enum</td>
-<td class="function_name"><a class="link" href="PackageKit-pk-enum.html#PkProvidesEnum" title="enum PkProvidesEnum">PkProvidesEnum</a></td>
 </tr>
 <tr>
 <td class="datatype_keyword">enum</td>
@@ -462,9 +424,7 @@
     <span class="lineart">├──</span> PkGroupEnum
     <span class="lineart">├──</span> PkInfoEnum
     <span class="lineart">├──</span> PkMediaTypeEnum
-    <span class="lineart">├──</span> PkMessageEnum
     <span class="lineart">├──</span> PkNetworkEnum
-    <span class="lineart">├──</span> PkProvidesEnum
     <span class="lineart">├──</span> PkRestartEnum
     <span class="lineart">├──</span> PkRoleEnum
     <span class="lineart">├──</span> PkSigTypeEnum
@@ -1060,13 +1020,12 @@ pk_restart_enum_to_string (<em class="parameter"><code><a class="link" href="Pac
 </div>
 <hr>
 <div class="refsect2">
-<a name="pk-message-enum-from-string"></a><h3>pk_message_enum_from_string ()</h3>
-<pre class="programlisting"><a class="link" href="PackageKit-pk-enum.html#PkMessageEnum" title="enum PkMessageEnum"><span class="returnvalue">PkMessageEnum</span></a>
-pk_message_enum_from_string (<em class="parameter"><code>const <a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a> *message</code></em>);</pre>
-<div class="warning"><p><code class="literal">pk_message_enum_from_string</code> is deprecated and should not be used in newly-written code.</p></div>
+<a name="pk-group-enum-from-string"></a><h3>pk_group_enum_from_string ()</h3>
+<pre class="programlisting"><a class="link" href="PackageKit-pk-enum.html#PkGroupEnum" title="enum PkGroupEnum"><span class="returnvalue">PkGroupEnum</span></a>
+pk_group_enum_from_string (<em class="parameter"><code>const <a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a> *group</code></em>);</pre>
 <p>Converts a text enumerated type to its unsigned integer representation</p>
 <div class="refsect3">
-<a name="id-1.5.7.7.23.7"></a><h4>Parameters</h4>
+<a name="id-1.5.7.7.23.5"></a><h4>Parameters</h4>
 <div class="informaltable"><table width="100%" border="0">
 <colgroup>
 <col width="150px" class="parameters_name">
@@ -1074,14 +1033,14 @@ pk_message_enum_from_string (<em class="parameter"><code>const <a href="http://l
 <col width="200px" class="parameters_annotations">
 </colgroup>
 <tbody><tr>
-<td class="parameter_name"><p>message</p></td>
+<td class="parameter_name"><p>group</p></td>
 <td class="parameter_description"><p>Text describing the enumerated type</p></td>
 <td class="parameter_annotations"> </td>
 </tr></tbody>
 </table></div>
 </div>
 <div class="refsect3">
-<a name="id-1.5.7.7.23.8"></a><h4>Returns</h4>
+<a name="id-1.5.7.7.23.6"></a><h4>Returns</h4>
 <p> the enumerated constant value, e.g. PK_SIGTYPE_ENUM_GPG</p>
 <p></p>
 </div>
@@ -1089,13 +1048,12 @@ pk_message_enum_from_string (<em class="parameter"><code>const <a href="http://l
 </div>
 <hr>
 <div class="refsect2">
-<a name="pk-message-enum-to-string"></a><h3>pk_message_enum_to_string ()</h3>
+<a name="pk-group-enum-to-string"></a><h3>pk_group_enum_to_string ()</h3>
 <pre class="programlisting">const <a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gchar"><span class="returnvalue">gchar</span></a> *
-pk_message_enum_to_string (<em class="parameter"><code><a class="link" href="PackageKit-pk-enum.html#PkMessageEnum" title="enum PkMessageEnum"><span class="type">PkMessageEnum</span></a> message</code></em>);</pre>
-<div class="warning"><p><code class="literal">pk_message_enum_to_string</code> is deprecated and should not be used in newly-written code.</p></div>
+pk_group_enum_to_string (<em class="parameter"><code><a class="link" href="PackageKit-pk-enum.html#PkGroupEnum" title="enum PkGroupEnum"><span class="type">PkGroupEnum</span></a> group</code></em>);</pre>
 <p>Converts a enumerated type to its text representation</p>
 <div class="refsect3">
-<a name="id-1.5.7.7.24.7"></a><h4>Parameters</h4>
+<a name="id-1.5.7.7.24.5"></a><h4>Parameters</h4>
 <div class="informaltable"><table width="100%" border="0">
 <colgroup>
 <col width="150px" class="parameters_name">
@@ -1103,14 +1061,14 @@ pk_message_enum_to_string (<em class="parameter"><code><a class="link" href="Pac
 <col width="200px" class="parameters_annotations">
 </colgroup>
 <tbody><tr>
-<td class="parameter_name"><p>message</p></td>
+<td class="parameter_name"><p>group</p></td>
 <td class="parameter_description"><p>The enumerated type value</p></td>
 <td class="parameter_annotations"> </td>
 </tr></tbody>
 </table></div>
 </div>
 <div class="refsect3">
-<a name="id-1.5.7.7.24.8"></a><h4>Returns</h4>
+<a name="id-1.5.7.7.24.6"></a><h4>Returns</h4>
 <p> the enumerated constant value, e.g. "available"</p>
 <p></p>
 </div>
@@ -1118,9 +1076,9 @@ pk_message_enum_to_string (<em class="parameter"><code><a class="link" href="Pac
 </div>
 <hr>
 <div class="refsect2">
-<a name="pk-group-enum-from-string"></a><h3>pk_group_enum_from_string ()</h3>
-<pre class="programlisting"><a class="link" href="PackageKit-pk-enum.html#PkGroupEnum" title="enum PkGroupEnum"><span class="returnvalue">PkGroupEnum</span></a>
-pk_group_enum_from_string (<em class="parameter"><code>const <a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a> *group</code></em>);</pre>
+<a name="pk-filter-enum-from-string"></a><h3>pk_filter_enum_from_string ()</h3>
+<pre class="programlisting"><a class="link" href="PackageKit-pk-enum.html#PkFilterEnum" title="enum PkFilterEnum"><span class="returnvalue">PkFilterEnum</span></a>
+pk_filter_enum_from_string (<em class="parameter"><code>const <a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a> *filter</code></em>);</pre>
 <p>Converts a text enumerated type to its unsigned integer representation</p>
 <div class="refsect3">
 <a name="id-1.5.7.7.25.5"></a><h4>Parameters</h4>
@@ -1131,7 +1089,7 @@ pk_group_enum_from_string (<em class="parameter"><code>const <a href="http://lib
 <col width="200px" class="parameters_annotations">
 </colgroup>
 <tbody><tr>
-<td class="parameter_name"><p>group</p></td>
+<td class="parameter_name"><p>filter</p></td>
 <td class="parameter_description"><p>Text describing the enumerated type</p></td>
 <td class="parameter_annotations"> </td>
 </tr></tbody>
@@ -1146,9 +1104,9 @@ pk_group_enum_from_string (<em class="parameter"><code>const <a href="http://lib
 </div>
 <hr>
 <div class="refsect2">
-<a name="pk-group-enum-to-string"></a><h3>pk_group_enum_to_string ()</h3>
+<a name="pk-filter-enum-to-string"></a><h3>pk_filter_enum_to_string ()</h3>
 <pre class="programlisting">const <a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gchar"><span class="returnvalue">gchar</span></a> *
-pk_group_enum_to_string (<em class="parameter"><code><a class="link" href="PackageKit-pk-enum.html#PkGroupEnum" title="enum PkGroupEnum"><span class="type">PkGroupEnum</span></a> group</code></em>);</pre>
+pk_filter_enum_to_string (<em class="parameter"><code><a class="link" href="PackageKit-pk-enum.html#PkFilterEnum" title="enum PkFilterEnum"><span class="type">PkFilterEnum</span></a> filter</code></em>);</pre>
 <p>Converts a enumerated type to its text representation</p>
 <div class="refsect3">
 <a name="id-1.5.7.7.26.5"></a><h4>Parameters</h4>
@@ -1159,7 +1117,7 @@ pk_group_enum_to_string (<em class="parameter"><code><a class="link" href="Packa
 <col width="200px" class="parameters_annotations">
 </colgroup>
 <tbody><tr>
-<td class="parameter_name"><p>group</p></td>
+<td class="parameter_name"><p>filter</p></td>
 <td class="parameter_description"><p>The enumerated type value</p></td>
 <td class="parameter_annotations"> </td>
 </tr></tbody>
@@ -1174,124 +1132,12 @@ pk_group_enum_to_string (<em class="parameter"><code><a class="link" href="Packa
 </div>
 <hr>
 <div class="refsect2">
-<a name="pk-filter-enum-from-string"></a><h3>pk_filter_enum_from_string ()</h3>
-<pre class="programlisting"><a class="link" href="PackageKit-pk-enum.html#PkFilterEnum" title="enum PkFilterEnum"><span class="returnvalue">PkFilterEnum</span></a>
-pk_filter_enum_from_string (<em class="parameter"><code>const <a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a> *filter</code></em>);</pre>
-<p>Converts a text enumerated type to its unsigned integer representation</p>
-<div class="refsect3">
-<a name="id-1.5.7.7.27.5"></a><h4>Parameters</h4>
-<div class="informaltable"><table width="100%" border="0">
-<colgroup>
-<col width="150px" class="parameters_name">
-<col class="parameters_description">
-<col width="200px" class="parameters_annotations">
-</colgroup>
-<tbody><tr>
-<td class="parameter_name"><p>filter</p></td>
-<td class="parameter_description"><p>Text describing the enumerated type</p></td>
-<td class="parameter_annotations"> </td>
-</tr></tbody>
-</table></div>
-</div>
-<div class="refsect3">
-<a name="id-1.5.7.7.27.6"></a><h4>Returns</h4>
-<p> the enumerated constant value, e.g. PK_SIGTYPE_ENUM_GPG</p>
-<p></p>
-</div>
-<p class="since">Since 0.5.0</p>
-</div>
-<hr>
-<div class="refsect2">
-<a name="pk-filter-enum-to-string"></a><h3>pk_filter_enum_to_string ()</h3>
-<pre class="programlisting">const <a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gchar"><span class="returnvalue">gchar</span></a> *
-pk_filter_enum_to_string (<em class="parameter"><code><a class="link" href="PackageKit-pk-enum.html#PkFilterEnum" title="enum PkFilterEnum"><span class="type">PkFilterEnum</span></a> filter</code></em>);</pre>
-<p>Converts a enumerated type to its text representation</p>
-<div class="refsect3">
-<a name="id-1.5.7.7.28.5"></a><h4>Parameters</h4>
-<div class="informaltable"><table width="100%" border="0">
-<colgroup>
-<col width="150px" class="parameters_name">
-<col class="parameters_description">
-<col width="200px" class="parameters_annotations">
-</colgroup>
-<tbody><tr>
-<td class="parameter_name"><p>filter</p></td>
-<td class="parameter_description"><p>The enumerated type value</p></td>
-<td class="parameter_annotations"> </td>
-</tr></tbody>
-</table></div>
-</div>
-<div class="refsect3">
-<a name="id-1.5.7.7.28.6"></a><h4>Returns</h4>
-<p> the enumerated constant value, e.g. "available"</p>
-<p></p>
-</div>
-<p class="since">Since 0.5.0</p>
-</div>
-<hr>
-<div class="refsect2">
-<a name="pk-provides-enum-from-string"></a><h3>pk_provides_enum_from_string ()</h3>
-<pre class="programlisting"><a class="link" href="PackageKit-pk-enum.html#PkProvidesEnum" title="enum PkProvidesEnum"><span class="returnvalue">PkProvidesEnum</span></a>
-pk_provides_enum_from_string (<em class="parameter"><code>const <a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a> *provides</code></em>);</pre>
-<p>Converts a text enumerated type to its unsigned integer representation</p>
-<div class="refsect3">
-<a name="id-1.5.7.7.29.5"></a><h4>Parameters</h4>
-<div class="informaltable"><table width="100%" border="0">
-<colgroup>
-<col width="150px" class="parameters_name">
-<col class="parameters_description">
-<col width="200px" class="parameters_annotations">
-</colgroup>
-<tbody><tr>
-<td class="parameter_name"><p>provides</p></td>
-<td class="parameter_description"><p>Text describing the enumerated type</p></td>
-<td class="parameter_annotations"> </td>
-</tr></tbody>
-</table></div>
-</div>
-<div class="refsect3">
-<a name="id-1.5.7.7.29.6"></a><h4>Returns</h4>
-<p> the enumerated constant value, e.g. PK_PROVIDES_ENUM_MODALIAS</p>
-<p></p>
-</div>
-<p class="since">Since 0.5.0</p>
-</div>
-<hr>
-<div class="refsect2">
-<a name="pk-provides-enum-to-string"></a><h3>pk_provides_enum_to_string ()</h3>
-<pre class="programlisting">const <a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gchar"><span class="returnvalue">gchar</span></a> *
-pk_provides_enum_to_string (<em class="parameter"><code><a class="link" href="PackageKit-pk-enum.html#PkProvidesEnum" title="enum PkProvidesEnum"><span class="type">PkProvidesEnum</span></a> provides</code></em>);</pre>
-<p>Converts a enumerated type to its text representation</p>
-<div class="refsect3">
-<a name="id-1.5.7.7.30.5"></a><h4>Parameters</h4>
-<div class="informaltable"><table width="100%" border="0">
-<colgroup>
-<col width="150px" class="parameters_name">
-<col class="parameters_description">
-<col width="200px" class="parameters_annotations">
-</colgroup>
-<tbody><tr>
-<td class="parameter_name"><p>provides</p></td>
-<td class="parameter_description"><p>The enumerated type value</p></td>
-<td class="parameter_annotations"> </td>
-</tr></tbody>
-</table></div>
-</div>
-<div class="refsect3">
-<a name="id-1.5.7.7.30.6"></a><h4>Returns</h4>
-<p> the enumerated constant value, e.g. "codec"</p>
-<p></p>
-</div>
-<p class="since">Since 0.5.0</p>
-</div>
-<hr>
-<div class="refsect2">
 <a name="pk-distro-upgrade-enum-from-string"></a><h3>pk_distro_upgrade_enum_from_string ()</h3>
 <pre class="programlisting"><a class="link" href="PackageKit-pk-enum.html#PkDistroUpgradeEnum" title="enum PkDistroUpgradeEnum"><span class="returnvalue">PkDistroUpgradeEnum</span></a>
 pk_distro_upgrade_enum_from_string (<em class="parameter"><code>const <a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a> *upgrade</code></em>);</pre>
 <p>Converts a text enumerated type to its unsigned integer representation</p>
 <div class="refsect3">
-<a name="id-1.5.7.7.31.5"></a><h4>Parameters</h4>
+<a name="id-1.5.7.7.27.5"></a><h4>Parameters</h4>
 <div class="informaltable"><table width="100%" border="0">
 <colgroup>
 <col width="150px" class="parameters_name">
@@ -1306,7 +1152,7 @@ pk_distro_upgrade_enum_from_string (<em class="parameter"><code>const <a href="h
 </table></div>
 </div>
 <div class="refsect3">
-<a name="id-1.5.7.7.31.6"></a><h4>Returns</h4>
+<a name="id-1.5.7.7.27.6"></a><h4>Returns</h4>
 <p> the enumerated constant value, e.g. PK_DISTRO_UPGRADE_ENUM_STABLE</p>
 <p></p>
 </div>
@@ -1319,7 +1165,7 @@ pk_distro_upgrade_enum_from_string (<em class="parameter"><code>const <a href="h
 pk_distro_upgrade_enum_to_string (<em class="parameter"><code><a class="link" href="PackageKit-pk-enum.html#PkDistroUpgradeEnum" title="enum PkDistroUpgradeEnum"><span class="type">PkDistroUpgradeEnum</span></a> upgrade</code></em>);</pre>
 <p>Converts a enumerated type to its text representation</p>
 <div class="refsect3">
-<a name="id-1.5.7.7.32.5"></a><h4>Parameters</h4>
+<a name="id-1.5.7.7.28.5"></a><h4>Parameters</h4>
 <div class="informaltable"><table width="100%" border="0">
 <colgroup>
 <col width="150px" class="parameters_name">
@@ -1334,7 +1180,7 @@ pk_distro_upgrade_enum_to_string (<em class="parameter"><code><a class="link" hr
 </table></div>
 </div>
 <div class="refsect3">
-<a name="id-1.5.7.7.32.6"></a><h4>Returns</h4>
+<a name="id-1.5.7.7.28.6"></a><h4>Returns</h4>
 <p> the enumerated constant value, e.g. "stable"</p>
 <p></p>
 </div>
@@ -1347,7 +1193,7 @@ pk_distro_upgrade_enum_to_string (<em class="parameter"><code><a class="link" hr
 pk_media_type_enum_from_string (<em class="parameter"><code>const <a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a> *media_type</code></em>);</pre>
 <p>Converts a text enumerated type to its unsigned integer representation</p>
 <div class="refsect3">
-<a name="id-1.5.7.7.33.5"></a><h4>Parameters</h4>
+<a name="id-1.5.7.7.29.5"></a><h4>Parameters</h4>
 <div class="informaltable"><table width="100%" border="0">
 <colgroup>
 <col width="150px" class="parameters_name">
@@ -1362,7 +1208,7 @@ pk_media_type_enum_from_string (<em class="parameter"><code>const <a href="http:
 </table></div>
 </div>
 <div class="refsect3">
-<a name="id-1.5.7.7.33.6"></a><h4>Returns</h4>
+<a name="id-1.5.7.7.29.6"></a><h4>Returns</h4>
 <p> the enumerated constant value, e.g. PK_MEDIA_TYPE_ENUM_CD</p>
 <p></p>
 </div>
@@ -1375,7 +1221,7 @@ pk_media_type_enum_from_string (<em class="parameter"><code>const <a href="http:
 pk_media_type_enum_to_string (<em class="parameter"><code><a class="link" href="PackageKit-pk-enum.html#PkMediaTypeEnum" title="enum PkMediaTypeEnum"><span class="type">PkMediaTypeEnum</span></a> media_type</code></em>);</pre>
 <p>Converts a enumerated type to its text representation</p>
 <div class="refsect3">
-<a name="id-1.5.7.7.34.5"></a><h4>Parameters</h4>
+<a name="id-1.5.7.7.30.5"></a><h4>Parameters</h4>
 <div class="informaltable"><table width="100%" border="0">
 <colgroup>
 <col width="150px" class="parameters_name">
@@ -1390,7 +1236,7 @@ pk_media_type_enum_to_string (<em class="parameter"><code><a class="link" href="
 </table></div>
 </div>
 <div class="refsect3">
-<a name="id-1.5.7.7.34.6"></a><h4>Returns</h4>
+<a name="id-1.5.7.7.30.6"></a><h4>Returns</h4>
 <p> the enumerated constant value, e.g. "dvd"</p>
 <p></p>
 </div>
@@ -1403,7 +1249,7 @@ pk_media_type_enum_to_string (<em class="parameter"><code><a class="link" href="
 pk_authorize_type_enum_from_string (<em class="parameter"><code>const <a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a> *authorize_type</code></em>);</pre>
 <p>Converts a text enumerated type to its unsigned integer representation</p>
 <div class="refsect3">
-<a name="id-1.5.7.7.35.5"></a><h4>Parameters</h4>
+<a name="id-1.5.7.7.31.5"></a><h4>Parameters</h4>
 <div class="informaltable"><table width="100%" border="0">
 <colgroup>
 <col width="150px" class="parameters_name">
@@ -1418,7 +1264,7 @@ pk_authorize_type_enum_from_string (<em class="parameter"><code>const <a href="h
 </table></div>
 </div>
 <div class="refsect3">
-<a name="id-1.5.7.7.35.6"></a><h4>Returns</h4>
+<a name="id-1.5.7.7.31.6"></a><h4>Returns</h4>
 <p> the enumerated constant value, e.g. <a class="link" href="PackageKit-pk-enum.html#PK-AUTHORIZE-ENUM-YES:CAPS"><code class="literal">PK_AUTHORIZE_ENUM_YES</code></a></p>
 <p></p>
 </div>
@@ -1431,7 +1277,7 @@ pk_authorize_type_enum_from_string (<em class="parameter"><code>const <a href="h
 pk_authorize_type_enum_to_string (<em class="parameter"><code><a class="link" href="PackageKit-pk-enum.html#PkAuthorizeEnum" title="enum PkAuthorizeEnum"><span class="type">PkAuthorizeEnum</span></a> authorize_type</code></em>);</pre>
 <p>Converts a enumerated type to its text representation</p>
 <div class="refsect3">
-<a name="id-1.5.7.7.36.5"></a><h4>Parameters</h4>
+<a name="id-1.5.7.7.32.5"></a><h4>Parameters</h4>
 <div class="informaltable"><table width="100%" border="0">
 <colgroup>
 <col width="150px" class="parameters_name">
@@ -1446,7 +1292,7 @@ pk_authorize_type_enum_to_string (<em class="parameter"><code><a class="link" hr
 </table></div>
 </div>
 <div class="refsect3">
-<a name="id-1.5.7.7.36.6"></a><h4>Returns</h4>
+<a name="id-1.5.7.7.32.6"></a><h4>Returns</h4>
 <p> the enumerated constant value, e.g. "yes"</p>
 <p></p>
 </div>
@@ -1459,7 +1305,7 @@ pk_authorize_type_enum_to_string (<em class="parameter"><code><a class="link" hr
 pk_upgrade_kind_enum_from_string (<em class="parameter"><code>const <a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a> *upgrade_kind</code></em>);</pre>
 <p>Converts a text enumerated type to its unsigned integer representation</p>
 <div class="refsect3">
-<a name="id-1.5.7.7.37.5"></a><h4>Parameters</h4>
+<a name="id-1.5.7.7.33.5"></a><h4>Parameters</h4>
 <div class="informaltable"><table width="100%" border="0">
 <colgroup>
 <col width="150px" class="parameters_name">
@@ -1474,7 +1320,7 @@ pk_upgrade_kind_enum_from_string (<em class="parameter"><code>const <a href="htt
 </table></div>
 </div>
 <div class="refsect3">
-<a name="id-1.5.7.7.37.6"></a><h4>Returns</h4>
+<a name="id-1.5.7.7.33.6"></a><h4>Returns</h4>
 <p> the enumerated constant value, e.g. <a class="link" href="PackageKit-pk-enum.html#PK-UPGRADE-KIND-ENUM-MINIMAL:CAPS"><code class="literal">PK_UPGRADE_KIND_ENUM_MINIMAL</code></a></p>
 <p></p>
 </div>
@@ -1487,7 +1333,7 @@ pk_upgrade_kind_enum_from_string (<em class="parameter"><code>const <a href="htt
 pk_upgrade_kind_enum_to_string (<em class="parameter"><code><a class="link" href="PackageKit-pk-enum.html#PkUpgradeKindEnum" title="enum PkUpgradeKindEnum"><span class="type">PkUpgradeKindEnum</span></a> upgrade_kind</code></em>);</pre>
 <p>Converts a enumerated type to its text representation</p>
 <div class="refsect3">
-<a name="id-1.5.7.7.38.5"></a><h4>Parameters</h4>
+<a name="id-1.5.7.7.34.5"></a><h4>Parameters</h4>
 <div class="informaltable"><table width="100%" border="0">
 <colgroup>
 <col width="150px" class="parameters_name">
@@ -1502,7 +1348,7 @@ pk_upgrade_kind_enum_to_string (<em class="parameter"><code><a class="link" href
 </table></div>
 </div>
 <div class="refsect3">
-<a name="id-1.5.7.7.38.6"></a><h4>Returns</h4>
+<a name="id-1.5.7.7.34.6"></a><h4>Returns</h4>
 <p> the enumerated constant value, e.g. "minimal"</p>
 <p></p>
 </div>
@@ -1515,7 +1361,7 @@ pk_upgrade_kind_enum_to_string (<em class="parameter"><code><a class="link" href
 pk_transaction_flag_enum_from_string (<em class="parameter"><code>const <a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a> *transaction_flag</code></em>);</pre>
 <p>Converts a text enumerated type to its unsigned integer representation</p>
 <div class="refsect3">
-<a name="id-1.5.7.7.39.5"></a><h4>Parameters</h4>
+<a name="id-1.5.7.7.35.5"></a><h4>Parameters</h4>
 <div class="informaltable"><table width="100%" border="0">
 <colgroup>
 <col width="150px" class="parameters_name">
@@ -1530,7 +1376,7 @@ pk_transaction_flag_enum_from_string (<em class="parameter"><code>const <a href=
 </table></div>
 </div>
 <div class="refsect3">
-<a name="id-1.5.7.7.39.6"></a><h4>Returns</h4>
+<a name="id-1.5.7.7.35.6"></a><h4>Returns</h4>
 <p> the enumerated constant value, e.g. <a class="link" href="PackageKit-pk-enum.html#PK-TRANSACTION-FLAG-ENUM-SIMULATE:CAPS"><code class="literal">PK_TRANSACTION_FLAG_ENUM_SIMULATE</code></a></p>
 <p></p>
 </div>
@@ -1543,7 +1389,7 @@ pk_transaction_flag_enum_from_string (<em class="parameter"><code>const <a href=
 pk_transaction_flag_enum_to_string (<em class="parameter"><code><a class="link" href="PackageKit-pk-enum.html#PkTransactionFlagEnum" title="enum PkTransactionFlagEnum"><span class="type">PkTransactionFlagEnum</span></a> transaction_flag</code></em>);</pre>
 <p>Converts a enumerated type to its text representation</p>
 <div class="refsect3">
-<a name="id-1.5.7.7.40.5"></a><h4>Parameters</h4>
+<a name="id-1.5.7.7.36.5"></a><h4>Parameters</h4>
 <div class="informaltable"><table width="100%" border="0">
 <colgroup>
 <col width="150px" class="parameters_name">
@@ -1558,7 +1404,7 @@ pk_transaction_flag_enum_to_string (<em class="parameter"><code><a class="link" 
 </table></div>
 </div>
 <div class="refsect3">
-<a name="id-1.5.7.7.40.6"></a><h4>Returns</h4>
+<a name="id-1.5.7.7.36.6"></a><h4>Returns</h4>
 <p> the enumerated constant value, e.g. "simulate"</p>
 <p></p>
 </div>
@@ -1577,7 +1423,7 @@ pk_status_enum_to_localised_text (<em class="parameter"><code><a class="link" hr
 pk_info_enum_to_localised_past (<em class="parameter"><code><a class="link" href="PackageKit-pk-enum.html#PkInfoEnum" title="enum PkInfoEnum"><span class="type">PkInfoEnum</span></a> info</code></em>);</pre>
 <p>Converts a enumerated type to its localized description</p>
 <div class="refsect3">
-<a name="id-1.5.7.7.42.5"></a><h4>Parameters</h4>
+<a name="id-1.5.7.7.38.5"></a><h4>Parameters</h4>
 <div class="informaltable"><table width="100%" border="0">
 <colgroup>
 <col width="150px" class="parameters_name">
@@ -1592,7 +1438,7 @@ pk_info_enum_to_localised_past (<em class="parameter"><code><a class="link" href
 </table></div>
 </div>
 <div class="refsect3">
-<a name="id-1.5.7.7.42.6"></a><h4>Returns</h4>
+<a name="id-1.5.7.7.38.6"></a><h4>Returns</h4>
 <p> the translated text</p>
 <p></p>
 </div>
@@ -1605,7 +1451,7 @@ pk_info_enum_to_localised_past (<em class="parameter"><code><a class="link" href
 pk_info_enum_to_localised_present (<em class="parameter"><code><a class="link" href="PackageKit-pk-enum.html#PkInfoEnum" title="enum PkInfoEnum"><span class="type">PkInfoEnum</span></a> info</code></em>);</pre>
 <p>Converts a enumerated type to its localized description</p>
 <div class="refsect3">
-<a name="id-1.5.7.7.43.5"></a><h4>Parameters</h4>
+<a name="id-1.5.7.7.39.5"></a><h4>Parameters</h4>
 <div class="informaltable"><table width="100%" border="0">
 <colgroup>
 <col width="150px" class="parameters_name">
@@ -1620,7 +1466,7 @@ pk_info_enum_to_localised_present (<em class="parameter"><code><a class="link" h
 </table></div>
 </div>
 <div class="refsect3">
-<a name="id-1.5.7.7.43.6"></a><h4>Returns</h4>
+<a name="id-1.5.7.7.39.6"></a><h4>Returns</h4>
 <p> the translated text</p>
 <p></p>
 </div>
@@ -1633,7 +1479,7 @@ pk_info_enum_to_localised_present (<em class="parameter"><code><a class="link" h
 pk_role_enum_to_localised_present (<em class="parameter"><code><a class="link" href="PackageKit-pk-enum.html#PkRoleEnum" title="enum PkRoleEnum"><span class="type">PkRoleEnum</span></a> role</code></em>);</pre>
 <p>Converts a enumerated type to its localized description</p>
 <div class="refsect3">
-<a name="id-1.5.7.7.44.5"></a><h4>Parameters</h4>
+<a name="id-1.5.7.7.40.5"></a><h4>Parameters</h4>
 <div class="informaltable"><table width="100%" border="0">
 <colgroup>
 <col width="150px" class="parameters_name">
@@ -1648,7 +1494,7 @@ pk_role_enum_to_localised_present (<em class="parameter"><code><a class="link" h
 </table></div>
 </div>
 <div class="refsect3">
-<a name="id-1.5.7.7.44.6"></a><h4>Returns</h4>
+<a name="id-1.5.7.7.40.6"></a><h4>Returns</h4>
 <p> the translated text</p>
 <p></p>
 </div>
@@ -1693,7 +1539,7 @@ these constants</p>
 <td> </td>
 </tr>
 <tr>
-<td class="enum_member_name"><p><a name="PK-ROLE-ENUM-GET-DEPENDS:CAPS"></a>PK_ROLE_ENUM_GET_DEPENDS</p></td>
+<td class="enum_member_name"><p><a name="PK-ROLE-ENUM-DEPENDS-ON:CAPS"></a>PK_ROLE_ENUM_DEPENDS_ON</p></td>
 <td> </td>
 <td> </td>
 </tr>
@@ -1718,7 +1564,7 @@ these constants</p>
 <td> </td>
 </tr>
 <tr>
-<td class="enum_member_name"><p><a name="PK-ROLE-ENUM-GET-REQUIRES:CAPS"></a>PK_ROLE_ENUM_GET_REQUIRES</p></td>
+<td class="enum_member_name"><p><a name="PK-ROLE-ENUM-REQUIRED-BY:CAPS"></a>PK_ROLE_ENUM_REQUIRED_BY</p></td>
 <td> </td>
 <td> </td>
 </tr>
@@ -1828,12 +1674,22 @@ these constants</p>
 <td> </td>
 </tr>
 <tr>
-<td class="enum_member_name"><p><a name="PK-ROLE-ENUM-UPGRADE-SYSTEM:CAPS"></a>PK_ROLE_ENUM_UPGRADE_SYSTEM</p></td>
+<td class="enum_member_name"><p><a name="PK-ROLE-ENUM-REPAIR-SYSTEM:CAPS"></a>PK_ROLE_ENUM_REPAIR_SYSTEM</p></td>
 <td> </td>
 <td> </td>
 </tr>
 <tr>
-<td class="enum_member_name"><p><a name="PK-ROLE-ENUM-REPAIR-SYSTEM:CAPS"></a>PK_ROLE_ENUM_REPAIR_SYSTEM</p></td>
+<td class="enum_member_name"><p><a name="PK-ROLE-ENUM-GET-DETAILS-LOCAL:CAPS"></a>PK_ROLE_ENUM_GET_DETAILS_LOCAL</p></td>
+<td> </td>
+<td> </td>
+</tr>
+<tr>
+<td class="enum_member_name"><p><a name="PK-ROLE-ENUM-GET-FILES-LOCAL:CAPS"></a>PK_ROLE_ENUM_GET_FILES_LOCAL</p></td>
+<td> </td>
+<td> </td>
+</tr>
+<tr>
+<td class="enum_member_name"><p><a name="PK-ROLE-ENUM-REPO-REMOVE:CAPS"></a>PK_ROLE_ENUM_REPO_REMOVE</p></td>
 <td> </td>
 <td> </td>
 </tr>
@@ -2417,112 +2273,10 @@ when they are ready to start running the transaction and after a lock has been g
 </div>
 <hr>
 <div class="refsect2">
-<a name="PkMessageEnum"></a><h3>enum PkMessageEnum</h3>
-<p>What message type we need to show</p>
-<div class="refsect3">
-<a name="id-1.5.7.8.9.4"></a><h4>Members</h4>
-<div class="informaltable"><table width="100%" border="0">
-<colgroup>
-<col width="300px" class="enum_members_name">
-<col class="enum_members_description">
-<col width="200px" class="enum_members_annotations">
-</colgroup>
-<tbody>
-<tr>
-<td class="enum_member_name"><p><a name="PK-MESSAGE-ENUM-UNKNOWN:CAPS"></a>PK_MESSAGE_ENUM_UNKNOWN</p></td>
-<td> </td>
-<td> </td>
-</tr>
-<tr>
-<td class="enum_member_name"><p><a name="PK-MESSAGE-ENUM-BROKEN-MIRROR:CAPS"></a>PK_MESSAGE_ENUM_BROKEN_MIRROR</p></td>
-<td> </td>
-<td> </td>
-</tr>
-<tr>
-<td class="enum_member_name"><p><a name="PK-MESSAGE-ENUM-CONNECTION-REFUSED:CAPS"></a>PK_MESSAGE_ENUM_CONNECTION_REFUSED</p></td>
-<td> </td>
-<td> </td>
-</tr>
-<tr>
-<td class="enum_member_name"><p><a name="PK-MESSAGE-ENUM-PARAMETER-INVALID:CAPS"></a>PK_MESSAGE_ENUM_PARAMETER_INVALID</p></td>
-<td> </td>
-<td> </td>
-</tr>
-<tr>
-<td class="enum_member_name"><p><a name="PK-MESSAGE-ENUM-PRIORITY-INVALID:CAPS"></a>PK_MESSAGE_ENUM_PRIORITY_INVALID</p></td>
-<td> </td>
-<td> </td>
-</tr>
-<tr>
-<td class="enum_member_name"><p><a name="PK-MESSAGE-ENUM-BACKEND-ERROR:CAPS"></a>PK_MESSAGE_ENUM_BACKEND_ERROR</p></td>
-<td> </td>
-<td> </td>
-</tr>
-<tr>
-<td class="enum_member_name"><p><a name="PK-MESSAGE-ENUM-DAEMON-ERROR:CAPS"></a>PK_MESSAGE_ENUM_DAEMON_ERROR</p></td>
-<td> </td>
-<td> </td>
-</tr>
-<tr>
-<td class="enum_member_name"><p><a name="PK-MESSAGE-ENUM-CACHE-BEING-REBUILT:CAPS"></a>PK_MESSAGE_ENUM_CACHE_BEING_REBUILT</p></td>
-<td> </td>
-<td> </td>
-</tr>
-<tr>
-<td class="enum_member_name"><p><a name="PK-MESSAGE-ENUM-NEWER-PACKAGE-EXISTS:CAPS"></a>PK_MESSAGE_ENUM_NEWER_PACKAGE_EXISTS</p></td>
-<td> </td>
-<td> </td>
-</tr>
-<tr>
-<td class="enum_member_name"><p><a name="PK-MESSAGE-ENUM-COULD-NOT-FIND-PACKAGE:CAPS"></a>PK_MESSAGE_ENUM_COULD_NOT_FIND_PACKAGE</p></td>
-<td> </td>
-<td> </td>
-</tr>
-<tr>
-<td class="enum_member_name"><p><a name="PK-MESSAGE-ENUM-CONFIG-FILES-CHANGED:CAPS"></a>PK_MESSAGE_ENUM_CONFIG_FILES_CHANGED</p></td>
-<td> </td>
-<td> </td>
-</tr>
-<tr>
-<td class="enum_member_name"><p><a name="PK-MESSAGE-ENUM-PACKAGE-ALREADY-INSTALLED:CAPS"></a>PK_MESSAGE_ENUM_PACKAGE_ALREADY_INSTALLED</p></td>
-<td> </td>
-<td> </td>
-</tr>
-<tr>
-<td class="enum_member_name"><p><a name="PK-MESSAGE-ENUM-AUTOREMOVE-IGNORED:CAPS"></a>PK_MESSAGE_ENUM_AUTOREMOVE_IGNORED</p></td>
-<td> </td>
-<td> </td>
-</tr>
-<tr>
-<td class="enum_member_name"><p><a name="PK-MESSAGE-ENUM-REPO-METADATA-DOWNLOAD-FAILED:CAPS"></a>PK_MESSAGE_ENUM_REPO_METADATA_DOWNLOAD_FAILED</p></td>
-<td> </td>
-<td> </td>
-</tr>
-<tr>
-<td class="enum_member_name"><p><a name="PK-MESSAGE-ENUM-REPO-FOR-DEVELOPERS-ONLY:CAPS"></a>PK_MESSAGE_ENUM_REPO_FOR_DEVELOPERS_ONLY</p></td>
-<td> </td>
-<td> </td>
-</tr>
-<tr>
-<td class="enum_member_name"><p><a name="PK-MESSAGE-ENUM-OTHER-UPDATES-HELD-BACK:CAPS"></a>PK_MESSAGE_ENUM_OTHER_UPDATES_HELD_BACK</p></td>
-<td> </td>
-<td> </td>
-</tr>
-<tr>
-<td class="enum_member_name"><p><a name="PK-MESSAGE-ENUM-LAST:CAPS"></a>PK_MESSAGE_ENUM_LAST</p></td>
-<td> </td>
-<td> </td>
-</tr>
-</tbody>
-</table></div>
-</div>
-</div>
-<hr>
-<div class="refsect2">
 <a name="PkErrorEnum"></a><h3>enum PkErrorEnum</h3>
 <p>The error type</p>
 <div class="refsect3">
-<a name="id-1.5.7.8.10.4"></a><h4>Members</h4>
+<a name="id-1.5.7.8.9.4"></a><h4>Members</h4>
 <div class="informaltable"><table width="100%" border="0">
 <colgroup>
 <col width="300px" class="enum_members_name">
@@ -2884,7 +2638,7 @@ when they are ready to start running the transaction and after a lock has been g
 <a name="PkGroupEnum"></a><h3>enum PkGroupEnum</h3>
 <p>The group type</p>
 <div class="refsect3">
-<a name="id-1.5.7.8.11.4"></a><h4>Members</h4>
+<a name="id-1.5.7.8.10.4"></a><h4>Members</h4>
 <div class="informaltable"><table width="100%" border="0">
 <colgroup>
 <col width="300px" class="enum_members_name">
@@ -3081,7 +2835,7 @@ when they are ready to start running the transaction and after a lock has been g
 <a name="PkUpdateStateEnum"></a><h3>enum PkUpdateStateEnum</h3>
 <p>What state the update is in</p>
 <div class="refsect3">
-<a name="id-1.5.7.8.12.4"></a><h4>Members</h4>
+<a name="id-1.5.7.8.11.4"></a><h4>Members</h4>
 <div class="informaltable"><table width="100%" border="0">
 <colgroup>
 <col width="300px" class="enum_members_name">
@@ -3124,7 +2878,7 @@ when they are ready to start running the transaction and after a lock has been g
 <p>The enumerated types used in <code class="function">Package()</code> - these have to refer to a specific
 package action, rather than a general state</p>
 <div class="refsect3">
-<a name="id-1.5.7.8.13.4"></a><h4>Members</h4>
+<a name="id-1.5.7.8.12.4"></a><h4>Members</h4>
 <div class="informaltable"><table width="100%" border="0">
 <colgroup>
 <col width="300px" class="enum_members_name">
@@ -3271,7 +3025,7 @@ package action, rather than a general state</p>
 <a name="PkDistroUpgradeEnum"></a><h3>enum PkDistroUpgradeEnum</h3>
 <p>The distro upgrade status</p>
 <div class="refsect3">
-<a name="id-1.5.7.8.14.4"></a><h4>Members</h4>
+<a name="id-1.5.7.8.13.4"></a><h4>Members</h4>
 <div class="informaltable"><table width="100%" border="0">
 <colgroup>
 <col width="300px" class="enum_members_name">
@@ -3308,7 +3062,7 @@ package action, rather than a general state</p>
 <a name="PkSigTypeEnum"></a><h3>enum PkSigTypeEnum</h3>
 <p>The signature type type</p>
 <div class="refsect3">
-<a name="id-1.5.7.8.15.4"></a><h4>Members</h4>
+<a name="id-1.5.7.8.14.4"></a><h4>Members</h4>
 <div class="informaltable"><table width="100%" border="0">
 <colgroup>
 <col width="300px" class="enum_members_name">
@@ -3337,92 +3091,10 @@ package action, rather than a general state</p>
 </div>
 <hr>
 <div class="refsect2">
-<a name="PkProvidesEnum"></a><h3>enum PkProvidesEnum</h3>
-<p>Some component types packages can provide</p>
-<div class="refsect3">
-<a name="id-1.5.7.8.16.4"></a><h4>Members</h4>
-<div class="informaltable"><table width="100%" border="0">
-<colgroup>
-<col width="300px" class="enum_members_name">
-<col class="enum_members_description">
-<col width="200px" class="enum_members_annotations">
-</colgroup>
-<tbody>
-<tr>
-<td class="enum_member_name"><p><a name="PK-PROVIDES-ENUM-UNKNOWN:CAPS"></a>PK_PROVIDES_ENUM_UNKNOWN</p></td>
-<td> </td>
-<td> </td>
-</tr>
-<tr>
-<td class="enum_member_name"><p><a name="PK-PROVIDES-ENUM-ANY:CAPS"></a>PK_PROVIDES_ENUM_ANY</p></td>
-<td> </td>
-<td> </td>
-</tr>
-<tr>
-<td class="enum_member_name"><p><a name="PK-PROVIDES-ENUM-MODALIAS:CAPS"></a>PK_PROVIDES_ENUM_MODALIAS</p></td>
-<td> </td>
-<td> </td>
-</tr>
-<tr>
-<td class="enum_member_name"><p><a name="PK-PROVIDES-ENUM-CODEC:CAPS"></a>PK_PROVIDES_ENUM_CODEC</p></td>
-<td> </td>
-<td> </td>
-</tr>
-<tr>
-<td class="enum_member_name"><p><a name="PK-PROVIDES-ENUM-MIMETYPE:CAPS"></a>PK_PROVIDES_ENUM_MIMETYPE</p></td>
-<td> </td>
-<td> </td>
-</tr>
-<tr>
-<td class="enum_member_name"><p><a name="PK-PROVIDES-ENUM-FONT:CAPS"></a>PK_PROVIDES_ENUM_FONT</p></td>
-<td> </td>
-<td> </td>
-</tr>
-<tr>
-<td class="enum_member_name"><p><a name="PK-PROVIDES-ENUM-HARDWARE-DRIVER:CAPS"></a>PK_PROVIDES_ENUM_HARDWARE_DRIVER</p></td>
-<td> </td>
-<td> </td>
-</tr>
-<tr>
-<td class="enum_member_name"><p><a name="PK-PROVIDES-ENUM-POSTSCRIPT-DRIVER:CAPS"></a>PK_PROVIDES_ENUM_POSTSCRIPT_DRIVER</p></td>
-<td> </td>
-<td> </td>
-</tr>
-<tr>
-<td class="enum_member_name"><p><a name="PK-PROVIDES-ENUM-PLASMA-SERVICE:CAPS"></a>PK_PROVIDES_ENUM_PLASMA_SERVICE</p></td>
-<td> </td>
-<td> </td>
-</tr>
-<tr>
-<td class="enum_member_name"><p><a name="PK-PROVIDES-ENUM-SHARED-LIB:CAPS"></a>PK_PROVIDES_ENUM_SHARED_LIB</p></td>
-<td> </td>
-<td> </td>
-</tr>
-<tr>
-<td class="enum_member_name"><p><a name="PK-PROVIDES-ENUM-PYTHON:CAPS"></a>PK_PROVIDES_ENUM_PYTHON</p></td>
-<td> </td>
-<td> </td>
-</tr>
-<tr>
-<td class="enum_member_name"><p><a name="PK-PROVIDES-ENUM-LANGUAGE-SUPPORT:CAPS"></a>PK_PROVIDES_ENUM_LANGUAGE_SUPPORT</p></td>
-<td> </td>
-<td> </td>
-</tr>
-<tr>
-<td class="enum_member_name"><p><a name="PK-PROVIDES-ENUM-LAST:CAPS"></a>PK_PROVIDES_ENUM_LAST</p></td>
-<td> </td>
-<td> </td>
-</tr>
-</tbody>
-</table></div>
-</div>
-</div>
-<hr>
-<div class="refsect2">
 <a name="PkMediaTypeEnum"></a><h3>enum PkMediaTypeEnum</h3>
 <p>The media type</p>
 <div class="refsect3">
-<a name="id-1.5.7.8.17.4"></a><h4>Members</h4>
+<a name="id-1.5.7.8.15.4"></a><h4>Members</h4>
 <div class="informaltable"><table width="100%" border="0">
 <colgroup>
 <col width="300px" class="enum_members_name">
@@ -3464,7 +3136,7 @@ package action, rather than a general state</p>
 <a name="PkAuthorizeEnum"></a><h3>enum PkAuthorizeEnum</h3>
 <p>The authorization result</p>
 <div class="refsect3">
-<a name="id-1.5.7.8.18.4"></a><h4>Members</h4>
+<a name="id-1.5.7.8.16.4"></a><h4>Members</h4>
 <div class="informaltable"><table width="100%" border="0">
 <colgroup>
 <col width="300px" class="enum_members_name">
@@ -3506,7 +3178,7 @@ package action, rather than a general state</p>
 <a name="PkUpgradeKindEnum"></a><h3>enum PkUpgradeKindEnum</h3>
 <p>The type of distribution upgrade to perform</p>
 <div class="refsect3">
-<a name="id-1.5.7.8.19.4"></a><h4>Members</h4>
+<a name="id-1.5.7.8.17.4"></a><h4>Members</h4>
 <div class="informaltable"><table width="100%" border="0">
 <colgroup>
 <col width="300px" class="enum_members_name">
@@ -3548,7 +3220,7 @@ package action, rather than a general state</p>
 <a name="PkTransactionFlagEnum"></a><h3>enum PkTransactionFlagEnum</h3>
 <p>The transaction flags that alter how the transaction is handled</p>
 <div class="refsect3">
-<a name="id-1.5.7.8.20.4"></a><h4>Members</h4>
+<a name="id-1.5.7.8.18.4"></a><h4>Members</h4>
 <div class="informaltable"><table width="100%" border="0">
 <colgroup>
 <col width="300px" class="enum_members_name">

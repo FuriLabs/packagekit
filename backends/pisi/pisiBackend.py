@@ -136,7 +136,7 @@ class PackageKitPisiBackend(PackageKitBaseBackend, PackagekitPackage):
 
         return self.package(id, status, pkg.summary)
 
-    def get_depends(self, filters, package_ids, recursive):
+    def depends_on(self, filters, package_ids, recursive):
         """ Prints a list of depends for a given package """
         self.allow_cancel(True)
         self.percentage(None)
@@ -170,7 +170,7 @@ class PackageKitPisiBackend(PackageKitBaseBackend, PackagekitPackage):
             homepage = pkg.source.homepage if pkg.source.homepage is not None\
                 else ''
 
-            self.details(pkg_id, ",".join(pkg.license), group, pkg.description,
+            self.details(pkg_id, '', ",".join(pkg.license), group, pkg.description,
                          homepage, pkg.packageSize)
         else:
             self.error(ERROR_PACKAGE_NOT_FOUND, "Package was not found")
@@ -207,7 +207,7 @@ class PackageKitPisiBackend(PackageKitBaseBackend, PackagekitPackage):
             uri = self.repodb.get_repo(repo).indexuri.get_uri()
             self.repo_detail(repo, uri, True)
 
-    def get_requires(self, filters, package_ids, recursive):
+    def required_by(self, filters, package_ids, recursive):
         """ Prints a list of requires for a given package """
         self.allow_cancel(True)
         self.percentage(None)
