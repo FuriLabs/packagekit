@@ -1,7 +1,9 @@
-packagekit (0.9.4-1) UNRELEASED; urgency=medium
+packagekit (0.9.4-1) experimental; urgency=medium
 
   * New upstream release: 0.9.4
   * Drop build-dep on browsers, use npapi-sdk instead (Closes: #754373)
+  * Drop patches which have been applied upstream
+  * npapi-sdk.patch: Compile using npapi-sdk
 
  -- Matthias Klumpp <mak@debian.org>  Tue, 22 Jul 2014 14:26:14 +0200
 
