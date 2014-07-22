@@ -39,7 +39,6 @@ Package: packagekit
 Architecture: any
 Multi-Arch: foreign
 Depends: libglib2.0-bin,
-         libpackagekit-glib2-16 (= ${binary:Version}),
          packagekit-backend-aptcc (= ${binary:Version}),
          policykit-1,
          ${misc:Depends},
@@ -91,7 +90,7 @@ Description: Documentation for PackageKit
  .
  This package provides documentation for PackageKit.
 
-Package: libpackagekit-glib2-16
+Package: libpackagekit-glib2-18
 Architecture: any
 Section: libs
 Multi-Arch: same
@@ -112,8 +111,8 @@ Package: libpackagekit-glib2-dev
 Section: libdevel
 Architecture: any
 Depends: libdbus-1-dev,
-         libglib2.0-dev (>= 2.24),
-         libpackagekit-glib2-16 (= ${binary:Version}),
+         libglib2.0-dev (>= 2.26),
+         libpackagekit-glib2-18 (= ${binary:Version}),
          libsqlite3-dev,
          ${misc:Depends}
 Description: Library for accessing PackageKit using GLib (development files)
