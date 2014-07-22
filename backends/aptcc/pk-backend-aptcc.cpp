@@ -66,7 +66,7 @@ pk_backend_supports_parallelization (PkBackend *backend)
 /**
  * pk_backend_initialize:
  */
-void pk_backend_initialize(PkBackend *backend)
+void pk_backend_initialize(GKeyFile *conf, PkBackend *backend)
 {
     g_debug("APTcc Initializing");
 
@@ -77,11 +77,19 @@ void pk_backend_initialize(PkBackend *backend)
     // (without using the debconf frontend, PK will freeze)
     setenv("APT_LISTCHANGES_FRONTEND", "debconf", 1);
 
-    // Make sure the config is ready for the get-filters
-    // call which needs to know about multi-arch
-    pkgInitConfig(*_config);
+    // pkgInitConfig makes sure the config is ready for the
+    // get-filters call which needs to know about multi-arch
+    if (!pkgInitConfig(*_config)) {
+        g_debug("ERROR initializing backend configuration");
+    }
 
-    spawn = pk_backend_spawn_new();
+    // pkgInitSystem is needed to compare the changelog verstion to
+    // current package using DoCmpVersion()
+    if (!pkgInitSystem(*_config, _system)) {
+        g_debug("ERROR initializing backend system");
+    }
+
+    spawn = pk_backend_spawn_new(conf);
 //     pk_backend_spawn_set_job(spawn, backend);
     pk_backend_spawn_set_name(spawn, "aptcc");
 }
@@ -136,6 +144,8 @@ PkBitfield pk_backend_get_filters(PkBackend *backend)
                 PK_FILTER_ENUM_DEVELOPMENT,
                 PK_FILTER_ENUM_SUPPORTED,
                 PK_FILTER_ENUM_FREE,
+                PK_FILTER_ENUM_APPLICATION,
+                PK_FILTER_ENUM_DOWNLOADED,
                 -1);
 
     // if we have multiArch support we add the native filter
@@ -200,7 +210,7 @@ void pk_backend_cancel(PkBackend *backend, PkBackendJob *job)
     }
 }
 
-static void backend_get_depends_or_requires_thread(PkBackendJob *job, GVariant *params, gpointer user_data)
+static void backend_depends_on_or_requires_thread(PkBackendJob *job, GVariant *params, gpointer user_data)
 {
     PkRoleEnum role;
     PkBitfield filters;
@@ -249,7 +259,7 @@ static void backend_get_depends_or_requires_thread(PkBackendJob *job, GVariant *
             return;
         }
 
-        if (role == PK_ROLE_ENUM_GET_DEPENDS) {
+        if (role == PK_ROLE_ENUM_DEPENDS_ON) {
             apt->getDepends(output, ver, recursive);
         } else {
             apt->getRequires(output, ver, recursive);
@@ -263,24 +273,24 @@ static void backend_get_depends_or_requires_thread(PkBackendJob *job, GVariant *
 }
 
 /**
- * pk_backend_get_depends:
+ * pk_backend_depends_on:
  */
-void pk_backend_get_depends(PkBackend *backend, PkBackendJob *job, PkBitfield filters,
+void pk_backend_depends_on(PkBackend *backend, PkBackendJob *job, PkBitfield filters,
                             gchar **package_ids, gboolean recursive)
 {
-    pk_backend_job_thread_create(job, backend_get_depends_or_requires_thread, NULL, NULL);
+    pk_backend_job_thread_create(job, backend_depends_on_or_requires_thread, NULL, NULL);
 }
 
 /**
- * pk_backend_get_requires:
+ * pk_backend_required_by:
  */
-void pk_backend_get_requires(PkBackend *backend,
+void pk_backend_required_by(PkBackend *backend,
                              PkBackendJob *job,
                              PkBitfield filters,
                              gchar **package_ids,
                              gboolean recursive)
 {
-    pk_backend_job_thread_create(job, backend_get_depends_or_requires_thread, NULL, NULL);
+    pk_backend_job_thread_create(job, backend_depends_on_or_requires_thread, NULL, NULL);
 }
 
 /**
@@ -440,57 +450,35 @@ void pk_backend_get_updates(PkBackend *backend, PkBackendJob *job, PkBitfield fi
 
 static void backend_what_provides_thread(PkBackendJob *job, GVariant *params, gpointer user_data)
 {
-    PkProvidesEnum provides;
     PkBitfield filters;
     const gchar *provides_text;
     gchar **values;
     bool error = false;
     AptIntf *apt = static_cast<AptIntf*>(pk_backend_job_get_user_data(job));
 
-    g_variant_get(params, "(tu^a&s)",
+    g_variant_get(params, "(t^a&s)",
                   &filters,
-                  &provides,
                   &values);
 
     pk_backend_job_set_status(job, PK_STATUS_ENUM_QUERY);
 
     // We can handle libraries, mimetypes and codecs
-    if (provides == PK_PROVIDES_ENUM_SHARED_LIB ||
-            provides == PK_PROVIDES_ENUM_MIMETYPE ||
-            provides == PK_PROVIDES_ENUM_CODEC ||
-            provides == PK_PROVIDES_ENUM_ANY) {
-        if (!apt->init()) {
-            g_debug("Failed to create apt cache");
-            g_strfreev(values);
-            apt->emitFinished();
-            return;
-        }
-
-        pk_backend_job_set_status(job, PK_STATUS_ENUM_QUERY);
-
-        PkgList output;
-        if (provides == PK_PROVIDES_ENUM_SHARED_LIB) {
-            apt->providesLibrary(output, values);
-        } else if (provides == PK_PROVIDES_ENUM_MIMETYPE) {
-            apt->providesMimeType(output, values);
-        } else if (provides == PK_PROVIDES_ENUM_CODEC) {
-            apt->providesCodec(output, values);
-        } else {
-            // PK_PROVIDES_ENUM_ANY, just search for everything a package can provide
-            apt->providesLibrary(output, values);
-            apt->providesCodec(output, values);
-            apt->providesMimeType(output, values);
-        }
-
-        // It's faster to emit the packages here rather than in the matching part
-        apt->emitPackages(output, filters);
-    } else {
-        provides_text = pk_provides_enum_to_string(provides);
-        pk_backend_job_error_code(job,
-                                  PK_ERROR_ENUM_NOT_SUPPORTED,
-                                  "Provides %s not supported",
-                                  provides_text);
+    if (!apt->init()) {
+        g_debug("Failed to create apt cache");
+        g_strfreev(values);
+        apt->emitFinished();
+        return;
     }
+
+    pk_backend_job_set_status(job, PK_STATUS_ENUM_QUERY);
+
+    PkgList output;
+    apt->providesLibrary(output, values);
+    apt->providesCodec(output, values);
+    apt->providesMimeType(output, values);
+
+    // It's faster to emit the packages here rather than in the matching part
+    apt->emitPackages(output, filters);
 
     apt->emitFinished();
 }
@@ -501,7 +489,6 @@ static void backend_what_provides_thread(PkBackendJob *job, GVariant *params, gp
 void pk_backend_what_provides(PkBackend *backend,
                               PkBackendJob *job,
                               PkBitfield filters,
-                              PkProvidesEnum provides,
                               gchar **values)
 {
     pk_backend_job_thread_create(job, backend_what_provides_thread, NULL, NULL);
@@ -759,8 +746,6 @@ static void backend_search_groups_thread(PkBackendJob *job, GVariant *params, gp
         return;
     }
 
-    pk_backend_job_set_status(job, PK_STATUS_ENUM_QUERY);
-
     // It's faster to emmit the packages here rather than in the matching part
     PkgList output;
     output = apt->getPackagesFromGroup(search);
@@ -945,7 +930,6 @@ static void backend_manage_packages_thread(PkBackendJob *job, GVariant *params, 
     bool ret;
     ret = apt->runTransaction(installPkgs,
                               removePkgs,
-                              simulate,
                               fileInstall, // Mark newly installed packages as auto-installed
                                            // (they're dependencies of the new local package)
                               fixBroken,
@@ -1037,13 +1021,14 @@ static void backend_repo_manager_thread(PkBackendJob *job, GVariant *params, gpo
 {
     // list
     PkBitfield filters;
+    PkBitfield transaction_flags = 0;
     // enable
     const gchar *repo_id;
     gboolean enabled;
+    gboolean autoremove;
     bool found = false;
     // generic
     PkRoleEnum role;
-    const char *const salt = "$1$/iSaq7rB$EoUw5jJPPvAPECNaaWzMK/";
     AptIntf *apt = static_cast<AptIntf*>(pk_backend_job_get_user_data(job));
 
     role = pk_backend_job_get_role(job);
@@ -1051,6 +1036,11 @@ static void backend_repo_manager_thread(PkBackendJob *job, GVariant *params, gpo
         pk_backend_job_set_status(job, PK_STATUS_ENUM_QUERY);
         g_variant_get(params, "(t)",
                       &filters);
+    } else if (role == PK_ROLE_ENUM_REPO_REMOVE) {
+        g_variant_get(params, "(t&sb)",
+                      &transaction_flags,
+                      &repo_id,
+                      &autoremove);
     } else {
         pk_backend_job_set_status(job, PK_STATUS_ENUM_REQUEST);
         g_variant_get (params, "(&sb)",
@@ -1078,59 +1068,88 @@ static void backend_repo_manager_thread(PkBackendJob *job, GVariant *params, gpo
             continue;
         }
 
-        string Sections;
-        for (unsigned int j = 0; j < (*it)->NumSections; ++j) {
-            Sections += (*it)->Sections[j];
-            Sections += " ";
-        }
+        string sections = (*it)->joinedSections();
+        
+        string repoId = (*it)->repoId();
 
-        if (pk_bitfield_contain(filters, PK_FILTER_ENUM_NOT_DEVELOPMENT) &&
+        if (role == PK_ROLE_ENUM_GET_REPO_LIST) {
+            if (pk_bitfield_contain(filters, PK_FILTER_ENUM_NOT_DEVELOPMENT) &&
                 ((*it)->Type & SourcesList::DebSrc ||
                  (*it)->Type & SourcesList::RpmSrc ||
                  (*it)->Type & SourcesList::RpmSrcDir ||
                  (*it)->Type & SourcesList::RepomdSrc)) {
-            continue;
-        }
+                continue;
+            }
 
-        string repo;
-        repo = (*it)->GetType();
-        repo += " " + (*it)->VendorID;
-        repo += " " + (*it)->URI;
-        repo += " " + (*it)->Dist;
-        repo += " " + Sections;
-        gchar *hash;
-        const gchar allowedChars[] =
-                "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
-        hash = crypt(repo.c_str(), salt);
-        g_strcanon(hash, allowedChars, 'D');
-        string repoId(hash);
-
-        if (role == PK_ROLE_ENUM_GET_REPO_LIST) {
             pk_backend_job_repo_detail(job,
                                        repoId.c_str(),
-                                       repo.c_str(),
+                                       (*it)->niceName().c_str(),
                                        !((*it)->Type & SourcesList::Disabled));
-        } else {
-            if (repoId.compare(repo_id) == 0) {
+        } else if (repoId.compare(repo_id) == 0) {
+            // Found the repo to enable/disable
+            found = true;
+
+            if (role == PK_ROLE_ENUM_REPO_ENABLE) {
                 if (enabled) {
                     (*it)->Type = (*it)->Type & ~SourcesList::Disabled;
                 } else {
                     (*it)->Type |= SourcesList::Disabled;
                 }
-                found = true;
-                break;
+
+                // Commit changes
+                if (!_lst.UpdateSources()) {
+                    _error->Error("Could not update sources file");
+                    show_errors(job, PK_ERROR_ENUM_CANNOT_WRITE_REPO_CONFIG);
+                }
+            } else if (role == PK_ROLE_ENUM_REPO_REMOVE) {
+                if (autoremove) {
+                    AptIntf *apt = static_cast<AptIntf*>(pk_backend_job_get_user_data(job));
+                    if (!apt->init()) {
+                        g_debug("Failed to create apt cache");
+                        apt->emitFinished();
+                        return;
+                    }
+
+                    PkgList removePkgs = apt->getPackagesFromRepo(*it);
+                    if (removePkgs.size() > 0) {
+                        // Install/Update/Remove packages, or just simulate
+                        bool ret;
+                        ret = apt->runTransaction(PkgList(),
+                                                removePkgs,
+                                                false,
+                                                false,
+                                                transaction_flags,
+                                                false);
+                        if (!ret) {
+                            // Print transaction errors
+                            g_debug("AptIntf::runTransaction() failed: ", _error->PendingError());
+                            apt->emitFinished();
+                            return;
+                        }
+                    }
+                }
+
+                // Now if we are not simulating remove the repository
+                if (!pk_bitfield_contain(transaction_flags, PK_TRANSACTION_FLAG_ENUM_SIMULATE)) {
+                    _lst.RemoveSource(*it);
+
+                    // Commit changes
+                    if (!_lst.UpdateSources()) {
+                        _error->Error("Could not update sources file");
+                        show_errors(job, PK_ERROR_ENUM_CANNOT_WRITE_REPO_CONFIG);
+                    }
+                }
             }
+
+            // Leave the search loop
+            break;
         }
     }
 
-    if (role == PK_ROLE_ENUM_REPO_ENABLE) {
-        if (!found) {
-            _error->Error("Could not found the repositorie");
-            show_errors(job, PK_ERROR_ENUM_REPO_NOT_AVAILABLE);
-        } else if (!_lst.UpdateSources()) {
-            _error->Error("Could not update sources file");
-            show_errors(job, PK_ERROR_ENUM_CANNOT_WRITE_REPO_CONFIG);
-        }
+    if ((role == PK_ROLE_ENUM_REPO_ENABLE || role == PK_ROLE_ENUM_REPO_REMOVE) &&
+        !found) {
+        _error->Error("Could not found the repository");
+        show_errors(job, PK_ERROR_ENUM_REPO_NOT_AVAILABLE);
     }
 
     apt->emitFinished();
@@ -1152,6 +1171,19 @@ void pk_backend_repo_enable(PkBackend *backend, PkBackendJob *job, const gchar *
     pk_backend_job_thread_create(job, backend_repo_manager_thread, NULL, NULL);
 }
 
+/**
+ * pk_backend_repo_remove:
+ */
+void
+pk_backend_repo_remove (PkBackend *backend,
+                        PkBackendJob *job,
+                        PkBitfield transaction_flags,
+                        const gchar *repo_id,
+                        gboolean autoremove)
+{
+    pk_backend_job_thread_create(job, backend_repo_manager_thread, NULL, NULL);
+}
+
 static void backend_get_packages_thread(PkBackendJob *job, GVariant *params, gpointer user_data)
 {
     PkBitfield filters;
@@ -1166,7 +1198,6 @@ static void backend_get_packages_thread(PkBackendJob *job, GVariant *params, gpo
         return;
     }
 
-    pk_backend_job_set_status(job, PK_STATUS_ENUM_QUERY);
     PkgList output;
     output = apt->getPackages();
 
@@ -1204,10 +1235,10 @@ PkBitfield pk_backend_get_roles(PkBackend *backend)
     PkBitfield roles;
     roles = pk_bitfield_from_enums(
                 PK_ROLE_ENUM_CANCEL,
-                PK_ROLE_ENUM_GET_DEPENDS,
+                PK_ROLE_ENUM_DEPENDS_ON,
                 PK_ROLE_ENUM_GET_DETAILS,
                 PK_ROLE_ENUM_GET_FILES,
-                PK_ROLE_ENUM_GET_REQUIRES,
+                PK_ROLE_ENUM_REQUIRED_BY,
                 PK_ROLE_ENUM_GET_PACKAGES,
                 PK_ROLE_ENUM_WHAT_PROVIDES,
                 PK_ROLE_ENUM_GET_UPDATES,
@@ -1226,6 +1257,7 @@ PkBitfield pk_backend_get_roles(PkBackend *backend)
                 PK_ROLE_ENUM_GET_REPO_LIST,
                 PK_ROLE_ENUM_REPO_ENABLE,
                 PK_ROLE_ENUM_REPAIR_SYSTEM,
+                PK_ROLE_ENUM_REPO_REMOVE,
                 -1);
 
     // only add GetDistroUpgrades if the binary is present
@@ -1239,20 +1271,4 @@ PkBitfield pk_backend_get_roles(PkBackend *backend)
     }
 
     return roles;
-}
-
-/**
- * pk_backend_get_provides:
- */
-PkBitfield pk_backend_get_provides(PkBackend *backend)
-{
-    PkBitfield provides;
-    provides = pk_bitfield_from_enums(
-        PK_PROVIDES_ENUM_SHARED_LIB,
-        PK_PROVIDES_ENUM_MIMETYPE,
-        PK_PROVIDES_ENUM_CODEC,
-        PK_PROVIDES_ENUM_ANY,
-        -1);
-
-    return provides;
 }

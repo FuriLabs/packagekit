@@ -1,6 +1,6 @@
 /* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*-
  *
- * Copyright (C) 2007-2010 Richard Hughes <richard@hughsie.com>
+ * Copyright (C) 2007-2014 Richard Hughes <richard@hughsie.com>
  *
  * Licensed under the GNU General Public License Version 2
  *
@@ -520,6 +520,7 @@ pk_console_details_cb (PkDetails *item, gpointer data)
 	gchar *license;
 	gchar *description;
 	gchar *url;
+	gchar *summary;
 	PkGroupEnum group;
 	guint64 size;
 
@@ -529,6 +530,7 @@ pk_console_details_cb (PkDetails *item, gpointer data)
 		      "license", &license,
 		      "description", &description,
 		      "url", &url,
+		      "summary", &summary,
 		      "group", &group,
 		      "size", &size,
 		      NULL);
@@ -539,6 +541,7 @@ pk_console_details_cb (PkDetails *item, gpointer data)
 	/* TRANSLATORS: This a list of details about the package */
 	g_print ("%s\n", _("Package description"));
 	g_print ("  package:     %s\n", package);
+	g_print ("  summary:     %s\n", summary);
 	g_print ("  license:     %s\n", license);
 	g_print ("  group:       %s\n", pk_group_enum_to_string (group));
 	g_print ("  description: %s\n", description);
@@ -546,6 +549,7 @@ pk_console_details_cb (PkDetails *item, gpointer data)
 	g_print ("  url:	 %s\n", url);
 
 	g_free (package_id);
+	g_free (summary);
 	g_free (license);
 	g_free (description);
 	g_free (url);
@@ -1120,6 +1124,11 @@ pk_console_install_packages (PkConsoleCtx *ctx, gchar **packages, GError **error
 	    !pk_bitfield_contain (ctx->filters, PK_FILTER_ENUM_NOT_ARCH))
 		pk_bitfield_add (ctx->filters, PK_FILTER_ENUM_ARCH);
 
+	/* assume non-source packages unless specified */
+	if (!pk_bitfield_contain (ctx->filters, PK_FILTER_ENUM_SOURCE) &&
+	    !pk_bitfield_contain (ctx->filters, PK_FILTER_ENUM_NOT_SOURCE))
+		pk_bitfield_add (ctx->filters, PK_FILTER_ENUM_NOT_SOURCE);
+
 	pk_bitfield_add (ctx->filters, PK_FILTER_ENUM_NOT_INSTALLED);
 	pk_bitfield_add (ctx->filters, PK_FILTER_ENUM_NEWEST);
 	package_ids = pk_console_resolve_packages (ctx, packages, &error_local);
@@ -1232,6 +1241,7 @@ pk_console_update_packages (PkConsoleCtx *ctx, gchar **packages, GError **error)
 	GError *error_local = NULL;
 
 	pk_bitfield_add (ctx->filters, PK_FILTER_ENUM_NOT_INSTALLED);
+	pk_bitfield_add (ctx->filters, PK_FILTER_ENUM_NOT_SOURCE);
 	pk_bitfield_add (ctx->filters, PK_FILTER_ENUM_NEWEST);
 	package_ids = pk_console_resolve_packages (ctx, packages, &error_local);
 	if (package_ids == NULL) {
@@ -1307,10 +1317,10 @@ out:
 }
 
 /**
- * pk_console_get_requires:
+ * pk_console_required_by:
  **/
 static gboolean
-pk_console_get_requires (PkConsoleCtx *ctx, gchar **packages, GError **error)
+pk_console_required_by (PkConsoleCtx *ctx, gchar **packages, GError **error)
 {
 	gboolean ret = TRUE;
 	gchar **package_ids = NULL;
@@ -1332,7 +1342,7 @@ pk_console_get_requires (PkConsoleCtx *ctx, gchar **packages, GError **error)
 	}
 
 	/* do the async action */
-	pk_task_get_requires_async (PK_TASK (ctx->task),
+	pk_task_required_by_async (PK_TASK (ctx->task),
 				    ctx->filters,
 				    package_ids,
 				    TRUE,
@@ -1345,10 +1355,10 @@ out:
 }
 
 /**
- * pk_console_get_depends:
+ * pk_console_depends_on:
  **/
 static gboolean
-pk_console_get_depends (PkConsoleCtx *ctx, gchar **packages, GError **error)
+pk_console_depends_on (PkConsoleCtx *ctx, gchar **packages, GError **error)
 {
 	gboolean ret = TRUE;
 	gchar **package_ids = NULL;
@@ -1369,7 +1379,7 @@ pk_console_get_depends (PkConsoleCtx *ctx, gchar **packages, GError **error)
 	}
 
 	/* do the async action */
-	pk_task_get_depends_async (PK_TASK (ctx->task),
+	pk_task_depends_on_async (PK_TASK (ctx->task),
 				   ctx->filters,
 				   package_ids,
 				   FALSE,
@@ -1414,6 +1424,34 @@ pk_console_get_details (PkConsoleCtx *ctx, gchar **packages, GError **error)
 out:
 	g_strfreev (package_ids);
 	return ret;
+}
+
+/**
+ * pk_console_get_details_local:
+ **/
+static gboolean
+pk_console_get_details_local (PkConsoleCtx *ctx, gchar **files, GError **error)
+{
+	pk_client_get_details_local_async (PK_CLIENT (ctx->task),
+					   files,
+					   ctx->cancellable,
+					   pk_console_progress_cb, ctx,
+					   pk_console_finished_cb, ctx);
+	return TRUE;
+}
+
+/**
+ * pk_console_get_files_local:
+ **/
+static gboolean
+pk_console_get_files_local (PkConsoleCtx *ctx, gchar **files, GError **error)
+{
+	pk_client_get_files_local_async (PK_CLIENT (ctx->task),
+					 files,
+					 ctx->cancellable,
+					 pk_console_progress_cb, ctx,
+					 pk_console_finished_cb, ctx);
+	return TRUE;
 }
 
 /**
@@ -1566,10 +1604,10 @@ pk_console_get_summary (PkConsoleCtx *ctx)
 		g_string_append_printf (string, "  %s\n", "resolve [package]");
 	if (pk_bitfield_contain (ctx->roles, PK_ROLE_ENUM_GET_UPDATES))
 		g_string_append_printf (string, "  %s\n", "get-updates");
-	if (pk_bitfield_contain (ctx->roles, PK_ROLE_ENUM_GET_DEPENDS))
-		g_string_append_printf (string, "  %s\n", "get-depends [package]");
-	if (pk_bitfield_contain (ctx->roles, PK_ROLE_ENUM_GET_REQUIRES))
-		g_string_append_printf (string, "  %s\n", "get-requires [package]");
+	if (pk_bitfield_contain (ctx->roles, PK_ROLE_ENUM_DEPENDS_ON))
+		g_string_append_printf (string, "  %s\n", "depends-on [package]");
+	if (pk_bitfield_contain (ctx->roles, PK_ROLE_ENUM_REQUIRED_BY))
+		g_string_append_printf (string, "  %s\n", "required-by [package]");
 	if (pk_bitfield_contain (ctx->roles, PK_ROLE_ENUM_GET_DETAILS))
 		g_string_append_printf (string, "  %s\n", "get-details [package]");
 	if (pk_bitfield_contain (ctx->roles, PK_ROLE_ENUM_GET_DISTRO_UPGRADES))
@@ -1587,15 +1625,15 @@ pk_console_get_summary (PkConsoleCtx *ctx)
 		g_string_append_printf (string, "  %s\n", "repo-disable [repo_id]");
 	}
 	if (pk_bitfield_contain (ctx->roles, PK_ROLE_ENUM_REPO_SET_DATA))
-		g_string_append_printf (string, "  %s\n", "repo-set-data [repo_id] [parameter] [value];");
+		g_string_append_printf (string, "  %s\n", "repo-set-data [repo_id] [parameter] [value]");
+	if (pk_bitfield_contain (ctx->roles, PK_ROLE_ENUM_REPO_REMOVE))
+		g_string_append_printf (string, "  %s\n", "repo-remove [repo_id] [autoremove]");
 	if (pk_bitfield_contain (ctx->roles, PK_ROLE_ENUM_WHAT_PROVIDES))
 		g_string_append_printf (string, "  %s\n", "what-provides [search]");
 	if (pk_bitfield_contain (ctx->roles, PK_ROLE_ENUM_ACCEPT_EULA))
 		g_string_append_printf (string, "  %s\n", "accept-eula [eula-id]");
 	if (pk_bitfield_contain (ctx->roles, PK_ROLE_ENUM_GET_CATEGORIES))
 		g_string_append_printf (string, "  %s\n", "get-categories");
-	if (pk_bitfield_contain (ctx->roles, PK_ROLE_ENUM_UPGRADE_SYSTEM))
-		g_string_append_printf (string, "  %s\n", "upgrade-system [distro-name] [minimal|default|complete]");
 	if (pk_bitfield_contain (ctx->roles, PK_ROLE_ENUM_REPAIR_SYSTEM))
 		g_string_append_printf (string, "  %s\n", "repair");
 #ifdef PK_HAS_OFFLINE_UPDATES
@@ -2052,11 +2090,13 @@ main (int argc, char *argv[])
 						    pk_console_progress_cb, ctx,
 						    pk_console_finished_cb, ctx);
 		} else {
-			error = g_error_new (PK_CONSOLE_ERROR,
-					     PK_ERROR_ENUM_INTERNAL_ERROR,
-					     /* TRANSLATORS: the search type was
-					      * provided, but invalid */
-					     "%s", _("Invalid search type"));
+			/* fallback to a generic search */
+			pk_task_search_details_async (PK_TASK (ctx->task),
+						      ctx->filters,
+						      argv + 2,
+						      ctx->cancellable,
+						      pk_console_progress_cb, ctx,
+						      pk_console_finished_cb, ctx);
 		}
 
 	} else if (strcmp (mode, "install") == 0) {
@@ -2239,6 +2279,24 @@ main (int argc, char *argv[])
 					       pk_console_progress_cb, ctx,
 					       pk_console_finished_cb, ctx);
 
+	} else if (strcmp (mode, "repo-remove") == 0) {
+		if (value == NULL || details == NULL) {
+			/* TRANSLATORS: The user didn't provide any data */
+			error = g_error_new (PK_CONSOLE_ERROR,
+					     PK_ERROR_ENUM_INTERNAL_ERROR,
+					     "%s", _("A repo id and autoremove required"));
+			ctx->retval = PK_EXIT_CODE_SYNTAX_INVALID;
+			goto out;
+		}
+		pk_client_repo_remove_async (PK_CLIENT (ctx->task),
+					     pk_bitfield_from_enums (PK_TRANSACTION_FLAG_ENUM_SIMULATE,
+								     -1),
+					     value,
+					     atoi (details),
+					     ctx->cancellable,
+					     pk_console_progress_cb, ctx,
+					     pk_console_finished_cb, ctx);
+
 	} else if (strcmp (mode, "repo-list") == 0) {
 		pk_task_get_repo_list_async (PK_TASK (ctx->task),
 					     ctx->filters,
@@ -2272,7 +2330,7 @@ main (int argc, char *argv[])
 							ctx->cancellable,
 							pk_console_get_time_since_action_cb, ctx);
 
-	} else if (strcmp (mode, "get-depends") == 0) {
+	} else if (strcmp (mode, "depends-on") == 0) {
 		if (value == NULL) {
 			/* TRANSLATORS: The user did not provide a package name */
 			error = g_error_new (PK_CONSOLE_ERROR,
@@ -2281,7 +2339,7 @@ main (int argc, char *argv[])
 			ctx->retval = PK_EXIT_CODE_SYNTAX_INVALID;
 			goto out;
 		}
-		run_mainloop = pk_console_get_depends (ctx, argv + 2, &error);
+		run_mainloop = pk_console_depends_on (ctx, argv + 2, &error);
 
 	} else if (strcmp (mode, "get-distro-upgrades") == 0) {
 		pk_client_get_distro_upgrades_async (PK_CLIENT (ctx->task),
@@ -2300,7 +2358,7 @@ main (int argc, char *argv[])
 		}
 		run_mainloop = pk_console_get_update_detail (ctx, argv + 2, &error);
 
-	} else if (strcmp (mode, "get-requires") == 0) {
+	} else if (strcmp (mode, "required-by") == 0) {
 		if (value == NULL) {
 			error = g_error_new (PK_CONSOLE_ERROR,
 					     PK_ERROR_ENUM_INTERNAL_ERROR,
@@ -2310,7 +2368,7 @@ main (int argc, char *argv[])
 			ctx->retval = PK_EXIT_CODE_SYNTAX_INVALID;
 			goto out;
 		}
-		run_mainloop = pk_console_get_requires (ctx, argv + 2, &error);
+		run_mainloop = pk_console_required_by (ctx, argv + 2, &error);
 
 	} else if (strcmp (mode, "what-provides") == 0) {
 		if (value == NULL) {
@@ -2326,7 +2384,6 @@ main (int argc, char *argv[])
 		}
 		pk_task_what_provides_async (PK_TASK (ctx->task),
 					     ctx->filters,
-					     PK_PROVIDES_ENUM_ANY,
 					     argv + 2,
 					     ctx->cancellable,
 					     pk_console_progress_cb, ctx,
@@ -2342,6 +2399,28 @@ main (int argc, char *argv[])
 			goto out;
 		}
 		run_mainloop = pk_console_get_details (ctx, argv + 2, &error);
+
+	} else if (strcmp (mode, "get-details-local") == 0) {
+		if (value == NULL) {
+			/* TRANSLATORS: The user did not provide a package name */
+			error = g_error_new (PK_CONSOLE_ERROR,
+					     PK_ERROR_ENUM_INTERNAL_ERROR,
+					     "%s", _("A filename is required"));
+			ctx->retval = PK_EXIT_CODE_SYNTAX_INVALID;
+			goto out;
+		}
+		run_mainloop = pk_console_get_details_local (ctx, argv + 2, &error);
+
+	} else if (strcmp (mode, "get-files-local") == 0) {
+		if (value == NULL) {
+			/* TRANSLATORS: The user did not provide a package name */
+			error = g_error_new (PK_CONSOLE_ERROR,
+					     PK_ERROR_ENUM_INTERNAL_ERROR,
+					     "%s", _("A filename is required"));
+			ctx->retval = PK_EXIT_CODE_SYNTAX_INVALID;
+			goto out;
+		}
+		run_mainloop = pk_console_get_files_local (ctx, argv + 2, &error);
 
 	} else if (strcmp (mode, "get-files") == 0) {
 		if (value == NULL) {
@@ -2373,33 +2452,6 @@ main (int argc, char *argv[])
 					    ctx->cancellable,
 					    pk_console_progress_cb, ctx,
 					    pk_console_finished_cb, ctx);
-
-	} else if (strcmp (mode, "upgrade-system") == 0) {
-		if (value == NULL) {
-			error = g_error_new (PK_CONSOLE_ERROR,
-					     PK_ERROR_ENUM_INTERNAL_ERROR,
-					     /* TRANSLATORS: The user did not
-					      * provide a distro name */
-					     "%s", _("A distribution name is required"));
-			ctx->retval = PK_EXIT_CODE_SYNTAX_INVALID;
-			goto out;
-		}
-		if (details == NULL) {
-			error = g_error_new (PK_CONSOLE_ERROR,
-					     PK_ERROR_ENUM_INTERNAL_ERROR,
-					     "%s",
-					     /* TRANSLATORS: The user did not
-					      * provide an upgrade type */
-					     _("An upgrade type is required, e.g. "
-					       "'minimal', 'default' or 'complete'"));
-			ctx->retval = PK_EXIT_CODE_SYNTAX_INVALID;
-			goto out;
-		}
-		pk_client_upgrade_system_async (PK_CLIENT (ctx->task), value,
-						pk_upgrade_kind_enum_from_string (details),
-						ctx->cancellable,
-						pk_console_progress_cb, ctx,
-						pk_console_finished_cb, ctx);
 
 	} else if (strcmp (mode, "get-roles") == 0) {
 		text = pk_role_bitfield_to_string (ctx->roles);

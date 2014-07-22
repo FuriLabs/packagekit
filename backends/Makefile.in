@@ -83,7 +83,7 @@ host_triplet = @host@
 @BACKEND_TYPE_CONARY_TRUE@am__append_4 = conary
 @BACKEND_TYPE_DUMMY_TRUE@am__append_5 = dummy
 @BACKEND_TYPE_ENTROPY_TRUE@am__append_6 = entropy
-@BACKEND_TYPE_HAWKEY_TRUE@am__append_7 = hawkey
+@BACKEND_TYPE_HIF_TRUE@am__append_7 = hif
 @BACKEND_TYPE_OPKG_TRUE@am__append_8 = opkg
 @BACKEND_TYPE_KATJA_TRUE@am__append_9 = katja
 @BACKEND_TYPE_SMART_TRUE@am__append_10 = smart
@@ -165,8 +165,8 @@ am__define_uniq_tagged_files = \
   done | $(am__uniquify_input)`
 ETAGS = etags
 CTAGS = ctags
-DIST_SUBDIRS = test alpm apt aptcc conary dummy entropy hawkey opkg \
-	katja smart urpmi yum pisi zypp poldek portage ports
+DIST_SUBDIRS = test alpm apt aptcc conary dummy entropy hif opkg katja \
+	smart urpmi yum pisi zypp poldek portage ports
 DISTFILES = $(DIST_COMMON) $(DIST_SOURCES) $(TEXINFOS) $(EXTRA_DIST)
 am__relativize = \
   dir0=`pwd`; \
@@ -262,8 +262,8 @@ GTKDOC_DEPS_CFLAGS = @GTKDOC_DEPS_CFLAGS@
 GTKDOC_DEPS_LIBS = @GTKDOC_DEPS_LIBS@
 GTKDOC_MKPDF = @GTKDOC_MKPDF@
 GTKDOC_REBASE = @GTKDOC_REBASE@
-HAWKEY_CFLAGS = @HAWKEY_CFLAGS@
-HAWKEY_LIBS = @HAWKEY_LIBS@
+HIF_CFLAGS = @HIF_CFLAGS@
+HIF_LIBS = @HIF_LIBS@
 HTML_DIR = @HTML_DIR@
 INSTALL = @INSTALL@
 INSTALL_DATA = @INSTALL_DATA@

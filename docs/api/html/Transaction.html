@@ -42,15 +42,17 @@
 <a class="link" href="Transaction.html#Transaction.DownloadPackages">DownloadPackages</a>(in'b'store_in_cache,
 in'as'package_ids)
 <a class="link" href="Transaction.html#Transaction.GetCategories">GetCategories</a>()
-<a class="link" href="Transaction.html#Transaction.GetDepends">GetDepends</a>(in't'filter,
+<a class="link" href="Transaction.html#Transaction.DependsOn">DependsOn</a>(in't'filter,
 in'as'package_ids,
 in'b'recursive)
 <a class="link" href="Transaction.html#Transaction.GetDetails">GetDetails</a>(in'as'package_ids)
+<a class="link" href="Transaction.html#Transaction.GetDetailsLocal">GetDetailsLocal</a>(in'as'files)
+<a class="link" href="Transaction.html#Transaction.GetFilesLocal">GetFilesLocal</a>(in'as'files)
 <a class="link" href="Transaction.html#Transaction.GetFiles">GetFiles</a>(in'as'package_ids)
 <a class="link" href="Transaction.html#Transaction.GetOldTransactions">GetOldTransactions</a>(in'u'number)
 <a class="link" href="Transaction.html#Transaction.GetPackages">GetPackages</a>(in't'filter)
 <a class="link" href="Transaction.html#Transaction.GetRepoList">GetRepoList</a>(in't'filter)
-<a class="link" href="Transaction.html#Transaction.GetRequires">GetRequires</a>(in't'filter,
+<a class="link" href="Transaction.html#Transaction.RequiredBy">RequiredBy</a>(in't'filter,
 in'as'package_ids,
 in'b'recursive)
 <a class="link" href="Transaction.html#Transaction.GetUpdateDetail">GetUpdateDetail</a>(in'as'package_ids)
@@ -73,6 +75,9 @@ in'b'enabled)
 <a class="link" href="Transaction.html#Transaction.RepoSetData">RepoSetData</a>(in's'repo_id,
 in's'parameter,
 in's'value)
+<a class="link" href="Transaction.html#Transaction.RepoRemove">RepoRemove</a>(in't'transaction_flags,
+in's'repo_id,
+in'b'autoremove)
 <a class="link" href="Transaction.html#Transaction.Resolve">Resolve</a>(in't'filter,
 in'as'packages)
 <a class="link" href="Transaction.html#Transaction.SearchDetails">SearchDetails</a>(in't'filter,
@@ -86,10 +91,7 @@ in'as'values)
 <a class="link" href="Transaction.html#Transaction.UpdatePackages">UpdatePackages</a>(in't'transaction_flags,
 in'as'package_ids)
 <a class="link" href="Transaction.html#Transaction.WhatProvides">WhatProvides</a>(in't'filter,
-in'u'type,
 in'as'values)
-<a class="link" href="Transaction.html#Transaction.UpgradeSystem">UpgradeSystem</a>(in's'distro_id,
-in'u'upgrade_kind)
 <a class="link" href="Transaction.html#Transaction.RepairSystem">RepairSystem</a>(in't'transaction_flags)
 </pre>
 </div>
@@ -100,20 +102,13 @@ in'u'upgrade_kind)
 's'name,
 's'summary,
 's'icon)
-<a class="link" href="Transaction.html#Transaction::Details">Details</a>('s'package_id,
-'s'license,
-'u'group,
-'s'detail,
-'s'url,
-'t'size)
+<a class="link" href="Transaction.html#Transaction::Details">Details</a>('a{sv}'data)
 <a class="link" href="Transaction.html#Transaction::ErrorCode">ErrorCode</a>('u'code,
 's'details)
 <a class="link" href="Transaction.html#Transaction::Files">Files</a>('s'package_id,
 'as'file_list)
 <a class="link" href="Transaction.html#Transaction::Finished">Finished</a>('u'exit,
 'u'runtime)
-<a class="link" href="Transaction.html#Transaction::Message">Message</a>('u'type,
-'s'details)
 <a class="link" href="Transaction.html#Transaction::Package">Package</a>('u'info,
 's'package_id,
 's'summary)
@@ -163,7 +158,6 @@ in'u'upgrade_kind)
 <a class="link" href="Transaction.html#Transaction::ItemProgress">ItemProgress</a>('s'id,
 'u'status,
 'u'percentage)
-<a class="link" href="Transaction.html#Transaction::Changed">Changed</a>()
 <a class="link" href="Transaction.html#Transaction::Destroy">Destroy</a>()
 </pre>
 </div>
@@ -398,8 +392,8 @@ in'as'package_ids)</pre>
 <hr>
 <div class="refsect2">
 <a name="id-1.3.4.8.22"></a><h3>
-<a name="Transaction.GetDepends"></a>GetDepends ()</h3>
-<pre class="programlisting">GetDepends (in't'filter,
+<a name="Transaction.DependsOn"></a>DependsOn ()</h3>
+<pre class="programlisting">DependsOn (in't'filter,
 in'as'package_ids,
 in'b'recursive)</pre>
 </div>
@@ -446,7 +440,7 @@ in'b'recursive)</pre>
               Either true or false. If yes then the requirements should be
               returned for all packages returned.
               This means if gnome-power-manager depends on NetworkManager
-              and NetworkManager depends on HAL, then GetDepends on
+              and NetworkManager depends on HAL, then DependsOn on
               gnome-power-manager should return both HAL and NetworkManager.
             
           </td>
@@ -487,6 +481,68 @@ in'b'recursive)</pre>
 <hr>
 <div class="refsect2">
 <a name="id-1.3.4.8.31"></a><h3>
+<a name="Transaction.GetDetailsLocal"></a>GetDetailsLocal ()</h3>
+<pre class="programlisting">GetDetailsLocal (in'as'files)</pre>
+</div>
+<p>
+            This method should return all the details about a specific
+            local file.
+          </p>
+<p>
+            This method typically emits
+            Progress,
+            Status and
+            Error and
+            Details.
+          </p>
+<div class="variablelist"><table border="0" class="variablelist">
+<colgroup>
+<col align="left" valign="top">
+<col>
+</colgroup>
+<tbody><tr>
+<td><p><span class="term"><em class="parameter"><code>files</code></em>:</span></p></td>
+<td>
+            
+              An array of filenames.
+            
+          </td>
+</tr></tbody>
+</table></div>
+<hr>
+<div class="refsect2">
+<a name="id-1.3.4.8.35"></a><h3>
+<a name="Transaction.GetFilesLocal"></a>GetFilesLocal ()</h3>
+<pre class="programlisting">GetFilesLocal (in'as'files)</pre>
+</div>
+<p>
+            This method should return all the file lists for a specific
+            local file.
+          </p>
+<p>
+            This method typically emits
+            Progress,
+            Status and
+            Error and
+            Details.
+          </p>
+<div class="variablelist"><table border="0" class="variablelist">
+<colgroup>
+<col align="left" valign="top">
+<col>
+</colgroup>
+<tbody><tr>
+<td><p><span class="term"><em class="parameter"><code>files</code></em>:</span></p></td>
+<td>
+            
+              An array of filenames.
+            
+          </td>
+</tr></tbody>
+</table></div>
+<hr>
+<div class="refsect2">
+<a name="id-1.3.4.8.39"></a><h3>
 <a name="Transaction.GetFiles"></a>GetFiles ()</h3>
 <pre class="programlisting">GetFiles (in'as'package_ids)</pre>
 </div>
@@ -516,7 +572,7 @@ in'b'recursive)</pre>
 </table></div>
 <hr>
 <div class="refsect2">
-<a name="id-1.3.4.8.35"></a><h3>
+<a name="id-1.3.4.8.43"></a><h3>
 <a name="Transaction.GetOldTransactions"></a>GetOldTransactions ()</h3>
 <pre class="programlisting">GetOldTransactions (in'u'number)</pre>
 </div>
@@ -539,7 +595,7 @@ in'b'recursive)</pre>
 </table></div>
 <hr>
 <div class="refsect2">
-<a name="id-1.3.4.8.38"></a><h3>
+<a name="id-1.3.4.8.46"></a><h3>
 <a name="Transaction.GetPackages"></a>GetPackages ()</h3>
 <pre class="programlisting">GetPackages (in't'filter)</pre>
 </div>
@@ -572,7 +628,7 @@ in'b'recursive)</pre>
 </table></div>
 <hr>
 <div class="refsect2">
-<a name="id-1.3.4.8.43"></a><h3>
+<a name="id-1.3.4.8.51"></a><h3>
 <a name="Transaction.GetRepoList"></a>GetRepoList ()</h3>
 <pre class="programlisting">GetRepoList (in't'filter)</pre>
 </div>
@@ -598,9 +654,9 @@ in'b'recursive)</pre>
 </table></div>
 <hr>
 <div class="refsect2">
-<a name="id-1.3.4.8.47"></a><h3>
-<a name="Transaction.GetRequires"></a>GetRequires ()</h3>
-<pre class="programlisting">GetRequires (in't'filter,
+<a name="id-1.3.4.8.55"></a><h3>
+<a name="Transaction.RequiredBy"></a>RequiredBy ()</h3>
+<pre class="programlisting">RequiredBy (in't'filter,
 in'as'package_ids,
 in'b'recursive)</pre>
 </div>
@@ -658,7 +714,7 @@ in'b'recursive)</pre>
 </table></div>
 <hr>
 <div class="refsect2">
-<a name="id-1.3.4.8.52"></a><h3>
+<a name="id-1.3.4.8.60"></a><h3>
 <a name="Transaction.GetUpdateDetail"></a>GetUpdateDetail ()</h3>
 <pre class="programlisting">GetUpdateDetail (in'as'package_ids)</pre>
 </div>
@@ -686,7 +742,7 @@ in'b'recursive)</pre>
 </table></div>
 <hr>
 <div class="refsect2">
-<a name="id-1.3.4.8.56"></a><h3>
+<a name="id-1.3.4.8.64"></a><h3>
 <a name="Transaction.GetUpdates"></a>GetUpdates ()</h3>
 <pre class="programlisting">GetUpdates (in't'filter)</pre>
 </div>
@@ -743,7 +799,7 @@ in'b'recursive)</pre>
 </table></div>
 <hr>
 <div class="refsect2">
-<a name="id-1.3.4.8.63"></a><h3>
+<a name="id-1.3.4.8.71"></a><h3>
 <a name="Transaction.GetDistroUpgrades"></a>GetDistroUpgrades ()</h3>
 <pre class="programlisting">GetDistroUpgrades ()</pre>
 </div>
@@ -766,7 +822,7 @@ in'b'recursive)</pre>
 </table></div>
 <hr>
 <div class="refsect2">
-<a name="id-1.3.4.8.67"></a><h3>
+<a name="id-1.3.4.8.75"></a><h3>
 <a name="Transaction.InstallFiles"></a>InstallFiles ()</h3>
 <pre class="programlisting">InstallFiles (in't'transaction_flags,
 in'as'full_paths)</pre>
@@ -825,7 +881,7 @@ in'as'full_paths)</pre>
 <p class="permission">Callers need the org.freedesktop.packagekit.localinstall-untrusted</p>
 <hr>
 <div class="refsect2">
-<a name="id-1.3.4.8.74"></a><h3>
+<a name="id-1.3.4.8.82"></a><h3>
 <a name="Transaction.InstallPackages"></a>InstallPackages ()</h3>
 <pre class="programlisting">InstallPackages (in't'transaction_flags,
 in'as'package_ids)</pre>
@@ -835,7 +891,7 @@ in'as'package_ids)</pre>
           </p>
 <p>
             The installer should always install extra packages automatically
-            as the use could call GetDepends prior to the install if a confirmation
+            as the use could call DependsOn prior to the install if a confirmation
             is required in the UI.
           </p>
 <p>
@@ -886,7 +942,7 @@ in'as'package_ids)</pre>
 <p class="permission">Callers need the org.freedesktop.packagekit.install-untrusted</p>
 <hr>
 <div class="refsect2">
-<a name="id-1.3.4.8.81"></a><h3>
+<a name="id-1.3.4.8.89"></a><h3>
 <a name="Transaction.InstallSignature"></a>InstallSignature ()</h3>
 <pre class="programlisting">InstallSignature (in'u'sig_type,
 in's'key_id,
@@ -930,7 +986,7 @@ in's'package_id)</pre>
 <p class="permission">Callers need the org.freedesktop.packagekit.install-signature</p>
 <hr>
 <div class="refsect2">
-<a name="id-1.3.4.8.85"></a><h3>
+<a name="id-1.3.4.8.93"></a><h3>
 <a name="Transaction.RefreshCache"></a>RefreshCache ()</h3>
 <pre class="programlisting">RefreshCache (in'b'force)</pre>
 </div>
@@ -971,7 +1027,7 @@ in's'package_id)</pre>
 <p class="permission">Callers need the org.freedesktop.packagekit.refresh-cache</p>
 <hr>
 <div class="refsect2">
-<a name="id-1.3.4.8.91"></a><h3>
+<a name="id-1.3.4.8.99"></a><h3>
 <a name="Transaction.RemovePackages"></a>RemovePackages ()</h3>
 <pre class="programlisting">RemovePackages (in't'transaction_flags,
 in'as'package_ids,
@@ -1048,7 +1104,7 @@ in'b'autoremove)</pre>
 <p class="permission">Callers need the org.freedesktop.packagekit.remove</p>
 <hr>
 <div class="refsect2">
-<a name="id-1.3.4.8.97"></a><h3>
+<a name="id-1.3.4.8.105"></a><h3>
 <a name="Transaction.RepoEnable"></a>RepoEnable ()</h3>
 <pre class="programlisting">RepoEnable (in's'repo_id,
 in'b'enabled)</pre>
@@ -1083,7 +1139,7 @@ in'b'enabled)</pre>
 <p class="permission">Callers need the org.freedesktop.packagekit.repo-change</p>
 <hr>
 <div class="refsect2">
-<a name="id-1.3.4.8.101"></a><h3>
+<a name="id-1.3.4.8.109"></a><h3>
 <a name="Transaction.RepoSetData"></a>RepoSetData ()</h3>
 <pre class="programlisting">RepoSetData (in's'repo_id,
 in's'parameter,
@@ -1127,7 +1183,52 @@ in's'value)</pre>
 <p class="permission">Callers need the org.freedesktop.packagekit.repo-change</p>
 <hr>
 <div class="refsect2">
-<a name="id-1.3.4.8.105"></a><h3>
+<a name="id-1.3.4.8.113"></a><h3>
+<a name="Transaction.RepoRemove"></a>RepoRemove ()</h3>
+<pre class="programlisting">RepoRemove (in't'transaction_flags,
+in's'repo_id,
+in'b'autoremove)</pre>
+</div>
+<p>
+            This method removes the repo and optionally removes all the packages
+            installed from the repo.
+          </p>
+<div class="variablelist"><table border="0" class="variablelist">
+<colgroup>
+<col align="left" valign="top">
+<col>
+</colgroup>
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>transaction_flags</code></em>:</span></p></td>
+<td>
+            
+              If the transaction should be simulated.
+            
+          </td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>repo_id</code></em>:</span></p></td>
+<td>
+            
+              A repository identifier, e.g. updates-testing
+            
+          </td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>autoremove</code></em>:</span></p></td>
+<td>
+            
+              Packages installed from the repo are automatically removed.
+            
+          </td>
+</tr>
+</tbody>
+</table></div>
+<p class="permission">Callers need org.freedesktop.packagekit.repo-change</p>
+<hr>
+<div class="refsect2">
+<a name="id-1.3.4.8.117"></a><h3>
 <a name="Transaction.Resolve"></a>Resolve ()</h3>
 <pre class="programlisting">Resolve (in't'filter,
 in'as'packages)</pre>
@@ -1189,7 +1290,7 @@ in'as'packages)</pre>
 </table></div>
 <hr>
 <div class="refsect2">
-<a name="id-1.3.4.8.111"></a><h3>
+<a name="id-1.3.4.8.123"></a><h3>
 <a name="Transaction.SearchDetails"></a>SearchDetails ()</h3>
 <pre class="programlisting">SearchDetails (in't'filter,
 in'as'values)</pre>
@@ -1259,7 +1360,7 @@ in'as'values)</pre>
 </table></div>
 <hr>
 <div class="refsect2">
-<a name="id-1.3.4.8.119"></a><h3>
+<a name="id-1.3.4.8.131"></a><h3>
 <a name="Transaction.SearchFiles"></a>SearchFiles ()</h3>
 <pre class="programlisting">SearchFiles (in't'filter,
 in'as'values)</pre>
@@ -1313,7 +1414,7 @@ in'as'values)</pre>
 </table></div>
 <hr>
 <div class="refsect2">
-<a name="id-1.3.4.8.125"></a><h3>
+<a name="id-1.3.4.8.137"></a><h3>
 <a name="Transaction.SearchGroups"></a>SearchGroups ()</h3>
 <pre class="programlisting">SearchGroups (in't'filter,
 in'as'values)</pre>
@@ -1387,7 +1488,7 @@ in'as'values)</pre>
 </table></div>
 <hr>
 <div class="refsect2">
-<a name="id-1.3.4.8.133"></a><h3>
+<a name="id-1.3.4.8.145"></a><h3>
 <a name="Transaction.SearchNames"></a>SearchNames ()</h3>
 <pre class="programlisting">SearchNames (in't'filter,
 in'as'values)</pre>
@@ -1460,7 +1561,7 @@ in'as'values)</pre>
 </table></div>
 <hr>
 <div class="refsect2">
-<a name="id-1.3.4.8.142"></a><h3>
+<a name="id-1.3.4.8.154"></a><h3>
 <a name="Transaction.UpdatePackages"></a>UpdatePackages ()</h3>
 <pre class="programlisting">UpdatePackages (in't'transaction_flags,
 in'as'package_ids)</pre>
@@ -1515,10 +1616,9 @@ in'as'package_ids)</pre>
 <p class="permission">Callers need the org.freedesktop.packagekit.update-package</p>
 <hr>
 <div class="refsect2">
-<a name="id-1.3.4.8.149"></a><h3>
+<a name="id-1.3.4.8.161"></a><h3>
 <a name="Transaction.WhatProvides"></a>WhatProvides ()</h3>
 <pre class="programlisting">WhatProvides (in't'filter,
-in'u'type,
 in'as'values)</pre>
 </div>
 <p>
@@ -1552,14 +1652,6 @@ in'as'values)</pre>
           </td>
 </tr>
 <tr>
-<td><p><span class="term"><em class="parameter"><code>type</code></em>:</span></p></td>
-<td>
-            
-              A PkProvideType, e.g. PK_PROVIDES_ENUM_CODEC.
-            
-          </td>
-</tr>
-<tr>
 <td><p><span class="term"><em class="parameter"><code>values</code></em>:</span></p></td>
 <td>
             
@@ -1572,54 +1664,7 @@ in'as'values)</pre>
 </table></div>
 <hr>
 <div class="refsect2">
-<a name="id-1.3.4.8.154"></a><h3>
-<a name="Transaction.UpgradeSystem"></a>UpgradeSystem ()</h3>
-<pre class="programlisting">UpgradeSystem (in's'distro_id,
-in'u'upgrade_kind)</pre>
-</div>
-<p>
-            This method perfoms a distribution upgrade to the specified
-            version.
-          </p>
-<p>
-            This method typically emits
-            Progress,
-            Status and
-            Error and
-            Package.
-          </p>
-<div class="variablelist"><table border="0" class="variablelist">
-<colgroup>
-<col align="left" valign="top">
-<col>
-</colgroup>
-<tbody>
-<tr>
-<td><p><span class="term"><em class="parameter"><code>distro_id</code></em>:</span></p></td>
-<td>
-            
-              The distribution ID to upgrade to, e.g. fedora-14.
-            
-          </td>
-</tr>
-<tr>
-<td><p><span class="term"><em class="parameter"><code>upgrade_kind</code></em>:</span></p></td>
-<td>
-            
-              The type of upgrade, e.g. minimal, default or complete.
-              Minimal upgrades will download the smallest amount of data
-              before launching a installer.
-              The default is to download enough data to launch a full
-              graphical installer, but a complete upgrade will be
-              required if there is no internet access during install time.
-            
-          </td>
-</tr>
-</tbody>
-</table></div>
-<hr>
-<div class="refsect2">
-<a name="id-1.3.4.8.158"></a><h3>
+<a name="id-1.3.4.8.166"></a><h3>
 <a name="Transaction.RepairSystem"></a>RepairSystem ()</h3>
 <pre class="programlisting">RepairSystem (in't'transaction_flags)</pre>
 </div>
@@ -1734,12 +1779,7 @@ in'u'upgrade_kind)</pre>
 <div class="refsect2">
 <a name="id-1.3.4.9.5"></a><h3>
 <a name="Transaction::Details"></a>The Details signal</h3>
-<pre class="programlisting">Details ('s'package_id,
-'s'license,
-'u'group,
-'s'detail,
-'s'url,
-'t'size)</pre>
+<pre class="programlisting">Details ('a{sv}'data)</pre>
 </div>
 <p>
             This signal allows the backend to convey more details about the package.
@@ -1749,67 +1789,44 @@ in'u'upgrade_kind)</pre>
 <col align="left" valign="top">
 <col>
 </colgroup>
-<tbody>
-<tr>
-<td><p><span class="term"><em class="parameter"><code>package_id</code></em>:</span></p></td>
+<tbody><tr>
+<td><p><span class="term"><em class="parameter"><code>data</code></em>:</span></p></td>
 <td>
             
-              The package ID
+              The details about a specific package. The available keys are here:
+            
+            
+              
+                package_id
+                The package ID [s]
+              
+              
+                license
+                The license string, e.g. GPLv2+ [s]
+              
+              
+                group
+                The enumerated package group description [u]
+              
+              
+                detail
+                The multi-line package description in markdown syntax.[s]
+              
+              
+                url
+                The upstream project homepage [s]
+              
+              
+                size
+                The size of the package in bytes [t]
+              
+              
+                summary
+                The one line package summary, e.g. Clipart for OpenOffice [s]
+              
             
           </td>
-</tr>
-<tr>
-<td><p><span class="term"><em class="parameter"><code>license</code></em>:</span></p></td>
-<td>
-            
-              The license string, e.g. GPLv2+ or BSD and (MPLv1.1 or GPLv2+).
-            
-            
-              More details about the correct way to format licensing strings can be found on the
-              Fedora packaging wiki.
-            
-          </td>
-</tr>
-<tr>
-<td><p><span class="term"><em class="parameter"><code>group</code></em>:</span></p></td>
-<td>
-            
-              The enumerated package group description
-            
-          </td>
-</tr>
-<tr>
-<td><p><span class="term"><em class="parameter"><code>detail</code></em>:</span></p></td>
-<td>
-            
-              The multi-line package description.
-            
-            
-              If formatting is required, then markdown syntax should be used,
-              e.g. This is **critically** important
-            
-          </td>
-</tr>
-<tr>
-<td><p><span class="term"><em class="parameter"><code>url</code></em>:</span></p></td>
-<td>
-            
-              The upstream project homepage
-            
-          </td>
-</tr>
-<tr>
-<td><p><span class="term"><em class="parameter"><code>size</code></em>:</span></p></td>
-<td>
-            
-              The size of the package in bytes. This should be the size of the entire package file,
-              not the size of the files installed on the system.
-              If the package is not installed, and already downloaded and
-              present in the package manager cache, then this value should be set to zero.
-            
-          </td>
-</tr>
-</tbody>
+</tr></tbody>
 </table></div>
 <hr>
 <div class="refsect2">
@@ -1919,45 +1936,6 @@ in'u'upgrade_kind)</pre>
 <hr>
 <div class="refsect2">
 <a name="id-1.3.4.9.18"></a><h3>
-<a name="Transaction::Message"></a>The Message signal</h3>
-<pre class="programlisting">Message ('u'type,
-'s'details)</pre>
-</div>
-<p>
-            This signal is sent when the backend wants to send a message to the session.
-          </p>
-<p>
-            This allows the backend to queue up a message to be shown after the transaction has
-            completed.
-          </p>
-<div class="variablelist"><table border="0" class="variablelist">
-<colgroup>
-<col align="left" valign="top">
-<col>
-</colgroup>
-<tbody>
-<tr>
-<td><p><span class="term"><em class="parameter"><code>type</code></em>:</span></p></td>
-<td>
-            
-              One of warning, notice, or
-              daemon.
-            
-          </td>
-</tr>
-<tr>
-<td><p><span class="term"><em class="parameter"><code>details</code></em>:</span></p></td>
-<td>
-            
-              Required details about the message, non-localised.
-            
-          </td>
-</tr>
-</tbody>
-</table></div>
-<hr>
-<div class="refsect2">
-<a name="id-1.3.4.9.22"></a><h3>
 <a name="Transaction::Package"></a>The Package signal</h3>
 <pre class="programlisting">Package ('u'info,
 's'package_id,
@@ -2034,7 +2012,7 @@ in'u'upgrade_kind)</pre>
 </table></div>
 <hr>
 <div class="refsect2">
-<a name="id-1.3.4.9.27"></a><h3>
+<a name="id-1.3.4.9.23"></a><h3>
 <a name="Transaction::RepoDetail"></a>The RepoDetail signal</h3>
 <pre class="programlisting">RepoDetail ('s'repo_id,
 's'description,
@@ -2077,7 +2055,7 @@ in'u'upgrade_kind)</pre>
 </table></div>
 <hr>
 <div class="refsect2">
-<a name="id-1.3.4.9.30"></a><h3>
+<a name="id-1.3.4.9.26"></a><h3>
 <a name="Transaction::RepoSignatureRequired"></a>The RepoSignatureRequired signal</h3>
 <pre class="programlisting">RepoSignatureRequired ('s'package_id,
 's'repository_name,
@@ -2179,7 +2157,7 @@ in'u'upgrade_kind)</pre>
 </table></div>
 <hr>
 <div class="refsect2">
-<a name="id-1.3.4.9.35"></a><h3>
+<a name="id-1.3.4.9.31"></a><h3>
 <a name="Transaction::EulaRequired"></a>The EulaRequired signal</h3>
 <pre class="programlisting">EulaRequired ('s'eula_id,
 's'package_id,
@@ -2238,7 +2216,7 @@ in'u'upgrade_kind)</pre>
 </table></div>
 <hr>
 <div class="refsect2">
-<a name="id-1.3.4.9.39"></a><h3>
+<a name="id-1.3.4.9.35"></a><h3>
 <a name="Transaction::MediaChangeRequired"></a>The MediaChangeRequired signal</h3>
 <pre class="programlisting">MediaChangeRequired ('u'media_type,
 's'media_id,
@@ -2290,7 +2268,7 @@ in'u'upgrade_kind)</pre>
 </table></div>
 <hr>
 <div class="refsect2">
-<a name="id-1.3.4.9.43"></a><h3>
+<a name="id-1.3.4.9.39"></a><h3>
 <a name="Transaction::RequireRestart"></a>The RequireRestart signal</h3>
 <pre class="programlisting">RequireRestart ('u'type,
 's'package_id)</pre>
@@ -2333,7 +2311,7 @@ in'u'upgrade_kind)</pre>
 </table></div>
 <hr>
 <div class="refsect2">
-<a name="id-1.3.4.9.48"></a><h3>
+<a name="id-1.3.4.9.44"></a><h3>
 <a name="Transaction::Transaction"></a>The Transaction signal</h3>
 <pre class="programlisting">Transaction ('o'object_path,
 's'timespec,
@@ -2422,7 +2400,7 @@ in'u'upgrade_kind)</pre>
 </table></div>
 <hr>
 <div class="refsect2">
-<a name="id-1.3.4.9.51"></a><h3>
+<a name="id-1.3.4.9.47"></a><h3>
 <a name="Transaction::UpdateDetail"></a>The UpdateDetail signal</h3>
 <pre class="programlisting">UpdateDetail ('s'package_id,
 'as'updates,
@@ -2553,7 +2531,7 @@ in'u'upgrade_kind)</pre>
 </table></div>
 <hr>
 <div class="refsect2">
-<a name="id-1.3.4.9.54"></a><h3>
+<a name="id-1.3.4.9.50"></a><h3>
 <a name="Transaction::DistroUpgrade"></a>The DistroUpgrade signal</h3>
 <pre class="programlisting">DistroUpgrade ('u'type,
 's'name,
@@ -2598,7 +2576,7 @@ in'u'upgrade_kind)</pre>
 </table></div>
 <hr>
 <div class="refsect2">
-<a name="id-1.3.4.9.57"></a><h3>
+<a name="id-1.3.4.9.53"></a><h3>
 <a name="Transaction::ItemProgress"></a>The ItemProgress signal</h3>
 <pre class="programlisting">ItemProgress ('s'id,
 'u'status,
@@ -2646,23 +2624,7 @@ in'u'upgrade_kind)</pre>
 </table></div>
 <hr>
 <div class="refsect2">
-<a name="id-1.3.4.9.60"></a><h3>
-<a name="Transaction::Changed"></a>The Changed signal</h3>
-<pre class="programlisting">Changed ()</pre>
-</div>
-<p>
-            This signal is emitted when a property on the interface changes.
-          </p>
-<div class="variablelist"><table border="0" class="variablelist">
-<colgroup>
-<col align="left" valign="top">
-<col>
-</colgroup>
-<tbody></tbody>
-</table></div>
-<hr>
-<div class="refsect2">
-<a name="id-1.3.4.9.63"></a><h3>
+<a name="id-1.3.4.9.56"></a><h3>
 <a name="Transaction::Destroy"></a>The Destroy signal</h3>
 <pre class="programlisting">Destroy ()</pre>
 </div>

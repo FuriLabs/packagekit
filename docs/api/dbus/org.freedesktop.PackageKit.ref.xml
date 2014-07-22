@@ -35,7 +35,6 @@ in's'pac)
 <link linkend="PackageKit::RestartSchedule">RestartSchedule</link>()
 <link linkend="PackageKit::RepoListChanged">RepoListChanged</link>()
 <link linkend="PackageKit::UpdatesChanged">UpdatesChanged</link>()
-<link linkend="PackageKit::Changed">Changed</link>()
 </synopsis>
   </refsect1>
   <refsect1 role="impl_interfaces">
@@ -54,7 +53,6 @@ in's'pac)
 <link linkend="PackageKit:BackendDescription">'BackendDescription'</link>read's'
 <link linkend="PackageKit:BackendAuthor">'BackendAuthor'</link>read's'
 <link linkend="PackageKit:Roles">'Roles'</link>read't'
-<link linkend="PackageKit:Provides">'Provides'</link>read't'
 <link linkend="PackageKit:Groups">'Groups'</link>read't'
 <link linkend="PackageKit:Filters">'Filters'</link>read't'
 <link linkend="PackageKit:MimeTypes">'MimeTypes'</link>read'as'
@@ -230,10 +228,6 @@ in's'pac)</programlisting></refsect2>
           <para>
             This signal is emitted when the number of updates has changed
           </para>
-        <variablelist role="params"/><refsect2><title><anchor role="function" id="PackageKit::Changed"/>The Changed signal</title><indexterm><primary>Changed</primary><secondary>PackageKit</secondary></indexterm><programlisting>Changed ()</programlisting></refsect2>
-          <para>
-            This signal is emitted when a property on the interface changes.
-          </para>
         <variablelist role="params"/></refsect1>
   <refsect1 role="property_details"><title role="property_details.title">Property Details</title><refsect2><title><anchor role="function" id="PackageKit:VersionMajor"/>The "VersionMajor" property</title><indexterm><primary>VersionMajor</primary><secondary>PackageKit</secondary></indexterm><programlisting>'VersionMajor'read'u'
 </programlisting></refsect2>
@@ -269,11 +263,6 @@ in's'pac)</programlisting></refsect2>
 </programlisting></refsect2>
           <para>
             The roles the backend supports, e.g. search-name|refresh-cache.
-          </para>
-        <variablelist role="params"/><refsect2><title><anchor role="function" id="PackageKit:Provides"/>The "Provides" property</title><indexterm><primary>Provides</primary><secondary>PackageKit</secondary></indexterm><programlisting>'Provides'read't'
-</programlisting></refsect2>
-          <para>
-            The provides the backend supports, e.g. codec|font|hardware-driver.
           </para>
         <variablelist role="params"/><refsect2><title><anchor role="function" id="PackageKit:Groups"/>The "Groups" property</title><indexterm><primary>Groups</primary><secondary>PackageKit</secondary></indexterm><programlisting>'Groups'read't'
 </programlisting></refsect2>

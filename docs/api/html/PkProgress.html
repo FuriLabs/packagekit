@@ -292,14 +292,6 @@
 <td class="function_name"><a class="link" href="PkProgress.html#PK-PROGRESS-TYPE-ERROR:CAPS" title="PK_PROGRESS_TYPE_ERROR">PK_PROGRESS_TYPE_ERROR</a></td>
 </tr>
 <tr>
-<td class="datatype_keyword">struct</td>
-<td class="function_name"><a class="link" href="PkProgress.html#PkProgress-struct" title="struct PkProgress">PkProgress</a></td>
-</tr>
-<tr>
-<td class="datatype_keyword">struct</td>
-<td class="function_name"><a class="link" href="PkProgress.html#PkProgressClass" title="struct PkProgressClass">PkProgressClass</a></td>
-</tr>
-<tr>
 <td class="datatype_keyword">enum</td>
 <td class="function_name"><a class="link" href="PkProgress.html#PkProgressType" title="enum PkProgressType">PkProgressType</a></td>
 </tr>
@@ -328,7 +320,7 @@ pk_progress_new (<em class="parameter"><code><span class="type">void</span></cod
 <p>PkProgress is a nice GObject wrapper for PackageKit and makes writing
 frontends easy.</p>
 <div class="refsect3">
-<a name="id-1.4.16.8.2.5"></a><h4>Returns</h4>
+<a name="id-1.4.15.8.2.5"></a><h4>Returns</h4>
 <p> A new <a class="link" href="PkProgress.html" title="PkProgress"><code class="literal">PkProgress</code></a> instance</p>
 <p></p>
 </div>
@@ -355,7 +347,7 @@ pk_progress_test (<em class="parameter"><code><a href="http://library.gnome.org/
 pk_progress_set_package_id (<em class="parameter"><code><a class="link" href="PkProgress.html" title="PkProgress"><span class="type">PkProgress</span></a> *progress</code></em>,
                             <em class="parameter"><code>const <a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a> *package_id</code></em>);</pre>
 <div class="refsect3">
-<a name="id-1.4.16.8.5.4"></a><h4>Parameters</h4>
+<a name="id-1.4.15.8.5.4"></a><h4>Parameters</h4>
 <div class="informaltable"><table width="100%" border="0">
 <colgroup>
 <col width="150px" class="parameters_name">
@@ -378,7 +370,7 @@ pk_progress_set_package_id (<em class="parameter"><code><a class="link" href="Pk
 pk_progress_set_item_progress (<em class="parameter"><code><a class="link" href="PkProgress.html" title="PkProgress"><span class="type">PkProgress</span></a> *progress</code></em>,
                                <em class="parameter"><code><span class="type">PkItemProgress</span> *item_progress</code></em>);</pre>
 <div class="refsect3">
-<a name="id-1.4.16.8.6.4"></a><h4>Parameters</h4>
+<a name="id-1.4.15.8.6.4"></a><h4>Parameters</h4>
 <div class="informaltable"><table width="100%" border="0">
 <colgroup>
 <col width="150px" class="parameters_name">
@@ -401,7 +393,7 @@ pk_progress_set_item_progress (<em class="parameter"><code><a class="link" href=
 pk_progress_set_transaction_id (<em class="parameter"><code><a class="link" href="PkProgress.html" title="PkProgress"><span class="type">PkProgress</span></a> *progress</code></em>,
                                 <em class="parameter"><code>const <a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a> *package_id</code></em>);</pre>
 <div class="refsect3">
-<a name="id-1.4.16.8.7.4"></a><h4>Parameters</h4>
+<a name="id-1.4.15.8.7.4"></a><h4>Parameters</h4>
 <div class="informaltable"><table width="100%" border="0">
 <colgroup>
 <col width="150px" class="parameters_name">
@@ -523,28 +515,9 @@ pk_progress_set_package (<em class="parameter"><code><a class="link" href="PkPro
 </div>
 <hr>
 <div class="refsect2">
-<a name="PkProgress-struct"></a><h3>struct PkProgress</h3>
-<pre class="programlisting">struct PkProgress;</pre>
-</div>
-<hr>
-<div class="refsect2">
-<a name="PkProgressClass"></a><h3>struct PkProgressClass</h3>
-<pre class="programlisting">struct PkProgressClass {
-	GObjectClass parent_class;
-	/* padding for future expansion */
-	void (*_pk_reserved1) (void);
-	void (*_pk_reserved2) (void);
-	void (*_pk_reserved3) (void);
-	void (*_pk_reserved4) (void);
-	void (*_pk_reserved5) (void);
-};
-</pre>
-</div>
-<hr>
-<div class="refsect2">
 <a name="PkProgressType"></a><h3>enum PkProgressType</h3>
 <div class="refsect3">
-<a name="id-1.4.16.9.5.3"></a><h4>Members</h4>
+<a name="id-1.4.15.9.3.3"></a><h4>Members</h4>
 <div class="informaltable"><table width="100%" border="0">
 <colgroup>
 <col width="300px" class="enum_members_name">
@@ -720,7 +693,7 @@ pk_progress_set_package (<em class="parameter"><code><a class="link" href="PkPro
 <pre class="programlisting">  “role”                     <a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#guint"><span class="type">guint</span></a></pre>
 <p></p>
 <p>Flags: Read / Write</p>
-<p>Allowed values: &lt;= 31</p>
+<p>Allowed values: &lt;= 33</p>
 <p>Default value: 0</p>
 <p class="since">Since 0.5.2</p>
 </div>

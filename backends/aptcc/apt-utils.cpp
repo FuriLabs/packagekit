@@ -191,7 +191,7 @@ bool downloadChangelog(AptCacheFile &CacheFile,
                        string targetfile)
 /* Download a changelog file for the given package version to
  * targetfile. This will first try the server from Apt::Changelogs::Server
- * (http://packages.debian.org/changelogs by default) and if that gives
+ * (http://metadata.ftp-master.debian.org/changelogs by default) and if that gives
  * a 404 tries to get it from the archive directly (see
  * GuessThirdPartyChangelogUri for details how)
  */
@@ -212,7 +212,7 @@ bool downloadChangelog(AptCacheFile &CacheFile,
 
    // make the server root configurable
    server = _config->Find("Apt::Changelogs::Server",
-                          "http://packages.debian.org/changelogs");
+                          "http://metadata.ftp-master.debian.org/changelogs");
    path = GetChangelogPath(CacheFile, Pkg, Ver);
 
    if (origin.compare("Ubuntu") == 0)
@@ -412,10 +412,24 @@ gchar* utilBuildPackageId(const pkgCache::VerIterator &ver)
 {
     gchar *package_id;
     pkgCache::VerFileIterator vf = ver.FileList();
+ 
+    string data;
+    const pkgCache::PkgIterator &pkg = ver.ParentPkg();
+    if (pkg->CurrentState == pkgCache::State::Installed &&
+            pkg.CurrentVer() == ver) {
+        if (vf.File().Archive() == NULL) {
+            data = "installed";
+        } else {
+            data += vf.File().Archive();
+        }
+    } else if (vf.File().Archive() != NULL) {
+        data = vf.File().Archive();
+    }
+    
     package_id = pk_package_id_build(ver.ParentPkg().Name(),
                                      ver.VerStr(),
                                      ver.Arch(),
-                                     vf.File().Archive() == NULL ? "" : vf.File().Archive());
+                                     data.c_str());
     return package_id;
 }
 

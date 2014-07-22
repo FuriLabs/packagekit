@@ -307,8 +307,8 @@ GTKDOC_DEPS_CFLAGS = @GTKDOC_DEPS_CFLAGS@
 GTKDOC_DEPS_LIBS = @GTKDOC_DEPS_LIBS@
 GTKDOC_MKPDF = @GTKDOC_MKPDF@
 GTKDOC_REBASE = @GTKDOC_REBASE@
-HAWKEY_CFLAGS = @HAWKEY_CFLAGS@
-HAWKEY_LIBS = @HAWKEY_LIBS@
+HIF_CFLAGS = @HIF_CFLAGS@
+HIF_LIBS = @HIF_LIBS@
 HTML_DIR = @HTML_DIR@
 INSTALL = @INSTALL@
 INSTALL_DATA = @INSTALL_DATA@
@@ -520,7 +520,7 @@ pkgconfig_DATA = \
 
 
 # plugins
-plugindir = $(LIBDIR)/packagekit-plugins
+plugindir = $(LIBDIR)/packagekit-plugins-2
 plugin_LTLIBRARIES = \
 	libpk_plugin_scripts.la				\
 	libpk_plugin-update-package-cache.la		\

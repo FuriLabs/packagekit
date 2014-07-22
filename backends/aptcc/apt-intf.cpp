@@ -69,13 +69,6 @@ bool AptIntf::init()
     gchar *http_proxy;
     gchar *ftp_proxy;
 
-    // pkgInitSystem is needed to compare the changelog verstion to
-    // current package using DoCmpVersion()
-    if (pkgInitConfig(*_config) == false ||
-            pkgInitSystem(*_config, _system) == false) {
-        g_debug("ERROR initializing backend");
-    }
-
     m_isMultiArch = APT::Configuration::getArchitectures(false).size() > 1;
 
     // set locale
@@ -301,7 +294,26 @@ bool AptIntf::matchPackage(const pkgCache::VerIterator &ver, PkBitfield filters)
             }
         }
 
+        // Check for applications, if they have files with .desktop
+        if (pk_bitfield_contain(filters, PK_FILTER_ENUM_APPLICATION)) {
+            // We do not support checking if it is an Application
+            // if NOT installed
+            if (!installed || !isApplication(ver)) {
+                return false;
+            }
+        } else if (pk_bitfield_contain(filters, PK_FILTER_ENUM_NOT_APPLICATION)) {
+            // We do not support checking if it is an Application
+            // if NOT installed
+            if (!installed || isApplication(ver)) {
+                return false;
+            }
+        }
+
         // TODO test this one..
+#if 0
+        // I couldn'tfind any packages with the metapackages component, and I
+        // think the check is the wrong way around; PK_FILTER_ENUM_COLLECTIONS
+        // is for virtual group packages -- hughsie
         if (pk_bitfield_contain(filters, PK_FILTER_ENUM_COLLECTIONS)) {
             if (!component.compare("metapackages")) {
                 return false;
@@ -311,6 +323,7 @@ bool AptIntf::matchPackage(const pkgCache::VerIterator &ver, PkBitfield filters)
                 return false;
             }
         }
+#endif
     }
     return true;
 }
@@ -319,11 +332,64 @@ PkgList AptIntf::filterPackages(const PkgList &packages, PkBitfield filters)
 {
     if (filters != 0) {
         PkgList ret;
+        ret.reserve(packages.size());
+
         for (PkgList::const_iterator i = packages.begin(); i != packages.end(); ++i) {
             if (matchPackage(*i, filters)) {
                 ret.push_back(*i);
             }
         }
+
+        // This filter is more complex so we filter it after the list has shrink
+        if (pk_bitfield_contain(filters, PK_FILTER_ENUM_DOWNLOADED) && ret.size() > 0) {
+            PkgList downloaded;
+
+            pkgProblemResolver Fix(*m_cache);
+            {
+                pkgDepCache::ActionGroup group(*m_cache);
+                for (PkgList::const_iterator it = ret.begin(); it != ret.end(); ++it) {
+                    if (m_cancel) {
+                        break;
+                    }
+
+                    m_cache->tryToInstall(Fix, *it, false);
+                }
+            }
+
+            // get a fetcher
+            pkgAcquire fetcher;
+
+            // Read the source list
+            if (m_cache->BuildSourceList() == false) {
+                return downloaded;
+            }
+
+            // Create the package manager and prepare to download
+            SPtr<pkgPackageManager> PM = _system->CreatePM(*m_cache);
+            if (!PM->GetArchives(&fetcher, m_cache->GetSourceList(), m_cache->GetPkgRecords()) ||
+                    _error->PendingError() == true) {
+                return downloaded;
+            }
+
+            for (PkgList::const_iterator verIt = ret.begin(); verIt != ret.end(); ++verIt) {
+                bool found = false;
+                for (pkgAcquire::ItemIterator it = fetcher.ItemsBegin(); it < fetcher.ItemsEnd(); ++it) {
+                    pkgAcqArchiveSane *archive = static_cast<pkgAcqArchiveSane*>(*it);
+                    const pkgCache::VerIterator ver = archive->version();
+                    if ((*it)->Local && *verIt == ver) {
+                        found = true;
+                        break;
+                    }
+                }
+
+                if (found) {
+                    downloaded.push_back(*verIt);
+                }
+            }
+
+            return downloaded;
+        }
+
         return ret;
     } else {
         return packages;
@@ -370,14 +436,13 @@ void AptIntf::emitPackages(PkgList &output, PkBitfield filters, PkInfoEnum state
     // Remove the duplicated entries
     output.removeDuplicates();
 
+    output = filterPackages(output, filters);
     for (PkgList::const_iterator it = output.begin(); it != output.end(); ++it) {
         if (m_cancel) {
             break;
         }
 
-        if (matchPackage(*it, filters)) {
-            emitPackage(*it, state);
-        }
+        emitPackage(*it, state);
     }
 }
 
@@ -406,13 +471,10 @@ void AptIntf::emitUpdates(PkgList &output, PkBitfield filters)
     // Remove the duplicated entries
     output.removeDuplicates();
 
+    output = filterPackages(output, filters);
     for (PkgList::const_iterator i = output.begin(); i != output.end(); ++i) {
         if (m_cancel) {
             break;
-        }
-
-        if (!matchPackage(*i, filters)) {
-            continue;
         }
 
         // the default update info
@@ -673,12 +735,13 @@ void AptIntf::emitPackageDetail(const pkgCache::VerIterator &ver)
     gchar *package_id;
     package_id = utilBuildPackageId(ver);
     pk_backend_job_details(m_job,
-                       package_id,
-                       "unknown",
-                       get_enum_group(section),
-                       m_cache->getLongDescriptionParsed(ver).c_str(),
-                       rec.Homepage().c_str(),
-                       size);
+                           package_id,
+                           m_cache->getShortDescription(ver).c_str(),
+                           "unknown",
+                           get_enum_group(section),
+                           m_cache->getLongDescriptionParsed(ver).c_str(),
+                           rec.Homepage().c_str(),
+                           size);
 
     g_free(package_id);
 }
@@ -973,6 +1036,8 @@ void AptIntf::getRequires(PkgList &output,
 
 PkgList AptIntf::getPackages()
 {
+    pk_backend_job_set_status(m_job, PK_STATUS_ENUM_QUERY);
+
     PkgList output;
     output.reserve(m_cache->GetPkgCache()->HeaderP->PackageCount);
     for (pkgCache::PkgIterator pkg = m_cache->GetPkgCache()->PkgBegin(); !pkg.end(); ++pkg) {
@@ -994,8 +1059,70 @@ PkgList AptIntf::getPackages()
     return output;
 }
 
+PkgList AptIntf::getPackagesFromRepo(SourcesList::SourceRecord *&rec)
+{
+    pk_backend_job_set_status(m_job, PK_STATUS_ENUM_QUERY);
+
+    PkgList output;
+    output.reserve(m_cache->GetPkgCache()->HeaderP->PackageCount);
+    for (pkgCache::PkgIterator pkg = m_cache->GetPkgCache()->PkgBegin(); !pkg.end(); ++pkg) {
+        if (m_cancel) {
+            break;
+        }
+
+        // Ignore packages that exist only due to dependencies.
+        if(pkg.VersionList().end() && pkg.ProvidesList().end()) {
+            continue;
+        }
+
+        // Don't insert virtual packages as they don't have all kinds of info
+        const pkgCache::VerIterator &ver = m_cache->findVer(pkg);
+        if (ver.end()) {
+            continue;
+        }
+
+        // only installed packages matters
+        if (!(pkg->CurrentState == pkgCache::State::Installed && pkg.CurrentVer() == ver)) {
+            continue;
+        }
+
+        // Distro name
+        pkgCache::VerFileIterator vf = ver.FileList();
+        if (vf.File().Archive() == NULL || rec->Dist.compare(vf.File().Archive()) != 0){
+            continue;
+        }
+
+        // Section part
+        if (vf.File().Component() == NULL || !rec->hasSection(vf.File().Component())) {
+            continue;
+        }
+
+        // Check if the site the package comes from is include in the Repo uri
+        if (vf.File().Site() == NULL || rec->URI.find(vf.File().Site()) == std::string::npos) {
+            continue;
+        }
+
+//         cout << endl;
+//         cout << ver.ParentPkg().Name() << endl;
+//         cout << ver.VerStr() << endl;
+//         cout << vf.File().FileName() << endl;
+//         cout << vf.File().Origin() << endl;
+//         cout << vf.File().Component() << endl;
+//         cout << vf.File().Label() << endl;
+//         cout << vf.File().Codename() << endl;
+//         cout << vf.File().Site() << endl;
+//         cout << vf.File().Archive() << endl;
+//         cout << vf.File().IndexType() << endl;
+
+        output.push_back(ver);
+    }
+    return output;
+}
+
 PkgList AptIntf::getPackagesFromGroup(gchar **values)
 {
+    pk_backend_job_set_status(m_job, PK_STATUS_ENUM_QUERY);
+
     PkgList output;
     vector<PkGroupEnum> groups;
 
@@ -1332,6 +1459,47 @@ void AptIntf::providesMimeType(PkgList &output, gchar **values)
     }
 }
 
+bool AptIntf::isApplication(const pkgCache::VerIterator &ver)
+{
+    bool ret = false;
+    gchar *fileName;
+    string line;
+
+    if (m_isMultiArch) {
+        fileName = g_strdup_printf("/var/lib/dpkg/info/%s:%s.list",
+                                   ver.ParentPkg().Name(),
+                                   ver.Arch());
+        if (!FileExists(fileName)) {
+            g_free(fileName);
+            // if the file was not found try without the arch field
+            fileName = g_strdup_printf("/var/lib/dpkg/info/%s.list",
+                                       ver.ParentPkg().Name());
+        }
+    } else {
+        fileName = g_strdup_printf("/var/lib/dpkg/info/%s.list",
+                                   ver.ParentPkg().Name());
+    }
+
+    if (FileExists(fileName)) {
+        ifstream in(fileName);
+        if (!in != 0) {
+            g_free(fileName);
+            return false;
+        }
+
+        while (in.eof() == false) {
+            getline(in, line);
+            if (ends_with(line, ".desktop")) {
+                ret = true;
+                break;
+            }
+        }
+    }
+
+    g_free(fileName);
+    return ret;
+}
+
 // used to emit files it reads the info directly from the files
 void AptIntf::emitPackageFiles(const gchar *pi)
 {
@@ -1457,56 +1625,6 @@ bool AptIntf::checkTrusted(pkgAcquire &fetcher, PkBitfield flags)
         g_debug ("Authentication warning overridden.\n");
         return true;
     }
-}
-
-void AptIntf::tryToRemove(pkgProblemResolver &Fix,
-                          const pkgCache::VerIterator &ver)
-{
-    pkgCache::PkgIterator Pkg = ver.ParentPkg();
-
-    // The package is not installed
-    if (Pkg->CurrentVer == 0) {
-        Fix.Clear(Pkg);
-        Fix.Protect(Pkg);
-        Fix.Remove(Pkg);
-
-        return;
-    }
-
-    Fix.Clear(Pkg);
-    Fix.Protect(Pkg);
-    Fix.Remove(Pkg);
-    // TODO this is false since PackageKit can't
-    // tell it want's o purge
-    m_cache->GetDepCache()->MarkDelete(Pkg, false);
-}
-
-
-bool AptIntf::tryToInstall(pkgProblemResolver &Fix,
-                           const pkgCache::VerIterator &ver,
-                           bool BrokenFix)
-{
-    pkgCache::PkgIterator Pkg = ver.ParentPkg();
-
-    // Check if there is something at all to install
-    m_cache->GetDepCache()->SetCandidateVersion(ver);
-    pkgDepCache::StateCache &State = (*m_cache)[Pkg];
-
-    if (State.CandidateVer == 0) {
-        pk_backend_job_error_code(m_job,
-                                  PK_ERROR_ENUM_DEP_RESOLUTION_FAILED,
-                                  "Package %s is virtual and has no installation candidate",
-                                  Pkg.Name());
-        return false;
-    }
-
-    Fix.Clear(Pkg);
-    Fix.Protect(Pkg);
-
-    // Install it
-    m_cache->GetDepCache()->MarkInstall(Pkg, false);
-
-    return true;
 }
 
 /**
@@ -1745,14 +1863,14 @@ void AptIntf::updateInterface(int fd, int writeFd)
                     }
                 } else {
                     // either the user didn't choose an option or the front end failed'
-                    pk_backend_job_message(m_job,
-                                           PK_MESSAGE_ENUM_CONFIG_FILES_CHANGED,
-                                           "The configuration file '%s' "
-                                           "(modified by you or a script) "
-                                           "has a newer version '%s'.\n"
-                                           "Please verify your changes and update it manually.",
-                                           orig_file.c_str(),
-                                           new_file.c_str());
+//                     pk_backend_job_message(m_job,
+//                                            PK_MESSAGE_ENUM_CONFIG_FILES_CHANGED,
+//                                            "The configuration file '%s' "
+//                                            "(modified by you or a script) "
+//                                            "has a newer version '%s'.\n"
+//                                            "Please verify your changes and update it manually.",
+//                                            orig_file.c_str(),
+//                                            new_file.c_str());
                     // fall back to keep the current config file
                     if (write(writeFd, "N\n", 2) != 2) {
                         // TODO we need a DPKG patch to use debconf
@@ -2038,8 +2156,8 @@ void AptIntf::refreshCache()
 
     // missing repo gpg signature would appear here
     if (_error->PendingError() == false && _error->empty() == false) {
-        // TODO we need a repo warning
-        show_warnings(m_job, PK_MESSAGE_ENUM_BROKEN_MIRROR);
+        // TODO this shouldn't 
+        show_errors(m_job, PK_ERROR_ENUM_GPG_FAILURE);
     }
 }
 
@@ -2084,11 +2202,19 @@ bool AptIntf::markFileForInstall(const gchar *file, PkgList &install, PkgList &r
                        &gerror);
     int exit_code = WEXITSTATUS(status);
     //     cout << "DebStatus " << exit_code << " WEXITSTATUS " << WEXITSTATUS(status) << " ret: "<< ret << endl;
-    cout << "std_out " << strlen(std_out) << std_out << endl;
-    cout << "std_err " << strlen(std_err) << std_err << endl;
+    if (ret) {
+        cout << "std_out " << strlen(std_out) << std_out << endl;
+        cout << "std_err " << strlen(std_err) << std_err << endl;
+    }
 
     PkgList pkgs;
-    if (exit_code == 1) {
+    if (!ret) {
+        pk_backend_job_error_code(m_job, PK_ERROR_ENUM_TRANSACTION_ERROR,
+                                  "Spawn of helper '%s' failed: %s",
+                                  argv[0], gerror->message);
+        g_error_free(gerror);
+        return false;
+    } else if (exit_code == 1) {
         if (strlen(std_out) == 0) {
             pk_backend_job_error_code(m_job, PK_ERROR_ENUM_TRANSACTION_ERROR, "Error: %s", std_err);
         } else {
@@ -2244,11 +2370,13 @@ bool AptIntf::installFile(const gchar *path, bool simulate)
     return true;
 }
 
-bool AptIntf::runTransaction(const PkgList &install, const PkgList &remove, bool simulate, bool markAuto, bool fixBroken, PkBitfield flags, bool autoremove)
+bool AptIntf::runTransaction(const PkgList &install, const PkgList &remove, bool markAuto, bool fixBroken, PkBitfield flags, bool autoremove)
 {
     //cout << "runTransaction" << simulate << remove << endl;
 
     pk_backend_job_set_status (m_job, PK_STATUS_ENUM_RUNNING);
+
+    bool simulate = pk_bitfield_contain(flags, PK_TRANSACTION_FLAG_ENUM_SIMULATE);
 
     // Enter the special broken fixing mode if the user specified arguments
     // THIS mode will run if fixBroken is false and the cache has broken packages
@@ -2267,9 +2395,7 @@ bool AptIntf::runTransaction(const PkgList &install, const PkgList &remove, bool
                 break;
             }
 
-            if (tryToInstall(Fix,
-                             *it,
-                             BrokenFix) == false) {
+            if (!m_cache->tryToInstall(Fix, *it, BrokenFix)) {
                 return false;
             }
         }
@@ -2279,7 +2405,7 @@ bool AptIntf::runTransaction(const PkgList &install, const PkgList &remove, bool
                 break;
             }
 
-            tryToRemove(Fix, *it);
+            m_cache->tryToRemove(Fix, *it);
         }
 
         // Mark package dependencies of a local file as auto-installed
@@ -2288,7 +2414,6 @@ bool AptIntf::runTransaction(const PkgList &install, const PkgList &remove, bool
         }
 
         // Call the scored problem resolver
-        Fix.InstallProtect();
         if (Fix.Resolve(true) == false) {
             _error->Discard();
         }
@@ -2298,7 +2423,7 @@ bool AptIntf::runTransaction(const PkgList &install, const PkgList &remove, bool
             // if the problem resolver could not fix all broken things
             // suggest to run RepairSystem by saing that the last transaction
             // did not finish well
-            m_cache->ShowBroken(false, PK_ERROR_ENUM_UNFINISHED_TRANSACTION);
+            m_cache->ShowBroken(false, PK_ERROR_ENUM_DEP_RESOLUTION_FAILED);
             return false;
         }
     }
@@ -2344,12 +2469,6 @@ bool AptIntf::installPackages(PkBitfield flags, bool autoremove)
         return true;
     }
 
-    // Create the text record parser
-    pkgRecords Recs(*m_cache);
-    if (_error->PendingError() == true) {
-        return false;
-    }
-
     // Create the download object
     AcqPackageKitStatus Stat(this, m_job);
 
@@ -2366,11 +2485,10 @@ bool AptIntf::installPackages(PkBitfield flags, bool autoremove)
     if (m_cache->BuildSourceList() == false) {
         return false;
     }
-    pkgSourceList *List = m_cache->GetSourceList();
 
     // Create the package manager and prepare to download
     SPtr<pkgPackageManager> PM = _system->CreatePM(*m_cache);
-    if (PM->GetArchives(&fetcher, List, &Recs) == false ||
+    if (!PM->GetArchives(&fetcher, m_cache->GetSourceList(), m_cache->GetPkgRecords()) ||
             _error->PendingError() == true) {
         return false;
     }

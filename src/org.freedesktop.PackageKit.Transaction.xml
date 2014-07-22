@@ -316,7 +316,7 @@
     </method>
 
     <!--*********************************************************************-->
-    <method name="GetDepends">
+    <method name="DependsOn">
       <annotation name="org.freedesktop.DBus.GLib.Async" value=""/>
       <doc:doc>
         <doc:description>
@@ -361,7 +361,7 @@
               Either <doc:tt>true</doc:tt> or <doc:tt>false</doc:tt>. If yes then the requirements should be
               returned for all packages returned.
               This means if gnome-power-manager depends on NetworkManager
-              and NetworkManager depends on HAL, then GetDepends on
+              and NetworkManager depends on HAL, then DependsOn on
               gnome-power-manager should return both HAL and NetworkManager.
             </doc:para>
           </doc:summary>
@@ -392,6 +392,64 @@
           <doc:summary>
             <doc:para>
               An array of package IDs.
+            </doc:para>
+          </doc:summary>
+        </doc:doc>
+      </arg>
+    </method>
+
+    <!--*********************************************************************-->
+    <method name="GetDetailsLocal">
+      <annotation name="org.freedesktop.DBus.GLib.Async" value=""/>
+      <doc:doc>
+        <doc:description>
+          <doc:para>
+            This method should return all the details about a specific
+            local file.
+          </doc:para>
+          <doc:para>
+            This method typically emits
+            <doc:tt>Progress</doc:tt>,
+            <doc:tt>Status</doc:tt> and
+            <doc:tt>Error</doc:tt> and
+            <doc:tt>Details</doc:tt>.
+          </doc:para>
+        </doc:description>
+      </doc:doc>
+      <arg type="as" name="files" direction="in">
+        <doc:doc>
+          <doc:summary>
+            <doc:para>
+              An array of filenames.
+            </doc:para>
+          </doc:summary>
+        </doc:doc>
+      </arg>
+    </method>
+
+    <!--*********************************************************************-->
+    <method name="GetFilesLocal">
+      <annotation name="org.freedesktop.DBus.GLib.Async" value=""/>
+      <doc:doc>
+        <doc:description>
+          <doc:para>
+            This method should return all the file lists for a specific
+            local file.
+          </doc:para>
+          <doc:para>
+            This method typically emits
+            <doc:tt>Progress</doc:tt>,
+            <doc:tt>Status</doc:tt> and
+            <doc:tt>Error</doc:tt> and
+            <doc:tt>Details</doc:tt>.
+          </doc:para>
+        </doc:description>
+      </doc:doc>
+      <arg type="as" name="files" direction="in">
+        <doc:doc>
+          <doc:summary>
+            <doc:para>
+              An array of filenames.
             </doc:para>
           </doc:summary>
         </doc:doc>
@@ -502,7 +560,7 @@
     </method>
 
     <!--*********************************************************************-->
-    <method name="GetRequires">
+    <method name="RequiredBy">
       <annotation name="org.freedesktop.DBus.GLib.Async" value=""/>
       <doc:doc>
         <doc:description>
@@ -722,7 +780,7 @@
           </doc:para>
           <doc:para>
             The installer should always install extra packages automatically
-            as the use could call GetDepends prior to the install if a confirmation
+            as the use could call DependsOn prior to the install if a confirmation
             is required in the UI.
           </doc:para>
           <doc:para>
@@ -986,6 +1044,47 @@
           <doc:summary>
             <doc:para>
               The backend specific value, e.g. <doc:tt>http://foo.bar.org/baz</doc:tt>.
+            </doc:para>
+          </doc:summary>
+        </doc:doc>
+      </arg>
+    </method>
+
+    <!--*********************************************************************-->
+    <method name="RepoRemove">
+      <annotation name="org.freedesktop.DBus.GLib.Async" value=""/>
+      <doc:doc>
+        <doc:description>
+          <doc:para>
+            This method removes the repo and optionally removes all the packages
+            installed from the repo.
+          </doc:para>
+        </doc:description>
+        <doc:permission>Callers need org.freedesktop.packagekit.repo-change</doc:permission>
+      </doc:doc>
+      <arg type="t" name="transaction_flags" direction="in">
+        <doc:doc>
+          <doc:summary>
+            <doc:para>
+              If the transaction should be simulated.
+            </doc:para>
+          </doc:summary>
+        </doc:doc>
+      </arg>
+      <arg type="s" name="repo_id" direction="in">
+        <doc:doc>
+          <doc:summary>
+            <doc:para>
+              A repository identifier, e.g. <doc:tt>updates-testing</doc:tt>
+            </doc:para>
+          </doc:summary>
+        </doc:doc>
+      </arg>
+      <arg type="b" name="autoremove" direction="in">
+        <doc:doc>
+          <doc:summary>
+            <doc:para>
+              Packages installed from the repo are automatically removed.
             </doc:para>
           </doc:summary>
         </doc:doc>
@@ -1388,64 +1487,12 @@
           </doc:summary>
         </doc:doc>
       </arg>
-      <arg type="u" name="type" direction="in">
-        <doc:doc>
-          <doc:summary>
-            <doc:para>
-              A PkProvideType, e.g. <doc:tt>PK_PROVIDES_ENUM_CODEC</doc:tt>.
-            </doc:para>
-          </doc:summary>
-        </doc:doc>
-      </arg>
       <arg type="as" name="values" direction="in">
         <doc:doc>
           <doc:summary>
             <doc:para>
               The data to send to the backend to get the packages.
               Note: This is backend specific.
-            </doc:para>
-          </doc:summary>
-        </doc:doc>
-      </arg>
-    </method>
-
-    <!--*********************************************************************-->
-    <method name="UpgradeSystem">
-      <annotation name="org.freedesktop.DBus.GLib.Async" value=""/>
-      <doc:doc>
-        <doc:description>
-          <doc:para>
-            This method perfoms a distribution upgrade to the specified
-            version.
-          </doc:para>
-          <doc:para>
-            This method typically emits
-            <doc:tt>Progress</doc:tt>,
-            <doc:tt>Status</doc:tt> and
-            <doc:tt>Error</doc:tt> and
-            <doc:tt>Package</doc:tt>.
-          </doc:para>
-        </doc:description>
-      </doc:doc>
-      <arg type="s" name="distro_id" direction="in">
-        <doc:doc>
-          <doc:summary>
-            <doc:para>
-              The distribution ID to upgrade to, e.g. <doc:tt>fedora-14</doc:tt>.
-            </doc:para>
-          </doc:summary>
-        </doc:doc>
-      </arg>
-      <arg type="u" name="upgrade_kind" direction="in">
-        <doc:doc>
-          <doc:summary>
-            <doc:para>
-              The type of upgrade, e.g. <doc:tt>minimal</doc:tt>, <doc:tt>default</doc:tt> or <doc:tt>complete</doc:tt>.
-              Minimal upgrades will download the smallest amount of data
-              before launching a installer.
-              The default is to download enough data to launch a full
-              graphical installer, but a complete upgrade will be
-              required if there is no internet access during install time.
             </doc:para>
           </doc:summary>
         </doc:doc>
@@ -1565,68 +1612,43 @@
           </doc:para>
         </doc:description>
       </doc:doc>
-      <arg type="s" name="package_id" direction="out">
+      <annotation name="org.qtproject.QtDBus.QtTypeName.In0" value="QVariantMap"/>
+      <arg type="a{sv}" name="data" direction="out">
         <doc:doc>
           <doc:summary>
             <doc:para>
-              The package ID
+              The details about a specific package. The available keys are here:
             </doc:para>
-          </doc:summary>
-        </doc:doc>
-      </arg>
-      <arg type="s" name="license" direction="out">
-        <doc:doc>
-          <doc:summary>
-            <doc:para>
-              The license string, e.g. <doc:tt>GPLv2+</doc:tt> or <doc:tt>BSD and (MPLv1.1 or GPLv2+)</doc:tt>.
-            </doc:para>
-            <doc:para>
-              More details about the correct way to format licensing strings can be found on the
-              <doc:ulink url="http://fedoraproject.org/wiki/Packaging/LicensingGuidelines">Fedora packaging wiki</doc:ulink>.
-            </doc:para>
-          </doc:summary>
-        </doc:doc>
-      </arg>
-      <arg type="u" name="group" direction="out">
-        <doc:doc>
-          <doc:summary>
-            <doc:para>
-              The enumerated package group description
-            </doc:para>
-          </doc:summary>
-        </doc:doc>
-      </arg>
-      <arg type="s" name="detail" direction="out">
-        <doc:doc>
-          <doc:summary>
-            <doc:para>
-              The multi-line package description.
-            </doc:para>
-            <doc:para>
-              If formatting is required, then markdown syntax should be used,
-              e.g. <doc:tt>This is **critically** important</doc:tt>
-            </doc:para>
-          </doc:summary>
-        </doc:doc>
-      </arg>
-      <arg type="s" name="url" direction="out">
-        <doc:doc>
-          <doc:summary>
-            <doc:para>
-              The upstream project homepage
-            </doc:para>
-          </doc:summary>
-        </doc:doc>
-      </arg>
-      <arg type="t" name="size" direction="out">
-        <doc:doc>
-          <doc:summary>
-            <doc:para>
-              The size of the package in bytes. This should be the size of the entire package file,
-              not the size of the files installed on the system.
-              If the package is not installed, and already downloaded and
-              present in the package manager cache, then this value should be set to zero.
-            </doc:para>
+            <doc:list>
+              <doc:item>
+                <doc:term>package_id</doc:term>
+                <doc:definition>The package ID [<doc:tt>s</doc:tt>]</doc:definition>
+              </doc:item>
+              <doc:item>
+                <doc:term>license</doc:term>
+                <doc:definition>The license string, e.g. <doc:tt>GPLv2+</doc:tt> [<doc:tt>s</doc:tt>]</doc:definition>
+              </doc:item>
+              <doc:item>
+                <doc:term>group</doc:term>
+                <doc:definition>The enumerated package group description [<doc:tt>u</doc:tt>]</doc:definition>
+              </doc:item>
+              <doc:item>
+                <doc:term>detail</doc:term>
+                <doc:definition>The multi-line package description in markdown syntax.[<doc:tt>s</doc:tt>]</doc:definition>
+              </doc:item>
+              <doc:item>
+                <doc:term>url</doc:term>
+                <doc:definition>The upstream project homepage [<doc:tt>s</doc:tt>]</doc:definition>
+              </doc:item>
+              <doc:item>
+                <doc:term>size</doc:term>
+                <doc:definition>The size of the package in bytes [<doc:tt>t</doc:tt>]</doc:definition>
+              </doc:item>
+              <doc:item>
+                <doc:term>summary</doc:term>
+                <doc:definition>The one line package summary, e.g. Clipart for OpenOffice [<doc:tt>s</doc:tt>]</doc:definition>
+              </doc:item>
+            </doc:list>
           </doc:summary>
         </doc:doc>
       </arg>
@@ -1716,40 +1738,6 @@
           <doc:summary>
             <doc:para>
               The amount of time in milliseconds that the transaction ran for.
-            </doc:para>
-          </doc:summary>
-        </doc:doc>
-      </arg>
-    </signal>
-
-    <!--*********************************************************************-->
-    <signal name="Message">
-      <doc:doc>
-        <doc:description>
-          <doc:para>
-            This signal is sent when the backend wants to send a message to the session.
-          </doc:para>
-          <doc:para>
-            This allows the backend to queue up a message to be shown after the transaction has
-            completed.
-          </doc:para>
-        </doc:description>
-      </doc:doc>
-      <arg type="u" name="type" direction="out">
-        <doc:doc>
-          <doc:summary>
-            <doc:para>
-              One of <doc:tt>warning</doc:tt>, <doc:tt>notice</doc:tt>, or
-              <doc:tt>daemon</doc:tt>.
-            </doc:para>
-          </doc:summary>
-        </doc:doc>
-      </arg>
-      <arg type="s" name="details" direction="out">
-        <doc:doc>
-          <doc:summary>
-            <doc:para>
-              Required details about the message, non-localised.
             </doc:para>
           </doc:summary>
         </doc:doc>
@@ -2393,17 +2381,6 @@
           </doc:summary>
         </doc:doc>
       </arg>
-    </signal>
-
-    <!--*********************************************************************-->
-    <signal name="Changed">
-      <doc:doc>
-        <doc:description>
-          <doc:para>
-            This signal is emitted when a property on the interface changes.
-          </doc:para>
-        </doc:description>
-      </doc:doc>
     </signal>
 
     <!--*********************************************************************-->

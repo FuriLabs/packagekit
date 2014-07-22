@@ -157,7 +157,6 @@ libpackagekit_glib2_la_DEPENDENCIES = $(am__DEPENDENCIES_1) \
 	$(am__DEPENDENCIES_1) $(am__DEPENDENCIES_1)
 am_libpackagekit_glib2_la_OBJECTS =  \
 	libpackagekit_glib2_la-pk-bitfield.lo \
-	libpackagekit_glib2_la-pk-catalog.lo \
 	libpackagekit_glib2_la-pk-category.lo \
 	libpackagekit_glib2_la-pk-client.lo \
 	libpackagekit_glib2_la-pk-client-helper.lo \
@@ -175,7 +174,6 @@ am_libpackagekit_glib2_la_OBJECTS =  \
 	libpackagekit_glib2_la-pk-eula-required.lo \
 	libpackagekit_glib2_la-pk-files.lo \
 	libpackagekit_glib2_la-pk-media-change-required.lo \
-	libpackagekit_glib2_la-pk-message.lo \
 	libpackagekit_glib2_la-pk-item-progress.lo \
 	libpackagekit_glib2_la-pk-package.lo \
 	libpackagekit_glib2_la-pk-package-id.lo \
@@ -187,7 +185,6 @@ am_libpackagekit_glib2_la_OBJECTS =  \
 	libpackagekit_glib2_la-pk-repo-signature-required.lo \
 	libpackagekit_glib2_la-pk-require-restart.lo \
 	libpackagekit_glib2_la-pk-results.lo \
-	libpackagekit_glib2_la-pk-service-pack.lo \
 	libpackagekit_glib2_la-pk-source.lo \
 	libpackagekit_glib2_la-pk-task.lo \
 	libpackagekit_glib2_la-pk-task-sync.lo \
@@ -535,8 +532,8 @@ GTKDOC_DEPS_CFLAGS = @GTKDOC_DEPS_CFLAGS@
 GTKDOC_DEPS_LIBS = @GTKDOC_DEPS_LIBS@
 GTKDOC_MKPDF = @GTKDOC_MKPDF@
 GTKDOC_REBASE = @GTKDOC_REBASE@
-HAWKEY_CFLAGS = @HAWKEY_CFLAGS@
-HAWKEY_LIBS = @HAWKEY_LIBS@
+HIF_CFLAGS = @HIF_CFLAGS@
+HIF_LIBS = @HIF_LIBS@
 HTML_DIR = @HTML_DIR@
 INSTALL = @INSTALL@
 INSTALL_DATA = @INSTALL_DATA@
@@ -753,7 +750,6 @@ libpackagekit_glib2_includedir = $(includedir)/PackageKit/packagekit-glib2
 HEADER_FILES = \
 	packagekit.h						\
 	pk-bitfield.h						\
-	pk-catalog.h						\
 	pk-category.h						\
 	pk-client.h						\
 	pk-client-helper.h					\
@@ -769,7 +765,6 @@ HEADER_FILES = \
 	pk-eula-required.h					\
 	pk-files.h						\
 	pk-media-change-required.h				\
-	pk-message.h						\
 	pk-item-progress.h					\
 	pk-package.h						\
 	pk-package-id.h						\
@@ -781,7 +776,6 @@ HEADER_FILES = \
 	pk-repo-signature-required.h				\
 	pk-require-restart.h					\
 	pk-results.h						\
-	pk-service-pack.h					\
 	pk-source.h						\
 	pk-task.h						\
 	pk-task-sync.h						\
@@ -798,8 +792,6 @@ libpackagekit_glib2_la_SOURCES = \
 	packagekit.h						\
 	pk-bitfield.c						\
 	pk-bitfield.h						\
-	pk-catalog.c						\
-	pk-catalog.h						\
 	pk-category.c						\
 	pk-category.h						\
 	pk-client.c						\
@@ -834,8 +826,6 @@ libpackagekit_glib2_la_SOURCES = \
 	pk-files.h						\
 	pk-media-change-required.c				\
 	pk-media-change-required.h				\
-	pk-message.c						\
-	pk-message.h						\
 	pk-item-progress.c					\
 	pk-item-progress.h					\
 	pk-package.c						\
@@ -858,8 +848,6 @@ libpackagekit_glib2_la_SOURCES = \
 	pk-require-restart.h					\
 	pk-results.c						\
 	pk-results.h						\
-	pk-service-pack.c					\
-	pk-service-pack.h					\
 	pk-source.c						\
 	pk-source.h						\
 	pk-task.c						\
@@ -1071,7 +1059,6 @@ distclean-compile:
 	-rm -f *.tab.c
 
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libpackagekit_glib2_la-pk-bitfield.Plo@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libpackagekit_glib2_la-pk-catalog.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libpackagekit_glib2_la-pk-category.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libpackagekit_glib2_la-pk-client-helper.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libpackagekit_glib2_la-pk-client-sync.Plo@am__quote@
@@ -1090,7 +1077,6 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libpackagekit_glib2_la-pk-files.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libpackagekit_glib2_la-pk-item-progress.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libpackagekit_glib2_la-pk-media-change-required.Plo@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libpackagekit_glib2_la-pk-message.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libpackagekit_glib2_la-pk-package-id.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libpackagekit_glib2_la-pk-package-ids.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libpackagekit_glib2_la-pk-package-sack-sync.Plo@am__quote@
@@ -1101,7 +1087,6 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libpackagekit_glib2_la-pk-repo-signature-required.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libpackagekit_glib2_la-pk-require-restart.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libpackagekit_glib2_la-pk-results.Plo@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libpackagekit_glib2_la-pk-service-pack.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libpackagekit_glib2_la-pk-source.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libpackagekit_glib2_la-pk-spawn-polkit-agent.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libpackagekit_glib2_la-pk-task-sync.Plo@am__quote@
@@ -1199,13 +1184,6 @@ libpackagekit_glib2_la-pk-bitfield.lo: pk-bitfield.c
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='pk-bitfield.c' object='libpackagekit_glib2_la-pk-bitfield.lo' libtool=yes @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libpackagekit_glib2_la_CFLAGS) $(CFLAGS) -c -o libpackagekit_glib2_la-pk-bitfield.lo `test -f 'pk-bitfield.c' || echo '$(srcdir)/'`pk-bitfield.c
-
-libpackagekit_glib2_la-pk-catalog.lo: pk-catalog.c
-@am__fastdepCC_TRUE@	$(AM_V_CC)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libpackagekit_glib2_la_CFLAGS) $(CFLAGS) -MT libpackagekit_glib2_la-pk-catalog.lo -MD -MP -MF $(DEPDIR)/libpackagekit_glib2_la-pk-catalog.Tpo -c -o libpackagekit_glib2_la-pk-catalog.lo `test -f 'pk-catalog.c' || echo '$(srcdir)/'`pk-catalog.c
-@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/libpackagekit_glib2_la-pk-catalog.Tpo $(DEPDIR)/libpackagekit_glib2_la-pk-catalog.Plo
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='pk-catalog.c' object='libpackagekit_glib2_la-pk-catalog.lo' libtool=yes @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libpackagekit_glib2_la_CFLAGS) $(CFLAGS) -c -o libpackagekit_glib2_la-pk-catalog.lo `test -f 'pk-catalog.c' || echo '$(srcdir)/'`pk-catalog.c
 
 libpackagekit_glib2_la-pk-category.lo: pk-category.c
 @am__fastdepCC_TRUE@	$(AM_V_CC)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libpackagekit_glib2_la_CFLAGS) $(CFLAGS) -MT libpackagekit_glib2_la-pk-category.lo -MD -MP -MF $(DEPDIR)/libpackagekit_glib2_la-pk-category.Tpo -c -o libpackagekit_glib2_la-pk-category.lo `test -f 'pk-category.c' || echo '$(srcdir)/'`pk-category.c
@@ -1326,13 +1304,6 @@ libpackagekit_glib2_la-pk-media-change-required.lo: pk-media-change-required.c
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libpackagekit_glib2_la_CFLAGS) $(CFLAGS) -c -o libpackagekit_glib2_la-pk-media-change-required.lo `test -f 'pk-media-change-required.c' || echo '$(srcdir)/'`pk-media-change-required.c
 
-libpackagekit_glib2_la-pk-message.lo: pk-message.c
-@am__fastdepCC_TRUE@	$(AM_V_CC)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libpackagekit_glib2_la_CFLAGS) $(CFLAGS) -MT libpackagekit_glib2_la-pk-message.lo -MD -MP -MF $(DEPDIR)/libpackagekit_glib2_la-pk-message.Tpo -c -o libpackagekit_glib2_la-pk-message.lo `test -f 'pk-message.c' || echo '$(srcdir)/'`pk-message.c
-@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/libpackagekit_glib2_la-pk-message.Tpo $(DEPDIR)/libpackagekit_glib2_la-pk-message.Plo
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='pk-message.c' object='libpackagekit_glib2_la-pk-message.lo' libtool=yes @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libpackagekit_glib2_la_CFLAGS) $(CFLAGS) -c -o libpackagekit_glib2_la-pk-message.lo `test -f 'pk-message.c' || echo '$(srcdir)/'`pk-message.c
-
 libpackagekit_glib2_la-pk-item-progress.lo: pk-item-progress.c
 @am__fastdepCC_TRUE@	$(AM_V_CC)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libpackagekit_glib2_la_CFLAGS) $(CFLAGS) -MT libpackagekit_glib2_la-pk-item-progress.lo -MD -MP -MF $(DEPDIR)/libpackagekit_glib2_la-pk-item-progress.Tpo -c -o libpackagekit_glib2_la-pk-item-progress.lo `test -f 'pk-item-progress.c' || echo '$(srcdir)/'`pk-item-progress.c
 @am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/libpackagekit_glib2_la-pk-item-progress.Tpo $(DEPDIR)/libpackagekit_glib2_la-pk-item-progress.Plo
@@ -1409,13 +1380,6 @@ libpackagekit_glib2_la-pk-results.lo: pk-results.c
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='pk-results.c' object='libpackagekit_glib2_la-pk-results.lo' libtool=yes @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libpackagekit_glib2_la_CFLAGS) $(CFLAGS) -c -o libpackagekit_glib2_la-pk-results.lo `test -f 'pk-results.c' || echo '$(srcdir)/'`pk-results.c
-
-libpackagekit_glib2_la-pk-service-pack.lo: pk-service-pack.c
-@am__fastdepCC_TRUE@	$(AM_V_CC)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libpackagekit_glib2_la_CFLAGS) $(CFLAGS) -MT libpackagekit_glib2_la-pk-service-pack.lo -MD -MP -MF $(DEPDIR)/libpackagekit_glib2_la-pk-service-pack.Tpo -c -o libpackagekit_glib2_la-pk-service-pack.lo `test -f 'pk-service-pack.c' || echo '$(srcdir)/'`pk-service-pack.c
-@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/libpackagekit_glib2_la-pk-service-pack.Tpo $(DEPDIR)/libpackagekit_glib2_la-pk-service-pack.Plo
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='pk-service-pack.c' object='libpackagekit_glib2_la-pk-service-pack.lo' libtool=yes @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libpackagekit_glib2_la_CFLAGS) $(CFLAGS) -c -o libpackagekit_glib2_la-pk-service-pack.lo `test -f 'pk-service-pack.c' || echo '$(srcdir)/'`pk-service-pack.c
 
 libpackagekit_glib2_la-pk-source.lo: pk-source.c
 @am__fastdepCC_TRUE@	$(AM_V_CC)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libpackagekit_glib2_la_CFLAGS) $(CFLAGS) -MT libpackagekit_glib2_la-pk-source.lo -MD -MP -MF $(DEPDIR)/libpackagekit_glib2_la-pk-source.Tpo -c -o libpackagekit_glib2_la-pk-source.lo `test -f 'pk-source.c' || echo '$(srcdir)/'`pk-source.c

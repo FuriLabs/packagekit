@@ -21,35 +21,8 @@ pk_bitfield_test
 </SECTION>
 
 <SECTION>
-<FILE>pk-catalog</FILE>
-<TITLE>PkCatalog</TITLE>
-PK_CATALOG_ERROR
-PK_CATALOG_TYPE_ERROR
-PK_CATALOG_FILE_EXTENSION
-PK_CATALOG_FILE_HEADER
-PkCatalogError
-PkCatalog
-PkCatalogClass
-pk_catalog_error_quark
-pk_catalog_new
-pk_catalog_lookup_finish
-pk_catalog_lookup_async
-<SUBSECTION Standard>
-PK_CATALOG
-PK_CATALOG_CLASS
-PK_CATALOG_GET_CLASS
-PK_IS_CATALOG
-PK_IS_CATALOG_CLASS
-PK_TYPE_CATALOG
-PkCatalogPrivate
-pk_catalog_get_type
-</SECTION>
-
-<SECTION>
 <FILE>pk-category</FILE>
 <TITLE>PkCategory</TITLE>
-PkCategory
-PkCategoryClass
 pk_category_new
 pk_category_get_parent_id
 pk_category_set_parent_id
@@ -68,6 +41,8 @@ PK_CATEGORY_GET_CLASS
 PK_IS_CATEGORY
 PK_IS_CATEGORY_CLASS
 PK_TYPE_CATEGORY
+PkCategory
+PkCategoryClass
 PkCategoryPrivate
 pk_category_get_type
 </SECTION>
@@ -78,8 +53,6 @@ pk_category_get_type
 PK_CLIENT_ERROR
 PK_CLIENT_TYPE_ERROR
 PkClientError
-PkClient
-PkClientClass
 pk_client_error_quark
 pk_client_new
 pk_client_test
@@ -90,13 +63,15 @@ pk_client_search_details_async
 pk_client_search_groups_async
 pk_client_search_files_async
 pk_client_get_details_async
+pk_client_get_details_local_async
+pk_client_get_files_local_async
 pk_client_get_update_detail_async
 pk_client_download_packages_async
 pk_client_get_updates_async
 pk_client_get_old_transactions_async
-pk_client_get_depends_async
+pk_client_depends_on_async
 pk_client_get_packages_async
-pk_client_get_requires_async
+pk_client_required_by_async
 pk_client_what_provides_async
 pk_client_get_distro_upgrades_async
 pk_client_get_files_async
@@ -111,7 +86,7 @@ pk_client_accept_eula_async
 pk_client_get_repo_list_async
 pk_client_repo_enable_async
 pk_client_repo_set_data_async
-pk_client_upgrade_system_async
+pk_client_repo_remove_async
 pk_client_repair_system_async
 pk_client_adopt_async
 pk_client_get_progress_finish
@@ -132,6 +107,8 @@ PK_CLIENT_GET_CLASS
 PK_IS_CLIENT
 PK_IS_CLIENT_CLASS
 PK_TYPE_CLIENT
+PkClient
+PkClientClass
 PkClientPrivate
 pk_client_get_type
 </SECTION>
@@ -139,8 +116,6 @@ pk_client_get_type
 <SECTION>
 <FILE>pk-client-helper</FILE>
 <TITLE>PkClientHelper</TITLE>
-PkClientHelper
-PkClientHelperClass
 pk_client_helper_new
 pk_client_helper_stop
 pk_client_helper_start
@@ -151,6 +126,8 @@ PK_CLIENT_HELPER_GET_CLASS
 PK_IS_CLIENT_HELPER
 PK_IS_CLIENT_HELPER_CLASS
 PK_TYPE_CLIENT_HELPER
+PkClientHelper
+PkClientHelperClass
 PkClientHelperPrivate
 pk_client_helper_get_type
 </SECTION>
@@ -163,13 +140,15 @@ pk_client_search_details
 pk_client_search_groups
 pk_client_search_files
 pk_client_get_details
+pk_client_get_details_local
+pk_client_get_files_local
 pk_client_get_update_detail
 pk_client_download_packages
 pk_client_get_updates
 pk_client_get_old_transactions
-pk_client_get_depends
+pk_client_depends_on
 pk_client_get_packages
-pk_client_get_requires
+pk_client_required_by
 pk_client_what_provides
 pk_client_get_distro_upgrades
 pk_client_get_files
@@ -184,7 +163,7 @@ pk_client_accept_eula
 pk_client_get_repo_list
 pk_client_repo_enable
 pk_client_repo_set_data
-pk_client_upgrade_system
+pk_client_repo_remove
 pk_client_repair_system
 pk_client_adopt
 pk_client_get_progress
@@ -221,8 +200,6 @@ pk_console_get_prompt
 PK_CONTROL_ERROR
 PK_CONTROL_TYPE_ERROR
 PkControlError
-PkControl
-PkControlClass
 pk_control_error_quark
 pk_control_new
 pk_control_test
@@ -250,6 +227,8 @@ PK_CONTROL_GET_CLASS
 PK_IS_CONTROL
 PK_IS_CONTROL_CLASS
 PK_TYPE_CONTROL
+PkControl
+PkControlClass
 PkControlPrivate
 pk_control_get_type
 </SECTION>
@@ -276,8 +255,6 @@ pk_debug_set_verbose
 <TITLE>PkDesktop</TITLE>
 PK_DESKTOP_DEFAULT_DATABASE
 PK_DESKTOP_DEFAULT_APPLICATION_DIR
-PkDesktop
-PkDesktopClass
 pk_desktop_new
 pk_desktop_test
 pk_desktop_open_database
@@ -291,6 +268,8 @@ PK_DESKTOP_GET_CLASS
 PK_IS_DESKTOP
 PK_IS_DESKTOP_CLASS
 PK_TYPE_DESKTOP
+PkDesktop
+PkDesktopClass
 PkDesktopPrivate
 pk_desktop_get_type
 </SECTION>
@@ -298,8 +277,6 @@ pk_desktop_get_type
 <SECTION>
 <FILE>pk-details</FILE>
 <TITLE>PkDetails</TITLE>
-PkDetails
-PkDetailsClass
 pk_details_new
 pk_details_get_package_id
 pk_details_get_license
@@ -307,6 +284,7 @@ pk_details_get_group
 pk_details_get_description
 pk_details_get_url
 pk_details_get_size
+pk_details_get_summary
 <SUBSECTION Standard>
 PK_DETAILS
 PK_DETAILS_CLASS
@@ -314,6 +292,8 @@ PK_DETAILS_GET_CLASS
 PK_IS_DETAILS
 PK_IS_DETAILS_CLASS
 PK_TYPE_DETAILS
+PkDetails
+PkDetailsClass
 PkDetailsPrivate
 pk_details_get_type
 </SECTION>
@@ -321,8 +301,6 @@ pk_details_get_type
 <SECTION>
 <FILE>pk-distro-upgrade</FILE>
 <TITLE>PkDistroUpgrade</TITLE>
-PkDistroUpgrade
-PkDistroUpgradeClass
 pk_distro_upgrade_new
 pk_distro_upgrade_get_id
 pk_distro_upgrade_get_summary
@@ -334,6 +312,8 @@ PK_DISTRO_UPGRADE_GET_CLASS
 PK_IS_DISTRO_UPGRADE
 PK_IS_DISTRO_UPGRADE_CLASS
 PK_TYPE_DISTRO_UPGRADE
+PkDistroUpgrade
+PkDistroUpgradeClass
 PkDistroUpgradePrivate
 pk_distro_upgrade_get_type
 </SECTION>
@@ -347,14 +327,12 @@ PkExitEnum
 PkNetworkEnum
 PkFilterEnum
 PkRestartEnum
-PkMessageEnum
 PkErrorEnum
 PkGroupEnum
 PkUpdateStateEnum
 PkInfoEnum
 PkDistroUpgradeEnum
 PkSigTypeEnum
-PkProvidesEnum
 PkMediaTypeEnum
 PkAuthorizeEnum
 PkUpgradeKindEnum
@@ -380,14 +358,10 @@ pk_error_enum_from_string
 pk_error_enum_to_string
 pk_restart_enum_from_string
 pk_restart_enum_to_string
-pk_message_enum_from_string
-pk_message_enum_to_string
 pk_group_enum_from_string
 pk_group_enum_to_string
 pk_filter_enum_from_string
 pk_filter_enum_to_string
-pk_provides_enum_from_string
-pk_provides_enum_to_string
 pk_distro_upgrade_enum_from_string
 pk_distro_upgrade_enum_to_string
 pk_media_type_enum_from_string
@@ -408,7 +382,6 @@ pk_role_enum_to_localised_present
 <FILE>pk-enum-types</FILE>
 <SUBSECTION Standard>
 PK_TYPE_AUTHORIZE_ENUM
-PK_TYPE_CATALOG_ERROR
 PK_TYPE_CLIENT_ERROR
 PK_TYPE_CONTROL_ERROR
 PK_TYPE_DISTRO_UPGRADE_ENUM
@@ -418,21 +391,17 @@ PK_TYPE_FILTER_ENUM
 PK_TYPE_GROUP_ENUM
 PK_TYPE_INFO_ENUM
 PK_TYPE_MEDIA_TYPE_ENUM
-PK_TYPE_MESSAGE_ENUM
 PK_TYPE_NETWORK_ENUM
 PK_TYPE_PACKAGE_SACK_SORT_TYPE
 PK_TYPE_PROGRESS_TYPE
-PK_TYPE_PROVIDES_ENUM
 PK_TYPE_RESTART_ENUM
 PK_TYPE_ROLE_ENUM
-PK_TYPE_SERVICE_PACK_ERROR
 PK_TYPE_SIG_TYPE_ENUM
 PK_TYPE_STATUS_ENUM
 PK_TYPE_TRANSACTION_FLAG_ENUM
 PK_TYPE_UPDATE_STATE_ENUM
 PK_TYPE_UPGRADE_KIND_ENUM
 pk_authorize_enum_get_type
-pk_catalog_error_get_type
 pk_client_error_get_type
 pk_control_error_get_type
 pk_distro_upgrade_enum_get_type
@@ -442,14 +411,11 @@ pk_filter_enum_get_type
 pk_group_enum_get_type
 pk_info_enum_get_type
 pk_media_type_enum_get_type
-pk_message_enum_get_type
 pk_network_enum_get_type
 pk_package_sack_sort_type_get_type
 pk_progress_type_get_type
-pk_provides_enum_get_type
 pk_restart_enum_get_type
 pk_role_enum_get_type
-pk_service_pack_error_get_type
 pk_sig_type_enum_get_type
 pk_status_enum_get_type
 pk_transaction_flag_enum_get_type
@@ -460,8 +426,6 @@ pk_upgrade_kind_enum_get_type
 <SECTION>
 <FILE>pk-error</FILE>
 <TITLE>PkError</TITLE>
-PkError
-PkErrorClass
 pk_error_new
 pk_error_get_code
 pk_error_get_details
@@ -472,6 +436,8 @@ PK_ERROR_CODE_GET_CLASS
 PK_IS_ERROR_CODE
 PK_IS_ERROR_CODE_CLASS
 PK_TYPE_ERROR_CODE
+PkError
+PkErrorClass
 PkErrorPrivate
 pk_error_get_type
 </SECTION>
@@ -479,8 +445,6 @@ pk_error_get_type
 <SECTION>
 <FILE>pk-eula-required</FILE>
 <TITLE>PkEulaRequired</TITLE>
-PkEulaRequired
-PkEulaRequiredClass
 pk_eula_required_new
 <SUBSECTION Standard>
 PK_EULA_REQUIRED
@@ -489,6 +453,8 @@ PK_EULA_REQUIRED_GET_CLASS
 PK_IS_EULA_REQUIRED
 PK_IS_EULA_REQUIRED_CLASS
 PK_TYPE_EULA_REQUIRED
+PkEulaRequired
+PkEulaRequiredClass
 PkEulaRequiredPrivate
 pk_eula_required_get_type
 </SECTION>
@@ -496,9 +462,9 @@ pk_eula_required_get_type
 <SECTION>
 <FILE>pk-files</FILE>
 <TITLE>PkFiles</TITLE>
-PkFiles
-PkFilesClass
 pk_files_new
+pk_files_get_package_id
+pk_files_get_files
 <SUBSECTION Standard>
 PK_FILES
 PK_FILES_CLASS
@@ -506,6 +472,8 @@ PK_FILES_GET_CLASS
 PK_IS_FILES
 PK_IS_FILES_CLASS
 PK_TYPE_FILES
+PkFiles
+PkFilesClass
 PkFilesPrivate
 pk_files_get_type
 </SECTION>
@@ -513,8 +481,6 @@ pk_files_get_type
 <SECTION>
 <FILE>pk-item-progress</FILE>
 <TITLE>PkItemProgress</TITLE>
-PkItemProgress
-PkItemProgressClass
 pk_item_progress_new
 pk_item_progress_get_status
 pk_item_progress_get_percentage
@@ -526,6 +492,8 @@ PK_ITEM_PROGRESS
 PK_ITEM_PROGRESS_CLASS
 PK_ITEM_PROGRESS_GET_CLASS
 PK_TYPE_ITEM_PROGRESS
+PkItemProgress
+PkItemProgressClass
 PkItemProgressPrivate
 pk_item_progress_get_type
 </SECTION>
@@ -533,8 +501,6 @@ pk_item_progress_get_type
 <SECTION>
 <FILE>pk-media-change-required</FILE>
 <TITLE>PkMediaChangeRequired</TITLE>
-PkMediaChangeRequired
-PkMediaChangeRequiredClass
 pk_media_change_required_new
 <SUBSECTION Standard>
 PK_IS_MEDIA_CHANGE_REQUIRED
@@ -543,35 +509,16 @@ PK_MEDIA_CHANGE_REQUIRED
 PK_MEDIA_CHANGE_REQUIRED_CLASS
 PK_MEDIA_CHANGE_REQUIRED_GET_CLASS
 PK_TYPE_MEDIA_CHANGE_REQUIRED
+PkMediaChangeRequired
+PkMediaChangeRequiredClass
 PkMediaChangeRequiredPrivate
 pk_media_change_required_get_type
-</SECTION>
-
-<SECTION>
-<FILE>pk-message</FILE>
-<TITLE>PkMessage</TITLE>
-PkMessage
-PkMessageClass
-pk_message_new
-pk_message_get_details
-pk_message_get_kind
-<SUBSECTION Standard>
-PK_IS_MESSAGE
-PK_IS_MESSAGE_CLASS
-PK_MESSAGE
-PK_MESSAGE_CLASS
-PK_MESSAGE_GET_CLASS
-PK_TYPE_MESSAGE
-PkMessagePrivate
-pk_message_get_type
 </SECTION>
 
 <SECTION>
 <FILE>pk-package</FILE>
 <TITLE>PkPackage</TITLE>
 PK_PACKAGE_TYPE_ERROR
-PkPackage
-PkPackageClass
 pk_package_new
 pk_package_test
 pk_package_set_id
@@ -595,6 +542,8 @@ PK_PACKAGE
 PK_PACKAGE_CLASS
 PK_PACKAGE_GET_CLASS
 PK_TYPE_PACKAGE
+PkPackage
+PkPackageClass
 PkPackagePrivate
 pk_package_get_type
 </SECTION>
@@ -605,6 +554,7 @@ PK_PACKAGE_ID_NAME
 PK_PACKAGE_ID_VERSION
 PK_PACKAGE_ID_ARCH
 PK_PACKAGE_ID_DATA
+pk_package_id_test
 pk_package_id_build
 pk_package_id_check
 pk_package_id_split
@@ -632,8 +582,6 @@ pk_package_ids_to_text
 <FILE>pk-package-sack</FILE>
 <TITLE>PkPackageSack</TITLE>
 PK_PACKAGE_SACK_TYPE_ERROR
-PkPackageSack
-PkPackageSackClass
 PkPackageSackSortType
 pk_package_sack_new
 pk_package_sack_test
@@ -667,6 +615,8 @@ PK_PACKAGE_SACK
 PK_PACKAGE_SACK_CLASS
 PK_PACKAGE_SACK_GET_CLASS
 PK_TYPE_PACKAGE_SACK
+PkPackageSack
+PkPackageSackClass
 PkPackageSackPrivate
 pk_package_sack_get_type
 </SECTION>
@@ -682,8 +632,6 @@ pk_package_sack_get_update_detail
 <FILE>pk-progress</FILE>
 <TITLE>PkProgress</TITLE>
 PK_PROGRESS_TYPE_ERROR
-PkProgress
-PkProgressClass
 pk_progress_new
 pk_progress_test
 PkProgressType
@@ -710,6 +658,8 @@ PK_PROGRESS
 PK_PROGRESS_CLASS
 PK_PROGRESS_GET_CLASS
 PK_TYPE_PROGRESS
+PkProgress
+PkProgressClass
 PkProgressPrivate
 pk_progress_get_type
 </SECTION>
@@ -736,9 +686,10 @@ pk_progress_bar_get_type
 <SECTION>
 <FILE>pk-repo-detail</FILE>
 <TITLE>PkRepoDetail</TITLE>
-PkRepoDetail
-PkRepoDetailClass
 pk_repo_detail_new
+pk_repo_detail_get_id
+pk_repo_detail_get_description
+pk_repo_detail_get_enabled
 <SUBSECTION Standard>
 PK_IS_REPO_DETAIL
 PK_IS_REPO_DETAIL_CLASS
@@ -746,6 +697,8 @@ PK_REPO_DETAIL
 PK_REPO_DETAIL_CLASS
 PK_REPO_DETAIL_GET_CLASS
 PK_TYPE_REPO_DETAIL
+PkRepoDetail
+PkRepoDetailClass
 PkRepoDetailPrivate
 pk_repo_detail_get_type
 </SECTION>
@@ -753,8 +706,6 @@ pk_repo_detail_get_type
 <SECTION>
 <FILE>pk-repo-signature-required</FILE>
 <TITLE>PkRepoSignatureRequired</TITLE>
-PkRepoSignatureRequired
-PkRepoSignatureRequiredClass
 pk_repo_signature_required_new
 <SUBSECTION Standard>
 PK_IS_REPO_SIGNATURE_REQUIRED
@@ -763,6 +714,8 @@ PK_REPO_SIGNATURE_REQUIRED
 PK_REPO_SIGNATURE_REQUIRED_CLASS
 PK_REPO_SIGNATURE_REQUIRED_GET_CLASS
 PK_TYPE_REPO_SIGNATURE_REQUIRED
+PkRepoSignatureRequired
+PkRepoSignatureRequiredClass
 PkRepoSignatureRequiredPrivate
 pk_repo_signature_required_get_type
 </SECTION>
@@ -770,8 +723,6 @@ pk_repo_signature_required_get_type
 <SECTION>
 <FILE>pk-require-restart</FILE>
 <TITLE>PkRequireRestart</TITLE>
-PkRequireRestart
-PkRequireRestartClass
 pk_require_restart_new
 <SUBSECTION Standard>
 PK_IS_REQUIRE_RESTART
@@ -780,6 +731,8 @@ PK_REQUIRE_RESTART
 PK_REQUIRE_RESTART_CLASS
 PK_REQUIRE_RESTART_GET_CLASS
 PK_TYPE_REQUIRE_RESTART
+PkRequireRestart
+PkRequireRestartClass
 PkRequireRestartPrivate
 pk_require_restart_get_type
 </SECTION>
@@ -788,8 +741,6 @@ pk_require_restart_get_type
 <FILE>pk-results</FILE>
 <TITLE>PkResults</TITLE>
 PK_RESULTS_TYPE_ERROR
-PkResults
-PkResultsClass
 pk_results_new
 pk_results_test
 pk_results_set_exit_code
@@ -806,7 +757,6 @@ pk_results_add_repo_signature_required
 pk_results_add_eula_required
 pk_results_add_media_change_required
 pk_results_add_repo_detail
-pk_results_add_message
 pk_results_get_exit_code
 pk_results_get_package_sack
 pk_results_get_error_code
@@ -833,43 +783,15 @@ PK_RESULTS
 PK_RESULTS_CLASS
 PK_RESULTS_GET_CLASS
 PK_TYPE_RESULTS
+PkResults
+PkResultsClass
 PkResultsPrivate
 pk_results_get_type
 </SECTION>
 
 <SECTION>
-<FILE>pk-service-pack</FILE>
-<TITLE>PkServicePack</TITLE>
-PK_SERVICE_PACK_ERROR
-PK_SERVICE_PACK_TYPE_ERROR
-PK_SERVICE_PACK_FILE_EXTENSION
-PkServicePackError
-PkServicePack
-PkServicePackClass
-pk_service_pack_error_quark
-pk_service_pack_new
-pk_service_pack_test
-pk_service_pack_check_valid
-pk_service_pack_set_temp_directory
-pk_service_pack_generic_finish
-pk_service_pack_create_for_package_ids_async
-pk_service_pack_create_for_updates_async
-<SUBSECTION Standard>
-PK_IS_SERVICE_PACK
-PK_IS_SERVICE_PACK_CLASS
-PK_SERVICE_PACK
-PK_SERVICE_PACK_CLASS
-PK_SERVICE_PACK_GET_CLASS
-PK_TYPE_SERVICE_PACK
-PkServicePackPrivate
-pk_service_pack_get_type
-</SECTION>
-
-<SECTION>
 <FILE>pk-source</FILE>
 <TITLE>PkSource</TITLE>
-PkSource
-PkSourceClass
 pk_source_new
 <SUBSECTION Standard>
 PK_IS_SOURCE
@@ -878,6 +800,8 @@ PK_SOURCE
 PK_SOURCE_CLASS
 PK_SOURCE_GET_CLASS
 PK_TYPE_SOURCE
+PkSource
+PkSourceClass
 PkSourcePrivate
 pk_source_get_type
 </SECTION>
@@ -892,8 +816,6 @@ pk_polkit_agent_close
 <FILE>pk-task</FILE>
 <TITLE>PkTask</TITLE>
 PK_TASK_TYPE_ERROR
-PkTask
-PkTaskClass
 pk_task_new
 pk_task_test
 pk_task_generic_finish
@@ -910,9 +832,9 @@ pk_task_get_details_async
 pk_task_get_update_detail_async
 pk_task_download_packages_async
 pk_task_get_updates_async
-pk_task_get_depends_async
+pk_task_depends_on_async
 pk_task_get_packages_async
-pk_task_get_requires_async
+pk_task_required_by_async
 pk_task_what_provides_async
 pk_task_get_files_async
 pk_task_get_categories_async
@@ -935,6 +857,8 @@ PK_TASK
 PK_TASK_CLASS
 PK_TASK_GET_CLASS
 PK_TYPE_TASK
+PkTask
+PkTaskClass
 PkTaskPrivate
 pk_task_get_type
 </SECTION>
@@ -954,9 +878,9 @@ pk_task_get_details_sync
 pk_task_get_update_detail_sync
 pk_task_download_packages_sync
 pk_task_get_updates_sync
-pk_task_get_depends_sync
+pk_task_depends_on_sync
 pk_task_get_packages_sync
-pk_task_get_requires_sync
+pk_task_required_by_sync
 pk_task_what_provides_sync
 pk_task_get_files_sync
 pk_task_get_categories_sync
@@ -969,8 +893,6 @@ pk_task_repair_system_sync
 <SECTION>
 <FILE>pk-task-text</FILE>
 <TITLE>PkTaskText</TITLE>
-PkTaskText
-PkTaskTextClass
 pk_task_text_error_quark
 pk_task_text_new
 pk_task_text_test
@@ -981,6 +903,8 @@ PK_TASK_TEXT
 PK_TASK_TEXT_CLASS
 PK_TASK_TEXT_GET_CLASS
 PK_TYPE_TASK_TEXT
+PkTaskText
+PkTaskTextClass
 PkTaskTextPrivate
 pk_task_text_get_type
 </SECTION>
@@ -988,8 +912,6 @@ pk_task_text_get_type
 <SECTION>
 <FILE>pk-task-wrapper</FILE>
 <TITLE>PkTaskWrapper</TITLE>
-PkTaskWrapper
-PkTaskWrapperClass
 pk_task_wrapper_error_quark
 pk_task_wrapper_new
 <SUBSECTION Standard>
@@ -999,6 +921,8 @@ PK_TASK_WRAPPER
 PK_TASK_WRAPPER_CLASS
 PK_TASK_WRAPPER_GET_CLASS
 PK_TYPE_TASK_WRAPPER
+PkTaskWrapper
+PkTaskWrapperClass
 PkTaskWrapperPrivate
 pk_task_wrapper_get_type
 </SECTION>
@@ -1006,8 +930,6 @@ pk_task_wrapper_get_type
 <SECTION>
 <FILE>pk-transaction-list</FILE>
 <TITLE>PkTransactionList</TITLE>
-PkTransactionList
-PkTransactionListClass
 pk_transaction_list_new
 pk_transaction_list_test
 pk_transaction_list_get_ids
@@ -1018,6 +940,8 @@ PK_TRANSACTION_LIST
 PK_TRANSACTION_LIST_CLASS
 PK_TRANSACTION_LIST_GET_CLASS
 PK_TYPE_TRANSACTION_LIST
+PkTransactionList
+PkTransactionListClass
 PkTransactionListPrivate
 pk_transaction_list_get_type
 </SECTION>
@@ -1025,8 +949,6 @@ pk_transaction_list_get_type
 <SECTION>
 <FILE>pk-transaction-past</FILE>
 <TITLE>PkTransactionPast</TITLE>
-PkTransactionPast
-PkTransactionPastClass
 pk_transaction_past_new
 pk_transaction_past_get_cmdline
 pk_transaction_past_get_data
@@ -1045,6 +967,8 @@ PK_TRANSACTION_PAST
 PK_TRANSACTION_PAST_CLASS
 PK_TRANSACTION_PAST_GET_CLASS
 PK_TYPE_TRANSACTION_PAST
+PkTransactionPast
+PkTransactionPastClass
 PkTransactionPastPrivate
 pk_transaction_past_get_type
 </SECTION>
@@ -1052,8 +976,6 @@ pk_transaction_past_get_type
 <SECTION>
 <FILE>pk-update-detail</FILE>
 <TITLE>PkUpdateDetail</TITLE>
-PkUpdateDetail
-PkUpdateDetailClass
 pk_update_detail_new
 pk_update_detail_get_package_id
 pk_update_detail_get_updates
@@ -1074,6 +996,8 @@ PK_TYPE_UPDATE_DETAIL
 PK_UPDATE_DETAIL
 PK_UPDATE_DETAIL_CLASS
 PK_UPDATE_DETAIL_GET_CLASS
+PkUpdateDetail
+PkUpdateDetailClass
 PkUpdateDetailPrivate
 pk_update_detail_get_type
 </SECTION>

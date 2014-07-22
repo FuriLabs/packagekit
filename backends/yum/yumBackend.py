@@ -236,6 +236,27 @@ class PackageKitYumBackend(PackageKitBaseBackend, PackagekitPackage):
         except PkError, e:
             self.error(e.code, e.details)
 
+        # load the config file
+        config = ConfigParser.ConfigParser()
+        try:
+            config.read('/etc/PackageKit/Yum.conf')
+        except Exception, e:
+            raise PkError(ERROR_REPO_CONFIGURATION_ERROR, "Failed to load Yum.conf: %s" % _to_unicode(e))
+
+        # if this key does not exist, it's not fatal
+        try:
+            self.system_packages = config.get('Backend', 'SystemPackages').split(';')
+        except ConfigParser.NoOptionError, e:
+            self.system_packages = []
+        except Exception, e:
+            raise PkError(ERROR_REPO_CONFIGURATION_ERROR, "Failed to load Yum.conf: %s" % _to_unicode(e))
+        try:
+            self.infra_packages = config.get('Backend', 'InfrastructurePackages').split(';')
+        except ConfigParser.NoOptionError, e:
+            self.infra_packages = []
+        except Exception, e:
+            raise PkError(ERROR_REPO_CONFIGURATION_ERROR, "Failed to load Yum.conf: %s" % _to_unicode(e))
+
         # get the lock early
         if lock:
             self.doLock()
@@ -270,7 +291,7 @@ class PackageKitYumBackend(PackageKitBaseBackend, PackagekitPackage):
         except PkError, e:
             self.error(e.code, e.details)
 
-    def details(self, package_id, package_license, group, desc, url, bytes):
+    def details(self, package_id, summary, package_license, group, desc, url, bytes):
         '''
         Send 'details' signal
         @param id: The package ID name, e.g. openoffice-clipart;2.6.22;ppc64;fedora
@@ -282,7 +303,7 @@ class PackageKitYumBackend(PackageKitBaseBackend, PackagekitPackage):
         convert the description to UTF before sending
         '''
         desc = _to_unicode(desc)
-        PackageKitBaseBackend.details(self, package_id, package_license, group, desc, url, bytes)
+        PackageKitBaseBackend.details(self, package_id, summary, package_license, group, desc, url, bytes)
 
     def package(self, package_id, status, summary):
         '''
@@ -1234,7 +1255,7 @@ class PackageKitYumBackend(PackageKitBaseBackend, PackagekitPackage):
         # return first entry
         return pkgs[0], False
 
-    def get_requires(self, filters, package_ids, recursive):
+    def required_by(self, filters, package_ids, recursive):
         '''
         Print a list of requires for a given package
         '''
@@ -1514,9 +1535,9 @@ class PackageKitYumBackend(PackageKitBaseBackend, PackagekitPackage):
                 self.error(ERROR_INTERNAL_ERROR, _format_str(traceback.format_exc()))
         return pkgs
 
-    def _get_depends_not_installed(self, filters, package_ids, recursive):
+    def _depends_on_not_installed(self, filters, package_ids, recursive):
         '''
-        Gets the deps that are not installed, optimisation of get_depends
+        Gets the deps that are not installed, optimisation of depends_on
         using a yum transaction
         Returns a list of pkgs.
         '''
@@ -1602,7 +1623,7 @@ class PackageKitYumBackend(PackageKitBaseBackend, PackagekitPackage):
 
         return deps_list
 
-    def get_depends(self, filters, package_ids, recursive):
+    def depends_on(self, filters, package_ids, recursive):
         '''
         Print a list of depends for a given package
         '''
@@ -1621,7 +1642,7 @@ class PackageKitYumBackend(PackageKitBaseBackend, PackagekitPackage):
         # which we can emulate quicker by doing a transaction, but not
         # executing it
         if FILTER_NOT_INSTALLED in filters and recursive:
-            pkgs = self._get_depends_not_installed (filters, package_ids, recursive)
+            pkgs = self._depends_on_not_installed (filters, package_ids, recursive)
             pkgfilter.add_available(pkgs)
             package_list = pkgfilter.get_package_list()
             self._show_package_list(package_list)
@@ -2461,7 +2482,7 @@ class PackageKitYumBackend(PackageKitBaseBackend, PackagekitPackage):
             else:
                 for txmbr in self.yumbase.tsInfo:
                     pkg = txmbr.po
-                    if pkg.name in ['yum','rpm','glibc','PackageKit']:
+                    if pkg.name in self.system_packages:
                         self.error(ERROR_CANNOT_REMOVE_SYSTEM_PACKAGE, "The package %s is essential to correct operation and cannot be removed using this tool." % pkg.name, exit=False)
                         return
             try:
@@ -2529,6 +2550,7 @@ class PackageKitYumBackend(PackageKitBaseBackend, PackagekitPackage):
 
         pkgver = _get_package_ver(pkg)
         package_id = self.get_package_id(pkg.name, pkgver, pkg.arch, pkg.repo)
+        summary = _to_unicode(pkg.summary)
         desc = _to_unicode(pkg.description)
         url = _to_unicode(pkg.url)
         license = _to_unicode(pkg.license)
@@ -2546,7 +2568,7 @@ class PackageKitYumBackend(PackageKitBaseBackend, PackagekitPackage):
             size = 0
 
         group = self.comps.get_group(pkg.name)
-        self.details(package_id, license, group, desc, url, size)
+        self.details(package_id, summary, license, group, desc, url, size)
 
     def get_files(self, package_ids):
         try:
@@ -3377,12 +3399,16 @@ class PackageKitYumBase(yum.YumBase):
         if hasattr(self, 'run_with_package_names'):
             self.run_with_package_names.add('PackageKit-yum')
 
-
-        disabled_plugins = []
+        # load the config file
+        config = ConfigParser.ConfigParser()
+        try:
+            config.read('/etc/PackageKit/Yum.conf')
+            disabled_plugins = config.get('Backend', 'DisabledPlugins').split(';')
+        except ConfigParser.NoOptionError, e:
+            disabled_plugins = []
+        except Exception, e:
+            raise PkError(ERROR_REPO_CONFIGURATION_ERROR, "Failed to load Yum.conf: %s" % _to_unicode(e))
         disabled_plugins.append('refresh-packagekit')
-        disabled_plugins.append('rpm-warm-cache')
-        disabled_plugins.append('remove-with-leaves')
-        disabled_plugins.append('auto-update-debuginfo')
 
         # disable the PackageKit plugin when running under PackageKit
         try:

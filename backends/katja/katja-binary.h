@@ -15,22 +15,39 @@ G_BEGIN_DECLS
 #define KATJA_BINARY_GET_CLASS(o) (G_TYPE_INSTANCE_GET_CLASS((o), KATJA_TYPE_BINARY, KatjaBinaryClass))
 
 typedef struct {
-	KatjaPkgtools parent;
+	GObject parent;
+
+	/* protected */
+	gchar *name;
+	gchar *mirror;
+	gushort order;
+	GRegex *blacklist;
 } KatjaBinary;
 
 typedef struct {
-	KatjaPkgtoolsClass parent_class;
+	GObjectClass parent_class;
+
+	GSList *(*collect_cache_info) (KatjaBinary *binary, const gchar *tmpl);
+	void (*generate_cache) (KatjaBinary *binary, PkBackendJob *job, const gchar *tmpl);
 } KatjaBinaryClass;
 
 GType katja_binary_get_type(void);
 
 G_END_DECLS
 
+/* Virtual public methods */
+GSList *katja_binary_collect_cache_info(KatjaBinary *binary, const gchar *tmpl);
+void katja_binary_generate_cache(KatjaBinary *binary, PkBackendJob *job, const gchar *tmpl);
+
 /* Public methods */
-void katja_binary_manifest(KatjaBinary *binary, const gchar *tmpl, gchar *filename);
+void katja_binary_manifest(KatjaBinary *binary, PkBackendJob *job, const gchar *tmpl, gchar *filename);
 
 /* Implementations */
-gboolean katja_binary_real_download(KatjaPkgtools *pkgtools, gchar *dest_dir_name, gchar *pkg_name);
-void katja_binary_real_install(KatjaPkgtools *pkgtools, gchar *pkg_name);
+gchar *katja_binary_real_get_name(KatjaPkgtools *pkgtools);
+gchar *katja_binary_real_get_mirror(KatjaPkgtools *pkgtools);
+gushort katja_binary_real_get_order(KatjaPkgtools *pkgtools);
+GRegex *katja_binary_real_get_blacklist(KatjaPkgtools *pkgtools);
+gboolean katja_binary_real_download(KatjaPkgtools *pkgtools, PkBackendJob *job, gchar *dest_dir_name, gchar *pkg_name);
+void katja_binary_real_install(KatjaPkgtools *pkgtools, PkBackendJob *job, gchar *pkg_name);
 
 #endif /* __KATJA_BINARY_H */

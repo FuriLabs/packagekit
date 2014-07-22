@@ -138,10 +138,6 @@ manpage.1: manpage.xml
         about installed or available packages and updates.</para></listitem>
       </varlistentry>
       <varlistentry>
-        <term>upgrade-system <replaceable>DISTRIBUTION</replaceable> [minimal|default|complete]</term>
-        <listitem><para>Upgrade the system to the given distribution.</para></listitem>
-      </varlistentry>
-      <varlistentry>
         <term>get-updates</term>
         <listitem><para>List available updates.</para></listitem>
       </varlistentry>
@@ -150,11 +146,11 @@ manpage.1: manpage.xml
         <listitem><para>List available distribution upgrades.</para></listitem>
       </varlistentry>
       <varlistentry>
-        <term>get-depends <replaceable>PACKAGE</replaceable></term>
+        <term>depends-on <replaceable>PACKAGE</replaceable></term>
         <listitem><para>List dependencies fo the given package.</para></listitem>
       </varlistentry>
       <varlistentry>
-        <term>get-requires <replaceable>PACKAGE</replaceable></term>
+        <term>required-by <replaceable>PACKAGE</replaceable></term>
         <listitem><para>List packages that require the given package.</para></listitem>
       </varlistentry>
       <varlistentry>
@@ -163,8 +159,16 @@ manpage.1: manpage.xml
         package with the given name.</para></listitem>
       </varlistentry>
       <varlistentry>
+        <term>get-details-local <replaceable>FILE</replaceable></term>
+        <listitem><para>Print details about the local package.</para></listitem>
+      </varlistentry>
+      <varlistentry>
         <term>get-files <replaceable>PACKAGE</replaceable></term>
         <listitem><para>List the files contained in the given package.</para></listitem>
+      </varlistentry>
+      <varlistentry>
+        <term>get-files-local <replaceable>FILE</replaceable></term>
+        <listitem><para>List the files contained in the local package.</para></listitem>
       </varlistentry>
       <varlistentry>
         <term>get-update-detail <replaceable>PACKAGE</replaceable></term>
@@ -189,6 +193,10 @@ manpage.1: manpage.xml
       <varlistentry>
         <term>repo-set-data <replaceable>REPOSITORY</replaceable> <replaceable>PARAMETER</replaceable> <replaceable>DATA</replaceable></term>
         <listitem><para>Set the given parameter to the given value for the repository.</para></listitem>
+      </varlistentry>
+      <varlistentry>
+        <term>repo-remove <replaceable>REPOSITORY</replaceable> <replaceable>PARAMETER</replaceable> </term>
+        <listitem><para>Removes the repository and optionally any packages installed from it.</para></listitem>
       </varlistentry>
       <varlistentry>
         <term>what-provides <replaceable>STRING</replaceable></term>

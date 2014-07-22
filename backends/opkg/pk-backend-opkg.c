@@ -48,7 +48,7 @@ typedef struct {
  * pk_pk_backend_initialize:
  */
 void
-pk_pk_backend_initialize (PkBackend *backend)
+pk_pk_backend_initialize (GKeyFile *conf, PkBackend *backend)
 {
 	/* BACKEND MAINTAINER: feel free to remove this when you've
 	 * added support for ONLY_DOWNLOAD and merged the simulate
@@ -162,7 +162,7 @@ handle_install_error (PkBackend *backend, int err)
  * pk_backend_initialize:
  */
 static void
-pk_backend_initialize (PkBackend *backend)
+pk_backend_initialize (GKeyFile *conf, PkBackend *backend)
 {
 	int opkg = opkg_new ();
 
@@ -700,7 +700,7 @@ backend_get_details_thread (PkBackendJob *job, GVariant *params, gpointer user_d
 		}
 	}
 
-	pk_backend_job_details (job, newid, NULL, group, pkg->description, NULL, pkg->size);
+	pk_backend_job_details (job, newid, NULL, NULL, group, pkg->description, NULL, pkg->size);
 	g_free (newid);
 	pk_backend_job_finished (job);
 }

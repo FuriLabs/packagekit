@@ -15,8 +15,7 @@
 <table class="navigation" id="top" width="100%" summary="Navigation header" cellpadding="2" cellspacing="10"><tr valign="middle">
 <td width="100%" align="left" class="shortcuts">
 <a href="#" class="shortcut">Top</a><span id="nav_description"> <span class="dim">|</span> 
-                  <a href="#PackageKit-pk-common.description" class="shortcut">Description</a></span><span id="nav_hierarchy"> <span class="dim">|</span> 
-                  <a href="#PackageKit-pk-common.object-hierarchy" class="shortcut">Object Hierarchy</a></span>
+                  <a href="#PackageKit-pk-common.description" class="shortcut">Description</a></span>
 </td>
 <td><a accesskey="h" href="index.html"><img src="home.png" width="16" height="16" border="0" alt="Home"></a></td>
 <td><a accesskey="u" href="libpackagekit-helpers.html"><img src="up.png" width="16" height="16" border="0" alt="Up"></a></td>
@@ -139,11 +138,6 @@
 </table></div>
 </div>
 <div class="refsect1">
-<a name="PackageKit-pk-common.object-hierarchy"></a><h2>Object Hierarchy</h2>
-<pre class="screen">
-</pre>
-</div>
-<div class="refsect1">
 <a name="PackageKit-pk-common.description"></a><h2>Description</h2>
 <p>This file contains functions that may be useful.</p>
 </div>
@@ -162,7 +156,7 @@ pk_ptr_array_to_strv (<em class="parameter"><code><a href="http://library.gnome.
 <p>Form a composite string array of strings.
 The data in the GPtrArray is copied.</p>
 <div class="refsect3">
-<a name="id-1.5.5.7.3.5"></a><h4>Parameters</h4>
+<a name="id-1.5.5.6.3.5"></a><h4>Parameters</h4>
 <div class="informaltable"><table width="100%" border="0">
 <colgroup>
 <col width="150px" class="parameters_name">
@@ -177,7 +171,7 @@ The data in the GPtrArray is copied.</p>
 </table></div>
 </div>
 <div class="refsect3">
-<a name="id-1.5.5.7.3.6"></a><h4>Returns</h4>
+<a name="id-1.5.5.6.3.6"></a><h4>Returns</h4>
 <p> the string array, or <a href="/usr/share/gtk-doc/html/liboil/liboil-liboiljunk.html#NULL:CAPS"><code class="literal">NULL</code></a> if invalid. </p>
 <p><span class="annotation">[<acronym title="Free data after the code is done."><span class="acronym">transfer full</span></acronym>]</span></p>
 </div>
@@ -189,7 +183,7 @@ The data in the GPtrArray is copied.</p>
 <pre class="programlisting"><a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gchar"><span class="returnvalue">gchar</span></a> *
 pk_iso8601_present (<em class="parameter"><code><span class="type">void</span></code></em>);</pre>
 <div class="refsect3">
-<a name="id-1.5.5.7.4.4"></a><h4>Returns</h4>
+<a name="id-1.5.5.6.4.4"></a><h4>Returns</h4>
 <p> The current iso8601 date and time</p>
 <p></p>
 </div>
@@ -201,7 +195,7 @@ pk_iso8601_present (<em class="parameter"><code><span class="type">void</span></
 <pre class="programlisting"><a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gchar"><span class="returnvalue">gchar</span></a> *
 pk_iso8601_from_date (<em class="parameter"><code>const <a href="http://library.gnome.org/devel/glib/unstable/glib-Date-and-Time-Functions.html#GDate"><span class="type">GDate</span></a> *date</code></em>);</pre>
 <div class="refsect3">
-<a name="id-1.5.5.7.5.4"></a><h4>Parameters</h4>
+<a name="id-1.5.5.6.5.4"></a><h4>Parameters</h4>
 <div class="informaltable"><table width="100%" border="0">
 <colgroup>
 <col width="150px" class="parameters_name">
@@ -216,7 +210,7 @@ pk_iso8601_from_date (<em class="parameter"><code>const <a href="http://library.
 </table></div>
 </div>
 <div class="refsect3">
-<a name="id-1.5.5.7.5.5"></a><h4>Returns</h4>
+<a name="id-1.5.5.6.5.5"></a><h4>Returns</h4>
 <p> If valid then a new ISO8601 date, else NULL</p>
 <p></p>
 </div>
@@ -228,7 +222,7 @@ pk_iso8601_from_date (<em class="parameter"><code>const <a href="http://library.
 <pre class="programlisting"><a href="http://library.gnome.org/devel/glib/unstable/glib-Date-and-Time-Functions.html#GDate"><span class="returnvalue">GDate</span></a> *
 pk_iso8601_to_date (<em class="parameter"><code>const <a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a> *iso_date</code></em>);</pre>
 <div class="refsect3">
-<a name="id-1.5.5.7.6.4"></a><h4>Parameters</h4>
+<a name="id-1.5.5.6.6.4"></a><h4>Parameters</h4>
 <div class="informaltable"><table width="100%" border="0">
 <colgroup>
 <col width="150px" class="parameters_name">
@@ -243,7 +237,7 @@ pk_iso8601_to_date (<em class="parameter"><code>const <a href="http://library.gn
 </table></div>
 </div>
 <div class="refsect3">
-<a name="id-1.5.5.7.6.5"></a><h4>Returns</h4>
+<a name="id-1.5.5.6.6.5"></a><h4>Returns</h4>
 <p> If valid then a new <a href="http://library.gnome.org/devel/glib/unstable/glib-Date-and-Time-Functions.html#GDate"><code class="literal">GDate</code></a>, else NULL</p>
 <p></p>
 </div>
@@ -255,7 +249,7 @@ pk_iso8601_to_date (<em class="parameter"><code>const <a href="http://library.gn
 <pre class="programlisting"><a href="http://library.gnome.org/devel/glib/unstable/glib-GDateTime.html#GDateTime"><span class="returnvalue">GDateTime</span></a> *
 pk_iso8601_to_datetime (<em class="parameter"><code>const <a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a> *iso_date</code></em>);</pre>
 <div class="refsect3">
-<a name="id-1.5.5.7.7.4"></a><h4>Parameters</h4>
+<a name="id-1.5.5.6.7.4"></a><h4>Parameters</h4>
 <div class="informaltable"><table width="100%" border="0">
 <colgroup>
 <col width="150px" class="parameters_name">
@@ -270,7 +264,7 @@ pk_iso8601_to_datetime (<em class="parameter"><code>const <a href="http://librar
 </table></div>
 </div>
 <div class="refsect3">
-<a name="id-1.5.5.7.7.5"></a><h4>Returns</h4>
+<a name="id-1.5.5.6.7.5"></a><h4>Returns</h4>
 <p> If valid then a new <a href="http://library.gnome.org/devel/glib/unstable/glib-GDateTime.html#GDateTime"><code class="literal">GDateTime</code></a>, else NULL</p>
 <p></p>
 </div>
@@ -282,7 +276,7 @@ pk_iso8601_to_datetime (<em class="parameter"><code>const <a href="http://librar
 <pre class="programlisting"><a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gchar"><span class="returnvalue">gchar</span></a> *
 pk_get_distro_id (<em class="parameter"><code><span class="type">void</span></code></em>);</pre>
 <div class="refsect3">
-<a name="id-1.5.5.7.8.4"></a><h4>Returns</h4>
+<a name="id-1.5.5.6.8.4"></a><h4>Returns</h4>
 <p> the distro-id, typically "distro;version;arch"</p>
 <p></p>
 </div>

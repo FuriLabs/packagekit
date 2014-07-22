@@ -348,14 +348,6 @@
 <td class="datatype_keyword">enum</td>
 <td class="function_name"><a class="link" href="PkControl.html#PkControlError" title="enum PkControlError">PkControlError</a></td>
 </tr>
-<tr>
-<td class="datatype_keyword">struct</td>
-<td class="function_name"><a class="link" href="PkControl.html#PkControl-struct" title="struct PkControl">PkControl</a></td>
-</tr>
-<tr>
-<td class="datatype_keyword">struct</td>
-<td class="function_name"><a class="link" href="PkControl.html#PkControlClass" title="struct PkControlClass">PkControlClass</a></td>
-</tr>
 </tbody>
 </table></div>
 </div>
@@ -1247,37 +1239,6 @@ pk_control_get_properties_finish (<em class="parameter"><code><a class="link" hr
 </tbody>
 </table></div>
 </div>
-</div>
-<hr>
-<div class="refsect2">
-<a name="PkControl-struct"></a><h3>struct PkControl</h3>
-<pre class="programlisting">struct PkControl;</pre>
-</div>
-<hr>
-<div class="refsect2">
-<a name="PkControlClass"></a><h3>struct PkControlClass</h3>
-<pre class="programlisting">struct PkControlClass {
-	GObjectClass parent_class;
-
-	/* signals */
-	void		(* transaction_list_changed) (PkControl *control,
-							 gchar		**transaction_ids);
-	void		(* updates_changed)		(PkControl *control);
-	void		(* repo_list_changed)		(PkControl *control);
-	void		(* network_state_changed) (PkControl *control);
-	void		(* restart_schedule)		(PkControl *control);
-	void		(* locked)			(PkControl *control,
-							 gboolean	 is_locked);
-	void		(* connection_changed)		(PkControl *control,
-							 gboolean	 connected);
-	/* padding for future expansion */
-	void (*_pk_reserved1) (void);
-	void (*_pk_reserved2) (void);
-	void (*_pk_reserved3) (void);
-	void (*_pk_reserved4) (void);
-	void (*_pk_reserved5) (void);
-};
-</pre>
 </div>
 </div>
 <div class="refsect1">

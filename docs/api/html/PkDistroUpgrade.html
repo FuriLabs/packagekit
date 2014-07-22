@@ -104,25 +104,6 @@
 </table></div>
 </div>
 <div class="refsect1">
-<a name="PkDistroUpgrade.other"></a><h2>Types and Values</h2>
-<div class="informaltable"><table width="100%" border="0">
-<colgroup>
-<col width="150px" class="name">
-<col class="description">
-</colgroup>
-<tbody>
-<tr>
-<td class="datatype_keyword">struct</td>
-<td class="function_name"><a class="link" href="PkDistroUpgrade.html#PkDistroUpgrade-struct" title="struct PkDistroUpgrade">PkDistroUpgrade</a></td>
-</tr>
-<tr>
-<td class="datatype_keyword">struct</td>
-<td class="function_name"><a class="link" href="PkDistroUpgrade.html#PkDistroUpgradeClass" title="struct PkDistroUpgradeClass">PkDistroUpgradeClass</a></td>
-</tr>
-</tbody>
-</table></div>
-</div>
-<div class="refsect1">
 <a name="PkDistroUpgrade.object-hierarchy"></a><h2>Object Hierarchy</h2>
 <pre class="screen">    <a href="http://library.gnome.org/devel/gobject/unstable/gobject-The-Base-Object-Type.html#GObject">GObject</a>
     <span class="lineart">╰──</span> PkSource
@@ -142,7 +123,7 @@ often present in lists (<a class="link" href="PkResults.html" title="PkResults">
 <pre class="programlisting"><a class="link" href="PkDistroUpgrade.html" title="PkDistroUpgrade"><span class="returnvalue">PkDistroUpgrade</span></a> *
 pk_distro_upgrade_new (<em class="parameter"><code><span class="type">void</span></code></em>);</pre>
 <div class="refsect3">
-<a name="id-1.4.8.8.2.4"></a><h4>Returns</h4>
+<a name="id-1.4.8.7.2.4"></a><h4>Returns</h4>
 <p> a new PkDistroUpgrade object.</p>
 <p></p>
 </div>
@@ -156,7 +137,7 @@ pk_distro_upgrade_get_id (<em class="parameter"><code><a class="link" href="PkDi
 <p>Gets the distribution identifier.
 You use this value to call UpgradeSystem.</p>
 <div class="refsect3">
-<a name="id-1.4.8.8.3.5"></a><h4>Parameters</h4>
+<a name="id-1.4.8.7.3.5"></a><h4>Parameters</h4>
 <div class="informaltable"><table width="100%" border="0">
 <colgroup>
 <col width="150px" class="parameters_name">
@@ -171,7 +152,7 @@ You use this value to call UpgradeSystem.</p>
 </table></div>
 </div>
 <div class="refsect3">
-<a name="id-1.4.8.8.3.6"></a><h4>Returns</h4>
+<a name="id-1.4.8.7.3.6"></a><h4>Returns</h4>
 <p> the distro-id, e.g. "fedora-14"</p>
 <p></p>
 </div>
@@ -184,7 +165,7 @@ You use this value to call UpgradeSystem.</p>
 pk_distro_upgrade_get_summary (<em class="parameter"><code><a class="link" href="PkDistroUpgrade.html" title="PkDistroUpgrade"><span class="type">PkDistroUpgrade</span></a> *distro_upgrade</code></em>);</pre>
 <p>Gets the description of the distribution upgrade.</p>
 <div class="refsect3">
-<a name="id-1.4.8.8.4.5"></a><h4>Parameters</h4>
+<a name="id-1.4.8.7.4.5"></a><h4>Parameters</h4>
 <div class="informaltable"><table width="100%" border="0">
 <colgroup>
 <col width="150px" class="parameters_name">
@@ -199,7 +180,7 @@ pk_distro_upgrade_get_summary (<em class="parameter"><code><a class="link" href=
 </table></div>
 </div>
 <div class="refsect3">
-<a name="id-1.4.8.8.4.6"></a><h4>Returns</h4>
+<a name="id-1.4.8.7.4.6"></a><h4>Returns</h4>
 <p> the printable name, e.g. "Fedora 14"</p>
 <p></p>
 </div>
@@ -212,7 +193,7 @@ pk_distro_upgrade_get_summary (<em class="parameter"><code><a class="link" href=
 pk_distro_upgrade_get_state (<em class="parameter"><code><a class="link" href="PkDistroUpgrade.html" title="PkDistroUpgrade"><span class="type">PkDistroUpgrade</span></a> *distro_upgrade</code></em>);</pre>
 <p>Gets the status of the distribution upgrade.</p>
 <div class="refsect3">
-<a name="id-1.4.8.8.5.5"></a><h4>Parameters</h4>
+<a name="id-1.4.8.7.5.5"></a><h4>Parameters</h4>
 <div class="informaltable"><table width="100%" border="0">
 <colgroup>
 <col width="150px" class="parameters_name">
@@ -227,7 +208,7 @@ pk_distro_upgrade_get_state (<em class="parameter"><code><a class="link" href="P
 </table></div>
 </div>
 <div class="refsect3">
-<a name="id-1.4.8.8.5.6"></a><h4>Returns</h4>
+<a name="id-1.4.8.7.5.6"></a><h4>Returns</h4>
 <p> the printable name, e.g. <a class="link" href="PackageKit-pk-enum.html#PK-DISTRO-UPGRADE-ENUM-UNSTABLE:CAPS"><code class="literal">PK_DISTRO_UPGRADE_ENUM_UNSTABLE</code></a></p>
 <p></p>
 </div>
@@ -236,24 +217,6 @@ pk_distro_upgrade_get_state (<em class="parameter"><code><a class="link" href="P
 </div>
 <div class="refsect1">
 <a name="PkDistroUpgrade.other_details"></a><h2>Types and Values</h2>
-<div class="refsect2">
-<a name="PkDistroUpgrade-struct"></a><h3>struct PkDistroUpgrade</h3>
-<pre class="programlisting">struct PkDistroUpgrade;</pre>
-</div>
-<hr>
-<div class="refsect2">
-<a name="PkDistroUpgradeClass"></a><h3>struct PkDistroUpgradeClass</h3>
-<pre class="programlisting">struct PkDistroUpgradeClass {
-	PkSourceClass parent_class;
-	/* padding for future expansion */
-	void (*_pk_reserved1) (void);
-	void (*_pk_reserved2) (void);
-	void (*_pk_reserved3) (void);
-	void (*_pk_reserved4) (void);
-	void (*_pk_reserved5) (void);
-};
-</pre>
-</div>
 </div>
 <div class="refsect1">
 <a name="PkDistroUpgrade.property-details"></a><h2>Property Details</h2>

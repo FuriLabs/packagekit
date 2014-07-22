@@ -41,7 +41,6 @@
 #include <polkit/polkit.h>
 
 #include "pk-backend.h"
-#include "pk-conf.h"
 #include "pk-dbus.h"
 #include "pk-engine.h"
 #include "pk-network.h"
@@ -68,12 +67,11 @@ struct PkEnginePrivate
 	PkBackend		*backend;
 	PkNetwork		*network;
 	PkNotify		*notify;
-	PkConf			*conf;
+	GKeyFile		*conf;
 	PkDbus			*dbus;
 	GFileMonitor		*monitor_conf;
 	GFileMonitor		*monitor_binary;
 	PkBitfield		 roles;
-	PkBitfield		 provides;
 	PkBitfield		 groups;
 	PkBitfield		 filters;
 	gchar			**mime_types;
@@ -184,22 +182,6 @@ pk_engine_transaction_list_changed_cb (PkTransactionList *tlist, PkEngine *engin
 	pk_engine_reset_timer (engine);
 
 	g_strfreev (transaction_list);
-}
-
-/**
- * pk_engine_emit_changed:
- **/
-static void
-pk_engine_emit_changed (PkEngine *engine)
-{
-	g_return_if_fail (PK_IS_ENGINE (engine));
-	g_dbus_connection_emit_signal (engine->priv->connection,
-				       NULL,
-				       PK_DBUS_PATH,
-				       PK_DBUS_INTERFACE,
-				       "Changed",
-				       NULL,
-				       NULL);
 }
 
 /**
@@ -318,7 +300,6 @@ pk_engine_set_locked (PkEngine *engine, gboolean is_locked)
 	pk_engine_emit_property_changed (engine,
 					 "Locked",
 					 g_variant_new_boolean (is_locked));
-	pk_engine_emit_changed (engine);
 }
 
 /**
@@ -868,7 +849,6 @@ pk_engine_network_state_changed_cb (PkNetwork *network, PkNetworkEnum network_st
 	pk_engine_emit_property_changed (engine,
 					 "NetworkState",
 					 g_variant_new_uint32 (network_state));
-	pk_engine_emit_changed (engine);
 }
 
 
@@ -924,7 +904,7 @@ pk_engine_load_plugins (PkEngine *engine)
 	GError *error = NULL;
 
 	/* search in the plugin directory for plugins */
-	path = g_build_filename (LIBDIR, "packagekit-plugins", NULL);
+	path = g_build_filename (LIBDIR, "packagekit-plugins-2", NULL);
 	dir = g_dir_open (path, 0, &error);
 	if (dir == NULL) {
 		g_warning ("failed to open plugin directory: %s",
@@ -1026,7 +1006,7 @@ pk_engine_setup_file_monitors (PkEngine *engine)
 	GError *error = NULL;
 	GFile *file_conf = NULL;
 	GFile *file_binary = NULL;
-	gchar *filename = NULL;
+	const gchar *filename = "/etc/PackageKit/PackageKit.conf";
 
 	/* monitor the binary file for changes */
 	file_binary = g_file_new_for_path (LIBEXECDIR "/packagekitd");
@@ -1045,7 +1025,6 @@ pk_engine_setup_file_monitors (PkEngine *engine)
 			  G_CALLBACK (pk_engine_binary_file_changed_cb), engine);
 
 	/* monitor config file for changes */
-	filename = pk_conf_get_filename ();
 	g_debug ("setting config file watch on %s", filename);
 	file_conf = g_file_new_for_path (filename);
 	engine->priv->monitor_conf = g_file_monitor_file (file_conf,
@@ -1062,7 +1041,6 @@ pk_engine_setup_file_monitors (PkEngine *engine)
 	g_signal_connect (engine->priv->monitor_conf, "changed",
 			  G_CALLBACK (pk_engine_conf_file_changed_cb), engine);
 out:
-	g_free (filename);
 	if (file_conf != NULL)
 		g_object_unref (file_conf);
 	if (file_binary != NULL)
@@ -1070,7 +1048,7 @@ out:
 }
 
 /**
- * pk_engine_init:
+ * pk_engine_load_backend:
  **/
 gboolean
 pk_engine_load_backend (PkEngine *engine, GError **error)
@@ -1083,13 +1061,17 @@ pk_engine_load_backend (PkEngine *engine, GError **error)
 		goto out;
 
 	/* load anything that can fail */
+	engine->priv->authority = polkit_authority_get_sync (NULL, error);
+	if (engine->priv->authority == NULL) {
+		ret = FALSE;
+		goto out;
+	}
 	ret = pk_transaction_db_load (engine->priv->transaction_db, error);
 	if (!ret)
 		goto out;
 
 	/* create a new backend so we can get the static stuff */
 	engine->priv->roles = pk_backend_get_roles (engine->priv->backend);
-	engine->priv->provides = pk_backend_get_provides (engine->priv->backend);
 	engine->priv->groups = pk_backend_get_groups (engine->priv->backend);
 	engine->priv->filters = pk_backend_get_filters (engine->priv->backend);
 	engine->priv->mime_types = pk_backend_get_mime_types (engine->priv->backend);
@@ -1152,10 +1134,6 @@ pk_engine_daemon_get_property (GDBusConnection *connection_, const gchar *sender
 	}
 	if (g_strcmp0 (property_name, "Roles") == 0) {
 		retval = g_variant_new_uint64 (engine->priv->roles);
-		goto out;
-	}
-	if (g_strcmp0 (property_name, "Provides") == 0) {
-		retval = g_variant_new_uint64 (engine->priv->provides);
 		goto out;
 	}
 	if (g_strcmp0 (property_name, "Groups") == 0) {
@@ -1705,17 +1683,11 @@ pk_engine_init (PkEngine *engine)
 		g_error_free (error);
 	}
 
-	/* use the config file */
-	engine->priv->conf = pk_conf_new ();
-
 	/* clear the download cache */
 	filename = g_build_filename (LOCALSTATEDIR, "cache", "PackageKit", "downloads", NULL);
 	g_debug ("clearing download cache at %s", filename);
 	pk_directory_remove_contents (filename);
 	g_free (filename);
-
-	/* setup the backend backend */
-	engine->priv->backend = pk_backend_new ();
 
 	/* proxy the network state */
 	engine->priv->network = pk_network_new ();
@@ -1745,28 +1717,9 @@ pk_engine_init (PkEngine *engine)
 	/* setup file watches */
 	pk_engine_setup_file_monitors (engine);
 
-	/* protect the session SetProxy with a PolicyKit action */
-	engine->priv->authority = polkit_authority_get_sync (NULL, &error);
-	if (engine->priv->authority == NULL) {
-		g_error ("failed to get pokit authority: %s", error->message);
-		g_error_free (error);
-	}
-
-	/* get the StateHasChanged timeouts */
-	engine->priv->timeout_priority = (guint) pk_conf_get_int (engine->priv->conf, "StateChangedTimeoutPriority");
-	engine->priv->timeout_normal = (guint) pk_conf_get_int (engine->priv->conf, "StateChangedTimeoutNormal");
-
-	engine->priv->transaction_list = pk_transaction_list_new ();
-	pk_transaction_list_set_backend (engine->priv->transaction_list,
-					 engine->priv->backend);
-	g_signal_connect (engine->priv->transaction_list, "changed",
-			  G_CALLBACK (pk_engine_transaction_list_changed_cb), engine);
-
 	/* get plugins */
 	engine->priv->plugins = g_ptr_array_new_with_free_func ((GDestroyNotify) pk_engine_plugin_free);
 	pk_engine_load_plugins (engine);
-	pk_transaction_list_set_plugins (engine->priv->transaction_list,
-					 engine->priv->plugins);
 
 	/* we use a trasaction db to store old transactions */
 	engine->priv->transaction_db = pk_transaction_db_new ();
@@ -1781,7 +1734,18 @@ pk_engine_init (PkEngine *engine)
 				pk_engine_on_name_acquired_cb,
 				pk_engine_on_name_lost_cb,
 				engine, NULL);
+}
 
+/**
+ * pk_engine_plugins_init:
+ *
+ * Initialize all engine plugins. This has to be called after
+ * the backend instance has been created, since some plugins
+ * might use the backend while initializing.
+ **/
+void
+pk_engine_plugins_init (PkEngine *engine)
+{
 	/* initialize plugins */
 	pk_engine_plugin_phase (engine,
 				PK_PLUGIN_PHASE_INIT);
@@ -1847,10 +1811,11 @@ pk_engine_finalize (GObject *object)
 	g_object_unref (engine->priv->transaction_list);
 	g_object_unref (engine->priv->transaction_db);
 	g_object_unref (engine->priv->network);
-	g_object_unref (engine->priv->authority);
+	if (engine->priv->authority != NULL)
+		g_object_unref (engine->priv->authority);
 	g_object_unref (engine->priv->notify);
 	g_object_unref (engine->priv->backend);
-	g_object_unref (engine->priv->conf);
+	g_key_file_unref (engine->priv->conf);
 	g_object_unref (engine->priv->dbus);
 	g_ptr_array_unref (engine->priv->plugins);
 	g_strfreev (engine->priv->mime_types);
@@ -1865,10 +1830,24 @@ pk_engine_finalize (GObject *object)
  * Return value: a new PkEngine object.
  **/
 PkEngine *
-pk_engine_new (void)
+pk_engine_new (GKeyFile *conf)
 {
 	PkEngine *engine;
 	engine = g_object_new (PK_TYPE_ENGINE, NULL);
+	engine->priv->conf = g_key_file_ref (conf);
+	engine->priv->backend = pk_backend_new (engine->priv->conf);
+	engine->priv->transaction_list = pk_transaction_list_new (engine->priv->conf);
+	pk_transaction_list_set_backend (engine->priv->transaction_list,
+					 engine->priv->backend);
+	pk_transaction_list_set_plugins (engine->priv->transaction_list,
+					 engine->priv->plugins);
+	g_signal_connect (engine->priv->transaction_list, "changed",
+			  G_CALLBACK (pk_engine_transaction_list_changed_cb), engine);
+
+	/* get the StateHasChanged timeouts */
+	engine->priv->timeout_priority = (guint) g_key_file_get_integer (engine->priv->conf, "Daemon", "StateChangedTimeoutPriority", NULL);
+	engine->priv->timeout_normal = (guint) g_key_file_get_integer (engine->priv->conf, "Daemon", "StateChangedTimeoutNormal", NULL);
+
 	return PK_ENGINE (engine);
 }
 

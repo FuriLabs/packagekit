@@ -32,6 +32,7 @@
 #include <pk-backend.h>
 
 #include "PkgList.h"
+#include "apt-sourceslist.h"
 
 #define PREUPGRADE_BINARY    "/usr/bin/do-release-upgrade"
 #define GDEBI_BINARY         "/usr/bin/gdebi"
@@ -92,7 +93,6 @@ public:
      */
     bool runTransaction(const PkgList &install,
                         const PkgList &remove,
-                        bool simulate,
                         bool markAuto,
                         bool fixBroken,
                         PkBitfield flags,
@@ -116,6 +116,11 @@ public:
       * Returns a list of all packages in the cache
       */
     PkgList getPackages();
+
+    /**
+      * Returns a list of all packages in the cache
+      */
+    PkgList getPackagesFromRepo(SourcesList::SourceRecord *&);
 
     /**
       * Returns a list of all packages in the given groups
@@ -243,11 +248,7 @@ public:
 private:
     bool checkTrusted(pkgAcquire &fetcher, PkBitfield flags);
     bool packageIsSupported(const pkgCache::VerIterator &verIter, string component);
-    void tryToRemove(pkgProblemResolver &Fix,
-                     const pkgCache::VerIterator &ver);
-    bool tryToInstall(pkgProblemResolver &Fix,
-                      const pkgCache::VerIterator &ver,
-                      bool BrokenFix);
+    bool isApplication(const pkgCache::VerIterator &verIter);
 
     /**
      *  interprets dpkg status fd

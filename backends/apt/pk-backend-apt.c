@@ -68,7 +68,7 @@ pk_backend_stderr_cb (PkBackend *backend, const gchar *output)
  * This should only be run once per backend load, i.e. not every transaction
  */
 void
-pk_backend_initialize (PkBackend *backend)
+pk_backend_initialize (GKeyFile *conf, PkBackend *backend)
 {
 	g_debug ("backend: initialize");
 
@@ -78,7 +78,7 @@ pk_backend_initialize (PkBackend *backend)
 	g_error ("Backend needs to be ported to 0.8.x -- "
 		 "see backends/PORTING.txt for details");
 
-	spawn = pk_backend_spawn_new ();
+	spawn = pk_backend_spawn_new (conf);
 	pk_backend_spawn_set_filter_stderr (spawn, pk_backend_stderr_cb);
 	pk_backend_spawn_set_name (spawn, "apt");
 }
@@ -131,16 +131,16 @@ pk_backend_download_packages (PkBackend *backend, PkBackendJob *job, gchar **pac
 }
 
 /**
- * pk_backend_get_depends:
+ * pk_backend_depends_on:
  */
 void
-pk_backend_get_depends (PkBackend *backend, PkBackendJob *job, PkBitfield filters, gchar **package_ids, gboolean recursive)
+pk_backend_depends_on (PkBackend *backend, PkBackendJob *job, PkBitfield filters, gchar **package_ids, gboolean recursive)
 {
 	gchar *filters_text;
 	gchar *package_ids_temp;
 	package_ids_temp = pk_package_ids_to_string (package_ids);
 	filters_text = pk_filter_bitfield_to_string (filters);
-	pk_backend_spawn_helper (spawn, job, BACKEND_FILE, "get-depends", filters_text, package_ids_temp, pk_backend_bool_to_string (recursive), NULL);
+	pk_backend_spawn_helper (spawn, job, BACKEND_FILE, "depends-on", filters_text, package_ids_temp, pk_backend_bool_to_string (recursive), NULL);
 	g_free (filters_text);
 	g_free (package_ids_temp);
 }
@@ -181,16 +181,16 @@ pk_backend_get_files (PkBackend *backend, PkBackendJob *job, gchar **package_ids
 }
 
 /**
- * pk_backend_get_requires:
+ * pk_backend_required_by:
  */
 void
-pk_backend_get_requires (PkBackend *backend, PkBackendJob *job, PkBitfield filters, gchar **package_ids, gboolean recursive)
+pk_backend_required_by (PkBackend *backend, PkBackendJob *job, PkBitfield filters, gchar **package_ids, gboolean recursive)
 {
 	gchar *package_ids_temp;
 	gchar *filters_text;
 	package_ids_temp = pk_package_ids_to_string (package_ids);
 	filters_text = pk_filter_bitfield_to_string (filters);
-	pk_backend_spawn_helper (spawn, job, BACKEND_FILE, "get-requires", filters_text, package_ids_temp, pk_backend_bool_to_string (recursive), NULL);
+	pk_backend_spawn_helper (spawn, job, BACKEND_FILE, "required-by", filters_text, package_ids_temp, pk_backend_bool_to_string (recursive), NULL);
 	g_free (filters_text);
 	g_free (package_ids_temp);
 }
@@ -494,16 +494,14 @@ pk_backend_repo_set_data (PkBackend *backend, PkBackendJob *job, const gchar *ri
  * backend_what_provides:
  */
 void
-pk_backend_what_provides (PkBackend *backend, PkBackendJob *job, PkBitfield filters, PkProvidesEnum provides, gchar **values)
+pk_backend_what_provides (PkBackend *backend, PkBackendJob *job, PkBitfield filters, gchar **values)
 {
 	gchar *search_text;
 	gchar *filters_text;
-	const gchar *provides_text;
 
-	provides_text = pk_provides_enum_to_string (provides);
 	filters_text = pk_filter_bitfield_to_string (filters);
 	search_text = g_strjoinv ("&", values);
-	pk_backend_spawn_helper (spawn, job, BACKEND_FILE, "what-provides", filters_text, provides_text, search_text, NULL);
+	pk_backend_spawn_helper (spawn, job, BACKEND_FILE, "what-provides", filters_text, "any", search_text, NULL);
 	g_free (filters_text);
 	g_free (search_text);
 }

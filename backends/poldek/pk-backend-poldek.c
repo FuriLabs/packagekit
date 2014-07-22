@@ -2318,7 +2318,7 @@ pk_backend_get_author (PkBackend *backend)
  * pk_backend_initialize:
  */
 void
-pk_backend_initialize (PkBackend *backend)
+pk_backend_initialize (GKeyFile *conf, PkBackend *backend)
 {
 	struct passwd *uid_ent = NULL;
 
@@ -2543,10 +2543,10 @@ pk_backend_download_packages (PkBackend *backend, PkBackendJob *job, gchar **pac
 }
 
 /**
- * backend_get_depends_thread:
+ * backend_depends_on_thread:
  */
 static void
-backend_get_depends_thread (PkBackendJob *job, GVariant *params, gpointer user_data)
+backend_depends_on_thread (PkBackendJob *job, GVariant *params, gpointer user_data)
 {
 	PkBitfield filters;
 	gboolean recursive;
@@ -2589,13 +2589,13 @@ backend_get_depends_thread (PkBackendJob *job, GVariant *params, gpointer user_d
 }
 
 void
-pk_backend_get_depends (PkBackend *backend, PkBackendJob *job, PkBitfield filters, gchar **package_ids, gboolean recursive)
+pk_backend_depends_on (PkBackend *backend, PkBackendJob *job, PkBitfield filters, gchar **package_ids, gboolean recursive)
 {
 	pk_backend_job_set_status (job, PK_STATUS_ENUM_QUERY);
 	poldek_backend_set_allow_cancel (job, FALSE, TRUE);
 	pb_error_clean ();
 
-	pk_backend_job_thread_create (job, backend_get_depends_thread, NULL, NULL);
+	pk_backend_job_thread_create (job, backend_depends_on_thread, NULL, NULL);
 }
 
 /**
@@ -2624,6 +2624,7 @@ backend_get_details_thread (PkBackendJob *job, GVariant *params, gpointer user_d
 			if ((pkgu = pkg_uinf_i18n (job, pkg)) != NULL) {
 				pk_backend_job_details (job,
 							package_ids[n],
+							NULL,
 							pkguinf_get (pkgu, PKGUINF_LICENSE),
 							group,
 							pkguinf_get (pkgu, PKGUINF_DESCRIPTION),
@@ -2633,6 +2634,7 @@ backend_get_details_thread (PkBackendJob *job, GVariant *params, gpointer user_d
 			} else {
 				pk_backend_job_details (job,
 							package_ids[n],
+							"",
 							"",
 							group,
 							"",
@@ -2797,10 +2799,10 @@ pk_backend_get_packages (PkBackend *backend, PkBackendJob *job, PkBitfield filte
 }
 
 /**
- * backend_get_requires_thread:
+ * backend_required_by_thread:
  */
 static void
-backend_get_requires_thread (PkBackendJob *job, GVariant *params, gpointer user_data)
+backend_required_by_thread (PkBackendJob *job, GVariant *params, gpointer user_data)
 {
 	struct pkg	*pkg;
 	tn_array	*reqpkgs, *available, *installed;
@@ -2841,13 +2843,13 @@ backend_get_requires_thread (PkBackendJob *job, GVariant *params, gpointer user_
 }
 
 void
-pk_backend_get_requires (PkBackend *backend, PkBackendJob *job, PkBitfield filters, gchar **package_ids, gboolean recursive)
+pk_backend_required_by (PkBackend *backend, PkBackendJob *job, PkBitfield filters, gchar **package_ids, gboolean recursive)
 {
 	pk_backend_job_set_status (job, PK_STATUS_ENUM_QUERY);
 	poldek_backend_set_allow_cancel (job, FALSE, TRUE);
 	pb_error_clean ();
 
-	pk_backend_job_thread_create (job, backend_get_requires_thread, NULL, NULL);
+	pk_backend_job_thread_create (job, backend_required_by_thread, NULL, NULL);
 }
 
 /**
@@ -3368,7 +3370,7 @@ pk_backend_get_repo_list (PkBackend *backend, PkBackendJob *job, PkBitfield filt
  * pk_backend_what_provides:
  */
 void
-pk_backend_what_provides (PkBackend *backend, PkBackendJob *job, PkBitfield filters, PkProvidesEnum provides, gchar **values)
+pk_backend_what_provides (PkBackend *backend, PkBackendJob *job, PkBitfield filters, gchar **values)
 {
 	GPtrArray *array = NULL;
 	guint i;
@@ -3381,19 +3383,9 @@ pk_backend_what_provides (PkBackend *backend, PkBackendJob *job, PkBitfield filt
 	array = g_ptr_array_new_with_free_func (g_free);
 
 	for (i = 0; i < g_strv_length (values); i++) {
-		if (provides == PK_PROVIDES_ENUM_ANY) {
-			g_ptr_array_add (array, g_strdup_printf ("%s", values[i]));
-			g_ptr_array_add (array, g_strdup_printf ("gstreamer0.10\\(%s\\)", values[i]));
-			g_ptr_array_add (array, g_strdup_printf ("mimetype\\(%s\\)", values[i]));
-		} else if (provides == PK_PROVIDES_ENUM_CODEC) {
-			g_ptr_array_add (array, g_strdup_printf ("gstreamer0.10\\(%s\\)", values[i]));
-		} else if (provides == PK_PROVIDES_ENUM_MIMETYPE) {
-			g_ptr_array_add (array, g_strdup_printf ("mimetype\\(%s\\)", values[i]));
-		} else {
-			pk_backend_job_error_code (job, PK_ERROR_ENUM_PROVIDE_TYPE_NOT_SUPPORTED,
-					       "provide type '%s' not supported",
-					       pk_provides_enum_to_string (provides));
-		}
+		g_ptr_array_add (array, g_strdup_printf ("%s", values[i]));
+		g_ptr_array_add (array, g_strdup_printf ("gstreamer0.10\\(%s\\)", values[i]));
+		g_ptr_array_add (array, g_strdup_printf ("mimetype\\(%s\\)", values[i]));
 	}
 
 	pk_backend_job_thread_create (job, search_package_thread, array, NULL);

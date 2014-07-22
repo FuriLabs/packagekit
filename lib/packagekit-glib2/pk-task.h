@@ -71,12 +71,14 @@ struct _PkTaskClass
 	void	 (*simulate_question)			(PkTask			*task,
 							 guint			 request,
 							 PkResults		*results);
+	void	 (*repair_question)			(PkTask			*task,
+							 guint			 request,
+							 PkResults		*results);
 	/* padding for future expansion */
 	void (*_pk_reserved1)	(void);
 	void (*_pk_reserved2)	(void);
 	void (*_pk_reserved3)	(void);
 	void (*_pk_reserved4)	(void);
-	void (*_pk_reserved5)	(void);
 };
 
 GType		 pk_task_get_type			(void);
@@ -186,7 +188,7 @@ void		 pk_task_get_updates_async		(PkTask			*task,
 							 gpointer		 progress_user_data,
 							 GAsyncReadyCallback	 callback_ready,
 							 gpointer		 user_data);
-void		 pk_task_get_depends_async		(PkTask			*task,
+void		 pk_task_depends_on_async		(PkTask			*task,
 							 PkBitfield		 filters,
 							 gchar			**package_ids,
 							 gboolean		 recursive,
@@ -202,7 +204,7 @@ void		 pk_task_get_packages_async		(PkTask			*task,
 							 gpointer		 progress_user_data,
 							 GAsyncReadyCallback	 callback_ready,
 							 gpointer		 user_data);
-void		 pk_task_get_requires_async		(PkTask			*task,
+void		 pk_task_required_by_async		(PkTask			*task,
 							 PkBitfield		 filters,
 							 gchar			**package_ids,
 							 gboolean		 recursive,
@@ -213,7 +215,6 @@ void		 pk_task_get_requires_async		(PkTask			*task,
 							 gpointer		 user_data);
 void		 pk_task_what_provides_async		(PkTask			*task,
 							 PkBitfield		 filters,
-							 PkProvidesEnum		 provides,
 							 gchar			**values,
 							 GCancellable		*cancellable,
 							 PkProgressCallback	 progress_callback,

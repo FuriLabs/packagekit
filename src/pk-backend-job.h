@@ -45,7 +45,6 @@ typedef enum {
 	PK_BACKEND_SIGNAL_ERROR_CODE,
 	PK_BACKEND_SIGNAL_DISTRO_UPGRADE,
 	PK_BACKEND_SIGNAL_FINISHED,
-	PK_BACKEND_SIGNAL_MESSAGE,
 	PK_BACKEND_SIGNAL_PACKAGE,
 	PK_BACKEND_SIGNAL_ITEM_PROGRESS,
 	PK_BACKEND_SIGNAL_FILES,
@@ -77,7 +76,7 @@ typedef struct
 } PkBackendJobClass;
 
 GType		 pk_backend_job_get_type		(void);
-PkBackendJob	*pk_backend_job_new			(void);
+PkBackendJob	*pk_backend_job_new			(GKeyFile		*conf);
 
 void		 pk_backend_job_reset			(PkBackendJob	*job);
 gpointer	 pk_backend_job_get_backend		(PkBackendJob	*job);
@@ -190,13 +189,9 @@ void		 pk_backend_job_update_detail		(PkBackendJob	*job,
 void		 pk_backend_job_require_restart		(PkBackendJob	*job,
 							 PkRestartEnum	 restart,
 							 const gchar	*package_id);
-G_DEPRECATED
-void		 pk_backend_job_message			(PkBackendJob	*job,
-							 PkMessageEnum	 message,
-							 const gchar	*details, ...)
-							 G_GNUC_PRINTF(3,4);
 void		 pk_backend_job_details			(PkBackendJob	*job,
 							 const gchar	*package_id,
+							 const gchar    *summary,
 							 const gchar	*license,
 							 PkGroupEnum	 group,
 							 const gchar	*description,

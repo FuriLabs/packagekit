@@ -1,6 +1,6 @@
 /* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*-
  *
- * Copyright (C) 2007-2012 Richard Hughes <richard@hughsie.com>
+ * Copyright (C) 2007-2014 Richard Hughes <richard@hughsie.com>
  *
  * Licensed under the GNU Lesser General Public License Version 2.1
  *
@@ -51,12 +51,12 @@ typedef struct {
 typedef enum {
 	PK_ROLE_ENUM_UNKNOWN,
 	PK_ROLE_ENUM_CANCEL,
-	PK_ROLE_ENUM_GET_DEPENDS,
+	PK_ROLE_ENUM_DEPENDS_ON,
 	PK_ROLE_ENUM_GET_DETAILS,
 	PK_ROLE_ENUM_GET_FILES,
 	PK_ROLE_ENUM_GET_PACKAGES,
 	PK_ROLE_ENUM_GET_REPO_LIST,
-	PK_ROLE_ENUM_GET_REQUIRES,
+	PK_ROLE_ENUM_REQUIRED_BY,
 	PK_ROLE_ENUM_GET_UPDATE_DETAIL,
 	PK_ROLE_ENUM_GET_UPDATES,
 	PK_ROLE_ENUM_INSTALL_FILES,
@@ -78,8 +78,10 @@ typedef enum {
 	PK_ROLE_ENUM_GET_DISTRO_UPGRADES,
 	PK_ROLE_ENUM_GET_CATEGORIES,
 	PK_ROLE_ENUM_GET_OLD_TRANSACTIONS,
-	PK_ROLE_ENUM_UPGRADE_SYSTEM,			/* Since: 0.6.11 */
 	PK_ROLE_ENUM_REPAIR_SYSTEM,			/* Since: 0.7.2 */
+	PK_ROLE_ENUM_GET_DETAILS_LOCAL,			/* Since: 0.8.17 */
+	PK_ROLE_ENUM_GET_FILES_LOCAL,			/* Since: 0.9.1 */
+	PK_ROLE_ENUM_REPO_REMOVE,			/* Since: 0.9.1 */
 	PK_ROLE_ENUM_LAST
 } PkRoleEnum;
 
@@ -229,31 +231,6 @@ typedef enum {
 	PK_RESTART_ENUM_SECURITY_SYSTEM,
 	PK_RESTART_ENUM_LAST
 } PkRestartEnum;
-
-/**
- * PkMessageEnum:
- *
- * What message type we need to show
- **/
-typedef enum {
-	PK_MESSAGE_ENUM_UNKNOWN,
-	PK_MESSAGE_ENUM_BROKEN_MIRROR,
-	PK_MESSAGE_ENUM_CONNECTION_REFUSED,
-	PK_MESSAGE_ENUM_PARAMETER_INVALID,
-	PK_MESSAGE_ENUM_PRIORITY_INVALID,
-	PK_MESSAGE_ENUM_BACKEND_ERROR,
-	PK_MESSAGE_ENUM_DAEMON_ERROR,
-	PK_MESSAGE_ENUM_CACHE_BEING_REBUILT,
-	PK_MESSAGE_ENUM_NEWER_PACKAGE_EXISTS,
-	PK_MESSAGE_ENUM_COULD_NOT_FIND_PACKAGE,
-	PK_MESSAGE_ENUM_CONFIG_FILES_CHANGED,
-	PK_MESSAGE_ENUM_PACKAGE_ALREADY_INSTALLED,
-	PK_MESSAGE_ENUM_AUTOREMOVE_IGNORED,
-	PK_MESSAGE_ENUM_REPO_METADATA_DOWNLOAD_FAILED,
-	PK_MESSAGE_ENUM_REPO_FOR_DEVELOPERS_ONLY,
-	PK_MESSAGE_ENUM_OTHER_UPDATES_HELD_BACK,
-	PK_MESSAGE_ENUM_LAST
-} PkMessageEnum;
 
 /**
  * PkErrorEnum:
@@ -448,27 +425,6 @@ typedef enum {
 } PkSigTypeEnum;
 
 /**
- * PkProvidesEnum:
- *
- * Some component types packages can provide
- **/
-typedef enum {
-	PK_PROVIDES_ENUM_UNKNOWN,
-	PK_PROVIDES_ENUM_ANY,
-	PK_PROVIDES_ENUM_MODALIAS,
-	PK_PROVIDES_ENUM_CODEC,
-	PK_PROVIDES_ENUM_MIMETYPE,
-	PK_PROVIDES_ENUM_FONT,
-	PK_PROVIDES_ENUM_HARDWARE_DRIVER,
-	PK_PROVIDES_ENUM_POSTSCRIPT_DRIVER,
-	PK_PROVIDES_ENUM_PLASMA_SERVICE,
-	PK_PROVIDES_ENUM_SHARED_LIB,
-	PK_PROVIDES_ENUM_PYTHON,
-	PK_PROVIDES_ENUM_LANGUAGE_SUPPORT,
-	PK_PROVIDES_ENUM_LAST
-} PkProvidesEnum;
-
-/**
  * PkMediaTypeEnum:
  *
  * The media type
@@ -556,19 +512,11 @@ const gchar	*pk_error_enum_to_string		(PkErrorEnum code);
 PkRestartEnum	 pk_restart_enum_from_string		(const gchar	*restart);
 const gchar	*pk_restart_enum_to_string		(PkRestartEnum	 restart);
 
-G_DEPRECATED
-PkMessageEnum	 pk_message_enum_from_string		(const gchar	*message);
-G_DEPRECATED
-const gchar	*pk_message_enum_to_string		(PkMessageEnum	 message);
-
 PkGroupEnum	 pk_group_enum_from_string		(const gchar	*group);
 const gchar	*pk_group_enum_to_string		(PkGroupEnum	 group);
 
 PkFilterEnum	 pk_filter_enum_from_string		(const gchar	*filter);
 const gchar	*pk_filter_enum_to_string		(PkFilterEnum	 filter);
-
-PkProvidesEnum	 pk_provides_enum_from_string		(const gchar	*provides);
-const gchar	*pk_provides_enum_to_string		(PkProvidesEnum	 provides);
 
 PkDistroUpgradeEnum pk_distro_upgrade_enum_from_string	(const gchar	*upgrade);
 const gchar	*pk_distro_upgrade_enum_to_string	(PkDistroUpgradeEnum upgrade);
