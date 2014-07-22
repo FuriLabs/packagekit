@@ -64,7 +64,7 @@ override_dh_auto_install:
 	rm -f $(INSTALLDIR)/usr/lib/$(DEB_HOST_MULTIARCH)/packagekit-backend/*.la
 	rm -f $(INSTALLDIR)/usr/lib/$(DEB_HOST_MULTIARCH)/mozilla/plugins/packagekit-plugin.la
 	rm -f $(INSTALLDIR)/usr/lib/$(DEB_HOST_MULTIARCH)/gtk-?.0/modules/*.la
-	rm -f $(INSTALLDIR)/usr/lib/$(DEB_HOST_MULTIARCH)/packagekit-plugins/*.la
+	rm -f $(INSTALLDIR)/usr/lib/$(DEB_HOST_MULTIARCH)/packagekit-plugins-2/*.la
 	rm -f $(INSTALLDIR)/usr/lib/$(DEB_HOST_MULTIARCH)/*.la
 	rm -f $(INSTALLDIR)/usr/share/PackageKit/pk-upgrade-distro.sh
 	rm -f $(INSTALLDIR)/usr/bin/packagekit-bugreport.sh
