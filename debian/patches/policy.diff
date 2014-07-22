@@ -6,8 +6,8 @@ Last-Update: 2012-08-14
 +++ b/policy/org.freedesktop.packagekit.policy.in
 @@ -94,7 +94,7 @@
      <defaults>
-       <allow_any>no</allow_any>
-       <allow_inactive>no</allow_inactive>
+       <allow_any>auth_admin</allow_any>
+       <allow_inactive>auth_admin</allow_inactive>
 -      <allow_active>yes</allow_active>
 +      <allow_active>auth_admin_keep</allow_active>
      </defaults>
@@ -15,14 +15,14 @@ Last-Update: 2012-08-14
  
 @@ -133,7 +133,7 @@
      <defaults>
-       <allow_any>no</allow_any>
-       <allow_inactive>no</allow_inactive>
+       <allow_any>auth_admin</allow_any>
+       <allow_inactive>auth_admin</allow_inactive>
 -      <allow_active>yes</allow_active>
 +      <allow_active>auth_admin_keep</allow_active>
      </defaults>
    </action>
  
-@@ -236,7 +236,7 @@
+@@ -220,7 +220,7 @@
  
    <action id="org.freedesktop.packagekit.trigger-offline-update">
      <!-- SECURITY:
@@ -31,15 +31,27 @@ Last-Update: 2012-08-14
              early boot time without a password.
       -->
      <_description>Trigger offline updates</_description>
-@@ -245,7 +245,7 @@
+@@ -229,9 +229,9 @@
      <defaults>
-       <allow_any>no</allow_any>
-       <allow_inactive>no</allow_inactive>
+       <allow_any>auth_admin</allow_any>
+       <allow_inactive>auth_admin</allow_inactive>
 -      <allow_active>yes</allow_active>
 +      <allow_active>auth_admin_keep</allow_active>
      </defaults>
-     <annotate key="org.freedesktop.policykit.exec.path">/usr/libexec/pk-trigger-offline-update</annotate>
+-    <annotate key="org.freedesktop.policykit.exec.path">/usr/libexec/pk-trigger-offline-update</annotate>
++    <annotate key="org.freedesktop.policykit.exec.path">/usr/lib/packagekit/pk-trigger-offline-update</annotate>
    </action>
+ 
+   <action id="org.freedesktop.packagekit.clear-offline-update">
+@@ -247,7 +247,7 @@
+       <allow_inactive>auth_admin</allow_inactive>
+       <allow_active>yes</allow_active>
+     </defaults>
+-    <annotate key="org.freedesktop.policykit.exec.path">/usr/libexec/pk-clear-offline-update</annotate>
++    <annotate key="org.freedesktop.policykit.exec.path">/usr/lib/packagekit/pk-clear-offline-update</annotate>
+   </action>
+ 
+ </policyconfig>
 --- a/policy/org.freedesktop.packagekit.rules
 +++ b/policy/org.freedesktop.packagekit.rules
 @@ -1,7 +1,8 @@
