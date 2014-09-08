@@ -34,10 +34,14 @@
 #include <packagekit-glib2/pk-results.h>
 #include <packagekit-glib2/pk-common.h>
 
-#include "pk-network.h"
+#include "pk-cleanup.h"
 #include "pk-backend.h"
 #include "pk-shared.h"
-#include "pk-notify.h"
+
+#ifdef PK_BUILD_DAEMON
+  #include "pk-network.h"
+  #include "pk-notify.h"
+#endif
 
 #define PK_BACKEND_GET_PRIVATE(o) (G_TYPE_INSTANCE_GET_PRIVATE ((o), PK_TYPE_BACKEND, PkBackendPrivate))
 
@@ -196,7 +200,9 @@ struct PkBackendPrivate
 	PkBitfield		 roles;
 	GKeyFile		*conf;
 	GFileMonitor		*monitor;
+#ifdef PK_BUILD_DAEMON
 	PkNetwork		*network;
+#endif
 	gboolean		 backend_roles_set;
 	GHashTable		*thread_hash;
 	GMutex			 thread_hash_mutex;
@@ -427,7 +433,7 @@ static gchar *
 pk_backend_build_library_path (PkBackend *backend, const gchar *name)
 {
 	gchar *path;
-	gchar *filename;
+	_cleanup_free_ gchar *filename = NULL;
 #if PK_BUILD_LOCAL
 	const gchar *directory;
 #endif
@@ -451,7 +457,6 @@ pk_backend_build_library_path (PkBackend *backend, const gchar *name)
 #else
 	path = g_build_filename (LIBDIR, "packagekit-backend", filename, NULL);
 #endif
-	g_free (filename);
 	g_debug ("dlopening '%s'", path);
 
 	return path;
@@ -473,10 +478,10 @@ gboolean
 pk_backend_load (PkBackend *backend, GError **error)
 {
 	GModule *handle;
-	gchar *path = NULL;
 	gboolean ret = FALSE;
 	gpointer func = NULL;
-	gchar *backend_name = NULL;
+	_cleanup_free_ gchar *backend_name = NULL;
+	_cleanup_free_ gchar *path = NULL;
 
 	g_return_val_if_fail (PK_IS_BACKEND (backend), FALSE);
 
@@ -485,7 +490,7 @@ pk_backend_load (PkBackend *backend, GError **error)
 		g_set_error (error, 1, 0,
 			     "already set name to %s",
 			     backend->priv->name);
-		goto out;
+		return FALSE;
 	}
 
 	/* can we load it? */
@@ -494,7 +499,7 @@ pk_backend_load (PkBackend *backend, GError **error)
 					      "DefaultBackend",
 					      error);
 	if (backend_name == NULL)
-		goto out;
+		return FALSE;
 
 	/* the "hawkey" backend was renamed to "hif" */
 	if (g_strcmp0 (backend_name, "hawkey") == 0) {
@@ -508,7 +513,7 @@ pk_backend_load (PkBackend *backend, GError **error)
 	if (handle == NULL) {
 		g_set_error (error, 1, 0, "opening module %s failed : %s",
 			     backend_name, g_module_error ());
-		goto out;
+		return FALSE;
 	}
 
 	/* then check for the new style exported functions */
@@ -573,8 +578,10 @@ pk_backend_load (PkBackend *backend, GError **error)
 		backend->priv->desc = desc;
 	} else {
 		g_module_close (handle);
-		g_set_error (error, 1, 0, "could not find description in plugin %s, not loading", backend_name);
-		goto out;
+		g_set_error (error, 1, 0,
+			     "could not find description in plugin %s, not loading",
+			     backend_name);
+		return FALSE;
 	}
 
 	/* save the backend name and handle */
@@ -589,10 +596,7 @@ pk_backend_load (PkBackend *backend, GError **error)
 		backend->priv->during_initialize = FALSE;
 	}
 	backend->priv->loaded = TRUE;
-out:
-	g_free (path);
-	g_free (backend_name);
-	return ret;
+	return TRUE;
 }
 
 /**
@@ -630,15 +634,15 @@ pk_backend_unload (PkBackend *backend)
 gboolean
 pk_backend_repo_list_changed (PkBackend *backend)
 {
-	PkNotify *notify;
+#ifdef PK_BUILD_DAEMON
+	_cleanup_object_unref_ PkNotify *notify = NULL;
 
 	g_return_val_if_fail (PK_IS_BACKEND (backend), FALSE);
 	g_return_val_if_fail (backend->priv->loaded, FALSE);
 
 	notify = pk_notify_new ();
 	pk_notify_repo_list_changed (notify);
-	g_object_unref (notify);
-
+#endif
 	return TRUE;
 }
 
@@ -765,6 +769,7 @@ pk_backend_bool_to_string (gboolean value)
 gboolean
 pk_backend_is_online (PkBackend *backend)
 {
+#ifdef PK_BUILD_DAEMON
 	PkNetworkEnum state;
 	g_return_val_if_fail (PK_IS_BACKEND (backend), FALSE);
 	state = pk_network_get_network_state (backend->priv->network);
@@ -774,6 +779,9 @@ pk_backend_is_online (PkBackend *backend)
 	    state == PK_NETWORK_ENUM_WIRED)
 		return TRUE;
 	return FALSE;
+#else
+	return TRUE;
+#endif
 }
 
 /**
@@ -854,15 +862,14 @@ gchar *
 pk_backend_get_accepted_eula_string (PkBackend *backend)
 {
 	GString *string;
-	gchar *result = NULL;
-	GList *keys = NULL;
 	GList *l;
+	_cleanup_list_free_ GList *keys = NULL;
 
 	g_return_val_if_fail (PK_IS_BACKEND (backend), FALSE);
 
 	/* optimise for the common case */
 	if (g_hash_table_size (backend->priv->eulas) == 0)
-		goto out;
+		return NULL;
 
 	/* create a string of the accepted EULAs */
 	string = g_string_new ("");
@@ -872,10 +879,7 @@ pk_backend_get_accepted_eula_string (PkBackend *backend)
 
 	/* remove the trailing ';' */
 	g_string_set_size (string, string->len -1);
-	result = g_string_free (string, FALSE);
-out:
-	g_list_free (keys);
-	return result;
+	return g_string_free (string, FALSE);
 }
 
 /**
@@ -903,9 +907,8 @@ pk_backend_watch_file (PkBackend *backend,
 		       PkBackendFileChanged func,
 		       gpointer data)
 {
-	gboolean ret = FALSE;
-	GError *error = NULL;
-	GFile *file = NULL;
+	_cleanup_error_free_ GError *error = NULL;
+	_cleanup_object_unref_ GFile *file = NULL;
 
 	g_return_val_if_fail (PK_IS_BACKEND (backend), FALSE);
 	g_return_val_if_fail (filename != NULL, FALSE);
@@ -913,7 +916,7 @@ pk_backend_watch_file (PkBackend *backend,
 
 	if (backend->priv->file_changed_func != NULL) {
 		g_warning ("already set");
-		goto out;
+		return FALSE;
 	}
 
 	/* monitor config files for changes */
@@ -924,22 +927,16 @@ pk_backend_watch_file (PkBackend *backend,
 						      &error);
 	if (backend->priv->monitor == NULL) {
 		g_warning ("Failed to set watch on %s: %s",
-			   filename,
-			   error->message);
-		g_error_free (error);
-		goto out;
+			   filename, error->message);
+		return FALSE;
 	}
 
 	/* success */
-	ret = TRUE;
 	g_signal_connect (backend->priv->monitor, "changed",
 			  G_CALLBACK (pk_backend_file_monitor_changed_cb), backend);
 	backend->priv->file_changed_func = func;
 	backend->priv->file_changed_data = data;
-out:
-	if (file != NULL)
-		g_object_unref (file);
-	return ret;
+	return TRUE;
 }
 
 /**
@@ -954,7 +951,9 @@ pk_backend_finalize (GObject *object)
 
 	g_free (backend->priv->name);
 
+#ifdef PK_BUILD_DAEMON
 	g_object_unref (backend->priv->network);
+#endif
 	g_key_file_unref (backend->priv->conf);
 	g_hash_table_destroy (backend->priv->eulas);
 
@@ -1610,7 +1609,9 @@ static void
 pk_backend_init (PkBackend *backend)
 {
 	backend->priv = PK_BACKEND_GET_PRIVATE (backend);
+#ifdef PK_BUILD_DAEMON
 	backend->priv->network = pk_network_new ();
+#endif
 	backend->priv->eulas = g_hash_table_new_full (g_str_hash, g_str_equal, g_free, NULL);
 	backend->priv->thread_hash = g_hash_table_new_full (g_direct_hash,
 							    g_direct_equal,

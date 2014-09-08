@@ -40,6 +40,7 @@
 #include <packagekit-glib2/pk-version.h>
 #include <polkit/polkit.h>
 
+#include "pk-cleanup.h"
 #include "pk-backend.h"
 #include "pk-dbus.h"
 #include "pk-engine.h"
@@ -49,7 +50,7 @@
 #include "pk-shared.h"
 #include "pk-transaction-db.h"
 #include "pk-transaction.h"
-#include "pk-transaction-list.h"
+#include "pk-scheduler.h"
 
 static void     pk_engine_finalize	(GObject       *object);
 static void	pk_engine_set_locked (PkEngine *engine, gboolean is_locked);
@@ -57,12 +58,18 @@ static void	pk_engine_plugin_phase	(PkEngine *engine, PkPluginPhase phase);
 
 #define PK_ENGINE_GET_PRIVATE(o) (G_TYPE_INSTANCE_GET_PRIVATE ((o), PK_TYPE_ENGINE, PkEnginePrivate))
 
+/* how long to wait when we get the StateHasChanged method */
+#define PK_ENGINE_STATE_CHANGED_TIMEOUT_PRIORITY	2 /* s */
+
+/* how long to wait after the computer has been resumed or any system event */
+#define PK_ENGINE_STATE_CHANGED_TIMEOUT_NORMAL		600 /* s */
+
 struct PkEnginePrivate
 {
 	GTimer			*timer;
 	gboolean		 notify_clients_of_upgrade;
 	gboolean		 shutdown_as_soon_as_possible;
-	PkTransactionList	*transaction_list;
+	PkScheduler		*scheduler;
 	PkTransactionDb		*transaction_db;
 	PkBackend		*backend;
 	PkNetwork		*network;
@@ -79,8 +86,6 @@ struct PkEnginePrivate
 	const gchar		*backend_description;
 	const gchar		*backend_author;
 	gchar			*distro_id;
-	guint			 timeout_priority;
-	guint			 timeout_normal;
 	guint			 timeout_priority_id;
 	guint			 timeout_normal_id;
 	PolkitAuthority		*authority;
@@ -159,18 +164,18 @@ pk_engine_reset_timer (PkEngine *engine)
  * pk_engine_transaction_list_changed_cb:
  **/
 static void
-pk_engine_transaction_list_changed_cb (PkTransactionList *tlist, PkEngine *engine)
+pk_engine_transaction_list_changed_cb (PkScheduler *tlist, PkEngine *engine)
 {
-	gchar **transaction_list;
+	_cleanup_strv_free_ gchar **transaction_list = NULL;
 	gboolean locked;
 
 	g_return_if_fail (PK_IS_ENGINE (engine));
 
 	/* automatically locked if the transaction cannot be cancelled */
-	locked = pk_transaction_list_get_locked (tlist);
+	locked = pk_scheduler_get_locked (tlist);
 	pk_engine_set_locked (engine, locked);
 
-	transaction_list = pk_transaction_list_get_array (engine->priv->transaction_list);
+	transaction_list = pk_scheduler_get_array (engine->priv->scheduler);
 	g_dbus_connection_emit_signal (engine->priv->connection,
 				       NULL,
 				       PK_DBUS_PATH,
@@ -180,8 +185,6 @@ pk_engine_transaction_list_changed_cb (PkTransactionList *tlist, PkEngine *engin
 						      transaction_list),
 				       NULL);
 	pk_engine_reset_timer (engine);
-
-	g_strfreev (transaction_list);
 }
 
 /**
@@ -225,8 +228,8 @@ static void
 pk_engine_inhibit (PkEngine *engine)
 {
 #ifdef PK_BUILD_SYSTEMD
-	GVariant *res;
-	GError *error = NULL;
+	_cleanup_error_free_ GError *error = NULL;
+	_cleanup_variant_unref_ GVariant *res = NULL;
 
 	/* not yet connected */
 	if (engine->priv->logind_proxy == NULL) {
@@ -248,16 +251,12 @@ pk_engine_inhibit (PkEngine *engine)
 				      &error);
 	if (res == NULL) {
 		g_warning ("Failed to Inhibit using logind: %s", error->message);
-		g_error_free (error);
-		goto out;
+		return;
 	}
 
 	/* keep fd as cookie */
 	g_variant_get (res, "(h)", &engine->priv->logind_fd);
 	g_debug ("got logind cookie %i", engine->priv->logind_fd);
-out:
-	if (res != NULL)
-		g_variant_unref (res);
 #endif
 }
 
@@ -404,7 +403,7 @@ pk_engine_get_seconds_idle (PkEngine *engine)
 
 	/* check for transactions running - a transaction that takes a *long* time might not
 	 * give sufficient percentage updates to not be marked as idle */
-	size = pk_transaction_list_get_size (engine->priv->transaction_list);
+	size = pk_scheduler_get_size (engine->priv->scheduler);
 	if (size != 0) {
 		g_debug ("engine idle zero as %i transactions in progress", size);
 		return 0;
@@ -440,7 +439,7 @@ pk_engine_set_proxy_internal (PkEngine *engine, const gchar *sender,
 {
 	gboolean ret = FALSE;
 	guint uid;
-	gchar *session = NULL;
+	_cleanup_free_ gchar *session = NULL;
 
 	/* get uid */
 	uid = pk_dbus_get_uid (engine->priv->dbus, sender);
@@ -470,7 +469,6 @@ pk_engine_set_proxy_internal (PkEngine *engine, const gchar *sender,
 		goto out;
 	}
 out:
-	g_free (session);
 	return ret;
 }
 
@@ -494,11 +492,11 @@ pk_engine_action_obtain_proxy_authorization_finished_cb (PolkitAuthority *author
 							 GAsyncResult *res,
 							 PkEngineDbusState *state)
 {
-	PolkitAuthorizationResult *result;
-	GError *error_local = NULL;
 	GError *error;
 	gboolean ret;
 	PkEnginePrivate *priv = state->engine->priv;
+	_cleanup_error_free_ GError *error_local = NULL;
+	_cleanup_object_unref_ PolkitAuthorizationResult *result = NULL;
 
 	/* finish the call */
 	result = polkit_authority_check_authorization_finish (priv->authority, res, &error_local);
@@ -509,7 +507,6 @@ pk_engine_action_obtain_proxy_authorization_finished_cb (PolkitAuthority *author
 				     "setting the proxy failed, could not check for auth: %s",
 				     error_local->message);
 		g_dbus_method_invocation_return_gerror (state->context, error);
-		g_error_free (error_local);
 		goto out;
 	}
 
@@ -548,9 +545,6 @@ pk_engine_action_obtain_proxy_authorization_finished_cb (PolkitAuthority *author
 	/* all okay */
 	g_dbus_method_invocation_return_value (state->context, NULL);
 out:
-	if (result != NULL)
-		g_object_unref (result);
-
 	/* unref state, we're done */
 	g_object_unref (state->engine);
 	g_free (state->sender);
@@ -573,26 +567,26 @@ pk_engine_is_proxy_unchanged (PkEngine *engine, const gchar *sender,
 {
 	guint uid;
 	gboolean ret = FALSE;
-	gchar *session = NULL;
-	gchar *proxy_http_tmp = NULL;
-	gchar *proxy_https_tmp = NULL;
-	gchar *proxy_ftp_tmp = NULL;
-	gchar *proxy_socks_tmp = NULL;
-	gchar *no_proxy_tmp = NULL;
-	gchar *pac_tmp = NULL;
+	_cleanup_free_ gchar *session = NULL;
+	_cleanup_free_ gchar *proxy_http_tmp = NULL;
+	_cleanup_free_ gchar *proxy_https_tmp = NULL;
+	_cleanup_free_ gchar *proxy_ftp_tmp = NULL;
+	_cleanup_free_ gchar *proxy_socks_tmp = NULL;
+	_cleanup_free_ gchar *no_proxy_tmp = NULL;
+	_cleanup_free_ gchar *pac_tmp = NULL;
 
 	/* get uid */
 	uid = pk_dbus_get_uid (engine->priv->dbus, sender);
 	if (uid == G_MAXUINT) {
 		g_warning ("failed to get the uid for %s", sender);
-		goto out;
+		return FALSE;
 	}
 
 	/* get session */
 	session = pk_dbus_get_session (engine->priv->dbus, sender);
 	if (session == NULL) {
 		g_warning ("failed to get the session for %s", sender);
-		goto out;
+		return FALSE;
 	}
 
 	/* find out if they are the same as what we tried to set before */
@@ -606,7 +600,7 @@ pk_engine_is_proxy_unchanged (PkEngine *engine, const gchar *sender,
 					   &no_proxy_tmp,
 					   &pac_tmp);
 	if (!ret)
-		goto out;
+		return FALSE;
 
 	/* are different? */
 	if (g_strcmp0 (proxy_http_tmp, proxy_http) != 0 ||
@@ -615,16 +609,8 @@ pk_engine_is_proxy_unchanged (PkEngine *engine, const gchar *sender,
 	    g_strcmp0 (proxy_socks_tmp, proxy_socks) != 0 ||
 	    g_strcmp0 (no_proxy_tmp, no_proxy) != 0 ||
 	    g_strcmp0 (pac_tmp, pac) != 0)
-		ret = FALSE;
-out:
-	g_free (session);
-	g_free (proxy_http_tmp);
-	g_free (proxy_https_tmp);
-	g_free (proxy_ftp_tmp);
-	g_free (proxy_socks_tmp);
-	g_free (no_proxy_tmp);
-	g_free (pac_tmp);
-	return ret;
+		return FALSE;
+	return TRUE;
 }
 
 /**
@@ -644,8 +630,8 @@ pk_engine_set_proxy (PkEngine *engine,
 	GError *error = NULL;
 	gboolean ret;
 	const gchar *sender;
-	PolkitSubject *subject = NULL;
 	PkEngineDbusState *state;
+	_cleanup_object_unref_ PolkitSubject *subject = NULL;
 
 	g_return_if_fail (PK_IS_ENGINE (engine));
 
@@ -720,7 +706,6 @@ pk_engine_set_proxy (PkEngine *engine,
 
 	/* reset the timer */
 	pk_engine_reset_timer (engine);
-	g_object_unref (subject);
 out:
 	return;
 }
@@ -734,10 +719,8 @@ pk_engine_can_authorize_action_id (PkEngine *engine,
 				   const gchar *sender,
 				   GError **error)
 {
-	gboolean ret;
-	PkAuthorizeEnum authorize;
-	PolkitAuthorizationResult *res;
-	PolkitSubject *subject;
+	_cleanup_object_unref_ PolkitAuthorizationResult *res = NULL;
+	_cleanup_object_unref_ PolkitSubject *subject = NULL;
 
 	/* check subject */
 	subject = polkit_system_bus_name_new (sender);
@@ -750,32 +733,19 @@ pk_engine_can_authorize_action_id (PkEngine *engine,
 							 POLKIT_CHECK_AUTHORIZATION_FLAGS_NONE,
 							 NULL,
 							 error);
-	if (res == NULL) {
-		authorize = PK_AUTHORIZE_ENUM_UNKNOWN;
-		goto out;
-	}
+	if (res == NULL)
+		return PK_AUTHORIZE_ENUM_UNKNOWN;
 
 	/* already yes */
-	ret = polkit_authorization_result_get_is_authorized (res);
-	if (ret) {
-		authorize = PK_AUTHORIZE_ENUM_YES;
-		goto out;
-	}
+	if (polkit_authorization_result_get_is_authorized (res))
+		return PK_AUTHORIZE_ENUM_YES;
 
 	/* could be yes with user input */
-	ret = polkit_authorization_result_get_is_challenge (res);
-	if (ret) {
-		authorize = PK_AUTHORIZE_ENUM_INTERACTIVE;
-		goto out;
-	}
+	if (polkit_authorization_result_get_is_challenge (res))
+		return PK_AUTHORIZE_ENUM_INTERACTIVE;
 
 	/* fall back to not letting user authenticate */
-	authorize = PK_AUTHORIZE_ENUM_NO;
-out:
-	if (res != NULL)
-		g_object_unref (res);
-	g_object_unref (subject);
-	return authorize;
+	return PK_AUTHORIZE_ENUM_NO;
 }
 
 /**
@@ -869,7 +839,7 @@ pk_engine_load_plugin (PkEngine *engine,
 	if (module == NULL) {
 		g_warning ("failed to open plugin %s: %s",
 			   filename, g_module_error ());
-		goto out;
+		return;
 	}
 
 	/* get description */
@@ -880,15 +850,13 @@ pk_engine_load_plugin (PkEngine *engine,
 		g_warning ("Plugin %s requires description",
 			   filename);
 		g_module_close (module);
-		goto out;
+		return;
 	}
 	g_debug ("opened plugin %s", filename);
 
 	plugin = g_new0 (PkPlugin, 1);
 	plugin->module = module;
 	g_ptr_array_add (engine->priv->plugins, plugin);
-out:
-	return;
 }
 
 /**
@@ -898,10 +866,9 @@ static void
 pk_engine_load_plugins (PkEngine *engine)
 {
 	const gchar *filename_tmp;
-	gchar *filename_plugin;
-	gchar *path;
-	GDir *dir;
-	GError *error = NULL;
+	_cleanup_free_ gchar *path = NULL;
+	_cleanup_dir_close_ GDir *dir = NULL;
+	_cleanup_error_free_ GError *error = NULL;
 
 	/* search in the plugin directory for plugins */
 	path = g_build_filename (LIBDIR, "packagekit-plugins-2", NULL);
@@ -909,13 +876,13 @@ pk_engine_load_plugins (PkEngine *engine)
 	if (dir == NULL) {
 		g_warning ("failed to open plugin directory: %s",
 			   error->message);
-		g_error_free (error);
-		goto out;
+		return;
 	}
 
 	/* try to open each plugin */
 	g_debug ("searching for plugins in %s", path);
 	do {
+		_cleanup_free_ gchar *filename_plugin = NULL;
 		filename_tmp = g_dir_read_name (dir);
 		if (filename_tmp == NULL)
 			break;
@@ -926,12 +893,7 @@ pk_engine_load_plugins (PkEngine *engine)
 						    NULL);
 		pk_engine_load_plugin (engine,
 					    filename_plugin);
-		g_free (filename_plugin);
 	} while (TRUE);
-out:
-	if (dir != NULL)
-		g_dir_close (dir);
-	g_free (path);
 }
 
 /**
@@ -1003,10 +965,10 @@ pk_engine_plugin_phase (PkEngine *engine,
 static void
 pk_engine_setup_file_monitors (PkEngine *engine)
 {
-	GError *error = NULL;
-	GFile *file_conf = NULL;
-	GFile *file_binary = NULL;
 	const gchar *filename = "/etc/PackageKit/PackageKit.conf";
+	_cleanup_error_free_ GError *error = NULL;
+	_cleanup_object_unref_ GFile *file_binary = NULL;
+	_cleanup_object_unref_ GFile *file_conf = NULL;
 
 	/* monitor the binary file for changes */
 	file_binary = g_file_new_for_path (LIBEXECDIR "/packagekitd");
@@ -1016,10 +978,8 @@ pk_engine_setup_file_monitors (PkEngine *engine)
 							    &error);
 	if (engine->priv->monitor_binary == NULL) {
 		g_warning ("Failed to set watch on %s: %s",
-			   LIBEXECDIR "/packagekitd",
-			   error->message);
-		g_error_free (error);
-		goto out;
+			   LIBEXECDIR "/packagekitd", error->message);
+		return;
 	}
 	g_signal_connect (engine->priv->monitor_binary, "changed",
 			  G_CALLBACK (pk_engine_binary_file_changed_cb), engine);
@@ -1032,19 +992,11 @@ pk_engine_setup_file_monitors (PkEngine *engine)
 							  NULL,
 							  &error);
 	if (engine->priv->monitor_conf == NULL) {
-		g_warning ("Failed to set watch on %s: %s",
-			   filename,
-			   error->message);
-		g_error_free (error);
-		goto out;
+		g_warning ("Failed to set watch on %s: %s", filename, error->message);
+		return;
 	}
 	g_signal_connect (engine->priv->monitor_conf, "changed",
 			  G_CALLBACK (pk_engine_conf_file_changed_cb), engine);
-out:
-	if (file_conf != NULL)
-		g_object_unref (file_conf);
-	if (file_binary != NULL)
-		g_object_unref (file_binary);
 }
 
 /**
@@ -1053,22 +1005,16 @@ out:
 gboolean
 pk_engine_load_backend (PkEngine *engine, GError **error)
 {
-	gboolean ret;
-
 	/* load any backend init */
-	ret = pk_backend_load (engine->priv->backend, error);
-	if (!ret)
-		goto out;
+	if (!pk_backend_load (engine->priv->backend, error))
+		return FALSE;
 
 	/* load anything that can fail */
 	engine->priv->authority = polkit_authority_get_sync (NULL, error);
-	if (engine->priv->authority == NULL) {
-		ret = FALSE;
-		goto out;
-	}
-	ret = pk_transaction_db_load (engine->priv->transaction_db, error);
-	if (!ret)
-		goto out;
+	if (engine->priv->authority == NULL)
+		return FALSE;
+	if (!pk_transaction_db_load (engine->priv->transaction_db, error))
+		return FALSE;
 
 	/* create a new backend so we can get the static stuff */
 	engine->priv->roles = pk_backend_get_roles (engine->priv->backend);
@@ -1078,8 +1024,7 @@ pk_engine_load_backend (PkEngine *engine, GError **error)
 	engine->priv->backend_name = pk_backend_get_name (engine->priv->backend);
 	engine->priv->backend_description = pk_backend_get_description (engine->priv->backend);
 	engine->priv->backend_author = pk_backend_get_author (engine->priv->backend);
-out:
-	return ret;
+	return TRUE;
 }
 
 /**
@@ -1102,64 +1047,37 @@ pk_engine_daemon_get_property (GDBusConnection *connection_, const gchar *sender
 			       const gchar *property_name, GError **error,
 			       gpointer user_data)
 {
-	GVariant *retval = NULL;
 	PkEngine *engine = PK_ENGINE (user_data);
 
 	/* reset the timer */
 	pk_engine_reset_timer (engine);
 
-	if (g_strcmp0 (property_name, "VersionMajor") == 0) {
-		retval = g_variant_new_uint32 (PK_MAJOR_VERSION);
-		goto out;
-	}
-	if (g_strcmp0 (property_name, "VersionMinor") == 0) {
-		retval = g_variant_new_uint32 (PK_MINOR_VERSION);
-		goto out;
-	}
-	if (g_strcmp0 (property_name, "VersionMicro") == 0) {
-		retval = g_variant_new_uint32 (PK_MICRO_VERSION);
-		goto out;
-	}
-	if (g_strcmp0 (property_name, "BackendName") == 0) {
-		retval = g_variant_new_string (engine->priv->backend_name);
-		goto out;
-	}
-	if (g_strcmp0 (property_name, "BackendDescription") == 0) {
-		retval = _g_variant_new_maybe_string (engine->priv->backend_description);
-		goto out;
-	}
-	if (g_strcmp0 (property_name, "BackendAuthor") == 0) {
-		retval = _g_variant_new_maybe_string (engine->priv->backend_author);
-		goto out;
-	}
-	if (g_strcmp0 (property_name, "Roles") == 0) {
-		retval = g_variant_new_uint64 (engine->priv->roles);
-		goto out;
-	}
-	if (g_strcmp0 (property_name, "Groups") == 0) {
-		retval = g_variant_new_uint64 (engine->priv->groups);
-		goto out;
-	}
-	if (g_strcmp0 (property_name, "Filters") == 0) {
-		retval = g_variant_new_uint64 (engine->priv->filters);
-		goto out;
-	}
-	if (g_strcmp0 (property_name, "MimeTypes") == 0) {
-		retval = g_variant_new_strv ((const gchar * const *) engine->priv->mime_types, -1);
-		goto out;
-	}
-	if (g_strcmp0 (property_name, "Locked") == 0) {
-		retval = g_variant_new_boolean (engine->priv->locked);
-		goto out;
-	}
-	if (g_strcmp0 (property_name, "NetworkState") == 0) {
-		retval = g_variant_new_uint32 (engine->priv->network_state);
-		goto out;
-	}
-	if (g_strcmp0 (property_name, "DistroId") == 0) {
-		retval = _g_variant_new_maybe_string (engine->priv->distro_id);
-		goto out;
-	}
+	if (g_strcmp0 (property_name, "VersionMajor") == 0)
+		return g_variant_new_uint32 (PK_MAJOR_VERSION);
+	if (g_strcmp0 (property_name, "VersionMinor") == 0)
+		return g_variant_new_uint32 (PK_MINOR_VERSION);
+	if (g_strcmp0 (property_name, "VersionMicro") == 0)
+		return g_variant_new_uint32 (PK_MICRO_VERSION);
+	if (g_strcmp0 (property_name, "BackendName") == 0)
+		return g_variant_new_string (engine->priv->backend_name);
+	if (g_strcmp0 (property_name, "BackendDescription") == 0)
+		return _g_variant_new_maybe_string (engine->priv->backend_description);
+	if (g_strcmp0 (property_name, "BackendAuthor") == 0)
+		return _g_variant_new_maybe_string (engine->priv->backend_author);
+	if (g_strcmp0 (property_name, "Roles") == 0)
+		return g_variant_new_uint64 (engine->priv->roles);
+	if (g_strcmp0 (property_name, "Groups") == 0)
+		return g_variant_new_uint64 (engine->priv->groups);
+	if (g_strcmp0 (property_name, "Filters") == 0)
+		return g_variant_new_uint64 (engine->priv->filters);
+	if (g_strcmp0 (property_name, "MimeTypes") == 0)
+		return g_variant_new_strv ((const gchar * const *) engine->priv->mime_types, -1);
+	if (g_strcmp0 (property_name, "Locked") == 0)
+		return g_variant_new_boolean (engine->priv->locked);
+	if (g_strcmp0 (property_name, "NetworkState") == 0)
+		return g_variant_new_uint32 (engine->priv->network_state);
+	if (g_strcmp0 (property_name, "DistroId") == 0)
+		return _g_variant_new_maybe_string (engine->priv->distro_id);
 
 	/* return an error */
 	g_set_error (error,
@@ -1167,8 +1085,7 @@ pk_engine_daemon_get_property (GDBusConnection *connection_, const gchar *sender
 		     PK_ENGINE_ERROR_NOT_SUPPORTED,
 		     "failed to get property '%s'",
 		     property_name);
-out:
-	return retval;
+	return NULL;
 }
 
 /**
@@ -1242,19 +1159,18 @@ pk_engine_get_package_history (PkEngine *engine,
 	const gchar *pkgname;
 	gboolean ret;
 	gchar *key;
-	gchar **package_lines;
-	GHashTable *deduplicate_hash;
-	GHashTable *pkgname_hash;
 	gint64 timestamp;
-	GList *keys = NULL;
 	GList *l;
 	GList *list;
 	GPtrArray *array = NULL;
 	guint i;
 	GVariantBuilder builder;
 	GVariant *value = NULL;
-	PkPackage *package_tmp;
 	PkTransactionPast *item;
+	_cleanup_hashtable_unref_ GHashTable *deduplicate_hash = NULL;
+	_cleanup_hashtable_unref_ GHashTable *pkgname_hash = NULL;
+	_cleanup_list_free_ GList *keys = NULL;
+	_cleanup_object_unref_ PkPackage *package_tmp = NULL;
 
 	list = pk_transaction_db_get_list (engine->priv->transaction_db, max_size);
 
@@ -1266,6 +1182,7 @@ pk_engine_get_package_history (PkEngine *engine,
 	deduplicate_hash = g_hash_table_new_full (g_str_hash, g_str_equal, g_free, NULL);
 	package_tmp = pk_package_new ();
 	for (l = list; l != NULL; l = l->next) {
+		_cleanup_strv_free_ gchar **package_lines = NULL;
 		item = PK_TRANSACTION_PAST (l->data);
 
 		/* ignore anything that failed */
@@ -1320,7 +1237,6 @@ pk_engine_get_package_history (PkEngine *engine,
 			}
 			g_ptr_array_add (array, value);
 		}
-		g_strfreev (package_lines);
 	}
 
 	/* no history returns an empty array */
@@ -1344,10 +1260,6 @@ pk_engine_get_package_history (PkEngine *engine,
 	}
 	value = g_variant_builder_end (&builder);
 out:
-	g_list_free (keys);
-	g_hash_table_unref (pkgname_hash);
-	g_hash_table_unref (deduplicate_hash);
-	g_object_unref (package_tmp);
 	g_list_free_full (list, (GDestroyNotify) g_object_unref);
 	return value;
 }
@@ -1361,10 +1273,8 @@ pk_engine_daemon_method_call (GDBusConnection *connection_, const gchar *sender,
 			      const gchar *method_name, GVariant *parameters,
 			      GDBusMethodInvocation *invocation, gpointer user_data)
 {
-	gchar *data = NULL;
 	const gchar *tmp = NULL;
 	gboolean ret;
-	GError *error = NULL;
 	guint time_since;
 	GVariant *value = NULL;
 	GVariant *tuple = NULL;
@@ -1372,10 +1282,12 @@ pk_engine_daemon_method_call (GDBusConnection *connection_, const gchar *sender,
 	PkEngine *engine = PK_ENGINE (user_data);
 	PkRoleEnum role;
 	gchar **transaction_list;
-	gchar **array = NULL;
 	gchar **package_names;
 	guint size;
 	gboolean is_priority = TRUE;
+	_cleanup_error_free_ GError *error = NULL;
+	_cleanup_free_ gchar *data = NULL;
+	_cleanup_strv_free_ gchar **array = NULL;
 
 	g_return_if_fail (PK_IS_ENGINE (engine));
 
@@ -1388,14 +1300,14 @@ pk_engine_daemon_method_call (GDBusConnection *connection_, const gchar *sender,
 								  role);
 		value = g_variant_new ("(u)", time_since);
 		g_dbus_method_invocation_return_value (invocation, value);
-		goto out;
+		return;
 	}
 
 	if (g_strcmp0 (method_name, "GetDaemonState") == 0) {
-		data = pk_transaction_list_get_state (engine->priv->transaction_list);
+		data = pk_scheduler_get_state (engine->priv->scheduler);
 		value = g_variant_new ("(s)", data);
 		g_dbus_method_invocation_return_value (invocation, value);
-		goto out;
+		return;
 	}
 
 	if (g_strcmp0 (method_name, "GetPackageHistory") == 0) {
@@ -1405,7 +1317,7 @@ pk_engine_daemon_method_call (GDBusConnection *connection_, const gchar *sender,
 							       PK_ENGINE_ERROR,
 							       PK_ENGINE_ERROR_NOT_SUPPORTED,
 							       "history for package name invalid");
-			goto out;
+			return;
 		}
 		value = pk_engine_get_package_history (engine, package_names, size, &error);
 		if (value == NULL) {
@@ -1415,12 +1327,11 @@ pk_engine_daemon_method_call (GDBusConnection *connection_, const gchar *sender,
 							       "history for package name %s failed: %s",
 							       package_names[0],
 							       error->message);
-			g_error_free (error);
-			goto out;
+			return;
 		}
 		tuple = g_variant_new_tuple (&value, 1);
 		g_dbus_method_invocation_return_value (invocation, tuple);
-		goto out;
+		return;
 	}
 
 	if (g_strcmp0 (method_name, "CreateTransaction") == 0) {
@@ -1428,8 +1339,8 @@ pk_engine_daemon_method_call (GDBusConnection *connection_, const gchar *sender,
 		g_debug ("CreateTransaction method called");
 		data = pk_transaction_db_generate_id (engine->priv->transaction_db);
 		g_assert (data != NULL);
-		ret = pk_transaction_list_create (engine->priv->transaction_list,
-						  data, sender, &error);
+		ret = pk_scheduler_create (engine->priv->scheduler,
+					   data, sender, &error);
 		if (!ret) {
 			g_dbus_method_invocation_return_error (invocation,
 							       PK_ENGINE_ERROR,
@@ -1437,36 +1348,35 @@ pk_engine_daemon_method_call (GDBusConnection *connection_, const gchar *sender,
 							       "could not create transaction %s: %s",
 							       data,
 							       error->message);
-			g_error_free (error);
-			goto out;
+			return;
 		}
 
 		g_debug ("sending object path: '%s'", data);
 		value = g_variant_new ("(o)", data);
 		g_dbus_method_invocation_return_value (invocation, value);
-		goto out;
+		return;
 	}
 
 	if (g_strcmp0 (method_name, "GetTransactionList") == 0) {
-		transaction_list = pk_transaction_list_get_array (engine->priv->transaction_list);
+		transaction_list = pk_scheduler_get_array (engine->priv->scheduler);
 		value = g_variant_new ("(^a&o)", transaction_list);
 		g_dbus_method_invocation_return_value (invocation, value);
-		goto out;
+		return;
 	}
 
 	if (g_strcmp0 (method_name, "SuggestDaemonQuit") == 0) {
 
 		/* attempt to kill background tasks */
-		pk_transaction_list_cancel_queued (engine->priv->transaction_list);
-		pk_transaction_list_cancel_background (engine->priv->transaction_list);
+		pk_scheduler_cancel_queued (engine->priv->scheduler);
+		pk_scheduler_cancel_background (engine->priv->scheduler);
 
 		/* can we exit straight away */
-		size = pk_transaction_list_get_size (engine->priv->transaction_list);
+		size = pk_scheduler_get_size (engine->priv->scheduler);
 		if (size == 0) {
 			g_debug ("emitting quit");
 			g_signal_emit (engine, signals[SIGNAL_QUIT], 0);
 			g_dbus_method_invocation_return_value (invocation, NULL);
-			goto out;
+			return;
 		}
 
 		/* This will wait from 0..10 seconds, depending on the status of
@@ -1474,7 +1384,7 @@ pk_engine_daemon_method_call (GDBusConnection *connection_, const gchar *sender,
 		 * after the last transaction */
 		engine->priv->shutdown_as_soon_as_possible = TRUE;
 		g_dbus_method_invocation_return_value (invocation, NULL);
-		goto out;
+		return;
 	}
 
 	if (g_strcmp0 (method_name, "StateHasChanged") == 0) {
@@ -1482,9 +1392,9 @@ pk_engine_daemon_method_call (GDBusConnection *connection_, const gchar *sender,
 		/* have we already scheduled priority? */
 		if (engine->priv->timeout_priority_id != 0) {
 			g_debug ("Already asked to refresh priority state less than %i seconds ago",
-				 engine->priv->timeout_priority);
+				 PK_ENGINE_STATE_CHANGED_TIMEOUT_PRIORITY);
 			g_dbus_method_invocation_return_value (invocation, NULL);
-			goto out;
+			return;
 		}
 
 		/* don't bombard the user 10 seconds after resuming */
@@ -1495,9 +1405,9 @@ pk_engine_daemon_method_call (GDBusConnection *connection_, const gchar *sender,
 		/* are we normal, and already scheduled normal? */
 		if (!is_priority && engine->priv->timeout_normal_id != 0) {
 			g_debug ("Already asked to refresh normal state less than %i seconds ago",
-				 engine->priv->timeout_normal);
+				 PK_ENGINE_STATE_CHANGED_TIMEOUT_NORMAL);
 			g_dbus_method_invocation_return_value (invocation, NULL);
-			goto out;
+			return;
 		}
 
 		/* are we priority, and already scheduled normal? */
@@ -1510,18 +1420,18 @@ pk_engine_daemon_method_call (GDBusConnection *connection_, const gchar *sender,
 		/* wait a little delay in case we get multiple requests */
 		if (is_priority) {
 			engine->priv->timeout_priority_id =
-				g_timeout_add_seconds (engine->priv->timeout_priority,
+				g_timeout_add_seconds (PK_ENGINE_STATE_CHANGED_TIMEOUT_PRIORITY,
 						       pk_engine_state_changed_cb, engine);
 			g_source_set_name_by_id (engine->priv->timeout_priority_id,
 						 "[PkEngine] priority");
 		} else {
 			engine->priv->timeout_normal_id =
-				g_timeout_add_seconds (engine->priv->timeout_normal,
+				g_timeout_add_seconds (PK_ENGINE_STATE_CHANGED_TIMEOUT_NORMAL,
 						       pk_engine_state_changed_cb, engine);
 			g_source_set_name_by_id (engine->priv->timeout_normal_id, "[PkEngine] normal");
 		}
 		g_dbus_method_invocation_return_value (invocation, NULL);
-		goto out;
+		return;
 	}
 
 	if (g_strcmp0 (method_name, "SetProxy") == 0) {
@@ -1542,7 +1452,7 @@ pk_engine_daemon_method_call (GDBusConnection *connection_, const gchar *sender,
 				     array[4],
 				     array[5],
 				     invocation);
-		goto out;
+		return;
 	}
 
 	if (g_strcmp0 (method_name, "CanAuthorize") == 0) {
@@ -1559,18 +1469,14 @@ pk_engine_daemon_method_call (GDBusConnection *connection_, const gchar *sender,
 							       "failed to check authorisation %s: %s",
 							       tmp,
 							       error->message);
-			g_error_free (error);
-			goto out;
+			return;
 		}
 
 		/* all okay */
 		value = g_variant_new ("(u)", result_enum);
 		g_dbus_method_invocation_return_value (invocation, value);
-		goto out;
+		return;
 	}
-out:
-	g_strfreev (array);
-	g_free (data);
 }
 
 #ifdef PK_BUILD_SYSTEMD
@@ -1582,14 +1488,12 @@ pk_engine_proxy_logind_cb (GObject *source_object,
 			   GAsyncResult *res,
 			   gpointer user_data)
 {
-	GError *error = NULL;
+	_cleanup_error_free_ GError *error = NULL;
 	PkEngine *engine = PK_ENGINE (user_data);
 
 	engine->priv->logind_proxy = g_dbus_proxy_new_finish (res, &error);
-	if (engine->priv->logind_proxy == NULL) {
+	if (engine->priv->logind_proxy == NULL)
 		g_warning ("failed to connect to logind: %s", error->message);
-		g_error_free (error);
-	}
 }
 #endif
 
@@ -1669,8 +1573,8 @@ pk_engine_on_name_lost_cb (GDBusConnection *connection_,
 static void
 pk_engine_init (PkEngine *engine)
 {
-	gchar *filename;
-	GError *error = NULL;
+	_cleanup_error_free_ GError *error = NULL;
+	_cleanup_free_ gchar *filename = NULL;
 
 	engine->priv = PK_ENGINE_GET_PRIVATE (engine);
 
@@ -1680,14 +1584,12 @@ pk_engine_init (PkEngine *engine)
 	if (engine->priv->introspection == NULL) {
 		g_error ("PkEngine: failed to load daemon introspection: %s",
 			 error->message);
-		g_error_free (error);
 	}
 
 	/* clear the download cache */
 	filename = g_build_filename (LOCALSTATEDIR, "cache", "PackageKit", "downloads", NULL);
 	g_debug ("clearing download cache at %s", filename);
 	pk_directory_remove_contents (filename);
-	g_free (filename);
 
 	/* proxy the network state */
 	engine->priv->network = pk_network_new ();
@@ -1746,9 +1648,7 @@ pk_engine_init (PkEngine *engine)
 void
 pk_engine_plugins_init (PkEngine *engine)
 {
-	/* initialize plugins */
-	pk_engine_plugin_phase (engine,
-				PK_PLUGIN_PHASE_INIT);
+	pk_engine_plugin_phase (engine, PK_PLUGIN_PHASE_INIT);
 }
 
 /**
@@ -1758,7 +1658,6 @@ pk_engine_plugins_init (PkEngine *engine)
 static void
 pk_engine_finalize (GObject *object)
 {
-	gboolean ret;
 	PkEngine *engine;
 
 	g_return_if_fail (object != NULL);
@@ -1783,8 +1682,7 @@ pk_engine_finalize (GObject *object)
 	}
 
 	/* unlock if we locked this */
-	ret = pk_backend_unload (engine->priv->backend);
-	if (!ret)
+	if (!pk_backend_unload (engine->priv->backend))
 		g_warning ("couldn't unload the backend");
 
 	/* unown */
@@ -1808,7 +1706,7 @@ pk_engine_finalize (GObject *object)
 	g_timer_destroy (engine->priv->timer);
 	g_object_unref (engine->priv->monitor_conf);
 	g_object_unref (engine->priv->monitor_binary);
-	g_object_unref (engine->priv->transaction_list);
+	g_object_unref (engine->priv->scheduler);
 	g_object_unref (engine->priv->transaction_db);
 	g_object_unref (engine->priv->network);
 	if (engine->priv->authority != NULL)
@@ -1836,18 +1734,13 @@ pk_engine_new (GKeyFile *conf)
 	engine = g_object_new (PK_TYPE_ENGINE, NULL);
 	engine->priv->conf = g_key_file_ref (conf);
 	engine->priv->backend = pk_backend_new (engine->priv->conf);
-	engine->priv->transaction_list = pk_transaction_list_new (engine->priv->conf);
-	pk_transaction_list_set_backend (engine->priv->transaction_list,
+	engine->priv->scheduler = pk_scheduler_new (engine->priv->conf);
+	pk_scheduler_set_backend (engine->priv->scheduler,
 					 engine->priv->backend);
-	pk_transaction_list_set_plugins (engine->priv->transaction_list,
+	pk_scheduler_set_plugins (engine->priv->scheduler,
 					 engine->priv->plugins);
-	g_signal_connect (engine->priv->transaction_list, "changed",
+	g_signal_connect (engine->priv->scheduler, "changed",
 			  G_CALLBACK (pk_engine_transaction_list_changed_cb), engine);
-
-	/* get the StateHasChanged timeouts */
-	engine->priv->timeout_priority = (guint) g_key_file_get_integer (engine->priv->conf, "Daemon", "StateChangedTimeoutPriority", NULL);
-	engine->priv->timeout_normal = (guint) g_key_file_get_integer (engine->priv->conf, "Daemon", "StateChangedTimeoutNormal", NULL);
-
 	return PK_ENGINE (engine);
 }
 

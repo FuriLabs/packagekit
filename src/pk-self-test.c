@@ -25,17 +25,18 @@
 #include <glib-object.h>
 #include <glib/gstdio.h>
 
+#include "pk-cleanup.h"
 #include "pk-backend.h"
 #include "pk-backend-spawn.h"
 #include "pk-dbus.h"
 #include "pk-engine.h"
 #include "pk-notify.h"
 #include "pk-spawn.h"
-#include "pk-time.h"
 #include "pk-transaction-db.h"
 #include "pk-transaction.h"
 #include "pk-transaction-private.h"
-#include "pk-transaction-list.h"
+#include "pk-scheduler.h"
+
 
 #define PK_TRANSACTION_ERROR_INPUT_INVALID	14
 
@@ -163,13 +164,13 @@ pk_test_backend_package_cb (PkBackend *backend, PkPackage *package, gpointer use
 static void
 pk_test_backend_func (void)
 {
-	PkBackend *backend;
-	PkBackendJob *job;
-	GKeyFile *conf;
 	const gchar *text;
 	gboolean ret;
 	const gchar *filename;
 	GError *error = NULL;
+	_cleanup_keyfile_unref_ GKeyFile *conf = NULL;
+	_cleanup_object_unref_ PkBackend *backend = NULL;
+	_cleanup_object_unref_ PkBackendJob *job = NULL;
 
 	/* get an backend */
 	conf = g_key_file_new ();
@@ -322,10 +323,6 @@ pk_test_backend_func (void)
 
 	/* stop the job again */
 	pk_backend_stop_job (backend, job);
-
-	g_key_file_unref (conf);
-	g_object_unref (job);
-	g_object_unref (backend);
 }
 
 static guint _backend_spawn_number_packages = 0;
@@ -356,13 +353,13 @@ static void
 pk_test_backend_spawn_func (void)
 {
 	PkBackendSpawn *backend_spawn;
-	PkBackend *backend;
-	PkBackendJob *job;
-	GKeyFile *conf;
 	const gchar *text;
 	gboolean ret;
 	gchar *uri;
 	GError *error = NULL;
+	_cleanup_keyfile_unref_ GKeyFile *conf = NULL;
+	_cleanup_object_unref_ PkBackend *backend = NULL;
+	_cleanup_object_unref_ PkBackendJob *job = NULL;
 
 	/* get an backend_spawn */
 	conf = g_key_file_new ();
@@ -509,22 +506,15 @@ pk_test_backend_spawn_func (void)
 
 	/* done */
 	g_object_unref (backend_spawn);
-
-	/* we ref'd it manually for checking, so we need to unref it */
-	g_object_unref (job);
-	g_object_unref (backend);
-	g_key_file_unref (conf);
 }
 
 static void
 pk_test_dbus_func (void)
 {
-	PkDbus *dbus;
+	_cleanup_object_unref_ PkDbus *dbus;
 
 	dbus = pk_dbus_new ();
 	g_assert (dbus != NULL);
-
-	g_object_unref (dbus);
 }
 
 PkSpawnExitType mexit = PK_SPAWN_EXIT_TYPE_UNKNOWN;
@@ -564,12 +554,11 @@ cancel_cb (gpointer data)
 static void
 new_spawn_object (PkSpawn **pspawn)
 {
-	GKeyFile *conf;
+	_cleanup_keyfile_unref_ GKeyFile *conf = NULL;
 	if (*pspawn != NULL)
 		g_object_unref (*pspawn);
 	conf = g_key_file_new ();
 	*pspawn = pk_spawn_new (conf);
-	g_key_file_unref (conf);
 	g_signal_connect (*pspawn, "exit",
 			  G_CALLBACK (pk_test_exit_cb), NULL);
 	g_signal_connect (*pspawn, "stdout",
@@ -588,11 +577,11 @@ idle_cb (gpointer user_data)
 static void
 pk_test_spawn_func (void)
 {
-	PkSpawn *spawn = NULL;
 	GError *error = NULL;
 	gboolean ret;
-	gchar **argv;
-	gchar **envp;
+	_cleanup_object_unref_ PkSpawn *spawn = NULL;
+	_cleanup_strv_free_ gchar **argv = NULL;
+	_cleanup_strv_free_ gchar **envp = NULL;
 
 	new_spawn_object (&spawn);
 
@@ -763,83 +752,16 @@ pk_test_spawn_func (void)
 	/* ask dispatcher to close (again) */
 	ret = pk_spawn_exit (spawn);
 	g_assert (!ret);
-
-	g_strfreev (argv);
-	g_strfreev (envp);
-	g_object_unref (spawn);
-}
-
-static void
-pk_test_time_func (void)
-{
-	PkTime *pktime = NULL;
-	gboolean ret;
-	guint value;
-
-	pktime = pk_time_new ();
-	g_assert (pktime != NULL);
-
-	/* get elapsed correctly at startup */
-	value = pk_time_get_elapsed (pktime);
-	g_assert_cmpint (value, <, 10);
-
-	/* ignore remaining correctly */
-	value = pk_time_get_remaining (pktime);
-	g_assert_cmpint (value, ==, 0);
-
-	g_usleep (1000*1000);
-
-	/* get elapsed correctly */
-	value = pk_time_get_elapsed (pktime);
-	g_assert_cmpint (value, >, 900);
-	g_assert_cmpint (value, <, 1100);
-
-	/* ignore remaining correctly when not enough entries */
-	value = pk_time_get_remaining (pktime);
-	g_assert_cmpint (value, ==, 0);
-
-	/* make sure we can add data */
-	ret = pk_time_add_data (pktime, 10);
-	g_assert (ret);
-
-	/* make sure we can get remaining correctly */
-	value = 20;
-	while (value < 60) {
-		pk_time_advance_clock (pktime, 2000);
-		pk_time_add_data (pktime, value);
-		value += 10;
-	}
-	value = pk_time_get_remaining (pktime);
-	g_assert_cmpint (value, >, 9);
-	g_assert_cmpint (value, <, 11);
-
-	/* reset */
-	g_object_unref (pktime);
-	pktime = pk_time_new ();
-
-	/* make sure we can do long times */
-	value = 10;
-	pk_time_add_data (pktime, 0);
-	while (value < 60) {
-		pk_time_advance_clock (pktime, 4*60*1000);
-		pk_time_add_data (pktime, value);
-		value += 10;
-	}
-	value = pk_time_get_remaining (pktime);
-	g_assert_cmpint (value, >=, 1199);
-	g_assert_cmpint (value, <=, 1201);
-
-	g_object_unref (pktime);
 }
 
 static void
 pk_test_transaction_func (void)
 {
-	PkTransaction *transaction = NULL;
 	gboolean ret;
 	GError *error = NULL;
 	GDBusNodeInfo *introspection;
-	GKeyFile *conf;
+	_cleanup_object_unref_ PkTransaction *transaction = NULL;
+	_cleanup_keyfile_unref_ GKeyFile *conf = NULL;
 
 	introspection = pk_load_introspection (PK_DBUS_INTERFACE_TRANSACTION ".xml", NULL);
 	g_assert (introspection != NULL);
@@ -861,22 +783,20 @@ pk_test_transaction_func (void)
 	g_assert (ret);
 	g_clear_error (&error);
 
-	g_object_unref (transaction);
-	g_key_file_unref (conf);
 	g_dbus_node_info_unref (introspection);
 }
 
 static void
 pk_test_transaction_db_func (void)
 {
-	PkTransactionDb *db;
 	guint value;
 	gchar *tid;
 	gboolean ret;
 	gdouble ms;
-	gchar *proxy_http = NULL;
-	gchar *proxy_ftp = NULL;
 	GError *error = NULL;
+	_cleanup_object_unref_ PkTransactionDb *db;
+	_cleanup_free_ gchar *proxy_http = NULL;
+	_cleanup_free_ gchar *proxy_ftp = NULL;
 
 	/* remove the self check file */
 #if PK_BUILD_LOCAL
@@ -992,28 +912,24 @@ pk_test_transaction_db_func (void)
 	g_assert (ret);
 	g_assert_cmpstr (proxy_http, ==, "127.0.0.1:80");
 	g_assert_cmpstr (proxy_ftp, ==, "127.0.0.1:21");
-
-	g_free (proxy_http);
-	g_free (proxy_ftp);
-	g_object_unref (db);
 }
 
 static PkTransactionDb *db = NULL;
 
 /**
- * pk_test_transaction_list_finished_cb:
+ * pk_test_scheduler_finished_cb:
  **/
 static void
-pk_test_transaction_list_finished_cb (PkTransaction *transaction, const gchar *exit_text, guint time, gpointer user_data)
+pk_test_scheduler_finished_cb (PkTransaction *transaction, const gchar *exit_text, guint time, gpointer user_data)
 {
 	_g_test_loop_quit ();
 }
 
 /**
- * pk_test_transaction_list_create_transaction:
+ * pk_test_scheduler_create_transaction:
  **/
 static gchar *
-pk_test_transaction_list_create_transaction (PkTransactionList *tlist)
+pk_test_scheduler_create_transaction (PkScheduler *tlist)
 {
 	gchar *tid;
 	gboolean ret;
@@ -1023,7 +939,7 @@ pk_test_transaction_list_create_transaction (PkTransactionList *tlist)
 	tid = pk_transaction_db_generate_id (db);
 
 	/* create PkTransaction instance */
-	ret = pk_transaction_list_create (tlist, tid, ":org.freedesktop.PackageKit", &error);
+	ret = pk_scheduler_create (tlist, tid, ":org.freedesktop.PackageKit", &error);
 	g_assert_no_error (error);
 	g_assert (ret);
 
@@ -1031,20 +947,20 @@ pk_test_transaction_list_create_transaction (PkTransactionList *tlist)
 }
 
 static void
-pk_test_transaction_list_func (void)
+pk_test_scheduler_func (void)
 {
-	PkTransactionList *tlist;
 	gboolean ret;
 	gchar *tid;
 	guint size;
 	gchar **array;
 	PkTransaction *transaction;
-	gchar *tid_item1;
-	gchar *tid_item2;
-	gchar *tid_item3;
-	PkBackend *backend;
-	GKeyFile *conf;
 	GError *error = NULL;
+	_cleanup_free_ gchar *tid_item1 = NULL;
+	_cleanup_free_ gchar *tid_item2 = NULL;
+	_cleanup_free_ gchar *tid_item3 = NULL;
+	_cleanup_keyfile_unref_ GKeyFile *conf = NULL;
+	_cleanup_object_unref_ PkBackend *backend;
+	_cleanup_object_unref_ PkScheduler *tlist;
 
 	/* remove the self check file */
 #if PK_BUILD_LOCAL
@@ -1066,54 +982,51 @@ pk_test_transaction_list_func (void)
 	conf = g_key_file_new ();
 	backend = pk_backend_new (conf);
 	g_key_file_set_string (conf, "Daemon", "DefaultBackend", "dummy");
-	g_key_file_set_string (conf, "Daemon", "MaximumItemsToResolve", "1000");
 	g_key_file_set_string (conf, "Daemon", "MaximumPackagesToProcess", "1000");
-	g_key_file_set_string (conf, "Daemon", "SimultaneousTransactionsForUid", "1000");
-	g_key_file_set_string (conf, "Daemon", "TransactionCreateCommitTimeout", "1000");
 	ret = pk_backend_load (backend, NULL);
 	g_assert (ret);
 
 	/* get a transaction list object */
-	tlist = pk_transaction_list_new (conf);
+	tlist = pk_scheduler_new (conf);
 	g_assert (tlist != NULL);
 
 	/* make sure we get a valid tid */
-	pk_transaction_list_set_backend (tlist, backend);
+	pk_scheduler_set_backend (tlist, backend);
 	tid = pk_transaction_db_generate_id (db);
 	g_assert (tid != NULL);
 
 	/* create a transaction object */
-	ret = pk_transaction_list_create (tlist, tid, ":org.freedesktop.PackageKit", &error);
+	ret = pk_scheduler_create (tlist, tid, ":org.freedesktop.PackageKit", &error);
 	g_assert_no_error (error);
 	g_assert (ret);
 
 	/* make sure we get the right object back */
-	transaction = pk_transaction_list_get_transaction (tlist, tid);
+	transaction = pk_scheduler_get_transaction (tlist, tid);
 	g_assert (transaction != NULL);
 	g_assert_cmpint (pk_transaction_get_state (transaction), ==, PK_TRANSACTION_STATE_NEW);
 
 	/* get size one we have in queue */
-	size = pk_transaction_list_get_size (tlist);
+	size = pk_scheduler_get_size (tlist);
 	g_assert_cmpint (size, ==, 1);
 
 	/* get transactions (committed, not finished) in progress */
-	array = pk_transaction_list_get_array (tlist);
+	array = pk_scheduler_get_array (tlist);
 	size = g_strv_length (array);
 	g_assert_cmpint (size, ==, 0);
 	g_strfreev (array);
 
 	/* add again the same tid (should fail) */
-	ret = pk_transaction_list_create (tlist, tid, ":org.freedesktop.PackageKit", &error);
+	ret = pk_scheduler_create (tlist, tid, ":org.freedesktop.PackageKit", &error);
 	g_assert_error (error, 1, 0);
 	g_assert (!ret);
 	g_clear_error (&error);
 
 	/* remove without ever committing */
-	ret = pk_transaction_list_remove (tlist, tid);
+	ret = pk_scheduler_remove (tlist, tid);
 	g_assert (ret);
 
 	/* get size none we have in queue */
-	size = pk_transaction_list_get_size (tlist);
+	size = pk_scheduler_get_size (tlist);
 	g_assert_cmpint (size, ==, 0);
 
 	/* get a new tid */
@@ -1121,15 +1034,15 @@ pk_test_transaction_list_func (void)
 	tid = pk_transaction_db_generate_id (db);
 
 	/* create another transaction */
-	ret = pk_transaction_list_create (tlist, tid, ":org.freedesktop.PackageKit", &error);
+	ret = pk_scheduler_create (tlist, tid, ":org.freedesktop.PackageKit", &error);
 	g_assert_no_error (error);
 	g_assert (ret);
 
 	/* get from db */
-	transaction = pk_transaction_list_get_transaction (tlist, tid);
+	transaction = pk_scheduler_get_transaction (tlist, tid);
 	g_assert (transaction != NULL);
 	g_signal_connect (transaction, "finished",
-			  G_CALLBACK (pk_test_transaction_list_finished_cb), NULL);
+			  G_CALLBACK (pk_test_scheduler_finished_cb), NULL);
 
 	/* this tests the run-on-commit action */
 	pk_transaction_get_updates (transaction,
@@ -1138,23 +1051,23 @@ pk_test_transaction_list_func (void)
 				    NULL);
 
 	/* make sure transaction has correct flags */
-	transaction = pk_transaction_list_get_transaction (tlist, tid);
+	transaction = pk_scheduler_get_transaction (tlist, tid);
 	g_assert_cmpint (pk_transaction_get_state (transaction), ==, PK_TRANSACTION_STATE_RUNNING);
 
 	/* get present role */
-	ret = pk_transaction_list_role_present (tlist, PK_ROLE_ENUM_GET_UPDATES);
+	ret = pk_scheduler_role_present (tlist, PK_ROLE_ENUM_GET_UPDATES);
 	g_assert (ret);
 
 	/* get non-present role */
-	ret = pk_transaction_list_role_present (tlist, PK_ROLE_ENUM_SEARCH_NAME);
+	ret = pk_scheduler_role_present (tlist, PK_ROLE_ENUM_SEARCH_NAME);
 	g_assert (!ret);
 
 	/* get size we have in queue */
-	size = pk_transaction_list_get_size (tlist);
+	size = pk_scheduler_get_size (tlist);
 	g_assert_cmpint (size, ==, 1);
 
 	/* get transactions (committed, not finished) in progress */
-	array = pk_transaction_list_get_array (tlist);
+	array = pk_scheduler_get_array (tlist);
 	size = g_strv_length (array);
 	g_assert_cmpint (size, ==, 1);
 	g_strfreev (array);
@@ -1163,56 +1076,56 @@ pk_test_transaction_list_func (void)
 	_g_test_loop_run_with_timeout (2000);
 
 	/* get size one we have in queue */
-	size = pk_transaction_list_get_size (tlist);
+	size = pk_scheduler_get_size (tlist);
 	g_assert_cmpint (size, ==, 1);
 
 	/* get transactions (committed, not finished) in progress (none) */
-	array = pk_transaction_list_get_array (tlist);
+	array = pk_scheduler_get_array (tlist);
 	size = g_strv_length (array);
 	g_assert_cmpint (size, ==, 0);
 	g_strfreev (array);
 
 	/* remove already removed */
-	ret = pk_transaction_list_remove (tlist, tid);
+	ret = pk_scheduler_remove (tlist, tid);
 	g_assert (!ret);
 
 	/* wait for Cleanup */
 	_g_test_loop_wait (10000);
 
 	/* make sure queue empty */
-	size = pk_transaction_list_get_size (tlist);
+	size = pk_scheduler_get_size (tlist);
 	g_assert_cmpint (size, ==, 0);
 
 	g_free (tid);
 
 	/* create three instances in list */
-	tid_item1 = pk_test_transaction_list_create_transaction (tlist);
-	tid_item2 = pk_test_transaction_list_create_transaction (tlist);
-	tid_item3 = pk_test_transaction_list_create_transaction (tlist);
+	tid_item1 = pk_test_scheduler_create_transaction (tlist);
+	tid_item2 = pk_test_scheduler_create_transaction (tlist);
+	tid_item3 = pk_test_scheduler_create_transaction (tlist);
 
 	/* get all transactions in queue */
-	size = pk_transaction_list_get_size (tlist);
+	size = pk_scheduler_get_size (tlist);
 	g_assert_cmpint (size, ==, 3);
 
 	/* get transactions (committed, not finished) committed */
-	array = pk_transaction_list_get_array (tlist);
+	array = pk_scheduler_get_array (tlist);
 	size = g_strv_length (array);
 	g_assert_cmpint (size, ==, 0);
 	g_strfreev (array);
 
-	transaction = pk_transaction_list_get_transaction (tlist, tid_item1);
+	transaction = pk_scheduler_get_transaction (tlist, tid_item1);
 	g_signal_connect (transaction, "finished",
-			  G_CALLBACK (pk_test_transaction_list_finished_cb), NULL);
-	transaction = pk_transaction_list_get_transaction (tlist, tid_item2);
+			  G_CALLBACK (pk_test_scheduler_finished_cb), NULL);
+	transaction = pk_scheduler_get_transaction (tlist, tid_item2);
 	g_signal_connect (transaction, "finished",
-			  G_CALLBACK (pk_test_transaction_list_finished_cb), NULL);
-	transaction = pk_transaction_list_get_transaction (tlist, tid_item3);
+			  G_CALLBACK (pk_test_scheduler_finished_cb), NULL);
+	transaction = pk_scheduler_get_transaction (tlist, tid_item3);
 	g_signal_connect (transaction, "finished",
-			  G_CALLBACK (pk_test_transaction_list_finished_cb), NULL);
+			  G_CALLBACK (pk_test_scheduler_finished_cb), NULL);
 
 	/* this starts one action */
 	array = g_strsplit ("dave", " ", -1);
-	transaction = pk_transaction_list_get_transaction (tlist, tid_item1);
+	transaction = pk_scheduler_get_transaction (tlist, tid_item1);
 	pk_transaction_make_exclusive (transaction);
 	pk_transaction_search_details (transaction,
 				       g_variant_new ("(t^as)",
@@ -1223,7 +1136,7 @@ pk_test_transaction_list_func (void)
 
 	/* this should be chained after the first action completes */
 	array = g_strsplit ("power", " ", -1);
-	transaction = pk_transaction_list_get_transaction (tlist, tid_item2);
+	transaction = pk_scheduler_get_transaction (tlist, tid_item2);
 	pk_transaction_make_exclusive (transaction);
 	pk_transaction_search_names (transaction,
 				     g_variant_new ("(t^as)",
@@ -1234,7 +1147,7 @@ pk_test_transaction_list_func (void)
 
 	/* this starts be chained after the second action completes */
 	array = g_strsplit ("paul", " ", -1);
-	transaction = pk_transaction_list_get_transaction (tlist, tid_item3);
+	transaction = pk_scheduler_get_transaction (tlist, tid_item3);
 	pk_transaction_make_exclusive (transaction);
 	pk_transaction_search_details (transaction,
 				       g_variant_new ("(t^as)",
@@ -1244,7 +1157,7 @@ pk_test_transaction_list_func (void)
 	g_strfreev (array);
 
 	/* get transactions (committed, not finished) in progress (all) */
-	array = pk_transaction_list_get_array (tlist);
+	array = pk_scheduler_get_array (tlist);
 	size = g_strv_length (array);
 	g_assert_cmpint (size, ==, 3);
 	g_strfreev (array);
@@ -1253,105 +1166,96 @@ pk_test_transaction_list_func (void)
 	_g_test_loop_run_with_timeout (10000);
 
 	/* get all transactions in queue */
-	size = pk_transaction_list_get_size (tlist);
+	size = pk_scheduler_get_size (tlist);
 	g_assert_cmpint (size, ==, 3);
 
 	/* get transactions (committed, not finished) (two, first one finished) */
-	array = pk_transaction_list_get_array (tlist);
+	array = pk_scheduler_get_array (tlist);
 	size = g_strv_length (array);
 	g_assert_cmpint (size, ==, 2);
 	g_strfreev (array);
 
 	/* make sure transaction1 has correct flags */
-	transaction = pk_transaction_list_get_transaction (tlist, tid_item1);
+	transaction = pk_scheduler_get_transaction (tlist, tid_item1);
 	g_assert_cmpint (pk_transaction_get_state (transaction), ==, PK_TRANSACTION_STATE_FINISHED);
 
 	/* make sure transaction2 has correct flags */
-	transaction = pk_transaction_list_get_transaction (tlist, tid_item2);
+	transaction = pk_scheduler_get_transaction (tlist, tid_item2);
 	g_assert_cmpint (pk_transaction_get_state (transaction), ==, PK_TRANSACTION_STATE_RUNNING);
 
 	/* make sure transaction3 has correct flags */
-	transaction = pk_transaction_list_get_transaction (tlist, tid_item3);
+	transaction = pk_scheduler_get_transaction (tlist, tid_item3);
 	g_assert_cmpint (pk_transaction_get_state (transaction), ==, PK_TRANSACTION_STATE_READY);
 
 	/* wait for second action */
 	_g_test_loop_run_with_timeout (10000);
 
 	/* get all transactions in queue */
-	size = pk_transaction_list_get_size (tlist);
+	size = pk_scheduler_get_size (tlist);
 	g_assert_cmpint (size, ==, 3);
 
 	/* get transactions (committed, not finished) in progress (one) */
-	array = pk_transaction_list_get_array (tlist);
+	array = pk_scheduler_get_array (tlist);
 	size = g_strv_length (array);
 	g_assert_cmpint (size, ==, 1);
 	g_strfreev (array);
 
 	/* make sure transaction1 has correct flags */
-	transaction = pk_transaction_list_get_transaction (tlist, tid_item1);
+	transaction = pk_scheduler_get_transaction (tlist, tid_item1);
 	g_assert_cmpint (pk_transaction_get_state (transaction), ==, PK_TRANSACTION_STATE_FINISHED);
 
 	/* make sure transaction2 has correct flags */
-	transaction = pk_transaction_list_get_transaction (tlist, tid_item2);
+	transaction = pk_scheduler_get_transaction (tlist, tid_item2);
 	g_assert_cmpint (pk_transaction_get_state (transaction), ==, PK_TRANSACTION_STATE_FINISHED);
 
 	/* make sure transaction3 has correct flags */
-	transaction = pk_transaction_list_get_transaction (tlist, tid_item3);
+	transaction = pk_scheduler_get_transaction (tlist, tid_item3);
 	g_assert_cmpint (pk_transaction_get_state (transaction), ==, PK_TRANSACTION_STATE_RUNNING);
 
 	/* wait for third action */
 	_g_test_loop_run_with_timeout (10000);
 
 	/* get all transactions in queue */
-	size = pk_transaction_list_get_size (tlist);
+	size = pk_scheduler_get_size (tlist);
 	g_assert_cmpint (size, ==, 3);
 
 	/* get transactions (committed, not finished) in progress (none) */
-	array = pk_transaction_list_get_array (tlist);
+	array = pk_scheduler_get_array (tlist);
 	size = g_strv_length (array);
 	g_assert_cmpint (size, ==, 0);
 	g_strfreev (array);
 
 	/* make sure transaction1 has correct flags */
-	transaction = pk_transaction_list_get_transaction (tlist, tid_item1);
+	transaction = pk_scheduler_get_transaction (tlist, tid_item1);
 	g_assert_cmpint (pk_transaction_get_state (transaction), ==, PK_TRANSACTION_STATE_FINISHED);
 
 	/* make sure transaction2 has correct flags */
-	transaction = pk_transaction_list_get_transaction (tlist, tid_item2);
+	transaction = pk_scheduler_get_transaction (tlist, tid_item2);
 	g_assert_cmpint (pk_transaction_get_state (transaction), ==, PK_TRANSACTION_STATE_FINISHED);
 
 	/* make sure transaction3 has correct flags */
-	transaction = pk_transaction_list_get_transaction (tlist, tid_item3);
+	transaction = pk_scheduler_get_transaction (tlist, tid_item3);
 	g_assert_cmpint (pk_transaction_get_state (transaction), ==, PK_TRANSACTION_STATE_FINISHED);
-
-	/* free tids */
-	g_free (tid_item1);
-	g_free (tid_item2);
-	g_free (tid_item3);
 
 	/* wait for Cleanup */
 	_g_test_loop_wait (10000);
 
 	/* get transactions in queue */
-	size = pk_transaction_list_get_size (tlist);
+	size = pk_scheduler_get_size (tlist);
 	g_assert_cmpint (size, <, 3); /* at least one should have timed out */
 
 	/* get transactions (committed, not finished) in progress (neither - again) */
-	array = pk_transaction_list_get_array (tlist);
+	array = pk_scheduler_get_array (tlist);
 	size = g_strv_length (array);
 	g_assert_cmpint (size, ==, 0);
 	g_strfreev (array);
 
-	g_object_unref (tlist);
-	g_object_unref (backend);
 	g_object_unref (db);
-	g_key_file_unref (conf);
 }
 
 static void
-pk_test_transaction_list_parallel_func (void)
+pk_test_scheduler_parallel_func (void)
 {
-	PkTransactionList *tlist;
 	guint size;
 	gboolean ret;
 	guint i;
@@ -1359,14 +1263,15 @@ pk_test_transaction_list_parallel_func (void)
 	PkTransaction *transaction1;
 	PkTransaction *transaction2;
 	PkTransaction *transaction3;
-	gchar *tid_item1;
-	gchar *tid_item2;
-	gchar *tid_item3;
-	gchar *tid_item4;
-	gchar *tid_item5;
-	PkBackend *backend;
-	GKeyFile *conf;
 	GError *error = NULL;
+	_cleanup_free_ gchar *tid_item1 = NULL;
+	_cleanup_free_ gchar *tid_item2 = NULL;
+	_cleanup_free_ gchar *tid_item3 = NULL;
+	_cleanup_free_ gchar *tid_item4 = NULL;
+	_cleanup_free_ gchar *tid_item5 = NULL;
+	_cleanup_keyfile_unref_ GKeyFile *conf = NULL;
+	_cleanup_object_unref_ PkBackend *backend = NULL;
+	_cleanup_object_unref_ PkScheduler *tlist = NULL;
 
 	db = pk_transaction_db_new ();
 	ret = pk_transaction_db_load (db, &error);
@@ -1375,57 +1280,54 @@ pk_test_transaction_list_parallel_func (void)
 
 	/* try to load a valid backend */
 	conf = g_key_file_new ();
-	g_key_file_set_string (conf, "Daemon", "MaximumItemsToResolve", "1000");
 	g_key_file_set_string (conf, "Daemon", "MaximumPackagesToProcess", "1000");
-	g_key_file_set_string (conf, "Daemon", "SimultaneousTransactionsForUid", "1000");
-	g_key_file_set_string (conf, "Daemon", "TransactionCreateCommitTimeout", "1000");
 	g_key_file_set_string (conf, "Daemon", "DefaultBackend", "dummy");
 	backend = pk_backend_new (conf);
 	ret = pk_backend_load (backend, NULL);
 	g_assert (ret);
 
 	/* get a transaction list object */
-	tlist = pk_transaction_list_new (conf);
+	tlist = pk_scheduler_new (conf);
 	g_assert (tlist != NULL);
 
-	pk_transaction_list_set_backend (tlist, backend);
+	pk_scheduler_set_backend (tlist, backend);
 
 	/* create three instances in list */
-	tid_item1 = pk_test_transaction_list_create_transaction (tlist);
-	tid_item2 = pk_test_transaction_list_create_transaction (tlist);
-	tid_item3 = pk_test_transaction_list_create_transaction (tlist);
-	tid_item4 = pk_test_transaction_list_create_transaction (tlist);
-	tid_item5 = pk_test_transaction_list_create_transaction (tlist);
+	tid_item1 = pk_test_scheduler_create_transaction (tlist);
+	tid_item2 = pk_test_scheduler_create_transaction (tlist);
+	tid_item3 = pk_test_scheduler_create_transaction (tlist);
+	tid_item4 = pk_test_scheduler_create_transaction (tlist);
+	tid_item5 = pk_test_scheduler_create_transaction (tlist);
 
 	/* get all transactions in queue */
-	size = pk_transaction_list_get_size (tlist);
+	size = pk_scheduler_get_size (tlist);
 	g_assert_cmpint (size, ==, 5);
 
 	/* get transactions (committed, not finished) committed */
-	array = pk_transaction_list_get_array (tlist);
+	array = pk_scheduler_get_array (tlist);
 	size = g_strv_length (array);
 	g_assert_cmpint (size, ==, 0);
 	g_strfreev (array);
 
-	transaction1 = pk_transaction_list_get_transaction (tlist, tid_item1);
+	transaction1 = pk_scheduler_get_transaction (tlist, tid_item1);
 	g_signal_connect (transaction1, "finished",
-			  G_CALLBACK (pk_test_transaction_list_finished_cb), NULL);
-	transaction1 = pk_transaction_list_get_transaction (tlist, tid_item2);
+			  G_CALLBACK (pk_test_scheduler_finished_cb), NULL);
+	transaction1 = pk_scheduler_get_transaction (tlist, tid_item2);
 	g_signal_connect (transaction1, "finished",
-			  G_CALLBACK (pk_test_transaction_list_finished_cb), NULL);
-	transaction1 = pk_transaction_list_get_transaction (tlist, tid_item3);
+			  G_CALLBACK (pk_test_scheduler_finished_cb), NULL);
+	transaction1 = pk_scheduler_get_transaction (tlist, tid_item3);
 	g_signal_connect (transaction1, "finished",
-			  G_CALLBACK (pk_test_transaction_list_finished_cb), NULL);
-	transaction1 = pk_transaction_list_get_transaction (tlist, tid_item4);
+			  G_CALLBACK (pk_test_scheduler_finished_cb), NULL);
+	transaction1 = pk_scheduler_get_transaction (tlist, tid_item4);
 	g_signal_connect (transaction1, "finished",
-			  G_CALLBACK (pk_test_transaction_list_finished_cb), NULL);
-	transaction1 = pk_transaction_list_get_transaction (tlist, tid_item5);
+			  G_CALLBACK (pk_test_scheduler_finished_cb), NULL);
+	transaction1 = pk_scheduler_get_transaction (tlist, tid_item5);
 	g_signal_connect (transaction1, "finished",
-			  G_CALLBACK (pk_test_transaction_list_finished_cb), NULL);
+			  G_CALLBACK (pk_test_scheduler_finished_cb), NULL);
 
 	/* this starts one action */
 	array = g_strsplit ("dave", " ", -1);
-	transaction1 = pk_transaction_list_get_transaction (tlist, tid_item1);
+	transaction1 = pk_scheduler_get_transaction (tlist, tid_item1);
 	pk_transaction_search_details (transaction1,
 				       g_variant_new ("(t^as)",
 						      pk_bitfield_value (PK_FILTER_ENUM_NONE),
@@ -1435,7 +1337,7 @@ pk_test_transaction_list_parallel_func (void)
 
 	/* run a second (and exclusive!) action in parallel */
 	array = g_strsplit ("libawesome;42;i386;debian", " ", -1);
-	transaction1 = pk_transaction_list_get_transaction (tlist, tid_item2);
+	transaction1 = pk_scheduler_get_transaction (tlist, tid_item2);
 	pk_transaction_skip_auth_checks (transaction1, TRUE);
 	pk_transaction_install_packages (transaction1,
 				       g_variant_new ("(t^as)",
@@ -1446,7 +1348,7 @@ pk_test_transaction_list_parallel_func (void)
 
 	/* run a third action in parallel */
 	array = g_strsplit ("power", " ", -1);
-	transaction1 = pk_transaction_list_get_transaction (tlist, tid_item3);
+	transaction1 = pk_scheduler_get_transaction (tlist, tid_item3);
 	pk_transaction_search_names (transaction1,
 				     g_variant_new ("(t^as)",
 						    pk_bitfield_value (PK_FILTER_ENUM_NONE),
@@ -1456,7 +1358,7 @@ pk_test_transaction_list_parallel_func (void)
 
 	/* run a fourth (and exclusive!) action in parallel */
 	array = g_strsplit ("foobar;1.1.0;i386;debian", " ", -1);
-	transaction1 = pk_transaction_list_get_transaction (tlist, tid_item4);
+	transaction1 = pk_scheduler_get_transaction (tlist, tid_item4);
 	pk_transaction_skip_auth_checks (transaction1, TRUE);
 	pk_transaction_install_packages (transaction1,
 				       g_variant_new ("(t^as)",
@@ -1466,7 +1368,7 @@ pk_test_transaction_list_parallel_func (void)
 	g_strfreev (array);
 
 	/* get transactions (committed, not finished) in progress (all should be RUNNING now) */
-	array = pk_transaction_list_get_array (tlist);
+	array = pk_scheduler_get_array (tlist);
 	size = g_strv_length (array);
 	g_assert_cmpint (size, ==, 4);
 	g_strfreev (array);
@@ -1475,20 +1377,20 @@ pk_test_transaction_list_parallel_func (void)
 	_g_test_loop_run_with_timeout (10000);
 
 	/* make sure transaction4 (second exclusive) has correct flags (should be waiting for transaction2 to complete) */
-	transaction1 = pk_transaction_list_get_transaction (tlist, tid_item4);
+	transaction1 = pk_scheduler_get_transaction (tlist, tid_item4);
 	g_assert_cmpint (pk_transaction_get_state (transaction1), ==, PK_TRANSACTION_STATE_READY);
 
 	/* make sure transaction3 (non-exlusive) is running (should still be running, because it was run at last) */
-	transaction1 = pk_transaction_list_get_transaction (tlist, tid_item3);
+	transaction1 = pk_scheduler_get_transaction (tlist, tid_item3);
 	g_assert_cmpint (pk_transaction_get_state (transaction1), ==, PK_TRANSACTION_STATE_RUNNING);
 
 	/* make sure transaction2 (exlusive) is running too */
-	transaction1 = pk_transaction_list_get_transaction (tlist, tid_item2);
+	transaction1 = pk_scheduler_get_transaction (tlist, tid_item2);
 	g_assert_cmpint (pk_transaction_get_state (transaction1), ==, PK_TRANSACTION_STATE_RUNNING);
 
 	/* run a fifth (non-exclusive) action in parallel to the running exclusive */
 	array = g_strsplit ("paul", " ", -1);
-	transaction1 = pk_transaction_list_get_transaction (tlist, tid_item5);
+	transaction1 = pk_scheduler_get_transaction (tlist, tid_item5);
 	pk_transaction_search_details (transaction1,
 				       g_variant_new ("(t^as)",
 						      pk_bitfield_value (PK_FILTER_ENUM_NONE),
@@ -1497,7 +1399,7 @@ pk_test_transaction_list_parallel_func (void)
 	g_strfreev (array);
 
 	/* get all transactions in queue */
-	size = pk_transaction_list_get_size (tlist);
+	size = pk_scheduler_get_size (tlist);
 	g_assert_cmpint (size, ==, 5);
 
 	/* wait for all non-exclusive actions to complete */
@@ -1507,15 +1409,15 @@ pk_test_transaction_list_parallel_func (void)
 		i++;
 
 		/* ensure transaction objects are up-to-date */
-		transaction1 = pk_transaction_list_get_transaction (tlist, tid_item1);
-		transaction2 = pk_transaction_list_get_transaction (tlist, tid_item3);
-		transaction3 = pk_transaction_list_get_transaction (tlist, tid_item5);
+		transaction1 = pk_scheduler_get_transaction (tlist, tid_item1);
+		transaction2 = pk_scheduler_get_transaction (tlist, tid_item3);
+		transaction3 = pk_scheduler_get_transaction (tlist, tid_item5);
 
 		if (i >= 100 ||
 		    transaction1 == NULL ||
 		    transaction2 == NULL ||
 		    transaction3 == NULL) {
-			g_print ("Dumping transaction-list state:\n%s\n", pk_transaction_list_get_state (tlist));
+			g_print ("Dumping scheduler state:\n%s\n", pk_scheduler_get_state (tlist));
 			g_warning ("did not reach state where all non-exclusive transactions are finished");
 			g_assert_not_reached ();
 		}
@@ -1527,7 +1429,7 @@ pk_test_transaction_list_parallel_func (void)
 	}
 
 	/* we should have two exlusive transactions left */
-	array = pk_transaction_list_get_array (tlist);
+	array = pk_scheduler_get_array (tlist);
 	size = g_strv_length (array);
 	g_assert_cmpint (size, ==, 2);
 	g_strfreev (array);
@@ -1536,37 +1438,27 @@ pk_test_transaction_list_parallel_func (void)
 	_g_test_loop_run_with_timeout (10000);
 
 	/* make sure transaction2 (first exclusive) is FINISHED */
-	transaction1 = pk_transaction_list_get_transaction (tlist, tid_item2);
+	transaction1 = pk_scheduler_get_transaction (tlist, tid_item2);
 	g_assert_cmpint (pk_transaction_get_state (transaction1), ==, PK_TRANSACTION_STATE_FINISHED);
 
 	/* make sure transaction4 (second exclusive) is RUNNING now */
-	transaction1 = pk_transaction_list_get_transaction (tlist, tid_item4);
+	transaction1 = pk_scheduler_get_transaction (tlist, tid_item4);
 	g_assert_cmpint (pk_transaction_get_state (transaction1), ==, PK_TRANSACTION_STATE_RUNNING);
 
 	/* wait for last exclusive transaction to complete */
 	_g_test_loop_run_with_timeout (20000);
 
 	/* make sure transaction4 (second exclusive) is now finished too */
-	transaction1 = pk_transaction_list_get_transaction (tlist, tid_item4);
+	transaction1 = pk_scheduler_get_transaction (tlist, tid_item4);
 	g_assert_cmpint (pk_transaction_get_state (transaction1), ==, PK_TRANSACTION_STATE_FINISHED);
 
 	/* we shouldn't have transactions left */
-	array = pk_transaction_list_get_array (tlist);
+	array = pk_scheduler_get_array (tlist);
 	size = g_strv_length (array);
 	g_assert_cmpint (size, ==, 0);
 	g_strfreev (array);
 
-	/* free tids */
-	g_free (tid_item1);
-	g_free (tid_item2);
-	g_free (tid_item3);
-	g_free (tid_item4);
-	g_free (tid_item5);
-
-	g_object_unref (tlist);
-	g_object_unref (backend);
 	g_object_unref (db);
-	g_key_file_unref (conf);
 }
 
 int
@@ -1586,12 +1478,11 @@ main (int argc, char **argv)
 #endif
 
 	/* components */
-	g_test_add_func ("/packagekit/time", pk_test_time_func);
 	g_test_add_func ("/packagekit/dbus", pk_test_dbus_func);
 	g_test_add_func ("/packagekit/spawn", pk_test_spawn_func);
 	g_test_add_func ("/packagekit/transaction", pk_test_transaction_func);
-	g_test_add_func ("/packagekit/transaction-list", pk_test_transaction_list_func);
-	g_test_add_func ("/packagekit/transaction-list-parallel", pk_test_transaction_list_parallel_func);
+	g_test_add_func ("/packagekit/scheduler", pk_test_scheduler_func);
+	g_test_add_func ("/packagekit/scheduler-parallel", pk_test_scheduler_parallel_func);
 	g_test_add_func ("/packagekit/transaction-db", pk_test_transaction_db_func);
 
 	/* backend stuff */
