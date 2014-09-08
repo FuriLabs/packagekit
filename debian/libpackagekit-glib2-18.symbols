@@ -354,6 +354,7 @@ libpackagekit-glib2.so.18 libpackagekit-glib2-18 #MINVER#
  pk_task_get_files_async@Base 0.9.4
  pk_task_get_files_sync@Base 0.9.4
  pk_task_get_only_download@Base 0.9.4
+ pk_task_get_only_trusted@Base 0.9.5
  pk_task_get_packages_async@Base 0.9.4
  pk_task_get_packages_sync@Base 0.9.4
  pk_task_get_repo_list_async@Base 0.9.4
@@ -390,6 +391,7 @@ libpackagekit-glib2.so.18 libpackagekit-glib2-18 #MINVER#
  pk_task_search_names_async@Base 0.9.4
  pk_task_search_names_sync@Base 0.9.4
  pk_task_set_only_download@Base 0.9.4
+ pk_task_set_only_trusted@Base 0.9.5
  pk_task_set_simulate@Base 0.9.4
  pk_task_update_packages_async@Base 0.9.4
  pk_task_update_packages_sync@Base 0.9.4
