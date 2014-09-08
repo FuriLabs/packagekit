@@ -1,3 +1,14 @@
+packagekit (0.9.5-1) unstable; urgency=medium
+
+  * Upload to unstable
+  * New upstream release: 0.9.5
+  * Drop all previous patches: Applied upstream
+  * Drop defaults.diff: Debian's defaults are now upstream
+  * Take patch from upstream to increase hardcoded transation limits
+  * Update symbols file
+
+ -- Matthias Klumpp <mak@debian.org>  Mon, 08 Sep 2014 17:28:40 +0200
+
 packagekit (0.9.4-1) experimental; urgency=medium
 
   * New upstream release: 0.9.4
