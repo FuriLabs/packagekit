@@ -597,10 +597,13 @@
 <ANCHOR id="pk-task-get-interactive" href="PackageKit/PkTask.html#pk-task-get-interactive">
 <ANCHOR id="pk-task-set-only-download" href="PackageKit/PkTask.html#pk-task-set-only-download">
 <ANCHOR id="pk-task-get-only-download" href="PackageKit/PkTask.html#pk-task-get-only-download">
+<ANCHOR id="pk-task-set-only-trusted" href="PackageKit/PkTask.html#pk-task-set-only-trusted">
+<ANCHOR id="pk-task-get-only-trusted" href="PackageKit/PkTask.html#pk-task-get-only-trusted">
 <ANCHOR id="PkTask.other_details" href="PackageKit/PkTask.html#PkTask.other_details">
 <ANCHOR id="PK-TASK-TYPE-ERROR:CAPS" href="PackageKit/PkTask.html#PK-TASK-TYPE-ERROR:CAPS">
 <ANCHOR id="PkTask.property-details" href="PackageKit/PkTask.html#PkTask.property-details">
 <ANCHOR id="PkTask--only-download" href="PackageKit/PkTask.html#PkTask--only-download">
+<ANCHOR id="PkTask--only-trusted" href="PackageKit/PkTask.html#PkTask--only-trusted">
 <ANCHOR id="PkTask--simulate" href="PackageKit/PkTask.html#PkTask--simulate">
 <ANCHOR id="PkTransactionPast" href="PackageKit/PkTransactionPast.html">
 <ANCHOR id="PkTransactionPast.functions" href="PackageKit/PkTransactionPast.html#PkTransactionPast.functions">

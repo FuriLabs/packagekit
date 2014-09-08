@@ -31,8 +31,12 @@
 #include <glib.h>
 #include <glib/gstdio.h>
 
-#include "pk-resources.h"
+#include "pk-cleanup.h"
 #include "pk-shared.h"
+
+#ifdef PK_BUILD_DAEMON
+  #include "pk-resources.h"
+#endif
 
 /**
  * pk_directory_remove_contents:
@@ -43,22 +47,21 @@ gboolean
 pk_directory_remove_contents (const gchar *directory)
 {
 	gboolean ret = FALSE;
-	GDir *dir;
-	GError *error = NULL;
 	const gchar *filename;
-	gchar *src;
 	gint retval;
+	_cleanup_error_free_ GError *error = NULL;
+	_cleanup_dir_close_ GDir *dir = NULL;
 
 	/* try to open */
 	dir = g_dir_open (directory, 0, &error);
 	if (dir == NULL) {
 		g_warning ("cannot open directory: %s", error->message);
-		g_error_free (error);
 		goto out;
 	}
 
 	/* find each */
 	while ((filename = g_dir_read_name (dir))) {
+		_cleanup_free_ gchar *src = NULL;
 		src = g_build_filename (directory, filename, NULL);
 		ret = g_file_test (src, G_FILE_TEST_IS_DIR);
 		if (ret) {
@@ -74,9 +77,7 @@ pk_directory_remove_contents (const gchar *directory)
 			if (retval != 0)
 				g_warning ("failed to delete %s", src);
 		}
-		g_free (src);
 	}
-	g_dir_close (dir);
 	ret = TRUE;
 out:
 	return ret;
@@ -88,9 +89,9 @@ out:
 GDBusNodeInfo *
 pk_load_introspection (const gchar *filename, GError **error)
 {
-	GBytes *data;
-	gchar *path;
-	GDBusNodeInfo *info = NULL;
+#ifdef PK_BUILD_DAEMON
+	_cleanup_bytes_unref_ GBytes *data = NULL;
+	_cleanup_free_ gchar *path = NULL;
 
 	/* lookup data */
 	path = g_build_filename ("/org/freedesktop/PackageKit", filename, NULL);
@@ -99,49 +100,14 @@ pk_load_introspection (const gchar *filename, GError **error)
 				       G_RESOURCE_LOOKUP_FLAGS_NONE,
 				       error);
 	if (data == NULL)
-		goto out;
+		return NULL;
 
 	/* build introspection from XML */
-	info = g_dbus_node_info_new_for_xml (g_bytes_get_data (data, NULL), error);
-	if (info == NULL)
-		goto out;
-out:
-	g_free (path);
-	if (data != NULL)
-		g_bytes_unref (data);
-	return info;
-}
-
-/**
- * pk_hint_enum_to_string:
- **/
-const gchar *
-pk_hint_enum_to_string (PkHintEnum hint)
-{
-	if (hint == PK_HINT_ENUM_FALSE)
-		return "false";
-	if (hint == PK_HINT_ENUM_TRUE)
-		return "true";
-	if (hint == PK_HINT_ENUM_UNSET)
-		return "unset";
+	return g_dbus_node_info_new_for_xml (g_bytes_get_data (data, NULL), error);
+#else
 	return NULL;
+#endif
 }
-
-/**
- * pk_hint_enum_from_string:
- **/
-PkHintEnum
-pk_hint_enum_from_string (const gchar *hint)
-{
-	if (g_strcmp0 (hint, "false") == 0)
-		return PK_HINT_ENUM_FALSE;
-	if (g_strcmp0 (hint, "true") == 0)
-		return PK_HINT_ENUM_TRUE;
-	if (g_strcmp0 (hint, "unset") == 0)
-		return PK_HINT_ENUM_UNSET;
-	return PK_HINT_ENUM_UNSET;
-}
-
 
 /**
  * pk_strtoint:
@@ -273,9 +239,96 @@ pk_strlen (const gchar *text, guint len)
 		return 0;
 
 	/* only count up to len */
-	for (i=1; i<len; i++) {
+	for (i = 1; i < len; i++) {
 		if (text[i] == '\0')
 			break;
 	}
 	return i;
+}
+
+/**
+ * pk_util_get_config_filename:
+ **/
+gchar *
+pk_util_get_config_filename (void)
+{
+	gchar *path;
+
+#if PK_BUILD_LOCAL
+	/* try a local path first */
+	path = g_build_filename ("..", "etc", "PackageKit.conf", NULL);
+	if (g_file_test (path, G_FILE_TEST_EXISTS))
+		goto out;
+	g_debug ("local config file not found '%s'", path);
+	g_free (path);
+#endif
+	/* check the prefix path */
+	path = g_build_filename (SYSCONFDIR, "PackageKit", "PackageKit.conf", NULL);
+	if (g_file_test (path, G_FILE_TEST_EXISTS))
+		goto out;
+
+	/* none found! */
+	g_warning ("config file not found '%s'", path);
+	g_free (path);
+	path = NULL;
+out:
+	return path;
+}
+
+/**
+ * pk_util_sort_backends_cb:
+ **/
+static gint
+pk_util_sort_backends_cb (const gchar **name1, const gchar **name2)
+{
+	return g_strcmp0 (*name2, *name1);
+}
+
+/**
+ * pk_util_set_auto_backend:
+ **/
+gboolean
+pk_util_set_auto_backend (GKeyFile *conf, GError **error)
+{
+	const gchar *tmp;
+	gchar *name_tmp;
+	_cleanup_dir_close_ GDir *dir = NULL;
+	_cleanup_ptrarray_unref_ GPtrArray *array = NULL;
+
+	dir = g_dir_open (LIBDIR "/packagekit-backend", 0, error);
+	if (dir == NULL)
+		return FALSE;
+	array = g_ptr_array_new_with_free_func (g_free);
+	do {
+		tmp = g_dir_read_name (dir);
+		if (tmp == NULL)
+			break;
+		if (!g_str_has_prefix (tmp, "libpk_backend_"))
+			continue;
+		if (!g_str_has_suffix (tmp, G_MODULE_SUFFIX))
+			continue;
+		if (g_strstr_len (tmp, -1, "libpk_backend_dummy"))
+			continue;
+		if (g_strstr_len (tmp, -1, "libpk_backend_test"))
+			continue;
+
+		/* turn 'libpk_backend_test.so' into 'test' */
+		name_tmp = g_strdup (tmp + 14);
+		g_strdelimit (name_tmp, ".", '\0');
+		g_ptr_array_add (array,
+				 name_tmp);
+	} while (1);
+
+	/* need to sort by id predictably */
+	g_ptr_array_sort (array,
+			  (GCompareFunc) pk_util_sort_backends_cb);
+
+	/* set best backend */
+	if (array->len == 0) {
+		g_set_error_literal (error, 1, 0, "No backends found");
+		return FALSE;
+	}
+	tmp = g_ptr_array_index (array, 0);
+	g_key_file_set_string (conf, "Daemon", "DefaultBackend", tmp);
+	return TRUE;
 }

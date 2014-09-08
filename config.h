@@ -2,7 +2,7 @@
 /* config.h.in.  Generated from configure.ac by autoheader.  */
 
 /* default backend prefix */
-#define DEFAULT_BACKEND "hawkey"
+#define DEFAULT_BACKEND "hif"
 
 /* always defined to indicate that i18n is enabled */
 #define ENABLE_NLS 1
@@ -83,9 +83,6 @@
    */
 #define LT_OBJDIR ".libs/"
 
-/* Define to 1 if your C compiler doesn't accept -c and -o together. */
-/* #undef NO_MINUS_C_MINUS_O */
-
 /* Name of package */
 #define PACKAGE "PackageKit"
 
@@ -99,7 +96,7 @@
 #define PACKAGE_NAME "PackageKit"
 
 /* Define to the full name and version of this package. */
-#define PACKAGE_STRING "PackageKit 0.9.4"
+#define PACKAGE_STRING "PackageKit 0.9.5"
 
 /* Define to the one symbol short name of this package. */
 #define PACKAGE_TARNAME "PackageKit"
@@ -108,7 +105,7 @@
 #define PACKAGE_URL "http://www.packagekit.org/"
 
 /* Define to the version of this package. */
-#define PACKAGE_VERSION "0.9.4"
+#define PACKAGE_VERSION "0.9.5"
 
 /* define if Connection Manager is installed */
 /* #undef PK_BUILD_CONNMAN */
@@ -129,7 +126,7 @@
 #define STDC_HEADERS 1
 
 /* Version number of package */
-#define VERSION "0.9.4"
+#define VERSION "0.9.5"
 
 /* define if libzypp returns package size in bytes */
 /* #undef ZYPP_RETURN_BYTES */

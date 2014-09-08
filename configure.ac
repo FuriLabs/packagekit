@@ -2,7 +2,7 @@
 
 m4_define([pk_major_version], [0])
 m4_define([pk_minor_version], [9])
-m4_define([pk_micro_version], [4])
+m4_define([pk_micro_version], [5])
 m4_define([pk_version],
           [pk_major_version.pk_minor_version.pk_micro_version])
 
@@ -318,7 +318,7 @@ AC_ARG_ENABLE(browser_plugin, AS_HELP_STRING([--enable-browser-plugin],[Build br
 	      enable_browser_plugin=$enableval,enable_browser_plugin=yes)
 if test x$enable_browser_plugin = xyes; then
 	PKG_CHECK_MODULES(PK_BROWSER_PLUGIN,	\
-			  mozilla-plugin >= 8.0	\
+			  mozilla-plugin	\
 			  gio-unix-2.0		\
 			  nspr >= 4.8		\
 			  cairo			\

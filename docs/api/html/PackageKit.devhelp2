@@ -502,8 +502,11 @@
     <keyword type="function" name="pk_task_get_interactive ()" link="PkTask.html#pk-task-get-interactive"/>
     <keyword type="function" name="pk_task_set_only_download ()" link="PkTask.html#pk-task-set-only-download" since="0.8.1"/>
     <keyword type="function" name="pk_task_get_only_download ()" link="PkTask.html#pk-task-get-only-download" since="0.8.1"/>
+    <keyword type="function" name="pk_task_set_only_trusted ()" link="PkTask.html#pk-task-set-only-trusted" since="0.9.5"/>
+    <keyword type="function" name="pk_task_get_only_trusted ()" link="PkTask.html#pk-task-get-only-trusted" since="0.9.5"/>
     <keyword type="macro" name="PK_TASK_TYPE_ERROR" link="PkTask.html#PK-TASK-TYPE-ERROR:CAPS"/>
     <keyword type="property" name="The “only-download” property" link="PkTask.html#PkTask--only-download"/>
+    <keyword type="property" name="The “only-trusted” property" link="PkTask.html#PkTask--only-trusted"/>
     <keyword type="property" name="The “simulate” property" link="PkTask.html#PkTask--simulate"/>
     <keyword type="function" name="pk_transaction_past_new ()" link="PkTransactionPast.html#pk-transaction-past-new" since="0.5.4"/>
     <keyword type="function" name="pk_transaction_past_get_cmdline ()" link="PkTransactionPast.html#pk-transaction-past-get-cmdline" since="0.8.11"/>

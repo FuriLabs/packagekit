@@ -33,11 +33,17 @@
 #include <glib/gi18n.h>
 #include <packagekit-glib2/pk-debug.h>
 
+#include "pk-cleanup.h"
 #include "pk-engine.h"
+#include "pk-shared.h"
 #include "pk-transaction.h"
 
-static guint exit_idle_time;
-static GMainLoop *loop;
+typedef struct {
+	GMainLoop	*loop;
+	PkEngine	*engine;
+	guint		 exit_idle_time;
+	guint		 timer_id;
+} PkMainHelper;
 
 /**
  * timed_exit_cb:
@@ -58,14 +64,14 @@ timed_exit_cb (GMainLoop *mainloop)
  * pk_main_timeout_check_cb:
  **/
 static gboolean
-pk_main_timeout_check_cb (PkEngine *engine)
+pk_main_timeout_check_cb (PkMainHelper *helper)
 {
 	guint idle;
-	idle = pk_engine_get_seconds_idle (engine);
+	idle = pk_engine_get_seconds_idle (helper->engine);
 	g_debug ("idle is %i", idle);
-	if (idle > exit_idle_time) {
-		g_warning ("exit!!");
-		g_main_loop_quit (loop);
+	if (idle > helper->exit_idle_time) {
+		g_main_loop_quit (helper->loop);
+		helper->timer_id = 0;
 		return FALSE;
 	}
 	return TRUE;
@@ -94,123 +100,27 @@ pk_main_sigint_cb (gpointer user_data)
 }
 
 /**
- * pk_main_sort_backends_cb:
- **/
-static gint
-pk_main_sort_backends_cb (const gchar **store1,
-			  const gchar **store2)
-{
-	return g_strcmp0 (*store2, *store1);
-}
-
-/**
- * pk_main_set_auto_backend:
- **/
-static gboolean
-pk_main_set_auto_backend (GKeyFile *conf, GError **error)
-{
-	const gchar *tmp;
-	gboolean ret = TRUE;
-	gchar *name_tmp;
-	GDir *dir = NULL;
-	GPtrArray *array = NULL;
-
-	dir = g_dir_open (LIBDIR "/packagekit-backend", 0, error);
-	if (dir == NULL)
-		goto out;
-	array = g_ptr_array_new_with_free_func (g_free);
-	do {
-		tmp = g_dir_read_name (dir);
-		if (tmp == NULL)
-			break;
-		if (!g_str_has_prefix (tmp, "libpk_backend_"))
-			continue;
-		if (!g_str_has_suffix (tmp, G_MODULE_SUFFIX))
-			continue;
-		if (g_strstr_len (tmp, -1, "libpk_backend_dummy"))
-			continue;
-		if (g_strstr_len (tmp, -1, "libpk_backend_test"))
-			continue;
-
-		/* turn 'libpk_backend_test.so' into 'test' */
-		name_tmp = g_strdup (tmp + 14);
-		g_strdelimit (name_tmp, ".", '\0');
-		g_ptr_array_add (array,
-				 name_tmp);
-	} while (1);
-
-	/* need to sort by id predictably */
-	g_ptr_array_sort (array,
-			  (GCompareFunc) pk_main_sort_backends_cb);
-
-	/* set best backend */
-	if (array->len == 0) {
-		g_set_error_literal (error, 1, 0, "No backends found");
-		ret = FALSE;
-		goto out;
-	}
-	tmp = g_ptr_array_index (array, 0);
-	g_key_file_set_string (conf,
-			       "Daemon",
-			       "DefaultBackend",
-			       tmp);
-
-out:
-	if (array != NULL)
-		g_ptr_array_unref (array);
-	if (dir != NULL)
-		g_dir_close (dir);
-	return ret;
-}
-
-/**
- * pk_main_get_config_filename:
- **/
-static gchar *
-pk_main_get_config_filename (void)
-{
-	gchar *path;
-
-#if PK_BUILD_LOCAL
-	/* try a local path first */
-	path = g_build_filename ("..", "etc", "PackageKit.conf", NULL);
-	if (g_file_test (path, G_FILE_TEST_EXISTS))
-		goto out;
-	g_debug ("local config file not found '%s'", path);
-	g_free (path);
-#endif
-	/* check the prefix path */
-	path = g_build_filename (SYSCONFDIR, "PackageKit", "PackageKit.conf", NULL);
-	if (g_file_test (path, G_FILE_TEST_EXISTS))
-		goto out;
-
-	/* none found! */
-	g_warning ("config file not found '%s'", path);
-	g_free (path);
-	path = NULL;
-out:
-	return path;
-}
-
-/**
  * main:
  **/
 int
 main (int argc, char *argv[])
 {
+	GMainLoop *loop = NULL;
+	GOptionContext *context;
+	PkMainHelper helper;
 	gboolean ret = TRUE;
 	gboolean disable_timer = FALSE;
 	gboolean version = FALSE;
 	gboolean timed_exit = FALSE;
 	gboolean immediate_exit = FALSE;
 	gboolean keep_environment = FALSE;
-	gchar *backend_name = NULL;
-	gchar *conf_filename = NULL;
-	PkEngine *engine = NULL;
-	GKeyFile *conf = NULL;
-	GError *error = NULL;
-	GOptionContext *context;
+	guint exit_idle_time;
 	guint timer_id = 0;
+	_cleanup_error_free_ GError *error = NULL;
+	_cleanup_free_ gchar *backend_name = NULL;
+	_cleanup_free_ gchar *conf_filename = NULL;
+	_cleanup_keyfile_unref_ GKeyFile *conf = NULL;
+	_cleanup_object_unref_ PkEngine *engine = NULL;
 
 	const GOptionEntry options[] = {
 		{ "backend", '\0', 0, G_OPTION_ARG_STRING, &backend_name,
@@ -265,12 +175,11 @@ main (int argc, char *argv[])
 
 	/* get values from the config file */
 	conf = g_key_file_new ();
-	conf_filename = pk_main_get_config_filename ();
+	conf_filename = pk_util_get_config_filename ();
 	ret = g_key_file_load_from_file (conf, conf_filename,
 					 G_KEY_FILE_NONE, &error);
 	if (!ret) {
 		g_print ("Failed to load config file: %s", error->message);
-		g_error_free (error);
 		goto out;
 	}
 	g_key_file_set_boolean (conf, "Daemon", "KeepEnvironment", keep_environment);
@@ -293,11 +202,9 @@ main (int argc, char *argv[])
 	/* resolve 'auto' to an actual name */
 	backend_name = g_key_file_get_string (conf, "Daemon", "DefaultBackend", NULL);
 	if (g_strcmp0 (backend_name, "auto") == 0) {
-		ret  = pk_main_set_auto_backend (conf, &error);
+		ret  = pk_util_set_auto_backend (conf, &error);
 		if (!ret) {
-			g_print ("Failed to resolve auto: %s",
-				 error->message);
-			g_error_free (error);
+			g_print ("Failed to resolve auto: %s", error->message);
 			goto out;
 		}
 	}
@@ -320,9 +227,7 @@ main (int argc, char *argv[])
 	ret = pk_engine_load_backend (engine, &error);
 	if (!ret) {
 		/* TRANSLATORS: cannot load the backend the user specified */
-		g_print ("Failed to load the backend: %s",
-			 error->message);
-		g_error_free (error);
+		g_print ("Failed to load the backend: %s", error->message);
 		goto out;
 	}
 
@@ -336,8 +241,11 @@ main (int argc, char *argv[])
 
 	/* only poll when we are alive */
 	if (exit_idle_time != 0 && !disable_timer) {
-		timer_id = g_timeout_add_seconds (5, (GSourceFunc) pk_main_timeout_check_cb, engine);
-		g_source_set_name_by_id (timer_id, "[PkMain] main poll");
+		helper.engine = engine;
+		helper.exit_idle_time = exit_idle_time;
+		helper.loop = loop;
+		helper.timer_id = g_timeout_add_seconds (5, (GSourceFunc) pk_main_timeout_check_cb, &helper);
+		g_source_set_name_by_id (helper.timer_id, "[PkMain] main poll");
 	}
 
 	/* immediatly exit */
@@ -353,15 +261,8 @@ out:
 
 	if (timer_id > 0)
 		g_source_remove (timer_id);
-
 	if (loop != NULL)
 		g_main_loop_unref (loop);
-	g_key_file_unref (conf);
-	if (engine != NULL)
-		g_object_unref (engine);
-	g_free (backend_name);
-	g_free (conf_filename);
-
 exit_program:
 	return 0;
 }

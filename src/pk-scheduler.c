@@ -62,14 +62,15 @@
 #include <glib/gi18n.h>
 #include <packagekit-glib2/pk-common.h>
 
+#include "pk-cleanup.h"
 #include "pk-shared.h"
 #include "pk-transaction.h"
 #include "pk-transaction-private.h"
-#include "pk-transaction-list.h"
+#include "pk-scheduler.h"
 
-static void     pk_transaction_list_finalize	(GObject	*object);
+static void     pk_scheduler_finalize	(GObject	*object);
 
-#define PK_TRANSACTION_LIST_GET_PRIVATE(o) (G_TYPE_INSTANCE_GET_PRIVATE ((o), PK_TYPE_TRANSACTION_LIST, PkTransactionListPrivate))
+#define PK_SCHEDULER_GET_PRIVATE(o) (G_TYPE_INSTANCE_GET_PRIVATE ((o), PK_TYPE_SCHEDULER, PkSchedulerPrivate))
 
 /* the interval between each CST, in seconds */
 #define PK_TRANSACTION_WEDGE_CHECK			10
@@ -78,9 +79,15 @@ static void     pk_transaction_list_finalize	(GObject	*object);
 #define PK_TRANSACTION_KEEP_FINISHED_TIMOUT		5 /* s */
 
 /* how many times we should retry a locked transaction */
-#define PK_TRANSACTION_LIST_MAX_LOCK_RETRIES	4
+#define PK_SCHEDULER_MAX_LOCK_RETRIES			4
 
-struct PkTransactionListPrivate
+/* how long the transaction is valid before it's destroyed */
+#define PK_SCHEDULER_CREATE_COMMIT_TIMEOUT		300 /* s */
+
+/* maximum number of requests a given user is able to request and queue */
+#define PK_SCHEDULER_SIMULTANEOUS_TRANSACTIONS_FOR_UID	500
+
+struct PkSchedulerPrivate
 {
 	GPtrArray		*array;
 	guint			 unwedge1_id;
@@ -93,45 +100,44 @@ struct PkTransactionListPrivate
 
 typedef struct {
 	PkTransaction		*transaction;
-	PkTransactionList	*list;
+	PkScheduler		*scheduler;
 	gchar			*tid;
 	guint			 remove_id;
 	guint			 idle_id;
 	guint			 commit_id;
 	gulong			 finished_id;
+	gulong			 state_changed_id;
 	guint			 uid;
 	guint			 tries;
-	gboolean		 background;
-} PkTransactionItem;
+} PkSchedulerItem;
 
 enum {
-	PK_TRANSACTION_LIST_CHANGED,
-	PK_TRANSACTION_LIST_LAST_SIGNAL
+	PK_SCHEDULER_CHANGED,
+	PK_SCHEDULER_LAST_SIGNAL
 };
 
-static guint signals [PK_TRANSACTION_LIST_LAST_SIGNAL] = { 0 };
+static guint signals [PK_SCHEDULER_LAST_SIGNAL] = { 0 };
 
-G_DEFINE_TYPE (PkTransactionList, pk_transaction_list, G_TYPE_OBJECT)
-static gpointer pk_transaction_list_object = NULL;
+G_DEFINE_TYPE (PkScheduler, pk_scheduler, G_TYPE_OBJECT)
 
 /**
- * pk_transaction_list_get_from_tid:
+ * pk_scheduler_get_from_tid:
  **/
-static PkTransactionItem *
-pk_transaction_list_get_from_tid (PkTransactionList *tlist, const gchar *tid)
+static PkSchedulerItem *
+pk_scheduler_get_from_tid (PkScheduler *scheduler, const gchar *tid)
 {
 	guint i;
 	GPtrArray *array;
-	PkTransactionItem *item;
+	PkSchedulerItem *item;
 	const gchar *tmptid;
 
-	g_return_val_if_fail (tlist != NULL, NULL);
-	g_return_val_if_fail (PK_IS_TRANSACTION_LIST (tlist), NULL);
+	g_return_val_if_fail (scheduler != NULL, NULL);
+	g_return_val_if_fail (PK_IS_SCHEDULER (scheduler), NULL);
 
 	/* find the runner with the transaction ID */
-	array = tlist->priv->array;
+	array = scheduler->priv->array;
 	for (i = 0; i < array->len; i++) {
-		item = (PkTransactionItem *) g_ptr_array_index (array, i);
+		item = (PkSchedulerItem *) g_ptr_array_index (array, i);
 		tmptid = pk_transaction_get_tid (item->transaction);
 		if (g_strcmp0 (tmptid, tid) == 0)
 			return item;
@@ -140,40 +146,40 @@ pk_transaction_list_get_from_tid (PkTransactionList *tlist, const gchar *tid)
 }
 
 /**
- * pk_transaction_list_get_transaction:
+ * pk_scheduler_get_transaction:
  *
  * Return value: Do not unref.
  **/
 PkTransaction *
-pk_transaction_list_get_transaction (PkTransactionList *tlist, const gchar *tid)
+pk_scheduler_get_transaction (PkScheduler *scheduler, const gchar *tid)
 {
-	PkTransactionItem *item;
-	item = pk_transaction_list_get_from_tid (tlist, tid);
+	PkSchedulerItem *item;
+	item = pk_scheduler_get_from_tid (scheduler, tid);
 	if (item == NULL)
 		return NULL;
 	return item->transaction;
 }
 
 /**
- * pk_transaction_list_role_present:
+ * pk_scheduler_role_present:
  *
  * if there is a queued transaction with this role, useful to avoid having
  * multiple system updates queued
  **/
 gboolean
-pk_transaction_list_role_present (PkTransactionList *tlist, PkRoleEnum role)
+pk_scheduler_role_present (PkScheduler *scheduler, PkRoleEnum role)
 {
 	guint i;
 	GPtrArray *array;
 	PkRoleEnum role_temp;
-	PkTransactionItem *item;
+	PkSchedulerItem *item;
 
-	g_return_val_if_fail (PK_IS_TRANSACTION_LIST (tlist), FALSE);
+	g_return_val_if_fail (PK_IS_SCHEDULER (scheduler), FALSE);
 
 	/* check for existing transaction doing an update */
-	array = tlist->priv->array;
+	array = scheduler->priv->array;
 	for (i = 0; i < array->len; i++) {
-		item = (PkTransactionItem *) g_ptr_array_index (array, i);
+		item = (PkSchedulerItem *) g_ptr_array_index (array, i);
 		/* we might not have this set yet */
 		if (item->transaction == NULL)
 			continue;
@@ -188,14 +194,16 @@ pk_transaction_list_role_present (PkTransactionList *tlist, PkRoleEnum role)
 }
 
 /**
- * pk_transaction_list_item_free:
+ * pk_scheduler_item_free:
  **/
 static void
-pk_transaction_list_item_free (PkTransactionItem *item)
+pk_scheduler_item_free (PkSchedulerItem *item)
 {
 	g_return_if_fail (item != NULL);
 	if (item->finished_id != 0)
 		g_signal_handler_disconnect (item->transaction, item->finished_id);
+	if (item->state_changed_id != 0)
+		g_signal_handler_disconnect (item->transaction, item->state_changed_id);
 	g_object_unref (item->transaction);
 	if (item->commit_id != 0)
 		g_source_remove (item->commit_id);
@@ -203,46 +211,46 @@ pk_transaction_list_item_free (PkTransactionItem *item)
 		g_source_remove (item->idle_id);
 	if (item->remove_id != 0)
 		g_source_remove (item->remove_id);
-	g_object_unref (item->list);
+	g_object_unref (item->scheduler);
 	g_free (item->tid);
 	g_free (item);
 }
 
 /**
- * pk_transaction_list_remove_internal:
+ * pk_scheduler_remove_internal:
  **/
 static gboolean
-pk_transaction_list_remove_internal (PkTransactionList *tlist, PkTransactionItem *item)
+pk_scheduler_remove_internal (PkScheduler *scheduler, PkSchedulerItem *item)
 {
 	gboolean ret;
 
-	g_return_val_if_fail (PK_IS_TRANSACTION_LIST (tlist), FALSE);
+	g_return_val_if_fail (PK_IS_SCHEDULER (scheduler), FALSE);
 	g_return_val_if_fail (item != NULL, FALSE);
 
 	/* valid item */
-	ret = g_ptr_array_remove (tlist->priv->array, item);
+	ret = g_ptr_array_remove (scheduler->priv->array, item);
 	if (!ret) {
 		g_warning ("could not remove %p as not present in list", item);
 		return FALSE;
 	}
-	pk_transaction_list_item_free (item);
+	pk_scheduler_item_free (item);
 
 	return TRUE;
 }
 
 /**
- * pk_transaction_list_remove:
+ * pk_scheduler_remove:
  **/
 gboolean
-pk_transaction_list_remove (PkTransactionList *tlist, const gchar *tid)
+pk_scheduler_remove (PkScheduler *scheduler, const gchar *tid)
 {
-	PkTransactionItem *item;
+	PkSchedulerItem *item;
 	gboolean ret;
 
-	g_return_val_if_fail (PK_IS_TRANSACTION_LIST (tlist), FALSE);
+	g_return_val_if_fail (PK_IS_SCHEDULER (scheduler), FALSE);
 	g_return_val_if_fail (tid != NULL, FALSE);
 
-	item = pk_transaction_list_get_from_tid (tlist, tid);
+	item = pk_scheduler_get_from_tid (scheduler, tid);
 	if (item == NULL) {
 		g_warning ("could not get item");
 		return FALSE;
@@ -269,60 +277,33 @@ pk_transaction_list_remove (PkTransactionList *tlist, const gchar *tid)
 		g_source_remove (item->idle_id);
 		item->idle_id = 0;
 	}
-	ret = pk_transaction_list_remove_internal (tlist, item);
+	ret = pk_scheduler_remove_internal (scheduler, item);
 	return ret;
 }
 
 /**
- * pk_transaction_list_set_background:
- **/
-void
-pk_transaction_list_set_background (PkTransactionList *tlist,
-				    const gchar *tid,
-				    gboolean background)
-{
-	PkTransactionItem *item;
-
-	g_return_if_fail (PK_IS_TRANSACTION_LIST (tlist));
-	g_return_if_fail (tid != NULL);
-
-	item = pk_transaction_list_get_from_tid (tlist, tid);
-	if (item == NULL) {
-		g_warning ("could not get %s", tid);
-		return;
-	}
-	if (item->background == background)
-		return;
-	if (pk_transaction_get_state (item->transaction) == PK_TRANSACTION_STATE_FINISHED) {
-		g_debug ("already finished %s, so waiting to timeout", tid);
-		return;
-	}
-	g_debug ("%s is now background: %i", tid, background);
-	item->background = background;
-}
-
-/**
- * pk_transaction_list_remove_item_cb:
+ * pk_scheduler_remove_item_cb:
  **/
 static gboolean
-pk_transaction_list_remove_item_cb (PkTransactionItem *item)
+pk_scheduler_remove_item_cb (gpointer user_data)
 {
+	PkSchedulerItem *item = (PkSchedulerItem *) user_data;
 	g_debug ("transaction %s completed, removing", item->tid);
-	pk_transaction_list_remove_internal (item->list, item);
+	pk_scheduler_remove_internal (item->scheduler, item);
 	return FALSE;
 }
 
 /**
- * pk_transaction_list_run_idle_cb:
+ * pk_scheduler_run_idle_cb:
  **/
 static gboolean
-pk_transaction_list_run_idle_cb (PkTransactionItem *item)
+pk_scheduler_run_idle_cb (PkSchedulerItem *item)
 {
 	gboolean ret;
 
 	/* run the transaction */
 	pk_transaction_set_backend (item->transaction,
-				    item->list->priv->backend);
+				    item->scheduler->priv->backend);
 	ret = pk_transaction_run (item->transaction);
 	if (!ret)
 		g_error ("failed to run transaction (fatal)");
@@ -333,40 +314,40 @@ pk_transaction_list_run_idle_cb (PkTransactionItem *item)
 }
 
 /**
- * pk_transaction_list_run_item:
+ * pk_scheduler_run_item:
  **/
 static void
-pk_transaction_list_run_item (PkTransactionList *tlist, PkTransactionItem *item)
+pk_scheduler_run_item (PkScheduler *scheduler, PkSchedulerItem *item)
 {
 	/* we set this here so that we don't try starting more than one */
 	pk_transaction_set_state (item->transaction, PK_TRANSACTION_STATE_RUNNING);
 
 	/* add this idle, so that we don't have a deep out-of-order callchain */
-	item->idle_id = g_idle_add ((GSourceFunc) pk_transaction_list_run_idle_cb, item);
-	g_source_set_name_by_id (item->idle_id, "[PkTransactionList] run");
+	item->idle_id = g_idle_add ((GSourceFunc) pk_scheduler_run_idle_cb, item);
+	g_source_set_name_by_id (item->idle_id, "[PkScheduler] run");
 }
 
 /**
- * pk_transaction_list_get_active_transactions:
+ * pk_scheduler_get_active_transactions:
  *
  **/
 static GPtrArray *
-pk_transaction_list_get_active_transactions (PkTransactionList *tlist)
+pk_scheduler_get_active_transactions (PkScheduler *scheduler)
 {
 	guint i;
 	GPtrArray *array;
 	GPtrArray *res;
-	PkTransactionItem *item;
+	PkSchedulerItem *item;
 
-	g_return_val_if_fail (PK_IS_TRANSACTION_LIST (tlist), NULL);
+	g_return_val_if_fail (PK_IS_SCHEDULER (scheduler), NULL);
 
 	/* create array to store the results */
 	res = g_ptr_array_new ();
 
 	/* find the runner with the transaction ID */
-	array = tlist->priv->array;
+	array = scheduler->priv->array;
 	for (i = 0; i < array->len; i++) {
-		item = (PkTransactionItem *) g_ptr_array_index (array, i);
+		item = (PkSchedulerItem *) g_ptr_array_index (array, i);
 		if (pk_transaction_get_state (item->transaction) == PK_TRANSACTION_STATE_RUNNING)
 			g_ptr_array_add (res, item);
 	}
@@ -375,29 +356,29 @@ pk_transaction_list_get_active_transactions (PkTransactionList *tlist)
 }
 
 /**
- * pk_transaction_list_get_exclusive_running:
+ * pk_scheduler_get_exclusive_running:
  *
  * Return value: Greater than zero if any of the transactions in progress is
  * exclusive (no other exclusive transaction can be run in parallel).
  **/
 static guint
-pk_transaction_list_get_exclusive_running (PkTransactionList *tlist)
+pk_scheduler_get_exclusive_running (PkScheduler *scheduler)
 {
-	PkTransactionItem *item = NULL;
-	GPtrArray *array;
+	PkSchedulerItem *item = NULL;
 	guint exclusive_running = 0;
 	guint i;
+	_cleanup_ptrarray_unref_ GPtrArray *array = NULL;
 
-	g_return_val_if_fail (PK_IS_TRANSACTION_LIST (tlist), FALSE);
+	g_return_val_if_fail (PK_IS_SCHEDULER (scheduler), FALSE);
 
 	/* anything running? */
-	array = pk_transaction_list_get_active_transactions (tlist);
+	array = pk_scheduler_get_active_transactions (scheduler);
 	if (array->len == 0)
-		goto out;
+		return 0;
 
 	/* check if we have any running locked (exclusive) transaction */
 	for (i = 0; i < array->len; i++) {
-		item = (PkTransactionItem *) g_ptr_array_index (array, i);
+		item = (PkSchedulerItem *) g_ptr_array_index (array, i);
 
 		/* check if a transaction is running in exclusive */
 		if (pk_transaction_is_exclusive (item->transaction)) {
@@ -405,67 +386,60 @@ pk_transaction_list_get_exclusive_running (PkTransactionList *tlist)
 			exclusive_running++;
 		}
 	}
-out:
-	g_ptr_array_free (array, TRUE);
 	return exclusive_running;
 }
 
 /**
- * pk_transaction_list_get_background_running:
+ * pk_scheduler_get_background_running:
  *
  * Return value: %TRUE if we have running background transactions
  **/
 static gboolean
-pk_transaction_list_get_background_running (PkTransactionList *tlist)
+pk_scheduler_get_background_running (PkScheduler *scheduler)
 {
-	PkTransactionItem *item = NULL;
-	GPtrArray *array;
-	gboolean ret = FALSE;
+	PkSchedulerItem *item = NULL;
 	guint i;
+	_cleanup_ptrarray_unref_ GPtrArray *array = NULL;
 
-	g_return_val_if_fail (PK_IS_TRANSACTION_LIST (tlist), FALSE);
+	g_return_val_if_fail (PK_IS_SCHEDULER (scheduler), FALSE);
 
 	/* anything running? */
-	array = pk_transaction_list_get_active_transactions (tlist);
+	array = pk_scheduler_get_active_transactions (scheduler);
 	if (array->len == 0)
-		goto out;
+		return FALSE;
 
 	/* check if we have any running background transaction */
 	for (i = 0; i < array->len; i++) {
-		item = (PkTransactionItem *) g_ptr_array_index (array, i);
-		if (item->background) {
-			ret = TRUE;
-			goto out;
-		}
+		item = (PkSchedulerItem *) g_ptr_array_index (array, i);
+		if (pk_transaction_get_background (item->transaction))
+			return TRUE;
 	}
-out:
-	g_ptr_array_free (array, TRUE);
-	return ret;
+	return FALSE;
 }
 
 /**
- * pk_transaction_list_get_next_item:
+ * pk_scheduler_get_next_item:
  **/
-static PkTransactionItem *
-pk_transaction_list_get_next_item (PkTransactionList *tlist)
+static PkSchedulerItem *
+pk_scheduler_get_next_item (PkScheduler *scheduler)
 {
-	PkTransactionItem *item = NULL;
+	PkSchedulerItem *item = NULL;
 	GPtrArray *array;
 	guint i;
 	PkTransactionState state;
 	gboolean exclusive_running;
 
-	array = tlist->priv->array;
+	array = scheduler->priv->array;
 
 	/* check for running exclusive transaction */
-	exclusive_running = pk_transaction_list_get_exclusive_running (tlist) > 0;
+	exclusive_running = pk_scheduler_get_exclusive_running (scheduler) > 0;
 
 	/* first try the waiting non-background transactions */
 	for (i = 0; i < array->len; i++) {
-		item = (PkTransactionItem *) g_ptr_array_index (array, i);
+		item = (PkSchedulerItem *) g_ptr_array_index (array, i);
 		state = pk_transaction_get_state (item->transaction);
 
-		if ((state == PK_TRANSACTION_STATE_READY) && (!item->background)) {
+		if ((state == PK_TRANSACTION_STATE_READY) && (!pk_transaction_get_background (item->transaction))) {
 			/* check if we can run the transaction now or if we need to wait for lock release */
 			if (pk_transaction_is_exclusive (item->transaction)) {
 				if (!exclusive_running)
@@ -478,7 +452,7 @@ pk_transaction_list_get_next_item (PkTransactionList *tlist)
 
 	/* then try the other waiting transactions (background tasks) */
 	for (i = 0; i < array->len; i++) {
-		item = (PkTransactionItem *) g_ptr_array_index (array, i);
+		item = (PkSchedulerItem *) g_ptr_array_index (array, i);
 		state = pk_transaction_get_state (item->transaction);
 
 		if (state == PK_TRANSACTION_STATE_READY) {
@@ -499,22 +473,85 @@ out:
 }
 
 /**
- * pk_transaction_list_transaction_finished_cb:
+ * pk_scheduler_commit:
  **/
 static void
-pk_transaction_list_transaction_finished_cb (PkTransaction *transaction,
-					     PkTransactionList *tlist)
+pk_scheduler_commit (PkScheduler *scheduler, const gchar *tid)
 {
-	gboolean ret;
-	PkTransactionItem *item;
+	PkSchedulerItem *item;
+
+	g_return_if_fail (PK_IS_SCHEDULER (scheduler));
+	g_return_if_fail (tid != NULL);
+
+	item = pk_scheduler_get_from_tid (scheduler, tid);
+	if (item == NULL) {
+		g_warning ("could not get transaction: %s", tid);
+		return;
+	}
+
+	/* treat all transactions as exclusive if backend does not support parallelization */
+	if (!pk_backend_supports_parallelization (scheduler->priv->backend))
+		pk_transaction_make_exclusive (item->transaction);
+
+	/* we've been 'used' */
+	if (item->commit_id != 0) {
+		g_source_remove (item->commit_id);
+		item->commit_id = 0;
+	}
+
+	/* we will changed what is running */
+	g_signal_emit (scheduler, signals [PK_SCHEDULER_CHANGED], 0);
+
+	/* is one of the current running transactions background, and this new
+	 * transaction foreground? */
+	if (!pk_transaction_get_background (item->transaction) &&
+	    pk_scheduler_get_background_running (scheduler)) {
+		g_debug ("cancelling running background transactions and instead running %s",
+			item->tid);
+		pk_scheduler_cancel_background (scheduler);
+	}
+
+	/* do the transaction now, if possible */
+	if (pk_transaction_is_exclusive (item->transaction) == FALSE ||
+	    pk_scheduler_get_exclusive_running (scheduler) == 0)
+		pk_scheduler_run_item (scheduler, item);
+}
+
+/**
+ * pk_scheduler_transaction_state_changed_cb:
+ **/
+static void
+pk_scheduler_transaction_state_changed_cb (PkTransaction *transaction,
+					   PkTransactionState state,
+					   PkScheduler *scheduler)
+{
+	/* release the ID as we are returning an error */
+	if (state == PK_TRANSACTION_STATE_ERROR) {
+		pk_scheduler_remove (scheduler, pk_transaction_get_tid (transaction));
+		return;
+	}
+	if (state == PK_TRANSACTION_STATE_READY) {
+		pk_scheduler_commit (scheduler, pk_transaction_get_tid (transaction));
+		return;
+	}
+}
+
+/**
+ * pk_scheduler_transaction_finished_cb:
+ **/
+static void
+pk_scheduler_transaction_finished_cb (PkTransaction *transaction,
+					     PkScheduler *scheduler)
+{
+	PkSchedulerItem *item;
 	PkTransactionState state;
 	PkBackendJob *job;
 	const gchar *tid;
 
-	g_return_if_fail (PK_IS_TRANSACTION_LIST (tlist));
+	g_return_if_fail (PK_IS_SCHEDULER (scheduler));
 
 	tid = pk_transaction_get_tid (transaction);
-	item = pk_transaction_list_get_from_tid (tlist, tid);
+	item = pk_scheduler_get_from_tid (scheduler, tid);
 	if (item == NULL)
 		g_error ("no transaction list item '%s' found!", tid);
 
@@ -533,7 +570,7 @@ pk_transaction_list_transaction_finished_cb (PkTransaction *transaction,
 
 		g_debug ("transaction finished and requires lock now, attempt %i", item->tries);
 
-		if (item->tries > PK_TRANSACTION_LIST_MAX_LOCK_RETRIES) {
+		if (item->tries > PK_SCHEDULER_MAX_LOCK_RETRIES) {
 			/* fail the transaction */
 			job = pk_transaction_get_backend_job (item->transaction);
 
@@ -551,58 +588,57 @@ pk_transaction_list_transaction_finished_cb (PkTransaction *transaction,
 			g_source_remove (item->commit_id);
 			item->commit_id = 0;
 		}
-		ret = pk_transaction_set_state (item->transaction, PK_TRANSACTION_STATE_FINISHED);
-		if (!ret) {
-			g_warning ("transaction could not be set finished!");
-			return;
-		}
+		pk_transaction_set_state (item->transaction, PK_TRANSACTION_STATE_FINISHED);
 
 		/* give the client a few seconds to still query the runner */
-		item->remove_id = g_timeout_add_seconds (PK_TRANSACTION_KEEP_FINISHED_TIMOUT, (GSourceFunc) pk_transaction_list_remove_item_cb, item);
-		g_source_set_name_by_id (item->remove_id, "[PkTransactionList] remove");
+		item->remove_id = g_timeout_add_seconds (PK_TRANSACTION_KEEP_FINISHED_TIMOUT,
+							 pk_scheduler_remove_item_cb,
+							 item);
+		g_source_set_name_by_id (item->remove_id, "[PkScheduler] remove");
 	}
 
 	/* try to run the next transaction, if possible */
-	item = pk_transaction_list_get_next_item (tlist);
+	item = pk_scheduler_get_next_item (scheduler);
 	if (item != NULL) {
 		g_debug ("running %s as previous one finished", item->tid);
-		pk_transaction_list_run_item (tlist, item);
+		pk_scheduler_run_item (scheduler, item);
 	}
 
 	/* we have changed what is running */
-	g_signal_emit (tlist, signals [PK_TRANSACTION_LIST_CHANGED], 0);
+	g_signal_emit (scheduler, signals [PK_SCHEDULER_CHANGED], 0);
 }
 
 /**
- * pk_transaction_list_no_commit_cb:
+ * pk_scheduler_no_commit_cb:
  **/
 static gboolean
-pk_transaction_list_no_commit_cb (PkTransactionItem *item)
+pk_scheduler_no_commit_cb (gpointer user_data)
 {
+	PkSchedulerItem *item = (PkSchedulerItem *) user_data;
 	g_warning ("ID %s was not committed in time!", item->tid);
-	pk_transaction_list_remove_internal (item->list, item);
+	pk_scheduler_remove_internal (item->scheduler, item);
 
 	/* never repeat */
 	return FALSE;
 }
 
 /**
- * pk_transaction_list_get_number_transactions_for_uid:
+ * pk_scheduler_get_number_transactions_for_uid:
  *
  * Find all the transactions that are pending from this uid.
  **/
 static guint
-pk_transaction_list_get_number_transactions_for_uid (PkTransactionList *tlist, guint uid)
+pk_scheduler_get_number_transactions_for_uid (PkScheduler *scheduler, guint uid)
 {
 	guint i;
 	GPtrArray *array;
-	PkTransactionItem *item;
+	PkSchedulerItem *item;
 	guint count = 0;
 
 	/* find all the transactions in progress */
-	array = tlist->priv->array;
+	array = scheduler->priv->array;
 	for (i = 0; i < array->len; i++) {
-		item = (PkTransactionItem *) g_ptr_array_index (array, i);
+		item = (PkSchedulerItem *) g_ptr_array_index (array, i);
 		if (item->uid == uid)
 			count++;
 	}
@@ -610,180 +646,157 @@ pk_transaction_list_get_number_transactions_for_uid (PkTransactionList *tlist, g
 }
 
 /**
- * pk_transaction_list_create:
+ * pk_scheduler_create:
  **/
 gboolean
-pk_transaction_list_create (PkTransactionList *tlist,
+pk_scheduler_create (PkScheduler *scheduler,
 			    const gchar *tid,
 			    const gchar *sender,
 			    GError **error)
 {
 	guint count;
-	guint max_count;
-	guint timeout;
 	gboolean ret = FALSE;
-	PkTransactionItem *item;
+	PkSchedulerItem *item;
 
-	g_return_val_if_fail (PK_IS_TRANSACTION_LIST (tlist), FALSE);
+	g_return_val_if_fail (PK_IS_SCHEDULER (scheduler), FALSE);
 	g_return_val_if_fail (tid != NULL, FALSE);
 
 	/* already added? */
-	item = pk_transaction_list_get_from_tid (tlist, tid);
+	item = pk_scheduler_get_from_tid (scheduler, tid);
 	if (item != NULL) {
 		g_set_error (error, 1, 0, "already added %s to list", tid);
-		goto out;
+		return FALSE;
 	}
 
 	/* add to the array */
-	item = g_new0 (PkTransactionItem, 1);
-	item->list = g_object_ref (tlist);
+	item = g_new0 (PkSchedulerItem, 1);
+	item->scheduler = g_object_ref (scheduler);
 	item->tid = g_strdup (tid);
-	item->transaction = pk_transaction_new (tlist->priv->conf,
-						tlist->priv->introspection);
+	item->transaction = pk_transaction_new (scheduler->priv->conf,
+						scheduler->priv->introspection);
 	item->finished_id =
 		g_signal_connect_after (item->transaction, "finished",
-					G_CALLBACK (pk_transaction_list_transaction_finished_cb), tlist);
+					G_CALLBACK (pk_scheduler_transaction_finished_cb),
+					scheduler);
+	item->state_changed_id =
+		g_signal_connect_after (item->transaction, "state-changed",
+					G_CALLBACK (pk_scheduler_transaction_state_changed_cb),
+					scheduler);
 
 	/* set plugins */
-	if (tlist->priv->plugins != NULL) {
+	if (scheduler->priv->plugins != NULL) {
 		pk_transaction_set_plugins (item->transaction,
-					    tlist->priv->plugins);
+					    scheduler->priv->plugins);
 	}
 
 	/* set transaction state */
-	ret = pk_transaction_set_state (item->transaction, PK_TRANSACTION_STATE_NEW);
-	if (!ret) {
-		g_set_error (error, 1, 0, "failed to set transaction state 'new': %s", tid);
-		goto out;
-	}
+	pk_transaction_set_state (item->transaction, PK_TRANSACTION_STATE_NEW);
 
 	/* set the TID on the transaction */
 	ret = pk_transaction_set_tid (item->transaction, item->tid);
 	if (!ret) {
 		g_set_error (error, 1, 0, "failed to set TID: %s", tid);
-		goto out;
+		return FALSE;
 	}
 
 	/* set the DBUS sender on the transaction */
 	ret = pk_transaction_set_sender (item->transaction, sender);
 	if (!ret) {
 		g_set_error (error, 1, 0, "failed to set sender: %s", tid);
-		goto out;
+		return FALSE;
 	}
 
 	/* set the master PkBackend really early (i.e. before
 	 * pk_transaction_run is called) as transactions may want to check
 	 * to see if roles are possible before accepting actions */
-	if (tlist->priv->backend != NULL) {
+	if (scheduler->priv->backend != NULL) {
 		pk_transaction_set_backend (item->transaction,
-					    tlist->priv->backend);
+					    scheduler->priv->backend);
 	}
 
 	/* get the uid for the transaction */
 	item->uid = pk_transaction_get_uid (item->transaction);
 
 	/* find out the number of transactions this uid already has in progress */
-	count = pk_transaction_list_get_number_transactions_for_uid (tlist, item->uid);
+	count = pk_scheduler_get_number_transactions_for_uid (scheduler, item->uid);
 
 	/* would this take us over the maximum number of requests allowed */
-	max_count = g_key_file_get_integer (tlist->priv->conf,
-					    "Daemon",
-					    "SimultaneousTransactionsForUid",
-					    error);
-	if (max_count == 0) {
-		ret = FALSE;
-		goto out;
-	}
-	if (count > max_count) {
-		g_set_error (error, 1, 0, "failed to allocate %s as uid %i already has %i transactions in progress", tid, item->uid, count);
-
+	if (count > PK_SCHEDULER_SIMULTANEOUS_TRANSACTIONS_FOR_UID) {
+		g_set_error (error, 1, 0,
+			     "failed to allocate %s as uid %i already has "
+			     "%i transactions in progress",
+			     tid, item->uid, count);
 		/* free transaction, as it's never going to be added */
-		pk_transaction_list_item_free (item);
-
-		/* failure */
-		ret = FALSE;
-		goto out;
+		pk_scheduler_item_free (item);
+		return FALSE;
 	}
 
 	/* the client only has a finite amount of time to use the object, else it's destroyed */
-	timeout = g_key_file_get_integer (tlist->priv->conf,
-					  "Daemon",
-					  "TransactionCreateCommitTimeout",
-					  error);
-	if (timeout == 0) {
-		ret = FALSE;
-		goto out;
-	}
-	item->commit_id = g_timeout_add_seconds (timeout, (GSourceFunc) pk_transaction_list_no_commit_cb, item);
-	g_source_set_name_by_id (item->commit_id, "[PkTransactionList] commit");
+	item->commit_id = g_timeout_add_seconds (PK_SCHEDULER_CREATE_COMMIT_TIMEOUT,
+						 pk_scheduler_no_commit_cb,
+						 item);
+	g_source_set_name_by_id (item->commit_id, "[PkScheduler] commit");
 
 	g_debug ("adding transaction %p", item->transaction);
-	g_ptr_array_add (tlist->priv->array, item);
-out:
-	return ret;
+	g_ptr_array_add (scheduler->priv->array, item);
+	return TRUE;
 }
 
 /**
- * pk_transaction_list_get_locked:
+ * pk_scheduler_get_locked:
  *
  * Return value: %TRUE if any of the transactions in progress are
  * locking a database or resource and cannot be cancelled.
  **/
 gboolean
-pk_transaction_list_get_locked (PkTransactionList *tlist)
+pk_scheduler_get_locked (PkScheduler *scheduler)
 {
 	PkBackendJob *job;
-	PkTransactionItem *item;
-	GPtrArray *array;
+	PkSchedulerItem *item;
 	guint i;
-	gboolean ret = FALSE;
+	_cleanup_ptrarray_unref_ GPtrArray *array = NULL;
 
-	g_return_val_if_fail (PK_IS_TRANSACTION_LIST (tlist), FALSE);
+	g_return_val_if_fail (PK_IS_SCHEDULER (scheduler), FALSE);
 
 	/* anything running? */
-	array = pk_transaction_list_get_active_transactions (tlist);
+	array = pk_scheduler_get_active_transactions (scheduler);
 	if (array->len == 0)
-		goto out;
+		return FALSE;
 
 	/* check if any backend in running transaction is locked at time */
 	for (i = 0; i < array->len; i++) {
-		item = (PkTransactionItem *) g_ptr_array_index (array, i);
+		item = (PkSchedulerItem *) g_ptr_array_index (array, i);
 
 		job = pk_transaction_get_backend_job (item->transaction);
 		if (job == NULL)
 			continue;
-
-		ret = pk_backend_job_get_locked (job);
-		if (ret)
-			goto out;
+		if (pk_backend_job_get_locked (job))
+			return TRUE;
 	}
-
-out:
-	g_ptr_array_free (array, TRUE);
-	return ret;
+	return FALSE;
 }
 
 /**
- * pk_transaction_list_cancel_background:
+ * pk_scheduler_cancel_background:
  **/
 void
-pk_transaction_list_cancel_background (PkTransactionList *tlist)
+pk_scheduler_cancel_background (PkScheduler *scheduler)
 {
 	guint i;
 	GPtrArray *array;
-	PkTransactionItem *item;
+	PkSchedulerItem *item;
 	PkTransactionState state;
 
-	g_return_if_fail (PK_IS_TRANSACTION_LIST (tlist));
+	g_return_if_fail (PK_IS_SCHEDULER (scheduler));
 
 	/* cancel all running background transactions */
-	array = tlist->priv->array;
+	array = scheduler->priv->array;
 	for (i = 0; i < array->len; i++) {
-		item = (PkTransactionItem *) g_ptr_array_index (array, i);
+		item = (PkSchedulerItem *) g_ptr_array_index (array, i);
 		state = pk_transaction_get_state (item->transaction);
 		if (state != PK_TRANSACTION_STATE_RUNNING)
 			continue;
-		if (!item->background)
+		if (!pk_transaction_get_background (item->transaction))
 			continue;
 		g_debug ("cancelling running background transaction %s",
 			 item->tid);
@@ -792,143 +805,78 @@ pk_transaction_list_cancel_background (PkTransactionList *tlist)
 }
 
 /**
- * pk_transaction_list_cancel_queued:
+ * pk_scheduler_cancel_queued:
  **/
 void
-pk_transaction_list_cancel_queued (PkTransactionList *tlist)
+pk_scheduler_cancel_queued (PkScheduler *scheduler)
 {
 	guint i;
 	GPtrArray *array;
-	PkTransactionItem *item;
+	PkSchedulerItem *item;
 	PkTransactionState state;
 
-	g_return_if_fail (PK_IS_TRANSACTION_LIST (tlist));
+	g_return_if_fail (PK_IS_SCHEDULER (scheduler));
 
 	/* clear any pending transactions */
-	array = tlist->priv->array;
+	array = scheduler->priv->array;
 	for (i = 0; i < array->len; i++) {
-		item = (PkTransactionItem *) g_ptr_array_index (array, i);
+		item = (PkSchedulerItem *) g_ptr_array_index (array, i);
 		state = pk_transaction_get_state (item->transaction);
 		if (state >= PK_TRANSACTION_STATE_RUNNING)
 			continue;
-		g_debug ("cancelling pending transaction %s",
-			 item->tid);
+		g_debug ("cancelling pending transaction %s", item->tid);
 		pk_transaction_cancel_bg (item->transaction);
 	}
 }
 
 /**
- * pk_transaction_list_commit:
- **/
-gboolean
-pk_transaction_list_commit (PkTransactionList *tlist, const gchar *tid)
-{
-	gboolean ret;
-	PkTransactionItem *item;
-
-	g_return_val_if_fail (PK_IS_TRANSACTION_LIST (tlist), FALSE);
-	g_return_val_if_fail (tid != NULL, FALSE);
-
-	item = pk_transaction_list_get_from_tid (tlist, tid);
-	if (item == NULL) {
-		g_warning ("could not get transaction: %s", tid);
-		return FALSE;
-	}
-
-	/* check we're not doing this again */
-	if (pk_transaction_get_state (item->transaction) == PK_TRANSACTION_STATE_COMMITTED) {
-		g_warning ("already committed");
-		return FALSE;
-	}
-
-	/* marking transaction as committed */
-	ret = pk_transaction_set_state (item->transaction,
-					PK_TRANSACTION_STATE_COMMITTED);
-	if (!ret) {
-		g_warning ("could not mark as committed");
-		return FALSE;
-	}
-
-	/* treat all transactions as exclusive if backend does not support parallelization */
-	if (!pk_backend_supports_parallelization (tlist->priv->backend))
-		pk_transaction_make_exclusive (item->transaction);
-
-	/* we've been 'used' */
-	if (item->commit_id != 0) {
-		g_source_remove (item->commit_id);
-		item->commit_id = 0;
-	}
-
-	/* we will changed what is running */
-	g_signal_emit (tlist, signals [PK_TRANSACTION_LIST_CHANGED], 0);
-
-	/* is one of the current running transactions background, and this new
-	 * transaction foreground? */
-	if (!item->background && pk_transaction_list_get_background_running (tlist)) {
-		g_debug ("cancelling running background transactions and instead running %s",
-			item->tid);
-		pk_transaction_list_cancel_background (tlist);
-	}
-
-	/* do the transaction now, if possible */
-	if (pk_transaction_is_exclusive (item->transaction) == FALSE ||
-	    pk_transaction_list_get_exclusive_running (tlist) == 0)
-		pk_transaction_list_run_item (tlist, item);
-
-	return TRUE;
-}
-
-/**
- * pk_transaction_list_get_array:
+ * pk_scheduler_get_array:
  **/
 gchar **
-pk_transaction_list_get_array (PkTransactionList *tlist)
+pk_scheduler_get_array (PkScheduler *scheduler)
 {
 	guint i;
 	guint length;
-	GPtrArray *parray;
-	gchar **array;
-	PkTransactionItem *item;
+	PkSchedulerItem *item;
 	PkTransactionState state;
+	_cleanup_ptrarray_unref_ GPtrArray *parray = NULL;
 
-	g_return_val_if_fail (PK_IS_TRANSACTION_LIST (tlist), NULL);
+	g_return_val_if_fail (PK_IS_SCHEDULER (scheduler), NULL);
 
 	/* use a temp array, as not all are in progress */
 	parray = g_ptr_array_new_with_free_func (g_free);
 
 	/* find all the transactions in progress */
-	length = tlist->priv->array->len;
+	length = scheduler->priv->array->len;
 	for (i = 0; i < length; i++) {
-		item = (PkTransactionItem *) g_ptr_array_index (tlist->priv->array, i);
+		item = (PkSchedulerItem *) g_ptr_array_index (scheduler->priv->array, i);
 		/* only return in the list if its committed and not finished */
 		state = pk_transaction_get_state (item->transaction);
-		if (state == PK_TRANSACTION_STATE_COMMITTED ||
+		if (state == PK_TRANSACTION_STATE_READY ||
 		    state == PK_TRANSACTION_STATE_READY ||
 		    state == PK_TRANSACTION_STATE_RUNNING)
 			g_ptr_array_add (parray, g_strdup (item->tid));
 	}
-	g_debug ("%i transactions in list, %i committed but not finished", length, parray->len);
-	array = pk_ptr_array_to_strv (parray);
-	g_ptr_array_unref (parray);
-
-	return array;
+	g_debug ("%i transactions in list, %i committed but not finished",
+		 length, parray->len);
+	return pk_ptr_array_to_strv (parray);
 }
 
 /**
- * pk_transaction_list_get_size:
+ * pk_scheduler_get_size:
  **/
 guint
-pk_transaction_list_get_size (PkTransactionList *tlist)
+pk_scheduler_get_size (PkScheduler *scheduler)
 {
-	g_return_val_if_fail (PK_IS_TRANSACTION_LIST (tlist), 0);
-	return tlist->priv->array->len;
+	g_return_val_if_fail (PK_IS_SCHEDULER (scheduler), 0);
+	return scheduler->priv->array->len;
 }
 
 /**
- * pk_transaction_list_get_state:
+ * pk_scheduler_get_state:
  **/
 gchar *
-pk_transaction_list_get_state (PkTransactionList *tlist)
+pk_scheduler_get_state (PkScheduler *scheduler)
 {
 	guint i;
 	guint length;
@@ -936,34 +884,33 @@ pk_transaction_list_get_state (PkTransactionList *tlist)
 	guint waiting = 0;
 	guint no_commit = 0;
 	PkRoleEnum role;
-	PkTransactionItem *item;
+	PkSchedulerItem *item;
 	PkTransactionState state;
 	GString *string;
 
-	length = tlist->priv->array->len;
+	length = scheduler->priv->array->len;
 	string = g_string_new ("State:\n");
 	if (length == 0)
 		goto out;
 
 	/* iterate tasks */
 	for (i = 0; i < length; i++) {
-		item = (PkTransactionItem *) g_ptr_array_index (tlist->priv->array, i);
+		item = (PkSchedulerItem *) g_ptr_array_index (scheduler->priv->array, i);
 		state = pk_transaction_get_state (item->transaction);
 		if (state == PK_TRANSACTION_STATE_RUNNING)
 			running++;
-		if (state == PK_TRANSACTION_STATE_COMMITTED)
-			waiting++;
 		if (state == PK_TRANSACTION_STATE_READY)
 			waiting++;
 		if (state == PK_TRANSACTION_STATE_NEW)
 			no_commit++;
 
 		role = pk_transaction_get_role (item->transaction);
-		g_string_append_printf (string, "%0i\t%s\t%s\tstate[%s] exclusive[%i] background[%i]\n", i,
+		g_string_append_printf (string, "%0i\t%s\t%s\tstate[%s] "
+					"exclusive[%i] background[%i]\n", i,
 					pk_role_enum_to_string (role), item->tid,
 					pk_transaction_state_to_string (state),
 					pk_transaction_is_exclusive (item->transaction),
-					item->background);
+					pk_transaction_get_background (item->transaction));
 	}
 
 	/* nothing running */
@@ -974,25 +921,24 @@ out:
 }
 
 /**
- * pk_transaction_list_print:
+ * pk_scheduler_print:
  **/
 static void
-pk_transaction_list_print (PkTransactionList *tlist)
+pk_scheduler_print (PkScheduler *scheduler)
 {
-	gchar *state;
-	state = pk_transaction_list_get_state (tlist);
+	_cleanup_free_ gchar *state = NULL;
+	state = pk_scheduler_get_state (scheduler);
 	g_debug ("%s", state);
-	g_free (state);
 }
 
 /**
- * pk_transaction_list_is_consistent:
+ * pk_scheduler_is_consistent:
  *
  * This checks the list for consistency so we don't ever deadlock the daemon
  * even if the backends are spectacularly shit
  **/
 static gboolean
-pk_transaction_list_is_consistent (PkTransactionList *tlist)
+pk_scheduler_is_consistent (PkScheduler *scheduler)
 {
 	guint i;
 	gboolean ret = TRUE;
@@ -1002,24 +948,24 @@ pk_transaction_list_is_consistent (PkTransactionList *tlist)
 	guint no_commit = 0;
 	guint length;
 	guint unknown_role = 0;
-	PkTransactionItem *item;
+	PkSchedulerItem *item;
 	PkTransactionState state;
 	PkRoleEnum role;
 
-	g_return_val_if_fail (PK_IS_TRANSACTION_LIST (tlist), 0);
+	g_return_val_if_fail (PK_IS_SCHEDULER (scheduler), 0);
 
 	/* find all the transactions */
-	length = tlist->priv->array->len;
+	length = scheduler->priv->array->len;
 	if (length == 0)
-		goto out;
+		return TRUE;
 
 	/* get state */
 	for (i = 0; i < length; i++) {
-		item = (PkTransactionItem *) g_ptr_array_index (tlist->priv->array, i);
+		item = (PkSchedulerItem *) g_ptr_array_index (scheduler->priv->array, i);
 		state = pk_transaction_get_state (item->transaction);
 		if (state == PK_TRANSACTION_STATE_RUNNING)
 			running++;
-		if (state == PK_TRANSACTION_STATE_COMMITTED)
+		if (state == PK_TRANSACTION_STATE_READY)
 			waiting++;
 		if (state == PK_TRANSACTION_STATE_READY)
 			waiting++;
@@ -1032,81 +978,80 @@ pk_transaction_list_is_consistent (PkTransactionList *tlist)
 
 	/* role not set */
 	if (unknown_role != 0) {
-		pk_transaction_list_print (tlist);
+		pk_scheduler_print (scheduler);
 		g_debug ("%i have an unknown role (CreateTransaction then nothing?)", unknown_role);
 	}
 
 	/* some are not committed */
 	if (no_commit != 0) {
-		pk_transaction_list_print (tlist);
+		pk_scheduler_print (scheduler);
 		g_debug ("%i have not been committed and may be pending auth", no_commit);
 	}
 
 	/* more than one running */
 	if (running > 0) {
-		pk_transaction_list_print (tlist);
+		pk_scheduler_print (scheduler);
 		g_debug ("%i are running", running);
 	}
 
 	/* more than one exclusive transactions running? */
-	running_exclusive = pk_transaction_list_get_exclusive_running (tlist);
+	running_exclusive = pk_scheduler_get_exclusive_running (scheduler);
 	if (running_exclusive > 1) {
-		pk_transaction_list_print (tlist);
+		pk_scheduler_print (scheduler);
 		g_warning ("%i exclusive transactions running", running_exclusive);
 		ret = FALSE;
 	}
 
 	/* nothing running */
 	if (waiting == length) {
-		pk_transaction_list_print (tlist);
+		pk_scheduler_print (scheduler);
 		g_warning ("everything is waiting!");
 		ret = FALSE;
 	}
-out:
 	return ret;
 }
 
 /**
- * pk_transaction_list_wedge_check2:
+ * pk_scheduler_wedge_check2:
  **/
 static gboolean
-pk_transaction_list_wedge_check2 (PkTransactionList *tlist)
+pk_scheduler_wedge_check2 (PkScheduler *scheduler)
 {
 	gboolean ret;
 
-	g_return_val_if_fail (PK_IS_TRANSACTION_LIST (tlist), FALSE);
+	g_return_val_if_fail (PK_IS_SCHEDULER (scheduler), FALSE);
 
 	g_debug ("checking consistency a second time");
-	ret = pk_transaction_list_is_consistent (tlist);
+	ret = pk_scheduler_is_consistent (scheduler);
 	if (ret) {
 		g_debug ("panic over");
-		goto out;
+		return FALSE;
 	}
 
 	/* dump all the state we know */
 	g_warning ("dumping data:");
-	pk_transaction_list_print (tlist);
-out:
+	pk_scheduler_print (scheduler);
+
 	/* never repeat */
 	return FALSE;
 }
 
 /**
- * pk_transaction_list_wedge_check1:
+ * pk_scheduler_wedge_check1:
  **/
 static gboolean
-pk_transaction_list_wedge_check1 (PkTransactionList *tlist)
+pk_scheduler_wedge_check1 (PkScheduler *scheduler)
 {
 	gboolean ret;
 
-	g_return_val_if_fail (PK_IS_TRANSACTION_LIST (tlist), FALSE);
+	g_return_val_if_fail (PK_IS_SCHEDULER (scheduler), FALSE);
 
-	ret = pk_transaction_list_is_consistent (tlist);
+	ret = pk_scheduler_is_consistent (scheduler);
 	if (!ret) {
 		/* we have to do this twice, as we might idle add inbetween a transition */
 		g_warning ("list is consistent, scheduling another check");
-		tlist->priv->unwedge2_id = g_timeout_add (500, (GSourceFunc) pk_transaction_list_wedge_check2, tlist);
-		g_source_set_name_by_id (tlist->priv->unwedge2_id, "[PkTransactionList] wedge-check");
+		scheduler->priv->unwedge2_id = g_timeout_add (500, (GSourceFunc) pk_scheduler_wedge_check2, scheduler);
+		g_source_set_name_by_id (scheduler->priv->unwedge2_id, "[PkScheduler] wedge-check");
 	}
 
 	/* always repeat */
@@ -1114,18 +1059,18 @@ pk_transaction_list_wedge_check1 (PkTransactionList *tlist)
 }
 
 /**
- * pk_transaction_list_set_plugins:
+ * pk_scheduler_set_plugins:
  */
 void
-pk_transaction_list_set_plugins (PkTransactionList *tlist,
+pk_scheduler_set_plugins (PkScheduler *scheduler,
 				 GPtrArray *plugins)
 {
-	g_return_if_fail (PK_IS_TRANSACTION_LIST (tlist));
-	tlist->priv->plugins = g_ptr_array_ref (plugins);
+	g_return_if_fail (PK_IS_SCHEDULER (scheduler));
+	scheduler->priv->plugins = g_ptr_array_ref (plugins);
 }
 
 /**
- * pk_transaction_list_set_backend:
+ * pk_scheduler_set_backend:
  *
  * Note: this is the master PkBackend that is used when the transaction
  * list is processing one transaction at a time.
@@ -1133,99 +1078,94 @@ pk_transaction_list_set_plugins (PkTransactionList *tlist,
  * be instantiated if this PkBackend is busy.
  */
 void
-pk_transaction_list_set_backend (PkTransactionList *tlist,
+pk_scheduler_set_backend (PkScheduler *scheduler,
 				 PkBackend *backend)
 {
-	g_return_if_fail (PK_IS_TRANSACTION_LIST (tlist));
+	g_return_if_fail (PK_IS_SCHEDULER (scheduler));
 	g_return_if_fail (PK_IS_BACKEND (backend));
-	g_return_if_fail (tlist->priv->backend == NULL);
-	tlist->priv->backend = g_object_ref (backend);
+	g_return_if_fail (scheduler->priv->backend == NULL);
+	scheduler->priv->backend = g_object_ref (backend);
 }
 
 /**
- * pk_transaction_list_class_init:
- * @klass: The PkTransactionListClass
+ * pk_scheduler_class_init:
+ * @klass: The PkSchedulerClass
  **/
 static void
-pk_transaction_list_class_init (PkTransactionListClass *klass)
+pk_scheduler_class_init (PkSchedulerClass *klass)
 {
 	GObjectClass *object_class = G_OBJECT_CLASS (klass);
 
-	object_class->finalize = pk_transaction_list_finalize;
+	object_class->finalize = pk_scheduler_finalize;
 
-	signals [PK_TRANSACTION_LIST_CHANGED] =
+	signals [PK_SCHEDULER_CHANGED] =
 		g_signal_new ("changed",
 			      G_TYPE_FROM_CLASS (object_class), G_SIGNAL_RUN_LAST,
 			      0, NULL, NULL, g_cclosure_marshal_VOID__VOID,
 			      G_TYPE_NONE, 0);
 
-	g_type_class_add_private (klass, sizeof (PkTransactionListPrivate));
+	g_type_class_add_private (klass, sizeof (PkSchedulerPrivate));
 }
 
 /**
- * pk_transaction_list_init:
- * @tlist: This class instance
+ * pk_scheduler_init:
+ * @scheduler: This class instance
  **/
 static void
-pk_transaction_list_init (PkTransactionList *tlist)
+pk_scheduler_init (PkScheduler *scheduler)
 {
-	tlist->priv = PK_TRANSACTION_LIST_GET_PRIVATE (tlist);
-	tlist->priv->array = g_ptr_array_new ();
-	tlist->priv->introspection = pk_load_introspection (PK_DBUS_INTERFACE_TRANSACTION ".xml",
+	scheduler->priv = PK_SCHEDULER_GET_PRIVATE (scheduler);
+	scheduler->priv->array = g_ptr_array_new ();
+	scheduler->priv->introspection = pk_load_introspection (PK_DBUS_INTERFACE_TRANSACTION ".xml",
 							    NULL);
-	tlist->priv->unwedge2_id = 0;
-	tlist->priv->unwedge1_id = g_timeout_add_seconds (PK_TRANSACTION_WEDGE_CHECK,
-							  (GSourceFunc) pk_transaction_list_wedge_check1, tlist);
-	g_source_set_name_by_id (tlist->priv->unwedge1_id, "[PkTransactionList] wedge-check (main)");
+	scheduler->priv->unwedge2_id = 0;
+	scheduler->priv->unwedge1_id = g_timeout_add_seconds (PK_TRANSACTION_WEDGE_CHECK,
+							  (GSourceFunc) pk_scheduler_wedge_check1, scheduler);
+	g_source_set_name_by_id (scheduler->priv->unwedge1_id, "[PkScheduler] wedge-check (main)");
 }
 
 /**
- * pk_transaction_list_finalize:
+ * pk_scheduler_finalize:
  * @object: The object to finalize
  **/
 static void
-pk_transaction_list_finalize (GObject *object)
+pk_scheduler_finalize (GObject *object)
 {
-	PkTransactionList *tlist;
+	PkScheduler *scheduler;
 
-	g_return_if_fail (PK_IS_TRANSACTION_LIST (object));
+	g_return_if_fail (PK_IS_SCHEDULER (object));
 
-	tlist = PK_TRANSACTION_LIST (object);
+	scheduler = PK_SCHEDULER (object);
 
-	g_return_if_fail (tlist->priv != NULL);
+	g_return_if_fail (scheduler->priv != NULL);
 
-	if (tlist->priv->unwedge1_id != 0)
-		g_source_remove (tlist->priv->unwedge1_id);
-	if (tlist->priv->unwedge2_id != 0)
-		g_source_remove (tlist->priv->unwedge2_id);
+	if (scheduler->priv->unwedge1_id != 0)
+		g_source_remove (scheduler->priv->unwedge1_id);
+	if (scheduler->priv->unwedge2_id != 0)
+		g_source_remove (scheduler->priv->unwedge2_id);
 
-	g_ptr_array_foreach (tlist->priv->array, (GFunc) pk_transaction_list_item_free, NULL);
-	g_ptr_array_free (tlist->priv->array, TRUE);
-	g_dbus_node_info_unref (tlist->priv->introspection);
-	g_key_file_unref (tlist->priv->conf);
-	if (tlist->priv->plugins != NULL)
-		g_ptr_array_unref (tlist->priv->plugins);
-	if (tlist->priv->backend != NULL)
-		g_object_unref (tlist->priv->backend);
+	g_ptr_array_foreach (scheduler->priv->array, (GFunc) pk_scheduler_item_free, NULL);
+	g_ptr_array_free (scheduler->priv->array, TRUE);
+	g_dbus_node_info_unref (scheduler->priv->introspection);
+	g_key_file_unref (scheduler->priv->conf);
+	if (scheduler->priv->plugins != NULL)
+		g_ptr_array_unref (scheduler->priv->plugins);
+	if (scheduler->priv->backend != NULL)
+		g_object_unref (scheduler->priv->backend);
 
-	G_OBJECT_CLASS (pk_transaction_list_parent_class)->finalize (object);
+	G_OBJECT_CLASS (pk_scheduler_parent_class)->finalize (object);
 }
 
 /**
- * pk_transaction_list_new:
+ * pk_scheduler_new:
  *
- * Return value: a new PkTransactionList object.
+ * Return value: a new PkScheduler object.
  **/
-PkTransactionList *
-pk_transaction_list_new (GKeyFile *conf)
+PkScheduler *
+pk_scheduler_new (GKeyFile *conf)
 {
-	if (pk_transaction_list_object != NULL) {
-		g_object_ref (pk_transaction_list_object);
-	} else {
-		pk_transaction_list_object = g_object_new (PK_TYPE_TRANSACTION_LIST, NULL);
-		PK_TRANSACTION_LIST(pk_transaction_list_object)->priv->conf = g_key_file_ref (conf);
-		g_object_add_weak_pointer (pk_transaction_list_object, &pk_transaction_list_object);
-	}
-	return PK_TRANSACTION_LIST (pk_transaction_list_object);
+	PkScheduler *scheduler = PK_SCHEDULER (g_object_new (PK_TYPE_SCHEDULER, NULL));
+	scheduler->priv->conf = g_key_file_ref (conf);
+	return scheduler;
 }
 
