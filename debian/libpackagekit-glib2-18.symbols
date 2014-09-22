@@ -205,6 +205,28 @@ libpackagekit-glib2.so.18 libpackagekit-glib2-18 #MINVER#
  pk_network_enum_from_string@Base 0.9.4
  pk_network_enum_get_type@Base 0.9.4
  pk_network_enum_to_string@Base 0.9.4
+ pk_offline_action_from_string@Base 1.0.0
+ pk_offline_action_get_type@Base 1.0.0
+ pk_offline_action_to_string@Base 1.0.0
+ pk_offline_auth_cancel@Base 1.0.0
+ pk_offline_auth_clear_results@Base 1.0.0
+ pk_offline_auth_invalidate@Base 1.0.0
+ pk_offline_auth_set_action@Base 1.0.0
+ pk_offline_auth_set_prepared_ids@Base 1.0.0
+ pk_offline_auth_set_results@Base 1.0.0
+ pk_offline_auth_trigger@Base 1.0.0
+ pk_offline_cancel@Base 1.0.0
+ pk_offline_clear_results@Base 1.0.0
+ pk_offline_error_get_type@Base 1.0.0
+ pk_offline_error_quark@Base 1.0.0
+ pk_offline_get_action@Base 1.0.0
+ pk_offline_get_action_monitor@Base 1.0.0
+ pk_offline_get_prepared_ids@Base 1.0.0
+ pk_offline_get_prepared_monitor@Base 1.0.0
+ pk_offline_get_prepared_sack@Base 1.0.0
+ pk_offline_get_results@Base 1.0.0
+ pk_offline_get_results_mtime@Base 1.0.0
+ pk_offline_trigger@Base 1.0.0
  pk_package_equal@Base 0.9.4
  pk_package_equal_id@Base 0.9.4
  pk_package_get_arch@Base 0.9.4
