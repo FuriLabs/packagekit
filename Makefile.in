@@ -81,10 +81,10 @@ subdir = .
 DIST_COMMON = INSTALL NEWS README AUTHORS ChangeLog \
 	$(srcdir)/Makefile.in $(srcdir)/Makefile.am \
 	$(top_srcdir)/configure $(am__configure_deps) \
-	$(srcdir)/config.h.in COPYING TODO build-aux/compile \
-	build-aux/config.guess build-aux/config.sub \
-	build-aux/install-sh build-aux/missing build-aux/ltmain.sh \
-	$(top_srcdir)/build-aux/compile \
+	$(srcdir)/config.h.in COPYING build-aux/compile \
+	build-aux/config.guess build-aux/config.sub build-aux/depcomp \
+	build-aux/install-sh build-aux/missing build-aux/py-compile \
+	build-aux/ltmain.sh $(top_srcdir)/build-aux/compile \
 	$(top_srcdir)/build-aux/config.guess \
 	$(top_srcdir)/build-aux/config.sub \
 	$(top_srcdir)/build-aux/install-sh \
@@ -94,9 +94,9 @@ ACLOCAL_M4 = $(top_srcdir)/aclocal.m4
 am__aclocal_m4_deps = $(top_srcdir)/m4/as-linguas.m4 \
 	$(top_srcdir)/m4/ax_check_compile_flag.m4 \
 	$(top_srcdir)/m4/ax_check_link_flag.m4 \
-	$(top_srcdir)/m4/gtk-doc.m4 $(top_srcdir)/m4/libtool.m4 \
-	$(top_srcdir)/m4/ltoptions.m4 $(top_srcdir)/m4/ltsugar.m4 \
-	$(top_srcdir)/m4/ltversion.m4 $(top_srcdir)/m4/lt~obsolete.m4 \
+	$(top_srcdir)/m4/gtk-doc.m4 $(top_srcdir)/m4/intltool.m4 \
+	$(top_srcdir)/m4/libtool.m4 $(top_srcdir)/m4/ltoptions.m4 \
+	$(top_srcdir)/m4/ltsugar.m4 $(top_srcdir)/m4/ltversion.m4 \
 	$(top_srcdir)/acinclude.m4 $(top_srcdir)/configure.ac
 am__configure_deps = $(am__aclocal_m4_deps) $(CONFIGURE_DEPENDENCIES) \
 	$(ACLOCAL_M4)
@@ -240,7 +240,6 @@ DATADIR = @DATADIR@
 DATADIRNAME = @DATADIRNAME@
 DBUS_SERVICES_DIR = @DBUS_SERVICES_DIR@
 DBUS_SYS_DIR = @DBUS_SYS_DIR@
-DEFAULT_BACKEND = @DEFAULT_BACKEND@
 DEFS = @DEFS@
 DEPDIR = @DEPDIR@
 DLLTOOL = @DLLTOOL@
@@ -309,8 +308,6 @@ LIBDIR = @LIBDIR@
 LIBEXECDIR = @LIBEXECDIR@
 LIBOBJS = @LIBOBJS@
 LIBS = @LIBS@
-LIBSYSTEMD_JOURNAL_CFLAGS = @LIBSYSTEMD_JOURNAL_CFLAGS@
-LIBSYSTEMD_JOURNAL_LIBS = @LIBSYSTEMD_JOURNAL_LIBS@
 LIBTOOL = @LIBTOOL@
 LIPO = @LIPO@
 LN_S = @LN_S@
@@ -334,8 +331,6 @@ NM = @NM@
 NMEDIT = @NMEDIT@
 OBJDUMP = @OBJDUMP@
 OBJEXT = @OBJEXT@
-OPKG_CFLAGS = @OPKG_CFLAGS@
-OPKG_LIBS = @OPKG_LIBS@
 OTOOL = @OTOOL@
 OTOOL64 = @OTOOL64@
 PACKAGE = @PACKAGE@
@@ -504,20 +499,17 @@ EXTRA_DIST = \
 	INSTALL						\
 	README						\
 	HACKING						\
-	TODO						\
 	NEWS						\
 	autogen.sh					\
 	config.h					\
-	moc.mk						\
 	intltool-extract.in				\
 	intltool-merge.in				\
-	intltool-update.in				\
-	$(NULL)
+	intltool-update.in
 
 DISTCHECK_CONFIGURE_FLAGS = \
 	--disable-bash-completion			\
 	--enable-gtk-doc				\
-	--with-default-backend=dummy			\
+	--disable-daemon-tests				\
 	--with-systemdsystemunitdir=/tmp
 
 all: config.h
@@ -1006,9 +998,6 @@ uninstall-am:
 clean-local :
 	rm -f *~
 
-security-check:
-	flawfinder `find -name "*.c"`
-
 snapshot:
 	$(MAKE) dist distdir=$(PACKAGE)-$(VERSION)-`date +"%Y%m%d"`
 
@@ -1016,24 +1005,6 @@ distclean-local:
 	if test $(srdcir) = .; then :; else \
 		rm -f ChangeLog; \
 	fi
-
-coverity:
-	$(MAKE);					\
-	cd src; $(MAKE) clean; cd -;			\
-	cd lib; $(MAKE) clean; cd -;			\
-	cd backends; $(MAKE) clean; cd -;		\
-	cd client; $(MAKE) clean; cd -;			\
-	cd contrib; $(MAKE) clean; cd -;		\
-	cd tools; $(MAKE) clean; cd -;			\
-	cov-build --dir cov-int $(MAKE);		\
-	tar czvf packagekit-coverity.tgz cov-int;	\
-	set COVERITY_EMAIL=`cat ~/.coverity | grep EMAIL | cut -f2`; \
-	set COVERITY_PASSWORD=`cat ~/.coverity | grep PASSWORD_PackageKit | cut -f2`; \
-	curl --form file=@packagekit-coverity.tgz	\
-	     --form project=PackageKit			\
-	     --form password=$(COVERITY_PASSWORD)	\
-	     --form email=$(COVERITY_EMAIL)		\
-	     http://scan5.coverity.com/cgi-bin/upload.py
 
 ChangeLog:
 	@echo Creating $@

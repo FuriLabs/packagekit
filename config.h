@@ -1,9 +1,6 @@
 /* config.h.  Generated from config.h.in by configure.  */
 /* config.h.in.  Generated from configure.ac by autoheader.  */
 
-/* default backend prefix */
-#define DEFAULT_BACKEND "hif"
-
 /* always defined to indicate that i18n is enabled */
 #define ENABLE_NLS 1
 
@@ -96,7 +93,7 @@
 #define PACKAGE_NAME "PackageKit"
 
 /* Define to the full name and version of this package. */
-#define PACKAGE_STRING "PackageKit 0.9.5"
+#define PACKAGE_STRING "PackageKit 1.0.0"
 
 /* Define to the one symbol short name of this package. */
 #define PACKAGE_TARNAME "PackageKit"
@@ -105,7 +102,7 @@
 #define PACKAGE_URL "http://www.packagekit.org/"
 
 /* Define to the version of this package. */
-#define PACKAGE_VERSION "0.9.5"
+#define PACKAGE_VERSION "1.0.0"
 
 /* define if Connection Manager is installed */
 /* #undef PK_BUILD_CONNMAN */
@@ -120,13 +117,13 @@
 #define PK_BUILD_SYSTEMD 1
 
 /* Has offline updates */
-#define PK_HAS_OFFLINE_UPDATES 1
+#define PK_ENABLE_DAEMON_TESTS 1
 
 /* Define to 1 if you have the ANSI C header files. */
 #define STDC_HEADERS 1
 
 /* Version number of package */
-#define VERSION "0.9.5"
+#define VERSION "1.0.0"
 
 /* define if libzypp returns package size in bytes */
 /* #undef ZYPP_RETURN_BYTES */

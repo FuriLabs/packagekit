@@ -99,6 +99,7 @@ struct PkBackendJobPrivate
 	guint			 speed;
 	guint			 uid;
 	GVariant		*params;
+	GCancellable		*cancellable;
 	PkBackend		*backend;
 	PkBackendJobVFuncItem	 vfunc_items[PK_BACKEND_SIGNAL_LAST];
 	PkBitfield		 transaction_flags;
@@ -158,6 +159,28 @@ pk_backend_job_get_vfunc_enabled (PkBackendJob *job,
 	if (item->vfunc == NULL)
 		return FALSE;
 	return TRUE;
+}
+
+/**
+ * pk_backend_job_get_cancellable:
+ *
+ * Return value: (transfer none): a #GCancellable
+ **/
+GCancellable *
+pk_backend_job_get_cancellable (PkBackendJob *job)
+{
+	return job->priv->cancellable;
+}
+
+/**
+ * pk_backend_job_is_cancelled:
+ *
+ * Return value: (transfer none): a #GCancellable
+ **/
+gboolean
+pk_backend_job_is_cancelled (PkBackendJob *job)
+{
+	return g_cancellable_is_cancelled (job->priv->cancellable);
 }
 
 /**
@@ -786,6 +809,7 @@ pk_backend_job_thread_setup (gpointer thread_data)
 	/* run original function with automatic locking */
 	pk_backend_thread_start (helper->backend, helper->job, helper->func);
 	helper->func (helper->job, helper->job->priv->params, helper->user_data);
+	pk_backend_job_finished (helper->job);
 	pk_backend_thread_stop (helper->backend, helper->job, helper->func);
 
 	/* set idle IO priority */
@@ -1619,7 +1643,7 @@ pk_backend_job_error_code (PkBackendJob *job,
 		pk_backend_job_set_exit_code (job, PK_EXIT_ENUM_NEED_UNTRUSTED);
 	else if (error_code == PK_ERROR_ENUM_CANCELLED_PRIORITY)
 		pk_backend_job_set_exit_code (job, PK_EXIT_ENUM_CANCELLED_PRIORITY);
-	else
+	else if (job->priv->exit == PK_EXIT_ENUM_UNKNOWN)
 		pk_backend_job_set_exit_code (job, PK_EXIT_ENUM_FAILED);
 
 	/* set the hint that RepairSystem is needed */
@@ -1767,14 +1791,14 @@ pk_backend_job_finished (PkBackendJob *job)
 
 	g_return_if_fail (PK_IS_BACKEND_JOB (job));
 
-	/* find out what we just did */
-	role_text = pk_role_enum_to_string (job->priv->role);
-
 	/* check we have not already finished */
 	if (job->priv->finished) {
 		g_warning ("already finished");
 		return;
 	}
+
+	/* find out what we just did */
+	role_text = pk_role_enum_to_string (job->priv->role);
 
 	/* ensure the same number of ::Files() were sent as packages for DownloadPackages */
 	if (!job->priv->set_error &&
@@ -1843,6 +1867,7 @@ pk_backend_job_finalize (GObject *object)
 		g_variant_unref (job->priv->params);
 	g_timer_destroy (job->priv->timer);
 	g_key_file_unref (job->priv->conf);
+	g_object_unref (job->priv->cancellable);
 
 	G_OBJECT_CLASS (pk_backend_job_parent_class)->finalize (object);
 }
@@ -1866,6 +1891,7 @@ pk_backend_job_init (PkBackendJob *job)
 {
 	job->priv = PK_BACKEND_JOB_GET_PRIVATE (job);
 	job->priv->timer = g_timer_new ();
+	job->priv->cancellable = g_cancellable_new ();
 	job->priv->last_error_code = PK_ERROR_ENUM_UNKNOWN;
 	pk_backend_job_reset (job);
 }

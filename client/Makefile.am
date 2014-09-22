@@ -82,6 +82,27 @@ pkmon_LDFLAGS =						\
 pkmon_CFLAGS =						\
 	$(WARNINGFLAGS_C)
 
+if HAVE_SYSTEMD
+
+libexec_PROGRAMS =					\
+	pk-offline-update
+
+pk_offline_update_SOURCES =				\
+	pk-offline-update.c
+
+pk_offline_update_LDADD =				\
+	$(GLIB_LIBS)					\
+	$(GIO_LIBS)					\
+	$(SYSTEMD_LIBS)					\
+	$(PK_GLIB2_LIBS)
+
+pk_offline_update_LDFLAGS =				\
+	$(PIE_LDFLAGS)
+
+pk_offline_update_CFLAGS =				\
+	$(WARNINGFLAGS_C)
+endif
+
 clean-local:
 	rm -f *~
 	rm -f *.1

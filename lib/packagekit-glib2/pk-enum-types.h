@@ -54,6 +54,12 @@ GType pk_upgrade_kind_enum_get_type (void) G_GNUC_CONST;
 GType pk_transaction_flag_enum_get_type (void) G_GNUC_CONST;
 #define PK_TYPE_TRANSACTION_FLAG_ENUM (pk_transaction_flag_enum_get_type ())
 
+/* enumerations from "pk-offline.h" */
+GType pk_offline_action_get_type (void) G_GNUC_CONST;
+#define PK_TYPE_OFFLINE_ACTION (pk_offline_action_get_type ())
+GType pk_offline_error_get_type (void) G_GNUC_CONST;
+#define PK_TYPE_OFFLINE_ERROR (pk_offline_error_get_type ())
+
 /* enumerations from "pk-package-sack.h" */
 GType pk_package_sack_sort_type_get_type (void) G_GNUC_CONST;
 #define PK_TYPE_PACKAGE_SACK_SORT_TYPE (pk_package_sack_sort_type_get_type ())

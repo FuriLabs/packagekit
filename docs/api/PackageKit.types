@@ -21,6 +21,8 @@ pk_item_progress_get_type
 pk_media_change_required_get_type
 pk_media_type_enum_get_type
 pk_network_enum_get_type
+pk_offline_action_get_type
+pk_offline_error_get_type
 pk_package_get_type
 pk_package_sack_get_type
 pk_package_sack_sort_type_get_type

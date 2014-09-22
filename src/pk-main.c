@@ -114,7 +114,7 @@ main (int argc, char *argv[])
 	gboolean timed_exit = FALSE;
 	gboolean immediate_exit = FALSE;
 	gboolean keep_environment = FALSE;
-	guint exit_idle_time;
+	gint exit_idle_time;
 	guint timer_id = 0;
 	_cleanup_error_free_ GError *error = NULL;
 	_cleanup_free_ gchar *backend_name = NULL;
@@ -124,7 +124,7 @@ main (int argc, char *argv[])
 
 	const GOptionEntry options[] = {
 		{ "backend", '\0', 0, G_OPTION_ARG_STRING, &backend_name,
-		  /* TRANSLATORS: a backend is the system package tool, e.g. yum, apt */
+		  /* TRANSLATORS: a backend is the system package tool, e.g. hif, apt */
 		  _("Packaging backend to use, e.g. dummy"), NULL },
 		{ "disable-timer", '\0', 0, G_OPTION_ARG_NONE, &disable_timer,
 		  /* TRANSLATORS: if we should not monitor how long we are inactive for */
@@ -201,7 +201,7 @@ main (int argc, char *argv[])
 
 	/* resolve 'auto' to an actual name */
 	backend_name = g_key_file_get_string (conf, "Daemon", "DefaultBackend", NULL);
-	if (g_strcmp0 (backend_name, "auto") == 0) {
+	if (backend_name == NULL || g_strcmp0 (backend_name, "auto") == 0) {
 		ret  = pk_util_set_auto_backend (conf, &error);
 		if (!ret) {
 			g_print ("Failed to resolve auto: %s", error->message);
@@ -231,16 +231,13 @@ main (int argc, char *argv[])
 		goto out;
 	}
 
-	/* initialize all plugins */
-	pk_engine_plugins_init (engine);
-
 	/* Only timeout and close the mainloop if we have specified it
 	 * on the command line */
 	if (timed_exit)
 		g_timeout_add_seconds (20, (GSourceFunc) timed_exit_cb, loop);
 
 	/* only poll when we are alive */
-	if (exit_idle_time != 0 && !disable_timer) {
+	if (exit_idle_time > 0 && !disable_timer) {
 		helper.engine = engine;
 		helper.exit_idle_time = exit_idle_time;
 		helper.loop = loop;

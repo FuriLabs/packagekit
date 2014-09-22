@@ -279,6 +279,28 @@ pk_direct_search_files (PkDirectPrivate *priv, gchar **values, GError **error)
 }
 
 /**
+ * pk_direct_repo_set_data:
+ **/
+static gboolean
+pk_direct_repo_set_data (PkDirectPrivate *priv, gchar **values, GError **error)
+{
+	if (g_strv_length (values) != 3) {
+		g_set_error_literal (error,
+				     PK_ERROR,
+				     PK_ERROR_INVALID_ARGUMENTS,
+				     "Not enough arguments, "
+				     "expected: [id] [key] [value]");
+		return FALSE;
+	}
+	pk_backend_start_job (priv->backend, priv->job);
+	pk_backend_repo_set_data (priv->backend, priv->job,
+				  values[0], values[1], values[2]);
+	g_main_loop_run (priv->loop);
+	pk_backend_stop_job (priv->backend, priv->job);
+	return TRUE;
+}
+
+/**
  * pk_direct_sigint_cb:
  **/
 static gboolean
@@ -378,7 +400,7 @@ main (int argc, char *argv[])
 
 	const GOptionEntry options[] = {
 		{ "backend", '\0', 0, G_OPTION_ARG_STRING, &backend_name,
-		  /* TRANSLATORS: a backend is the system package tool, e.g. yum, apt */
+		  /* TRANSLATORS: a backend is the system package tool, e.g. hif, apt */
 		  _("Packaging backend to use, e.g. dummy"), NULL },
 		{ NULL }
 	};
@@ -413,6 +435,10 @@ main (int argc, char *argv[])
 		       /* TRANSLATORS: command description */
 		       _("Search by files"),
 		       pk_direct_search_files);
+	pk_direct_add (priv->cmd_array, "repo-set-data", "[REPO] [KEY] [VALUE]",
+		       /* TRANSLATORS: command description */
+		       _("Set repository options"),
+		       pk_direct_repo_set_data);
 
 	/* sort by command name */
 	g_ptr_array_sort (priv->cmd_array,
@@ -457,7 +483,7 @@ main (int argc, char *argv[])
 
 	/* resolve 'auto' to an actual name */
 	backend_name = g_key_file_get_string (conf, "Daemon", "DefaultBackend", NULL);
-	if (g_strcmp0 (backend_name, "auto") == 0) {
+	if (backend_name == NULL || g_strcmp0 (backend_name, "auto") == 0) {
 		if (!pk_util_set_auto_backend (conf, &error)) {
 			g_print ("Failed to resolve auto: %s\n", error->message);
 			retval = EXIT_FAILURE;

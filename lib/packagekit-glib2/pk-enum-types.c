@@ -588,6 +588,47 @@ pk_transaction_flag_enum_get_type (void)
     return etype;
 }
 
+#include "pk-offline.h"
+/* enumerations from "pk-offline.h" */
+GType pk_offline_action_get_type (void) G_GNUC_CONST;
+
+GType
+pk_offline_action_get_type (void)
+{
+    static GType etype = 0;
+    if (G_UNLIKELY(etype == 0)) {
+        static const GEnumValue values[] = {
+            { PK_OFFLINE_ACTION_UNKNOWN, "PK_OFFLINE_ACTION_UNKNOWN", "unknown" },
+            { PK_OFFLINE_ACTION_REBOOT, "PK_OFFLINE_ACTION_REBOOT", "reboot" },
+            { PK_OFFLINE_ACTION_POWER_OFF, "PK_OFFLINE_ACTION_POWER_OFF", "power-off" },
+            { PK_OFFLINE_ACTION_UNSET, "PK_OFFLINE_ACTION_UNSET", "unset" },
+            { PK_OFFLINE_ACTION_LAST, "PK_OFFLINE_ACTION_LAST", "last" },
+            { 0, NULL, NULL }
+        };
+        etype = g_enum_register_static (g_intern_static_string ("PkOfflineAction"), values);
+    }
+    return etype;
+}
+
+GType pk_offline_error_get_type (void) G_GNUC_CONST;
+
+GType
+pk_offline_error_get_type (void)
+{
+    static GType etype = 0;
+    if (G_UNLIKELY(etype == 0)) {
+        static const GEnumValue values[] = {
+            { PK_OFFLINE_ERROR_FAILED, "PK_OFFLINE_ERROR_FAILED", "failed" },
+            { PK_OFFLINE_ERROR_INVALID_VALUE, "PK_OFFLINE_ERROR_INVALID_VALUE", "invalid-value" },
+            { PK_OFFLINE_ERROR_NO_DATA, "PK_OFFLINE_ERROR_NO_DATA", "no-data" },
+            { PK_OFFLINE_ERROR_LAST, "PK_OFFLINE_ERROR_LAST", "last" },
+            { 0, NULL, NULL }
+        };
+        etype = g_enum_register_static (g_intern_static_string ("PkOfflineError"), values);
+    }
+    return etype;
+}
+
 #include "pk-package-sack.h"
 /* enumerations from "pk-package-sack.h" */
 GType pk_package_sack_sort_type_get_type (void) G_GNUC_CONST;

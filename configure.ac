@@ -1,8 +1,8 @@
 # Copyright (C) 2007-2012 Richard Hughes <richard@hughsie.com>
 
-m4_define([pk_major_version], [0])
-m4_define([pk_minor_version], [9])
-m4_define([pk_micro_version], [5])
+m4_define([pk_major_version], [1])
+m4_define([pk_minor_version], [0])
+m4_define([pk_micro_version], [0])
 m4_define([pk_version],
           [pk_major_version.pk_minor_version.pk_micro_version])
 
@@ -53,7 +53,7 @@ AC_SUBST(PK_VERSION)
 #   fixed, change:
 #      REVISION += 1
 LT_CURRENT=18
-LT_REVISION=0
+LT_REVISION=1
 LT_AGE=0
 AC_SUBST(LT_CURRENT)
 AC_SUBST(LT_REVISION)
@@ -217,9 +217,10 @@ fi
 AM_CONDITIONAL(PK_BUILD_NETWORKMANAGER, test x$PK_BUILD_NETWORKMANAGER = xyes)
 
 dnl ---------------------------------------------------------------------------
-dnl - ConnMan (default enabled)
+dnl - ConnMan (default disabled)
 dnl ---------------------------------------------------------------------------
-AC_ARG_ENABLE(connman, AS_HELP_STRING([--disable-connman],[Disable ConnMan support]), enable_connman=$enableval)
+AC_ARG_ENABLE(connman, AS_HELP_STRING([--enable-connman],[Enable ConnMan support]),
+	      enable_connman=$enableval, enable_connman=no)
 if test x$enable_connman != xno; then
 	PKG_CHECK_MODULES(CONNMAN, connman, PK_BUILD_CONNMAN="yes", PK_BUILD_CONNMAN="no")
 	if test "x$PK_BUILD_CONNMAN" = "xyes"; then
@@ -243,7 +244,7 @@ AC_ARG_ENABLE(systemd, AS_HELP_STRING([--enable-systemd],[enable systemd and log
 	      enable_systemd=$enableval,enable_systemd=yes)
 AM_CONDITIONAL(PK_BUILD_SYSTEMD, test x$enable_systemd = xyes)
 if test x$enable_systemd = xyes; then
-	PKG_CHECK_MODULES(SYSTEMD, libsystemd-login)
+	PKG_CHECK_MODULES(SYSTEMD, libsystemd-login libsystemd-journal)
 	AC_ARG_WITH([systemdsystemunitdir],
 		    AS_HELP_STRING([--with-systemdsystemunitdir=DIR], [Directory for systemd service files]),
 		    [],
@@ -317,8 +318,9 @@ dnl ---------------------------------------------------------------------------
 AC_ARG_ENABLE(browser_plugin, AS_HELP_STRING([--enable-browser-plugin],[Build browser plugin functionality]),
 	      enable_browser_plugin=$enableval,enable_browser_plugin=yes)
 if test x$enable_browser_plugin = xyes; then
+	PKG_CHECK_EXISTS([npapi-sdk], mozilla_plugin=npapi-sdk, mozilla_plugin=mozilla-plugin)
 	PKG_CHECK_MODULES(PK_BROWSER_PLUGIN,	\
-			  mozilla-plugin	\
+			  $mozilla_plugin	\
 			  gio-unix-2.0		\
 			  nspr >= 4.8		\
 			  cairo			\
@@ -400,60 +402,42 @@ AC_ARG_ENABLE(cron, AS_HELP_STRING([--enable-cron],[Build cron background functi
 	      build_cron=$enableval,build_cron=yes)
 AM_CONDITIONAL(PK_BUILD_CRON, test $build_cron = "yes")
 
-dnl ---------------------------------------------------------------------------
-dnl - Able to build debuginfo-install functionality
-dnl ---------------------------------------------------------------------------
-AC_ARG_ENABLE(debuginfo-install, AS_HELP_STRING([--enable-debuginfo-install],[Build debuginfo-install functionality]),
-	      build_debuginfo_install=$enableval,build_debuginfo_install=yes)
-AM_CONDITIONAL(PK_BUILD_DEBUGINFO_INSTALL, test $build_debuginfo_install = "yes")
-
-dnl ---------------------------------------------------------------------------
-dnl - Able to use systemd updates functionality
-dnl ---------------------------------------------------------------------------
-AC_ARG_ENABLE(systemd-updates, AS_HELP_STRING([--enable-systemd-updates],[Build systemd updates functionality]),
-	      build_systemd_updates=$enableval,build_systemd_updates=yes)
-AM_CONDITIONAL(PK_BUILD_SYSTEMD_UPDATES, test $build_systemd_updates = "yes")
-if test x$build_systemd_updates = xyes; then
-	PKG_CHECK_MODULES(LIBSYSTEMD_JOURNAL, libsystemd-journal)
-	AC_DEFINE(PK_HAS_OFFLINE_UPDATES,1,[Has offline updates])
+# don't do daemon checks when running make distcheck
+AC_ARG_ENABLE(daemon-tests, AS_HELP_STRING([--enable-daemon-tests],
+	      [Test the daemon using the dummy backend]),
+	      enable_daemon_tests=$enableval,enable_daemon_tests=yes)
+if test x$enable_daemon_tests = xyes; then
+	AC_DEFINE(PK_ENABLE_DAEMON_TESTS,1,[Has offline updates])
 fi
 
 # backends
 AC_ARG_ENABLE(alpm, AS_HELP_STRING([--enable-alpm],[use the ALPM backend]),enable_alpm=$enableval,enable_alpm=no)
 AC_ARG_ENABLE(apt, AS_HELP_STRING([--enable-apt],[use the APT backend]),enable_apt=$enableval,enable_apt=no)
 AC_ARG_ENABLE(aptcc, AS_HELP_STRING([--enable-aptcc],[use the APTcc backend]),enable_aptcc=$enableval,enable_aptcc=no)
-AC_ARG_ENABLE(conary, AS_HELP_STRING([--enable-conary],[use the CONARY backend]),enable_conary=$enableval,enable_conary=no)
 AC_ARG_ENABLE(dummy, AS_HELP_STRING([--enable-dummy],[use the dummy backend]),enable_dummy=$enableval,enable_dummy=yes)
 AC_ARG_ENABLE(entropy, AS_HELP_STRING([--enable-entropy],[use the entropy backend]),enable_entropy=$enableval,enable_entropy=no)
 AC_ARG_ENABLE(hif, AS_HELP_STRING([--enable-hif],[use the hif backend]),enable_hif=$enableval,enable_hif=no)
-AC_ARG_ENABLE(opkg, AS_HELP_STRING([--enable-opkg],[use the OPKG backend]),enable_opkg=$enableval,enable_opkg=no)
 AC_ARG_ENABLE(pisi, AS_HELP_STRING([--enable-pisi],[use the PiSi backend]),enable_pisi=$enableval,enable_pisi=no)
 AC_ARG_ENABLE(poldek, AS_HELP_STRING([--enable-poldek],[use the poldek backend]),enable_poldek=$enableval,enable_poldek=no)
 AC_ARG_ENABLE(portage, AS_HELP_STRING([--enable-portage],[use the portage backend]),enable_portage=$enableval,enable_portage=no)
 AC_ARG_ENABLE(ports, AS_HELP_STRING([--enable-ports],[use the ports backend]),enable_ports=$enableval,enable_ports=no)
 AC_ARG_ENABLE(katja, AS_HELP_STRING([--enable-katja],[use the Slackware backend]),enable_katja=$enableval,enable_katja=no)
-AC_ARG_ENABLE(smart, AS_HELP_STRING([--enable-smart],[use the SMART backend]),enable_smart=$enableval,enable_smart=no)
 AC_ARG_ENABLE(urpmi, AS_HELP_STRING([--enable-urpmi],[use the URPMI backend]),enable_urpmi=$enableval,enable_urpmi=no)
-AC_ARG_ENABLE(yum, AS_HELP_STRING([--enable-yum],[use the YUM backend]),enable_yum=$enableval,enable_yum=no)
 AC_ARG_ENABLE(zypp, AS_HELP_STRING([--enable-zypp],[use the Zypp backend]),enable_zypp=$enableval,enable_zypp=no)
 
 # export to Makefile.am's
 AM_CONDITIONAL(BACKEND_TYPE_ALPM, [test x$enable_alpm = xyes])
 AM_CONDITIONAL(BACKEND_TYPE_APT, [test x$enable_apt = xyes])
 AM_CONDITIONAL(BACKEND_TYPE_APTCC, [test x$enable_aptcc = xyes])
-AM_CONDITIONAL(BACKEND_TYPE_CONARY, [test x$enable_conary = xyes])
 AM_CONDITIONAL(BACKEND_TYPE_DUMMY, [test x$enable_dummy = xyes])
 AM_CONDITIONAL(BACKEND_TYPE_ENTROPY, [test x$enable_entropy = xyes])
 AM_CONDITIONAL(BACKEND_TYPE_HIF, [test x$enable_hif = xyes])
-AM_CONDITIONAL(BACKEND_TYPE_OPKG, [test x$enable_opkg = xyes])
 AM_CONDITIONAL(BACKEND_TYPE_PISI, [test x$enable_pisi = xyes])
 AM_CONDITIONAL(BACKEND_TYPE_POLDEK, [test x$enable_poldek = xyes])
 AM_CONDITIONAL(BACKEND_TYPE_PORTAGE, [test x$enable_portage = xyes])
 AM_CONDITIONAL(BACKEND_TYPE_PORTS, [test x$enable_ports = xyes])
 AM_CONDITIONAL(BACKEND_TYPE_KATJA, [test x$enable_katja = xyes])
-AM_CONDITIONAL(BACKEND_TYPE_SMART, [test x$enable_smart = xyes])
 AM_CONDITIONAL(BACKEND_TYPE_URPMI, [test x$enable_urpmi = xyes])
-AM_CONDITIONAL(BACKEND_TYPE_YUM, [test x$enable_yum = xyes])
 AM_CONDITIONAL(BACKEND_TYPE_ZYPP, [test x$enable_zypp = xyes])
 
 dnl ---------------------------------------------------------------------------
@@ -476,21 +460,8 @@ fi
 AC_SUBST(DBUS_SYS_DIR)
 AC_SUBST(DBUS_SERVICES_DIR)
 
-dnl ---------------------------------------------------------------------------
-dnl - Compile time default choice of backend
-dnl ---------------------------------------------------------------------------
-AC_ARG_WITH([default_backend],
-	    AS_HELP_STRING([--with-default-backend=<option>],
-			   [Default backend to use
-                           auto,alpm,apt,aptcc,conary,dummy,entropy,hif,opkg,pisi,portage,ports,katja,smart,urpmi,yum,zypp (auto)]))
-if test x$with_default_backend = x; then
-	with_default_backend=auto
-fi
-AC_DEFINE_UNQUOTED(DEFAULT_BACKEND, "$with_default_backend", [default backend prefix])
-AC_SUBST(DEFAULT_BACKEND, "$with_default_backend")
-
 if test x$enable_hif = xyes; then
-	PKG_CHECK_MODULES(HIF, libhif >= 0.1.0)
+	PKG_CHECK_MODULES(HIF, libhif >= 0.1.4)
 fi
 
 if test x$enable_apt = xyes; then
@@ -551,10 +522,6 @@ if test x$enable_aptcc = xyes; then
 	LIBS="$save_LIBS"
 fi
 
-if test x$enable_opkg = xyes; then
-	PKG_CHECK_MODULES(OPKG, libopkg >= 0.1.5)
-fi
-
 if test x$enable_alpm = xyes; then
 	PKG_CHECK_MODULES(ALPM, libalpm >= 4.1.0)
 fi
@@ -612,29 +579,22 @@ contrib/browser-plugin/Makefile
 contrib/gstreamer-plugin/Makefile
 contrib/gtk-module/Makefile
 contrib/gtk-module/gtk2/Makefile
-contrib/yum-packagekit/Makefile
 contrib/command-not-found/Makefile
 contrib/cron/Makefile
-contrib/debuginfo-install/Makefile
-contrib/systemd-updates/Makefile
 backends/Makefile
 backends/alpm/Makefile
 backends/apt/Makefile
 backends/aptcc/Makefile
-backends/conary/Makefile
 backends/dummy/Makefile
 backends/entropy/Makefile
 backends/hif/Makefile
-backends/opkg/Makefile
 backends/katja/Makefile
-backends/smart/Makefile
 backends/test/Makefile
 backends/test/helpers/Makefile
 backends/urpmi/Makefile
 backends/urpmi/helpers/Makefile
 backends/urpmi/helpers/perl_packagekit/Makefile
 backends/urpmi/helpers/urpmi_backend/Makefile
-backends/yum/Makefile
 backends/pisi/Makefile
 backends/poldek/Makefile
 backends/portage/Makefile
@@ -655,8 +615,6 @@ lib/python/Makefile
 lib/python/packagekit/Makefile
 policy/Makefile
 src/Makefile
-src/plugins/Makefile
-src/plugins/packagekit-plugin.pc
 client/Makefile
 po/Makefile.in
 ],[
@@ -685,7 +643,6 @@ echo "
         gobject-introspection:     ${found_introspection}
         BASH Command not found:    ${build_command_not_found}
         Cron scripts:              ${build_cron}
-        debuginfo-install:         ${build_debuginfo_install}
         systemd-updates:           ${build_systemd_updates}
         python3:                   ${enable_python3}
         systemd system unit dir:   ${with_systemdsystemunitdir}
@@ -695,19 +652,14 @@ echo "
         ALPM backend:              ${enable_alpm}
         APT backend:               ${enable_apt}
         APTcc backend:             ${enable_aptcc}
-        CONARY backend:            ${enable_conary}
         dummy backend:             ${enable_dummy}
         Entropy backend:           ${enable_entropy}
         Hif backend:               ${enable_hif}
-        OPKG backend:              ${enable_opkg}
         PiSi backend:              ${enable_pisi}
         poldek backend:            ${enable_poldek}
         Portage backend:           ${enable_portage}
         Ports backend:             ${enable_ports}
         Katja backend:             ${enable_katja}
-        SMART backend:             ${enable_smart}
         URPMI backend:             ${enable_urpmi}
-        YUM backend:               ${enable_yum}
         Zypp backend:              ${enable_zypp}
-        Default backend:           ${with_default_backend}
 "

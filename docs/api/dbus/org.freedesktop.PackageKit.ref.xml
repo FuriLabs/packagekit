@@ -27,6 +27,9 @@ in's'proxy_ftp,
 in's'proxy_socks,
 in's'no_proxy,
 in's'pac)
+<link linkend="PackageKit.ClearResults">ClearResults</link>()
+<link linkend="PackageKit.Trigger">Trigger</link>(in's'action)
+<link linkend="PackageKit.Cancel">Cancel</link>()
 </synopsis>
   </refsynopsisdiv>
   <refsect1 role="signal_proto">
@@ -59,6 +62,8 @@ in's'pac)
 <link linkend="PackageKit:Locked">'Locked'</link>read'b'
 <link linkend="PackageKit:NetworkState">'NetworkState'</link>read'u'
 <link linkend="PackageKit:DistroId">'DistroId'</link>read's'
+<link linkend="PackageKit:UpdatePrepared">'UpdatePrepared'</link>read'b'
+<link linkend="PackageKit:TriggerAction">'TriggerAction'</link>read's'
 </synopsis>
   </refsect1>
   <refsect1 role="desc">
@@ -67,6 +72,12 @@ in's'pac)
       
         <para>
           The root interface is used for interacting with the daemon.
+        </para>
+      
+    
+      
+        <para>
+          The interface used for interacting with offline actions.
         </para>
       
     </para>
@@ -206,7 +217,24 @@ in's'pac)</programlisting></refsect2>
               /etc/network/school.pac.
               Note: Most backends will not be able to use a PAC file.
             
-          </simpara></listitem></varlistentry></variablelist><para role="permission">Callers need the org.freedesktop.packagekit.set-proxy</para></refsect1>
+          </simpara></listitem></varlistentry></variablelist><para role="permission">Callers need the org.freedesktop.packagekit.set-proxy</para><refsect2><title><anchor role="function" id="PackageKit.ClearResults"/>ClearResults ()</title><indexterm><primary>ClearResults</primary><secondary>PackageKit</secondary></indexterm><programlisting>ClearResults ()</programlisting></refsect2>
+          <para>
+            Clears the offline update results store.
+          </para>
+        <variablelist role="params"/><refsect2><title><anchor role="function" id="PackageKit.Trigger"/>Trigger ()</title><indexterm><primary>Trigger</primary><secondary>PackageKit</secondary></indexterm><programlisting>Trigger (in's'action)</programlisting></refsect2>
+          <para>
+            Triggers the offline update for next boot.
+          </para>
+        <variablelist role="params"><varlistentry><term><parameter>action</parameter>:</term><listitem><simpara>
+            
+              The action to take when finished applying updates, known values
+              are power-off and reboot.
+            
+          </simpara></listitem></varlistentry></variablelist><refsect2><title><anchor role="function" id="PackageKit.Cancel"/>Cancel ()</title><indexterm><primary>Cancel</primary><secondary>PackageKit</secondary></indexterm><programlisting>Cancel ()</programlisting></refsect2>
+          <para>
+            Cancels the offline update so the next boot procceeds as normal.
+          </para>
+        <variablelist role="params"/></refsect1>
   <refsect1 role="signals"><title role="signals.title">Signal Details</title><refsect2><title><anchor role="function" id="PackageKit::TransactionListChanged"/>The TransactionListChanged signal</title><indexterm><primary>TransactionListChanged</primary><secondary>PackageKit</secondary></indexterm><programlisting>TransactionListChanged ('as'transactions)</programlisting></refsect2>
           <para>
             The transaction list has changed, because either a transaction has finished or a new
@@ -247,7 +275,7 @@ in's'pac)</programlisting></refsect2>
         <variablelist role="params"/><refsect2><title><anchor role="function" id="PackageKit:BackendName"/>The "BackendName" property</title><indexterm><primary>BackendName</primary><secondary>PackageKit</secondary></indexterm><programlisting>'BackendName'read's'
 </programlisting></refsect2>
           <para>
-            The backend name, e.g. "yum".
+            The backend name, e.g. "hif".
           </para>
         <variablelist role="params"/><refsect2><title><anchor role="function" id="PackageKit:BackendDescription"/>The "BackendDescription" property</title><indexterm><primary>BackendDescription</primary><secondary>PackageKit</secondary></indexterm><programlisting>'BackendDescription'read's'
 </programlisting></refsect2>
@@ -306,6 +334,18 @@ in's'pac)</programlisting></refsect2>
             The distribution identification, in the
             distro;version;arch form e.g.
             "debian;squeeze/sid;x86_64".
+          </para>
+        <variablelist role="params"/><refsect2><title><anchor role="function" id="PackageKit:UpdatePrepared"/>The "UpdatePrepared" property</title><indexterm><primary>UpdatePrepared</primary><secondary>PackageKit</secondary></indexterm><programlisting>'UpdatePrepared'read'b'
+</programlisting></refsect2>
+          <para>
+            If an update has been prepared and is ready to be triggered.
+          </para>
+        <variablelist role="params"/><refsect2><title><anchor role="function" id="PackageKit:TriggerAction"/>The "TriggerAction" property</title><indexterm><primary>TriggerAction</primary><secondary>PackageKit</secondary></indexterm><programlisting>'TriggerAction'read's'
+</programlisting></refsect2>
+          <para>
+            The action to take when finished applying updates, known values
+            are power-off, reboot or
+            unset if no offline update is scheduled.
           </para>
         <variablelist role="params"/></refsect1>
 </refentry>
