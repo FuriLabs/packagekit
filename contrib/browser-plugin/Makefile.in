@@ -85,9 +85,9 @@ ACLOCAL_M4 = $(top_srcdir)/aclocal.m4
 am__aclocal_m4_deps = $(top_srcdir)/m4/as-linguas.m4 \
 	$(top_srcdir)/m4/ax_check_compile_flag.m4 \
 	$(top_srcdir)/m4/ax_check_link_flag.m4 \
-	$(top_srcdir)/m4/gtk-doc.m4 $(top_srcdir)/m4/libtool.m4 \
-	$(top_srcdir)/m4/ltoptions.m4 $(top_srcdir)/m4/ltsugar.m4 \
-	$(top_srcdir)/m4/ltversion.m4 $(top_srcdir)/m4/lt~obsolete.m4 \
+	$(top_srcdir)/m4/gtk-doc.m4 $(top_srcdir)/m4/intltool.m4 \
+	$(top_srcdir)/m4/libtool.m4 $(top_srcdir)/m4/ltoptions.m4 \
+	$(top_srcdir)/m4/ltsugar.m4 $(top_srcdir)/m4/ltversion.m4 \
 	$(top_srcdir)/acinclude.m4 $(top_srcdir)/configure.ac
 am__configure_deps = $(am__aclocal_m4_deps) $(CONFIGURE_DEPENDENCIES) \
 	$(ACLOCAL_M4)
@@ -235,7 +235,6 @@ DATADIR = @DATADIR@
 DATADIRNAME = @DATADIRNAME@
 DBUS_SERVICES_DIR = @DBUS_SERVICES_DIR@
 DBUS_SYS_DIR = @DBUS_SYS_DIR@
-DEFAULT_BACKEND = @DEFAULT_BACKEND@
 DEFS = @DEFS@
 DEPDIR = @DEPDIR@
 DLLTOOL = @DLLTOOL@
@@ -304,8 +303,6 @@ LIBDIR = @LIBDIR@
 LIBEXECDIR = @LIBEXECDIR@
 LIBOBJS = @LIBOBJS@
 LIBS = @LIBS@
-LIBSYSTEMD_JOURNAL_CFLAGS = @LIBSYSTEMD_JOURNAL_CFLAGS@
-LIBSYSTEMD_JOURNAL_LIBS = @LIBSYSTEMD_JOURNAL_LIBS@
 LIBTOOL = @LIBTOOL@
 LIPO = @LIPO@
 LN_S = @LN_S@
@@ -329,8 +326,6 @@ NM = @NM@
 NMEDIT = @NMEDIT@
 OBJDUMP = @OBJDUMP@
 OBJEXT = @OBJEXT@
-OPKG_CFLAGS = @OPKG_CFLAGS@
-OPKG_LIBS = @OPKG_LIBS@
 OTOOL = @OTOOL@
 OTOOL64 = @OTOOL64@
 PACKAGE = @PACKAGE@
@@ -467,14 +462,15 @@ packagekit_plugin_la_CPPFLAGS = \
 	-DI_KNOW_THE_PACKAGEKIT_GLIB2_API_IS_SUBJECT_TO_CHANGE	\
 	-DMOZ_X11				\
 	-DGSEAL_ENABLE				\
+	-I$(top_builddir)			\
 	-I$(top_builddir)/lib			\
+	-I$(top_srcdir)				\
 	-I$(top_srcdir)/lib
 
 packagekit_plugin_la_CFLAGS = \
-	$(WARNINGFLAGS_C)			\
-	$(NULL)
+	$(WARNINGFLAGS_C)
 
-packagekit_plugin_la_LIBADD = $(PK_BROWSER_PLUGIN_LIBS) $(NULL) \
+packagekit_plugin_la_LIBADD = $(PK_BROWSER_PLUGIN_LIBS) \
 	$(top_builddir)/lib/packagekit-glib2/libpackagekit-glib2.la
 packagekit_plugin_la_SOURCES = \
 	pk-plugin.c				\

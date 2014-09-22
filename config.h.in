@@ -1,8 +1,5 @@
 /* config.h.in.  Generated from configure.ac by autoheader.  */
 
-/* default backend prefix */
-#undef DEFAULT_BACKEND
-
 /* always defined to indicate that i18n is enabled */
 #undef ENABLE_NLS
 
@@ -119,7 +116,7 @@
 #undef PK_BUILD_SYSTEMD
 
 /* Has offline updates */
-#undef PK_HAS_OFFLINE_UPDATES
+#undef PK_ENABLE_DAEMON_TESTS
 
 /* Define to 1 if you have the ANSI C header files. */
 #undef STDC_HEADERS

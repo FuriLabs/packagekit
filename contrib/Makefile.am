@@ -1,9 +1,5 @@
 SUBDIRS =
 
-if BACKEND_TYPE_YUM
-SUBDIRS += yum-packagekit
-endif
-
 if PK_BUILD_BROWSER_PLUGIN
 SUBDIRS += browser-plugin
 endif
@@ -24,17 +20,13 @@ if PK_BUILD_CRON
 SUBDIRS += cron
 endif
 
-if PK_BUILD_DEBUGINFO_INSTALL
-SUBDIRS += debuginfo-install
-endif
-
-if PK_BUILD_SYSTEMD_UPDATES
-SUBDIRS += systemd-updates
-endif
-
 if HAVE_BASH_COMPLETION
 bashcompletiondir = $(BASH_COMPLETIONS_DIR)
 dist_bashcompletion_DATA = pkcon
 endif
+
+EXTRA_DIST = generate-md-archive.sh
+
+CLEANFILES = cached-metadata.tar
 
 -include $(top_srcdir)/git.mk

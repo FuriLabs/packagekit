@@ -83,8 +83,7 @@ POST_UNINSTALL = :
 build_triplet = @build@
 host_triplet = @host@
 noinst_PROGRAMS = pk-socket-example$(EXEEXT)
-check_PROGRAMS = pk-self-test$(EXEEXT)
-TESTS = pk-self-test$(EXEEXT)
+check_PROGRAMS = pk-test-daemon$(EXEEXT) pk-test-private$(EXEEXT)
 @HAVE_INTROSPECTION_TRUE@am__append_1 = $(gir_DATA) $(typelib_DATA)
 subdir = lib/packagekit-glib2
 DIST_COMMON = $(srcdir)/Makefile.in $(srcdir)/Makefile.am \
@@ -96,9 +95,9 @@ ACLOCAL_M4 = $(top_srcdir)/aclocal.m4
 am__aclocal_m4_deps = $(top_srcdir)/m4/as-linguas.m4 \
 	$(top_srcdir)/m4/ax_check_compile_flag.m4 \
 	$(top_srcdir)/m4/ax_check_link_flag.m4 \
-	$(top_srcdir)/m4/gtk-doc.m4 $(top_srcdir)/m4/libtool.m4 \
-	$(top_srcdir)/m4/ltoptions.m4 $(top_srcdir)/m4/ltsugar.m4 \
-	$(top_srcdir)/m4/ltversion.m4 $(top_srcdir)/m4/lt~obsolete.m4 \
+	$(top_srcdir)/m4/gtk-doc.m4 $(top_srcdir)/m4/intltool.m4 \
+	$(top_srcdir)/m4/libtool.m4 $(top_srcdir)/m4/ltoptions.m4 \
+	$(top_srcdir)/m4/ltsugar.m4 $(top_srcdir)/m4/ltversion.m4 \
 	$(top_srcdir)/acinclude.m4 $(top_srcdir)/configure.ac
 am__configure_deps = $(am__aclocal_m4_deps) $(CONFIGURE_DEPENDENCIES) \
 	$(ACLOCAL_M4)
@@ -174,6 +173,8 @@ am_libpackagekit_glib2_la_OBJECTS =  \
 	libpackagekit_glib2_la-pk-files.lo \
 	libpackagekit_glib2_la-pk-media-change-required.lo \
 	libpackagekit_glib2_la-pk-item-progress.lo \
+	libpackagekit_glib2_la-pk-offline.lo \
+	libpackagekit_glib2_la-pk-offline-private.lo \
 	libpackagekit_glib2_la-pk-package.lo \
 	libpackagekit_glib2_la-pk-package-id.lo \
 	libpackagekit_glib2_la-pk-package-ids.lo \
@@ -201,14 +202,6 @@ libpackagekit_glib2_la_LINK = $(LIBTOOL) $(AM_V_lt) --tag=CC \
 	$(libpackagekit_glib2_la_CFLAGS) $(CFLAGS) \
 	$(libpackagekit_glib2_la_LDFLAGS) $(LDFLAGS) -o $@
 PROGRAMS = $(noinst_PROGRAMS)
-am_pk_self_test_OBJECTS = pk_self_test-pk-self-test.$(OBJEXT)
-pk_self_test_OBJECTS = $(am_pk_self_test_OBJECTS)
-pk_self_test_DEPENDENCIES = libpackagekit-glib2.la \
-	libpackagekitprivate.a $(am__DEPENDENCIES_1) \
-	$(am__DEPENDENCIES_1) $(am__DEPENDENCIES_1)
-pk_self_test_LINK = $(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) \
-	$(LIBTOOLFLAGS) --mode=link $(CCLD) $(pk_self_test_CFLAGS) \
-	$(CFLAGS) $(AM_LDFLAGS) $(LDFLAGS) -o $@
 am_pk_socket_example_OBJECTS =  \
 	pk_socket_example-pk-socket-example.$(OBJEXT)
 pk_socket_example_OBJECTS = $(am_pk_socket_example_OBJECTS)
@@ -217,6 +210,102 @@ pk_socket_example_DEPENDENCIES = $(am__DEPENDENCIES_1) \
 pk_socket_example_LINK = $(LIBTOOL) $(AM_V_lt) --tag=CC \
 	$(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=link $(CCLD) \
 	$(pk_socket_example_CFLAGS) $(CFLAGS) $(AM_LDFLAGS) $(LDFLAGS) \
+	-o $@
+am__objects_1 = pk_test_daemon-pk-bitfield.$(OBJEXT) \
+	pk_test_daemon-pk-category.$(OBJEXT) \
+	pk_test_daemon-pk-client.$(OBJEXT) \
+	pk_test_daemon-pk-client-helper.$(OBJEXT) \
+	pk_test_daemon-pk-client-sync.$(OBJEXT) \
+	pk_test_daemon-pk-common.$(OBJEXT) \
+	pk_test_daemon-pk-control.$(OBJEXT) \
+	pk_test_daemon-pk-control-sync.$(OBJEXT) \
+	pk_test_daemon-pk-debug.$(OBJEXT) \
+	pk_test_daemon-pk-desktop.$(OBJEXT) \
+	pk_test_daemon-pk-details.$(OBJEXT) \
+	pk_test_daemon-pk-distro-upgrade.$(OBJEXT) \
+	pk_test_daemon-pk-enum.$(OBJEXT) \
+	pk_test_daemon-pk-enum-types.$(OBJEXT) \
+	pk_test_daemon-pk-error.$(OBJEXT) \
+	pk_test_daemon-pk-eula-required.$(OBJEXT) \
+	pk_test_daemon-pk-files.$(OBJEXT) \
+	pk_test_daemon-pk-media-change-required.$(OBJEXT) \
+	pk_test_daemon-pk-item-progress.$(OBJEXT) \
+	pk_test_daemon-pk-offline.$(OBJEXT) \
+	pk_test_daemon-pk-offline-private.$(OBJEXT) \
+	pk_test_daemon-pk-package.$(OBJEXT) \
+	pk_test_daemon-pk-package-id.$(OBJEXT) \
+	pk_test_daemon-pk-package-ids.$(OBJEXT) \
+	pk_test_daemon-pk-package-sack.$(OBJEXT) \
+	pk_test_daemon-pk-package-sack-sync.$(OBJEXT) \
+	pk_test_daemon-pk-progress.$(OBJEXT) \
+	pk_test_daemon-pk-repo-detail.$(OBJEXT) \
+	pk_test_daemon-pk-repo-signature-required.$(OBJEXT) \
+	pk_test_daemon-pk-require-restart.$(OBJEXT) \
+	pk_test_daemon-pk-results.$(OBJEXT) \
+	pk_test_daemon-pk-source.$(OBJEXT) \
+	pk_test_daemon-pk-task.$(OBJEXT) \
+	pk_test_daemon-pk-task-sync.$(OBJEXT) \
+	pk_test_daemon-pk-transaction-past.$(OBJEXT) \
+	pk_test_daemon-pk-transaction-list.$(OBJEXT) \
+	pk_test_daemon-pk-update-detail.$(OBJEXT) \
+	pk_test_daemon-pk-spawn-polkit-agent.$(OBJEXT)
+am_pk_test_daemon_OBJECTS = $(am__objects_1) \
+	pk_test_daemon-pk-test-daemon.$(OBJEXT)
+pk_test_daemon_OBJECTS = $(am_pk_test_daemon_OBJECTS)
+pk_test_daemon_DEPENDENCIES = libpackagekitprivate.a \
+	$(am__DEPENDENCIES_1) $(am__DEPENDENCIES_1) \
+	$(am__DEPENDENCIES_1)
+pk_test_daemon_LINK = $(LIBTOOL) $(AM_V_lt) --tag=CC \
+	$(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=link $(CCLD) \
+	$(pk_test_daemon_CFLAGS) $(CFLAGS) $(AM_LDFLAGS) $(LDFLAGS) -o \
+	$@
+am__objects_2 = pk_test_private-pk-bitfield.$(OBJEXT) \
+	pk_test_private-pk-category.$(OBJEXT) \
+	pk_test_private-pk-client.$(OBJEXT) \
+	pk_test_private-pk-client-helper.$(OBJEXT) \
+	pk_test_private-pk-client-sync.$(OBJEXT) \
+	pk_test_private-pk-common.$(OBJEXT) \
+	pk_test_private-pk-control.$(OBJEXT) \
+	pk_test_private-pk-control-sync.$(OBJEXT) \
+	pk_test_private-pk-debug.$(OBJEXT) \
+	pk_test_private-pk-desktop.$(OBJEXT) \
+	pk_test_private-pk-details.$(OBJEXT) \
+	pk_test_private-pk-distro-upgrade.$(OBJEXT) \
+	pk_test_private-pk-enum.$(OBJEXT) \
+	pk_test_private-pk-enum-types.$(OBJEXT) \
+	pk_test_private-pk-error.$(OBJEXT) \
+	pk_test_private-pk-eula-required.$(OBJEXT) \
+	pk_test_private-pk-files.$(OBJEXT) \
+	pk_test_private-pk-media-change-required.$(OBJEXT) \
+	pk_test_private-pk-item-progress.$(OBJEXT) \
+	pk_test_private-pk-offline.$(OBJEXT) \
+	pk_test_private-pk-offline-private.$(OBJEXT) \
+	pk_test_private-pk-package.$(OBJEXT) \
+	pk_test_private-pk-package-id.$(OBJEXT) \
+	pk_test_private-pk-package-ids.$(OBJEXT) \
+	pk_test_private-pk-package-sack.$(OBJEXT) \
+	pk_test_private-pk-package-sack-sync.$(OBJEXT) \
+	pk_test_private-pk-progress.$(OBJEXT) \
+	pk_test_private-pk-repo-detail.$(OBJEXT) \
+	pk_test_private-pk-repo-signature-required.$(OBJEXT) \
+	pk_test_private-pk-require-restart.$(OBJEXT) \
+	pk_test_private-pk-results.$(OBJEXT) \
+	pk_test_private-pk-source.$(OBJEXT) \
+	pk_test_private-pk-task.$(OBJEXT) \
+	pk_test_private-pk-task-sync.$(OBJEXT) \
+	pk_test_private-pk-transaction-past.$(OBJEXT) \
+	pk_test_private-pk-transaction-list.$(OBJEXT) \
+	pk_test_private-pk-update-detail.$(OBJEXT) \
+	pk_test_private-pk-spawn-polkit-agent.$(OBJEXT)
+am_pk_test_private_OBJECTS = $(am__objects_2) \
+	pk_test_private-pk-test-private.$(OBJEXT)
+pk_test_private_OBJECTS = $(am_pk_test_private_OBJECTS)
+pk_test_private_DEPENDENCIES = libpackagekitprivate.a \
+	$(am__DEPENDENCIES_1) $(am__DEPENDENCIES_1) \
+	$(am__DEPENDENCIES_1)
+pk_test_private_LINK = $(LIBTOOL) $(AM_V_lt) --tag=CC \
+	$(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=link $(CCLD) \
+	$(pk_test_private_CFLAGS) $(CFLAGS) $(AM_LDFLAGS) $(LDFLAGS) \
 	-o $@
 AM_V_P = $(am__v_P_@AM_V@)
 am__v_P_ = $(am__v_P_@AM_DEFAULT_V@)
@@ -253,11 +342,11 @@ am__v_CCLD_ = $(am__v_CCLD_@AM_DEFAULT_V@)
 am__v_CCLD_0 = @echo "  CCLD    " $@;
 am__v_CCLD_1 = 
 SOURCES = $(libpackagekitprivate_a_SOURCES) \
-	$(libpackagekit_glib2_la_SOURCES) $(pk_self_test_SOURCES) \
-	$(pk_socket_example_SOURCES)
+	$(libpackagekit_glib2_la_SOURCES) $(pk_socket_example_SOURCES) \
+	$(pk_test_daemon_SOURCES) $(pk_test_private_SOURCES)
 DIST_SOURCES = $(libpackagekitprivate_a_SOURCES) \
-	$(libpackagekit_glib2_la_SOURCES) $(pk_self_test_SOURCES) \
-	$(pk_socket_example_SOURCES)
+	$(libpackagekit_glib2_la_SOURCES) $(pk_socket_example_SOURCES) \
+	$(pk_test_daemon_SOURCES) $(pk_test_private_SOURCES)
 am__can_run_installinfo = \
   case $$AM_UPDATE_INFO_DIR in \
     n|no|NO) false;; \
@@ -497,7 +586,6 @@ DATADIR = @DATADIR@
 DATADIRNAME = @DATADIRNAME@
 DBUS_SERVICES_DIR = @DBUS_SERVICES_DIR@
 DBUS_SYS_DIR = @DBUS_SYS_DIR@
-DEFAULT_BACKEND = @DEFAULT_BACKEND@
 DEFS = @DEFS@
 DEPDIR = @DEPDIR@
 DLLTOOL = @DLLTOOL@
@@ -566,8 +654,6 @@ LIBDIR = @LIBDIR@
 LIBEXECDIR = @LIBEXECDIR@
 LIBOBJS = @LIBOBJS@
 LIBS = @LIBS@
-LIBSYSTEMD_JOURNAL_CFLAGS = @LIBSYSTEMD_JOURNAL_CFLAGS@
-LIBSYSTEMD_JOURNAL_LIBS = @LIBSYSTEMD_JOURNAL_LIBS@
 LIBTOOL = @LIBTOOL@
 LIPO = @LIPO@
 LN_S = @LN_S@
@@ -591,8 +677,6 @@ NM = @NM@
 NMEDIT = @NMEDIT@
 OBJDUMP = @OBJDUMP@
 OBJEXT = @OBJEXT@
-OPKG_CFLAGS = @OPKG_CFLAGS@
-OPKG_LIBS = @OPKG_LIBS@
 OTOOL = @OTOOL@
 OTOOL64 = @OTOOL64@
 PACKAGE = @PACKAGE@
@@ -766,6 +850,7 @@ HEADER_FILES = \
 	pk-files.h						\
 	pk-media-change-required.h				\
 	pk-item-progress.h					\
+	pk-offline.h						\
 	pk-package.h						\
 	pk-package-id.h						\
 	pk-package-ids.h					\
@@ -828,6 +913,10 @@ libpackagekit_glib2_la_SOURCES = \
 	pk-media-change-required.h				\
 	pk-item-progress.c					\
 	pk-item-progress.h					\
+	pk-offline.c						\
+	pk-offline.h						\
+	pk-offline-private.c					\
+	pk-offline-private.h					\
 	pk-package.c						\
 	pk-package.h						\
 	pk-package-id.c						\
@@ -900,11 +989,11 @@ libpackagekitprivate_a_CFLAGS = \
 pk_socket_example_SOURCES = pk-socket-example.c
 pk_socket_example_LDADD = $(GIO_LIBS) $(GLIB_LIBS)
 pk_socket_example_CFLAGS = $(WARNINGFLAGS_C)
-pk_self_test_SOURCES = \
-	pk-self-test.c
+pk_test_private_SOURCES = \
+	$(libpackagekit_glib2_la_SOURCES)			\
+	pk-test-private.c
 
-pk_self_test_LDADD = \
-	libpackagekit-glib2.la					\
+pk_test_private_LDADD = \
 	libpackagekitprivate.a					\
 	$(GLIB_LIBS)						\
 	$(SELFTEST_LIBS)					\
@@ -912,7 +1001,28 @@ pk_self_test_LDADD = \
 	$(SQLITE_LIBS)						\
 	$(ARCHIVE_LIBS)
 
-pk_self_test_CFLAGS = $(AM_CFLAGS) $(WARNINGFLAGS_C)
+pk_test_private_CFLAGS = \
+	-DPK_OFFLINE_DESTDIR=\"/tmp/PackageKit-self-test\"	\
+	$(AM_CFLAGS)						\
+	$(WARNINGFLAGS_C)
+
+pk_test_daemon_SOURCES = \
+	$(libpackagekit_glib2_la_SOURCES)			\
+	pk-test-daemon.c
+
+pk_test_daemon_LDADD = \
+	libpackagekitprivate.a					\
+	$(GLIB_LIBS)						\
+	$(SELFTEST_LIBS)					\
+	$(POLKIT_LIBS)						\
+	$(SQLITE_LIBS)						\
+	$(ARCHIVE_LIBS)
+
+pk_test_daemon_CFLAGS = \
+	$(AM_CFLAGS)						\
+	$(WARNINGFLAGS_C)
+
+TESTS = $(check_PROGRAMS)
 EXTRA_DIST = \
 	packagekit-glib2.pc.in					\
 	pk-version.h.in						\
@@ -1044,13 +1154,17 @@ clean-noinstPROGRAMS:
 	echo " rm -f" $$list; \
 	rm -f $$list
 
-pk-self-test$(EXEEXT): $(pk_self_test_OBJECTS) $(pk_self_test_DEPENDENCIES) $(EXTRA_pk_self_test_DEPENDENCIES) 
-	@rm -f pk-self-test$(EXEEXT)
-	$(AM_V_CCLD)$(pk_self_test_LINK) $(pk_self_test_OBJECTS) $(pk_self_test_LDADD) $(LIBS)
-
 pk-socket-example$(EXEEXT): $(pk_socket_example_OBJECTS) $(pk_socket_example_DEPENDENCIES) $(EXTRA_pk_socket_example_DEPENDENCIES) 
 	@rm -f pk-socket-example$(EXEEXT)
 	$(AM_V_CCLD)$(pk_socket_example_LINK) $(pk_socket_example_OBJECTS) $(pk_socket_example_LDADD) $(LIBS)
+
+pk-test-daemon$(EXEEXT): $(pk_test_daemon_OBJECTS) $(pk_test_daemon_DEPENDENCIES) $(EXTRA_pk_test_daemon_DEPENDENCIES) 
+	@rm -f pk-test-daemon$(EXEEXT)
+	$(AM_V_CCLD)$(pk_test_daemon_LINK) $(pk_test_daemon_OBJECTS) $(pk_test_daemon_LDADD) $(LIBS)
+
+pk-test-private$(EXEEXT): $(pk_test_private_OBJECTS) $(pk_test_private_DEPENDENCIES) $(EXTRA_pk_test_private_DEPENDENCIES) 
+	@rm -f pk-test-private$(EXEEXT)
+	$(AM_V_CCLD)$(pk_test_private_LINK) $(pk_test_private_OBJECTS) $(pk_test_private_LDADD) $(LIBS)
 
 mostlyclean-compile:
 	-rm -f *.$(OBJEXT)
@@ -1077,6 +1191,8 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libpackagekit_glib2_la-pk-files.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libpackagekit_glib2_la-pk-item-progress.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libpackagekit_glib2_la-pk-media-change-required.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libpackagekit_glib2_la-pk-offline-private.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libpackagekit_glib2_la-pk-offline.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libpackagekit_glib2_la-pk-package-id.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libpackagekit_glib2_la-pk-package-ids.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libpackagekit_glib2_la-pk-package-sack-sync.Plo@am__quote@
@@ -1098,8 +1214,85 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libpackagekitprivate_a-pk-progress-bar.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libpackagekitprivate_a-pk-task-text.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libpackagekitprivate_a-pk-task-wrapper.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/pk_self_test-pk-self-test.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/pk_socket_example-pk-socket-example.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/pk_test_daemon-pk-bitfield.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/pk_test_daemon-pk-category.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/pk_test_daemon-pk-client-helper.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/pk_test_daemon-pk-client-sync.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/pk_test_daemon-pk-client.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/pk_test_daemon-pk-common.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/pk_test_daemon-pk-control-sync.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/pk_test_daemon-pk-control.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/pk_test_daemon-pk-debug.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/pk_test_daemon-pk-desktop.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/pk_test_daemon-pk-details.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/pk_test_daemon-pk-distro-upgrade.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/pk_test_daemon-pk-enum-types.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/pk_test_daemon-pk-enum.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/pk_test_daemon-pk-error.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/pk_test_daemon-pk-eula-required.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/pk_test_daemon-pk-files.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/pk_test_daemon-pk-item-progress.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/pk_test_daemon-pk-media-change-required.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/pk_test_daemon-pk-offline-private.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/pk_test_daemon-pk-offline.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/pk_test_daemon-pk-package-id.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/pk_test_daemon-pk-package-ids.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/pk_test_daemon-pk-package-sack-sync.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/pk_test_daemon-pk-package-sack.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/pk_test_daemon-pk-package.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/pk_test_daemon-pk-progress.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/pk_test_daemon-pk-repo-detail.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/pk_test_daemon-pk-repo-signature-required.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/pk_test_daemon-pk-require-restart.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/pk_test_daemon-pk-results.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/pk_test_daemon-pk-source.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/pk_test_daemon-pk-spawn-polkit-agent.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/pk_test_daemon-pk-task-sync.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/pk_test_daemon-pk-task.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/pk_test_daemon-pk-test-daemon.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/pk_test_daemon-pk-transaction-list.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/pk_test_daemon-pk-transaction-past.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/pk_test_daemon-pk-update-detail.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/pk_test_private-pk-bitfield.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/pk_test_private-pk-category.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/pk_test_private-pk-client-helper.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/pk_test_private-pk-client-sync.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/pk_test_private-pk-client.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/pk_test_private-pk-common.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/pk_test_private-pk-control-sync.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/pk_test_private-pk-control.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/pk_test_private-pk-debug.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/pk_test_private-pk-desktop.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/pk_test_private-pk-details.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/pk_test_private-pk-distro-upgrade.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/pk_test_private-pk-enum-types.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/pk_test_private-pk-enum.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/pk_test_private-pk-error.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/pk_test_private-pk-eula-required.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/pk_test_private-pk-files.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/pk_test_private-pk-item-progress.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/pk_test_private-pk-media-change-required.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/pk_test_private-pk-offline-private.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/pk_test_private-pk-offline.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/pk_test_private-pk-package-id.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/pk_test_private-pk-package-ids.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/pk_test_private-pk-package-sack-sync.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/pk_test_private-pk-package-sack.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/pk_test_private-pk-package.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/pk_test_private-pk-progress.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/pk_test_private-pk-repo-detail.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/pk_test_private-pk-repo-signature-required.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/pk_test_private-pk-require-restart.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/pk_test_private-pk-results.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/pk_test_private-pk-source.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/pk_test_private-pk-spawn-polkit-agent.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/pk_test_private-pk-task-sync.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/pk_test_private-pk-task.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/pk_test_private-pk-test-private.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/pk_test_private-pk-transaction-list.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/pk_test_private-pk-transaction-past.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/pk_test_private-pk-update-detail.Po@am__quote@
 
 .c.o:
 @am__fastdepCC_TRUE@	$(AM_V_CC)$(COMPILE) -MT $@ -MD -MP -MF $(DEPDIR)/$*.Tpo -c -o $@ $<
@@ -1311,6 +1504,20 @@ libpackagekit_glib2_la-pk-item-progress.lo: pk-item-progress.c
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libpackagekit_glib2_la_CFLAGS) $(CFLAGS) -c -o libpackagekit_glib2_la-pk-item-progress.lo `test -f 'pk-item-progress.c' || echo '$(srcdir)/'`pk-item-progress.c
 
+libpackagekit_glib2_la-pk-offline.lo: pk-offline.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libpackagekit_glib2_la_CFLAGS) $(CFLAGS) -MT libpackagekit_glib2_la-pk-offline.lo -MD -MP -MF $(DEPDIR)/libpackagekit_glib2_la-pk-offline.Tpo -c -o libpackagekit_glib2_la-pk-offline.lo `test -f 'pk-offline.c' || echo '$(srcdir)/'`pk-offline.c
+@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/libpackagekit_glib2_la-pk-offline.Tpo $(DEPDIR)/libpackagekit_glib2_la-pk-offline.Plo
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='pk-offline.c' object='libpackagekit_glib2_la-pk-offline.lo' libtool=yes @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libpackagekit_glib2_la_CFLAGS) $(CFLAGS) -c -o libpackagekit_glib2_la-pk-offline.lo `test -f 'pk-offline.c' || echo '$(srcdir)/'`pk-offline.c
+
+libpackagekit_glib2_la-pk-offline-private.lo: pk-offline-private.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libpackagekit_glib2_la_CFLAGS) $(CFLAGS) -MT libpackagekit_glib2_la-pk-offline-private.lo -MD -MP -MF $(DEPDIR)/libpackagekit_glib2_la-pk-offline-private.Tpo -c -o libpackagekit_glib2_la-pk-offline-private.lo `test -f 'pk-offline-private.c' || echo '$(srcdir)/'`pk-offline-private.c
+@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/libpackagekit_glib2_la-pk-offline-private.Tpo $(DEPDIR)/libpackagekit_glib2_la-pk-offline-private.Plo
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='pk-offline-private.c' object='libpackagekit_glib2_la-pk-offline-private.lo' libtool=yes @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libpackagekit_glib2_la_CFLAGS) $(CFLAGS) -c -o libpackagekit_glib2_la-pk-offline-private.lo `test -f 'pk-offline-private.c' || echo '$(srcdir)/'`pk-offline-private.c
+
 libpackagekit_glib2_la-pk-package.lo: pk-package.c
 @am__fastdepCC_TRUE@	$(AM_V_CC)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libpackagekit_glib2_la_CFLAGS) $(CFLAGS) -MT libpackagekit_glib2_la-pk-package.lo -MD -MP -MF $(DEPDIR)/libpackagekit_glib2_la-pk-package.Tpo -c -o libpackagekit_glib2_la-pk-package.lo `test -f 'pk-package.c' || echo '$(srcdir)/'`pk-package.c
 @am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/libpackagekit_glib2_la-pk-package.Tpo $(DEPDIR)/libpackagekit_glib2_la-pk-package.Plo
@@ -1430,20 +1637,6 @@ libpackagekit_glib2_la-pk-spawn-polkit-agent.lo: pk-spawn-polkit-agent.c
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libpackagekit_glib2_la_CFLAGS) $(CFLAGS) -c -o libpackagekit_glib2_la-pk-spawn-polkit-agent.lo `test -f 'pk-spawn-polkit-agent.c' || echo '$(srcdir)/'`pk-spawn-polkit-agent.c
 
-pk_self_test-pk-self-test.o: pk-self-test.c
-@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(pk_self_test_CFLAGS) $(CFLAGS) -MT pk_self_test-pk-self-test.o -MD -MP -MF $(DEPDIR)/pk_self_test-pk-self-test.Tpo -c -o pk_self_test-pk-self-test.o `test -f 'pk-self-test.c' || echo '$(srcdir)/'`pk-self-test.c
-@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/pk_self_test-pk-self-test.Tpo $(DEPDIR)/pk_self_test-pk-self-test.Po
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='pk-self-test.c' object='pk_self_test-pk-self-test.o' libtool=no @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(pk_self_test_CFLAGS) $(CFLAGS) -c -o pk_self_test-pk-self-test.o `test -f 'pk-self-test.c' || echo '$(srcdir)/'`pk-self-test.c
-
-pk_self_test-pk-self-test.obj: pk-self-test.c
-@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(pk_self_test_CFLAGS) $(CFLAGS) -MT pk_self_test-pk-self-test.obj -MD -MP -MF $(DEPDIR)/pk_self_test-pk-self-test.Tpo -c -o pk_self_test-pk-self-test.obj `if test -f 'pk-self-test.c'; then $(CYGPATH_W) 'pk-self-test.c'; else $(CYGPATH_W) '$(srcdir)/pk-self-test.c'; fi`
-@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/pk_self_test-pk-self-test.Tpo $(DEPDIR)/pk_self_test-pk-self-test.Po
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='pk-self-test.c' object='pk_self_test-pk-self-test.obj' libtool=no @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(pk_self_test_CFLAGS) $(CFLAGS) -c -o pk_self_test-pk-self-test.obj `if test -f 'pk-self-test.c'; then $(CYGPATH_W) 'pk-self-test.c'; else $(CYGPATH_W) '$(srcdir)/pk-self-test.c'; fi`
-
 pk_socket_example-pk-socket-example.o: pk-socket-example.c
 @am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(pk_socket_example_CFLAGS) $(CFLAGS) -MT pk_socket_example-pk-socket-example.o -MD -MP -MF $(DEPDIR)/pk_socket_example-pk-socket-example.Tpo -c -o pk_socket_example-pk-socket-example.o `test -f 'pk-socket-example.c' || echo '$(srcdir)/'`pk-socket-example.c
 @am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/pk_socket_example-pk-socket-example.Tpo $(DEPDIR)/pk_socket_example-pk-socket-example.Po
@@ -1457,6 +1650,1098 @@ pk_socket_example-pk-socket-example.obj: pk-socket-example.c
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='pk-socket-example.c' object='pk_socket_example-pk-socket-example.obj' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(pk_socket_example_CFLAGS) $(CFLAGS) -c -o pk_socket_example-pk-socket-example.obj `if test -f 'pk-socket-example.c'; then $(CYGPATH_W) 'pk-socket-example.c'; else $(CYGPATH_W) '$(srcdir)/pk-socket-example.c'; fi`
+
+pk_test_daemon-pk-bitfield.o: pk-bitfield.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(pk_test_daemon_CFLAGS) $(CFLAGS) -MT pk_test_daemon-pk-bitfield.o -MD -MP -MF $(DEPDIR)/pk_test_daemon-pk-bitfield.Tpo -c -o pk_test_daemon-pk-bitfield.o `test -f 'pk-bitfield.c' || echo '$(srcdir)/'`pk-bitfield.c
+@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/pk_test_daemon-pk-bitfield.Tpo $(DEPDIR)/pk_test_daemon-pk-bitfield.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='pk-bitfield.c' object='pk_test_daemon-pk-bitfield.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(pk_test_daemon_CFLAGS) $(CFLAGS) -c -o pk_test_daemon-pk-bitfield.o `test -f 'pk-bitfield.c' || echo '$(srcdir)/'`pk-bitfield.c
+
+pk_test_daemon-pk-bitfield.obj: pk-bitfield.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(pk_test_daemon_CFLAGS) $(CFLAGS) -MT pk_test_daemon-pk-bitfield.obj -MD -MP -MF $(DEPDIR)/pk_test_daemon-pk-bitfield.Tpo -c -o pk_test_daemon-pk-bitfield.obj `if test -f 'pk-bitfield.c'; then $(CYGPATH_W) 'pk-bitfield.c'; else $(CYGPATH_W) '$(srcdir)/pk-bitfield.c'; fi`
+@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/pk_test_daemon-pk-bitfield.Tpo $(DEPDIR)/pk_test_daemon-pk-bitfield.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='pk-bitfield.c' object='pk_test_daemon-pk-bitfield.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(pk_test_daemon_CFLAGS) $(CFLAGS) -c -o pk_test_daemon-pk-bitfield.obj `if test -f 'pk-bitfield.c'; then $(CYGPATH_W) 'pk-bitfield.c'; else $(CYGPATH_W) '$(srcdir)/pk-bitfield.c'; fi`
+
+pk_test_daemon-pk-category.o: pk-category.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(pk_test_daemon_CFLAGS) $(CFLAGS) -MT pk_test_daemon-pk-category.o -MD -MP -MF $(DEPDIR)/pk_test_daemon-pk-category.Tpo -c -o pk_test_daemon-pk-category.o `test -f 'pk-category.c' || echo '$(srcdir)/'`pk-category.c
+@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/pk_test_daemon-pk-category.Tpo $(DEPDIR)/pk_test_daemon-pk-category.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='pk-category.c' object='pk_test_daemon-pk-category.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(pk_test_daemon_CFLAGS) $(CFLAGS) -c -o pk_test_daemon-pk-category.o `test -f 'pk-category.c' || echo '$(srcdir)/'`pk-category.c
+
+pk_test_daemon-pk-category.obj: pk-category.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(pk_test_daemon_CFLAGS) $(CFLAGS) -MT pk_test_daemon-pk-category.obj -MD -MP -MF $(DEPDIR)/pk_test_daemon-pk-category.Tpo -c -o pk_test_daemon-pk-category.obj `if test -f 'pk-category.c'; then $(CYGPATH_W) 'pk-category.c'; else $(CYGPATH_W) '$(srcdir)/pk-category.c'; fi`
+@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/pk_test_daemon-pk-category.Tpo $(DEPDIR)/pk_test_daemon-pk-category.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='pk-category.c' object='pk_test_daemon-pk-category.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(pk_test_daemon_CFLAGS) $(CFLAGS) -c -o pk_test_daemon-pk-category.obj `if test -f 'pk-category.c'; then $(CYGPATH_W) 'pk-category.c'; else $(CYGPATH_W) '$(srcdir)/pk-category.c'; fi`
+
+pk_test_daemon-pk-client.o: pk-client.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(pk_test_daemon_CFLAGS) $(CFLAGS) -MT pk_test_daemon-pk-client.o -MD -MP -MF $(DEPDIR)/pk_test_daemon-pk-client.Tpo -c -o pk_test_daemon-pk-client.o `test -f 'pk-client.c' || echo '$(srcdir)/'`pk-client.c
+@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/pk_test_daemon-pk-client.Tpo $(DEPDIR)/pk_test_daemon-pk-client.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='pk-client.c' object='pk_test_daemon-pk-client.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(pk_test_daemon_CFLAGS) $(CFLAGS) -c -o pk_test_daemon-pk-client.o `test -f 'pk-client.c' || echo '$(srcdir)/'`pk-client.c
+
+pk_test_daemon-pk-client.obj: pk-client.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(pk_test_daemon_CFLAGS) $(CFLAGS) -MT pk_test_daemon-pk-client.obj -MD -MP -MF $(DEPDIR)/pk_test_daemon-pk-client.Tpo -c -o pk_test_daemon-pk-client.obj `if test -f 'pk-client.c'; then $(CYGPATH_W) 'pk-client.c'; else $(CYGPATH_W) '$(srcdir)/pk-client.c'; fi`
+@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/pk_test_daemon-pk-client.Tpo $(DEPDIR)/pk_test_daemon-pk-client.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='pk-client.c' object='pk_test_daemon-pk-client.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(pk_test_daemon_CFLAGS) $(CFLAGS) -c -o pk_test_daemon-pk-client.obj `if test -f 'pk-client.c'; then $(CYGPATH_W) 'pk-client.c'; else $(CYGPATH_W) '$(srcdir)/pk-client.c'; fi`
+
+pk_test_daemon-pk-client-helper.o: pk-client-helper.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(pk_test_daemon_CFLAGS) $(CFLAGS) -MT pk_test_daemon-pk-client-helper.o -MD -MP -MF $(DEPDIR)/pk_test_daemon-pk-client-helper.Tpo -c -o pk_test_daemon-pk-client-helper.o `test -f 'pk-client-helper.c' || echo '$(srcdir)/'`pk-client-helper.c
+@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/pk_test_daemon-pk-client-helper.Tpo $(DEPDIR)/pk_test_daemon-pk-client-helper.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='pk-client-helper.c' object='pk_test_daemon-pk-client-helper.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(pk_test_daemon_CFLAGS) $(CFLAGS) -c -o pk_test_daemon-pk-client-helper.o `test -f 'pk-client-helper.c' || echo '$(srcdir)/'`pk-client-helper.c
+
+pk_test_daemon-pk-client-helper.obj: pk-client-helper.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(pk_test_daemon_CFLAGS) $(CFLAGS) -MT pk_test_daemon-pk-client-helper.obj -MD -MP -MF $(DEPDIR)/pk_test_daemon-pk-client-helper.Tpo -c -o pk_test_daemon-pk-client-helper.obj `if test -f 'pk-client-helper.c'; then $(CYGPATH_W) 'pk-client-helper.c'; else $(CYGPATH_W) '$(srcdir)/pk-client-helper.c'; fi`
+@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/pk_test_daemon-pk-client-helper.Tpo $(DEPDIR)/pk_test_daemon-pk-client-helper.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='pk-client-helper.c' object='pk_test_daemon-pk-client-helper.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(pk_test_daemon_CFLAGS) $(CFLAGS) -c -o pk_test_daemon-pk-client-helper.obj `if test -f 'pk-client-helper.c'; then $(CYGPATH_W) 'pk-client-helper.c'; else $(CYGPATH_W) '$(srcdir)/pk-client-helper.c'; fi`
+
+pk_test_daemon-pk-client-sync.o: pk-client-sync.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(pk_test_daemon_CFLAGS) $(CFLAGS) -MT pk_test_daemon-pk-client-sync.o -MD -MP -MF $(DEPDIR)/pk_test_daemon-pk-client-sync.Tpo -c -o pk_test_daemon-pk-client-sync.o `test -f 'pk-client-sync.c' || echo '$(srcdir)/'`pk-client-sync.c
+@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/pk_test_daemon-pk-client-sync.Tpo $(DEPDIR)/pk_test_daemon-pk-client-sync.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='pk-client-sync.c' object='pk_test_daemon-pk-client-sync.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(pk_test_daemon_CFLAGS) $(CFLAGS) -c -o pk_test_daemon-pk-client-sync.o `test -f 'pk-client-sync.c' || echo '$(srcdir)/'`pk-client-sync.c
+
+pk_test_daemon-pk-client-sync.obj: pk-client-sync.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(pk_test_daemon_CFLAGS) $(CFLAGS) -MT pk_test_daemon-pk-client-sync.obj -MD -MP -MF $(DEPDIR)/pk_test_daemon-pk-client-sync.Tpo -c -o pk_test_daemon-pk-client-sync.obj `if test -f 'pk-client-sync.c'; then $(CYGPATH_W) 'pk-client-sync.c'; else $(CYGPATH_W) '$(srcdir)/pk-client-sync.c'; fi`
+@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/pk_test_daemon-pk-client-sync.Tpo $(DEPDIR)/pk_test_daemon-pk-client-sync.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='pk-client-sync.c' object='pk_test_daemon-pk-client-sync.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(pk_test_daemon_CFLAGS) $(CFLAGS) -c -o pk_test_daemon-pk-client-sync.obj `if test -f 'pk-client-sync.c'; then $(CYGPATH_W) 'pk-client-sync.c'; else $(CYGPATH_W) '$(srcdir)/pk-client-sync.c'; fi`
+
+pk_test_daemon-pk-common.o: pk-common.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(pk_test_daemon_CFLAGS) $(CFLAGS) -MT pk_test_daemon-pk-common.o -MD -MP -MF $(DEPDIR)/pk_test_daemon-pk-common.Tpo -c -o pk_test_daemon-pk-common.o `test -f 'pk-common.c' || echo '$(srcdir)/'`pk-common.c
+@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/pk_test_daemon-pk-common.Tpo $(DEPDIR)/pk_test_daemon-pk-common.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='pk-common.c' object='pk_test_daemon-pk-common.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(pk_test_daemon_CFLAGS) $(CFLAGS) -c -o pk_test_daemon-pk-common.o `test -f 'pk-common.c' || echo '$(srcdir)/'`pk-common.c
+
+pk_test_daemon-pk-common.obj: pk-common.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(pk_test_daemon_CFLAGS) $(CFLAGS) -MT pk_test_daemon-pk-common.obj -MD -MP -MF $(DEPDIR)/pk_test_daemon-pk-common.Tpo -c -o pk_test_daemon-pk-common.obj `if test -f 'pk-common.c'; then $(CYGPATH_W) 'pk-common.c'; else $(CYGPATH_W) '$(srcdir)/pk-common.c'; fi`
+@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/pk_test_daemon-pk-common.Tpo $(DEPDIR)/pk_test_daemon-pk-common.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='pk-common.c' object='pk_test_daemon-pk-common.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(pk_test_daemon_CFLAGS) $(CFLAGS) -c -o pk_test_daemon-pk-common.obj `if test -f 'pk-common.c'; then $(CYGPATH_W) 'pk-common.c'; else $(CYGPATH_W) '$(srcdir)/pk-common.c'; fi`
+
+pk_test_daemon-pk-control.o: pk-control.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(pk_test_daemon_CFLAGS) $(CFLAGS) -MT pk_test_daemon-pk-control.o -MD -MP -MF $(DEPDIR)/pk_test_daemon-pk-control.Tpo -c -o pk_test_daemon-pk-control.o `test -f 'pk-control.c' || echo '$(srcdir)/'`pk-control.c
+@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/pk_test_daemon-pk-control.Tpo $(DEPDIR)/pk_test_daemon-pk-control.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='pk-control.c' object='pk_test_daemon-pk-control.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(pk_test_daemon_CFLAGS) $(CFLAGS) -c -o pk_test_daemon-pk-control.o `test -f 'pk-control.c' || echo '$(srcdir)/'`pk-control.c
+
+pk_test_daemon-pk-control.obj: pk-control.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(pk_test_daemon_CFLAGS) $(CFLAGS) -MT pk_test_daemon-pk-control.obj -MD -MP -MF $(DEPDIR)/pk_test_daemon-pk-control.Tpo -c -o pk_test_daemon-pk-control.obj `if test -f 'pk-control.c'; then $(CYGPATH_W) 'pk-control.c'; else $(CYGPATH_W) '$(srcdir)/pk-control.c'; fi`
+@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/pk_test_daemon-pk-control.Tpo $(DEPDIR)/pk_test_daemon-pk-control.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='pk-control.c' object='pk_test_daemon-pk-control.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(pk_test_daemon_CFLAGS) $(CFLAGS) -c -o pk_test_daemon-pk-control.obj `if test -f 'pk-control.c'; then $(CYGPATH_W) 'pk-control.c'; else $(CYGPATH_W) '$(srcdir)/pk-control.c'; fi`
+
+pk_test_daemon-pk-control-sync.o: pk-control-sync.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(pk_test_daemon_CFLAGS) $(CFLAGS) -MT pk_test_daemon-pk-control-sync.o -MD -MP -MF $(DEPDIR)/pk_test_daemon-pk-control-sync.Tpo -c -o pk_test_daemon-pk-control-sync.o `test -f 'pk-control-sync.c' || echo '$(srcdir)/'`pk-control-sync.c
+@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/pk_test_daemon-pk-control-sync.Tpo $(DEPDIR)/pk_test_daemon-pk-control-sync.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='pk-control-sync.c' object='pk_test_daemon-pk-control-sync.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(pk_test_daemon_CFLAGS) $(CFLAGS) -c -o pk_test_daemon-pk-control-sync.o `test -f 'pk-control-sync.c' || echo '$(srcdir)/'`pk-control-sync.c
+
+pk_test_daemon-pk-control-sync.obj: pk-control-sync.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(pk_test_daemon_CFLAGS) $(CFLAGS) -MT pk_test_daemon-pk-control-sync.obj -MD -MP -MF $(DEPDIR)/pk_test_daemon-pk-control-sync.Tpo -c -o pk_test_daemon-pk-control-sync.obj `if test -f 'pk-control-sync.c'; then $(CYGPATH_W) 'pk-control-sync.c'; else $(CYGPATH_W) '$(srcdir)/pk-control-sync.c'; fi`
+@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/pk_test_daemon-pk-control-sync.Tpo $(DEPDIR)/pk_test_daemon-pk-control-sync.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='pk-control-sync.c' object='pk_test_daemon-pk-control-sync.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(pk_test_daemon_CFLAGS) $(CFLAGS) -c -o pk_test_daemon-pk-control-sync.obj `if test -f 'pk-control-sync.c'; then $(CYGPATH_W) 'pk-control-sync.c'; else $(CYGPATH_W) '$(srcdir)/pk-control-sync.c'; fi`
+
+pk_test_daemon-pk-debug.o: pk-debug.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(pk_test_daemon_CFLAGS) $(CFLAGS) -MT pk_test_daemon-pk-debug.o -MD -MP -MF $(DEPDIR)/pk_test_daemon-pk-debug.Tpo -c -o pk_test_daemon-pk-debug.o `test -f 'pk-debug.c' || echo '$(srcdir)/'`pk-debug.c
+@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/pk_test_daemon-pk-debug.Tpo $(DEPDIR)/pk_test_daemon-pk-debug.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='pk-debug.c' object='pk_test_daemon-pk-debug.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(pk_test_daemon_CFLAGS) $(CFLAGS) -c -o pk_test_daemon-pk-debug.o `test -f 'pk-debug.c' || echo '$(srcdir)/'`pk-debug.c
+
+pk_test_daemon-pk-debug.obj: pk-debug.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(pk_test_daemon_CFLAGS) $(CFLAGS) -MT pk_test_daemon-pk-debug.obj -MD -MP -MF $(DEPDIR)/pk_test_daemon-pk-debug.Tpo -c -o pk_test_daemon-pk-debug.obj `if test -f 'pk-debug.c'; then $(CYGPATH_W) 'pk-debug.c'; else $(CYGPATH_W) '$(srcdir)/pk-debug.c'; fi`
+@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/pk_test_daemon-pk-debug.Tpo $(DEPDIR)/pk_test_daemon-pk-debug.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='pk-debug.c' object='pk_test_daemon-pk-debug.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(pk_test_daemon_CFLAGS) $(CFLAGS) -c -o pk_test_daemon-pk-debug.obj `if test -f 'pk-debug.c'; then $(CYGPATH_W) 'pk-debug.c'; else $(CYGPATH_W) '$(srcdir)/pk-debug.c'; fi`
+
+pk_test_daemon-pk-desktop.o: pk-desktop.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(pk_test_daemon_CFLAGS) $(CFLAGS) -MT pk_test_daemon-pk-desktop.o -MD -MP -MF $(DEPDIR)/pk_test_daemon-pk-desktop.Tpo -c -o pk_test_daemon-pk-desktop.o `test -f 'pk-desktop.c' || echo '$(srcdir)/'`pk-desktop.c
+@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/pk_test_daemon-pk-desktop.Tpo $(DEPDIR)/pk_test_daemon-pk-desktop.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='pk-desktop.c' object='pk_test_daemon-pk-desktop.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(pk_test_daemon_CFLAGS) $(CFLAGS) -c -o pk_test_daemon-pk-desktop.o `test -f 'pk-desktop.c' || echo '$(srcdir)/'`pk-desktop.c
+
+pk_test_daemon-pk-desktop.obj: pk-desktop.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(pk_test_daemon_CFLAGS) $(CFLAGS) -MT pk_test_daemon-pk-desktop.obj -MD -MP -MF $(DEPDIR)/pk_test_daemon-pk-desktop.Tpo -c -o pk_test_daemon-pk-desktop.obj `if test -f 'pk-desktop.c'; then $(CYGPATH_W) 'pk-desktop.c'; else $(CYGPATH_W) '$(srcdir)/pk-desktop.c'; fi`
+@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/pk_test_daemon-pk-desktop.Tpo $(DEPDIR)/pk_test_daemon-pk-desktop.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='pk-desktop.c' object='pk_test_daemon-pk-desktop.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(pk_test_daemon_CFLAGS) $(CFLAGS) -c -o pk_test_daemon-pk-desktop.obj `if test -f 'pk-desktop.c'; then $(CYGPATH_W) 'pk-desktop.c'; else $(CYGPATH_W) '$(srcdir)/pk-desktop.c'; fi`
+
+pk_test_daemon-pk-details.o: pk-details.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(pk_test_daemon_CFLAGS) $(CFLAGS) -MT pk_test_daemon-pk-details.o -MD -MP -MF $(DEPDIR)/pk_test_daemon-pk-details.Tpo -c -o pk_test_daemon-pk-details.o `test -f 'pk-details.c' || echo '$(srcdir)/'`pk-details.c
+@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/pk_test_daemon-pk-details.Tpo $(DEPDIR)/pk_test_daemon-pk-details.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='pk-details.c' object='pk_test_daemon-pk-details.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(pk_test_daemon_CFLAGS) $(CFLAGS) -c -o pk_test_daemon-pk-details.o `test -f 'pk-details.c' || echo '$(srcdir)/'`pk-details.c
+
+pk_test_daemon-pk-details.obj: pk-details.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(pk_test_daemon_CFLAGS) $(CFLAGS) -MT pk_test_daemon-pk-details.obj -MD -MP -MF $(DEPDIR)/pk_test_daemon-pk-details.Tpo -c -o pk_test_daemon-pk-details.obj `if test -f 'pk-details.c'; then $(CYGPATH_W) 'pk-details.c'; else $(CYGPATH_W) '$(srcdir)/pk-details.c'; fi`
+@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/pk_test_daemon-pk-details.Tpo $(DEPDIR)/pk_test_daemon-pk-details.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='pk-details.c' object='pk_test_daemon-pk-details.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(pk_test_daemon_CFLAGS) $(CFLAGS) -c -o pk_test_daemon-pk-details.obj `if test -f 'pk-details.c'; then $(CYGPATH_W) 'pk-details.c'; else $(CYGPATH_W) '$(srcdir)/pk-details.c'; fi`
+
+pk_test_daemon-pk-distro-upgrade.o: pk-distro-upgrade.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(pk_test_daemon_CFLAGS) $(CFLAGS) -MT pk_test_daemon-pk-distro-upgrade.o -MD -MP -MF $(DEPDIR)/pk_test_daemon-pk-distro-upgrade.Tpo -c -o pk_test_daemon-pk-distro-upgrade.o `test -f 'pk-distro-upgrade.c' || echo '$(srcdir)/'`pk-distro-upgrade.c
+@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/pk_test_daemon-pk-distro-upgrade.Tpo $(DEPDIR)/pk_test_daemon-pk-distro-upgrade.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='pk-distro-upgrade.c' object='pk_test_daemon-pk-distro-upgrade.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(pk_test_daemon_CFLAGS) $(CFLAGS) -c -o pk_test_daemon-pk-distro-upgrade.o `test -f 'pk-distro-upgrade.c' || echo '$(srcdir)/'`pk-distro-upgrade.c
+
+pk_test_daemon-pk-distro-upgrade.obj: pk-distro-upgrade.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(pk_test_daemon_CFLAGS) $(CFLAGS) -MT pk_test_daemon-pk-distro-upgrade.obj -MD -MP -MF $(DEPDIR)/pk_test_daemon-pk-distro-upgrade.Tpo -c -o pk_test_daemon-pk-distro-upgrade.obj `if test -f 'pk-distro-upgrade.c'; then $(CYGPATH_W) 'pk-distro-upgrade.c'; else $(CYGPATH_W) '$(srcdir)/pk-distro-upgrade.c'; fi`
+@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/pk_test_daemon-pk-distro-upgrade.Tpo $(DEPDIR)/pk_test_daemon-pk-distro-upgrade.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='pk-distro-upgrade.c' object='pk_test_daemon-pk-distro-upgrade.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(pk_test_daemon_CFLAGS) $(CFLAGS) -c -o pk_test_daemon-pk-distro-upgrade.obj `if test -f 'pk-distro-upgrade.c'; then $(CYGPATH_W) 'pk-distro-upgrade.c'; else $(CYGPATH_W) '$(srcdir)/pk-distro-upgrade.c'; fi`
+
+pk_test_daemon-pk-enum.o: pk-enum.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(pk_test_daemon_CFLAGS) $(CFLAGS) -MT pk_test_daemon-pk-enum.o -MD -MP -MF $(DEPDIR)/pk_test_daemon-pk-enum.Tpo -c -o pk_test_daemon-pk-enum.o `test -f 'pk-enum.c' || echo '$(srcdir)/'`pk-enum.c
+@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/pk_test_daemon-pk-enum.Tpo $(DEPDIR)/pk_test_daemon-pk-enum.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='pk-enum.c' object='pk_test_daemon-pk-enum.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(pk_test_daemon_CFLAGS) $(CFLAGS) -c -o pk_test_daemon-pk-enum.o `test -f 'pk-enum.c' || echo '$(srcdir)/'`pk-enum.c
+
+pk_test_daemon-pk-enum.obj: pk-enum.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(pk_test_daemon_CFLAGS) $(CFLAGS) -MT pk_test_daemon-pk-enum.obj -MD -MP -MF $(DEPDIR)/pk_test_daemon-pk-enum.Tpo -c -o pk_test_daemon-pk-enum.obj `if test -f 'pk-enum.c'; then $(CYGPATH_W) 'pk-enum.c'; else $(CYGPATH_W) '$(srcdir)/pk-enum.c'; fi`
+@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/pk_test_daemon-pk-enum.Tpo $(DEPDIR)/pk_test_daemon-pk-enum.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='pk-enum.c' object='pk_test_daemon-pk-enum.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(pk_test_daemon_CFLAGS) $(CFLAGS) -c -o pk_test_daemon-pk-enum.obj `if test -f 'pk-enum.c'; then $(CYGPATH_W) 'pk-enum.c'; else $(CYGPATH_W) '$(srcdir)/pk-enum.c'; fi`
+
+pk_test_daemon-pk-enum-types.o: pk-enum-types.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(pk_test_daemon_CFLAGS) $(CFLAGS) -MT pk_test_daemon-pk-enum-types.o -MD -MP -MF $(DEPDIR)/pk_test_daemon-pk-enum-types.Tpo -c -o pk_test_daemon-pk-enum-types.o `test -f 'pk-enum-types.c' || echo '$(srcdir)/'`pk-enum-types.c
+@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/pk_test_daemon-pk-enum-types.Tpo $(DEPDIR)/pk_test_daemon-pk-enum-types.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='pk-enum-types.c' object='pk_test_daemon-pk-enum-types.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(pk_test_daemon_CFLAGS) $(CFLAGS) -c -o pk_test_daemon-pk-enum-types.o `test -f 'pk-enum-types.c' || echo '$(srcdir)/'`pk-enum-types.c
+
+pk_test_daemon-pk-enum-types.obj: pk-enum-types.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(pk_test_daemon_CFLAGS) $(CFLAGS) -MT pk_test_daemon-pk-enum-types.obj -MD -MP -MF $(DEPDIR)/pk_test_daemon-pk-enum-types.Tpo -c -o pk_test_daemon-pk-enum-types.obj `if test -f 'pk-enum-types.c'; then $(CYGPATH_W) 'pk-enum-types.c'; else $(CYGPATH_W) '$(srcdir)/pk-enum-types.c'; fi`
+@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/pk_test_daemon-pk-enum-types.Tpo $(DEPDIR)/pk_test_daemon-pk-enum-types.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='pk-enum-types.c' object='pk_test_daemon-pk-enum-types.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(pk_test_daemon_CFLAGS) $(CFLAGS) -c -o pk_test_daemon-pk-enum-types.obj `if test -f 'pk-enum-types.c'; then $(CYGPATH_W) 'pk-enum-types.c'; else $(CYGPATH_W) '$(srcdir)/pk-enum-types.c'; fi`
+
+pk_test_daemon-pk-error.o: pk-error.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(pk_test_daemon_CFLAGS) $(CFLAGS) -MT pk_test_daemon-pk-error.o -MD -MP -MF $(DEPDIR)/pk_test_daemon-pk-error.Tpo -c -o pk_test_daemon-pk-error.o `test -f 'pk-error.c' || echo '$(srcdir)/'`pk-error.c
+@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/pk_test_daemon-pk-error.Tpo $(DEPDIR)/pk_test_daemon-pk-error.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='pk-error.c' object='pk_test_daemon-pk-error.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(pk_test_daemon_CFLAGS) $(CFLAGS) -c -o pk_test_daemon-pk-error.o `test -f 'pk-error.c' || echo '$(srcdir)/'`pk-error.c
+
+pk_test_daemon-pk-error.obj: pk-error.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(pk_test_daemon_CFLAGS) $(CFLAGS) -MT pk_test_daemon-pk-error.obj -MD -MP -MF $(DEPDIR)/pk_test_daemon-pk-error.Tpo -c -o pk_test_daemon-pk-error.obj `if test -f 'pk-error.c'; then $(CYGPATH_W) 'pk-error.c'; else $(CYGPATH_W) '$(srcdir)/pk-error.c'; fi`
+@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/pk_test_daemon-pk-error.Tpo $(DEPDIR)/pk_test_daemon-pk-error.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='pk-error.c' object='pk_test_daemon-pk-error.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(pk_test_daemon_CFLAGS) $(CFLAGS) -c -o pk_test_daemon-pk-error.obj `if test -f 'pk-error.c'; then $(CYGPATH_W) 'pk-error.c'; else $(CYGPATH_W) '$(srcdir)/pk-error.c'; fi`
+
+pk_test_daemon-pk-eula-required.o: pk-eula-required.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(pk_test_daemon_CFLAGS) $(CFLAGS) -MT pk_test_daemon-pk-eula-required.o -MD -MP -MF $(DEPDIR)/pk_test_daemon-pk-eula-required.Tpo -c -o pk_test_daemon-pk-eula-required.o `test -f 'pk-eula-required.c' || echo '$(srcdir)/'`pk-eula-required.c
+@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/pk_test_daemon-pk-eula-required.Tpo $(DEPDIR)/pk_test_daemon-pk-eula-required.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='pk-eula-required.c' object='pk_test_daemon-pk-eula-required.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(pk_test_daemon_CFLAGS) $(CFLAGS) -c -o pk_test_daemon-pk-eula-required.o `test -f 'pk-eula-required.c' || echo '$(srcdir)/'`pk-eula-required.c
+
+pk_test_daemon-pk-eula-required.obj: pk-eula-required.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(pk_test_daemon_CFLAGS) $(CFLAGS) -MT pk_test_daemon-pk-eula-required.obj -MD -MP -MF $(DEPDIR)/pk_test_daemon-pk-eula-required.Tpo -c -o pk_test_daemon-pk-eula-required.obj `if test -f 'pk-eula-required.c'; then $(CYGPATH_W) 'pk-eula-required.c'; else $(CYGPATH_W) '$(srcdir)/pk-eula-required.c'; fi`
+@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/pk_test_daemon-pk-eula-required.Tpo $(DEPDIR)/pk_test_daemon-pk-eula-required.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='pk-eula-required.c' object='pk_test_daemon-pk-eula-required.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(pk_test_daemon_CFLAGS) $(CFLAGS) -c -o pk_test_daemon-pk-eula-required.obj `if test -f 'pk-eula-required.c'; then $(CYGPATH_W) 'pk-eula-required.c'; else $(CYGPATH_W) '$(srcdir)/pk-eula-required.c'; fi`
+
+pk_test_daemon-pk-files.o: pk-files.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(pk_test_daemon_CFLAGS) $(CFLAGS) -MT pk_test_daemon-pk-files.o -MD -MP -MF $(DEPDIR)/pk_test_daemon-pk-files.Tpo -c -o pk_test_daemon-pk-files.o `test -f 'pk-files.c' || echo '$(srcdir)/'`pk-files.c
+@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/pk_test_daemon-pk-files.Tpo $(DEPDIR)/pk_test_daemon-pk-files.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='pk-files.c' object='pk_test_daemon-pk-files.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(pk_test_daemon_CFLAGS) $(CFLAGS) -c -o pk_test_daemon-pk-files.o `test -f 'pk-files.c' || echo '$(srcdir)/'`pk-files.c
+
+pk_test_daemon-pk-files.obj: pk-files.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(pk_test_daemon_CFLAGS) $(CFLAGS) -MT pk_test_daemon-pk-files.obj -MD -MP -MF $(DEPDIR)/pk_test_daemon-pk-files.Tpo -c -o pk_test_daemon-pk-files.obj `if test -f 'pk-files.c'; then $(CYGPATH_W) 'pk-files.c'; else $(CYGPATH_W) '$(srcdir)/pk-files.c'; fi`
+@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/pk_test_daemon-pk-files.Tpo $(DEPDIR)/pk_test_daemon-pk-files.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='pk-files.c' object='pk_test_daemon-pk-files.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(pk_test_daemon_CFLAGS) $(CFLAGS) -c -o pk_test_daemon-pk-files.obj `if test -f 'pk-files.c'; then $(CYGPATH_W) 'pk-files.c'; else $(CYGPATH_W) '$(srcdir)/pk-files.c'; fi`
+
+pk_test_daemon-pk-media-change-required.o: pk-media-change-required.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(pk_test_daemon_CFLAGS) $(CFLAGS) -MT pk_test_daemon-pk-media-change-required.o -MD -MP -MF $(DEPDIR)/pk_test_daemon-pk-media-change-required.Tpo -c -o pk_test_daemon-pk-media-change-required.o `test -f 'pk-media-change-required.c' || echo '$(srcdir)/'`pk-media-change-required.c
+@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/pk_test_daemon-pk-media-change-required.Tpo $(DEPDIR)/pk_test_daemon-pk-media-change-required.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='pk-media-change-required.c' object='pk_test_daemon-pk-media-change-required.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(pk_test_daemon_CFLAGS) $(CFLAGS) -c -o pk_test_daemon-pk-media-change-required.o `test -f 'pk-media-change-required.c' || echo '$(srcdir)/'`pk-media-change-required.c
+
+pk_test_daemon-pk-media-change-required.obj: pk-media-change-required.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(pk_test_daemon_CFLAGS) $(CFLAGS) -MT pk_test_daemon-pk-media-change-required.obj -MD -MP -MF $(DEPDIR)/pk_test_daemon-pk-media-change-required.Tpo -c -o pk_test_daemon-pk-media-change-required.obj `if test -f 'pk-media-change-required.c'; then $(CYGPATH_W) 'pk-media-change-required.c'; else $(CYGPATH_W) '$(srcdir)/pk-media-change-required.c'; fi`
+@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/pk_test_daemon-pk-media-change-required.Tpo $(DEPDIR)/pk_test_daemon-pk-media-change-required.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='pk-media-change-required.c' object='pk_test_daemon-pk-media-change-required.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(pk_test_daemon_CFLAGS) $(CFLAGS) -c -o pk_test_daemon-pk-media-change-required.obj `if test -f 'pk-media-change-required.c'; then $(CYGPATH_W) 'pk-media-change-required.c'; else $(CYGPATH_W) '$(srcdir)/pk-media-change-required.c'; fi`
+
+pk_test_daemon-pk-item-progress.o: pk-item-progress.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(pk_test_daemon_CFLAGS) $(CFLAGS) -MT pk_test_daemon-pk-item-progress.o -MD -MP -MF $(DEPDIR)/pk_test_daemon-pk-item-progress.Tpo -c -o pk_test_daemon-pk-item-progress.o `test -f 'pk-item-progress.c' || echo '$(srcdir)/'`pk-item-progress.c
+@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/pk_test_daemon-pk-item-progress.Tpo $(DEPDIR)/pk_test_daemon-pk-item-progress.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='pk-item-progress.c' object='pk_test_daemon-pk-item-progress.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(pk_test_daemon_CFLAGS) $(CFLAGS) -c -o pk_test_daemon-pk-item-progress.o `test -f 'pk-item-progress.c' || echo '$(srcdir)/'`pk-item-progress.c
+
+pk_test_daemon-pk-item-progress.obj: pk-item-progress.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(pk_test_daemon_CFLAGS) $(CFLAGS) -MT pk_test_daemon-pk-item-progress.obj -MD -MP -MF $(DEPDIR)/pk_test_daemon-pk-item-progress.Tpo -c -o pk_test_daemon-pk-item-progress.obj `if test -f 'pk-item-progress.c'; then $(CYGPATH_W) 'pk-item-progress.c'; else $(CYGPATH_W) '$(srcdir)/pk-item-progress.c'; fi`
+@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/pk_test_daemon-pk-item-progress.Tpo $(DEPDIR)/pk_test_daemon-pk-item-progress.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='pk-item-progress.c' object='pk_test_daemon-pk-item-progress.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(pk_test_daemon_CFLAGS) $(CFLAGS) -c -o pk_test_daemon-pk-item-progress.obj `if test -f 'pk-item-progress.c'; then $(CYGPATH_W) 'pk-item-progress.c'; else $(CYGPATH_W) '$(srcdir)/pk-item-progress.c'; fi`
+
+pk_test_daemon-pk-offline.o: pk-offline.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(pk_test_daemon_CFLAGS) $(CFLAGS) -MT pk_test_daemon-pk-offline.o -MD -MP -MF $(DEPDIR)/pk_test_daemon-pk-offline.Tpo -c -o pk_test_daemon-pk-offline.o `test -f 'pk-offline.c' || echo '$(srcdir)/'`pk-offline.c
+@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/pk_test_daemon-pk-offline.Tpo $(DEPDIR)/pk_test_daemon-pk-offline.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='pk-offline.c' object='pk_test_daemon-pk-offline.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(pk_test_daemon_CFLAGS) $(CFLAGS) -c -o pk_test_daemon-pk-offline.o `test -f 'pk-offline.c' || echo '$(srcdir)/'`pk-offline.c
+
+pk_test_daemon-pk-offline.obj: pk-offline.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(pk_test_daemon_CFLAGS) $(CFLAGS) -MT pk_test_daemon-pk-offline.obj -MD -MP -MF $(DEPDIR)/pk_test_daemon-pk-offline.Tpo -c -o pk_test_daemon-pk-offline.obj `if test -f 'pk-offline.c'; then $(CYGPATH_W) 'pk-offline.c'; else $(CYGPATH_W) '$(srcdir)/pk-offline.c'; fi`
+@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/pk_test_daemon-pk-offline.Tpo $(DEPDIR)/pk_test_daemon-pk-offline.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='pk-offline.c' object='pk_test_daemon-pk-offline.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(pk_test_daemon_CFLAGS) $(CFLAGS) -c -o pk_test_daemon-pk-offline.obj `if test -f 'pk-offline.c'; then $(CYGPATH_W) 'pk-offline.c'; else $(CYGPATH_W) '$(srcdir)/pk-offline.c'; fi`
+
+pk_test_daemon-pk-offline-private.o: pk-offline-private.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(pk_test_daemon_CFLAGS) $(CFLAGS) -MT pk_test_daemon-pk-offline-private.o -MD -MP -MF $(DEPDIR)/pk_test_daemon-pk-offline-private.Tpo -c -o pk_test_daemon-pk-offline-private.o `test -f 'pk-offline-private.c' || echo '$(srcdir)/'`pk-offline-private.c
+@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/pk_test_daemon-pk-offline-private.Tpo $(DEPDIR)/pk_test_daemon-pk-offline-private.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='pk-offline-private.c' object='pk_test_daemon-pk-offline-private.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(pk_test_daemon_CFLAGS) $(CFLAGS) -c -o pk_test_daemon-pk-offline-private.o `test -f 'pk-offline-private.c' || echo '$(srcdir)/'`pk-offline-private.c
+
+pk_test_daemon-pk-offline-private.obj: pk-offline-private.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(pk_test_daemon_CFLAGS) $(CFLAGS) -MT pk_test_daemon-pk-offline-private.obj -MD -MP -MF $(DEPDIR)/pk_test_daemon-pk-offline-private.Tpo -c -o pk_test_daemon-pk-offline-private.obj `if test -f 'pk-offline-private.c'; then $(CYGPATH_W) 'pk-offline-private.c'; else $(CYGPATH_W) '$(srcdir)/pk-offline-private.c'; fi`
+@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/pk_test_daemon-pk-offline-private.Tpo $(DEPDIR)/pk_test_daemon-pk-offline-private.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='pk-offline-private.c' object='pk_test_daemon-pk-offline-private.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(pk_test_daemon_CFLAGS) $(CFLAGS) -c -o pk_test_daemon-pk-offline-private.obj `if test -f 'pk-offline-private.c'; then $(CYGPATH_W) 'pk-offline-private.c'; else $(CYGPATH_W) '$(srcdir)/pk-offline-private.c'; fi`
+
+pk_test_daemon-pk-package.o: pk-package.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(pk_test_daemon_CFLAGS) $(CFLAGS) -MT pk_test_daemon-pk-package.o -MD -MP -MF $(DEPDIR)/pk_test_daemon-pk-package.Tpo -c -o pk_test_daemon-pk-package.o `test -f 'pk-package.c' || echo '$(srcdir)/'`pk-package.c
+@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/pk_test_daemon-pk-package.Tpo $(DEPDIR)/pk_test_daemon-pk-package.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='pk-package.c' object='pk_test_daemon-pk-package.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(pk_test_daemon_CFLAGS) $(CFLAGS) -c -o pk_test_daemon-pk-package.o `test -f 'pk-package.c' || echo '$(srcdir)/'`pk-package.c
+
+pk_test_daemon-pk-package.obj: pk-package.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(pk_test_daemon_CFLAGS) $(CFLAGS) -MT pk_test_daemon-pk-package.obj -MD -MP -MF $(DEPDIR)/pk_test_daemon-pk-package.Tpo -c -o pk_test_daemon-pk-package.obj `if test -f 'pk-package.c'; then $(CYGPATH_W) 'pk-package.c'; else $(CYGPATH_W) '$(srcdir)/pk-package.c'; fi`
+@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/pk_test_daemon-pk-package.Tpo $(DEPDIR)/pk_test_daemon-pk-package.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='pk-package.c' object='pk_test_daemon-pk-package.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(pk_test_daemon_CFLAGS) $(CFLAGS) -c -o pk_test_daemon-pk-package.obj `if test -f 'pk-package.c'; then $(CYGPATH_W) 'pk-package.c'; else $(CYGPATH_W) '$(srcdir)/pk-package.c'; fi`
+
+pk_test_daemon-pk-package-id.o: pk-package-id.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(pk_test_daemon_CFLAGS) $(CFLAGS) -MT pk_test_daemon-pk-package-id.o -MD -MP -MF $(DEPDIR)/pk_test_daemon-pk-package-id.Tpo -c -o pk_test_daemon-pk-package-id.o `test -f 'pk-package-id.c' || echo '$(srcdir)/'`pk-package-id.c
+@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/pk_test_daemon-pk-package-id.Tpo $(DEPDIR)/pk_test_daemon-pk-package-id.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='pk-package-id.c' object='pk_test_daemon-pk-package-id.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(pk_test_daemon_CFLAGS) $(CFLAGS) -c -o pk_test_daemon-pk-package-id.o `test -f 'pk-package-id.c' || echo '$(srcdir)/'`pk-package-id.c
+
+pk_test_daemon-pk-package-id.obj: pk-package-id.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(pk_test_daemon_CFLAGS) $(CFLAGS) -MT pk_test_daemon-pk-package-id.obj -MD -MP -MF $(DEPDIR)/pk_test_daemon-pk-package-id.Tpo -c -o pk_test_daemon-pk-package-id.obj `if test -f 'pk-package-id.c'; then $(CYGPATH_W) 'pk-package-id.c'; else $(CYGPATH_W) '$(srcdir)/pk-package-id.c'; fi`
+@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/pk_test_daemon-pk-package-id.Tpo $(DEPDIR)/pk_test_daemon-pk-package-id.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='pk-package-id.c' object='pk_test_daemon-pk-package-id.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(pk_test_daemon_CFLAGS) $(CFLAGS) -c -o pk_test_daemon-pk-package-id.obj `if test -f 'pk-package-id.c'; then $(CYGPATH_W) 'pk-package-id.c'; else $(CYGPATH_W) '$(srcdir)/pk-package-id.c'; fi`
+
+pk_test_daemon-pk-package-ids.o: pk-package-ids.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(pk_test_daemon_CFLAGS) $(CFLAGS) -MT pk_test_daemon-pk-package-ids.o -MD -MP -MF $(DEPDIR)/pk_test_daemon-pk-package-ids.Tpo -c -o pk_test_daemon-pk-package-ids.o `test -f 'pk-package-ids.c' || echo '$(srcdir)/'`pk-package-ids.c
+@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/pk_test_daemon-pk-package-ids.Tpo $(DEPDIR)/pk_test_daemon-pk-package-ids.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='pk-package-ids.c' object='pk_test_daemon-pk-package-ids.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(pk_test_daemon_CFLAGS) $(CFLAGS) -c -o pk_test_daemon-pk-package-ids.o `test -f 'pk-package-ids.c' || echo '$(srcdir)/'`pk-package-ids.c
+
+pk_test_daemon-pk-package-ids.obj: pk-package-ids.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(pk_test_daemon_CFLAGS) $(CFLAGS) -MT pk_test_daemon-pk-package-ids.obj -MD -MP -MF $(DEPDIR)/pk_test_daemon-pk-package-ids.Tpo -c -o pk_test_daemon-pk-package-ids.obj `if test -f 'pk-package-ids.c'; then $(CYGPATH_W) 'pk-package-ids.c'; else $(CYGPATH_W) '$(srcdir)/pk-package-ids.c'; fi`
+@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/pk_test_daemon-pk-package-ids.Tpo $(DEPDIR)/pk_test_daemon-pk-package-ids.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='pk-package-ids.c' object='pk_test_daemon-pk-package-ids.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(pk_test_daemon_CFLAGS) $(CFLAGS) -c -o pk_test_daemon-pk-package-ids.obj `if test -f 'pk-package-ids.c'; then $(CYGPATH_W) 'pk-package-ids.c'; else $(CYGPATH_W) '$(srcdir)/pk-package-ids.c'; fi`
+
+pk_test_daemon-pk-package-sack.o: pk-package-sack.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(pk_test_daemon_CFLAGS) $(CFLAGS) -MT pk_test_daemon-pk-package-sack.o -MD -MP -MF $(DEPDIR)/pk_test_daemon-pk-package-sack.Tpo -c -o pk_test_daemon-pk-package-sack.o `test -f 'pk-package-sack.c' || echo '$(srcdir)/'`pk-package-sack.c
+@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/pk_test_daemon-pk-package-sack.Tpo $(DEPDIR)/pk_test_daemon-pk-package-sack.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='pk-package-sack.c' object='pk_test_daemon-pk-package-sack.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(pk_test_daemon_CFLAGS) $(CFLAGS) -c -o pk_test_daemon-pk-package-sack.o `test -f 'pk-package-sack.c' || echo '$(srcdir)/'`pk-package-sack.c
+
+pk_test_daemon-pk-package-sack.obj: pk-package-sack.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(pk_test_daemon_CFLAGS) $(CFLAGS) -MT pk_test_daemon-pk-package-sack.obj -MD -MP -MF $(DEPDIR)/pk_test_daemon-pk-package-sack.Tpo -c -o pk_test_daemon-pk-package-sack.obj `if test -f 'pk-package-sack.c'; then $(CYGPATH_W) 'pk-package-sack.c'; else $(CYGPATH_W) '$(srcdir)/pk-package-sack.c'; fi`
+@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/pk_test_daemon-pk-package-sack.Tpo $(DEPDIR)/pk_test_daemon-pk-package-sack.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='pk-package-sack.c' object='pk_test_daemon-pk-package-sack.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(pk_test_daemon_CFLAGS) $(CFLAGS) -c -o pk_test_daemon-pk-package-sack.obj `if test -f 'pk-package-sack.c'; then $(CYGPATH_W) 'pk-package-sack.c'; else $(CYGPATH_W) '$(srcdir)/pk-package-sack.c'; fi`
+
+pk_test_daemon-pk-package-sack-sync.o: pk-package-sack-sync.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(pk_test_daemon_CFLAGS) $(CFLAGS) -MT pk_test_daemon-pk-package-sack-sync.o -MD -MP -MF $(DEPDIR)/pk_test_daemon-pk-package-sack-sync.Tpo -c -o pk_test_daemon-pk-package-sack-sync.o `test -f 'pk-package-sack-sync.c' || echo '$(srcdir)/'`pk-package-sack-sync.c
+@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/pk_test_daemon-pk-package-sack-sync.Tpo $(DEPDIR)/pk_test_daemon-pk-package-sack-sync.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='pk-package-sack-sync.c' object='pk_test_daemon-pk-package-sack-sync.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(pk_test_daemon_CFLAGS) $(CFLAGS) -c -o pk_test_daemon-pk-package-sack-sync.o `test -f 'pk-package-sack-sync.c' || echo '$(srcdir)/'`pk-package-sack-sync.c
+
+pk_test_daemon-pk-package-sack-sync.obj: pk-package-sack-sync.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(pk_test_daemon_CFLAGS) $(CFLAGS) -MT pk_test_daemon-pk-package-sack-sync.obj -MD -MP -MF $(DEPDIR)/pk_test_daemon-pk-package-sack-sync.Tpo -c -o pk_test_daemon-pk-package-sack-sync.obj `if test -f 'pk-package-sack-sync.c'; then $(CYGPATH_W) 'pk-package-sack-sync.c'; else $(CYGPATH_W) '$(srcdir)/pk-package-sack-sync.c'; fi`
+@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/pk_test_daemon-pk-package-sack-sync.Tpo $(DEPDIR)/pk_test_daemon-pk-package-sack-sync.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='pk-package-sack-sync.c' object='pk_test_daemon-pk-package-sack-sync.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(pk_test_daemon_CFLAGS) $(CFLAGS) -c -o pk_test_daemon-pk-package-sack-sync.obj `if test -f 'pk-package-sack-sync.c'; then $(CYGPATH_W) 'pk-package-sack-sync.c'; else $(CYGPATH_W) '$(srcdir)/pk-package-sack-sync.c'; fi`
+
+pk_test_daemon-pk-progress.o: pk-progress.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(pk_test_daemon_CFLAGS) $(CFLAGS) -MT pk_test_daemon-pk-progress.o -MD -MP -MF $(DEPDIR)/pk_test_daemon-pk-progress.Tpo -c -o pk_test_daemon-pk-progress.o `test -f 'pk-progress.c' || echo '$(srcdir)/'`pk-progress.c
+@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/pk_test_daemon-pk-progress.Tpo $(DEPDIR)/pk_test_daemon-pk-progress.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='pk-progress.c' object='pk_test_daemon-pk-progress.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(pk_test_daemon_CFLAGS) $(CFLAGS) -c -o pk_test_daemon-pk-progress.o `test -f 'pk-progress.c' || echo '$(srcdir)/'`pk-progress.c
+
+pk_test_daemon-pk-progress.obj: pk-progress.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(pk_test_daemon_CFLAGS) $(CFLAGS) -MT pk_test_daemon-pk-progress.obj -MD -MP -MF $(DEPDIR)/pk_test_daemon-pk-progress.Tpo -c -o pk_test_daemon-pk-progress.obj `if test -f 'pk-progress.c'; then $(CYGPATH_W) 'pk-progress.c'; else $(CYGPATH_W) '$(srcdir)/pk-progress.c'; fi`
+@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/pk_test_daemon-pk-progress.Tpo $(DEPDIR)/pk_test_daemon-pk-progress.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='pk-progress.c' object='pk_test_daemon-pk-progress.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(pk_test_daemon_CFLAGS) $(CFLAGS) -c -o pk_test_daemon-pk-progress.obj `if test -f 'pk-progress.c'; then $(CYGPATH_W) 'pk-progress.c'; else $(CYGPATH_W) '$(srcdir)/pk-progress.c'; fi`
+
+pk_test_daemon-pk-repo-detail.o: pk-repo-detail.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(pk_test_daemon_CFLAGS) $(CFLAGS) -MT pk_test_daemon-pk-repo-detail.o -MD -MP -MF $(DEPDIR)/pk_test_daemon-pk-repo-detail.Tpo -c -o pk_test_daemon-pk-repo-detail.o `test -f 'pk-repo-detail.c' || echo '$(srcdir)/'`pk-repo-detail.c
+@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/pk_test_daemon-pk-repo-detail.Tpo $(DEPDIR)/pk_test_daemon-pk-repo-detail.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='pk-repo-detail.c' object='pk_test_daemon-pk-repo-detail.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(pk_test_daemon_CFLAGS) $(CFLAGS) -c -o pk_test_daemon-pk-repo-detail.o `test -f 'pk-repo-detail.c' || echo '$(srcdir)/'`pk-repo-detail.c
+
+pk_test_daemon-pk-repo-detail.obj: pk-repo-detail.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(pk_test_daemon_CFLAGS) $(CFLAGS) -MT pk_test_daemon-pk-repo-detail.obj -MD -MP -MF $(DEPDIR)/pk_test_daemon-pk-repo-detail.Tpo -c -o pk_test_daemon-pk-repo-detail.obj `if test -f 'pk-repo-detail.c'; then $(CYGPATH_W) 'pk-repo-detail.c'; else $(CYGPATH_W) '$(srcdir)/pk-repo-detail.c'; fi`
+@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/pk_test_daemon-pk-repo-detail.Tpo $(DEPDIR)/pk_test_daemon-pk-repo-detail.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='pk-repo-detail.c' object='pk_test_daemon-pk-repo-detail.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(pk_test_daemon_CFLAGS) $(CFLAGS) -c -o pk_test_daemon-pk-repo-detail.obj `if test -f 'pk-repo-detail.c'; then $(CYGPATH_W) 'pk-repo-detail.c'; else $(CYGPATH_W) '$(srcdir)/pk-repo-detail.c'; fi`
+
+pk_test_daemon-pk-repo-signature-required.o: pk-repo-signature-required.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(pk_test_daemon_CFLAGS) $(CFLAGS) -MT pk_test_daemon-pk-repo-signature-required.o -MD -MP -MF $(DEPDIR)/pk_test_daemon-pk-repo-signature-required.Tpo -c -o pk_test_daemon-pk-repo-signature-required.o `test -f 'pk-repo-signature-required.c' || echo '$(srcdir)/'`pk-repo-signature-required.c
+@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/pk_test_daemon-pk-repo-signature-required.Tpo $(DEPDIR)/pk_test_daemon-pk-repo-signature-required.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='pk-repo-signature-required.c' object='pk_test_daemon-pk-repo-signature-required.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(pk_test_daemon_CFLAGS) $(CFLAGS) -c -o pk_test_daemon-pk-repo-signature-required.o `test -f 'pk-repo-signature-required.c' || echo '$(srcdir)/'`pk-repo-signature-required.c
+
+pk_test_daemon-pk-repo-signature-required.obj: pk-repo-signature-required.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(pk_test_daemon_CFLAGS) $(CFLAGS) -MT pk_test_daemon-pk-repo-signature-required.obj -MD -MP -MF $(DEPDIR)/pk_test_daemon-pk-repo-signature-required.Tpo -c -o pk_test_daemon-pk-repo-signature-required.obj `if test -f 'pk-repo-signature-required.c'; then $(CYGPATH_W) 'pk-repo-signature-required.c'; else $(CYGPATH_W) '$(srcdir)/pk-repo-signature-required.c'; fi`
+@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/pk_test_daemon-pk-repo-signature-required.Tpo $(DEPDIR)/pk_test_daemon-pk-repo-signature-required.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='pk-repo-signature-required.c' object='pk_test_daemon-pk-repo-signature-required.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(pk_test_daemon_CFLAGS) $(CFLAGS) -c -o pk_test_daemon-pk-repo-signature-required.obj `if test -f 'pk-repo-signature-required.c'; then $(CYGPATH_W) 'pk-repo-signature-required.c'; else $(CYGPATH_W) '$(srcdir)/pk-repo-signature-required.c'; fi`
+
+pk_test_daemon-pk-require-restart.o: pk-require-restart.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(pk_test_daemon_CFLAGS) $(CFLAGS) -MT pk_test_daemon-pk-require-restart.o -MD -MP -MF $(DEPDIR)/pk_test_daemon-pk-require-restart.Tpo -c -o pk_test_daemon-pk-require-restart.o `test -f 'pk-require-restart.c' || echo '$(srcdir)/'`pk-require-restart.c
+@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/pk_test_daemon-pk-require-restart.Tpo $(DEPDIR)/pk_test_daemon-pk-require-restart.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='pk-require-restart.c' object='pk_test_daemon-pk-require-restart.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(pk_test_daemon_CFLAGS) $(CFLAGS) -c -o pk_test_daemon-pk-require-restart.o `test -f 'pk-require-restart.c' || echo '$(srcdir)/'`pk-require-restart.c
+
+pk_test_daemon-pk-require-restart.obj: pk-require-restart.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(pk_test_daemon_CFLAGS) $(CFLAGS) -MT pk_test_daemon-pk-require-restart.obj -MD -MP -MF $(DEPDIR)/pk_test_daemon-pk-require-restart.Tpo -c -o pk_test_daemon-pk-require-restart.obj `if test -f 'pk-require-restart.c'; then $(CYGPATH_W) 'pk-require-restart.c'; else $(CYGPATH_W) '$(srcdir)/pk-require-restart.c'; fi`
+@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/pk_test_daemon-pk-require-restart.Tpo $(DEPDIR)/pk_test_daemon-pk-require-restart.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='pk-require-restart.c' object='pk_test_daemon-pk-require-restart.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(pk_test_daemon_CFLAGS) $(CFLAGS) -c -o pk_test_daemon-pk-require-restart.obj `if test -f 'pk-require-restart.c'; then $(CYGPATH_W) 'pk-require-restart.c'; else $(CYGPATH_W) '$(srcdir)/pk-require-restart.c'; fi`
+
+pk_test_daemon-pk-results.o: pk-results.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(pk_test_daemon_CFLAGS) $(CFLAGS) -MT pk_test_daemon-pk-results.o -MD -MP -MF $(DEPDIR)/pk_test_daemon-pk-results.Tpo -c -o pk_test_daemon-pk-results.o `test -f 'pk-results.c' || echo '$(srcdir)/'`pk-results.c
+@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/pk_test_daemon-pk-results.Tpo $(DEPDIR)/pk_test_daemon-pk-results.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='pk-results.c' object='pk_test_daemon-pk-results.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(pk_test_daemon_CFLAGS) $(CFLAGS) -c -o pk_test_daemon-pk-results.o `test -f 'pk-results.c' || echo '$(srcdir)/'`pk-results.c
+
+pk_test_daemon-pk-results.obj: pk-results.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(pk_test_daemon_CFLAGS) $(CFLAGS) -MT pk_test_daemon-pk-results.obj -MD -MP -MF $(DEPDIR)/pk_test_daemon-pk-results.Tpo -c -o pk_test_daemon-pk-results.obj `if test -f 'pk-results.c'; then $(CYGPATH_W) 'pk-results.c'; else $(CYGPATH_W) '$(srcdir)/pk-results.c'; fi`
+@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/pk_test_daemon-pk-results.Tpo $(DEPDIR)/pk_test_daemon-pk-results.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='pk-results.c' object='pk_test_daemon-pk-results.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(pk_test_daemon_CFLAGS) $(CFLAGS) -c -o pk_test_daemon-pk-results.obj `if test -f 'pk-results.c'; then $(CYGPATH_W) 'pk-results.c'; else $(CYGPATH_W) '$(srcdir)/pk-results.c'; fi`
+
+pk_test_daemon-pk-source.o: pk-source.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(pk_test_daemon_CFLAGS) $(CFLAGS) -MT pk_test_daemon-pk-source.o -MD -MP -MF $(DEPDIR)/pk_test_daemon-pk-source.Tpo -c -o pk_test_daemon-pk-source.o `test -f 'pk-source.c' || echo '$(srcdir)/'`pk-source.c
+@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/pk_test_daemon-pk-source.Tpo $(DEPDIR)/pk_test_daemon-pk-source.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='pk-source.c' object='pk_test_daemon-pk-source.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(pk_test_daemon_CFLAGS) $(CFLAGS) -c -o pk_test_daemon-pk-source.o `test -f 'pk-source.c' || echo '$(srcdir)/'`pk-source.c
+
+pk_test_daemon-pk-source.obj: pk-source.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(pk_test_daemon_CFLAGS) $(CFLAGS) -MT pk_test_daemon-pk-source.obj -MD -MP -MF $(DEPDIR)/pk_test_daemon-pk-source.Tpo -c -o pk_test_daemon-pk-source.obj `if test -f 'pk-source.c'; then $(CYGPATH_W) 'pk-source.c'; else $(CYGPATH_W) '$(srcdir)/pk-source.c'; fi`
+@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/pk_test_daemon-pk-source.Tpo $(DEPDIR)/pk_test_daemon-pk-source.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='pk-source.c' object='pk_test_daemon-pk-source.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(pk_test_daemon_CFLAGS) $(CFLAGS) -c -o pk_test_daemon-pk-source.obj `if test -f 'pk-source.c'; then $(CYGPATH_W) 'pk-source.c'; else $(CYGPATH_W) '$(srcdir)/pk-source.c'; fi`
+
+pk_test_daemon-pk-task.o: pk-task.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(pk_test_daemon_CFLAGS) $(CFLAGS) -MT pk_test_daemon-pk-task.o -MD -MP -MF $(DEPDIR)/pk_test_daemon-pk-task.Tpo -c -o pk_test_daemon-pk-task.o `test -f 'pk-task.c' || echo '$(srcdir)/'`pk-task.c
+@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/pk_test_daemon-pk-task.Tpo $(DEPDIR)/pk_test_daemon-pk-task.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='pk-task.c' object='pk_test_daemon-pk-task.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(pk_test_daemon_CFLAGS) $(CFLAGS) -c -o pk_test_daemon-pk-task.o `test -f 'pk-task.c' || echo '$(srcdir)/'`pk-task.c
+
+pk_test_daemon-pk-task.obj: pk-task.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(pk_test_daemon_CFLAGS) $(CFLAGS) -MT pk_test_daemon-pk-task.obj -MD -MP -MF $(DEPDIR)/pk_test_daemon-pk-task.Tpo -c -o pk_test_daemon-pk-task.obj `if test -f 'pk-task.c'; then $(CYGPATH_W) 'pk-task.c'; else $(CYGPATH_W) '$(srcdir)/pk-task.c'; fi`
+@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/pk_test_daemon-pk-task.Tpo $(DEPDIR)/pk_test_daemon-pk-task.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='pk-task.c' object='pk_test_daemon-pk-task.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(pk_test_daemon_CFLAGS) $(CFLAGS) -c -o pk_test_daemon-pk-task.obj `if test -f 'pk-task.c'; then $(CYGPATH_W) 'pk-task.c'; else $(CYGPATH_W) '$(srcdir)/pk-task.c'; fi`
+
+pk_test_daemon-pk-task-sync.o: pk-task-sync.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(pk_test_daemon_CFLAGS) $(CFLAGS) -MT pk_test_daemon-pk-task-sync.o -MD -MP -MF $(DEPDIR)/pk_test_daemon-pk-task-sync.Tpo -c -o pk_test_daemon-pk-task-sync.o `test -f 'pk-task-sync.c' || echo '$(srcdir)/'`pk-task-sync.c
+@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/pk_test_daemon-pk-task-sync.Tpo $(DEPDIR)/pk_test_daemon-pk-task-sync.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='pk-task-sync.c' object='pk_test_daemon-pk-task-sync.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(pk_test_daemon_CFLAGS) $(CFLAGS) -c -o pk_test_daemon-pk-task-sync.o `test -f 'pk-task-sync.c' || echo '$(srcdir)/'`pk-task-sync.c
+
+pk_test_daemon-pk-task-sync.obj: pk-task-sync.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(pk_test_daemon_CFLAGS) $(CFLAGS) -MT pk_test_daemon-pk-task-sync.obj -MD -MP -MF $(DEPDIR)/pk_test_daemon-pk-task-sync.Tpo -c -o pk_test_daemon-pk-task-sync.obj `if test -f 'pk-task-sync.c'; then $(CYGPATH_W) 'pk-task-sync.c'; else $(CYGPATH_W) '$(srcdir)/pk-task-sync.c'; fi`
+@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/pk_test_daemon-pk-task-sync.Tpo $(DEPDIR)/pk_test_daemon-pk-task-sync.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='pk-task-sync.c' object='pk_test_daemon-pk-task-sync.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(pk_test_daemon_CFLAGS) $(CFLAGS) -c -o pk_test_daemon-pk-task-sync.obj `if test -f 'pk-task-sync.c'; then $(CYGPATH_W) 'pk-task-sync.c'; else $(CYGPATH_W) '$(srcdir)/pk-task-sync.c'; fi`
+
+pk_test_daemon-pk-transaction-past.o: pk-transaction-past.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(pk_test_daemon_CFLAGS) $(CFLAGS) -MT pk_test_daemon-pk-transaction-past.o -MD -MP -MF $(DEPDIR)/pk_test_daemon-pk-transaction-past.Tpo -c -o pk_test_daemon-pk-transaction-past.o `test -f 'pk-transaction-past.c' || echo '$(srcdir)/'`pk-transaction-past.c
+@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/pk_test_daemon-pk-transaction-past.Tpo $(DEPDIR)/pk_test_daemon-pk-transaction-past.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='pk-transaction-past.c' object='pk_test_daemon-pk-transaction-past.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(pk_test_daemon_CFLAGS) $(CFLAGS) -c -o pk_test_daemon-pk-transaction-past.o `test -f 'pk-transaction-past.c' || echo '$(srcdir)/'`pk-transaction-past.c
+
+pk_test_daemon-pk-transaction-past.obj: pk-transaction-past.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(pk_test_daemon_CFLAGS) $(CFLAGS) -MT pk_test_daemon-pk-transaction-past.obj -MD -MP -MF $(DEPDIR)/pk_test_daemon-pk-transaction-past.Tpo -c -o pk_test_daemon-pk-transaction-past.obj `if test -f 'pk-transaction-past.c'; then $(CYGPATH_W) 'pk-transaction-past.c'; else $(CYGPATH_W) '$(srcdir)/pk-transaction-past.c'; fi`
+@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/pk_test_daemon-pk-transaction-past.Tpo $(DEPDIR)/pk_test_daemon-pk-transaction-past.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='pk-transaction-past.c' object='pk_test_daemon-pk-transaction-past.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(pk_test_daemon_CFLAGS) $(CFLAGS) -c -o pk_test_daemon-pk-transaction-past.obj `if test -f 'pk-transaction-past.c'; then $(CYGPATH_W) 'pk-transaction-past.c'; else $(CYGPATH_W) '$(srcdir)/pk-transaction-past.c'; fi`
+
+pk_test_daemon-pk-transaction-list.o: pk-transaction-list.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(pk_test_daemon_CFLAGS) $(CFLAGS) -MT pk_test_daemon-pk-transaction-list.o -MD -MP -MF $(DEPDIR)/pk_test_daemon-pk-transaction-list.Tpo -c -o pk_test_daemon-pk-transaction-list.o `test -f 'pk-transaction-list.c' || echo '$(srcdir)/'`pk-transaction-list.c
+@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/pk_test_daemon-pk-transaction-list.Tpo $(DEPDIR)/pk_test_daemon-pk-transaction-list.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='pk-transaction-list.c' object='pk_test_daemon-pk-transaction-list.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(pk_test_daemon_CFLAGS) $(CFLAGS) -c -o pk_test_daemon-pk-transaction-list.o `test -f 'pk-transaction-list.c' || echo '$(srcdir)/'`pk-transaction-list.c
+
+pk_test_daemon-pk-transaction-list.obj: pk-transaction-list.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(pk_test_daemon_CFLAGS) $(CFLAGS) -MT pk_test_daemon-pk-transaction-list.obj -MD -MP -MF $(DEPDIR)/pk_test_daemon-pk-transaction-list.Tpo -c -o pk_test_daemon-pk-transaction-list.obj `if test -f 'pk-transaction-list.c'; then $(CYGPATH_W) 'pk-transaction-list.c'; else $(CYGPATH_W) '$(srcdir)/pk-transaction-list.c'; fi`
+@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/pk_test_daemon-pk-transaction-list.Tpo $(DEPDIR)/pk_test_daemon-pk-transaction-list.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='pk-transaction-list.c' object='pk_test_daemon-pk-transaction-list.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(pk_test_daemon_CFLAGS) $(CFLAGS) -c -o pk_test_daemon-pk-transaction-list.obj `if test -f 'pk-transaction-list.c'; then $(CYGPATH_W) 'pk-transaction-list.c'; else $(CYGPATH_W) '$(srcdir)/pk-transaction-list.c'; fi`
+
+pk_test_daemon-pk-update-detail.o: pk-update-detail.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(pk_test_daemon_CFLAGS) $(CFLAGS) -MT pk_test_daemon-pk-update-detail.o -MD -MP -MF $(DEPDIR)/pk_test_daemon-pk-update-detail.Tpo -c -o pk_test_daemon-pk-update-detail.o `test -f 'pk-update-detail.c' || echo '$(srcdir)/'`pk-update-detail.c
+@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/pk_test_daemon-pk-update-detail.Tpo $(DEPDIR)/pk_test_daemon-pk-update-detail.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='pk-update-detail.c' object='pk_test_daemon-pk-update-detail.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(pk_test_daemon_CFLAGS) $(CFLAGS) -c -o pk_test_daemon-pk-update-detail.o `test -f 'pk-update-detail.c' || echo '$(srcdir)/'`pk-update-detail.c
+
+pk_test_daemon-pk-update-detail.obj: pk-update-detail.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(pk_test_daemon_CFLAGS) $(CFLAGS) -MT pk_test_daemon-pk-update-detail.obj -MD -MP -MF $(DEPDIR)/pk_test_daemon-pk-update-detail.Tpo -c -o pk_test_daemon-pk-update-detail.obj `if test -f 'pk-update-detail.c'; then $(CYGPATH_W) 'pk-update-detail.c'; else $(CYGPATH_W) '$(srcdir)/pk-update-detail.c'; fi`
+@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/pk_test_daemon-pk-update-detail.Tpo $(DEPDIR)/pk_test_daemon-pk-update-detail.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='pk-update-detail.c' object='pk_test_daemon-pk-update-detail.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(pk_test_daemon_CFLAGS) $(CFLAGS) -c -o pk_test_daemon-pk-update-detail.obj `if test -f 'pk-update-detail.c'; then $(CYGPATH_W) 'pk-update-detail.c'; else $(CYGPATH_W) '$(srcdir)/pk-update-detail.c'; fi`
+
+pk_test_daemon-pk-spawn-polkit-agent.o: pk-spawn-polkit-agent.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(pk_test_daemon_CFLAGS) $(CFLAGS) -MT pk_test_daemon-pk-spawn-polkit-agent.o -MD -MP -MF $(DEPDIR)/pk_test_daemon-pk-spawn-polkit-agent.Tpo -c -o pk_test_daemon-pk-spawn-polkit-agent.o `test -f 'pk-spawn-polkit-agent.c' || echo '$(srcdir)/'`pk-spawn-polkit-agent.c
+@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/pk_test_daemon-pk-spawn-polkit-agent.Tpo $(DEPDIR)/pk_test_daemon-pk-spawn-polkit-agent.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='pk-spawn-polkit-agent.c' object='pk_test_daemon-pk-spawn-polkit-agent.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(pk_test_daemon_CFLAGS) $(CFLAGS) -c -o pk_test_daemon-pk-spawn-polkit-agent.o `test -f 'pk-spawn-polkit-agent.c' || echo '$(srcdir)/'`pk-spawn-polkit-agent.c
+
+pk_test_daemon-pk-spawn-polkit-agent.obj: pk-spawn-polkit-agent.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(pk_test_daemon_CFLAGS) $(CFLAGS) -MT pk_test_daemon-pk-spawn-polkit-agent.obj -MD -MP -MF $(DEPDIR)/pk_test_daemon-pk-spawn-polkit-agent.Tpo -c -o pk_test_daemon-pk-spawn-polkit-agent.obj `if test -f 'pk-spawn-polkit-agent.c'; then $(CYGPATH_W) 'pk-spawn-polkit-agent.c'; else $(CYGPATH_W) '$(srcdir)/pk-spawn-polkit-agent.c'; fi`
+@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/pk_test_daemon-pk-spawn-polkit-agent.Tpo $(DEPDIR)/pk_test_daemon-pk-spawn-polkit-agent.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='pk-spawn-polkit-agent.c' object='pk_test_daemon-pk-spawn-polkit-agent.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(pk_test_daemon_CFLAGS) $(CFLAGS) -c -o pk_test_daemon-pk-spawn-polkit-agent.obj `if test -f 'pk-spawn-polkit-agent.c'; then $(CYGPATH_W) 'pk-spawn-polkit-agent.c'; else $(CYGPATH_W) '$(srcdir)/pk-spawn-polkit-agent.c'; fi`
+
+pk_test_daemon-pk-test-daemon.o: pk-test-daemon.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(pk_test_daemon_CFLAGS) $(CFLAGS) -MT pk_test_daemon-pk-test-daemon.o -MD -MP -MF $(DEPDIR)/pk_test_daemon-pk-test-daemon.Tpo -c -o pk_test_daemon-pk-test-daemon.o `test -f 'pk-test-daemon.c' || echo '$(srcdir)/'`pk-test-daemon.c
+@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/pk_test_daemon-pk-test-daemon.Tpo $(DEPDIR)/pk_test_daemon-pk-test-daemon.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='pk-test-daemon.c' object='pk_test_daemon-pk-test-daemon.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(pk_test_daemon_CFLAGS) $(CFLAGS) -c -o pk_test_daemon-pk-test-daemon.o `test -f 'pk-test-daemon.c' || echo '$(srcdir)/'`pk-test-daemon.c
+
+pk_test_daemon-pk-test-daemon.obj: pk-test-daemon.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(pk_test_daemon_CFLAGS) $(CFLAGS) -MT pk_test_daemon-pk-test-daemon.obj -MD -MP -MF $(DEPDIR)/pk_test_daemon-pk-test-daemon.Tpo -c -o pk_test_daemon-pk-test-daemon.obj `if test -f 'pk-test-daemon.c'; then $(CYGPATH_W) 'pk-test-daemon.c'; else $(CYGPATH_W) '$(srcdir)/pk-test-daemon.c'; fi`
+@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/pk_test_daemon-pk-test-daemon.Tpo $(DEPDIR)/pk_test_daemon-pk-test-daemon.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='pk-test-daemon.c' object='pk_test_daemon-pk-test-daemon.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(pk_test_daemon_CFLAGS) $(CFLAGS) -c -o pk_test_daemon-pk-test-daemon.obj `if test -f 'pk-test-daemon.c'; then $(CYGPATH_W) 'pk-test-daemon.c'; else $(CYGPATH_W) '$(srcdir)/pk-test-daemon.c'; fi`
+
+pk_test_private-pk-bitfield.o: pk-bitfield.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(pk_test_private_CFLAGS) $(CFLAGS) -MT pk_test_private-pk-bitfield.o -MD -MP -MF $(DEPDIR)/pk_test_private-pk-bitfield.Tpo -c -o pk_test_private-pk-bitfield.o `test -f 'pk-bitfield.c' || echo '$(srcdir)/'`pk-bitfield.c
+@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/pk_test_private-pk-bitfield.Tpo $(DEPDIR)/pk_test_private-pk-bitfield.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='pk-bitfield.c' object='pk_test_private-pk-bitfield.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(pk_test_private_CFLAGS) $(CFLAGS) -c -o pk_test_private-pk-bitfield.o `test -f 'pk-bitfield.c' || echo '$(srcdir)/'`pk-bitfield.c
+
+pk_test_private-pk-bitfield.obj: pk-bitfield.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(pk_test_private_CFLAGS) $(CFLAGS) -MT pk_test_private-pk-bitfield.obj -MD -MP -MF $(DEPDIR)/pk_test_private-pk-bitfield.Tpo -c -o pk_test_private-pk-bitfield.obj `if test -f 'pk-bitfield.c'; then $(CYGPATH_W) 'pk-bitfield.c'; else $(CYGPATH_W) '$(srcdir)/pk-bitfield.c'; fi`
+@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/pk_test_private-pk-bitfield.Tpo $(DEPDIR)/pk_test_private-pk-bitfield.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='pk-bitfield.c' object='pk_test_private-pk-bitfield.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(pk_test_private_CFLAGS) $(CFLAGS) -c -o pk_test_private-pk-bitfield.obj `if test -f 'pk-bitfield.c'; then $(CYGPATH_W) 'pk-bitfield.c'; else $(CYGPATH_W) '$(srcdir)/pk-bitfield.c'; fi`
+
+pk_test_private-pk-category.o: pk-category.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(pk_test_private_CFLAGS) $(CFLAGS) -MT pk_test_private-pk-category.o -MD -MP -MF $(DEPDIR)/pk_test_private-pk-category.Tpo -c -o pk_test_private-pk-category.o `test -f 'pk-category.c' || echo '$(srcdir)/'`pk-category.c
+@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/pk_test_private-pk-category.Tpo $(DEPDIR)/pk_test_private-pk-category.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='pk-category.c' object='pk_test_private-pk-category.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(pk_test_private_CFLAGS) $(CFLAGS) -c -o pk_test_private-pk-category.o `test -f 'pk-category.c' || echo '$(srcdir)/'`pk-category.c
+
+pk_test_private-pk-category.obj: pk-category.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(pk_test_private_CFLAGS) $(CFLAGS) -MT pk_test_private-pk-category.obj -MD -MP -MF $(DEPDIR)/pk_test_private-pk-category.Tpo -c -o pk_test_private-pk-category.obj `if test -f 'pk-category.c'; then $(CYGPATH_W) 'pk-category.c'; else $(CYGPATH_W) '$(srcdir)/pk-category.c'; fi`
+@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/pk_test_private-pk-category.Tpo $(DEPDIR)/pk_test_private-pk-category.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='pk-category.c' object='pk_test_private-pk-category.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(pk_test_private_CFLAGS) $(CFLAGS) -c -o pk_test_private-pk-category.obj `if test -f 'pk-category.c'; then $(CYGPATH_W) 'pk-category.c'; else $(CYGPATH_W) '$(srcdir)/pk-category.c'; fi`
+
+pk_test_private-pk-client.o: pk-client.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(pk_test_private_CFLAGS) $(CFLAGS) -MT pk_test_private-pk-client.o -MD -MP -MF $(DEPDIR)/pk_test_private-pk-client.Tpo -c -o pk_test_private-pk-client.o `test -f 'pk-client.c' || echo '$(srcdir)/'`pk-client.c
+@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/pk_test_private-pk-client.Tpo $(DEPDIR)/pk_test_private-pk-client.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='pk-client.c' object='pk_test_private-pk-client.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(pk_test_private_CFLAGS) $(CFLAGS) -c -o pk_test_private-pk-client.o `test -f 'pk-client.c' || echo '$(srcdir)/'`pk-client.c
+
+pk_test_private-pk-client.obj: pk-client.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(pk_test_private_CFLAGS) $(CFLAGS) -MT pk_test_private-pk-client.obj -MD -MP -MF $(DEPDIR)/pk_test_private-pk-client.Tpo -c -o pk_test_private-pk-client.obj `if test -f 'pk-client.c'; then $(CYGPATH_W) 'pk-client.c'; else $(CYGPATH_W) '$(srcdir)/pk-client.c'; fi`
+@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/pk_test_private-pk-client.Tpo $(DEPDIR)/pk_test_private-pk-client.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='pk-client.c' object='pk_test_private-pk-client.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(pk_test_private_CFLAGS) $(CFLAGS) -c -o pk_test_private-pk-client.obj `if test -f 'pk-client.c'; then $(CYGPATH_W) 'pk-client.c'; else $(CYGPATH_W) '$(srcdir)/pk-client.c'; fi`
+
+pk_test_private-pk-client-helper.o: pk-client-helper.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(pk_test_private_CFLAGS) $(CFLAGS) -MT pk_test_private-pk-client-helper.o -MD -MP -MF $(DEPDIR)/pk_test_private-pk-client-helper.Tpo -c -o pk_test_private-pk-client-helper.o `test -f 'pk-client-helper.c' || echo '$(srcdir)/'`pk-client-helper.c
+@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/pk_test_private-pk-client-helper.Tpo $(DEPDIR)/pk_test_private-pk-client-helper.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='pk-client-helper.c' object='pk_test_private-pk-client-helper.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(pk_test_private_CFLAGS) $(CFLAGS) -c -o pk_test_private-pk-client-helper.o `test -f 'pk-client-helper.c' || echo '$(srcdir)/'`pk-client-helper.c
+
+pk_test_private-pk-client-helper.obj: pk-client-helper.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(pk_test_private_CFLAGS) $(CFLAGS) -MT pk_test_private-pk-client-helper.obj -MD -MP -MF $(DEPDIR)/pk_test_private-pk-client-helper.Tpo -c -o pk_test_private-pk-client-helper.obj `if test -f 'pk-client-helper.c'; then $(CYGPATH_W) 'pk-client-helper.c'; else $(CYGPATH_W) '$(srcdir)/pk-client-helper.c'; fi`
+@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/pk_test_private-pk-client-helper.Tpo $(DEPDIR)/pk_test_private-pk-client-helper.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='pk-client-helper.c' object='pk_test_private-pk-client-helper.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(pk_test_private_CFLAGS) $(CFLAGS) -c -o pk_test_private-pk-client-helper.obj `if test -f 'pk-client-helper.c'; then $(CYGPATH_W) 'pk-client-helper.c'; else $(CYGPATH_W) '$(srcdir)/pk-client-helper.c'; fi`
+
+pk_test_private-pk-client-sync.o: pk-client-sync.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(pk_test_private_CFLAGS) $(CFLAGS) -MT pk_test_private-pk-client-sync.o -MD -MP -MF $(DEPDIR)/pk_test_private-pk-client-sync.Tpo -c -o pk_test_private-pk-client-sync.o `test -f 'pk-client-sync.c' || echo '$(srcdir)/'`pk-client-sync.c
+@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/pk_test_private-pk-client-sync.Tpo $(DEPDIR)/pk_test_private-pk-client-sync.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='pk-client-sync.c' object='pk_test_private-pk-client-sync.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(pk_test_private_CFLAGS) $(CFLAGS) -c -o pk_test_private-pk-client-sync.o `test -f 'pk-client-sync.c' || echo '$(srcdir)/'`pk-client-sync.c
+
+pk_test_private-pk-client-sync.obj: pk-client-sync.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(pk_test_private_CFLAGS) $(CFLAGS) -MT pk_test_private-pk-client-sync.obj -MD -MP -MF $(DEPDIR)/pk_test_private-pk-client-sync.Tpo -c -o pk_test_private-pk-client-sync.obj `if test -f 'pk-client-sync.c'; then $(CYGPATH_W) 'pk-client-sync.c'; else $(CYGPATH_W) '$(srcdir)/pk-client-sync.c'; fi`
+@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/pk_test_private-pk-client-sync.Tpo $(DEPDIR)/pk_test_private-pk-client-sync.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='pk-client-sync.c' object='pk_test_private-pk-client-sync.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(pk_test_private_CFLAGS) $(CFLAGS) -c -o pk_test_private-pk-client-sync.obj `if test -f 'pk-client-sync.c'; then $(CYGPATH_W) 'pk-client-sync.c'; else $(CYGPATH_W) '$(srcdir)/pk-client-sync.c'; fi`
+
+pk_test_private-pk-common.o: pk-common.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(pk_test_private_CFLAGS) $(CFLAGS) -MT pk_test_private-pk-common.o -MD -MP -MF $(DEPDIR)/pk_test_private-pk-common.Tpo -c -o pk_test_private-pk-common.o `test -f 'pk-common.c' || echo '$(srcdir)/'`pk-common.c
+@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/pk_test_private-pk-common.Tpo $(DEPDIR)/pk_test_private-pk-common.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='pk-common.c' object='pk_test_private-pk-common.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(pk_test_private_CFLAGS) $(CFLAGS) -c -o pk_test_private-pk-common.o `test -f 'pk-common.c' || echo '$(srcdir)/'`pk-common.c
+
+pk_test_private-pk-common.obj: pk-common.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(pk_test_private_CFLAGS) $(CFLAGS) -MT pk_test_private-pk-common.obj -MD -MP -MF $(DEPDIR)/pk_test_private-pk-common.Tpo -c -o pk_test_private-pk-common.obj `if test -f 'pk-common.c'; then $(CYGPATH_W) 'pk-common.c'; else $(CYGPATH_W) '$(srcdir)/pk-common.c'; fi`
+@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/pk_test_private-pk-common.Tpo $(DEPDIR)/pk_test_private-pk-common.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='pk-common.c' object='pk_test_private-pk-common.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(pk_test_private_CFLAGS) $(CFLAGS) -c -o pk_test_private-pk-common.obj `if test -f 'pk-common.c'; then $(CYGPATH_W) 'pk-common.c'; else $(CYGPATH_W) '$(srcdir)/pk-common.c'; fi`
+
+pk_test_private-pk-control.o: pk-control.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(pk_test_private_CFLAGS) $(CFLAGS) -MT pk_test_private-pk-control.o -MD -MP -MF $(DEPDIR)/pk_test_private-pk-control.Tpo -c -o pk_test_private-pk-control.o `test -f 'pk-control.c' || echo '$(srcdir)/'`pk-control.c
+@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/pk_test_private-pk-control.Tpo $(DEPDIR)/pk_test_private-pk-control.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='pk-control.c' object='pk_test_private-pk-control.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(pk_test_private_CFLAGS) $(CFLAGS) -c -o pk_test_private-pk-control.o `test -f 'pk-control.c' || echo '$(srcdir)/'`pk-control.c
+
+pk_test_private-pk-control.obj: pk-control.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(pk_test_private_CFLAGS) $(CFLAGS) -MT pk_test_private-pk-control.obj -MD -MP -MF $(DEPDIR)/pk_test_private-pk-control.Tpo -c -o pk_test_private-pk-control.obj `if test -f 'pk-control.c'; then $(CYGPATH_W) 'pk-control.c'; else $(CYGPATH_W) '$(srcdir)/pk-control.c'; fi`
+@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/pk_test_private-pk-control.Tpo $(DEPDIR)/pk_test_private-pk-control.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='pk-control.c' object='pk_test_private-pk-control.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(pk_test_private_CFLAGS) $(CFLAGS) -c -o pk_test_private-pk-control.obj `if test -f 'pk-control.c'; then $(CYGPATH_W) 'pk-control.c'; else $(CYGPATH_W) '$(srcdir)/pk-control.c'; fi`
+
+pk_test_private-pk-control-sync.o: pk-control-sync.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(pk_test_private_CFLAGS) $(CFLAGS) -MT pk_test_private-pk-control-sync.o -MD -MP -MF $(DEPDIR)/pk_test_private-pk-control-sync.Tpo -c -o pk_test_private-pk-control-sync.o `test -f 'pk-control-sync.c' || echo '$(srcdir)/'`pk-control-sync.c
+@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/pk_test_private-pk-control-sync.Tpo $(DEPDIR)/pk_test_private-pk-control-sync.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='pk-control-sync.c' object='pk_test_private-pk-control-sync.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(pk_test_private_CFLAGS) $(CFLAGS) -c -o pk_test_private-pk-control-sync.o `test -f 'pk-control-sync.c' || echo '$(srcdir)/'`pk-control-sync.c
+
+pk_test_private-pk-control-sync.obj: pk-control-sync.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(pk_test_private_CFLAGS) $(CFLAGS) -MT pk_test_private-pk-control-sync.obj -MD -MP -MF $(DEPDIR)/pk_test_private-pk-control-sync.Tpo -c -o pk_test_private-pk-control-sync.obj `if test -f 'pk-control-sync.c'; then $(CYGPATH_W) 'pk-control-sync.c'; else $(CYGPATH_W) '$(srcdir)/pk-control-sync.c'; fi`
+@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/pk_test_private-pk-control-sync.Tpo $(DEPDIR)/pk_test_private-pk-control-sync.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='pk-control-sync.c' object='pk_test_private-pk-control-sync.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(pk_test_private_CFLAGS) $(CFLAGS) -c -o pk_test_private-pk-control-sync.obj `if test -f 'pk-control-sync.c'; then $(CYGPATH_W) 'pk-control-sync.c'; else $(CYGPATH_W) '$(srcdir)/pk-control-sync.c'; fi`
+
+pk_test_private-pk-debug.o: pk-debug.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(pk_test_private_CFLAGS) $(CFLAGS) -MT pk_test_private-pk-debug.o -MD -MP -MF $(DEPDIR)/pk_test_private-pk-debug.Tpo -c -o pk_test_private-pk-debug.o `test -f 'pk-debug.c' || echo '$(srcdir)/'`pk-debug.c
+@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/pk_test_private-pk-debug.Tpo $(DEPDIR)/pk_test_private-pk-debug.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='pk-debug.c' object='pk_test_private-pk-debug.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(pk_test_private_CFLAGS) $(CFLAGS) -c -o pk_test_private-pk-debug.o `test -f 'pk-debug.c' || echo '$(srcdir)/'`pk-debug.c
+
+pk_test_private-pk-debug.obj: pk-debug.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(pk_test_private_CFLAGS) $(CFLAGS) -MT pk_test_private-pk-debug.obj -MD -MP -MF $(DEPDIR)/pk_test_private-pk-debug.Tpo -c -o pk_test_private-pk-debug.obj `if test -f 'pk-debug.c'; then $(CYGPATH_W) 'pk-debug.c'; else $(CYGPATH_W) '$(srcdir)/pk-debug.c'; fi`
+@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/pk_test_private-pk-debug.Tpo $(DEPDIR)/pk_test_private-pk-debug.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='pk-debug.c' object='pk_test_private-pk-debug.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(pk_test_private_CFLAGS) $(CFLAGS) -c -o pk_test_private-pk-debug.obj `if test -f 'pk-debug.c'; then $(CYGPATH_W) 'pk-debug.c'; else $(CYGPATH_W) '$(srcdir)/pk-debug.c'; fi`
+
+pk_test_private-pk-desktop.o: pk-desktop.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(pk_test_private_CFLAGS) $(CFLAGS) -MT pk_test_private-pk-desktop.o -MD -MP -MF $(DEPDIR)/pk_test_private-pk-desktop.Tpo -c -o pk_test_private-pk-desktop.o `test -f 'pk-desktop.c' || echo '$(srcdir)/'`pk-desktop.c
+@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/pk_test_private-pk-desktop.Tpo $(DEPDIR)/pk_test_private-pk-desktop.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='pk-desktop.c' object='pk_test_private-pk-desktop.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(pk_test_private_CFLAGS) $(CFLAGS) -c -o pk_test_private-pk-desktop.o `test -f 'pk-desktop.c' || echo '$(srcdir)/'`pk-desktop.c
+
+pk_test_private-pk-desktop.obj: pk-desktop.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(pk_test_private_CFLAGS) $(CFLAGS) -MT pk_test_private-pk-desktop.obj -MD -MP -MF $(DEPDIR)/pk_test_private-pk-desktop.Tpo -c -o pk_test_private-pk-desktop.obj `if test -f 'pk-desktop.c'; then $(CYGPATH_W) 'pk-desktop.c'; else $(CYGPATH_W) '$(srcdir)/pk-desktop.c'; fi`
+@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/pk_test_private-pk-desktop.Tpo $(DEPDIR)/pk_test_private-pk-desktop.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='pk-desktop.c' object='pk_test_private-pk-desktop.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(pk_test_private_CFLAGS) $(CFLAGS) -c -o pk_test_private-pk-desktop.obj `if test -f 'pk-desktop.c'; then $(CYGPATH_W) 'pk-desktop.c'; else $(CYGPATH_W) '$(srcdir)/pk-desktop.c'; fi`
+
+pk_test_private-pk-details.o: pk-details.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(pk_test_private_CFLAGS) $(CFLAGS) -MT pk_test_private-pk-details.o -MD -MP -MF $(DEPDIR)/pk_test_private-pk-details.Tpo -c -o pk_test_private-pk-details.o `test -f 'pk-details.c' || echo '$(srcdir)/'`pk-details.c
+@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/pk_test_private-pk-details.Tpo $(DEPDIR)/pk_test_private-pk-details.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='pk-details.c' object='pk_test_private-pk-details.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(pk_test_private_CFLAGS) $(CFLAGS) -c -o pk_test_private-pk-details.o `test -f 'pk-details.c' || echo '$(srcdir)/'`pk-details.c
+
+pk_test_private-pk-details.obj: pk-details.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(pk_test_private_CFLAGS) $(CFLAGS) -MT pk_test_private-pk-details.obj -MD -MP -MF $(DEPDIR)/pk_test_private-pk-details.Tpo -c -o pk_test_private-pk-details.obj `if test -f 'pk-details.c'; then $(CYGPATH_W) 'pk-details.c'; else $(CYGPATH_W) '$(srcdir)/pk-details.c'; fi`
+@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/pk_test_private-pk-details.Tpo $(DEPDIR)/pk_test_private-pk-details.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='pk-details.c' object='pk_test_private-pk-details.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(pk_test_private_CFLAGS) $(CFLAGS) -c -o pk_test_private-pk-details.obj `if test -f 'pk-details.c'; then $(CYGPATH_W) 'pk-details.c'; else $(CYGPATH_W) '$(srcdir)/pk-details.c'; fi`
+
+pk_test_private-pk-distro-upgrade.o: pk-distro-upgrade.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(pk_test_private_CFLAGS) $(CFLAGS) -MT pk_test_private-pk-distro-upgrade.o -MD -MP -MF $(DEPDIR)/pk_test_private-pk-distro-upgrade.Tpo -c -o pk_test_private-pk-distro-upgrade.o `test -f 'pk-distro-upgrade.c' || echo '$(srcdir)/'`pk-distro-upgrade.c
+@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/pk_test_private-pk-distro-upgrade.Tpo $(DEPDIR)/pk_test_private-pk-distro-upgrade.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='pk-distro-upgrade.c' object='pk_test_private-pk-distro-upgrade.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(pk_test_private_CFLAGS) $(CFLAGS) -c -o pk_test_private-pk-distro-upgrade.o `test -f 'pk-distro-upgrade.c' || echo '$(srcdir)/'`pk-distro-upgrade.c
+
+pk_test_private-pk-distro-upgrade.obj: pk-distro-upgrade.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(pk_test_private_CFLAGS) $(CFLAGS) -MT pk_test_private-pk-distro-upgrade.obj -MD -MP -MF $(DEPDIR)/pk_test_private-pk-distro-upgrade.Tpo -c -o pk_test_private-pk-distro-upgrade.obj `if test -f 'pk-distro-upgrade.c'; then $(CYGPATH_W) 'pk-distro-upgrade.c'; else $(CYGPATH_W) '$(srcdir)/pk-distro-upgrade.c'; fi`
+@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/pk_test_private-pk-distro-upgrade.Tpo $(DEPDIR)/pk_test_private-pk-distro-upgrade.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='pk-distro-upgrade.c' object='pk_test_private-pk-distro-upgrade.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(pk_test_private_CFLAGS) $(CFLAGS) -c -o pk_test_private-pk-distro-upgrade.obj `if test -f 'pk-distro-upgrade.c'; then $(CYGPATH_W) 'pk-distro-upgrade.c'; else $(CYGPATH_W) '$(srcdir)/pk-distro-upgrade.c'; fi`
+
+pk_test_private-pk-enum.o: pk-enum.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(pk_test_private_CFLAGS) $(CFLAGS) -MT pk_test_private-pk-enum.o -MD -MP -MF $(DEPDIR)/pk_test_private-pk-enum.Tpo -c -o pk_test_private-pk-enum.o `test -f 'pk-enum.c' || echo '$(srcdir)/'`pk-enum.c
+@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/pk_test_private-pk-enum.Tpo $(DEPDIR)/pk_test_private-pk-enum.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='pk-enum.c' object='pk_test_private-pk-enum.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(pk_test_private_CFLAGS) $(CFLAGS) -c -o pk_test_private-pk-enum.o `test -f 'pk-enum.c' || echo '$(srcdir)/'`pk-enum.c
+
+pk_test_private-pk-enum.obj: pk-enum.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(pk_test_private_CFLAGS) $(CFLAGS) -MT pk_test_private-pk-enum.obj -MD -MP -MF $(DEPDIR)/pk_test_private-pk-enum.Tpo -c -o pk_test_private-pk-enum.obj `if test -f 'pk-enum.c'; then $(CYGPATH_W) 'pk-enum.c'; else $(CYGPATH_W) '$(srcdir)/pk-enum.c'; fi`
+@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/pk_test_private-pk-enum.Tpo $(DEPDIR)/pk_test_private-pk-enum.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='pk-enum.c' object='pk_test_private-pk-enum.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(pk_test_private_CFLAGS) $(CFLAGS) -c -o pk_test_private-pk-enum.obj `if test -f 'pk-enum.c'; then $(CYGPATH_W) 'pk-enum.c'; else $(CYGPATH_W) '$(srcdir)/pk-enum.c'; fi`
+
+pk_test_private-pk-enum-types.o: pk-enum-types.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(pk_test_private_CFLAGS) $(CFLAGS) -MT pk_test_private-pk-enum-types.o -MD -MP -MF $(DEPDIR)/pk_test_private-pk-enum-types.Tpo -c -o pk_test_private-pk-enum-types.o `test -f 'pk-enum-types.c' || echo '$(srcdir)/'`pk-enum-types.c
+@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/pk_test_private-pk-enum-types.Tpo $(DEPDIR)/pk_test_private-pk-enum-types.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='pk-enum-types.c' object='pk_test_private-pk-enum-types.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(pk_test_private_CFLAGS) $(CFLAGS) -c -o pk_test_private-pk-enum-types.o `test -f 'pk-enum-types.c' || echo '$(srcdir)/'`pk-enum-types.c
+
+pk_test_private-pk-enum-types.obj: pk-enum-types.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(pk_test_private_CFLAGS) $(CFLAGS) -MT pk_test_private-pk-enum-types.obj -MD -MP -MF $(DEPDIR)/pk_test_private-pk-enum-types.Tpo -c -o pk_test_private-pk-enum-types.obj `if test -f 'pk-enum-types.c'; then $(CYGPATH_W) 'pk-enum-types.c'; else $(CYGPATH_W) '$(srcdir)/pk-enum-types.c'; fi`
+@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/pk_test_private-pk-enum-types.Tpo $(DEPDIR)/pk_test_private-pk-enum-types.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='pk-enum-types.c' object='pk_test_private-pk-enum-types.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(pk_test_private_CFLAGS) $(CFLAGS) -c -o pk_test_private-pk-enum-types.obj `if test -f 'pk-enum-types.c'; then $(CYGPATH_W) 'pk-enum-types.c'; else $(CYGPATH_W) '$(srcdir)/pk-enum-types.c'; fi`
+
+pk_test_private-pk-error.o: pk-error.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(pk_test_private_CFLAGS) $(CFLAGS) -MT pk_test_private-pk-error.o -MD -MP -MF $(DEPDIR)/pk_test_private-pk-error.Tpo -c -o pk_test_private-pk-error.o `test -f 'pk-error.c' || echo '$(srcdir)/'`pk-error.c
+@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/pk_test_private-pk-error.Tpo $(DEPDIR)/pk_test_private-pk-error.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='pk-error.c' object='pk_test_private-pk-error.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(pk_test_private_CFLAGS) $(CFLAGS) -c -o pk_test_private-pk-error.o `test -f 'pk-error.c' || echo '$(srcdir)/'`pk-error.c
+
+pk_test_private-pk-error.obj: pk-error.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(pk_test_private_CFLAGS) $(CFLAGS) -MT pk_test_private-pk-error.obj -MD -MP -MF $(DEPDIR)/pk_test_private-pk-error.Tpo -c -o pk_test_private-pk-error.obj `if test -f 'pk-error.c'; then $(CYGPATH_W) 'pk-error.c'; else $(CYGPATH_W) '$(srcdir)/pk-error.c'; fi`
+@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/pk_test_private-pk-error.Tpo $(DEPDIR)/pk_test_private-pk-error.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='pk-error.c' object='pk_test_private-pk-error.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(pk_test_private_CFLAGS) $(CFLAGS) -c -o pk_test_private-pk-error.obj `if test -f 'pk-error.c'; then $(CYGPATH_W) 'pk-error.c'; else $(CYGPATH_W) '$(srcdir)/pk-error.c'; fi`
+
+pk_test_private-pk-eula-required.o: pk-eula-required.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(pk_test_private_CFLAGS) $(CFLAGS) -MT pk_test_private-pk-eula-required.o -MD -MP -MF $(DEPDIR)/pk_test_private-pk-eula-required.Tpo -c -o pk_test_private-pk-eula-required.o `test -f 'pk-eula-required.c' || echo '$(srcdir)/'`pk-eula-required.c
+@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/pk_test_private-pk-eula-required.Tpo $(DEPDIR)/pk_test_private-pk-eula-required.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='pk-eula-required.c' object='pk_test_private-pk-eula-required.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(pk_test_private_CFLAGS) $(CFLAGS) -c -o pk_test_private-pk-eula-required.o `test -f 'pk-eula-required.c' || echo '$(srcdir)/'`pk-eula-required.c
+
+pk_test_private-pk-eula-required.obj: pk-eula-required.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(pk_test_private_CFLAGS) $(CFLAGS) -MT pk_test_private-pk-eula-required.obj -MD -MP -MF $(DEPDIR)/pk_test_private-pk-eula-required.Tpo -c -o pk_test_private-pk-eula-required.obj `if test -f 'pk-eula-required.c'; then $(CYGPATH_W) 'pk-eula-required.c'; else $(CYGPATH_W) '$(srcdir)/pk-eula-required.c'; fi`
+@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/pk_test_private-pk-eula-required.Tpo $(DEPDIR)/pk_test_private-pk-eula-required.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='pk-eula-required.c' object='pk_test_private-pk-eula-required.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(pk_test_private_CFLAGS) $(CFLAGS) -c -o pk_test_private-pk-eula-required.obj `if test -f 'pk-eula-required.c'; then $(CYGPATH_W) 'pk-eula-required.c'; else $(CYGPATH_W) '$(srcdir)/pk-eula-required.c'; fi`
+
+pk_test_private-pk-files.o: pk-files.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(pk_test_private_CFLAGS) $(CFLAGS) -MT pk_test_private-pk-files.o -MD -MP -MF $(DEPDIR)/pk_test_private-pk-files.Tpo -c -o pk_test_private-pk-files.o `test -f 'pk-files.c' || echo '$(srcdir)/'`pk-files.c
+@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/pk_test_private-pk-files.Tpo $(DEPDIR)/pk_test_private-pk-files.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='pk-files.c' object='pk_test_private-pk-files.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(pk_test_private_CFLAGS) $(CFLAGS) -c -o pk_test_private-pk-files.o `test -f 'pk-files.c' || echo '$(srcdir)/'`pk-files.c
+
+pk_test_private-pk-files.obj: pk-files.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(pk_test_private_CFLAGS) $(CFLAGS) -MT pk_test_private-pk-files.obj -MD -MP -MF $(DEPDIR)/pk_test_private-pk-files.Tpo -c -o pk_test_private-pk-files.obj `if test -f 'pk-files.c'; then $(CYGPATH_W) 'pk-files.c'; else $(CYGPATH_W) '$(srcdir)/pk-files.c'; fi`
+@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/pk_test_private-pk-files.Tpo $(DEPDIR)/pk_test_private-pk-files.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='pk-files.c' object='pk_test_private-pk-files.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(pk_test_private_CFLAGS) $(CFLAGS) -c -o pk_test_private-pk-files.obj `if test -f 'pk-files.c'; then $(CYGPATH_W) 'pk-files.c'; else $(CYGPATH_W) '$(srcdir)/pk-files.c'; fi`
+
+pk_test_private-pk-media-change-required.o: pk-media-change-required.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(pk_test_private_CFLAGS) $(CFLAGS) -MT pk_test_private-pk-media-change-required.o -MD -MP -MF $(DEPDIR)/pk_test_private-pk-media-change-required.Tpo -c -o pk_test_private-pk-media-change-required.o `test -f 'pk-media-change-required.c' || echo '$(srcdir)/'`pk-media-change-required.c
+@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/pk_test_private-pk-media-change-required.Tpo $(DEPDIR)/pk_test_private-pk-media-change-required.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='pk-media-change-required.c' object='pk_test_private-pk-media-change-required.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(pk_test_private_CFLAGS) $(CFLAGS) -c -o pk_test_private-pk-media-change-required.o `test -f 'pk-media-change-required.c' || echo '$(srcdir)/'`pk-media-change-required.c
+
+pk_test_private-pk-media-change-required.obj: pk-media-change-required.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(pk_test_private_CFLAGS) $(CFLAGS) -MT pk_test_private-pk-media-change-required.obj -MD -MP -MF $(DEPDIR)/pk_test_private-pk-media-change-required.Tpo -c -o pk_test_private-pk-media-change-required.obj `if test -f 'pk-media-change-required.c'; then $(CYGPATH_W) 'pk-media-change-required.c'; else $(CYGPATH_W) '$(srcdir)/pk-media-change-required.c'; fi`
+@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/pk_test_private-pk-media-change-required.Tpo $(DEPDIR)/pk_test_private-pk-media-change-required.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='pk-media-change-required.c' object='pk_test_private-pk-media-change-required.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(pk_test_private_CFLAGS) $(CFLAGS) -c -o pk_test_private-pk-media-change-required.obj `if test -f 'pk-media-change-required.c'; then $(CYGPATH_W) 'pk-media-change-required.c'; else $(CYGPATH_W) '$(srcdir)/pk-media-change-required.c'; fi`
+
+pk_test_private-pk-item-progress.o: pk-item-progress.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(pk_test_private_CFLAGS) $(CFLAGS) -MT pk_test_private-pk-item-progress.o -MD -MP -MF $(DEPDIR)/pk_test_private-pk-item-progress.Tpo -c -o pk_test_private-pk-item-progress.o `test -f 'pk-item-progress.c' || echo '$(srcdir)/'`pk-item-progress.c
+@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/pk_test_private-pk-item-progress.Tpo $(DEPDIR)/pk_test_private-pk-item-progress.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='pk-item-progress.c' object='pk_test_private-pk-item-progress.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(pk_test_private_CFLAGS) $(CFLAGS) -c -o pk_test_private-pk-item-progress.o `test -f 'pk-item-progress.c' || echo '$(srcdir)/'`pk-item-progress.c
+
+pk_test_private-pk-item-progress.obj: pk-item-progress.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(pk_test_private_CFLAGS) $(CFLAGS) -MT pk_test_private-pk-item-progress.obj -MD -MP -MF $(DEPDIR)/pk_test_private-pk-item-progress.Tpo -c -o pk_test_private-pk-item-progress.obj `if test -f 'pk-item-progress.c'; then $(CYGPATH_W) 'pk-item-progress.c'; else $(CYGPATH_W) '$(srcdir)/pk-item-progress.c'; fi`
+@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/pk_test_private-pk-item-progress.Tpo $(DEPDIR)/pk_test_private-pk-item-progress.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='pk-item-progress.c' object='pk_test_private-pk-item-progress.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(pk_test_private_CFLAGS) $(CFLAGS) -c -o pk_test_private-pk-item-progress.obj `if test -f 'pk-item-progress.c'; then $(CYGPATH_W) 'pk-item-progress.c'; else $(CYGPATH_W) '$(srcdir)/pk-item-progress.c'; fi`
+
+pk_test_private-pk-offline.o: pk-offline.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(pk_test_private_CFLAGS) $(CFLAGS) -MT pk_test_private-pk-offline.o -MD -MP -MF $(DEPDIR)/pk_test_private-pk-offline.Tpo -c -o pk_test_private-pk-offline.o `test -f 'pk-offline.c' || echo '$(srcdir)/'`pk-offline.c
+@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/pk_test_private-pk-offline.Tpo $(DEPDIR)/pk_test_private-pk-offline.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='pk-offline.c' object='pk_test_private-pk-offline.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(pk_test_private_CFLAGS) $(CFLAGS) -c -o pk_test_private-pk-offline.o `test -f 'pk-offline.c' || echo '$(srcdir)/'`pk-offline.c
+
+pk_test_private-pk-offline.obj: pk-offline.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(pk_test_private_CFLAGS) $(CFLAGS) -MT pk_test_private-pk-offline.obj -MD -MP -MF $(DEPDIR)/pk_test_private-pk-offline.Tpo -c -o pk_test_private-pk-offline.obj `if test -f 'pk-offline.c'; then $(CYGPATH_W) 'pk-offline.c'; else $(CYGPATH_W) '$(srcdir)/pk-offline.c'; fi`
+@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/pk_test_private-pk-offline.Tpo $(DEPDIR)/pk_test_private-pk-offline.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='pk-offline.c' object='pk_test_private-pk-offline.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(pk_test_private_CFLAGS) $(CFLAGS) -c -o pk_test_private-pk-offline.obj `if test -f 'pk-offline.c'; then $(CYGPATH_W) 'pk-offline.c'; else $(CYGPATH_W) '$(srcdir)/pk-offline.c'; fi`
+
+pk_test_private-pk-offline-private.o: pk-offline-private.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(pk_test_private_CFLAGS) $(CFLAGS) -MT pk_test_private-pk-offline-private.o -MD -MP -MF $(DEPDIR)/pk_test_private-pk-offline-private.Tpo -c -o pk_test_private-pk-offline-private.o `test -f 'pk-offline-private.c' || echo '$(srcdir)/'`pk-offline-private.c
+@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/pk_test_private-pk-offline-private.Tpo $(DEPDIR)/pk_test_private-pk-offline-private.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='pk-offline-private.c' object='pk_test_private-pk-offline-private.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(pk_test_private_CFLAGS) $(CFLAGS) -c -o pk_test_private-pk-offline-private.o `test -f 'pk-offline-private.c' || echo '$(srcdir)/'`pk-offline-private.c
+
+pk_test_private-pk-offline-private.obj: pk-offline-private.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(pk_test_private_CFLAGS) $(CFLAGS) -MT pk_test_private-pk-offline-private.obj -MD -MP -MF $(DEPDIR)/pk_test_private-pk-offline-private.Tpo -c -o pk_test_private-pk-offline-private.obj `if test -f 'pk-offline-private.c'; then $(CYGPATH_W) 'pk-offline-private.c'; else $(CYGPATH_W) '$(srcdir)/pk-offline-private.c'; fi`
+@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/pk_test_private-pk-offline-private.Tpo $(DEPDIR)/pk_test_private-pk-offline-private.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='pk-offline-private.c' object='pk_test_private-pk-offline-private.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(pk_test_private_CFLAGS) $(CFLAGS) -c -o pk_test_private-pk-offline-private.obj `if test -f 'pk-offline-private.c'; then $(CYGPATH_W) 'pk-offline-private.c'; else $(CYGPATH_W) '$(srcdir)/pk-offline-private.c'; fi`
+
+pk_test_private-pk-package.o: pk-package.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(pk_test_private_CFLAGS) $(CFLAGS) -MT pk_test_private-pk-package.o -MD -MP -MF $(DEPDIR)/pk_test_private-pk-package.Tpo -c -o pk_test_private-pk-package.o `test -f 'pk-package.c' || echo '$(srcdir)/'`pk-package.c
+@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/pk_test_private-pk-package.Tpo $(DEPDIR)/pk_test_private-pk-package.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='pk-package.c' object='pk_test_private-pk-package.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(pk_test_private_CFLAGS) $(CFLAGS) -c -o pk_test_private-pk-package.o `test -f 'pk-package.c' || echo '$(srcdir)/'`pk-package.c
+
+pk_test_private-pk-package.obj: pk-package.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(pk_test_private_CFLAGS) $(CFLAGS) -MT pk_test_private-pk-package.obj -MD -MP -MF $(DEPDIR)/pk_test_private-pk-package.Tpo -c -o pk_test_private-pk-package.obj `if test -f 'pk-package.c'; then $(CYGPATH_W) 'pk-package.c'; else $(CYGPATH_W) '$(srcdir)/pk-package.c'; fi`
+@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/pk_test_private-pk-package.Tpo $(DEPDIR)/pk_test_private-pk-package.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='pk-package.c' object='pk_test_private-pk-package.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(pk_test_private_CFLAGS) $(CFLAGS) -c -o pk_test_private-pk-package.obj `if test -f 'pk-package.c'; then $(CYGPATH_W) 'pk-package.c'; else $(CYGPATH_W) '$(srcdir)/pk-package.c'; fi`
+
+pk_test_private-pk-package-id.o: pk-package-id.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(pk_test_private_CFLAGS) $(CFLAGS) -MT pk_test_private-pk-package-id.o -MD -MP -MF $(DEPDIR)/pk_test_private-pk-package-id.Tpo -c -o pk_test_private-pk-package-id.o `test -f 'pk-package-id.c' || echo '$(srcdir)/'`pk-package-id.c
+@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/pk_test_private-pk-package-id.Tpo $(DEPDIR)/pk_test_private-pk-package-id.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='pk-package-id.c' object='pk_test_private-pk-package-id.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(pk_test_private_CFLAGS) $(CFLAGS) -c -o pk_test_private-pk-package-id.o `test -f 'pk-package-id.c' || echo '$(srcdir)/'`pk-package-id.c
+
+pk_test_private-pk-package-id.obj: pk-package-id.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(pk_test_private_CFLAGS) $(CFLAGS) -MT pk_test_private-pk-package-id.obj -MD -MP -MF $(DEPDIR)/pk_test_private-pk-package-id.Tpo -c -o pk_test_private-pk-package-id.obj `if test -f 'pk-package-id.c'; then $(CYGPATH_W) 'pk-package-id.c'; else $(CYGPATH_W) '$(srcdir)/pk-package-id.c'; fi`
+@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/pk_test_private-pk-package-id.Tpo $(DEPDIR)/pk_test_private-pk-package-id.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='pk-package-id.c' object='pk_test_private-pk-package-id.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(pk_test_private_CFLAGS) $(CFLAGS) -c -o pk_test_private-pk-package-id.obj `if test -f 'pk-package-id.c'; then $(CYGPATH_W) 'pk-package-id.c'; else $(CYGPATH_W) '$(srcdir)/pk-package-id.c'; fi`
+
+pk_test_private-pk-package-ids.o: pk-package-ids.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(pk_test_private_CFLAGS) $(CFLAGS) -MT pk_test_private-pk-package-ids.o -MD -MP -MF $(DEPDIR)/pk_test_private-pk-package-ids.Tpo -c -o pk_test_private-pk-package-ids.o `test -f 'pk-package-ids.c' || echo '$(srcdir)/'`pk-package-ids.c
+@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/pk_test_private-pk-package-ids.Tpo $(DEPDIR)/pk_test_private-pk-package-ids.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='pk-package-ids.c' object='pk_test_private-pk-package-ids.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(pk_test_private_CFLAGS) $(CFLAGS) -c -o pk_test_private-pk-package-ids.o `test -f 'pk-package-ids.c' || echo '$(srcdir)/'`pk-package-ids.c
+
+pk_test_private-pk-package-ids.obj: pk-package-ids.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(pk_test_private_CFLAGS) $(CFLAGS) -MT pk_test_private-pk-package-ids.obj -MD -MP -MF $(DEPDIR)/pk_test_private-pk-package-ids.Tpo -c -o pk_test_private-pk-package-ids.obj `if test -f 'pk-package-ids.c'; then $(CYGPATH_W) 'pk-package-ids.c'; else $(CYGPATH_W) '$(srcdir)/pk-package-ids.c'; fi`
+@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/pk_test_private-pk-package-ids.Tpo $(DEPDIR)/pk_test_private-pk-package-ids.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='pk-package-ids.c' object='pk_test_private-pk-package-ids.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(pk_test_private_CFLAGS) $(CFLAGS) -c -o pk_test_private-pk-package-ids.obj `if test -f 'pk-package-ids.c'; then $(CYGPATH_W) 'pk-package-ids.c'; else $(CYGPATH_W) '$(srcdir)/pk-package-ids.c'; fi`
+
+pk_test_private-pk-package-sack.o: pk-package-sack.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(pk_test_private_CFLAGS) $(CFLAGS) -MT pk_test_private-pk-package-sack.o -MD -MP -MF $(DEPDIR)/pk_test_private-pk-package-sack.Tpo -c -o pk_test_private-pk-package-sack.o `test -f 'pk-package-sack.c' || echo '$(srcdir)/'`pk-package-sack.c
+@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/pk_test_private-pk-package-sack.Tpo $(DEPDIR)/pk_test_private-pk-package-sack.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='pk-package-sack.c' object='pk_test_private-pk-package-sack.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(pk_test_private_CFLAGS) $(CFLAGS) -c -o pk_test_private-pk-package-sack.o `test -f 'pk-package-sack.c' || echo '$(srcdir)/'`pk-package-sack.c
+
+pk_test_private-pk-package-sack.obj: pk-package-sack.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(pk_test_private_CFLAGS) $(CFLAGS) -MT pk_test_private-pk-package-sack.obj -MD -MP -MF $(DEPDIR)/pk_test_private-pk-package-sack.Tpo -c -o pk_test_private-pk-package-sack.obj `if test -f 'pk-package-sack.c'; then $(CYGPATH_W) 'pk-package-sack.c'; else $(CYGPATH_W) '$(srcdir)/pk-package-sack.c'; fi`
+@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/pk_test_private-pk-package-sack.Tpo $(DEPDIR)/pk_test_private-pk-package-sack.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='pk-package-sack.c' object='pk_test_private-pk-package-sack.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(pk_test_private_CFLAGS) $(CFLAGS) -c -o pk_test_private-pk-package-sack.obj `if test -f 'pk-package-sack.c'; then $(CYGPATH_W) 'pk-package-sack.c'; else $(CYGPATH_W) '$(srcdir)/pk-package-sack.c'; fi`
+
+pk_test_private-pk-package-sack-sync.o: pk-package-sack-sync.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(pk_test_private_CFLAGS) $(CFLAGS) -MT pk_test_private-pk-package-sack-sync.o -MD -MP -MF $(DEPDIR)/pk_test_private-pk-package-sack-sync.Tpo -c -o pk_test_private-pk-package-sack-sync.o `test -f 'pk-package-sack-sync.c' || echo '$(srcdir)/'`pk-package-sack-sync.c
+@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/pk_test_private-pk-package-sack-sync.Tpo $(DEPDIR)/pk_test_private-pk-package-sack-sync.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='pk-package-sack-sync.c' object='pk_test_private-pk-package-sack-sync.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(pk_test_private_CFLAGS) $(CFLAGS) -c -o pk_test_private-pk-package-sack-sync.o `test -f 'pk-package-sack-sync.c' || echo '$(srcdir)/'`pk-package-sack-sync.c
+
+pk_test_private-pk-package-sack-sync.obj: pk-package-sack-sync.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(pk_test_private_CFLAGS) $(CFLAGS) -MT pk_test_private-pk-package-sack-sync.obj -MD -MP -MF $(DEPDIR)/pk_test_private-pk-package-sack-sync.Tpo -c -o pk_test_private-pk-package-sack-sync.obj `if test -f 'pk-package-sack-sync.c'; then $(CYGPATH_W) 'pk-package-sack-sync.c'; else $(CYGPATH_W) '$(srcdir)/pk-package-sack-sync.c'; fi`
+@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/pk_test_private-pk-package-sack-sync.Tpo $(DEPDIR)/pk_test_private-pk-package-sack-sync.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='pk-package-sack-sync.c' object='pk_test_private-pk-package-sack-sync.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(pk_test_private_CFLAGS) $(CFLAGS) -c -o pk_test_private-pk-package-sack-sync.obj `if test -f 'pk-package-sack-sync.c'; then $(CYGPATH_W) 'pk-package-sack-sync.c'; else $(CYGPATH_W) '$(srcdir)/pk-package-sack-sync.c'; fi`
+
+pk_test_private-pk-progress.o: pk-progress.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(pk_test_private_CFLAGS) $(CFLAGS) -MT pk_test_private-pk-progress.o -MD -MP -MF $(DEPDIR)/pk_test_private-pk-progress.Tpo -c -o pk_test_private-pk-progress.o `test -f 'pk-progress.c' || echo '$(srcdir)/'`pk-progress.c
+@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/pk_test_private-pk-progress.Tpo $(DEPDIR)/pk_test_private-pk-progress.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='pk-progress.c' object='pk_test_private-pk-progress.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(pk_test_private_CFLAGS) $(CFLAGS) -c -o pk_test_private-pk-progress.o `test -f 'pk-progress.c' || echo '$(srcdir)/'`pk-progress.c
+
+pk_test_private-pk-progress.obj: pk-progress.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(pk_test_private_CFLAGS) $(CFLAGS) -MT pk_test_private-pk-progress.obj -MD -MP -MF $(DEPDIR)/pk_test_private-pk-progress.Tpo -c -o pk_test_private-pk-progress.obj `if test -f 'pk-progress.c'; then $(CYGPATH_W) 'pk-progress.c'; else $(CYGPATH_W) '$(srcdir)/pk-progress.c'; fi`
+@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/pk_test_private-pk-progress.Tpo $(DEPDIR)/pk_test_private-pk-progress.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='pk-progress.c' object='pk_test_private-pk-progress.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(pk_test_private_CFLAGS) $(CFLAGS) -c -o pk_test_private-pk-progress.obj `if test -f 'pk-progress.c'; then $(CYGPATH_W) 'pk-progress.c'; else $(CYGPATH_W) '$(srcdir)/pk-progress.c'; fi`
+
+pk_test_private-pk-repo-detail.o: pk-repo-detail.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(pk_test_private_CFLAGS) $(CFLAGS) -MT pk_test_private-pk-repo-detail.o -MD -MP -MF $(DEPDIR)/pk_test_private-pk-repo-detail.Tpo -c -o pk_test_private-pk-repo-detail.o `test -f 'pk-repo-detail.c' || echo '$(srcdir)/'`pk-repo-detail.c
+@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/pk_test_private-pk-repo-detail.Tpo $(DEPDIR)/pk_test_private-pk-repo-detail.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='pk-repo-detail.c' object='pk_test_private-pk-repo-detail.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(pk_test_private_CFLAGS) $(CFLAGS) -c -o pk_test_private-pk-repo-detail.o `test -f 'pk-repo-detail.c' || echo '$(srcdir)/'`pk-repo-detail.c
+
+pk_test_private-pk-repo-detail.obj: pk-repo-detail.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(pk_test_private_CFLAGS) $(CFLAGS) -MT pk_test_private-pk-repo-detail.obj -MD -MP -MF $(DEPDIR)/pk_test_private-pk-repo-detail.Tpo -c -o pk_test_private-pk-repo-detail.obj `if test -f 'pk-repo-detail.c'; then $(CYGPATH_W) 'pk-repo-detail.c'; else $(CYGPATH_W) '$(srcdir)/pk-repo-detail.c'; fi`
+@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/pk_test_private-pk-repo-detail.Tpo $(DEPDIR)/pk_test_private-pk-repo-detail.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='pk-repo-detail.c' object='pk_test_private-pk-repo-detail.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(pk_test_private_CFLAGS) $(CFLAGS) -c -o pk_test_private-pk-repo-detail.obj `if test -f 'pk-repo-detail.c'; then $(CYGPATH_W) 'pk-repo-detail.c'; else $(CYGPATH_W) '$(srcdir)/pk-repo-detail.c'; fi`
+
+pk_test_private-pk-repo-signature-required.o: pk-repo-signature-required.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(pk_test_private_CFLAGS) $(CFLAGS) -MT pk_test_private-pk-repo-signature-required.o -MD -MP -MF $(DEPDIR)/pk_test_private-pk-repo-signature-required.Tpo -c -o pk_test_private-pk-repo-signature-required.o `test -f 'pk-repo-signature-required.c' || echo '$(srcdir)/'`pk-repo-signature-required.c
+@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/pk_test_private-pk-repo-signature-required.Tpo $(DEPDIR)/pk_test_private-pk-repo-signature-required.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='pk-repo-signature-required.c' object='pk_test_private-pk-repo-signature-required.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(pk_test_private_CFLAGS) $(CFLAGS) -c -o pk_test_private-pk-repo-signature-required.o `test -f 'pk-repo-signature-required.c' || echo '$(srcdir)/'`pk-repo-signature-required.c
+
+pk_test_private-pk-repo-signature-required.obj: pk-repo-signature-required.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(pk_test_private_CFLAGS) $(CFLAGS) -MT pk_test_private-pk-repo-signature-required.obj -MD -MP -MF $(DEPDIR)/pk_test_private-pk-repo-signature-required.Tpo -c -o pk_test_private-pk-repo-signature-required.obj `if test -f 'pk-repo-signature-required.c'; then $(CYGPATH_W) 'pk-repo-signature-required.c'; else $(CYGPATH_W) '$(srcdir)/pk-repo-signature-required.c'; fi`
+@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/pk_test_private-pk-repo-signature-required.Tpo $(DEPDIR)/pk_test_private-pk-repo-signature-required.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='pk-repo-signature-required.c' object='pk_test_private-pk-repo-signature-required.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(pk_test_private_CFLAGS) $(CFLAGS) -c -o pk_test_private-pk-repo-signature-required.obj `if test -f 'pk-repo-signature-required.c'; then $(CYGPATH_W) 'pk-repo-signature-required.c'; else $(CYGPATH_W) '$(srcdir)/pk-repo-signature-required.c'; fi`
+
+pk_test_private-pk-require-restart.o: pk-require-restart.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(pk_test_private_CFLAGS) $(CFLAGS) -MT pk_test_private-pk-require-restart.o -MD -MP -MF $(DEPDIR)/pk_test_private-pk-require-restart.Tpo -c -o pk_test_private-pk-require-restart.o `test -f 'pk-require-restart.c' || echo '$(srcdir)/'`pk-require-restart.c
+@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/pk_test_private-pk-require-restart.Tpo $(DEPDIR)/pk_test_private-pk-require-restart.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='pk-require-restart.c' object='pk_test_private-pk-require-restart.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(pk_test_private_CFLAGS) $(CFLAGS) -c -o pk_test_private-pk-require-restart.o `test -f 'pk-require-restart.c' || echo '$(srcdir)/'`pk-require-restart.c
+
+pk_test_private-pk-require-restart.obj: pk-require-restart.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(pk_test_private_CFLAGS) $(CFLAGS) -MT pk_test_private-pk-require-restart.obj -MD -MP -MF $(DEPDIR)/pk_test_private-pk-require-restart.Tpo -c -o pk_test_private-pk-require-restart.obj `if test -f 'pk-require-restart.c'; then $(CYGPATH_W) 'pk-require-restart.c'; else $(CYGPATH_W) '$(srcdir)/pk-require-restart.c'; fi`
+@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/pk_test_private-pk-require-restart.Tpo $(DEPDIR)/pk_test_private-pk-require-restart.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='pk-require-restart.c' object='pk_test_private-pk-require-restart.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(pk_test_private_CFLAGS) $(CFLAGS) -c -o pk_test_private-pk-require-restart.obj `if test -f 'pk-require-restart.c'; then $(CYGPATH_W) 'pk-require-restart.c'; else $(CYGPATH_W) '$(srcdir)/pk-require-restart.c'; fi`
+
+pk_test_private-pk-results.o: pk-results.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(pk_test_private_CFLAGS) $(CFLAGS) -MT pk_test_private-pk-results.o -MD -MP -MF $(DEPDIR)/pk_test_private-pk-results.Tpo -c -o pk_test_private-pk-results.o `test -f 'pk-results.c' || echo '$(srcdir)/'`pk-results.c
+@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/pk_test_private-pk-results.Tpo $(DEPDIR)/pk_test_private-pk-results.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='pk-results.c' object='pk_test_private-pk-results.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(pk_test_private_CFLAGS) $(CFLAGS) -c -o pk_test_private-pk-results.o `test -f 'pk-results.c' || echo '$(srcdir)/'`pk-results.c
+
+pk_test_private-pk-results.obj: pk-results.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(pk_test_private_CFLAGS) $(CFLAGS) -MT pk_test_private-pk-results.obj -MD -MP -MF $(DEPDIR)/pk_test_private-pk-results.Tpo -c -o pk_test_private-pk-results.obj `if test -f 'pk-results.c'; then $(CYGPATH_W) 'pk-results.c'; else $(CYGPATH_W) '$(srcdir)/pk-results.c'; fi`
+@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/pk_test_private-pk-results.Tpo $(DEPDIR)/pk_test_private-pk-results.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='pk-results.c' object='pk_test_private-pk-results.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(pk_test_private_CFLAGS) $(CFLAGS) -c -o pk_test_private-pk-results.obj `if test -f 'pk-results.c'; then $(CYGPATH_W) 'pk-results.c'; else $(CYGPATH_W) '$(srcdir)/pk-results.c'; fi`
+
+pk_test_private-pk-source.o: pk-source.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(pk_test_private_CFLAGS) $(CFLAGS) -MT pk_test_private-pk-source.o -MD -MP -MF $(DEPDIR)/pk_test_private-pk-source.Tpo -c -o pk_test_private-pk-source.o `test -f 'pk-source.c' || echo '$(srcdir)/'`pk-source.c
+@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/pk_test_private-pk-source.Tpo $(DEPDIR)/pk_test_private-pk-source.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='pk-source.c' object='pk_test_private-pk-source.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(pk_test_private_CFLAGS) $(CFLAGS) -c -o pk_test_private-pk-source.o `test -f 'pk-source.c' || echo '$(srcdir)/'`pk-source.c
+
+pk_test_private-pk-source.obj: pk-source.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(pk_test_private_CFLAGS) $(CFLAGS) -MT pk_test_private-pk-source.obj -MD -MP -MF $(DEPDIR)/pk_test_private-pk-source.Tpo -c -o pk_test_private-pk-source.obj `if test -f 'pk-source.c'; then $(CYGPATH_W) 'pk-source.c'; else $(CYGPATH_W) '$(srcdir)/pk-source.c'; fi`
+@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/pk_test_private-pk-source.Tpo $(DEPDIR)/pk_test_private-pk-source.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='pk-source.c' object='pk_test_private-pk-source.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(pk_test_private_CFLAGS) $(CFLAGS) -c -o pk_test_private-pk-source.obj `if test -f 'pk-source.c'; then $(CYGPATH_W) 'pk-source.c'; else $(CYGPATH_W) '$(srcdir)/pk-source.c'; fi`
+
+pk_test_private-pk-task.o: pk-task.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(pk_test_private_CFLAGS) $(CFLAGS) -MT pk_test_private-pk-task.o -MD -MP -MF $(DEPDIR)/pk_test_private-pk-task.Tpo -c -o pk_test_private-pk-task.o `test -f 'pk-task.c' || echo '$(srcdir)/'`pk-task.c
+@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/pk_test_private-pk-task.Tpo $(DEPDIR)/pk_test_private-pk-task.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='pk-task.c' object='pk_test_private-pk-task.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(pk_test_private_CFLAGS) $(CFLAGS) -c -o pk_test_private-pk-task.o `test -f 'pk-task.c' || echo '$(srcdir)/'`pk-task.c
+
+pk_test_private-pk-task.obj: pk-task.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(pk_test_private_CFLAGS) $(CFLAGS) -MT pk_test_private-pk-task.obj -MD -MP -MF $(DEPDIR)/pk_test_private-pk-task.Tpo -c -o pk_test_private-pk-task.obj `if test -f 'pk-task.c'; then $(CYGPATH_W) 'pk-task.c'; else $(CYGPATH_W) '$(srcdir)/pk-task.c'; fi`
+@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/pk_test_private-pk-task.Tpo $(DEPDIR)/pk_test_private-pk-task.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='pk-task.c' object='pk_test_private-pk-task.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(pk_test_private_CFLAGS) $(CFLAGS) -c -o pk_test_private-pk-task.obj `if test -f 'pk-task.c'; then $(CYGPATH_W) 'pk-task.c'; else $(CYGPATH_W) '$(srcdir)/pk-task.c'; fi`
+
+pk_test_private-pk-task-sync.o: pk-task-sync.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(pk_test_private_CFLAGS) $(CFLAGS) -MT pk_test_private-pk-task-sync.o -MD -MP -MF $(DEPDIR)/pk_test_private-pk-task-sync.Tpo -c -o pk_test_private-pk-task-sync.o `test -f 'pk-task-sync.c' || echo '$(srcdir)/'`pk-task-sync.c
+@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/pk_test_private-pk-task-sync.Tpo $(DEPDIR)/pk_test_private-pk-task-sync.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='pk-task-sync.c' object='pk_test_private-pk-task-sync.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(pk_test_private_CFLAGS) $(CFLAGS) -c -o pk_test_private-pk-task-sync.o `test -f 'pk-task-sync.c' || echo '$(srcdir)/'`pk-task-sync.c
+
+pk_test_private-pk-task-sync.obj: pk-task-sync.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(pk_test_private_CFLAGS) $(CFLAGS) -MT pk_test_private-pk-task-sync.obj -MD -MP -MF $(DEPDIR)/pk_test_private-pk-task-sync.Tpo -c -o pk_test_private-pk-task-sync.obj `if test -f 'pk-task-sync.c'; then $(CYGPATH_W) 'pk-task-sync.c'; else $(CYGPATH_W) '$(srcdir)/pk-task-sync.c'; fi`
+@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/pk_test_private-pk-task-sync.Tpo $(DEPDIR)/pk_test_private-pk-task-sync.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='pk-task-sync.c' object='pk_test_private-pk-task-sync.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(pk_test_private_CFLAGS) $(CFLAGS) -c -o pk_test_private-pk-task-sync.obj `if test -f 'pk-task-sync.c'; then $(CYGPATH_W) 'pk-task-sync.c'; else $(CYGPATH_W) '$(srcdir)/pk-task-sync.c'; fi`
+
+pk_test_private-pk-transaction-past.o: pk-transaction-past.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(pk_test_private_CFLAGS) $(CFLAGS) -MT pk_test_private-pk-transaction-past.o -MD -MP -MF $(DEPDIR)/pk_test_private-pk-transaction-past.Tpo -c -o pk_test_private-pk-transaction-past.o `test -f 'pk-transaction-past.c' || echo '$(srcdir)/'`pk-transaction-past.c
+@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/pk_test_private-pk-transaction-past.Tpo $(DEPDIR)/pk_test_private-pk-transaction-past.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='pk-transaction-past.c' object='pk_test_private-pk-transaction-past.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(pk_test_private_CFLAGS) $(CFLAGS) -c -o pk_test_private-pk-transaction-past.o `test -f 'pk-transaction-past.c' || echo '$(srcdir)/'`pk-transaction-past.c
+
+pk_test_private-pk-transaction-past.obj: pk-transaction-past.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(pk_test_private_CFLAGS) $(CFLAGS) -MT pk_test_private-pk-transaction-past.obj -MD -MP -MF $(DEPDIR)/pk_test_private-pk-transaction-past.Tpo -c -o pk_test_private-pk-transaction-past.obj `if test -f 'pk-transaction-past.c'; then $(CYGPATH_W) 'pk-transaction-past.c'; else $(CYGPATH_W) '$(srcdir)/pk-transaction-past.c'; fi`
+@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/pk_test_private-pk-transaction-past.Tpo $(DEPDIR)/pk_test_private-pk-transaction-past.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='pk-transaction-past.c' object='pk_test_private-pk-transaction-past.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(pk_test_private_CFLAGS) $(CFLAGS) -c -o pk_test_private-pk-transaction-past.obj `if test -f 'pk-transaction-past.c'; then $(CYGPATH_W) 'pk-transaction-past.c'; else $(CYGPATH_W) '$(srcdir)/pk-transaction-past.c'; fi`
+
+pk_test_private-pk-transaction-list.o: pk-transaction-list.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(pk_test_private_CFLAGS) $(CFLAGS) -MT pk_test_private-pk-transaction-list.o -MD -MP -MF $(DEPDIR)/pk_test_private-pk-transaction-list.Tpo -c -o pk_test_private-pk-transaction-list.o `test -f 'pk-transaction-list.c' || echo '$(srcdir)/'`pk-transaction-list.c
+@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/pk_test_private-pk-transaction-list.Tpo $(DEPDIR)/pk_test_private-pk-transaction-list.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='pk-transaction-list.c' object='pk_test_private-pk-transaction-list.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(pk_test_private_CFLAGS) $(CFLAGS) -c -o pk_test_private-pk-transaction-list.o `test -f 'pk-transaction-list.c' || echo '$(srcdir)/'`pk-transaction-list.c
+
+pk_test_private-pk-transaction-list.obj: pk-transaction-list.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(pk_test_private_CFLAGS) $(CFLAGS) -MT pk_test_private-pk-transaction-list.obj -MD -MP -MF $(DEPDIR)/pk_test_private-pk-transaction-list.Tpo -c -o pk_test_private-pk-transaction-list.obj `if test -f 'pk-transaction-list.c'; then $(CYGPATH_W) 'pk-transaction-list.c'; else $(CYGPATH_W) '$(srcdir)/pk-transaction-list.c'; fi`
+@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/pk_test_private-pk-transaction-list.Tpo $(DEPDIR)/pk_test_private-pk-transaction-list.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='pk-transaction-list.c' object='pk_test_private-pk-transaction-list.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(pk_test_private_CFLAGS) $(CFLAGS) -c -o pk_test_private-pk-transaction-list.obj `if test -f 'pk-transaction-list.c'; then $(CYGPATH_W) 'pk-transaction-list.c'; else $(CYGPATH_W) '$(srcdir)/pk-transaction-list.c'; fi`
+
+pk_test_private-pk-update-detail.o: pk-update-detail.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(pk_test_private_CFLAGS) $(CFLAGS) -MT pk_test_private-pk-update-detail.o -MD -MP -MF $(DEPDIR)/pk_test_private-pk-update-detail.Tpo -c -o pk_test_private-pk-update-detail.o `test -f 'pk-update-detail.c' || echo '$(srcdir)/'`pk-update-detail.c
+@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/pk_test_private-pk-update-detail.Tpo $(DEPDIR)/pk_test_private-pk-update-detail.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='pk-update-detail.c' object='pk_test_private-pk-update-detail.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(pk_test_private_CFLAGS) $(CFLAGS) -c -o pk_test_private-pk-update-detail.o `test -f 'pk-update-detail.c' || echo '$(srcdir)/'`pk-update-detail.c
+
+pk_test_private-pk-update-detail.obj: pk-update-detail.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(pk_test_private_CFLAGS) $(CFLAGS) -MT pk_test_private-pk-update-detail.obj -MD -MP -MF $(DEPDIR)/pk_test_private-pk-update-detail.Tpo -c -o pk_test_private-pk-update-detail.obj `if test -f 'pk-update-detail.c'; then $(CYGPATH_W) 'pk-update-detail.c'; else $(CYGPATH_W) '$(srcdir)/pk-update-detail.c'; fi`
+@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/pk_test_private-pk-update-detail.Tpo $(DEPDIR)/pk_test_private-pk-update-detail.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='pk-update-detail.c' object='pk_test_private-pk-update-detail.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(pk_test_private_CFLAGS) $(CFLAGS) -c -o pk_test_private-pk-update-detail.obj `if test -f 'pk-update-detail.c'; then $(CYGPATH_W) 'pk-update-detail.c'; else $(CYGPATH_W) '$(srcdir)/pk-update-detail.c'; fi`
+
+pk_test_private-pk-spawn-polkit-agent.o: pk-spawn-polkit-agent.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(pk_test_private_CFLAGS) $(CFLAGS) -MT pk_test_private-pk-spawn-polkit-agent.o -MD -MP -MF $(DEPDIR)/pk_test_private-pk-spawn-polkit-agent.Tpo -c -o pk_test_private-pk-spawn-polkit-agent.o `test -f 'pk-spawn-polkit-agent.c' || echo '$(srcdir)/'`pk-spawn-polkit-agent.c
+@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/pk_test_private-pk-spawn-polkit-agent.Tpo $(DEPDIR)/pk_test_private-pk-spawn-polkit-agent.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='pk-spawn-polkit-agent.c' object='pk_test_private-pk-spawn-polkit-agent.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(pk_test_private_CFLAGS) $(CFLAGS) -c -o pk_test_private-pk-spawn-polkit-agent.o `test -f 'pk-spawn-polkit-agent.c' || echo '$(srcdir)/'`pk-spawn-polkit-agent.c
+
+pk_test_private-pk-spawn-polkit-agent.obj: pk-spawn-polkit-agent.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(pk_test_private_CFLAGS) $(CFLAGS) -MT pk_test_private-pk-spawn-polkit-agent.obj -MD -MP -MF $(DEPDIR)/pk_test_private-pk-spawn-polkit-agent.Tpo -c -o pk_test_private-pk-spawn-polkit-agent.obj `if test -f 'pk-spawn-polkit-agent.c'; then $(CYGPATH_W) 'pk-spawn-polkit-agent.c'; else $(CYGPATH_W) '$(srcdir)/pk-spawn-polkit-agent.c'; fi`
+@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/pk_test_private-pk-spawn-polkit-agent.Tpo $(DEPDIR)/pk_test_private-pk-spawn-polkit-agent.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='pk-spawn-polkit-agent.c' object='pk_test_private-pk-spawn-polkit-agent.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(pk_test_private_CFLAGS) $(CFLAGS) -c -o pk_test_private-pk-spawn-polkit-agent.obj `if test -f 'pk-spawn-polkit-agent.c'; then $(CYGPATH_W) 'pk-spawn-polkit-agent.c'; else $(CYGPATH_W) '$(srcdir)/pk-spawn-polkit-agent.c'; fi`
+
+pk_test_private-pk-test-private.o: pk-test-private.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(pk_test_private_CFLAGS) $(CFLAGS) -MT pk_test_private-pk-test-private.o -MD -MP -MF $(DEPDIR)/pk_test_private-pk-test-private.Tpo -c -o pk_test_private-pk-test-private.o `test -f 'pk-test-private.c' || echo '$(srcdir)/'`pk-test-private.c
+@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/pk_test_private-pk-test-private.Tpo $(DEPDIR)/pk_test_private-pk-test-private.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='pk-test-private.c' object='pk_test_private-pk-test-private.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(pk_test_private_CFLAGS) $(CFLAGS) -c -o pk_test_private-pk-test-private.o `test -f 'pk-test-private.c' || echo '$(srcdir)/'`pk-test-private.c
+
+pk_test_private-pk-test-private.obj: pk-test-private.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(pk_test_private_CFLAGS) $(CFLAGS) -MT pk_test_private-pk-test-private.obj -MD -MP -MF $(DEPDIR)/pk_test_private-pk-test-private.Tpo -c -o pk_test_private-pk-test-private.obj `if test -f 'pk-test-private.c'; then $(CYGPATH_W) 'pk-test-private.c'; else $(CYGPATH_W) '$(srcdir)/pk-test-private.c'; fi`
+@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/pk_test_private-pk-test-private.Tpo $(DEPDIR)/pk_test_private-pk-test-private.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='pk-test-private.c' object='pk_test_private-pk-test-private.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(pk_test_private_CFLAGS) $(CFLAGS) -c -o pk_test_private-pk-test-private.obj `if test -f 'pk-test-private.c'; then $(CYGPATH_W) 'pk-test-private.c'; else $(CYGPATH_W) '$(srcdir)/pk-test-private.c'; fi`
 
 mostlyclean-libtool:
 	-rm -f *.lo
@@ -1741,9 +3026,16 @@ recheck: all $(check_PROGRAMS)
 	        am__force_recheck=am--force-recheck \
 	        TEST_LOGS="$$log_list"; \
 	exit $$?
-pk-self-test.log: pk-self-test$(EXEEXT)
-	@p='pk-self-test$(EXEEXT)'; \
-	b='pk-self-test'; \
+pk-test-daemon.log: pk-test-daemon$(EXEEXT)
+	@p='pk-test-daemon$(EXEEXT)'; \
+	b='pk-test-daemon'; \
+	$(am__check_pre) $(LOG_DRIVER) --test-name "$$f" \
+	--log-file $$b.log --trs-file $$b.trs \
+	$(am__common_driver_flags) $(AM_LOG_DRIVER_FLAGS) $(LOG_DRIVER_FLAGS) -- $(LOG_COMPILE) \
+	"$$tst" $(AM_TESTS_FD_REDIRECT)
+pk-test-private.log: pk-test-private$(EXEEXT)
+	@p='pk-test-private$(EXEEXT)'; \
+	b='pk-test-private'; \
 	$(am__check_pre) $(LOG_DRIVER) --test-name "$$f" \
 	--log-file $$b.log --trs-file $$b.trs \
 	$(am__common_driver_flags) $(AM_LOG_DRIVER_FLAGS) $(LOG_DRIVER_FLAGS) -- $(LOG_COMPILE) \

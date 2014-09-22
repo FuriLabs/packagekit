@@ -489,6 +489,7 @@ pk_test_backend_spawn_func (void)
 
 	/* needed to avoid an error */
 	ret = pk_backend_load (backend, NULL);
+	g_assert (ret);
 
 	/* test search-name.sh running */
 	ret = pk_backend_spawn_helper (backend_spawn, job, "search-name.sh", "none", "bar", NULL);
@@ -511,7 +512,7 @@ pk_test_backend_spawn_func (void)
 static void
 pk_test_dbus_func (void)
 {
-	_cleanup_object_unref_ PkDbus *dbus;
+	_cleanup_object_unref_ PkDbus *dbus = NULL;
 
 	dbus = pk_dbus_new ();
 	g_assert (dbus != NULL);
@@ -794,7 +795,7 @@ pk_test_transaction_db_func (void)
 	gboolean ret;
 	gdouble ms;
 	GError *error = NULL;
-	_cleanup_object_unref_ PkTransactionDb *db;
+	_cleanup_object_unref_ PkTransactionDb *db = NULL;
 	_cleanup_free_ gchar *proxy_http = NULL;
 	_cleanup_free_ gchar *proxy_ftp = NULL;
 
@@ -959,8 +960,8 @@ pk_test_scheduler_func (void)
 	_cleanup_free_ gchar *tid_item2 = NULL;
 	_cleanup_free_ gchar *tid_item3 = NULL;
 	_cleanup_keyfile_unref_ GKeyFile *conf = NULL;
-	_cleanup_object_unref_ PkBackend *backend;
-	_cleanup_object_unref_ PkScheduler *tlist;
+	_cleanup_object_unref_ PkBackend *backend = NULL;
+	_cleanup_object_unref_ PkScheduler *tlist = NULL;
 
 	/* remove the self check file */
 #if PK_BUILD_LOCAL
@@ -1469,9 +1470,10 @@ main (int argc, char **argv)
 #endif
 	g_test_init (&argc, &argv, NULL);
 
+#ifndef PK_ENABLE_DAEMON_TESTS
 	/* don't run when using make distcheck */
-	if (g_strcmp0 (DEFAULT_BACKEND, "dummy") == 0)
-		return 0;
+	return 0;
+#endif
 
 #ifndef PK_BUILD_LOCAL
 	g_warning ("you need to compile with --enable-local for make check support");

@@ -79,6 +79,7 @@ POST_UNINSTALL = :
 build_triplet = @build@
 host_triplet = @host@
 bin_PROGRAMS = pkcon$(EXEEXT) pkmon$(EXEEXT)
+@HAVE_SYSTEMD_TRUE@libexec_PROGRAMS = pk-offline-update$(EXEEXT)
 subdir = client
 DIST_COMMON = $(srcdir)/Makefile.in $(srcdir)/Makefile.am \
 	$(top_srcdir)/build-aux/depcomp
@@ -86,9 +87,9 @@ ACLOCAL_M4 = $(top_srcdir)/aclocal.m4
 am__aclocal_m4_deps = $(top_srcdir)/m4/as-linguas.m4 \
 	$(top_srcdir)/m4/ax_check_compile_flag.m4 \
 	$(top_srcdir)/m4/ax_check_link_flag.m4 \
-	$(top_srcdir)/m4/gtk-doc.m4 $(top_srcdir)/m4/libtool.m4 \
-	$(top_srcdir)/m4/ltoptions.m4 $(top_srcdir)/m4/ltsugar.m4 \
-	$(top_srcdir)/m4/ltversion.m4 $(top_srcdir)/m4/lt~obsolete.m4 \
+	$(top_srcdir)/m4/gtk-doc.m4 $(top_srcdir)/m4/intltool.m4 \
+	$(top_srcdir)/m4/libtool.m4 $(top_srcdir)/m4/ltoptions.m4 \
+	$(top_srcdir)/m4/ltsugar.m4 $(top_srcdir)/m4/ltversion.m4 \
 	$(top_srcdir)/acinclude.m4 $(top_srcdir)/configure.ac
 am__configure_deps = $(am__aclocal_m4_deps) $(CONFIGURE_DEPENDENCIES) \
 	$(ACLOCAL_M4)
@@ -96,17 +97,28 @@ mkinstalldirs = $(install_sh) -d
 CONFIG_HEADER = $(top_builddir)/config.h
 CONFIG_CLEAN_FILES =
 CONFIG_CLEAN_VPATH_FILES =
-am__installdirs = "$(DESTDIR)$(bindir)" "$(DESTDIR)$(man1dir)"
-PROGRAMS = $(bin_PROGRAMS)
-am_pkcon_OBJECTS = pkcon-pk-console.$(OBJEXT)
-pkcon_OBJECTS = $(am_pkcon_OBJECTS)
+am__installdirs = "$(DESTDIR)$(bindir)" "$(DESTDIR)$(libexecdir)" \
+	"$(DESTDIR)$(man1dir)"
+PROGRAMS = $(bin_PROGRAMS) $(libexec_PROGRAMS)
+am__pk_offline_update_SOURCES_DIST = pk-offline-update.c
+@HAVE_SYSTEMD_TRUE@am_pk_offline_update_OBJECTS = pk_offline_update-pk-offline-update.$(OBJEXT)
+pk_offline_update_OBJECTS = $(am_pk_offline_update_OBJECTS)
 am__DEPENDENCIES_1 =
-pkcon_DEPENDENCIES = $(am__DEPENDENCIES_1) $(am__DEPENDENCIES_1) \
-	$(am__DEPENDENCIES_1) $(PK_GLIB2_LIBS)
+@HAVE_SYSTEMD_TRUE@pk_offline_update_DEPENDENCIES =  \
+@HAVE_SYSTEMD_TRUE@	$(am__DEPENDENCIES_1) $(am__DEPENDENCIES_1) \
+@HAVE_SYSTEMD_TRUE@	$(am__DEPENDENCIES_1) $(PK_GLIB2_LIBS)
 AM_V_lt = $(am__v_lt_@AM_V@)
 am__v_lt_ = $(am__v_lt_@AM_DEFAULT_V@)
 am__v_lt_0 = --silent
 am__v_lt_1 = 
+pk_offline_update_LINK = $(LIBTOOL) $(AM_V_lt) --tag=CC \
+	$(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=link $(CCLD) \
+	$(pk_offline_update_CFLAGS) $(CFLAGS) \
+	$(pk_offline_update_LDFLAGS) $(LDFLAGS) -o $@
+am_pkcon_OBJECTS = pkcon-pk-console.$(OBJEXT)
+pkcon_OBJECTS = $(am_pkcon_OBJECTS)
+pkcon_DEPENDENCIES = $(am__DEPENDENCIES_1) $(am__DEPENDENCIES_1) \
+	$(am__DEPENDENCIES_1) $(PK_GLIB2_LIBS)
 pkcon_LINK = $(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) \
 	$(LIBTOOLFLAGS) --mode=link $(CCLD) $(pkcon_CFLAGS) $(CFLAGS) \
 	$(pkcon_LDFLAGS) $(LDFLAGS) -o $@
@@ -151,8 +163,10 @@ AM_V_CCLD = $(am__v_CCLD_@AM_V@)
 am__v_CCLD_ = $(am__v_CCLD_@AM_DEFAULT_V@)
 am__v_CCLD_0 = @echo "  CCLD    " $@;
 am__v_CCLD_1 = 
-SOURCES = $(pkcon_SOURCES) $(pkmon_SOURCES)
-DIST_SOURCES = $(pkcon_SOURCES) $(pkmon_SOURCES)
+SOURCES = $(pk_offline_update_SOURCES) $(pkcon_SOURCES) \
+	$(pkmon_SOURCES)
+DIST_SOURCES = $(am__pk_offline_update_SOURCES_DIST) $(pkcon_SOURCES) \
+	$(pkmon_SOURCES)
 am__can_run_installinfo = \
   case $$AM_UPDATE_INFO_DIR in \
     n|no|NO) false;; \
@@ -243,7 +257,6 @@ DATADIR = @DATADIR@
 DATADIRNAME = @DATADIRNAME@
 DBUS_SERVICES_DIR = @DBUS_SERVICES_DIR@
 DBUS_SYS_DIR = @DBUS_SYS_DIR@
-DEFAULT_BACKEND = @DEFAULT_BACKEND@
 DEFS = @DEFS@
 DEPDIR = @DEPDIR@
 DLLTOOL = @DLLTOOL@
@@ -312,8 +325,6 @@ LIBDIR = @LIBDIR@
 LIBEXECDIR = @LIBEXECDIR@
 LIBOBJS = @LIBOBJS@
 LIBS = @LIBS@
-LIBSYSTEMD_JOURNAL_CFLAGS = @LIBSYSTEMD_JOURNAL_CFLAGS@
-LIBSYSTEMD_JOURNAL_LIBS = @LIBSYSTEMD_JOURNAL_LIBS@
 LIBTOOL = @LIBTOOL@
 LIPO = @LIPO@
 LN_S = @LN_S@
@@ -337,8 +348,6 @@ NM = @NM@
 NMEDIT = @NMEDIT@
 OBJDUMP = @OBJDUMP@
 OBJEXT = @OBJEXT@
-OPKG_CFLAGS = @OPKG_CFLAGS@
-OPKG_LIBS = @OPKG_LIBS@
 OTOOL = @OTOOL@
 OTOOL64 = @OTOOL64@
 PACKAGE = @PACKAGE@
@@ -533,6 +542,21 @@ pkmon_LDFLAGS = \
 pkmon_CFLAGS = \
 	$(WARNINGFLAGS_C)
 
+@HAVE_SYSTEMD_TRUE@pk_offline_update_SOURCES = \
+@HAVE_SYSTEMD_TRUE@	pk-offline-update.c
+
+@HAVE_SYSTEMD_TRUE@pk_offline_update_LDADD = \
+@HAVE_SYSTEMD_TRUE@	$(GLIB_LIBS)					\
+@HAVE_SYSTEMD_TRUE@	$(GIO_LIBS)					\
+@HAVE_SYSTEMD_TRUE@	$(SYSTEMD_LIBS)					\
+@HAVE_SYSTEMD_TRUE@	$(PK_GLIB2_LIBS)
+
+@HAVE_SYSTEMD_TRUE@pk_offline_update_LDFLAGS = \
+@HAVE_SYSTEMD_TRUE@	$(PIE_LDFLAGS)
+
+@HAVE_SYSTEMD_TRUE@pk_offline_update_CFLAGS = \
+@HAVE_SYSTEMD_TRUE@	$(WARNINGFLAGS_C)
+
 CLEANFILES = $(BUILT_SOURCES) $(man_MANS)
 MAINTAINERCLEANFILES = \
 	*~						\
@@ -621,6 +645,59 @@ clean-binPROGRAMS:
 	list=`for p in $$list; do echo "$$p"; done | sed 's/$(EXEEXT)$$//'`; \
 	echo " rm -f" $$list; \
 	rm -f $$list
+install-libexecPROGRAMS: $(libexec_PROGRAMS)
+	@$(NORMAL_INSTALL)
+	@list='$(libexec_PROGRAMS)'; test -n "$(libexecdir)" || list=; \
+	if test -n "$$list"; then \
+	  echo " $(MKDIR_P) '$(DESTDIR)$(libexecdir)'"; \
+	  $(MKDIR_P) "$(DESTDIR)$(libexecdir)" || exit 1; \
+	fi; \
+	for p in $$list; do echo "$$p $$p"; done | \
+	sed 's/$(EXEEXT)$$//' | \
+	while read p p1; do if test -f $$p \
+	 || test -f $$p1 \
+	  ; then echo "$$p"; echo "$$p"; else :; fi; \
+	done | \
+	sed -e 'p;s,.*/,,;n;h' \
+	    -e 's|.*|.|' \
+	    -e 'p;x;s,.*/,,;s/$(EXEEXT)$$//;$(transform);s/$$/$(EXEEXT)/' | \
+	sed 'N;N;N;s,\n, ,g' | \
+	$(AWK) 'BEGIN { files["."] = ""; dirs["."] = 1 } \
+	  { d=$$3; if (dirs[d] != 1) { print "d", d; dirs[d] = 1 } \
+	    if ($$2 == $$4) files[d] = files[d] " " $$1; \
+	    else { print "f", $$3 "/" $$4, $$1; } } \
+	  END { for (d in files) print "f", d, files[d] }' | \
+	while read type dir files; do \
+	    if test "$$dir" = .; then dir=; else dir=/$$dir; fi; \
+	    test -z "$$files" || { \
+	    echo " $(INSTALL_PROGRAM_ENV) $(LIBTOOL) $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=install $(INSTALL_PROGRAM) $$files '$(DESTDIR)$(libexecdir)$$dir'"; \
+	    $(INSTALL_PROGRAM_ENV) $(LIBTOOL) $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=install $(INSTALL_PROGRAM) $$files "$(DESTDIR)$(libexecdir)$$dir" || exit $$?; \
+	    } \
+	; done
+
+uninstall-libexecPROGRAMS:
+	@$(NORMAL_UNINSTALL)
+	@list='$(libexec_PROGRAMS)'; test -n "$(libexecdir)" || list=; \
+	files=`for p in $$list; do echo "$$p"; done | \
+	  sed -e 'h;s,^.*/,,;s/$(EXEEXT)$$//;$(transform)' \
+	      -e 's/$$/$(EXEEXT)/' \
+	`; \
+	test -n "$$list" || exit 0; \
+	echo " ( cd '$(DESTDIR)$(libexecdir)' && rm -f" $$files ")"; \
+	cd "$(DESTDIR)$(libexecdir)" && rm -f $$files
+
+clean-libexecPROGRAMS:
+	@list='$(libexec_PROGRAMS)'; test -n "$$list" || exit 0; \
+	echo " rm -f" $$list; \
+	rm -f $$list || exit $$?; \
+	test -n "$(EXEEXT)" || exit 0; \
+	list=`for p in $$list; do echo "$$p"; done | sed 's/$(EXEEXT)$$//'`; \
+	echo " rm -f" $$list; \
+	rm -f $$list
+
+pk-offline-update$(EXEEXT): $(pk_offline_update_OBJECTS) $(pk_offline_update_DEPENDENCIES) $(EXTRA_pk_offline_update_DEPENDENCIES) 
+	@rm -f pk-offline-update$(EXEEXT)
+	$(AM_V_CCLD)$(pk_offline_update_LINK) $(pk_offline_update_OBJECTS) $(pk_offline_update_LDADD) $(LIBS)
 
 pkcon$(EXEEXT): $(pkcon_OBJECTS) $(pkcon_DEPENDENCIES) $(EXTRA_pkcon_DEPENDENCIES) 
 	@rm -f pkcon$(EXEEXT)
@@ -636,6 +713,7 @@ mostlyclean-compile:
 distclean-compile:
 	-rm -f *.tab.c
 
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/pk_offline_update-pk-offline-update.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/pkcon-pk-console.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/pkmon-pk-monitor.Po@am__quote@
 
@@ -659,6 +737,20 @@ distclean-compile:
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='$<' object='$@' libtool=yes @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(LTCOMPILE) -c -o $@ $<
+
+pk_offline_update-pk-offline-update.o: pk-offline-update.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(pk_offline_update_CFLAGS) $(CFLAGS) -MT pk_offline_update-pk-offline-update.o -MD -MP -MF $(DEPDIR)/pk_offline_update-pk-offline-update.Tpo -c -o pk_offline_update-pk-offline-update.o `test -f 'pk-offline-update.c' || echo '$(srcdir)/'`pk-offline-update.c
+@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/pk_offline_update-pk-offline-update.Tpo $(DEPDIR)/pk_offline_update-pk-offline-update.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='pk-offline-update.c' object='pk_offline_update-pk-offline-update.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(pk_offline_update_CFLAGS) $(CFLAGS) -c -o pk_offline_update-pk-offline-update.o `test -f 'pk-offline-update.c' || echo '$(srcdir)/'`pk-offline-update.c
+
+pk_offline_update-pk-offline-update.obj: pk-offline-update.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(pk_offline_update_CFLAGS) $(CFLAGS) -MT pk_offline_update-pk-offline-update.obj -MD -MP -MF $(DEPDIR)/pk_offline_update-pk-offline-update.Tpo -c -o pk_offline_update-pk-offline-update.obj `if test -f 'pk-offline-update.c'; then $(CYGPATH_W) 'pk-offline-update.c'; else $(CYGPATH_W) '$(srcdir)/pk-offline-update.c'; fi`
+@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/pk_offline_update-pk-offline-update.Tpo $(DEPDIR)/pk_offline_update-pk-offline-update.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='pk-offline-update.c' object='pk_offline_update-pk-offline-update.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(pk_offline_update_CFLAGS) $(CFLAGS) -c -o pk_offline_update-pk-offline-update.obj `if test -f 'pk-offline-update.c'; then $(CYGPATH_W) 'pk-offline-update.c'; else $(CYGPATH_W) '$(srcdir)/pk-offline-update.c'; fi`
 
 pkcon-pk-console.o: pk-console.c
 @am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(pkcon_CFLAGS) $(CFLAGS) -MT pkcon-pk-console.o -MD -MP -MF $(DEPDIR)/pkcon-pk-console.Tpo -c -o pkcon-pk-console.o `test -f 'pk-console.c' || echo '$(srcdir)/'`pk-console.c
@@ -823,7 +915,7 @@ check-am: all-am
 check: check-am
 all-am: Makefile $(PROGRAMS) $(MANS)
 installdirs:
-	for dir in "$(DESTDIR)$(bindir)" "$(DESTDIR)$(man1dir)"; do \
+	for dir in "$(DESTDIR)$(bindir)" "$(DESTDIR)$(libexecdir)" "$(DESTDIR)$(man1dir)"; do \
 	  test -z "$$dir" || $(MKDIR_P) "$$dir"; \
 	done
 install: install-am
@@ -860,8 +952,8 @@ maintainer-clean-generic:
 	-test -z "$(MAINTAINERCLEANFILES)" || rm -f $(MAINTAINERCLEANFILES)
 clean: clean-am
 
-clean-am: clean-binPROGRAMS clean-generic clean-libtool clean-local \
-	mostlyclean-am
+clean-am: clean-binPROGRAMS clean-generic clean-libexecPROGRAMS \
+	clean-libtool clean-local mostlyclean-am
 
 distclean: distclean-am
 	-rm -rf ./$(DEPDIR)
@@ -887,7 +979,7 @@ install-dvi: install-dvi-am
 
 install-dvi-am:
 
-install-exec-am: install-binPROGRAMS
+install-exec-am: install-binPROGRAMS install-libexecPROGRAMS
 
 install-html: install-html-am
 
@@ -927,27 +1019,29 @@ ps: ps-am
 
 ps-am:
 
-uninstall-am: uninstall-binPROGRAMS uninstall-man
+uninstall-am: uninstall-binPROGRAMS uninstall-libexecPROGRAMS \
+	uninstall-man
 
 uninstall-man: uninstall-man1
 
 .MAKE: install-am install-strip
 
 .PHONY: CTAGS GTAGS TAGS all all-am check check-am clean \
-	clean-binPROGRAMS clean-generic clean-libtool clean-local \
-	cscopelist-am ctags ctags-am distclean distclean-compile \
-	distclean-generic distclean-libtool distclean-tags distdir dvi \
-	dvi-am html html-am info info-am install install-am \
-	install-binPROGRAMS install-data install-data-am install-dvi \
-	install-dvi-am install-exec install-exec-am install-html \
-	install-html-am install-info install-info-am install-man \
-	install-man1 install-pdf install-pdf-am install-ps \
+	clean-binPROGRAMS clean-generic clean-libexecPROGRAMS \
+	clean-libtool clean-local cscopelist-am ctags ctags-am \
+	distclean distclean-compile distclean-generic \
+	distclean-libtool distclean-tags distdir dvi dvi-am html \
+	html-am info info-am install install-am install-binPROGRAMS \
+	install-data install-data-am install-dvi install-dvi-am \
+	install-exec install-exec-am install-html install-html-am \
+	install-info install-info-am install-libexecPROGRAMS \
+	install-man install-man1 install-pdf install-pdf-am install-ps \
 	install-ps-am install-strip installcheck installcheck-am \
 	installdirs maintainer-clean maintainer-clean-generic \
 	mostlyclean mostlyclean-compile mostlyclean-generic \
 	mostlyclean-libtool pdf pdf-am ps ps-am tags tags-am uninstall \
-	uninstall-am uninstall-binPROGRAMS uninstall-man \
-	uninstall-man1
+	uninstall-am uninstall-binPROGRAMS uninstall-libexecPROGRAMS \
+	uninstall-man uninstall-man1
 
 
 @HAVE_XSLTPROC_TRUE@pkcon.1: pkcon.xml

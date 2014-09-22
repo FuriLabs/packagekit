@@ -79,14 +79,14 @@ POST_UNINSTALL = :
 build_triplet = @build@
 host_triplet = @host@
 subdir = etc
-DIST_COMMON = $(srcdir)/Makefile.in $(srcdir)/Makefile.am README
+DIST_COMMON = $(srcdir)/Makefile.in $(srcdir)/Makefile.am
 ACLOCAL_M4 = $(top_srcdir)/aclocal.m4
 am__aclocal_m4_deps = $(top_srcdir)/m4/as-linguas.m4 \
 	$(top_srcdir)/m4/ax_check_compile_flag.m4 \
 	$(top_srcdir)/m4/ax_check_link_flag.m4 \
-	$(top_srcdir)/m4/gtk-doc.m4 $(top_srcdir)/m4/libtool.m4 \
-	$(top_srcdir)/m4/ltoptions.m4 $(top_srcdir)/m4/ltsugar.m4 \
-	$(top_srcdir)/m4/ltversion.m4 $(top_srcdir)/m4/lt~obsolete.m4 \
+	$(top_srcdir)/m4/gtk-doc.m4 $(top_srcdir)/m4/intltool.m4 \
+	$(top_srcdir)/m4/libtool.m4 $(top_srcdir)/m4/ltoptions.m4 \
+	$(top_srcdir)/m4/ltsugar.m4 $(top_srcdir)/m4/ltversion.m4 \
 	$(top_srcdir)/acinclude.m4 $(top_srcdir)/configure.ac
 am__configure_deps = $(am__aclocal_m4_deps) $(CONFIGURE_DEPENDENCIES) \
 	$(ACLOCAL_M4)
@@ -140,11 +140,8 @@ am__uninstall_files_from_dir = { \
     || { echo " ( cd '$$dir' && rm -f" $$files ")"; \
          $(am__cd) "$$dir" && rm -f $$files; }; \
   }
-am__installdirs = "$(DESTDIR)$(confdir)" \
-	"$(DESTDIR)$(eventspostransdir)" \
-	"$(DESTDIR)$(eventspretransdir)" "$(DESTDIR)$(vendordir)"
-DATA = $(conf_DATA) $(eventspostrans_DATA) $(eventspretrans_DATA) \
-	$(vendor_DATA)
+am__installdirs = "$(DESTDIR)$(confdir)"
+DATA = $(conf_DATA)
 am__tagged_files = $(HEADERS) $(SOURCES) $(TAGS_FILES) $(LISP)
 DISTFILES = $(DIST_COMMON) $(DIST_SOURCES) $(TEXINFOS) $(EXTRA_DIST)
 ACLOCAL = @ACLOCAL@
@@ -182,7 +179,6 @@ DATADIR = @DATADIR@
 DATADIRNAME = @DATADIRNAME@
 DBUS_SERVICES_DIR = @DBUS_SERVICES_DIR@
 DBUS_SYS_DIR = @DBUS_SYS_DIR@
-DEFAULT_BACKEND = @DEFAULT_BACKEND@
 DEFS = @DEFS@
 DEPDIR = @DEPDIR@
 DLLTOOL = @DLLTOOL@
@@ -251,8 +247,6 @@ LIBDIR = @LIBDIR@
 LIBEXECDIR = @LIBEXECDIR@
 LIBOBJS = @LIBOBJS@
 LIBS = @LIBS@
-LIBSYSTEMD_JOURNAL_CFLAGS = @LIBSYSTEMD_JOURNAL_CFLAGS@
-LIBSYSTEMD_JOURNAL_LIBS = @LIBSYSTEMD_JOURNAL_LIBS@
 LIBTOOL = @LIBTOOL@
 LIPO = @LIPO@
 LN_S = @LN_S@
@@ -276,8 +270,6 @@ NM = @NM@
 NMEDIT = @NMEDIT@
 OBJDUMP = @OBJDUMP@
 OBJEXT = @OBJEXT@
-OPKG_CFLAGS = @OPKG_CFLAGS@
-OPKG_LIBS = @OPKG_LIBS@
 OTOOL = @OTOOL@
 OTOOL64 = @OTOOL64@
 PACKAGE = @PACKAGE@
@@ -404,24 +396,11 @@ target_alias = @target_alias@
 top_build_prefix = @top_build_prefix@
 top_builddir = @top_builddir@
 top_srcdir = @top_srcdir@
-NULL = 
 confdir = $(sysconfdir)/PackageKit
-conf_in_files = PackageKit.conf.in
-conf_DATA = $(conf_in_files:.conf.in=.conf)
-vendordir = $(sysconfdir)/PackageKit
-vendor_DATA = Vendor.conf
-eventspostransdir = $(sysconfdir)/PackageKit/events/post-transaction.d
-eventspostrans_DATA = README
-eventspretransdir = $(sysconfdir)/PackageKit/events/pre-transaction.d
-eventspretrans_DATA = README
+conf_DATA = PackageKit.conf Vendor.conf
 EXTRA_DIST = \
-	$(conf_in_files)				\
-	$(vendor_DATA)					\
-	$(eventspostrans_DATA)				\
-	$(NULL)
-
-DISTCLEANFILES = \
-	PackageKit.conf
+	$(conf_DATA)					\
+	$(eventspostrans_DATA)
 
 all: all-am
 
@@ -483,69 +462,6 @@ uninstall-confDATA:
 	@list='$(conf_DATA)'; test -n "$(confdir)" || list=; \
 	files=`for p in $$list; do echo $$p; done | sed -e 's|^.*/||'`; \
 	dir='$(DESTDIR)$(confdir)'; $(am__uninstall_files_from_dir)
-install-eventspostransDATA: $(eventspostrans_DATA)
-	@$(NORMAL_INSTALL)
-	@list='$(eventspostrans_DATA)'; test -n "$(eventspostransdir)" || list=; \
-	if test -n "$$list"; then \
-	  echo " $(MKDIR_P) '$(DESTDIR)$(eventspostransdir)'"; \
-	  $(MKDIR_P) "$(DESTDIR)$(eventspostransdir)" || exit 1; \
-	fi; \
-	for p in $$list; do \
-	  if test -f "$$p"; then d=; else d="$(srcdir)/"; fi; \
-	  echo "$$d$$p"; \
-	done | $(am__base_list) | \
-	while read files; do \
-	  echo " $(INSTALL_DATA) $$files '$(DESTDIR)$(eventspostransdir)'"; \
-	  $(INSTALL_DATA) $$files "$(DESTDIR)$(eventspostransdir)" || exit $$?; \
-	done
-
-uninstall-eventspostransDATA:
-	@$(NORMAL_UNINSTALL)
-	@list='$(eventspostrans_DATA)'; test -n "$(eventspostransdir)" || list=; \
-	files=`for p in $$list; do echo $$p; done | sed -e 's|^.*/||'`; \
-	dir='$(DESTDIR)$(eventspostransdir)'; $(am__uninstall_files_from_dir)
-install-eventspretransDATA: $(eventspretrans_DATA)
-	@$(NORMAL_INSTALL)
-	@list='$(eventspretrans_DATA)'; test -n "$(eventspretransdir)" || list=; \
-	if test -n "$$list"; then \
-	  echo " $(MKDIR_P) '$(DESTDIR)$(eventspretransdir)'"; \
-	  $(MKDIR_P) "$(DESTDIR)$(eventspretransdir)" || exit 1; \
-	fi; \
-	for p in $$list; do \
-	  if test -f "$$p"; then d=; else d="$(srcdir)/"; fi; \
-	  echo "$$d$$p"; \
-	done | $(am__base_list) | \
-	while read files; do \
-	  echo " $(INSTALL_DATA) $$files '$(DESTDIR)$(eventspretransdir)'"; \
-	  $(INSTALL_DATA) $$files "$(DESTDIR)$(eventspretransdir)" || exit $$?; \
-	done
-
-uninstall-eventspretransDATA:
-	@$(NORMAL_UNINSTALL)
-	@list='$(eventspretrans_DATA)'; test -n "$(eventspretransdir)" || list=; \
-	files=`for p in $$list; do echo $$p; done | sed -e 's|^.*/||'`; \
-	dir='$(DESTDIR)$(eventspretransdir)'; $(am__uninstall_files_from_dir)
-install-vendorDATA: $(vendor_DATA)
-	@$(NORMAL_INSTALL)
-	@list='$(vendor_DATA)'; test -n "$(vendordir)" || list=; \
-	if test -n "$$list"; then \
-	  echo " $(MKDIR_P) '$(DESTDIR)$(vendordir)'"; \
-	  $(MKDIR_P) "$(DESTDIR)$(vendordir)" || exit 1; \
-	fi; \
-	for p in $$list; do \
-	  if test -f "$$p"; then d=; else d="$(srcdir)/"; fi; \
-	  echo "$$d$$p"; \
-	done | $(am__base_list) | \
-	while read files; do \
-	  echo " $(INSTALL_DATA) $$files '$(DESTDIR)$(vendordir)'"; \
-	  $(INSTALL_DATA) $$files "$(DESTDIR)$(vendordir)" || exit $$?; \
-	done
-
-uninstall-vendorDATA:
-	@$(NORMAL_UNINSTALL)
-	@list='$(vendor_DATA)'; test -n "$(vendordir)" || list=; \
-	files=`for p in $$list; do echo $$p; done | sed -e 's|^.*/||'`; \
-	dir='$(DESTDIR)$(vendordir)'; $(am__uninstall_files_from_dir)
 tags TAGS:
 
 ctags CTAGS:
@@ -587,7 +503,7 @@ check-am: all-am
 check: check-am
 all-am: Makefile $(DATA)
 installdirs:
-	for dir in "$(DESTDIR)$(confdir)" "$(DESTDIR)$(eventspostransdir)" "$(DESTDIR)$(eventspretransdir)" "$(DESTDIR)$(vendordir)"; do \
+	for dir in "$(DESTDIR)$(confdir)"; do \
 	  test -z "$$dir" || $(MKDIR_P) "$$dir"; \
 	done
 install: install-am
@@ -616,7 +532,6 @@ clean-generic:
 distclean-generic:
 	-test -z "$(CONFIG_CLEAN_FILES)" || rm -f $(CONFIG_CLEAN_FILES)
 	-test . = "$(srcdir)" || test -z "$(CONFIG_CLEAN_VPATH_FILES)" || rm -f $(CONFIG_CLEAN_VPATH_FILES)
-	-test -z "$(DISTCLEANFILES)" || rm -f $(DISTCLEANFILES)
 
 maintainer-clean-generic:
 	@echo "This command is intended for maintainers to use"
@@ -641,8 +556,7 @@ info: info-am
 
 info-am:
 
-install-data-am: install-confDATA install-eventspostransDATA \
-	install-eventspretransDATA install-vendorDATA
+install-data-am: install-confDATA
 
 install-dvi: install-dvi-am
 
@@ -686,8 +600,7 @@ ps: ps-am
 
 ps-am:
 
-uninstall-am: uninstall-confDATA uninstall-eventspostransDATA \
-	uninstall-eventspretransDATA uninstall-vendorDATA
+uninstall-am: uninstall-confDATA
 
 .MAKE: install-am install-strip
 
@@ -695,21 +608,15 @@ uninstall-am: uninstall-confDATA uninstall-eventspostransDATA \
 	cscopelist-am ctags-am distclean distclean-generic \
 	distclean-libtool distdir dvi dvi-am html html-am info info-am \
 	install install-am install-confDATA install-data \
-	install-data-am install-dvi install-dvi-am \
-	install-eventspostransDATA install-eventspretransDATA \
-	install-exec install-exec-am install-html install-html-am \
-	install-info install-info-am install-man install-pdf \
-	install-pdf-am install-ps install-ps-am install-strip \
-	install-vendorDATA installcheck installcheck-am installdirs \
-	maintainer-clean maintainer-clean-generic mostlyclean \
-	mostlyclean-generic mostlyclean-libtool pdf pdf-am ps ps-am \
-	tags-am uninstall uninstall-am uninstall-confDATA \
-	uninstall-eventspostransDATA uninstall-eventspretransDATA \
-	uninstall-vendorDATA
+	install-data-am install-dvi install-dvi-am install-exec \
+	install-exec-am install-html install-html-am install-info \
+	install-info-am install-man install-pdf install-pdf-am \
+	install-ps install-ps-am install-strip installcheck \
+	installcheck-am installdirs maintainer-clean \
+	maintainer-clean-generic mostlyclean mostlyclean-generic \
+	mostlyclean-libtool pdf pdf-am ps ps-am tags-am uninstall \
+	uninstall-am uninstall-confDATA
 
-
-$(conf_DATA): $(conf_in_files) Makefile
-	@sed -e "s|\@defaultbackend\@|$(DEFAULT_BACKEND)|" $< > $@
 
 -include $(top_srcdir)/git.mk
 

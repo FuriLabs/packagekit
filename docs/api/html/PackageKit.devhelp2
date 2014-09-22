@@ -31,7 +31,6 @@
       <sub name="PkCategory" link="PkCategory.html"/>
       <sub name="PkClient" link="PkClient.html"/>
       <sub name="PkControl" link="PkControl.html"/>
-      <sub name="PkDesktop" link="PkDesktop.html"/>
       <sub name="PkDetails" link="PkDetails.html"/>
       <sub name="PkDistroUpgrade" link="PkDistroUpgrade.html"/>
       <sub name="PkError" link="PkError.html"/>
@@ -70,6 +69,9 @@
     <keyword type="" name="GetPackageHistory ()" link="PackageKit.html#PackageKit.GetPackageHistory"/>
     <keyword type="" name="GetDaemonState ()" link="PackageKit.html#PackageKit.GetDaemonState"/>
     <keyword type="" name="SetProxy ()" link="PackageKit.html#PackageKit.SetProxy"/>
+    <keyword type="" name="ClearResults ()" link="PackageKit.html#PackageKit.ClearResults"/>
+    <keyword type="" name="Trigger ()" link="PackageKit.html#PackageKit.Trigger"/>
+    <keyword type="" name="Cancel ()" link="PackageKit.html#PackageKit.Cancel"/>
     <keyword type="" name="The TransactionListChanged signal" link="PackageKit.html#PackageKit::TransactionListChanged"/>
     <keyword type="" name="The RestartSchedule signal" link="PackageKit.html#PackageKit::RestartSchedule"/>
     <keyword type="" name="The RepoListChanged signal" link="PackageKit.html#PackageKit::RepoListChanged"/>
@@ -87,6 +89,8 @@
     <keyword type="" name="The &quot;Locked&quot; property" link="PackageKit.html#PackageKit:Locked"/>
     <keyword type="" name="The &quot;NetworkState&quot; property" link="PackageKit.html#PackageKit:NetworkState"/>
     <keyword type="" name="The &quot;DistroId&quot; property" link="PackageKit.html#PackageKit:DistroId"/>
+    <keyword type="" name="The &quot;UpdatePrepared&quot; property" link="PackageKit.html#PackageKit:UpdatePrepared"/>
+    <keyword type="" name="The &quot;TriggerAction&quot; property" link="PackageKit.html#PackageKit:TriggerAction"/>
     <keyword type="" name="SetHints ()" link="Transaction.html#Transaction.SetHints"/>
     <keyword type="" name="AcceptEula ()" link="Transaction.html#Transaction.AcceptEula"/>
     <keyword type="" name="Cancel ()" link="Transaction.html#Transaction.Cancel"/>
@@ -261,14 +265,6 @@
     <keyword type="signal" name="The “restart-schedule” signal" link="PkControl.html#PkControl-restart-schedule"/>
     <keyword type="signal" name="The “transaction-list-changed” signal" link="PkControl.html#PkControl-transaction-list-changed"/>
     <keyword type="signal" name="The “updates-changed” signal" link="PkControl.html#PkControl-updates-changed"/>
-    <keyword type="function" name="pk_desktop_new ()" link="PkDesktop.html#pk-desktop-new" since="0.5.3"/>
-    <keyword type="function" name="pk_desktop_test ()" link="PkDesktop.html#pk-desktop-test"/>
-    <keyword type="function" name="pk_desktop_open_database ()" link="PkDesktop.html#pk-desktop-open-database" since="0.5.3"/>
-    <keyword type="function" name="pk_desktop_get_files_for_package ()" link="PkDesktop.html#pk-desktop-get-files-for-package" since="0.5.3"/>
-    <keyword type="function" name="pk_desktop_get_shown_for_package ()" link="PkDesktop.html#pk-desktop-get-shown-for-package" since="0.5.3"/>
-    <keyword type="function" name="pk_desktop_get_package_for_file ()" link="PkDesktop.html#pk-desktop-get-package-for-file" since="0.5.3"/>
-    <keyword type="macro" name="PK_DESKTOP_DEFAULT_DATABASE" link="PkDesktop.html#PK-DESKTOP-DEFAULT-DATABASE:CAPS"/>
-    <keyword type="macro" name="PK_DESKTOP_DEFAULT_APPLICATION_DIR" link="PkDesktop.html#PK-DESKTOP-DEFAULT-APPLICATION-DIR:CAPS"/>
     <keyword type="function" name="pk_details_new ()" link="PkDetails.html#pk-details-new" since="0.5.4"/>
     <keyword type="function" name="pk_details_get_package_id ()" link="PkDetails.html#pk-details-get-package-id" since="0.8.12"/>
     <keyword type="function" name="pk_details_get_license ()" link="PkDetails.html#pk-details-get-license" since="0.8.12"/>
@@ -614,7 +610,7 @@
     <keyword type="macro" name="PK_DBUS_PATH" link="PackageKit-pk-common.html#PK-DBUS-PATH:CAPS"/>
     <keyword type="macro" name="PK_DBUS_INTERFACE" link="PackageKit-pk-common.html#PK-DBUS-INTERFACE:CAPS"/>
     <keyword type="macro" name="PK_DBUS_INTERFACE_TRANSACTION" link="PackageKit-pk-common.html#PK-DBUS-INTERFACE-TRANSACTION:CAPS"/>
-    <keyword type="macro" name="PK_SERVICE_PACK_GROUP_NAME" link="PackageKit-pk-common.html#PK-SERVICE-PACK-GROUP-NAME:CAPS"/>
+    <keyword type="macro" name="PK_DBUS_INTERFACE_OFFLINE" link="PackageKit-pk-common.html#PK-DBUS-INTERFACE-OFFLINE:CAPS"/>
     <keyword type="macro" name="PK_SYSTEM_PACKAGE_LIST_FILENAME" link="PackageKit-pk-common.html#PK-SYSTEM-PACKAGE-LIST-FILENAME:CAPS"/>
     <keyword type="macro" name="PK_SYSTEM_PACKAGE_CACHE_FILENAME" link="PackageKit-pk-common.html#PK-SYSTEM-PACKAGE-CACHE-FILENAME:CAPS"/>
     <keyword type="function" name="pk_control_get_properties ()" link="PackageKit-pk-control-sync.html#pk-control-get-properties" since="0.5.3"/>

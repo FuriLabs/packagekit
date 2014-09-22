@@ -78,14 +78,11 @@ PRE_UNINSTALL = :
 POST_UNINSTALL = :
 build_triplet = @build@
 host_triplet = @host@
-@BACKEND_TYPE_YUM_TRUE@am__append_1 = yum-packagekit
-@PK_BUILD_BROWSER_PLUGIN_TRUE@am__append_2 = browser-plugin
-@PK_BUILD_GSTREAMER_PLUGIN_TRUE@am__append_3 = gstreamer-plugin
-@PK_BUILD_GTK_MODULE_TRUE@am__append_4 = gtk-module
-@PK_BUILD_COMMAND_NOT_FOUND_TRUE@am__append_5 = command-not-found
-@PK_BUILD_CRON_TRUE@am__append_6 = cron
-@PK_BUILD_DEBUGINFO_INSTALL_TRUE@am__append_7 = debuginfo-install
-@PK_BUILD_SYSTEMD_UPDATES_TRUE@am__append_8 = systemd-updates
+@PK_BUILD_BROWSER_PLUGIN_TRUE@am__append_1 = browser-plugin
+@PK_BUILD_GSTREAMER_PLUGIN_TRUE@am__append_2 = gstreamer-plugin
+@PK_BUILD_GTK_MODULE_TRUE@am__append_3 = gtk-module
+@PK_BUILD_COMMAND_NOT_FOUND_TRUE@am__append_4 = command-not-found
+@PK_BUILD_CRON_TRUE@am__append_5 = cron
 subdir = contrib
 DIST_COMMON = $(srcdir)/Makefile.in $(srcdir)/Makefile.am \
 	$(am__dist_bashcompletion_DATA_DIST)
@@ -93,9 +90,9 @@ ACLOCAL_M4 = $(top_srcdir)/aclocal.m4
 am__aclocal_m4_deps = $(top_srcdir)/m4/as-linguas.m4 \
 	$(top_srcdir)/m4/ax_check_compile_flag.m4 \
 	$(top_srcdir)/m4/ax_check_link_flag.m4 \
-	$(top_srcdir)/m4/gtk-doc.m4 $(top_srcdir)/m4/libtool.m4 \
-	$(top_srcdir)/m4/ltoptions.m4 $(top_srcdir)/m4/ltsugar.m4 \
-	$(top_srcdir)/m4/ltversion.m4 $(top_srcdir)/m4/lt~obsolete.m4 \
+	$(top_srcdir)/m4/gtk-doc.m4 $(top_srcdir)/m4/intltool.m4 \
+	$(top_srcdir)/m4/libtool.m4 $(top_srcdir)/m4/ltoptions.m4 \
+	$(top_srcdir)/m4/ltsugar.m4 $(top_srcdir)/m4/ltversion.m4 \
 	$(top_srcdir)/acinclude.m4 $(top_srcdir)/configure.ac
 am__configure_deps = $(am__aclocal_m4_deps) $(CONFIGURE_DEPENDENCIES) \
 	$(ACLOCAL_M4)
@@ -187,9 +184,8 @@ am__define_uniq_tagged_files = \
   done | $(am__uniquify_input)`
 ETAGS = etags
 CTAGS = ctags
-DIST_SUBDIRS = yum-packagekit browser-plugin gstreamer-plugin \
-	gtk-module command-not-found cron debuginfo-install \
-	systemd-updates
+DIST_SUBDIRS = browser-plugin gstreamer-plugin gtk-module \
+	command-not-found cron
 DISTFILES = $(DIST_COMMON) $(DIST_SOURCES) $(TEXINFOS) $(EXTRA_DIST)
 am__relativize = \
   dir0=`pwd`; \
@@ -251,7 +247,6 @@ DATADIR = @DATADIR@
 DATADIRNAME = @DATADIRNAME@
 DBUS_SERVICES_DIR = @DBUS_SERVICES_DIR@
 DBUS_SYS_DIR = @DBUS_SYS_DIR@
-DEFAULT_BACKEND = @DEFAULT_BACKEND@
 DEFS = @DEFS@
 DEPDIR = @DEPDIR@
 DLLTOOL = @DLLTOOL@
@@ -320,8 +315,6 @@ LIBDIR = @LIBDIR@
 LIBEXECDIR = @LIBEXECDIR@
 LIBOBJS = @LIBOBJS@
 LIBS = @LIBS@
-LIBSYSTEMD_JOURNAL_CFLAGS = @LIBSYSTEMD_JOURNAL_CFLAGS@
-LIBSYSTEMD_JOURNAL_LIBS = @LIBSYSTEMD_JOURNAL_LIBS@
 LIBTOOL = @LIBTOOL@
 LIPO = @LIPO@
 LN_S = @LN_S@
@@ -345,8 +338,6 @@ NM = @NM@
 NMEDIT = @NMEDIT@
 OBJDUMP = @OBJDUMP@
 OBJEXT = @OBJEXT@
-OPKG_CFLAGS = @OPKG_CFLAGS@
-OPKG_LIBS = @OPKG_LIBS@
 OTOOL = @OTOOL@
 OTOOL64 = @OTOOL64@
 PACKAGE = @PACKAGE@
@@ -474,10 +465,11 @@ top_build_prefix = @top_build_prefix@
 top_builddir = @top_builddir@
 top_srcdir = @top_srcdir@
 SUBDIRS = $(am__append_1) $(am__append_2) $(am__append_3) \
-	$(am__append_4) $(am__append_5) $(am__append_6) \
-	$(am__append_7) $(am__append_8)
+	$(am__append_4) $(am__append_5)
 @HAVE_BASH_COMPLETION_TRUE@bashcompletiondir = $(BASH_COMPLETIONS_DIR)
 @HAVE_BASH_COMPLETION_TRUE@dist_bashcompletion_DATA = pkcon
+EXTRA_DIST = generate-md-archive.sh
+CLEANFILES = cached-metadata.tar
 all: all-recursive
 
 .SUFFIXES:
@@ -723,6 +715,7 @@ install-strip:
 mostlyclean-generic:
 
 clean-generic:
+	-test -z "$(CLEANFILES)" || rm -f $(CLEANFILES)
 
 distclean-generic:
 	-test -z "$(CONFIG_CLEAN_FILES)" || rm -f $(CONFIG_CLEAN_FILES)

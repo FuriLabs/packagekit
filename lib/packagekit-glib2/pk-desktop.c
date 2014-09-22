@@ -60,6 +60,9 @@ static gpointer pk_desktop_object = NULL;
  *
  * Return value: (transfer container): string array of results, free with g_ptr_array_unref()
  *
+ * NOTE: This method is unused and will be removed next time the library
+ * soname changes!
+ *
  * Since: 0.5.3
  **/
 GPtrArray *
@@ -80,6 +83,9 @@ pk_desktop_get_files_for_package (PkDesktop *desktop, const gchar *package, GErr
  *
  * Return value: (transfer container): string array of results, free with g_ptr_array_unref()
  *
+ * NOTE: This method is unused and will be removed next time the library
+ * soname changes!
+ *
  * Since: 0.5.3
  **/
 GPtrArray *
@@ -99,6 +105,9 @@ pk_desktop_get_shown_for_package (PkDesktop *desktop, const gchar *package, GErr
  *
  * Return value: package name, or %NULL
  *
+ * NOTE: This method is unused and will be removed next time the library
+ * soname changes!
+ *
  * Since: 0.5.3
  **/
 gchar *
@@ -113,6 +122,9 @@ pk_desktop_get_package_for_file (PkDesktop *desktop, const gchar *filename, GErr
  * @desktop: a valid #PkDesktop instance
  *
  * Return value: %TRUE if opened correctly
+ *
+ * NOTE: This method is unused and will be removed next time the library
+ * soname changes!
  *
  * Since: 0.5.3
  **/
@@ -155,6 +167,9 @@ pk_desktop_finalize (GObject *object)
 
 /**
  * pk_desktop_new:
+ *
+ * NOTE: This method is unused and will be removed next time the library
+ * soname changes!
  *
  * Since: 0.5.3
  **/

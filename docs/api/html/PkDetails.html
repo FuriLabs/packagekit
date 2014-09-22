@@ -6,7 +6,7 @@
 <meta name="generator" content="DocBook XSL Stylesheets V1.78.1">
 <link rel="home" href="index.html" title="PackageKit Reference Manual">
 <link rel="up" href="libpackagekit-gobject.html" title="libpackagekit GObjects">
-<link rel="prev" href="PkDesktop.html" title="PkDesktop">
+<link rel="prev" href="PkControl.html" title="PkControl">
 <link rel="next" href="PkDistroUpgrade.html" title="PkDistroUpgrade">
 <meta name="generator" content="GTK-Doc V1.21 (XML mode)">
 <link rel="stylesheet" href="style.css" type="text/css">
@@ -21,7 +21,7 @@
 </td>
 <td><a accesskey="h" href="index.html"><img src="home.png" width="16" height="16" border="0" alt="Home"></a></td>
 <td><a accesskey="u" href="libpackagekit-gobject.html"><img src="up.png" width="16" height="16" border="0" alt="Up"></a></td>
-<td><a accesskey="p" href="PkDesktop.html"><img src="left.png" width="16" height="16" border="0" alt="Prev"></a></td>
+<td><a accesskey="p" href="PkControl.html"><img src="left.png" width="16" height="16" border="0" alt="Prev"></a></td>
 <td><a accesskey="n" href="PkDistroUpgrade.html"><img src="right.png" width="16" height="16" border="0" alt="Next"></a></td>
 </tr></table>
 <div class="refentry">
@@ -175,7 +175,7 @@ often present in lists (<a class="link" href="PkResults.html" title="PkResults">
 <pre class="programlisting"><a class="link" href="PkDetails.html" title="PkDetails"><span class="returnvalue">PkDetails</span></a> *
 pk_details_new (<em class="parameter"><code><span class="type">void</span></code></em>);</pre>
 <div class="refsect3">
-<a name="id-1.4.7.7.2.4"></a><h4>Returns</h4>
+<a name="id-1.4.6.7.2.4"></a><h4>Returns</h4>
 <p> a new PkDetails object.</p>
 <p></p>
 </div>
@@ -188,7 +188,7 @@ pk_details_new (<em class="parameter"><code><span class="type">void</span></code
 pk_details_get_package_id (<em class="parameter"><code><a class="link" href="PkDetails.html" title="PkDetails"><span class="type">PkDetails</span></a> *details</code></em>);</pre>
 <p>Gets the PackageId for the details object.</p>
 <div class="refsect3">
-<a name="id-1.4.7.7.3.5"></a><h4>Parameters</h4>
+<a name="id-1.4.6.7.3.5"></a><h4>Parameters</h4>
 <div class="informaltable"><table width="100%" border="0">
 <colgroup>
 <col width="150px" class="parameters_name">
@@ -203,7 +203,7 @@ pk_details_get_package_id (<em class="parameter"><code><a class="link" href="PkD
 </table></div>
 </div>
 <div class="refsect3">
-<a name="id-1.4.7.7.3.6"></a><h4>Returns</h4>
+<a name="id-1.4.6.7.3.6"></a><h4>Returns</h4>
 <p> string value</p>
 <p></p>
 </div>
@@ -216,7 +216,7 @@ pk_details_get_package_id (<em class="parameter"><code><a class="link" href="PkD
 pk_details_get_license (<em class="parameter"><code><a class="link" href="PkDetails.html" title="PkDetails"><span class="type">PkDetails</span></a> *details</code></em>);</pre>
 <p>Gets the license for the details object.</p>
 <div class="refsect3">
-<a name="id-1.4.7.7.4.5"></a><h4>Parameters</h4>
+<a name="id-1.4.6.7.4.5"></a><h4>Parameters</h4>
 <div class="informaltable"><table width="100%" border="0">
 <colgroup>
 <col width="150px" class="parameters_name">
@@ -231,7 +231,7 @@ pk_details_get_license (<em class="parameter"><code><a class="link" href="PkDeta
 </table></div>
 </div>
 <div class="refsect3">
-<a name="id-1.4.7.7.4.6"></a><h4>Returns</h4>
+<a name="id-1.4.6.7.4.6"></a><h4>Returns</h4>
 <p> string value</p>
 <p></p>
 </div>
@@ -244,7 +244,7 @@ pk_details_get_license (<em class="parameter"><code><a class="link" href="PkDeta
 pk_details_get_group (<em class="parameter"><code><a class="link" href="PkDetails.html" title="PkDetails"><span class="type">PkDetails</span></a> *details</code></em>);</pre>
 <p>Gets the group for the details object.</p>
 <div class="refsect3">
-<a name="id-1.4.7.7.5.5"></a><h4>Parameters</h4>
+<a name="id-1.4.6.7.5.5"></a><h4>Parameters</h4>
 <div class="informaltable"><table width="100%" border="0">
 <colgroup>
 <col width="150px" class="parameters_name">
@@ -259,7 +259,7 @@ pk_details_get_group (<em class="parameter"><code><a class="link" href="PkDetail
 </table></div>
 </div>
 <div class="refsect3">
-<a name="id-1.4.7.7.5.6"></a><h4>Returns</h4>
+<a name="id-1.4.6.7.5.6"></a><h4>Returns</h4>
 <p> string value</p>
 <p></p>
 </div>
@@ -272,7 +272,7 @@ pk_details_get_group (<em class="parameter"><code><a class="link" href="PkDetail
 pk_details_get_description (<em class="parameter"><code><a class="link" href="PkDetails.html" title="PkDetails"><span class="type">PkDetails</span></a> *details</code></em>);</pre>
 <p>Gets the description for the details object.</p>
 <div class="refsect3">
-<a name="id-1.4.7.7.6.5"></a><h4>Parameters</h4>
+<a name="id-1.4.6.7.6.5"></a><h4>Parameters</h4>
 <div class="informaltable"><table width="100%" border="0">
 <colgroup>
 <col width="150px" class="parameters_name">
@@ -287,7 +287,7 @@ pk_details_get_description (<em class="parameter"><code><a class="link" href="Pk
 </table></div>
 </div>
 <div class="refsect3">
-<a name="id-1.4.7.7.6.6"></a><h4>Returns</h4>
+<a name="id-1.4.6.7.6.6"></a><h4>Returns</h4>
 <p> string value</p>
 <p></p>
 </div>
@@ -300,7 +300,7 @@ pk_details_get_description (<em class="parameter"><code><a class="link" href="Pk
 pk_details_get_url (<em class="parameter"><code><a class="link" href="PkDetails.html" title="PkDetails"><span class="type">PkDetails</span></a> *details</code></em>);</pre>
 <p>Gets the url for the details object.</p>
 <div class="refsect3">
-<a name="id-1.4.7.7.7.5"></a><h4>Parameters</h4>
+<a name="id-1.4.6.7.7.5"></a><h4>Parameters</h4>
 <div class="informaltable"><table width="100%" border="0">
 <colgroup>
 <col width="150px" class="parameters_name">
@@ -315,7 +315,7 @@ pk_details_get_url (<em class="parameter"><code><a class="link" href="PkDetails.
 </table></div>
 </div>
 <div class="refsect3">
-<a name="id-1.4.7.7.7.6"></a><h4>Returns</h4>
+<a name="id-1.4.6.7.7.6"></a><h4>Returns</h4>
 <p> string value</p>
 <p></p>
 </div>
@@ -328,7 +328,7 @@ pk_details_get_url (<em class="parameter"><code><a class="link" href="PkDetails.
 pk_details_get_size (<em class="parameter"><code><a class="link" href="PkDetails.html" title="PkDetails"><span class="type">PkDetails</span></a> *details</code></em>);</pre>
 <p>Gets the size for the details object.</p>
 <div class="refsect3">
-<a name="id-1.4.7.7.8.5"></a><h4>Parameters</h4>
+<a name="id-1.4.6.7.8.5"></a><h4>Parameters</h4>
 <div class="informaltable"><table width="100%" border="0">
 <colgroup>
 <col width="150px" class="parameters_name">
@@ -343,7 +343,7 @@ pk_details_get_size (<em class="parameter"><code><a class="link" href="PkDetails
 </table></div>
 </div>
 <div class="refsect3">
-<a name="id-1.4.7.7.8.6"></a><h4>Returns</h4>
+<a name="id-1.4.6.7.8.6"></a><h4>Returns</h4>
 <p> string value</p>
 <p></p>
 </div>
@@ -356,7 +356,7 @@ pk_details_get_size (<em class="parameter"><code><a class="link" href="PkDetails
 pk_details_get_summary (<em class="parameter"><code><a class="link" href="PkDetails.html" title="PkDetails"><span class="type">PkDetails</span></a> *details</code></em>);</pre>
 <p>Gets the summary for the details object.</p>
 <div class="refsect3">
-<a name="id-1.4.7.7.9.5"></a><h4>Parameters</h4>
+<a name="id-1.4.6.7.9.5"></a><h4>Parameters</h4>
 <div class="informaltable"><table width="100%" border="0">
 <colgroup>
 <col width="150px" class="parameters_name">
@@ -371,7 +371,7 @@ pk_details_get_summary (<em class="parameter"><code><a class="link" href="PkDeta
 </table></div>
 </div>
 <div class="refsect3">
-<a name="id-1.4.7.7.9.6"></a><h4>Returns</h4>
+<a name="id-1.4.6.7.9.6"></a><h4>Returns</h4>
 <p> string value</p>
 <p></p>
 </div>

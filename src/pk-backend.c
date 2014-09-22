@@ -204,6 +204,7 @@ struct PkBackendPrivate
 	PkNetwork		*network;
 #endif
 	gboolean		 backend_roles_set;
+	gpointer		 user_data;
 	GHashTable		*thread_hash;
 	GMutex			 thread_hash_mutex;
 };
@@ -883,6 +884,28 @@ pk_backend_get_accepted_eula_string (PkBackend *backend)
 }
 
 /**
+ * pk_backend_get_user_data:
+ *
+ * Return value: (transfer none): Job user data
+ **/
+gpointer
+pk_backend_get_user_data (PkBackend *backend)
+{
+	g_return_val_if_fail (PK_IS_BACKEND (backend), NULL);
+	return backend->priv->user_data;
+}
+
+/**
+ * pk_backend_set_user_data:
+ **/
+void
+pk_backend_set_user_data (PkBackend *backend, gpointer user_data)
+{
+	g_return_if_fail (PK_IS_BACKEND (backend));
+	backend->priv->user_data = user_data;
+}
+
+/**
  * pk_backend_file_monitor_changed_cb:
  **/
 static void
@@ -984,7 +1007,12 @@ pk_backend_class_init (PkBackendClass *klass)
 void
 pk_backend_cancel (PkBackend *backend, PkBackendJob *job)
 {
+	GCancellable *cancellable;
 	g_return_if_fail (PK_IS_BACKEND (backend));
+
+	/* cancel */
+	cancellable = pk_backend_job_get_cancellable (job);
+	g_cancellable_cancel (cancellable);
 
 	/* call into the backend */
 	backend->priv->desc->cancel (backend, job);

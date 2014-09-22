@@ -12,10 +12,6 @@ if BACKEND_TYPE_APTCC
 SUBDIRS += aptcc
 endif
 
-if BACKEND_TYPE_CONARY
-SUBDIRS += conary
-endif
-
 if BACKEND_TYPE_DUMMY
 SUBDIRS += dummy
 endif
@@ -28,24 +24,12 @@ if BACKEND_TYPE_HIF
 SUBDIRS += hif
 endif
 
-if BACKEND_TYPE_OPKG
-SUBDIRS += opkg
-endif
-
 if BACKEND_TYPE_KATJA
 SUBDIRS += katja
 endif
 
-if BACKEND_TYPE_SMART
-SUBDIRS += smart
-endif
-
 if BACKEND_TYPE_URPMI
 SUBDIRS += urpmi
-endif
-
-if BACKEND_TYPE_YUM
-SUBDIRS += yum
 endif
 
 if BACKEND_TYPE_PISI

@@ -25,35 +25,15 @@
 #include <gio/gio.h>
 #include <pk-backend.h>
 
-extern PkBackend *backend;
-extern GCancellable *cancellable;
+typedef struct {
+	gboolean	 env_initialized;
+	alpm_db_t	*localdb;
+	alpm_list_t	*syncfirsts;
+	alpm_list_t	*holdpkgs;
+	alpm_handle_t	*alpm;
+} PkBackendAlpmPrivate;
 
-extern alpm_handle_t *alpm;
-extern alpm_db_t *localdb;
+void		 pk_alpm_run		(PkBackendJob *job, PkStatusEnum status,
+					 PkBackendJobThreadFunc func, gpointer data);
 
-extern gchar *xfercmd;
-extern alpm_list_t *holdpkgs;
-extern alpm_list_t *syncfirsts;
-
-#define pkalpm_end_job_if_fail(expr, job)		G_STMT_START{			\
-	if G_LIKELY(expr) { } else       					\
-	{								\
-		pk_backend_finish_error (job, "ASSERT: condition failed: " #expr);\
-		return;							\
-	};}G_STMT_END
-
-gint		 pk_backend_fetchcb	(const gchar *url, const gchar *path,
-					 gint force);
-
-void		 pkalpm_backend_run		(PkBackendJob *job, PkStatusEnum status,
-									 PkBackendJobThreadFunc func, gpointer data);
-
-void		pk_backend_cancel (PkBackend *self, PkBackendJob *job);
-
-gboolean	pk_backend_cancelled	(PkBackendJob* job);
-
-gboolean	pk_backend_finish	(PkBackendJob *job, GError *error);
-
-void		pk_backend_finish_error	(PkBackendJob *job, const gchar* errormsg);
-
-void		pk_backend_start_job(PkBackend *backend, PkBackendJob *job);
+gboolean	 pk_alpm_finish		(PkBackendJob *job, GError *error);

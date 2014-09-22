@@ -61,16 +61,19 @@ G_BEGIN_DECLS
 #define	PK_DBUS_INTERFACE_TRANSACTION	"org.freedesktop.PackageKit.Transaction"
 
 /**
- * PK_SERVICE_PACK_GROUP_NAME:
+ * PK_DBUS_INTERFACE_OFFLINE:
  *
- * The group name of the Service Pack config file
+ * The DBUS interface for the offline update functionality
  */
-#define	PK_SERVICE_PACK_GROUP_NAME	"PackageKit Service Pack"
+#define	PK_DBUS_INTERFACE_OFFLINE	"org.freedesktop.PackageKit.Offline"
 
 /**
  * PK_PACKAGE_LIST_FILENAME:
  *
  * The default location of the package list
+ *
+ * NOTE: This constant is unused and will be removed next time the library
+ * soname changes!
  */
 #define	PK_SYSTEM_PACKAGE_LIST_FILENAME	"/var/lib/PackageKit/system.package-list"
 
@@ -78,6 +81,9 @@ G_BEGIN_DECLS
  * PK_PACKAGE_CACHE_FILENAME:
  *
  * The default location of the package cache database
+ *
+ * NOTE: This constant is unused and will be removed next time the library
+ * soname changes!
  */
 #define	PK_SYSTEM_PACKAGE_CACHE_FILENAME	"/var/lib/PackageKit/package-cache.db"
 
