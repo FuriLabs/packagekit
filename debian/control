@@ -210,6 +210,20 @@ Description: PackageKit backend Python bindings
  If you want to use PackageKit from Python and don't write a backend, please
  use the GIRepository instead.
 
+Package: packagekit-command-not-found
+Architecture: any
+Section: misc
+Depends: packagekit (= ${binary:Version}),
+         ${misc:Depends},
+         ${shlibs:Depends}
+Description: Offer to install missing programs automatically
+ PackageKit allows performing simple software management tasks over a DBus
+ interface e.g refreshing the cache, updating, installing and removing
+ software packages or searching for multimedia codecs and file handlers.
+ .
+ This package contains a simple handler for command_not_found that offers to
+ install missing packages on the command line using PackageKit.
+
 Package: packagekit-dbg
 Architecture: any
 Section: debug

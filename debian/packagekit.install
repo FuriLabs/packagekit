@@ -1,14 +1,12 @@
 etc/PackageKit/PackageKit.conf
 etc/PackageKit/Vendor.conf
-etc/PackageKit/events/
 etc/apt/apt.conf.d/20packagekit
 etc/dbus-1/system.d/org.freedesktop.PackageKit.conf
 lib/systemd/system/*
 usr/lib/*/packagekit-backend/*
+usr/lib/packagekit/packagekit-direct
 usr/lib/packagekit/packagekitd
-usr/lib/packagekit/pk-clear-offline-update
 usr/lib/packagekit/pk-offline-update
-usr/lib/packagekit/pk-trigger-offline-update
 usr/share/PackageKit/helpers/aptcc/*
 usr/share/PackageKit/helpers/test_spawn/*
 usr/share/dbus-1/interfaces

@@ -1,7 +1,5 @@
-usr/bin/pk-debuginfo-install
 usr/bin/pkcon
 usr/bin/pkmon
-usr/share/bash-completion/
-usr/share/man/man1/pk-debuginfo-install.1
+usr/share/bash-completion/completions/*
 usr/share/man/man1/pkcon.1
 usr/share/man/man1/pkmon.1
