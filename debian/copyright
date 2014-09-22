@@ -74,7 +74,6 @@ Files: ./backends/dummy/*
  ./lib/packagekit-glib2/pk-debug.h
  ./lib/packagekit-glib2/pk-version.h
  ./src/*
- ./src/plugins/*
  ./tools/pk-refresh-licenses.c
 Copyright: 2007-2012, Richard Hughes <richard@hughsie.com>
 License: GPL-2+
@@ -191,26 +190,11 @@ Copyright: 2007-2009, Intel Corporation.
   2009, Richard Hughes <richard@hughsie.com>
 License: GPL-2+
 
-Files: ./src/plugins/pk-package-cache.c
- ./src/plugins/pk-package-cache.h
-Copyright: 2012, Matthias Klumpp <matthias@tenstral.net>
-License: GPL-2+
-
 Files: ./lib/packagekit-glib2/pk-spawn-polkit-agent.c
  ./lib/packagekit-glib2/pk-spawn-polkit-agent.h
 Copyright: 2011, Lennart Poettering <lennart@poettering.net>
   2012, Matthias Klumpp <matthias@tenstral.net>
 License: LGPL-2.1+
-
-Files: ./backends/smart/smartBackend.py
-Copyright: 2007, James Bowes <jbowes@dangerouslyinc.com>
-  2008, Anders F Bjorklund <afb@users.sourceforge.net>
-License: GPL-2+
-
-Files: ./backends/smart/pk-backend-smart.c
-Copyright: 2007, Richard Hughes <richard@hughsie.com>
-  2008, James Bowes <jbowes@redhat.com>
-License: GPL-2+
 
 Files: ./contrib/gstreamer-plugin/pk-gstreamer-install.c
 Copyright: 2008, Bastien Nocera <bnocera@redhat.com>
@@ -233,16 +217,6 @@ License: GPL-2+
 
 Files: ./backends/poldek/pk-backend-poldek.c
 Copyright: 2008-2012, Marcin Banasiak <megabajt@pld-linux.org>
-License: GPL-2+
-
-Files: ./src/plugins/pk-plugin-update-package-cache.c
-Copyright: 2011, Richard Hughes <richard@hughsie.com>
-  2012, Matthias Klumpp <matthias@tenstral.net>
-License: GPL-2+
-
-Files: ./backends/opkg/pk-backend-opkg.c
-Copyright: 2007, OpenMoko, Inc
-  2009, Sebastian Krzyszkowiak <seba.dos1@gmail.com>
 License: GPL-2+
 
 Files: ./backends/pisi/pk-backend-pisi.c

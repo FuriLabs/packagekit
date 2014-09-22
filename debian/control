@@ -38,19 +38,20 @@ Homepage: http://www.packagekit.org
 Package: packagekit
 Architecture: any
 Multi-Arch: foreign
-Depends: libglib2.0-bin,
-         packagekit-backend-aptcc (= ${binary:Version}),
+Depends: gdebi-core (>= 0.8.2),
+         libglib2.0-bin,
          policykit-1,
+         python3-packagekit (>= ${source:Version}),
          ${misc:Depends},
          ${shlibs:Depends}
 Breaks: libpackagekit-glib2-14 (<= 0.7.6-4),
         libpackagekit-qt2-2 (<= 0.7.6-4),
-        packagekit-backend-apt (<< ${binary:Version}),
-        packagekit-backend-aptcc (<< ${binary:Version}),
-        packagekit-backend-smart (<< ${binary:Version}),
-        packagekit-offline-update (<< ${binary:Version})
-Suggests: packagekit-backend-smart
+        packagekit-backend-apt (<< 1.0),
+        packagekit-backend-aptcc (<< 1.0),
+        packagekit-backend-smart (<< 1.0),
+        packagekit-offline-update (<< 1.0)
 Recommends: packagekit-tools
+Suggests: appstream-index
 Description: Provides a package management service
  PackageKit allows performing simple software management tasks over a DBus
  interface e.g. refreshing the cache, updating, installing and removing
@@ -208,39 +209,6 @@ Description: PackageKit backend Python bindings
  by some PackageKit backends written in Python.
  If you want to use PackageKit from Python and don't write a backend, please
  use the GIRepository instead.
-
-Package: packagekit-backend-aptcc
-Architecture: any
-Depends: gdebi-core (>= 0.8.2),
-         python3,
-         python3-packagekit (= ${source:Version}),
-         ${misc:Depends},
-         ${shlibs:Depends}
-Recommends: packagekit (= ${binary:Version})
-Suggests: apt-xapian-index
-Description: APT backend for PackageKit
- PackageKit allows performing simple software management tasks over a DBus
- interface e.g. refreshing the cache, updating, installing and removing
- software packages or searching for multimedia codecs and file handlers.
- .
- This package allows using APT over a C++-based PackageKit backend to
- target systems with low memory.
- APT is the default package management tool of Debian and Ubuntu.
-
-Package: packagekit-backend-smart
-Architecture: any
-Depends: packagekit (= ${binary:Version}),
-         python,
-         python3-packagekit (= ${source:Version}),
-         smartpm-core,
-         ${misc:Depends},
-         ${shlibs:Depends}
-Description: Smart backend for PackageKit
- PackageKit allows performing simple software management tasks over a DBus
- interface  e.g. refreshing the cache, updating, installing and removing
- software packages or searching for multimedia codecs and file handlers.
- .
- This package allows using the smart package manager.
 
 Package: packagekit-dbg
 Architecture: any
