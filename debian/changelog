@@ -1,9 +1,14 @@
-packagekit (1.0.0-1) UNRELEASED; urgency=medium
+packagekit (1.0.0-1) unstable; urgency=medium
 
   * New upstream release: 1.0.0
     - This release drops support for plugins
     - Aptcc is now the only viable backend for Debian, other
-      backends have been dropped.
+      backends have been removed upstream.
+  * Drop patches: Applied upstream
+  * Update symbols file
+  * Update copyright
+  * Bring back the PackageKit command-not-found support in a
+    separate package.
 
  -- Matthias Klumpp <mak@debian.org>  Mon, 22 Sep 2014 18:02:58 +0200
 
