@@ -1,3 +1,10 @@
+packagekit (1.0.0-2) unstable; urgency=medium
+
+  * Add patch to fix systemd-dependent conditional compilation
+    - Will hopefully resolve the FTBFS on !linux
+
+ -- Matthias Klumpp <mak@debian.org>  Sat, 27 Sep 2014 08:20:48 +0200
+
 packagekit (1.0.0-1) unstable; urgency=medium
 
   * New upstream release: 1.0.0
