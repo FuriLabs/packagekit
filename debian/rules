@@ -7,7 +7,6 @@ DEB_HOST_MULTIARCH ?= $(shell dpkg-architecture -qDEB_HOST_MULTIARCH)
 # Use this variable to set the PackageKit configure flags
 # We set aptcc as default backend
 PK_CONFIGURE_FLAGS = --libexecdir=/usr/lib/packagekit \
-		--with-systemdsystemunitdir=/lib/systemd/system \
 		--disable-static \
 		--disable-local \
 		--disable-cron \
@@ -21,8 +20,7 @@ PK_CONFIGURE_FLAGS = --libexecdir=/usr/lib/packagekit \
 ifneq ($(DEB_HOST_ARCH_OS), linux)
 	PK_CONFIGURE_FLAGS += --disable-networkmanager \
 		--disable-connman \
-		--disable-systemd \
-		--disable-systemd-updates
+		--disable-systemd
 endif
 
 LDFLAGS += -Wl,--as-needed
