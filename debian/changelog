@@ -1,3 +1,10 @@
+packagekit (1.0.0-3) unstable; urgency=medium
+
+  * Don't explicitly pass systemd unit path to configure
+    - Should resolve FTBFS on non-Linux ports
+
+ -- Matthias Klumpp <mak@debian.org>  Tue, 08 Oct 2014 22:48:18 +0200
+
 packagekit (1.0.0-2) unstable; urgency=medium
 
   * Add patch to fix systemd-dependent conditional compilation
