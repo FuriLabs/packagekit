@@ -25,7 +25,7 @@ systemdservice_in_files =				\
 	packagekit.service.in				\
 	packagekit-offline-update.service.in
 
-if PK_BUILD_SYSTEMD
+if HAVE_SYSTEMD
 systemdservicedir       = $(systemdsystemunitdir)
 systemdservice_DATA     = $(systemdservice_in_files:.service.in=.service)
 endif
@@ -40,6 +40,10 @@ install-data-hook:
 		echo "Remove global read access for: $(DESTDIR)$(localstatedir)/lib/PackageKit/$$file"; \
 		chmod o-r $(DESTDIR)$(localstatedir)/lib/PackageKit/$$file; \
 	done
+if HAVE_SYSTEMD
+	mkdir -p $(DESTDIR)$(systemdservicedir)/system-update.target.wants
+	ln -sf ../packagekit-offline-update.service $(DESTDIR)$(systemdservicedir)/system-update.target.wants/packagekit-offline-update.service
+endif
 
 EXTRA_DIST =						\
 	org.freedesktop.PackageKit.conf.in		\

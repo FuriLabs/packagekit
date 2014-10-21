@@ -89,7 +89,8 @@ am__aclocal_m4_deps = $(top_srcdir)/m4/as-linguas.m4 \
 	$(top_srcdir)/m4/gtk-doc.m4 $(top_srcdir)/m4/intltool.m4 \
 	$(top_srcdir)/m4/libtool.m4 $(top_srcdir)/m4/ltoptions.m4 \
 	$(top_srcdir)/m4/ltsugar.m4 $(top_srcdir)/m4/ltversion.m4 \
-	$(top_srcdir)/acinclude.m4 $(top_srcdir)/configure.ac
+	$(top_srcdir)/m4/lt~obsolete.m4 $(top_srcdir)/acinclude.m4 \
+	$(top_srcdir)/configure.ac
 am__configure_deps = $(am__aclocal_m4_deps) $(CONFIGURE_DEPENDENCIES) \
 	$(ACLOCAL_M4)
 mkinstalldirs = $(install_sh) -d
@@ -133,6 +134,7 @@ am_libpk_backend_alpm_la_OBJECTS =  \
 	libpk_backend_alpm_la-pk-alpm-config.lo \
 	libpk_backend_alpm_la-pk-alpm-databases.lo \
 	libpk_backend_alpm_la-pk-alpm-depends.lo \
+	libpk_backend_alpm_la-pk-alpm-environment.lo \
 	libpk_backend_alpm_la-pk-alpm-error.lo \
 	libpk_backend_alpm_la-pk-alpm-groups.lo \
 	libpk_backend_alpm_la-pk-alpm-install.lo \
@@ -491,6 +493,8 @@ libpk_backend_alpm_la_SOURCES = \
 	pk-alpm-databases.c						\
 	pk-alpm-databases.h						\
 	pk-alpm-depends.c						\
+	pk-alpm-environment.c					\
+	pk-alpm-environment.h					\
 	pk-alpm-error.c							\
 	pk-alpm-error.h							\
 	pk-alpm-groups.c						\
@@ -595,6 +599,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libpk_backend_alpm_la-pk-alpm-config.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libpk_backend_alpm_la-pk-alpm-databases.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libpk_backend_alpm_la-pk-alpm-depends.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libpk_backend_alpm_la-pk-alpm-environment.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libpk_backend_alpm_la-pk-alpm-error.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libpk_backend_alpm_la-pk-alpm-groups.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libpk_backend_alpm_la-pk-alpm-install.Plo@am__quote@
@@ -654,6 +659,13 @@ libpk_backend_alpm_la-pk-alpm-depends.lo: pk-alpm-depends.c
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='pk-alpm-depends.c' object='libpk_backend_alpm_la-pk-alpm-depends.lo' libtool=yes @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libpk_backend_alpm_la_CFLAGS) $(CFLAGS) -c -o libpk_backend_alpm_la-pk-alpm-depends.lo `test -f 'pk-alpm-depends.c' || echo '$(srcdir)/'`pk-alpm-depends.c
+
+libpk_backend_alpm_la-pk-alpm-environment.lo: pk-alpm-environment.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libpk_backend_alpm_la_CFLAGS) $(CFLAGS) -MT libpk_backend_alpm_la-pk-alpm-environment.lo -MD -MP -MF $(DEPDIR)/libpk_backend_alpm_la-pk-alpm-environment.Tpo -c -o libpk_backend_alpm_la-pk-alpm-environment.lo `test -f 'pk-alpm-environment.c' || echo '$(srcdir)/'`pk-alpm-environment.c
+@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/libpk_backend_alpm_la-pk-alpm-environment.Tpo $(DEPDIR)/libpk_backend_alpm_la-pk-alpm-environment.Plo
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='pk-alpm-environment.c' object='libpk_backend_alpm_la-pk-alpm-environment.lo' libtool=yes @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libpk_backend_alpm_la_CFLAGS) $(CFLAGS) -c -o libpk_backend_alpm_la-pk-alpm-environment.lo `test -f 'pk-alpm-environment.c' || echo '$(srcdir)/'`pk-alpm-environment.c
 
 libpk_backend_alpm_la-pk-alpm-error.lo: pk-alpm-error.c
 @am__fastdepCC_TRUE@	$(AM_V_CC)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libpk_backend_alpm_la_CFLAGS) $(CFLAGS) -MT libpk_backend_alpm_la-pk-alpm-error.lo -MD -MP -MF $(DEPDIR)/libpk_backend_alpm_la-pk-alpm-error.Tpo -c -o libpk_backend_alpm_la-pk-alpm-error.lo `test -f 'pk-alpm-error.c' || echo '$(srcdir)/'`pk-alpm-error.c

@@ -67,6 +67,9 @@
 /* Define to 1 if you have the <string.h> header file. */
 #define HAVE_STRING_H 1
 
+/* Build systemd code */
+#define HAVE_SYSTEMD 1
+
 /* Define to 1 if you have the <sys/stat.h> header file. */
 #define HAVE_SYS_STAT_H 1
 
@@ -93,7 +96,7 @@
 #define PACKAGE_NAME "PackageKit"
 
 /* Define to the full name and version of this package. */
-#define PACKAGE_STRING "PackageKit 1.0.0"
+#define PACKAGE_STRING "PackageKit 1.0.1"
 
 /* Define to the one symbol short name of this package. */
 #define PACKAGE_TARNAME "PackageKit"
@@ -102,7 +105,7 @@
 #define PACKAGE_URL "http://www.packagekit.org/"
 
 /* Define to the version of this package. */
-#define PACKAGE_VERSION "1.0.0"
+#define PACKAGE_VERSION "1.0.1"
 
 /* define if Connection Manager is installed */
 /* #undef PK_BUILD_CONNMAN */
@@ -113,17 +116,14 @@
 /* define if NetworkManager is installed */
 #define PK_BUILD_NETWORKMANAGER 1
 
-/* Build systemd code */
-#define PK_BUILD_SYSTEMD 1
-
-/* Has offline updates */
+/* Enable the daemon tests */
 #define PK_ENABLE_DAEMON_TESTS 1
 
 /* Define to 1 if you have the ANSI C header files. */
 #define STDC_HEADERS 1
 
 /* Version number of package */
-#define VERSION "1.0.0"
+#define VERSION "1.0.1"
 
 /* define if libzypp returns package size in bytes */
 /* #undef ZYPP_RETURN_BYTES */

@@ -52,6 +52,16 @@ sub filter {
         return 0 if !filter_free($urpm, $pkg, $filter);
       }
     }
+    elsif (member($filter, FILTER_DOWNLOADED, FILTER_NOT_DOWNLOADED)) {
+      if ($e_filters{FILTER_DOWNLOADED}) {
+        return 0 if !filter_downloaded($urpm, $pkg, $filter);
+      }
+    }
+    elsif (member($filter, FILTER_APPLICATION, FILTER_NOT_APPLICATION)) {
+      if ($e_filters{FILTER_APPLICATION}) {
+        return 0 if !filter_application($urpm, $pkg, $filter);
+      }
+    }
   }
   return 1;
 }
@@ -86,14 +96,14 @@ sub filter_gui {
 
 sub filter_supported {
   my ($urpm, $pkg, $filter) = @_;
-  my $media = pkg2medium($pkg, $urpm);
-  return 0 unless defined($media);
+  my $medium = pkg2medium($pkg, $urpm);
+  return 0 unless defined($medium);
 
-  my $medianame = $media->{name};
-  # FIXME: matching against media name is certainly not optimal,
+  my $mediumname = $medium->{name};
+  # FIXME: matching against medium name is certainly not optimal,
   #        better heuristics needed...
-  #        could be blacklisting 'contrib' or better check for 'media_type=official'
-  my $supported = $medianame =~ /^(?:core|main)/i;
+  #        could be blacklisting 'contrib' or better check for 'medium_type=official'
+  my $supported = $mediumname =~ /^(?:core|main)/i;
 
   return 1 if $filter eq FILTER_SUPPORTED && $supported;
   return 1 if $filter eq FILTER_NOT_SUPPORTED && !$supported;
@@ -102,25 +112,50 @@ sub filter_supported {
 
 sub filter_free {
   my ($urpm, $pkg, $filter) = @_;
-  my $media = pkg2medium($pkg, $urpm);
-  return 0 unless defined($media);
+  my $medium = pkg2medium($pkg, $urpm);
+  return 0 unless defined($medium);
 
-  my $medianame = $media->{name};
+  my $mediumname = $medium->{name};
   my $free;
-  if ($media->{mediacfg}) {
-      my @media_types;
-      my ($distribconf, $media_path) = @{$media->{mediacfg}};
-      warn ">> (distribconf, media_path) = ($distribconf, $media_path)\n";
-      @media_types = split(':', $distribconf->getvalue($media_path, 'media_type')) if $distribconf;
-      $free = member('free', @media_types);
+  if ($medium->{mediacfg}) {
+      my @medium_types;
+      my ($distribconf, $medium_path) = @{$medium->{mediacfg}};
+      warn ">> (distribconf, medium_path) = ($distribconf, $medium_path)\n";
+      @medium_types = split(':', $distribconf->getvalue($medium_path, 'medium_type')) if $distribconf;
+      $free = member('free', @medium_types);
   } else {
-      # FIXME: matching against media name is certainly not optimal,
+      # FIXME: matching against medium name is certainly not optimal,
       #        better heuristics needed...
-      $free = $medianame !~ /non-free/i;
+      $free = $mediumname !~ /non-free/i;
   }
 
   return 1 if $filter eq FILTER_FREE && $free;
   return 1 if $filter eq FILTER_NOT_FREE && !$free;
+  return 0;
+}
+
+sub filter_downloaded {
+  my ($urpm, $pkg, $filter) = @_;
+  my $medium = pkg2medium($pkg, $urpm);
+  return 0 unless defined($medium);
+  my $proto = urpm::protocol_from_url($medium->{url});
+
+  # we have no cache:
+  my $downloaded = $proto eq 'file';
+
+  return 1 if $filter eq FILTER_DOWNLOADED && $downloaded;
+  return 1 if $filter eq FILTER_NOT_DOWNLOADED && !$downloaded;
+  return 0;
+}
+
+sub filter_application {
+  @gui_pkgs = map { chomp; $_ } cat_('/usr/share/rpmdrake/gui.lst') if !@gui_pkgs;
+  my ($urpm, $pkg, $filter) = @_;
+
+  my $application = member($pkg->name, @gui_pkgs);
+
+  return 1 if $filter eq FILTER_APPLICATION && $application;
+  return 1 if $filter eq FILTER_NOT_APPLICATION && !$application;
   return 0;
 }
 

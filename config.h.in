@@ -66,6 +66,9 @@
 /* Define to 1 if you have the <string.h> header file. */
 #undef HAVE_STRING_H
 
+/* Build systemd code */
+#undef HAVE_SYSTEMD
+
 /* Define to 1 if you have the <sys/stat.h> header file. */
 #undef HAVE_SYS_STAT_H
 
@@ -112,10 +115,7 @@
 /* define if NetworkManager is installed */
 #undef PK_BUILD_NETWORKMANAGER
 
-/* Build systemd code */
-#undef PK_BUILD_SYSTEMD
-
-/* Has offline updates */
+/* Enable the daemon tests */
 #undef PK_ENABLE_DAEMON_TESTS
 
 /* Define to 1 if you have the ANSI C header files. */
