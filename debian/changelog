@@ -1,8 +1,13 @@
-packagekit (1.0.1-1) UNRELEASED; urgency=medium
+packagekit (1.0.1-1) unstable; urgency=medium
 
-  * Imported Upstream version 1.0.1
+  * New upstream release: 1.0.1
   * Drop patches: Applied upstream
   * Build package using dh-systemd to cleanup stuff on package removal
+  * Drop Python3 backend bindings
+  * Remove dist-upgrade notification support from aptcc
+    - This only really worked on Ubuntu, and the functionality relies
+      on outdated Python code and needs to be reimplemented in a
+      sane way. There is no need to ship cruft with Jessie.
 
  -- Matthias Klumpp <mak@debian.org>  Tue, 21 Oct 2014 14:52:34 +0200
 
