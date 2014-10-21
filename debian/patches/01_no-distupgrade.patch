@@ -1,0 +1,61 @@
+Description: Remove dist-upgrade notifier from aptcc
+ This functionality only works on Ubuntu, and introduces lots of extra
+ dependencies on outdated Python code in PackageKit.
+ This code should be rewritten in a saner way, and then be reintroduced.
+--- a/backends/aptcc/Makefile.am
++++ b/backends/aptcc/Makefile.am
+@@ -42,13 +42,12 @@
+ 
+ helperdir = $(datadir)/PackageKit/helpers/aptcc
+ dist_helper_DATA =					\
+-	get-distro-upgrade.py				\
+ 	pkconffile					\
+ 	pkconffile.nodiff				\
+ 	$(NULL)
+ 
+ install-data-hook:
+-	chmod +x $(DESTDIR)$(helperdir)/*.py $(DESTDIR)$(helperdir)/pkconffile
++	chmod +x $(DESTDIR)$(helperdir)/pkconffile
+ 
+ clean-local :
+ 	rm -f *~
+--- a/backends/aptcc/pk-backend-aptcc.cpp
++++ b/backends/aptcc/pk-backend-aptcc.cpp
+@@ -288,14 +288,6 @@
+     pk_backend_job_thread_create(job, backend_depends_on_or_requires_thread, NULL, NULL);
+ }
+ 
+-/**
+- * pk_backend_get_distro_upgrades:
+- */
+-void pk_backend_get_distro_upgrades(PkBackend *backend, PkBackendJob *job)
+-{
+-    pk_backend_spawn_helper(spawn, job, "get-distro-upgrade.py", "get-distro-upgrades", NULL);
+-}
+-
+ static void backend_get_files_thread(PkBackendJob *job, GVariant *params, gpointer user_data)
+ {
+     gchar **package_ids;
+@@ -603,11 +595,11 @@
+         g_debug("Failed to create apt cache");
+         return;
+     }
+-    
++
+     PkBackend *backend = PK_BACKEND(pk_backend_job_get_backend(job));
+     if (pk_backend_is_online(backend)) {
+         apt->refreshCache();
+-        
++
+         if (_error->PendingError() == true) {
+             show_errors(job, PK_ERROR_ENUM_CANNOT_FETCH_SOURCES, true);
+         }
+@@ -1014,7 +1006,7 @@
+         }
+ 
+         string sections = (*it)->joinedSections();
+-        
++
+         string repoId = (*it)->repoId();
+ 
+         if (role == PK_ROLE_ENUM_GET_REPO_LIST) {
