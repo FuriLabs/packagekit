@@ -1,4 +1,2 @@
 vendor-ubuntu.diff
 policy.diff
-01_systemd-headers.patch
-02_have-systemd-symbol.patch
