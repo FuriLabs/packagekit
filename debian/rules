@@ -9,6 +9,7 @@ DEB_HOST_MULTIARCH ?= $(shell dpkg-architecture -qDEB_HOST_MULTIARCH)
 PK_CONFIGURE_FLAGS = --libexecdir=/usr/lib/packagekit \
 		--disable-static \
 		--disable-local \
+		--disable-silent-rules \
 		--disable-cron \
 		--enable-python3 \
 		--enable-introspection \
@@ -35,7 +36,7 @@ endif
 INSTALLDIR = $(CURDIR)/debian/tmp
 
 %:
-	dh $@ --parallel --with python3 --with autoreconf
+	dh $@ --parallel --with python3 --with autoreconf --with systemd
 
 extrainstallfiles-stamp:
 	grep -E -v 'lib/systemd|pk-offline-update|pk-trigger-offline-update|pk-clear-offline-update' debian/packagekit.install > debian/packagekit.install.kfreebsd
@@ -91,3 +92,11 @@ override_dh_strip:
 
 override_dh_autoreconf:
 	dh_autoreconf --as-needed
+
+override_dh_systemd_enable:
+	# the offline-updates service is enabled/disabled by PackageKit in a different way.
+	# but we do want to clear leftover symlinks upon removal of the package.
+	dh_systemd_enable --no-enable
+
+override_dh_systemd_start:
+	dh_systemd_start --no-start
