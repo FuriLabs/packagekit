@@ -2,7 +2,7 @@
 
 m4_define([pk_major_version], [1])
 m4_define([pk_minor_version], [0])
-m4_define([pk_micro_version], [0])
+m4_define([pk_micro_version], [1])
 m4_define([pk_version],
           [pk_major_version.pk_minor_version.pk_micro_version])
 
@@ -242,17 +242,16 @@ dnl - Use systemd and logind rather than ConsoleKit
 dnl ---------------------------------------------------------------------------
 AC_ARG_ENABLE(systemd, AS_HELP_STRING([--enable-systemd],[enable systemd and logind code]),
 	      enable_systemd=$enableval,enable_systemd=yes)
-AM_CONDITIONAL(PK_BUILD_SYSTEMD, test x$enable_systemd = xyes)
 if test x$enable_systemd = xyes; then
 	PKG_CHECK_MODULES(SYSTEMD, libsystemd-login libsystemd-journal)
 	AC_ARG_WITH([systemdsystemunitdir],
 		    AS_HELP_STRING([--with-systemdsystemunitdir=DIR], [Directory for systemd service files]),
-		    [],
-		    [with_systemdsystemunitdir=$($PKG_CONFIG --variable=systemdsystemunitdir systemd)])
-	AC_DEFINE(PK_BUILD_SYSTEMD,1,[Build systemd code])
-	AC_SUBST([systemdsystemunitdir], [$with_systemdsystemunitdir])
+		    [has_systemdsystemunitdir=$with_systemdsystemunitdir],
+		    [has_systemdsystemunitdir=$($PKG_CONFIG --variable=systemdsystemunitdir systemd)])
+	AC_DEFINE(HAVE_SYSTEMD,1,[Build systemd code])
+	AC_SUBST([systemdsystemunitdir], [$has_systemdsystemunitdir])
 fi
-AM_CONDITIONAL(HAVE_SYSTEMD, [test -n "$with_systemdsystemunitdir"])
+AM_CONDITIONAL(HAVE_SYSTEMD, [test -n "$has_systemdsystemunitdir"])
 
 dnl ---------------------------------------------------------------------------
 dnl - Generate man pages ? (default enabled)
@@ -407,7 +406,7 @@ AC_ARG_ENABLE(daemon-tests, AS_HELP_STRING([--enable-daemon-tests],
 	      [Test the daemon using the dummy backend]),
 	      enable_daemon_tests=$enableval,enable_daemon_tests=yes)
 if test x$enable_daemon_tests = xyes; then
-	AC_DEFINE(PK_ENABLE_DAEMON_TESTS,1,[Has offline updates])
+	AC_DEFINE(PK_ENABLE_DAEMON_TESTS,1,[Enable the daemon tests])
 fi
 
 # backends
@@ -464,7 +463,12 @@ if test x$enable_hif = xyes; then
 	PKG_CHECK_MODULES(HIF, libhif >= 0.1.4)
 fi
 
+have_python_backend="no"
+if test x$enable_entropy = xyes -o x$enable_pisi = xyes -o $enable_portage = xyes; then
+	have_python_backend="yes"
+fi
 if test x$enable_apt = xyes; then
+	have_python_backend="yes"
 	PY_CHECK_MOD([apt_pkg],,,AC_MSG_ERROR([Apt backend needs python-apt]))
 	PY_CHECK_MOD([UpdateManager.Core.MetaRelease],,
 		     AC_DEFINE(HAVE_PYTHON_META_RELEASE, 1,
@@ -475,6 +479,7 @@ if test x$enable_apt = xyes; then
 			       "Python software properties is available"),
 		     AC_MSG_WARN([Repository handling not supported]))
 fi
+AM_CONDITIONAL(HAVE_PYTHON_BACKEND, test x$have_python_backend = xyes)
 
 if test x$enable_aptcc = xyes; then
 	dnl Use C++
@@ -643,9 +648,9 @@ echo "
         gobject-introspection:     ${found_introspection}
         BASH Command not found:    ${build_command_not_found}
         Cron scripts:              ${build_cron}
-        systemd-updates:           ${build_systemd_updates}
         python3:                   ${enable_python3}
-        systemd system unit dir:   ${with_systemdsystemunitdir}
+        systemd system unit dir:   ${has_systemdsystemunitdir}
+        Installing python backend: ${have_python_backend}
         python package dir:        ${with_python_package_dir}
 
         Backends:

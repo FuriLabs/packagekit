@@ -79,7 +79,8 @@ build_triplet = @build@
 host_triplet = @host@
 subdir = lib/python/packagekit
 DIST_COMMON = $(srcdir)/Makefile.in $(srcdir)/Makefile.am \
-	$(packagekitpython_PYTHON) $(top_srcdir)/build-aux/py-compile
+	$(am__packagekitpython_PYTHON_DIST) \
+	$(top_srcdir)/build-aux/py-compile
 ACLOCAL_M4 = $(top_srcdir)/aclocal.m4
 am__aclocal_m4_deps = $(top_srcdir)/m4/as-linguas.m4 \
 	$(top_srcdir)/m4/ax_check_compile_flag.m4 \
@@ -87,7 +88,8 @@ am__aclocal_m4_deps = $(top_srcdir)/m4/as-linguas.m4 \
 	$(top_srcdir)/m4/gtk-doc.m4 $(top_srcdir)/m4/intltool.m4 \
 	$(top_srcdir)/m4/libtool.m4 $(top_srcdir)/m4/ltoptions.m4 \
 	$(top_srcdir)/m4/ltsugar.m4 $(top_srcdir)/m4/ltversion.m4 \
-	$(top_srcdir)/acinclude.m4 $(top_srcdir)/configure.ac
+	$(top_srcdir)/m4/lt~obsolete.m4 $(top_srcdir)/acinclude.m4 \
+	$(top_srcdir)/configure.ac
 am__configure_deps = $(am__aclocal_m4_deps) $(CONFIGURE_DEPENDENCIES) \
 	$(ACLOCAL_M4)
 mkinstalldirs = $(install_sh) -d
@@ -113,6 +115,8 @@ am__can_run_installinfo = \
     n|no|NO) false;; \
     *) (install-info --version) >/dev/null 2>&1;; \
   esac
+am__packagekitpython_PYTHON_DIST = __init__.py backend.py enums.py \
+	progress.py package.py filter.py misc.py
 am__vpath_adj_setup = srcdirstrip=`echo "$(srcdir)" | sed 's|.|.|g'`;
 am__vpath_adj = case $$p in \
     $(srcdir)/*) f=`echo "$$p" | sed "s|^$$srcdirstrip/||"`;; \
@@ -400,16 +404,15 @@ top_build_prefix = @top_build_prefix@
 top_builddir = @top_builddir@
 top_srcdir = @top_srcdir@
 BUILT_SOURCES = enums.py
-NULL = 
-packagekitpythondir = ${PYTHON_PACKAGE_DIR}
-packagekitpython_PYTHON = \
-	__init__.py					\
-	backend.py					\
-	enums.py					\
-	progress.py					\
-	package.py					\
-	filter.py					\
-	misc.py
+@HAVE_PYTHON_BACKEND_TRUE@packagekitpythondir = ${PYTHON_PACKAGE_DIR}
+@HAVE_PYTHON_BACKEND_TRUE@packagekitpython_PYTHON = \
+@HAVE_PYTHON_BACKEND_TRUE@	__init__.py					\
+@HAVE_PYTHON_BACKEND_TRUE@	backend.py					\
+@HAVE_PYTHON_BACKEND_TRUE@	enums.py					\
+@HAVE_PYTHON_BACKEND_TRUE@	progress.py					\
+@HAVE_PYTHON_BACKEND_TRUE@	package.py					\
+@HAVE_PYTHON_BACKEND_TRUE@	filter.py					\
+@HAVE_PYTHON_BACKEND_TRUE@	misc.py
 
 MAINTAINERCLEANFILES = \
 	*.pyc

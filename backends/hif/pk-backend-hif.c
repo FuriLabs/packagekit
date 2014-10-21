@@ -149,6 +149,7 @@ pk_backend_context_invaliate_cb (HifContext *context,
 				 PkBackend *backend)
 {
 	pk_backend_sack_cache_invalidate (backend, message);
+	pk_backend_installed_db_changed (backend);
 }
 
 /**
@@ -241,6 +242,10 @@ pk_backend_initialize (GKeyFile *conf, PkBackend *backend)
 	lock_dir = g_build_filename (destdir, "/var/run", NULL);
 	hif_context_set_lock_dir (priv->context, lock_dir);
 	hif_context_set_rpm_verbosity (priv->context, "info");
+
+	/* do we keep downloaded packages */
+	ret = g_key_file_get_boolean (conf, "Daemon", "KeepCache", NULL);
+	hif_context_set_keep_cache (priv->context, ret);
 
 	/* if our cachedir is empty, copy over some default metadata */
 	cache_root = g_build_filename (destdir, "/var/cache/PackageKit", NULL);
@@ -2132,10 +2137,13 @@ pk_backend_transaction_download_commit (PkBackendJob *job,
 	/* nothing to download */
 	transaction = hif_context_get_transaction (priv->context);
 	if (hif_transaction_get_remote_pkgs(transaction)->len == 0) {
-		return hif_transaction_commit (transaction,
-					       job_data->goal,
-					       state,
-					       error);
+		pk_backend_transaction_inhibit_start (job_data->backend);
+		ret = hif_transaction_commit (transaction,
+					      job_data->goal,
+					      state,
+					      error);
+		pk_backend_transaction_inhibit_end (job_data->backend);
+		return ret;
 	}
 
 	/* set state */
@@ -2160,10 +2168,12 @@ pk_backend_transaction_download_commit (PkBackendJob *job,
 
 	/* run transaction */
 	state_local = hif_state_get_child (state);
+	pk_backend_transaction_inhibit_start (job_data->backend);
 	ret = hif_transaction_commit (transaction,
 				      job_data->goal,
 				      state_local,
 				      error);
+	pk_backend_transaction_inhibit_end (job_data->backend);
 	if (!ret)
 		return FALSE;
 

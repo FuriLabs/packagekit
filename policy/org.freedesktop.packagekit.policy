@@ -262,6 +262,7 @@
   <action id="org.freedesktop.packagekit.system-trust-signing-key">
     
     <description>Trust a key used for signing software</description>
+    <description xml:lang="de">Einem Schlüssel zum Signieren von Software vertrauen</description>
     <description xml:lang="el">Εμπιστευθείτε ένα κλειδί που χρησιμοποιείται για την υπογραφή λογισμικού</description>
     <description xml:lang="en_GB">Trust a key used for signing software</description>
     <description xml:lang="es">Confiar en una clave de firma de software</description>
@@ -484,6 +485,7 @@
   <action id="org.freedesktop.packagekit.system-update">
     
     <description>Update software</description>
+    <description xml:lang="de">Software aktualisieren</description>
     <description xml:lang="el">Ενημέρωση λογισμικού</description>
     <description xml:lang="en_GB">Update software</description>
     <description xml:lang="es">Actualizar software</description>
