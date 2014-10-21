@@ -11,7 +11,6 @@ PK_CONFIGURE_FLAGS = --libexecdir=/usr/lib/packagekit \
 		--disable-local \
 		--disable-silent-rules \
 		--disable-cron \
-		--enable-python3 \
 		--enable-introspection \
 		--enable-aptcc \
 		--enable-browser-plugin \
@@ -36,7 +35,7 @@ endif
 INSTALLDIR = $(CURDIR)/debian/tmp
 
 %:
-	dh $@ --parallel --with python3 --with autoreconf --with systemd
+	dh $@ --parallel --with autoreconf --with systemd
 
 extrainstallfiles-stamp:
 	grep -E -v 'lib/systemd|pk-offline-update|pk-trigger-offline-update|pk-clear-offline-update' debian/packagekit.install > debian/packagekit.install.kfreebsd

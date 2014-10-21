@@ -31,7 +31,6 @@ Build-Depends: bash-completion,
                network-manager-dev [linux-any],
                npapi-sdk-dev,
                policykit-1,
-               python3 (>= 3.2),
                xmlto
 Standards-Version: 3.9.6
 Homepage: http://www.packagekit.org
@@ -42,8 +41,6 @@ Multi-Arch: foreign
 Depends: gdebi-core (>= 0.8.2),
          libglib2.0-bin,
          policykit-1,
-         python3,
-         python3-packagekit (>= ${source:Version}),
          ${misc:Depends},
          ${shlibs:Depends}
 Breaks: libpackagekit-glib2-14 (<= 0.7.6-4),
@@ -194,23 +191,6 @@ Description: Plugin to install missing plugins using PackageKit
  software packages or searching for multimedia codecs and file handlers.
  .
  This package provides a browser plugin.
-
-Package: python3-packagekit
-Architecture: all
-Section: python
-Depends: python3-dbus,
-         ${misc:Depends},
-         ${python3:Depends}
-Recommends: packagekit
-Description: PackageKit backend Python bindings
- PackageKit allows performing simple software management tasks over a DBus
- interface e.g refreshing the cache, updating, installing and removing
- software packages or searching for multimedia codecs and file handlers.
- .
- This package provides PackageKit Python bindings which are still needed
- by some PackageKit backends written in Python.
- If you want to use PackageKit from Python and don't write a backend, please
- use the GIRepository instead.
 
 Package: packagekit-command-not-found
 Architecture: any
