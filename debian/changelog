@@ -1,3 +1,11 @@
+packagekit (1.0.1-1) UNRELEASED; urgency=medium
+
+  * Imported Upstream version 1.0.1
+  * Drop patches: Applied upstream
+  * Build package using dh-systemd to cleanup stuff on package removal
+
+ -- Matthias Klumpp <mak@debian.org>  Tue, 21 Oct 2014 14:52:34 +0200
+
 packagekit (1.0.0-3) unstable; urgency=medium
 
   * Don't explicitly pass systemd unit path to configure
