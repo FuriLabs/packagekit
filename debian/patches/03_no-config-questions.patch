@@ -1,0 +1,27 @@
+From 97161e231b2ab406e77977a2a693d7935e33df0f Mon Sep 17 00:00:00 2001
+From: Matthias Klumpp <matthias@tenstral.net>
+Date: Sun, 7 Dec 2014 20:58:28 +0100
+Subject: [PATCH] aptcc: Don't ask about config changes if we are not
+ interactive
+
+---
+ backends/aptcc/apt-intf.cpp | 6 ++++++
+ 1 file changed, 6 insertions(+)
+
+diff --git a/backends/aptcc/apt-intf.cpp b/backends/aptcc/apt-intf.cpp
+index 0567c78..18979ad 100644
+--- a/backends/aptcc/apt-intf.cpp
++++ b/backends/aptcc/apt-intf.cpp
+@@ -147,6 +147,12 @@ bool AptIntf::init()
+         m_cache->Close();
+     }
+ 
++    // Do not ask about config updates if we are not interactive
++    if (!pk_backend_job_get_interactive(m_job)) {
++        _config->Set("Dpkg::Options::", "--force-confdef");
++        _config->Set("Dpkg::Options::", "--force-confold");
++    }
++
+     // Check if there are half-installed packages and if we can fix them
+     return m_cache->CheckDeps(AllowBroken);
+ }
