@@ -1,3 +1,15 @@
+packagekit (1.0.1-2) unstable; urgency=medium
+
+  * Ship with pkla file for older PolicyKit versions (Closes: #766792)
+  * Place temporary data in subdirectory in /tmp (Closes: #764928)
+  * Don't try to ask any questions if we are running in
+    non-interactive mode (Closes: #764926)
+  * Drop obsolete configuration (Closes: #768420)
+  * Recommend PackageKit session-interface providers for packages
+    which need a session-interface (Closes: #770814)
+
+ -- Matthias Klumpp <mak@debian.org>  Mon, 08 Dec 2014 18:44:28 +0100
+
 packagekit (1.0.1-1) unstable; urgency=medium
 
   * New upstream release: 1.0.1
