@@ -18,7 +18,7 @@ Last-Update: 2013-12-04
  #
  # default=http://www.packagekit.org/pk-package-not-found.html
 -DefaultUrl=http://www.packagekit.org/pk-package-not-found.html
-+DefaultUrl=http://wiki.debian.org/PackageKit/ItemNotFound#Missing_Package
++DefaultUrl=https://wiki.debian.org/PackageKit/ItemNotFound#Missing_Package
 
  # The URL which is shown to the user when a codec could not be found.
  # It should explain why certain codecs cannot be used, and perhaps show
@@ -27,7 +27,7 @@ Last-Update: 2013-12-04
  #
  # default=none
 -CodecUrl=none
-+CodecUrl=http://wiki.debian.org/PackageKit/ItemNotFound#Missing_Codec
++CodecUrl=https://wiki.debian.org/PackageKit/ItemNotFound#Missing_Codec
 
  # The URL which is shown to the user when hardware drivers could not be found.
  # It should explain why some hardware is not supported, and links to futher
@@ -36,7 +36,7 @@ Last-Update: 2013-12-04
  #
  # default=none
 -HardwareUrl=none
-+HardwareUrl=http://wiki.debian.org/PackageKit/ItemNotFound#Missing_Driver
++HardwareUrl=https://wiki.debian.org/PackageKit/ItemNotFound#Missing_Driver
 
  # The URL which is shown to the user when fonts could not be found.
  # Alternatives should probably be suggested where possible.
@@ -45,7 +45,7 @@ Last-Update: 2013-12-04
  #
  # default=none
 -FontUrl=none
-+FontUrl=http://wiki.debian.org/PackageKit/ItemNotFound#Missing_Font
++FontUrl=https://wiki.debian.org/PackageKit/ItemNotFound#Missing_Font
 
  # The URL which is shown to the user when programs handing a mime tpye could not
  # be found. It should probably explain how to use wine if the program is a
@@ -54,4 +54,4 @@ Last-Update: 2013-12-04
  #
  # default=none
 -MimeUrl=none
-+MimeUrl=http://wiki.debian.org/PackageKit/ItemNotFound#Missing_MIME_Support
++MimeUrl=https://wiki.debian.org/PackageKit/ItemNotFound#Missing_MIME_Support
