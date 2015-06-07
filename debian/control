@@ -32,7 +32,7 @@ Build-Depends: bash-completion,
                policykit-1,
                xmlto
 Standards-Version: 3.9.6
-Homepage: http://www.packagekit.org
+Homepage: http://www.freedesktop.org/software/PackageKit/
 
 Package: packagekit
 Architecture: any
