@@ -1,6 +1,14 @@
-packagekit (1.0.6-1) UNRELEASED; urgency=medium
+packagekit (1.0.6-1) unstable; urgency=medium
 
   * New upstream release: 1.0.6
+  * Update symbols file
+  * Build-depend on libsystemd only, instead of the deprecated
+    libsystemd-* libs (Closes: #779757)
+  * Use HTTPS for Debian Wiki links (Closes: #784794)
+    - Thanks to Raphael Geissert for the patch!
+  * Use the fd.o URL of PackageKit, instead of packagekit.org
+    as homepage, since the latter is now only a redirect to the former
+    location
 
  -- Matthias Klumpp <mak@debian.org>  Sun, 07 Jun 2015 16:14:26 +0200
 
