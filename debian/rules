@@ -27,6 +27,8 @@ LDFLAGS += -Wl,--as-needed
 
 ifeq ($(shell dpkg-vendor --derives-from Ubuntu && echo yes), yes)
 	SUBSTVARS = -Vdist:Browser="firefox (>> 8.0) | www-browser"
+else ifeq ($(shell dpkg-vendor --derives-from Tanglu && echo yes), yes)
+	SUBSTVARS = -Vdist:Browser="firefox (>> 8.0) | www-browser"
 else
 	SUBSTVARS = -Vdist:Browser="iceweasel (>> 8.0) | www-browser"
 endif
