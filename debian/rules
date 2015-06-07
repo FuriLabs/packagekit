@@ -93,7 +93,7 @@ override_dh_autoreconf:
 	dh_autoreconf --as-needed
 
 override_dh_systemd_enable:
-	# the offline-updates service is enabled/disabled by PackageKit in a different way.
+	# the offline-updates service is enabled by tools like GNOME-Software when they need it,
 	# but we do want to clear leftover symlinks upon removal of the package.
 	dh_systemd_enable --no-enable
 

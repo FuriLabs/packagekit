@@ -369,6 +369,8 @@ libpackagekit-glib2.so.18 libpackagekit-glib2-18 #MINVER#
  pk_task_download_packages_async@Base 0.9.4
  pk_task_download_packages_sync@Base 0.9.4
  pk_task_generic_finish@Base 0.9.4
+ pk_task_get_allow_downgrade@Base 1.0.6
+ pk_task_get_allow_reinstall@Base 1.0.6
  pk_task_get_categories_async@Base 0.9.4
  pk_task_get_categories_sync@Base 0.9.4
  pk_task_get_details_async@Base 0.9.4
@@ -412,6 +414,8 @@ libpackagekit-glib2.so.18 libpackagekit-glib2-18 #MINVER#
  pk_task_search_groups_sync@Base 0.9.4
  pk_task_search_names_async@Base 0.9.4
  pk_task_search_names_sync@Base 0.9.4
+ pk_task_set_allow_downgrade@Base 1.0.6
+ pk_task_set_allow_reinstall@Base 1.0.6
  pk_task_set_only_download@Base 0.9.4
  pk_task_set_only_trusted@Base 0.9.5
  pk_task_set_simulate@Base 0.9.4
