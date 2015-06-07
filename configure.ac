@@ -2,7 +2,7 @@
 
 m4_define([pk_major_version], [1])
 m4_define([pk_minor_version], [0])
-m4_define([pk_micro_version], [1])
+m4_define([pk_micro_version], [6])
 m4_define([pk_version],
           [pk_major_version.pk_minor_version.pk_micro_version])
 
@@ -53,7 +53,7 @@ AC_SUBST(PK_VERSION)
 #   fixed, change:
 #      REVISION += 1
 LT_CURRENT=18
-LT_REVISION=1
+LT_REVISION=2
 LT_AGE=0
 AC_SUBST(LT_CURRENT)
 AC_SUBST(LT_REVISION)
@@ -201,20 +201,16 @@ dnl ---------------------------------------------------------------------------
 AC_ARG_ENABLE(networkmanager, AS_HELP_STRING([--disable-networkmanager],[Disable NetworkManager support]),
 		enable_networkmanager=$enableval)
 if test x$enable_networkmanager != xno; then
-	PKG_CHECK_MODULES(NETWORK_MANAGER, NetworkManager >= $NETWORK_MANAGER_REQUIRED, PK_BUILD_NETWORKMANAGER="yes", PK_BUILD_NETWORKMANAGER="no")
-	if test "x$PK_BUILD_NETWORKMANAGER" = "xyes"; then
+	PKG_CHECK_MODULES(NETWORK_MANAGER, NetworkManager >= $NETWORK_MANAGER_REQUIRED, HAVE_NETWORKMANAGER="yes", HAVE_NETWORKMANAGER="no")
+	if test "x$HAVE_NETWORKMANAGER" = "xyes"; then
 		networking_apis="${networking_apis},NetworkManager"
-		AC_DEFINE(PK_BUILD_NETWORKMANAGER, 1, [define if NetworkManager is installed])
+		AC_DEFINE(HAVE_NETWORKMANAGER, 1, [define if NetworkManager is installed])
 	else
 		if test x$enable_networkmanager = xyes; then
 			AC_MSG_ERROR([NetworkManager enabled but not found])
 		fi
 	fi
-else
-	PK_BUILD_NETWORKMANAGER=no
 fi
-
-AM_CONDITIONAL(PK_BUILD_NETWORKMANAGER, test x$PK_BUILD_NETWORKMANAGER = xyes)
 
 dnl ---------------------------------------------------------------------------
 dnl - ConnMan (default disabled)
@@ -222,20 +218,16 @@ dnl ---------------------------------------------------------------------------
 AC_ARG_ENABLE(connman, AS_HELP_STRING([--enable-connman],[Enable ConnMan support]),
 	      enable_connman=$enableval, enable_connman=no)
 if test x$enable_connman != xno; then
-	PKG_CHECK_MODULES(CONNMAN, connman, PK_BUILD_CONNMAN="yes", PK_BUILD_CONNMAN="no")
-	if test "x$PK_BUILD_CONNMAN" = "xyes"; then
+	PKG_CHECK_MODULES(CONNMAN, connman, HAVE_CONNMAN="yes", HAVE_CONNMAN="no")
+	if test "x$HAVE_CONNMAN" = "xyes"; then
 		networking_apis="${networking_apis},ConnMan"
-		AC_DEFINE(PK_BUILD_CONNMAN, 1, [define if Connection Manager is installed])
+		AC_DEFINE(HAVE_CONNMAN, 1, [define if Connection Manager is installed])
 	else
 		if test x$enable_connman = xyes; then
 			AC_MSG_ERROR([Connman enabled but not found])
 		fi
 	fi
-else
-	PK_BUILD_CONNMAN=no
 fi
-
-AM_CONDITIONAL(PK_BUILD_CONNMAN, test x$PK_BUILD_CONNMAN = xyes)
 
 dnl ---------------------------------------------------------------------------
 dnl - Use systemd and logind rather than ConsoleKit
@@ -411,7 +403,6 @@ fi
 
 # backends
 AC_ARG_ENABLE(alpm, AS_HELP_STRING([--enable-alpm],[use the ALPM backend]),enable_alpm=$enableval,enable_alpm=no)
-AC_ARG_ENABLE(apt, AS_HELP_STRING([--enable-apt],[use the APT backend]),enable_apt=$enableval,enable_apt=no)
 AC_ARG_ENABLE(aptcc, AS_HELP_STRING([--enable-aptcc],[use the APTcc backend]),enable_aptcc=$enableval,enable_aptcc=no)
 AC_ARG_ENABLE(dummy, AS_HELP_STRING([--enable-dummy],[use the dummy backend]),enable_dummy=$enableval,enable_dummy=yes)
 AC_ARG_ENABLE(entropy, AS_HELP_STRING([--enable-entropy],[use the entropy backend]),enable_entropy=$enableval,enable_entropy=no)
@@ -426,7 +417,6 @@ AC_ARG_ENABLE(zypp, AS_HELP_STRING([--enable-zypp],[use the Zypp backend]),enabl
 
 # export to Makefile.am's
 AM_CONDITIONAL(BACKEND_TYPE_ALPM, [test x$enable_alpm = xyes])
-AM_CONDITIONAL(BACKEND_TYPE_APT, [test x$enable_apt = xyes])
 AM_CONDITIONAL(BACKEND_TYPE_APTCC, [test x$enable_aptcc = xyes])
 AM_CONDITIONAL(BACKEND_TYPE_DUMMY, [test x$enable_dummy = xyes])
 AM_CONDITIONAL(BACKEND_TYPE_ENTROPY, [test x$enable_entropy = xyes])
@@ -460,24 +450,12 @@ AC_SUBST(DBUS_SYS_DIR)
 AC_SUBST(DBUS_SERVICES_DIR)
 
 if test x$enable_hif = xyes; then
-	PKG_CHECK_MODULES(HIF, libhif >= 0.1.4)
+	PKG_CHECK_MODULES(HIF, appstream-glib libhif >= 0.1.7)
 fi
 
 have_python_backend="no"
 if test x$enable_entropy = xyes -o x$enable_pisi = xyes -o $enable_portage = xyes; then
 	have_python_backend="yes"
-fi
-if test x$enable_apt = xyes; then
-	have_python_backend="yes"
-	PY_CHECK_MOD([apt_pkg],,,AC_MSG_ERROR([Apt backend needs python-apt]))
-	PY_CHECK_MOD([UpdateManager.Core.MetaRelease],,
-		     AC_DEFINE(HAVE_PYTHON_META_RELEASE, 1,
-			       "Meta release is available"),
-		     AC_MSG_WARN([Distro upgrade notification not supported]))
-	PY_CHECK_MOD([softwareproperties.SoftwareProperties],,
-		     AC_DEFINE(HAVE_PYTHON_SOFTWARE_PROPERTIES, 1,
-			       "Python software properties is available"),
-		     AC_MSG_WARN([Repository handling not supported]))
 fi
 AM_CONDITIONAL(HAVE_PYTHON_BACKEND, test x$have_python_backend = xyes)
 
@@ -528,7 +506,7 @@ if test x$enable_aptcc = xyes; then
 fi
 
 if test x$enable_alpm = xyes; then
-	PKG_CHECK_MODULES(ALPM, libalpm >= 4.1.0)
+	PKG_CHECK_MODULES(ALPM, libalpm >= 8.2.0)
 fi
 
 if test x$enable_poldek = xyes; then
@@ -588,7 +566,6 @@ contrib/command-not-found/Makefile
 contrib/cron/Makefile
 backends/Makefile
 backends/alpm/Makefile
-backends/apt/Makefile
 backends/aptcc/Makefile
 backends/dummy/Makefile
 backends/entropy/Makefile
@@ -655,7 +632,6 @@ echo "
 
         Backends:
         ALPM backend:              ${enable_alpm}
-        APT backend:               ${enable_apt}
         APTcc backend:             ${enable_aptcc}
         dummy backend:             ${enable_dummy}
         Entropy backend:           ${enable_entropy}

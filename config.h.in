@@ -12,6 +12,9 @@
 /* Define to 1 if you have the `clearenv' function. */
 #undef HAVE_CLEARENV
 
+/* define if Connection Manager is installed */
+#undef HAVE_CONNMAN
+
 /* Define to 1 if you have the `dcgettext' function. */
 #undef HAVE_DCGETTEXT
 
@@ -45,11 +48,8 @@
 /* Define to 1 if you have the <memory.h> header file. */
 #undef HAVE_MEMORY_H
 
-/* "Meta release is available" */
-#undef HAVE_PYTHON_META_RELEASE
-
-/* "Python software properties is available" */
-#undef HAVE_PYTHON_SOFTWARE_PROPERTIES
+/* define if NetworkManager is installed */
+#undef HAVE_NETWORKMANAGER
 
 /* Define to 1 if you have the `setpriority' function. */
 #undef HAVE_SETPRIORITY
@@ -106,14 +106,8 @@
 /* Define to the version of this package. */
 #undef PACKAGE_VERSION
 
-/* define if Connection Manager is installed */
-#undef PK_BUILD_CONNMAN
-
 /* Build local code */
 #undef PK_BUILD_LOCAL
-
-/* define if NetworkManager is installed */
-#undef PK_BUILD_NETWORKMANAGER
 
 /* Enable the daemon tests */
 #undef PK_ENABLE_DAEMON_TESTS

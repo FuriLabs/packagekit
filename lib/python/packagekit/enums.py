@@ -9,14 +9,14 @@ class PackageKitEnum:
 	filter = ( "unknown", "none", "installed", "~installed", "devel", "~devel", "gui", "~gui", "free", "~free", "visible", "~visible", "supported", "~supported", "basename", "~basename", "newest", "~newest", "arch", "~arch", "source", "~source", "collections", "~collections", "application", "~application", "downloaded", "~downloaded", )
 	group = ( "unknown", "accessibility", "accessories", "education", "games", "graphics", "internet", "office", "other", "programming", "multimedia", "system", "desktop-gnome", "desktop-kde", "desktop-xfce", "desktop-other", "publishing", "servers", "fonts", "admin-tools", "legacy", "localization", "virtualization", "power-management", "security", "communication", "network", "maps", "repos", "science", "documentation", "electronics", "collections", "vendor", "newest", )
 	update_state = ( "unknown", "testing", "unstable", "stable", )
-	info = ( "unknown", "installed", "available", "low", "normal", "important", "security", "bugfix", "enhancement", "blocked", "downloading", "updating", "installing", "removing", "cleanup", "obsoleting", "collection-installed", "collection-available", "finished", "reinstalling", "downgrading", "preparing", "decompressing", "untrusted", "trusted", )
+	info = ( "unknown", "installed", "available", "unavailable", "low", "normal", "important", "security", "bugfix", "enhancement", "blocked", "downloading", "updating", "installing", "removing", "cleanup", "obsoleting", "collection-installed", "collection-available", "finished", "reinstalling", "downgrading", "preparing", "decompressing", "untrusted", "trusted", )
 	sig_type = ( "unknown", "gpg", )
 	upgrade = ( "unknown", "stable", "unstable", )
 	network = ( "unknown", "offline", "online", "wired", "wifi", "mobile", )
 	media_type = ( "unknown", "cd", "dvd", "disc", )
 	authorize_type = ( "unknown", "yes", "no", "interactive", )
 	upgrade_kind = ( "unknown", "minimal", "default", "complete", )
-	transaction_flag = ( "none", "only-trusted", "simulate", "only-download", )
+	transaction_flag = ( "none", "only-trusted", "simulate", "only-download", "allow-reinstall", "just-reinstall", "allow-downgrade", )
 
 # Constants
 
@@ -192,6 +192,7 @@ INFO_REINSTALLING = "reinstalling"
 INFO_REMOVING = "removing"
 INFO_SECURITY = "security"
 INFO_TRUSTED = "trusted"
+INFO_UNAVAILABLE = "unavailable"
 INFO_UNKNOWN = "unknown"
 INFO_UNTRUSTED = "untrusted"
 INFO_UPDATING = "updating"
@@ -283,6 +284,9 @@ STATUS_UPDATE = "update"
 STATUS_WAIT = "wait"
 STATUS_WAITING_FOR_AUTH = "waiting-for-auth"
 STATUS_WAITING_FOR_LOCK = "waiting-for-lock"
+TRANSACTION_FLAG_ALLOW_DOWNGRADE = "allow-downgrade"
+TRANSACTION_FLAG_ALLOW_REINSTALL = "allow-reinstall"
+TRANSACTION_FLAG_JUST_REINSTALL = "just-reinstall"
 TRANSACTION_FLAG_NONE = "none"
 TRANSACTION_FLAG_ONLY_DOWNLOAD = "only-download"
 TRANSACTION_FLAG_ONLY_TRUSTED = "only-trusted"

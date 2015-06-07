@@ -30,7 +30,6 @@
 #include "pk-backend-spawn.h"
 #include "pk-dbus.h"
 #include "pk-engine.h"
-#include "pk-notify.h"
 #include "pk-spawn.h"
 #include "pk-transaction-db.h"
 #include "pk-transaction.h"
@@ -140,7 +139,6 @@ pk_test_backend_func_true (PkBackendJob *job,
 	pk_backend_job_package (job, PK_INFO_ENUM_AVAILABLE,
 				"vips-doc;7.12.4-2.fc8;noarch;linva",
 				"The vips documentation package.");
-	pk_backend_job_finished (job);
 }
 
 static void
@@ -148,7 +146,6 @@ pk_test_backend_func_immediate_false (PkBackendJob *job,
 				      GVariant *params,
 				      gpointer user_data)
 {
-	pk_backend_job_finished (job);
 }
 
 /**
@@ -279,9 +276,6 @@ pk_test_backend_func (void)
 	g_assert_cmpint (number_packages, ==, 1);
 
 	/* reset */
-	pk_backend_start_job (backend, job);
-	pk_backend_reset_job (backend, job);
-	pk_backend_stop_job (backend, job);
 	g_object_unref (job);
 	job = pk_backend_job_new (conf);
 	pk_backend_job_set_backend (job, backend);
@@ -296,33 +290,15 @@ pk_test_backend_func (void)
 	/* wait for Finished */
 	_g_test_loop_wait (10);
 
-	pk_backend_start_job (backend, job);
-	pk_backend_reset_job (backend, job);
+	/* reset */
+	g_object_unref (job);
+	job = pk_backend_job_new (conf);
+	pk_backend_job_set_backend (job, backend);
 	pk_backend_job_error_code (job, PK_ERROR_ENUM_GPG_FAILURE, "test error");
 
-	/* wait for finished */
-//	_g_test_loop_run_with_timeout (PK_BACKEND_FINISHED_ERROR_TIMEOUT + 400);
-
-	/* get allow cancel after reset */
-	pk_backend_reset_job (backend, job);
-	ret = pk_backend_job_get_allow_cancel (job);
-	g_assert (!ret);
-
-	/* set allow cancel TRUE */
-	pk_backend_job_set_allow_cancel (job, TRUE);
-
-	/* set allow cancel TRUE (repeat) */
-	pk_backend_job_set_allow_cancel (job, TRUE);
-
-	/* set allow cancel FALSE */
-	pk_backend_job_set_allow_cancel (job, FALSE);
-
-	/* set allow cancel FALSE (after reset) */
-	pk_backend_reset_job (backend, job);
-	pk_backend_job_set_allow_cancel (job, FALSE);
-
-	/* stop the job again */
-	pk_backend_stop_job (backend, job);
+	/* get exit code from error code */
+	g_assert_cmpint (pk_backend_job_get_exit_code (job), ==,
+		         PK_EXIT_ENUM_NEED_UNTRUSTED);
 }
 
 static guint _backend_spawn_number_packages = 0;
@@ -442,17 +418,17 @@ pk_test_backend_spawn_func (void)
 	g_assert (!ret);
 
 	/* convert proxy uri (bare) */
-	uri = pk_backend_spawn_convert_uri ("username:password@server:port");
+	uri = pk_backend_convert_uri ("username:password@server:port");
 	g_assert_cmpstr (uri, ==, "http://username:password@server:port/");
 	g_free (uri);
 
 	/* convert proxy uri (full) */
-	uri = pk_backend_spawn_convert_uri ("http://username:password@server:port/");
+	uri = pk_backend_convert_uri ("http://username:password@server:port/");
 	g_assert_cmpstr (uri, ==, "http://username:password@server:port/");
 	g_free (uri);
 
 	/* convert proxy uri (partial) */
-	uri = pk_backend_spawn_convert_uri ("ftp://username:password@server:port");
+	uri = pk_backend_convert_uri ("ftp://username:password@server:port");
 	g_assert_cmpstr (uri, ==, "ftp://username:password@server:port/");
 	g_free (uri);
 

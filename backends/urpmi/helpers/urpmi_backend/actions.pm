@@ -38,6 +38,13 @@ sub perform_installation {
   my $restart;
   my $no_remove = 0;
 
+  $::test = delete $options{'only-download'} || delete $options{simulate};
+  $urpm->{options}{downgrade} = delete $options{'allow-downgrade'};
+  
+  if (my $res = delete $options{'allow-reinstall'}) {
+      $urpm->{options}{$_} = $res foreach qw(replacefiles replacepkgs);
+  }
+  
   # Here we lock urpmi & rpm databases
   # In third argument we can specified if the script must wait until urpmi or rpm
   # databases are locked
@@ -162,7 +169,7 @@ sub perform_installation {
         print "Install current mode = ", $mode, "\n";
       },
       bad_signature => sub {
-        if ($options{only_trusted} eq "yes") {
+        if ($options{'only-trusted'}) {
           pk_print_error(PK_ERROR_ENUM_GPG_FAILURE, "Bad or missing GPG signatures");
           undef $lock;
           undef $rpm_lock;

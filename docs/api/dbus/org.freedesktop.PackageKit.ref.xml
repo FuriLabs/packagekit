@@ -30,6 +30,7 @@ in's'pac)
 <link linkend="PackageKit.ClearResults">ClearResults</link>()
 <link linkend="PackageKit.Trigger">Trigger</link>(in's'action)
 <link linkend="PackageKit.Cancel">Cancel</link>()
+<link linkend="PackageKit.GetPrepared">GetPrepared</link>(out'as'package_ids)
 </synopsis>
   </refsynopsisdiv>
   <refsect1 role="signal_proto">
@@ -234,7 +235,15 @@ in's'pac)</programlisting></refsect2>
           <para>
             Cancels the offline update so the next boot procceeds as normal.
           </para>
-        <variablelist role="params"/></refsect1>
+        <variablelist role="params"/><refsect2><title><anchor role="function" id="PackageKit.GetPrepared"/>GetPrepared ()</title><indexterm><primary>GetPrepared</primary><secondary>PackageKit</secondary></indexterm><programlisting>GetPrepared (out'as'package_ids)</programlisting></refsect2>
+          <para>
+            Returns the list of prepared updates.
+          </para>
+        <variablelist role="params"><varlistentry><term><parameter>package_ids</parameter>:</term><listitem><simpara>
+            
+              An array of package IDs.
+            
+          </simpara></listitem></varlistentry></variablelist></refsect1>
   <refsect1 role="signals"><title role="signals.title">Signal Details</title><refsect2><title><anchor role="function" id="PackageKit::TransactionListChanged"/>The TransactionListChanged signal</title><indexterm><primary>TransactionListChanged</primary><secondary>PackageKit</secondary></indexterm><programlisting>TransactionListChanged ('as'transactions)</programlisting></refsect2>
           <para>
             The transaction list has changed, because either a transaction has finished or a new

@@ -891,6 +891,10 @@ pk_task_set_interactive
 pk_task_get_interactive
 pk_task_set_only_download
 pk_task_get_only_download
+pk_task_set_allow_downgrade
+pk_task_get_allow_downgrade
+pk_task_set_allow_reinstall
+pk_task_get_allow_reinstall
 pk_task_set_only_trusted
 pk_task_get_only_trusted
 <SUBSECTION Standard>

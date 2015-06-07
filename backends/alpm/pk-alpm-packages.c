@@ -149,20 +149,19 @@ pk_backend_resolve_name (PkBackendJob *job, const gchar *name, PkBitfield filter
 	alpm_pkg_t *pkg;
 	int code;
 
-	gboolean skip_local, skip_remote;
-
 	g_return_val_if_fail (name != NULL, FALSE);
 
-	skip_local = pk_bitfield_contain (filters, PK_FILTER_ENUM_NOT_INSTALLED);
-	skip_remote = pk_bitfield_contain (filters, PK_FILTER_ENUM_INSTALLED);
-
-	pkg = alpm_db_get_pkg (priv->localdb, name);
-	if (pkg != NULL) {
-		if (!skip_local) {
+	/* lookup into the local db */
+	if (!pk_bitfield_contain (filters, PK_FILTER_ENUM_NOT_INSTALLED)) {
+		pkg = alpm_db_get_pkg (priv->localdb, name);
+		if (pkg != NULL) {
 			pk_alpm_pkg_emit (job, pkg, PK_INFO_ENUM_INSTALLED);
 			return TRUE;
 		}
-	} else if (!skip_remote) {
+	}
+
+	/* lookup into sync dbs*/
+	if (!pk_bitfield_contain (filters, PK_FILTER_ENUM_INSTALLED)) {
 		const alpm_list_t *i = alpm_get_syncdbs (priv->alpm);
 		for (; i != NULL; i = i->next) {
 			pkg = alpm_db_get_pkg (i->data, name);
@@ -287,15 +286,17 @@ pk_backend_get_files_thread (PkBackendJob *job, GVariant* params, gpointer p)
 	PkBackendAlpmPrivate *priv = pk_backend_get_user_data (backend);
 	gchar **packages;
 	_cleanup_error_free_ GError *error = NULL;
+	const gchar *root;
 
 	packages = (gchar**) p;
+	root = alpm_option_get_root (priv->alpm);
 
 	for (; *packages != NULL; ++packages) {
 		alpm_filelist_t *filelist;
 		alpm_pkg_t *pkg;
-		const gchar *root;
+
 		gsize i;
-		_cleanup_strv_free_ GString *files = NULL;
+		_cleanup_strv_free_ gchar **files = NULL;
 
 		if (pk_backend_job_is_cancelled (job))
 			break;
@@ -304,17 +305,13 @@ pk_backend_get_files_thread (PkBackendJob *job, GVariant* params, gpointer p)
 		if (pkg == NULL)
 			break;
 
-		root = alpm_option_get_root (priv->alpm);
-		files = g_string_new ("");
-
 		filelist = alpm_pkg_get_files (pkg);
+		files = g_new0 (gchar*, filelist->count + 1);
 		for (i = 0; i < filelist->count; ++i) {
-			const gchar *file = filelist->files[i].name;
-			g_string_append_printf (files, "%s%s;", root, file);
+			files[i] = g_strconcat (root, filelist->files[i].name, NULL);
 		}
 
-		g_string_truncate (files, MAX (files->len, 1) - 1);
-		pk_backend_job_files (job, *packages, &files->str);
+		pk_backend_job_files (job, *packages, files);
 	}
 
 	pk_alpm_finish (job, error);

@@ -46,7 +46,6 @@
 #define I_KNOW_THE_PACKAGEKIT_GLIB2_API_IS_SUBJECT_TO_CHANGE
 #include <packagekit-glib2/packagekit.h>
 #include <packagekit-glib2/pk-enum.h>
-#include <pk-backend-spawn.h>
 
 #include <zypp/Digest.h>
 #include <zypp/KeyRing.h>
@@ -148,6 +147,11 @@ gchar * _repoName;
  */
 gboolean _updating_self = FALSE;
 
+/* We need to track the number of packages to download in global scope */
+guint _dl_count = 0;
+guint _dl_progress = 0;
+guint _dl_status = 0;
+
 /**
  * Build a package_id from the specified resolvable.  The returned
  * gchar * should be freed with g_free ().
@@ -243,6 +247,12 @@ struct InstallResolvableReportReceiver : public zypp::callback::ReceiveReport<zy
 
 	virtual void start (zypp::Resolvable::constPtr resolvable) {
 		clear_package_id ();
+
+		/* This is the first package we see coming as INSTALLING - resetting counter and modus */
+		if (_dl_status != PK_INFO_ENUM_INSTALLING) {
+			_dl_progress = 0;
+			_dl_status = PK_INFO_ENUM_INSTALLING;
+		}
 		_package_id = zypp_build_package_id_from_resolvable (resolvable->satSolvable ());
 		MIL << resolvable << " " << _package_id << std::endl;
 		gchar* summary = g_strdup(zypp::asKind<zypp::ResObject>(resolvable)->summary().c_str ());
@@ -263,14 +273,16 @@ struct InstallResolvableReportReceiver : public zypp::callback::ReceiveReport<zy
 	}
 
 	virtual Action problem (zypp::Resolvable::constPtr resolvable, Error error, const std::string &description, RpmLevel level) {
-		//g_debug ("InstallResolvableReportReceiver::problem()");
+		pk_backend_job_error_code (_job, PK_ERROR_ENUM_PACKAGE_FAILED_TO_INSTALL, description.c_str ());
 		return ABORT;
 	}
 
 	virtual void finish (zypp::Resolvable::constPtr resolvable, Error error, const std::string &reason, RpmLevel level) {
 		MIL << reason << " " << _package_id << " " << resolvable << std::endl;
+		pk_backend_job_set_percentage(_job, (double)++_dl_progress / _dl_count * 100);
 		if (_package_id != NULL) {
 			//pk_backend_job_package (_backend, PK_INFO_ENUM_INSTALLED, _package_id, "TODO: Put the package summary here if possible");
+			update_sub_percentage (100, PK_STATUS_ENUM_INSTALL);
 			clear_package_id ();
 		}
 	}
@@ -356,6 +368,11 @@ struct DownloadProgressReportReceiver : public zypp::callback::ReceiveReport<zyp
 	{
 		MIL << resolvable << " " << file << std::endl;
 		clear_package_id ();
+		/* This is the first package we see coming as INSTALLING - resetting counter and modus */
+		if (_dl_status != PK_INFO_ENUM_DOWNLOADING) {
+			_dl_progress = 0;
+			_dl_status = PK_INFO_ENUM_DOWNLOADING;
+		}
 		_package_id = zypp_build_package_id_from_resolvable (resolvable->satSolvable ());
 		gchar* summary = g_strdup(zypp::asKind<zypp::ResObject>(resolvable)->summary().c_str ());
 
@@ -381,6 +398,7 @@ struct DownloadProgressReportReceiver : public zypp::callback::ReceiveReport<zyp
 	{
 		MIL << resolvable << " " << error << " " << _package_id << std::endl;
 		update_sub_percentage (100, PK_STATUS_ENUM_DOWNLOAD);
+		pk_backend_job_set_percentage(_job, (double)++_dl_progress / _dl_count * 100);
 		clear_package_id ();
 	}
 };
@@ -1364,7 +1382,9 @@ zypp_perform_execution (PkBackendJob *job, ZYpp::Ptr zypp, PerformType type, gbo
 
 		// Gather up any dependencies
 		pk_backend_job_set_status (job, PK_STATUS_ENUM_DEP_RESOLVE);
+		pk_backend_job_set_percentage(job, 0);
 		zypp->resolver ()->setIgnoreAlreadyRecommended (TRUE);
+		pk_backend_job_set_percentage(job, 100);
 		if (!zypp->resolver ()->resolvePool ()) {
 			// Manual intervention required to resolve dependencies
 			// TODO: Figure out what we need to do with PackageKit
@@ -1400,12 +1420,18 @@ zypp_perform_execution (PkBackendJob *job, ZYpp::Ptr zypp, PerformType type, gbo
 		switch (type) {
 		case INSTALL:
 			pk_backend_job_set_status (job, PK_STATUS_ENUM_INSTALL);
+			pk_backend_job_set_percentage(job, 0);
+			_dl_progress = 0;
 			break;
 		case REMOVE:
 			pk_backend_job_set_status (job, PK_STATUS_ENUM_REMOVE);
+			pk_backend_job_set_percentage(job, 0);
+			_dl_progress = 0;
 			break;
 		case UPDATE:
 			pk_backend_job_set_status (job, PK_STATUS_ENUM_UPDATE);
+			pk_backend_job_set_percentage(job, 0);
+			_dl_progress = 0;
 			break;
 		}
 
@@ -1441,7 +1467,10 @@ zypp_perform_execution (PkBackendJob *job, ZYpp::Ptr zypp, PerformType type, gbo
 
 		// look for licenses to confirm
 
+		_dl_count = 0;
 		for (ResPool::const_iterator it = pool.begin (); it != pool.end (); ++it) {
+			if (it->status ().isToBeInstalled ())
+				_dl_count++;
 			if (it->status ().isToBeInstalled () && !(it->resolvable()->licenseToConfirm().empty ())) {
 				gchar *eula_id = g_strdup ((*it)->name ().c_str ());
 				gboolean has_eula = pk_backend_is_eula_valid (backend, eula_id);
@@ -1506,6 +1535,7 @@ zypp_perform_execution (PkBackendJob *job, ZYpp::Ptr zypp, PerformType type, gbo
 			goto exit;
 		}
 
+		pk_backend_job_set_percentage(job, 100);
 		ret = TRUE;
 	} catch (const repo::RepoNotFoundException &ex) {
 		pk_backend_job_error_code (job, PK_ERROR_ENUM_REPO_NOT_FOUND, ex.asUserString().c_str() );
@@ -2216,7 +2246,7 @@ backend_get_updates_thread (PkBackendJob *job, GVariant *params, gpointer user_d
 		if (isKind<Patch>(res)) {
 			Patch::constPtr patch = asKind<Patch>(res);
 			if (patch->category () == "recommended") {
-				infoEnum = PK_INFO_ENUM_IMPORTANT;
+				infoEnum = PK_INFO_ENUM_BUGFIX;
 			} else if (patch->category () == "optional") {
 				infoEnum = PK_INFO_ENUM_LOW;
 			} else if (patch->category () == "security") {
@@ -3543,7 +3573,7 @@ pk_backend_start_job (PkBackend *backend, PkBackendJob *job)
 	/* http_proxy */
 	proxy_http = pk_backend_job_get_proxy_http (job);
 	if (!pk_strzero (proxy_http)) {
-		uri = pk_backend_spawn_convert_uri (proxy_http);
+		uri = pk_backend_convert_uri (proxy_http);
 		g_setenv ("http_proxy", uri, TRUE);
 		g_free (uri);
 	}
@@ -3551,7 +3581,7 @@ pk_backend_start_job (PkBackend *backend, PkBackendJob *job)
 	/* https_proxy */
 	proxy_https = pk_backend_job_get_proxy_https (job);
 	if (!pk_strzero (proxy_https)) {
-		uri = pk_backend_spawn_convert_uri (proxy_https);
+		uri = pk_backend_convert_uri (proxy_https);
 		g_setenv ("https_proxy", uri, TRUE);
 		g_free (uri);
 	}
@@ -3559,7 +3589,7 @@ pk_backend_start_job (PkBackend *backend, PkBackendJob *job)
 	/* ftp_proxy */
 	proxy_ftp = pk_backend_job_get_proxy_ftp (job);
 	if (!pk_strzero (proxy_ftp)) {
-		uri = pk_backend_spawn_convert_uri (proxy_ftp);
+		uri = pk_backend_convert_uri (proxy_ftp);
 		g_setenv ("ftp_proxy", uri, TRUE);
 		g_free (uri);
 	}
@@ -3567,7 +3597,7 @@ pk_backend_start_job (PkBackend *backend, PkBackendJob *job)
 	/* socks_proxy */
 	proxy_socks = pk_backend_job_get_proxy_socks (job);
 	if (!pk_strzero (proxy_socks)) {
-		uri = pk_backend_spawn_convert_uri (proxy_socks);
+		uri = pk_backend_convert_uri (proxy_socks);
 		g_setenv ("socks_proxy", uri, TRUE);
 		g_free (uri);
 	}
@@ -3581,7 +3611,7 @@ pk_backend_start_job (PkBackend *backend, PkBackendJob *job)
 	/* pac */
 	pac = pk_backend_job_get_pac (job);
 	if (!pk_strzero (pac)) {
-		uri = pk_backend_spawn_convert_uri (pac);
+		uri = pk_backend_convert_uri (pac);
 		g_setenv ("pac", uri, TRUE);
 		g_free (uri);
 	}

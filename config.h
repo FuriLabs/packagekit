@@ -13,6 +13,9 @@
 /* Define to 1 if you have the `clearenv' function. */
 #define HAVE_CLEARENV 1
 
+/* define if Connection Manager is installed */
+/* #undef HAVE_CONNMAN */
+
 /* Define to 1 if you have the `dcgettext' function. */
 #define HAVE_DCGETTEXT 1
 
@@ -46,11 +49,8 @@
 /* Define to 1 if you have the <memory.h> header file. */
 #define HAVE_MEMORY_H 1
 
-/* "Meta release is available" */
-/* #undef HAVE_PYTHON_META_RELEASE */
-
-/* "Python software properties is available" */
-/* #undef HAVE_PYTHON_SOFTWARE_PROPERTIES */
+/* define if NetworkManager is installed */
+#define HAVE_NETWORKMANAGER 1
 
 /* Define to 1 if you have the `setpriority' function. */
 #define HAVE_SETPRIORITY 1
@@ -96,7 +96,7 @@
 #define PACKAGE_NAME "PackageKit"
 
 /* Define to the full name and version of this package. */
-#define PACKAGE_STRING "PackageKit 1.0.1"
+#define PACKAGE_STRING "PackageKit 1.0.6"
 
 /* Define to the one symbol short name of this package. */
 #define PACKAGE_TARNAME "PackageKit"
@@ -105,16 +105,10 @@
 #define PACKAGE_URL "http://www.packagekit.org/"
 
 /* Define to the version of this package. */
-#define PACKAGE_VERSION "1.0.1"
-
-/* define if Connection Manager is installed */
-/* #undef PK_BUILD_CONNMAN */
+#define PACKAGE_VERSION "1.0.6"
 
 /* Build local code */
 #define PK_BUILD_LOCAL 1
-
-/* define if NetworkManager is installed */
-#define PK_BUILD_NETWORKMANAGER 1
 
 /* Enable the daemon tests */
 #define PK_ENABLE_DAEMON_TESTS 1
@@ -123,7 +117,7 @@
 #define STDC_HEADERS 1
 
 /* Version number of package */
-#define VERSION "1.0.1"
+#define VERSION "1.0.6"
 
 /* define if libzypp returns package size in bytes */
 /* #undef ZYPP_RETURN_BYTES */

@@ -40,7 +40,8 @@ const gchar *
 pk_backend_get_author (PkBackend *backend)
 {
 	return "Aurelien Lefebvre <alkh@mandriva.org>, "
-		"Per Oyvind Karlsen <peroyvind@mandriva.org>";
+		"Per Oyvind Karlsen <peroyvind@mandriva.org>",
+		"Thierry Vignaud <thierry.vignaud@gmail.com>";
 }
 
 /**
@@ -65,12 +66,6 @@ void
 pk_backend_initialize (GKeyFile *conf, PkBackend *backend)
 {
 	g_debug ("backend: initialize");
-
-	/* BACKEND MAINTAINER: feel free to remove this when you've
-	 * added support for ONLY_DOWNLOAD as specified in backends/PORTING.txt
-	 * */
-	g_error ("Backend needs to be ported to 0.8.x -- "
-		 "see backends/PORTING.txt for details");
 
 	spawn = pk_backend_spawn_new (conf);
 	pk_backend_spawn_set_name (spawn, "urpmi");
@@ -166,7 +161,7 @@ pk_backend_get_roles (PkBackend *backend)
 		// PK_ROLE_ENUM_INSTALL_SIGNATURE,
 		PK_ROLE_ENUM_REFRESH_CACHE,
 		PK_ROLE_ENUM_REMOVE_PACKAGES,
-		// PK_ROLE_ENUM_DOWNLOAD_PACKAGES,
+		PK_ROLE_ENUM_DOWNLOAD_PACKAGES,
 		PK_ROLE_ENUM_RESOLVE,
 		PK_ROLE_ENUM_SEARCH_DETAILS,
 		PK_ROLE_ENUM_SEARCH_FILE,
@@ -179,7 +174,6 @@ pk_backend_get_roles (PkBackend *backend)
 		// PK_ROLE_ENUM_GET_DISTRO_UPGRADES,
 		// PK_ROLE_ENUM_GET_CATEGORIES,
 		// PK_ROLE_ENUM_GET_OLD_TRANSACTIONS,
-		// PK_ROLE_ENUM_UPGRADE_SYSTEM
 		-1);
 
 	return roles;
@@ -295,7 +289,9 @@ pk_backend_refresh_cache (PkBackend *backend, PkBackendJob *job, gboolean force)
 		return;
 	}
 
+	pk_backend_job_set_locked (job, TRUE);
 	pk_backend_spawn_helper (spawn, job, "urpmi-dispatched-backend.pl", "refresh-cache", pk_backend_bool_to_string (force), NULL);
+	pk_backend_job_set_locked (job, FALSE);
 }
 
 /**
@@ -317,7 +313,9 @@ pk_backend_install_packages (PkBackend *backend, PkBackendJob *job, PkBitfield t
 	/* send the complete list as stdin */
 	package_ids_temp = pk_package_ids_to_string (package_ids);
 	transaction_flags_temp = pk_transaction_flag_bitfield_to_string (transaction_flags);
+	pk_backend_job_set_locked (job, TRUE);
 	pk_backend_spawn_helper (spawn, job, "urpmi-dispatched-backend.pl", "install-packages", transaction_flags_temp, package_ids_temp, NULL);
+	pk_backend_job_set_locked (job, FALSE);
 	g_free (package_ids_temp);
 	g_free (transaction_flags_temp);
 }
@@ -329,11 +327,14 @@ void
 pk_backend_remove_packages (PkBackend *backend, PkBackendJob *job, PkBitfield transaction_flags, gchar **package_ids, gboolean allow_deps, gboolean autoremove)
 {
 	gchar *package_ids_temp;
-
+	gchar *transaction_flags_temp = pk_transaction_flag_bitfield_to_string(transaction_flags);
 	/* send the complete list as stdin */
 	package_ids_temp = pk_package_ids_to_string (package_ids);
-	pk_backend_spawn_helper (spawn, job, "urpmi-dispatched-backend.pl", "remove-packages", pk_backend_bool_to_string (allow_deps), package_ids_temp, NULL);
+	pk_backend_job_set_locked (job, TRUE);
+	pk_backend_spawn_helper (spawn, job, "urpmi-dispatched-backend.pl", "remove-packages", pk_backend_bool_to_string (allow_deps), pk_backend_bool_to_string(autoremove), transaction_flags_temp, package_ids_temp, NULL);
+	pk_backend_job_set_locked (job, FALSE);
 	g_free (package_ids_temp);
+	g_free (transaction_flags_temp);
 }
 
 /**
@@ -342,7 +343,9 @@ pk_backend_remove_packages (PkBackend *backend, PkBackendJob *job, PkBitfield tr
 void
 pk_backend_repo_enable (PkBackend *backend, PkBackendJob *job, const gchar *rid, gboolean enabled)
 {
+	pk_backend_job_set_locked (job, TRUE);
 	pk_backend_spawn_helper (spawn, job, "urpmi-dispatched-backend.pl", "repo-enable", rid, pk_backend_bool_to_string (enabled), NULL);
+	pk_backend_job_set_locked (job, FALSE);
 }
 
 /**
@@ -451,7 +454,9 @@ pk_backend_update_packages (PkBackend *backend, PkBackendJob *job, PkBitfield tr
 	/* send the complete list as stdin */
 	package_ids_temp = pk_package_ids_to_string (package_ids);
 	transaction_flags_temp = pk_transaction_flag_bitfield_to_string (transaction_flags);
+	pk_backend_job_set_locked (job, TRUE);
 	pk_backend_spawn_helper (spawn, job, "urpmi-dispatched-backend.pl", "update-packages", transaction_flags_temp, package_ids_temp, NULL);
+	pk_backend_job_set_locked (job, FALSE);
 	g_free (package_ids_temp);
 	g_free (transaction_flags_temp);
 }
@@ -462,7 +467,9 @@ pk_backend_update_packages (PkBackend *backend, PkBackendJob *job, PkBitfield tr
 void
 pk_backend_get_distro_upgrades (PkBackend *backend, PkBackendJob *job)
 {
+	pk_backend_job_set_locked (job, TRUE);
 	pk_backend_spawn_helper (spawn, job, "urpmi-dispatched-backend.pl", "get-distro-upgrades", NULL);
+	pk_backend_job_set_locked (job, FALSE);
 }
 
 /**

@@ -107,7 +107,6 @@ main (int argc, char *argv[])
 {
 	GMainLoop *loop = NULL;
 	GOptionContext *context;
-	PkMainHelper helper;
 	gboolean ret = TRUE;
 	gboolean disable_timer = FALSE;
 	gboolean version = FALSE;
@@ -153,6 +152,9 @@ main (int argc, char *argv[])
 #if (GLIB_MAJOR_VERSION == 2 && GLIB_MINOR_VERSION < 35)
 	g_type_init ();
 #endif
+
+	/* set the default thread explicitly */
+	pk_is_thread_default ();
 
 	/* TRANSLATORS: describing the service that is running */
 	context = g_option_context_new (_("PackageKit service"));
@@ -238,11 +240,13 @@ main (int argc, char *argv[])
 
 	/* only poll when we are alive */
 	if (exit_idle_time > 0 && !disable_timer) {
+		PkMainHelper helper;
 		helper.engine = engine;
 		helper.exit_idle_time = exit_idle_time;
 		helper.loop = loop;
 		helper.timer_id = g_timeout_add_seconds (5, (GSourceFunc) pk_main_timeout_check_cb, &helper);
 		g_source_set_name_by_id (helper.timer_id, "[PkMain] main poll");
+		timer_id = helper.timer_id;
 	}
 
 	/* immediatly exit */

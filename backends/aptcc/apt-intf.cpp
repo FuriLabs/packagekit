@@ -49,6 +49,7 @@
 #include "deb-file.h"
 
 #define RAMFS_MAGIC     0x858458f6
+#define APTCC_TMP_DIR   "/tmp/aptcc"
 
 AptIntf::AptIntf(PkBackendJob *job) :
     m_job(job),
@@ -144,6 +145,16 @@ bool AptIntf::init()
 
         // Close the cache if we are going to try again
         m_cache->Close();
+    }
+
+    m_interactive = pk_backend_job_get_interactive(m_job);
+    if (!m_interactive) {
+        // Do not ask about config updates if we are not interactive
+        _config->Set("Dpkg::Options::", "--force-confdef");
+        _config->Set("Dpkg::Options::", "--force-confold");
+        // Ensure nothing interferes with questions
+        setenv("APT_LISTCHANGES_FRONTEND", "none", 1);
+        setenv("APT_LISTBUGS_FRONTEND", "none", 1);
     }
 
     // Check if there are half-installed packages and if we can fix them
@@ -791,7 +802,10 @@ void AptIntf::emitUpdateDetail(const pkgCache::VerIterator &candver)
     }
 
     // Create a random temp dir
-    char dirName[] = "/tmp/aptccXXXXXXXX";
+    if (!g_file_test(APTCC_TMP_DIR, G_FILE_TEST_IS_DIR))
+        g_mkdir(APTCC_TMP_DIR, 0700);
+    char dirName[] = APTCC_TMP_DIR "/XXXXXX";
+
     char *tempDir = mkdtemp(dirName);
     string filename = tempDir;
     filename.append("/");
@@ -1811,17 +1825,18 @@ void AptIntf::updateInterface(int fd, int writeFd)
                 argv[4] = NULL;
 
                 gchar *socket;
-                if (socket = pk_backend_job_get_frontend_socket(m_job)) {
+                if ((m_interactive) && (socket = pk_backend_job_get_frontend_socket(m_job))) {
                     envp = (gchar **) g_malloc(3 * sizeof(gchar *));
                     envp[0] = g_strdup("DEBIAN_FRONTEND=passthrough");
                     envp[1] = g_strdup_printf("DEBCONF_PIPE=%s", socket);
                     envp[2] = NULL;
                 } else {
-                    // we don't have a socket set, let's fallback to noninteractive
+                    // we don't have a socket set or are non-interactive. Use the noninteractive frontend.
                     envp = (gchar **) g_malloc(2 * sizeof(gchar *));
                     envp[0] = g_strdup("DEBIAN_FRONTEND=noninteractive");
                     envp[1] = NULL;
                 }
+                g_free(socket);
 
                 gboolean ret;
                 gint exitStatus;
@@ -2150,7 +2165,7 @@ void AptIntf::refreshCache()
 
     // missing repo gpg signature would appear here
     if (_error->PendingError() == false && _error->empty() == false) {
-        // TODO this shouldn't 
+        // TODO this shouldn't
         show_errors(m_job, PK_ERROR_ENUM_GPG_FAILURE);
     }
 }
@@ -2309,10 +2324,18 @@ bool AptIntf::installFile(const gchar *path, bool simulate)
     argv[3] = NULL;
 
     envp = (gchar **) g_malloc(4 * sizeof(gchar *));
-    envp[0] = g_strdup("PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin");
-    envp[1] = g_strdup("DEBIAN_FRONTEND=passthrough");
-    envp[2] = g_strdup_printf("DEBCONF_PIPE=%s", pk_backend_job_get_frontend_socket(m_job));
-    envp[3] = NULL;
+	envp[0] = g_strdup("PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin");
+    gchar *socket;
+    if ((m_interactive) && (socket = pk_backend_job_get_frontend_socket(m_job))) {
+        envp[1] = g_strdup("DEBIAN_FRONTEND=passthrough");
+        envp[2] = g_strdup_printf("DEBCONF_PIPE=%s", socket);
+        envp[3] = NULL;
+    } else {
+        // we don't have a socket set or are non-interactive, let's fallback to noninteractive
+        envp[1] = g_strdup("DEBIAN_FRONTEND=noninteractive");
+        envp[2] = NULL;
+        envp[3] = NULL;
+    }
 
     // We're installing the package now...
     pk_backend_job_package (m_job, PK_INFO_ENUM_INSTALLING, deb_package_id, deb_summary);
@@ -2328,6 +2351,8 @@ bool AptIntf::installFile(const gchar *path, bool simulate)
                  &status,
                  &error);
     int exit_code = WEXITSTATUS(status);
+
+    g_strfreev(envp);
 
     cout << "DpkgOut: " << std_out << endl;
     cout << "DpkgErr: " << std_err << endl;
@@ -2615,13 +2640,13 @@ bool AptIntf::installPackages(PkBitfield flags, bool autoremove)
         // Change the locale to not get libapt localization
         setlocale(LC_ALL, "C");
 
-        // Debconf handlying
+        // Debconf handling
         gchar *socket;
-        if (socket = pk_backend_job_get_frontend_socket(m_job)) {
+        if ((m_interactive) && (socket = pk_backend_job_get_frontend_socket(m_job))) {
             setenv("DEBIAN_FRONTEND", "passthrough", 1);
             setenv("DEBCONF_PIPE", socket, 1);
         } else {
-            // we don't have a socket set, let's fallback to noninteractive
+            // we don't have a socket set or are not interactive, let's fallback to noninteractive
             setenv("DEBIAN_FRONTEND", "noninteractive", 1);
         }
         g_free(socket);
