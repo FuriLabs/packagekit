@@ -159,17 +159,6 @@ Copyright: 2008, Red Hat, Inc
   2008-2012, Richard Hughes <richard@hughsie.com>
 License: GPL-2+
 
-Files: ./src/pk-sysdep.c
- ./src/pk-sysdep.h
-Copyright: 2008, Adel Gadllah <adel.gadllah@gmail.com>
-License: GPL-2+
-
-Files: ./src/pk-network-stack-connman.c
- ./src/pk-network-stack-connman.h
-Copyright: 2007-2009, Intel Corporation.
-  2009, Richard Hughes <richard@hughsie.com>
-License: GPL-2+
-
 Files: ./lib/packagekit-glib2/pk-spawn-polkit-agent.c
  ./lib/packagekit-glib2/pk-spawn-polkit-agent.h
 Copyright: 2011, Lennart Poettering <lennart@poettering.net>
