@@ -1,6 +1,3 @@
 vendor-debian.diff
 policy.diff
 01_no-distupgrade.patch
-02_use-tmp-subdir.patch
-03_no-config-questions.patch
-04_respect-noninteractive.patch
