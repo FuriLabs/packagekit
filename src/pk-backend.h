@@ -79,15 +79,21 @@ gboolean	 pk_backend_unload			(PkBackend	*backend)
 
 gboolean	 pk_backend_is_implemented		(PkBackend	*backend,
 							 PkRoleEnum	 role);
-void		 pk_backend_implement			(PkBackend	*backend,
-							 PkRoleEnum	 role);
 gchar		*pk_backend_get_accepted_eula_string	(PkBackend	*backend);
 void		 pk_backend_repo_list_changed		(PkBackend      *backend);
 void		 pk_backend_installed_db_changed	(PkBackend      *backend);
+
+
+gboolean	 pk_backend_updates_changed		(PkBackend	*backend);
+gboolean	 pk_backend_updates_changed_delay	(PkBackend	*backend,
+							 guint		 timeout);
+
 void		 pk_backend_transaction_inhibit_start	(PkBackend      *backend);
 void		 pk_backend_transaction_inhibit_end	(PkBackend      *backend);
+gboolean	 pk_backend_is_transaction_inhibited    (PkBackend      *backend);
 const gchar	*pk_backend_bool_to_string		(gboolean	 value);
 gboolean	 pk_backend_is_online			(PkBackend	*backend);
+gchar		*pk_backend_convert_uri			(const gchar	*proxy);
 
 /* config changed functions */
 typedef void	(*PkBackendFileChanged)			(PkBackend	*backend,
@@ -113,8 +119,6 @@ void		 pk_backend_initialize			(GKeyFile		*conf,
 							 PkBackend	*backend);
 void		 pk_backend_destroy			(PkBackend	*backend);
 void		 pk_backend_start_job			(PkBackend	*backend,
-							 PkBackendJob	*job);
-void		 pk_backend_reset_job			(PkBackend	*backend,
 							 PkBackendJob	*job);
 void		 pk_backend_stop_job			(PkBackend	*backend,
 							 PkBackendJob	*job);

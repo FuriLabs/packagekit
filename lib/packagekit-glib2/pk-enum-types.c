@@ -463,6 +463,7 @@ pk_info_enum_get_type (void)
             { PK_INFO_ENUM_DECOMPRESSING, "PK_INFO_ENUM_DECOMPRESSING", "decompressing" },
             { PK_INFO_ENUM_UNTRUSTED, "PK_INFO_ENUM_UNTRUSTED", "untrusted" },
             { PK_INFO_ENUM_TRUSTED, "PK_INFO_ENUM_TRUSTED", "trusted" },
+            { PK_INFO_ENUM_UNAVAILABLE, "PK_INFO_ENUM_UNAVAILABLE", "unavailable" },
             { PK_INFO_ENUM_LAST, "PK_INFO_ENUM_LAST", "last" },
             { 0, NULL, NULL }
         };
@@ -580,6 +581,9 @@ pk_transaction_flag_enum_get_type (void)
             { PK_TRANSACTION_FLAG_ENUM_ONLY_TRUSTED, "PK_TRANSACTION_FLAG_ENUM_ONLY_TRUSTED", "only-trusted" },
             { PK_TRANSACTION_FLAG_ENUM_SIMULATE, "PK_TRANSACTION_FLAG_ENUM_SIMULATE", "simulate" },
             { PK_TRANSACTION_FLAG_ENUM_ONLY_DOWNLOAD, "PK_TRANSACTION_FLAG_ENUM_ONLY_DOWNLOAD", "only-download" },
+            { PK_TRANSACTION_FLAG_ENUM_ALLOW_REINSTALL, "PK_TRANSACTION_FLAG_ENUM_ALLOW_REINSTALL", "allow-reinstall" },
+            { PK_TRANSACTION_FLAG_ENUM_JUST_REINSTALL, "PK_TRANSACTION_FLAG_ENUM_JUST_REINSTALL", "just-reinstall" },
+            { PK_TRANSACTION_FLAG_ENUM_ALLOW_DOWNGRADE, "PK_TRANSACTION_FLAG_ENUM_ALLOW_DOWNGRADE", "allow-downgrade" },
             { PK_TRANSACTION_FLAG_ENUM_LAST, "PK_TRANSACTION_FLAG_ENUM_LAST", "last" },
             { 0, NULL, NULL }
         };

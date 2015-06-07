@@ -72,6 +72,7 @@
     <keyword type="" name="ClearResults ()" link="PackageKit.html#PackageKit.ClearResults"/>
     <keyword type="" name="Trigger ()" link="PackageKit.html#PackageKit.Trigger"/>
     <keyword type="" name="Cancel ()" link="PackageKit.html#PackageKit.Cancel"/>
+    <keyword type="" name="GetPrepared ()" link="PackageKit.html#PackageKit.GetPrepared"/>
     <keyword type="" name="The TransactionListChanged signal" link="PackageKit.html#PackageKit::TransactionListChanged"/>
     <keyword type="" name="The RestartSchedule signal" link="PackageKit.html#PackageKit::RestartSchedule"/>
     <keyword type="" name="The RepoListChanged signal" link="PackageKit.html#PackageKit::RepoListChanged"/>
@@ -498,9 +499,15 @@
     <keyword type="function" name="pk_task_get_interactive ()" link="PkTask.html#pk-task-get-interactive"/>
     <keyword type="function" name="pk_task_set_only_download ()" link="PkTask.html#pk-task-set-only-download" since="0.8.1"/>
     <keyword type="function" name="pk_task_get_only_download ()" link="PkTask.html#pk-task-get-only-download" since="0.8.1"/>
+    <keyword type="function" name="pk_task_set_allow_downgrade ()" link="PkTask.html#pk-task-set-allow-downgrade" since="1.0.2"/>
+    <keyword type="function" name="pk_task_get_allow_downgrade ()" link="PkTask.html#pk-task-get-allow-downgrade"/>
+    <keyword type="function" name="pk_task_set_allow_reinstall ()" link="PkTask.html#pk-task-set-allow-reinstall" since="1.0.2"/>
+    <keyword type="function" name="pk_task_get_allow_reinstall ()" link="PkTask.html#pk-task-get-allow-reinstall" since="1.0.2"/>
     <keyword type="function" name="pk_task_set_only_trusted ()" link="PkTask.html#pk-task-set-only-trusted" since="0.9.5"/>
     <keyword type="function" name="pk_task_get_only_trusted ()" link="PkTask.html#pk-task-get-only-trusted" since="0.9.5"/>
     <keyword type="macro" name="PK_TASK_TYPE_ERROR" link="PkTask.html#PK-TASK-TYPE-ERROR:CAPS"/>
+    <keyword type="property" name="The “allow-downgrade” property" link="PkTask.html#PkTask--allow-downgrade"/>
+    <keyword type="property" name="The “allow-reinstall” property" link="PkTask.html#PkTask--allow-reinstall"/>
     <keyword type="property" name="The “only-download” property" link="PkTask.html#PkTask--only-download"/>
     <keyword type="property" name="The “only-trusted” property" link="PkTask.html#PkTask--only-trusted"/>
     <keyword type="property" name="The “simulate” property" link="PkTask.html#PkTask--simulate"/>

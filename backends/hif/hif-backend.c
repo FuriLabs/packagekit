@@ -26,7 +26,12 @@
 #include <glib/gstdio.h>
 #include <pk-cleanup.h>
 
+#include <libhif.h>
+
+/* allow compiling with older libhif versions */
+#if !HIF_CHECK_VERSION(0,2,0)
 #include <libhif-private.h>
+#endif
 
 #include <hawkey/errno.h>
 
@@ -131,6 +136,19 @@ hif_emit_package_list_filter (PkBackendJob *job,
 		g_hash_table_insert (hash_installed,
 				     (gpointer) hif_package_get_nevra (pkg),
 				     (gpointer) pkg);
+	}
+
+	/* anything remote in metadata-only mode needs to be unavailable */
+	FOR_PACKAGELIST(pkg, pkglist, i) {
+		HifSource *src;
+		if (hy_package_installed (pkg))
+			continue;
+		src = hif_package_get_source (pkg);
+		if (src == NULL)
+			continue;
+		if (hif_source_get_enabled (src) != HIF_SOURCE_ENABLED_METADATA)
+			continue;
+		hif_package_set_info (pkg, PK_INFO_ENUM_UNAVAILABLE);
 	}
 
 	FOR_PACKAGELIST(pkg, pkglist, i) {

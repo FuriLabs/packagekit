@@ -33,10 +33,6 @@
 #include "pk-backend-job.h"
 #include "pk-shared.h"
 
-#ifdef PK_BUILD_DAEMON
-  #include "pk-sysdep.h"
-#endif
-
 #define PK_BACKEND_JOB_GET_PRIVATE(o) (G_TYPE_INSTANCE_GET_PRIVATE ((o), PK_TYPE_BACKEND_JOB, PkBackendJobPrivate))
 
 /**
@@ -120,23 +116,15 @@ struct PkBackendJobPrivate
 G_DEFINE_TYPE (PkBackendJob, pk_backend_job, G_TYPE_OBJECT)
 
 /**
- * pk_backend_job_reset:
+ * pk_backend_job_disconnect_vfuncs:
  **/
 void
-pk_backend_job_reset (PkBackendJob *job)
+pk_backend_job_disconnect_vfuncs (PkBackendJob *job)
 {
 	guint i;
 	PkBackendJobVFuncItem *item;
 
-	job->priv->finished = FALSE;
-	job->priv->has_sent_package = FALSE;
-	job->priv->set_error = FALSE;
-	job->priv->thread = NULL;
-	job->priv->exit = PK_EXIT_ENUM_UNKNOWN;
-	job->priv->role = PK_ROLE_ENUM_UNKNOWN;
-	job->priv->status = PK_STATUS_ENUM_UNKNOWN;
-
-	/* reset the vfuncs too */
+	/* reset the vfuncs */
 	for (i = 0; i < PK_BACKEND_SIGNAL_LAST; i++) {
 		item = &job->priv->vfunc_items[i];
 		item->enabled = FALSE;
@@ -656,6 +644,18 @@ pk_backend_job_signal_to_string (PkBackendJobSignal id)
 }
 
 /**
+ * pk_backend_job_vfunc_event_free:
+ **/
+static void
+pk_backend_job_vfunc_event_free (PkBackendJobVFuncHelper *helper)
+{
+	if (helper->destroy_func != NULL)
+		helper->destroy_func (helper->object);
+	g_object_unref (helper->job);
+	g_free (helper);
+}
+
+/**
  * pk_backend_job_call_vfunc_idle_cb:
  **/
 static gboolean
@@ -672,8 +672,6 @@ pk_backend_job_call_vfunc_idle_cb (gpointer user_data)
 		g_warning ("tried to do signal %s when no longer connected",
 			   pk_backend_job_signal_to_string (helper->signal_kind));
 	}
-	if (helper->destroy_func != NULL)
-		helper->destroy_func (helper->object);
 	return FALSE;
 }
 
@@ -692,25 +690,31 @@ pk_backend_job_call_vfunc (PkBackendJob *job,
 	PkBackendJobVFuncHelper *helper;
 	PkBackendJobVFuncItem *item;
 	guint priority = G_PRIORITY_DEFAULT_IDLE;
+	_cleanup_source_unref_ GSource *source = NULL;
 
 	/* call transaction vfunc if not disabled and set */
 	item = &job->priv->vfunc_items[signal_kind];
 	if (!item->enabled || item->vfunc == NULL)
 		return;
 
+	/* order this last if others are still pending */
 	if (signal_kind == PK_BACKEND_SIGNAL_FINISHED)
 		priority = G_PRIORITY_LOW;
 
-	/* emit idle, TODO: do we ever need to cancel this? */
+	/* emit idle */
 	helper = g_new0 (PkBackendJobVFuncHelper, 1);
-	helper->job = job;
+	helper->job = g_object_ref (job);
 	helper->signal_kind = signal_kind;
 	helper->object = object;
 	helper->destroy_func = destroy_func;
-	g_idle_add_full (priority,
-			 pk_backend_job_call_vfunc_idle_cb,
-			 helper,
-			 g_free);
+	source = g_idle_source_new ();
+	g_source_set_priority (source, priority);
+	g_source_set_callback (source,
+			       pk_backend_job_call_vfunc_idle_cb,
+			       helper,
+			       (GDestroyNotify) pk_backend_job_vfunc_event_free);
+	g_source_set_name (source, "[PkBackendJob] idle_event_cb");
+	g_source_attach (source, NULL);
 }
 
 /**
@@ -848,6 +852,7 @@ pk_backend_job_thread_create (PkBackendJob *job,
 
 	g_return_val_if_fail (PK_IS_BACKEND_JOB (job), FALSE);
 	g_return_val_if_fail (func != NULL, FALSE);
+	g_return_val_if_fail (pk_is_thread_default (), FALSE);
 
 	if (job->priv->thread != NULL) {
 		g_warning ("already has thread");
@@ -1704,22 +1709,16 @@ pk_backend_job_set_allow_cancel (PkBackendJob *job, gboolean allow_cancel)
 {
 	g_return_if_fail (PK_IS_BACKEND_JOB (job));
 
-	/* have we already set an error? */
-	if (job->priv->set_error && allow_cancel) {
-		g_warning ("already set error: allow-cancel %i", allow_cancel);
-		return;
-	}
-
 	/* same as last state? */
-	if (job->priv->allow_cancel == (gboolean) allow_cancel)
+	if (job->priv->allow_cancel == allow_cancel)
 		return;
 
 	/* emit */
+	job->priv->allow_cancel = allow_cancel;
 	pk_backend_job_call_vfunc (job,
 				   PK_BACKEND_SIGNAL_ALLOW_CANCEL,
 				   GUINT_TO_POINTER (allow_cancel),
 				   NULL);
-	job->priv->allow_cancel = allow_cancel;
 }
 
 /**
@@ -1730,24 +1729,6 @@ pk_backend_job_get_allow_cancel (PkBackendJob *job)
 {
 	g_return_val_if_fail (PK_IS_BACKEND_JOB (job), FALSE);
 	return job->priv->allow_cancel;
-}
-
-/**
- * pk_backend_job_not_implemented_yet:
- **/
-void
-pk_backend_job_not_implemented_yet (PkBackendJob *job, const gchar *method)
-{
-	g_return_if_fail (PK_IS_BACKEND_JOB (job));
-	g_return_if_fail (method != NULL);
-
-	pk_backend_job_error_code (job,
-				   PK_ERROR_ENUM_NOT_SUPPORTED,
-				   "the method '%s' is not implemented yet",
-				   method);
-
-	/* don't wait, do this now */
-	pk_backend_job_finished (job);
 }
 
 /**
@@ -1813,8 +1794,8 @@ pk_backend_job_finished (PkBackendJob *job)
 		g_warning ("required status signals for %s!", role_text);
 	}
 
-	/* make any UI insensitive */
-	pk_backend_job_set_allow_cancel (job, FALSE);
+	/* drop any inhibits */
+	pk_backend_job_set_allow_cancel (job, TRUE);
 
 	/* mark as finished for the UI that might only be watching status */
 	pk_backend_job_set_status (job, PK_STATUS_ENUM_FINISHED);
@@ -1843,6 +1824,7 @@ pk_backend_job_finalize (GObject *object)
 
 	g_return_if_fail (object != NULL);
 	g_return_if_fail (PK_IS_BACKEND_JOB (object));
+	g_return_if_fail (pk_is_thread_default ());
 	job = PK_BACKEND_JOB (object);
 
 	if (pk_backend_job_get_started (job)) {
@@ -1893,7 +1875,12 @@ pk_backend_job_init (PkBackendJob *job)
 	job->priv->timer = g_timer_new ();
 	job->priv->cancellable = g_cancellable_new ();
 	job->priv->last_error_code = PK_ERROR_ENUM_UNKNOWN;
-	pk_backend_job_reset (job);
+	job->priv->locale = g_strdup ("C");
+	job->priv->cache_age = G_MAXUINT;
+	job->priv->allow_cancel = TRUE;
+	job->priv->exit = PK_EXIT_ENUM_UNKNOWN;
+	job->priv->role = PK_ROLE_ENUM_UNKNOWN;
+	job->priv->status = PK_STATUS_ENUM_UNKNOWN;
 }
 
 /**

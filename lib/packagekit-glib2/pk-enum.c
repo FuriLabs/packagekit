@@ -294,6 +294,7 @@ static const PkEnumMatch enum_info[] = {
 	{PK_INFO_ENUM_UNKNOWN,			"unknown"},	/* fall though value */
 	{PK_INFO_ENUM_INSTALLED,		"installed"},
 	{PK_INFO_ENUM_AVAILABLE,		"available"},
+	{PK_INFO_ENUM_UNAVAILABLE,		"unavailable"},
 	{PK_INFO_ENUM_LOW,			"low"},
 	{PK_INFO_ENUM_NORMAL,			"normal"},
 	{PK_INFO_ENUM_IMPORTANT,		"important"},
@@ -367,10 +368,13 @@ static const PkEnumMatch enum_upgrade_kind[] = {
 };
 
 static const PkEnumMatch enum_transaction_flag[] = {
-	{PK_TRANSACTION_FLAG_ENUM_NONE,		"none"},	/* fall though value */
-	{PK_TRANSACTION_FLAG_ENUM_ONLY_TRUSTED,	"only-trusted"},
-	{PK_TRANSACTION_FLAG_ENUM_SIMULATE,	"simulate"},
-	{PK_TRANSACTION_FLAG_ENUM_ONLY_DOWNLOAD, "only-download"},
+	{PK_TRANSACTION_FLAG_ENUM_NONE,			"none"},	/* fall though value */
+	{PK_TRANSACTION_FLAG_ENUM_ONLY_TRUSTED,		"only-trusted"},
+	{PK_TRANSACTION_FLAG_ENUM_SIMULATE,		"simulate"},
+	{PK_TRANSACTION_FLAG_ENUM_ONLY_DOWNLOAD,	"only-download"},
+	{PK_TRANSACTION_FLAG_ENUM_ALLOW_REINSTALL,	"allow-reinstall"},
+	{PK_TRANSACTION_FLAG_ENUM_JUST_REINSTALL,	"just-reinstall"},
+	{PK_TRANSACTION_FLAG_ENUM_ALLOW_DOWNGRADE,	"allow-downgrade"},
 	{0, NULL}
 };
 
@@ -993,6 +997,10 @@ pk_info_enum_to_localised_text (PkInfoEnum info)
 	case PK_INFO_ENUM_COLLECTION_AVAILABLE:
 		/* TRANSLATORS: The state of a package, i.e. not installed */
 		text = dgettext("PackageKit", "Available");
+		break;
+	case PK_INFO_ENUM_UNAVAILABLE:
+		/* TRANSLATORS: The state of a package, i.e. not installed */
+		text = dgettext("PackageKit", "Unavailable");
 		break;
 	default:
 		g_warning ("info unrecognised: %s", pk_info_enum_to_string (info));

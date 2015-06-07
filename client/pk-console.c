@@ -501,8 +501,8 @@ pk_console_details_cb (PkDetails *item, gpointer data)
 	g_print ("  license:     %s\n", license);
 	g_print ("  group:       %s\n", pk_group_enum_to_string (group));
 	g_print ("  description: %s\n", description);
-	g_print ("  size:	%lu bytes\n", (long unsigned int) size);
-	g_print ("  url:	 %s\n", url);
+	g_print ("  size:        %lu bytes\n", (long unsigned int) size);
+	g_print ("  url:         %s\n", url);
 }
 
 /**
@@ -1500,6 +1500,7 @@ pk_console_get_summary (PkConsoleCtx *ctx)
 	g_string_append_printf (string, "  %s\n", "offline-trigger");
 	g_string_append_printf (string, "  %s\n", "offline-cancel");
 	g_string_append_printf (string, "  %s\n", "offline-status");
+	g_string_append_printf (string, "  %s\n", "quit");
 	return g_string_free (string, FALSE);
 }
 
@@ -1638,6 +1639,8 @@ main (int argc, char *argv[])
 	gboolean background = FALSE;
 	gboolean noninteractive = FALSE;
 	gboolean only_download = FALSE;
+	gboolean allow_downgrade = FALSE;
+	gboolean allow_reinstall = FALSE;
 	guint cache_age = G_MAXUINT;
 	gint retval_copy = 0;
 	gboolean plain = FALSE;
@@ -1668,7 +1671,12 @@ main (int argc, char *argv[])
 			_("Install the packages without asking for confirmation"), NULL },
 		{ "only-download", 'd', 0, G_OPTION_ARG_NONE, &only_download,
 			/* command line argument, do we just download or apply changes */
-			_("Prepare the transaction by downloading pakages only"), NULL },
+			_("Prepare the transaction by downloading packages only"), NULL },
+		{ "allow-downgrade", 0, 0, G_OPTION_ARG_NONE, &allow_downgrade,
+			/* command line argument, do we allow package downgrades */
+			_("Allow packages to be downgraded during transaction"), NULL},
+		{ "allow-reinstall", 0, 0, G_OPTION_ARG_NONE, &allow_reinstall,
+		    _("Allow packages to be reinstalled during transaction"), NULL},
 		{ "background", 'n', 0, G_OPTION_ARG_NONE, &background,
 			/* TRANSLATORS: command line argument, this command is not a priority */
 			_("Run the command using idle network bandwidth and also using less power"), NULL},
@@ -1766,6 +1774,8 @@ main (int argc, char *argv[])
 		      "simulate", !noninteractive && !only_download,
 		      "interactive", !noninteractive,
 		      "only-download", only_download,
+		      "allow-downgrade", allow_downgrade,
+		      "allow-reinstall", allow_reinstall,
 		      "cache-age", cache_age,
 		      "only-trusted", !allow_untrusted,
 		      NULL);
@@ -2123,6 +2133,12 @@ main (int argc, char *argv[])
 							role,
 							ctx->cancellable,
 							pk_console_get_time_since_action_cb, ctx);
+
+	} else if (strcmp (mode, "quit") == 0) {
+		pk_control_suggest_daemon_quit (ctx->control,
+						ctx->cancellable,
+						NULL);
+		run_mainloop = FALSE;
 
 	} else if (strcmp (mode, "depends-on") == 0) {
 		if (value == NULL) {

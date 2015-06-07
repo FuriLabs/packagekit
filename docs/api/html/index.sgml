@@ -17,6 +17,7 @@
 <ANCHOR id="PackageKit.ClearResults" href="PackageKit/PackageKit.html#PackageKit.ClearResults">
 <ANCHOR id="PackageKit.Trigger" href="PackageKit/PackageKit.html#PackageKit.Trigger">
 <ANCHOR id="PackageKit.Cancel" href="PackageKit/PackageKit.html#PackageKit.Cancel">
+<ANCHOR id="PackageKit.GetPrepared" href="PackageKit/PackageKit.html#PackageKit.GetPrepared">
 <ANCHOR id="PackageKit::TransactionListChanged" href="PackageKit/PackageKit.html#PackageKit::TransactionListChanged">
 <ANCHOR id="PackageKit::RestartSchedule" href="PackageKit/PackageKit.html#PackageKit::RestartSchedule">
 <ANCHOR id="PackageKit::RepoListChanged" href="PackageKit/PackageKit.html#PackageKit::RepoListChanged">
@@ -587,11 +588,17 @@
 <ANCHOR id="pk-task-get-interactive" href="PackageKit/PkTask.html#pk-task-get-interactive">
 <ANCHOR id="pk-task-set-only-download" href="PackageKit/PkTask.html#pk-task-set-only-download">
 <ANCHOR id="pk-task-get-only-download" href="PackageKit/PkTask.html#pk-task-get-only-download">
+<ANCHOR id="pk-task-set-allow-downgrade" href="PackageKit/PkTask.html#pk-task-set-allow-downgrade">
+<ANCHOR id="pk-task-get-allow-downgrade" href="PackageKit/PkTask.html#pk-task-get-allow-downgrade">
+<ANCHOR id="pk-task-set-allow-reinstall" href="PackageKit/PkTask.html#pk-task-set-allow-reinstall">
+<ANCHOR id="pk-task-get-allow-reinstall" href="PackageKit/PkTask.html#pk-task-get-allow-reinstall">
 <ANCHOR id="pk-task-set-only-trusted" href="PackageKit/PkTask.html#pk-task-set-only-trusted">
 <ANCHOR id="pk-task-get-only-trusted" href="PackageKit/PkTask.html#pk-task-get-only-trusted">
 <ANCHOR id="PkTask.other_details" href="PackageKit/PkTask.html#PkTask.other_details">
 <ANCHOR id="PK-TASK-TYPE-ERROR:CAPS" href="PackageKit/PkTask.html#PK-TASK-TYPE-ERROR:CAPS">
 <ANCHOR id="PkTask.property-details" href="PackageKit/PkTask.html#PkTask.property-details">
+<ANCHOR id="PkTask--allow-downgrade" href="PackageKit/PkTask.html#PkTask--allow-downgrade">
+<ANCHOR id="PkTask--allow-reinstall" href="PackageKit/PkTask.html#PkTask--allow-reinstall">
 <ANCHOR id="PkTask--only-download" href="PackageKit/PkTask.html#PkTask--only-download">
 <ANCHOR id="PkTask--only-trusted" href="PackageKit/PkTask.html#PkTask--only-trusted">
 <ANCHOR id="PkTask--simulate" href="PackageKit/PkTask.html#PkTask--simulate">

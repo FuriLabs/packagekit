@@ -16,9 +16,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PackageKit\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-10-21 13:26+0100\n"
-"PO-Revision-Date: 2014-10-15 07:25+0000\n"
-"Last-Translator: Milo Casagrande <milo@ubuntu.com>\n"
+"POT-Creation-Date: 2015-04-07 12:24+0100\n"
+"PO-Revision-Date: 2015-04-07 11:24+0000\n"
+"Last-Translator: Richard Hughes <richard@hughsie.com>\n"
 "Language-Team: Italian (http://www.transifex.com/projects/p/packagekit/language/it/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -383,8 +383,15 @@ msgid "Install the packages without asking for confirmation"
 msgstr "Installa i pacchetti senza chiedere conferma"
 
 #. command line argument, do we just download or apply changes
-msgid "Prepare the transaction by downloading pakages only"
-msgstr "Prepara la transazione scaricando solamente i pacchetti"
+msgid "Prepare the transaction by downloading packages only"
+msgstr ""
+
+#. command line argument, do we allow package downgrades
+msgid "Allow packages to be downgraded during transaction"
+msgstr "Consente di retrocedere i pacchetti durante la transazione"
+
+msgid "Allow packages to be reinstalled during transaction"
+msgstr "Consente di reinstallare i pacchetti durante la transazione"
 
 #. TRANSLATORS: command line argument, this command is not a priority
 msgid "Run the command using idle network bandwidth and also using less power"
@@ -892,6 +899,10 @@ msgstr "Installato"
 msgid "Available"
 msgstr "Disponibile"
 
+#. TRANSLATORS: The state of a package, i.e. not installed
+msgid "Unavailable"
+msgstr "﻿Non disponibile"
+
 #. TRANSLATORS: The action of the package, in present tense
 msgid "Downloading"
 msgstr "Scaricamento"
@@ -1203,6 +1214,30 @@ msgstr "Installa file locale non affidabile"
 msgid "Authentication is required to install untrusted software"
 msgstr "È richiesto autenticarsi per installare software non fidato"
 
+#. SECURITY
+#. - Normal users require admin authentication to reinstall packages.
+#. - Authorization to install packages does not imply permissions to
+#. reinstall them and vice versa.
+#. - If a package in question is not trusted, user's permission to install
+#. untrusted package will be checked as well.
+msgid "Install already installed package again"
+msgstr "Installa nuovamente i pacchetti già installati"
+
+msgid "Authentication is required to reinstall software"
+msgstr "È richiesto autenticarsi per reinstallare software"
+
+#. SECURITY
+#. - Normal users require admin authentication to downgrade packages.
+#. - User authorized to dowgrade signed packages is authorized to install
+#. them as well.
+#. - If a package in question is not trusted, user's permission to install
+#. untrusted package will be checked as well.
+msgid "Install older version of installed package"
+msgstr "Installa versioni precedenti di pacchetti già installati"
+
+msgid "Authentication is required to downgrade software"
+msgstr "È richiesto autenticarsi per retrocedere il software"
+
 #. SECURITY:
 #. - Normal users require admin authentication to add signing keys.
 #. - This implies adding an explicit trust, and should not be granted
@@ -1235,6 +1270,7 @@ msgstr "È richiesto autenticarsi per accettare un EULA"
 #. admin authentication has been obtained, otherwise packages can still
 #. be removed. If this is not possible, change this authentication to
 #. 'auth_admin'.
+#. TRANSLATORS: command description
 msgid "Remove package"
 msgstr "Rimuovi pacchetto"
 
@@ -1354,6 +1390,10 @@ msgstr "Cerca per dettagli"
 #. TRANSLATORS: command description
 msgid "Search by files"
 msgstr "Cerca per file"
+
+#. TRANSLATORS: command description
+msgid "Install package"
+msgstr "Installa pacchetto"
 
 #. TRANSLATORS: command description
 msgid "Set repository options"

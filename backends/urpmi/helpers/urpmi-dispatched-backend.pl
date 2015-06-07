@@ -50,6 +50,7 @@ foreach (<STDIN>) {
   print "finished\n";
 }
 
+# FIXME: stop passing a ref around
 sub dispatch_command {
   my ($urpm, $args) = @_;
 
@@ -111,7 +112,7 @@ sub depends_on {
   
   my @filterstab = split(/;/, $args->[0]);
   my @packageidstab = split(/&/, $args->[1]);
-  #my $recursive_option = $args->[2] eq "yes" ? 1 : 0;
+  #my $recursive_option = text2bool($args->[2]);
   
   pk_print_status(PK_STATUS_ENUM_DEP_RESOLVE);
   
@@ -270,7 +271,7 @@ sub required_by {
   
   my @filterstab = split(/;/, $args->[0]);
   my @packageidstab = split(/&/, $args->[1]);
-  my $recursive_option = $args->[2] eq "yes" ? 1 : 0;
+  my $recursive_option = text2bool($args->[2]);
   
   my @pkgnames;
   foreach (@packageidstab) {
@@ -333,7 +334,6 @@ sub get_updates {
 sub install_packages {
   my ($urpm, $args) = @_;
 
-  my $only_trusted = $args->[0];
   my @packageidstab = split(/&/, $args->[1]);
   
   my @names;
@@ -349,7 +349,7 @@ sub install_packages {
     caseinsensitive => 0,
     all => 0);
   eval {
-    perform_installation($urpm, \%requested, only_trusted => $only_trusted);
+    perform_installation($urpm, \%requested, map { $_ => 1 } split(',', $args->[0]));
   };
   _finished();
 }
@@ -426,8 +426,10 @@ sub remove_packages {
 
   my $urpmi_lock = urpm::lock::urpmi_db($urpm, 'exclusive', wait => 1);
 
-  my $allowdeps_option = $args->[0] eq "yes" ? 1 : 0;
-  my @packageidstab = split(/&/, $args->[1]);
+  my $allowdeps_option = text2bool($args->[0]);
+  my $autoremove_option = text2bool($args->[1]);
+  my @trans_flags = split(',', $args->[2]);
+  my @packageidstab = split(/&/, $args->[3]);
 
   my @names = map { (split(/;/, $_))[0] } @packageidstab;
 
@@ -471,7 +473,7 @@ sub repo_enable {
   my ($urpm, $args) = @_;
 
   my $name = $args->[0];
-  my $enable = $args->[1] eq "yes" ? 1 : 0;
+  my $enable = text2bool($args->[1]);
 
   my @media = grep { $_->{name} eq $name } @{$urpm->{media}};
   if (@media == 1) {
@@ -624,7 +626,6 @@ sub search_group {
 sub update_packages {
   my ($urpm, $args) = @_;
 
-  my $only_trusted = $args->[0];
   my @packageidstab = split(/&/, $args->[1]);
 
   my @names;
@@ -638,6 +639,7 @@ sub update_packages {
 
   my %requested;
 
+  # FIXME: ...
   my @depslist = @{$urpm->{depslist}};
   foreach my $depslistpkg (@depslist) {
     foreach my $name (@names) {
@@ -649,7 +651,7 @@ sub update_packages {
     tonext:
   }
   eval {
-    perform_installation($urpm, \%requested, only_trusted => $only_trusted);
+    perform_installation($urpm, \%requested, map { $_ => 1 } split(',', $args->[0]));
   };
   _finished();
 }
@@ -678,11 +680,11 @@ sub what_provides {
   foreach (@packageidstab) {
     my @pkgid = split(/;/, $_);
     # skip if old standard
-    if (!any { /^gstreamer0.10\(/ } $pkgid[0]) {
+    if (!any { /^gstreamer1.0\(/ } $pkgid[0]) {
 	# new standard
 	my $namespace;
 	if ($providestype eq "codec") {
-	    $namespace = "gstreamer0.10";
+	    $namespace = "gstreamer1.0";
 	} elsif ($providestype ne "any") {
 	    $namespace = $providestype;
 	}

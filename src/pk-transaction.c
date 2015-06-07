@@ -51,7 +51,6 @@
 #include "pk-cleanup.h"
 #include "pk-backend.h"
 #include "pk-dbus.h"
-#include "pk-notify.h"
 #include "pk-shared.h"
 #include "pk-transaction-db.h"
 #include "pk-transaction.h"
@@ -92,17 +91,11 @@ struct PkTransactionPrivate
 	gboolean		 emit_media_change_required;
 	gboolean		 caller_active;
 	gboolean		 exclusive;
-	gboolean		 background;
-	gboolean		 interactive;
-	gchar			*locale;
-	gchar			*frontend_socket;
-	guint			 cache_age;
 	guint			 uid;
 	guint			 watch_id;
 	PkBackend		*backend;
 	PkBackendJob		*job;
 	GKeyFile		*conf;
-	PkNotify		*notify;
 	PkDbus			*dbus;
 	PolkitAuthority		*authority;
 	PolkitSubject		*subject;
@@ -170,6 +163,7 @@ typedef enum {
 enum {
 	SIGNAL_FINISHED,
 	SIGNAL_STATE_CHANGED,
+	SIGNAL_ALLOW_CANCEL_CHANGED,
 	SIGNAL_LAST
 };
 
@@ -278,7 +272,7 @@ gboolean
 pk_transaction_get_background (PkTransaction *transaction)
 {
 	g_return_val_if_fail (PK_IS_TRANSACTION (transaction), FALSE);
-	return transaction->priv->background;
+	return pk_backend_job_get_background (transaction->priv->job);
 }
 
 /**
@@ -306,8 +300,8 @@ pk_transaction_finish_invalidate_caches (PkTransaction *transaction)
 	    priv->role == PK_ROLE_ENUM_REFRESH_CACHE) {
 
 		/* this needs to be done after a small delay */
-		pk_notify_wait_updates_changed (priv->notify,
-						PK_TRANSACTION_UPDATES_CHANGED_TIMEOUT);
+		pk_backend_updates_changed_delay (priv->backend,
+						  PK_TRANSACTION_UPDATES_CHANGED_TIMEOUT);
 	}
 out:
 	return TRUE;
@@ -384,7 +378,8 @@ pk_transaction_allow_cancel_emit (PkTransaction *transaction, gboolean allow_can
 
 	transaction->priv->allow_cancel = allow_cancel;
 
-	/* TODO: have master property on main interface */
+	/* proxy this up so we can change the system inhibit */
+	g_signal_emit (transaction, signals[SIGNAL_ALLOW_CANCEL_CHANGED], 0, allow_cancel);
 
 	/* emit */
 	pk_transaction_emit_property_changed (transaction,
@@ -1101,10 +1096,6 @@ pk_transaction_finished_cb (PkBackendJob *job, PkExitEnum exit_enum, PkTransacti
 		pk_transaction_offline_finished (transaction);
 	}
 
-	/* if we did not send this, ensure the GUI has the right state */
-	if (transaction->priv->allow_cancel)
-		pk_transaction_allow_cancel_emit (transaction, FALSE);
-
 	/* we should get no more from the backend with this tid */
 	transaction->priv->finished = TRUE;
 
@@ -1160,7 +1151,7 @@ pk_transaction_finished_cb (PkBackendJob *job, PkExitEnum exit_enum, PkTransacti
 	if (transaction->priv->role == PK_ROLE_ENUM_REPO_ENABLE ||
 	    transaction->priv->role == PK_ROLE_ENUM_REPO_REMOVE ||
 	    transaction->priv->role == PK_ROLE_ENUM_REPO_SET_DATA) {
-		pk_notify_repo_list_changed (transaction->priv->notify);
+		pk_backend_repo_list_changed (transaction->priv->backend);
 	}
 
 	/* only reset the time if we succeeded */
@@ -1194,10 +1185,11 @@ pk_transaction_finished_cb (PkBackendJob *job, PkExitEnum exit_enum, PkTransacti
 			time_ms);
 	}
 
+	/* this disconnects any pending signals */
+	pk_backend_job_disconnect_vfuncs (transaction->priv->job);
+
 	/* destroy the job */
 	pk_backend_stop_job (transaction->priv->backend, transaction->priv->job);
-	g_object_unref (transaction->priv->job);
-	transaction->priv->job = NULL;
 
 	/* we emit last, as other backends will be running very soon after us, and we don't want to be notified */
 	pk_transaction_finished_emit (transaction, exit_enum, time_ms);
@@ -1737,26 +1729,6 @@ pk_transaction_run (PkTransaction *transaction)
 	g_return_val_if_fail (priv->tid != NULL, FALSE);
 	g_return_val_if_fail (transaction->priv->backend != NULL, FALSE);
 
-	/* create main job for transaction */
-	priv->job = pk_backend_job_new (transaction->priv->conf);
-	pk_backend_job_set_background (priv->job, priv->background);
-	pk_backend_job_set_interactive (priv->job, priv->interactive);
-
-	/* if we didn't set a locale for this transaction, we would reuse the
-	 * last set locale in the backend, or NULL if it was not ever set.
-	 * in this case use the C locale */
-	if (priv->locale == NULL)
-		pk_backend_job_set_locale (priv->job, "C");
-	else
-		pk_backend_job_set_locale (priv->job, priv->locale);
-
-	/* set the frontend socket if it exists */
-	pk_backend_job_set_frontend_socket (priv->job, priv->frontend_socket);
-
-	/* set the cache-age */
-	if (priv->cache_age > 0)
-		pk_backend_job_set_cache_age (priv->job, priv->cache_age);
-
 	/* we are no longer waiting, we are setting up */
 	pk_transaction_status_changed_emit (transaction, PK_STATUS_ENUM_SETUP);
 
@@ -1795,9 +1767,6 @@ pk_transaction_run (PkTransaction *transaction)
 	g_debug ("setting role for %s to %s",
 		 priv->tid,
 		 pk_role_enum_to_string (priv->role));
-
-	/* mark running */
-	priv->allow_cancel = FALSE;
 
 	/* reset after the pre-transaction checks */
 	pk_backend_job_set_percentage (priv->job, PK_BACKEND_PERCENTAGE_INVALID);
@@ -2302,190 +2271,152 @@ pk_transaction_search_check (gchar **values, GError **error)
 }
 
 /**
- * pk_transaction_action_obtain_authorization:
+ * Parameters to pk_transaction_authorize_actions_finished_cb.
+ */
+struct AuthorizeActionsData {
+	PkTransaction *transaction;
+	PkRoleEnum role;
+	/** Array of policy actions to authorize. They will are processed sequentially,
+	 * which can result in several chained callbacks. */
+	GPtrArray *actions;
+};
+
+static gboolean
+pk_transaction_authorize_actions (PkTransaction *transaction,
+				  PkRoleEnum role,
+				  GPtrArray *actions);
+
+/**
+ * pk_transaction_authorize_actions_finished_cb:
+ *
+ * A callback processing the result of action's authorization done by
+ * polkit daemon. If the action was authorized, it pops another
+ * from *data->actions* and schedules it for authorization. This continues
+ * until an action is denied or all of them are authorized.
  **/
 static void
-pk_transaction_action_obtain_authorization_finished_cb (GObject *source_object, GAsyncResult *res, PkTransaction *transaction)
+pk_transaction_authorize_actions_finished_cb (GObject *source_object,
+					      GAsyncResult *res,
+					      struct AuthorizeActionsData *data)
 {
-	gboolean ret;
-	PkTransactionPrivate *priv = transaction->priv;
+	const gchar *action_id = NULL;
+	PkTransactionPrivate *priv = data->transaction->priv;
 	_cleanup_error_free_ GError *error = NULL;
 	_cleanup_object_unref_ PolkitAuthorizationResult *result = NULL;
+	g_assert (data->actions && data->actions->len > 0);
+
+	/* get the first action */
+	action_id = g_ptr_array_index (data->actions, 0);
 
 	/* finish the call */
 	result = polkit_authority_check_authorization_finish (priv->authority, res, &error);
-	priv->waiting_for_auth = FALSE;
 
 	/* failed because the request was cancelled */
-	ret = g_cancellable_is_cancelled (priv->cancellable);
-	if (ret) {
+	if (g_cancellable_is_cancelled (priv->cancellable)) {
 		/* emit an ::StatusChanged, ::ErrorCode() and then ::Finished() */
-		pk_transaction_status_changed_emit (transaction, PK_STATUS_ENUM_FINISHED);
-		pk_transaction_error_code_emit (transaction, PK_ERROR_ENUM_NOT_AUTHORIZED, "The authentication was cancelled due to a timeout.");
-		pk_transaction_finished_emit (transaction, PK_EXIT_ENUM_FAILED, 0);
-		return;
+		priv->waiting_for_auth = FALSE;
+		pk_transaction_status_changed_emit (data->transaction, PK_STATUS_ENUM_FINISHED);
+		pk_transaction_error_code_emit (data->transaction, PK_ERROR_ENUM_NOT_AUTHORIZED,
+						"The authentication was cancelled due to a timeout.");
+		pk_transaction_finished_emit (data->transaction, PK_EXIT_ENUM_FAILED, 0);
+		goto out;
 	}
 
 	/* failed, maybe polkit is messed up? */
 	if (result == NULL) {
 		_cleanup_free_ gchar *message = NULL;
+		priv->waiting_for_auth = FALSE;
 		g_warning ("failed to check for auth: %s", error->message);
 
 		/* emit an ::StatusChanged, ::ErrorCode() and then ::Finished() */
-		pk_transaction_status_changed_emit (transaction, PK_STATUS_ENUM_FINISHED);
+		pk_transaction_status_changed_emit (data->transaction, PK_STATUS_ENUM_FINISHED);
 		message = g_strdup_printf ("Failed to check for authentication: %s", error->message);
-		pk_transaction_error_code_emit (transaction, PK_ERROR_ENUM_NOT_AUTHORIZED, message);
-		pk_transaction_finished_emit (transaction, PK_EXIT_ENUM_FAILED, 0);
-		return;
+		pk_transaction_error_code_emit (data->transaction,
+						PK_ERROR_ENUM_NOT_AUTHORIZED,
+						message);
+		pk_transaction_finished_emit (data->transaction, PK_EXIT_ENUM_FAILED, 0);
+		goto out;
 	}
 
 	/* did not auth */
 	if (!polkit_authorization_result_get_is_authorized (result)) {
+		if (g_strcmp0 (action_id, "org.freedesktop.packagekit.package-install") == 0 &&
+			       pk_bitfield_contain (priv->cached_transaction_flags,
+						    PK_TRANSACTION_FLAG_ENUM_ALLOW_REINSTALL)) {
+			g_debug ("allowing just reinstallation");
+			pk_bitfield_add (priv->cached_transaction_flags,
+					 PK_TRANSACTION_FLAG_ENUM_JUST_REINSTALL);
+		} else {
+			priv->waiting_for_auth = FALSE;
+			/* emit an ::StatusChanged, ::ErrorCode() and then ::Finished() */
+			pk_transaction_status_changed_emit (data->transaction, PK_STATUS_ENUM_FINISHED);
+			pk_transaction_error_code_emit (data->transaction, PK_ERROR_ENUM_NOT_AUTHORIZED,
+							"Failed to obtain authentication.");
+			pk_transaction_finished_emit (data->transaction, PK_EXIT_ENUM_FAILED, 0);
 
-		/* emit an ::StatusChanged, ::ErrorCode() and then ::Finished() */
-		pk_transaction_status_changed_emit (transaction, PK_STATUS_ENUM_FINISHED);
-		pk_transaction_error_code_emit (transaction, PK_ERROR_ENUM_NOT_AUTHORIZED,
-						"Failed to obtain authentication.");
-		pk_transaction_finished_emit (transaction, PK_EXIT_ENUM_FAILED, 0);
-
-		syslog (LOG_AUTH | LOG_NOTICE,
-			"uid %i failed to obtain auth",
-			priv->uid);
-		return;
+			syslog (LOG_AUTH | LOG_NOTICE,
+				"uid %i failed to obtain auth",
+				priv->uid);
+			goto out;
+		}
 	}
-	pk_transaction_set_state (transaction, PK_TRANSACTION_STATE_READY);
 
-	/* log success too */
-	syslog (LOG_AUTH | LOG_INFO, "uid %i obtained auth", priv->uid);
+	if (data->actions->len <= 1) {
+		/* authentication finished successfully */
+		priv->waiting_for_auth = FALSE;
+		pk_transaction_set_state (data->transaction, PK_TRANSACTION_STATE_READY);
+		/* log success too */
+		syslog (LOG_AUTH | LOG_INFO,
+			"uid %i obtained auth for %s",
+			priv->uid, action_id);
+	} else {
+		/* process the rest of actions */
+		g_ptr_array_remove_index (data->actions, 0);
+		pk_transaction_authorize_actions (data->transaction, data->role, data->actions);
+	}
+
+out:
+	g_free (data);
 }
 
 /**
- * pk_transaction_role_to_action_only_trusted:
- **/
-static const gchar *
-pk_transaction_role_to_action_only_trusted (PkRoleEnum role)
-{
-	const gchar *policy = NULL;
-
-	switch (role) {
-	case PK_ROLE_ENUM_UPDATE_PACKAGES:
-		policy = "org.freedesktop.packagekit.system-update";
-		break;
-	case PK_ROLE_ENUM_INSTALL_SIGNATURE:
-		policy = "org.freedesktop.packagekit.system-trust-signing-key";
-		break;
-	case PK_ROLE_ENUM_REPO_ENABLE:
-	case PK_ROLE_ENUM_REPO_SET_DATA:
-	case PK_ROLE_ENUM_REPO_REMOVE:
-		policy = "org.freedesktop.packagekit.system-sources-configure";
-		break;
-	case PK_ROLE_ENUM_REFRESH_CACHE:
-		policy = "org.freedesktop.packagekit.system-sources-refresh";
-		break;
-	case PK_ROLE_ENUM_REMOVE_PACKAGES:
-		policy = "org.freedesktop.packagekit.package-remove";
-		break;
-	case PK_ROLE_ENUM_INSTALL_PACKAGES:
-		policy = "org.freedesktop.packagekit.package-install";
-		break;
-	case PK_ROLE_ENUM_INSTALL_FILES:
-		policy = "org.freedesktop.packagekit.package-install";
-		break;
-	case PK_ROLE_ENUM_ACCEPT_EULA:
-		policy = "org.freedesktop.packagekit.package-eula-accept";
-		break;
-	case PK_ROLE_ENUM_CANCEL:
-		policy = "org.freedesktop.packagekit.cancel-foreign";
-		break;
-	case PK_ROLE_ENUM_REPAIR_SYSTEM:
-		policy = "org.freedesktop.packagekit.repair-system";
-		break;
-	default:
-		break;
-	}
-	return policy;
-}
-
-/**
- * pk_transaction_role_to_action_allow_untrusted:
- **/
-static const gchar *
-pk_transaction_role_to_action_allow_untrusted (PkRoleEnum role)
-{
-	const gchar *policy = NULL;
-
-	switch (role) {
-	case PK_ROLE_ENUM_INSTALL_PACKAGES:
-	case PK_ROLE_ENUM_INSTALL_FILES:
-	case PK_ROLE_ENUM_UPDATE_PACKAGES:
-		policy = "org.freedesktop.packagekit.package-install-untrusted";
-		break;
-	default:
-		policy = pk_transaction_role_to_action_only_trusted (role);
-	}
-	return policy;
-}
-
-/**
- * pk_transaction_obtain_authorization:
+ * pk_transaction_authorize_actions:
  *
- * Only valid from an async caller, which is fine, as we won't prompt the user
- * when not async.
+ * Param actions is an array of policy actions that shall be authorized. They
+ * will be processed one-by-one until one action is denied or all of them are
+ * authorized. Each action results in one asynchronous function call to polkit
+ * daemon.
  *
- * Because checking for authentication might have to respond to user input, this
- * is treated as async. As such, the transaction should only be added to the
- * transaction list when authorised, and not before.
- **/
+ * Return value: %TRUE if no authorization is required or the first action
+ *		is scheduled for processing.
+ */
 static gboolean
-pk_transaction_obtain_authorization (PkTransaction *transaction,
-				     PkRoleEnum role,
-				     GError **error)
+pk_transaction_authorize_actions (PkTransaction *transaction,
+				  PkRoleEnum role,
+				  GPtrArray *actions)
 {
-	const gchar *action_id;
-	const gchar *text;
-	PkTransactionPrivate *priv = transaction->priv;
-	_cleanup_free_ gchar *package_ids = NULL;
+	const gchar *action_id = NULL;
 	_cleanup_object_unref_ PolkitDetails *details = NULL;
-	_cleanup_string_free_ GString *string = NULL;
+	_cleanup_free_ gchar *package_ids = NULL;
+	GString *string = NULL;
+	PkTransactionPrivate *priv = transaction->priv;
+	const gchar *text = NULL;
+	struct AuthorizeActionsData *data = NULL;
 
-	g_return_val_if_fail (priv->sender != NULL, FALSE);
-
-	/* we don't need to authenticate at all to just download
-	 * packages or if we're running unit tests */
-	if (pk_bitfield_contain (transaction->priv->cached_transaction_flags,
-				 PK_TRANSACTION_FLAG_ENUM_ONLY_DOWNLOAD) ||
-	    pk_bitfield_contain (transaction->priv->cached_transaction_flags,
-				 PK_TRANSACTION_FLAG_ENUM_SIMULATE) ||
-	    priv->skip_auth_check == TRUE) {
+	if (actions->len <= 0) {
 		g_debug ("No authentication required");
 		pk_transaction_set_state (transaction, PK_TRANSACTION_STATE_READY);
 		return TRUE;
 	}
-
-	/* we should always have subject */
-	if (priv->subject == NULL) {
-		g_set_error (error,
-			     PK_TRANSACTION_ERROR,
-			     PK_TRANSACTION_ERROR_REFUSED_BY_POLICY,
-			     "subject %s not found", priv->sender);
-		return FALSE;
-	}
-
-	/* map the roles to policykit rules */
-	if (pk_bitfield_contain (transaction->priv->cached_transaction_flags,
-				 PK_TRANSACTION_FLAG_ENUM_ONLY_TRUSTED)) {
-		action_id = pk_transaction_role_to_action_only_trusted (role);
-	} else {
-		action_id = pk_transaction_role_to_action_allow_untrusted (role);
-	}
+	action_id = g_ptr_array_index (actions, 0);
 
 	/* log */
 	syslog (LOG_AUTH | LOG_INFO,
 		"uid %i is trying to obtain %s auth (only_trusted:%i)",
 		priv->uid,
 		action_id,
-		pk_bitfield_contain (transaction->priv->cached_transaction_flags,
-				     PK_TRANSACTION_FLAG_ENUM_ONLY_TRUSTED));
+		pk_bitfield_contain (priv->cached_transaction_flags,
+					PK_TRANSACTION_FLAG_ENUM_ONLY_TRUSTED));
 
 	/* set transaction state */
 	pk_transaction_set_state (transaction,
@@ -2510,9 +2441,10 @@ pk_transaction_obtain_authorization (PkTransaction *transaction,
 		polkit_details_insert (details, "cmdline", priv->cmdline);
 
 	/* do not use the default icon and wording for some roles */
-	if (role == PK_ROLE_ENUM_INSTALL_PACKAGES &&
-	    role == PK_ROLE_ENUM_UPDATE_PACKAGES &&
-	    !pk_bitfield_contain (priv->cached_transaction_flags, PK_TRANSACTION_FLAG_ENUM_ONLY_TRUSTED)) {
+	if ((role == PK_ROLE_ENUM_INSTALL_PACKAGES ||
+	    role == PK_ROLE_ENUM_UPDATE_PACKAGES) &&
+	    !pk_bitfield_contain (priv->cached_transaction_flags,
+				  PK_TRANSACTION_FLAG_ENUM_ONLY_TRUSTED)) {
 
 		/* don't use the friendly PackageKit icon as this is
 		 * might be a ricky authorisation */
@@ -2551,6 +2483,12 @@ pk_transaction_obtain_authorization (PkTransaction *transaction,
 		}
 	}
 
+	data = g_new (struct AuthorizeActionsData, 1);
+	data->transaction = transaction;
+	data->role = role;
+	data->actions = g_ptr_array_ref (actions);
+
+	g_debug ("authorizing action %s", action_id);
 	/* do authorization async */
 	polkit_authority_check_authorization (priv->authority,
 					      priv->subject,
@@ -2558,9 +2496,140 @@ pk_transaction_obtain_authorization (PkTransaction *transaction,
 					      details,
 					      POLKIT_CHECK_AUTHORIZATION_FLAGS_ALLOW_USER_INTERACTION,
 					      priv->cancellable,
-					      (GAsyncReadyCallback) pk_transaction_action_obtain_authorization_finished_cb,
-					      transaction);
+					      (GAsyncReadyCallback) pk_transaction_authorize_actions_finished_cb,
+					      data);
 	return TRUE;
+}
+
+/**
+ * pk_transaction_role_to_actions:
+ *
+ * Produces a list of policy actions needing authorization for given role
+ * and transaction flags.
+ *
+ * Return value: array of policy action ids
+ **/
+static GPtrArray *
+pk_transaction_role_to_actions (PkRoleEnum role, guint64 transaction_flags)
+{
+	const gchar *policy = NULL;
+	GPtrArray *result = NULL;
+	gboolean check_install_untrusted = FALSE;
+
+	result = g_ptr_array_new_with_free_func (g_free);
+	if (result == NULL)
+		return result;
+
+	if ((role == PK_ROLE_ENUM_INSTALL_PACKAGES ||
+	     role == PK_ROLE_ENUM_INSTALL_FILES ||
+	     role == PK_ROLE_ENUM_UPDATE_PACKAGES) &&
+	    !pk_bitfield_contain (transaction_flags,
+				  PK_TRANSACTION_FLAG_ENUM_ONLY_TRUSTED)) {
+		g_ptr_array_add (result, g_strdup ("org.freedesktop.packagekit.package-install-untrusted"));
+		check_install_untrusted = TRUE;
+	}
+
+	if (role == PK_ROLE_ENUM_INSTALL_PACKAGES &&
+	    pk_bitfield_contain (transaction_flags, PK_TRANSACTION_FLAG_ENUM_ALLOW_REINSTALL)) {
+		g_ptr_array_add (result, g_strdup ("org.freedesktop.packagekit.package-reinstall"));
+	}
+
+	if ((role == PK_ROLE_ENUM_INSTALL_PACKAGES ||
+	     role == PK_ROLE_ENUM_UPDATE_PACKAGES) &&
+	    pk_bitfield_contain (transaction_flags,
+				 PK_TRANSACTION_FLAG_ENUM_ALLOW_DOWNGRADE)) {
+		g_ptr_array_add (result, g_strdup ("org.freedesktop.packagekit.package-downgrade"));
+	} else if (!check_install_untrusted) {
+		switch (role) {
+		case PK_ROLE_ENUM_UPDATE_PACKAGES:
+			policy = "org.freedesktop.packagekit.system-update";
+			break;
+		case PK_ROLE_ENUM_INSTALL_SIGNATURE:
+			policy = "org.freedesktop.packagekit.system-trust-signing-key";
+			break;
+		case PK_ROLE_ENUM_REPO_ENABLE:
+		case PK_ROLE_ENUM_REPO_SET_DATA:
+		case PK_ROLE_ENUM_REPO_REMOVE:
+			policy = "org.freedesktop.packagekit.system-sources-configure";
+			break;
+		case PK_ROLE_ENUM_REFRESH_CACHE:
+			policy = "org.freedesktop.packagekit.system-sources-refresh";
+			break;
+		case PK_ROLE_ENUM_REMOVE_PACKAGES:
+			policy = "org.freedesktop.packagekit.package-remove";
+			break;
+		case PK_ROLE_ENUM_INSTALL_PACKAGES:
+		case PK_ROLE_ENUM_INSTALL_FILES:
+			policy = "org.freedesktop.packagekit.package-install";
+			break;
+		case PK_ROLE_ENUM_ACCEPT_EULA:
+			policy = "org.freedesktop.packagekit.package-eula-accept";
+			break;
+		case PK_ROLE_ENUM_CANCEL:
+			policy = "org.freedesktop.packagekit.cancel-foreign";
+			break;
+		case PK_ROLE_ENUM_REPAIR_SYSTEM:
+			policy = "org.freedesktop.packagekit.repair-system";
+			break;
+		default:
+			break;
+		}
+		if (policy != NULL)
+			g_ptr_array_add (result, g_strdup (policy));
+	}
+
+	return result;
+}
+
+/**
+ * pk_transaction_obtain_authorization:
+ *
+ * Only valid from an async caller, which is fine, as we won't prompt the user
+ * when not async.
+ *
+ * Because checking for authentication might have to respond to user input, this
+ * is treated as async. As such, the transaction should only be added to the
+ * transaction list when authorised, and not before.
+ **/
+static gboolean
+pk_transaction_obtain_authorization (PkTransaction *transaction,
+				     PkRoleEnum role,
+				     GError **error)
+{
+	_cleanup_ptrarray_unref_ GPtrArray *actions = NULL;
+	PkTransactionPrivate *priv = transaction->priv;
+	_cleanup_free_ gchar *package_ids = NULL;
+	_cleanup_object_unref_ PolkitDetails *details = NULL;
+	_cleanup_string_free_ GString *string = NULL;
+
+	g_return_val_if_fail (priv->sender != NULL, FALSE);
+
+	/* we don't need to authenticate at all to just download
+	 * packages or if we're running unit tests */
+	if (pk_bitfield_contain (transaction->priv->cached_transaction_flags,
+				 PK_TRANSACTION_FLAG_ENUM_ONLY_DOWNLOAD) ||
+			pk_bitfield_contain (transaction->priv->cached_transaction_flags,
+				 PK_TRANSACTION_FLAG_ENUM_SIMULATE) ||
+			priv->skip_auth_check == TRUE) {
+		g_debug ("No authentication required");
+		pk_transaction_set_state (transaction, PK_TRANSACTION_STATE_READY);
+		return TRUE;
+	}
+
+	/* we should always have subject */
+	if (priv->subject == NULL) {
+		g_set_error (error,
+			     PK_TRANSACTION_ERROR,
+			     PK_TRANSACTION_ERROR_REFUSED_BY_POLICY,
+			     "subject %s not found", priv->sender);
+		return FALSE;
+	}
+
+	actions = pk_transaction_role_to_actions (role, priv->cached_transaction_flags);
+	if (actions == NULL)
+		return FALSE;
+
+	return pk_transaction_authorize_actions (transaction, role, actions);
 }
 
 /**
@@ -2816,7 +2885,6 @@ skip_uid:
 						PK_ERROR_ENUM_TRANSACTION_CANCELLED,
 						msg);
 		pk_transaction_finished_emit (transaction, PK_EXIT_ENUM_CANCELLED, 0);
-		pk_transaction_dbus_return (context, NULL);
 		goto out;
 	}
 
@@ -2900,7 +2968,7 @@ pk_transaction_download_packages (PkTransaction *transaction,
 		directory = g_build_filename (LOCALSTATEDIR, "cache", "PackageKit",
 					     "downloads", transaction->priv->tid, NULL);
 		/* rwxrwxr-x */
-		retval = g_mkdir (directory, 0775);
+		retval = g_mkdir_with_parents (directory, 0775);
 		if (retval != 0) {
 			g_set_error (&error,
 				     PK_TRANSACTION_ERROR,
@@ -4670,33 +4738,12 @@ pk_transaction_set_hint (PkTransaction *transaction,
 
 	/* locale=en_GB.utf8 */
 	if (g_strcmp0 (key, "locale") == 0) {
-
-		/* already set */
-		if (priv->locale != NULL) {
-			g_set_error (error,
-				     PK_TRANSACTION_ERROR,
-				     PK_TRANSACTION_ERROR_NOT_SUPPORTED,
-				      "Already set locale to %s",
-				      priv->locale);
-			return FALSE;
-		}
-
-		/* success */
-		priv->locale = g_strdup (value);
+		pk_backend_job_set_locale (priv->job, value);
 		return TRUE;
 	}
 
 	/* frontend_socket=/tmp/socket.3456 */
 	if (g_strcmp0 (key, "frontend-socket") == 0) {
-
-		/* already set */
-		if (priv->frontend_socket != NULL) {
-			g_set_error (error,
-				     PK_TRANSACTION_ERROR,
-				     PK_TRANSACTION_ERROR_NOT_SUPPORTED,
-				     "Already set frontend-socket to %s", priv->frontend_socket);
-			return FALSE;
-		}
 
 		/* nothing provided */
 		if (value == NULL || value[0] == '\0') {
@@ -4726,16 +4773,16 @@ pk_transaction_set_hint (PkTransaction *transaction,
 		}
 
 		/* success */
-		priv->frontend_socket = g_strdup (value);
+		pk_backend_job_set_frontend_socket (priv->job, value);
 		return TRUE;
 	}
 
 	/* background=true */
 	if (g_strcmp0 (key, "background") == 0) {
 		if (g_strcmp0 (value, "true") == 0) {
-			priv->background = TRUE;
+			pk_backend_job_set_background (priv->job, TRUE);
 		} else if (g_strcmp0 (value, "false") == 0) {
-			priv->background = FALSE;
+			pk_backend_job_set_background (priv->job, FALSE);
 		} else {
 			g_set_error (error,
 				     PK_TRANSACTION_ERROR,
@@ -4749,9 +4796,9 @@ pk_transaction_set_hint (PkTransaction *transaction,
 	/* interactive=true */
 	if (g_strcmp0 (key, "interactive") == 0) {
 		if (g_strcmp0 (value, "true") == 0) {
-			priv->interactive = TRUE;
+			pk_backend_job_set_interactive (priv->job, TRUE);
 		} else if (g_strcmp0 (value, "false") == 0) {
-			priv->interactive = FALSE;
+			pk_backend_job_set_interactive (priv->job, FALSE);
 		} else {
 			g_set_error (error,
 				     PK_TRANSACTION_ERROR,
@@ -4764,22 +4811,22 @@ pk_transaction_set_hint (PkTransaction *transaction,
 
 	/* cache-age=<time-in-seconds> */
 	if (g_strcmp0 (key, "cache-age") == 0) {
-		if (!pk_strtouint (value, &priv->cache_age)) {
-			priv->cache_age = G_MAXUINT;
+		guint cache_age;
+		if (!pk_strtouint (value, &cache_age)) {
 			g_set_error (error,
 				     PK_TRANSACTION_ERROR,
 				     PK_TRANSACTION_ERROR_NOT_SUPPORTED,
 				     "cannot parse cache age value %s", value);
 			return FALSE;
 		}
-		if (priv->cache_age == 0) {
-			priv->cache_age = G_MAXUINT;
+		if (cache_age == 0) {
 			g_set_error_literal (error,
 					     PK_TRANSACTION_ERROR,
 					     PK_TRANSACTION_ERROR_NOT_SUPPORTED,
 					     "cannot set a cache age of zero");
 			return FALSE;
 		}
+		pk_backend_job_set_cache_age (priv->job, cache_age);
 		return TRUE;
 	}
 
@@ -5308,6 +5355,11 @@ pk_transaction_class_init (PkTransactionClass *klass)
 			      G_TYPE_FROM_CLASS (object_class), G_SIGNAL_RUN_LAST,
 			      0, NULL, NULL, g_cclosure_marshal_VOID__UINT,
 			      G_TYPE_NONE, 1, G_TYPE_UINT);
+	signals[SIGNAL_ALLOW_CANCEL_CHANGED] =
+		g_signal_new ("allow-cancel-changed",
+			      G_TYPE_FROM_CLASS (object_class), G_SIGNAL_RUN_LAST,
+			      0, NULL, NULL, g_cclosure_marshal_VOID__UINT,
+			      G_TYPE_NONE, 1, G_TYPE_UINT);
 
 	g_type_class_add_private (klass, sizeof (PkTransactionPrivate));
 }
@@ -5331,7 +5383,6 @@ pk_transaction_init (PkTransaction *transaction)
 	transaction->priv->status = PK_STATUS_ENUM_WAIT;
 	transaction->priv->percentage = PK_BACKEND_PERCENTAGE_INVALID;
 	transaction->priv->state = PK_TRANSACTION_STATE_UNKNOWN;
-	transaction->priv->notify = pk_notify_new ();
 	transaction->priv->dbus = pk_dbus_new ();
 	transaction->priv->results = pk_results_new ();
 	transaction->priv->supported_content_types = g_ptr_array_new_with_free_func (g_free);
@@ -5404,8 +5455,6 @@ pk_transaction_finalize (GObject *object)
 	if (transaction->priv->watch_id > 0)
 		g_bus_unwatch_name (transaction->priv->watch_id);
 	g_free (transaction->priv->last_package_id);
-	g_free (transaction->priv->locale);
-	g_free (transaction->priv->frontend_socket);
 	g_free (transaction->priv->cached_package_id);
 	g_free (transaction->priv->cached_key_id);
 	g_strfreev (transaction->priv->cached_package_ids);
@@ -5429,8 +5478,8 @@ pk_transaction_finalize (GObject *object)
 	g_object_unref (transaction->priv->dbus);
 	if (transaction->priv->backend != NULL)
 		g_object_unref (transaction->priv->backend);
+	g_object_unref (transaction->priv->job);
 	g_object_unref (transaction->priv->transaction_db);
-	g_object_unref (transaction->priv->notify);
 	g_object_unref (transaction->priv->results);
 //	g_object_unref (transaction->priv->authority);
 	g_object_unref (transaction->priv->cancellable);
@@ -5449,6 +5498,7 @@ pk_transaction_new (GKeyFile *conf, GDBusNodeInfo *introspection)
 	PkTransaction *transaction;
 	transaction = g_object_new (PK_TYPE_TRANSACTION, NULL);
 	transaction->priv->conf = g_key_file_ref (conf);
+	transaction->priv->job = pk_backend_job_new (conf);
 	transaction->priv->introspection = g_dbus_node_info_ref (introspection);
 	return PK_TRANSACTION (transaction);
 }

@@ -8,13 +8,14 @@
 # Tommy He <lovenemesis@gmail.com>, 2011, 2012
 # Michael Jay Tong <michaeljayt@gmail.com>, 2014
 # Richard Hughes <richard@hughsie.com>, 2011
+# Wylmer Wang <wantinghard@gmail.com>, 2014
 msgid ""
 msgstr ""
 "Project-Id-Version: PackageKit\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-10-21 13:26+0100\n"
-"PO-Revision-Date: 2014-09-18 14:52+0000\n"
-"Last-Translator: Michael Jay Tong <michaeljayt@gmail.com>\n"
+"POT-Creation-Date: 2015-04-07 12:24+0100\n"
+"PO-Revision-Date: 2015-04-07 11:24+0000\n"
+"Last-Translator: Richard Hughes <richard@hughsie.com>\n"
 "Language-Team: Chinese (China) (http://www.transifex.com/projects/p/packagekit/language/zh_CN/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -379,8 +380,15 @@ msgid "Install the packages without asking for confirmation"
 msgstr "不经询问确认就安装软件包"
 
 #. command line argument, do we just download or apply changes
-msgid "Prepare the transaction by downloading pakages only"
-msgstr "仅准备下载软件包事务"
+msgid "Prepare the transaction by downloading packages only"
+msgstr ""
+
+#. command line argument, do we allow package downgrades
+msgid "Allow packages to be downgraded during transaction"
+msgstr "允许事务进行中下载软件包"
+
+msgid "Allow packages to be reinstalled during transaction"
+msgstr "允许事务进行中重新安装软件包"
 
 #. TRANSLATORS: command line argument, this command is not a priority
 msgid "Run the command using idle network bandwidth and also using less power"
@@ -888,6 +896,10 @@ msgstr "已安装"
 msgid "Available"
 msgstr "可用"
 
+#. TRANSLATORS: The state of a package, i.e. not installed
+msgid "Unavailable"
+msgstr ""
+
 #. TRANSLATORS: The action of the package, in present tense
 msgid "Downloading"
 msgstr "正在下载"
@@ -1199,6 +1211,30 @@ msgstr "安装非受信任本地文件"
 msgid "Authentication is required to install untrusted software"
 msgstr "安装不受信任的软件需要认证"
 
+#. SECURITY
+#. - Normal users require admin authentication to reinstall packages.
+#. - Authorization to install packages does not imply permissions to
+#. reinstall them and vice versa.
+#. - If a package in question is not trusted, user's permission to install
+#. untrusted package will be checked as well.
+msgid "Install already installed package again"
+msgstr ""
+
+msgid "Authentication is required to reinstall software"
+msgstr ""
+
+#. SECURITY
+#. - Normal users require admin authentication to downgrade packages.
+#. - User authorized to dowgrade signed packages is authorized to install
+#. them as well.
+#. - If a package in question is not trusted, user's permission to install
+#. untrusted package will be checked as well.
+msgid "Install older version of installed package"
+msgstr ""
+
+msgid "Authentication is required to downgrade software"
+msgstr ""
+
 #. SECURITY:
 #. - Normal users require admin authentication to add signing keys.
 #. - This implies adding an explicit trust, and should not be granted
@@ -1231,6 +1267,7 @@ msgstr "接受最终用户许可协议（EULA）需要认证"
 #. admin authentication has been obtained, otherwise packages can still
 #. be removed. If this is not possible, change this authentication to
 #. 'auth_admin'.
+#. TRANSLATORS: command description
 msgid "Remove package"
 msgstr "删除软件包"
 
@@ -1350,6 +1387,10 @@ msgstr "按详细信息搜索"
 #. TRANSLATORS: command description
 msgid "Search by files"
 msgstr "按文件搜索"
+
+#. TRANSLATORS: command description
+msgid "Install package"
+msgstr ""
 
 #. TRANSLATORS: command description
 msgid "Set repository options"

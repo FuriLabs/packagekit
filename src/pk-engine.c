@@ -37,6 +37,7 @@
 
 #include <glib/gi18n.h>
 #include <glib/gstdio.h>
+#include <gio/gunixfdlist.h>
 #include <packagekit-glib2/pk-offline.h>
 #include <packagekit-glib2/pk-offline-private.h>
 #include <packagekit-glib2/pk-version.h>
@@ -47,7 +48,6 @@
 #include "pk-dbus.h"
 #include "pk-engine.h"
 #include "pk-network.h"
-#include "pk-notify.h"
 #include "pk-shared.h"
 #include "pk-transaction-db.h"
 #include "pk-transaction.h"
@@ -73,7 +73,6 @@ struct PkEnginePrivate
 	PkTransactionDb		*transaction_db;
 	PkBackend		*backend;
 	PkNetwork		*network;
-	PkNotify		*notify;
 	GKeyFile		*conf;
 	PkDbus			*dbus;
 	GFileMonitor		*monitor_conf;
@@ -160,22 +159,39 @@ pk_engine_reset_timer (PkEngine *engine)
 	g_timer_reset (engine->priv->timer);
 }
 
+static void pk_engine_inhibit (PkEngine *engine);
+static void pk_engine_uninhibit (PkEngine *engine);
+
 /**
- * pk_engine_transaction_list_changed_cb:
+ * pk_engine_set_inhibited:
  **/
 static void
-pk_engine_transaction_list_changed_cb (PkScheduler *tlist, PkEngine *engine)
+pk_engine_set_inhibited (PkEngine *engine, gboolean inhibited)
+{
+	g_return_if_fail (PK_IS_ENGINE (engine));
+
+	/* inhibit shutdown and suspend */
+	if (inhibited)
+		pk_engine_inhibit (engine);
+	else
+		pk_engine_uninhibit (engine);
+}
+
+/**
+ * pk_engine_scheduler_changed_cb:
+ **/
+static void
+pk_engine_scheduler_changed_cb (PkScheduler *scheduler, PkEngine *engine)
 {
 	_cleanup_strv_free_ gchar **transaction_list = NULL;
-	gboolean locked;
 
 	g_return_if_fail (PK_IS_ENGINE (engine));
 
 	/* automatically locked if the transaction cannot be cancelled */
-	locked = pk_scheduler_get_locked (tlist);
-	pk_engine_set_locked (engine, locked);
+	pk_engine_set_locked (engine, pk_scheduler_get_locked (scheduler));
+	pk_engine_set_inhibited (engine, pk_scheduler_get_inhibited (scheduler));
 
-	transaction_list = pk_scheduler_get_array (engine->priv->scheduler);
+	transaction_list = pk_scheduler_get_array (scheduler);
 	g_dbus_connection_emit_signal (engine->priv->connection,
 				       NULL,
 				       PK_DBUS_PATH,
@@ -262,8 +278,15 @@ static void
 pk_engine_inhibit (PkEngine *engine)
 {
 #ifdef HAVE_SYSTEMD
+	const gint *fd_list;
+	gint fd_list_len = 0;
 	_cleanup_error_free_ GError *error = NULL;
+	_cleanup_object_unref_ GUnixFDList *out_fd_list = NULL;
 	_cleanup_variant_unref_ GVariant *res = NULL;
+
+	/* already inhibited */
+	if (engine->priv->logind_fd != 0)
+		return;
 
 	/* not yet connected */
 	if (engine->priv->logind_proxy == NULL) {
@@ -272,25 +295,32 @@ pk_engine_inhibit (PkEngine *engine)
 	}
 
 	/* block shutdown and idle */
-	res = g_dbus_proxy_call_sync (engine->priv->logind_proxy,
-				      "Inhibit",
-				      g_variant_new ("(ssss)",
-						     "shutdown:idle",
-						     "Package Updater",
-						     "Package Update in Progress",
-						     "block"),
-				      G_DBUS_CALL_FLAGS_NONE,
-				      -1,
-				      NULL, /* GCancellable */
-				      &error);
+	res = g_dbus_proxy_call_with_unix_fd_list_sync (engine->priv->logind_proxy,
+							"Inhibit",
+							g_variant_new ("(ssss)",
+								       "shutdown:idle",
+								       "Package Updater",
+								       "Package Update in Progress",
+								       "block"),
+							G_DBUS_CALL_FLAGS_NONE,
+							-1,
+							NULL, /* fd_list */
+							&out_fd_list,
+							NULL, /* GCancellable */
+							&error);
 	if (res == NULL) {
 		g_warning ("Failed to Inhibit using logind: %s", error->message);
 		return;
 	}
 
 	/* keep fd as cookie */
-	g_variant_get (res, "(h)", &engine->priv->logind_fd);
-	g_debug ("got logind cookie %i", engine->priv->logind_fd);
+	fd_list = g_unix_fd_list_peek_fds (out_fd_list, &fd_list_len);
+	if (fd_list_len != 1) {
+		g_warning ("invalid response from logind");
+		return;
+	}
+	engine->priv->logind_fd = fd_list[0];
+	g_debug ("opened logind fd %i", engine->priv->logind_fd);
 #endif
 }
 
@@ -301,10 +331,9 @@ static void
 pk_engine_uninhibit (PkEngine *engine)
 {
 #ifdef HAVE_SYSTEMD
-	if (engine->priv->logind_fd == 0) {
-		g_warning ("no fd to close");
+	if (engine->priv->logind_fd == 0)
 		return;
-	}
+	g_debug ("closed logind fd %i", engine->priv->logind_fd);
 	close (engine->priv->logind_fd);
 	engine->priv->logind_fd = 0;
 #endif
@@ -323,12 +352,6 @@ pk_engine_set_locked (PkEngine *engine, gboolean is_locked)
 		return;
 	engine->priv->locked = is_locked;
 
-	/* inhibit shutdown and suspend */
-	if (is_locked)
-		pk_engine_inhibit (engine);
-	else
-		pk_engine_uninhibit (engine);
-
 	/* emit */
 	pk_engine_emit_property_changed (engine,
 					 "Locked",
@@ -336,14 +359,14 @@ pk_engine_set_locked (PkEngine *engine, gboolean is_locked)
 }
 
 /**
- * pk_engine_notify_repo_list_changed_cb:
+ * pk_engine_backend_repo_list_changed_cb:
  **/
 static void
-pk_engine_notify_repo_list_changed_cb (PkNotify *notify, PkEngine *engine)
+pk_engine_backend_repo_list_changed_cb (PkBackend *backend, PkEngine *engine)
 {
 	g_return_if_fail (PK_IS_ENGINE (engine));
 
-	g_debug ("emitting repo-list-changed");
+	g_debug ("emitting RepoListChanged");
 	g_dbus_connection_emit_signal (engine->priv->connection,
 				       NULL,
 				       PK_DBUS_PATH,
@@ -354,14 +377,14 @@ pk_engine_notify_repo_list_changed_cb (PkNotify *notify, PkEngine *engine)
 }
 
 /**
- * pk_engine_notify_updates_changed_cb:
+ * pk_engine_backend_updates_changed_cb:
  **/
 static void
-pk_engine_notify_updates_changed_cb (PkNotify *notify, PkEngine *engine)
+pk_engine_backend_updates_changed_cb (PkBackend *backend, PkEngine *engine)
 {
 	g_return_if_fail (PK_IS_ENGINE (engine));
 
-	g_debug ("emitting updates-changed");
+	g_debug ("emitting UpdatesChanged");
 	g_dbus_connection_emit_signal (engine->priv->connection,
 				       NULL,
 				       PK_DBUS_PATH,
@@ -396,7 +419,7 @@ pk_engine_state_changed_cb (gpointer data)
 		return TRUE;
 	}
 
-	pk_notify_updates_changed (engine->priv->notify);
+	pk_backend_updates_changed (engine->priv->backend);
 
 	/* reset, now valid */
 	engine->priv->timeout_priority_id = 0;
@@ -416,7 +439,7 @@ pk_engine_emit_restart_schedule (PkEngine *engine)
 {
 	g_return_if_fail (PK_IS_ENGINE (engine));
 
-	g_debug ("emitting restart-schedule");
+	g_debug ("emitting RestartSchedule");
 	g_dbus_connection_emit_signal (engine->priv->connection,
 				       NULL,
 				       PK_DBUS_PATH,
@@ -436,6 +459,7 @@ pk_engine_get_seconds_idle (PkEngine *engine)
 	guint size;
 
 	g_return_val_if_fail (PK_IS_ENGINE (engine), 0);
+	g_return_val_if_fail (pk_is_thread_default (), 0);
 
 	/* check for transactions running - a transaction that takes a *long* time might not
 	 * give sufficient percentage updates to not be marked as idle */
@@ -1010,6 +1034,8 @@ pk_engine_daemon_get_property (GDBusConnection *connection_, const gchar *sender
 {
 	PkEngine *engine = PK_ENGINE (user_data);
 
+	g_return_val_if_fail (pk_is_thread_default (), NULL);
+
 	/* reset the timer */
 	pk_engine_reset_timer (engine);
 
@@ -1251,6 +1277,7 @@ pk_engine_daemon_method_call (GDBusConnection *connection_, const gchar *sender,
 	_cleanup_strv_free_ gchar **array = NULL;
 
 	g_return_if_fail (PK_IS_ENGINE (engine));
+	g_return_if_fail (pk_is_thread_default ());
 
 	/* reset the timer */
 	pk_engine_reset_timer (engine);
@@ -1609,6 +1636,27 @@ pk_engine_offline_method_call (GDBusConnection *connection_, const gchar *sender
 						      helper);
 		return;
 	}
+	if (g_strcmp0 (method_name, "GetPrepared") == 0) {
+		_cleanup_strv_free_ gchar **package_ids = NULL;
+		GVariant *value = NULL;
+
+		package_ids = pk_offline_get_prepared_ids (&error);
+		if (package_ids == NULL && error->code != PK_OFFLINE_ERROR_NO_DATA) {
+			g_dbus_method_invocation_return_error (invocation,
+							       PK_ENGINE_ERROR,
+							       PK_ENGINE_ERROR_INVALID_STATE,
+							       "%s", error->message);
+			return;
+		}
+
+		if (package_ids != NULL) {
+			value = g_variant_new ("(^as)", package_ids);
+		} else {
+			value = g_variant_new ("(as)");
+		}
+		g_dbus_method_invocation_return_value (invocation, value);
+		return;
+	}
 }
 
 #ifdef HAVE_SYSTEMD
@@ -1753,13 +1801,6 @@ pk_engine_init (PkEngine *engine)
 	engine->priv->timeout_priority_id = 0;
 	engine->priv->timeout_normal_id = 0;
 
-	/* add the interface */
-	engine->priv->notify = pk_notify_new ();
-	g_signal_connect (engine->priv->notify, "repo-list-changed",
-			  G_CALLBACK (pk_engine_notify_repo_list_changed_cb), engine);
-	g_signal_connect (engine->priv->notify, "updates-changed",
-			  G_CALLBACK (pk_engine_notify_updates_changed_cb), engine);
-
 	/* setup file watches */
 	pk_engine_setup_file_monitors (engine);
 
@@ -1835,7 +1876,6 @@ pk_engine_finalize (GObject *object)
 	g_object_unref (engine->priv->network);
 	if (engine->priv->authority != NULL)
 		g_object_unref (engine->priv->authority);
-	g_object_unref (engine->priv->notify);
 	g_object_unref (engine->priv->backend);
 	g_key_file_unref (engine->priv->conf);
 	g_object_unref (engine->priv->dbus);
@@ -1857,11 +1897,15 @@ pk_engine_new (GKeyFile *conf)
 	engine = g_object_new (PK_TYPE_ENGINE, NULL);
 	engine->priv->conf = g_key_file_ref (conf);
 	engine->priv->backend = pk_backend_new (engine->priv->conf);
+	g_signal_connect (engine->priv->backend, "repo-list-changed",
+			  G_CALLBACK (pk_engine_backend_repo_list_changed_cb), engine);
+	g_signal_connect (engine->priv->backend, "updates-changed",
+			  G_CALLBACK (pk_engine_backend_updates_changed_cb), engine);
 	engine->priv->scheduler = pk_scheduler_new (engine->priv->conf);
 	pk_scheduler_set_backend (engine->priv->scheduler,
 				  engine->priv->backend);
 	g_signal_connect (engine->priv->scheduler, "changed",
-			  G_CALLBACK (pk_engine_transaction_list_changed_cb), engine);
+			  G_CALLBACK (pk_engine_scheduler_changed_cb), engine);
 	return PK_ENGINE (engine);
 }
 
