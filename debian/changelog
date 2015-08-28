@@ -1,6 +1,15 @@
-packagekit (1.0.8-1) UNRELEASED; urgency=medium
+packagekit (1.0.8-1) unstable; urgency=medium
 
   * New upstream release: 1.0.8
+    - Closes: #797138
+  * Refresh patches, drop libsystemd-only patch (applied upstream)
+  * Add Vala VAPI file and missing metadata
+  * critical-warnings.patch: Fix critical compile warnings
+  * dont-assume-time_t-is-long.patch: Fix build on x32 (Closes: #777509)
+    - Thanks to Adam Borowski for the patch!
+  * Do not recommend gnome-packagekit-session anymore
+    - The interface is now part of GNOME-Software, so we need to
+      recommend that instead.
 
  -- Matthias Klumpp <mak@debian.org>  Fri, 28 Aug 2015 17:05:20 +0200
 
