@@ -30,6 +30,7 @@ Build-Depends: bash-completion,
                network-manager-dev [linux-any],
                npapi-sdk-dev,
                policykit-1,
+               valac,
                xmlto
 Standards-Version: 3.9.6
 Homepage: http://www.freedesktop.org/software/PackageKit/
