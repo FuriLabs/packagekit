@@ -94,16 +94,17 @@ build_triplet = @build@
 host_triplet = @host@
 noinst_PROGRAMS = pk-socket-example$(EXEEXT)
 check_PROGRAMS = pk-test-daemon$(EXEEXT) pk-test-private$(EXEEXT)
-@HAVE_INTROSPECTION_TRUE@am__append_1 = $(gir_DATA) $(typelib_DATA)
+@HAVE_INTROSPECTION_TRUE@am__append_1 = $(gir_DATA) $(typelib_DATA) $(VAPIGEN_VAPIS)
 subdir = lib/packagekit-glib2
 ACLOCAL_M4 = $(top_srcdir)/aclocal.m4
 am__aclocal_m4_deps = $(top_srcdir)/m4/as-linguas.m4 \
 	$(top_srcdir)/m4/ax_check_compile_flag.m4 \
 	$(top_srcdir)/m4/ax_check_link_flag.m4 \
-	$(top_srcdir)/m4/gtk-doc.m4 $(top_srcdir)/m4/libtool.m4 \
-	$(top_srcdir)/m4/ltoptions.m4 $(top_srcdir)/m4/ltsugar.m4 \
-	$(top_srcdir)/m4/ltversion.m4 $(top_srcdir)/m4/lt~obsolete.m4 \
-	$(top_srcdir)/acinclude.m4 $(top_srcdir)/configure.ac
+	$(top_srcdir)/m4/gtk-doc.m4 $(top_srcdir)/m4/intltool.m4 \
+	$(top_srcdir)/m4/libtool.m4 $(top_srcdir)/m4/ltoptions.m4 \
+	$(top_srcdir)/m4/ltsugar.m4 $(top_srcdir)/m4/ltversion.m4 \
+	$(top_srcdir)/m4/lt~obsolete.m4 $(top_srcdir)/acinclude.m4 \
+	$(top_srcdir)/configure.ac
 am__configure_deps = $(am__aclocal_m4_deps) $(CONFIGURE_DEPENDENCIES) \
 	$(ACLOCAL_M4)
 DIST_COMMON = $(srcdir)/Makefile.am \
@@ -155,6 +156,7 @@ am__uninstall_files_from_dir = { \
   }
 am__installdirs = "$(DESTDIR)$(libdir)" "$(DESTDIR)$(girdir)" \
 	"$(DESTDIR)$(pkgconfigdir)" "$(DESTDIR)$(typelibdir)" \
+	"$(DESTDIR)$(vapidir)" \
 	"$(DESTDIR)$(libpackagekit_glib2_includedir)"
 LTLIBRARIES = $(lib_LTLIBRARIES)
 am__DEPENDENCIES_1 =
@@ -359,7 +361,7 @@ am__can_run_installinfo = \
     n|no|NO) false;; \
     *) (install-info --version) >/dev/null 2>&1;; \
   esac
-DATA = $(gir_DATA) $(pkgconfig_DATA) $(typelib_DATA)
+DATA = $(gir_DATA) $(pkgconfig_DATA) $(typelib_DATA) $(vapi_DATA)
 HEADERS = $(libpackagekit_glib2_include_HEADERS)
 am__tagged_files = $(HEADERS) $(SOURCES) $(TAGS_FILES) $(LISP)
 # Read a list of newline-separated strings from the standard input,
@@ -746,6 +748,9 @@ SYSCONFDIR = @SYSCONFDIR@
 SYSTEMD_CFLAGS = @SYSTEMD_CFLAGS@
 SYSTEMD_LIBS = @SYSTEMD_LIBS@
 USE_NLS = @USE_NLS@
+VAPIGEN = @VAPIGEN@
+VAPIGEN_MAKEFILE = @VAPIGEN_MAKEFILE@
+VAPIGEN_VAPIDIR = @VAPIGEN_VAPIDIR@
 VERSION = @VERSION@
 WARNINGFLAGS_C = @WARNINGFLAGS_C@
 WARNINGFLAGS_CPP = @WARNINGFLAGS_CPP@
@@ -1061,6 +1066,12 @@ CLEANFILES = $(BUILT_SOURCES) *.a *.servicepack $(am__append_1)
 @HAVE_INTROSPECTION_TRUE@gir_DATA = $(INTROSPECTION_GIRS)
 @HAVE_INTROSPECTION_TRUE@typelibdir = $(libdir)/girepository-1.0
 @HAVE_INTROSPECTION_TRUE@typelib_DATA = $(INTROSPECTION_GIRS:.gir=.typelib)
+@ENABLE_VAPIGEN_TRUE@@HAVE_INTROSPECTION_TRUE@VAPIGEN_VAPIS = packagekit-glib2.vapi
+@ENABLE_VAPIGEN_TRUE@@HAVE_INTROSPECTION_TRUE@packagekit_glib2_vapi_DEPS = gio-2.0
+@ENABLE_VAPIGEN_TRUE@@HAVE_INTROSPECTION_TRUE@packagekit_glib2_vapi_METADATADIRS = $(srcdir)
+@ENABLE_VAPIGEN_TRUE@@HAVE_INTROSPECTION_TRUE@packagekit_glib2_vapi_FILES = PackageKitGlib-1.0.gir
+@ENABLE_VAPIGEN_TRUE@@HAVE_INTROSPECTION_TRUE@vapidir = $(datadir)/vala/vapi
+@ENABLE_VAPIGEN_TRUE@@HAVE_INTROSPECTION_TRUE@vapi_DATA = $(VAPIGEN_VAPIS)
 all: $(BUILT_SOURCES)
 	$(MAKE) $(AM_MAKEFLAGS) all-am
 
@@ -2821,6 +2832,27 @@ uninstall-typelibDATA:
 	@list='$(typelib_DATA)'; test -n "$(typelibdir)" || list=; \
 	files=`for p in $$list; do echo $$p; done | sed -e 's|^.*/||'`; \
 	dir='$(DESTDIR)$(typelibdir)'; $(am__uninstall_files_from_dir)
+install-vapiDATA: $(vapi_DATA)
+	@$(NORMAL_INSTALL)
+	@list='$(vapi_DATA)'; test -n "$(vapidir)" || list=; \
+	if test -n "$$list"; then \
+	  echo " $(MKDIR_P) '$(DESTDIR)$(vapidir)'"; \
+	  $(MKDIR_P) "$(DESTDIR)$(vapidir)" || exit 1; \
+	fi; \
+	for p in $$list; do \
+	  if test -f "$$p"; then d=; else d="$(srcdir)/"; fi; \
+	  echo "$$d$$p"; \
+	done | $(am__base_list) | \
+	while read files; do \
+	  echo " $(INSTALL_DATA) $$files '$(DESTDIR)$(vapidir)'"; \
+	  $(INSTALL_DATA) $$files "$(DESTDIR)$(vapidir)" || exit $$?; \
+	done
+
+uninstall-vapiDATA:
+	@$(NORMAL_UNINSTALL)
+	@list='$(vapi_DATA)'; test -n "$(vapidir)" || list=; \
+	files=`for p in $$list; do echo $$p; done | sed -e 's|^.*/||'`; \
+	dir='$(DESTDIR)$(vapidir)'; $(am__uninstall_files_from_dir)
 install-libpackagekit_glib2_includeHEADERS: $(libpackagekit_glib2_include_HEADERS)
 	@$(NORMAL_INSTALL)
 	@list='$(libpackagekit_glib2_include_HEADERS)'; test -n "$(libpackagekit_glib2_includedir)" || list=; \
@@ -3103,7 +3135,7 @@ check: $(BUILT_SOURCES)
 all-am: Makefile $(LIBRARIES) $(LTLIBRARIES) $(PROGRAMS) $(DATA) \
 		$(HEADERS)
 installdirs:
-	for dir in "$(DESTDIR)$(libdir)" "$(DESTDIR)$(girdir)" "$(DESTDIR)$(pkgconfigdir)" "$(DESTDIR)$(typelibdir)" "$(DESTDIR)$(libpackagekit_glib2_includedir)"; do \
+	for dir in "$(DESTDIR)$(libdir)" "$(DESTDIR)$(girdir)" "$(DESTDIR)$(pkgconfigdir)" "$(DESTDIR)$(typelibdir)" "$(DESTDIR)$(vapidir)" "$(DESTDIR)$(libpackagekit_glib2_includedir)"; do \
 	  test -z "$$dir" || $(MKDIR_P) "$$dir"; \
 	done
 install: $(BUILT_SOURCES)
@@ -3168,7 +3200,7 @@ info-am:
 
 install-data-am: install-girDATA \
 	install-libpackagekit_glib2_includeHEADERS \
-	install-pkgconfigDATA install-typelibDATA
+	install-pkgconfigDATA install-typelibDATA install-vapiDATA
 
 install-dvi: install-dvi-am
 
@@ -3216,7 +3248,8 @@ ps-am:
 
 uninstall-am: uninstall-girDATA uninstall-libLTLIBRARIES \
 	uninstall-libpackagekit_glib2_includeHEADERS \
-	uninstall-pkgconfigDATA uninstall-typelibDATA
+	uninstall-pkgconfigDATA uninstall-typelibDATA \
+	uninstall-vapiDATA
 
 .MAKE: all check check-am install install-am install-strip
 
@@ -3232,14 +3265,15 @@ uninstall-am: uninstall-girDATA uninstall-libLTLIBRARIES \
 	install-libLTLIBRARIES \
 	install-libpackagekit_glib2_includeHEADERS install-man \
 	install-pdf install-pdf-am install-pkgconfigDATA install-ps \
-	install-ps-am install-strip install-typelibDATA installcheck \
-	installcheck-am installdirs maintainer-clean \
-	maintainer-clean-generic mostlyclean mostlyclean-compile \
-	mostlyclean-generic mostlyclean-libtool pdf pdf-am ps ps-am \
-	recheck tags tags-am uninstall uninstall-am uninstall-girDATA \
-	uninstall-libLTLIBRARIES \
+	install-ps-am install-strip install-typelibDATA \
+	install-vapiDATA installcheck installcheck-am installdirs \
+	maintainer-clean maintainer-clean-generic mostlyclean \
+	mostlyclean-compile mostlyclean-generic mostlyclean-libtool \
+	pdf pdf-am ps ps-am recheck tags tags-am uninstall \
+	uninstall-am uninstall-girDATA uninstall-libLTLIBRARIES \
 	uninstall-libpackagekit_glib2_includeHEADERS \
-	uninstall-pkgconfigDATA uninstall-typelibDATA
+	uninstall-pkgconfigDATA uninstall-typelibDATA \
+	uninstall-vapiDATA
 
 .PRECIOUS: Makefile
 
@@ -3252,6 +3286,10 @@ pk-enum-types.c: pk-enum-types.c.template $(HEADER_FILES)
 	$(AM_V_GEN) $(GLIB_MKENUMS) --template $^ > $@
 
 @HAVE_INTROSPECTION_TRUE@PackageKitGlib-1.0.gir: libpackagekit-glib2.la
+
+@ENABLE_VAPIGEN_TRUE@@HAVE_INTROSPECTION_TRUE@include $(VAPIGEN_MAKEFILE)
+
+@ENABLE_VAPIGEN_TRUE@@HAVE_INTROSPECTION_TRUE@packagekit-glib2.vapi: PackageKitGlib-1.0.gir PackageKitGlib-1.0.metadata
 
 clean-local:
 	rm -f *~

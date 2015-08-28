@@ -88,20 +88,22 @@ PRE_UNINSTALL = :
 POST_UNINSTALL = :
 build_triplet = @build@
 host_triplet = @host@
-@PK_BUILD_BROWSER_PLUGIN_TRUE@am__append_1 = browser-plugin
-@PK_BUILD_GSTREAMER_PLUGIN_TRUE@am__append_2 = gstreamer-plugin
-@PK_BUILD_GTK_MODULE_TRUE@am__append_3 = gtk-module
-@PK_BUILD_COMMAND_NOT_FOUND_TRUE@am__append_4 = command-not-found
-@PK_BUILD_CRON_TRUE@am__append_5 = cron
+@BACKEND_TYPE_YUM_TRUE@am__append_1 = yum-packagekit
+@PK_BUILD_BROWSER_PLUGIN_TRUE@am__append_2 = browser-plugin
+@PK_BUILD_GSTREAMER_PLUGIN_TRUE@am__append_3 = gstreamer-plugin
+@PK_BUILD_GTK_MODULE_TRUE@am__append_4 = gtk-module
+@PK_BUILD_COMMAND_NOT_FOUND_TRUE@am__append_5 = command-not-found
+@PK_BUILD_CRON_TRUE@am__append_6 = cron
 subdir = contrib
 ACLOCAL_M4 = $(top_srcdir)/aclocal.m4
 am__aclocal_m4_deps = $(top_srcdir)/m4/as-linguas.m4 \
 	$(top_srcdir)/m4/ax_check_compile_flag.m4 \
 	$(top_srcdir)/m4/ax_check_link_flag.m4 \
-	$(top_srcdir)/m4/gtk-doc.m4 $(top_srcdir)/m4/libtool.m4 \
-	$(top_srcdir)/m4/ltoptions.m4 $(top_srcdir)/m4/ltsugar.m4 \
-	$(top_srcdir)/m4/ltversion.m4 $(top_srcdir)/m4/lt~obsolete.m4 \
-	$(top_srcdir)/acinclude.m4 $(top_srcdir)/configure.ac
+	$(top_srcdir)/m4/gtk-doc.m4 $(top_srcdir)/m4/intltool.m4 \
+	$(top_srcdir)/m4/libtool.m4 $(top_srcdir)/m4/ltoptions.m4 \
+	$(top_srcdir)/m4/ltsugar.m4 $(top_srcdir)/m4/ltversion.m4 \
+	$(top_srcdir)/m4/lt~obsolete.m4 $(top_srcdir)/acinclude.m4 \
+	$(top_srcdir)/configure.ac
 am__configure_deps = $(am__aclocal_m4_deps) $(CONFIGURE_DEPENDENCIES) \
 	$(ACLOCAL_M4)
 DIST_COMMON = $(srcdir)/Makefile.am \
@@ -194,8 +196,8 @@ am__define_uniq_tagged_files = \
   done | $(am__uniquify_input)`
 ETAGS = etags
 CTAGS = ctags
-DIST_SUBDIRS = browser-plugin gstreamer-plugin gtk-module \
-	command-not-found cron
+DIST_SUBDIRS = yum-packagekit browser-plugin gstreamer-plugin \
+	gtk-module command-not-found cron
 am__DIST_COMMON = $(srcdir)/Makefile.in
 DISTFILES = $(DIST_COMMON) $(DIST_SOURCES) $(TEXINFOS) $(EXTRA_DIST)
 am__relativize = \
@@ -407,6 +409,9 @@ SYSCONFDIR = @SYSCONFDIR@
 SYSTEMD_CFLAGS = @SYSTEMD_CFLAGS@
 SYSTEMD_LIBS = @SYSTEMD_LIBS@
 USE_NLS = @USE_NLS@
+VAPIGEN = @VAPIGEN@
+VAPIGEN_MAKEFILE = @VAPIGEN_MAKEFILE@
+VAPIGEN_VAPIDIR = @VAPIGEN_VAPIDIR@
 VERSION = @VERSION@
 WARNINGFLAGS_C = @WARNINGFLAGS_C@
 WARNINGFLAGS_CPP = @WARNINGFLAGS_CPP@
@@ -476,7 +481,7 @@ top_build_prefix = @top_build_prefix@
 top_builddir = @top_builddir@
 top_srcdir = @top_srcdir@
 SUBDIRS = $(am__append_1) $(am__append_2) $(am__append_3) \
-	$(am__append_4) $(am__append_5)
+	$(am__append_4) $(am__append_5) $(am__append_6)
 @HAVE_BASH_COMPLETION_TRUE@bashcompletiondir = $(BASH_COMPLETIONS_DIR)
 @HAVE_BASH_COMPLETION_TRUE@dist_bashcompletion_DATA = pkcon
 EXTRA_DIST = generate-md-archive.sh

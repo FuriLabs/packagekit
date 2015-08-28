@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="utf-8" standalone="no"?>
-<!DOCTYPE book PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "">
 <book xmlns="http://www.devhelp.net/book" title="PackageKit Reference Manual" link="index.html" author="Richard Hughes" name="PackageKit" version="2" language="c">
   <chapters>
     <sub name="PackageKit Specification" link="specification.html">
@@ -60,99 +59,6 @@
     </sub>
   </chapters>
   <functions>
-    <keyword type="" name="CanAuthorize ()" link="PackageKit.html#PackageKit.CanAuthorize"/>
-    <keyword type="" name="CreateTransaction ()" link="PackageKit.html#PackageKit.CreateTransaction"/>
-    <keyword type="" name="GetTimeSinceAction ()" link="PackageKit.html#PackageKit.GetTimeSinceAction"/>
-    <keyword type="" name="GetTransactionList ()" link="PackageKit.html#PackageKit.GetTransactionList"/>
-    <keyword type="" name="StateHasChanged ()" link="PackageKit.html#PackageKit.StateHasChanged"/>
-    <keyword type="" name="SuggestDaemonQuit ()" link="PackageKit.html#PackageKit.SuggestDaemonQuit"/>
-    <keyword type="" name="GetPackageHistory ()" link="PackageKit.html#PackageKit.GetPackageHistory"/>
-    <keyword type="" name="GetDaemonState ()" link="PackageKit.html#PackageKit.GetDaemonState"/>
-    <keyword type="" name="SetProxy ()" link="PackageKit.html#PackageKit.SetProxy"/>
-    <keyword type="" name="ClearResults ()" link="PackageKit.html#PackageKit.ClearResults"/>
-    <keyword type="" name="Trigger ()" link="PackageKit.html#PackageKit.Trigger"/>
-    <keyword type="" name="Cancel ()" link="PackageKit.html#PackageKit.Cancel"/>
-    <keyword type="" name="GetPrepared ()" link="PackageKit.html#PackageKit.GetPrepared"/>
-    <keyword type="" name="The TransactionListChanged signal" link="PackageKit.html#PackageKit::TransactionListChanged"/>
-    <keyword type="" name="The RestartSchedule signal" link="PackageKit.html#PackageKit::RestartSchedule"/>
-    <keyword type="" name="The RepoListChanged signal" link="PackageKit.html#PackageKit::RepoListChanged"/>
-    <keyword type="" name="The UpdatesChanged signal" link="PackageKit.html#PackageKit::UpdatesChanged"/>
-    <keyword type="" name="The &quot;VersionMajor&quot; property" link="PackageKit.html#PackageKit:VersionMajor"/>
-    <keyword type="" name="The &quot;VersionMinor&quot; property" link="PackageKit.html#PackageKit:VersionMinor"/>
-    <keyword type="" name="The &quot;VersionMicro&quot; property" link="PackageKit.html#PackageKit:VersionMicro"/>
-    <keyword type="" name="The &quot;BackendName&quot; property" link="PackageKit.html#PackageKit:BackendName"/>
-    <keyword type="" name="The &quot;BackendDescription&quot; property" link="PackageKit.html#PackageKit:BackendDescription"/>
-    <keyword type="" name="The &quot;BackendAuthor&quot; property" link="PackageKit.html#PackageKit:BackendAuthor"/>
-    <keyword type="" name="The &quot;Roles&quot; property" link="PackageKit.html#PackageKit:Roles"/>
-    <keyword type="" name="The &quot;Groups&quot; property" link="PackageKit.html#PackageKit:Groups"/>
-    <keyword type="" name="The &quot;Filters&quot; property" link="PackageKit.html#PackageKit:Filters"/>
-    <keyword type="" name="The &quot;MimeTypes&quot; property" link="PackageKit.html#PackageKit:MimeTypes"/>
-    <keyword type="" name="The &quot;Locked&quot; property" link="PackageKit.html#PackageKit:Locked"/>
-    <keyword type="" name="The &quot;NetworkState&quot; property" link="PackageKit.html#PackageKit:NetworkState"/>
-    <keyword type="" name="The &quot;DistroId&quot; property" link="PackageKit.html#PackageKit:DistroId"/>
-    <keyword type="" name="The &quot;UpdatePrepared&quot; property" link="PackageKit.html#PackageKit:UpdatePrepared"/>
-    <keyword type="" name="The &quot;TriggerAction&quot; property" link="PackageKit.html#PackageKit:TriggerAction"/>
-    <keyword type="" name="SetHints ()" link="Transaction.html#Transaction.SetHints"/>
-    <keyword type="" name="AcceptEula ()" link="Transaction.html#Transaction.AcceptEula"/>
-    <keyword type="" name="Cancel ()" link="Transaction.html#Transaction.Cancel"/>
-    <keyword type="" name="DownloadPackages ()" link="Transaction.html#Transaction.DownloadPackages"/>
-    <keyword type="" name="GetCategories ()" link="Transaction.html#Transaction.GetCategories"/>
-    <keyword type="" name="DependsOn ()" link="Transaction.html#Transaction.DependsOn"/>
-    <keyword type="" name="GetDetails ()" link="Transaction.html#Transaction.GetDetails"/>
-    <keyword type="" name="GetDetailsLocal ()" link="Transaction.html#Transaction.GetDetailsLocal"/>
-    <keyword type="" name="GetFilesLocal ()" link="Transaction.html#Transaction.GetFilesLocal"/>
-    <keyword type="" name="GetFiles ()" link="Transaction.html#Transaction.GetFiles"/>
-    <keyword type="" name="GetOldTransactions ()" link="Transaction.html#Transaction.GetOldTransactions"/>
-    <keyword type="" name="GetPackages ()" link="Transaction.html#Transaction.GetPackages"/>
-    <keyword type="" name="GetRepoList ()" link="Transaction.html#Transaction.GetRepoList"/>
-    <keyword type="" name="RequiredBy ()" link="Transaction.html#Transaction.RequiredBy"/>
-    <keyword type="" name="GetUpdateDetail ()" link="Transaction.html#Transaction.GetUpdateDetail"/>
-    <keyword type="" name="GetUpdates ()" link="Transaction.html#Transaction.GetUpdates"/>
-    <keyword type="" name="GetDistroUpgrades ()" link="Transaction.html#Transaction.GetDistroUpgrades"/>
-    <keyword type="" name="InstallFiles ()" link="Transaction.html#Transaction.InstallFiles"/>
-    <keyword type="" name="InstallPackages ()" link="Transaction.html#Transaction.InstallPackages"/>
-    <keyword type="" name="InstallSignature ()" link="Transaction.html#Transaction.InstallSignature"/>
-    <keyword type="" name="RefreshCache ()" link="Transaction.html#Transaction.RefreshCache"/>
-    <keyword type="" name="RemovePackages ()" link="Transaction.html#Transaction.RemovePackages"/>
-    <keyword type="" name="RepoEnable ()" link="Transaction.html#Transaction.RepoEnable"/>
-    <keyword type="" name="RepoSetData ()" link="Transaction.html#Transaction.RepoSetData"/>
-    <keyword type="" name="RepoRemove ()" link="Transaction.html#Transaction.RepoRemove"/>
-    <keyword type="" name="Resolve ()" link="Transaction.html#Transaction.Resolve"/>
-    <keyword type="" name="SearchDetails ()" link="Transaction.html#Transaction.SearchDetails"/>
-    <keyword type="" name="SearchFiles ()" link="Transaction.html#Transaction.SearchFiles"/>
-    <keyword type="" name="SearchGroups ()" link="Transaction.html#Transaction.SearchGroups"/>
-    <keyword type="" name="SearchNames ()" link="Transaction.html#Transaction.SearchNames"/>
-    <keyword type="" name="UpdatePackages ()" link="Transaction.html#Transaction.UpdatePackages"/>
-    <keyword type="" name="WhatProvides ()" link="Transaction.html#Transaction.WhatProvides"/>
-    <keyword type="" name="RepairSystem ()" link="Transaction.html#Transaction.RepairSystem"/>
-    <keyword type="" name="The Category signal" link="Transaction.html#Transaction::Category"/>
-    <keyword type="" name="The Details signal" link="Transaction.html#Transaction::Details"/>
-    <keyword type="" name="The ErrorCode signal" link="Transaction.html#Transaction::ErrorCode"/>
-    <keyword type="" name="The Files signal" link="Transaction.html#Transaction::Files"/>
-    <keyword type="" name="The Finished signal" link="Transaction.html#Transaction::Finished"/>
-    <keyword type="" name="The Package signal" link="Transaction.html#Transaction::Package"/>
-    <keyword type="" name="The RepoDetail signal" link="Transaction.html#Transaction::RepoDetail"/>
-    <keyword type="" name="The RepoSignatureRequired signal" link="Transaction.html#Transaction::RepoSignatureRequired"/>
-    <keyword type="" name="The EulaRequired signal" link="Transaction.html#Transaction::EulaRequired"/>
-    <keyword type="" name="The MediaChangeRequired signal" link="Transaction.html#Transaction::MediaChangeRequired"/>
-    <keyword type="" name="The RequireRestart signal" link="Transaction.html#Transaction::RequireRestart"/>
-    <keyword type="" name="The Transaction signal" link="Transaction.html#Transaction::Transaction"/>
-    <keyword type="" name="The UpdateDetail signal" link="Transaction.html#Transaction::UpdateDetail"/>
-    <keyword type="" name="The DistroUpgrade signal" link="Transaction.html#Transaction::DistroUpgrade"/>
-    <keyword type="" name="The ItemProgress signal" link="Transaction.html#Transaction::ItemProgress"/>
-    <keyword type="" name="The Destroy signal" link="Transaction.html#Transaction::Destroy"/>
-    <keyword type="" name="The &quot;Role&quot; property" link="Transaction.html#Transaction:Role"/>
-    <keyword type="" name="The &quot;Status&quot; property" link="Transaction.html#Transaction:Status"/>
-    <keyword type="" name="The &quot;LastPackage&quot; property" link="Transaction.html#Transaction:LastPackage"/>
-    <keyword type="" name="The &quot;Uid&quot; property" link="Transaction.html#Transaction:Uid"/>
-    <keyword type="" name="The &quot;Percentage&quot; property" link="Transaction.html#Transaction:Percentage"/>
-    <keyword type="" name="The &quot;AllowCancel&quot; property" link="Transaction.html#Transaction:AllowCancel"/>
-    <keyword type="" name="The &quot;CallerActive&quot; property" link="Transaction.html#Transaction:CallerActive"/>
-    <keyword type="" name="The &quot;ElapsedTime&quot; property" link="Transaction.html#Transaction:ElapsedTime"/>
-    <keyword type="" name="The &quot;RemainingTime&quot; property" link="Transaction.html#Transaction:RemainingTime"/>
-    <keyword type="" name="The &quot;Speed&quot; property" link="Transaction.html#Transaction:Speed"/>
-    <keyword type="" name="The &quot;DownloadSizeRemaining&quot; property" link="Transaction.html#Transaction:DownloadSizeRemaining"/>
-    <keyword type="" name="The &quot;TransactionFlags&quot; property" link="Transaction.html#Transaction:TransactionFlags"/>
     <keyword type="function" name="pk_category_new ()" link="PkCategory.html#pk-category-new" since="0.5.4"/>
     <keyword type="function" name="pk_category_get_parent_id ()" link="PkCategory.html#pk-category-get-parent-id" since="0.6.2"/>
     <keyword type="function" name="pk_category_set_parent_id ()" link="PkCategory.html#pk-category-set-parent-id" since="0.6.2"/>
@@ -317,8 +223,8 @@
     <keyword type="function" name="pk_package_sack_sort ()" link="PkPackageSack.html#pk-package-sack-sort"/>
     <keyword type="function" name="pk_package_sack_add_package ()" link="PkPackageSack.html#pk-package-sack-add-package" since="0.5.2"/>
     <keyword type="function" name="pk_package_sack_add_package_by_id ()" link="PkPackageSack.html#pk-package-sack-add-package-by-id" since="0.5.2"/>
-    <keyword type="function" name="pk_package_sack_add_packages_from_file ()" link="PkPackageSack.html#pk-package-sack-add-packages-from-file" since="0.8.6"/>
-    <keyword type="function" name="pk_package_sack_to_file ()" link="PkPackageSack.html#pk-package-sack-to-file"/>
+    <keyword type="function" name="pk_package_sack_add_packages_from_file ()" link="PkPackageSack.html#pk-package-sack-add-packages-from-file"/>
+    <keyword type="function" name="pk_package_sack_to_file ()" link="PkPackageSack.html#pk-package-sack-to-file" since="0.8.6"/>
     <keyword type="function" name="pk_package_sack_remove_package ()" link="PkPackageSack.html#pk-package-sack-remove-package" since="0.5.2"/>
     <keyword type="function" name="pk_package_sack_remove_package_by_id ()" link="PkPackageSack.html#pk-package-sack-remove-package-by-id" since="0.5.2"/>
     <keyword type="function" name="pk_package_sack_remove_by_filter ()" link="PkPackageSack.html#pk-package-sack-remove-by-filter" since="0.6.3"/>
@@ -384,8 +290,8 @@
     <keyword type="function" name="pk_progress_set_caller_active ()" link="PkProgress.html#pk-progress-set-caller-active" since="0.5.2"/>
     <keyword type="function" name="pk_progress_set_elapsed_time ()" link="PkProgress.html#pk-progress-set-elapsed-time" since="0.5.2"/>
     <keyword type="function" name="pk_progress_set_remaining_time ()" link="PkProgress.html#pk-progress-set-remaining-time" since="0.5.2"/>
-    <keyword type="function" name="pk_progress_set_speed ()" link="PkProgress.html#pk-progress-set-speed" since="0.8.0"/>
-    <keyword type="function" name="pk_progress_set_download_size_remaining ()" link="PkProgress.html#pk-progress-set-download-size-remaining"/>
+    <keyword type="function" name="pk_progress_set_speed ()" link="PkProgress.html#pk-progress-set-speed" since="0.5.2"/>
+    <keyword type="function" name="pk_progress_set_download_size_remaining ()" link="PkProgress.html#pk-progress-set-download-size-remaining" since="0.8.0"/>
     <keyword type="function" name="pk_progress_set_transaction_flags ()" link="PkProgress.html#pk-progress-set-transaction-flags" since="0.8.8"/>
     <keyword type="function" name="pk_progress_set_uid ()" link="PkProgress.html#pk-progress-set-uid" since="0.5.2"/>
     <keyword type="function" name="pk_progress_set_package ()" link="PkProgress.html#pk-progress-set-package" since="0.5.2"/>
@@ -459,7 +365,6 @@
     <keyword type="function" name="pk_results_get_eula_required_array ()" link="PkResults.html#pk-results-get-eula-required-array" since="0.5.2"/>
     <keyword type="function" name="pk_results_get_media_change_required_array ()" link="PkResults.html#pk-results-get-media-change-required-array" since="0.5.2"/>
     <keyword type="function" name="pk_results_get_repo_detail_array ()" link="PkResults.html#pk-results-get-repo-detail-array" since="0.5.2"/>
-    <keyword type="function" name="pk_results_get_message_array ()" link="PkResults.html#pk-results-get-message-array" deprecated=""/>
     <keyword type="macro" name="PK_RESULTS_TYPE_ERROR" link="PkResults.html#PK-RESULTS-TYPE-ERROR:CAPS"/>
     <keyword type="property" name="The “inputs” property" link="PkResults.html#PkResults--inputs"/>
     <keyword type="property" name="The “progress” property" link="PkResults.html#PkResults--progress"/>
@@ -500,7 +405,7 @@
     <keyword type="function" name="pk_task_set_only_download ()" link="PkTask.html#pk-task-set-only-download" since="0.8.1"/>
     <keyword type="function" name="pk_task_get_only_download ()" link="PkTask.html#pk-task-get-only-download" since="0.8.1"/>
     <keyword type="function" name="pk_task_set_allow_downgrade ()" link="PkTask.html#pk-task-set-allow-downgrade" since="1.0.2"/>
-    <keyword type="function" name="pk_task_get_allow_downgrade ()" link="PkTask.html#pk-task-get-allow-downgrade"/>
+    <keyword type="function" name="pk_task_get_allow_downgrade ()" link="PkTask.html#pk-task-get-allow-downgrade" since="1.0.2"/>
     <keyword type="function" name="pk_task_set_allow_reinstall ()" link="PkTask.html#pk-task-set-allow-reinstall" since="1.0.2"/>
     <keyword type="function" name="pk_task_get_allow_reinstall ()" link="PkTask.html#pk-task-get-allow-reinstall" since="1.0.2"/>
     <keyword type="function" name="pk_task_set_only_trusted ()" link="PkTask.html#pk-task-set-only-trusted" since="0.9.5"/>
@@ -726,5 +631,334 @@
     <keyword type="function" name="pk_task_get_repo_list_sync ()" link="PackageKit-pk-task-sync.html#pk-task-get-repo-list-sync" since="0.6.5"/>
     <keyword type="function" name="pk_task_repo_enable_sync ()" link="PackageKit-pk-task-sync.html#pk-task-repo-enable-sync" since="0.6.5"/>
     <keyword type="function" name="pk_task_repair_system_sync ()" link="PackageKit-pk-task-sync.html#pk-task-repair-system-sync" since="0.7.2"/>
+    <keyword type="constant" name="PK_CLIENT_ERROR_FAILED" link="PkClient.html#PK-CLIENT-ERROR-FAILED:CAPS"/>
+    <keyword type="constant" name="PK_CLIENT_ERROR_FAILED_AUTH" link="PkClient.html#PK-CLIENT-ERROR-FAILED-AUTH:CAPS"/>
+    <keyword type="constant" name="PK_CLIENT_ERROR_NO_TID" link="PkClient.html#PK-CLIENT-ERROR-NO-TID:CAPS"/>
+    <keyword type="constant" name="PK_CLIENT_ERROR_ALREADY_TID" link="PkClient.html#PK-CLIENT-ERROR-ALREADY-TID:CAPS"/>
+    <keyword type="constant" name="PK_CLIENT_ERROR_ROLE_UNKNOWN" link="PkClient.html#PK-CLIENT-ERROR-ROLE-UNKNOWN:CAPS"/>
+    <keyword type="constant" name="PK_CLIENT_ERROR_CANNOT_START_DAEMON" link="PkClient.html#PK-CLIENT-ERROR-CANNOT-START-DAEMON:CAPS"/>
+    <keyword type="constant" name="PK_CLIENT_ERROR_INVALID_INPUT" link="PkClient.html#PK-CLIENT-ERROR-INVALID-INPUT:CAPS"/>
+    <keyword type="constant" name="PK_CLIENT_ERROR_INVALID_FILE" link="PkClient.html#PK-CLIENT-ERROR-INVALID-FILE:CAPS"/>
+    <keyword type="constant" name="PK_CLIENT_ERROR_NOT_SUPPORTED" link="PkClient.html#PK-CLIENT-ERROR-NOT-SUPPORTED:CAPS"/>
+    <keyword type="constant" name="PK_CLIENT_ERROR_DECLINED_SIMULATION" link="PkClient.html#PK-CLIENT-ERROR-DECLINED-SIMULATION:CAPS"/>
+    <keyword type="constant" name="PK_CLIENT_ERROR_LAST" link="PkClient.html#PK-CLIENT-ERROR-LAST:CAPS"/>
+    <keyword type="constant" name="PK_CONTROL_ERROR_FAILED" link="PkControl.html#PK-CONTROL-ERROR-FAILED:CAPS"/>
+    <keyword type="constant" name="PK_CONTROL_ERROR_CANNOT_START_DAEMON" link="PkControl.html#PK-CONTROL-ERROR-CANNOT-START-DAEMON:CAPS"/>
+    <keyword type="constant" name="PK_PACKAGE_SACK_SORT_TYPE_NAME" link="PkPackageSack.html#PK-PACKAGE-SACK-SORT-TYPE-NAME:CAPS"/>
+    <keyword type="constant" name="PK_PACKAGE_SACK_SORT_TYPE_INFO" link="PkPackageSack.html#PK-PACKAGE-SACK-SORT-TYPE-INFO:CAPS"/>
+    <keyword type="constant" name="PK_PACKAGE_SACK_SORT_TYPE_PACKAGE_ID" link="PkPackageSack.html#PK-PACKAGE-SACK-SORT-TYPE-PACKAGE-ID:CAPS"/>
+    <keyword type="constant" name="PK_PACKAGE_SACK_SORT_TYPE_SUMMARY" link="PkPackageSack.html#PK-PACKAGE-SACK-SORT-TYPE-SUMMARY:CAPS"/>
+    <keyword type="constant" name="PK_PACKAGE_SACK_SORT_TYPE_LAST" link="PkPackageSack.html#PK-PACKAGE-SACK-SORT-TYPE-LAST:CAPS"/>
+    <keyword type="constant" name="PK_PROGRESS_TYPE_PACKAGE_ID" link="PkProgress.html#PK-PROGRESS-TYPE-PACKAGE-ID:CAPS"/>
+    <keyword type="constant" name="PK_PROGRESS_TYPE_TRANSACTION_ID" link="PkProgress.html#PK-PROGRESS-TYPE-TRANSACTION-ID:CAPS"/>
+    <keyword type="constant" name="PK_PROGRESS_TYPE_PERCENTAGE" link="PkProgress.html#PK-PROGRESS-TYPE-PERCENTAGE:CAPS"/>
+    <keyword type="constant" name="PK_PROGRESS_TYPE_ALLOW_CANCEL" link="PkProgress.html#PK-PROGRESS-TYPE-ALLOW-CANCEL:CAPS"/>
+    <keyword type="constant" name="PK_PROGRESS_TYPE_STATUS" link="PkProgress.html#PK-PROGRESS-TYPE-STATUS:CAPS"/>
+    <keyword type="constant" name="PK_PROGRESS_TYPE_ROLE" link="PkProgress.html#PK-PROGRESS-TYPE-ROLE:CAPS"/>
+    <keyword type="constant" name="PK_PROGRESS_TYPE_CALLER_ACTIVE" link="PkProgress.html#PK-PROGRESS-TYPE-CALLER-ACTIVE:CAPS"/>
+    <keyword type="constant" name="PK_PROGRESS_TYPE_ELAPSED_TIME" link="PkProgress.html#PK-PROGRESS-TYPE-ELAPSED-TIME:CAPS"/>
+    <keyword type="constant" name="PK_PROGRESS_TYPE_REMAINING_TIME" link="PkProgress.html#PK-PROGRESS-TYPE-REMAINING-TIME:CAPS"/>
+    <keyword type="constant" name="PK_PROGRESS_TYPE_SPEED" link="PkProgress.html#PK-PROGRESS-TYPE-SPEED:CAPS"/>
+    <keyword type="constant" name="PK_PROGRESS_TYPE_DOWNLOAD_SIZE_REMAINING" link="PkProgress.html#PK-PROGRESS-TYPE-DOWNLOAD-SIZE-REMAINING:CAPS"/>
+    <keyword type="constant" name="PK_PROGRESS_TYPE_UID" link="PkProgress.html#PK-PROGRESS-TYPE-UID:CAPS"/>
+    <keyword type="constant" name="PK_PROGRESS_TYPE_PACKAGE" link="PkProgress.html#PK-PROGRESS-TYPE-PACKAGE:CAPS"/>
+    <keyword type="constant" name="PK_PROGRESS_TYPE_ITEM_PROGRESS" link="PkProgress.html#PK-PROGRESS-TYPE-ITEM-PROGRESS:CAPS"/>
+    <keyword type="constant" name="PK_PROGRESS_TYPE_TRANSACTION_FLAGS" link="PkProgress.html#PK-PROGRESS-TYPE-TRANSACTION-FLAGS:CAPS"/>
+    <keyword type="constant" name="PK_PROGRESS_TYPE_INVALID" link="PkProgress.html#PK-PROGRESS-TYPE-INVALID:CAPS"/>
+    <keyword type="constant" name="PK_ROLE_ENUM_UNKNOWN" link="PackageKit-pk-enum.html#PK-ROLE-ENUM-UNKNOWN:CAPS"/>
+    <keyword type="constant" name="PK_ROLE_ENUM_CANCEL" link="PackageKit-pk-enum.html#PK-ROLE-ENUM-CANCEL:CAPS"/>
+    <keyword type="constant" name="PK_ROLE_ENUM_DEPENDS_ON" link="PackageKit-pk-enum.html#PK-ROLE-ENUM-DEPENDS-ON:CAPS"/>
+    <keyword type="constant" name="PK_ROLE_ENUM_GET_DETAILS" link="PackageKit-pk-enum.html#PK-ROLE-ENUM-GET-DETAILS:CAPS"/>
+    <keyword type="constant" name="PK_ROLE_ENUM_GET_FILES" link="PackageKit-pk-enum.html#PK-ROLE-ENUM-GET-FILES:CAPS"/>
+    <keyword type="constant" name="PK_ROLE_ENUM_GET_PACKAGES" link="PackageKit-pk-enum.html#PK-ROLE-ENUM-GET-PACKAGES:CAPS"/>
+    <keyword type="constant" name="PK_ROLE_ENUM_GET_REPO_LIST" link="PackageKit-pk-enum.html#PK-ROLE-ENUM-GET-REPO-LIST:CAPS"/>
+    <keyword type="constant" name="PK_ROLE_ENUM_REQUIRED_BY" link="PackageKit-pk-enum.html#PK-ROLE-ENUM-REQUIRED-BY:CAPS"/>
+    <keyword type="constant" name="PK_ROLE_ENUM_GET_UPDATE_DETAIL" link="PackageKit-pk-enum.html#PK-ROLE-ENUM-GET-UPDATE-DETAIL:CAPS"/>
+    <keyword type="constant" name="PK_ROLE_ENUM_GET_UPDATES" link="PackageKit-pk-enum.html#PK-ROLE-ENUM-GET-UPDATES:CAPS"/>
+    <keyword type="constant" name="PK_ROLE_ENUM_INSTALL_FILES" link="PackageKit-pk-enum.html#PK-ROLE-ENUM-INSTALL-FILES:CAPS"/>
+    <keyword type="constant" name="PK_ROLE_ENUM_INSTALL_PACKAGES" link="PackageKit-pk-enum.html#PK-ROLE-ENUM-INSTALL-PACKAGES:CAPS"/>
+    <keyword type="constant" name="PK_ROLE_ENUM_INSTALL_SIGNATURE" link="PackageKit-pk-enum.html#PK-ROLE-ENUM-INSTALL-SIGNATURE:CAPS"/>
+    <keyword type="constant" name="PK_ROLE_ENUM_REFRESH_CACHE" link="PackageKit-pk-enum.html#PK-ROLE-ENUM-REFRESH-CACHE:CAPS"/>
+    <keyword type="constant" name="PK_ROLE_ENUM_REMOVE_PACKAGES" link="PackageKit-pk-enum.html#PK-ROLE-ENUM-REMOVE-PACKAGES:CAPS"/>
+    <keyword type="constant" name="PK_ROLE_ENUM_REPO_ENABLE" link="PackageKit-pk-enum.html#PK-ROLE-ENUM-REPO-ENABLE:CAPS"/>
+    <keyword type="constant" name="PK_ROLE_ENUM_REPO_SET_DATA" link="PackageKit-pk-enum.html#PK-ROLE-ENUM-REPO-SET-DATA:CAPS"/>
+    <keyword type="constant" name="PK_ROLE_ENUM_RESOLVE" link="PackageKit-pk-enum.html#PK-ROLE-ENUM-RESOLVE:CAPS"/>
+    <keyword type="constant" name="PK_ROLE_ENUM_SEARCH_DETAILS" link="PackageKit-pk-enum.html#PK-ROLE-ENUM-SEARCH-DETAILS:CAPS"/>
+    <keyword type="constant" name="PK_ROLE_ENUM_SEARCH_FILE" link="PackageKit-pk-enum.html#PK-ROLE-ENUM-SEARCH-FILE:CAPS"/>
+    <keyword type="constant" name="PK_ROLE_ENUM_SEARCH_GROUP" link="PackageKit-pk-enum.html#PK-ROLE-ENUM-SEARCH-GROUP:CAPS"/>
+    <keyword type="constant" name="PK_ROLE_ENUM_SEARCH_NAME" link="PackageKit-pk-enum.html#PK-ROLE-ENUM-SEARCH-NAME:CAPS"/>
+    <keyword type="constant" name="PK_ROLE_ENUM_UPDATE_PACKAGES" link="PackageKit-pk-enum.html#PK-ROLE-ENUM-UPDATE-PACKAGES:CAPS"/>
+    <keyword type="constant" name="PK_ROLE_ENUM_WHAT_PROVIDES" link="PackageKit-pk-enum.html#PK-ROLE-ENUM-WHAT-PROVIDES:CAPS"/>
+    <keyword type="constant" name="PK_ROLE_ENUM_ACCEPT_EULA" link="PackageKit-pk-enum.html#PK-ROLE-ENUM-ACCEPT-EULA:CAPS"/>
+    <keyword type="constant" name="PK_ROLE_ENUM_DOWNLOAD_PACKAGES" link="PackageKit-pk-enum.html#PK-ROLE-ENUM-DOWNLOAD-PACKAGES:CAPS"/>
+    <keyword type="constant" name="PK_ROLE_ENUM_GET_DISTRO_UPGRADES" link="PackageKit-pk-enum.html#PK-ROLE-ENUM-GET-DISTRO-UPGRADES:CAPS"/>
+    <keyword type="constant" name="PK_ROLE_ENUM_GET_CATEGORIES" link="PackageKit-pk-enum.html#PK-ROLE-ENUM-GET-CATEGORIES:CAPS"/>
+    <keyword type="constant" name="PK_ROLE_ENUM_GET_OLD_TRANSACTIONS" link="PackageKit-pk-enum.html#PK-ROLE-ENUM-GET-OLD-TRANSACTIONS:CAPS"/>
+    <keyword type="constant" name="PK_ROLE_ENUM_REPAIR_SYSTEM" link="PackageKit-pk-enum.html#PK-ROLE-ENUM-REPAIR-SYSTEM:CAPS"/>
+    <keyword type="constant" name="PK_ROLE_ENUM_GET_DETAILS_LOCAL" link="PackageKit-pk-enum.html#PK-ROLE-ENUM-GET-DETAILS-LOCAL:CAPS"/>
+    <keyword type="constant" name="PK_ROLE_ENUM_GET_FILES_LOCAL" link="PackageKit-pk-enum.html#PK-ROLE-ENUM-GET-FILES-LOCAL:CAPS"/>
+    <keyword type="constant" name="PK_ROLE_ENUM_REPO_REMOVE" link="PackageKit-pk-enum.html#PK-ROLE-ENUM-REPO-REMOVE:CAPS"/>
+    <keyword type="constant" name="PK_ROLE_ENUM_LAST" link="PackageKit-pk-enum.html#PK-ROLE-ENUM-LAST:CAPS"/>
+    <keyword type="constant" name="PK_STATUS_ENUM_UNKNOWN" link="PackageKit-pk-enum.html#PK-STATUS-ENUM-UNKNOWN:CAPS"/>
+    <keyword type="constant" name="PK_STATUS_ENUM_WAIT" link="PackageKit-pk-enum.html#PK-STATUS-ENUM-WAIT:CAPS"/>
+    <keyword type="constant" name="PK_STATUS_ENUM_SETUP" link="PackageKit-pk-enum.html#PK-STATUS-ENUM-SETUP:CAPS"/>
+    <keyword type="constant" name="PK_STATUS_ENUM_RUNNING" link="PackageKit-pk-enum.html#PK-STATUS-ENUM-RUNNING:CAPS"/>
+    <keyword type="constant" name="PK_STATUS_ENUM_QUERY" link="PackageKit-pk-enum.html#PK-STATUS-ENUM-QUERY:CAPS"/>
+    <keyword type="constant" name="PK_STATUS_ENUM_INFO" link="PackageKit-pk-enum.html#PK-STATUS-ENUM-INFO:CAPS"/>
+    <keyword type="constant" name="PK_STATUS_ENUM_REMOVE" link="PackageKit-pk-enum.html#PK-STATUS-ENUM-REMOVE:CAPS"/>
+    <keyword type="constant" name="PK_STATUS_ENUM_REFRESH_CACHE" link="PackageKit-pk-enum.html#PK-STATUS-ENUM-REFRESH-CACHE:CAPS"/>
+    <keyword type="constant" name="PK_STATUS_ENUM_DOWNLOAD" link="PackageKit-pk-enum.html#PK-STATUS-ENUM-DOWNLOAD:CAPS"/>
+    <keyword type="constant" name="PK_STATUS_ENUM_INSTALL" link="PackageKit-pk-enum.html#PK-STATUS-ENUM-INSTALL:CAPS"/>
+    <keyword type="constant" name="PK_STATUS_ENUM_UPDATE" link="PackageKit-pk-enum.html#PK-STATUS-ENUM-UPDATE:CAPS"/>
+    <keyword type="constant" name="PK_STATUS_ENUM_CLEANUP" link="PackageKit-pk-enum.html#PK-STATUS-ENUM-CLEANUP:CAPS"/>
+    <keyword type="constant" name="PK_STATUS_ENUM_OBSOLETE" link="PackageKit-pk-enum.html#PK-STATUS-ENUM-OBSOLETE:CAPS"/>
+    <keyword type="constant" name="PK_STATUS_ENUM_DEP_RESOLVE" link="PackageKit-pk-enum.html#PK-STATUS-ENUM-DEP-RESOLVE:CAPS"/>
+    <keyword type="constant" name="PK_STATUS_ENUM_SIG_CHECK" link="PackageKit-pk-enum.html#PK-STATUS-ENUM-SIG-CHECK:CAPS"/>
+    <keyword type="constant" name="PK_STATUS_ENUM_TEST_COMMIT" link="PackageKit-pk-enum.html#PK-STATUS-ENUM-TEST-COMMIT:CAPS"/>
+    <keyword type="constant" name="PK_STATUS_ENUM_COMMIT" link="PackageKit-pk-enum.html#PK-STATUS-ENUM-COMMIT:CAPS"/>
+    <keyword type="constant" name="PK_STATUS_ENUM_REQUEST" link="PackageKit-pk-enum.html#PK-STATUS-ENUM-REQUEST:CAPS"/>
+    <keyword type="constant" name="PK_STATUS_ENUM_FINISHED" link="PackageKit-pk-enum.html#PK-STATUS-ENUM-FINISHED:CAPS"/>
+    <keyword type="constant" name="PK_STATUS_ENUM_CANCEL" link="PackageKit-pk-enum.html#PK-STATUS-ENUM-CANCEL:CAPS"/>
+    <keyword type="constant" name="PK_STATUS_ENUM_DOWNLOAD_REPOSITORY" link="PackageKit-pk-enum.html#PK-STATUS-ENUM-DOWNLOAD-REPOSITORY:CAPS"/>
+    <keyword type="constant" name="PK_STATUS_ENUM_DOWNLOAD_PACKAGELIST" link="PackageKit-pk-enum.html#PK-STATUS-ENUM-DOWNLOAD-PACKAGELIST:CAPS"/>
+    <keyword type="constant" name="PK_STATUS_ENUM_DOWNLOAD_FILELIST" link="PackageKit-pk-enum.html#PK-STATUS-ENUM-DOWNLOAD-FILELIST:CAPS"/>
+    <keyword type="constant" name="PK_STATUS_ENUM_DOWNLOAD_CHANGELOG" link="PackageKit-pk-enum.html#PK-STATUS-ENUM-DOWNLOAD-CHANGELOG:CAPS"/>
+    <keyword type="constant" name="PK_STATUS_ENUM_DOWNLOAD_GROUP" link="PackageKit-pk-enum.html#PK-STATUS-ENUM-DOWNLOAD-GROUP:CAPS"/>
+    <keyword type="constant" name="PK_STATUS_ENUM_DOWNLOAD_UPDATEINFO" link="PackageKit-pk-enum.html#PK-STATUS-ENUM-DOWNLOAD-UPDATEINFO:CAPS"/>
+    <keyword type="constant" name="PK_STATUS_ENUM_REPACKAGING" link="PackageKit-pk-enum.html#PK-STATUS-ENUM-REPACKAGING:CAPS"/>
+    <keyword type="constant" name="PK_STATUS_ENUM_LOADING_CACHE" link="PackageKit-pk-enum.html#PK-STATUS-ENUM-LOADING-CACHE:CAPS"/>
+    <keyword type="constant" name="PK_STATUS_ENUM_SCAN_APPLICATIONS" link="PackageKit-pk-enum.html#PK-STATUS-ENUM-SCAN-APPLICATIONS:CAPS"/>
+    <keyword type="constant" name="PK_STATUS_ENUM_GENERATE_PACKAGE_LIST" link="PackageKit-pk-enum.html#PK-STATUS-ENUM-GENERATE-PACKAGE-LIST:CAPS"/>
+    <keyword type="constant" name="PK_STATUS_ENUM_WAITING_FOR_LOCK" link="PackageKit-pk-enum.html#PK-STATUS-ENUM-WAITING-FOR-LOCK:CAPS"/>
+    <keyword type="constant" name="PK_STATUS_ENUM_WAITING_FOR_AUTH" link="PackageKit-pk-enum.html#PK-STATUS-ENUM-WAITING-FOR-AUTH:CAPS"/>
+    <keyword type="constant" name="PK_STATUS_ENUM_SCAN_PROCESS_LIST" link="PackageKit-pk-enum.html#PK-STATUS-ENUM-SCAN-PROCESS-LIST:CAPS"/>
+    <keyword type="constant" name="PK_STATUS_ENUM_CHECK_EXECUTABLE_FILES" link="PackageKit-pk-enum.html#PK-STATUS-ENUM-CHECK-EXECUTABLE-FILES:CAPS"/>
+    <keyword type="constant" name="PK_STATUS_ENUM_CHECK_LIBRARIES" link="PackageKit-pk-enum.html#PK-STATUS-ENUM-CHECK-LIBRARIES:CAPS"/>
+    <keyword type="constant" name="PK_STATUS_ENUM_COPY_FILES" link="PackageKit-pk-enum.html#PK-STATUS-ENUM-COPY-FILES:CAPS"/>
+    <keyword type="constant" name="PK_STATUS_ENUM_LAST" link="PackageKit-pk-enum.html#PK-STATUS-ENUM-LAST:CAPS"/>
+    <keyword type="constant" name="PK_EXIT_ENUM_UNKNOWN" link="PackageKit-pk-enum.html#PK-EXIT-ENUM-UNKNOWN:CAPS"/>
+    <keyword type="constant" name="PK_EXIT_ENUM_SUCCESS" link="PackageKit-pk-enum.html#PK-EXIT-ENUM-SUCCESS:CAPS"/>
+    <keyword type="constant" name="PK_EXIT_ENUM_FAILED" link="PackageKit-pk-enum.html#PK-EXIT-ENUM-FAILED:CAPS"/>
+    <keyword type="constant" name="PK_EXIT_ENUM_CANCELLED" link="PackageKit-pk-enum.html#PK-EXIT-ENUM-CANCELLED:CAPS"/>
+    <keyword type="constant" name="PK_EXIT_ENUM_KEY_REQUIRED" link="PackageKit-pk-enum.html#PK-EXIT-ENUM-KEY-REQUIRED:CAPS"/>
+    <keyword type="constant" name="PK_EXIT_ENUM_EULA_REQUIRED" link="PackageKit-pk-enum.html#PK-EXIT-ENUM-EULA-REQUIRED:CAPS"/>
+    <keyword type="constant" name="PK_EXIT_ENUM_KILLED" link="PackageKit-pk-enum.html#PK-EXIT-ENUM-KILLED:CAPS"/>
+    <keyword type="constant" name="PK_EXIT_ENUM_MEDIA_CHANGE_REQUIRED" link="PackageKit-pk-enum.html#PK-EXIT-ENUM-MEDIA-CHANGE-REQUIRED:CAPS"/>
+    <keyword type="constant" name="PK_EXIT_ENUM_NEED_UNTRUSTED" link="PackageKit-pk-enum.html#PK-EXIT-ENUM-NEED-UNTRUSTED:CAPS"/>
+    <keyword type="constant" name="PK_EXIT_ENUM_CANCELLED_PRIORITY" link="PackageKit-pk-enum.html#PK-EXIT-ENUM-CANCELLED-PRIORITY:CAPS"/>
+    <keyword type="constant" name="PK_EXIT_ENUM_SKIP_TRANSACTION" link="PackageKit-pk-enum.html#PK-EXIT-ENUM-SKIP-TRANSACTION:CAPS"/>
+    <keyword type="constant" name="PK_EXIT_ENUM_REPAIR_REQUIRED" link="PackageKit-pk-enum.html#PK-EXIT-ENUM-REPAIR-REQUIRED:CAPS"/>
+    <keyword type="constant" name="PK_EXIT_ENUM_LAST" link="PackageKit-pk-enum.html#PK-EXIT-ENUM-LAST:CAPS"/>
+    <keyword type="constant" name="PK_NETWORK_ENUM_UNKNOWN" link="PackageKit-pk-enum.html#PK-NETWORK-ENUM-UNKNOWN:CAPS"/>
+    <keyword type="constant" name="PK_NETWORK_ENUM_OFFLINE" link="PackageKit-pk-enum.html#PK-NETWORK-ENUM-OFFLINE:CAPS"/>
+    <keyword type="constant" name="PK_NETWORK_ENUM_ONLINE" link="PackageKit-pk-enum.html#PK-NETWORK-ENUM-ONLINE:CAPS"/>
+    <keyword type="constant" name="PK_NETWORK_ENUM_WIRED" link="PackageKit-pk-enum.html#PK-NETWORK-ENUM-WIRED:CAPS"/>
+    <keyword type="constant" name="PK_NETWORK_ENUM_WIFI" link="PackageKit-pk-enum.html#PK-NETWORK-ENUM-WIFI:CAPS"/>
+    <keyword type="constant" name="PK_NETWORK_ENUM_MOBILE" link="PackageKit-pk-enum.html#PK-NETWORK-ENUM-MOBILE:CAPS"/>
+    <keyword type="constant" name="PK_NETWORK_ENUM_LAST" link="PackageKit-pk-enum.html#PK-NETWORK-ENUM-LAST:CAPS"/>
+    <keyword type="constant" name="PK_FILTER_ENUM_UNKNOWN" link="PackageKit-pk-enum.html#PK-FILTER-ENUM-UNKNOWN:CAPS"/>
+    <keyword type="constant" name="PK_FILTER_ENUM_NONE" link="PackageKit-pk-enum.html#PK-FILTER-ENUM-NONE:CAPS"/>
+    <keyword type="constant" name="PK_FILTER_ENUM_INSTALLED" link="PackageKit-pk-enum.html#PK-FILTER-ENUM-INSTALLED:CAPS"/>
+    <keyword type="constant" name="PK_FILTER_ENUM_NOT_INSTALLED" link="PackageKit-pk-enum.html#PK-FILTER-ENUM-NOT-INSTALLED:CAPS"/>
+    <keyword type="constant" name="PK_FILTER_ENUM_DEVELOPMENT" link="PackageKit-pk-enum.html#PK-FILTER-ENUM-DEVELOPMENT:CAPS"/>
+    <keyword type="constant" name="PK_FILTER_ENUM_NOT_DEVELOPMENT" link="PackageKit-pk-enum.html#PK-FILTER-ENUM-NOT-DEVELOPMENT:CAPS"/>
+    <keyword type="constant" name="PK_FILTER_ENUM_GUI" link="PackageKit-pk-enum.html#PK-FILTER-ENUM-GUI:CAPS"/>
+    <keyword type="constant" name="PK_FILTER_ENUM_NOT_GUI" link="PackageKit-pk-enum.html#PK-FILTER-ENUM-NOT-GUI:CAPS"/>
+    <keyword type="constant" name="PK_FILTER_ENUM_FREE" link="PackageKit-pk-enum.html#PK-FILTER-ENUM-FREE:CAPS"/>
+    <keyword type="constant" name="PK_FILTER_ENUM_NOT_FREE" link="PackageKit-pk-enum.html#PK-FILTER-ENUM-NOT-FREE:CAPS"/>
+    <keyword type="constant" name="PK_FILTER_ENUM_VISIBLE" link="PackageKit-pk-enum.html#PK-FILTER-ENUM-VISIBLE:CAPS"/>
+    <keyword type="constant" name="PK_FILTER_ENUM_NOT_VISIBLE" link="PackageKit-pk-enum.html#PK-FILTER-ENUM-NOT-VISIBLE:CAPS"/>
+    <keyword type="constant" name="PK_FILTER_ENUM_SUPPORTED" link="PackageKit-pk-enum.html#PK-FILTER-ENUM-SUPPORTED:CAPS"/>
+    <keyword type="constant" name="PK_FILTER_ENUM_NOT_SUPPORTED" link="PackageKit-pk-enum.html#PK-FILTER-ENUM-NOT-SUPPORTED:CAPS"/>
+    <keyword type="constant" name="PK_FILTER_ENUM_BASENAME" link="PackageKit-pk-enum.html#PK-FILTER-ENUM-BASENAME:CAPS"/>
+    <keyword type="constant" name="PK_FILTER_ENUM_NOT_BASENAME" link="PackageKit-pk-enum.html#PK-FILTER-ENUM-NOT-BASENAME:CAPS"/>
+    <keyword type="constant" name="PK_FILTER_ENUM_NEWEST" link="PackageKit-pk-enum.html#PK-FILTER-ENUM-NEWEST:CAPS"/>
+    <keyword type="constant" name="PK_FILTER_ENUM_NOT_NEWEST" link="PackageKit-pk-enum.html#PK-FILTER-ENUM-NOT-NEWEST:CAPS"/>
+    <keyword type="constant" name="PK_FILTER_ENUM_ARCH" link="PackageKit-pk-enum.html#PK-FILTER-ENUM-ARCH:CAPS"/>
+    <keyword type="constant" name="PK_FILTER_ENUM_NOT_ARCH" link="PackageKit-pk-enum.html#PK-FILTER-ENUM-NOT-ARCH:CAPS"/>
+    <keyword type="constant" name="PK_FILTER_ENUM_SOURCE" link="PackageKit-pk-enum.html#PK-FILTER-ENUM-SOURCE:CAPS"/>
+    <keyword type="constant" name="PK_FILTER_ENUM_NOT_SOURCE" link="PackageKit-pk-enum.html#PK-FILTER-ENUM-NOT-SOURCE:CAPS"/>
+    <keyword type="constant" name="PK_FILTER_ENUM_COLLECTIONS" link="PackageKit-pk-enum.html#PK-FILTER-ENUM-COLLECTIONS:CAPS"/>
+    <keyword type="constant" name="PK_FILTER_ENUM_NOT_COLLECTIONS" link="PackageKit-pk-enum.html#PK-FILTER-ENUM-NOT-COLLECTIONS:CAPS"/>
+    <keyword type="constant" name="PK_FILTER_ENUM_APPLICATION" link="PackageKit-pk-enum.html#PK-FILTER-ENUM-APPLICATION:CAPS"/>
+    <keyword type="constant" name="PK_FILTER_ENUM_NOT_APPLICATION" link="PackageKit-pk-enum.html#PK-FILTER-ENUM-NOT-APPLICATION:CAPS"/>
+    <keyword type="constant" name="PK_FILTER_ENUM_DOWNLOADED" link="PackageKit-pk-enum.html#PK-FILTER-ENUM-DOWNLOADED:CAPS"/>
+    <keyword type="constant" name="PK_FILTER_ENUM_NOT_DOWNLOADED" link="PackageKit-pk-enum.html#PK-FILTER-ENUM-NOT-DOWNLOADED:CAPS"/>
+    <keyword type="constant" name="PK_FILTER_ENUM_LAST" link="PackageKit-pk-enum.html#PK-FILTER-ENUM-LAST:CAPS"/>
+    <keyword type="constant" name="PK_RESTART_ENUM_UNKNOWN" link="PackageKit-pk-enum.html#PK-RESTART-ENUM-UNKNOWN:CAPS"/>
+    <keyword type="constant" name="PK_RESTART_ENUM_NONE" link="PackageKit-pk-enum.html#PK-RESTART-ENUM-NONE:CAPS"/>
+    <keyword type="constant" name="PK_RESTART_ENUM_APPLICATION" link="PackageKit-pk-enum.html#PK-RESTART-ENUM-APPLICATION:CAPS"/>
+    <keyword type="constant" name="PK_RESTART_ENUM_SESSION" link="PackageKit-pk-enum.html#PK-RESTART-ENUM-SESSION:CAPS"/>
+    <keyword type="constant" name="PK_RESTART_ENUM_SYSTEM" link="PackageKit-pk-enum.html#PK-RESTART-ENUM-SYSTEM:CAPS"/>
+    <keyword type="constant" name="PK_RESTART_ENUM_SECURITY_SESSION" link="PackageKit-pk-enum.html#PK-RESTART-ENUM-SECURITY-SESSION:CAPS"/>
+    <keyword type="constant" name="PK_RESTART_ENUM_SECURITY_SYSTEM" link="PackageKit-pk-enum.html#PK-RESTART-ENUM-SECURITY-SYSTEM:CAPS"/>
+    <keyword type="constant" name="PK_RESTART_ENUM_LAST" link="PackageKit-pk-enum.html#PK-RESTART-ENUM-LAST:CAPS"/>
+    <keyword type="constant" name="PK_ERROR_ENUM_UNKNOWN" link="PackageKit-pk-enum.html#PK-ERROR-ENUM-UNKNOWN:CAPS"/>
+    <keyword type="constant" name="PK_ERROR_ENUM_OOM" link="PackageKit-pk-enum.html#PK-ERROR-ENUM-OOM:CAPS"/>
+    <keyword type="constant" name="PK_ERROR_ENUM_NO_NETWORK" link="PackageKit-pk-enum.html#PK-ERROR-ENUM-NO-NETWORK:CAPS"/>
+    <keyword type="constant" name="PK_ERROR_ENUM_NOT_SUPPORTED" link="PackageKit-pk-enum.html#PK-ERROR-ENUM-NOT-SUPPORTED:CAPS"/>
+    <keyword type="constant" name="PK_ERROR_ENUM_INTERNAL_ERROR" link="PackageKit-pk-enum.html#PK-ERROR-ENUM-INTERNAL-ERROR:CAPS"/>
+    <keyword type="constant" name="PK_ERROR_ENUM_GPG_FAILURE" link="PackageKit-pk-enum.html#PK-ERROR-ENUM-GPG-FAILURE:CAPS"/>
+    <keyword type="constant" name="PK_ERROR_ENUM_PACKAGE_ID_INVALID" link="PackageKit-pk-enum.html#PK-ERROR-ENUM-PACKAGE-ID-INVALID:CAPS"/>
+    <keyword type="constant" name="PK_ERROR_ENUM_PACKAGE_NOT_INSTALLED" link="PackageKit-pk-enum.html#PK-ERROR-ENUM-PACKAGE-NOT-INSTALLED:CAPS"/>
+    <keyword type="constant" name="PK_ERROR_ENUM_PACKAGE_NOT_FOUND" link="PackageKit-pk-enum.html#PK-ERROR-ENUM-PACKAGE-NOT-FOUND:CAPS"/>
+    <keyword type="constant" name="PK_ERROR_ENUM_PACKAGE_ALREADY_INSTALLED" link="PackageKit-pk-enum.html#PK-ERROR-ENUM-PACKAGE-ALREADY-INSTALLED:CAPS"/>
+    <keyword type="constant" name="PK_ERROR_ENUM_PACKAGE_DOWNLOAD_FAILED" link="PackageKit-pk-enum.html#PK-ERROR-ENUM-PACKAGE-DOWNLOAD-FAILED:CAPS"/>
+    <keyword type="constant" name="PK_ERROR_ENUM_GROUP_NOT_FOUND" link="PackageKit-pk-enum.html#PK-ERROR-ENUM-GROUP-NOT-FOUND:CAPS"/>
+    <keyword type="constant" name="PK_ERROR_ENUM_GROUP_LIST_INVALID" link="PackageKit-pk-enum.html#PK-ERROR-ENUM-GROUP-LIST-INVALID:CAPS"/>
+    <keyword type="constant" name="PK_ERROR_ENUM_DEP_RESOLUTION_FAILED" link="PackageKit-pk-enum.html#PK-ERROR-ENUM-DEP-RESOLUTION-FAILED:CAPS"/>
+    <keyword type="constant" name="PK_ERROR_ENUM_FILTER_INVALID" link="PackageKit-pk-enum.html#PK-ERROR-ENUM-FILTER-INVALID:CAPS"/>
+    <keyword type="constant" name="PK_ERROR_ENUM_CREATE_THREAD_FAILED" link="PackageKit-pk-enum.html#PK-ERROR-ENUM-CREATE-THREAD-FAILED:CAPS"/>
+    <keyword type="constant" name="PK_ERROR_ENUM_TRANSACTION_ERROR" link="PackageKit-pk-enum.html#PK-ERROR-ENUM-TRANSACTION-ERROR:CAPS"/>
+    <keyword type="constant" name="PK_ERROR_ENUM_TRANSACTION_CANCELLED" link="PackageKit-pk-enum.html#PK-ERROR-ENUM-TRANSACTION-CANCELLED:CAPS"/>
+    <keyword type="constant" name="PK_ERROR_ENUM_NO_CACHE" link="PackageKit-pk-enum.html#PK-ERROR-ENUM-NO-CACHE:CAPS"/>
+    <keyword type="constant" name="PK_ERROR_ENUM_REPO_NOT_FOUND" link="PackageKit-pk-enum.html#PK-ERROR-ENUM-REPO-NOT-FOUND:CAPS"/>
+    <keyword type="constant" name="PK_ERROR_ENUM_CANNOT_REMOVE_SYSTEM_PACKAGE" link="PackageKit-pk-enum.html#PK-ERROR-ENUM-CANNOT-REMOVE-SYSTEM-PACKAGE:CAPS"/>
+    <keyword type="constant" name="PK_ERROR_ENUM_PROCESS_KILL" link="PackageKit-pk-enum.html#PK-ERROR-ENUM-PROCESS-KILL:CAPS"/>
+    <keyword type="constant" name="PK_ERROR_ENUM_FAILED_INITIALIZATION" link="PackageKit-pk-enum.html#PK-ERROR-ENUM-FAILED-INITIALIZATION:CAPS"/>
+    <keyword type="constant" name="PK_ERROR_ENUM_FAILED_FINALISE" link="PackageKit-pk-enum.html#PK-ERROR-ENUM-FAILED-FINALISE:CAPS"/>
+    <keyword type="constant" name="PK_ERROR_ENUM_FAILED_CONFIG_PARSING" link="PackageKit-pk-enum.html#PK-ERROR-ENUM-FAILED-CONFIG-PARSING:CAPS"/>
+    <keyword type="constant" name="PK_ERROR_ENUM_CANNOT_CANCEL" link="PackageKit-pk-enum.html#PK-ERROR-ENUM-CANNOT-CANCEL:CAPS"/>
+    <keyword type="constant" name="PK_ERROR_ENUM_CANNOT_GET_LOCK" link="PackageKit-pk-enum.html#PK-ERROR-ENUM-CANNOT-GET-LOCK:CAPS"/>
+    <keyword type="constant" name="PK_ERROR_ENUM_NO_PACKAGES_TO_UPDATE" link="PackageKit-pk-enum.html#PK-ERROR-ENUM-NO-PACKAGES-TO-UPDATE:CAPS"/>
+    <keyword type="constant" name="PK_ERROR_ENUM_CANNOT_WRITE_REPO_CONFIG" link="PackageKit-pk-enum.html#PK-ERROR-ENUM-CANNOT-WRITE-REPO-CONFIG:CAPS"/>
+    <keyword type="constant" name="PK_ERROR_ENUM_LOCAL_INSTALL_FAILED" link="PackageKit-pk-enum.html#PK-ERROR-ENUM-LOCAL-INSTALL-FAILED:CAPS"/>
+    <keyword type="constant" name="PK_ERROR_ENUM_BAD_GPG_SIGNATURE" link="PackageKit-pk-enum.html#PK-ERROR-ENUM-BAD-GPG-SIGNATURE:CAPS"/>
+    <keyword type="constant" name="PK_ERROR_ENUM_MISSING_GPG_SIGNATURE" link="PackageKit-pk-enum.html#PK-ERROR-ENUM-MISSING-GPG-SIGNATURE:CAPS"/>
+    <keyword type="constant" name="PK_ERROR_ENUM_CANNOT_INSTALL_SOURCE_PACKAGE" link="PackageKit-pk-enum.html#PK-ERROR-ENUM-CANNOT-INSTALL-SOURCE-PACKAGE:CAPS"/>
+    <keyword type="constant" name="PK_ERROR_ENUM_REPO_CONFIGURATION_ERROR" link="PackageKit-pk-enum.html#PK-ERROR-ENUM-REPO-CONFIGURATION-ERROR:CAPS"/>
+    <keyword type="constant" name="PK_ERROR_ENUM_NO_LICENSE_AGREEMENT" link="PackageKit-pk-enum.html#PK-ERROR-ENUM-NO-LICENSE-AGREEMENT:CAPS"/>
+    <keyword type="constant" name="PK_ERROR_ENUM_FILE_CONFLICTS" link="PackageKit-pk-enum.html#PK-ERROR-ENUM-FILE-CONFLICTS:CAPS"/>
+    <keyword type="constant" name="PK_ERROR_ENUM_PACKAGE_CONFLICTS" link="PackageKit-pk-enum.html#PK-ERROR-ENUM-PACKAGE-CONFLICTS:CAPS"/>
+    <keyword type="constant" name="PK_ERROR_ENUM_REPO_NOT_AVAILABLE" link="PackageKit-pk-enum.html#PK-ERROR-ENUM-REPO-NOT-AVAILABLE:CAPS"/>
+    <keyword type="constant" name="PK_ERROR_ENUM_INVALID_PACKAGE_FILE" link="PackageKit-pk-enum.html#PK-ERROR-ENUM-INVALID-PACKAGE-FILE:CAPS"/>
+    <keyword type="constant" name="PK_ERROR_ENUM_PACKAGE_INSTALL_BLOCKED" link="PackageKit-pk-enum.html#PK-ERROR-ENUM-PACKAGE-INSTALL-BLOCKED:CAPS"/>
+    <keyword type="constant" name="PK_ERROR_ENUM_PACKAGE_CORRUPT" link="PackageKit-pk-enum.html#PK-ERROR-ENUM-PACKAGE-CORRUPT:CAPS"/>
+    <keyword type="constant" name="PK_ERROR_ENUM_ALL_PACKAGES_ALREADY_INSTALLED" link="PackageKit-pk-enum.html#PK-ERROR-ENUM-ALL-PACKAGES-ALREADY-INSTALLED:CAPS"/>
+    <keyword type="constant" name="PK_ERROR_ENUM_FILE_NOT_FOUND" link="PackageKit-pk-enum.html#PK-ERROR-ENUM-FILE-NOT-FOUND:CAPS"/>
+    <keyword type="constant" name="PK_ERROR_ENUM_NO_MORE_MIRRORS_TO_TRY" link="PackageKit-pk-enum.html#PK-ERROR-ENUM-NO-MORE-MIRRORS-TO-TRY:CAPS"/>
+    <keyword type="constant" name="PK_ERROR_ENUM_NO_DISTRO_UPGRADE_DATA" link="PackageKit-pk-enum.html#PK-ERROR-ENUM-NO-DISTRO-UPGRADE-DATA:CAPS"/>
+    <keyword type="constant" name="PK_ERROR_ENUM_INCOMPATIBLE_ARCHITECTURE" link="PackageKit-pk-enum.html#PK-ERROR-ENUM-INCOMPATIBLE-ARCHITECTURE:CAPS"/>
+    <keyword type="constant" name="PK_ERROR_ENUM_NO_SPACE_ON_DEVICE" link="PackageKit-pk-enum.html#PK-ERROR-ENUM-NO-SPACE-ON-DEVICE:CAPS"/>
+    <keyword type="constant" name="PK_ERROR_ENUM_MEDIA_CHANGE_REQUIRED" link="PackageKit-pk-enum.html#PK-ERROR-ENUM-MEDIA-CHANGE-REQUIRED:CAPS"/>
+    <keyword type="constant" name="PK_ERROR_ENUM_NOT_AUTHORIZED" link="PackageKit-pk-enum.html#PK-ERROR-ENUM-NOT-AUTHORIZED:CAPS"/>
+    <keyword type="constant" name="PK_ERROR_ENUM_UPDATE_NOT_FOUND" link="PackageKit-pk-enum.html#PK-ERROR-ENUM-UPDATE-NOT-FOUND:CAPS"/>
+    <keyword type="constant" name="PK_ERROR_ENUM_CANNOT_INSTALL_REPO_UNSIGNED" link="PackageKit-pk-enum.html#PK-ERROR-ENUM-CANNOT-INSTALL-REPO-UNSIGNED:CAPS"/>
+    <keyword type="constant" name="PK_ERROR_ENUM_CANNOT_UPDATE_REPO_UNSIGNED" link="PackageKit-pk-enum.html#PK-ERROR-ENUM-CANNOT-UPDATE-REPO-UNSIGNED:CAPS"/>
+    <keyword type="constant" name="PK_ERROR_ENUM_CANNOT_GET_FILELIST" link="PackageKit-pk-enum.html#PK-ERROR-ENUM-CANNOT-GET-FILELIST:CAPS"/>
+    <keyword type="constant" name="PK_ERROR_ENUM_CANNOT_GET_REQUIRES" link="PackageKit-pk-enum.html#PK-ERROR-ENUM-CANNOT-GET-REQUIRES:CAPS"/>
+    <keyword type="constant" name="PK_ERROR_ENUM_CANNOT_DISABLE_REPOSITORY" link="PackageKit-pk-enum.html#PK-ERROR-ENUM-CANNOT-DISABLE-REPOSITORY:CAPS"/>
+    <keyword type="constant" name="PK_ERROR_ENUM_RESTRICTED_DOWNLOAD" link="PackageKit-pk-enum.html#PK-ERROR-ENUM-RESTRICTED-DOWNLOAD:CAPS"/>
+    <keyword type="constant" name="PK_ERROR_ENUM_PACKAGE_FAILED_TO_CONFIGURE" link="PackageKit-pk-enum.html#PK-ERROR-ENUM-PACKAGE-FAILED-TO-CONFIGURE:CAPS"/>
+    <keyword type="constant" name="PK_ERROR_ENUM_PACKAGE_FAILED_TO_BUILD" link="PackageKit-pk-enum.html#PK-ERROR-ENUM-PACKAGE-FAILED-TO-BUILD:CAPS"/>
+    <keyword type="constant" name="PK_ERROR_ENUM_PACKAGE_FAILED_TO_INSTALL" link="PackageKit-pk-enum.html#PK-ERROR-ENUM-PACKAGE-FAILED-TO-INSTALL:CAPS"/>
+    <keyword type="constant" name="PK_ERROR_ENUM_PACKAGE_FAILED_TO_REMOVE" link="PackageKit-pk-enum.html#PK-ERROR-ENUM-PACKAGE-FAILED-TO-REMOVE:CAPS"/>
+    <keyword type="constant" name="PK_ERROR_ENUM_UPDATE_FAILED_DUE_TO_RUNNING_PROCESS" link="PackageKit-pk-enum.html#PK-ERROR-ENUM-UPDATE-FAILED-DUE-TO-RUNNING-PROCESS:CAPS"/>
+    <keyword type="constant" name="PK_ERROR_ENUM_PACKAGE_DATABASE_CHANGED" link="PackageKit-pk-enum.html#PK-ERROR-ENUM-PACKAGE-DATABASE-CHANGED:CAPS"/>
+    <keyword type="constant" name="PK_ERROR_ENUM_PROVIDE_TYPE_NOT_SUPPORTED" link="PackageKit-pk-enum.html#PK-ERROR-ENUM-PROVIDE-TYPE-NOT-SUPPORTED:CAPS"/>
+    <keyword type="constant" name="PK_ERROR_ENUM_INSTALL_ROOT_INVALID" link="PackageKit-pk-enum.html#PK-ERROR-ENUM-INSTALL-ROOT-INVALID:CAPS"/>
+    <keyword type="constant" name="PK_ERROR_ENUM_CANNOT_FETCH_SOURCES" link="PackageKit-pk-enum.html#PK-ERROR-ENUM-CANNOT-FETCH-SOURCES:CAPS"/>
+    <keyword type="constant" name="PK_ERROR_ENUM_CANCELLED_PRIORITY" link="PackageKit-pk-enum.html#PK-ERROR-ENUM-CANCELLED-PRIORITY:CAPS"/>
+    <keyword type="constant" name="PK_ERROR_ENUM_UNFINISHED_TRANSACTION" link="PackageKit-pk-enum.html#PK-ERROR-ENUM-UNFINISHED-TRANSACTION:CAPS"/>
+    <keyword type="constant" name="PK_ERROR_ENUM_LOCK_REQUIRED" link="PackageKit-pk-enum.html#PK-ERROR-ENUM-LOCK-REQUIRED:CAPS"/>
+    <keyword type="constant" name="PK_ERROR_ENUM_LAST" link="PackageKit-pk-enum.html#PK-ERROR-ENUM-LAST:CAPS"/>
+    <keyword type="constant" name="PK_GROUP_ENUM_UNKNOWN" link="PackageKit-pk-enum.html#PK-GROUP-ENUM-UNKNOWN:CAPS"/>
+    <keyword type="constant" name="PK_GROUP_ENUM_ACCESSIBILITY" link="PackageKit-pk-enum.html#PK-GROUP-ENUM-ACCESSIBILITY:CAPS"/>
+    <keyword type="constant" name="PK_GROUP_ENUM_ACCESSORIES" link="PackageKit-pk-enum.html#PK-GROUP-ENUM-ACCESSORIES:CAPS"/>
+    <keyword type="constant" name="PK_GROUP_ENUM_ADMIN_TOOLS" link="PackageKit-pk-enum.html#PK-GROUP-ENUM-ADMIN-TOOLS:CAPS"/>
+    <keyword type="constant" name="PK_GROUP_ENUM_COMMUNICATION" link="PackageKit-pk-enum.html#PK-GROUP-ENUM-COMMUNICATION:CAPS"/>
+    <keyword type="constant" name="PK_GROUP_ENUM_DESKTOP_GNOME" link="PackageKit-pk-enum.html#PK-GROUP-ENUM-DESKTOP-GNOME:CAPS"/>
+    <keyword type="constant" name="PK_GROUP_ENUM_DESKTOP_KDE" link="PackageKit-pk-enum.html#PK-GROUP-ENUM-DESKTOP-KDE:CAPS"/>
+    <keyword type="constant" name="PK_GROUP_ENUM_DESKTOP_OTHER" link="PackageKit-pk-enum.html#PK-GROUP-ENUM-DESKTOP-OTHER:CAPS"/>
+    <keyword type="constant" name="PK_GROUP_ENUM_DESKTOP_XFCE" link="PackageKit-pk-enum.html#PK-GROUP-ENUM-DESKTOP-XFCE:CAPS"/>
+    <keyword type="constant" name="PK_GROUP_ENUM_EDUCATION" link="PackageKit-pk-enum.html#PK-GROUP-ENUM-EDUCATION:CAPS"/>
+    <keyword type="constant" name="PK_GROUP_ENUM_FONTS" link="PackageKit-pk-enum.html#PK-GROUP-ENUM-FONTS:CAPS"/>
+    <keyword type="constant" name="PK_GROUP_ENUM_GAMES" link="PackageKit-pk-enum.html#PK-GROUP-ENUM-GAMES:CAPS"/>
+    <keyword type="constant" name="PK_GROUP_ENUM_GRAPHICS" link="PackageKit-pk-enum.html#PK-GROUP-ENUM-GRAPHICS:CAPS"/>
+    <keyword type="constant" name="PK_GROUP_ENUM_INTERNET" link="PackageKit-pk-enum.html#PK-GROUP-ENUM-INTERNET:CAPS"/>
+    <keyword type="constant" name="PK_GROUP_ENUM_LEGACY" link="PackageKit-pk-enum.html#PK-GROUP-ENUM-LEGACY:CAPS"/>
+    <keyword type="constant" name="PK_GROUP_ENUM_LOCALIZATION" link="PackageKit-pk-enum.html#PK-GROUP-ENUM-LOCALIZATION:CAPS"/>
+    <keyword type="constant" name="PK_GROUP_ENUM_MAPS" link="PackageKit-pk-enum.html#PK-GROUP-ENUM-MAPS:CAPS"/>
+    <keyword type="constant" name="PK_GROUP_ENUM_MULTIMEDIA" link="PackageKit-pk-enum.html#PK-GROUP-ENUM-MULTIMEDIA:CAPS"/>
+    <keyword type="constant" name="PK_GROUP_ENUM_NETWORK" link="PackageKit-pk-enum.html#PK-GROUP-ENUM-NETWORK:CAPS"/>
+    <keyword type="constant" name="PK_GROUP_ENUM_OFFICE" link="PackageKit-pk-enum.html#PK-GROUP-ENUM-OFFICE:CAPS"/>
+    <keyword type="constant" name="PK_GROUP_ENUM_OTHER" link="PackageKit-pk-enum.html#PK-GROUP-ENUM-OTHER:CAPS"/>
+    <keyword type="constant" name="PK_GROUP_ENUM_POWER_MANAGEMENT" link="PackageKit-pk-enum.html#PK-GROUP-ENUM-POWER-MANAGEMENT:CAPS"/>
+    <keyword type="constant" name="PK_GROUP_ENUM_PROGRAMMING" link="PackageKit-pk-enum.html#PK-GROUP-ENUM-PROGRAMMING:CAPS"/>
+    <keyword type="constant" name="PK_GROUP_ENUM_PUBLISHING" link="PackageKit-pk-enum.html#PK-GROUP-ENUM-PUBLISHING:CAPS"/>
+    <keyword type="constant" name="PK_GROUP_ENUM_REPOS" link="PackageKit-pk-enum.html#PK-GROUP-ENUM-REPOS:CAPS"/>
+    <keyword type="constant" name="PK_GROUP_ENUM_SECURITY" link="PackageKit-pk-enum.html#PK-GROUP-ENUM-SECURITY:CAPS"/>
+    <keyword type="constant" name="PK_GROUP_ENUM_SERVERS" link="PackageKit-pk-enum.html#PK-GROUP-ENUM-SERVERS:CAPS"/>
+    <keyword type="constant" name="PK_GROUP_ENUM_SYSTEM" link="PackageKit-pk-enum.html#PK-GROUP-ENUM-SYSTEM:CAPS"/>
+    <keyword type="constant" name="PK_GROUP_ENUM_VIRTUALIZATION" link="PackageKit-pk-enum.html#PK-GROUP-ENUM-VIRTUALIZATION:CAPS"/>
+    <keyword type="constant" name="PK_GROUP_ENUM_SCIENCE" link="PackageKit-pk-enum.html#PK-GROUP-ENUM-SCIENCE:CAPS"/>
+    <keyword type="constant" name="PK_GROUP_ENUM_DOCUMENTATION" link="PackageKit-pk-enum.html#PK-GROUP-ENUM-DOCUMENTATION:CAPS"/>
+    <keyword type="constant" name="PK_GROUP_ENUM_ELECTRONICS" link="PackageKit-pk-enum.html#PK-GROUP-ENUM-ELECTRONICS:CAPS"/>
+    <keyword type="constant" name="PK_GROUP_ENUM_COLLECTIONS" link="PackageKit-pk-enum.html#PK-GROUP-ENUM-COLLECTIONS:CAPS"/>
+    <keyword type="constant" name="PK_GROUP_ENUM_VENDOR" link="PackageKit-pk-enum.html#PK-GROUP-ENUM-VENDOR:CAPS"/>
+    <keyword type="constant" name="PK_GROUP_ENUM_NEWEST" link="PackageKit-pk-enum.html#PK-GROUP-ENUM-NEWEST:CAPS"/>
+    <keyword type="constant" name="PK_GROUP_ENUM_LAST" link="PackageKit-pk-enum.html#PK-GROUP-ENUM-LAST:CAPS"/>
+    <keyword type="constant" name="PK_UPDATE_STATE_ENUM_UNKNOWN" link="PackageKit-pk-enum.html#PK-UPDATE-STATE-ENUM-UNKNOWN:CAPS"/>
+    <keyword type="constant" name="PK_UPDATE_STATE_ENUM_STABLE" link="PackageKit-pk-enum.html#PK-UPDATE-STATE-ENUM-STABLE:CAPS"/>
+    <keyword type="constant" name="PK_UPDATE_STATE_ENUM_UNSTABLE" link="PackageKit-pk-enum.html#PK-UPDATE-STATE-ENUM-UNSTABLE:CAPS"/>
+    <keyword type="constant" name="PK_UPDATE_STATE_ENUM_TESTING" link="PackageKit-pk-enum.html#PK-UPDATE-STATE-ENUM-TESTING:CAPS"/>
+    <keyword type="constant" name="PK_UPDATE_STATE_ENUM_LAST" link="PackageKit-pk-enum.html#PK-UPDATE-STATE-ENUM-LAST:CAPS"/>
+    <keyword type="constant" name="PK_INFO_ENUM_UNKNOWN" link="PackageKit-pk-enum.html#PK-INFO-ENUM-UNKNOWN:CAPS"/>
+    <keyword type="constant" name="PK_INFO_ENUM_INSTALLED" link="PackageKit-pk-enum.html#PK-INFO-ENUM-INSTALLED:CAPS"/>
+    <keyword type="constant" name="PK_INFO_ENUM_AVAILABLE" link="PackageKit-pk-enum.html#PK-INFO-ENUM-AVAILABLE:CAPS"/>
+    <keyword type="constant" name="PK_INFO_ENUM_LOW" link="PackageKit-pk-enum.html#PK-INFO-ENUM-LOW:CAPS"/>
+    <keyword type="constant" name="PK_INFO_ENUM_ENHANCEMENT" link="PackageKit-pk-enum.html#PK-INFO-ENUM-ENHANCEMENT:CAPS"/>
+    <keyword type="constant" name="PK_INFO_ENUM_NORMAL" link="PackageKit-pk-enum.html#PK-INFO-ENUM-NORMAL:CAPS"/>
+    <keyword type="constant" name="PK_INFO_ENUM_BUGFIX" link="PackageKit-pk-enum.html#PK-INFO-ENUM-BUGFIX:CAPS"/>
+    <keyword type="constant" name="PK_INFO_ENUM_IMPORTANT" link="PackageKit-pk-enum.html#PK-INFO-ENUM-IMPORTANT:CAPS"/>
+    <keyword type="constant" name="PK_INFO_ENUM_SECURITY" link="PackageKit-pk-enum.html#PK-INFO-ENUM-SECURITY:CAPS"/>
+    <keyword type="constant" name="PK_INFO_ENUM_BLOCKED" link="PackageKit-pk-enum.html#PK-INFO-ENUM-BLOCKED:CAPS"/>
+    <keyword type="constant" name="PK_INFO_ENUM_DOWNLOADING" link="PackageKit-pk-enum.html#PK-INFO-ENUM-DOWNLOADING:CAPS"/>
+    <keyword type="constant" name="PK_INFO_ENUM_UPDATING" link="PackageKit-pk-enum.html#PK-INFO-ENUM-UPDATING:CAPS"/>
+    <keyword type="constant" name="PK_INFO_ENUM_INSTALLING" link="PackageKit-pk-enum.html#PK-INFO-ENUM-INSTALLING:CAPS"/>
+    <keyword type="constant" name="PK_INFO_ENUM_REMOVING" link="PackageKit-pk-enum.html#PK-INFO-ENUM-REMOVING:CAPS"/>
+    <keyword type="constant" name="PK_INFO_ENUM_CLEANUP" link="PackageKit-pk-enum.html#PK-INFO-ENUM-CLEANUP:CAPS"/>
+    <keyword type="constant" name="PK_INFO_ENUM_OBSOLETING" link="PackageKit-pk-enum.html#PK-INFO-ENUM-OBSOLETING:CAPS"/>
+    <keyword type="constant" name="PK_INFO_ENUM_COLLECTION_INSTALLED" link="PackageKit-pk-enum.html#PK-INFO-ENUM-COLLECTION-INSTALLED:CAPS"/>
+    <keyword type="constant" name="PK_INFO_ENUM_COLLECTION_AVAILABLE" link="PackageKit-pk-enum.html#PK-INFO-ENUM-COLLECTION-AVAILABLE:CAPS"/>
+    <keyword type="constant" name="PK_INFO_ENUM_FINISHED" link="PackageKit-pk-enum.html#PK-INFO-ENUM-FINISHED:CAPS"/>
+    <keyword type="constant" name="PK_INFO_ENUM_REINSTALLING" link="PackageKit-pk-enum.html#PK-INFO-ENUM-REINSTALLING:CAPS"/>
+    <keyword type="constant" name="PK_INFO_ENUM_DOWNGRADING" link="PackageKit-pk-enum.html#PK-INFO-ENUM-DOWNGRADING:CAPS"/>
+    <keyword type="constant" name="PK_INFO_ENUM_PREPARING" link="PackageKit-pk-enum.html#PK-INFO-ENUM-PREPARING:CAPS"/>
+    <keyword type="constant" name="PK_INFO_ENUM_DECOMPRESSING" link="PackageKit-pk-enum.html#PK-INFO-ENUM-DECOMPRESSING:CAPS"/>
+    <keyword type="constant" name="PK_INFO_ENUM_UNTRUSTED" link="PackageKit-pk-enum.html#PK-INFO-ENUM-UNTRUSTED:CAPS"/>
+    <keyword type="constant" name="PK_INFO_ENUM_TRUSTED" link="PackageKit-pk-enum.html#PK-INFO-ENUM-TRUSTED:CAPS"/>
+    <keyword type="constant" name="PK_INFO_ENUM_UNAVAILABLE" link="PackageKit-pk-enum.html#PK-INFO-ENUM-UNAVAILABLE:CAPS"/>
+    <keyword type="constant" name="PK_INFO_ENUM_LAST" link="PackageKit-pk-enum.html#PK-INFO-ENUM-LAST:CAPS"/>
+    <keyword type="constant" name="PK_DISTRO_UPGRADE_ENUM_UNKNOWN" link="PackageKit-pk-enum.html#PK-DISTRO-UPGRADE-ENUM-UNKNOWN:CAPS"/>
+    <keyword type="constant" name="PK_DISTRO_UPGRADE_ENUM_STABLE" link="PackageKit-pk-enum.html#PK-DISTRO-UPGRADE-ENUM-STABLE:CAPS"/>
+    <keyword type="constant" name="PK_DISTRO_UPGRADE_ENUM_UNSTABLE" link="PackageKit-pk-enum.html#PK-DISTRO-UPGRADE-ENUM-UNSTABLE:CAPS"/>
+    <keyword type="constant" name="PK_DISTRO_UPGRADE_ENUM_LAST" link="PackageKit-pk-enum.html#PK-DISTRO-UPGRADE-ENUM-LAST:CAPS"/>
+    <keyword type="constant" name="PK_SIGTYPE_ENUM_UNKNOWN" link="PackageKit-pk-enum.html#PK-SIGTYPE-ENUM-UNKNOWN:CAPS"/>
+    <keyword type="constant" name="PK_SIGTYPE_ENUM_GPG" link="PackageKit-pk-enum.html#PK-SIGTYPE-ENUM-GPG:CAPS"/>
+    <keyword type="constant" name="PK_SIGTYPE_ENUM_LAST" link="PackageKit-pk-enum.html#PK-SIGTYPE-ENUM-LAST:CAPS"/>
+    <keyword type="constant" name="PK_MEDIA_TYPE_ENUM_UNKNOWN" link="PackageKit-pk-enum.html#PK-MEDIA-TYPE-ENUM-UNKNOWN:CAPS"/>
+    <keyword type="constant" name="PK_MEDIA_TYPE_ENUM_CD" link="PackageKit-pk-enum.html#PK-MEDIA-TYPE-ENUM-CD:CAPS"/>
+    <keyword type="constant" name="PK_MEDIA_TYPE_ENUM_DVD" link="PackageKit-pk-enum.html#PK-MEDIA-TYPE-ENUM-DVD:CAPS"/>
+    <keyword type="constant" name="PK_MEDIA_TYPE_ENUM_DISC" link="PackageKit-pk-enum.html#PK-MEDIA-TYPE-ENUM-DISC:CAPS"/>
+    <keyword type="constant" name="PK_MEDIA_TYPE_ENUM_LAST" link="PackageKit-pk-enum.html#PK-MEDIA-TYPE-ENUM-LAST:CAPS"/>
+    <keyword type="constant" name="PK_AUTHORIZE_ENUM_UNKNOWN" link="PackageKit-pk-enum.html#PK-AUTHORIZE-ENUM-UNKNOWN:CAPS"/>
+    <keyword type="constant" name="PK_AUTHORIZE_ENUM_YES" link="PackageKit-pk-enum.html#PK-AUTHORIZE-ENUM-YES:CAPS"/>
+    <keyword type="constant" name="PK_AUTHORIZE_ENUM_NO" link="PackageKit-pk-enum.html#PK-AUTHORIZE-ENUM-NO:CAPS"/>
+    <keyword type="constant" name="PK_AUTHORIZE_ENUM_INTERACTIVE" link="PackageKit-pk-enum.html#PK-AUTHORIZE-ENUM-INTERACTIVE:CAPS"/>
+    <keyword type="constant" name="PK_AUTHORIZE_ENUM_LAST" link="PackageKit-pk-enum.html#PK-AUTHORIZE-ENUM-LAST:CAPS"/>
+    <keyword type="constant" name="PK_UPGRADE_KIND_ENUM_UNKNOWN" link="PackageKit-pk-enum.html#PK-UPGRADE-KIND-ENUM-UNKNOWN:CAPS"/>
+    <keyword type="constant" name="PK_UPGRADE_KIND_ENUM_MINIMAL" link="PackageKit-pk-enum.html#PK-UPGRADE-KIND-ENUM-MINIMAL:CAPS"/>
+    <keyword type="constant" name="PK_UPGRADE_KIND_ENUM_DEFAULT" link="PackageKit-pk-enum.html#PK-UPGRADE-KIND-ENUM-DEFAULT:CAPS"/>
+    <keyword type="constant" name="PK_UPGRADE_KIND_ENUM_COMPLETE" link="PackageKit-pk-enum.html#PK-UPGRADE-KIND-ENUM-COMPLETE:CAPS"/>
+    <keyword type="constant" name="PK_UPGRADE_KIND_ENUM_LAST" link="PackageKit-pk-enum.html#PK-UPGRADE-KIND-ENUM-LAST:CAPS"/>
+    <keyword type="constant" name="PK_TRANSACTION_FLAG_ENUM_NONE" link="PackageKit-pk-enum.html#PK-TRANSACTION-FLAG-ENUM-NONE:CAPS"/>
+    <keyword type="constant" name="PK_TRANSACTION_FLAG_ENUM_ONLY_TRUSTED" link="PackageKit-pk-enum.html#PK-TRANSACTION-FLAG-ENUM-ONLY-TRUSTED:CAPS"/>
+    <keyword type="constant" name="PK_TRANSACTION_FLAG_ENUM_SIMULATE" link="PackageKit-pk-enum.html#PK-TRANSACTION-FLAG-ENUM-SIMULATE:CAPS"/>
+    <keyword type="constant" name="PK_TRANSACTION_FLAG_ENUM_ONLY_DOWNLOAD" link="PackageKit-pk-enum.html#PK-TRANSACTION-FLAG-ENUM-ONLY-DOWNLOAD:CAPS"/>
+    <keyword type="constant" name="PK_TRANSACTION_FLAG_ENUM_ALLOW_REINSTALL" link="PackageKit-pk-enum.html#PK-TRANSACTION-FLAG-ENUM-ALLOW-REINSTALL:CAPS"/>
+    <keyword type="constant" name="PK_TRANSACTION_FLAG_ENUM_JUST_REINSTALL" link="PackageKit-pk-enum.html#PK-TRANSACTION-FLAG-ENUM-JUST-REINSTALL:CAPS"/>
+    <keyword type="constant" name="PK_TRANSACTION_FLAG_ENUM_ALLOW_DOWNGRADE" link="PackageKit-pk-enum.html#PK-TRANSACTION-FLAG-ENUM-ALLOW-DOWNGRADE:CAPS"/>
+    <keyword type="constant" name="PK_TRANSACTION_FLAG_ENUM_LAST" link="PackageKit-pk-enum.html#PK-TRANSACTION-FLAG-ENUM-LAST:CAPS"/>
   </functions>
 </book>

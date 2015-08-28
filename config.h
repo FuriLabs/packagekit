@@ -96,7 +96,7 @@
 #define PACKAGE_NAME "PackageKit"
 
 /* Define to the full name and version of this package. */
-#define PACKAGE_STRING "PackageKit 1.0.6"
+#define PACKAGE_STRING "PackageKit 1.0.8"
 
 /* Define to the one symbol short name of this package. */
 #define PACKAGE_TARNAME "PackageKit"
@@ -105,7 +105,7 @@
 #define PACKAGE_URL "http://www.packagekit.org/"
 
 /* Define to the version of this package. */
-#define PACKAGE_VERSION "1.0.6"
+#define PACKAGE_VERSION "1.0.8"
 
 /* Build local code */
 #define PK_BUILD_LOCAL 1
@@ -117,7 +117,7 @@
 #define STDC_HEADERS 1
 
 /* Version number of package */
-#define VERSION "1.0.6"
+#define VERSION "1.0.8"
 
 /* define if libzypp returns package size in bytes */
 /* #undef ZYPP_RETURN_BYTES */
