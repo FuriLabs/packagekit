@@ -67,7 +67,6 @@ Description: Provides a package management service
 
 Package: packagekit-tools
 Architecture: any
-Section: libs
 Multi-Arch: foreign
 Depends: packagekit (= ${binary:Version}),
          ${misc:Depends},
@@ -149,7 +148,7 @@ Architecture: any
 Section: libs
 Depends: ${misc:Depends},
          ${shlibs:Depends}
-Recommends: gnome-packagekit-session | apper
+Recommends: gnome-software | apper
 Breaks: gnome-packagekit (<< 3.2.1-1)
 Description: Install fonts automatically using PackageKit
  PackageKit allows performing simple software management tasks over a DBus
@@ -167,7 +166,7 @@ Depends: packagekit (= ${binary:Version}),
          ${shlibs:Depends}
 Conflicts: gstreamer0.10-packagekit
 Replaces: gstreamer0.10-packagekit
-Recommends: gnome-packagekit-session | apper
+Recommends: gnome-software | apper
 Description: GStreamer plugin to install codecs using PackageKit
  PackageKit allows performing simple software management tasks over a DBus
  interface e.g refreshing the cache, updating, installing and removing
@@ -183,7 +182,7 @@ Depends: packagekit (= ${binary:Version}),
          ${dist:Browser},
          ${misc:Depends},
          ${shlibs:Depends}
-Recommends: gnome-packagekit-session | apper
+Recommends: gnome-software | apper
 Conflicts: mozilla-packagekit
 Replaces: mozilla-packagekit
 Description: Plugin to install missing plugins using PackageKit
