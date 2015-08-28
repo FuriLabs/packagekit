@@ -4,7 +4,7 @@ Author: Matthias Klumpp <matthias@tenstral.net>
 Last-Update: 2012-08-14
 --- a/policy/org.freedesktop.packagekit.policy.in
 +++ b/policy/org.freedesktop.packagekit.policy.in
-@@ -94,7 +94,7 @@
+@@ -131,7 +131,7 @@
      <defaults>
        <allow_any>auth_admin</allow_any>
        <allow_inactive>auth_admin</allow_inactive>
@@ -13,7 +13,7 @@ Last-Update: 2012-08-14
      </defaults>
    </action>
  
-@@ -133,7 +133,7 @@
+@@ -170,7 +170,7 @@
      <defaults>
        <allow_any>auth_admin</allow_any>
        <allow_inactive>auth_admin</allow_inactive>
@@ -22,7 +22,7 @@ Last-Update: 2012-08-14
      </defaults>
    </action>
  
-@@ -220,7 +220,7 @@
+@@ -257,7 +257,7 @@
  
    <action id="org.freedesktop.packagekit.trigger-offline-update">
      <!-- SECURITY:
@@ -31,7 +31,7 @@ Last-Update: 2012-08-14
              early boot time without a password.
       -->
      <_description>Trigger offline updates</_description>
-@@ -229,7 +229,7 @@
+@@ -266,7 +266,7 @@
      <defaults>
        <allow_any>auth_admin</allow_any>
        <allow_inactive>auth_admin</allow_inactive>
