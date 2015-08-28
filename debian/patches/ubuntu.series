@@ -3,3 +3,4 @@ policy.diff
 01_no-distupgrade.patch
 02_add-vapi-metadata.patch
 03_critical-warnings.patch
+04_dont-assume-time_t-is-long.patch
