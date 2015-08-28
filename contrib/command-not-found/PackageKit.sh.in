@@ -19,15 +19,24 @@ command_not_found_handle () {
 	# don't run if packagekitd doesn't exist in the _system_ root
 	[ ! -x @LIBEXECDIR@/packagekitd ] && runcnf=0
 
+	# don't run if bash command completion is being run
+	[ ${COMP_CWORD-} ] && runcnf=0
+
 	# run the command, or just print a warning
 	if [ $runcnf -eq 1 ]; then
 		@LIBEXECDIR@/pk-command-not-found "$@"
 		retval=$?
 	else
-		echo "bash: $1: command not found"
+		local shell=`basename "$SHELL"`
+		echo "$shell: $1: command not found"
 	fi
 
 	# return success or failure
 	return $retval
 }
 
+if [ -n "$ZSH_VERSION" ]; then
+	command_not_found_handler () {
+		command_not_found_handle "$@"
+	}
+fi

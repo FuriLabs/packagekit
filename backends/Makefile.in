@@ -94,20 +94,22 @@ host_triplet = @host@
 @BACKEND_TYPE_HIF_TRUE@am__append_5 = hif
 @BACKEND_TYPE_KATJA_TRUE@am__append_6 = katja
 @BACKEND_TYPE_URPMI_TRUE@am__append_7 = urpmi
-@BACKEND_TYPE_PISI_TRUE@am__append_8 = pisi
-@BACKEND_TYPE_ZYPP_TRUE@am__append_9 = zypp
-@BACKEND_TYPE_POLDEK_TRUE@am__append_10 = poldek
-@BACKEND_TYPE_PORTAGE_TRUE@am__append_11 = portage
-@BACKEND_TYPE_PORTS_TRUE@am__append_12 = ports
+@BACKEND_TYPE_YUM_TRUE@am__append_8 = yum
+@BACKEND_TYPE_PISI_TRUE@am__append_9 = pisi
+@BACKEND_TYPE_ZYPP_TRUE@am__append_10 = zypp
+@BACKEND_TYPE_POLDEK_TRUE@am__append_11 = poldek
+@BACKEND_TYPE_PORTAGE_TRUE@am__append_12 = portage
+@BACKEND_TYPE_PORTS_TRUE@am__append_13 = ports
 subdir = backends
 ACLOCAL_M4 = $(top_srcdir)/aclocal.m4
 am__aclocal_m4_deps = $(top_srcdir)/m4/as-linguas.m4 \
 	$(top_srcdir)/m4/ax_check_compile_flag.m4 \
 	$(top_srcdir)/m4/ax_check_link_flag.m4 \
-	$(top_srcdir)/m4/gtk-doc.m4 $(top_srcdir)/m4/libtool.m4 \
-	$(top_srcdir)/m4/ltoptions.m4 $(top_srcdir)/m4/ltsugar.m4 \
-	$(top_srcdir)/m4/ltversion.m4 $(top_srcdir)/m4/lt~obsolete.m4 \
-	$(top_srcdir)/acinclude.m4 $(top_srcdir)/configure.ac
+	$(top_srcdir)/m4/gtk-doc.m4 $(top_srcdir)/m4/intltool.m4 \
+	$(top_srcdir)/m4/libtool.m4 $(top_srcdir)/m4/ltoptions.m4 \
+	$(top_srcdir)/m4/ltsugar.m4 $(top_srcdir)/m4/ltversion.m4 \
+	$(top_srcdir)/m4/lt~obsolete.m4 $(top_srcdir)/acinclude.m4 \
+	$(top_srcdir)/configure.ac
 am__configure_deps = $(am__aclocal_m4_deps) $(CONFIGURE_DEPENDENCIES) \
 	$(ACLOCAL_M4)
 DIST_COMMON = $(srcdir)/Makefile.am $(am__DIST_COMMON)
@@ -169,8 +171,8 @@ am__define_uniq_tagged_files = \
   done | $(am__uniquify_input)`
 ETAGS = etags
 CTAGS = ctags
-DIST_SUBDIRS = test alpm aptcc dummy entropy hif katja urpmi pisi zypp \
-	poldek portage ports
+DIST_SUBDIRS = test alpm aptcc dummy entropy hif katja urpmi yum pisi \
+	zypp poldek portage ports
 am__DIST_COMMON = $(srcdir)/Makefile.in
 DISTFILES = $(DIST_COMMON) $(DIST_SOURCES) $(TEXINFOS) $(EXTRA_DIST)
 am__relativize = \
@@ -382,6 +384,9 @@ SYSCONFDIR = @SYSCONFDIR@
 SYSTEMD_CFLAGS = @SYSTEMD_CFLAGS@
 SYSTEMD_LIBS = @SYSTEMD_LIBS@
 USE_NLS = @USE_NLS@
+VAPIGEN = @VAPIGEN@
+VAPIGEN_MAKEFILE = @VAPIGEN_MAKEFILE@
+VAPIGEN_VAPIDIR = @VAPIGEN_VAPIDIR@
 VERSION = @VERSION@
 WARNINGFLAGS_C = @WARNINGFLAGS_C@
 WARNINGFLAGS_CPP = @WARNINGFLAGS_CPP@
@@ -453,7 +458,8 @@ top_srcdir = @top_srcdir@
 SUBDIRS = test $(am__append_1) $(am__append_2) $(am__append_3) \
 	$(am__append_4) $(am__append_5) $(am__append_6) \
 	$(am__append_7) $(am__append_8) $(am__append_9) \
-	$(am__append_10) $(am__append_11) $(am__append_12)
+	$(am__append_10) $(am__append_11) $(am__append_12) \
+	$(am__append_13)
 all: all-recursive
 
 .SUFFIXES:

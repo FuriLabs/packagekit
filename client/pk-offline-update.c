@@ -387,6 +387,15 @@ main (int argc, char *argv[])
 		goto out;
 	}
 
+	/* check if we prepared this update; exit quietly if not */
+	if (!g_file_test (PK_OFFLINE_PREPARED_FILENAME, G_FILE_TEST_EXISTS) ||
+	    !g_file_test (PK_OFFLINE_ACTION_FILENAME, G_FILE_TEST_EXISTS)) {
+		g_print ("no update found\n");
+		sd_journal_print (LOG_INFO, "no update found");
+		retval = EXIT_SUCCESS;
+		goto out;
+	}
+
 	/* get the action, and then delete the file */
 	action = pk_offline_update_get_action ();
 	g_unlink (PK_OFFLINE_ACTION_FILENAME);
@@ -422,7 +431,7 @@ main (int argc, char *argv[])
 	pk_client_set_interactive (PK_CLIENT (task), FALSE);
 	pk_offline_update_set_plymouth_mode ("updates");
 	/* TRANSLATORS: we've started doing offline updates */
-	pk_offline_update_set_plymouth_msg (_("Installing updates, this could take a while..."));
+	pk_offline_update_set_plymouth_msg (_("Installing updates; this could take a while..."));
 	pk_offline_update_write_dummy_results (package_ids);
 	results = pk_client_update_packages (PK_CLIENT (task),
 					     0,

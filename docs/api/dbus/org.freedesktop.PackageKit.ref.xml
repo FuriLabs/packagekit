@@ -284,7 +284,7 @@ in's'pac)</programlisting></refsect2>
         <variablelist role="params"/><refsect2><title><anchor role="function" id="PackageKit:BackendName"/>The "BackendName" property</title><indexterm><primary>BackendName</primary><secondary>PackageKit</secondary></indexterm><programlisting>'BackendName'read's'
 </programlisting></refsect2>
           <para>
-            The backend name, e.g. "hif".
+            The backend name, e.g. "dnf".
           </para>
         <variablelist role="params"/><refsect2><title><anchor role="function" id="PackageKit:BackendDescription"/>The "BackendDescription" property</title><indexterm><primary>BackendDescription</primary><secondary>PackageKit</secondary></indexterm><programlisting>'BackendDescription'read's'
 </programlisting></refsect2>
