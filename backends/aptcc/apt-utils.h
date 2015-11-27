@@ -1,4 +1,4 @@
-/* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*-
+/* apt-utils.h
  *
  * Copyright (c) 2001, 2005 Daniel Burrows (aptitude)
  * Copyright (c) 2009 Daniel Nicoletti <dantti12@gmail.com>
@@ -22,14 +22,12 @@
 #ifndef APT_UTILS_H
 #define APT_UTILS_H
 
-#include <apt-pkg/pkgrecords.h>
 #include <apt-pkg/acquire.h>
-
+#include <apt-pkg/pkgrecords.h>
 #include <glib.h>
-
 #include <pk-backend.h>
 
-#include "AptCacheFile.h"
+#include "apt-cache-file.h"
 
 using namespace std;
 
@@ -39,20 +37,15 @@ using namespace std;
 PkGroupEnum get_enum_group(string group);
 
 /**
-  * Return the changelog filename fetched
+  * Return the changelog and extract details about the changes.
   */
-void getChangelogFile(const string &filename,
-                      const string &name,
-                      const string &origin,
-                      const string &verstr,
-                      const string &srcPkg,
-                      const string &uri,
-                      pkgAcquire *fetcher);
-
-bool downloadChangelog(AptCacheFile &CacheFile,
-                       pkgAcquire &Fetcher, 
-                       pkgCache::VerIterator Ver,
-                       string targetfile);
+string fetchChangelogData(AptCacheFile &CacheFile,
+                          pkgAcquire &Fetcher,
+                          pkgCache::VerIterator Ver,
+                          pkgCache::VerIterator currver,
+                          string *update_text,
+                          string *updated,
+                          string *issued);
 
 /**
   * Returns a list of links pairs url;description for CVEs

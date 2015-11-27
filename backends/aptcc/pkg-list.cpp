@@ -1,5 +1,5 @@
-/* PkgList.cpp
- * 
+/* pkg-list.cpp
+ *
  * Copyright (c) 2012 Daniel Nicoletti <dantti12@gmail.com>
  *
  * This program is free software; you can redistribute it and/or modify
@@ -18,7 +18,7 @@
  * Boston, MA 02111-1307, USA.
  */
 
-#include "PkgList.h"
+#include "pkg-list.h"
 
 #include <algorithm>
 
@@ -56,8 +56,8 @@ public:
     bool operator() (const pkgCache::VerIterator &a, const pkgCache::VerIterator &b) {
         bool ret;
         ret = strcmp(a.ParentPkg().Name(), b.ParentPkg().Name()) == 0 &&
-              strcmp(a.VerStr(), b.VerStr()) == 0 &&
-              strcmp(a.Arch(), b.Arch()) == 0;
+                strcmp(a.VerStr(), b.VerStr()) == 0 &&
+                strcmp(a.Arch(), b.Arch()) == 0;
         if (ret) {
             pkgCache::VerFileIterator aVF = a.FileList();
             pkgCache::VerFileIterator bVF = b.FileList();

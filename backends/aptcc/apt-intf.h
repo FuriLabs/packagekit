@@ -31,7 +31,7 @@
 
 #include <pk-backend.h>
 
-#include "PkgList.h"
+#include "pkg-list.h"
 #include "apt-sourceslist.h"
 
 #define PREUPGRADE_BINARY    "/usr/bin/do-release-upgrade"

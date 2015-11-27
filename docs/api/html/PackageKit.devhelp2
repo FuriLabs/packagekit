@@ -109,6 +109,7 @@
     <keyword type="function" name="pk_client_repo_enable_async ()" link="PkClient.html#pk-client-repo-enable-async" since="0.5.2"/>
     <keyword type="function" name="pk_client_repo_set_data_async ()" link="PkClient.html#pk-client-repo-set-data-async" since="0.5.2"/>
     <keyword type="function" name="pk_client_repo_remove_async ()" link="PkClient.html#pk-client-repo-remove-async" since="0.9.1"/>
+    <keyword type="function" name="pk_client_upgrade_system_async ()" link="PkClient.html#pk-client-upgrade-system-async" since="1.0.10"/>
     <keyword type="function" name="pk_client_repair_system_async ()" link="PkClient.html#pk-client-repair-system-async" since="0.8.1"/>
     <keyword type="function" name="pk_client_adopt_async ()" link="PkClient.html#pk-client-adopt-async" since="0.5.2"/>
     <keyword type="function" name="pk_client_get_progress_finish ()" link="PkClient.html#pk-client-get-progress-finish" since="0.5.2"/>
@@ -508,6 +509,7 @@
     <keyword type="function" name="pk_client_repo_enable ()" link="PackageKit-pk-client-sync.html#pk-client-repo-enable" since="0.5.3"/>
     <keyword type="function" name="pk_client_repo_set_data ()" link="PackageKit-pk-client-sync.html#pk-client-repo-set-data" since="0.5.3"/>
     <keyword type="function" name="pk_client_repo_remove ()" link="PackageKit-pk-client-sync.html#pk-client-repo-remove" since="0.9.1"/>
+    <keyword type="function" name="pk_client_upgrade_system ()" link="PackageKit-pk-client-sync.html#pk-client-upgrade-system" since="1.0.10"/>
     <keyword type="function" name="pk_client_repair_system ()" link="PackageKit-pk-client-sync.html#pk-client-repair-system" since="0.8.1"/>
     <keyword type="function" name="pk_client_adopt ()" link="PackageKit-pk-client-sync.html#pk-client-adopt" since="0.5.3"/>
     <keyword type="function" name="pk_client_get_progress ()" link="PackageKit-pk-client-sync.html#pk-client-get-progress" since="0.5.3"/>
@@ -698,6 +700,7 @@
     <keyword type="constant" name="PK_ROLE_ENUM_GET_DETAILS_LOCAL" link="PackageKit-pk-enum.html#PK-ROLE-ENUM-GET-DETAILS-LOCAL:CAPS"/>
     <keyword type="constant" name="PK_ROLE_ENUM_GET_FILES_LOCAL" link="PackageKit-pk-enum.html#PK-ROLE-ENUM-GET-FILES-LOCAL:CAPS"/>
     <keyword type="constant" name="PK_ROLE_ENUM_REPO_REMOVE" link="PackageKit-pk-enum.html#PK-ROLE-ENUM-REPO-REMOVE:CAPS"/>
+    <keyword type="constant" name="PK_ROLE_ENUM_UPGRADE_SYSTEM" link="PackageKit-pk-enum.html#PK-ROLE-ENUM-UPGRADE-SYSTEM:CAPS"/>
     <keyword type="constant" name="PK_ROLE_ENUM_LAST" link="PackageKit-pk-enum.html#PK-ROLE-ENUM-LAST:CAPS"/>
     <keyword type="constant" name="PK_STATUS_ENUM_UNKNOWN" link="PackageKit-pk-enum.html#PK-STATUS-ENUM-UNKNOWN:CAPS"/>
     <keyword type="constant" name="PK_STATUS_ENUM_WAIT" link="PackageKit-pk-enum.html#PK-STATUS-ENUM-WAIT:CAPS"/>

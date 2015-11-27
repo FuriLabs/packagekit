@@ -71,6 +71,7 @@
 <ANCHOR id="Transaction.SearchNames" href="PackageKit/Transaction.html#Transaction.SearchNames">
 <ANCHOR id="Transaction.UpdatePackages" href="PackageKit/Transaction.html#Transaction.UpdatePackages">
 <ANCHOR id="Transaction.WhatProvides" href="PackageKit/Transaction.html#Transaction.WhatProvides">
+<ANCHOR id="Transaction.UpgradeSystem" href="PackageKit/Transaction.html#Transaction.UpgradeSystem">
 <ANCHOR id="Transaction.RepairSystem" href="PackageKit/Transaction.html#Transaction.RepairSystem">
 <ANCHOR id="Transaction::Category" href="PackageKit/Transaction.html#Transaction::Category">
 <ANCHOR id="Transaction::Details" href="PackageKit/Transaction.html#Transaction::Details">
@@ -165,6 +166,7 @@
 <ANCHOR id="pk-client-repo-enable-async" href="PackageKit/PkClient.html#pk-client-repo-enable-async">
 <ANCHOR id="pk-client-repo-set-data-async" href="PackageKit/PkClient.html#pk-client-repo-set-data-async">
 <ANCHOR id="pk-client-repo-remove-async" href="PackageKit/PkClient.html#pk-client-repo-remove-async">
+<ANCHOR id="pk-client-upgrade-system-async" href="PackageKit/PkClient.html#pk-client-upgrade-system-async">
 <ANCHOR id="pk-client-repair-system-async" href="PackageKit/PkClient.html#pk-client-repair-system-async">
 <ANCHOR id="pk-client-adopt-async" href="PackageKit/PkClient.html#pk-client-adopt-async">
 <ANCHOR id="pk-client-get-progress-finish" href="PackageKit/PkClient.html#pk-client-get-progress-finish">
@@ -754,6 +756,7 @@
 <ANCHOR id="pk-client-repo-enable" href="PackageKit/PackageKit-pk-client-sync.html#pk-client-repo-enable">
 <ANCHOR id="pk-client-repo-set-data" href="PackageKit/PackageKit-pk-client-sync.html#pk-client-repo-set-data">
 <ANCHOR id="pk-client-repo-remove" href="PackageKit/PackageKit-pk-client-sync.html#pk-client-repo-remove">
+<ANCHOR id="pk-client-upgrade-system" href="PackageKit/PackageKit-pk-client-sync.html#pk-client-upgrade-system">
 <ANCHOR id="pk-client-repair-system" href="PackageKit/PackageKit-pk-client-sync.html#pk-client-repair-system">
 <ANCHOR id="pk-client-adopt" href="PackageKit/PackageKit-pk-client-sync.html#pk-client-adopt">
 <ANCHOR id="pk-client-get-progress" href="PackageKit/PackageKit-pk-client-sync.html#pk-client-get-progress">
@@ -869,6 +872,7 @@
 <ANCHOR id="PK-ROLE-ENUM-GET-DETAILS-LOCAL:CAPS" href="PackageKit/PackageKit-pk-enum.html#PK-ROLE-ENUM-GET-DETAILS-LOCAL:CAPS">
 <ANCHOR id="PK-ROLE-ENUM-GET-FILES-LOCAL:CAPS" href="PackageKit/PackageKit-pk-enum.html#PK-ROLE-ENUM-GET-FILES-LOCAL:CAPS">
 <ANCHOR id="PK-ROLE-ENUM-REPO-REMOVE:CAPS" href="PackageKit/PackageKit-pk-enum.html#PK-ROLE-ENUM-REPO-REMOVE:CAPS">
+<ANCHOR id="PK-ROLE-ENUM-UPGRADE-SYSTEM:CAPS" href="PackageKit/PackageKit-pk-enum.html#PK-ROLE-ENUM-UPGRADE-SYSTEM:CAPS">
 <ANCHOR id="PK-ROLE-ENUM-LAST:CAPS" href="PackageKit/PackageKit-pk-enum.html#PK-ROLE-ENUM-LAST:CAPS">
 <ANCHOR id="PkStatusEnum" href="PackageKit/PackageKit-pk-enum.html#PkStatusEnum">
 <ANCHOR id="PK-STATUS-ENUM-UNKNOWN:CAPS" href="PackageKit/PackageKit-pk-enum.html#PK-STATUS-ENUM-UNKNOWN:CAPS">

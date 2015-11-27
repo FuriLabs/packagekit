@@ -39,17 +39,15 @@
 #include <fstream>
 #include <dirent.h>
 
-#include "AptCacheFile.h"
+#include "apt-cache-file.h"
 #include "apt-utils.h"
 #include "matcher.h"
-#include "gstMatcher.h"
+#include "gst-matcher.h"
 #include "apt-messages.h"
 #include "acqpkitstatus.h"
-#include "pkg_acqfile.h"
 #include "deb-file.h"
 
 #define RAMFS_MAGIC     0x858458f6
-#define APTCC_TMP_DIR   "/tmp/aptcc"
 
 AptIntf::AptIntf(PkBackendJob *job) :
     m_job(job),
@@ -66,9 +64,9 @@ AptIntf::AptIntf(PkBackendJob *job) :
 
 bool AptIntf::init()
 {
-    gchar *locale;
-    gchar *http_proxy;
-    gchar *ftp_proxy;
+    const gchar *locale;
+    const gchar *http_proxy;
+    const gchar *ftp_proxy;
 
     m_isMultiArch = APT::Configuration::getArchitectures(false).size() > 1;
 
@@ -82,17 +80,16 @@ bool AptIntf::init()
         // 		_locale.erase(found);
         // 		_config->Set("APT::Acquire::Translation", _locale);
     }
-    g_free(locale);
 
     // set http proxy
     http_proxy = pk_backend_job_get_proxy_http(m_job);
-    setenv("http_proxy", http_proxy, 1);
-    g_free(http_proxy);
+    if (http_proxy != NULL)
+        setenv("http_proxy", http_proxy, 1);
 
     // set ftp proxy
     ftp_proxy = pk_backend_job_get_proxy_ftp(m_job);
-    setenv("ftp_proxy", ftp_proxy, 1);
-    g_free(ftp_proxy);
+    if (ftp_proxy != NULL)
+        setenv("ftp_proxy", ftp_proxy, 1);
 
     // Prepare for the restart thing
     if (g_file_test(REBOOT_REQUIRED, G_FILE_TEST_EXISTS)) {
@@ -572,7 +569,7 @@ void AptIntf::providesLibrary(PkgList &output, gchar **values)
     g_debug("RegStr: %s", libreg_str);
     regex_t libreg;
     if(regcomp(&libreg, libreg_str, 0) != 0) {
-        g_debug("Regex compilation error: ", libreg);
+        g_debug("Error compiling regular expression to match libraries.");
         return;
     }
 
@@ -801,16 +798,6 @@ void AptIntf::emitUpdateDetail(const pkgCache::VerIterator &candver)
         srcpkg = rec.SourcePkg();
     }
 
-    // Create a random temp dir
-    if (!g_file_test(APTCC_TMP_DIR, G_FILE_TEST_IS_DIR))
-        g_mkdir(APTCC_TMP_DIR, 0700);
-    char dirName[] = APTCC_TMP_DIR "/XXXXXX";
-
-    char *tempDir = mkdtemp(dirName);
-    string filename = tempDir;
-    filename.append("/");
-    filename.append(pkg.Name());
-
     PkBackend *backend = PK_BACKEND(pk_backend_job_get_backend(m_job));
     if (pk_backend_is_online(backend)) {
         // Create the download object
@@ -822,95 +809,13 @@ void AptIntf::emitUpdateDetail(const pkgCache::VerIterator &candver)
 
         // fetch the changelog
         pk_backend_job_set_status(m_job, PK_STATUS_ENUM_DOWNLOAD_CHANGELOG);
-        if (downloadChangelog(*m_cache, fetcher, candver, filename)) {
-            ifstream in(filename.c_str());
-            string line;
-            GRegex *regexVer;
-            regexVer = g_regex_new("(?'source'.+) \\((?'version'.*)\\) "
-                                "(?'dist'.+); urgency=(?'urgency'.+)",
-                                G_REGEX_CASELESS,
-                                G_REGEX_MATCH_ANCHORED,
-                                0);
-            GRegex *regexDate;
-            regexDate = g_regex_new("^ -- (?'maintainer'.+) (?'mail'<.+>)  (?'date'.+)$",
-                                    G_REGEX_CASELESS,
-                                    G_REGEX_MATCH_ANCHORED,
-                                    0);
-
-            while (getline(in, line)) {
-                // we don't want the additional whitespace, because it can confuse
-                // some markdown parsers used by client tools
-                if (starts_with(line, "  "))
-                    line.erase(0,1);
-                // no need to free str later, it is allocated in a static buffer
-                const char *str = utf8(line.c_str());
-                if (strcmp(str, "") == 0) {
-                    changelog.append("\n");
-                    continue;
-                } else {
-                    changelog.append(str);
-                    changelog.append("\n");
-                }
-
-                if (starts_with(str, srcpkg.c_str())) {
-                    // Check to see if the the text isn't about the current package,
-                    // otherwise add a == version ==
-                    GMatchInfo *match_info;
-                    if (g_regex_match(regexVer, str, G_REGEX_MATCH_ANCHORED, &match_info)) {
-                        gchar *version;
-                        version = g_match_info_fetch_named(match_info, "version");
-
-                        // Compare if the current version is shown in the changelog, to not
-                        // display old changelog information
-                        if (_system != 0  &&
-                                _system->VS->DoCmpVersion(version, version + strlen(version),
-                                                        currver.VerStr(), currver.VerStr() + strlen(currver.VerStr())) <= 0) {
-                            g_free (version);
-                            break;
-                        } else {
-                            if (!update_text.empty()) {
-                                update_text.append("\n\n");
-                            }
-                            update_text.append(" == ");
-                            update_text.append(version);
-                            update_text.append(" ==");
-                            g_free (version);
-                        }
-                    }
-                    g_match_info_free (match_info);
-                } else if (starts_with(str, " ")) {
-                    // update descritption
-                    update_text.append("\n");
-                    update_text.append(str);
-                } else if (starts_with(str, " --")) {
-                    // Parse the text to know when the update was issued,
-                    // and when it got updated
-                    GMatchInfo *match_info;
-                    if (g_regex_match(regexDate, str, G_REGEX_MATCH_ANCHORED, &match_info)) {
-                        GTimeVal dateTime = {0, 0};
-                        gchar *date;
-                        date = g_match_info_fetch_named(match_info, "date");
-                        time_t time;
-                        g_warn_if_fail(RFC1123StrToTime(date, time));
-                        dateTime.tv_sec = time;
-                        g_free(date);
-
-                        issued = g_time_val_to_iso8601(&dateTime);
-                        if (updated.empty()) {
-                            updated = g_time_val_to_iso8601(&dateTime);
-                        }
-                    }
-                    g_match_info_free(match_info);
-                }
-            }
-            // Clean structures
-            g_regex_unref(regexVer);
-            g_regex_unref(regexDate);
-            unlink(filename.c_str());
-            rmdir(tempDir);
-        } else if (_error->PendingError()) {
-            _error->PopMessage(changelog);
-        }
+        changelog = fetchChangelogData(*m_cache,
+                                       fetcher,
+                                       candver,
+                                       currver,
+                                       &update_text,
+                                       &updated,
+                                       &issued);
     }
 
     // Check if the update was updates since it was issued
@@ -949,19 +854,19 @@ void AptIntf::emitUpdateDetail(const pkgCache::VerIterator &candver)
     cve_urls = getCVEUrls(changelog);
 
     pk_backend_job_update_detail(m_job,
-                             package_id,
-                             updates,//const gchar *updates
-                             NULL,//const gchar *obsoletes
-                             NULL,//const gchar *vendor_url
-                             (gchar **) bugzilla_urls->pdata,// gchar **bugzilla_urls
-                             (gchar **) cve_urls->pdata,// gchar **cve_urls
-                             restart,//PkRestartEnum restart
-                             update_text.c_str(),//const gchar *update_text
-                             changelog.c_str(),//const gchar *changelog
-                             updateState,//PkUpdateStateEnum state
-                             issued.c_str(), //const gchar *issued_text
-                             updated.c_str() //const gchar *updated_text
-                             );
+                                 package_id,
+                                 updates,//const gchar *updates
+                                 NULL,//const gchar *obsoletes
+                                 NULL,//const gchar *vendor_url
+                                 (gchar **) bugzilla_urls->pdata,// gchar **bugzilla_urls
+                                 (gchar **) cve_urls->pdata,// gchar **cve_urls
+                                 restart,//PkRestartEnum restart
+                                 update_text.c_str(),//const gchar *update_text
+                                 changelog.c_str(),//const gchar *changelog
+                                 updateState,//PkUpdateStateEnum state
+                                 issued.c_str(), //const gchar *issued_text
+                                 updated.c_str() //const gchar *updated_text
+                                 );
 
     g_free(package_id);
     g_strfreev(updates);
@@ -1113,17 +1018,17 @@ PkgList AptIntf::getPackagesFromRepo(SourcesList::SourceRecord *&rec)
             continue;
         }
 
-//         cout << endl;
-//         cout << ver.ParentPkg().Name() << endl;
-//         cout << ver.VerStr() << endl;
-//         cout << vf.File().FileName() << endl;
-//         cout << vf.File().Origin() << endl;
-//         cout << vf.File().Component() << endl;
-//         cout << vf.File().Label() << endl;
-//         cout << vf.File().Codename() << endl;
-//         cout << vf.File().Site() << endl;
-//         cout << vf.File().Archive() << endl;
-//         cout << vf.File().IndexType() << endl;
+        //         cout << endl;
+        //         cout << ver.ParentPkg().Name() << endl;
+        //         cout << ver.VerStr() << endl;
+        //         cout << vf.File().FileName() << endl;
+        //         cout << vf.File().Origin() << endl;
+        //         cout << vf.File().Component() << endl;
+        //         cout << vf.File().Label() << endl;
+        //         cout << vf.File().Codename() << endl;
+        //         cout << vf.File().Site() << endl;
+        //         cout << vf.File().Archive() << endl;
+        //         cout << vf.File().IndexType() << endl;
 
         output.push_back(ver);
     }
@@ -1327,7 +1232,7 @@ PkgList AptIntf::searchPackageFiles(gchar **values)
 
     // Resolve the package names now
     for (vector<string>::const_iterator it = packages.begin();
-        it != packages.end(); ++it) {
+         it != packages.end(); ++it) {
         if (m_cancel) {
             break;
         }
@@ -1460,11 +1365,11 @@ void AptIntf::providesMimeType(PkgList &output, gchar **values)
         pkg = (*m_cache)->FindPkg("app-install-data");
         if (pkg->CurrentState != pkgCache::State::Installed) {
             pk_backend_job_error_code(m_job,
-                                  PK_ERROR_ENUM_INTERNAL_ERROR,
-                                  "You need the app-install-data "
-                                  "package to be able to look for "
-                                  "applications that can handle "
-                                  "this kind of file");
+                                      PK_ERROR_ENUM_INTERNAL_ERROR,
+                                      "You need the app-install-data "
+                                      "package to be able to look for "
+                                      "applications that can handle "
+                                      "this kind of file");
         }
     }
 }
@@ -1722,7 +1627,7 @@ pkgCache::VerIterator AptIntf::findTransactionPackage(const std::string &name)
     const pkgCache::PkgIterator &pkg = (*m_cache)->FindPkg(name);
     // Ignore packages that could not be found or that exist only due to dependencies.
     if (pkg.end() == true ||
-        (pkg.VersionList().end() && pkg.ProvidesList().end())) {
+            (pkg.VersionList().end() && pkg.ProvidesList().end())) {
         return pkgCache::VerIterator();
     }
 
@@ -1826,8 +1731,8 @@ void AptIntf::updateInterface(int fd, int writeFd)
                 argv[3] = g_strdup(new_file.c_str());
                 argv[4] = NULL;
 
-                gchar *socket;
-                if ((m_interactive) && (socket = pk_backend_job_get_frontend_socket(m_job))) {
+                const gchar *socket = pk_backend_job_get_frontend_socket(m_job);
+                if ((m_interactive) && (socket != NULL)) {
                     envp = (gchar **) g_malloc(3 * sizeof(gchar *));
                     envp[0] = g_strdup("DEBIAN_FRONTEND=passthrough");
                     envp[1] = g_strdup_printf("DEBCONF_PIPE=%s", socket);
@@ -1838,7 +1743,6 @@ void AptIntf::updateInterface(int fd, int writeFd)
                     envp[0] = g_strdup("DEBIAN_FRONTEND=noninteractive");
                     envp[1] = NULL;
                 }
-                g_free(socket);
 
                 gboolean ret;
                 gint exitStatus;
@@ -1874,14 +1778,14 @@ void AptIntf::updateInterface(int fd, int writeFd)
                     }
                 } else {
                     // either the user didn't choose an option or the front end failed'
-//                     pk_backend_job_message(m_job,
-//                                            PK_MESSAGE_ENUM_CONFIG_FILES_CHANGED,
-//                                            "The configuration file '%s' "
-//                                            "(modified by you or a script) "
-//                                            "has a newer version '%s'.\n"
-//                                            "Please verify your changes and update it manually.",
-//                                            orig_file.c_str(),
-//                                            new_file.c_str());
+                    //                     pk_backend_job_message(m_job,
+                    //                                            PK_MESSAGE_ENUM_CONFIG_FILES_CHANGED,
+                    //                                            "The configuration file '%s' "
+                    //                                            "(modified by you or a script) "
+                    //                                            "has a newer version '%s'.\n"
+                    //                                            "Please verify your changes and update it manually.",
+                    //                                            orig_file.c_str(),
+                    //                                            new_file.c_str());
                     // fall back to keep the current config file
                     if (write(writeFd, "N\n", 2) != 2) {
                         // TODO we need a DPKG patch to use debconf
@@ -2013,7 +1917,7 @@ void AptIntf::updateInterface(int fd, int writeFd)
                     const pkgCache::VerIterator &ver = findTransactionPackage(pkg);
                     if (!ver.end()) {
                         emitPackage(ver, PK_INFO_ENUM_FINISHED);
-//                         emitPackageProgress(ver, m_lastSubProgress);
+                        //                         emitPackageProgress(ver, m_lastSubProgress);
                     }
                 } else {
                     cout << ">>>Unmaped value<<< :" << line << endl;
@@ -2326,9 +2230,10 @@ bool AptIntf::installFile(const gchar *path, bool simulate)
     argv[3] = NULL;
 
     envp = (gchar **) g_malloc(4 * sizeof(gchar *));
-	envp[0] = g_strdup("PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin");
-    gchar *socket;
-    if ((m_interactive) && (socket = pk_backend_job_get_frontend_socket(m_job))) {
+    envp[0] = g_strdup("PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin");
+
+    const gchar *socket = pk_backend_job_get_frontend_socket(m_job);
+    if ((m_interactive) && (socket != NULL)) {
         envp[1] = g_strdup("DEBIAN_FRONTEND=passthrough");
         envp[2] = g_strdup_printf("DEBCONF_PIPE=%s", socket);
         envp[3] = NULL;
@@ -2549,7 +2454,7 @@ bool AptIntf::installPackages(PkBitfield flags, bool autoremove)
     if (unsigned(Buf.f_bfree) < (FetchBytes - FetchPBytes)/Buf.f_bsize) {
         struct statfs Stat;
         if (statfs(OutputDir.c_str(), &Stat) != 0 ||
-            unsigned(Stat.f_type) != RAMFS_MAGIC) {
+                unsigned(Stat.f_type) != RAMFS_MAGIC) {
             pk_backend_job_error_code(m_job,
                                       PK_ERROR_ENUM_NO_SPACE_ON_DEVICE,
                                       "You don't have enough free space in %s",
@@ -2643,24 +2548,22 @@ bool AptIntf::installPackages(PkBitfield flags, bool autoremove)
         setlocale(LC_ALL, "C");
 
         // Debconf handling
-        gchar *socket;
-        if ((m_interactive) && (socket = pk_backend_job_get_frontend_socket(m_job))) {
+        const gchar *socket = pk_backend_job_get_frontend_socket(m_job);
+        if ((m_interactive) && (socket != NULL)) {
             setenv("DEBIAN_FRONTEND", "passthrough", 1);
             setenv("DEBCONF_PIPE", socket, 1);
         } else {
             // we don't have a socket set or are not interactive, let's fallback to noninteractive
             setenv("DEBIAN_FRONTEND", "noninteractive", 1);
         }
-        g_free(socket);
 
-        gchar *locale;
+        const gchar *locale;
         // Set the LANGUAGE so debconf messages get localization
         if (locale = pk_backend_job_get_locale(m_job)) {
             setenv("LANGUAGE", locale, 1);
             setenv("LANG", locale, 1);
             //setenv("LANG", "C", 1);
         }
-        g_free(locale);
 
         // Pass the write end of the pipe to the install function
         res = PM->DoInstallPostFork(readFromChildFD[1]);

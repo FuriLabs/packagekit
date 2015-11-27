@@ -284,6 +284,14 @@
 <a class="link" href="PkResults.html" title="PkResults"><span class="returnvalue">PkResults</span></a> *
 </td>
 <td class="function_name">
+<a class="link" href="PackageKit-pk-client-sync.html#pk-client-upgrade-system" title="pk_client_upgrade_system ()">pk_client_upgrade_system</a> <span class="c_punctuation">()</span>
+</td>
+</tr>
+<tr>
+<td class="function_type">
+<a class="link" href="PkResults.html" title="PkResults"><span class="returnvalue">PkResults</span></a> *
+</td>
+<td class="function_name">
 <a class="link" href="PackageKit-pk-client-sync.html#pk-client-repair-system" title="pk_client_repair_system ()">pk_client_repair_system</a> <span class="c_punctuation">()</span>
 </td>
 </tr>
@@ -316,11 +324,11 @@
 <pre class="programlisting"><a class="link" href="PkResults.html" title="PkResults"><span class="returnvalue">PkResults</span></a> *
 pk_client_resolve (<em class="parameter"><code><a class="link" href="PkClient.html" title="PkClient"><span class="type">PkClient</span></a> *client</code></em>,
                    <em class="parameter"><code><a class="link" href="PackageKit-pk-bitfield.html#PkBitfield" title="PkBitfield"><span class="type">PkBitfield</span></a> filters</code></em>,
-                   <em class="parameter"><code><span class="type">gchar</span> **packages</code></em>,
-                   <em class="parameter"><code><span class="type">GCancellable</span> *cancellable</code></em>,
+                   <em class="parameter"><code><a href="https://developer.gnome.org/glib/unstable/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a> **packages</code></em>,
+                   <em class="parameter"><code><a href="https://developer.gnome.org/gio/unstable/GCancellable.html"><span class="type">GCancellable</span></a> *cancellable</code></em>,
                    <em class="parameter"><code><a class="link" href="PkProgress.html#PkProgressCallback" title="PkProgressCallback ()"><span class="type">PkProgressCallback</span></a> progress_callback</code></em>,
-                   <em class="parameter"><code><span class="type">gpointer</span> progress_user_data</code></em>,
-                   <em class="parameter"><code><span class="type">GError</span> **error</code></em>);</pre>
+                   <em class="parameter"><code><a href="https://developer.gnome.org/glib/unstable/glib-Basic-Types.html#gpointer"><span class="type">gpointer</span></a> progress_user_data</code></em>,
+                   <em class="parameter"><code><a href="https://developer.gnome.org/glib/unstable/glib-Error-Reporting.html#GError"><span class="type">GError</span></a> **error</code></em>);</pre>
 <p>Resolve a package name into a <code class="literal">package_id</code>. This can return installed and
 available packages and allows you find out if a package is installed locally
 or is available in a repository.</p>
@@ -352,7 +360,7 @@ applications.</p>
 </tr>
 <tr>
 <td class="parameter_name"><p>cancellable</p></td>
-<td class="parameter_description"><p>a <span class="type">GCancellable</span> or <a href="/usr/share/gtk-doc/html/liboil/liboil-liboiljunk.html#NULL:CAPS"><code class="literal">NULL</code></a></p></td>
+<td class="parameter_description"><p>a <a href="https://developer.gnome.org/gio/unstable/GCancellable.html"><span class="type">GCancellable</span></a> or <a href="/usr/share/gtk-doc/html/liboil/liboil-liboiljunk.html#NULL:CAPS"><code class="literal">NULL</code></a></p></td>
 <td class="parameter_annotations"> </td>
 </tr>
 <tr>
@@ -368,7 +376,7 @@ applications.</p>
 </tr>
 <tr>
 <td class="parameter_name"><p>error</p></td>
-<td class="parameter_description"><p>the <span class="type">GError</span> to store any failure, or <a href="/usr/share/gtk-doc/html/liboil/liboil-liboiljunk.html#NULL:CAPS"><code class="literal">NULL</code></a></p></td>
+<td class="parameter_description"><p>the <a href="https://developer.gnome.org/glib/unstable/glib-Error-Reporting.html#GError"><span class="type">GError</span></a> to store any failure, or <a href="/usr/share/gtk-doc/html/liboil/liboil-liboiljunk.html#NULL:CAPS"><code class="literal">NULL</code></a></p></td>
 <td class="parameter_annotations"> </td>
 </tr>
 </tbody>
@@ -387,11 +395,11 @@ applications.</p>
 <pre class="programlisting"><a class="link" href="PkResults.html" title="PkResults"><span class="returnvalue">PkResults</span></a> *
 pk_client_search_names (<em class="parameter"><code><a class="link" href="PkClient.html" title="PkClient"><span class="type">PkClient</span></a> *client</code></em>,
                         <em class="parameter"><code><a class="link" href="PackageKit-pk-bitfield.html#PkBitfield" title="PkBitfield"><span class="type">PkBitfield</span></a> filters</code></em>,
-                        <em class="parameter"><code><span class="type">gchar</span> **values</code></em>,
-                        <em class="parameter"><code><span class="type">GCancellable</span> *cancellable</code></em>,
+                        <em class="parameter"><code><a href="https://developer.gnome.org/glib/unstable/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a> **values</code></em>,
+                        <em class="parameter"><code><a href="https://developer.gnome.org/gio/unstable/GCancellable.html"><span class="type">GCancellable</span></a> *cancellable</code></em>,
                         <em class="parameter"><code><a class="link" href="PkProgress.html#PkProgressCallback" title="PkProgressCallback ()"><span class="type">PkProgressCallback</span></a> progress_callback</code></em>,
-                        <em class="parameter"><code><span class="type">gpointer</span> progress_user_data</code></em>,
-                        <em class="parameter"><code><span class="type">GError</span> **error</code></em>);</pre>
+                        <em class="parameter"><code><a href="https://developer.gnome.org/glib/unstable/glib-Basic-Types.html#gpointer"><span class="type">gpointer</span></a> progress_user_data</code></em>,
+                        <em class="parameter"><code><a href="https://developer.gnome.org/glib/unstable/glib-Error-Reporting.html#GError"><span class="type">GError</span></a> **error</code></em>);</pre>
 <p>Search all the locally installed files and remote repositories for a package
 that matches a specific name.</p>
 <p>Warning: this function is synchronous, and may block. Do not use it in GUI
@@ -422,7 +430,7 @@ applications.</p>
 </tr>
 <tr>
 <td class="parameter_name"><p>cancellable</p></td>
-<td class="parameter_description"><p>a <span class="type">GCancellable</span> or <a href="/usr/share/gtk-doc/html/liboil/liboil-liboiljunk.html#NULL:CAPS"><code class="literal">NULL</code></a></p></td>
+<td class="parameter_description"><p>a <a href="https://developer.gnome.org/gio/unstable/GCancellable.html"><span class="type">GCancellable</span></a> or <a href="/usr/share/gtk-doc/html/liboil/liboil-liboiljunk.html#NULL:CAPS"><code class="literal">NULL</code></a></p></td>
 <td class="parameter_annotations"> </td>
 </tr>
 <tr>
@@ -438,7 +446,7 @@ applications.</p>
 </tr>
 <tr>
 <td class="parameter_name"><p>error</p></td>
-<td class="parameter_description"><p>the <span class="type">GError</span> to store any failure, or <a href="/usr/share/gtk-doc/html/liboil/liboil-liboiljunk.html#NULL:CAPS"><code class="literal">NULL</code></a></p></td>
+<td class="parameter_description"><p>the <a href="https://developer.gnome.org/glib/unstable/glib-Error-Reporting.html#GError"><span class="type">GError</span></a> to store any failure, or <a href="/usr/share/gtk-doc/html/liboil/liboil-liboiljunk.html#NULL:CAPS"><code class="literal">NULL</code></a></p></td>
 <td class="parameter_annotations"> </td>
 </tr>
 </tbody>
@@ -457,11 +465,11 @@ applications.</p>
 <pre class="programlisting"><a class="link" href="PkResults.html" title="PkResults"><span class="returnvalue">PkResults</span></a> *
 pk_client_search_details (<em class="parameter"><code><a class="link" href="PkClient.html" title="PkClient"><span class="type">PkClient</span></a> *client</code></em>,
                           <em class="parameter"><code><a class="link" href="PackageKit-pk-bitfield.html#PkBitfield" title="PkBitfield"><span class="type">PkBitfield</span></a> filters</code></em>,
-                          <em class="parameter"><code><span class="type">gchar</span> **values</code></em>,
-                          <em class="parameter"><code><span class="type">GCancellable</span> *cancellable</code></em>,
+                          <em class="parameter"><code><a href="https://developer.gnome.org/glib/unstable/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a> **values</code></em>,
+                          <em class="parameter"><code><a href="https://developer.gnome.org/gio/unstable/GCancellable.html"><span class="type">GCancellable</span></a> *cancellable</code></em>,
                           <em class="parameter"><code><a class="link" href="PkProgress.html#PkProgressCallback" title="PkProgressCallback ()"><span class="type">PkProgressCallback</span></a> progress_callback</code></em>,
-                          <em class="parameter"><code><span class="type">gpointer</span> progress_user_data</code></em>,
-                          <em class="parameter"><code><span class="type">GError</span> **error</code></em>);</pre>
+                          <em class="parameter"><code><a href="https://developer.gnome.org/glib/unstable/glib-Basic-Types.html#gpointer"><span class="type">gpointer</span></a> progress_user_data</code></em>,
+                          <em class="parameter"><code><a href="https://developer.gnome.org/glib/unstable/glib-Error-Reporting.html#GError"><span class="type">GError</span></a> **error</code></em>);</pre>
 <p>Search all detailed summary information to try and find a keyword.
 Think of this as <a class="link" href="PackageKit-pk-client-sync.html#pk-client-search-names" title="pk_client_search_names ()"><code class="function">pk_client_search_names()</code></a>, but trying much harder and
 taking longer.</p>
@@ -493,7 +501,7 @@ applications.</p>
 </tr>
 <tr>
 <td class="parameter_name"><p>cancellable</p></td>
-<td class="parameter_description"><p>a <span class="type">GCancellable</span> or <a href="/usr/share/gtk-doc/html/liboil/liboil-liboiljunk.html#NULL:CAPS"><code class="literal">NULL</code></a></p></td>
+<td class="parameter_description"><p>a <a href="https://developer.gnome.org/gio/unstable/GCancellable.html"><span class="type">GCancellable</span></a> or <a href="/usr/share/gtk-doc/html/liboil/liboil-liboiljunk.html#NULL:CAPS"><code class="literal">NULL</code></a></p></td>
 <td class="parameter_annotations"> </td>
 </tr>
 <tr>
@@ -509,7 +517,7 @@ applications.</p>
 </tr>
 <tr>
 <td class="parameter_name"><p>error</p></td>
-<td class="parameter_description"><p>the <span class="type">GError</span> to store any failure, or <a href="/usr/share/gtk-doc/html/liboil/liboil-liboiljunk.html#NULL:CAPS"><code class="literal">NULL</code></a></p></td>
+<td class="parameter_description"><p>the <a href="https://developer.gnome.org/glib/unstable/glib-Error-Reporting.html#GError"><span class="type">GError</span></a> to store any failure, or <a href="/usr/share/gtk-doc/html/liboil/liboil-liboiljunk.html#NULL:CAPS"><code class="literal">NULL</code></a></p></td>
 <td class="parameter_annotations"> </td>
 </tr>
 </tbody>
@@ -528,11 +536,11 @@ applications.</p>
 <pre class="programlisting"><a class="link" href="PkResults.html" title="PkResults"><span class="returnvalue">PkResults</span></a> *
 pk_client_search_groups (<em class="parameter"><code><a class="link" href="PkClient.html" title="PkClient"><span class="type">PkClient</span></a> *client</code></em>,
                          <em class="parameter"><code><a class="link" href="PackageKit-pk-bitfield.html#PkBitfield" title="PkBitfield"><span class="type">PkBitfield</span></a> filters</code></em>,
-                         <em class="parameter"><code><span class="type">gchar</span> **values</code></em>,
-                         <em class="parameter"><code><span class="type">GCancellable</span> *cancellable</code></em>,
+                         <em class="parameter"><code><a href="https://developer.gnome.org/glib/unstable/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a> **values</code></em>,
+                         <em class="parameter"><code><a href="https://developer.gnome.org/gio/unstable/GCancellable.html"><span class="type">GCancellable</span></a> *cancellable</code></em>,
                          <em class="parameter"><code><a class="link" href="PkProgress.html#PkProgressCallback" title="PkProgressCallback ()"><span class="type">PkProgressCallback</span></a> progress_callback</code></em>,
-                         <em class="parameter"><code><span class="type">gpointer</span> progress_user_data</code></em>,
-                         <em class="parameter"><code><span class="type">GError</span> **error</code></em>);</pre>
+                         <em class="parameter"><code><a href="https://developer.gnome.org/glib/unstable/glib-Basic-Types.html#gpointer"><span class="type">gpointer</span></a> progress_user_data</code></em>,
+                         <em class="parameter"><code><a href="https://developer.gnome.org/glib/unstable/glib-Error-Reporting.html#GError"><span class="type">GError</span></a> **error</code></em>);</pre>
 <p>Return all packages in a specific group.</p>
 <p>Warning: this function is synchronous, and may block. Do not use it in GUI
 applications.</p>
@@ -562,7 +570,7 @@ applications.</p>
 </tr>
 <tr>
 <td class="parameter_name"><p>cancellable</p></td>
-<td class="parameter_description"><p>a <span class="type">GCancellable</span> or <a href="/usr/share/gtk-doc/html/liboil/liboil-liboiljunk.html#NULL:CAPS"><code class="literal">NULL</code></a></p></td>
+<td class="parameter_description"><p>a <a href="https://developer.gnome.org/gio/unstable/GCancellable.html"><span class="type">GCancellable</span></a> or <a href="/usr/share/gtk-doc/html/liboil/liboil-liboiljunk.html#NULL:CAPS"><code class="literal">NULL</code></a></p></td>
 <td class="parameter_annotations"> </td>
 </tr>
 <tr>
@@ -578,7 +586,7 @@ applications.</p>
 </tr>
 <tr>
 <td class="parameter_name"><p>error</p></td>
-<td class="parameter_description"><p>the <span class="type">GError</span> to store any failure, or <a href="/usr/share/gtk-doc/html/liboil/liboil-liboiljunk.html#NULL:CAPS"><code class="literal">NULL</code></a></p></td>
+<td class="parameter_description"><p>the <a href="https://developer.gnome.org/glib/unstable/glib-Error-Reporting.html#GError"><span class="type">GError</span></a> to store any failure, or <a href="/usr/share/gtk-doc/html/liboil/liboil-liboiljunk.html#NULL:CAPS"><code class="literal">NULL</code></a></p></td>
 <td class="parameter_annotations"> </td>
 </tr>
 </tbody>
@@ -597,11 +605,11 @@ applications.</p>
 <pre class="programlisting"><a class="link" href="PkResults.html" title="PkResults"><span class="returnvalue">PkResults</span></a> *
 pk_client_search_files (<em class="parameter"><code><a class="link" href="PkClient.html" title="PkClient"><span class="type">PkClient</span></a> *client</code></em>,
                         <em class="parameter"><code><a class="link" href="PackageKit-pk-bitfield.html#PkBitfield" title="PkBitfield"><span class="type">PkBitfield</span></a> filters</code></em>,
-                        <em class="parameter"><code><span class="type">gchar</span> **values</code></em>,
-                        <em class="parameter"><code><span class="type">GCancellable</span> *cancellable</code></em>,
+                        <em class="parameter"><code><a href="https://developer.gnome.org/glib/unstable/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a> **values</code></em>,
+                        <em class="parameter"><code><a href="https://developer.gnome.org/gio/unstable/GCancellable.html"><span class="type">GCancellable</span></a> *cancellable</code></em>,
                         <em class="parameter"><code><a class="link" href="PkProgress.html#PkProgressCallback" title="PkProgressCallback ()"><span class="type">PkProgressCallback</span></a> progress_callback</code></em>,
-                        <em class="parameter"><code><span class="type">gpointer</span> progress_user_data</code></em>,
-                        <em class="parameter"><code><span class="type">GError</span> **error</code></em>);</pre>
+                        <em class="parameter"><code><a href="https://developer.gnome.org/glib/unstable/glib-Basic-Types.html#gpointer"><span class="type">gpointer</span></a> progress_user_data</code></em>,
+                        <em class="parameter"><code><a href="https://developer.gnome.org/glib/unstable/glib-Error-Reporting.html#GError"><span class="type">GError</span></a> **error</code></em>);</pre>
 <p>Search for packages that provide a specific file.</p>
 <p>Warning: this function is synchronous, and may block. Do not use it in GUI
 applications.</p>
@@ -631,7 +639,7 @@ applications.</p>
 </tr>
 <tr>
 <td class="parameter_name"><p>cancellable</p></td>
-<td class="parameter_description"><p>a <span class="type">GCancellable</span> or <a href="/usr/share/gtk-doc/html/liboil/liboil-liboiljunk.html#NULL:CAPS"><code class="literal">NULL</code></a></p></td>
+<td class="parameter_description"><p>a <a href="https://developer.gnome.org/gio/unstable/GCancellable.html"><span class="type">GCancellable</span></a> or <a href="/usr/share/gtk-doc/html/liboil/liboil-liboiljunk.html#NULL:CAPS"><code class="literal">NULL</code></a></p></td>
 <td class="parameter_annotations"> </td>
 </tr>
 <tr>
@@ -647,7 +655,7 @@ applications.</p>
 </tr>
 <tr>
 <td class="parameter_name"><p>error</p></td>
-<td class="parameter_description"><p>the <span class="type">GError</span> to store any failure, or <a href="/usr/share/gtk-doc/html/liboil/liboil-liboiljunk.html#NULL:CAPS"><code class="literal">NULL</code></a></p></td>
+<td class="parameter_description"><p>the <a href="https://developer.gnome.org/glib/unstable/glib-Error-Reporting.html#GError"><span class="type">GError</span></a> to store any failure, or <a href="/usr/share/gtk-doc/html/liboil/liboil-liboiljunk.html#NULL:CAPS"><code class="literal">NULL</code></a></p></td>
 <td class="parameter_annotations"> </td>
 </tr>
 </tbody>
@@ -665,11 +673,11 @@ applications.</p>
 <a name="pk-client-get-details"></a><h3>pk_client_get_details ()</h3>
 <pre class="programlisting"><a class="link" href="PkResults.html" title="PkResults"><span class="returnvalue">PkResults</span></a> *
 pk_client_get_details (<em class="parameter"><code><a class="link" href="PkClient.html" title="PkClient"><span class="type">PkClient</span></a> *client</code></em>,
-                       <em class="parameter"><code><span class="type">gchar</span> **package_ids</code></em>,
-                       <em class="parameter"><code><span class="type">GCancellable</span> *cancellable</code></em>,
+                       <em class="parameter"><code><a href="https://developer.gnome.org/glib/unstable/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a> **package_ids</code></em>,
+                       <em class="parameter"><code><a href="https://developer.gnome.org/gio/unstable/GCancellable.html"><span class="type">GCancellable</span></a> *cancellable</code></em>,
                        <em class="parameter"><code><a class="link" href="PkProgress.html#PkProgressCallback" title="PkProgressCallback ()"><span class="type">PkProgressCallback</span></a> progress_callback</code></em>,
-                       <em class="parameter"><code><span class="type">gpointer</span> progress_user_data</code></em>,
-                       <em class="parameter"><code><span class="type">GError</span> **error</code></em>);</pre>
+                       <em class="parameter"><code><a href="https://developer.gnome.org/glib/unstable/glib-Basic-Types.html#gpointer"><span class="type">gpointer</span></a> progress_user_data</code></em>,
+                       <em class="parameter"><code><a href="https://developer.gnome.org/glib/unstable/glib-Error-Reporting.html#GError"><span class="type">GError</span></a> **error</code></em>);</pre>
 <p>Get details of a package, so more information can be obtained for GUI
 or command line tools.</p>
 <p>Warning: this function is synchronous, and may block. Do not use it in GUI
@@ -695,7 +703,7 @@ applications.</p>
 </tr>
 <tr>
 <td class="parameter_name"><p>cancellable</p></td>
-<td class="parameter_description"><p>a <span class="type">GCancellable</span> or <a href="/usr/share/gtk-doc/html/liboil/liboil-liboiljunk.html#NULL:CAPS"><code class="literal">NULL</code></a></p></td>
+<td class="parameter_description"><p>a <a href="https://developer.gnome.org/gio/unstable/GCancellable.html"><span class="type">GCancellable</span></a> or <a href="/usr/share/gtk-doc/html/liboil/liboil-liboiljunk.html#NULL:CAPS"><code class="literal">NULL</code></a></p></td>
 <td class="parameter_annotations"> </td>
 </tr>
 <tr>
@@ -711,7 +719,7 @@ applications.</p>
 </tr>
 <tr>
 <td class="parameter_name"><p>error</p></td>
-<td class="parameter_description"><p>the <span class="type">GError</span> to store any failure, or <a href="/usr/share/gtk-doc/html/liboil/liboil-liboiljunk.html#NULL:CAPS"><code class="literal">NULL</code></a></p></td>
+<td class="parameter_description"><p>the <a href="https://developer.gnome.org/glib/unstable/glib-Error-Reporting.html#GError"><span class="type">GError</span></a> to store any failure, or <a href="/usr/share/gtk-doc/html/liboil/liboil-liboiljunk.html#NULL:CAPS"><code class="literal">NULL</code></a></p></td>
 <td class="parameter_annotations"> </td>
 </tr>
 </tbody>
@@ -729,11 +737,11 @@ applications.</p>
 <a name="pk-client-get-details-local"></a><h3>pk_client_get_details_local ()</h3>
 <pre class="programlisting"><a class="link" href="PkResults.html" title="PkResults"><span class="returnvalue">PkResults</span></a> *
 pk_client_get_details_local (<em class="parameter"><code><a class="link" href="PkClient.html" title="PkClient"><span class="type">PkClient</span></a> *client</code></em>,
-                             <em class="parameter"><code><span class="type">gchar</span> **files</code></em>,
-                             <em class="parameter"><code><span class="type">GCancellable</span> *cancellable</code></em>,
+                             <em class="parameter"><code><a href="https://developer.gnome.org/glib/unstable/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a> **files</code></em>,
+                             <em class="parameter"><code><a href="https://developer.gnome.org/gio/unstable/GCancellable.html"><span class="type">GCancellable</span></a> *cancellable</code></em>,
                              <em class="parameter"><code><a class="link" href="PkProgress.html#PkProgressCallback" title="PkProgressCallback ()"><span class="type">PkProgressCallback</span></a> progress_callback</code></em>,
-                             <em class="parameter"><code><span class="type">gpointer</span> progress_user_data</code></em>,
-                             <em class="parameter"><code><span class="type">GError</span> **error</code></em>);</pre>
+                             <em class="parameter"><code><a href="https://developer.gnome.org/glib/unstable/glib-Basic-Types.html#gpointer"><span class="type">gpointer</span></a> progress_user_data</code></em>,
+                             <em class="parameter"><code><a href="https://developer.gnome.org/glib/unstable/glib-Error-Reporting.html#GError"><span class="type">GError</span></a> **error</code></em>);</pre>
 <p>Get details of a local package, so more information can be obtained for GUI
 or command line tools.</p>
 <p>Warning: this function is synchronous, and may block. Do not use it in GUI
@@ -759,7 +767,7 @@ applications.</p>
 </tr>
 <tr>
 <td class="parameter_name"><p>cancellable</p></td>
-<td class="parameter_description"><p>a <span class="type">GCancellable</span> or <a href="/usr/share/gtk-doc/html/liboil/liboil-liboiljunk.html#NULL:CAPS"><code class="literal">NULL</code></a></p></td>
+<td class="parameter_description"><p>a <a href="https://developer.gnome.org/gio/unstable/GCancellable.html"><span class="type">GCancellable</span></a> or <a href="/usr/share/gtk-doc/html/liboil/liboil-liboiljunk.html#NULL:CAPS"><code class="literal">NULL</code></a></p></td>
 <td class="parameter_annotations"> </td>
 </tr>
 <tr>
@@ -775,7 +783,7 @@ applications.</p>
 </tr>
 <tr>
 <td class="parameter_name"><p>error</p></td>
-<td class="parameter_description"><p>the <span class="type">GError</span> to store any failure, or <a href="/usr/share/gtk-doc/html/liboil/liboil-liboiljunk.html#NULL:CAPS"><code class="literal">NULL</code></a></p></td>
+<td class="parameter_description"><p>the <a href="https://developer.gnome.org/glib/unstable/glib-Error-Reporting.html#GError"><span class="type">GError</span></a> to store any failure, or <a href="/usr/share/gtk-doc/html/liboil/liboil-liboiljunk.html#NULL:CAPS"><code class="literal">NULL</code></a></p></td>
 <td class="parameter_annotations"> </td>
 </tr>
 </tbody>
@@ -793,11 +801,11 @@ applications.</p>
 <a name="pk-client-get-files-local"></a><h3>pk_client_get_files_local ()</h3>
 <pre class="programlisting"><a class="link" href="PkResults.html" title="PkResults"><span class="returnvalue">PkResults</span></a> *
 pk_client_get_files_local (<em class="parameter"><code><a class="link" href="PkClient.html" title="PkClient"><span class="type">PkClient</span></a> *client</code></em>,
-                           <em class="parameter"><code><span class="type">gchar</span> **files</code></em>,
-                           <em class="parameter"><code><span class="type">GCancellable</span> *cancellable</code></em>,
+                           <em class="parameter"><code><a href="https://developer.gnome.org/glib/unstable/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a> **files</code></em>,
+                           <em class="parameter"><code><a href="https://developer.gnome.org/gio/unstable/GCancellable.html"><span class="type">GCancellable</span></a> *cancellable</code></em>,
                            <em class="parameter"><code><a class="link" href="PkProgress.html#PkProgressCallback" title="PkProgressCallback ()"><span class="type">PkProgressCallback</span></a> progress_callback</code></em>,
-                           <em class="parameter"><code><span class="type">gpointer</span> progress_user_data</code></em>,
-                           <em class="parameter"><code><span class="type">GError</span> **error</code></em>);</pre>
+                           <em class="parameter"><code><a href="https://developer.gnome.org/glib/unstable/glib-Basic-Types.html#gpointer"><span class="type">gpointer</span></a> progress_user_data</code></em>,
+                           <em class="parameter"><code><a href="https://developer.gnome.org/glib/unstable/glib-Error-Reporting.html#GError"><span class="type">GError</span></a> **error</code></em>);</pre>
 <p>Get file list of a local package, so more information can be obtained for GUI
 or command line tools.</p>
 <p>Warning: this function is synchronous, and may block. Do not use it in GUI
@@ -823,7 +831,7 @@ applications.</p>
 </tr>
 <tr>
 <td class="parameter_name"><p>cancellable</p></td>
-<td class="parameter_description"><p>a <span class="type">GCancellable</span> or <a href="/usr/share/gtk-doc/html/liboil/liboil-liboiljunk.html#NULL:CAPS"><code class="literal">NULL</code></a></p></td>
+<td class="parameter_description"><p>a <a href="https://developer.gnome.org/gio/unstable/GCancellable.html"><span class="type">GCancellable</span></a> or <a href="/usr/share/gtk-doc/html/liboil/liboil-liboiljunk.html#NULL:CAPS"><code class="literal">NULL</code></a></p></td>
 <td class="parameter_annotations"> </td>
 </tr>
 <tr>
@@ -839,7 +847,7 @@ applications.</p>
 </tr>
 <tr>
 <td class="parameter_name"><p>error</p></td>
-<td class="parameter_description"><p>the <span class="type">GError</span> to store any failure, or <a href="/usr/share/gtk-doc/html/liboil/liboil-liboiljunk.html#NULL:CAPS"><code class="literal">NULL</code></a></p></td>
+<td class="parameter_description"><p>the <a href="https://developer.gnome.org/glib/unstable/glib-Error-Reporting.html#GError"><span class="type">GError</span></a> to store any failure, or <a href="/usr/share/gtk-doc/html/liboil/liboil-liboiljunk.html#NULL:CAPS"><code class="literal">NULL</code></a></p></td>
 <td class="parameter_annotations"> </td>
 </tr>
 </tbody>
@@ -857,11 +865,11 @@ applications.</p>
 <a name="pk-client-get-update-detail"></a><h3>pk_client_get_update_detail ()</h3>
 <pre class="programlisting"><a class="link" href="PkResults.html" title="PkResults"><span class="returnvalue">PkResults</span></a> *
 pk_client_get_update_detail (<em class="parameter"><code><a class="link" href="PkClient.html" title="PkClient"><span class="type">PkClient</span></a> *client</code></em>,
-                             <em class="parameter"><code><span class="type">gchar</span> **package_ids</code></em>,
-                             <em class="parameter"><code><span class="type">GCancellable</span> *cancellable</code></em>,
+                             <em class="parameter"><code><a href="https://developer.gnome.org/glib/unstable/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a> **package_ids</code></em>,
+                             <em class="parameter"><code><a href="https://developer.gnome.org/gio/unstable/GCancellable.html"><span class="type">GCancellable</span></a> *cancellable</code></em>,
                              <em class="parameter"><code><a class="link" href="PkProgress.html#PkProgressCallback" title="PkProgressCallback ()"><span class="type">PkProgressCallback</span></a> progress_callback</code></em>,
-                             <em class="parameter"><code><span class="type">gpointer</span> progress_user_data</code></em>,
-                             <em class="parameter"><code><span class="type">GError</span> **error</code></em>);</pre>
+                             <em class="parameter"><code><a href="https://developer.gnome.org/glib/unstable/glib-Basic-Types.html#gpointer"><span class="type">gpointer</span></a> progress_user_data</code></em>,
+                             <em class="parameter"><code><a href="https://developer.gnome.org/glib/unstable/glib-Error-Reporting.html#GError"><span class="type">GError</span></a> **error</code></em>);</pre>
 <p>Get details about the specific update, for instance any CVE urls and
 severity information.</p>
 <p>Warning: this function is synchronous, and may block. Do not use it in GUI
@@ -887,7 +895,7 @@ applications.</p>
 </tr>
 <tr>
 <td class="parameter_name"><p>cancellable</p></td>
-<td class="parameter_description"><p>a <span class="type">GCancellable</span> or <a href="/usr/share/gtk-doc/html/liboil/liboil-liboiljunk.html#NULL:CAPS"><code class="literal">NULL</code></a></p></td>
+<td class="parameter_description"><p>a <a href="https://developer.gnome.org/gio/unstable/GCancellable.html"><span class="type">GCancellable</span></a> or <a href="/usr/share/gtk-doc/html/liboil/liboil-liboiljunk.html#NULL:CAPS"><code class="literal">NULL</code></a></p></td>
 <td class="parameter_annotations"> </td>
 </tr>
 <tr>
@@ -903,7 +911,7 @@ applications.</p>
 </tr>
 <tr>
 <td class="parameter_name"><p>error</p></td>
-<td class="parameter_description"><p>the <span class="type">GError</span> to store any failure, or <a href="/usr/share/gtk-doc/html/liboil/liboil-liboiljunk.html#NULL:CAPS"><code class="literal">NULL</code></a></p></td>
+<td class="parameter_description"><p>the <a href="https://developer.gnome.org/glib/unstable/glib-Error-Reporting.html#GError"><span class="type">GError</span></a> to store any failure, or <a href="/usr/share/gtk-doc/html/liboil/liboil-liboiljunk.html#NULL:CAPS"><code class="literal">NULL</code></a></p></td>
 <td class="parameter_annotations"> </td>
 </tr>
 </tbody>
@@ -921,12 +929,12 @@ applications.</p>
 <a name="pk-client-download-packages"></a><h3>pk_client_download_packages ()</h3>
 <pre class="programlisting"><a class="link" href="PkResults.html" title="PkResults"><span class="returnvalue">PkResults</span></a> *
 pk_client_download_packages (<em class="parameter"><code><a class="link" href="PkClient.html" title="PkClient"><span class="type">PkClient</span></a> *client</code></em>,
-                             <em class="parameter"><code><span class="type">gchar</span> **package_ids</code></em>,
-                             <em class="parameter"><code>const <span class="type">gchar</span> *directory</code></em>,
-                             <em class="parameter"><code><span class="type">GCancellable</span> *cancellable</code></em>,
+                             <em class="parameter"><code><a href="https://developer.gnome.org/glib/unstable/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a> **package_ids</code></em>,
+                             <em class="parameter"><code>const <a href="https://developer.gnome.org/glib/unstable/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a> *directory</code></em>,
+                             <em class="parameter"><code><a href="https://developer.gnome.org/gio/unstable/GCancellable.html"><span class="type">GCancellable</span></a> *cancellable</code></em>,
                              <em class="parameter"><code><a class="link" href="PkProgress.html#PkProgressCallback" title="PkProgressCallback ()"><span class="type">PkProgressCallback</span></a> progress_callback</code></em>,
-                             <em class="parameter"><code><span class="type">gpointer</span> progress_user_data</code></em>,
-                             <em class="parameter"><code><span class="type">GError</span> **error</code></em>);</pre>
+                             <em class="parameter"><code><a href="https://developer.gnome.org/glib/unstable/glib-Basic-Types.html#gpointer"><span class="type">gpointer</span></a> progress_user_data</code></em>,
+                             <em class="parameter"><code><a href="https://developer.gnome.org/glib/unstable/glib-Error-Reporting.html#GError"><span class="type">GError</span></a> **error</code></em>);</pre>
 <p>Downloads package files to a specified location.</p>
 <p>Warning: this function is synchronous, and may block. Do not use it in GUI
 applications.</p>
@@ -956,7 +964,7 @@ applications.</p>
 </tr>
 <tr>
 <td class="parameter_name"><p>cancellable</p></td>
-<td class="parameter_description"><p>a <span class="type">GCancellable</span> or <a href="/usr/share/gtk-doc/html/liboil/liboil-liboiljunk.html#NULL:CAPS"><code class="literal">NULL</code></a></p></td>
+<td class="parameter_description"><p>a <a href="https://developer.gnome.org/gio/unstable/GCancellable.html"><span class="type">GCancellable</span></a> or <a href="/usr/share/gtk-doc/html/liboil/liboil-liboiljunk.html#NULL:CAPS"><code class="literal">NULL</code></a></p></td>
 <td class="parameter_annotations"> </td>
 </tr>
 <tr>
@@ -972,7 +980,7 @@ applications.</p>
 </tr>
 <tr>
 <td class="parameter_name"><p>error</p></td>
-<td class="parameter_description"><p>the <span class="type">GError</span> to store any failure, or <a href="/usr/share/gtk-doc/html/liboil/liboil-liboiljunk.html#NULL:CAPS"><code class="literal">NULL</code></a></p></td>
+<td class="parameter_description"><p>the <a href="https://developer.gnome.org/glib/unstable/glib-Error-Reporting.html#GError"><span class="type">GError</span></a> to store any failure, or <a href="/usr/share/gtk-doc/html/liboil/liboil-liboiljunk.html#NULL:CAPS"><code class="literal">NULL</code></a></p></td>
 <td class="parameter_annotations"> </td>
 </tr>
 </tbody>
@@ -991,10 +999,10 @@ applications.</p>
 <pre class="programlisting"><a class="link" href="PkResults.html" title="PkResults"><span class="returnvalue">PkResults</span></a> *
 pk_client_get_updates (<em class="parameter"><code><a class="link" href="PkClient.html" title="PkClient"><span class="type">PkClient</span></a> *client</code></em>,
                        <em class="parameter"><code><a class="link" href="PackageKit-pk-bitfield.html#PkBitfield" title="PkBitfield"><span class="type">PkBitfield</span></a> filters</code></em>,
-                       <em class="parameter"><code><span class="type">GCancellable</span> *cancellable</code></em>,
+                       <em class="parameter"><code><a href="https://developer.gnome.org/gio/unstable/GCancellable.html"><span class="type">GCancellable</span></a> *cancellable</code></em>,
                        <em class="parameter"><code><a class="link" href="PkProgress.html#PkProgressCallback" title="PkProgressCallback ()"><span class="type">PkProgressCallback</span></a> progress_callback</code></em>,
-                       <em class="parameter"><code><span class="type">gpointer</span> progress_user_data</code></em>,
-                       <em class="parameter"><code><span class="type">GError</span> **error</code></em>);</pre>
+                       <em class="parameter"><code><a href="https://developer.gnome.org/glib/unstable/glib-Basic-Types.html#gpointer"><span class="type">gpointer</span></a> progress_user_data</code></em>,
+                       <em class="parameter"><code><a href="https://developer.gnome.org/glib/unstable/glib-Error-Reporting.html#GError"><span class="type">GError</span></a> **error</code></em>);</pre>
 <p>Get a list of all the packages that can be updated for all repositories.</p>
 <p>Warning: this function is synchronous, and may block. Do not use it in GUI
 applications.</p>
@@ -1019,7 +1027,7 @@ applications.</p>
 </tr>
 <tr>
 <td class="parameter_name"><p>cancellable</p></td>
-<td class="parameter_description"><p>a <span class="type">GCancellable</span> or <a href="/usr/share/gtk-doc/html/liboil/liboil-liboiljunk.html#NULL:CAPS"><code class="literal">NULL</code></a></p></td>
+<td class="parameter_description"><p>a <a href="https://developer.gnome.org/gio/unstable/GCancellable.html"><span class="type">GCancellable</span></a> or <a href="/usr/share/gtk-doc/html/liboil/liboil-liboiljunk.html#NULL:CAPS"><code class="literal">NULL</code></a></p></td>
 <td class="parameter_annotations"> </td>
 </tr>
 <tr>
@@ -1035,7 +1043,7 @@ applications.</p>
 </tr>
 <tr>
 <td class="parameter_name"><p>error</p></td>
-<td class="parameter_description"><p>the <span class="type">GError</span> to store any failure, or <a href="/usr/share/gtk-doc/html/liboil/liboil-liboiljunk.html#NULL:CAPS"><code class="literal">NULL</code></a></p></td>
+<td class="parameter_description"><p>the <a href="https://developer.gnome.org/glib/unstable/glib-Error-Reporting.html#GError"><span class="type">GError</span></a> to store any failure, or <a href="/usr/share/gtk-doc/html/liboil/liboil-liboiljunk.html#NULL:CAPS"><code class="literal">NULL</code></a></p></td>
 <td class="parameter_annotations"> </td>
 </tr>
 </tbody>
@@ -1053,11 +1061,11 @@ applications.</p>
 <a name="pk-client-get-old-transactions"></a><h3>pk_client_get_old_transactions ()</h3>
 <pre class="programlisting"><a class="link" href="PkResults.html" title="PkResults"><span class="returnvalue">PkResults</span></a> *
 pk_client_get_old_transactions (<em class="parameter"><code><a class="link" href="PkClient.html" title="PkClient"><span class="type">PkClient</span></a> *client</code></em>,
-                                <em class="parameter"><code><span class="type">guint</span> number</code></em>,
-                                <em class="parameter"><code><span class="type">GCancellable</span> *cancellable</code></em>,
+                                <em class="parameter"><code><a href="https://developer.gnome.org/glib/unstable/glib-Basic-Types.html#guint"><span class="type">guint</span></a> number</code></em>,
+                                <em class="parameter"><code><a href="https://developer.gnome.org/gio/unstable/GCancellable.html"><span class="type">GCancellable</span></a> *cancellable</code></em>,
                                 <em class="parameter"><code><a class="link" href="PkProgress.html#PkProgressCallback" title="PkProgressCallback ()"><span class="type">PkProgressCallback</span></a> progress_callback</code></em>,
-                                <em class="parameter"><code><span class="type">gpointer</span> progress_user_data</code></em>,
-                                <em class="parameter"><code><span class="type">GError</span> **error</code></em>);</pre>
+                                <em class="parameter"><code><a href="https://developer.gnome.org/glib/unstable/glib-Basic-Types.html#gpointer"><span class="type">gpointer</span></a> progress_user_data</code></em>,
+                                <em class="parameter"><code><a href="https://developer.gnome.org/glib/unstable/glib-Error-Reporting.html#GError"><span class="type">GError</span></a> **error</code></em>);</pre>
 <p>Get the old transaction list, mainly used for the transaction viewer.</p>
 <p>Warning: this function is synchronous, and may block. Do not use it in GUI
 applications.</p>
@@ -1082,7 +1090,7 @@ applications.</p>
 </tr>
 <tr>
 <td class="parameter_name"><p>cancellable</p></td>
-<td class="parameter_description"><p>a <span class="type">GCancellable</span> or <a href="/usr/share/gtk-doc/html/liboil/liboil-liboiljunk.html#NULL:CAPS"><code class="literal">NULL</code></a></p></td>
+<td class="parameter_description"><p>a <a href="https://developer.gnome.org/gio/unstable/GCancellable.html"><span class="type">GCancellable</span></a> or <a href="/usr/share/gtk-doc/html/liboil/liboil-liboiljunk.html#NULL:CAPS"><code class="literal">NULL</code></a></p></td>
 <td class="parameter_annotations"> </td>
 </tr>
 <tr>
@@ -1098,7 +1106,7 @@ applications.</p>
 </tr>
 <tr>
 <td class="parameter_name"><p>error</p></td>
-<td class="parameter_description"><p>the <span class="type">GError</span> to store any failure, or <a href="/usr/share/gtk-doc/html/liboil/liboil-liboiljunk.html#NULL:CAPS"><code class="literal">NULL</code></a></p></td>
+<td class="parameter_description"><p>the <a href="https://developer.gnome.org/glib/unstable/glib-Error-Reporting.html#GError"><span class="type">GError</span></a> to store any failure, or <a href="/usr/share/gtk-doc/html/liboil/liboil-liboiljunk.html#NULL:CAPS"><code class="literal">NULL</code></a></p></td>
 <td class="parameter_annotations"> </td>
 </tr>
 </tbody>
@@ -1117,12 +1125,12 @@ applications.</p>
 <pre class="programlisting"><a class="link" href="PkResults.html" title="PkResults"><span class="returnvalue">PkResults</span></a> *
 pk_client_depends_on (<em class="parameter"><code><a class="link" href="PkClient.html" title="PkClient"><span class="type">PkClient</span></a> *client</code></em>,
                       <em class="parameter"><code><a class="link" href="PackageKit-pk-bitfield.html#PkBitfield" title="PkBitfield"><span class="type">PkBitfield</span></a> filters</code></em>,
-                      <em class="parameter"><code><span class="type">gchar</span> **package_ids</code></em>,
-                      <em class="parameter"><code><span class="type">gboolean</span> recursive</code></em>,
-                      <em class="parameter"><code><span class="type">GCancellable</span> *cancellable</code></em>,
+                      <em class="parameter"><code><a href="https://developer.gnome.org/glib/unstable/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a> **package_ids</code></em>,
+                      <em class="parameter"><code><a href="https://developer.gnome.org/glib/unstable/glib-Basic-Types.html#gboolean"><span class="type">gboolean</span></a> recursive</code></em>,
+                      <em class="parameter"><code><a href="https://developer.gnome.org/gio/unstable/GCancellable.html"><span class="type">GCancellable</span></a> *cancellable</code></em>,
                       <em class="parameter"><code><a class="link" href="PkProgress.html#PkProgressCallback" title="PkProgressCallback ()"><span class="type">PkProgressCallback</span></a> progress_callback</code></em>,
-                      <em class="parameter"><code><span class="type">gpointer</span> progress_user_data</code></em>,
-                      <em class="parameter"><code><span class="type">GError</span> **error</code></em>);</pre>
+                      <em class="parameter"><code><a href="https://developer.gnome.org/glib/unstable/glib-Basic-Types.html#gpointer"><span class="type">gpointer</span></a> progress_user_data</code></em>,
+                      <em class="parameter"><code><a href="https://developer.gnome.org/glib/unstable/glib-Error-Reporting.html#GError"><span class="type">GError</span></a> **error</code></em>);</pre>
 <p>Get the packages that depend this one, i.e. child.parent.</p>
 <p>Warning: this function is synchronous, and may block. Do not use it in GUI
 applications.</p>
@@ -1157,7 +1165,7 @@ applications.</p>
 </tr>
 <tr>
 <td class="parameter_name"><p>cancellable</p></td>
-<td class="parameter_description"><p>a <span class="type">GCancellable</span> or <a href="/usr/share/gtk-doc/html/liboil/liboil-liboiljunk.html#NULL:CAPS"><code class="literal">NULL</code></a></p></td>
+<td class="parameter_description"><p>a <a href="https://developer.gnome.org/gio/unstable/GCancellable.html"><span class="type">GCancellable</span></a> or <a href="/usr/share/gtk-doc/html/liboil/liboil-liboiljunk.html#NULL:CAPS"><code class="literal">NULL</code></a></p></td>
 <td class="parameter_annotations"> </td>
 </tr>
 <tr>
@@ -1173,7 +1181,7 @@ applications.</p>
 </tr>
 <tr>
 <td class="parameter_name"><p>error</p></td>
-<td class="parameter_description"><p>the <span class="type">GError</span> to store any failure, or <a href="/usr/share/gtk-doc/html/liboil/liboil-liboiljunk.html#NULL:CAPS"><code class="literal">NULL</code></a></p></td>
+<td class="parameter_description"><p>the <a href="https://developer.gnome.org/glib/unstable/glib-Error-Reporting.html#GError"><span class="type">GError</span></a> to store any failure, or <a href="/usr/share/gtk-doc/html/liboil/liboil-liboiljunk.html#NULL:CAPS"><code class="literal">NULL</code></a></p></td>
 <td class="parameter_annotations"> </td>
 </tr>
 </tbody>
@@ -1192,10 +1200,10 @@ applications.</p>
 <pre class="programlisting"><a class="link" href="PkResults.html" title="PkResults"><span class="returnvalue">PkResults</span></a> *
 pk_client_get_packages (<em class="parameter"><code><a class="link" href="PkClient.html" title="PkClient"><span class="type">PkClient</span></a> *client</code></em>,
                         <em class="parameter"><code><a class="link" href="PackageKit-pk-bitfield.html#PkBitfield" title="PkBitfield"><span class="type">PkBitfield</span></a> filters</code></em>,
-                        <em class="parameter"><code><span class="type">GCancellable</span> *cancellable</code></em>,
+                        <em class="parameter"><code><a href="https://developer.gnome.org/gio/unstable/GCancellable.html"><span class="type">GCancellable</span></a> *cancellable</code></em>,
                         <em class="parameter"><code><a class="link" href="PkProgress.html#PkProgressCallback" title="PkProgressCallback ()"><span class="type">PkProgressCallback</span></a> progress_callback</code></em>,
-                        <em class="parameter"><code><span class="type">gpointer</span> progress_user_data</code></em>,
-                        <em class="parameter"><code><span class="type">GError</span> **error</code></em>);</pre>
+                        <em class="parameter"><code><a href="https://developer.gnome.org/glib/unstable/glib-Basic-Types.html#gpointer"><span class="type">gpointer</span></a> progress_user_data</code></em>,
+                        <em class="parameter"><code><a href="https://developer.gnome.org/glib/unstable/glib-Error-Reporting.html#GError"><span class="type">GError</span></a> **error</code></em>);</pre>
 <p>Get the list of packages from the backend</p>
 <p>Warning: this function is synchronous, and may block. Do not use it in GUI
 applications.</p>
@@ -1220,7 +1228,7 @@ applications.</p>
 </tr>
 <tr>
 <td class="parameter_name"><p>cancellable</p></td>
-<td class="parameter_description"><p>a <span class="type">GCancellable</span> or <a href="/usr/share/gtk-doc/html/liboil/liboil-liboiljunk.html#NULL:CAPS"><code class="literal">NULL</code></a></p></td>
+<td class="parameter_description"><p>a <a href="https://developer.gnome.org/gio/unstable/GCancellable.html"><span class="type">GCancellable</span></a> or <a href="/usr/share/gtk-doc/html/liboil/liboil-liboiljunk.html#NULL:CAPS"><code class="literal">NULL</code></a></p></td>
 <td class="parameter_annotations"> </td>
 </tr>
 <tr>
@@ -1236,7 +1244,7 @@ applications.</p>
 </tr>
 <tr>
 <td class="parameter_name"><p>error</p></td>
-<td class="parameter_description"><p>the <span class="type">GError</span> to store any failure, or <a href="/usr/share/gtk-doc/html/liboil/liboil-liboiljunk.html#NULL:CAPS"><code class="literal">NULL</code></a></p></td>
+<td class="parameter_description"><p>the <a href="https://developer.gnome.org/glib/unstable/glib-Error-Reporting.html#GError"><span class="type">GError</span></a> to store any failure, or <a href="/usr/share/gtk-doc/html/liboil/liboil-liboiljunk.html#NULL:CAPS"><code class="literal">NULL</code></a></p></td>
 <td class="parameter_annotations"> </td>
 </tr>
 </tbody>
@@ -1255,12 +1263,12 @@ applications.</p>
 <pre class="programlisting"><a class="link" href="PkResults.html" title="PkResults"><span class="returnvalue">PkResults</span></a> *
 pk_client_required_by (<em class="parameter"><code><a class="link" href="PkClient.html" title="PkClient"><span class="type">PkClient</span></a> *client</code></em>,
                        <em class="parameter"><code><a class="link" href="PackageKit-pk-bitfield.html#PkBitfield" title="PkBitfield"><span class="type">PkBitfield</span></a> filters</code></em>,
-                       <em class="parameter"><code><span class="type">gchar</span> **package_ids</code></em>,
-                       <em class="parameter"><code><span class="type">gboolean</span> recursive</code></em>,
-                       <em class="parameter"><code><span class="type">GCancellable</span> *cancellable</code></em>,
+                       <em class="parameter"><code><a href="https://developer.gnome.org/glib/unstable/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a> **package_ids</code></em>,
+                       <em class="parameter"><code><a href="https://developer.gnome.org/glib/unstable/glib-Basic-Types.html#gboolean"><span class="type">gboolean</span></a> recursive</code></em>,
+                       <em class="parameter"><code><a href="https://developer.gnome.org/gio/unstable/GCancellable.html"><span class="type">GCancellable</span></a> *cancellable</code></em>,
                        <em class="parameter"><code><a class="link" href="PkProgress.html#PkProgressCallback" title="PkProgressCallback ()"><span class="type">PkProgressCallback</span></a> progress_callback</code></em>,
-                       <em class="parameter"><code><span class="type">gpointer</span> progress_user_data</code></em>,
-                       <em class="parameter"><code><span class="type">GError</span> **error</code></em>);</pre>
+                       <em class="parameter"><code><a href="https://developer.gnome.org/glib/unstable/glib-Basic-Types.html#gpointer"><span class="type">gpointer</span></a> progress_user_data</code></em>,
+                       <em class="parameter"><code><a href="https://developer.gnome.org/glib/unstable/glib-Error-Reporting.html#GError"><span class="type">GError</span></a> **error</code></em>);</pre>
 <p>Get the packages that require this one, i.e. parent.child.</p>
 <p>Warning: this function is synchronous, and may block. Do not use it in GUI
 applications.</p>
@@ -1295,7 +1303,7 @@ applications.</p>
 </tr>
 <tr>
 <td class="parameter_name"><p>cancellable</p></td>
-<td class="parameter_description"><p>a <span class="type">GCancellable</span> or <a href="/usr/share/gtk-doc/html/liboil/liboil-liboiljunk.html#NULL:CAPS"><code class="literal">NULL</code></a></p></td>
+<td class="parameter_description"><p>a <a href="https://developer.gnome.org/gio/unstable/GCancellable.html"><span class="type">GCancellable</span></a> or <a href="/usr/share/gtk-doc/html/liboil/liboil-liboiljunk.html#NULL:CAPS"><code class="literal">NULL</code></a></p></td>
 <td class="parameter_annotations"> </td>
 </tr>
 <tr>
@@ -1311,7 +1319,7 @@ applications.</p>
 </tr>
 <tr>
 <td class="parameter_name"><p>error</p></td>
-<td class="parameter_description"><p>the <span class="type">GError</span> to store any failure, or <a href="/usr/share/gtk-doc/html/liboil/liboil-liboiljunk.html#NULL:CAPS"><code class="literal">NULL</code></a></p></td>
+<td class="parameter_description"><p>the <a href="https://developer.gnome.org/glib/unstable/glib-Error-Reporting.html#GError"><span class="type">GError</span></a> to store any failure, or <a href="/usr/share/gtk-doc/html/liboil/liboil-liboiljunk.html#NULL:CAPS"><code class="literal">NULL</code></a></p></td>
 <td class="parameter_annotations"> </td>
 </tr>
 </tbody>
@@ -1330,11 +1338,11 @@ applications.</p>
 <pre class="programlisting"><a class="link" href="PkResults.html" title="PkResults"><span class="returnvalue">PkResults</span></a> *
 pk_client_what_provides (<em class="parameter"><code><a class="link" href="PkClient.html" title="PkClient"><span class="type">PkClient</span></a> *client</code></em>,
                          <em class="parameter"><code><a class="link" href="PackageKit-pk-bitfield.html#PkBitfield" title="PkBitfield"><span class="type">PkBitfield</span></a> filters</code></em>,
-                         <em class="parameter"><code><span class="type">gchar</span> **values</code></em>,
-                         <em class="parameter"><code><span class="type">GCancellable</span> *cancellable</code></em>,
+                         <em class="parameter"><code><a href="https://developer.gnome.org/glib/unstable/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a> **values</code></em>,
+                         <em class="parameter"><code><a href="https://developer.gnome.org/gio/unstable/GCancellable.html"><span class="type">GCancellable</span></a> *cancellable</code></em>,
                          <em class="parameter"><code><a class="link" href="PkProgress.html#PkProgressCallback" title="PkProgressCallback ()"><span class="type">PkProgressCallback</span></a> progress_callback</code></em>,
-                         <em class="parameter"><code><span class="type">gpointer</span> progress_user_data</code></em>,
-                         <em class="parameter"><code><span class="type">GError</span> **error</code></em>);</pre>
+                         <em class="parameter"><code><a href="https://developer.gnome.org/glib/unstable/glib-Basic-Types.html#gpointer"><span class="type">gpointer</span></a> progress_user_data</code></em>,
+                         <em class="parameter"><code><a href="https://developer.gnome.org/glib/unstable/glib-Error-Reporting.html#GError"><span class="type">GError</span></a> **error</code></em>);</pre>
 <p>This should return packages that provide the supplied attributes.
 This method is useful for finding out what package(s) provide a modalias
 or GStreamer codec string.</p>
@@ -1366,7 +1374,7 @@ applications.</p>
 </tr>
 <tr>
 <td class="parameter_name"><p>cancellable</p></td>
-<td class="parameter_description"><p>a <span class="type">GCancellable</span> or <a href="/usr/share/gtk-doc/html/liboil/liboil-liboiljunk.html#NULL:CAPS"><code class="literal">NULL</code></a></p></td>
+<td class="parameter_description"><p>a <a href="https://developer.gnome.org/gio/unstable/GCancellable.html"><span class="type">GCancellable</span></a> or <a href="/usr/share/gtk-doc/html/liboil/liboil-liboiljunk.html#NULL:CAPS"><code class="literal">NULL</code></a></p></td>
 <td class="parameter_annotations"> </td>
 </tr>
 <tr>
@@ -1382,7 +1390,7 @@ applications.</p>
 </tr>
 <tr>
 <td class="parameter_name"><p>error</p></td>
-<td class="parameter_description"><p>the <span class="type">GError</span> to store any failure, or <a href="/usr/share/gtk-doc/html/liboil/liboil-liboiljunk.html#NULL:CAPS"><code class="literal">NULL</code></a></p></td>
+<td class="parameter_description"><p>the <a href="https://developer.gnome.org/glib/unstable/glib-Error-Reporting.html#GError"><span class="type">GError</span></a> to store any failure, or <a href="/usr/share/gtk-doc/html/liboil/liboil-liboiljunk.html#NULL:CAPS"><code class="literal">NULL</code></a></p></td>
 <td class="parameter_annotations"> </td>
 </tr>
 </tbody>
@@ -1400,10 +1408,10 @@ applications.</p>
 <a name="pk-client-get-distro-upgrades"></a><h3>pk_client_get_distro_upgrades ()</h3>
 <pre class="programlisting"><a class="link" href="PkResults.html" title="PkResults"><span class="returnvalue">PkResults</span></a> *
 pk_client_get_distro_upgrades (<em class="parameter"><code><a class="link" href="PkClient.html" title="PkClient"><span class="type">PkClient</span></a> *client</code></em>,
-                               <em class="parameter"><code><span class="type">GCancellable</span> *cancellable</code></em>,
+                               <em class="parameter"><code><a href="https://developer.gnome.org/gio/unstable/GCancellable.html"><span class="type">GCancellable</span></a> *cancellable</code></em>,
                                <em class="parameter"><code><a class="link" href="PkProgress.html#PkProgressCallback" title="PkProgressCallback ()"><span class="type">PkProgressCallback</span></a> progress_callback</code></em>,
-                               <em class="parameter"><code><span class="type">gpointer</span> progress_user_data</code></em>,
-                               <em class="parameter"><code><span class="type">GError</span> **error</code></em>);</pre>
+                               <em class="parameter"><code><a href="https://developer.gnome.org/glib/unstable/glib-Basic-Types.html#gpointer"><span class="type">gpointer</span></a> progress_user_data</code></em>,
+                               <em class="parameter"><code><a href="https://developer.gnome.org/glib/unstable/glib-Error-Reporting.html#GError"><span class="type">GError</span></a> **error</code></em>);</pre>
 <p>This method should return a list of distribution upgrades that are available.
 It should not return updates, only major upgrades.</p>
 <p>Warning: this function is synchronous, and may block. Do not use it in GUI
@@ -1424,7 +1432,7 @@ applications.</p>
 </tr>
 <tr>
 <td class="parameter_name"><p>cancellable</p></td>
-<td class="parameter_description"><p>a <span class="type">GCancellable</span> or <a href="/usr/share/gtk-doc/html/liboil/liboil-liboiljunk.html#NULL:CAPS"><code class="literal">NULL</code></a></p></td>
+<td class="parameter_description"><p>a <a href="https://developer.gnome.org/gio/unstable/GCancellable.html"><span class="type">GCancellable</span></a> or <a href="/usr/share/gtk-doc/html/liboil/liboil-liboiljunk.html#NULL:CAPS"><code class="literal">NULL</code></a></p></td>
 <td class="parameter_annotations"> </td>
 </tr>
 <tr>
@@ -1440,7 +1448,7 @@ applications.</p>
 </tr>
 <tr>
 <td class="parameter_name"><p>error</p></td>
-<td class="parameter_description"><p>the <span class="type">GError</span> to store any failure, or <a href="/usr/share/gtk-doc/html/liboil/liboil-liboiljunk.html#NULL:CAPS"><code class="literal">NULL</code></a></p></td>
+<td class="parameter_description"><p>the <a href="https://developer.gnome.org/glib/unstable/glib-Error-Reporting.html#GError"><span class="type">GError</span></a> to store any failure, or <a href="/usr/share/gtk-doc/html/liboil/liboil-liboiljunk.html#NULL:CAPS"><code class="literal">NULL</code></a></p></td>
 <td class="parameter_annotations"> </td>
 </tr>
 </tbody>
@@ -1458,11 +1466,11 @@ applications.</p>
 <a name="pk-client-get-files"></a><h3>pk_client_get_files ()</h3>
 <pre class="programlisting"><a class="link" href="PkResults.html" title="PkResults"><span class="returnvalue">PkResults</span></a> *
 pk_client_get_files (<em class="parameter"><code><a class="link" href="PkClient.html" title="PkClient"><span class="type">PkClient</span></a> *client</code></em>,
-                     <em class="parameter"><code><span class="type">gchar</span> **package_ids</code></em>,
-                     <em class="parameter"><code><span class="type">GCancellable</span> *cancellable</code></em>,
+                     <em class="parameter"><code><a href="https://developer.gnome.org/glib/unstable/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a> **package_ids</code></em>,
+                     <em class="parameter"><code><a href="https://developer.gnome.org/gio/unstable/GCancellable.html"><span class="type">GCancellable</span></a> *cancellable</code></em>,
                      <em class="parameter"><code><a class="link" href="PkProgress.html#PkProgressCallback" title="PkProgressCallback ()"><span class="type">PkProgressCallback</span></a> progress_callback</code></em>,
-                     <em class="parameter"><code><span class="type">gpointer</span> progress_user_data</code></em>,
-                     <em class="parameter"><code><span class="type">GError</span> **error</code></em>);</pre>
+                     <em class="parameter"><code><a href="https://developer.gnome.org/glib/unstable/glib-Basic-Types.html#gpointer"><span class="type">gpointer</span></a> progress_user_data</code></em>,
+                     <em class="parameter"><code><a href="https://developer.gnome.org/glib/unstable/glib-Error-Reporting.html#GError"><span class="type">GError</span></a> **error</code></em>);</pre>
 <p>Get the file list (i.e. a list of files installed) for the specified package.</p>
 <p>Warning: this function is synchronous, and may block. Do not use it in GUI
 applications.</p>
@@ -1487,7 +1495,7 @@ applications.</p>
 </tr>
 <tr>
 <td class="parameter_name"><p>cancellable</p></td>
-<td class="parameter_description"><p>a <span class="type">GCancellable</span> or <a href="/usr/share/gtk-doc/html/liboil/liboil-liboiljunk.html#NULL:CAPS"><code class="literal">NULL</code></a></p></td>
+<td class="parameter_description"><p>a <a href="https://developer.gnome.org/gio/unstable/GCancellable.html"><span class="type">GCancellable</span></a> or <a href="/usr/share/gtk-doc/html/liboil/liboil-liboiljunk.html#NULL:CAPS"><code class="literal">NULL</code></a></p></td>
 <td class="parameter_annotations"> </td>
 </tr>
 <tr>
@@ -1503,7 +1511,7 @@ applications.</p>
 </tr>
 <tr>
 <td class="parameter_name"><p>error</p></td>
-<td class="parameter_description"><p>the <span class="type">GError</span> to store any failure, or <a href="/usr/share/gtk-doc/html/liboil/liboil-liboiljunk.html#NULL:CAPS"><code class="literal">NULL</code></a></p></td>
+<td class="parameter_description"><p>the <a href="https://developer.gnome.org/glib/unstable/glib-Error-Reporting.html#GError"><span class="type">GError</span></a> to store any failure, or <a href="/usr/share/gtk-doc/html/liboil/liboil-liboiljunk.html#NULL:CAPS"><code class="literal">NULL</code></a></p></td>
 <td class="parameter_annotations"> </td>
 </tr>
 </tbody>
@@ -1521,10 +1529,10 @@ applications.</p>
 <a name="pk-client-get-categories"></a><h3>pk_client_get_categories ()</h3>
 <pre class="programlisting"><a class="link" href="PkResults.html" title="PkResults"><span class="returnvalue">PkResults</span></a> *
 pk_client_get_categories (<em class="parameter"><code><a class="link" href="PkClient.html" title="PkClient"><span class="type">PkClient</span></a> *client</code></em>,
-                          <em class="parameter"><code><span class="type">GCancellable</span> *cancellable</code></em>,
+                          <em class="parameter"><code><a href="https://developer.gnome.org/gio/unstable/GCancellable.html"><span class="type">GCancellable</span></a> *cancellable</code></em>,
                           <em class="parameter"><code><a class="link" href="PkProgress.html#PkProgressCallback" title="PkProgressCallback ()"><span class="type">PkProgressCallback</span></a> progress_callback</code></em>,
-                          <em class="parameter"><code><span class="type">gpointer</span> progress_user_data</code></em>,
-                          <em class="parameter"><code><span class="type">GError</span> **error</code></em>);</pre>
+                          <em class="parameter"><code><a href="https://developer.gnome.org/glib/unstable/glib-Basic-Types.html#gpointer"><span class="type">gpointer</span></a> progress_user_data</code></em>,
+                          <em class="parameter"><code><a href="https://developer.gnome.org/glib/unstable/glib-Error-Reporting.html#GError"><span class="type">GError</span></a> **error</code></em>);</pre>
 <p>Get a list of all categories supported.</p>
 <p>Warning: this function is synchronous, and may block. Do not use it in GUI
 applications.</p>
@@ -1544,7 +1552,7 @@ applications.</p>
 </tr>
 <tr>
 <td class="parameter_name"><p>cancellable</p></td>
-<td class="parameter_description"><p>a <span class="type">GCancellable</span> or <a href="/usr/share/gtk-doc/html/liboil/liboil-liboiljunk.html#NULL:CAPS"><code class="literal">NULL</code></a></p></td>
+<td class="parameter_description"><p>a <a href="https://developer.gnome.org/gio/unstable/GCancellable.html"><span class="type">GCancellable</span></a> or <a href="/usr/share/gtk-doc/html/liboil/liboil-liboiljunk.html#NULL:CAPS"><code class="literal">NULL</code></a></p></td>
 <td class="parameter_annotations"> </td>
 </tr>
 <tr>
@@ -1560,7 +1568,7 @@ applications.</p>
 </tr>
 <tr>
 <td class="parameter_name"><p>error</p></td>
-<td class="parameter_description"><p>the <span class="type">GError</span> to store any failure, or <a href="/usr/share/gtk-doc/html/liboil/liboil-liboiljunk.html#NULL:CAPS"><code class="literal">NULL</code></a></p></td>
+<td class="parameter_description"><p>the <a href="https://developer.gnome.org/glib/unstable/glib-Error-Reporting.html#GError"><span class="type">GError</span></a> to store any failure, or <a href="/usr/share/gtk-doc/html/liboil/liboil-liboiljunk.html#NULL:CAPS"><code class="literal">NULL</code></a></p></td>
 <td class="parameter_annotations"> </td>
 </tr>
 </tbody>
@@ -1579,15 +1587,15 @@ applications.</p>
 <pre class="programlisting"><a class="link" href="PkResults.html" title="PkResults"><span class="returnvalue">PkResults</span></a> *
 pk_client_remove_packages (<em class="parameter"><code><a class="link" href="PkClient.html" title="PkClient"><span class="type">PkClient</span></a> *client</code></em>,
                            <em class="parameter"><code><a class="link" href="PackageKit-pk-bitfield.html#PkBitfield" title="PkBitfield"><span class="type">PkBitfield</span></a> transaction_flags</code></em>,
-                           <em class="parameter"><code><span class="type">gchar</span> **package_ids</code></em>,
-                           <em class="parameter"><code><span class="type">gboolean</span> allow_deps</code></em>,
-                           <em class="parameter"><code><span class="type">gboolean</span> autoremove</code></em>,
-                           <em class="parameter"><code><span class="type">GCancellable</span> *cancellable</code></em>,
+                           <em class="parameter"><code><a href="https://developer.gnome.org/glib/unstable/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a> **package_ids</code></em>,
+                           <em class="parameter"><code><a href="https://developer.gnome.org/glib/unstable/glib-Basic-Types.html#gboolean"><span class="type">gboolean</span></a> allow_deps</code></em>,
+                           <em class="parameter"><code><a href="https://developer.gnome.org/glib/unstable/glib-Basic-Types.html#gboolean"><span class="type">gboolean</span></a> autoremove</code></em>,
+                           <em class="parameter"><code><a href="https://developer.gnome.org/gio/unstable/GCancellable.html"><span class="type">GCancellable</span></a> *cancellable</code></em>,
                            <em class="parameter"><code><a class="link" href="PkProgress.html#PkProgressCallback" title="PkProgressCallback ()"><span class="type">PkProgressCallback</span></a> progress_callback</code></em>,
-                           <em class="parameter"><code><span class="type">gpointer</span> progress_user_data</code></em>,
-                           <em class="parameter"><code><span class="type">GError</span> **error</code></em>);</pre>
+                           <em class="parameter"><code><a href="https://developer.gnome.org/glib/unstable/glib-Basic-Types.html#gpointer"><span class="type">gpointer</span></a> progress_user_data</code></em>,
+                           <em class="parameter"><code><a href="https://developer.gnome.org/glib/unstable/glib-Error-Reporting.html#GError"><span class="type">GError</span></a> **error</code></em>);</pre>
 <p>Remove a package (optionally with dependancies) from the system.
-If <code class="literal">allow_deps</code> is set to <code class="literal">FALSE</code>, and other packages would have to be removed,
+If <code class="literal">allow_deps</code> is set to <a href="https://developer.gnome.org/glib/unstable/glib-Standard-Macros.html#FALSE:CAPS"><code class="literal">FALSE</code></a>, and other packages would have to be removed,
 then the transaction would fail.</p>
 <p>Warning: this function is synchronous, and may block. Do not use it in GUI
 applications.</p>
@@ -1627,7 +1635,7 @@ applications.</p>
 </tr>
 <tr>
 <td class="parameter_name"><p>cancellable</p></td>
-<td class="parameter_description"><p>a <span class="type">GCancellable</span> or <a href="/usr/share/gtk-doc/html/liboil/liboil-liboiljunk.html#NULL:CAPS"><code class="literal">NULL</code></a></p></td>
+<td class="parameter_description"><p>a <a href="https://developer.gnome.org/gio/unstable/GCancellable.html"><span class="type">GCancellable</span></a> or <a href="/usr/share/gtk-doc/html/liboil/liboil-liboiljunk.html#NULL:CAPS"><code class="literal">NULL</code></a></p></td>
 <td class="parameter_annotations"> </td>
 </tr>
 <tr>
@@ -1643,7 +1651,7 @@ applications.</p>
 </tr>
 <tr>
 <td class="parameter_name"><p>error</p></td>
-<td class="parameter_description"><p>the <span class="type">GError</span> to store any failure, or <a href="/usr/share/gtk-doc/html/liboil/liboil-liboiljunk.html#NULL:CAPS"><code class="literal">NULL</code></a></p></td>
+<td class="parameter_description"><p>the <a href="https://developer.gnome.org/glib/unstable/glib-Error-Reporting.html#GError"><span class="type">GError</span></a> to store any failure, or <a href="/usr/share/gtk-doc/html/liboil/liboil-liboiljunk.html#NULL:CAPS"><code class="literal">NULL</code></a></p></td>
 <td class="parameter_annotations"> </td>
 </tr>
 </tbody>
@@ -1661,11 +1669,11 @@ applications.</p>
 <a name="pk-client-refresh-cache"></a><h3>pk_client_refresh_cache ()</h3>
 <pre class="programlisting"><a class="link" href="PkResults.html" title="PkResults"><span class="returnvalue">PkResults</span></a> *
 pk_client_refresh_cache (<em class="parameter"><code><a class="link" href="PkClient.html" title="PkClient"><span class="type">PkClient</span></a> *client</code></em>,
-                         <em class="parameter"><code><span class="type">gboolean</span> force</code></em>,
-                         <em class="parameter"><code><span class="type">GCancellable</span> *cancellable</code></em>,
+                         <em class="parameter"><code><a href="https://developer.gnome.org/glib/unstable/glib-Basic-Types.html#gboolean"><span class="type">gboolean</span></a> force</code></em>,
+                         <em class="parameter"><code><a href="https://developer.gnome.org/gio/unstable/GCancellable.html"><span class="type">GCancellable</span></a> *cancellable</code></em>,
                          <em class="parameter"><code><a class="link" href="PkProgress.html#PkProgressCallback" title="PkProgressCallback ()"><span class="type">PkProgressCallback</span></a> progress_callback</code></em>,
-                         <em class="parameter"><code><span class="type">gpointer</span> progress_user_data</code></em>,
-                         <em class="parameter"><code><span class="type">GError</span> **error</code></em>);</pre>
+                         <em class="parameter"><code><a href="https://developer.gnome.org/glib/unstable/glib-Basic-Types.html#gpointer"><span class="type">gpointer</span></a> progress_user_data</code></em>,
+                         <em class="parameter"><code><a href="https://developer.gnome.org/glib/unstable/glib-Error-Reporting.html#GError"><span class="type">GError</span></a> **error</code></em>);</pre>
 <p>Refresh the cache, i.e. download new metadata from a remote URL so that
 package lists are up to date.
 This action may take a few minutes and should be done when the session and
@@ -1693,7 +1701,7 @@ applications.</p>
 </tr>
 <tr>
 <td class="parameter_name"><p>cancellable</p></td>
-<td class="parameter_description"><p>a <span class="type">GCancellable</span> or <a href="/usr/share/gtk-doc/html/liboil/liboil-liboiljunk.html#NULL:CAPS"><code class="literal">NULL</code></a></p></td>
+<td class="parameter_description"><p>a <a href="https://developer.gnome.org/gio/unstable/GCancellable.html"><span class="type">GCancellable</span></a> or <a href="/usr/share/gtk-doc/html/liboil/liboil-liboiljunk.html#NULL:CAPS"><code class="literal">NULL</code></a></p></td>
 <td class="parameter_annotations"> </td>
 </tr>
 <tr>
@@ -1709,7 +1717,7 @@ applications.</p>
 </tr>
 <tr>
 <td class="parameter_name"><p>error</p></td>
-<td class="parameter_description"><p>the <span class="type">GError</span> to store any failure, or <a href="/usr/share/gtk-doc/html/liboil/liboil-liboiljunk.html#NULL:CAPS"><code class="literal">NULL</code></a></p></td>
+<td class="parameter_description"><p>the <a href="https://developer.gnome.org/glib/unstable/glib-Error-Reporting.html#GError"><span class="type">GError</span></a> to store any failure, or <a href="/usr/share/gtk-doc/html/liboil/liboil-liboiljunk.html#NULL:CAPS"><code class="literal">NULL</code></a></p></td>
 <td class="parameter_annotations"> </td>
 </tr>
 </tbody>
@@ -1728,11 +1736,11 @@ applications.</p>
 <pre class="programlisting"><a class="link" href="PkResults.html" title="PkResults"><span class="returnvalue">PkResults</span></a> *
 pk_client_install_packages (<em class="parameter"><code><a class="link" href="PkClient.html" title="PkClient"><span class="type">PkClient</span></a> *client</code></em>,
                             <em class="parameter"><code><a class="link" href="PackageKit-pk-bitfield.html#PkBitfield" title="PkBitfield"><span class="type">PkBitfield</span></a> transaction_flags</code></em>,
-                            <em class="parameter"><code><span class="type">gchar</span> **package_ids</code></em>,
-                            <em class="parameter"><code><span class="type">GCancellable</span> *cancellable</code></em>,
+                            <em class="parameter"><code><a href="https://developer.gnome.org/glib/unstable/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a> **package_ids</code></em>,
+                            <em class="parameter"><code><a href="https://developer.gnome.org/gio/unstable/GCancellable.html"><span class="type">GCancellable</span></a> *cancellable</code></em>,
                             <em class="parameter"><code><a class="link" href="PkProgress.html#PkProgressCallback" title="PkProgressCallback ()"><span class="type">PkProgressCallback</span></a> progress_callback</code></em>,
-                            <em class="parameter"><code><span class="type">gpointer</span> progress_user_data</code></em>,
-                            <em class="parameter"><code><span class="type">GError</span> **error</code></em>);</pre>
+                            <em class="parameter"><code><a href="https://developer.gnome.org/glib/unstable/glib-Basic-Types.html#gpointer"><span class="type">gpointer</span></a> progress_user_data</code></em>,
+                            <em class="parameter"><code><a href="https://developer.gnome.org/glib/unstable/glib-Error-Reporting.html#GError"><span class="type">GError</span></a> **error</code></em>);</pre>
 <p>Install a package of the newest and most correct version.</p>
 <p>Warning: this function is synchronous, and may block. Do not use it in GUI
 applications.</p>
@@ -1762,7 +1770,7 @@ applications.</p>
 </tr>
 <tr>
 <td class="parameter_name"><p>cancellable</p></td>
-<td class="parameter_description"><p>a <span class="type">GCancellable</span> or <a href="/usr/share/gtk-doc/html/liboil/liboil-liboiljunk.html#NULL:CAPS"><code class="literal">NULL</code></a></p></td>
+<td class="parameter_description"><p>a <a href="https://developer.gnome.org/gio/unstable/GCancellable.html"><span class="type">GCancellable</span></a> or <a href="/usr/share/gtk-doc/html/liboil/liboil-liboiljunk.html#NULL:CAPS"><code class="literal">NULL</code></a></p></td>
 <td class="parameter_annotations"> </td>
 </tr>
 <tr>
@@ -1778,7 +1786,7 @@ applications.</p>
 </tr>
 <tr>
 <td class="parameter_name"><p>error</p></td>
-<td class="parameter_description"><p>the <span class="type">GError</span> to store any failure, or <a href="/usr/share/gtk-doc/html/liboil/liboil-liboiljunk.html#NULL:CAPS"><code class="literal">NULL</code></a></p></td>
+<td class="parameter_description"><p>the <a href="https://developer.gnome.org/glib/unstable/glib-Error-Reporting.html#GError"><span class="type">GError</span></a> to store any failure, or <a href="/usr/share/gtk-doc/html/liboil/liboil-liboiljunk.html#NULL:CAPS"><code class="literal">NULL</code></a></p></td>
 <td class="parameter_annotations"> </td>
 </tr>
 </tbody>
@@ -1797,12 +1805,12 @@ applications.</p>
 <pre class="programlisting"><a class="link" href="PkResults.html" title="PkResults"><span class="returnvalue">PkResults</span></a> *
 pk_client_install_signature (<em class="parameter"><code><a class="link" href="PkClient.html" title="PkClient"><span class="type">PkClient</span></a> *client</code></em>,
                              <em class="parameter"><code><a class="link" href="PackageKit-pk-enum.html#PkSigTypeEnum" title="enum PkSigTypeEnum"><span class="type">PkSigTypeEnum</span></a> type</code></em>,
-                             <em class="parameter"><code>const <span class="type">gchar</span> *key_id</code></em>,
-                             <em class="parameter"><code>const <span class="type">gchar</span> *package_id</code></em>,
-                             <em class="parameter"><code><span class="type">GCancellable</span> *cancellable</code></em>,
+                             <em class="parameter"><code>const <a href="https://developer.gnome.org/glib/unstable/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a> *key_id</code></em>,
+                             <em class="parameter"><code>const <a href="https://developer.gnome.org/glib/unstable/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a> *package_id</code></em>,
+                             <em class="parameter"><code><a href="https://developer.gnome.org/gio/unstable/GCancellable.html"><span class="type">GCancellable</span></a> *cancellable</code></em>,
                              <em class="parameter"><code><a class="link" href="PkProgress.html#PkProgressCallback" title="PkProgressCallback ()"><span class="type">PkProgressCallback</span></a> progress_callback</code></em>,
-                             <em class="parameter"><code><span class="type">gpointer</span> progress_user_data</code></em>,
-                             <em class="parameter"><code><span class="type">GError</span> **error</code></em>);</pre>
+                             <em class="parameter"><code><a href="https://developer.gnome.org/glib/unstable/glib-Basic-Types.html#gpointer"><span class="type">gpointer</span></a> progress_user_data</code></em>,
+                             <em class="parameter"><code><a href="https://developer.gnome.org/glib/unstable/glib-Error-Reporting.html#GError"><span class="type">GError</span></a> **error</code></em>);</pre>
 <p>Install a software source signature of the newest and most correct version.</p>
 <p>Warning: this function is synchronous, and may block. Do not use it in GUI
 applications.</p>
@@ -1837,7 +1845,7 @@ applications.</p>
 </tr>
 <tr>
 <td class="parameter_name"><p>cancellable</p></td>
-<td class="parameter_description"><p>a <span class="type">GCancellable</span> or <a href="/usr/share/gtk-doc/html/liboil/liboil-liboiljunk.html#NULL:CAPS"><code class="literal">NULL</code></a></p></td>
+<td class="parameter_description"><p>a <a href="https://developer.gnome.org/gio/unstable/GCancellable.html"><span class="type">GCancellable</span></a> or <a href="/usr/share/gtk-doc/html/liboil/liboil-liboiljunk.html#NULL:CAPS"><code class="literal">NULL</code></a></p></td>
 <td class="parameter_annotations"> </td>
 </tr>
 <tr>
@@ -1853,7 +1861,7 @@ applications.</p>
 </tr>
 <tr>
 <td class="parameter_name"><p>error</p></td>
-<td class="parameter_description"><p>the <span class="type">GError</span> to store any failure, or <a href="/usr/share/gtk-doc/html/liboil/liboil-liboiljunk.html#NULL:CAPS"><code class="literal">NULL</code></a></p></td>
+<td class="parameter_description"><p>the <a href="https://developer.gnome.org/glib/unstable/glib-Error-Reporting.html#GError"><span class="type">GError</span></a> to store any failure, or <a href="/usr/share/gtk-doc/html/liboil/liboil-liboiljunk.html#NULL:CAPS"><code class="literal">NULL</code></a></p></td>
 <td class="parameter_annotations"> </td>
 </tr>
 </tbody>
@@ -1872,11 +1880,11 @@ applications.</p>
 <pre class="programlisting"><a class="link" href="PkResults.html" title="PkResults"><span class="returnvalue">PkResults</span></a> *
 pk_client_update_packages (<em class="parameter"><code><a class="link" href="PkClient.html" title="PkClient"><span class="type">PkClient</span></a> *client</code></em>,
                            <em class="parameter"><code><a class="link" href="PackageKit-pk-bitfield.html#PkBitfield" title="PkBitfield"><span class="type">PkBitfield</span></a> transaction_flags</code></em>,
-                           <em class="parameter"><code><span class="type">gchar</span> **package_ids</code></em>,
-                           <em class="parameter"><code><span class="type">GCancellable</span> *cancellable</code></em>,
+                           <em class="parameter"><code><a href="https://developer.gnome.org/glib/unstable/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a> **package_ids</code></em>,
+                           <em class="parameter"><code><a href="https://developer.gnome.org/gio/unstable/GCancellable.html"><span class="type">GCancellable</span></a> *cancellable</code></em>,
                            <em class="parameter"><code><a class="link" href="PkProgress.html#PkProgressCallback" title="PkProgressCallback ()"><span class="type">PkProgressCallback</span></a> progress_callback</code></em>,
-                           <em class="parameter"><code><span class="type">gpointer</span> progress_user_data</code></em>,
-                           <em class="parameter"><code><span class="type">GError</span> **error</code></em>);</pre>
+                           <em class="parameter"><code><a href="https://developer.gnome.org/glib/unstable/glib-Basic-Types.html#gpointer"><span class="type">gpointer</span></a> progress_user_data</code></em>,
+                           <em class="parameter"><code><a href="https://developer.gnome.org/glib/unstable/glib-Error-Reporting.html#GError"><span class="type">GError</span></a> **error</code></em>);</pre>
 <p>Update specific packages to the newest available versions.</p>
 <p>Warning: this function is synchronous, and may block. Do not use it in GUI
 applications.</p>
@@ -1906,7 +1914,7 @@ applications.</p>
 </tr>
 <tr>
 <td class="parameter_name"><p>cancellable</p></td>
-<td class="parameter_description"><p>a <span class="type">GCancellable</span> or <a href="/usr/share/gtk-doc/html/liboil/liboil-liboiljunk.html#NULL:CAPS"><code class="literal">NULL</code></a></p></td>
+<td class="parameter_description"><p>a <a href="https://developer.gnome.org/gio/unstable/GCancellable.html"><span class="type">GCancellable</span></a> or <a href="/usr/share/gtk-doc/html/liboil/liboil-liboiljunk.html#NULL:CAPS"><code class="literal">NULL</code></a></p></td>
 <td class="parameter_annotations"> </td>
 </tr>
 <tr>
@@ -1922,7 +1930,7 @@ applications.</p>
 </tr>
 <tr>
 <td class="parameter_name"><p>error</p></td>
-<td class="parameter_description"><p>the <span class="type">GError</span> to store any failure, or <a href="/usr/share/gtk-doc/html/liboil/liboil-liboiljunk.html#NULL:CAPS"><code class="literal">NULL</code></a></p></td>
+<td class="parameter_description"><p>the <a href="https://developer.gnome.org/glib/unstable/glib-Error-Reporting.html#GError"><span class="type">GError</span></a> to store any failure, or <a href="/usr/share/gtk-doc/html/liboil/liboil-liboiljunk.html#NULL:CAPS"><code class="literal">NULL</code></a></p></td>
 <td class="parameter_annotations"> </td>
 </tr>
 </tbody>
@@ -1941,11 +1949,11 @@ applications.</p>
 <pre class="programlisting"><a class="link" href="PkResults.html" title="PkResults"><span class="returnvalue">PkResults</span></a> *
 pk_client_install_files (<em class="parameter"><code><a class="link" href="PkClient.html" title="PkClient"><span class="type">PkClient</span></a> *client</code></em>,
                          <em class="parameter"><code><a class="link" href="PackageKit-pk-bitfield.html#PkBitfield" title="PkBitfield"><span class="type">PkBitfield</span></a> transaction_flags</code></em>,
-                         <em class="parameter"><code><span class="type">gchar</span> **files</code></em>,
-                         <em class="parameter"><code><span class="type">GCancellable</span> *cancellable</code></em>,
+                         <em class="parameter"><code><a href="https://developer.gnome.org/glib/unstable/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a> **files</code></em>,
+                         <em class="parameter"><code><a href="https://developer.gnome.org/gio/unstable/GCancellable.html"><span class="type">GCancellable</span></a> *cancellable</code></em>,
                          <em class="parameter"><code><a class="link" href="PkProgress.html#PkProgressCallback" title="PkProgressCallback ()"><span class="type">PkProgressCallback</span></a> progress_callback</code></em>,
-                         <em class="parameter"><code><span class="type">gpointer</span> progress_user_data</code></em>,
-                         <em class="parameter"><code><span class="type">GError</span> **error</code></em>);</pre>
+                         <em class="parameter"><code><a href="https://developer.gnome.org/glib/unstable/glib-Basic-Types.html#gpointer"><span class="type">gpointer</span></a> progress_user_data</code></em>,
+                         <em class="parameter"><code><a href="https://developer.gnome.org/glib/unstable/glib-Error-Reporting.html#GError"><span class="type">GError</span></a> **error</code></em>);</pre>
 <p>Install a file locally, and get the deps from the repositories.
 This is useful for double clicking on a .rpm or .deb file.</p>
 <p>Warning: this function is synchronous, and may block. Do not use it in GUI
@@ -1976,7 +1984,7 @@ applications.</p>
 </tr>
 <tr>
 <td class="parameter_name"><p>cancellable</p></td>
-<td class="parameter_description"><p>a <span class="type">GCancellable</span> or <a href="/usr/share/gtk-doc/html/liboil/liboil-liboiljunk.html#NULL:CAPS"><code class="literal">NULL</code></a></p></td>
+<td class="parameter_description"><p>a <a href="https://developer.gnome.org/gio/unstable/GCancellable.html"><span class="type">GCancellable</span></a> or <a href="/usr/share/gtk-doc/html/liboil/liboil-liboiljunk.html#NULL:CAPS"><code class="literal">NULL</code></a></p></td>
 <td class="parameter_annotations"> </td>
 </tr>
 <tr>
@@ -1992,7 +2000,7 @@ applications.</p>
 </tr>
 <tr>
 <td class="parameter_name"><p>error</p></td>
-<td class="parameter_description"><p>the <span class="type">GError</span> to store any failure, or <a href="/usr/share/gtk-doc/html/liboil/liboil-liboiljunk.html#NULL:CAPS"><code class="literal">NULL</code></a></p></td>
+<td class="parameter_description"><p>the <a href="https://developer.gnome.org/glib/unstable/glib-Error-Reporting.html#GError"><span class="type">GError</span></a> to store any failure, or <a href="/usr/share/gtk-doc/html/liboil/liboil-liboiljunk.html#NULL:CAPS"><code class="literal">NULL</code></a></p></td>
 <td class="parameter_annotations"> </td>
 </tr>
 </tbody>
@@ -2010,11 +2018,11 @@ applications.</p>
 <a name="pk-client-accept-eula"></a><h3>pk_client_accept_eula ()</h3>
 <pre class="programlisting"><a class="link" href="PkResults.html" title="PkResults"><span class="returnvalue">PkResults</span></a> *
 pk_client_accept_eula (<em class="parameter"><code><a class="link" href="PkClient.html" title="PkClient"><span class="type">PkClient</span></a> *client</code></em>,
-                       <em class="parameter"><code>const <span class="type">gchar</span> *eula_id</code></em>,
-                       <em class="parameter"><code><span class="type">GCancellable</span> *cancellable</code></em>,
+                       <em class="parameter"><code>const <a href="https://developer.gnome.org/glib/unstable/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a> *eula_id</code></em>,
+                       <em class="parameter"><code><a href="https://developer.gnome.org/gio/unstable/GCancellable.html"><span class="type">GCancellable</span></a> *cancellable</code></em>,
                        <em class="parameter"><code><a class="link" href="PkProgress.html#PkProgressCallback" title="PkProgressCallback ()"><span class="type">PkProgressCallback</span></a> progress_callback</code></em>,
-                       <em class="parameter"><code><span class="type">gpointer</span> progress_user_data</code></em>,
-                       <em class="parameter"><code><span class="type">GError</span> **error</code></em>);</pre>
+                       <em class="parameter"><code><a href="https://developer.gnome.org/glib/unstable/glib-Basic-Types.html#gpointer"><span class="type">gpointer</span></a> progress_user_data</code></em>,
+                       <em class="parameter"><code><a href="https://developer.gnome.org/glib/unstable/glib-Error-Reporting.html#GError"><span class="type">GError</span></a> **error</code></em>);</pre>
 <p>We may want to agree to a EULA dialog if one is presented.</p>
 <p>Warning: this function is synchronous, and may block. Do not use it in GUI
 applications.</p>
@@ -2039,7 +2047,7 @@ applications.</p>
 </tr>
 <tr>
 <td class="parameter_name"><p>cancellable</p></td>
-<td class="parameter_description"><p>a <span class="type">GCancellable</span> or <a href="/usr/share/gtk-doc/html/liboil/liboil-liboiljunk.html#NULL:CAPS"><code class="literal">NULL</code></a></p></td>
+<td class="parameter_description"><p>a <a href="https://developer.gnome.org/gio/unstable/GCancellable.html"><span class="type">GCancellable</span></a> or <a href="/usr/share/gtk-doc/html/liboil/liboil-liboiljunk.html#NULL:CAPS"><code class="literal">NULL</code></a></p></td>
 <td class="parameter_annotations"> </td>
 </tr>
 <tr>
@@ -2055,7 +2063,7 @@ applications.</p>
 </tr>
 <tr>
 <td class="parameter_name"><p>error</p></td>
-<td class="parameter_description"><p>the <span class="type">GError</span> to store any failure, or <a href="/usr/share/gtk-doc/html/liboil/liboil-liboiljunk.html#NULL:CAPS"><code class="literal">NULL</code></a></p></td>
+<td class="parameter_description"><p>the <a href="https://developer.gnome.org/glib/unstable/glib-Error-Reporting.html#GError"><span class="type">GError</span></a> to store any failure, or <a href="/usr/share/gtk-doc/html/liboil/liboil-liboiljunk.html#NULL:CAPS"><code class="literal">NULL</code></a></p></td>
 <td class="parameter_annotations"> </td>
 </tr>
 </tbody>
@@ -2074,10 +2082,10 @@ applications.</p>
 <pre class="programlisting"><a class="link" href="PkResults.html" title="PkResults"><span class="returnvalue">PkResults</span></a> *
 pk_client_get_repo_list (<em class="parameter"><code><a class="link" href="PkClient.html" title="PkClient"><span class="type">PkClient</span></a> *client</code></em>,
                          <em class="parameter"><code><a class="link" href="PackageKit-pk-bitfield.html#PkBitfield" title="PkBitfield"><span class="type">PkBitfield</span></a> filters</code></em>,
-                         <em class="parameter"><code><span class="type">GCancellable</span> *cancellable</code></em>,
+                         <em class="parameter"><code><a href="https://developer.gnome.org/gio/unstable/GCancellable.html"><span class="type">GCancellable</span></a> *cancellable</code></em>,
                          <em class="parameter"><code><a class="link" href="PkProgress.html#PkProgressCallback" title="PkProgressCallback ()"><span class="type">PkProgressCallback</span></a> progress_callback</code></em>,
-                         <em class="parameter"><code><span class="type">gpointer</span> progress_user_data</code></em>,
-                         <em class="parameter"><code><span class="type">GError</span> **error</code></em>);</pre>
+                         <em class="parameter"><code><a href="https://developer.gnome.org/glib/unstable/glib-Basic-Types.html#gpointer"><span class="type">gpointer</span></a> progress_user_data</code></em>,
+                         <em class="parameter"><code><a href="https://developer.gnome.org/glib/unstable/glib-Error-Reporting.html#GError"><span class="type">GError</span></a> **error</code></em>);</pre>
 <p>Get the list of repositories installed on the system.</p>
 <p>Warning: this function is synchronous, and may block. Do not use it in GUI
 applications.</p>
@@ -2102,7 +2110,7 @@ applications.</p>
 </tr>
 <tr>
 <td class="parameter_name"><p>cancellable</p></td>
-<td class="parameter_description"><p>a <span class="type">GCancellable</span> or <a href="/usr/share/gtk-doc/html/liboil/liboil-liboiljunk.html#NULL:CAPS"><code class="literal">NULL</code></a></p></td>
+<td class="parameter_description"><p>a <a href="https://developer.gnome.org/gio/unstable/GCancellable.html"><span class="type">GCancellable</span></a> or <a href="/usr/share/gtk-doc/html/liboil/liboil-liboiljunk.html#NULL:CAPS"><code class="literal">NULL</code></a></p></td>
 <td class="parameter_annotations"> </td>
 </tr>
 <tr>
@@ -2118,7 +2126,7 @@ applications.</p>
 </tr>
 <tr>
 <td class="parameter_name"><p>error</p></td>
-<td class="parameter_description"><p>the <span class="type">GError</span> to store any failure, or <a href="/usr/share/gtk-doc/html/liboil/liboil-liboiljunk.html#NULL:CAPS"><code class="literal">NULL</code></a></p></td>
+<td class="parameter_description"><p>the <a href="https://developer.gnome.org/glib/unstable/glib-Error-Reporting.html#GError"><span class="type">GError</span></a> to store any failure, or <a href="/usr/share/gtk-doc/html/liboil/liboil-liboiljunk.html#NULL:CAPS"><code class="literal">NULL</code></a></p></td>
 <td class="parameter_annotations"> </td>
 </tr>
 </tbody>
@@ -2136,12 +2144,12 @@ applications.</p>
 <a name="pk-client-repo-enable"></a><h3>pk_client_repo_enable ()</h3>
 <pre class="programlisting"><a class="link" href="PkResults.html" title="PkResults"><span class="returnvalue">PkResults</span></a> *
 pk_client_repo_enable (<em class="parameter"><code><a class="link" href="PkClient.html" title="PkClient"><span class="type">PkClient</span></a> *client</code></em>,
-                       <em class="parameter"><code>const <span class="type">gchar</span> *repo_id</code></em>,
-                       <em class="parameter"><code><span class="type">gboolean</span> enabled</code></em>,
-                       <em class="parameter"><code><span class="type">GCancellable</span> *cancellable</code></em>,
+                       <em class="parameter"><code>const <a href="https://developer.gnome.org/glib/unstable/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a> *repo_id</code></em>,
+                       <em class="parameter"><code><a href="https://developer.gnome.org/glib/unstable/glib-Basic-Types.html#gboolean"><span class="type">gboolean</span></a> enabled</code></em>,
+                       <em class="parameter"><code><a href="https://developer.gnome.org/gio/unstable/GCancellable.html"><span class="type">GCancellable</span></a> *cancellable</code></em>,
                        <em class="parameter"><code><a class="link" href="PkProgress.html#PkProgressCallback" title="PkProgressCallback ()"><span class="type">PkProgressCallback</span></a> progress_callback</code></em>,
-                       <em class="parameter"><code><span class="type">gpointer</span> progress_user_data</code></em>,
-                       <em class="parameter"><code><span class="type">GError</span> **error</code></em>);</pre>
+                       <em class="parameter"><code><a href="https://developer.gnome.org/glib/unstable/glib-Basic-Types.html#gpointer"><span class="type">gpointer</span></a> progress_user_data</code></em>,
+                       <em class="parameter"><code><a href="https://developer.gnome.org/glib/unstable/glib-Error-Reporting.html#GError"><span class="type">GError</span></a> **error</code></em>);</pre>
 <p>Enable or disable the repository.</p>
 <p>Warning: this function is synchronous, and may block. Do not use it in GUI
 applications.</p>
@@ -2171,7 +2179,7 @@ applications.</p>
 </tr>
 <tr>
 <td class="parameter_name"><p>cancellable</p></td>
-<td class="parameter_description"><p>a <span class="type">GCancellable</span> or <a href="/usr/share/gtk-doc/html/liboil/liboil-liboiljunk.html#NULL:CAPS"><code class="literal">NULL</code></a></p></td>
+<td class="parameter_description"><p>a <a href="https://developer.gnome.org/gio/unstable/GCancellable.html"><span class="type">GCancellable</span></a> or <a href="/usr/share/gtk-doc/html/liboil/liboil-liboiljunk.html#NULL:CAPS"><code class="literal">NULL</code></a></p></td>
 <td class="parameter_annotations"> </td>
 </tr>
 <tr>
@@ -2187,7 +2195,7 @@ applications.</p>
 </tr>
 <tr>
 <td class="parameter_name"><p>error</p></td>
-<td class="parameter_description"><p>the <span class="type">GError</span> to store any failure, or <a href="/usr/share/gtk-doc/html/liboil/liboil-liboiljunk.html#NULL:CAPS"><code class="literal">NULL</code></a></p></td>
+<td class="parameter_description"><p>the <a href="https://developer.gnome.org/glib/unstable/glib-Error-Reporting.html#GError"><span class="type">GError</span></a> to store any failure, or <a href="/usr/share/gtk-doc/html/liboil/liboil-liboiljunk.html#NULL:CAPS"><code class="literal">NULL</code></a></p></td>
 <td class="parameter_annotations"> </td>
 </tr>
 </tbody>
@@ -2205,13 +2213,13 @@ applications.</p>
 <a name="pk-client-repo-set-data"></a><h3>pk_client_repo_set_data ()</h3>
 <pre class="programlisting"><a class="link" href="PkResults.html" title="PkResults"><span class="returnvalue">PkResults</span></a> *
 pk_client_repo_set_data (<em class="parameter"><code><a class="link" href="PkClient.html" title="PkClient"><span class="type">PkClient</span></a> *client</code></em>,
-                         <em class="parameter"><code>const <span class="type">gchar</span> *repo_id</code></em>,
-                         <em class="parameter"><code>const <span class="type">gchar</span> *parameter</code></em>,
-                         <em class="parameter"><code>const <span class="type">gchar</span> *value</code></em>,
-                         <em class="parameter"><code><span class="type">GCancellable</span> *cancellable</code></em>,
+                         <em class="parameter"><code>const <a href="https://developer.gnome.org/glib/unstable/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a> *repo_id</code></em>,
+                         <em class="parameter"><code>const <a href="https://developer.gnome.org/glib/unstable/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a> *parameter</code></em>,
+                         <em class="parameter"><code>const <a href="https://developer.gnome.org/glib/unstable/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a> *value</code></em>,
+                         <em class="parameter"><code><a href="https://developer.gnome.org/gio/unstable/GCancellable.html"><span class="type">GCancellable</span></a> *cancellable</code></em>,
                          <em class="parameter"><code><a class="link" href="PkProgress.html#PkProgressCallback" title="PkProgressCallback ()"><span class="type">PkProgressCallback</span></a> progress_callback</code></em>,
-                         <em class="parameter"><code><span class="type">gpointer</span> progress_user_data</code></em>,
-                         <em class="parameter"><code><span class="type">GError</span> **error</code></em>);</pre>
+                         <em class="parameter"><code><a href="https://developer.gnome.org/glib/unstable/glib-Basic-Types.html#gpointer"><span class="type">gpointer</span></a> progress_user_data</code></em>,
+                         <em class="parameter"><code><a href="https://developer.gnome.org/glib/unstable/glib-Error-Reporting.html#GError"><span class="type">GError</span></a> **error</code></em>);</pre>
 <p>We may want to set a repository parameter.
 NOTE: this is free text, and is left to the backend to define a format.</p>
 <p>Warning: this function is synchronous, and may block. Do not use it in GUI
@@ -2247,7 +2255,7 @@ applications.</p>
 </tr>
 <tr>
 <td class="parameter_name"><p>cancellable</p></td>
-<td class="parameter_description"><p>a <span class="type">GCancellable</span> or <a href="/usr/share/gtk-doc/html/liboil/liboil-liboiljunk.html#NULL:CAPS"><code class="literal">NULL</code></a></p></td>
+<td class="parameter_description"><p>a <a href="https://developer.gnome.org/gio/unstable/GCancellable.html"><span class="type">GCancellable</span></a> or <a href="/usr/share/gtk-doc/html/liboil/liboil-liboiljunk.html#NULL:CAPS"><code class="literal">NULL</code></a></p></td>
 <td class="parameter_annotations"> </td>
 </tr>
 <tr>
@@ -2263,7 +2271,7 @@ applications.</p>
 </tr>
 <tr>
 <td class="parameter_name"><p>error</p></td>
-<td class="parameter_description"><p>the <span class="type">GError</span> to store any failure, or <a href="/usr/share/gtk-doc/html/liboil/liboil-liboiljunk.html#NULL:CAPS"><code class="literal">NULL</code></a></p></td>
+<td class="parameter_description"><p>the <a href="https://developer.gnome.org/glib/unstable/glib-Error-Reporting.html#GError"><span class="type">GError</span></a> to store any failure, or <a href="/usr/share/gtk-doc/html/liboil/liboil-liboiljunk.html#NULL:CAPS"><code class="literal">NULL</code></a></p></td>
 <td class="parameter_annotations"> </td>
 </tr>
 </tbody>
@@ -2282,12 +2290,12 @@ applications.</p>
 <pre class="programlisting"><a class="link" href="PkResults.html" title="PkResults"><span class="returnvalue">PkResults</span></a> *
 pk_client_repo_remove (<em class="parameter"><code><a class="link" href="PkClient.html" title="PkClient"><span class="type">PkClient</span></a> *client</code></em>,
                        <em class="parameter"><code><a class="link" href="PackageKit-pk-bitfield.html#PkBitfield" title="PkBitfield"><span class="type">PkBitfield</span></a> transaction_flags</code></em>,
-                       <em class="parameter"><code>const <span class="type">gchar</span> *repo_id</code></em>,
-                       <em class="parameter"><code><span class="type">gboolean</span> autoremove</code></em>,
-                       <em class="parameter"><code><span class="type">GCancellable</span> *cancellable</code></em>,
+                       <em class="parameter"><code>const <a href="https://developer.gnome.org/glib/unstable/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a> *repo_id</code></em>,
+                       <em class="parameter"><code><a href="https://developer.gnome.org/glib/unstable/glib-Basic-Types.html#gboolean"><span class="type">gboolean</span></a> autoremove</code></em>,
+                       <em class="parameter"><code><a href="https://developer.gnome.org/gio/unstable/GCancellable.html"><span class="type">GCancellable</span></a> *cancellable</code></em>,
                        <em class="parameter"><code><a class="link" href="PkProgress.html#PkProgressCallback" title="PkProgressCallback ()"><span class="type">PkProgressCallback</span></a> progress_callback</code></em>,
-                       <em class="parameter"><code><span class="type">gpointer</span> progress_user_data</code></em>,
-                       <em class="parameter"><code><span class="type">GError</span> **error</code></em>);</pre>
+                       <em class="parameter"><code><a href="https://developer.gnome.org/glib/unstable/glib-Basic-Types.html#gpointer"><span class="type">gpointer</span></a> progress_user_data</code></em>,
+                       <em class="parameter"><code><a href="https://developer.gnome.org/glib/unstable/glib-Error-Reporting.html#GError"><span class="type">GError</span></a> **error</code></em>);</pre>
 <p>Removes a repo and optionally the packages installed from it.</p>
 <p>Warning: this function is synchronous, and may block. Do not use it in GUI
 applications.</p>
@@ -2322,7 +2330,7 @@ applications.</p>
 </tr>
 <tr>
 <td class="parameter_name"><p>cancellable</p></td>
-<td class="parameter_description"><p>a <span class="type">GCancellable</span> or <a href="/usr/share/gtk-doc/html/liboil/liboil-liboiljunk.html#NULL:CAPS"><code class="literal">NULL</code></a></p></td>
+<td class="parameter_description"><p>a <a href="https://developer.gnome.org/gio/unstable/GCancellable.html"><span class="type">GCancellable</span></a> or <a href="/usr/share/gtk-doc/html/liboil/liboil-liboiljunk.html#NULL:CAPS"><code class="literal">NULL</code></a></p></td>
 <td class="parameter_annotations"> </td>
 </tr>
 <tr>
@@ -2338,7 +2346,7 @@ applications.</p>
 </tr>
 <tr>
 <td class="parameter_name"><p>error</p></td>
-<td class="parameter_description"><p>the <span class="type">GError</span> to store any failure, or <a href="/usr/share/gtk-doc/html/liboil/liboil-liboiljunk.html#NULL:CAPS"><code class="literal">NULL</code></a></p></td>
+<td class="parameter_description"><p>the <a href="https://developer.gnome.org/glib/unstable/glib-Error-Reporting.html#GError"><span class="type">GError</span></a> to store any failure, or <a href="/usr/share/gtk-doc/html/liboil/liboil-liboiljunk.html#NULL:CAPS"><code class="literal">NULL</code></a></p></td>
 <td class="parameter_annotations"> </td>
 </tr>
 </tbody>
@@ -2353,18 +2361,19 @@ applications.</p>
 </div>
 <hr>
 <div class="refsect2">
-<a name="pk-client-repair-system"></a><h3>pk_client_repair_system ()</h3>
+<a name="pk-client-upgrade-system"></a><h3>pk_client_upgrade_system ()</h3>
 <pre class="programlisting"><a class="link" href="PkResults.html" title="PkResults"><span class="returnvalue">PkResults</span></a> *
-pk_client_repair_system (<em class="parameter"><code><a class="link" href="PkClient.html" title="PkClient"><span class="type">PkClient</span></a> *client</code></em>,
-                         <em class="parameter"><code><a class="link" href="PackageKit-pk-bitfield.html#PkBitfield" title="PkBitfield"><span class="type">PkBitfield</span></a> transaction_flags</code></em>,
-                         <em class="parameter"><code><span class="type">GCancellable</span> *cancellable</code></em>,
-                         <em class="parameter"><code><a class="link" href="PkProgress.html#PkProgressCallback" title="PkProgressCallback ()"><span class="type">PkProgressCallback</span></a> progress_callback</code></em>,
-                         <em class="parameter"><code><span class="type">gpointer</span> progress_user_data</code></em>,
-                         <em class="parameter"><code><span class="type">GError</span> **error</code></em>);</pre>
-<p>This transaction will try to recover from a broken package management system:
-e.g. the installation of a package with unsatisfied dependencies has
-been forced by using a low level tool (rpm or dpkg) or the
-system was shutdown during processing an installation.</p>
+pk_client_upgrade_system (<em class="parameter"><code><a class="link" href="PkClient.html" title="PkClient"><span class="type">PkClient</span></a> *client</code></em>,
+                          <em class="parameter"><code><a class="link" href="PackageKit-pk-bitfield.html#PkBitfield" title="PkBitfield"><span class="type">PkBitfield</span></a> transaction_flags</code></em>,
+                          <em class="parameter"><code>const <a href="https://developer.gnome.org/glib/unstable/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a> *distro_id</code></em>,
+                          <em class="parameter"><code><a class="link" href="PackageKit-pk-enum.html#PkUpgradeKindEnum" title="enum PkUpgradeKindEnum"><span class="type">PkUpgradeKindEnum</span></a> upgrade_kind</code></em>,
+                          <em class="parameter"><code><a href="https://developer.gnome.org/gio/unstable/GCancellable.html"><span class="type">GCancellable</span></a> *cancellable</code></em>,
+                          <em class="parameter"><code><a class="link" href="PkProgress.html#PkProgressCallback" title="PkProgressCallback ()"><span class="type">PkProgressCallback</span></a> progress_callback</code></em>,
+                          <em class="parameter"><code><a href="https://developer.gnome.org/glib/unstable/glib-Basic-Types.html#gpointer"><span class="type">gpointer</span></a> progress_user_data</code></em>,
+                          <em class="parameter"><code><a href="https://developer.gnome.org/glib/unstable/glib-Error-Reporting.html#GError"><span class="type">GError</span></a> **error</code></em>);</pre>
+<p>This transaction will upgrade the distro to the next version, which may
+involve just downloading the installer and setting up the boot device,
+or may involve doing an on-line upgrade.</p>
 <p>The backend will decide what is best to do.</p>
 <p>Warning: this function is synchronous, and may block. Do not use it in GUI
 applications.</p>
@@ -2378,13 +2387,18 @@ applications.</p>
 </colgroup>
 <tbody>
 <tr>
-<td class="parameter_name"><p>transaction_flags</p></td>
-<td class="parameter_description"><p>if only trusted packages should be installed</p></td>
+<td class="parameter_name"><p>distro_id</p></td>
+<td class="parameter_description"><p>a distro ID such as "fedora-14"</p></td>
+<td class="parameter_annotations"> </td>
+</tr>
+<tr>
+<td class="parameter_name"><p>upgrade_kind</p></td>
+<td class="parameter_description"><p>a <a class="link" href="PackageKit-pk-enum.html#PkUpgradeKindEnum" title="enum PkUpgradeKindEnum"><span class="type">PkUpgradeKindEnum</span></a> such as <a class="link" href="PackageKit-pk-enum.html#PK-UPGRADE-KIND-ENUM-COMPLETE:CAPS"><code class="literal">PK_UPGRADE_KIND_ENUM_COMPLETE</code></a></p></td>
 <td class="parameter_annotations"> </td>
 </tr>
 <tr>
 <td class="parameter_name"><p>cancellable</p></td>
-<td class="parameter_description"><p>a <span class="type">GCancellable</span> or <a href="/usr/share/gtk-doc/html/liboil/liboil-liboiljunk.html#NULL:CAPS"><code class="literal">NULL</code></a></p></td>
+<td class="parameter_description"><p>a <a href="https://developer.gnome.org/gio/unstable/GCancellable.html"><span class="type">GCancellable</span></a> or <a href="/usr/share/gtk-doc/html/liboil/liboil-liboiljunk.html#NULL:CAPS"><code class="literal">NULL</code></a></p></td>
 <td class="parameter_annotations"> </td>
 </tr>
 <tr>
@@ -2400,7 +2414,7 @@ applications.</p>
 </tr>
 <tr>
 <td class="parameter_name"><p>error</p></td>
-<td class="parameter_description"><p>the <span class="type">GError</span> to store any failure, or <a href="/usr/share/gtk-doc/html/liboil/liboil-liboiljunk.html#NULL:CAPS"><code class="literal">NULL</code></a></p></td>
+<td class="parameter_description"><p>the <a href="https://developer.gnome.org/glib/unstable/glib-Error-Reporting.html#GError"><span class="type">GError</span></a> to store any failure, or <a href="/usr/share/gtk-doc/html/liboil/liboil-liboiljunk.html#NULL:CAPS"><code class="literal">NULL</code></a></p></td>
 <td class="parameter_annotations"> </td>
 </tr>
 </tbody>
@@ -2411,6 +2425,68 @@ applications.</p>
 <p> a <a class="link" href="PkResults.html" title="PkResults"><code class="literal">PkResults</code></a> object, or NULL for error. </p>
 <p><span class="annotation">[<acronym title="Free data after the code is done."><span class="acronym">transfer full</span></acronym>]</span></p>
 </div>
+<p class="since">Since: 1.0.10</p>
+</div>
+<hr>
+<div class="refsect2">
+<a name="pk-client-repair-system"></a><h3>pk_client_repair_system ()</h3>
+<pre class="programlisting"><a class="link" href="PkResults.html" title="PkResults"><span class="returnvalue">PkResults</span></a> *
+pk_client_repair_system (<em class="parameter"><code><a class="link" href="PkClient.html" title="PkClient"><span class="type">PkClient</span></a> *client</code></em>,
+                         <em class="parameter"><code><a class="link" href="PackageKit-pk-bitfield.html#PkBitfield" title="PkBitfield"><span class="type">PkBitfield</span></a> transaction_flags</code></em>,
+                         <em class="parameter"><code><a href="https://developer.gnome.org/gio/unstable/GCancellable.html"><span class="type">GCancellable</span></a> *cancellable</code></em>,
+                         <em class="parameter"><code><a class="link" href="PkProgress.html#PkProgressCallback" title="PkProgressCallback ()"><span class="type">PkProgressCallback</span></a> progress_callback</code></em>,
+                         <em class="parameter"><code><a href="https://developer.gnome.org/glib/unstable/glib-Basic-Types.html#gpointer"><span class="type">gpointer</span></a> progress_user_data</code></em>,
+                         <em class="parameter"><code><a href="https://developer.gnome.org/glib/unstable/glib-Error-Reporting.html#GError"><span class="type">GError</span></a> **error</code></em>);</pre>
+<p>This transaction will try to recover from a broken package management system:
+e.g. the installation of a package with unsatisfied dependencies has
+been forced by using a low level tool (rpm or dpkg) or the
+system was shutdown during processing an installation.</p>
+<p>The backend will decide what is best to do.</p>
+<p>Warning: this function is synchronous, and may block. Do not use it in GUI
+applications.</p>
+<div class="refsect3">
+<a name="id-1.5.4.5.33.7"></a><h4>Parameters</h4>
+<div class="informaltable"><table width="100%" border="0">
+<colgroup>
+<col width="150px" class="parameters_name">
+<col class="parameters_description">
+<col width="200px" class="parameters_annotations">
+</colgroup>
+<tbody>
+<tr>
+<td class="parameter_name"><p>transaction_flags</p></td>
+<td class="parameter_description"><p>if only trusted packages should be installed</p></td>
+<td class="parameter_annotations"> </td>
+</tr>
+<tr>
+<td class="parameter_name"><p>cancellable</p></td>
+<td class="parameter_description"><p>a <a href="https://developer.gnome.org/gio/unstable/GCancellable.html"><span class="type">GCancellable</span></a> or <a href="/usr/share/gtk-doc/html/liboil/liboil-liboiljunk.html#NULL:CAPS"><code class="literal">NULL</code></a></p></td>
+<td class="parameter_annotations"> </td>
+</tr>
+<tr>
+<td class="parameter_name"><p>progress_callback</p></td>
+<td class="parameter_description"><p> the function to run when the progress changes. </p></td>
+<td class="parameter_annotations"><span class="annotation">[<acronym title="The callback is valid only during the call to the method."><span class="acronym">scope call</span></acronym>]</span></td>
+</tr>
+<tr>
+<td class="parameter_name"><p>progress_user_data</p></td>
+<td class="parameter_description"><p>data to pass to <em class="parameter"><code>progress_callback</code></em>
+</p></td>
+<td class="parameter_annotations"> </td>
+</tr>
+<tr>
+<td class="parameter_name"><p>error</p></td>
+<td class="parameter_description"><p>the <a href="https://developer.gnome.org/glib/unstable/glib-Error-Reporting.html#GError"><span class="type">GError</span></a> to store any failure, or <a href="/usr/share/gtk-doc/html/liboil/liboil-liboiljunk.html#NULL:CAPS"><code class="literal">NULL</code></a></p></td>
+<td class="parameter_annotations"> </td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<div class="refsect3">
+<a name="id-1.5.4.5.33.8"></a><h4>Returns</h4>
+<p> a <a class="link" href="PkResults.html" title="PkResults"><code class="literal">PkResults</code></a> object, or NULL for error. </p>
+<p><span class="annotation">[<acronym title="Free data after the code is done."><span class="acronym">transfer full</span></acronym>]</span></p>
+</div>
 <p class="since">Since: 0.8.1</p>
 </div>
 <hr>
@@ -2418,16 +2494,16 @@ applications.</p>
 <a name="pk-client-adopt"></a><h3>pk_client_adopt ()</h3>
 <pre class="programlisting"><a class="link" href="PkResults.html" title="PkResults"><span class="returnvalue">PkResults</span></a> *
 pk_client_adopt (<em class="parameter"><code><a class="link" href="PkClient.html" title="PkClient"><span class="type">PkClient</span></a> *client</code></em>,
-                 <em class="parameter"><code>const <span class="type">gchar</span> *transaction_id</code></em>,
-                 <em class="parameter"><code><span class="type">GCancellable</span> *cancellable</code></em>,
+                 <em class="parameter"><code>const <a href="https://developer.gnome.org/glib/unstable/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a> *transaction_id</code></em>,
+                 <em class="parameter"><code><a href="https://developer.gnome.org/gio/unstable/GCancellable.html"><span class="type">GCancellable</span></a> *cancellable</code></em>,
                  <em class="parameter"><code><a class="link" href="PkProgress.html#PkProgressCallback" title="PkProgressCallback ()"><span class="type">PkProgressCallback</span></a> progress_callback</code></em>,
-                 <em class="parameter"><code><span class="type">gpointer</span> progress_user_data</code></em>,
-                 <em class="parameter"><code><span class="type">GError</span> **error</code></em>);</pre>
+                 <em class="parameter"><code><a href="https://developer.gnome.org/glib/unstable/glib-Basic-Types.html#gpointer"><span class="type">gpointer</span></a> progress_user_data</code></em>,
+                 <em class="parameter"><code><a href="https://developer.gnome.org/glib/unstable/glib-Error-Reporting.html#GError"><span class="type">GError</span></a> **error</code></em>);</pre>
 <p>Adopt a transaction.</p>
 <p>Warning: this function is synchronous, and will block. Do not use it in GUI
 applications.</p>
 <div class="refsect3">
-<a name="id-1.5.4.5.33.6"></a><h4>Parameters</h4>
+<a name="id-1.5.4.5.34.6"></a><h4>Parameters</h4>
 <div class="informaltable"><table width="100%" border="0">
 <colgroup>
 <col width="150px" class="parameters_name">
@@ -2447,7 +2523,7 @@ applications.</p>
 </tr>
 <tr>
 <td class="parameter_name"><p>cancellable</p></td>
-<td class="parameter_description"><p>a <span class="type">GCancellable</span> or <a href="/usr/share/gtk-doc/html/liboil/liboil-liboiljunk.html#NULL:CAPS"><code class="literal">NULL</code></a></p></td>
+<td class="parameter_description"><p>a <a href="https://developer.gnome.org/gio/unstable/GCancellable.html"><span class="type">GCancellable</span></a> or <a href="/usr/share/gtk-doc/html/liboil/liboil-liboiljunk.html#NULL:CAPS"><code class="literal">NULL</code></a></p></td>
 <td class="parameter_annotations"> </td>
 </tr>
 <tr>
@@ -2463,14 +2539,14 @@ applications.</p>
 </tr>
 <tr>
 <td class="parameter_name"><p>error</p></td>
-<td class="parameter_description"><p>the <span class="type">GError</span> to store any failure, or <a href="/usr/share/gtk-doc/html/liboil/liboil-liboiljunk.html#NULL:CAPS"><code class="literal">NULL</code></a></p></td>
+<td class="parameter_description"><p>the <a href="https://developer.gnome.org/glib/unstable/glib-Error-Reporting.html#GError"><span class="type">GError</span></a> to store any failure, or <a href="/usr/share/gtk-doc/html/liboil/liboil-liboiljunk.html#NULL:CAPS"><code class="literal">NULL</code></a></p></td>
 <td class="parameter_annotations"> </td>
 </tr>
 </tbody>
 </table></div>
 </div>
 <div class="refsect3">
-<a name="id-1.5.4.5.33.7"></a><h4>Returns</h4>
+<a name="id-1.5.4.5.34.7"></a><h4>Returns</h4>
 <p> a <a class="link" href="PkResults.html" title="PkResults"><code class="literal">PkResults</code></a> object, or NULL for error. </p>
 <p><span class="annotation">[<acronym title="Free data after the code is done."><span class="acronym">transfer full</span></acronym>]</span></p>
 </div>
@@ -2481,14 +2557,14 @@ applications.</p>
 <a name="pk-client-get-progress"></a><h3>pk_client_get_progress ()</h3>
 <pre class="programlisting"><a class="link" href="PkProgress.html" title="PkProgress"><span class="returnvalue">PkProgress</span></a> *
 pk_client_get_progress (<em class="parameter"><code><a class="link" href="PkClient.html" title="PkClient"><span class="type">PkClient</span></a> *client</code></em>,
-                        <em class="parameter"><code>const <span class="type">gchar</span> *transaction_id</code></em>,
-                        <em class="parameter"><code><span class="type">GCancellable</span> *cancellable</code></em>,
-                        <em class="parameter"><code><span class="type">GError</span> **error</code></em>);</pre>
+                        <em class="parameter"><code>const <a href="https://developer.gnome.org/glib/unstable/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a> *transaction_id</code></em>,
+                        <em class="parameter"><code><a href="https://developer.gnome.org/gio/unstable/GCancellable.html"><span class="type">GCancellable</span></a> *cancellable</code></em>,
+                        <em class="parameter"><code><a href="https://developer.gnome.org/glib/unstable/glib-Error-Reporting.html#GError"><span class="type">GError</span></a> **error</code></em>);</pre>
 <p>Get the progress of a transaction.</p>
 <p>Warning: this function is synchronous, and will block. Do not use it in GUI
 applications.</p>
 <div class="refsect3">
-<a name="id-1.5.4.5.34.6"></a><h4>Parameters</h4>
+<a name="id-1.5.4.5.35.6"></a><h4>Parameters</h4>
 <div class="informaltable"><table width="100%" border="0">
 <colgroup>
 <col width="150px" class="parameters_name">
@@ -2508,19 +2584,19 @@ applications.</p>
 </tr>
 <tr>
 <td class="parameter_name"><p>cancellable</p></td>
-<td class="parameter_description"><p>a <span class="type">GCancellable</span> or <a href="/usr/share/gtk-doc/html/liboil/liboil-liboiljunk.html#NULL:CAPS"><code class="literal">NULL</code></a></p></td>
+<td class="parameter_description"><p>a <a href="https://developer.gnome.org/gio/unstable/GCancellable.html"><span class="type">GCancellable</span></a> or <a href="/usr/share/gtk-doc/html/liboil/liboil-liboiljunk.html#NULL:CAPS"><code class="literal">NULL</code></a></p></td>
 <td class="parameter_annotations"> </td>
 </tr>
 <tr>
 <td class="parameter_name"><p>error</p></td>
-<td class="parameter_description"><p>the <span class="type">GError</span> to store any failure, or <a href="/usr/share/gtk-doc/html/liboil/liboil-liboiljunk.html#NULL:CAPS"><code class="literal">NULL</code></a></p></td>
+<td class="parameter_description"><p>the <a href="https://developer.gnome.org/glib/unstable/glib-Error-Reporting.html#GError"><span class="type">GError</span></a> to store any failure, or <a href="/usr/share/gtk-doc/html/liboil/liboil-liboiljunk.html#NULL:CAPS"><code class="literal">NULL</code></a></p></td>
 <td class="parameter_annotations"> </td>
 </tr>
 </tbody>
 </table></div>
 </div>
 <div class="refsect3">
-<a name="id-1.5.4.5.34.7"></a><h4>Returns</h4>
+<a name="id-1.5.4.5.35.7"></a><h4>Returns</h4>
 <p> a <a class="link" href="PkResults.html" title="PkResults"><code class="literal">PkResults</code></a> object, or NULL for error. </p>
 <p><span class="annotation">[<acronym title="Free data after the code is done."><span class="acronym">transfer full</span></acronym>]</span></p>
 </div>
