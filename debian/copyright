@@ -97,11 +97,6 @@ Copyright: 2007, Ali Sabil <ali.sabil@gmail.com>
   2010, Daniel Nicoletti <dantti12@gmail.com>
 License: GPL-2+
 
-Files: ./backends/aptcc/pkg_acqfile.h
-Copyright: 2002, 2005 Daniel Burrows
-  2009, Daniel Nicoletti <dantti@gmail.com>
-License: GPL-2+
-
 Files: ./backends/aptcc/apt-intf.cpp
 Copyright: 1999-2008, Daniel Burrows
   2004, Michael Vogt <mvo@debian.org>
