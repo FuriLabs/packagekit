@@ -98,6 +98,7 @@ pk_role_enum_get_type (void)
             { PK_ROLE_ENUM_GET_DETAILS_LOCAL, "PK_ROLE_ENUM_GET_DETAILS_LOCAL", "get-details-local" },
             { PK_ROLE_ENUM_GET_FILES_LOCAL, "PK_ROLE_ENUM_GET_FILES_LOCAL", "get-files-local" },
             { PK_ROLE_ENUM_REPO_REMOVE, "PK_ROLE_ENUM_REPO_REMOVE", "repo-remove" },
+            { PK_ROLE_ENUM_UPGRADE_SYSTEM, "PK_ROLE_ENUM_UPGRADE_SYSTEM", "upgrade-system" },
             { PK_ROLE_ENUM_LAST, "PK_ROLE_ENUM_LAST", "last" },
             { 0, NULL, NULL }
         };

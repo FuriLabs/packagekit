@@ -1,4 +1,4 @@
-/* gstMatcher.cpp - Match GStreamer packages
+/* gst-matcher.cpp - Match GStreamer packages
  *
  * Copyright (c) 2010 Daniel Nicoletti <dantti12@gmail.com>
  *
@@ -18,7 +18,7 @@
  * Boston, MA 02111-1307, USA.
  */
 
-#include "gstMatcher.h"
+#include "gst-matcher.h"
 
 #include <regex.h>
 #include <gst/gst.h>
@@ -31,12 +31,12 @@ GstMatcher::GstMatcher(gchar **values)
     // gstreamer0.10(urisource-foobar)
     // gstreamer0.10(decoder-audio/x-wma)(wmaversion=3)
     const char *pkreg = "^gstreamer\\([0-9\\.]\\+\\)"
-            "(\\(encoder\\|decoder\\|urisource\\|urisink\\|element\\)-\\([^)]\\+\\))"
-            "\\(([^\\(^\\)]*)\\)\\?";
+                        "(\\(encoder\\|decoder\\|urisource\\|urisink\\|element\\)-\\([^)]\\+\\))"
+                        "\\(([^\\(^\\)]*)\\)\\?";
 
     regex_t pkre;
     if (regcomp(&pkre, pkreg, 0) != 0) {
-        g_debug("Regex compilation error: ", pkreg);
+        g_debug("Regex compilation error: %s", pkreg);
         return;
     }
 
@@ -75,10 +75,6 @@ GstMatcher::GstMatcher(gchar **values)
             } else if (type.compare("element") == 0) {
                 type = "Gstreamer-Elements: ";
             }
-            //             cout << version << endl;
-            //             cout << type << endl;
-            //             cout << data << endl;
-            //             cout << opt << endl;
 
             gchar *capsString;
             if (opt.empty()) {

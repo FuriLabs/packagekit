@@ -92,6 +92,9 @@ in'as'values)
 in'as'package_ids)
 <a class="link" href="Transaction.html#Transaction.WhatProvides">WhatProvides</a>(in't'filter,
 in'as'values)
+<a class="link" href="Transaction.html#Transaction.UpgradeSystem">UpgradeSystem</a>(in't'transaction_flags,
+in's'distro_id,
+in'u'upgrade_kind)
 <a class="link" href="Transaction.html#Transaction.RepairSystem">RepairSystem</a>(in't'transaction_flags)
 </pre>
 </div>
@@ -1659,6 +1662,63 @@ in'as'values)</pre>
 <hr>
 <div class="refsect2">
 <a name="id-1.3.4.8.166"></a><h3>
+<a name="Transaction.UpgradeSystem"></a>UpgradeSystem ()</h3>
+<pre class="programlisting">UpgradeSystem (in't'transaction_flags,
+in's'distro_id,
+in'u'upgrade_kind)</pre>
+</div>
+<p>
+            This method perfoms a distribution upgrade to the specified
+            version.
+          </p>
+<p>
+            This method typically emits
+            Progress,
+            Status and
+            Error and
+            Package.
+          </p>
+<div class="variablelist"><table border="0" class="variablelist">
+<colgroup>
+<col align="left" valign="top">
+<col>
+</colgroup>
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>transaction_flags</code></em>:</span></p></td>
+<td>
+            
+              If this method is can only install trusted files, and the files are unsigned, then
+              the backend will send a ErrorCode(missing-gpg-signature).
+            
+          </td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>distro_id</code></em>:</span></p></td>
+<td>
+            
+              The distribution ID to upgrade to, e.g. fedora-14.
+            
+          </td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>upgrade_kind</code></em>:</span></p></td>
+<td>
+            
+              The type of upgrade, e.g. minimal, default or complete.
+              Minimal upgrades will download the smallest amount of data
+              before launching a installer.
+              The default is to download enough data to launch a full
+              graphical installer, but a complete upgrade will be
+              required if there is no internet access during install time.
+            
+          </td>
+</tr>
+</tbody>
+</table></div>
+<hr>
+<div class="refsect2">
+<a name="id-1.3.4.8.170"></a><h3>
 <a name="Transaction.RepairSystem"></a>RepairSystem ()</h3>
 <pre class="programlisting">RepairSystem (in't'transaction_flags)</pre>
 </div>

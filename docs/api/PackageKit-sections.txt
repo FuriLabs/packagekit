@@ -87,6 +87,7 @@ pk_client_get_repo_list_async
 pk_client_repo_enable_async
 pk_client_repo_set_data_async
 pk_client_repo_remove_async
+pk_client_upgrade_system_async
 pk_client_repair_system_async
 pk_client_adopt_async
 pk_client_get_progress_finish
@@ -164,6 +165,7 @@ pk_client_get_repo_list
 pk_client_repo_enable
 pk_client_repo_set_data
 pk_client_repo_remove
+pk_client_upgrade_system
 pk_client_repair_system
 pk_client_adopt
 pk_client_get_progress
@@ -816,7 +818,6 @@ pk_results_get_repo_signature_required_array
 pk_results_get_eula_required_array
 pk_results_get_media_change_required_array
 pk_results_get_repo_detail_array
-pk_results_get_message_array
 <SUBSECTION Standard>
 PK_IS_RESULTS
 PK_IS_RESULTS_CLASS
