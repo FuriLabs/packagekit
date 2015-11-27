@@ -99,6 +99,8 @@ libpackagekit-glib2.so.18 libpackagekit-glib2-18 #MINVER#
  pk_client_set_locale@Base 0.9.4
  pk_client_update_packages@Base 0.9.4
  pk_client_update_packages_async@Base 0.9.4
+ pk_client_upgrade_system@Base 1.0.11
+ pk_client_upgrade_system_async@Base 1.0.11
  pk_client_what_provides@Base 0.9.4
  pk_client_what_provides_async@Base 0.9.4
  pk_control_can_authorize_async@Base 0.9.4
