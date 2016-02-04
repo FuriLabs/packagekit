@@ -1,0 +1,36 @@
+From de33b843c082a3efd54ec4baf1a9206df60efec2 Mon Sep 17 00:00:00 2001
+From: Matthias Klumpp <matthias@tenstral.net>
+Date: Thu, 4 Feb 2016 14:14:52 +0100
+Subject: [PATCH] aptcc: Always use "installed" as data part for a package-id
+ when the pkg is installed
+
+I still don't like the "data sometimes is repository name and sometimes
+contains state information" behavior, but not providing "installed" as
+data part when the package is installed breaks GNOME Software and maybe
+also other tools which rely on this.
+---
+ backends/aptcc/apt-utils.cpp | 10 ++++------
+ 1 file changed, 4 insertions(+), 6 deletions(-)
+
+diff --git a/backends/aptcc/apt-utils.cpp b/backends/aptcc/apt-utils.cpp
+index 45c8cce..0d2455d 100644
+--- a/backends/aptcc/apt-utils.cpp
++++ b/backends/aptcc/apt-utils.cpp
+@@ -361,13 +361,11 @@ gchar* utilBuildPackageId(const pkgCache::VerIterator &ver)
+ 
+     string data;
+     const pkgCache::PkgIterator &pkg = ver.ParentPkg();
+-    if (pkg->CurrentState == pkgCache::State::Installed &&
+-            pkg.CurrentVer() == ver) {
+-        if (vf.File().Archive() == NULL) {
++    if (pkg->CurrentState == pkgCache::State::Installed && pkg.CurrentVer() == ver) {
++            // when a package is installed, the data part of a package-id is *always* "installed",
++            // the repository information is not available in that string.
++            // Hopefully nobody ever creates a repository with name "installed"...
+             data = "installed";
+-        } else {
+-            data += vf.File().Archive();
+-        }
+     } else if (vf.File().Archive() != NULL) {
+         data = vf.File().Archive();
+     }
