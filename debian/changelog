@@ -1,3 +1,12 @@
+packagekit (1.0.11-2) unstable; urgency=medium
+
+  * pkid-state-in-data.patch: Always set data part of a package-id to
+    "installed" if the package is installed, and do not include repo
+    information in that case.
+    The previous behavior broke GNOME Software removals (Closes: #804094)
+
+ -- Matthias Klumpp <mak@debian.org>  Thu, 04 Feb 2016 14:36:47 +0100
+
 packagekit (1.0.11-1) unstable; urgency=medium
 
   * New upstream release: 1.0.11
