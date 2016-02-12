@@ -50,8 +50,6 @@ License: LGPL-2.1+
 Files: ./backends/dummy/*
  ./backends/test/*
  ./client/*
- ./contrib/browser-plugin/pk-plugin.c
- ./contrib/browser-plugin/pk-plugin.h
  ./contrib/command-not-found/PackageKit.sh
  ./contrib/command-not-found/pk-command-not-found.c
  ./contrib/gtk-module/gtk2/pk-gtk-module-gtk2.c
@@ -144,13 +142,6 @@ License: GPL-2+
 Files: ./backends/entropy/entropyBackend.py
 Copyright: 2009, Mounir Lamouri (volkmar) <mounir.lamouri@gmail.com>
   2010, Fabio Erculiani (lxnay) <lxnay@sabayon.org>
-License: GPL-2+
-
-Files: ./contrib/browser-plugin/pk-main.c
- ./contrib/browser-plugin/pk-plugin-install.c
- ./contrib/browser-plugin/pk-plugin-install.h
-Copyright: 2008, Red Hat, Inc
-  2008-2012, Richard Hughes <richard@hughsie.com>
 License: GPL-2+
 
 Files: ./lib/packagekit-glib2/pk-spawn-polkit-agent.c
