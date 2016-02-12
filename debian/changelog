@@ -1,3 +1,13 @@
+packagekit (1.1.0-1) UNRELEASED; urgency=medium
+
+  * New upstream release: 1.1.0
+  * Drop the browser plugin
+    - Removed upstream, and "appstream://" URLs are much more
+      useful and less risky. Also, browser plugins will go away
+      in the near future anyway.
+
+ -- Matthias Klumpp <mak@debian.org>  Fri, 12 Feb 2016 22:45:04 +0100
+
 packagekit (1.0.11-2) unstable; urgency=medium
 
   * pkid-state-in-data.patch: Always set data part of a package-id to
