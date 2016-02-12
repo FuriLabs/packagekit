@@ -27,8 +27,6 @@
 #include <errno.h>
 #include <string.h>
 
-#include "src/pk-cleanup.h"
-
 #include "pk-offline.h"
 #include "pk-offline-private.h"
 
@@ -47,7 +45,7 @@ gboolean
 pk_offline_auth_set_action (PkOfflineAction action, GError **error)
 {
 	const gchar *action_str;
-	_cleanup_error_free_ GError *error_local = NULL;
+	g_autoptr(GError) error_local = NULL;
 
 	g_return_val_if_fail (error == NULL || *error == NULL, FALSE);
 
@@ -95,9 +93,9 @@ pk_offline_auth_set_action (PkOfflineAction action, GError **error)
 gboolean
 pk_offline_auth_cancel (GError **error)
 {
-	_cleanup_error_free_ GError *error_local = NULL;
-	_cleanup_object_unref_ GFile *file1 = NULL;
-	_cleanup_object_unref_ GFile *file2 = NULL;
+	g_autoptr(GError) error_local = NULL;
+	g_autoptr(GFile) file1 = NULL;
+	g_autoptr(GFile) file2 = NULL;
 
 	g_return_val_if_fail (error == NULL || *error == NULL, FALSE);
 
@@ -141,8 +139,8 @@ pk_offline_auth_cancel (GError **error)
 gboolean
 pk_offline_auth_clear_results (GError **error)
 {
-	_cleanup_error_free_ GError *error_local = NULL;
-	_cleanup_object_unref_ GFile *file = NULL;
+	g_autoptr(GError) error_local = NULL;
+	g_autoptr(GFile) file = NULL;
 
 	g_return_val_if_fail (error == NULL || *error == NULL, FALSE);
 
@@ -178,8 +176,9 @@ pk_offline_auth_clear_results (GError **error)
 gboolean
 pk_offline_auth_invalidate (GError **error)
 {
-	_cleanup_error_free_ GError *error_local = NULL;
-	_cleanup_object_unref_ GFile *file = NULL;
+	g_autoptr(GError) error_local = NULL;
+	g_autoptr(GFile) file1 = NULL;
+	g_autoptr(GFile) file2 = NULL;
 
 	g_return_val_if_fail (error == NULL || *error == NULL, FALSE);
 
@@ -188,9 +187,9 @@ pk_offline_auth_invalidate (GError **error)
 		return FALSE;
 
 	/* delete the prepared file */
-	file = g_file_new_for_path (PK_OFFLINE_PREPARED_FILENAME);
-	if (g_file_query_exists (file, NULL) &&
-	    !g_file_delete (file, NULL, &error_local)) {
+	file1 = g_file_new_for_path (PK_OFFLINE_PREPARED_FILENAME);
+	if (g_file_query_exists (file1, NULL) &&
+	    !g_file_delete (file1, NULL, &error_local)) {
 		g_set_error (error,
 			     PK_OFFLINE_ERROR,
 			     PK_OFFLINE_ERROR_FAILED,
@@ -199,35 +198,37 @@ pk_offline_auth_invalidate (GError **error)
 			     error_local->message);
 		return FALSE;
 	}
+
+	/* delete the prepared system upgrade file */
+	file2 = g_file_new_for_path (PK_OFFLINE_PREPARED_UPGRADE_FILENAME);
+	if (g_file_query_exists (file2, NULL) &&
+	    !g_file_delete (file2, NULL, &error_local)) {
+		g_set_error (error,
+			     PK_OFFLINE_ERROR,
+			     PK_OFFLINE_ERROR_FAILED,
+			     "Cannot delete %s: %s",
+			     PK_OFFLINE_PREPARED_UPGRADE_FILENAME,
+			     error_local->message);
+		return FALSE;
+	}
+
 	return TRUE;
 }
 
-/**
- * pk_offline_auth_trigger:
- * @action: a #PkOfflineAction, e.g. %PK_OFFLINE_ACTION_REBOOT
- * @error: A #GError or %NULL
- *
- * Triggers the offline update so that the next reboot will perform the
- * pending transaction.
- *
- * Return value: %TRUE for success, else %FALSE and @error set
- *
- * Since: 0.9.6
- **/
-gboolean
-pk_offline_auth_trigger (PkOfflineAction action, GError **error)
+static gboolean
+pk_offline_auth_trigger_prepared_file (PkOfflineAction action, const gchar *prepared_file, GError **error)
 {
 	gint rc;
 
 	g_return_val_if_fail (error == NULL || *error == NULL, FALSE);
 
 	/* check the prepared update exists */
-	if (!g_file_test (PK_OFFLINE_PREPARED_FILENAME, G_FILE_TEST_EXISTS)) {
+	if (!g_file_test (prepared_file, G_FILE_TEST_EXISTS)) {
 		g_set_error (error,
 			     PK_OFFLINE_ERROR,
 			     PK_OFFLINE_ERROR_NO_DATA,
 			     "Prepared update not found: %s",
-			     PK_OFFLINE_PREPARED_FILENAME);
+			     prepared_file);
 		return FALSE;
 	}
 
@@ -253,6 +254,42 @@ pk_offline_auth_trigger (PkOfflineAction action, GError **error)
 }
 
 /**
+ * pk_offline_auth_trigger:
+ * @action: a #PkOfflineAction, e.g. %PK_OFFLINE_ACTION_REBOOT
+ * @error: A #GError or %NULL
+ *
+ * Triggers the offline update so that the next reboot will perform the
+ * pending transaction.
+ *
+ * Return value: %TRUE for success, else %FALSE and @error set
+ *
+ * Since: 0.9.6
+ **/
+gboolean
+pk_offline_auth_trigger (PkOfflineAction action, GError **error)
+{
+	return pk_offline_auth_trigger_prepared_file (action, PK_OFFLINE_PREPARED_FILENAME, error);
+}
+
+/**
+ * pk_offline_auth_trigger_upgrade:
+ * @action: a #PkOfflineAction, e.g. %PK_OFFLINE_ACTION_REBOOT
+ * @error: A #GError or %NULL
+ *
+ * Triggers the offline system upgrade so that the next reboot will perform the
+ * pending transaction.
+ *
+ * Return value: %TRUE for success, else %FALSE and @error set
+ *
+ * Since: 1.0.12
+ **/
+gboolean
+pk_offline_auth_trigger_upgrade (PkOfflineAction action, GError **error)
+{
+	return pk_offline_auth_trigger_prepared_file (action, PK_OFFLINE_PREPARED_UPGRADE_FILENAME, error);
+}
+
+/**
  * pk_offline_auth_set_prepared_ids:
  * @package_ids: Array of package-ids
  * @error: A #GError or %NULL
@@ -266,13 +303,38 @@ pk_offline_auth_trigger (PkOfflineAction action, GError **error)
 gboolean
 pk_offline_auth_set_prepared_ids (gchar **package_ids, GError **error)
 {
-	_cleanup_free_ gchar *data = NULL;
+	g_autofree gchar *data = NULL;
+	g_autoptr(GKeyFile) keyfile = NULL;
 
 	g_return_val_if_fail (error == NULL || *error == NULL, FALSE);
 
-	data = g_strjoinv ("\n", package_ids);
-	return g_file_set_contents (PK_OFFLINE_PREPARED_FILENAME,
-				    data, -1, error);
+	data = g_strjoinv (",", package_ids);
+	keyfile = g_key_file_new ();
+	g_key_file_set_string (keyfile, "update", "prepared_ids", data);
+	return g_key_file_save_to_file (keyfile, PK_OFFLINE_PREPARED_FILENAME, error);
+}
+
+/**
+ * pk_offline_auth_set_prepared_upgrade_version:
+ * @release_ver: Distro version to upgrade to
+ * @error: A #GError or %NULL
+ *
+ * Saves the distro version to upgrade to a prepared transaction file.
+ *
+ * Return value: %TRUE for success, else %FALSE and @error set
+ *
+ * Since: 1.0.12
+ **/
+gboolean
+pk_offline_auth_set_prepared_upgrade_version (const gchar *release_ver, GError **error)
+{
+	g_autoptr(GKeyFile) keyfile = NULL;
+
+	g_return_val_if_fail (error == NULL || *error == NULL, FALSE);
+
+	keyfile = g_key_file_new ();
+	g_key_file_set_string (keyfile, "update", "releasever", release_ver);
+	return g_key_file_save_to_file (keyfile, PK_OFFLINE_PREPARED_UPGRADE_FILENAME, error);
 }
 
 /**
@@ -291,11 +353,11 @@ pk_offline_auth_set_results (PkResults *results, GError **error)
 {
 	guint i;
 	PkPackage *package;
-	_cleanup_error_free_ GError *error_local = NULL;
-	_cleanup_free_ gchar *data = NULL;
-	_cleanup_keyfile_unref_ GKeyFile *key_file = NULL;
-	_cleanup_object_unref_ PkError *pk_error = NULL;
-	_cleanup_ptrarray_unref_ GPtrArray *packages = NULL;
+	g_autoptr(GError) error_local = NULL;
+	g_autofree gchar *data = NULL;
+	g_autoptr(GKeyFile) key_file = NULL;
+	g_autoptr(PkError) pk_error = NULL;
+	g_autoptr(GPtrArray) packages = NULL;
 
 	g_return_val_if_fail (error == NULL || *error == NULL, FALSE);
 
@@ -324,7 +386,7 @@ pk_offline_auth_set_results (PkResults *results, GError **error)
 	/* save packages if any set */
 	packages = pk_results_get_package_array (results);
 	if (packages->len > 0) {
-		_cleanup_string_free_ GString *string = NULL;
+		g_autoptr(GString) string = NULL;
 		string = g_string_new ("");
 		for (i = 0; i < packages->len; i++) {
 			package = g_ptr_array_index (packages, i);

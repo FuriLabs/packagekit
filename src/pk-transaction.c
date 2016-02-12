@@ -48,13 +48,17 @@
 #include <packagekit-glib2/pk-results.h>
 #include <polkit/polkit.h>
 
-#include "pk-cleanup.h"
 #include "pk-backend.h"
 #include "pk-dbus.h"
 #include "pk-shared.h"
 #include "pk-transaction-db.h"
 #include "pk-transaction.h"
 #include "pk-transaction-private.h"
+
+#ifndef glib_autoptr_cleanup_PolkitAuthorizationResult
+G_DEFINE_AUTOPTR_CLEANUP_FUNC(PolkitAuthorizationResult, g_object_unref)
+G_DEFINE_AUTOPTR_CLEANUP_FUNC(PolkitDetails, g_object_unref)
+#endif
 
 static void     pk_transaction_finalize		(GObject	    *object);
 static void     pk_transaction_dispose		(GObject	    *object);
@@ -556,7 +560,7 @@ pk_transaction_error_code_cb (PkBackendJob *job,
 			      PkTransaction *transaction)
 {
 	PkErrorEnum code;
-	_cleanup_free_ gchar *details = NULL;
+	g_autofree gchar *details = NULL;
 
 	g_return_if_fail (PK_IS_TRANSACTION (transaction));
 	g_return_if_fail (transaction->priv->tid != NULL);
@@ -594,8 +598,8 @@ pk_transaction_files_cb (PkBackendJob *job,
 			 PkTransaction *transaction)
 {
 	guint i;
-	_cleanup_free_ gchar *package_id = NULL;
-	_cleanup_strv_free_ gchar **files = NULL;
+	g_autofree gchar *package_id = NULL;
+	g_auto(GStrv) files = NULL;
 
 	g_return_if_fail (PK_IS_TRANSACTION (transaction));
 	g_return_if_fail (transaction->priv->tid != NULL);
@@ -642,11 +646,11 @@ pk_transaction_category_cb (PkBackendJob *job,
 			    PkCategory *item,
 			    PkTransaction *transaction)
 {
-	_cleanup_free_ gchar *parent_id = NULL;
-	_cleanup_free_ gchar *cat_id = NULL;
-	_cleanup_free_ gchar *name = NULL;
-	_cleanup_free_ gchar *summary = NULL;
-	_cleanup_free_ gchar *icon = NULL;
+	g_autofree gchar *parent_id = NULL;
+	g_autofree gchar *cat_id = NULL;
+	g_autofree gchar *name = NULL;
+	g_autofree gchar *summary = NULL;
+	g_autofree gchar *icon = NULL;
 
 	g_return_if_fail (PK_IS_TRANSACTION (transaction));
 	g_return_if_fail (transaction->priv->tid != NULL);
@@ -716,8 +720,8 @@ pk_transaction_distro_upgrade_cb (PkBackendJob *job,
 				  PkTransaction *transaction)
 {
 	PkUpdateStateEnum state;
-	_cleanup_free_ gchar *name = NULL;
-	_cleanup_free_ gchar *summary = NULL;
+	g_autofree gchar *name = NULL;
+	g_autofree gchar *summary = NULL;
 
 	g_return_if_fail (PK_IS_TRANSACTION (transaction));
 	g_return_if_fail (transaction->priv->tid != NULL);
@@ -894,7 +898,7 @@ static void
 pk_transaction_setup_mime_types (PkTransaction *transaction)
 {
 	guint i;
-	_cleanup_strv_free_ gchar **mime_types = NULL;
+	g_auto(GStrv) mime_types = NULL;
 
 	/* get list of mime types supported by backends */
 	mime_types = pk_backend_get_mime_types (transaction->priv->backend);
@@ -938,7 +942,7 @@ pk_transaction_get_backend_job (PkTransaction *transaction)
 gboolean
 pk_transaction_is_finished_with_lock_required (PkTransaction *transaction)
 {
-	_cleanup_object_unref_ PkError *error_code = NULL;
+	g_autoptr(PkError) error_code = NULL;
 
 	g_return_val_if_fail (PK_IS_TRANSACTION (transaction), FALSE);
 
@@ -960,9 +964,9 @@ pk_transaction_offline_invalidate_check (PkTransaction *transaction)
 	const gchar *package_id;
 	gchar **package_ids;
 	guint i;
-	_cleanup_error_free_ GError *error = NULL;
-	_cleanup_object_unref_ PkPackageSack *sack = NULL;
-	_cleanup_ptrarray_unref_ GPtrArray *invalidated = NULL;
+	g_autoptr(GError) error = NULL;
+	g_autoptr(PkPackageSack) sack = NULL;
+	g_autoptr(GPtrArray) invalidated = NULL;
 
 	/* get the existing prepared updates */
 	sack = pk_offline_get_prepared_sack (NULL);
@@ -1011,8 +1015,8 @@ pk_transaction_offline_finished (PkTransaction *transaction)
 {
 	PkBitfield transaction_flags;
 	gchar **package_ids;
-	_cleanup_error_free_ GError *error = NULL;
-	_cleanup_ptrarray_unref_ GPtrArray *array = NULL;
+	g_autoptr(GError) error = NULL;
+	g_autoptr(GPtrArray) array = NULL;
 
 	/* if we're doing UpdatePackages[only-download] then update the
 	 * prepared-updates file */
@@ -1023,6 +1027,20 @@ pk_transaction_offline_finished (PkTransaction *transaction)
 		package_ids = transaction->priv->cached_package_ids;
 		if (!pk_offline_auth_set_prepared_ids (package_ids, &error)) {
 			g_warning ("failed to write offline update: %s",
+				   error->message);
+		}
+		return;
+	}
+
+	/* if we're doing UpgradeSystem[only-download] then update the
+	 * prepared-upgrade file */
+	transaction_flags = transaction->priv->cached_transaction_flags;
+	if (transaction->priv->role == PK_ROLE_ENUM_UPGRADE_SYSTEM &&
+	    pk_bitfield_contain (transaction_flags,
+				 PK_TRANSACTION_FLAG_ENUM_ONLY_DOWNLOAD)) {
+		package_ids = transaction->priv->cached_package_ids;
+		if (!pk_offline_auth_set_prepared_upgrade_version (transaction->priv->cached_value, &error)) {
+			g_warning ("failed to write offline system upgrade version: %s",
 				   error->message);
 		}
 		return;
@@ -1120,8 +1138,8 @@ pk_transaction_finished_cb (PkBackendJob *job, PkExitEnum exit_enum, PkTransacti
 	if (transaction->priv->role == PK_ROLE_ENUM_UPDATE_PACKAGES ||
 	    transaction->priv->role == PK_ROLE_ENUM_INSTALL_PACKAGES ||
 	    transaction->priv->role == PK_ROLE_ENUM_REMOVE_PACKAGES) {
-		_cleanup_ptrarray_unref_ GPtrArray *array = NULL;
-		_cleanup_free_ gchar *packages = NULL;
+		g_autoptr(GPtrArray) array = NULL;
+		g_autofree gchar *packages = NULL;
 
 		array = pk_results_get_package_array (transaction->priv->results);
 
@@ -1323,13 +1341,13 @@ pk_transaction_repo_signature_required_cb (PkBackend *backend,
 					   PkTransaction *transaction)
 {
 	PkSigTypeEnum type;
-	_cleanup_free_ gchar *package_id = NULL;
-	_cleanup_free_ gchar *repository_name = NULL;
-	_cleanup_free_ gchar *key_url = NULL;
-	_cleanup_free_ gchar *key_userid = NULL;
-	_cleanup_free_ gchar *key_id = NULL;
-	_cleanup_free_ gchar *key_fingerprint = NULL;
-	_cleanup_free_ gchar *key_timestamp = NULL;
+	g_autofree gchar *package_id = NULL;
+	g_autofree gchar *repository_name = NULL;
+	g_autofree gchar *key_url = NULL;
+	g_autofree gchar *key_userid = NULL;
+	g_autofree gchar *key_id = NULL;
+	g_autofree gchar *key_fingerprint = NULL;
+	g_autofree gchar *key_timestamp = NULL;
 
 	g_return_if_fail (PK_IS_TRANSACTION (transaction));
 	g_return_if_fail (transaction->priv->tid != NULL);
@@ -1382,10 +1400,10 @@ pk_transaction_eula_required_cb (PkBackend *backend,
 				 PkEulaRequired *item,
 				 PkTransaction *transaction)
 {
-	_cleanup_free_ gchar *eula_id = NULL;
-	_cleanup_free_ gchar *package_id = NULL;
-	_cleanup_free_ gchar *vendor_name = NULL;
-	_cleanup_free_ gchar *license_agreement = NULL;
+	g_autofree gchar *eula_id = NULL;
+	g_autofree gchar *package_id = NULL;
+	g_autofree gchar *vendor_name = NULL;
+	g_autofree gchar *license_agreement = NULL;
 
 	g_return_if_fail (PK_IS_TRANSACTION (transaction));
 	g_return_if_fail (transaction->priv->tid != NULL);
@@ -1429,8 +1447,8 @@ pk_transaction_media_change_required_cb (PkBackend *backend,
 					 PkTransaction *transaction)
 {
 	PkMediaTypeEnum media_type;
-	_cleanup_free_ gchar *media_id = NULL;
-	_cleanup_free_ gchar *media_text = NULL;
+	g_autofree gchar *media_id = NULL;
+	g_autofree gchar *media_text = NULL;
 
 	g_return_if_fail (PK_IS_TRANSACTION (transaction));
 	g_return_if_fail (transaction->priv->tid != NULL);
@@ -1477,8 +1495,8 @@ pk_transaction_require_restart_cb (PkBackend *backend,
 	gboolean found = FALSE;
 	guint i;
 	PkRestartEnum restart;
-	_cleanup_free_ gchar *package_id = NULL;
-	_cleanup_ptrarray_unref_ GPtrArray *array = NULL;
+	g_autofree gchar *package_id = NULL;
+	g_autoptr(GPtrArray) array = NULL;
 
 	g_return_if_fail (PK_IS_TRANSACTION (transaction));
 	g_return_if_fail (transaction->priv->tid != NULL);
@@ -1492,7 +1510,7 @@ pk_transaction_require_restart_cb (PkBackend *backend,
 	/* filter out duplicates */
 	array = pk_results_get_require_restart_array (transaction->priv->results);
 	for (i = 0; i < array->len; i++) {
-		_cleanup_free_ gchar *package_id_tmp = NULL;
+		g_autofree gchar *package_id_tmp = NULL;
 		item_tmp = g_ptr_array_index (array, i);
 		g_object_get (item_tmp,
 			      "package-id", &package_id_tmp,
@@ -1621,14 +1639,14 @@ pk_transaction_set_session_state (PkTransaction *transaction,
 				  GError **error)
 {
 	gboolean ret;
-	_cleanup_free_ gchar *session = NULL;
-	_cleanup_free_ gchar *proxy_http = NULL;
-	_cleanup_free_ gchar *proxy_https = NULL;
-	_cleanup_free_ gchar *proxy_ftp = NULL;
-	_cleanup_free_ gchar *proxy_socks = NULL;
-	_cleanup_free_ gchar *no_proxy = NULL;
-	_cleanup_free_ gchar *pac = NULL;
-	_cleanup_free_ gchar *cmdline = NULL;
+	g_autofree gchar *session = NULL;
+	g_autofree gchar *proxy_http = NULL;
+	g_autofree gchar *proxy_https = NULL;
+	g_autofree gchar *proxy_ftp = NULL;
+	g_autofree gchar *proxy_socks = NULL;
+	g_autofree gchar *no_proxy = NULL;
+	g_autofree gchar *pac = NULL;
+	g_autofree gchar *cmdline = NULL;
 	PkTransactionPrivate *priv = transaction->priv;
 
 	/* get session */
@@ -2152,35 +2170,6 @@ pk_transaction_finished_idle_cb (PkTransaction *transaction)
 }
 
 /**
- * pk_transaction_strvalidate_char:
- * @item: A single char to test
- *
- * Tests a char to see if it may be dangerous.
- *
- * Return value: %TRUE if the char is valid
- **/
-static gboolean
-pk_transaction_strvalidate_char (gchar item)
-{
-	switch (item) {
-	case '$':
-	case '`':
-	case '\'':
-	case '"':
-	case '^':
-	case '[':
-	case ']':
-	case '{':
-	case '}':
-	case '\\':
-	case '<':
-	case '>':
-		return FALSE;
-	}
-	return TRUE;
-}
-
-/**
  * pk_transaction_strvalidate:
  * @text: The text to check for validity
  *
@@ -2191,7 +2180,6 @@ pk_transaction_strvalidate_char (gchar item)
 gboolean
 pk_transaction_strvalidate (const gchar *text, GError **error)
 {
-	guint i;
 	guint length;
 
 	/* maximum size is 1024 */
@@ -2202,14 +2190,13 @@ pk_transaction_strvalidate (const gchar *text, GError **error)
 		return FALSE;
 	}
 
-	for (i = 0; i < length; i++) {
-		if (pk_transaction_strvalidate_char (text[i]) == FALSE) {
-			g_set_error (error,
-				     PK_TRANSACTION_ERROR,
-				     PK_TRANSACTION_ERROR_INPUT_INVALID,
-				     "Invalid input passed to daemon: char '%c' in text!", text[i]);
-			return FALSE;
-		}
+	/* just check for valid UTF-8 */
+	if (!g_utf8_validate (text, -1, NULL)) {
+		g_set_error (error,
+			     PK_TRANSACTION_ERROR,
+			     PK_TRANSACTION_ERROR_INPUT_INVALID,
+			     "Invalid input passed to daemon: %s", text);
+		return FALSE;
 	}
 	return TRUE;
 }
@@ -2309,8 +2296,8 @@ pk_transaction_authorize_actions_finished_cb (GObject *source_object,
 {
 	const gchar *action_id = NULL;
 	PkTransactionPrivate *priv = data->transaction->priv;
-	_cleanup_error_free_ GError *error = NULL;
-	_cleanup_object_unref_ PolkitAuthorizationResult *result = NULL;
+	g_autoptr(GError) error = NULL;
+	g_autoptr(PolkitAuthorizationResult) result = NULL;
 	g_assert (data->actions && data->actions->len > 0);
 
 	/* get the first action */
@@ -2332,7 +2319,7 @@ pk_transaction_authorize_actions_finished_cb (GObject *source_object,
 
 	/* failed, maybe polkit is messed up? */
 	if (result == NULL) {
-		_cleanup_free_ gchar *message = NULL;
+		g_autofree gchar *message = NULL;
 		priv->waiting_for_auth = FALSE;
 		g_warning ("failed to check for auth: %s", error->message);
 
@@ -2404,8 +2391,8 @@ pk_transaction_authorize_actions (PkTransaction *transaction,
 				  GPtrArray *actions)
 {
 	const gchar *action_id = NULL;
-	_cleanup_object_unref_ PolkitDetails *details = NULL;
-	_cleanup_free_ gchar *package_ids = NULL;
+	g_autoptr(PolkitDetails) details = NULL;
+	g_autofree gchar *package_ids = NULL;
 	GString *string = NULL;
 	PkTransactionPrivate *priv = transaction->priv;
 	const gchar *text = NULL;
@@ -2607,11 +2594,11 @@ pk_transaction_obtain_authorization (PkTransaction *transaction,
 				     PkRoleEnum role,
 				     GError **error)
 {
-	_cleanup_ptrarray_unref_ GPtrArray *actions = NULL;
+	g_autoptr(GPtrArray) actions = NULL;
 	PkTransactionPrivate *priv = transaction->priv;
-	_cleanup_free_ gchar *package_ids = NULL;
-	_cleanup_object_unref_ PolkitDetails *details = NULL;
-	_cleanup_string_free_ GString *string = NULL;
+	g_autofree gchar *package_ids = NULL;
+	g_autoptr(PolkitDetails) details = NULL;
+	g_autoptr(GString) string = NULL;
 
 	g_return_val_if_fail (priv->sender != NULL, FALSE);
 
@@ -2722,7 +2709,7 @@ pk_transaction_accept_eula (PkTransaction *transaction,
 	gboolean ret;
 	guint idle_id;
 	const gchar *eula_id = NULL;
-	_cleanup_error_free_ GError *error = NULL;
+	g_autoptr(GError) error = NULL;
 
 	g_return_if_fail (PK_IS_TRANSACTION (transaction));
 	g_return_if_fail (transaction->priv->tid != NULL);
@@ -2807,7 +2794,7 @@ pk_transaction_cancel (PkTransaction *transaction,
 	gboolean ret;
 	const gchar *sender;
 	guint uid;
-	_cleanup_error_free_ GError *error = NULL;
+	g_autoptr(GError) error = NULL;
 
 	g_return_if_fail (PK_IS_TRANSACTION (transaction));
 	g_return_if_fail (transaction->priv->tid != NULL);
@@ -2890,7 +2877,7 @@ pk_transaction_cancel (PkTransaction *transaction,
 skip_uid:
 	/* if it's never been run, just remove this transaction from the list */
 	if (transaction->priv->state <= PK_TRANSACTION_STATE_READY) {
-		_cleanup_free_ gchar *msg = NULL;
+		g_autofree gchar *msg = NULL;
 		msg = g_strdup_printf ("%s was cancelled and was never run",
 				       transaction->priv->tid);
 		pk_transaction_error_code_emit (transaction,
@@ -2928,9 +2915,9 @@ pk_transaction_download_packages (PkTransaction *transaction,
 	guint length;
 	gboolean store_in_cache;
 	gchar **package_ids = NULL;
-	_cleanup_error_free_ GError *error = NULL;
-	_cleanup_free_ gchar *directory = NULL;
-	_cleanup_free_ gchar *package_ids_temp = NULL;
+	g_autoptr(GError) error = NULL;
+	g_autofree gchar *directory = NULL;
+	g_autofree gchar *package_ids_temp = NULL;
 
 	g_return_if_fail (PK_IS_TRANSACTION (transaction));
 	g_return_if_fail (transaction->priv->tid != NULL);
@@ -3007,7 +2994,7 @@ pk_transaction_get_categories (PkTransaction *transaction,
 			       GVariant *params,
 			       GDBusMethodInvocation *context)
 {
-	_cleanup_error_free_ GError *error = NULL;
+	g_autoptr(GError) error = NULL;
 
 	g_return_if_fail (PK_IS_TRANSACTION (transaction));
 	g_return_if_fail (transaction->priv->tid != NULL);
@@ -3045,7 +3032,7 @@ pk_transaction_depends_on (PkTransaction *transaction,
 	PkBitfield filter;
 	gchar **package_ids;
 	gboolean recursive;
-	_cleanup_error_free_ GError *error = NULL;
+	g_autoptr(GError) error = NULL;
 
 	g_return_if_fail (PK_IS_TRANSACTION (transaction));
 	g_return_if_fail (transaction->priv->tid != NULL);
@@ -3113,8 +3100,8 @@ pk_transaction_get_details (PkTransaction *transaction,
 	gboolean ret;
 	guint length;
 	gchar **package_ids;
-	_cleanup_error_free_ GError *error = NULL;
-	_cleanup_free_ gchar *package_ids_temp = NULL;
+	g_autoptr(GError) error = NULL;
+	g_autofree gchar *package_ids_temp = NULL;
 
 	g_return_if_fail (PK_IS_TRANSACTION (transaction));
 	g_return_if_fail (transaction->priv->tid != NULL);
@@ -3182,8 +3169,8 @@ pk_transaction_get_details_local (PkTransaction *transaction,
 	GError *error = NULL;
 	guint i;
 	guint length;
-	_cleanup_free_ gchar *content_type = NULL;
-	_cleanup_free_ gchar *files_temp = NULL;
+	g_autofree gchar *content_type = NULL;
+	g_autofree gchar *files_temp = NULL;
 
 	g_return_if_fail (PK_IS_TRANSACTION (transaction));
 	g_return_if_fail (transaction->priv->tid != NULL);
@@ -3285,9 +3272,9 @@ pk_transaction_get_files_local (PkTransaction *transaction,
 	GError *error_local = NULL;
 	guint i;
 	guint length;
-	_cleanup_error_free_ GError *error = NULL;
-	_cleanup_free_ gchar *content_type = NULL;
-	_cleanup_free_ gchar *files_temp = NULL;
+	g_autoptr(GError) error = NULL;
+	g_autofree gchar *content_type = NULL;
+	g_autofree gchar *files_temp = NULL;
 
 	g_return_if_fail (PK_IS_TRANSACTION (transaction));
 	g_return_if_fail (transaction->priv->tid != NULL);
@@ -3384,7 +3371,7 @@ pk_transaction_get_distro_upgrades (PkTransaction *transaction,
 				    GVariant *params,
 				    GDBusMethodInvocation *context)
 {
-	_cleanup_error_free_ GError *error = NULL;
+	g_autoptr(GError) error = NULL;
 
 	g_return_if_fail (PK_IS_TRANSACTION (transaction));
 	g_return_if_fail (transaction->priv->tid != NULL);
@@ -3420,8 +3407,8 @@ pk_transaction_get_files (PkTransaction *transaction,
 	gboolean ret;
 	guint length;
 	gchar **package_ids;
-	_cleanup_error_free_ GError *error = NULL;
-	_cleanup_free_ gchar *package_ids_temp = NULL;
+	g_autoptr(GError) error = NULL;
+	g_autofree gchar *package_ids_temp = NULL;
 
 	g_return_if_fail (PK_IS_TRANSACTION (transaction));
 	g_return_if_fail (transaction->priv->tid != NULL);
@@ -3483,7 +3470,7 @@ pk_transaction_get_packages (PkTransaction *transaction,
 			     GDBusMethodInvocation *context)
 {
 	PkBitfield filter;
-	_cleanup_error_free_ GError *error = NULL;
+	g_autoptr(GError) error = NULL;
 
 	g_return_if_fail (PK_IS_TRANSACTION (transaction));
 	g_return_if_fail (transaction->priv->tid != NULL);
@@ -3598,7 +3585,7 @@ pk_transaction_get_repo_list (PkTransaction *transaction,
 			      GDBusMethodInvocation *context)
 {
 	PkBitfield filter;
-	_cleanup_error_free_ GError *error = NULL;
+	g_autoptr(GError) error = NULL;
 
 	g_return_if_fail (PK_IS_TRANSACTION (transaction));
 	g_return_if_fail (transaction->priv->tid != NULL);
@@ -3640,8 +3627,8 @@ pk_transaction_required_by (PkTransaction *transaction,
 	PkBitfield filter;
 	gchar **package_ids;
 	gboolean recursive;
-	_cleanup_error_free_ GError *error = NULL;
-	_cleanup_free_ gchar *package_ids_temp = NULL;
+	g_autoptr(GError) error = NULL;
+	g_autofree gchar *package_ids_temp = NULL;
 
 	g_return_if_fail (PK_IS_TRANSACTION (transaction));
 	g_return_if_fail (transaction->priv->tid != NULL);
@@ -3710,7 +3697,7 @@ pk_transaction_get_update_detail (PkTransaction *transaction,
 	GError *error = NULL;
 	guint length;
 	gchar **package_ids;
-	_cleanup_free_ gchar *package_ids_temp = NULL;
+	g_autofree gchar *package_ids_temp = NULL;
 
 	g_return_if_fail (PK_IS_TRANSACTION (transaction));
 	g_return_if_fail (transaction->priv->tid != NULL);
@@ -3773,7 +3760,7 @@ pk_transaction_get_updates (PkTransaction *transaction,
 			    GDBusMethodInvocation *context)
 {
 	PkBitfield filter;
-	_cleanup_error_free_ GError *error = NULL;
+	g_autoptr(GError) error = NULL;
 
 	g_return_if_fail (PK_IS_TRANSACTION (transaction));
 	g_return_if_fail (transaction->priv->tid != NULL);
@@ -3808,9 +3795,9 @@ out:
 static gchar *
 pk_transaction_get_content_type_for_file (const gchar *filename, GError **error)
 {
-	_cleanup_error_free_ GError *error_local = NULL;
-	_cleanup_object_unref_ GFile *file = NULL;
-	_cleanup_object_unref_ GFileInfo *info = NULL;
+	g_autoptr(GError) error_local = NULL;
+	g_autoptr(GFile) file = NULL;
+	g_autoptr(GFileInfo) info = NULL;
 
 	/* get file info synchronously */
 	file = g_file_new_for_path (filename);
@@ -3861,10 +3848,10 @@ pk_transaction_install_files (PkTransaction *transaction,
 	guint i;
 	PkBitfield transaction_flags;
 	gchar **full_paths;
-	_cleanup_error_free_ GError *error = NULL;
-	_cleanup_free_ gchar *content_type = NULL;
-	_cleanup_free_ gchar *full_paths_temp = NULL;
-	_cleanup_free_ gchar *transaction_flags_temp = NULL;
+	g_autoptr(GError) error = NULL;
+	g_autofree gchar *content_type = NULL;
+	g_autofree gchar *full_paths_temp = NULL;
+	g_autofree gchar *transaction_flags_temp = NULL;
 
 	g_return_if_fail (PK_IS_TRANSACTION (transaction));
 	g_return_if_fail (transaction->priv->tid != NULL);
@@ -3970,9 +3957,9 @@ pk_transaction_install_packages (PkTransaction *transaction,
 	guint length;
 	PkBitfield transaction_flags;
 	gchar **package_ids;
-	_cleanup_error_free_ GError *error = NULL;
-	_cleanup_free_ gchar *package_ids_temp = NULL;
-	_cleanup_free_ gchar *transaction_flags_temp = NULL;
+	g_autoptr(GError) error = NULL;
+	g_autofree gchar *package_ids_temp = NULL;
+	g_autofree gchar *transaction_flags_temp = NULL;
 
 	g_return_if_fail (PK_IS_TRANSACTION (transaction));
 	g_return_if_fail (transaction->priv->tid != NULL);
@@ -4054,7 +4041,7 @@ pk_transaction_install_signature (PkTransaction *transaction,
 	const gchar *key_id;
 	const gchar *package_id;
 	PkSigTypeEnum sig_type;
-	_cleanup_error_free_ GError *error = NULL;
+	g_autoptr(GError) error = NULL;
 
 	g_return_if_fail (PK_IS_TRANSACTION (transaction));
 	g_return_if_fail (transaction->priv->tid != NULL);
@@ -4125,7 +4112,7 @@ pk_transaction_refresh_cache (PkTransaction *transaction,
 {
 	gboolean ret;
 	gboolean force;
-	_cleanup_error_free_ GError *error = NULL;
+	g_autoptr(GError) error = NULL;
 
 	g_return_if_fail (PK_IS_TRANSACTION (transaction));
 	g_return_if_fail (transaction->priv->tid != NULL);
@@ -4176,9 +4163,9 @@ pk_transaction_remove_packages (PkTransaction *transaction,
 	gboolean allow_deps;
 	gboolean autoremove;
 	PkBitfield transaction_flags;
-	_cleanup_error_free_ GError *error = NULL;
-	_cleanup_free_ gchar *package_ids_temp = NULL;
-	_cleanup_free_ gchar *transaction_flags_temp = NULL;
+	g_autoptr(GError) error = NULL;
+	g_autofree gchar *package_ids_temp = NULL;
+	g_autofree gchar *transaction_flags_temp = NULL;
 
 	g_return_if_fail (PK_IS_TRANSACTION (transaction));
 	g_return_if_fail (transaction->priv->tid != NULL);
@@ -4263,7 +4250,7 @@ pk_transaction_repo_enable (PkTransaction *transaction,
 	gboolean ret;
 	const gchar *repo_id;
 	gboolean enabled;
-	_cleanup_error_free_ GError *error = NULL;
+	g_autoptr(GError) error = NULL;
 
 	g_return_if_fail (PK_IS_TRANSACTION (transaction));
 	g_return_if_fail (transaction->priv->tid != NULL);
@@ -4321,7 +4308,7 @@ pk_transaction_repo_set_data (PkTransaction *transaction,
 	const gchar *repo_id;
 	const gchar *parameter;
 	const gchar *value;
-	_cleanup_error_free_ GError *error = NULL;
+	g_autoptr(GError) error = NULL;
 
 	g_return_if_fail (PK_IS_TRANSACTION (transaction));
 	g_return_if_fail (transaction->priv->tid != NULL);
@@ -4382,8 +4369,8 @@ pk_transaction_repo_remove (PkTransaction *transaction,
 	const gchar *repo_id;
 	gboolean autoremove;
 	gboolean ret;
-	_cleanup_error_free_ GError *error = NULL;
-	_cleanup_free_ gchar *tmp = NULL;
+	g_autoptr(GError) error = NULL;
+	g_autofree gchar *tmp = NULL;
 
 	g_return_if_fail (PK_IS_TRANSACTION (transaction));
 	g_return_if_fail (transaction->priv->tid != NULL);
@@ -4446,8 +4433,8 @@ pk_transaction_resolve (PkTransaction *transaction,
 	guint length;
 	PkBitfield filter;
 	gchar **packages;
-	_cleanup_error_free_ GError *error = NULL;
-	_cleanup_free_ gchar *packages_temp = NULL;
+	g_autoptr(GError) error = NULL;
+	g_autofree gchar *packages_temp = NULL;
 
 	g_return_if_fail (PK_IS_TRANSACTION (transaction));
 	g_return_if_fail (transaction->priv->tid != NULL);
@@ -4520,7 +4507,7 @@ pk_transaction_search_details (PkTransaction *transaction,
 	gboolean ret;
 	PkBitfield filter;
 	gchar **values;
-	_cleanup_error_free_ GError *error = NULL;
+	g_autoptr(GError) error = NULL;
 
 	g_return_if_fail (PK_IS_TRANSACTION (transaction));
 	g_return_if_fail (transaction->priv->tid != NULL);
@@ -4571,7 +4558,7 @@ pk_transaction_search_files (PkTransaction *transaction,
 	guint i;
 	PkBitfield filter;
 	gchar **values;
-	_cleanup_error_free_ GError *error = NULL;
+	g_autoptr(GError) error = NULL;
 
 	g_return_if_fail (PK_IS_TRANSACTION (transaction));
 	g_return_if_fail (transaction->priv->tid != NULL);
@@ -4634,7 +4621,7 @@ pk_transaction_search_groups (PkTransaction *transaction,
 	guint i;
 	PkBitfield filter;
 	gchar **values;
-	_cleanup_error_free_ GError *error = NULL;
+	g_autoptr(GError) error = NULL;
 
 	g_return_if_fail (PK_IS_TRANSACTION (transaction));
 	g_return_if_fail (transaction->priv->tid != NULL);
@@ -4696,7 +4683,7 @@ pk_transaction_search_names (PkTransaction *transaction,
 	gboolean ret;
 	PkBitfield filter;
 	gchar **values;
-	_cleanup_error_free_ GError *error = NULL;
+	g_autoptr(GError) error = NULL;
 
 	g_return_if_fail (PK_IS_TRANSACTION (transaction));
 	g_return_if_fail (transaction->priv->tid != NULL);
@@ -4858,9 +4845,9 @@ pk_transaction_set_hints (PkTransaction *transaction,
 {
 	gboolean ret;
 	guint i;
-	const gchar **hints = NULL;
-	_cleanup_error_free_ GError *error = NULL;
-	_cleanup_free_ gchar *dbg = NULL;
+	g_autofree gchar **hints = NULL;
+	g_autoptr(GError) error = NULL;
+	g_autofree gchar *dbg = NULL;
 
 	g_return_if_fail (PK_IS_TRANSACTION (transaction));
 	g_return_if_fail (transaction->priv->tid != NULL);
@@ -4871,7 +4858,7 @@ pk_transaction_set_hints (PkTransaction *transaction,
 
 	/* parse */
 	for (i = 0; hints[i] != NULL; i++) {
-		_cleanup_strv_free_ gchar **sections = NULL;
+		g_auto(GStrv) sections = NULL;
 		sections = g_strsplit (hints[i], "=", 2);
 		if (g_strv_length (sections) == 2) {
 			ret = pk_transaction_set_hint (transaction,
@@ -4903,9 +4890,9 @@ pk_transaction_update_packages (PkTransaction *transaction,
 	guint length;
 	PkBitfield transaction_flags;
 	gchar **package_ids;
-	_cleanup_error_free_ GError *error = NULL;
-	_cleanup_free_ gchar *package_ids_temp = NULL;
-	_cleanup_free_ gchar *transaction_flags_temp = NULL;
+	g_autoptr(GError) error = NULL;
+	g_autofree gchar *package_ids_temp = NULL;
+	g_autofree gchar *transaction_flags_temp = NULL;
 
 	g_return_if_fail (PK_IS_TRANSACTION (transaction));
 	g_return_if_fail (transaction->priv->tid != NULL);
@@ -4987,7 +4974,7 @@ pk_transaction_what_provides (PkTransaction *transaction,
 	gboolean ret;
 	PkBitfield filter;
 	gchar **values;
-	_cleanup_error_free_ GError *error = NULL;
+	g_autoptr(GError) error = NULL;
 
 	g_return_if_fail (PK_IS_TRANSACTION (transaction));
 	g_return_if_fail (transaction->priv->tid != NULL);
@@ -5035,11 +5022,11 @@ pk_transaction_upgrade_system (PkTransaction *transaction,
 			       GDBusMethodInvocation *context)
 {
 	gboolean ret;
-	GError *error = NULL;
 	PkBitfield transaction_flags;
 	PkUpgradeKindEnum upgrade_kind;
 	const gchar *distro_id;
-	_cleanup_free_ gchar *transaction_flags_temp = NULL;
+	g_autoptr(GError) error = NULL;
+	g_autofree gchar *transaction_flags_temp = NULL;
 
 	g_return_if_fail (PK_IS_TRANSACTION (transaction));
 	g_return_if_fail (transaction->priv->tid != NULL);
@@ -5072,6 +5059,11 @@ pk_transaction_upgrade_system (PkTransaction *transaction,
 	transaction->priv->cached_upgrade_kind = upgrade_kind;
 	pk_transaction_set_role (transaction, PK_ROLE_ENUM_UPGRADE_SYSTEM);
 
+	/* this changed */
+	pk_transaction_emit_property_changed (transaction,
+					      "TransactionFlags",
+					      g_variant_new_uint64 (transaction_flags));
+
 	/* try to get authorization */
 	ret = pk_transaction_obtain_authorization (transaction,
 						   PK_ROLE_ENUM_UPGRADE_SYSTEM,
@@ -5094,8 +5086,8 @@ pk_transaction_repair_system (PkTransaction *transaction,
 {
 	gboolean ret;
 	PkBitfield transaction_flags;
-	_cleanup_error_free_ GError *error = NULL;
-	_cleanup_free_ gchar *transaction_flags_temp = NULL;
+	g_autoptr(GError) error = NULL;
+	g_autofree gchar *transaction_flags_temp = NULL;
 
 	g_return_if_fail (PK_IS_TRANSACTION (transaction));
 	g_return_if_fail (transaction->priv->tid != NULL);
@@ -5446,7 +5438,7 @@ static void
 pk_transaction_init (PkTransaction *transaction)
 {
 	gboolean ret;
-	_cleanup_error_free_ GError *error = NULL;
+	g_autoptr(GError) error = NULL;
 	transaction->priv = PK_TRANSACTION_GET_PRIVATE (transaction);
 	transaction->priv->allow_cancel = TRUE;
 	transaction->priv->caller_active = TRUE;

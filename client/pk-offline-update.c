@@ -31,16 +31,14 @@
 #include <unistd.h>
 #include <systemd/sd-journal.h>
 
-#include "src/pk-cleanup.h"
-
 /**
  * pk_offline_update_set_plymouth_msg:
  **/
 static void
 pk_offline_update_set_plymouth_msg (const gchar *msg)
 {
-	_cleanup_error_free_ GError *error = NULL;
-	_cleanup_free_ gchar *cmdline = NULL;
+	g_autoptr(GError) error = NULL;
+	g_autofree gchar *cmdline = NULL;
 
 	/* allow testing without sending commands to plymouth */
 	if (g_getenv ("PK_OFFLINE_UPDATE_TEST") != NULL)
@@ -61,8 +59,8 @@ pk_offline_update_set_plymouth_msg (const gchar *msg)
 static void
 pk_offline_update_set_plymouth_mode (const gchar *mode)
 {
-	_cleanup_error_free_ GError *error = NULL;
-	_cleanup_free_ gchar *cmdline = NULL;
+	g_autoptr(GError) error = NULL;
+	g_autofree gchar *cmdline = NULL;
 
 	/* allow testing without sending commands to plymouth */
 	if (g_getenv ("PK_OFFLINE_UPDATE_TEST") != NULL)
@@ -83,8 +81,8 @@ pk_offline_update_set_plymouth_mode (const gchar *mode)
 static void
 pk_offline_update_set_plymouth_percentage (guint percentage)
 {
-	_cleanup_error_free_ GError *error = NULL;
-	_cleanup_free_ gchar *cmdline = NULL;
+	g_autoptr(GError) error = NULL;
+	g_autofree gchar *cmdline = NULL;
 
 	/* allow testing without sending commands to plymouth */
 	if (g_getenv ("PK_OFFLINE_UPDATE_TEST") != NULL)
@@ -110,8 +108,8 @@ pk_offline_update_progress_cb (PkProgress *progress,
 	PkProgressBar *progressbar = PK_PROGRESS_BAR (user_data);
 	PkStatusEnum status;
 	gint percentage;
-	_cleanup_free_ gchar *msg = NULL;
-	_cleanup_object_unref_ PkPackage *pkg = NULL;
+	g_autofree gchar *msg = NULL;
+	g_autoptr(PkPackage) pkg = NULL;
 
 	switch (type) {
 	case PK_PROGRESS_TYPE_ROLE:
@@ -176,9 +174,9 @@ pk_offline_update_progress_cb (PkProgress *progress,
 static void
 pk_offline_update_reboot (void)
 {
-	_cleanup_error_free_ GError *error = NULL;
-	_cleanup_object_unref_ GDBusConnection *connection = NULL;
-	_cleanup_variant_unref_ GVariant *val = NULL;
+	g_autoptr(GError) error = NULL;
+	g_autoptr(GDBusConnection) connection = NULL;
+	g_autoptr(GVariant) val = NULL;
 
 	/* reboot using systemd */
 	sd_journal_print (LOG_INFO, "rebooting");
@@ -217,9 +215,9 @@ pk_offline_update_reboot (void)
 static void
 pk_offline_update_power_off (void)
 {
-	_cleanup_error_free_ GError *error = NULL;
-	_cleanup_object_unref_ GDBusConnection *connection = NULL;
-	_cleanup_variant_unref_ GVariant *val = NULL;
+	g_autoptr(GError) error = NULL;
+	g_autoptr(GDBusConnection) connection = NULL;
+	g_autoptr(GVariant) val = NULL;
 
 	/* reboot using systemd */
 	sd_journal_print (LOG_INFO, "shutting down");
@@ -258,9 +256,9 @@ pk_offline_update_power_off (void)
 static void
 pk_offline_update_write_error (const GError *error)
 {
-	_cleanup_error_free_ GError *error_local = NULL;
-	_cleanup_object_unref_ PkError *pk_error = NULL;
-	_cleanup_object_unref_ PkResults *results = NULL;
+	g_autoptr(GError) error_local = NULL;
+	g_autoptr(PkError) pk_error = NULL;
+	g_autoptr(PkResults) results = NULL;
 
 	sd_journal_print (LOG_INFO, "writing failed results");
 	results = pk_results_new ();
@@ -281,7 +279,7 @@ pk_offline_update_write_error (const GError *error)
 static void
 pk_offline_update_write_results (PkResults *results)
 {
-	_cleanup_error_free_ GError *error = NULL;
+	g_autoptr(GError) error = NULL;
 	sd_journal_print (LOG_INFO, "writing actual results");
 	if (!pk_offline_auth_set_results (results, &error))
 		sd_journal_print (LOG_WARNING, "%s", error->message);
@@ -298,11 +296,11 @@ pk_offline_update_write_results (PkResults *results)
  * bad happened.
  **/
 static void
-pk_offline_update_write_dummy_results (gchar **package_ids)
+pk_offline_update_write_dummy_results (void)
 {
-	_cleanup_error_free_ GError *error = NULL;
-	_cleanup_object_unref_ PkError *pk_error = NULL;
-	_cleanup_object_unref_ PkResults *results = NULL;
+	g_autoptr(GError) error = NULL;
+	g_autoptr(PkError) pk_error = NULL;
+	g_autoptr(PkResults) results = NULL;
 
 	sd_journal_print (LOG_INFO, "writing dummy results");
 	results = pk_results_new ();
@@ -359,6 +357,71 @@ pk_offline_update_get_action (void)
 	return action;
 }
 
+static gboolean
+pk_offline_update_do_update (PkTask *task, PkProgressBar *progressbar, GError **error)
+{
+	g_autoptr(PkResults) results = NULL;
+	g_auto(GStrv) package_ids = NULL;
+
+	/* get the list of packages to update */
+	package_ids = pk_offline_get_prepared_ids (error);
+	if (package_ids == NULL) {
+		g_prefix_error (error, "failed to read %s: ", PK_OFFLINE_PREPARED_FILENAME);
+		return FALSE;
+	}
+
+	/* TRANSLATORS: we've started doing offline updates */
+	pk_offline_update_set_plymouth_msg (_("Installing updates; this could take a while..."));
+	pk_offline_update_write_dummy_results ();
+	results = pk_client_update_packages (PK_CLIENT (task),
+	                                     0,
+	                                     package_ids,
+	                                     NULL, /* GCancellable */
+	                                     pk_offline_update_progress_cb,
+	                                     progressbar, /* user_data */
+	                                     error);
+	if (results == NULL) {
+		return FALSE;
+	}
+
+	pk_offline_update_write_results (results);
+
+	return TRUE;
+}
+
+static gboolean
+pk_offline_update_do_upgrade (PkTask *task, PkProgressBar *progressbar, GError **error)
+{
+	g_autofree gchar *version = NULL;
+	g_autoptr(PkResults) results = NULL;
+
+	/* get the version to upgrade to */
+	version = pk_offline_get_prepared_upgrade_version (error);
+	if (version == NULL) {
+	        g_prefix_error (error, "failed to get prepared system upgrade version: ");
+	        return FALSE;
+	}
+
+	/* TRANSLATORS: we've started doing offline system upgrade */
+	pk_offline_update_set_plymouth_msg (_("Installing system upgrade; this could take a while..."));
+	pk_offline_update_write_dummy_results ();
+	results = pk_client_upgrade_system (PK_CLIENT (task),
+	                                    0,
+	                                    version,
+	                                    PK_UPGRADE_KIND_ENUM_DEFAULT,
+	                                    NULL, /* GCancellable */
+	                                    pk_offline_update_progress_cb,
+	                                    progressbar, /* user_data */
+	                                    error);
+	if (results == NULL) {
+		return FALSE;
+	}
+
+	pk_offline_update_write_results (results);
+
+	return TRUE;
+}
+
 /**
  * main:
  **/
@@ -367,18 +430,12 @@ main (int argc, char *argv[])
 {
 	PkOfflineAction action = PK_OFFLINE_ACTION_UNKNOWN;
 	gint retval;
-	_cleanup_error_free_ GError *error = NULL;
-	_cleanup_free_ gchar *link = NULL;
-	_cleanup_main_loop_unref_ GMainLoop *loop = NULL;
-	_cleanup_object_unref_ GFile *file = NULL;
-	_cleanup_object_unref_ PkProgressBar *progressbar = NULL;
-	_cleanup_object_unref_ PkResults *results = NULL;
-	_cleanup_object_unref_ PkTask *task = NULL;
-	_cleanup_strv_free_ gchar **package_ids = NULL;
-
-#if (GLIB_MAJOR_VERSION == 2 && GLIB_MINOR_VERSION < 35)
-	g_type_init ();
-#endif
+	g_autoptr(GError) error = NULL;
+	g_autofree gchar *link = NULL;
+	g_autoptr(GMainLoop) loop = NULL;
+	g_autoptr(GFile) file = NULL;
+	g_autoptr(PkProgressBar) progressbar = NULL;
+	g_autoptr(PkTask) task = NULL;
 
 	/* ensure root user */
 	if (getuid () != 0 || geteuid () != 0) {
@@ -395,7 +452,9 @@ main (int argc, char *argv[])
 		retval = EXIT_SUCCESS;
 		goto out;
 	}
-	if (g_strcmp0 (link, "/var/cache/PackageKit") != 0 &&
+	if (g_strcmp0 (link, PK_OFFLINE_PREPARED_FILENAME) != 0 &&
+	    g_strcmp0 (link, PK_OFFLINE_PREPARED_UPGRADE_FILENAME) != 0 &&
+	    g_strcmp0 (link, "/var/cache/PackageKit") != 0 &&
 	    g_strcmp0 (link, "/var/cache") != 0) {
 		sd_journal_print (LOG_INFO, "another framework set up the trigger");
 		retval = EXIT_SUCCESS;
@@ -416,49 +475,42 @@ main (int argc, char *argv[])
 				NULL,
 				NULL);
 
-	/* get the list of packages to update */
-	package_ids = pk_offline_get_prepared_ids (&error);
-	if (package_ids == NULL) {
-		retval = EXIT_FAILURE;
-		sd_journal_print (LOG_WARNING,
-				  "failed to read %s: %s",
-				  PK_OFFLINE_PREPARED_FILENAME,
-				  error->message);
-		goto out;
-	}
-
 	/* use a progress bar when the user presses <esc> in plymouth */
 	progressbar = pk_progress_bar_new ();
 	pk_progress_bar_set_size (progressbar, 25);
 	pk_progress_bar_set_padding (progressbar, 30);
 
-	/* just update the system */
 	task = pk_task_new ();
 	pk_client_set_interactive (PK_CLIENT (task), FALSE);
 	pk_offline_update_set_plymouth_mode ("updates");
-	/* TRANSLATORS: we've started doing offline updates */
-	pk_offline_update_set_plymouth_msg (_("Installing updates; this could take a while..."));
-	pk_offline_update_write_dummy_results (package_ids);
-	results = pk_client_update_packages (PK_CLIENT (task),
-					     0,
-					     package_ids,
-					     NULL, /* GCancellable */
-					     pk_offline_update_progress_cb,
-					     progressbar, /* user_data */
-					     &error);
-	if (results == NULL) {
-		retval = EXIT_FAILURE;
-		pk_offline_update_write_error (error);
-		sd_journal_print (LOG_WARNING,
-				  "failed to update system: %s",
-				  error->message);
-		goto out;
-	}
-	pk_progress_bar_end (progressbar);
-	pk_offline_update_write_results (results);
 
-	/* delete prepared-update file if it's not already been done by the
-	 * pk-plugin-systemd-update daemon plugin */
+	if (g_strcmp0 (link, PK_OFFLINE_PREPARED_UPGRADE_FILENAME) == 0 &&
+	    g_file_test (PK_OFFLINE_PREPARED_UPGRADE_FILENAME, G_FILE_TEST_EXISTS)) {
+		/* do system upgrade */
+		if (!pk_offline_update_do_upgrade (task, progressbar, &error)) {
+			retval = EXIT_FAILURE;
+			pk_offline_update_write_error (error);
+			sd_journal_print (LOG_WARNING,
+					  "failed to upgrade system: %s",
+					  error->message);
+			goto out;
+		}
+	} else {
+		/* just update the system */
+		if (!pk_offline_update_do_update (task, progressbar, &error)) {
+			retval = EXIT_FAILURE;
+			pk_offline_update_write_error (error);
+			sd_journal_print (LOG_WARNING,
+					  "failed to update system: %s",
+					  error->message);
+			goto out;
+		}
+	}
+
+	pk_progress_bar_end (progressbar);
+
+	/* delete prepared-update and prepared-upgrade files as they are
+	 * both now out of date */
 	if (!pk_offline_auth_invalidate (&error)) {
 		retval = EXIT_FAILURE;
 		sd_journal_print (LOG_WARNING,

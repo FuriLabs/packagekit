@@ -136,7 +136,6 @@ am__objects_1 = packagekitd-pk-dbus.$(OBJEXT) \
 	packagekitd-pk-transaction.$(OBJEXT) \
 	packagekitd-pk-backend.$(OBJEXT) \
 	packagekitd-pk-backend-job.$(OBJEXT) \
-	packagekitd-pk-network.$(OBJEXT) \
 	packagekitd-pk-shared.$(OBJEXT) \
 	packagekitd-pk-resources.$(OBJEXT) \
 	packagekitd-pk-spawn.$(OBJEXT) packagekitd-pk-engine.$(OBJEXT) \
@@ -157,7 +156,6 @@ am__objects_2 = pk_self_test-pk-dbus.$(OBJEXT) \
 	pk_self_test-pk-transaction.$(OBJEXT) \
 	pk_self_test-pk-backend.$(OBJEXT) \
 	pk_self_test-pk-backend-job.$(OBJEXT) \
-	pk_self_test-pk-network.$(OBJEXT) \
 	pk_self_test-pk-shared.$(OBJEXT) \
 	pk_self_test-pk-resources.$(OBJEXT) \
 	pk_self_test-pk-spawn.$(OBJEXT) \
@@ -515,6 +513,7 @@ GTKDOC_DEPS_CFLAGS = @GTKDOC_DEPS_CFLAGS@
 GTKDOC_DEPS_LIBS = @GTKDOC_DEPS_LIBS@
 GTKDOC_MKPDF = @GTKDOC_MKPDF@
 GTKDOC_REBASE = @GTKDOC_REBASE@
+HAVE_CXX11 = @HAVE_CXX11@
 HIF_CFLAGS = @HIF_CFLAGS@
 HIF_LIBS = @HIF_LIBS@
 HTML_DIR = @HTML_DIR@
@@ -564,7 +563,6 @@ MAKEINFO = @MAKEINFO@
 MANIFEST_TOOL = @MANIFEST_TOOL@
 MKDIR_P = @MKDIR_P@
 MKINSTALLDIRS = @MKINSTALLDIRS@
-MOZILLA_PLUGIN_DIR = @MOZILLA_PLUGIN_DIR@
 MSGFMT = @MSGFMT@
 MSGFMT_OPTS = @MSGFMT_OPTS@
 MSGMERGE = @MSGMERGE@
@@ -590,8 +588,6 @@ PIE_LDFLAGS = @PIE_LDFLAGS@
 PKG_CONFIG = @PKG_CONFIG@
 PKG_CONFIG_LIBDIR = @PKG_CONFIG_LIBDIR@
 PKG_CONFIG_PATH = @PKG_CONFIG_PATH@
-PK_BROWSER_PLUGIN_CFLAGS = @PK_BROWSER_PLUGIN_CFLAGS@
-PK_BROWSER_PLUGIN_LIBS = @PK_BROWSER_PLUGIN_LIBS@
 PK_GSTREAMER_PLUGIN_CFLAGS = @PK_GSTREAMER_PLUGIN_CFLAGS@
 PK_GSTREAMER_PLUGIN_LIBS = @PK_GSTREAMER_PLUGIN_LIBS@
 PK_GTK_MODULE_CFLAGS = @PK_GTK_MODULE_CFLAGS@
@@ -738,7 +734,6 @@ dist_introspection_DATA = \
 	org.freedesktop.PackageKit.Transaction.xml
 
 shared_SOURCES = \
-	pk-cleanup.h					\
 	pk-dbus.c					\
 	pk-dbus.h					\
 	pk-transaction.c				\
@@ -748,8 +743,6 @@ shared_SOURCES = \
 	pk-backend.h					\
 	pk-backend-job.c				\
 	pk-backend-job.h				\
-	pk-network.c					\
-	pk-network.h					\
 	pk-shared.c					\
 	pk-shared.h					\
 	pk-resources.c					\
@@ -770,7 +763,6 @@ packagekit_direct_SOURCES = \
 	pk-backend.h					\
 	pk-backend-job.c				\
 	pk-backend-job.h				\
-	pk-cleanup.h					\
 	pk-direct.c					\
 	pk-shared.c					\
 	pk-shared.h
@@ -986,7 +978,6 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/packagekitd-pk-dbus.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/packagekitd-pk-engine.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/packagekitd-pk-main.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/packagekitd-pk-network.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/packagekitd-pk-resources.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/packagekitd-pk-scheduler.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/packagekitd-pk-shared.Po@am__quote@
@@ -998,7 +989,6 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/pk_self_test-pk-backend.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/pk_self_test-pk-dbus.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/pk_self_test-pk-engine.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/pk_self_test-pk-network.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/pk_self_test-pk-resources.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/pk_self_test-pk-scheduler.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/pk_self_test-pk-self-test.Po@am__quote@
@@ -1153,20 +1143,6 @@ packagekitd-pk-backend-job.obj: pk-backend-job.c
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='pk-backend-job.c' object='packagekitd-pk-backend-job.obj' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(packagekitd_CPPFLAGS) $(CPPFLAGS) $(packagekitd_CFLAGS) $(CFLAGS) -c -o packagekitd-pk-backend-job.obj `if test -f 'pk-backend-job.c'; then $(CYGPATH_W) 'pk-backend-job.c'; else $(CYGPATH_W) '$(srcdir)/pk-backend-job.c'; fi`
-
-packagekitd-pk-network.o: pk-network.c
-@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(packagekitd_CPPFLAGS) $(CPPFLAGS) $(packagekitd_CFLAGS) $(CFLAGS) -MT packagekitd-pk-network.o -MD -MP -MF $(DEPDIR)/packagekitd-pk-network.Tpo -c -o packagekitd-pk-network.o `test -f 'pk-network.c' || echo '$(srcdir)/'`pk-network.c
-@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/packagekitd-pk-network.Tpo $(DEPDIR)/packagekitd-pk-network.Po
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='pk-network.c' object='packagekitd-pk-network.o' libtool=no @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(packagekitd_CPPFLAGS) $(CPPFLAGS) $(packagekitd_CFLAGS) $(CFLAGS) -c -o packagekitd-pk-network.o `test -f 'pk-network.c' || echo '$(srcdir)/'`pk-network.c
-
-packagekitd-pk-network.obj: pk-network.c
-@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(packagekitd_CPPFLAGS) $(CPPFLAGS) $(packagekitd_CFLAGS) $(CFLAGS) -MT packagekitd-pk-network.obj -MD -MP -MF $(DEPDIR)/packagekitd-pk-network.Tpo -c -o packagekitd-pk-network.obj `if test -f 'pk-network.c'; then $(CYGPATH_W) 'pk-network.c'; else $(CYGPATH_W) '$(srcdir)/pk-network.c'; fi`
-@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/packagekitd-pk-network.Tpo $(DEPDIR)/packagekitd-pk-network.Po
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='pk-network.c' object='packagekitd-pk-network.obj' libtool=no @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(packagekitd_CPPFLAGS) $(CPPFLAGS) $(packagekitd_CFLAGS) $(CFLAGS) -c -o packagekitd-pk-network.obj `if test -f 'pk-network.c'; then $(CYGPATH_W) 'pk-network.c'; else $(CYGPATH_W) '$(srcdir)/pk-network.c'; fi`
 
 packagekitd-pk-shared.o: pk-shared.c
 @am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(packagekitd_CPPFLAGS) $(CPPFLAGS) $(packagekitd_CFLAGS) $(CFLAGS) -MT packagekitd-pk-shared.o -MD -MP -MF $(DEPDIR)/packagekitd-pk-shared.Tpo -c -o packagekitd-pk-shared.o `test -f 'pk-shared.c' || echo '$(srcdir)/'`pk-shared.c
@@ -1335,20 +1311,6 @@ pk_self_test-pk-backend-job.obj: pk-backend-job.c
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='pk-backend-job.c' object='pk_self_test-pk-backend-job.obj' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(pk_self_test_CPPFLAGS) $(CPPFLAGS) $(pk_self_test_CFLAGS) $(CFLAGS) -c -o pk_self_test-pk-backend-job.obj `if test -f 'pk-backend-job.c'; then $(CYGPATH_W) 'pk-backend-job.c'; else $(CYGPATH_W) '$(srcdir)/pk-backend-job.c'; fi`
-
-pk_self_test-pk-network.o: pk-network.c
-@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(pk_self_test_CPPFLAGS) $(CPPFLAGS) $(pk_self_test_CFLAGS) $(CFLAGS) -MT pk_self_test-pk-network.o -MD -MP -MF $(DEPDIR)/pk_self_test-pk-network.Tpo -c -o pk_self_test-pk-network.o `test -f 'pk-network.c' || echo '$(srcdir)/'`pk-network.c
-@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/pk_self_test-pk-network.Tpo $(DEPDIR)/pk_self_test-pk-network.Po
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='pk-network.c' object='pk_self_test-pk-network.o' libtool=no @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(pk_self_test_CPPFLAGS) $(CPPFLAGS) $(pk_self_test_CFLAGS) $(CFLAGS) -c -o pk_self_test-pk-network.o `test -f 'pk-network.c' || echo '$(srcdir)/'`pk-network.c
-
-pk_self_test-pk-network.obj: pk-network.c
-@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(pk_self_test_CPPFLAGS) $(CPPFLAGS) $(pk_self_test_CFLAGS) $(CFLAGS) -MT pk_self_test-pk-network.obj -MD -MP -MF $(DEPDIR)/pk_self_test-pk-network.Tpo -c -o pk_self_test-pk-network.obj `if test -f 'pk-network.c'; then $(CYGPATH_W) 'pk-network.c'; else $(CYGPATH_W) '$(srcdir)/pk-network.c'; fi`
-@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/pk_self_test-pk-network.Tpo $(DEPDIR)/pk_self_test-pk-network.Po
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='pk-network.c' object='pk_self_test-pk-network.obj' libtool=no @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(pk_self_test_CPPFLAGS) $(CPPFLAGS) $(pk_self_test_CFLAGS) $(CFLAGS) -c -o pk_self_test-pk-network.obj `if test -f 'pk-network.c'; then $(CYGPATH_W) 'pk-network.c'; else $(CYGPATH_W) '$(srcdir)/pk-network.c'; fi`
 
 pk_self_test-pk-shared.o: pk-shared.c
 @am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(pk_self_test_CPPFLAGS) $(CPPFLAGS) $(pk_self_test_CFLAGS) $(CFLAGS) -MT pk_self_test-pk-shared.o -MD -MP -MF $(DEPDIR)/pk_self_test-pk-shared.Tpo -c -o pk_self_test-pk-shared.o `test -f 'pk-shared.c' || echo '$(srcdir)/'`pk-shared.c

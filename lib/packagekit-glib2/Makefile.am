@@ -33,7 +33,6 @@ libpackagekit_glib2_includedir = $(includedir)/PackageKit/packagekit-glib2
 
 HEADER_FILES =							\
 	packagekit.h						\
-	pk-autocleanups.h					\
 	pk-bitfield.h						\
 	pk-category.h						\
 	pk-client.h						\
@@ -173,6 +172,7 @@ libpackagekit_glib2_la_CFLAGS =					\
 noinst_LIBRARIES = libpackagekitprivate.a
 libpackagekitprivate_a_SOURCES =				\
 	packagekit-private.h					\
+	pk-common-private.h					\
 	pk-console-shared.c					\
 	pk-console-shared.h					\
 	pk-progress-bar.c					\

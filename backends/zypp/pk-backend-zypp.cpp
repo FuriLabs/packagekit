@@ -76,7 +76,6 @@
 #include <zypp/base/LogControl.h>
 #include <zypp/base/Logger.h>
 #include <zypp/base/String.h>
-#include <zypp/media/MediaManager.h>
 #include <zypp/parser/IniDict.h>
 #include <zypp/parser/ParseException.h>
 #include <zypp/parser/ProductFileReader.h>
@@ -641,22 +640,6 @@ zypp_logging ()
 	return TRUE;
 }
 
-gboolean
-zypp_is_changeable_media (const Url &url)
-{
-	gboolean is_cd = false;
-	try {
-		media::MediaManager mm;
-		media::MediaAccessId id = mm.open (url);
-		is_cd = mm.isChangeable (id);
-		mm.close (id);
-	} catch (const media::MediaException &e) {
-		// TODO: Do anything about this?
-	}
-
-	return is_cd;
-}
-
 namespace {
 	/// Helper finding pattern at end or embedded in name.
 	/// E.g '-debug' in 'repo-debug' or 'repo-debug-update'
@@ -1025,13 +1008,6 @@ zypp_refresh_meta_and_cache (RepoManager &manager, RepoInfo &repo, bool force = 
 
 
 static gboolean
-system_and_package_are_x86 (sat::Solvable item)
-{
-	// i586, i686, ... all should be considered the same arch for our comparison
-	return ( item.arch() == Arch_i586 && ZConfig::defaultSystemArchitecture() == Arch_i686 );
-}
-
-static gboolean
 zypp_package_is_devel (const sat::Solvable &item)
 {
 	const string &name = item.name();
@@ -1086,13 +1062,12 @@ zypp_filter_solvable (PkBitfield filters, const sat::Solvable &item)
 			return TRUE;
 		if (i == PK_FILTER_ENUM_ARCH) {
 			if (item.arch () != ZConfig::defaultSystemArchitecture () &&
-			    item.arch () != Arch_noarch &&
-			    ! system_and_package_are_x86 (item))
+			    ! item.arch ().compatibleWith (ZConfig::defaultSystemArchitecture()))
 				return TRUE;
 		}
 		if (i == PK_FILTER_ENUM_NOT_ARCH) {
 			if (item.arch () == ZConfig::defaultSystemArchitecture () ||
-			    system_and_package_are_x86 (item))
+			    item.arch ().compatibleWith (ZConfig::defaultSystemArchitecture()))
 				return TRUE;
 		}
 		if (i == PK_FILTER_ENUM_SOURCE && !(isKind<SrcPackage>(item)))
@@ -1641,9 +1616,9 @@ zypp_refresh_cache (PkBackendJob *job, ZYpp::Ptr zypp, gboolean force)
 		if (!force && !repo.autorefresh())
 			continue;
 
-		// skip changeable meda (DVDs and CDs).  Without doing this,
+		// skip changeable media (DVDs and CDs).  Without doing this,
 		// the disc would be required to be physically present.
-		if (zypp_is_changeable_media (*repo.baseUrlsBegin ()) == true)
+		if (repo.baseUrlsBegin ()->schemeIsVolatile())
 			continue;
 
 		try {
@@ -3577,10 +3552,10 @@ pk_backend_start_job (PkBackend *backend, PkBackendJob *job)
 	const gchar *proxy_http;
 	const gchar *proxy_https;
 	const gchar *proxy_ftp;
-	const gchar *uri;
 	const gchar *proxy_socks;
 	const gchar *no_proxy;
 	const gchar *pac;
+	gchar *uri;
 
 	locale = pk_backend_job_get_locale(job);
 	if (!pk_strzero (locale)) {
