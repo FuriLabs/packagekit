@@ -1,4 +1,3 @@
 vendor-ubuntu.diff
 policy.diff
 01_no-distupgrade.patch
-02_pkid-state-in-data.patch
