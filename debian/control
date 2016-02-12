@@ -26,9 +26,7 @@ Build-Depends: bash-completion,
                libsqlite3-dev,
                libsystemd-dev (>= 214) [linux-any],
                libtool,
-               libxt-dev,
                network-manager-dev [linux-any],
-               npapi-sdk-dev,
                policykit-1,
                valac,
                xmlto
@@ -174,23 +172,6 @@ Description: GStreamer plugin to install codecs using PackageKit
  .
  This package provides a plugin for the GStreamer multimedia framework
  to search and to install audio and video codecs.
-
-Package: browser-plugin-packagekit
-Architecture: any
-Section: web
-Depends: packagekit (= ${binary:Version}),
-         ${dist:Browser},
-         ${misc:Depends},
-         ${shlibs:Depends}
-Recommends: gnome-software | apper
-Conflicts: mozilla-packagekit
-Replaces: mozilla-packagekit
-Description: Plugin to install missing plugins using PackageKit
- PackageKit allows performing simple software management tasks over a DBus
- interface e.g refreshing the cache, updating, installing and removing
- software packages or searching for multimedia codecs and file handlers.
- .
- This package provides a browser plugin.
 
 Package: packagekit-command-not-found
 Architecture: any
