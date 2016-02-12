@@ -359,19 +359,20 @@ gchar* utilBuildPackageId(const pkgCache::VerIterator &ver)
     gchar *package_id;
     pkgCache::VerFileIterator vf = ver.FileList();
 
-    string data;
+    string data = "";
     const pkgCache::PkgIterator &pkg = ver.ParentPkg();
-    if (pkg->CurrentState == pkgCache::State::Installed &&
-            pkg.CurrentVer() == ver) {
+    if (pkg->CurrentState == pkgCache::State::Installed && pkg.CurrentVer() == ver) {
         if (vf.File().Archive() == NULL) {
-            data = "installed";
+            // we don't know a repository, the package must be local
+            data = "local";
         } else {
-            data += vf.File().Archive();
+            // when a package is installed, the data part of a package-id is "installed:<repo>"
+            data = "installed:" + string(vf.File().Archive());
         }
     } else if (vf.File().Archive() != NULL) {
         data = vf.File().Archive();
     }
-    
+
     package_id = pk_package_id_build(ver.ParentPkg().Name(),
                                      ver.VerStr(),
                                      ver.Arch(),

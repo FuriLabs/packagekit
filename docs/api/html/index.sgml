@@ -17,6 +17,7 @@
 <ANCHOR id="PackageKit.SetProxy" href="PackageKit/PackageKit.html#PackageKit.SetProxy">
 <ANCHOR id="PackageKit.ClearResults" href="PackageKit/PackageKit.html#PackageKit.ClearResults">
 <ANCHOR id="PackageKit.Trigger" href="PackageKit/PackageKit.html#PackageKit.Trigger">
+<ANCHOR id="PackageKit.TriggerUpgrade" href="PackageKit/PackageKit.html#PackageKit.TriggerUpgrade">
 <ANCHOR id="PackageKit.Cancel" href="PackageKit/PackageKit.html#PackageKit.Cancel">
 <ANCHOR id="PackageKit.GetPrepared" href="PackageKit/PackageKit.html#PackageKit.GetPrepared">
 <ANCHOR id="PackageKit::TransactionListChanged" href="PackageKit/PackageKit.html#PackageKit::TransactionListChanged">
@@ -37,6 +38,7 @@
 <ANCHOR id="PackageKit:NetworkState" href="PackageKit/PackageKit.html#PackageKit:NetworkState">
 <ANCHOR id="PackageKit:DistroId" href="PackageKit/PackageKit.html#PackageKit:DistroId">
 <ANCHOR id="PackageKit:UpdatePrepared" href="PackageKit/PackageKit.html#PackageKit:UpdatePrepared">
+<ANCHOR id="PackageKit:UpgradePrepared" href="PackageKit/PackageKit.html#PackageKit:UpgradePrepared">
 <ANCHOR id="PackageKit:TriggerAction" href="PackageKit/PackageKit.html#PackageKit:TriggerAction">
 <ANCHOR id="Transaction" href="PackageKit/Transaction.html">
 <ANCHOR id="Transaction.SetHints" href="PackageKit/Transaction.html#Transaction.SetHints">

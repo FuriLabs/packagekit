@@ -32,8 +32,6 @@
 
 #include <glib-object.h>
 
-#include "src/pk-cleanup.h"
-
 #include <packagekit-glib2/pk-package.h>
 #include <packagekit-glib2/pk-common.h>
 #include <packagekit-glib2/pk-enum.h>
@@ -218,7 +216,7 @@ out:
 gboolean
 pk_package_parse (PkPackage *package, const gchar *data, GError **error)
 {
-	_cleanup_strv_free_ gchar **sections = NULL;
+	g_auto(GStrv) sections = NULL;
 
 	g_return_val_if_fail (PK_IS_PACKAGE (package), FALSE);
 	g_return_val_if_fail (error == NULL || *error == NULL, FALSE);
@@ -380,7 +378,7 @@ pk_package_get_arch (PkPackage *package)
  *
  * Gets the package data, which is usually the repository ID that contains the
  * package. Special ID's include "installed" for installed packages, and "local"
- * for local packages that exist on disk but not in a repoitory.
+ * for local packages that exist on disk but not in a repository.
  *
  * Return value: the data, or %NULL if unset
  *

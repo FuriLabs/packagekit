@@ -1,8 +1,8 @@
 # Copyright (C) 2007-2012 Richard Hughes <richard@hughsie.com>
 
 m4_define([pk_major_version], [1])
-m4_define([pk_minor_version], [0])
-m4_define([pk_micro_version], [11])
+m4_define([pk_minor_version], [1])
+m4_define([pk_micro_version], [0])
 m4_define([pk_version],
           [pk_major_version.pk_minor_version.pk_micro_version])
 
@@ -56,7 +56,7 @@ AC_SUBST(PK_VERSION)
 #   fixed, change:
 #      REVISION += 1
 LT_CURRENT=18
-LT_REVISION=2
+LT_REVISION=3
 LT_AGE=0
 AC_SUBST(LT_CURRENT)
 AC_SUBST(LT_REVISION)
@@ -120,7 +120,7 @@ if test "$GCC" = "yes"; then
 	WARNINGFLAGS_CPP="$WARNINGFLAGS_CPP -Wmissing-include-dirs"
 	WARNINGFLAGS_CPP="$WARNINGFLAGS_CPP -Wmissing-format-attribute"
 #	WARNINGFLAGS_CPP="$WARNINGFLAGS_CPP -Wclobbered"
-#	WARNINGFLAGS_CPP="$WARNINGFLAGS_CPP -Wempty-body"
+	WARNINGFLAGS_CPP="$WARNINGFLAGS_CPP -Wempty-body"
 #	WARNINGFLAGS_CPP="$WARNINGFLAGS_CPP -Wignored-qualifiers"
 	WARNINGFLAGS_CPP="$WARNINGFLAGS_CPP -Wsign-compare"
 #	WARNINGFLAGS_CPP="$WARNINGFLAGS_CPP -Wtype-limits"
@@ -166,7 +166,7 @@ AM_GLIB_GNU_GETTEXT
 dnl ---------------------------------------------------------------------------
 dnl - Library dependencies
 dnl ---------------------------------------------------------------------------
-GLIB_REQUIRED=2.32.0
+GLIB_REQUIRED=2.46.0
 GIO_REQUIRED=2.16.1
 NETWORK_MANAGER_REQUIRED=0.6.4
 POLKIT_GOBJECT_REQUIRED=0.98
@@ -249,6 +249,13 @@ fi
 AM_CONDITIONAL(HAVE_SYSTEMD, [test -n "$has_systemdsystemunitdir"])
 
 dnl ---------------------------------------------------------------------------
+dnl - Use systemd offline update
+dnl ---------------------------------------------------------------------------
+AC_ARG_ENABLE(offline-update, AS_HELP_STRING([--enable-offline-update],[enable offline update via systemd]),
+	      enable_offline_update=$enableval,enable_offline_update=yes)
+AM_CONDITIONAL(ENABLE_OFFLINE_UPDATE, [test x$enable_systemd = xyes -a x$enable_offline_update = xyes])
+
+dnl ---------------------------------------------------------------------------
 dnl - Generate man pages ? (default enabled)
 dnl ---------------------------------------------------------------------------
 AC_ARG_ENABLE(man_pages, AS_HELP_STRING([--disable-man-pages],[Disable man pages generation]), enable_man_pages=$enableval)
@@ -305,51 +312,6 @@ AM_CONDITIONAL(PK_BUILD_LOCAL, test x$enable_local = xyes)
 if test x$enable_local = xyes; then
 	AC_DEFINE(PK_BUILD_LOCAL,1,[Build local code])
 fi
-
-dnl ---------------------------------------------------------------------------
-dnl - Able to build browser plugin
-dnl ---------------------------------------------------------------------------
-AC_ARG_ENABLE(browser_plugin, AS_HELP_STRING([--enable-browser-plugin],[Build browser plugin functionality]),
-	      enable_browser_plugin=$enableval,enable_browser_plugin=yes)
-if test x$enable_browser_plugin = xyes; then
-	PKG_CHECK_EXISTS([npapi-sdk], mozilla_plugin=npapi-sdk, mozilla_plugin=mozilla-plugin)
-	PKG_CHECK_MODULES(PK_BROWSER_PLUGIN,	\
-			  $mozilla_plugin	\
-			  gio-unix-2.0		\
-			  nspr >= 4.8		\
-			  cairo			\
-			  pango			\
-			  gtk+-2.0 >= 2.14.0,
-			  build_browser_plugin=yes, build_browser_plugin=no)
-	if test $build_browser_plugin = "yes"; then
-
-		# check we have xulrunner headers
-		packagekit_save_CPPFLAGS="$CPPFLAGS"
-		packagekit_save_LDFLAGS="$LDFLAGS"
-		CPPFLAGS="$CPPFLAGS $PK_BROWSER_PLUGIN_CFLAGS"
-		LDFLAGS="$CPPFLAGS $PK_BROWSER_PLUGIN_LIBS"
-		AC_CHECK_HEADER(npfunctions.h, have_xulrunner_npfunctions=yes, have_xulrunner_npfunctions=no)
-		CPPFLAGS="$packagekit_save_CPPFLAGS"
-		LDFLAGS="$packagekit_save_LDFLAGS"
-
-		# Are we specifying a different mozilla plugin directory?
-		AC_ARG_WITH(mozilla-plugin-dir, [AS_HELP_STRING([--with-mozilla-plugin-dir=<dir>],[where to put the mozilla plugin])])
-		if ! test -z "$with_mozilla_plugin_dir" ; then
-			MOZILLA_PLUGIN_DIR="$with_mozilla_plugin_dir"
-		else
-			MOZILLA_PLUGIN_DIR="$LIBDIR/mozilla/plugins"
-		fi
-		AC_SUBST(MOZILLA_PLUGIN_DIR)
-
-		# not got headers
-		if test $have_xulrunner_npfunctions = "no"; then
-			build_browser_plugin=no
-		fi
-	fi
-else
-	build_browser_plugin=no
-fi
-AM_CONDITIONAL(PK_BUILD_BROWSER_PLUGIN, test $build_browser_plugin = "yes")
 
 dnl ---------------------------------------------------------------------------
 dnl - Able to build gstreamer plugin
@@ -468,6 +430,9 @@ if test x$enable_aptcc = xyes; then
 	dnl Use C++
 	AC_LANG([C++])
 
+	# Require C++11 support
+	AX_CXX_COMPILE_STDCXX_11([ext], [mandatory])
+
 	# check we have apt and gstreamer headers
 	save_CPPFLAGS="$CPPFLAGS"
 	save_LDFLAGS="$LDFLAGS"
@@ -509,7 +474,7 @@ if test x$enable_aptcc = xyes; then
 fi
 
 if test x$enable_alpm = xyes; then
-	PKG_CHECK_MODULES(ALPM, libalpm >= 8.2.0)
+	PKG_CHECK_MODULES(ALPM, libalpm >= 10.0.0)
 fi
 
 if test x$enable_poldek = xyes; then
@@ -561,7 +526,6 @@ docs/api/Makefile
 docs/api/dbus/Makefile
 docs/api/version.xml
 contrib/Makefile
-contrib/browser-plugin/Makefile
 contrib/gstreamer-plugin/Makefile
 contrib/gtk-module/Makefile
 contrib/gtk-module/gtk2/Makefile
@@ -623,8 +587,8 @@ echo "
         cppflags:                  ${CPPFLAGS}
         Able to run locally:       ${enable_local}
         Use systemd:               ${enable_systemd}
+        Enable offline update:     ${enable_offline_update}
         Networking stacks:         ${networking_apis}
-        Browser plugin:            ${build_browser_plugin}
         GStreamer plugin:          ${build_gstreamer_plugin}
         Pango module (GTK+3):      ${build_gtk_module}
         gobject-introspection:     ${found_introspection}

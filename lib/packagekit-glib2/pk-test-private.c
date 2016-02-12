@@ -23,8 +23,6 @@
 
 #include <glib-object.h>
 
-#include "src/pk-cleanup.h"
-
 #include "pk-common.h"
 #include "pk-debug.h"
 #include "pk-enum.h"
@@ -610,12 +608,12 @@ pk_test_offline_func (void)
 	guint64 mtime;
 	PkOfflineAction action;
 	PkPackage *pkg;
-	_cleanup_error_free_ GError *error = NULL;
-	_cleanup_object_unref_ GFileMonitor *monitor = NULL;
-	_cleanup_object_unref_ PkError *pk_error = NULL;
-	_cleanup_object_unref_ PkPackageSack *sack = NULL;
-	_cleanup_object_unref_ PkResults *results = NULL;
-	_cleanup_ptrarray_unref_ GPtrArray *packages = NULL;
+	g_autoptr(GError) error = NULL;
+	g_autoptr(GFileMonitor) monitor = NULL;
+	g_autoptr(PkError) pk_error = NULL;
+	g_autoptr(PkPackageSack) sack = NULL;
+	g_autoptr(PkResults) results = NULL;
+	g_autoptr(GPtrArray) packages = NULL;
 	const gchar *results_failed =
 			"[PackageKit Offline Update Results]\n"
 			"Success=false\n"
@@ -682,7 +680,8 @@ pk_test_offline_func (void)
 	ret = g_file_get_contents (PK_OFFLINE_PREPARED_FILENAME, &tmp, NULL, &error);
 	g_assert_no_error (error);
 	g_assert (ret);
-	g_assert_cmpstr (tmp, ==, "powertop;0.1.3;i386;fedora");
+	g_assert_cmpstr (tmp, ==, "[update]\n"
+	                          "prepared_ids=powertop;0.1.3;i386;fedora\n");
 	g_free (tmp);
 	sack = pk_offline_get_prepared_sack (&error);
 	g_assert_no_error (error);
@@ -808,10 +807,6 @@ pk_test_offline_func (void)
 int
 main (int argc, char **argv)
 {
-#if (GLIB_MAJOR_VERSION == 2 && GLIB_MINOR_VERSION < 35)
-	g_type_init ();
-#endif
-
 	g_test_init (&argc, &argv, NULL);
 
 	pk_debug_set_verbose (TRUE);

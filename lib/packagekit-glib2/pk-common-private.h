@@ -1,6 +1,6 @@
 /* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*-
  *
- * Copyright (C) 2014 Richard Hughes <richard@hughsie.com>
+ * Copyright (C) 2015 Kalev Lember <klember@redhat.com>
  *
  * Licensed under the GNU Lesser General Public License Version 2.1
  *
@@ -19,32 +19,19 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301 USA
  */
 
-#ifndef __HIF_BACKEND_H
-#define __HIF_BACKEND_H
+#if !defined (__PACKAGEKIT_H_INSIDE__) && !defined (PK_COMPILATION)
+#error "Only <packagekit.h> can be included directly."
+#endif
+
+#ifndef __PK_COMMON_PRIVATE_H
+#define __PK_COMMON_PRIVATE_H
 
 #include <glib.h>
 
-#include <hawkey/advisory.h>
-#include <hawkey/package.h>
-#include <hawkey/packagelist.h>
+G_BEGIN_DECLS
 
-#include <pk-backend.h>
-
-PkInfoEnum	 hif_advisory_type_to_info_enum	(HyAdvisoryType		 type);
-void		 hif_emit_package		(PkBackendJob		*job,
-						 PkInfoEnum		 info,
-						 HyPackage		 pkg);
-void		 hif_emit_package_list		(PkBackendJob		*job,
-						 PkInfoEnum		 info,
-						 HyPackageList		 pkglist);
-void		 hif_emit_package_array		(PkBackendJob		*job,
-						 PkInfoEnum		 info,
-						 GPtrArray		*array);
-void		 hif_emit_package_list_filter	(PkBackendJob		*job,
-						 PkBitfield		 filters,
-						 HyPackageList		 pkglist);
-PkBitfield	 hif_get_filter_for_ids		(gchar			**package_ids);
+gchar		*pk_get_distro_version_id		(GError		**error);
 
 G_END_DECLS
 
-#endif /* __HIF_BACKEND_H */
+#endif /* __PK_COMMON_PRIVATE_H */
