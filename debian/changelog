@@ -1,3 +1,12 @@
+packagekit (1.1.0-2) unstable; urgency=medium
+
+  * progress-callback-notified.patch: Fix GIR annotations for
+    PkProgressCallback callbacks in async functions.
+    This prevents crashes when using PackageKit from languages
+    like Python.
+
+ -- Matthias Klumpp <mak@debian.org>  Sat, 12 Mar 2016 23:28:06 +0100
+
 packagekit (1.1.0-1) unstable; urgency=medium
 
   * New upstream release: 1.1.0
