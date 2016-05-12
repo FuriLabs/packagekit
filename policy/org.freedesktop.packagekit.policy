@@ -140,7 +140,7 @@
     <description xml:lang="it">Installa pacchetto firmato</description>
     <description xml:lang="ja">署名付きのパッケージをインストール</description>
     <description xml:lang="kn">ಸಹಿ ಮಾಡಲಾದ ಅನುಸ್ಥಾಪಿಸು</description>
-    <description xml:lang="ko">서명된 패키지 설치</description>
+    <description xml:lang="ko">서명한 꾸러미 설치</description>
     <description xml:lang="lt">Įdiegti pasirašytą paketą</description>
     <description xml:lang="lv">Instalēt parakstītu pakotni</description>
     <description xml:lang="ml">ഒപ്പിട്ട പാക്കേജ് ഇന്‍സ്റ്റോള്‍ ചെയ്യുക</description>
@@ -305,7 +305,7 @@
     <description xml:lang="id">Pasang lagi paket yang telah terpasang</description>
     <description xml:lang="it">Installa nuovamente i pacchetti già installati</description>
     <description xml:lang="ja">すでにインストール済みのパッケージを再インストール</description>
-    <description xml:lang="ko">이미 설치된 패키지 다시 설치</description>
+    <description xml:lang="ko">이미 설치한 꾸러미 다시 설치</description>
     <description xml:lang="pl">Ponowna instalacja już zainstalowanego pakietu</description>
     <description xml:lang="pt">Instalar novamente pacote já instalado</description>
     <description xml:lang="pt_BR">Instalar pacote já instalado novamente</description>
@@ -371,7 +371,7 @@
     <description xml:lang="id">Pasang versi yang lebih lama dari paket yang terpasang</description>
     <description xml:lang="it">Installa versioni precedenti di pacchetti già installati</description>
     <description xml:lang="ja">インストール済みパッケージの古いバージョンをインストール</description>
-    <description xml:lang="ko">설치된 패키지의 이전 버전 설치</description>
+    <description xml:lang="ko">설치한 꾸러미의 이전 버전 설치</description>
     <description xml:lang="pl">Instalacja starszej wersji zainstalowanego pakietu</description>
     <description xml:lang="pt">Instalar versão anterior de pacote instalado</description>
     <description xml:lang="pt_BR">Instalar a versão mais antiga do pacote instalado</description>
@@ -618,7 +618,7 @@
     <description xml:lang="it">Rimuovi pacchetto</description>
     <description xml:lang="ja">パッケージを削除</description>
     <description xml:lang="kn">ಪ್ಯಾಕೇಜನ್ನು ತೆಗೆದು ಹಾಕು</description>
-    <description xml:lang="ko">패키지 제거</description>
+    <description xml:lang="ko">꾸러미 제거</description>
     <description xml:lang="lt">Pašalinti paketą</description>
     <description xml:lang="lv">Izņemt pakotni</description>
     <description xml:lang="ml">പാക്കേജ് നീക്കം ചെയ്യുക</description>
@@ -1163,10 +1163,12 @@
     <description>Upgrade System</description>
     <description xml:lang="br">Bremanaat ar reizhiad</description>
     <description xml:lang="ca">Actualització del sistema</description>
+    <description xml:lang="de">System aktualisieren</description>
     <description xml:lang="en_GB">Upgrade System</description>
     <description xml:lang="eu">Eguneratu sistema</description>
     <description xml:lang="hu">Rendszer frissítése</description>
     <description xml:lang="it">Avanzamento di sistema</description>
+    <description xml:lang="ko">시스템 업그레이드</description>
     <description xml:lang="pl">Aktualizacja systemu</description>
     <description xml:lang="pt">Atualizar o sistema</description>
     <description xml:lang="pt_BR">Atualizar o sistema</description>
@@ -1179,10 +1181,12 @@
     <description xml:lang="zh_TW">升級系統</description>
     <message>Authentication is required to upgrade the operating system</message>
     <message xml:lang="ca">Es requereix autenticació per actualitzar el sistema operatiu</message>
+    <message xml:lang="de">Legitimierung ist zum Aktualisieren des Betriebssystems notwendig</message>
     <message xml:lang="en_GB">Authentication is required to upgrade the operating system</message>
     <message xml:lang="eu">Autentifikazioa behar da sistema eragilea bertsioz berritzeko</message>
     <message xml:lang="hu">Hitelesítés szükséges az operációs rendszer frissítéséhez</message>
     <message xml:lang="it">È richiesto autenticarsi per eseguire l'avanzamento di versione del sistema operativo</message>
+    <message xml:lang="ko">운영체제를 업그레이드하려면 인증이 필요합니다</message>
     <message xml:lang="pl">Wymagane jest uwierzytelnienie, aby zaktualizować system operacyjny</message>
     <message xml:lang="pt">Autenticação é necessária para atualizar o sistema operativo</message>
     <message xml:lang="pt_BR">Autenticação é necessária para atualizar o sistema operacional</message>
