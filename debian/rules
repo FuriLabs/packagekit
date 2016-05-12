@@ -89,7 +89,7 @@ override_dh_gencontrol:
 	dh_gencontrol -- $(SUBSTVARS)
 
 override_dh_strip:
-	dh_strip --dbg-package=packagekit-dbg
+	dh_strip --dbgsym-migration='packagekit-dbg (<< 1.1.1-1~)'
 
 override_dh_autoreconf:
 	dh_autoreconf --as-needed

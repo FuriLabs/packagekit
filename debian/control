@@ -185,18 +185,3 @@ Description: Offer to install missing programs automatically
  .
  This package contains a simple handler for command_not_found that offers to
  install missing packages on the command line using PackageKit.
-
-Package: packagekit-dbg
-Architecture: any
-Section: debug
-Priority: extra
-Depends: packagekit (= ${binary:Version}),
-         ${misc:Depends}
-Description: Debugging symbols for PackageKit
- This package includes debugging symbols for PackageKit
- libraries, backends and command-line tools.
- PackageKit is a package management abstraction layer which
- allows performing simple software management tasks over a DBus
- interface
- .
- Most people will not need this package.
