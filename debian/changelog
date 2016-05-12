@@ -1,3 +1,17 @@
+packagekit (1.1.1-1) unstable; urgency=medium
+
+  * New upstream release: 1.1.1
+  * Drop the manual -dbg package in favor of the auto-generated
+    dbgsym packages
+  * Drop progress-callback-notified.patch: Applied upstream
+  * aptcc-full-package-origin.patch: Make aptcc backend return a
+    complete origin ID
+  * Use secure Vcs-* URLs
+  * Bump standards version: No change needed
+  * debian/rules: Remove some dead logic
+
+ -- Matthias Klumpp <mak@debian.org>  Thu, 12 May 2016 19:19:54 +0200
+
 packagekit (1.1.0-2) unstable; urgency=medium
 
   * progress-callback-notified.patch: Fix GIR annotations for
