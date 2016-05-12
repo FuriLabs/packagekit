@@ -1,0 +1,88 @@
+From 84bca2f80becb7e1e196a5f4e66a1a6ab3f65a51 Mon Sep 17 00:00:00 2001
+From: Matthias Klumpp <matthias@tenstral.net>
+Date: Wed, 11 May 2016 21:52:38 +0200
+Subject: [PATCH] aptcc: Return the correct and complete result for package
+ origins
+
+We transform the repository origin a little, to get a nice machine-
+readable string out, which matches what AppStream metadata ships.
+This makes it possible that we only need very simple logic in software
+centers like GNOME Software to determine if something was installed via
+a 3rd-party source.
+---
+ backends/aptcc/apt-utils.cpp | 37 ++++++++++++++++++++++++++++---------
+ backends/aptcc/apt-utils.h   |  6 ++++++
+ 2 files changed, 34 insertions(+), 9 deletions(-)
+
+diff --git a/backends/aptcc/apt-utils.cpp b/backends/aptcc/apt-utils.cpp
+index 58fa90f..98b696f 100644
+--- a/backends/aptcc/apt-utils.cpp
++++ b/backends/aptcc/apt-utils.cpp
+@@ -354,6 +354,30 @@ bool utilRestartRequired(const string &packageName)
+     return false;
+ }
+ 
++string utilBuildPackageOriginId(pkgCache::VerFileIterator vf)
++{
++    if (vf.File().Origin() == NULL)
++        return string("local");
++    if (vf.File().Archive() == NULL)
++        return string("local");
++    if (vf.File().Component() == NULL)
++        return string("invalid");
++
++    // Origin, e.g. "Debian" or "Google Inc."
++    auto origin = string(vf.File().Origin());
++    // The suite, e.g. "jessie" or "sid"
++    auto suite = string(vf.File().Archive());
++    // The component, e.g. "main" or "non-free"
++    auto component = string(vf.File().Component());
++
++    // sanitize origin string
++    std::transform(origin.begin(), origin.end(), origin.begin(), ::tolower);
++    std::replace(origin.begin(), origin.end(), ' ', '_');
++
++    string res = origin + "-" + suite + "-" + component;
++    return res;
++}
++
+ gchar* utilBuildPackageId(const pkgCache::VerIterator &ver)
+ {
+     gchar *package_id;
+@@ -362,15 +386,10 @@ gchar* utilBuildPackageId(const pkgCache::VerIterator &ver)
+     string data = "";
+     const pkgCache::PkgIterator &pkg = ver.ParentPkg();
+     if (pkg->CurrentState == pkgCache::State::Installed && pkg.CurrentVer() == ver) {
+-        if (vf.File().Archive() == NULL) {
+-            // we don't know a repository, the package must be local
+-            data = "local";
+-        } else {
+-            // when a package is installed, the data part of a package-id is "installed:<repo>"
+-            data = "installed:" + string(vf.File().Archive());
+-        }
+-    } else if (vf.File().Archive() != NULL) {
+-        data = vf.File().Archive();
++        // when a package is installed, the data part of a package-id is "installed:<repo-id>"
++        data = "installed:" + utilBuildPackageOriginId(vf);
++    } else {
++        data = utilBuildPackageOriginId(vf);
+     }
+ 
+     package_id = pk_package_id_build(ver.ParentPkg().Name(),
+diff --git a/backends/aptcc/apt-utils.h b/backends/aptcc/apt-utils.h
+index b1adda0..df8e30a 100644
+--- a/backends/aptcc/apt-utils.h
++++ b/backends/aptcc/apt-utils.h
+@@ -79,6 +79,12 @@ bool utilRestartRequired(const string &packageName);
+ gchar* utilBuildPackageId(const pkgCache::VerIterator &ver);
+ 
+ /**
++ * Build a unique repository origin, in the form of
++ * {distro}-{suite}-{component}
++ */
++string utilBuildPackageOriginId(pkgCache::VerFileIterator vf);
++
++/**
+   * Return an utf8 string
+   */
+ const char *utf8(const char *str);

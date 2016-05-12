@@ -1,3 +1,4 @@
 vendor-debian.diff
 policy.diff
 01_no-distupgrade.patch
+02_aptcc-full-package-origin.patch
