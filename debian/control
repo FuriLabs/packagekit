@@ -29,8 +29,8 @@ Build-Depends: bash-completion,
                policykit-1,
                valac,
                xmlto
-Standards-Version: 3.9.6
-Homepage: http://www.freedesktop.org/software/PackageKit/
+Standards-Version: 3.9.8
+Homepage: https://www.freedesktop.org/software/PackageKit/
 
 Package: packagekit
 Architecture: any
