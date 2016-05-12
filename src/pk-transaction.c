@@ -73,7 +73,7 @@ static gboolean pk_transaction_is_supported_content_type (PkTransaction *transac
 #define PK_TRANSACTION_UID_INVALID		G_MAXUINT
 
 /* maximum number of items that can be resolved in one go */
-#define PK_TRANSACTION_MAX_ITEMS_TO_RESOLVE	4800
+#define PK_TRANSACTION_MAX_ITEMS_TO_RESOLVE	10000
 
 /* maximum number of packages that can be processed in one go */
 #define PK_TRANSACTION_MAX_PACKAGES_TO_PROCESS	5200
@@ -298,6 +298,7 @@ pk_transaction_finish_invalidate_caches (PkTransaction *transaction)
 				  PK_TRANSACTION_FLAG_ENUM_ONLY_DOWNLOAD))
 		goto out;
 	if (priv->role == PK_ROLE_ENUM_UPDATE_PACKAGES ||
+	    priv->role == PK_ROLE_ENUM_INSTALL_PACKAGES ||
 	    priv->role == PK_ROLE_ENUM_REMOVE_PACKAGES ||
 	    priv->role == PK_ROLE_ENUM_REPO_ENABLE ||
 	    priv->role == PK_ROLE_ENUM_REPO_SET_DATA ||

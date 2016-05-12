@@ -65,7 +65,9 @@ in's'pac)
 <link linkend="PackageKit:NetworkState">'NetworkState'</link>read'u'
 <link linkend="PackageKit:DistroId">'DistroId'</link>read's'
 <link linkend="PackageKit:UpdatePrepared">'UpdatePrepared'</link>read'b'
+<link linkend="PackageKit:UpdateTriggered">'UpdateTriggered'</link>read'b'
 <link linkend="PackageKit:UpgradePrepared">'UpgradePrepared'</link>read'b'
+<link linkend="PackageKit:UpgradeTriggered">'UpgradeTriggered'</link>read'b'
 <link linkend="PackageKit:TriggerAction">'TriggerAction'</link>read's'
 </synopsis>
   </refsect1>
@@ -360,10 +362,20 @@ in's'pac)</programlisting></refsect2>
           <para>
             If an update has been prepared and is ready to be triggered.
           </para>
+        <variablelist role="params"/><refsect2><title><anchor role="function" id="PackageKit:UpdateTriggered"/>The "UpdateTriggered" property</title><indexterm><primary>UpdateTriggered</primary><secondary>PackageKit</secondary></indexterm><programlisting>'UpdateTriggered'read'b'
+</programlisting></refsect2>
+          <para>
+            If an update has been triggered.
+          </para>
         <variablelist role="params"/><refsect2><title><anchor role="function" id="PackageKit:UpgradePrepared"/>The "UpgradePrepared" property</title><indexterm><primary>UpgradePrepared</primary><secondary>PackageKit</secondary></indexterm><programlisting>'UpgradePrepared'read'b'
 </programlisting></refsect2>
           <para>
             If a system upgrade has been prepared and is ready to be triggered.
+          </para>
+        <variablelist role="params"/><refsect2><title><anchor role="function" id="PackageKit:UpgradeTriggered"/>The "UpgradeTriggered" property</title><indexterm><primary>UpgradeTriggered</primary><secondary>PackageKit</secondary></indexterm><programlisting>'UpgradeTriggered'read'b'
+</programlisting></refsect2>
+          <para>
+            If a system upgrade has been triggered.
           </para>
         <variablelist role="params"/><refsect2><title><anchor role="function" id="PackageKit:TriggerAction"/>The "TriggerAction" property</title><indexterm><primary>TriggerAction</primary><secondary>PackageKit</secondary></indexterm><programlisting>'TriggerAction'read's'
 </programlisting></refsect2>
