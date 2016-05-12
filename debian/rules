@@ -5,7 +5,6 @@ DEB_HOST_ARCH_OS ?= $(shell dpkg-architecture -qDEB_HOST_ARCH_OS)
 DEB_HOST_MULTIARCH ?= $(shell dpkg-architecture -qDEB_HOST_MULTIARCH)
 
 # Use this variable to set the PackageKit configure flags
-# We set aptcc as default backend
 PK_CONFIGURE_FLAGS = --libexecdir=/usr/lib/packagekit \
 		--disable-static \
 		--disable-local \
@@ -13,7 +12,6 @@ PK_CONFIGURE_FLAGS = --libexecdir=/usr/lib/packagekit \
 		--disable-cron \
 		--enable-introspection \
 		--enable-aptcc \
-		--enable-browser-plugin \
 		--enable-gtk-module \
 		--enable-gstreamer-plugin
 
@@ -24,14 +22,6 @@ ifneq ($(DEB_HOST_ARCH_OS), linux)
 endif
 
 LDFLAGS += -Wl,--as-needed
-
-ifeq ($(shell dpkg-vendor --derives-from Ubuntu && echo yes), yes)
-	SUBSTVARS = -Vdist:Browser="firefox (>> 8.0) | www-browser"
-else ifeq ($(shell dpkg-vendor --derives-from Tanglu && echo yes), yes)
-	SUBSTVARS = -Vdist:Browser="firefox (>> 8.0) | www-browser"
-else
-	SUBSTVARS = -Vdist:Browser="iceweasel (>> 8.0) | www-browser"
-endif
 
 # Define install target dir
 INSTALLDIR = $(CURDIR)/debian/tmp
@@ -60,7 +50,6 @@ override_dh_auto_install:
 
 	# These files do not need to be installed
 	rm -f $(INSTALLDIR)/usr/lib/$(DEB_HOST_MULTIARCH)/packagekit-backend/*.la
-	rm -f $(INSTALLDIR)/usr/lib/$(DEB_HOST_MULTIARCH)/mozilla/plugins/packagekit-plugin.la
 	rm -f $(INSTALLDIR)/usr/lib/$(DEB_HOST_MULTIARCH)/gtk-?.0/modules/*.la
 	rm -f $(INSTALLDIR)/usr/lib/$(DEB_HOST_MULTIARCH)/*.la
 	rm -f $(INSTALLDIR)/usr/share/PackageKit/pk-upgrade-distro.sh
@@ -71,7 +60,7 @@ override_dh_install: extrainstallfiles-stamp
 	dh_install --list-missing
 
 override_dh_makeshlibs:
-	dh_makeshlibs -Xpackagekit-plugin -Xlibpk-gtk-module -Xlibpk_
+	dh_makeshlibs -Xlibpk-gtk-module -Xlibpk_
 	dh_girepository
 
 override_dh_auto_clean:
