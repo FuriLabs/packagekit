@@ -219,6 +219,14 @@
 <a class="link" href="PkResults.html" title="PkResults"><span class="returnvalue">PkResults</span></a> *
 </td>
 <td class="function_name">
+<a class="link" href="PackageKit-pk-task-sync.html#pk-task-upgrade-system-sync" title="pk_task_upgrade_system_sync ()">pk_task_upgrade_system_sync</a> <span class="c_punctuation">()</span>
+</td>
+</tr>
+<tr>
+<td class="function_type">
+<a class="link" href="PkResults.html" title="PkResults"><span class="returnvalue">PkResults</span></a> *
+</td>
+<td class="function_name">
 <a class="link" href="PackageKit-pk-task-sync.html#pk-task-repair-system-sync" title="pk_task_repair_system_sync ()">pk_task_repair_system_sync</a> <span class="c_punctuation">()</span>
 </td>
 </tr>
@@ -1659,6 +1667,76 @@ pk_task_repo_enable_sync (<em class="parameter"><code><a class="link" href="PkTa
 <p><span class="annotation">[<acronym title="Free data after the code is done."><span class="acronym">transfer full</span></acronym>]</span></p>
 </div>
 <p class="since">Since: 0.6.5</p>
+</div>
+<hr>
+<div class="refsect2">
+<a name="pk-task-upgrade-system-sync"></a><h3>pk_task_upgrade_system_sync ()</h3>
+<pre class="programlisting"><a class="link" href="PkResults.html" title="PkResults"><span class="returnvalue">PkResults</span></a> *
+pk_task_upgrade_system_sync (<em class="parameter"><code><a class="link" href="PkTask.html" title="PkTask"><span class="type">PkTask</span></a> *task</code></em>,
+                             <em class="parameter"><code>const <a href="/usr/share/gtk-doc/html/glibglib-Basic-Types.html#gchar"><span class="type">gchar</span></a> *distro_id</code></em>,
+                             <em class="parameter"><code><a class="link" href="PackageKit-pk-enum.html#PkUpgradeKindEnum" title="enum PkUpgradeKindEnum"><span class="type">PkUpgradeKindEnum</span></a> upgrade_kind</code></em>,
+                             <em class="parameter"><code><a href="/usr/share/gtk-doc/html/gioGCancellable.html#GCancellable-struct"><span class="type">GCancellable</span></a> *cancellable</code></em>,
+                             <em class="parameter"><code><a class="link" href="PkProgress.html#PkProgressCallback" title="PkProgressCallback ()"><span class="type">PkProgressCallback</span></a> progress_callback</code></em>,
+                             <em class="parameter"><code><a href="/usr/share/gtk-doc/html/glibglib-Basic-Types.html#gpointer"><span class="type">gpointer</span></a> progress_user_data</code></em>,
+                             <em class="parameter"><code><a href="/usr/share/gtk-doc/html/glibglib-Error-Reporting.html#GError"><span class="type">GError</span></a> **error</code></em>);</pre>
+<p>This transaction will update the distro to the next version, which may
+involve just downloading the installer and setting up the boot device,
+or may involve doing an on-line upgrade.</p>
+<p>The backend will decide what is best to do.</p>
+<div class="refsect3">
+<a name="pk-task-upgrade-system-sync.parameters"></a><h4>Parameters</h4>
+<div class="informaltable"><table width="100%" border="0">
+<colgroup>
+<col width="150px" class="parameters_name">
+<col class="parameters_description">
+<col width="200px" class="parameters_annotations">
+</colgroup>
+<tbody>
+<tr>
+<td class="parameter_name"><p>task</p></td>
+<td class="parameter_description"><p>a valid <a class="link" href="PkTask.html" title="PkTask"><span class="type">PkTask</span></a> instance</p></td>
+<td class="parameter_annotations"> </td>
+</tr>
+<tr>
+<td class="parameter_name"><p>distro_id</p></td>
+<td class="parameter_description"><p>a distro ID such as "fedora-14"</p></td>
+<td class="parameter_annotations"> </td>
+</tr>
+<tr>
+<td class="parameter_name"><p>upgrade_kind</p></td>
+<td class="parameter_description"><p>a <a class="link" href="PackageKit-pk-enum.html#PkUpgradeKindEnum" title="enum PkUpgradeKindEnum"><span class="type">PkUpgradeKindEnum</span></a> such as <a class="link" href="PackageKit-pk-enum.html#PK-UPGRADE-KIND-ENUM-COMPLETE:CAPS"><code class="literal">PK_UPGRADE_KIND_ENUM_COMPLETE</code></a></p></td>
+<td class="parameter_annotations"> </td>
+</tr>
+<tr>
+<td class="parameter_name"><p>cancellable</p></td>
+<td class="parameter_description"><p>a <a href="/usr/share/gtk-doc/html/gioGCancellable.html#GCancellable-struct"><span class="type">GCancellable</span></a> or <a href="/usr/share/gtk-doc/html/liboilliboil-liboiljunk.html#NULL:CAPS"><code class="literal">NULL</code></a></p></td>
+<td class="parameter_annotations"> </td>
+</tr>
+<tr>
+<td class="parameter_name"><p>progress_callback</p></td>
+<td class="parameter_description"><p> the function to run when the progress changes. </p></td>
+<td class="parameter_annotations"><span class="annotation">[<acronym title="The callback is valid only during the call to the method."><span class="acronym">scope call</span></acronym>]</span></td>
+</tr>
+<tr>
+<td class="parameter_name"><p>progress_user_data</p></td>
+<td class="parameter_description"><p>data to pass to <em class="parameter"><code>progress_callback</code></em>
+</p></td>
+<td class="parameter_annotations"> </td>
+</tr>
+<tr>
+<td class="parameter_name"><p>error</p></td>
+<td class="parameter_description"><p>the <a href="/usr/share/gtk-doc/html/glibglib-Error-Reporting.html#GError"><span class="type">GError</span></a> to store any failure, or <a href="/usr/share/gtk-doc/html/liboilliboil-liboiljunk.html#NULL:CAPS"><code class="literal">NULL</code></a></p></td>
+<td class="parameter_annotations"> </td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<div class="refsect3">
+<a name="pk-task-upgrade-system-sync.returns"></a><h4>Returns</h4>
+<p> a <a class="link" href="PkResults.html" title="PkResults"><code class="literal">PkResults</code></a> object, or NULL for error. </p>
+<p><span class="annotation">[<acronym title="Free data after the code is done."><span class="acronym">transfer full</span></acronym>]</span></p>
+</div>
+<p class="since">Since: 1.0.12</p>
 </div>
 <hr>
 <div class="refsect2">

@@ -1075,12 +1075,12 @@ pk_task_install_packages_async (PkTask *task, gchar **package_ids, GCancellable 
 	state->ret = FALSE;
 	state->transaction_flags = pk_bitfield_value (PK_TRANSACTION_FLAG_ENUM_ONLY_TRUSTED);
 	if (task->priv->allow_reinstall) {
-		pk_bitfield_add(state->transaction_flags,
-			   	PK_TRANSACTION_FLAG_ENUM_ALLOW_REINSTALL);
+		pk_bitfield_add (state->transaction_flags,
+				 PK_TRANSACTION_FLAG_ENUM_ALLOW_REINSTALL);
 	}
 	if (task->priv->allow_downgrade) {
-		pk_bitfield_add(state->transaction_flags,
-			   	PK_TRANSACTION_FLAG_ENUM_ALLOW_DOWNGRADE);
+		pk_bitfield_add (state->transaction_flags,
+				 PK_TRANSACTION_FLAG_ENUM_ALLOW_DOWNGRADE);
 	}
 	state->package_ids = g_strdupv (package_ids);
 	state->request = pk_task_generate_request_id ();
@@ -2400,7 +2400,7 @@ pk_task_set_only_trusted (PkTask *task, gboolean only_trusted)
 {
 	g_return_if_fail (PK_IS_TASK (task));
 	task->priv->only_trusted = only_trusted;
-	g_object_notify (G_OBJECT (task), "only-download");
+	g_object_notify (G_OBJECT (task), "only-trusted");
 }
 
 /**

@@ -68,6 +68,7 @@ in's'pac)
 <link linkend="PackageKit:UpdateTriggered">'UpdateTriggered'</link>read'b'
 <link linkend="PackageKit:UpgradePrepared">'UpgradePrepared'</link>read'b'
 <link linkend="PackageKit:UpgradeTriggered">'UpgradeTriggered'</link>read'b'
+<link linkend="PackageKit:PreparedUpgrade">'PreparedUpgrade'</link>read'a{sv}'
 <link linkend="PackageKit:TriggerAction">'TriggerAction'</link>read's'
 </synopsis>
   </refsect1>
@@ -376,6 +377,12 @@ in's'pac)</programlisting></refsect2>
 </programlisting></refsect2>
           <para>
             If a system upgrade has been triggered.
+          </para>
+        <variablelist role="params"/><refsect2><title><anchor role="function" id="PackageKit:PreparedUpgrade"/>The "PreparedUpgrade" property</title><indexterm><primary>PreparedUpgrade</primary><secondary>PackageKit</secondary></indexterm><programlisting>'PreparedUpgrade'read'a{sv}'
+</programlisting></refsect2>
+          <para>
+            Details about a prepared system upgrade. Currently recognized keys
+            are "name" and "version".
           </para>
         <variablelist role="params"/><refsect2><title><anchor role="function" id="PackageKit:TriggerAction"/>The "TriggerAction" property</title><indexterm><primary>TriggerAction</primary><secondary>PackageKit</secondary></indexterm><programlisting>'TriggerAction'read's'
 </programlisting></refsect2>

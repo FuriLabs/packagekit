@@ -7,6 +7,9 @@
 /* Name of default gettext domain */
 #define GETTEXT_PACKAGE "PackageKit"
 
+/* minimum glib version */
+#define GLIB_VERSION_MIN_REQUIRED GLIB_VERSION_2_44
+
 /* Define to 1 if you have the `bind_textdomain_codeset' function. */
 #define HAVE_BIND_TEXTDOMAIN_CODESET 1
 
@@ -98,7 +101,7 @@
 #define PACKAGE_NAME "PackageKit"
 
 /* Define to the full name and version of this package. */
-#define PACKAGE_STRING "PackageKit 1.1.1"
+#define PACKAGE_STRING "PackageKit 1.1.4"
 
 /* Define to the one symbol short name of this package. */
 #define PACKAGE_TARNAME "PackageKit"
@@ -107,7 +110,7 @@
 #define PACKAGE_URL "http://www.packagekit.org/"
 
 /* Define to the version of this package. */
-#define PACKAGE_VERSION "1.1.1"
+#define PACKAGE_VERSION "1.1.4"
 
 /* Build local code */
 #define PK_BUILD_LOCAL 1
@@ -119,7 +122,7 @@
 #define STDC_HEADERS 1
 
 /* Version number of package */
-#define VERSION "1.1.1"
+#define VERSION "1.1.4"
 
 /* define if libzypp returns package size in bytes */
 /* #undef ZYPP_RETURN_BYTES */

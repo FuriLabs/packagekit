@@ -2,7 +2,7 @@
 
 m4_define([pk_major_version], [1])
 m4_define([pk_minor_version], [1])
-m4_define([pk_micro_version], [1])
+m4_define([pk_micro_version], [4])
 m4_define([pk_version],
           [pk_major_version.pk_minor_version.pk_micro_version])
 
@@ -55,9 +55,9 @@ AC_SUBST(PK_VERSION)
 # - If the interface is the same as the previous version, but bugs are
 #   fixed, change:
 #      REVISION += 1
-LT_CURRENT=18
+LT_CURRENT=19
 LT_REVISION=3
-LT_AGE=0
+LT_AGE=1
 AC_SUBST(LT_CURRENT)
 AC_SUBST(LT_REVISION)
 AC_SUBST(LT_AGE)
@@ -182,6 +182,9 @@ PKG_CHECK_MODULES(GIO, \
  gio-unix-2.0 >= $GIO_REQUIRED)
 PKG_CHECK_MODULES(POLKIT, \
 		  polkit-gobject-1 >= $POLKIT_GOBJECT_REQUIRED)
+
+# Avoid g_simple_async_result deprecation warnings in glib 2.46+
+AC_DEFINE(GLIB_VERSION_MIN_REQUIRED, GLIB_VERSION_2_44, [minimum glib version])
 
 dnl ---------------------------------------------------------------------------
 dnl - FreeBSD compatibility
@@ -369,6 +372,7 @@ fi
 # backends
 AC_ARG_ENABLE(alpm, AS_HELP_STRING([--enable-alpm],[use the ALPM backend]),enable_alpm=$enableval,enable_alpm=no)
 AC_ARG_ENABLE(aptcc, AS_HELP_STRING([--enable-aptcc],[use the APTcc backend]),enable_aptcc=$enableval,enable_aptcc=no)
+AC_ARG_ENABLE(dnf, AS_HELP_STRING([--enable-dnf],[use the DNF backend]),enable_dnf=$enableval,enable_dnf=no)
 AC_ARG_ENABLE(dummy, AS_HELP_STRING([--enable-dummy],[use the dummy backend]),enable_dummy=$enableval,enable_dummy=yes)
 AC_ARG_ENABLE(entropy, AS_HELP_STRING([--enable-entropy],[use the entropy backend]),enable_entropy=$enableval,enable_entropy=no)
 AC_ARG_ENABLE(hif, AS_HELP_STRING([--enable-hif],[use the hif backend]),enable_hif=$enableval,enable_hif=no)
@@ -380,10 +384,12 @@ AC_ARG_ENABLE(katja, AS_HELP_STRING([--enable-katja],[use the Slackware backend]
 AC_ARG_ENABLE(urpmi, AS_HELP_STRING([--enable-urpmi],[use the URPMI backend]),enable_urpmi=$enableval,enable_urpmi=no)
 AC_ARG_ENABLE(yum, AS_HELP_STRING([--enable-yum],[use the YUM backend]),enable_yum=$enableval,enable_yum=no)
 AC_ARG_ENABLE(zypp, AS_HELP_STRING([--enable-zypp],[use the Zypp backend]),enable_zypp=$enableval,enable_zypp=no)
+AC_ARG_ENABLE(nix, AS_HELP_STRING([--enable-nix],[use the Nix backend]),enable_nix=$enableval,enable_nix=no)
 
 # export to Makefile.am's
 AM_CONDITIONAL(BACKEND_TYPE_ALPM, [test x$enable_alpm = xyes])
 AM_CONDITIONAL(BACKEND_TYPE_APTCC, [test x$enable_aptcc = xyes])
+AM_CONDITIONAL(BACKEND_TYPE_DNF, [test x$enable_dnf = xyes])
 AM_CONDITIONAL(BACKEND_TYPE_DUMMY, [test x$enable_dummy = xyes])
 AM_CONDITIONAL(BACKEND_TYPE_ENTROPY, [test x$enable_entropy = xyes])
 AM_CONDITIONAL(BACKEND_TYPE_HIF, [test x$enable_hif = xyes])
@@ -395,6 +401,7 @@ AM_CONDITIONAL(BACKEND_TYPE_KATJA, [test x$enable_katja = xyes])
 AM_CONDITIONAL(BACKEND_TYPE_URPMI, [test x$enable_urpmi = xyes])
 AM_CONDITIONAL(BACKEND_TYPE_YUM, [test x$enable_yum = xyes])
 AM_CONDITIONAL(BACKEND_TYPE_ZYPP, [test x$enable_zypp = xyes])
+AM_CONDITIONAL(BACKEND_TYPE_NIX, [test x$enable_nix = xyes])
 
 dnl ---------------------------------------------------------------------------
 dnl - Are we specifying a different dbus root ?
@@ -416,8 +423,28 @@ fi
 AC_SUBST(DBUS_SYS_DIR)
 AC_SUBST(DBUS_SERVICES_DIR)
 
+if test x$enable_dnf = xyes; then
+	PKG_CHECK_MODULES(DNF, appstream-glib libdnf >= 0.7.0)
+	AC_ARG_WITH(dnf-vendor,
+			[AS_HELP_STRING([--with-dnf-vendor=<vendor>],[select a vendor configuration (fedora, mageia; default is fedora)])])
+	if test "$with_dnf_vendor" = "fedora" -o "$with_dnf_vendor" = "mageia"; then
+		with_dnf_vendor="$with_dnf_vendor"
+	else
+		with_dnf_vendor="fedora"
+	fi
+	AC_SUBST(DNF_VENDOR, [$with_dnf_vendor])
+fi
+
 if test x$enable_hif = xyes; then
-	PKG_CHECK_MODULES(HIF, appstream-glib libhif >= 0.1.7)
+	PKG_CHECK_MODULES(HIF, appstream-glib libhif >= 0.2.3)
+	AC_ARG_WITH(hif-vendor,
+			[AS_HELP_STRING([--with-hif-vendor=<vendor>],[select a vendor configuration (fedora, mageia; default is fedora)])])
+	if test "$with_hif_vendor" = "fedora" -o "$with_hif_vendor" = "mageia"; then
+		with_hif_vendor="$with_hif_vendor"
+	else
+		with_hif_vendor="fedora"
+	fi
+	AC_SUBST(HIF_VENDOR, [$with_hif_vendor])
 fi
 
 have_python_backend="no"
@@ -511,6 +538,18 @@ if test x$enable_katja = xyes; then
 	AC_SUBST(KATJA_LIBS)
 fi
 
+if test x$enable_nix = xyes; then
+	dnl Use C++
+	AC_LANG([C++])
+
+	# Require C++11 support
+	AX_CXX_COMPILE_STDCXX_11([ext], [mandatory])
+
+	PKG_CHECK_MODULES(NIX, nix-expr >= 1.12)
+	PKG_CHECK_MODULES(NIX, nix-main >= 1.12)
+	PKG_CHECK_MODULES(NIX, nix-store >= 1.12)
+fi
+
 AC_SUBST(PK_PLUGIN_DIR, "\$(libdir)/packagekit-backend")
 AC_SUBST(PK_PLUGIN_CFLAGS, "-I\$(top_srcdir)/src -I\$(top_srcdir)/lib -DPK_COMPILATION $GLIB_CFLAGS $GMODULE_CFLAGS $GIO_CFLAGS")
 AC_SUBST(PK_PLUGIN_LIBS, "$GLIB_LIBS $GMODULE_LIBS $GIO_LIBS")
@@ -535,6 +574,7 @@ contrib/cron/Makefile
 backends/Makefile
 backends/alpm/Makefile
 backends/aptcc/Makefile
+backends/dnf/Makefile
 backends/dummy/Makefile
 backends/entropy/Makefile
 backends/hif/Makefile
@@ -552,6 +592,7 @@ backends/portage/Makefile
 backends/ports/Makefile
 backends/ports/ruby_packagekit/Makefile
 backends/zypp/Makefile
+backends/nix/Makefile
 data/Makefile
 data/org.freedesktop.PackageKit.conf
 data/tests/Makefile
@@ -602,9 +643,12 @@ echo "
         Backends:
         ALPM backend:              ${enable_alpm}
         APTcc backend:             ${enable_aptcc}
+        DNF backend:               ${enable_dnf}
+        DNF backend vendor:        ${with_dnf_vendor}
         dummy backend:             ${enable_dummy}
         Entropy backend:           ${enable_entropy}
         Hif backend:               ${enable_hif}
+        Hif backend vendor:        ${with_hif_vendor}
         PiSi backend:              ${enable_pisi}
         poldek backend:            ${enable_poldek}
         Portage backend:           ${enable_portage}
@@ -613,4 +657,5 @@ echo "
         URPMI backend:             ${enable_urpmi}
         YUM backend:               ${enable_yum}
         Zypp backend:              ${enable_zypp}
+        Nix backend:               ${enable_nix}
 "
