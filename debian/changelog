@@ -1,3 +1,18 @@
+packagekit (1.1.4-1) unstable; urgency=medium
+
+  * New upstream release: 1.1.4
+  * Drop patches: Applied upstream
+  * Directly depend on intltool and pkg-config (Closes: #837836)
+  * toinstall-aptcompliant.patch
+    - Fixes autoinst resolution
+    - Fixes installation of recommends
+    - Does not unconditionally install packages with FromUser=true
+  * aptcc-exclude-held.patch: Properly exclude held packages from
+    updates again.
+  * Update .symbols file
+
+ -- Matthias Klumpp <mak@debian.org>  Tue, 20 Sep 2016 15:34:28 +0200
+
 packagekit (1.1.1-1) unstable; urgency=medium
 
   * New upstream release: 1.1.1
