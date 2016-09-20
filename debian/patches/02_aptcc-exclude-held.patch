@@ -1,0 +1,54 @@
+From bcab7062a61fc5df9bf424805d9450006ce1404c Mon Sep 17 00:00:00 2001
+From: Harald Sitter <sitter@kde.org>
+Date: Tue, 20 Sep 2016 14:44:05 +0200
+Subject: aptcc: exclude held packages from update list
+
+We can not accurately represent apt's held concept in PackageKit so to
+mimic the intended behavior we simply exclude held packages from the
+update listing. `pkcon update` and friends will not call update on held
+packages, making them functionally held at their current version.
+This has the added benefit that manually calling update
+on the package will, just like install, break the version hold as the user
+had to explicitly request the update (similar to apt's behavior on this).
+
+---
+ backends/aptcc/apt-cache-file.cpp | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+--- a/backends/aptcc/apt-cache-file.cpp
++++ b/backends/aptcc/apt-cache-file.cpp
+@@ -481,7 +481,7 @@
+     // FIXME: this is ignoring the return value. OTOH the return value means little to us
+     //   since we run markinstall twice, once without autoinst and once with.
+     //   We probably should change the return value behavior and have the callee decide whether to
+-    //   error out or call us agian with autoinst. This however is further complicated by us
++    //   error out or call us again with autoinst. This however is further complicated by us
+     //   having protected, so we'd have to lift protection before this?
+     GetDepCache()->MarkInstall(Pkg, autoInst, 0, fromUser);
+     // Protect against further resolver changes.
+--- a/backends/aptcc/apt-intf.cpp
++++ b/backends/aptcc/apt-intf.cpp
+@@ -1289,14 +1289,20 @@
+     }
+ 
+     for (pkgCache::PkgIterator pkg = (*m_cache)->PkgBegin(); !pkg.end(); ++pkg) {
+-        if ((*m_cache)[pkg].Upgrade() == true && (*m_cache)[pkg].NewInstall() == false) {
++        const auto &state = (*m_cache)[pkg];
++        if (pkg->SelectedState == pkgCache::State::Hold) {
++            // We pretend held packages are not upgradable at all since we can't represent
++            // the concept of holds in PackageKit.
++            // https://github.com/hughsie/PackageKit/issues/120
++            continue;
++        } else if (state.Upgrade() == true && state.NewInstall() == false) {
+             const pkgCache::VerIterator &ver = m_cache->findCandidateVer(pkg);
+             if (!ver.end()) {
+                 updates.push_back(ver);
+             }
+-        } else if ((*m_cache)[pkg].Upgradable() == true &&
++        } else if (state.Upgradable() == true &&
+                    pkg->CurrentVer != 0 &&
+-                   (*m_cache)[pkg].Delete() == false) {
++                   state.Delete() == false) {
+             const pkgCache::VerIterator &ver = m_cache->findCandidateVer(pkg);
+             if (!ver.end()) {
+                 blocked.push_back(ver);

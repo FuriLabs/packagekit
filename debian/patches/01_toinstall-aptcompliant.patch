@@ -1,0 +1,291 @@
+From 9600c78d2001b267f5e57a088d4fcdc181679b87 Mon Sep 17 00:00:00 2001
+From: Harald Sitter <sitter@kde.org>
+Date: Tue, 20 Sep 2016 11:58:53 +0200
+Subject: aptcc: make toinstall more apt compliant
+
+new arguments: autoInst and preserveAuto
+
+apt's markInstall can automatically try to resolve dependencies (incl.
+recommends if applicable) without having the resolver deal with broken
+dependencies at all. to that end it will mark dependencies of $package as
+auto-install which gives them a slightly lower resolution score and the
+auto flag (so they can be autoremoved).
+To facilitate its use, the interface now calls toinstall twice: once
+without autoInst to only mark explicitly wanted packages, and a second time
+with autoInst to then also mark all needed dependencies. This is
+specifically meant to allow or-relationships to resolve as desired.
+
+e.g.
+```
+Package: foobar
+Depends: foo|bar
+```
+with `pkcon install foobar bar` will explicitly mark foobar and bar and
+thus prevent foo from getting autoinstalled.
+
+In update scenarios it is hard to tell whether a user wants a package to be
+installed or updated. In particular whether or not a package is meant to
+be installed according to the user would prevent them from being
+autoremoved. A user may however run `pkcon update foo` to update foo, not
+because she actually thinks foo is needed or useful. To prevent
+unintentionally losing the auto flag on updates, the backend now
+always preserves the flag when updates are requested. Conversely on
+installs we default to not having the auto flag.
+
+fixes #153
+fixes #151
+fixes #145
+
+---
+ backends/aptcc/pk-backend-aptcc.cpp | 11 +++++------
+ 1 file changed, 5 insertions(+), 6 deletions(-)
+
+--- a/backends/aptcc/pk-backend-aptcc.cpp
++++ b/backends/aptcc/pk-backend-aptcc.cpp
+@@ -2,6 +2,7 @@
+  *
+  * Copyright (C) 2007-2008 Richard Hughes <richard@hughsie.com>
+  * Copyright (C) 2009-2016 Daniel Nicoletti <dantti12@gmail.com>
++ *               2016 Harald Sitter <sitter@kde.org>
+  *
+  * Licensed under the GNU General Public License Version 2
+  *
+@@ -860,17 +861,16 @@
+     }
+ 
+     pk_backend_job_set_status(job, PK_STATUS_ENUM_QUERY);
+-    PkgList installPkgs, removePkgs;
++    PkgList installPkgs, removePkgs, updatePkgs;
+ 
+     if (!fixBroken) {
+         // Resolve the given packages
+         if (role == PK_ROLE_ENUM_REMOVE_PACKAGES) {
+             removePkgs = apt->resolvePackageIds(package_ids);
+-        } else if (role == PK_ROLE_ENUM_INSTALL_PACKAGES ||
+-                   role == PK_ROLE_ENUM_UPDATE_PACKAGES) {
+-            // Updates are like installs for the purposes of resolution, we
+-            // want to install the updates essentially.
++        } else if (role == PK_ROLE_ENUM_INSTALL_PACKAGES) {
+             installPkgs = apt->resolvePackageIds(package_ids);
++        } else if (role == PK_ROLE_ENUM_UPDATE_PACKAGES) {
++            updatePkgs = apt->resolvePackageIds(package_ids);
+         } else if (role == PK_ROLE_ENUM_INSTALL_FILES) {
+             installPkgs = apt->resolveLocalFiles(full_paths);
+         } else {
+@@ -880,7 +880,7 @@
+             return;
+         }
+ 
+-        if (removePkgs.size() == 0 && installPkgs.size() == 0) {
++        if (removePkgs.size() == 0 && installPkgs.size() == 0 && updatePkgs.size() == 0) {
+             pk_backend_job_error_code(job,
+                                       PK_ERROR_ENUM_PACKAGE_NOT_FOUND,
+                                       "Could not find package(s)");
+@@ -889,12 +889,12 @@
+     }
+ 
+     // Install/Update/Remove packages, or just simulate
+-    bool ret;
+-    ret = apt->runTransaction(installPkgs,
+-                              removePkgs,
+-                              fixBroken,
+-                              transaction_flags,
+-                              autoremove);
++    bool ret = apt->runTransaction(installPkgs,
++                                   removePkgs,
++                                   updatePkgs,
++                                   fixBroken,
++                                   transaction_flags,
++                                   autoremove);
+     if (!ret) {
+         // Print transaction errors
+         g_debug("AptIntf::runTransaction() failed: %i", _error->PendingError());
+@@ -1053,6 +1053,7 @@
+                         bool ret;
+                         ret = apt->runTransaction(PkgList(),
+                                                   removePkgs,
++                                                  PkgList(),
+                                                   false,
+                                                   transaction_flags,
+                                                   false);
+--- a/backends/aptcc/apt-intf.cpp
++++ b/backends/aptcc/apt-intf.cpp
+@@ -4,6 +4,7 @@
+  * Copyright (c) 2004 Michael Vogt <mvo@debian.org>
+  *               2009-2016 Daniel Nicoletti <dantti12@gmail.com>
+  *               2012-2015 Matthias Klumpp <matthias@tenstral.net>
++ *               2016 Harald Sitter <sitter@kde.org>
+  *
+  * This program is free software; you can redistribute it and/or modify
+  * it under the terms of the GNU General Public License as published by
+@@ -351,19 +352,21 @@
+             }
+         }
+ 
+-        // This filter is more complex so we filter it after the list has shrink
++        // This filter is more complex so we filter it after the list has shrunk
+         if (pk_bitfield_contain(filters, PK_FILTER_ENUM_DOWNLOADED) && ret.size() > 0) {
+             PkgList downloaded;
+ 
+             pkgProblemResolver Fix(*m_cache);
+             {
+                 pkgDepCache::ActionGroup group(*m_cache);
+-                for (const pkgCache::VerIterator &ver : ret) {
+-                    if (m_cancel) {
+-                        break;
+-                    }
++                for (auto autoInst : { true, false }) {
++                    for (const pkgCache::VerIterator &ver : ret) {
++                        if (m_cancel) {
++                            break;
++                        }
+ 
+-                    m_cache->tryToInstall(Fix, ver, false);
++                        m_cache->tryToInstall(Fix, ver, false, autoInst, false);
++                    }
+                 }
+             }
+ 
+@@ -2157,7 +2160,8 @@
+     return ret;
+ }
+ 
+-bool AptIntf::runTransaction(const PkgList &install, const PkgList &remove, bool fixBroken, PkBitfield flags, bool autoremove)
++bool AptIntf::runTransaction(const PkgList &install, const PkgList &remove, const PkgList &update,
++                             bool fixBroken, PkBitfield flags, bool autoremove)
+ {
+     //cout << "runTransaction" << simulate << remove << endl;
+ 
+@@ -2174,16 +2178,28 @@
+ 
+     pkgProblemResolver Fix(*m_cache);
+ 
++    // TODO: could use std::bind an have a generic operation array iff toRemove had the same
++    //       signature
++
++    struct Operation {
++        const PkgList &list;
++        const bool preserveAuto;
++    };
++
+     // new scope for the ActionGroup
+     {
+         pkgDepCache::ActionGroup group(*m_cache);
+-        for (const pkgCache::VerIterator &verIt : install) {
+-            if (m_cancel) {
+-                break;
+-            }
+ 
+-            if (!m_cache->tryToInstall(Fix, verIt, BrokenFix)) {
+-                return false;
++        for (auto op : { Operation { install, false }, Operation { update, true } }) {
++            for (auto autoInst : { false, true }) {
++                for (const pkgCache::VerIterator &verIt : op.list) {
++                    if (m_cancel) {
++                        break;
++                    }
++                    if (!m_cache->tryToInstall(Fix, verIt, BrokenFix, autoInst, op.preserveAuto)) {
++                        return false;
++                    }
++                }
+             }
+         }
+ 
+--- a/backends/aptcc/apt-intf.h
++++ b/backends/aptcc/apt-intf.h
+@@ -3,6 +3,7 @@
+  * Copyright (c) 1999-2002, 2004-2005, 2007-2008 Daniel Burrows
+  * Copyright (c) 2009-2016 Daniel Nicoletti <dantti12@gmail.com>
+  *               2012 Matthias Klumpp <matthias@tenstral.net>
++ *               2016 Harald Sitter <sitter@kde.org>
+  *
+  * This program is free software; you can redistribute it and/or modify
+  * it under the terms of the GNU General Public License as published by
+@@ -83,15 +84,17 @@
+     void markAutoInstalled(const PkgList &pkgs);
+ 
+     /**
+-     *  runs a transaction to install/remove/update packages
+-     *  - for install and update, \p remove should be set to false
+-     *  - if you are going to remove, \p remove should be true
+-     *  - if you don't want to actually install/update/remove
+-     *    \p simulate should be true, in this case packages with
+-     *    what's going to happen will be emitted.
++     * runs a transaction to install/remove/update packages
++     * @param install List of packages to install
++     * @param remove List of packages to remove
++     * @param update List of packages to update
++     * @param fixBroken whether to automatically fix broken packages
++     * @param flags operation flags as per public API
++     * @param autoremove whether to autoremove dangling packages
+      */
+     bool runTransaction(const PkgList &install,
+                         const PkgList &remove,
++                        const PkgList &update,
+                         bool fixBroken,
+                         PkBitfield flags,
+                         bool autoremove);
+--- a/backends/aptcc/apt-cache-file.cpp
++++ b/backends/aptcc/apt-cache-file.cpp
+@@ -2,6 +2,7 @@
+  * 
+  * Copyright (c) 2012 Daniel Nicoletti <dantti12@gmail.com>
+  * Copyright (c) 2012 Matthias Klumpp <matthias@tenstral.net>
++ * Copyright (c) 2016 Harald Sitter <sitter@kde.org>
+  *
+  * This program is free software; you can redistribute it and/or modify
+  * it under the terms of the GNU General Public License as published by
+@@ -455,7 +456,9 @@
+ 
+ bool AptCacheFile::tryToInstall(pkgProblemResolver &Fix,
+                                 const pkgCache::VerIterator &ver,
+-                                bool BrokenFix)
++                                bool BrokenFix,
++                                bool autoInst,
++                                bool preserveAuto)
+ {
+     pkgCache::PkgIterator Pkg = ver.ParentPkg();
+ 
+@@ -471,12 +474,20 @@
+         return false;
+     }
+ 
++    // On updates we want to always preserve the autoflag as updates are usually
++    // non-indicative of whether or not the user explicitly wants this package to be
++    // installed or simply wants it to be updated.
++    const bool fromUser = preserveAuto ? !(State.Flags & pkgCache::Flag::Auto) : true;
++    // FIXME: this is ignoring the return value. OTOH the return value means little to us
++    //   since we run markinstall twice, once without autoinst and once with.
++    //   We probably should change the return value behavior and have the callee decide whether to
++    //   error out or call us agian with autoinst. This however is further complicated by us
++    //   having protected, so we'd have to lift protection before this?
++    GetDepCache()->MarkInstall(Pkg, autoInst, 0, fromUser);
++    // Protect against further resolver changes.
+     Fix.Clear(Pkg);
+     Fix.Protect(Pkg);
+ 
+-    // Install it
+-    GetDepCache()->MarkInstall(Pkg, false);
+-
+     return true;
+ }
+ 
+--- a/backends/aptcc/apt-cache-file.h
++++ b/backends/aptcc/apt-cache-file.h
+@@ -2,6 +2,7 @@
+  *
+  * Copyright (c) 2012 Daniel Nicoletti <dantti12@gmail.com>
+  * Copyright (c) 2012 Matthias Klumpp <matthias@tenstral.net>
++ * Copyright (c) 2016 Harald Sitter <sitter@kde.org>
+  *
+  * This program is free software; you can redistribute it and/or modify
+  * it under the terms of the GNU General Public License as published by
+@@ -129,7 +130,7 @@
+ 
+     bool tryToInstall(pkgProblemResolver &Fix,
+                       const pkgCache::VerIterator &ver,
+-                      bool BrokenFix);
++                      bool BrokenFix, bool autoInst, bool preserveAuto);
+ 
+     void tryToRemove(pkgProblemResolver &Fix,
+                      const pkgCache::VerIterator &ver);
