@@ -37,8 +37,7 @@ Homepage: https://www.freedesktop.org/software/PackageKit/
 Package: packagekit
 Architecture: any
 Multi-Arch: foreign
-Depends: gdebi-core (>= 0.8.2),
-         libglib2.0-bin,
+Depends: libglib2.0-bin,
          policykit-1,
          ${misc:Depends},
          ${shlibs:Depends}
@@ -49,7 +48,7 @@ Breaks: libpackagekit-glib2-14 (<= 0.7.6-4),
         packagekit-backend-smart (<< 1.0),
         packagekit-offline-update (<< 1.0)
 Recommends: packagekit-tools
-Suggests: appstream-index
+Suggests: appstream
 Description: Provides a package management service
  PackageKit allows performing simple software management tasks over a DBus
  interface e.g. refreshing the cache, updating, installing and removing
