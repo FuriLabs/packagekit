@@ -8,6 +8,10 @@ if BACKEND_TYPE_APTCC
 SUBDIRS += aptcc
 endif
 
+if BACKEND_TYPE_DNF
+SUBDIRS += dnf
+endif
+
 if BACKEND_TYPE_DUMMY
 SUBDIRS += dummy
 endif
@@ -50,6 +54,10 @@ endif
 
 if BACKEND_TYPE_PORTS
 SUBDIRS += ports
+endif
+
+if BACKEND_TYPE_NIX
+SUBDIRS += nix
 endif
 
 clean-local :

@@ -89,27 +89,28 @@ build_triplet = @build@
 host_triplet = @host@
 @BACKEND_TYPE_ALPM_TRUE@am__append_1 = alpm
 @BACKEND_TYPE_APTCC_TRUE@am__append_2 = aptcc
-@BACKEND_TYPE_DUMMY_TRUE@am__append_3 = dummy
-@BACKEND_TYPE_ENTROPY_TRUE@am__append_4 = entropy
-@BACKEND_TYPE_HIF_TRUE@am__append_5 = hif
-@BACKEND_TYPE_KATJA_TRUE@am__append_6 = katja
-@BACKEND_TYPE_URPMI_TRUE@am__append_7 = urpmi
-@BACKEND_TYPE_YUM_TRUE@am__append_8 = yum
-@BACKEND_TYPE_PISI_TRUE@am__append_9 = pisi
-@BACKEND_TYPE_ZYPP_TRUE@am__append_10 = zypp
-@BACKEND_TYPE_POLDEK_TRUE@am__append_11 = poldek
-@BACKEND_TYPE_PORTAGE_TRUE@am__append_12 = portage
-@BACKEND_TYPE_PORTS_TRUE@am__append_13 = ports
+@BACKEND_TYPE_DNF_TRUE@am__append_3 = dnf
+@BACKEND_TYPE_DUMMY_TRUE@am__append_4 = dummy
+@BACKEND_TYPE_ENTROPY_TRUE@am__append_5 = entropy
+@BACKEND_TYPE_HIF_TRUE@am__append_6 = hif
+@BACKEND_TYPE_KATJA_TRUE@am__append_7 = katja
+@BACKEND_TYPE_URPMI_TRUE@am__append_8 = urpmi
+@BACKEND_TYPE_YUM_TRUE@am__append_9 = yum
+@BACKEND_TYPE_PISI_TRUE@am__append_10 = pisi
+@BACKEND_TYPE_ZYPP_TRUE@am__append_11 = zypp
+@BACKEND_TYPE_POLDEK_TRUE@am__append_12 = poldek
+@BACKEND_TYPE_PORTAGE_TRUE@am__append_13 = portage
+@BACKEND_TYPE_PORTS_TRUE@am__append_14 = ports
+@BACKEND_TYPE_NIX_TRUE@am__append_15 = nix
 subdir = backends
 ACLOCAL_M4 = $(top_srcdir)/aclocal.m4
 am__aclocal_m4_deps = $(top_srcdir)/m4/as-linguas.m4 \
 	$(top_srcdir)/m4/ax_check_compile_flag.m4 \
 	$(top_srcdir)/m4/ax_check_link_flag.m4 \
-	$(top_srcdir)/m4/gtk-doc.m4 $(top_srcdir)/m4/intltool.m4 \
-	$(top_srcdir)/m4/libtool.m4 $(top_srcdir)/m4/ltoptions.m4 \
-	$(top_srcdir)/m4/ltsugar.m4 $(top_srcdir)/m4/ltversion.m4 \
-	$(top_srcdir)/m4/lt~obsolete.m4 $(top_srcdir)/acinclude.m4 \
-	$(top_srcdir)/configure.ac
+	$(top_srcdir)/m4/gtk-doc.m4 $(top_srcdir)/m4/libtool.m4 \
+	$(top_srcdir)/m4/ltoptions.m4 $(top_srcdir)/m4/ltsugar.m4 \
+	$(top_srcdir)/m4/ltversion.m4 $(top_srcdir)/m4/lt~obsolete.m4 \
+	$(top_srcdir)/acinclude.m4 $(top_srcdir)/configure.ac
 am__configure_deps = $(am__aclocal_m4_deps) $(CONFIGURE_DEPENDENCIES) \
 	$(ACLOCAL_M4)
 DIST_COMMON = $(srcdir)/Makefile.am $(am__DIST_COMMON)
@@ -171,8 +172,8 @@ am__define_uniq_tagged_files = \
   done | $(am__uniquify_input)`
 ETAGS = etags
 CTAGS = ctags
-DIST_SUBDIRS = test alpm aptcc dummy entropy hif katja urpmi yum pisi \
-	zypp poldek portage ports
+DIST_SUBDIRS = test alpm aptcc dnf dummy entropy hif katja urpmi yum \
+	pisi zypp poldek portage ports nix
 am__DIST_COMMON = $(srcdir)/Makefile.in
 DISTFILES = $(DIST_COMMON) $(DIST_SOURCES) $(TEXINFOS) $(EXTRA_DIST)
 am__relativize = \
@@ -238,6 +239,9 @@ DBUS_SYS_DIR = @DBUS_SYS_DIR@
 DEFS = @DEFS@
 DEPDIR = @DEPDIR@
 DLLTOOL = @DLLTOOL@
+DNF_CFLAGS = @DNF_CFLAGS@
+DNF_LIBS = @DNF_LIBS@
+DNF_VENDOR = @DNF_VENDOR@
 DSYMUTIL = @DSYMUTIL@
 DUMPBIN = @DUMPBIN@
 ECHO_C = @ECHO_C@
@@ -271,6 +275,7 @@ GTKDOC_REBASE = @GTKDOC_REBASE@
 HAVE_CXX11 = @HAVE_CXX11@
 HIF_CFLAGS = @HIF_CFLAGS@
 HIF_LIBS = @HIF_LIBS@
+HIF_VENDOR = @HIF_VENDOR@
 HTML_DIR = @HTML_DIR@
 INSTALL = @INSTALL@
 INSTALL_DATA = @INSTALL_DATA@
@@ -323,6 +328,8 @@ MSGFMT_OPTS = @MSGFMT_OPTS@
 MSGMERGE = @MSGMERGE@
 NETWORK_MANAGER_CFLAGS = @NETWORK_MANAGER_CFLAGS@
 NETWORK_MANAGER_LIBS = @NETWORK_MANAGER_LIBS@
+NIX_CFLAGS = @NIX_CFLAGS@
+NIX_LIBS = @NIX_LIBS@
 NM = @NM@
 NMEDIT = @NMEDIT@
 OBJDUMP = @OBJDUMP@
@@ -458,7 +465,7 @@ SUBDIRS = test $(am__append_1) $(am__append_2) $(am__append_3) \
 	$(am__append_4) $(am__append_5) $(am__append_6) \
 	$(am__append_7) $(am__append_8) $(am__append_9) \
 	$(am__append_10) $(am__append_11) $(am__append_12) \
-	$(am__append_13)
+	$(am__append_13) $(am__append_14) $(am__append_15)
 all: all-recursive
 
 .SUFFIXES:

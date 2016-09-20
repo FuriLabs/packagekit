@@ -282,20 +282,35 @@
     <keyword type="function" name="pk_progress_test ()" link="PkProgress.html#pk-progress-test"/>
     <keyword type="function" name="PkProgressCallback ()" link="PkProgress.html#PkProgressCallback"/>
     <keyword type="function" name="pk_progress_set_package_id ()" link="PkProgress.html#pk-progress-set-package-id" since="0.5.2"/>
+    <keyword type="function" name="pk_progress_get_package_id ()" link="PkProgress.html#pk-progress-get-package-id" since="1.0.12"/>
     <keyword type="function" name="pk_progress_set_item_progress ()" link="PkProgress.html#pk-progress-set-item-progress" since="0.8.1"/>
+    <keyword type="function" name="pk_progress_get_item_progress ()" link="PkProgress.html#pk-progress-get-item-progress" since="1.0.12"/>
     <keyword type="function" name="pk_progress_set_transaction_id ()" link="PkProgress.html#pk-progress-set-transaction-id" since="0.5.3"/>
+    <keyword type="function" name="pk_progress_get_transaction_id ()" link="PkProgress.html#pk-progress-get-transaction-id" since="1.0.12"/>
     <keyword type="function" name="pk_progress_set_percentage ()" link="PkProgress.html#pk-progress-set-percentage" since="0.5.2"/>
+    <keyword type="function" name="pk_progress_get_percentage ()" link="PkProgress.html#pk-progress-get-percentage" since="1.0.12"/>
     <keyword type="function" name="pk_progress_set_status ()" link="PkProgress.html#pk-progress-set-status" since="0.5.2"/>
+    <keyword type="function" name="pk_progress_get_status ()" link="PkProgress.html#pk-progress-get-status" since="1.0.12"/>
     <keyword type="function" name="pk_progress_set_role ()" link="PkProgress.html#pk-progress-set-role" since="0.5.2"/>
+    <keyword type="function" name="pk_progress_get_role ()" link="PkProgress.html#pk-progress-get-role" since="1.0.12"/>
     <keyword type="function" name="pk_progress_set_allow_cancel ()" link="PkProgress.html#pk-progress-set-allow-cancel" since="0.5.2"/>
+    <keyword type="function" name="pk_progress_get_allow_cancel ()" link="PkProgress.html#pk-progress-get-allow-cancel" since="1.0.12"/>
     <keyword type="function" name="pk_progress_set_caller_active ()" link="PkProgress.html#pk-progress-set-caller-active" since="0.5.2"/>
+    <keyword type="function" name="pk_progress_get_caller_active ()" link="PkProgress.html#pk-progress-get-caller-active" since="1.0.12"/>
     <keyword type="function" name="pk_progress_set_elapsed_time ()" link="PkProgress.html#pk-progress-set-elapsed-time" since="0.5.2"/>
+    <keyword type="function" name="pk_progress_get_elapsed_time ()" link="PkProgress.html#pk-progress-get-elapsed-time" since="1.0.12"/>
     <keyword type="function" name="pk_progress_set_remaining_time ()" link="PkProgress.html#pk-progress-set-remaining-time" since="0.5.2"/>
+    <keyword type="function" name="pk_progress_get_remaining_time ()" link="PkProgress.html#pk-progress-get-remaining-time" since="1.0.12"/>
     <keyword type="function" name="pk_progress_set_speed ()" link="PkProgress.html#pk-progress-set-speed" since="0.5.2"/>
+    <keyword type="function" name="pk_progress_get_speed ()" link="PkProgress.html#pk-progress-get-speed" since="1.0.12"/>
     <keyword type="function" name="pk_progress_set_download_size_remaining ()" link="PkProgress.html#pk-progress-set-download-size-remaining" since="0.8.0"/>
+    <keyword type="function" name="pk_progress_get_download_size_remaining ()" link="PkProgress.html#pk-progress-get-download-size-remaining" since="1.0.12"/>
     <keyword type="function" name="pk_progress_set_transaction_flags ()" link="PkProgress.html#pk-progress-set-transaction-flags" since="0.8.8"/>
+    <keyword type="function" name="pk_progress_get_transaction_flags ()" link="PkProgress.html#pk-progress-get-transaction-flags" since="1.0.12"/>
     <keyword type="function" name="pk_progress_set_uid ()" link="PkProgress.html#pk-progress-set-uid" since="0.5.2"/>
+    <keyword type="function" name="pk_progress_get_uid ()" link="PkProgress.html#pk-progress-get-uid" since="1.0.12"/>
     <keyword type="function" name="pk_progress_set_package ()" link="PkProgress.html#pk-progress-set-package" since="0.5.2"/>
+    <keyword type="function" name="pk_progress_get_package ()" link="PkProgress.html#pk-progress-get-package" since="1.0.12"/>
     <keyword type="macro" name="PK_PROGRESS_TYPE_ERROR" link="PkProgress.html#PK-PROGRESS-TYPE-ERROR:CAPS"/>
     <keyword type="enum" name="enum PkProgressType" link="PkProgress.html#PkProgressType"/>
     <keyword type="property" name="The “allow-cancel” property" link="PkProgress.html#PkProgress--allow-cancel"/>
@@ -396,13 +411,12 @@
     <keyword type="function" name="pk_task_refresh_cache_async ()" link="PkTask.html#pk-task-refresh-cache-async" since="0.6.5"/>
     <keyword type="function" name="pk_task_get_repo_list_async ()" link="PkTask.html#pk-task-get-repo-list-async" since="0.6.5"/>
     <keyword type="function" name="pk_task_repo_enable_async ()" link="PkTask.html#pk-task-repo-enable-async" since="0.6.5"/>
+    <keyword type="function" name="pk_task_upgrade_system_async ()" link="PkTask.html#pk-task-upgrade-system-async" since="1.0.12"/>
     <keyword type="function" name="pk_task_repair_system_async ()" link="PkTask.html#pk-task-repair-system-async" since="0.7.2"/>
     <keyword type="function" name="pk_task_user_accepted ()" link="PkTask.html#pk-task-user-accepted" since="0.5.2"/>
     <keyword type="function" name="pk_task_user_declined ()" link="PkTask.html#pk-task-user-declined" since="0.5.2"/>
     <keyword type="function" name="pk_task_set_simulate ()" link="PkTask.html#pk-task-set-simulate" since="0.6.10"/>
     <keyword type="function" name="pk_task_get_simulate ()" link="PkTask.html#pk-task-get-simulate" since="0.6.10"/>
-    <keyword type="function" name="pk_task_set_interactive ()" link="PkTask.html#pk-task-set-interactive"/>
-    <keyword type="function" name="pk_task_get_interactive ()" link="PkTask.html#pk-task-get-interactive"/>
     <keyword type="function" name="pk_task_set_only_download ()" link="PkTask.html#pk-task-set-only-download" since="0.8.1"/>
     <keyword type="function" name="pk_task_get_only_download ()" link="PkTask.html#pk-task-get-only-download" since="0.8.1"/>
     <keyword type="function" name="pk_task_set_allow_downgrade ()" link="PkTask.html#pk-task-set-allow-downgrade" since="1.0.2"/>
@@ -632,6 +646,7 @@
     <keyword type="function" name="pk_task_refresh_cache_sync ()" link="PackageKit-pk-task-sync.html#pk-task-refresh-cache-sync" since="0.6.5"/>
     <keyword type="function" name="pk_task_get_repo_list_sync ()" link="PackageKit-pk-task-sync.html#pk-task-get-repo-list-sync" since="0.6.5"/>
     <keyword type="function" name="pk_task_repo_enable_sync ()" link="PackageKit-pk-task-sync.html#pk-task-repo-enable-sync" since="0.6.5"/>
+    <keyword type="function" name="pk_task_upgrade_system_sync ()" link="PackageKit-pk-task-sync.html#pk-task-upgrade-system-sync" since="1.0.12"/>
     <keyword type="function" name="pk_task_repair_system_sync ()" link="PackageKit-pk-task-sync.html#pk-task-repair-system-sync" since="0.7.2"/>
     <keyword type="constant" name="PK_CLIENT_ERROR_FAILED" link="PkClient.html#PK-CLIENT-ERROR-FAILED:CAPS"/>
     <keyword type="constant" name="PK_CLIENT_ERROR_FAILED_AUTH" link="PkClient.html#PK-CLIENT-ERROR-FAILED-AUTH:CAPS"/>
@@ -864,6 +879,7 @@
     <keyword type="constant" name="PK_ERROR_ENUM_CANCELLED_PRIORITY" link="PackageKit-pk-enum.html#PK-ERROR-ENUM-CANCELLED-PRIORITY:CAPS"/>
     <keyword type="constant" name="PK_ERROR_ENUM_UNFINISHED_TRANSACTION" link="PackageKit-pk-enum.html#PK-ERROR-ENUM-UNFINISHED-TRANSACTION:CAPS"/>
     <keyword type="constant" name="PK_ERROR_ENUM_LOCK_REQUIRED" link="PackageKit-pk-enum.html#PK-ERROR-ENUM-LOCK-REQUIRED:CAPS"/>
+    <keyword type="constant" name="PK_ERROR_ENUM_REPO_ALREADY_SET" link="PackageKit-pk-enum.html#PK-ERROR-ENUM-REPO-ALREADY-SET:CAPS"/>
     <keyword type="constant" name="PK_ERROR_ENUM_LAST" link="PackageKit-pk-enum.html#PK-ERROR-ENUM-LAST:CAPS"/>
     <keyword type="constant" name="PK_GROUP_ENUM_UNKNOWN" link="PackageKit-pk-enum.html#PK-GROUP-ENUM-UNKNOWN:CAPS"/>
     <keyword type="constant" name="PK_GROUP_ENUM_ACCESSIBILITY" link="PackageKit-pk-enum.html#PK-GROUP-ENUM-ACCESSIBILITY:CAPS"/>

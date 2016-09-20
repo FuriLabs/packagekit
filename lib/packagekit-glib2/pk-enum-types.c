@@ -352,6 +352,7 @@ pk_error_enum_get_type (void)
             { PK_ERROR_ENUM_CANCELLED_PRIORITY, "PK_ERROR_ENUM_CANCELLED_PRIORITY", "cancelled-priority" },
             { PK_ERROR_ENUM_UNFINISHED_TRANSACTION, "PK_ERROR_ENUM_UNFINISHED_TRANSACTION", "unfinished-transaction" },
             { PK_ERROR_ENUM_LOCK_REQUIRED, "PK_ERROR_ENUM_LOCK_REQUIRED", "lock-required" },
+            { PK_ERROR_ENUM_REPO_ALREADY_SET, "PK_ERROR_ENUM_REPO_ALREADY_SET", "repo-already-set" },
             { PK_ERROR_ENUM_LAST, "PK_ERROR_ENUM_LAST", "last" },
             { 0, NULL, NULL }
         };
