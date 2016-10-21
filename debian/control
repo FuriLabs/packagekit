@@ -5,7 +5,8 @@ Maintainer: Matthias Klumpp <mak@debian.org>
 Uploaders: Julian Andres Klode <jak@debian.org>
 Vcs-Git: https://anonscm.debian.org/git/pkg-packagekit/packagekit.git
 Vcs-Browser: https://anonscm.debian.org/cgit/pkg-packagekit/packagekit.git
-Build-Depends: bash-completion,
+Build-Depends: autoconf-archive,
+               bash-completion,
                debhelper (>= 9.0.0),
                dh-autoreconf (>= 4),
                dh-systemd (>= 1.16),
