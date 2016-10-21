@@ -117,10 +117,6 @@ Description: Library for accessing PackageKit using GLib (development files)
  interface e.g. refreshing the cache, updating, installing and removing
  software packages or searching for multimedia codecs and file handlers.
  .
- This package provides an advanced library to access PackageKit using GLib.
- It makes use of only async D-Bus calls and provides high level tasks which
- peform the "transaction dance".
- .
  This package provides the header files and documentation for the advanced
  PackageKit library based on GLib. It makes use of only async D-Bus calls
  and provides high level tasks which peform the "transaction dance".
