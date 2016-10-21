@@ -1,0 +1,31 @@
+From 27b927c0a7aa12a9ca3ada5dfa7a6f2b6b4deb9e Mon Sep 17 00:00:00 2001
+From: Richard Hughes <richard@hughsie.com>
+Date: Wed, 19 Oct 2016 20:34:40 +0100
+Subject: [PATCH] Check for a zero-length search string before passing to
+ backends
+
+Some backends can't cope with this (cough, aptcc, cough) and explode.
+This is probably not what the user wants, so return an error to the client if
+this is attempted.
+---
+ src/pk-transaction.c | 7 +++++++
+ 1 file changed, 7 insertions(+)
+
+diff --git a/src/pk-transaction.c b/src/pk-transaction.c
+index fe6ec9f..4f0cc2b 100644
+--- a/src/pk-transaction.c
++++ b/src/pk-transaction.c
+@@ -2195,6 +2195,13 @@ pk_transaction_strvalidate (const gchar *text, GError **error)
+ 
+ 	/* maximum size is 1024 */
+ 	length = pk_strlen (text, 1024);
++	if (length == 0) {
++		g_set_error_literal (error,
++				     PK_TRANSACTION_ERROR,
++				     PK_TRANSACTION_ERROR_INPUT_INVALID,
++				     "Invalid input passed to daemon: zero length string");
++		return FALSE;
++	}
+ 	if (length > 1024) {
+ 		g_set_error (error, PK_TRANSACTION_ERROR, PK_TRANSACTION_ERROR_INPUT_INVALID,
+ 			     "Invalid input passed to daemon: input too long: %u", length);
