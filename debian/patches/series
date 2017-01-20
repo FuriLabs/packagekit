@@ -1,6 +1,2 @@
 vendor-debian.diff
 policy.diff
-01_toinstall-aptcompliant.patch
-02_aptcc-exclude-held.patch
-03_aptcc-add-missing-file.patch
-04_reject-zero-length-search.patch
