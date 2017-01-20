@@ -92,16 +92,15 @@ host_triplet = @host@
 @BACKEND_TYPE_DNF_TRUE@am__append_3 = dnf
 @BACKEND_TYPE_DUMMY_TRUE@am__append_4 = dummy
 @BACKEND_TYPE_ENTROPY_TRUE@am__append_5 = entropy
-@BACKEND_TYPE_HIF_TRUE@am__append_6 = hif
-@BACKEND_TYPE_KATJA_TRUE@am__append_7 = katja
-@BACKEND_TYPE_URPMI_TRUE@am__append_8 = urpmi
-@BACKEND_TYPE_YUM_TRUE@am__append_9 = yum
-@BACKEND_TYPE_PISI_TRUE@am__append_10 = pisi
-@BACKEND_TYPE_ZYPP_TRUE@am__append_11 = zypp
-@BACKEND_TYPE_POLDEK_TRUE@am__append_12 = poldek
-@BACKEND_TYPE_PORTAGE_TRUE@am__append_13 = portage
-@BACKEND_TYPE_PORTS_TRUE@am__append_14 = ports
-@BACKEND_TYPE_NIX_TRUE@am__append_15 = nix
+@BACKEND_TYPE_KATJA_TRUE@am__append_6 = katja
+@BACKEND_TYPE_URPMI_TRUE@am__append_7 = urpmi
+@BACKEND_TYPE_YUM_TRUE@am__append_8 = yum
+@BACKEND_TYPE_PISI_TRUE@am__append_9 = pisi
+@BACKEND_TYPE_ZYPP_TRUE@am__append_10 = zypp
+@BACKEND_TYPE_POLDEK_TRUE@am__append_11 = poldek
+@BACKEND_TYPE_PORTAGE_TRUE@am__append_12 = portage
+@BACKEND_TYPE_PORTS_TRUE@am__append_13 = ports
+@BACKEND_TYPE_NIX_TRUE@am__append_14 = nix
 subdir = backends
 ACLOCAL_M4 = $(top_srcdir)/aclocal.m4
 am__aclocal_m4_deps = $(top_srcdir)/m4/as-linguas.m4 \
@@ -172,8 +171,8 @@ am__define_uniq_tagged_files = \
   done | $(am__uniquify_input)`
 ETAGS = etags
 CTAGS = ctags
-DIST_SUBDIRS = test alpm aptcc dnf dummy entropy hif katja urpmi yum \
-	pisi zypp poldek portage ports nix
+DIST_SUBDIRS = test alpm aptcc dnf dummy entropy katja urpmi yum pisi \
+	zypp poldek portage ports nix
 am__DIST_COMMON = $(srcdir)/Makefile.in
 DISTFILES = $(DIST_COMMON) $(DIST_SOURCES) $(TEXINFOS) $(EXTRA_DIST)
 am__relativize = \
@@ -253,6 +252,8 @@ FGREP = @FGREP@
 GETTEXT_PACKAGE = @GETTEXT_PACKAGE@
 GIO_CFLAGS = @GIO_CFLAGS@
 GIO_LIBS = @GIO_LIBS@
+GLIBMM_CFLAGS = @GLIBMM_CFLAGS@
+GLIBMM_LIBS = @GLIBMM_LIBS@
 GLIB_CFLAGS = @GLIB_CFLAGS@
 GLIB_COMPILE_SCHEMAS = @GLIB_COMPILE_SCHEMAS@
 GLIB_GENMARSHAL = @GLIB_GENMARSHAL@
@@ -273,9 +274,7 @@ GTKDOC_DEPS_LIBS = @GTKDOC_DEPS_LIBS@
 GTKDOC_MKPDF = @GTKDOC_MKPDF@
 GTKDOC_REBASE = @GTKDOC_REBASE@
 HAVE_CXX11 = @HAVE_CXX11@
-HIF_CFLAGS = @HIF_CFLAGS@
-HIF_LIBS = @HIF_LIBS@
-HIF_VENDOR = @HIF_VENDOR@
+HAVE_CXX14 = @HAVE_CXX14@
 HTML_DIR = @HTML_DIR@
 INSTALL = @INSTALL@
 INSTALL_DATA = @INSTALL_DATA@
@@ -366,6 +365,8 @@ PK_VERSION = @PK_VERSION@
 POFILES = @POFILES@
 POLDEK_CFLAGS = @POLDEK_CFLAGS@
 POLDEK_LIBS = @POLDEK_LIBS@
+POLKIT_0_114_CFLAGS = @POLKIT_0_114_CFLAGS@
+POLKIT_0_114_LIBS = @POLKIT_0_114_LIBS@
 POLKIT_CFLAGS = @POLKIT_CFLAGS@
 POLKIT_LIBS = @POLKIT_LIBS@
 POSUB = @POSUB@
@@ -465,7 +466,7 @@ SUBDIRS = test $(am__append_1) $(am__append_2) $(am__append_3) \
 	$(am__append_4) $(am__append_5) $(am__append_6) \
 	$(am__append_7) $(am__append_8) $(am__append_9) \
 	$(am__append_10) $(am__append_11) $(am__append_12) \
-	$(am__append_13) $(am__append_14) $(am__append_15)
+	$(am__append_13) $(am__append_14)
 all: all-recursive
 
 .SUFFIXES:
