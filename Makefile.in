@@ -267,6 +267,8 @@ FGREP = @FGREP@
 GETTEXT_PACKAGE = @GETTEXT_PACKAGE@
 GIO_CFLAGS = @GIO_CFLAGS@
 GIO_LIBS = @GIO_LIBS@
+GLIBMM_CFLAGS = @GLIBMM_CFLAGS@
+GLIBMM_LIBS = @GLIBMM_LIBS@
 GLIB_CFLAGS = @GLIB_CFLAGS@
 GLIB_COMPILE_SCHEMAS = @GLIB_COMPILE_SCHEMAS@
 GLIB_GENMARSHAL = @GLIB_GENMARSHAL@
@@ -287,9 +289,7 @@ GTKDOC_DEPS_LIBS = @GTKDOC_DEPS_LIBS@
 GTKDOC_MKPDF = @GTKDOC_MKPDF@
 GTKDOC_REBASE = @GTKDOC_REBASE@
 HAVE_CXX11 = @HAVE_CXX11@
-HIF_CFLAGS = @HIF_CFLAGS@
-HIF_LIBS = @HIF_LIBS@
-HIF_VENDOR = @HIF_VENDOR@
+HAVE_CXX14 = @HAVE_CXX14@
 HTML_DIR = @HTML_DIR@
 INSTALL = @INSTALL@
 INSTALL_DATA = @INSTALL_DATA@
@@ -380,6 +380,8 @@ PK_VERSION = @PK_VERSION@
 POFILES = @POFILES@
 POLDEK_CFLAGS = @POLDEK_CFLAGS@
 POLDEK_LIBS = @POLDEK_LIBS@
+POLKIT_0_114_CFLAGS = @POLKIT_0_114_CFLAGS@
+POLKIT_0_114_LIBS = @POLKIT_0_114_LIBS@
 POLKIT_CFLAGS = @POLKIT_CFLAGS@
 POLKIT_LIBS = @POLKIT_LIBS@
 POSUB = @POSUB@
@@ -763,7 +765,7 @@ distdir: $(DISTFILES)
 	  ! -type d ! -perm -444 -exec $(install_sh) -c -m a+r {} {} \; \
 	|| chmod -R a+r "$(distdir)"
 dist-gzip: distdir
-	tardir=$(distdir) && $(am__tar) | GZIP=$(GZIP_ENV) gzip -c >$(distdir).tar.gz
+	tardir=$(distdir) && $(am__tar) | eval GZIP= gzip $(GZIP_ENV) -c >$(distdir).tar.gz
 	$(am__post_remove_distdir)
 
 dist-bzip2: distdir
@@ -788,7 +790,7 @@ dist-shar: distdir
 	@echo WARNING: "Support for shar distribution archives is" \
 	               "deprecated." >&2
 	@echo WARNING: "It will be removed altogether in Automake 2.0" >&2
-	shar $(distdir) | GZIP=$(GZIP_ENV) gzip -c >$(distdir).shar.gz
+	shar $(distdir) | eval GZIP= gzip $(GZIP_ENV) -c >$(distdir).shar.gz
 	$(am__post_remove_distdir)
 
 dist-zip: distdir
@@ -806,7 +808,7 @@ dist dist-all:
 distcheck: dist
 	case '$(DIST_ARCHIVES)' in \
 	*.tar.gz*) \
-	  GZIP=$(GZIP_ENV) gzip -dc $(distdir).tar.gz | $(am__untar) ;;\
+	  eval GZIP= gzip $(GZIP_ENV) -dc $(distdir).tar.gz | $(am__untar) ;;\
 	*.tar.bz2*) \
 	  bzip2 -dc $(distdir).tar.bz2 | $(am__untar) ;;\
 	*.tar.lz*) \
@@ -816,7 +818,7 @@ distcheck: dist
 	*.tar.Z*) \
 	  uncompress -c $(distdir).tar.Z | $(am__untar) ;;\
 	*.shar.gz*) \
-	  GZIP=$(GZIP_ENV) gzip -dc $(distdir).shar.gz | unshar ;;\
+	  eval GZIP= gzip $(GZIP_ENV) -dc $(distdir).shar.gz | unshar ;;\
 	*.zip*) \
 	  unzip $(distdir).zip ;;\
 	esac

@@ -31,9 +31,9 @@ To do so, use the procedure documented by the package, typically 'autoreconf'.])
 # DESCRIPTION
 #
 #   Check for baseline language coverage in the compiler for the specified
-#   version of the C++ standard.  If necessary, add switches to CXX to
-#   enable support.  VERSION may be '11' (for the C++11 standard) or '14'
-#   (for the C++14 standard).
+#   version of the C++ standard.  If necessary, add switches to CXX and
+#   CXXCPP to enable support.  VERSION may be '11' (for the C++11 standard)
+#   or '14' (for the C++14 standard).
 #
 #   The second argument, if specified, indicates whether you insist on an
 #   extended mode (e.g. -std=gnu++11) or a strict conformance mode (e.g.
@@ -61,7 +61,7 @@ To do so, use the procedure documented by the package, typically 'autoreconf'.])
 #   and this notice are preserved.  This file is offered as-is, without any
 #   warranty.
 
-#serial 3
+#serial 4
 
 dnl  This macro is based on the code from the AX_CXX_COMPILE_STDCXX_11 macro
 dnl  (serial version number 13).
@@ -104,6 +104,9 @@ AC_DEFUN([AX_CXX_COMPILE_STDCXX], [dnl
          CXX="$ac_save_CXX"])
       if eval test x\$$cachevar = xyes; then
         CXX="$CXX $switch"
+        if test -n "$CXXCPP" ; then
+          CXXCPP="$CXXCPP $switch"
+        fi
         ac_success=yes
         break
       fi
@@ -127,6 +130,9 @@ AC_DEFUN([AX_CXX_COMPILE_STDCXX], [dnl
          CXX="$ac_save_CXX"])
       if eval test x\$$cachevar = xyes; then
         CXX="$CXX $switch"
+        if test -n "$CXXCPP" ; then
+          CXXCPP="$CXXCPP $switch"
+        fi
         ac_success=yes
         break
       fi
@@ -588,7 +594,8 @@ namespace cxx14
 # DESCRIPTION
 #
 #   Check for baseline language coverage in the compiler for the C++11
-#   standard; if necessary, add switches to CXX to enable support.
+#   standard; if necessary, add switches to CXX and CXXCPP to enable
+#   support.
 #
 #   This macro is a convenience alias for calling the AX_CXX_COMPILE_STDCXX
 #   macro with the version set to C++11.  The two optional arguments are
@@ -611,10 +618,9 @@ namespace cxx14
 #   and this notice are preserved. This file is offered as-is, without any
 #   warranty.
 
-#serial 15
+#serial 17
 
-include([ax_cxx_compile_stdcxx.m4])
-
+AX_REQUIRE_DEFINED([AX_CXX_COMPILE_STDCXX])
 AC_DEFUN([AX_CXX_COMPILE_STDCXX_11], [AX_CXX_COMPILE_STDCXX([11], [$1], [$2])])
 
 # Copyright (C) 1995-2002 Free Software Foundation, Inc.
@@ -1459,7 +1465,7 @@ AC_DEFUN([AM_NLS],
 ])
 
 dnl pkg.m4 - Macros to locate and utilise pkg-config.   -*- Autoconf -*-
-dnl serial 11 (pkg-config-0.29)
+dnl serial 11 (pkg-config-0.29.1)
 dnl
 dnl Copyright © 2004 Scott James Remnant <scott@netsplit.com>.
 dnl Copyright © 2012-2015 Dan Nicholson <dbn.lists@gmail.com>
@@ -1501,7 +1507,7 @@ dnl
 dnl See the "Since" comment for each macro you use to see what version
 dnl of the macros you require.
 m4_defun([PKG_PREREQ],
-[m4_define([PKG_MACROS_VERSION], [0.29])
+[m4_define([PKG_MACROS_VERSION], [0.29.1])
 m4_if(m4_version_compare(PKG_MACROS_VERSION, [$1]), -1,
     [m4_fatal([pkg.m4 version $1 or higher is required but ]PKG_MACROS_VERSION[ found])])
 ])dnl PKG_PREREQ

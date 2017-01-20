@@ -2,7 +2,7 @@
 
 m4_define([pk_major_version], [1])
 m4_define([pk_minor_version], [1])
-m4_define([pk_micro_version], [4])
+m4_define([pk_micro_version], [5])
 m4_define([pk_version],
           [pk_major_version.pk_minor_version.pk_micro_version])
 
@@ -182,6 +182,14 @@ PKG_CHECK_MODULES(GIO, \
  gio-unix-2.0 >= $GIO_REQUIRED)
 PKG_CHECK_MODULES(POLKIT, \
 		  polkit-gobject-1 >= $POLKIT_GOBJECT_REQUIRED)
+
+# 0.114 introduced autocleanup functions for its types.
+PKG_CHECK_MODULES([POLKIT_0_114], [polkit-gobject-1 >= 0.114],
+                  [have_polkit_0_114=yes], [have_polkit_0_114=no])
+AS_IF([test "$have_polkit_0_114" = "yes"], [
+	AC_DEFINE([HAVE_POLKIT_0_114],[1],
+	          [Define as 1 if you have polkit >= 0.114])
+])
 
 # Avoid g_simple_async_result deprecation warnings in glib 2.46+
 AC_DEFINE(GLIB_VERSION_MIN_REQUIRED, GLIB_VERSION_2_44, [minimum glib version])
@@ -375,7 +383,6 @@ AC_ARG_ENABLE(aptcc, AS_HELP_STRING([--enable-aptcc],[use the APTcc backend]),en
 AC_ARG_ENABLE(dnf, AS_HELP_STRING([--enable-dnf],[use the DNF backend]),enable_dnf=$enableval,enable_dnf=no)
 AC_ARG_ENABLE(dummy, AS_HELP_STRING([--enable-dummy],[use the dummy backend]),enable_dummy=$enableval,enable_dummy=yes)
 AC_ARG_ENABLE(entropy, AS_HELP_STRING([--enable-entropy],[use the entropy backend]),enable_entropy=$enableval,enable_entropy=no)
-AC_ARG_ENABLE(hif, AS_HELP_STRING([--enable-hif],[use the hif backend]),enable_hif=$enableval,enable_hif=no)
 AC_ARG_ENABLE(pisi, AS_HELP_STRING([--enable-pisi],[use the PiSi backend]),enable_pisi=$enableval,enable_pisi=no)
 AC_ARG_ENABLE(poldek, AS_HELP_STRING([--enable-poldek],[use the poldek backend]),enable_poldek=$enableval,enable_poldek=no)
 AC_ARG_ENABLE(portage, AS_HELP_STRING([--enable-portage],[use the portage backend]),enable_portage=$enableval,enable_portage=no)
@@ -392,7 +399,6 @@ AM_CONDITIONAL(BACKEND_TYPE_APTCC, [test x$enable_aptcc = xyes])
 AM_CONDITIONAL(BACKEND_TYPE_DNF, [test x$enable_dnf = xyes])
 AM_CONDITIONAL(BACKEND_TYPE_DUMMY, [test x$enable_dummy = xyes])
 AM_CONDITIONAL(BACKEND_TYPE_ENTROPY, [test x$enable_entropy = xyes])
-AM_CONDITIONAL(BACKEND_TYPE_HIF, [test x$enable_hif = xyes])
 AM_CONDITIONAL(BACKEND_TYPE_PISI, [test x$enable_pisi = xyes])
 AM_CONDITIONAL(BACKEND_TYPE_POLDEK, [test x$enable_poldek = xyes])
 AM_CONDITIONAL(BACKEND_TYPE_PORTAGE, [test x$enable_portage = xyes])
@@ -435,18 +441,6 @@ if test x$enable_dnf = xyes; then
 	AC_SUBST(DNF_VENDOR, [$with_dnf_vendor])
 fi
 
-if test x$enable_hif = xyes; then
-	PKG_CHECK_MODULES(HIF, appstream-glib libhif >= 0.2.3)
-	AC_ARG_WITH(hif-vendor,
-			[AS_HELP_STRING([--with-hif-vendor=<vendor>],[select a vendor configuration (fedora, mageia; default is fedora)])])
-	if test "$with_hif_vendor" = "fedora" -o "$with_hif_vendor" = "mageia"; then
-		with_hif_vendor="$with_hif_vendor"
-	else
-		with_hif_vendor="fedora"
-	fi
-	AC_SUBST(HIF_VENDOR, [$with_hif_vendor])
-fi
-
 have_python_backend="no"
 if test x$enable_entropy = xyes -o x$enable_pisi = xyes -o x$enable_portage = xyes -o x$enable_yum = xyes; then
 	have_python_backend="yes"
@@ -482,14 +476,14 @@ if test x$enable_aptcc = xyes; then
 	AC_SUBST(GSTREAMER_LIBS)
 
 	AC_MSG_CHECKING([whether apt is at least at version 1.1])
-	AC_COMPILE_IFELSE(AC_LANG_PROGRAM([[#include <apt-pkg/pkgsystem.h>]],
-					  [[_system->ArchitecturesSupported();]]),
+	AC_COMPILE_IFELSE([AC_LANG_PROGRAM([[#include <apt-pkg/pkgsystem.h>]],
+					  [[_system->ArchitecturesSupported();]])],
 			  AC_MSG_RESULT([yes]),
 			  AC_MSG_FAILURE([need libapt-pkg 1.1 or later]))
 
 	AC_MSG_CHECKING([whether apt supports ddtp])
-	AC_COMPILE_IFELSE(AC_LANG_PROGRAM([[#include <apt-pkg/pkgcache.h>]],
-					  [[pkgCache::DescIterator d;]]),
+	AC_COMPILE_IFELSE([AC_LANG_PROGRAM([[#include <apt-pkg/pkgcache.h>]],
+					  [[pkgCache::DescIterator d;]])],
 			  AC_MSG_RESULT([yes])
 			  AC_DEFINE([HAVE_DDTP], [], [Set to true if apt is DDTP-enabled]),
 			  AC_MSG_RESULT([no]))
@@ -520,6 +514,12 @@ if test x$enable_zypp = xyes; then
 fi
 
 if test x$enable_katja = xyes; then
+	dnl Use C++
+	AC_LANG([C++])
+
+	# Require C++14 support
+	AX_CXX_COMPILE_STDCXX([14], [ext], [mandatory])
+
 	AC_CHECK_LIB(curl, curl_version, [
 	    CURL_CFLAGS="`curl-config --cflags`"
 	    CURL_LIBS="`curl-config --libs`"
@@ -531,8 +531,11 @@ if test x$enable_katja = xyes; then
 		*)
 			KATJA_PKGMAIN="slackware"
 	esac
-	KATJA_CFLAGS="$CURL_CFLAGS"
-	KATJA_LIBS="$CURL_LIBS"
+
+	PKG_CHECK_MODULES([GLIBMM], [glibmm-2.4, giomm-2.4])
+
+	KATJA_CFLAGS="$CURL_CFLAGS $GLIBMM_CFLAGS"
+	KATJA_LIBS="$CURL_LIBS $GLIBMM_LIBS"
 	AC_SUBST(KATJA_PKGMAIN)
 	AC_SUBST(KATJA_CFLAGS)
 	AC_SUBST(KATJA_LIBS)
@@ -577,7 +580,6 @@ backends/aptcc/Makefile
 backends/dnf/Makefile
 backends/dummy/Makefile
 backends/entropy/Makefile
-backends/hif/Makefile
 backends/katja/Makefile
 backends/test/Makefile
 backends/test/helpers/Makefile
@@ -647,8 +649,6 @@ echo "
         DNF backend vendor:        ${with_dnf_vendor}
         dummy backend:             ${enable_dummy}
         Entropy backend:           ${enable_entropy}
-        Hif backend:               ${enable_hif}
-        Hif backend vendor:        ${with_hif_vendor}
         PiSi backend:              ${enable_pisi}
         poldek backend:            ${enable_poldek}
         Portage backend:           ${enable_portage}

@@ -3,7 +3,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>PkClient: PackageKit Reference Manual</title>
-<meta name="generator" content="DocBook XSL Stylesheets V1.78.1">
+<meta name="generator" content="DocBook XSL Stylesheets V1.79.1">
 <link rel="home" href="index.html" title="PackageKit Reference Manual">
 <link rel="up" href="libpackagekit-gobject.html" title="libpackagekit GObjects">
 <link rel="prev" href="PkCategory.html" title="PkCategory">
@@ -35,7 +35,7 @@
 </tr></table></div>
 <div class="refsect1">
 <a name="PkClient.functions"></a><h2>Functions</h2>
-<div class="informaltable"><table width="100%" border="0">
+<div class="informaltable"><table class="informaltable" width="100%" border="0">
 <colgroup>
 <col width="150px" class="functions_return">
 <col class="functions_name">
@@ -429,7 +429,7 @@
 </div>
 <div class="refsect1">
 <a name="PkClient.properties"></a><h2>Properties</h2>
-<div class="informaltable"><table border="0">
+<div class="informaltable"><table class="informaltable" border="0">
 <colgroup>
 <col width="150px" class="properties_type">
 <col width="300px" class="properties_name">
@@ -467,7 +467,7 @@
 </div>
 <div class="refsect1">
 <a name="PkClient.other"></a><h2>Types and Values</h2>
-<div class="informaltable"><table width="100%" border="0">
+<div class="informaltable"><table class="informaltable" width="100%" border="0">
 <colgroup>
 <col width="150px" class="name">
 <col class="description">
@@ -545,7 +545,7 @@ pk_client_generic_finish (<em class="parameter"><code><a class="link" href="PkCl
 <p>Gets the result from the asynchronous function.</p>
 <div class="refsect3">
 <a name="pk-client-generic-finish.parameters"></a><h4>Parameters</h4>
-<div class="informaltable"><table width="100%" border="0">
+<div class="informaltable"><table class="informaltable" width="100%" border="0">
 <colgroup>
 <col width="150px" class="parameters_name">
 <col class="parameters_description">
@@ -564,7 +564,7 @@ pk_client_generic_finish (<em class="parameter"><code><a class="link" href="PkCl
 </tr>
 <tr>
 <td class="parameter_name"><p>error</p></td>
-<td class="parameter_description"><p>A <a href="/usr/share/gtk-doc/html/glibglib-Error-Reporting.html#GError"><span class="type">GError</span></a> or <a href="/usr/share/gtk-doc/html/liboilliboil-liboiljunk.html#NULL:CAPS"><code class="literal">NULL</code></a></p></td>
+<td class="parameter_description"><p>A <a href="/usr/share/gtk-doc/html/glibglib-Error-Reporting.html#GError"><span class="type">GError</span></a> or <a href="/usr/share/gtk-doc/html/glibglib-Standard-Macros.html#NULL:CAPS"><code class="literal">NULL</code></a></p></td>
 <td class="parameter_annotations"> </td>
 </tr>
 </tbody>
@@ -572,7 +572,7 @@ pk_client_generic_finish (<em class="parameter"><code><a class="link" href="PkCl
 </div>
 <div class="refsect3">
 <a name="pk-client-generic-finish.returns"></a><h4>Returns</h4>
-<p> the <a class="link" href="PkResults.html" title="PkResults"><span class="type">PkResults</span></a>, or <a href="/usr/share/gtk-doc/html/liboilliboil-liboiljunk.html#NULL:CAPS"><code class="literal">NULL</code></a>. Free with <a href="/usr/share/gtk-doc/html/gobjectgobject-The-Base-Object-Type.html#g-object-unref"><code class="function">g_object_unref()</code></a>. </p>
+<p> the <a class="link" href="PkResults.html" title="PkResults"><span class="type">PkResults</span></a>, or <a href="/usr/share/gtk-doc/html/glibglib-Standard-Macros.html#NULL:CAPS"><code class="literal">NULL</code></a>. Free with <a href="/usr/share/gtk-doc/html/gobjectgobject-The-Base-Object-Type.html#g-object-unref"><code class="function">g_object_unref()</code></a>. </p>
 <p><span class="annotation">[<acronym title="Free data after the code is done."><span class="acronym">transfer full</span></acronym>]</span></p>
 </div>
 <p class="since">Since: 0.5.2</p>
@@ -594,7 +594,7 @@ available packages and allows you find out if a package is installed locally
 or is available in a repository.</p>
 <div class="refsect3">
 <a name="pk-client-resolve-async.parameters"></a><h4>Parameters</h4>
-<div class="informaltable"><table width="100%" border="0">
+<div class="informaltable"><table class="informaltable" width="100%" border="0">
 <colgroup>
 <col width="150px" class="parameters_name">
 <col class="parameters_description">
@@ -618,7 +618,7 @@ or is available in a repository.</p>
 </tr>
 <tr>
 <td class="parameter_name"><p>cancellable</p></td>
-<td class="parameter_description"><p>a <a href="/usr/share/gtk-doc/html/gioGCancellable.html#GCancellable-struct"><span class="type">GCancellable</span></a> or <a href="/usr/share/gtk-doc/html/liboilliboil-liboiljunk.html#NULL:CAPS"><code class="literal">NULL</code></a></p></td>
+<td class="parameter_description"><p>a <a href="/usr/share/gtk-doc/html/gioGCancellable.html#GCancellable-struct"><span class="type">GCancellable</span></a> or <a href="/usr/share/gtk-doc/html/glibglib-Standard-Macros.html#NULL:CAPS"><code class="literal">NULL</code></a></p></td>
 <td class="parameter_annotations"> </td>
 </tr>
 <tr>
@@ -664,7 +664,7 @@ pk_client_search_names_async (<em class="parameter"><code><a class="link" href="
 that matches a specific name.</p>
 <div class="refsect3">
 <a name="pk-client-search-names-async.parameters"></a><h4>Parameters</h4>
-<div class="informaltable"><table width="100%" border="0">
+<div class="informaltable"><table class="informaltable" width="100%" border="0">
 <colgroup>
 <col width="150px" class="parameters_name">
 <col class="parameters_description">
@@ -688,7 +688,7 @@ that matches a specific name.</p>
 </tr>
 <tr>
 <td class="parameter_name"><p>cancellable</p></td>
-<td class="parameter_description"><p>a <a href="/usr/share/gtk-doc/html/gioGCancellable.html#GCancellable-struct"><span class="type">GCancellable</span></a> or <a href="/usr/share/gtk-doc/html/liboilliboil-liboiljunk.html#NULL:CAPS"><code class="literal">NULL</code></a></p></td>
+<td class="parameter_description"><p>a <a href="/usr/share/gtk-doc/html/gioGCancellable.html#GCancellable-struct"><span class="type">GCancellable</span></a> or <a href="/usr/share/gtk-doc/html/glibglib-Standard-Macros.html#NULL:CAPS"><code class="literal">NULL</code></a></p></td>
 <td class="parameter_annotations"> </td>
 </tr>
 <tr>
@@ -735,7 +735,7 @@ Think of this as <a class="link" href="PackageKit-pk-client-sync.html#pk-client-
 taking longer.</p>
 <div class="refsect3">
 <a name="pk-client-search-details-async.parameters"></a><h4>Parameters</h4>
-<div class="informaltable"><table width="100%" border="0">
+<div class="informaltable"><table class="informaltable" width="100%" border="0">
 <colgroup>
 <col width="150px" class="parameters_name">
 <col class="parameters_description">
@@ -759,7 +759,7 @@ taking longer.</p>
 </tr>
 <tr>
 <td class="parameter_name"><p>cancellable</p></td>
-<td class="parameter_description"><p>a <a href="/usr/share/gtk-doc/html/gioGCancellable.html#GCancellable-struct"><span class="type">GCancellable</span></a> or <a href="/usr/share/gtk-doc/html/liboilliboil-liboiljunk.html#NULL:CAPS"><code class="literal">NULL</code></a></p></td>
+<td class="parameter_description"><p>a <a href="/usr/share/gtk-doc/html/gioGCancellable.html#GCancellable-struct"><span class="type">GCancellable</span></a> or <a href="/usr/share/gtk-doc/html/glibglib-Standard-Macros.html#NULL:CAPS"><code class="literal">NULL</code></a></p></td>
 <td class="parameter_annotations"> </td>
 </tr>
 <tr>
@@ -804,7 +804,7 @@ pk_client_search_groups_async (<em class="parameter"><code><a class="link" href=
 <p>Return all packages in a specific group.</p>
 <div class="refsect3">
 <a name="pk-client-search-groups-async.parameters"></a><h4>Parameters</h4>
-<div class="informaltable"><table width="100%" border="0">
+<div class="informaltable"><table class="informaltable" width="100%" border="0">
 <colgroup>
 <col width="150px" class="parameters_name">
 <col class="parameters_description">
@@ -828,7 +828,7 @@ pk_client_search_groups_async (<em class="parameter"><code><a class="link" href=
 </tr>
 <tr>
 <td class="parameter_name"><p>cancellable</p></td>
-<td class="parameter_description"><p>a <a href="/usr/share/gtk-doc/html/gioGCancellable.html#GCancellable-struct"><span class="type">GCancellable</span></a> or <a href="/usr/share/gtk-doc/html/liboilliboil-liboiljunk.html#NULL:CAPS"><code class="literal">NULL</code></a></p></td>
+<td class="parameter_description"><p>a <a href="/usr/share/gtk-doc/html/gioGCancellable.html#GCancellable-struct"><span class="type">GCancellable</span></a> or <a href="/usr/share/gtk-doc/html/glibglib-Standard-Macros.html#NULL:CAPS"><code class="literal">NULL</code></a></p></td>
 <td class="parameter_annotations"> </td>
 </tr>
 <tr>
@@ -873,7 +873,7 @@ pk_client_search_files_async (<em class="parameter"><code><a class="link" href="
 <p>Search for packages that provide a specific file.</p>
 <div class="refsect3">
 <a name="pk-client-search-files-async.parameters"></a><h4>Parameters</h4>
-<div class="informaltable"><table width="100%" border="0">
+<div class="informaltable"><table class="informaltable" width="100%" border="0">
 <colgroup>
 <col width="150px" class="parameters_name">
 <col class="parameters_description">
@@ -897,7 +897,7 @@ pk_client_search_files_async (<em class="parameter"><code><a class="link" href="
 </tr>
 <tr>
 <td class="parameter_name"><p>cancellable</p></td>
-<td class="parameter_description"><p>a <a href="/usr/share/gtk-doc/html/gioGCancellable.html#GCancellable-struct"><span class="type">GCancellable</span></a> or <a href="/usr/share/gtk-doc/html/liboilliboil-liboiljunk.html#NULL:CAPS"><code class="literal">NULL</code></a></p></td>
+<td class="parameter_description"><p>a <a href="/usr/share/gtk-doc/html/gioGCancellable.html#GCancellable-struct"><span class="type">GCancellable</span></a> or <a href="/usr/share/gtk-doc/html/glibglib-Standard-Macros.html#NULL:CAPS"><code class="literal">NULL</code></a></p></td>
 <td class="parameter_annotations"> </td>
 </tr>
 <tr>
@@ -942,7 +942,7 @@ pk_client_get_details_async (<em class="parameter"><code><a class="link" href="P
 or command line tools.</p>
 <div class="refsect3">
 <a name="pk-client-get-details-async.parameters"></a><h4>Parameters</h4>
-<div class="informaltable"><table width="100%" border="0">
+<div class="informaltable"><table class="informaltable" width="100%" border="0">
 <colgroup>
 <col width="150px" class="parameters_name">
 <col class="parameters_description">
@@ -961,7 +961,7 @@ or command line tools.</p>
 </tr>
 <tr>
 <td class="parameter_name"><p>cancellable</p></td>
-<td class="parameter_description"><p>a <a href="/usr/share/gtk-doc/html/gioGCancellable.html#GCancellable-struct"><span class="type">GCancellable</span></a> or <a href="/usr/share/gtk-doc/html/liboilliboil-liboiljunk.html#NULL:CAPS"><code class="literal">NULL</code></a></p></td>
+<td class="parameter_description"><p>a <a href="/usr/share/gtk-doc/html/gioGCancellable.html#GCancellable-struct"><span class="type">GCancellable</span></a> or <a href="/usr/share/gtk-doc/html/glibglib-Standard-Macros.html#NULL:CAPS"><code class="literal">NULL</code></a></p></td>
 <td class="parameter_annotations"> </td>
 </tr>
 <tr>
@@ -1006,7 +1006,7 @@ pk_client_get_details_local_async (<em class="parameter"><code><a class="link" h
 or command line tools.</p>
 <div class="refsect3">
 <a name="pk-client-get-details-local-async.parameters"></a><h4>Parameters</h4>
-<div class="informaltable"><table width="100%" border="0">
+<div class="informaltable"><table class="informaltable" width="100%" border="0">
 <colgroup>
 <col width="150px" class="parameters_name">
 <col class="parameters_description">
@@ -1025,7 +1025,7 @@ or command line tools.</p>
 </tr>
 <tr>
 <td class="parameter_name"><p>cancellable</p></td>
-<td class="parameter_description"><p>a <a href="/usr/share/gtk-doc/html/gioGCancellable.html#GCancellable-struct"><span class="type">GCancellable</span></a> or <a href="/usr/share/gtk-doc/html/liboilliboil-liboiljunk.html#NULL:CAPS"><code class="literal">NULL</code></a></p></td>
+<td class="parameter_description"><p>a <a href="/usr/share/gtk-doc/html/gioGCancellable.html#GCancellable-struct"><span class="type">GCancellable</span></a> or <a href="/usr/share/gtk-doc/html/glibglib-Standard-Macros.html#NULL:CAPS"><code class="literal">NULL</code></a></p></td>
 <td class="parameter_annotations"> </td>
 </tr>
 <tr>
@@ -1070,7 +1070,7 @@ pk_client_get_files_local_async (<em class="parameter"><code><a class="link" hre
 or command line tools.</p>
 <div class="refsect3">
 <a name="pk-client-get-files-local-async.parameters"></a><h4>Parameters</h4>
-<div class="informaltable"><table width="100%" border="0">
+<div class="informaltable"><table class="informaltable" width="100%" border="0">
 <colgroup>
 <col width="150px" class="parameters_name">
 <col class="parameters_description">
@@ -1089,7 +1089,7 @@ or command line tools.</p>
 </tr>
 <tr>
 <td class="parameter_name"><p>cancellable</p></td>
-<td class="parameter_description"><p>a <a href="/usr/share/gtk-doc/html/gioGCancellable.html#GCancellable-struct"><span class="type">GCancellable</span></a> or <a href="/usr/share/gtk-doc/html/liboilliboil-liboiljunk.html#NULL:CAPS"><code class="literal">NULL</code></a></p></td>
+<td class="parameter_description"><p>a <a href="/usr/share/gtk-doc/html/gioGCancellable.html#GCancellable-struct"><span class="type">GCancellable</span></a> or <a href="/usr/share/gtk-doc/html/glibglib-Standard-Macros.html#NULL:CAPS"><code class="literal">NULL</code></a></p></td>
 <td class="parameter_annotations"> </td>
 </tr>
 <tr>
@@ -1134,7 +1134,7 @@ pk_client_get_update_detail_async (<em class="parameter"><code><a class="link" h
 severity information.</p>
 <div class="refsect3">
 <a name="pk-client-get-update-detail-async.parameters"></a><h4>Parameters</h4>
-<div class="informaltable"><table width="100%" border="0">
+<div class="informaltable"><table class="informaltable" width="100%" border="0">
 <colgroup>
 <col width="150px" class="parameters_name">
 <col class="parameters_description">
@@ -1153,7 +1153,7 @@ severity information.</p>
 </tr>
 <tr>
 <td class="parameter_name"><p>cancellable</p></td>
-<td class="parameter_description"><p>a <a href="/usr/share/gtk-doc/html/gioGCancellable.html#GCancellable-struct"><span class="type">GCancellable</span></a> or <a href="/usr/share/gtk-doc/html/liboilliboil-liboiljunk.html#NULL:CAPS"><code class="literal">NULL</code></a></p></td>
+<td class="parameter_description"><p>a <a href="/usr/share/gtk-doc/html/gioGCancellable.html#GCancellable-struct"><span class="type">GCancellable</span></a> or <a href="/usr/share/gtk-doc/html/glibglib-Standard-Macros.html#NULL:CAPS"><code class="literal">NULL</code></a></p></td>
 <td class="parameter_annotations"> </td>
 </tr>
 <tr>
@@ -1198,7 +1198,7 @@ pk_client_download_packages_async (<em class="parameter"><code><a class="link" h
 <p>Downloads package files to a specified location.</p>
 <div class="refsect3">
 <a name="pk-client-download-packages-async.parameters"></a><h4>Parameters</h4>
-<div class="informaltable"><table width="100%" border="0">
+<div class="informaltable"><table class="informaltable" width="100%" border="0">
 <colgroup>
 <col width="150px" class="parameters_name">
 <col class="parameters_description">
@@ -1222,7 +1222,7 @@ pk_client_download_packages_async (<em class="parameter"><code><a class="link" h
 </tr>
 <tr>
 <td class="parameter_name"><p>cancellable</p></td>
-<td class="parameter_description"><p>a <a href="/usr/share/gtk-doc/html/gioGCancellable.html#GCancellable-struct"><span class="type">GCancellable</span></a> or <a href="/usr/share/gtk-doc/html/liboilliboil-liboiljunk.html#NULL:CAPS"><code class="literal">NULL</code></a></p></td>
+<td class="parameter_description"><p>a <a href="/usr/share/gtk-doc/html/gioGCancellable.html#GCancellable-struct"><span class="type">GCancellable</span></a> or <a href="/usr/share/gtk-doc/html/glibglib-Standard-Macros.html#NULL:CAPS"><code class="literal">NULL</code></a></p></td>
 <td class="parameter_annotations"> </td>
 </tr>
 <tr>
@@ -1266,7 +1266,7 @@ pk_client_get_updates_async (<em class="parameter"><code><a class="link" href="P
 <p>Get a list of all the packages that can be updated for all repositories.</p>
 <div class="refsect3">
 <a name="pk-client-get-updates-async.parameters"></a><h4>Parameters</h4>
-<div class="informaltable"><table width="100%" border="0">
+<div class="informaltable"><table class="informaltable" width="100%" border="0">
 <colgroup>
 <col width="150px" class="parameters_name">
 <col class="parameters_description">
@@ -1285,7 +1285,7 @@ pk_client_get_updates_async (<em class="parameter"><code><a class="link" href="P
 </tr>
 <tr>
 <td class="parameter_name"><p>cancellable</p></td>
-<td class="parameter_description"><p>a <a href="/usr/share/gtk-doc/html/gioGCancellable.html#GCancellable-struct"><span class="type">GCancellable</span></a> or <a href="/usr/share/gtk-doc/html/liboilliboil-liboiljunk.html#NULL:CAPS"><code class="literal">NULL</code></a></p></td>
+<td class="parameter_description"><p>a <a href="/usr/share/gtk-doc/html/gioGCancellable.html#GCancellable-struct"><span class="type">GCancellable</span></a> or <a href="/usr/share/gtk-doc/html/glibglib-Standard-Macros.html#NULL:CAPS"><code class="literal">NULL</code></a></p></td>
 <td class="parameter_annotations"> </td>
 </tr>
 <tr>
@@ -1329,7 +1329,7 @@ pk_client_get_old_transactions_async (<em class="parameter"><code><a class="link
 <p>Get the old transaction list, mainly used for the transaction viewer.</p>
 <div class="refsect3">
 <a name="pk-client-get-old-transactions-async.parameters"></a><h4>Parameters</h4>
-<div class="informaltable"><table width="100%" border="0">
+<div class="informaltable"><table class="informaltable" width="100%" border="0">
 <colgroup>
 <col width="150px" class="parameters_name">
 <col class="parameters_description">
@@ -1348,7 +1348,7 @@ pk_client_get_old_transactions_async (<em class="parameter"><code><a class="link
 </tr>
 <tr>
 <td class="parameter_name"><p>cancellable</p></td>
-<td class="parameter_description"><p>a <a href="/usr/share/gtk-doc/html/gioGCancellable.html#GCancellable-struct"><span class="type">GCancellable</span></a> or <a href="/usr/share/gtk-doc/html/liboilliboil-liboiljunk.html#NULL:CAPS"><code class="literal">NULL</code></a></p></td>
+<td class="parameter_description"><p>a <a href="/usr/share/gtk-doc/html/gioGCancellable.html#GCancellable-struct"><span class="type">GCancellable</span></a> or <a href="/usr/share/gtk-doc/html/glibglib-Standard-Macros.html#NULL:CAPS"><code class="literal">NULL</code></a></p></td>
 <td class="parameter_annotations"> </td>
 </tr>
 <tr>
@@ -1394,7 +1394,7 @@ pk_client_depends_on_async (<em class="parameter"><code><a class="link" href="Pk
 <p>Get the packages that depend this one, i.e. child-&gt;parent.</p>
 <div class="refsect3">
 <a name="pk-client-depends-on-async.parameters"></a><h4>Parameters</h4>
-<div class="informaltable"><table width="100%" border="0">
+<div class="informaltable"><table class="informaltable" width="100%" border="0">
 <colgroup>
 <col width="150px" class="parameters_name">
 <col class="parameters_description">
@@ -1423,7 +1423,7 @@ pk_client_depends_on_async (<em class="parameter"><code><a class="link" href="Pk
 </tr>
 <tr>
 <td class="parameter_name"><p>cancellable</p></td>
-<td class="parameter_description"><p>a <a href="/usr/share/gtk-doc/html/gioGCancellable.html#GCancellable-struct"><span class="type">GCancellable</span></a> or <a href="/usr/share/gtk-doc/html/liboilliboil-liboiljunk.html#NULL:CAPS"><code class="literal">NULL</code></a></p></td>
+<td class="parameter_description"><p>a <a href="/usr/share/gtk-doc/html/gioGCancellable.html#GCancellable-struct"><span class="type">GCancellable</span></a> or <a href="/usr/share/gtk-doc/html/glibglib-Standard-Macros.html#NULL:CAPS"><code class="literal">NULL</code></a></p></td>
 <td class="parameter_annotations"> </td>
 </tr>
 <tr>
@@ -1467,7 +1467,7 @@ pk_client_get_packages_async (<em class="parameter"><code><a class="link" href="
 <p>Get the list of packages from the backend</p>
 <div class="refsect3">
 <a name="pk-client-get-packages-async.parameters"></a><h4>Parameters</h4>
-<div class="informaltable"><table width="100%" border="0">
+<div class="informaltable"><table class="informaltable" width="100%" border="0">
 <colgroup>
 <col width="150px" class="parameters_name">
 <col class="parameters_description">
@@ -1486,7 +1486,7 @@ pk_client_get_packages_async (<em class="parameter"><code><a class="link" href="
 </tr>
 <tr>
 <td class="parameter_name"><p>cancellable</p></td>
-<td class="parameter_description"><p>a <a href="/usr/share/gtk-doc/html/gioGCancellable.html#GCancellable-struct"><span class="type">GCancellable</span></a> or <a href="/usr/share/gtk-doc/html/liboilliboil-liboiljunk.html#NULL:CAPS"><code class="literal">NULL</code></a></p></td>
+<td class="parameter_description"><p>a <a href="/usr/share/gtk-doc/html/gioGCancellable.html#GCancellable-struct"><span class="type">GCancellable</span></a> or <a href="/usr/share/gtk-doc/html/glibglib-Standard-Macros.html#NULL:CAPS"><code class="literal">NULL</code></a></p></td>
 <td class="parameter_annotations"> </td>
 </tr>
 <tr>
@@ -1532,7 +1532,7 @@ pk_client_required_by_async (<em class="parameter"><code><a class="link" href="P
 <p>Get the packages that require this one, i.e. parent-&gt;child.</p>
 <div class="refsect3">
 <a name="pk-client-required-by-async.parameters"></a><h4>Parameters</h4>
-<div class="informaltable"><table width="100%" border="0">
+<div class="informaltable"><table class="informaltable" width="100%" border="0">
 <colgroup>
 <col width="150px" class="parameters_name">
 <col class="parameters_description">
@@ -1561,7 +1561,7 @@ pk_client_required_by_async (<em class="parameter"><code><a class="link" href="P
 </tr>
 <tr>
 <td class="parameter_name"><p>cancellable</p></td>
-<td class="parameter_description"><p>a <a href="/usr/share/gtk-doc/html/gioGCancellable.html#GCancellable-struct"><span class="type">GCancellable</span></a> or <a href="/usr/share/gtk-doc/html/liboilliboil-liboiljunk.html#NULL:CAPS"><code class="literal">NULL</code></a></p></td>
+<td class="parameter_description"><p>a <a href="/usr/share/gtk-doc/html/gioGCancellable.html#GCancellable-struct"><span class="type">GCancellable</span></a> or <a href="/usr/share/gtk-doc/html/glibglib-Standard-Macros.html#NULL:CAPS"><code class="literal">NULL</code></a></p></td>
 <td class="parameter_annotations"> </td>
 </tr>
 <tr>
@@ -1608,7 +1608,7 @@ This method is useful for finding out what package(s) provide a modalias
 or GStreamer codec string.</p>
 <div class="refsect3">
 <a name="pk-client-what-provides-async.parameters"></a><h4>Parameters</h4>
-<div class="informaltable"><table width="100%" border="0">
+<div class="informaltable"><table class="informaltable" width="100%" border="0">
 <colgroup>
 <col width="150px" class="parameters_name">
 <col class="parameters_description">
@@ -1632,7 +1632,7 @@ or GStreamer codec string.</p>
 </tr>
 <tr>
 <td class="parameter_name"><p>cancellable</p></td>
-<td class="parameter_description"><p>a <a href="/usr/share/gtk-doc/html/gioGCancellable.html#GCancellable-struct"><span class="type">GCancellable</span></a> or <a href="/usr/share/gtk-doc/html/liboilliboil-liboiljunk.html#NULL:CAPS"><code class="literal">NULL</code></a></p></td>
+<td class="parameter_description"><p>a <a href="/usr/share/gtk-doc/html/gioGCancellable.html#GCancellable-struct"><span class="type">GCancellable</span></a> or <a href="/usr/share/gtk-doc/html/glibglib-Standard-Macros.html#NULL:CAPS"><code class="literal">NULL</code></a></p></td>
 <td class="parameter_annotations"> </td>
 </tr>
 <tr>
@@ -1676,7 +1676,7 @@ pk_client_get_distro_upgrades_async (<em class="parameter"><code><a class="link"
 It should not return updates, only major upgrades.</p>
 <div class="refsect3">
 <a name="pk-client-get-distro-upgrades-async.parameters"></a><h4>Parameters</h4>
-<div class="informaltable"><table width="100%" border="0">
+<div class="informaltable"><table class="informaltable" width="100%" border="0">
 <colgroup>
 <col width="150px" class="parameters_name">
 <col class="parameters_description">
@@ -1690,7 +1690,7 @@ It should not return updates, only major upgrades.</p>
 </tr>
 <tr>
 <td class="parameter_name"><p>cancellable</p></td>
-<td class="parameter_description"><p>a <a href="/usr/share/gtk-doc/html/gioGCancellable.html#GCancellable-struct"><span class="type">GCancellable</span></a> or <a href="/usr/share/gtk-doc/html/liboilliboil-liboiljunk.html#NULL:CAPS"><code class="literal">NULL</code></a></p></td>
+<td class="parameter_description"><p>a <a href="/usr/share/gtk-doc/html/gioGCancellable.html#GCancellable-struct"><span class="type">GCancellable</span></a> or <a href="/usr/share/gtk-doc/html/glibglib-Standard-Macros.html#NULL:CAPS"><code class="literal">NULL</code></a></p></td>
 <td class="parameter_annotations"> </td>
 </tr>
 <tr>
@@ -1734,7 +1734,7 @@ pk_client_get_files_async (<em class="parameter"><code><a class="link" href="PkC
 <p>Get the file list (i.e. a list of files installed) for the specified package.</p>
 <div class="refsect3">
 <a name="pk-client-get-files-async.parameters"></a><h4>Parameters</h4>
-<div class="informaltable"><table width="100%" border="0">
+<div class="informaltable"><table class="informaltable" width="100%" border="0">
 <colgroup>
 <col width="150px" class="parameters_name">
 <col class="parameters_description">
@@ -1753,7 +1753,7 @@ pk_client_get_files_async (<em class="parameter"><code><a class="link" href="PkC
 </tr>
 <tr>
 <td class="parameter_name"><p>cancellable</p></td>
-<td class="parameter_description"><p>a <a href="/usr/share/gtk-doc/html/gioGCancellable.html#GCancellable-struct"><span class="type">GCancellable</span></a> or <a href="/usr/share/gtk-doc/html/liboilliboil-liboiljunk.html#NULL:CAPS"><code class="literal">NULL</code></a></p></td>
+<td class="parameter_description"><p>a <a href="/usr/share/gtk-doc/html/gioGCancellable.html#GCancellable-struct"><span class="type">GCancellable</span></a> or <a href="/usr/share/gtk-doc/html/glibglib-Standard-Macros.html#NULL:CAPS"><code class="literal">NULL</code></a></p></td>
 <td class="parameter_annotations"> </td>
 </tr>
 <tr>
@@ -1796,7 +1796,7 @@ pk_client_get_categories_async (<em class="parameter"><code><a class="link" href
 <p>Get a list of all categories supported.</p>
 <div class="refsect3">
 <a name="pk-client-get-categories-async.parameters"></a><h4>Parameters</h4>
-<div class="informaltable"><table width="100%" border="0">
+<div class="informaltable"><table class="informaltable" width="100%" border="0">
 <colgroup>
 <col width="150px" class="parameters_name">
 <col class="parameters_description">
@@ -1810,7 +1810,7 @@ pk_client_get_categories_async (<em class="parameter"><code><a class="link" href
 </tr>
 <tr>
 <td class="parameter_name"><p>cancellable</p></td>
-<td class="parameter_description"><p>a <a href="/usr/share/gtk-doc/html/gioGCancellable.html#GCancellable-struct"><span class="type">GCancellable</span></a> or <a href="/usr/share/gtk-doc/html/liboilliboil-liboiljunk.html#NULL:CAPS"><code class="literal">NULL</code></a></p></td>
+<td class="parameter_description"><p>a <a href="/usr/share/gtk-doc/html/gioGCancellable.html#GCancellable-struct"><span class="type">GCancellable</span></a> or <a href="/usr/share/gtk-doc/html/glibglib-Standard-Macros.html#NULL:CAPS"><code class="literal">NULL</code></a></p></td>
 <td class="parameter_annotations"> </td>
 </tr>
 <tr>
@@ -1859,7 +1859,7 @@ If <code class="literal">allow_deps</code> is set to <a href="/usr/share/gtk-doc
 then the transaction would fail.</p>
 <div class="refsect3">
 <a name="pk-client-remove-packages-async.parameters"></a><h4>Parameters</h4>
-<div class="informaltable"><table width="100%" border="0">
+<div class="informaltable"><table class="informaltable" width="100%" border="0">
 <colgroup>
 <col width="150px" class="parameters_name">
 <col class="parameters_description">
@@ -1893,7 +1893,7 @@ then the transaction would fail.</p>
 </tr>
 <tr>
 <td class="parameter_name"><p>cancellable</p></td>
-<td class="parameter_description"><p>a <a href="/usr/share/gtk-doc/html/gioGCancellable.html#GCancellable-struct"><span class="type">GCancellable</span></a> or <a href="/usr/share/gtk-doc/html/liboilliboil-liboiljunk.html#NULL:CAPS"><code class="literal">NULL</code></a></p></td>
+<td class="parameter_description"><p>a <a href="/usr/share/gtk-doc/html/gioGCancellable.html#GCancellable-struct"><span class="type">GCancellable</span></a> or <a href="/usr/share/gtk-doc/html/glibglib-Standard-Macros.html#NULL:CAPS"><code class="literal">NULL</code></a></p></td>
 <td class="parameter_annotations"> </td>
 </tr>
 <tr>
@@ -1940,7 +1940,7 @@ This action may take a few minutes and should be done when the session and
 system are idle.</p>
 <div class="refsect3">
 <a name="pk-client-refresh-cache-async.parameters"></a><h4>Parameters</h4>
-<div class="informaltable"><table width="100%" border="0">
+<div class="informaltable"><table class="informaltable" width="100%" border="0">
 <colgroup>
 <col width="150px" class="parameters_name">
 <col class="parameters_description">
@@ -1959,7 +1959,7 @@ system are idle.</p>
 </tr>
 <tr>
 <td class="parameter_name"><p>cancellable</p></td>
-<td class="parameter_description"><p>a <a href="/usr/share/gtk-doc/html/gioGCancellable.html#GCancellable-struct"><span class="type">GCancellable</span></a> or <a href="/usr/share/gtk-doc/html/liboilliboil-liboiljunk.html#NULL:CAPS"><code class="literal">NULL</code></a></p></td>
+<td class="parameter_description"><p>a <a href="/usr/share/gtk-doc/html/gioGCancellable.html#GCancellable-struct"><span class="type">GCancellable</span></a> or <a href="/usr/share/gtk-doc/html/glibglib-Standard-Macros.html#NULL:CAPS"><code class="literal">NULL</code></a></p></td>
 <td class="parameter_annotations"> </td>
 </tr>
 <tr>
@@ -2004,7 +2004,7 @@ pk_client_install_packages_async (<em class="parameter"><code><a class="link" hr
 <p>Install a package of the newest and most correct version.</p>
 <div class="refsect3">
 <a name="pk-client-install-packages-async.parameters"></a><h4>Parameters</h4>
-<div class="informaltable"><table width="100%" border="0">
+<div class="informaltable"><table class="informaltable" width="100%" border="0">
 <colgroup>
 <col width="150px" class="parameters_name">
 <col class="parameters_description">
@@ -2028,7 +2028,7 @@ pk_client_install_packages_async (<em class="parameter"><code><a class="link" hr
 </tr>
 <tr>
 <td class="parameter_name"><p>cancellable</p></td>
-<td class="parameter_description"><p>a <a href="/usr/share/gtk-doc/html/gioGCancellable.html#GCancellable-struct"><span class="type">GCancellable</span></a> or <a href="/usr/share/gtk-doc/html/liboilliboil-liboiljunk.html#NULL:CAPS"><code class="literal">NULL</code></a></p></td>
+<td class="parameter_description"><p>a <a href="/usr/share/gtk-doc/html/gioGCancellable.html#GCancellable-struct"><span class="type">GCancellable</span></a> or <a href="/usr/share/gtk-doc/html/glibglib-Standard-Macros.html#NULL:CAPS"><code class="literal">NULL</code></a></p></td>
 <td class="parameter_annotations"> </td>
 </tr>
 <tr>
@@ -2074,7 +2074,7 @@ pk_client_install_signature_async (<em class="parameter"><code><a class="link" h
 <p>Install a software source signature of the newest and most correct version.</p>
 <div class="refsect3">
 <a name="pk-client-install-signature-async.parameters"></a><h4>Parameters</h4>
-<div class="informaltable"><table width="100%" border="0">
+<div class="informaltable"><table class="informaltable" width="100%" border="0">
 <colgroup>
 <col width="150px" class="parameters_name">
 <col class="parameters_description">
@@ -2103,7 +2103,7 @@ pk_client_install_signature_async (<em class="parameter"><code><a class="link" h
 </tr>
 <tr>
 <td class="parameter_name"><p>cancellable</p></td>
-<td class="parameter_description"><p>a <a href="/usr/share/gtk-doc/html/gioGCancellable.html#GCancellable-struct"><span class="type">GCancellable</span></a> or <a href="/usr/share/gtk-doc/html/liboilliboil-liboiljunk.html#NULL:CAPS"><code class="literal">NULL</code></a></p></td>
+<td class="parameter_description"><p>a <a href="/usr/share/gtk-doc/html/gioGCancellable.html#GCancellable-struct"><span class="type">GCancellable</span></a> or <a href="/usr/share/gtk-doc/html/glibglib-Standard-Macros.html#NULL:CAPS"><code class="literal">NULL</code></a></p></td>
 <td class="parameter_annotations"> </td>
 </tr>
 <tr>
@@ -2148,7 +2148,7 @@ pk_client_update_packages_async (<em class="parameter"><code><a class="link" hre
 <p>Update specific packages to the newest available versions.</p>
 <div class="refsect3">
 <a name="pk-client-update-packages-async.parameters"></a><h4>Parameters</h4>
-<div class="informaltable"><table width="100%" border="0">
+<div class="informaltable"><table class="informaltable" width="100%" border="0">
 <colgroup>
 <col width="150px" class="parameters_name">
 <col class="parameters_description">
@@ -2172,7 +2172,7 @@ pk_client_update_packages_async (<em class="parameter"><code><a class="link" hre
 </tr>
 <tr>
 <td class="parameter_name"><p>cancellable</p></td>
-<td class="parameter_description"><p>a <a href="/usr/share/gtk-doc/html/gioGCancellable.html#GCancellable-struct"><span class="type">GCancellable</span></a> or <a href="/usr/share/gtk-doc/html/liboilliboil-liboiljunk.html#NULL:CAPS"><code class="literal">NULL</code></a></p></td>
+<td class="parameter_description"><p>a <a href="/usr/share/gtk-doc/html/gioGCancellable.html#GCancellable-struct"><span class="type">GCancellable</span></a> or <a href="/usr/share/gtk-doc/html/glibglib-Standard-Macros.html#NULL:CAPS"><code class="literal">NULL</code></a></p></td>
 <td class="parameter_annotations"> </td>
 </tr>
 <tr>
@@ -2218,7 +2218,7 @@ pk_client_install_files_async (<em class="parameter"><code><a class="link" href=
 This is useful for double clicking on a .rpm or .deb file.</p>
 <div class="refsect3">
 <a name="pk-client-install-files-async.parameters"></a><h4>Parameters</h4>
-<div class="informaltable"><table width="100%" border="0">
+<div class="informaltable"><table class="informaltable" width="100%" border="0">
 <colgroup>
 <col width="150px" class="parameters_name">
 <col class="parameters_description">
@@ -2242,7 +2242,7 @@ This is useful for double clicking on a .rpm or .deb file.</p>
 </tr>
 <tr>
 <td class="parameter_name"><p>cancellable</p></td>
-<td class="parameter_description"><p>a <a href="/usr/share/gtk-doc/html/gioGCancellable.html#GCancellable-struct"><span class="type">GCancellable</span></a> or <a href="/usr/share/gtk-doc/html/liboilliboil-liboiljunk.html#NULL:CAPS"><code class="literal">NULL</code></a></p></td>
+<td class="parameter_description"><p>a <a href="/usr/share/gtk-doc/html/gioGCancellable.html#GCancellable-struct"><span class="type">GCancellable</span></a> or <a href="/usr/share/gtk-doc/html/glibglib-Standard-Macros.html#NULL:CAPS"><code class="literal">NULL</code></a></p></td>
 <td class="parameter_annotations"> </td>
 </tr>
 <tr>
@@ -2286,7 +2286,7 @@ pk_client_accept_eula_async (<em class="parameter"><code><a class="link" href="P
 <p>We may want to agree to a EULA dialog if one is presented.</p>
 <div class="refsect3">
 <a name="pk-client-accept-eula-async.parameters"></a><h4>Parameters</h4>
-<div class="informaltable"><table width="100%" border="0">
+<div class="informaltable"><table class="informaltable" width="100%" border="0">
 <colgroup>
 <col width="150px" class="parameters_name">
 <col class="parameters_description">
@@ -2305,7 +2305,7 @@ pk_client_accept_eula_async (<em class="parameter"><code><a class="link" href="P
 </tr>
 <tr>
 <td class="parameter_name"><p>cancellable</p></td>
-<td class="parameter_description"><p>a <a href="/usr/share/gtk-doc/html/gioGCancellable.html#GCancellable-struct"><span class="type">GCancellable</span></a> or <a href="/usr/share/gtk-doc/html/liboilliboil-liboiljunk.html#NULL:CAPS"><code class="literal">NULL</code></a></p></td>
+<td class="parameter_description"><p>a <a href="/usr/share/gtk-doc/html/gioGCancellable.html#GCancellable-struct"><span class="type">GCancellable</span></a> or <a href="/usr/share/gtk-doc/html/glibglib-Standard-Macros.html#NULL:CAPS"><code class="literal">NULL</code></a></p></td>
 <td class="parameter_annotations"> </td>
 </tr>
 <tr>
@@ -2349,7 +2349,7 @@ pk_client_get_repo_list_async (<em class="parameter"><code><a class="link" href=
 <p>Get the list of repositories installed on the system.</p>
 <div class="refsect3">
 <a name="pk-client-get-repo-list-async.parameters"></a><h4>Parameters</h4>
-<div class="informaltable"><table width="100%" border="0">
+<div class="informaltable"><table class="informaltable" width="100%" border="0">
 <colgroup>
 <col width="150px" class="parameters_name">
 <col class="parameters_description">
@@ -2368,7 +2368,7 @@ pk_client_get_repo_list_async (<em class="parameter"><code><a class="link" href=
 </tr>
 <tr>
 <td class="parameter_name"><p>cancellable</p></td>
-<td class="parameter_description"><p>a <a href="/usr/share/gtk-doc/html/gioGCancellable.html#GCancellable-struct"><span class="type">GCancellable</span></a> or <a href="/usr/share/gtk-doc/html/liboilliboil-liboiljunk.html#NULL:CAPS"><code class="literal">NULL</code></a></p></td>
+<td class="parameter_description"><p>a <a href="/usr/share/gtk-doc/html/gioGCancellable.html#GCancellable-struct"><span class="type">GCancellable</span></a> or <a href="/usr/share/gtk-doc/html/glibglib-Standard-Macros.html#NULL:CAPS"><code class="literal">NULL</code></a></p></td>
 <td class="parameter_annotations"> </td>
 </tr>
 <tr>
@@ -2413,7 +2413,7 @@ pk_client_repo_enable_async (<em class="parameter"><code><a class="link" href="P
 <p>Enable or disable the repository.</p>
 <div class="refsect3">
 <a name="pk-client-repo-enable-async.parameters"></a><h4>Parameters</h4>
-<div class="informaltable"><table width="100%" border="0">
+<div class="informaltable"><table class="informaltable" width="100%" border="0">
 <colgroup>
 <col width="150px" class="parameters_name">
 <col class="parameters_description">
@@ -2437,7 +2437,7 @@ pk_client_repo_enable_async (<em class="parameter"><code><a class="link" href="P
 </tr>
 <tr>
 <td class="parameter_name"><p>cancellable</p></td>
-<td class="parameter_description"><p>a <a href="/usr/share/gtk-doc/html/gioGCancellable.html#GCancellable-struct"><span class="type">GCancellable</span></a> or <a href="/usr/share/gtk-doc/html/liboilliboil-liboiljunk.html#NULL:CAPS"><code class="literal">NULL</code></a></p></td>
+<td class="parameter_description"><p>a <a href="/usr/share/gtk-doc/html/gioGCancellable.html#GCancellable-struct"><span class="type">GCancellable</span></a> or <a href="/usr/share/gtk-doc/html/glibglib-Standard-Macros.html#NULL:CAPS"><code class="literal">NULL</code></a></p></td>
 <td class="parameter_annotations"> </td>
 </tr>
 <tr>
@@ -2484,7 +2484,7 @@ pk_client_repo_set_data_async (<em class="parameter"><code><a class="link" href=
 NOTE: this is free text, and is left to the backend to define a format.</p>
 <div class="refsect3">
 <a name="pk-client-repo-set-data-async.parameters"></a><h4>Parameters</h4>
-<div class="informaltable"><table width="100%" border="0">
+<div class="informaltable"><table class="informaltable" width="100%" border="0">
 <colgroup>
 <col width="150px" class="parameters_name">
 <col class="parameters_description">
@@ -2513,7 +2513,7 @@ NOTE: this is free text, and is left to the backend to define a format.</p>
 </tr>
 <tr>
 <td class="parameter_name"><p>cancellable</p></td>
-<td class="parameter_description"><p>a <a href="/usr/share/gtk-doc/html/gioGCancellable.html#GCancellable-struct"><span class="type">GCancellable</span></a> or <a href="/usr/share/gtk-doc/html/liboilliboil-liboiljunk.html#NULL:CAPS"><code class="literal">NULL</code></a></p></td>
+<td class="parameter_description"><p>a <a href="/usr/share/gtk-doc/html/gioGCancellable.html#GCancellable-struct"><span class="type">GCancellable</span></a> or <a href="/usr/share/gtk-doc/html/glibglib-Standard-Macros.html#NULL:CAPS"><code class="literal">NULL</code></a></p></td>
 <td class="parameter_annotations"> </td>
 </tr>
 <tr>
@@ -2559,7 +2559,7 @@ pk_client_repo_remove_async (<em class="parameter"><code><a class="link" href="P
 <p>Removes a repo and optionally the packages installed from it.</p>
 <div class="refsect3">
 <a name="pk-client-repo-remove-async.parameters"></a><h4>Parameters</h4>
-<div class="informaltable"><table width="100%" border="0">
+<div class="informaltable"><table class="informaltable" width="100%" border="0">
 <colgroup>
 <col width="150px" class="parameters_name">
 <col class="parameters_description">
@@ -2588,7 +2588,7 @@ pk_client_repo_remove_async (<em class="parameter"><code><a class="link" href="P
 </tr>
 <tr>
 <td class="parameter_name"><p>cancellable</p></td>
-<td class="parameter_description"><p>a <a href="/usr/share/gtk-doc/html/gioGCancellable.html#GCancellable-struct"><span class="type">GCancellable</span></a> or <a href="/usr/share/gtk-doc/html/liboilliboil-liboiljunk.html#NULL:CAPS"><code class="literal">NULL</code></a></p></td>
+<td class="parameter_description"><p>a <a href="/usr/share/gtk-doc/html/gioGCancellable.html#GCancellable-struct"><span class="type">GCancellable</span></a> or <a href="/usr/share/gtk-doc/html/glibglib-Standard-Macros.html#NULL:CAPS"><code class="literal">NULL</code></a></p></td>
 <td class="parameter_annotations"> </td>
 </tr>
 <tr>
@@ -2637,7 +2637,7 @@ or may involve doing an on-line upgrade.</p>
 <p>The backend will decide what is best to do.</p>
 <div class="refsect3">
 <a name="pk-client-upgrade-system-async.parameters"></a><h4>Parameters</h4>
-<div class="informaltable"><table width="100%" border="0">
+<div class="informaltable"><table class="informaltable" width="100%" border="0">
 <colgroup>
 <col width="150px" class="parameters_name">
 <col class="parameters_description">
@@ -2666,7 +2666,7 @@ or may involve doing an on-line upgrade.</p>
 </tr>
 <tr>
 <td class="parameter_name"><p>cancellable</p></td>
-<td class="parameter_description"><p>a <a href="/usr/share/gtk-doc/html/gioGCancellable.html#GCancellable-struct"><span class="type">GCancellable</span></a> or <a href="/usr/share/gtk-doc/html/liboilliboil-liboiljunk.html#NULL:CAPS"><code class="literal">NULL</code></a></p></td>
+<td class="parameter_description"><p>a <a href="/usr/share/gtk-doc/html/gioGCancellable.html#GCancellable-struct"><span class="type">GCancellable</span></a> or <a href="/usr/share/gtk-doc/html/glibglib-Standard-Macros.html#NULL:CAPS"><code class="literal">NULL</code></a></p></td>
 <td class="parameter_annotations"> </td>
 </tr>
 <tr>
@@ -2714,7 +2714,7 @@ system was shutdown during processing an installation.</p>
 <p>The backend will decide what is best to do.</p>
 <div class="refsect3">
 <a name="pk-client-repair-system-async.parameters"></a><h4>Parameters</h4>
-<div class="informaltable"><table width="100%" border="0">
+<div class="informaltable"><table class="informaltable" width="100%" border="0">
 <colgroup>
 <col width="150px" class="parameters_name">
 <col class="parameters_description">
@@ -2733,7 +2733,7 @@ system was shutdown during processing an installation.</p>
 </tr>
 <tr>
 <td class="parameter_name"><p>cancellable</p></td>
-<td class="parameter_description"><p>a <a href="/usr/share/gtk-doc/html/gioGCancellable.html#GCancellable-struct"><span class="type">GCancellable</span></a> or <a href="/usr/share/gtk-doc/html/liboilliboil-liboiljunk.html#NULL:CAPS"><code class="literal">NULL</code></a></p></td>
+<td class="parameter_description"><p>a <a href="/usr/share/gtk-doc/html/gioGCancellable.html#GCancellable-struct"><span class="type">GCancellable</span></a> or <a href="/usr/share/gtk-doc/html/glibglib-Standard-Macros.html#NULL:CAPS"><code class="literal">NULL</code></a></p></td>
 <td class="parameter_annotations"> </td>
 </tr>
 <tr>
@@ -2777,7 +2777,7 @@ pk_client_adopt_async (<em class="parameter"><code><a class="link" href="PkClien
 <p>Adopt a transaction which allows the caller to monitor the state or cancel it.</p>
 <div class="refsect3">
 <a name="pk-client-adopt-async.parameters"></a><h4>Parameters</h4>
-<div class="informaltable"><table width="100%" border="0">
+<div class="informaltable"><table class="informaltable" width="100%" border="0">
 <colgroup>
 <col width="150px" class="parameters_name">
 <col class="parameters_description">
@@ -2796,7 +2796,7 @@ pk_client_adopt_async (<em class="parameter"><code><a class="link" href="PkClien
 </tr>
 <tr>
 <td class="parameter_name"><p>cancellable</p></td>
-<td class="parameter_description"><p>a <a href="/usr/share/gtk-doc/html/gioGCancellable.html#GCancellable-struct"><span class="type">GCancellable</span></a> or <a href="/usr/share/gtk-doc/html/liboilliboil-liboiljunk.html#NULL:CAPS"><code class="literal">NULL</code></a></p></td>
+<td class="parameter_description"><p>a <a href="/usr/share/gtk-doc/html/gioGCancellable.html#GCancellable-struct"><span class="type">GCancellable</span></a> or <a href="/usr/share/gtk-doc/html/glibglib-Standard-Macros.html#NULL:CAPS"><code class="literal">NULL</code></a></p></td>
 <td class="parameter_annotations"> </td>
 </tr>
 <tr>
@@ -2836,7 +2836,7 @@ pk_client_get_progress_finish (<em class="parameter"><code><a class="link" href=
 <p>Gets the result from the asynchronous function.</p>
 <div class="refsect3">
 <a name="pk-client-get-progress-finish.parameters"></a><h4>Parameters</h4>
-<div class="informaltable"><table width="100%" border="0">
+<div class="informaltable"><table class="informaltable" width="100%" border="0">
 <colgroup>
 <col width="150px" class="parameters_name">
 <col class="parameters_description">
@@ -2855,7 +2855,7 @@ pk_client_get_progress_finish (<em class="parameter"><code><a class="link" href=
 </tr>
 <tr>
 <td class="parameter_name"><p>error</p></td>
-<td class="parameter_description"><p>A <a href="/usr/share/gtk-doc/html/glibglib-Error-Reporting.html#GError"><span class="type">GError</span></a> or <a href="/usr/share/gtk-doc/html/liboilliboil-liboiljunk.html#NULL:CAPS"><code class="literal">NULL</code></a></p></td>
+<td class="parameter_description"><p>A <a href="/usr/share/gtk-doc/html/glibglib-Error-Reporting.html#GError"><span class="type">GError</span></a> or <a href="/usr/share/gtk-doc/html/glibglib-Standard-Macros.html#NULL:CAPS"><code class="literal">NULL</code></a></p></td>
 <td class="parameter_annotations"> </td>
 </tr>
 </tbody>
@@ -2863,7 +2863,7 @@ pk_client_get_progress_finish (<em class="parameter"><code><a class="link" href=
 </div>
 <div class="refsect3">
 <a name="pk-client-get-progress-finish.returns"></a><h4>Returns</h4>
-<p> the <a class="link" href="PkProgress.html" title="PkProgress"><span class="type">PkProgress</span></a>, or <a href="/usr/share/gtk-doc/html/liboilliboil-liboiljunk.html#NULL:CAPS"><code class="literal">NULL</code></a>. Free with <a href="/usr/share/gtk-doc/html/gobjectgobject-The-Base-Object-Type.html#g-object-unref"><code class="function">g_object_unref()</code></a>. </p>
+<p> the <a class="link" href="PkProgress.html" title="PkProgress"><span class="type">PkProgress</span></a>, or <a href="/usr/share/gtk-doc/html/glibglib-Standard-Macros.html#NULL:CAPS"><code class="literal">NULL</code></a>. Free with <a href="/usr/share/gtk-doc/html/gobjectgobject-The-Base-Object-Type.html#g-object-unref"><code class="function">g_object_unref()</code></a>. </p>
 <p><span class="annotation">[<acronym title="Free data after the code is done."><span class="acronym">transfer full</span></acronym>]</span></p>
 </div>
 <p class="since">Since: 0.5.2</p>
@@ -2880,7 +2880,7 @@ pk_client_get_progress_async (<em class="parameter"><code><a class="link" href="
 <p>Find the current state of a transaction.</p>
 <div class="refsect3">
 <a name="pk-client-get-progress-async.parameters"></a><h4>Parameters</h4>
-<div class="informaltable"><table width="100%" border="0">
+<div class="informaltable"><table class="informaltable" width="100%" border="0">
 <colgroup>
 <col width="150px" class="parameters_name">
 <col class="parameters_description">
@@ -2899,7 +2899,7 @@ pk_client_get_progress_async (<em class="parameter"><code><a class="link" href="
 </tr>
 <tr>
 <td class="parameter_name"><p>cancellable</p></td>
-<td class="parameter_description"><p>a <a href="/usr/share/gtk-doc/html/gioGCancellable.html#GCancellable-struct"><span class="type">GCancellable</span></a> or <a href="/usr/share/gtk-doc/html/liboilliboil-liboiljunk.html#NULL:CAPS"><code class="literal">NULL</code></a></p></td>
+<td class="parameter_description"><p>a <a href="/usr/share/gtk-doc/html/gioGCancellable.html#GCancellable-struct"><span class="type">GCancellable</span></a> or <a href="/usr/share/gtk-doc/html/glibglib-Standard-Macros.html#NULL:CAPS"><code class="literal">NULL</code></a></p></td>
 <td class="parameter_annotations"> </td>
 </tr>
 <tr>
@@ -2928,7 +2928,7 @@ pk_client_set_locale (<em class="parameter"><code><a class="link" href="PkClient
 results.</p>
 <div class="refsect3">
 <a name="pk-client-set-locale.parameters"></a><h4>Parameters</h4>
-<div class="informaltable"><table width="100%" border="0">
+<div class="informaltable"><table class="informaltable" width="100%" border="0">
 <colgroup>
 <col width="150px" class="parameters_name">
 <col class="parameters_description">
@@ -2958,7 +2958,7 @@ pk_client_get_locale (<em class="parameter"><code><a class="link" href="PkClient
 <p>Gets the locale used for this transaction.</p>
 <div class="refsect3">
 <a name="pk-client-get-locale.parameters"></a><h4>Parameters</h4>
-<div class="informaltable"><table width="100%" border="0">
+<div class="informaltable"><table class="informaltable" width="100%" border="0">
 <colgroup>
 <col width="150px" class="parameters_name">
 <col class="parameters_description">
@@ -2988,7 +2988,7 @@ is usually scheduled at a lower priority and is usually given less
 network and disk performance.</p>
 <div class="refsect3">
 <a name="pk-client-set-background.parameters"></a><h4>Parameters</h4>
-<div class="informaltable"><table width="100%" border="0">
+<div class="informaltable"><table class="informaltable" width="100%" border="0">
 <colgroup>
 <col width="150px" class="parameters_name">
 <col class="parameters_description">
@@ -3018,7 +3018,7 @@ pk_client_get_background (<em class="parameter"><code><a class="link" href="PkCl
 <p>Gets the background value.</p>
 <div class="refsect3">
 <a name="pk-client-get-background.parameters"></a><h4>Parameters</h4>
-<div class="informaltable"><table width="100%" border="0">
+<div class="informaltable"><table class="informaltable" width="100%" border="0">
 <colgroup>
 <col width="150px" class="parameters_name">
 <col class="parameters_description">
@@ -3047,7 +3047,7 @@ pk_client_set_interactive (<em class="parameter"><code><a class="link" href="PkC
 are usally allowed to ask the user questions.</p>
 <div class="refsect3">
 <a name="pk-client-set-interactive.parameters"></a><h4>Parameters</h4>
-<div class="informaltable"><table width="100%" border="0">
+<div class="informaltable"><table class="informaltable" width="100%" border="0">
 <colgroup>
 <col width="150px" class="parameters_name">
 <col class="parameters_description">
@@ -3077,7 +3077,7 @@ pk_client_get_interactive (<em class="parameter"><code><a class="link" href="PkC
 <p>Gets the client interactive value.</p>
 <div class="refsect3">
 <a name="pk-client-get-interactive.parameters"></a><h4>Parameters</h4>
-<div class="informaltable"><table width="100%" border="0">
+<div class="informaltable"><table class="informaltable" width="100%" border="0">
 <colgroup>
 <col width="150px" class="parameters_name">
 <col class="parameters_description">
@@ -3104,7 +3104,7 @@ pk_client_get_idle (<em class="parameter"><code><a class="link" href="PkClient.h
 <p>Gets if the transaction client idle value.</p>
 <div class="refsect3">
 <a name="pk-client-get-idle.parameters"></a><h4>Parameters</h4>
-<div class="informaltable"><table width="100%" border="0">
+<div class="informaltable"><table class="informaltable" width="100%" border="0">
 <colgroup>
 <col width="150px" class="parameters_name">
 <col class="parameters_description">
@@ -3132,7 +3132,7 @@ pk_client_set_cache_age (<em class="parameter"><code><a class="link" href="PkCli
 <p>Sets the maximum cache age value for the client.</p>
 <div class="refsect3">
 <a name="pk-client-set-cache-age.parameters"></a><h4>Parameters</h4>
-<div class="informaltable"><table width="100%" border="0">
+<div class="informaltable"><table class="informaltable" width="100%" border="0">
 <colgroup>
 <col width="150px" class="parameters_name">
 <col class="parameters_description">
@@ -3162,7 +3162,7 @@ pk_client_get_cache_age (<em class="parameter"><code><a class="link" href="PkCli
 <p>Gets the maximum cache age value.</p>
 <div class="refsect3">
 <a name="pk-client-get-cache-age.parameters"></a><h4>Parameters</h4>
-<div class="informaltable"><table width="100%" border="0">
+<div class="informaltable"><table class="informaltable" width="100%" border="0">
 <colgroup>
 <col width="150px" class="parameters_name">
 <col class="parameters_description">
@@ -3201,7 +3201,7 @@ pk_client_get_cache_age (<em class="parameter"><code><a class="link" href="PkCli
 <p>Errors that can be thrown</p>
 <div class="refsect3">
 <a name="PkClientError.members"></a><h4>Members</h4>
-<div class="informaltable"><table width="100%" border="0">
+<div class="informaltable"><table class="informaltable" width="100%" border="0">
 <colgroup>
 <col width="300px" class="enum_members_name">
 <col class="enum_members_description">
