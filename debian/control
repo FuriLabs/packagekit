@@ -4,7 +4,7 @@ Priority: optional
 Maintainer: Matthias Klumpp <mak@debian.org>
 Uploaders: Julian Andres Klode <jak@debian.org>
 Vcs-Git: https://anonscm.debian.org/git/pkg-packagekit/packagekit.git
-Vcs-Browser: https://anonscm.debian.org/cgit/pkg-packagekit/packagekit.git
+Vcs-Browser: https://anonscm.debian.org/git/pkg-packagekit/packagekit.git
 Build-Depends: autoconf-archive,
                bash-completion,
                debhelper (>= 9.0.0),
