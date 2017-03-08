@@ -1,3 +1,10 @@
+packagekit (1.1.5-2) unstable; urgency=medium
+
+  * aptcc-protect-bad-package-id.patch: Don't crash when
+    encountering bad package-ids (Closes: #845575)
+
+ -- Matthias Klumpp <mak@debian.org>  Wed, 08 Mar 2017 21:33:38 +0100
+
 packagekit (1.1.5-1) unstable; urgency=medium
 
   * New upstream version: 1.1.5
