@@ -1,0 +1,37 @@
+From 6d7fad0a2c5c2d5686f55d0fbc911e3034b6746c Mon Sep 17 00:00:00 2001
+From: Harald Sitter <sitter@kde.org>
+Date: Tue, 14 Feb 2017 12:34:03 +0100
+Subject: [PATCH] aptcc: Fix a crash when the user supplies a bad package ID
+
+Through pkcon the user may supply package IDs directly. When we then look
+for them through apt-pkg's FindGrp we may get a group iterator that is
+not actually valid. The PackageList obtained from that group iterator
+can contain random garbage so as a pre-condition to doing anything with the
+packagelist we need to check if the group at hand is good.
+If the group is not good any packages it may list or not will by default be
+useless, so we should not iterate on them.
+
+For the record: on apt 1.2.19 I actually have FindGrp come back as bad
+but then give out a PackageList where the first iterator is both good and
+not at the end, which seems a bit meh from an API behavior point of view
+but somewhat within reason given the owning iterator (i.e. the group)
+itself is in a bad state.
+---
+ backends/aptcc/apt-intf.cpp | 5 ++++-
+ 1 file changed, 4 insertions(+), 1 deletion(-)
+
+--- a/backends/aptcc/apt-intf.cpp
++++ b/backends/aptcc/apt-intf.cpp
+@@ -2047,8 +2047,11 @@
+                 // search the whole package cache and match the package
+                 // name manually
+                 pkgCache::PkgIterator pkg;
++                // Name can be supplied user input and may not be an actually valid id. In this
++                // case FindGrp can come back with a bad group we shouldn't process any further
++                // as results are undefined.
+                 pkgCache::GrpIterator grp = (*m_cache)->FindGrp(name);
+-                for (pkg = grp.PackageList(); pkg.end() == false; pkg = grp.NextPkg(pkg)) {
++                for (pkg = grp.PackageList(); grp.IsGood() && pkg.end() == false; pkg = grp.NextPkg(pkg)) {
+                     if (m_cancel) {
+                         break;
+                     }
