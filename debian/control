@@ -47,7 +47,8 @@ Breaks: libpackagekit-glib2-14 (<= 0.7.6-4),
         packagekit-backend-apt (<< 1.0),
         packagekit-backend-aptcc (<< 1.0),
         packagekit-backend-smart (<< 1.0),
-        packagekit-offline-update (<< 1.0)
+        packagekit-offline-update (<< 1.0),
+        packagekit-plugin-click (<= 0.3.1)
 Recommends: packagekit-tools
 Suggests: appstream
 Description: Provides a package management service
