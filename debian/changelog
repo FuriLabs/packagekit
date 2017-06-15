@@ -1,4 +1,4 @@
-packagekit (1.1.6-1) UNRELEASED; urgency=medium
+packagekit (1.1.6-1) experimental; urgency=medium
 
   [ Jeremy Bicha ]
   * Add Breaks: packagekit-plugin-click
@@ -8,7 +8,7 @@ packagekit (1.1.6-1) UNRELEASED; urgency=medium
   * debian/patches/01_aptcc-protect-bad-package-id.patch: Drop, applied
     upstream.
 
- -- Iain Lane <laney@debian.org>  Thu, 15 Jun 2017 11:16:30 +0100
+ -- Iain Lane <laney@debian.org>  Thu, 15 Jun 2017 12:28:19 +0100
 
 packagekit (1.1.5-2) unstable; urgency=medium
 
