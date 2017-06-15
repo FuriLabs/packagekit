@@ -1,3 +1,2 @@
 vendor-debian.diff
 policy.diff
-01_aptcc-protect-bad-package-id.patch
