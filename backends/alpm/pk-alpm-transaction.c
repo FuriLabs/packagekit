@@ -394,6 +394,23 @@ pk_alpm_transaction_dep_resolve (PkBackendJob *job)
 }
 
 static void
+pk_alpm_transaction_hook (PkBackendJob *job)
+{
+	pk_backend_job_set_status (job, PK_STATUS_ENUM_RUN_HOOK);
+	pk_backend_job_set_percentage (job, 0);
+}
+
+static void
+pk_alpm_transaction_hook_run (PkBackendJob *job, alpm_event_hook_run_t * event)
+{
+	/* Every hook runs a single command, so there is no progress.
+	   Instead calculate the progress from total and finished hooks. */
+	pk_backend_job_set_percentage (job, 100 * event->position / event->total);
+	syslog (LOG_DAEMON | LOG_WARNING, "Hook %s (%s) complete (%zu of %zu)",
+		event->name, event->desc, event->position, event->total);
+}
+
+static void
 pk_alpm_transaction_test_commit (PkBackendJob *job)
 {
 	pk_backend_job_set_status (job, PK_STATUS_ENUM_TEST_COMMIT);
@@ -550,17 +567,17 @@ pk_alpm_transaction_upgrade_done (PkBackendJob *job, alpm_pkg_t *pkg,
 	const gchar *name, *pre, *post;
 
 	g_return_if_fail (pkg != NULL);
-	g_return_if_fail (old != NULL || direction == 0);
+	g_return_if_fail (old != NULL || direction == ALPM_PACKAGE_REINSTALL);
 
 	name = alpm_pkg_get_name (pkg);
-	if (direction != 0)
+	if (direction != ALPM_PACKAGE_REINSTALL)
 		pre = alpm_pkg_get_version (old);
 	post = alpm_pkg_get_version (pkg);
 
-	if (direction > 0) {
+	if (direction == ALPM_PACKAGE_UPGRADE) {
 		alpm_logaction (priv->alpm, PK_LOG_PREFIX, "upgraded %s (%s -> %s)\n",
 				name, pre, post);
-	} else if (direction < 0) {
+	} else if (direction == ALPM_PACKAGE_DOWNGRADE) {
 		alpm_logaction (priv->alpm, PK_LOG_PREFIX,
 				"downgraded %s (%s -> %s)\n", name, pre, post);
 	} else {
@@ -569,7 +586,7 @@ pk_alpm_transaction_upgrade_done (PkBackendJob *job, alpm_pkg_t *pkg,
 	}
 	pk_alpm_pkg_emit (job, pkg, PK_INFO_ENUM_FINISHED);
 
-	if (direction != 0)
+	if (direction != ALPM_PACKAGE_REINSTALL)
 		pk_alpm_transaction_process_new_optdepends (pkg, old);
 	pk_alpm_transaction_output_end ();
 }
@@ -630,10 +647,10 @@ pk_alpm_transaction_event_cb (alpm_event_t *event)
 	case ALPM_EVENT_RESOLVEDEPS_START:
 		pk_alpm_transaction_dep_resolve (job);
 		break;
-	case ALPM_EVENT_FILECONFLICTS_START:
-	case ALPM_EVENT_INTERCONFLICTS_START:
 	case ALPM_EVENT_DELTA_INTEGRITY_START:
 	case ALPM_EVENT_DISKSPACE_START:
+	case ALPM_EVENT_FILECONFLICTS_START:
+	case ALPM_EVENT_INTERCONFLICTS_START:
 		pk_alpm_transaction_test_commit (job);
 		break;
 	case ALPM_EVENT_PACKAGE_OPERATION_START:
@@ -665,13 +682,13 @@ pk_alpm_transaction_event_cb (alpm_event_t *event)
 					pk_alpm_transaction_remove_done (job, e->oldpkg);
 					break;
 				case ALPM_PACKAGE_UPGRADE:
-					pk_alpm_transaction_upgrade_done (job, e->newpkg, e->oldpkg, 1);
+					pk_alpm_transaction_upgrade_done (job, e->newpkg, e->oldpkg, ALPM_PACKAGE_UPGRADE);
 					break;
 				case ALPM_PACKAGE_DOWNGRADE:
-					pk_alpm_transaction_upgrade_done (job, e->newpkg, e->oldpkg, -1);
+					pk_alpm_transaction_upgrade_done (job, e->newpkg, e->oldpkg, ALPM_PACKAGE_DOWNGRADE);
 					break;
 				case ALPM_PACKAGE_REINSTALL:
-					pk_alpm_transaction_upgrade_done (job, e->newpkg, e->oldpkg, 0);
+					pk_alpm_transaction_upgrade_done (job, e->newpkg, e->oldpkg, ALPM_PACKAGE_REINSTALL);
 					break;
 			}
 		}
@@ -690,6 +707,7 @@ pk_alpm_transaction_event_cb (alpm_event_t *event)
 	case ALPM_EVENT_SCRIPTLET_INFO:
 		pk_alpm_transaction_output (((alpm_event_scriptlet_info_t *) event)->line);
 		break;
+	case ALPM_EVENT_KEY_DOWNLOAD_START:
 	case ALPM_EVENT_RETRIEVE_START:
 		pk_alpm_transaction_download (job);
 		break;
@@ -700,21 +718,37 @@ pk_alpm_transaction_event_cb (alpm_event_t *event)
 			pk_alpm_transaction_optdepend_removal (job, e->pkg, e->optdep);
 		}
 		break;
+	case ALPM_EVENT_HOOK_START:
+		pk_alpm_transaction_hook (job);
+		break;
+	case ALPM_EVENT_HOOK_RUN_DONE:
+		pk_alpm_transaction_hook_run (job, (alpm_event_hook_run_t *)event);
+		break;
 	case ALPM_EVENT_CHECKDEPS_DONE:
-	case ALPM_EVENT_FILECONFLICTS_DONE:
-	case ALPM_EVENT_RESOLVEDEPS_DONE:
-	case ALPM_EVENT_INTERCONFLICTS_DONE:
-	case ALPM_EVENT_INTEGRITY_DONE:
-	case ALPM_EVENT_LOAD_DONE:
+	case ALPM_EVENT_DATABASE_MISSING:
 	case ALPM_EVENT_DELTA_INTEGRITY_DONE:
-	case ALPM_EVENT_DELTA_PATCHES_DONE:
 	case ALPM_EVENT_DELTA_PATCH_DONE:
+	case ALPM_EVENT_DELTA_PATCHES_DONE:
 	case ALPM_EVENT_DELTA_PATCH_FAILED:
 	case ALPM_EVENT_DISKSPACE_DONE:
-	case ALPM_EVENT_DATABASE_MISSING:
-	case ALPM_EVENT_KEYRING_DONE:
-	case ALPM_EVENT_KEY_DOWNLOAD_START:
+	case ALPM_EVENT_FILECONFLICTS_DONE:
+	case ALPM_EVENT_HOOK_DONE:
+	case ALPM_EVENT_HOOK_RUN_START:
+	case ALPM_EVENT_INTEGRITY_DONE:
+	case ALPM_EVENT_INTERCONFLICTS_DONE:
 	case ALPM_EVENT_KEY_DOWNLOAD_DONE:
+	case ALPM_EVENT_KEYRING_DONE:
+	case ALPM_EVENT_LOAD_DONE:
+	case ALPM_EVENT_PACNEW_CREATED:
+	case ALPM_EVENT_PACSAVE_CREATED:
+	case ALPM_EVENT_PKGDOWNLOAD_DONE:
+	case ALPM_EVENT_PKGDOWNLOAD_FAILED:
+	case ALPM_EVENT_PKGDOWNLOAD_START:
+	case ALPM_EVENT_RESOLVEDEPS_DONE:
+	case ALPM_EVENT_RETRIEVE_DONE:
+	case ALPM_EVENT_RETRIEVE_FAILED:
+	case ALPM_EVENT_TRANSACTION_DONE:
+	case ALPM_EVENT_TRANSACTION_START:
 		/* ignored */
 		break;
 

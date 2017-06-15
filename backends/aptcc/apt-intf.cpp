@@ -434,11 +434,11 @@ void AptIntf::emitPackage(const pkgCache::VerIterator &ver, PkInfoEnum state)
     g_free(package_id);
 }
 
-void AptIntf::emitPackageProgress(const pkgCache::VerIterator &ver, uint percentage)
+void AptIntf::emitPackageProgress(const pkgCache::VerIterator &ver, PkStatusEnum status, uint percentage)
 {
     gchar *package_id;
     package_id = utilBuildPackageId(ver);
-    pk_backend_job_set_item_progress(m_job, package_id, PK_STATUS_ENUM_UNKNOWN, percentage);
+    pk_backend_job_set_item_progress(m_job, package_id, status, percentage);
     g_free(package_id);
 }
 
@@ -1515,6 +1515,7 @@ void AptIntf::emitPackageFilesLocal(const gchar *file)
     for (auto file : deb.files()) {
         g_ptr_array_add(files, g_strdup(file.c_str()));
     }
+    g_ptr_array_add(files, NULL);
     pk_backend_job_files(m_job, package_id, (gchar **) files->pdata);
 
     g_ptr_array_unref(files);
@@ -1883,7 +1884,7 @@ void AptIntf::updateInterface(int fd, int writeFd)
                     const pkgCache::VerIterator &ver = findTransactionPackage(pkg);
                     if (!ver.end()) {
                         emitPackage(ver, PK_INFO_ENUM_PREPARING);
-                        emitPackageProgress(ver, 75);
+                        emitPackageProgress(ver, PK_STATUS_ENUM_SETUP, 75);
                     }
                 } else if (starts_with(str, "Preparing for removal")) {
                     // Preparing to Install/configure
@@ -1892,7 +1893,7 @@ void AptIntf::updateInterface(int fd, int writeFd)
                     const pkgCache::VerIterator &ver = findTransactionPackage(pkg);
                     if (!ver.end()) {
                         emitPackage(ver, PK_INFO_ENUM_REMOVING);
-                        emitPackageProgress(ver, m_lastSubProgress);
+                        emitPackageProgress(ver, PK_STATUS_ENUM_SETUP, m_lastSubProgress);
                     }
                 } else if (starts_with(str, "Preparing")) {
                     // Preparing to Install/configure
@@ -1900,14 +1901,14 @@ void AptIntf::updateInterface(int fd, int writeFd)
                     const pkgCache::VerIterator &ver = findTransactionPackage(pkg);
                     if (!ver.end()) {
                         emitPackage(ver, PK_INFO_ENUM_PREPARING);
-                        emitPackageProgress(ver, 25);
+                        emitPackageProgress(ver, PK_STATUS_ENUM_SETUP, 25);
                     }
                 } else if (starts_with(str, "Unpacking")) {
                     // cout << "Found Unpacking! " << line << endl;
                     const pkgCache::VerIterator &ver = findTransactionPackage(pkg);
                     if (!ver.end()) {
                         emitPackage(ver, PK_INFO_ENUM_DECOMPRESSING);
-                        emitPackageProgress(ver, 50);
+                        emitPackageProgress(ver, PK_STATUS_ENUM_INSTALL, 50);
                     }
                 } else if (starts_with(str, "Configuring")) {
                     // Installing Package
@@ -1924,7 +1925,7 @@ void AptIntf::updateInterface(int fd, int writeFd)
                     const pkgCache::VerIterator &ver = findTransactionPackage(pkg);
                     if (!ver.end()) {
                         emitPackage(ver, PK_INFO_ENUM_INSTALLING);
-                        emitPackageProgress(ver, m_lastSubProgress);
+                        emitPackageProgress(ver, PK_STATUS_ENUM_INSTALL, m_lastSubProgress);
                     }
                     m_lastSubProgress += 25;
                 } else if (starts_with(str, "Running dpkg")) {
@@ -1946,7 +1947,7 @@ void AptIntf::updateInterface(int fd, int writeFd)
                     const pkgCache::VerIterator &ver = findTransactionPackage(pkg);
                     if (!ver.end()) {
                         emitPackage(ver, PK_INFO_ENUM_INSTALLING);
-                        emitPackageProgress(ver, m_lastSubProgress);
+                        emitPackageProgress(ver, PK_STATUS_ENUM_INSTALL, m_lastSubProgress);
                     }
                 } else if (starts_with(str, "Removing")) {
                     // cout << "Found Removing! " << line << endl;
@@ -1962,7 +1963,7 @@ void AptIntf::updateInterface(int fd, int writeFd)
                     const pkgCache::VerIterator &ver = findTransactionPackage(pkg);
                     if (!ver.end()) {
                         emitPackage(ver, PK_INFO_ENUM_REMOVING);
-                        emitPackageProgress(ver, m_lastSubProgress);
+                        emitPackageProgress(ver, PK_STATUS_ENUM_REMOVE, m_lastSubProgress);
                     }
                 } else if (starts_with(str, "Installed") ||
                            starts_with(str, "Removed")) {
@@ -2047,8 +2048,11 @@ PkgList AptIntf::resolvePackageIds(gchar **package_ids, PkBitfield filters)
                 // search the whole package cache and match the package
                 // name manually
                 pkgCache::PkgIterator pkg;
+                // Name can be supplied user input and may not be an actually valid id. In this
+                // case FindGrp can come back with a bad group we shouldn't process any further
+                // as results are undefined.
                 pkgCache::GrpIterator grp = (*m_cache)->FindGrp(name);
-                for (pkg = grp.PackageList(); pkg.end() == false; pkg = grp.NextPkg(pkg)) {
+                for (pkg = grp.PackageList(); grp.IsGood() && pkg.end() == false; pkg = grp.NextPkg(pkg)) {
                     if (m_cancel) {
                         break;
                     }
@@ -2459,7 +2463,7 @@ bool AptIntf::installPackages(PkBitfield flags, bool autoremove)
         // Pass the write end of the pipe to the install function
         auto *progress = new Progress::PackageManagerProgressFd(readFromChildFD[1]);
         res = PM->DoInstallPostFork(progress);
-	delete progress;
+        delete progress;
 
         // dump errors into cerr (pass it to the parent process)
         _error->DumpErrors();

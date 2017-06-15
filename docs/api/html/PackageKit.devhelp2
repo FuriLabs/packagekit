@@ -753,6 +753,7 @@
     <keyword type="constant" name="PK_STATUS_ENUM_CHECK_EXECUTABLE_FILES" link="PackageKit-pk-enum.html#PK-STATUS-ENUM-CHECK-EXECUTABLE-FILES:CAPS"/>
     <keyword type="constant" name="PK_STATUS_ENUM_CHECK_LIBRARIES" link="PackageKit-pk-enum.html#PK-STATUS-ENUM-CHECK-LIBRARIES:CAPS"/>
     <keyword type="constant" name="PK_STATUS_ENUM_COPY_FILES" link="PackageKit-pk-enum.html#PK-STATUS-ENUM-COPY-FILES:CAPS"/>
+    <keyword type="constant" name="PK_STATUS_ENUM_RUN_HOOK" link="PackageKit-pk-enum.html#PK-STATUS-ENUM-RUN-HOOK:CAPS"/>
     <keyword type="constant" name="PK_STATUS_ENUM_LAST" link="PackageKit-pk-enum.html#PK-STATUS-ENUM-LAST:CAPS"/>
     <keyword type="constant" name="PK_EXIT_ENUM_UNKNOWN" link="PackageKit-pk-enum.html#PK-EXIT-ENUM-UNKNOWN:CAPS"/>
     <keyword type="constant" name="PK_EXIT_ENUM_SUCCESS" link="PackageKit-pk-enum.html#PK-EXIT-ENUM-SUCCESS:CAPS"/>

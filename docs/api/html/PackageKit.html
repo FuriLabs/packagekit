@@ -3,7 +3,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>org.freedesktop.PackageKit: PackageKit Reference Manual</title>
-<meta name="generator" content="DocBook XSL Stylesheets V1.79.1">
+<meta name="generator" content="DocBook XSL Stylesheets Vsnapshot">
 <link rel="home" href="index.html" title="PackageKit Reference Manual">
 <link rel="up" href="api-reference.html" title="D-Bus API Reference">
 <link rel="prev" href="api-reference.html" title="D-Bus API Reference">
@@ -36,37 +36,37 @@
 </tr></table></div>
 <div class="refsynopsisdiv">
 <h2>Methods</h2>
-<pre class="synopsis"><a class="link" href="PackageKit.html#PackageKit.CanAuthorize">CanAuthorize</a>(in's'action_id,
-out'u'result)
-<a class="link" href="PackageKit.html#PackageKit.CreateTransaction">CreateTransaction</a>(out'o'object_path)
-<a class="link" href="PackageKit.html#PackageKit.GetTimeSinceAction">GetTimeSinceAction</a>(in'u'role,
-out'u'seconds)
-<a class="link" href="PackageKit.html#PackageKit.GetTransactionList">GetTransactionList</a>(out'ao'transactions)
-<a class="link" href="PackageKit.html#PackageKit.StateHasChanged">StateHasChanged</a>(in's'reason)
-<a class="link" href="PackageKit.html#PackageKit.SuggestDaemonQuit">SuggestDaemonQuit</a>()
-<a class="link" href="PackageKit.html#PackageKit.GetPackageHistory">GetPackageHistory</a>(in'as'names,
-in'u'count,
-out'a{saa{sv}}'history)
-<a class="link" href="PackageKit.html#PackageKit.GetDaemonState">GetDaemonState</a>(out's'state)
-<a class="link" href="PackageKit.html#PackageKit.SetProxy">SetProxy</a>(in's'proxy_http,
-in's'proxy_https,
-in's'proxy_ftp,
-in's'proxy_socks,
-in's'no_proxy,
-in's'pac)
-<a class="link" href="PackageKit.html#PackageKit.ClearResults">ClearResults</a>()
-<a class="link" href="PackageKit.html#PackageKit.Trigger">Trigger</a>(in's'action)
-<a class="link" href="PackageKit.html#PackageKit.TriggerUpgrade">TriggerUpgrade</a>(in's'action)
-<a class="link" href="PackageKit.html#PackageKit.Cancel">Cancel</a>()
-<a class="link" href="PackageKit.html#PackageKit.GetPrepared">GetPrepared</a>(out'as'package_ids)
+<pre class="synopsis"><a class="link" href="PackageKit.html#PackageKit.CanAuthorize">CanAuthorize</a>       (in  's'          action_id,
+                    out 'u'          result)
+<a class="link" href="PackageKit.html#PackageKit.CreateTransaction">CreateTransaction</a>  (out 'o'          object_path)
+<a class="link" href="PackageKit.html#PackageKit.GetTimeSinceAction">GetTimeSinceAction</a> (in  'u'          role,
+                    out 'u'          seconds)
+<a class="link" href="PackageKit.html#PackageKit.GetTransactionList">GetTransactionList</a> (out 'ao'         transactions)
+<a class="link" href="PackageKit.html#PackageKit.StateHasChanged">StateHasChanged</a>    (in  's'          reason)
+<a class="link" href="PackageKit.html#PackageKit.SuggestDaemonQuit">SuggestDaemonQuit</a>  ()
+<a class="link" href="PackageKit.html#PackageKit.GetPackageHistory">GetPackageHistory</a>  (in  'as'         names,
+                    in  'u'          count,
+                    out 'a{saa{sv}}' history)
+<a class="link" href="PackageKit.html#PackageKit.GetDaemonState">GetDaemonState</a>     (out 's'          state)
+<a class="link" href="PackageKit.html#PackageKit.SetProxy">SetProxy</a>           (in  's'          proxy_http,
+                    in  's'          proxy_https,
+                    in  's'          proxy_ftp,
+                    in  's'          proxy_socks,
+                    in  's'          no_proxy,
+                    in  's'          pac)
+<a class="link" href="PackageKit.html#PackageKit.ClearResults">ClearResults</a>       ()
+<a class="link" href="PackageKit.html#PackageKit.Trigger">Trigger</a>            (in  's'          action)
+<a class="link" href="PackageKit.html#PackageKit.TriggerUpgrade">TriggerUpgrade</a>     (in  's'          action)
+<a class="link" href="PackageKit.html#PackageKit.Cancel">Cancel</a>             ()
+<a class="link" href="PackageKit.html#PackageKit.GetPrepared">GetPrepared</a>        (out 'as'         package_ids)
 </pre>
 </div>
 <div class="refsect1">
 <a name="id-1.3.3.4"></a><h2>Signals</h2>
-<pre class="synopsis"><a class="link" href="PackageKit.html#PackageKit::TransactionListChanged">TransactionListChanged</a>('as'transactions)
-<a class="link" href="PackageKit.html#PackageKit::RestartSchedule">RestartSchedule</a>()
-<a class="link" href="PackageKit.html#PackageKit::RepoListChanged">RepoListChanged</a>()
-<a class="link" href="PackageKit.html#PackageKit::UpdatesChanged">UpdatesChanged</a>()
+<pre class="synopsis"><a class="link" href="PackageKit.html#PackageKit::TransactionListChanged">TransactionListChanged</a> ('as' transactions)
+<a class="link" href="PackageKit.html#PackageKit::RestartSchedule">RestartSchedule</a>        ()
+<a class="link" href="PackageKit.html#PackageKit::RepoListChanged">RepoListChanged</a>        ()
+<a class="link" href="PackageKit.html#PackageKit::UpdatesChanged">UpdatesChanged</a>         ()
 </pre>
 </div>
 <div class="refsect1">
@@ -78,25 +78,25 @@ in's'pac)
 </div>
 <div class="refsect1">
 <a name="id-1.3.3.6"></a><h2>Properties</h2>
-<pre class="synopsis"><a class="link" href="PackageKit.html#PackageKit:VersionMajor">'VersionMajor'</a>read'u'
-<a class="link" href="PackageKit.html#PackageKit:VersionMinor">'VersionMinor'</a>read'u'
-<a class="link" href="PackageKit.html#PackageKit:VersionMicro">'VersionMicro'</a>read'u'
-<a class="link" href="PackageKit.html#PackageKit:BackendName">'BackendName'</a>read's'
-<a class="link" href="PackageKit.html#PackageKit:BackendDescription">'BackendDescription'</a>read's'
-<a class="link" href="PackageKit.html#PackageKit:BackendAuthor">'BackendAuthor'</a>read's'
-<a class="link" href="PackageKit.html#PackageKit:Roles">'Roles'</a>read't'
-<a class="link" href="PackageKit.html#PackageKit:Groups">'Groups'</a>read't'
-<a class="link" href="PackageKit.html#PackageKit:Filters">'Filters'</a>read't'
-<a class="link" href="PackageKit.html#PackageKit:MimeTypes">'MimeTypes'</a>read'as'
-<a class="link" href="PackageKit.html#PackageKit:Locked">'Locked'</a>read'b'
-<a class="link" href="PackageKit.html#PackageKit:NetworkState">'NetworkState'</a>read'u'
-<a class="link" href="PackageKit.html#PackageKit:DistroId">'DistroId'</a>read's'
-<a class="link" href="PackageKit.html#PackageKit:UpdatePrepared">'UpdatePrepared'</a>read'b'
-<a class="link" href="PackageKit.html#PackageKit:UpdateTriggered">'UpdateTriggered'</a>read'b'
-<a class="link" href="PackageKit.html#PackageKit:UpgradePrepared">'UpgradePrepared'</a>read'b'
-<a class="link" href="PackageKit.html#PackageKit:UpgradeTriggered">'UpgradeTriggered'</a>read'b'
-<a class="link" href="PackageKit.html#PackageKit:PreparedUpgrade">'PreparedUpgrade'</a>read'a{sv}'
-<a class="link" href="PackageKit.html#PackageKit:TriggerAction">'TriggerAction'</a>read's'
+<pre class="synopsis"><a class="link" href="PackageKit.html#PackageKit:VersionMajor">'VersionMajor'</a>       read      'u'
+<a class="link" href="PackageKit.html#PackageKit:VersionMinor">'VersionMinor'</a>       read      'u'
+<a class="link" href="PackageKit.html#PackageKit:VersionMicro">'VersionMicro'</a>       read      'u'
+<a class="link" href="PackageKit.html#PackageKit:BackendName">'BackendName'</a>        read      's'
+<a class="link" href="PackageKit.html#PackageKit:BackendDescription">'BackendDescription'</a> read      's'
+<a class="link" href="PackageKit.html#PackageKit:BackendAuthor">'BackendAuthor'</a>      read      's'
+<a class="link" href="PackageKit.html#PackageKit:Roles">'Roles'</a>              read      't'
+<a class="link" href="PackageKit.html#PackageKit:Groups">'Groups'</a>             read      't'
+<a class="link" href="PackageKit.html#PackageKit:Filters">'Filters'</a>            read      't'
+<a class="link" href="PackageKit.html#PackageKit:MimeTypes">'MimeTypes'</a>          read      'as'
+<a class="link" href="PackageKit.html#PackageKit:Locked">'Locked'</a>             read      'b'
+<a class="link" href="PackageKit.html#PackageKit:NetworkState">'NetworkState'</a>       read      'u'
+<a class="link" href="PackageKit.html#PackageKit:DistroId">'DistroId'</a>           read      's'
+<a class="link" href="PackageKit.html#PackageKit:UpdatePrepared">'UpdatePrepared'</a>     read      'b'
+<a class="link" href="PackageKit.html#PackageKit:UpdateTriggered">'UpdateTriggered'</a>    read      'b'
+<a class="link" href="PackageKit.html#PackageKit:UpgradePrepared">'UpgradePrepared'</a>    read      'b'
+<a class="link" href="PackageKit.html#PackageKit:UpgradeTriggered">'UpgradeTriggered'</a>   read      'b'
+<a class="link" href="PackageKit.html#PackageKit:PreparedUpgrade">'PreparedUpgrade'</a>    read      'a{sv}'
+<a class="link" href="PackageKit.html#PackageKit:TriggerAction">'TriggerAction'</a>      read      's'
 </pre>
 </div>
 <div class="refsect1">
@@ -124,8 +124,8 @@ in's'pac)
 <div class="refsect2">
 <a name="id-1.3.3.8.2"></a><h3>
 <a name="PackageKit.CanAuthorize"></a>CanAuthorize ()</h3>
-<pre class="programlisting">CanAuthorize (in's'action_id,
-out'u'result)</pre>
+<pre class="programlisting">CanAuthorize (in  's' action_id,
+              out 'u' result)</pre>
 </div>
 <p>
             Allows a client to find out if it would be allowed to authorize an action.
@@ -158,7 +158,7 @@ out'u'result)</pre>
 <div class="refsect2">
 <a name="id-1.3.3.8.5"></a><h3>
 <a name="PackageKit.CreateTransaction"></a>CreateTransaction ()</h3>
-<pre class="programlisting">CreateTransaction (out'o'object_path)</pre>
+<pre class="programlisting">CreateTransaction (out 'o' object_path)</pre>
 </div>
 <p>
             Creates a new transaction that can have operations done on
@@ -184,8 +184,8 @@ out'u'result)</pre>
 <div class="refsect2">
 <a name="id-1.3.3.8.8"></a><h3>
 <a name="PackageKit.GetTimeSinceAction"></a>GetTimeSinceAction ()</h3>
-<pre class="programlisting">GetTimeSinceAction (in'u'role,
-out'u'seconds)</pre>
+<pre class="programlisting">GetTimeSinceAction (in  'u' role,
+                    out 'u' seconds)</pre>
 </div>
 <p>
             This method allows us to query how long since an action has successfully completed.
@@ -218,7 +218,7 @@ out'u'seconds)</pre>
 <div class="refsect2">
 <a name="id-1.3.3.8.11"></a><h3>
 <a name="PackageKit.GetTransactionList"></a>GetTransactionList ()</h3>
-<pre class="programlisting">GetTransactionList (out'ao'transactions)</pre>
+<pre class="programlisting">GetTransactionList (out 'ao' transactions)</pre>
 </div>
 <p>
             Gets the transaction list of any transactions that are in progress
@@ -241,7 +241,7 @@ out'u'seconds)</pre>
 <div class="refsect2">
 <a name="id-1.3.3.8.14"></a><h3>
 <a name="PackageKit.StateHasChanged"></a>StateHasChanged ()</h3>
-<pre class="programlisting">StateHasChanged (in's'reason)</pre>
+<pre class="programlisting">StateHasChanged (in  's' reason)</pre>
 </div>
 <p>
             This method suggests to PackageKit that the package backend state may have changed.
@@ -285,9 +285,9 @@ out'u'seconds)</pre>
 <div class="refsect2">
 <a name="id-1.3.3.8.20"></a><h3>
 <a name="PackageKit.GetPackageHistory"></a>GetPackageHistory ()</h3>
-<pre class="programlisting">GetPackageHistory (in'as'names,
-in'u'count,
-out'a{saa{sv}}'history)</pre>
+<pre class="programlisting">GetPackageHistory (in  'as'         names,
+                   in  'u'          count,
+                   out 'a{saa{sv}}' history)</pre>
 </div>
 <p>
             Gets the history for a given package name.
@@ -338,7 +338,7 @@ out'a{saa{sv}}'history)</pre>
 <div class="refsect2">
 <a name="id-1.3.3.8.23"></a><h3>
 <a name="PackageKit.GetDaemonState"></a>GetDaemonState ()</h3>
-<pre class="programlisting">GetDaemonState (out's'state)</pre>
+<pre class="programlisting">GetDaemonState (out 's' state)</pre>
 </div>
 <p>
             Gets the debugging state from the daemon.
@@ -362,12 +362,12 @@ out'a{saa{sv}}'history)</pre>
 <div class="refsect2">
 <a name="id-1.3.3.8.26"></a><h3>
 <a name="PackageKit.SetProxy"></a>SetProxy ()</h3>
-<pre class="programlisting">SetProxy (in's'proxy_http,
-in's'proxy_https,
-in's'proxy_ftp,
-in's'proxy_socks,
-in's'no_proxy,
-in's'pac)</pre>
+<pre class="programlisting">SetProxy (in  's' proxy_http,
+          in  's' proxy_https,
+          in  's' proxy_ftp,
+          in  's' proxy_socks,
+          in  's' no_proxy,
+          in  's' pac)</pre>
 </div>
 <p>
             Sets the proxy used by the dameon.
@@ -452,7 +452,7 @@ in's'pac)</pre>
 <div class="refsect2">
 <a name="id-1.3.3.8.33"></a><h3>
 <a name="PackageKit.Trigger"></a>Trigger ()</h3>
-<pre class="programlisting">Trigger (in's'action)</pre>
+<pre class="programlisting">Trigger (in  's' action)</pre>
 </div>
 <p>
             Triggers the offline update for next boot.
@@ -476,7 +476,7 @@ in's'pac)</pre>
 <div class="refsect2">
 <a name="id-1.3.3.8.36"></a><h3>
 <a name="PackageKit.TriggerUpgrade"></a>TriggerUpgrade ()</h3>
-<pre class="programlisting">TriggerUpgrade (in's'action)</pre>
+<pre class="programlisting">TriggerUpgrade (in  's' action)</pre>
 </div>
 <p>
             Triggers the offline system upgrade for next boot.
@@ -516,7 +516,7 @@ in's'pac)</pre>
 <div class="refsect2">
 <a name="id-1.3.3.8.42"></a><h3>
 <a name="PackageKit.GetPrepared"></a>GetPrepared ()</h3>
-<pre class="programlisting">GetPrepared (out'as'package_ids)</pre>
+<pre class="programlisting">GetPrepared (out 'as' package_ids)</pre>
 </div>
 <p>
             Returns the list of prepared updates.
@@ -541,7 +541,7 @@ in's'pac)</pre>
 <div class="refsect2">
 <a name="id-1.3.3.9.2"></a><h3>
 <a name="PackageKit::TransactionListChanged"></a>The TransactionListChanged signal</h3>
-<pre class="programlisting">TransactionListChanged ('as'transactions)</pre>
+<pre class="programlisting">TransactionListChanged ('as' transactions)</pre>
 </div>
 <p>
             The transaction list has changed, because either a transaction has finished or a new
@@ -615,7 +615,7 @@ in's'pac)</pre>
 <div class="refsect2">
 <a name="id-1.3.3.10.2"></a><h3>
 <a name="PackageKit:VersionMajor"></a>The "VersionMajor" property</h3>
-<pre class="programlisting">'VersionMajor'read'u'
+<pre class="programlisting">'VersionMajor'  read      'u'
 </pre>
 </div>
 <p>
@@ -632,7 +632,7 @@ in's'pac)</pre>
 <div class="refsect2">
 <a name="id-1.3.3.10.5"></a><h3>
 <a name="PackageKit:VersionMinor"></a>The "VersionMinor" property</h3>
-<pre class="programlisting">'VersionMinor'read'u'
+<pre class="programlisting">'VersionMinor'  read      'u'
 </pre>
 </div>
 <p>
@@ -649,7 +649,7 @@ in's'pac)</pre>
 <div class="refsect2">
 <a name="id-1.3.3.10.8"></a><h3>
 <a name="PackageKit:VersionMicro"></a>The "VersionMicro" property</h3>
-<pre class="programlisting">'VersionMicro'read'u'
+<pre class="programlisting">'VersionMicro'  read      'u'
 </pre>
 </div>
 <p>
@@ -666,7 +666,7 @@ in's'pac)</pre>
 <div class="refsect2">
 <a name="id-1.3.3.10.11"></a><h3>
 <a name="PackageKit:BackendName"></a>The "BackendName" property</h3>
-<pre class="programlisting">'BackendName'read's'
+<pre class="programlisting">'BackendName'  read      's'
 </pre>
 </div>
 <p>
@@ -683,7 +683,7 @@ in's'pac)</pre>
 <div class="refsect2">
 <a name="id-1.3.3.10.14"></a><h3>
 <a name="PackageKit:BackendDescription"></a>The "BackendDescription" property</h3>
-<pre class="programlisting">'BackendDescription'read's'
+<pre class="programlisting">'BackendDescription'  read      's'
 </pre>
 </div>
 <p>
@@ -700,7 +700,7 @@ in's'pac)</pre>
 <div class="refsect2">
 <a name="id-1.3.3.10.17"></a><h3>
 <a name="PackageKit:BackendAuthor"></a>The "BackendAuthor" property</h3>
-<pre class="programlisting">'BackendAuthor'read's'
+<pre class="programlisting">'BackendAuthor'  read      's'
 </pre>
 </div>
 <p>
@@ -717,7 +717,7 @@ in's'pac)</pre>
 <div class="refsect2">
 <a name="id-1.3.3.10.20"></a><h3>
 <a name="PackageKit:Roles"></a>The "Roles" property</h3>
-<pre class="programlisting">'Roles'read't'
+<pre class="programlisting">'Roles'  read      't'
 </pre>
 </div>
 <p>
@@ -734,7 +734,7 @@ in's'pac)</pre>
 <div class="refsect2">
 <a name="id-1.3.3.10.23"></a><h3>
 <a name="PackageKit:Groups"></a>The "Groups" property</h3>
-<pre class="programlisting">'Groups'read't'
+<pre class="programlisting">'Groups'  read      't'
 </pre>
 </div>
 <p>
@@ -751,7 +751,7 @@ in's'pac)</pre>
 <div class="refsect2">
 <a name="id-1.3.3.10.26"></a><h3>
 <a name="PackageKit:Filters"></a>The "Filters" property</h3>
-<pre class="programlisting">'Filters'read't'
+<pre class="programlisting">'Filters'  read      't'
 </pre>
 </div>
 <p>
@@ -768,7 +768,7 @@ in's'pac)</pre>
 <div class="refsect2">
 <a name="id-1.3.3.10.29"></a><h3>
 <a name="PackageKit:MimeTypes"></a>The "MimeTypes" property</h3>
-<pre class="programlisting">'MimeTypes'read'as'
+<pre class="programlisting">'MimeTypes'  read      'as'
 </pre>
 </div>
 <p>
@@ -786,7 +786,7 @@ in's'pac)</pre>
 <div class="refsect2">
 <a name="id-1.3.3.10.32"></a><h3>
 <a name="PackageKit:Locked"></a>The "Locked" property</h3>
-<pre class="programlisting">'Locked'read'b'
+<pre class="programlisting">'Locked'  read      'b'
 </pre>
 </div>
 <p>
@@ -803,7 +803,7 @@ in's'pac)</pre>
 <div class="refsect2">
 <a name="id-1.3.3.10.35"></a><h3>
 <a name="PackageKit:NetworkState"></a>The "NetworkState" property</h3>
-<pre class="programlisting">'NetworkState'read'u'
+<pre class="programlisting">'NetworkState'  read      'u'
 </pre>
 </div>
 <p>
@@ -830,7 +830,7 @@ in's'pac)</pre>
 <div class="refsect2">
 <a name="id-1.3.3.10.39"></a><h3>
 <a name="PackageKit:DistroId"></a>The "DistroId" property</h3>
-<pre class="programlisting">'DistroId'read's'
+<pre class="programlisting">'DistroId'  read      's'
 </pre>
 </div>
 <p>
@@ -849,7 +849,7 @@ in's'pac)</pre>
 <div class="refsect2">
 <a name="id-1.3.3.10.42"></a><h3>
 <a name="PackageKit:UpdatePrepared"></a>The "UpdatePrepared" property</h3>
-<pre class="programlisting">'UpdatePrepared'read'b'
+<pre class="programlisting">'UpdatePrepared'  read      'b'
 </pre>
 </div>
 <p>
@@ -866,7 +866,7 @@ in's'pac)</pre>
 <div class="refsect2">
 <a name="id-1.3.3.10.45"></a><h3>
 <a name="PackageKit:UpdateTriggered"></a>The "UpdateTriggered" property</h3>
-<pre class="programlisting">'UpdateTriggered'read'b'
+<pre class="programlisting">'UpdateTriggered'  read      'b'
 </pre>
 </div>
 <p>
@@ -883,7 +883,7 @@ in's'pac)</pre>
 <div class="refsect2">
 <a name="id-1.3.3.10.48"></a><h3>
 <a name="PackageKit:UpgradePrepared"></a>The "UpgradePrepared" property</h3>
-<pre class="programlisting">'UpgradePrepared'read'b'
+<pre class="programlisting">'UpgradePrepared'  read      'b'
 </pre>
 </div>
 <p>
@@ -900,7 +900,7 @@ in's'pac)</pre>
 <div class="refsect2">
 <a name="id-1.3.3.10.51"></a><h3>
 <a name="PackageKit:UpgradeTriggered"></a>The "UpgradeTriggered" property</h3>
-<pre class="programlisting">'UpgradeTriggered'read'b'
+<pre class="programlisting">'UpgradeTriggered'  read      'b'
 </pre>
 </div>
 <p>
@@ -917,7 +917,7 @@ in's'pac)</pre>
 <div class="refsect2">
 <a name="id-1.3.3.10.54"></a><h3>
 <a name="PackageKit:PreparedUpgrade"></a>The "PreparedUpgrade" property</h3>
-<pre class="programlisting">'PreparedUpgrade'read'a{sv}'
+<pre class="programlisting">'PreparedUpgrade'  read      'a{sv}'
 </pre>
 </div>
 <p>
@@ -935,7 +935,7 @@ in's'pac)</pre>
 <div class="refsect2">
 <a name="id-1.3.3.10.57"></a><h3>
 <a name="PackageKit:TriggerAction"></a>The "TriggerAction" property</h3>
-<pre class="programlisting">'TriggerAction'read's'
+<pre class="programlisting">'TriggerAction'  read      's'
 </pre>
 </div>
 <p>
