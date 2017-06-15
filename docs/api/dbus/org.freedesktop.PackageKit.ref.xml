@@ -9,37 +9,37 @@
   </refnamediv>
   <refsynopsisdiv role="synopsis">
     <title role="synopsis.title">Methods</title>
-    <synopsis><link linkend="PackageKit.CanAuthorize">CanAuthorize</link>(in's'action_id,
-out'u'result)
-<link linkend="PackageKit.CreateTransaction">CreateTransaction</link>(out'o'object_path)
-<link linkend="PackageKit.GetTimeSinceAction">GetTimeSinceAction</link>(in'u'role,
-out'u'seconds)
-<link linkend="PackageKit.GetTransactionList">GetTransactionList</link>(out'ao'transactions)
-<link linkend="PackageKit.StateHasChanged">StateHasChanged</link>(in's'reason)
-<link linkend="PackageKit.SuggestDaemonQuit">SuggestDaemonQuit</link>()
-<link linkend="PackageKit.GetPackageHistory">GetPackageHistory</link>(in'as'names,
-in'u'count,
-out'a{saa{sv}}'history)
-<link linkend="PackageKit.GetDaemonState">GetDaemonState</link>(out's'state)
-<link linkend="PackageKit.SetProxy">SetProxy</link>(in's'proxy_http,
-in's'proxy_https,
-in's'proxy_ftp,
-in's'proxy_socks,
-in's'no_proxy,
-in's'pac)
-<link linkend="PackageKit.ClearResults">ClearResults</link>()
-<link linkend="PackageKit.Trigger">Trigger</link>(in's'action)
-<link linkend="PackageKit.TriggerUpgrade">TriggerUpgrade</link>(in's'action)
-<link linkend="PackageKit.Cancel">Cancel</link>()
-<link linkend="PackageKit.GetPrepared">GetPrepared</link>(out'as'package_ids)
+    <synopsis><link linkend="PackageKit.CanAuthorize">CanAuthorize</link>       (in  's'          action_id,
+                    out 'u'          result)
+<link linkend="PackageKit.CreateTransaction">CreateTransaction</link>  (out 'o'          object_path)
+<link linkend="PackageKit.GetTimeSinceAction">GetTimeSinceAction</link> (in  'u'          role,
+                    out 'u'          seconds)
+<link linkend="PackageKit.GetTransactionList">GetTransactionList</link> (out 'ao'         transactions)
+<link linkend="PackageKit.StateHasChanged">StateHasChanged</link>    (in  's'          reason)
+<link linkend="PackageKit.SuggestDaemonQuit">SuggestDaemonQuit</link>  ()
+<link linkend="PackageKit.GetPackageHistory">GetPackageHistory</link>  (in  'as'         names,
+                    in  'u'          count,
+                    out 'a{saa{sv}}' history)
+<link linkend="PackageKit.GetDaemonState">GetDaemonState</link>     (out 's'          state)
+<link linkend="PackageKit.SetProxy">SetProxy</link>           (in  's'          proxy_http,
+                    in  's'          proxy_https,
+                    in  's'          proxy_ftp,
+                    in  's'          proxy_socks,
+                    in  's'          no_proxy,
+                    in  's'          pac)
+<link linkend="PackageKit.ClearResults">ClearResults</link>       ()
+<link linkend="PackageKit.Trigger">Trigger</link>            (in  's'          action)
+<link linkend="PackageKit.TriggerUpgrade">TriggerUpgrade</link>     (in  's'          action)
+<link linkend="PackageKit.Cancel">Cancel</link>             ()
+<link linkend="PackageKit.GetPrepared">GetPrepared</link>        (out 'as'         package_ids)
 </synopsis>
   </refsynopsisdiv>
   <refsect1 role="signal_proto">
     <title role="signal_proto.title">Signals</title>
-    <synopsis><link linkend="PackageKit::TransactionListChanged">TransactionListChanged</link>('as'transactions)
-<link linkend="PackageKit::RestartSchedule">RestartSchedule</link>()
-<link linkend="PackageKit::RepoListChanged">RepoListChanged</link>()
-<link linkend="PackageKit::UpdatesChanged">UpdatesChanged</link>()
+    <synopsis><link linkend="PackageKit::TransactionListChanged">TransactionListChanged</link> ('as' transactions)
+<link linkend="PackageKit::RestartSchedule">RestartSchedule</link>        ()
+<link linkend="PackageKit::RepoListChanged">RepoListChanged</link>        ()
+<link linkend="PackageKit::UpdatesChanged">UpdatesChanged</link>         ()
 </synopsis>
   </refsect1>
   <refsect1 role="impl_interfaces">
@@ -51,25 +51,25 @@ in's'pac)
   </refsect1>
   <refsect1 role="properties">
     <title role="properties.title">Properties</title>
-    <synopsis><link linkend="PackageKit:VersionMajor">'VersionMajor'</link>read'u'
-<link linkend="PackageKit:VersionMinor">'VersionMinor'</link>read'u'
-<link linkend="PackageKit:VersionMicro">'VersionMicro'</link>read'u'
-<link linkend="PackageKit:BackendName">'BackendName'</link>read's'
-<link linkend="PackageKit:BackendDescription">'BackendDescription'</link>read's'
-<link linkend="PackageKit:BackendAuthor">'BackendAuthor'</link>read's'
-<link linkend="PackageKit:Roles">'Roles'</link>read't'
-<link linkend="PackageKit:Groups">'Groups'</link>read't'
-<link linkend="PackageKit:Filters">'Filters'</link>read't'
-<link linkend="PackageKit:MimeTypes">'MimeTypes'</link>read'as'
-<link linkend="PackageKit:Locked">'Locked'</link>read'b'
-<link linkend="PackageKit:NetworkState">'NetworkState'</link>read'u'
-<link linkend="PackageKit:DistroId">'DistroId'</link>read's'
-<link linkend="PackageKit:UpdatePrepared">'UpdatePrepared'</link>read'b'
-<link linkend="PackageKit:UpdateTriggered">'UpdateTriggered'</link>read'b'
-<link linkend="PackageKit:UpgradePrepared">'UpgradePrepared'</link>read'b'
-<link linkend="PackageKit:UpgradeTriggered">'UpgradeTriggered'</link>read'b'
-<link linkend="PackageKit:PreparedUpgrade">'PreparedUpgrade'</link>read'a{sv}'
-<link linkend="PackageKit:TriggerAction">'TriggerAction'</link>read's'
+    <synopsis><link linkend="PackageKit:VersionMajor">'VersionMajor'</link>       read      'u'
+<link linkend="PackageKit:VersionMinor">'VersionMinor'</link>       read      'u'
+<link linkend="PackageKit:VersionMicro">'VersionMicro'</link>       read      'u'
+<link linkend="PackageKit:BackendName">'BackendName'</link>        read      's'
+<link linkend="PackageKit:BackendDescription">'BackendDescription'</link> read      's'
+<link linkend="PackageKit:BackendAuthor">'BackendAuthor'</link>      read      's'
+<link linkend="PackageKit:Roles">'Roles'</link>              read      't'
+<link linkend="PackageKit:Groups">'Groups'</link>             read      't'
+<link linkend="PackageKit:Filters">'Filters'</link>            read      't'
+<link linkend="PackageKit:MimeTypes">'MimeTypes'</link>          read      'as'
+<link linkend="PackageKit:Locked">'Locked'</link>             read      'b'
+<link linkend="PackageKit:NetworkState">'NetworkState'</link>       read      'u'
+<link linkend="PackageKit:DistroId">'DistroId'</link>           read      's'
+<link linkend="PackageKit:UpdatePrepared">'UpdatePrepared'</link>     read      'b'
+<link linkend="PackageKit:UpdateTriggered">'UpdateTriggered'</link>    read      'b'
+<link linkend="PackageKit:UpgradePrepared">'UpgradePrepared'</link>    read      'b'
+<link linkend="PackageKit:UpgradeTriggered">'UpgradeTriggered'</link>   read      'b'
+<link linkend="PackageKit:PreparedUpgrade">'PreparedUpgrade'</link>    read      'a{sv}'
+<link linkend="PackageKit:TriggerAction">'TriggerAction'</link>      read      's'
 </synopsis>
   </refsect1>
   <refsect1 role="desc">
@@ -88,8 +88,8 @@ in's'pac)
       
     </para>
   </refsect1>
-  <refsect1 role="details"><title role="details.title">Details</title><refsect2><title><anchor role="function" id="PackageKit.CanAuthorize"/>CanAuthorize ()</title><indexterm><primary>CanAuthorize</primary><secondary>PackageKit</secondary></indexterm><programlisting>CanAuthorize (in's'action_id,
-out'u'result)</programlisting></refsect2>
+  <refsect1 role="details"><title role="details.title">Details</title><refsect2><title><anchor role="function" id="PackageKit.CanAuthorize"/>CanAuthorize ()</title><indexterm><primary>CanAuthorize</primary><secondary>PackageKit</secondary></indexterm><programlisting>CanAuthorize (in  's' action_id,
+              out 'u' result)</programlisting></refsect2>
           <para>
             Allows a client to find out if it would be allowed to authorize an action.
           </para>
@@ -101,7 +101,7 @@ out'u'result)</programlisting></refsect2>
             
               The result, either yes, no or interactive.
             
-          </simpara></listitem></varlistentry></variablelist><refsect2><title><anchor role="function" id="PackageKit.CreateTransaction"/>CreateTransaction ()</title><indexterm><primary>CreateTransaction</primary><secondary>PackageKit</secondary></indexterm><programlisting>CreateTransaction (out'o'object_path)</programlisting></refsect2>
+          </simpara></listitem></varlistentry></variablelist><refsect2><title><anchor role="function" id="PackageKit.CreateTransaction"/>CreateTransaction ()</title><indexterm><primary>CreateTransaction</primary><secondary>PackageKit</secondary></indexterm><programlisting>CreateTransaction (out 'o' object_path)</programlisting></refsect2>
           <para>
             Creates a new transaction that can have operations done on
             it.
@@ -112,8 +112,8 @@ out'u'result)</programlisting></refsect2>
             
               The object_path, e.g. /45_dafeca
             
-          </simpara></listitem></varlistentry></variablelist><refsect2><title><anchor role="function" id="PackageKit.GetTimeSinceAction"/>GetTimeSinceAction ()</title><indexterm><primary>GetTimeSinceAction</primary><secondary>PackageKit</secondary></indexterm><programlisting>GetTimeSinceAction (in'u'role,
-out'u'seconds)</programlisting></refsect2>
+          </simpara></listitem></varlistentry></variablelist><refsect2><title><anchor role="function" id="PackageKit.GetTimeSinceAction"/>GetTimeSinceAction ()</title><indexterm><primary>GetTimeSinceAction</primary><secondary>PackageKit</secondary></indexterm><programlisting>GetTimeSinceAction (in  'u' role,
+                    out 'u' seconds)</programlisting></refsect2>
           <para>
             This method allows us to query how long since an action has successfully completed.
           </para>
@@ -125,7 +125,7 @@ out'u'seconds)</programlisting></refsect2>
             
               The amount of time in seconds
             
-          </simpara></listitem></varlistentry></variablelist><refsect2><title><anchor role="function" id="PackageKit.GetTransactionList"/>GetTransactionList ()</title><indexterm><primary>GetTransactionList</primary><secondary>PackageKit</secondary></indexterm><programlisting>GetTransactionList (out'ao'transactions)</programlisting></refsect2>
+          </simpara></listitem></varlistentry></variablelist><refsect2><title><anchor role="function" id="PackageKit.GetTransactionList"/>GetTransactionList ()</title><indexterm><primary>GetTransactionList</primary><secondary>PackageKit</secondary></indexterm><programlisting>GetTransactionList (out 'ao' transactions)</programlisting></refsect2>
           <para>
             Gets the transaction list of any transactions that are in progress
           </para>
@@ -133,7 +133,7 @@ out'u'seconds)</programlisting></refsect2>
             
               A list of transaction ID's
             
-          </simpara></listitem></varlistentry></variablelist><refsect2><title><anchor role="function" id="PackageKit.StateHasChanged"/>StateHasChanged ()</title><indexterm><primary>StateHasChanged</primary><secondary>PackageKit</secondary></indexterm><programlisting>StateHasChanged (in's'reason)</programlisting></refsect2>
+          </simpara></listitem></varlistentry></variablelist><refsect2><title><anchor role="function" id="PackageKit.StateHasChanged"/>StateHasChanged ()</title><indexterm><primary>StateHasChanged</primary><secondary>PackageKit</secondary></indexterm><programlisting>StateHasChanged (in  's' reason)</programlisting></refsect2>
           <para>
             This method suggests to PackageKit that the package backend state may have changed.
             This allows plugins to the native package manager to suggest that PackageKit drops
@@ -150,9 +150,9 @@ out'u'seconds)</programlisting></refsect2>
             Suggests to the daemon that it should quit as soon as possible, for instance if a native
             package management tool is waiting to be used.
           </para>
-        <variablelist role="params"/><refsect2><title><anchor role="function" id="PackageKit.GetPackageHistory"/>GetPackageHistory ()</title><indexterm><primary>GetPackageHistory</primary><secondary>PackageKit</secondary></indexterm><programlisting>GetPackageHistory (in'as'names,
-in'u'count,
-out'a{saa{sv}}'history)</programlisting></refsect2>
+        <variablelist role="params"/><refsect2><title><anchor role="function" id="PackageKit.GetPackageHistory"/>GetPackageHistory ()</title><indexterm><primary>GetPackageHistory</primary><secondary>PackageKit</secondary></indexterm><programlisting>GetPackageHistory (in  'as'         names,
+                   in  'u'          count,
+                   out 'a{saa{sv}}' history)</programlisting></refsect2>
           <para>
             Gets the history for a given package name.
             This uses the internal PackageKit history database and will not
@@ -178,7 +178,7 @@ out'a{saa{sv}}'history)</programlisting></refsect2>
               timestamp[uint64].
               Other keys and values may be added in the future.
             
-          </simpara></listitem></varlistentry></variablelist><refsect2><title><anchor role="function" id="PackageKit.GetDaemonState"/>GetDaemonState ()</title><indexterm><primary>GetDaemonState</primary><secondary>PackageKit</secondary></indexterm><programlisting>GetDaemonState (out's'state)</programlisting></refsect2>
+          </simpara></listitem></varlistentry></variablelist><refsect2><title><anchor role="function" id="PackageKit.GetDaemonState"/>GetDaemonState ()</title><indexterm><primary>GetDaemonState</primary><secondary>PackageKit</secondary></indexterm><programlisting>GetDaemonState (out 's' state)</programlisting></refsect2>
           <para>
             Gets the debugging state from the daemon.
             No secure state will be shown, and all information is for reference only.
@@ -187,12 +187,12 @@ out'a{saa{sv}}'history)</programlisting></refsect2>
             
               The state of the dameon at this specific moment.
             
-          </simpara></listitem></varlistentry></variablelist><refsect2><title><anchor role="function" id="PackageKit.SetProxy"/>SetProxy ()</title><indexterm><primary>SetProxy</primary><secondary>PackageKit</secondary></indexterm><programlisting>SetProxy (in's'proxy_http,
-in's'proxy_https,
-in's'proxy_ftp,
-in's'proxy_socks,
-in's'no_proxy,
-in's'pac)</programlisting></refsect2>
+          </simpara></listitem></varlistentry></variablelist><refsect2><title><anchor role="function" id="PackageKit.SetProxy"/>SetProxy ()</title><indexterm><primary>SetProxy</primary><secondary>PackageKit</secondary></indexterm><programlisting>SetProxy (in  's' proxy_http,
+          in  's' proxy_https,
+          in  's' proxy_ftp,
+          in  's' proxy_socks,
+          in  's' no_proxy,
+          in  's' pac)</programlisting></refsect2>
           <para>
             Sets the proxy used by the dameon.
           </para>
@@ -227,7 +227,7 @@ in's'pac)</programlisting></refsect2>
           <para>
             Clears the offline update results store.
           </para>
-        <variablelist role="params"/><refsect2><title><anchor role="function" id="PackageKit.Trigger"/>Trigger ()</title><indexterm><primary>Trigger</primary><secondary>PackageKit</secondary></indexterm><programlisting>Trigger (in's'action)</programlisting></refsect2>
+        <variablelist role="params"/><refsect2><title><anchor role="function" id="PackageKit.Trigger"/>Trigger ()</title><indexterm><primary>Trigger</primary><secondary>PackageKit</secondary></indexterm><programlisting>Trigger (in  's' action)</programlisting></refsect2>
           <para>
             Triggers the offline update for next boot.
           </para>
@@ -236,7 +236,7 @@ in's'pac)</programlisting></refsect2>
               The action to take when finished applying updates, known values
               are power-off and reboot.
             
-          </simpara></listitem></varlistentry></variablelist><refsect2><title><anchor role="function" id="PackageKit.TriggerUpgrade"/>TriggerUpgrade ()</title><indexterm><primary>TriggerUpgrade</primary><secondary>PackageKit</secondary></indexterm><programlisting>TriggerUpgrade (in's'action)</programlisting></refsect2>
+          </simpara></listitem></varlistentry></variablelist><refsect2><title><anchor role="function" id="PackageKit.TriggerUpgrade"/>TriggerUpgrade ()</title><indexterm><primary>TriggerUpgrade</primary><secondary>PackageKit</secondary></indexterm><programlisting>TriggerUpgrade (in  's' action)</programlisting></refsect2>
           <para>
             Triggers the offline system upgrade for next boot.
           </para>
@@ -249,7 +249,7 @@ in's'pac)</programlisting></refsect2>
           <para>
             Cancels the offline update so the next boot procceeds as normal.
           </para>
-        <variablelist role="params"/><refsect2><title><anchor role="function" id="PackageKit.GetPrepared"/>GetPrepared ()</title><indexterm><primary>GetPrepared</primary><secondary>PackageKit</secondary></indexterm><programlisting>GetPrepared (out'as'package_ids)</programlisting></refsect2>
+        <variablelist role="params"/><refsect2><title><anchor role="function" id="PackageKit.GetPrepared"/>GetPrepared ()</title><indexterm><primary>GetPrepared</primary><secondary>PackageKit</secondary></indexterm><programlisting>GetPrepared (out 'as' package_ids)</programlisting></refsect2>
           <para>
             Returns the list of prepared updates.
           </para>
@@ -258,7 +258,7 @@ in's'pac)</programlisting></refsect2>
               An array of package IDs.
             
           </simpara></listitem></varlistentry></variablelist></refsect1>
-  <refsect1 role="signals"><title role="signals.title">Signal Details</title><refsect2><title><anchor role="function" id="PackageKit::TransactionListChanged"/>The TransactionListChanged signal</title><indexterm><primary>TransactionListChanged</primary><secondary>PackageKit</secondary></indexterm><programlisting>TransactionListChanged ('as'transactions)</programlisting></refsect2>
+  <refsect1 role="signals"><title role="signals.title">Signal Details</title><refsect2><title><anchor role="function" id="PackageKit::TransactionListChanged"/>The TransactionListChanged signal</title><indexterm><primary>TransactionListChanged</primary><secondary>PackageKit</secondary></indexterm><programlisting>TransactionListChanged ('as' transactions)</programlisting></refsect2>
           <para>
             The transaction list has changed, because either a transaction has finished or a new
             transaction created.
@@ -280,63 +280,63 @@ in's'pac)</programlisting></refsect2>
             This signal is emitted when the number of updates has changed
           </para>
         <variablelist role="params"/></refsect1>
-  <refsect1 role="property_details"><title role="property_details.title">Property Details</title><refsect2><title><anchor role="function" id="PackageKit:VersionMajor"/>The "VersionMajor" property</title><indexterm><primary>VersionMajor</primary><secondary>PackageKit</secondary></indexterm><programlisting>'VersionMajor'read'u'
+  <refsect1 role="property_details"><title role="property_details.title">Property Details</title><refsect2><title><anchor role="function" id="PackageKit:VersionMajor"/>The "VersionMajor" property</title><indexterm><primary>VersionMajor</primary><secondary>PackageKit</secondary></indexterm><programlisting>'VersionMajor'  read      'u'
 </programlisting></refsect2>
           <para>
             The major version number.
           </para>
-        <variablelist role="params"/><refsect2><title><anchor role="function" id="PackageKit:VersionMinor"/>The "VersionMinor" property</title><indexterm><primary>VersionMinor</primary><secondary>PackageKit</secondary></indexterm><programlisting>'VersionMinor'read'u'
+        <variablelist role="params"/><refsect2><title><anchor role="function" id="PackageKit:VersionMinor"/>The "VersionMinor" property</title><indexterm><primary>VersionMinor</primary><secondary>PackageKit</secondary></indexterm><programlisting>'VersionMinor'  read      'u'
 </programlisting></refsect2>
           <para>
             The minor version number.
           </para>
-        <variablelist role="params"/><refsect2><title><anchor role="function" id="PackageKit:VersionMicro"/>The "VersionMicro" property</title><indexterm><primary>VersionMicro</primary><secondary>PackageKit</secondary></indexterm><programlisting>'VersionMicro'read'u'
+        <variablelist role="params"/><refsect2><title><anchor role="function" id="PackageKit:VersionMicro"/>The "VersionMicro" property</title><indexterm><primary>VersionMicro</primary><secondary>PackageKit</secondary></indexterm><programlisting>'VersionMicro'  read      'u'
 </programlisting></refsect2>
           <para>
             The micro version number.
           </para>
-        <variablelist role="params"/><refsect2><title><anchor role="function" id="PackageKit:BackendName"/>The "BackendName" property</title><indexterm><primary>BackendName</primary><secondary>PackageKit</secondary></indexterm><programlisting>'BackendName'read's'
+        <variablelist role="params"/><refsect2><title><anchor role="function" id="PackageKit:BackendName"/>The "BackendName" property</title><indexterm><primary>BackendName</primary><secondary>PackageKit</secondary></indexterm><programlisting>'BackendName'  read      's'
 </programlisting></refsect2>
           <para>
             The backend name, e.g. "dnf".
           </para>
-        <variablelist role="params"/><refsect2><title><anchor role="function" id="PackageKit:BackendDescription"/>The "BackendDescription" property</title><indexterm><primary>BackendDescription</primary><secondary>PackageKit</secondary></indexterm><programlisting>'BackendDescription'read's'
+        <variablelist role="params"/><refsect2><title><anchor role="function" id="PackageKit:BackendDescription"/>The "BackendDescription" property</title><indexterm><primary>BackendDescription</primary><secondary>PackageKit</secondary></indexterm><programlisting>'BackendDescription'  read      's'
 </programlisting></refsect2>
           <para>
             The backend description, e.g. "Yellow Dog Update Modifier".
           </para>
-        <variablelist role="params"/><refsect2><title><anchor role="function" id="PackageKit:BackendAuthor"/>The "BackendAuthor" property</title><indexterm><primary>BackendAuthor</primary><secondary>PackageKit</secondary></indexterm><programlisting>'BackendAuthor'read's'
+        <variablelist role="params"/><refsect2><title><anchor role="function" id="PackageKit:BackendAuthor"/>The "BackendAuthor" property</title><indexterm><primary>BackendAuthor</primary><secondary>PackageKit</secondary></indexterm><programlisting>'BackendAuthor'  read      's'
 </programlisting></refsect2>
           <para>
             The backend author, e.g. "Joe Bloggs &lt;joe&amp;blogs.com&gt;".
           </para>
-        <variablelist role="params"/><refsect2><title><anchor role="function" id="PackageKit:Roles"/>The "Roles" property</title><indexterm><primary>Roles</primary><secondary>PackageKit</secondary></indexterm><programlisting>'Roles'read't'
+        <variablelist role="params"/><refsect2><title><anchor role="function" id="PackageKit:Roles"/>The "Roles" property</title><indexterm><primary>Roles</primary><secondary>PackageKit</secondary></indexterm><programlisting>'Roles'  read      't'
 </programlisting></refsect2>
           <para>
             The roles the backend supports, e.g. search-name|refresh-cache.
           </para>
-        <variablelist role="params"/><refsect2><title><anchor role="function" id="PackageKit:Groups"/>The "Groups" property</title><indexterm><primary>Groups</primary><secondary>PackageKit</secondary></indexterm><programlisting>'Groups'read't'
+        <variablelist role="params"/><refsect2><title><anchor role="function" id="PackageKit:Groups"/>The "Groups" property</title><indexterm><primary>Groups</primary><secondary>PackageKit</secondary></indexterm><programlisting>'Groups'  read      't'
 </programlisting></refsect2>
           <para>
             The groups the backend supports, e.g. accessories|games.
           </para>
-        <variablelist role="params"/><refsect2><title><anchor role="function" id="PackageKit:Filters"/>The "Filters" property</title><indexterm><primary>Filters</primary><secondary>PackageKit</secondary></indexterm><programlisting>'Filters'read't'
+        <variablelist role="params"/><refsect2><title><anchor role="function" id="PackageKit:Filters"/>The "Filters" property</title><indexterm><primary>Filters</primary><secondary>PackageKit</secondary></indexterm><programlisting>'Filters'  read      't'
 </programlisting></refsect2>
           <para>
             The filters the backend supports, e.g. installed|newest.
           </para>
-        <variablelist role="params"/><refsect2><title><anchor role="function" id="PackageKit:MimeTypes"/>The "MimeTypes" property</title><indexterm><primary>MimeTypes</primary><secondary>PackageKit</secondary></indexterm><programlisting>'MimeTypes'read'as'
+        <variablelist role="params"/><refsect2><title><anchor role="function" id="PackageKit:MimeTypes"/>The "MimeTypes" property</title><indexterm><primary>MimeTypes</primary><secondary>PackageKit</secondary></indexterm><programlisting>'MimeTypes'  read      'as'
 </programlisting></refsect2>
           <para>
             The mime-types the backend supports, e.g.
             ['application/x-rpm;', 'application/x-deb'].
           </para>
-        <variablelist role="params"/><refsect2><title><anchor role="function" id="PackageKit:Locked"/>The "Locked" property</title><indexterm><primary>Locked</primary><secondary>PackageKit</secondary></indexterm><programlisting>'Locked'read'b'
+        <variablelist role="params"/><refsect2><title><anchor role="function" id="PackageKit:Locked"/>The "Locked" property</title><indexterm><primary>Locked</primary><secondary>PackageKit</secondary></indexterm><programlisting>'Locked'  read      'b'
 </programlisting></refsect2>
           <para>
             Set when the backend is locked and native tools would fail.
           </para>
-        <variablelist role="params"/><refsect2><title><anchor role="function" id="PackageKit:NetworkState"/>The "NetworkState" property</title><indexterm><primary>NetworkState</primary><secondary>PackageKit</secondary></indexterm><programlisting>'NetworkState'read'u'
+        <variablelist role="params"/><refsect2><title><anchor role="function" id="PackageKit:NetworkState"/>The "NetworkState" property</title><indexterm><primary>NetworkState</primary><secondary>PackageKit</secondary></indexterm><programlisting>'NetworkState'  read      'u'
 </programlisting></refsect2>
           <para>
             Gets the network state from the daemon. This is provided as some clients may not want
@@ -351,40 +351,40 @@ in's'pac)</programlisting></refsect2>
             is not running then the folowing states are supported:
             unknown, offline or online.
           </para>
-        <variablelist role="params"/><refsect2><title><anchor role="function" id="PackageKit:DistroId"/>The "DistroId" property</title><indexterm><primary>DistroId</primary><secondary>PackageKit</secondary></indexterm><programlisting>'DistroId'read's'
+        <variablelist role="params"/><refsect2><title><anchor role="function" id="PackageKit:DistroId"/>The "DistroId" property</title><indexterm><primary>DistroId</primary><secondary>PackageKit</secondary></indexterm><programlisting>'DistroId'  read      's'
 </programlisting></refsect2>
           <para>
             The distribution identification, in the
             distro;version;arch form e.g.
             "debian;squeeze/sid;x86_64".
           </para>
-        <variablelist role="params"/><refsect2><title><anchor role="function" id="PackageKit:UpdatePrepared"/>The "UpdatePrepared" property</title><indexterm><primary>UpdatePrepared</primary><secondary>PackageKit</secondary></indexterm><programlisting>'UpdatePrepared'read'b'
+        <variablelist role="params"/><refsect2><title><anchor role="function" id="PackageKit:UpdatePrepared"/>The "UpdatePrepared" property</title><indexterm><primary>UpdatePrepared</primary><secondary>PackageKit</secondary></indexterm><programlisting>'UpdatePrepared'  read      'b'
 </programlisting></refsect2>
           <para>
             If an update has been prepared and is ready to be triggered.
           </para>
-        <variablelist role="params"/><refsect2><title><anchor role="function" id="PackageKit:UpdateTriggered"/>The "UpdateTriggered" property</title><indexterm><primary>UpdateTriggered</primary><secondary>PackageKit</secondary></indexterm><programlisting>'UpdateTriggered'read'b'
+        <variablelist role="params"/><refsect2><title><anchor role="function" id="PackageKit:UpdateTriggered"/>The "UpdateTriggered" property</title><indexterm><primary>UpdateTriggered</primary><secondary>PackageKit</secondary></indexterm><programlisting>'UpdateTriggered'  read      'b'
 </programlisting></refsect2>
           <para>
             If an update has been triggered.
           </para>
-        <variablelist role="params"/><refsect2><title><anchor role="function" id="PackageKit:UpgradePrepared"/>The "UpgradePrepared" property</title><indexterm><primary>UpgradePrepared</primary><secondary>PackageKit</secondary></indexterm><programlisting>'UpgradePrepared'read'b'
+        <variablelist role="params"/><refsect2><title><anchor role="function" id="PackageKit:UpgradePrepared"/>The "UpgradePrepared" property</title><indexterm><primary>UpgradePrepared</primary><secondary>PackageKit</secondary></indexterm><programlisting>'UpgradePrepared'  read      'b'
 </programlisting></refsect2>
           <para>
             If a system upgrade has been prepared and is ready to be triggered.
           </para>
-        <variablelist role="params"/><refsect2><title><anchor role="function" id="PackageKit:UpgradeTriggered"/>The "UpgradeTriggered" property</title><indexterm><primary>UpgradeTriggered</primary><secondary>PackageKit</secondary></indexterm><programlisting>'UpgradeTriggered'read'b'
+        <variablelist role="params"/><refsect2><title><anchor role="function" id="PackageKit:UpgradeTriggered"/>The "UpgradeTriggered" property</title><indexterm><primary>UpgradeTriggered</primary><secondary>PackageKit</secondary></indexterm><programlisting>'UpgradeTriggered'  read      'b'
 </programlisting></refsect2>
           <para>
             If a system upgrade has been triggered.
           </para>
-        <variablelist role="params"/><refsect2><title><anchor role="function" id="PackageKit:PreparedUpgrade"/>The "PreparedUpgrade" property</title><indexterm><primary>PreparedUpgrade</primary><secondary>PackageKit</secondary></indexterm><programlisting>'PreparedUpgrade'read'a{sv}'
+        <variablelist role="params"/><refsect2><title><anchor role="function" id="PackageKit:PreparedUpgrade"/>The "PreparedUpgrade" property</title><indexterm><primary>PreparedUpgrade</primary><secondary>PackageKit</secondary></indexterm><programlisting>'PreparedUpgrade'  read      'a{sv}'
 </programlisting></refsect2>
           <para>
             Details about a prepared system upgrade. Currently recognized keys
             are "name" and "version".
           </para>
-        <variablelist role="params"/><refsect2><title><anchor role="function" id="PackageKit:TriggerAction"/>The "TriggerAction" property</title><indexterm><primary>TriggerAction</primary><secondary>PackageKit</secondary></indexterm><programlisting>'TriggerAction'read's'
+        <variablelist role="params"/><refsect2><title><anchor role="function" id="PackageKit:TriggerAction"/>The "TriggerAction" property</title><indexterm><primary>TriggerAction</primary><secondary>PackageKit</secondary></indexterm><programlisting>'TriggerAction'  read      's'
 </programlisting></refsect2>
           <para>
             The action to take when finished applying updates, known values

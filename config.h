@@ -13,6 +13,14 @@
 /* Define to 1 if you have the `bind_textdomain_codeset' function. */
 #define HAVE_BIND_TEXTDOMAIN_CODESET 1
 
+/* Define to 1 if you have the Mac OS X function CFLocaleCopyCurrent in the
+   CoreFoundation framework. */
+/* #undef HAVE_CFLOCALECOPYCURRENT */
+
+/* Define to 1 if you have the Mac OS X function CFPreferencesCopyAppValue in
+   the CoreFoundation framework. */
+/* #undef HAVE_CFPREFERENCESCOPYAPPVALUE */
+
 /* Define to 1 if you have the `clearenv' function. */
 #define HAVE_CLEARENV 1
 
@@ -59,7 +67,7 @@
 #define HAVE_MEMORY_H 1
 
 /* define if NetworkManager is installed */
-#define HAVE_NETWORKMANAGER 1
+/* #undef HAVE_NETWORKMANAGER */
 
 /* Define as 1 if you have polkit >= 0.114 */
 /* #undef HAVE_POLKIT_0_114 */
@@ -107,7 +115,7 @@
 #define PACKAGE_NAME "PackageKit"
 
 /* Define to the full name and version of this package. */
-#define PACKAGE_STRING "PackageKit 1.1.5"
+#define PACKAGE_STRING "PackageKit 1.1.6"
 
 /* Define to the one symbol short name of this package. */
 #define PACKAGE_TARNAME "PackageKit"
@@ -116,10 +124,10 @@
 #define PACKAGE_URL "http://www.packagekit.org/"
 
 /* Define to the version of this package. */
-#define PACKAGE_VERSION "1.1.5"
+#define PACKAGE_VERSION "1.1.6"
 
 /* Build local code */
-/* #undef PK_BUILD_LOCAL */
+#define PK_BUILD_LOCAL 1
 
 /* Enable the daemon tests */
 #define PK_ENABLE_DAEMON_TESTS 1
@@ -128,7 +136,7 @@
 #define STDC_HEADERS 1
 
 /* Version number of package */
-#define VERSION "1.1.5"
+#define VERSION "1.1.6"
 
 /* define if libzypp returns package size in bytes */
 /* #undef ZYPP_RETURN_BYTES */

@@ -151,6 +151,7 @@ pk_status_enum_get_type (void)
             { PK_STATUS_ENUM_CHECK_EXECUTABLE_FILES, "PK_STATUS_ENUM_CHECK_EXECUTABLE_FILES", "check-executable-files" },
             { PK_STATUS_ENUM_CHECK_LIBRARIES, "PK_STATUS_ENUM_CHECK_LIBRARIES", "check-libraries" },
             { PK_STATUS_ENUM_COPY_FILES, "PK_STATUS_ENUM_COPY_FILES", "copy-files" },
+            { PK_STATUS_ENUM_RUN_HOOK, "PK_STATUS_ENUM_RUN_HOOK", "run-hook" },
             { PK_STATUS_ENUM_LAST, "PK_STATUS_ENUM_LAST", "last" },
             { 0, NULL, NULL }
         };
