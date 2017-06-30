@@ -1,0 +1,138 @@
+From 88617a3f889fd06dcb23ed5a67fbb58cf25936a7 Mon Sep 17 00:00:00 2001
+From: Iain Lane <iain@orangesquash.org.uk>
+Date: Fri, 30 Jun 2017 15:52:35 +0100
+Subject: [PATCH 1/2] aptcc: Support "()(64bit)"
+
+This is sent by pk-gstreamer-install.
+
+We special-case this and use it to limit our search to 'amd64' packages
+only.
+
+In the future this should be extended to any 64 bit arch, I think.
+
+Forwarded: https://github.com/hughsie/PackageKit/pull/199
+---
+ backends/aptcc/apt-intf.cpp    |  4 +++-
+ backends/aptcc/gst-matcher.cpp | 21 +++++++++++++++++----
+ backends/aptcc/gst-matcher.h   |  3 ++-
+ 3 files changed, 22 insertions(+), 6 deletions(-)
+
+diff --git a/backends/aptcc/apt-intf.cpp b/backends/aptcc/apt-intf.cpp
+index 709fe4395..19122e99c 100644
+--- a/backends/aptcc/apt-intf.cpp
++++ b/backends/aptcc/apt-intf.cpp
+@@ -521,6 +521,7 @@ void AptIntf::emitUpdates(PkgList &output, PkBitfield filters)
+ // search packages which provide a codec (specified in "values")
+ void AptIntf::providesCodec(PkgList &output, gchar **values)
+ {
++    string arch;
+     GstMatcher *matcher = new GstMatcher(values);
+     if (!matcher->hasMatches()) {
+         return;
+@@ -540,6 +541,7 @@ void AptIntf::providesCodec(PkgList &output, gchar **values)
+         // TODO search in updates packages
+         // Ignore virtual packages
+         pkgCache::VerIterator ver = m_cache->findVer(pkg);
++        arch = string(ver.Arch());
+         if (ver.end() == true) {
+             ver = m_cache->findCandidateVer(pkg);
+             if (ver.end() == true) {
+@@ -552,7 +554,7 @@ void AptIntf::providesCodec(PkgList &output, gchar **values)
+         const char *start, *stop;
+         rec.GetRec(start, stop);
+         string record(start, stop - start);
+-        if (matcher->matches(record)) {
++        if (matcher->matches(record, arch)) {
+             output.push_back(ver);
+         }
+     }
+diff --git a/backends/aptcc/gst-matcher.cpp b/backends/aptcc/gst-matcher.cpp
+index b50974b0f..2cf1e256e 100644
+--- a/backends/aptcc/gst-matcher.cpp
++++ b/backends/aptcc/gst-matcher.cpp
+@@ -35,7 +35,7 @@ GstMatcher::GstMatcher(gchar **values)
+     // The search term from PackageKit daemon:
+     // gstreamer0.10(urisource-foobar)
+     // gstreamer0.10(decoder-audio/x-wma)(wmaversion=3)
+-    const char *pkreg = "^gstreamer\\(0.10\\|1\\)\\(\\.0\\)"
++    const char *pkreg = "^gstreamer\\(0.10\\|1\\)\\(\\.0\\)\\?"
+                         "(\\(encoder\\|decoder\\|urisource\\|urisink\\|element\\)-\\([^)]\\+\\))"
+                         "\\((.*)\\)\\?";
+ 
+@@ -51,7 +51,7 @@ GstMatcher::GstMatcher(gchar **values)
+         regmatch_t matches[6];
+         if (regexec(&pkre, value, 6, matches, 0) != REG_NOMATCH) {
+             Match values;
+-            string version, type, data, opt;
++            string version, type, data, opt, arch;
+ 
+             // Appends the version "0.10"
+             version = "\nGstreamer-Version: ";
+@@ -68,8 +68,18 @@ GstMatcher::GstMatcher(gchar **values)
+                 // remove the '(' ')' that the regex matched
+                 opt = string(value, matches[5].rm_so + 1, matches[5].rm_eo - matches[5].rm_so - 2);
+                 if (!opt.empty()) {
+-                    // Replace all ")(" with "," - convert from input to serialized caps format
+                     size_t start_pos = 0;
++                    // This is hardcoded in pk-gstreamer-install, so we also hardcode it here
++                    const string x86_64 = "()(64bit";
++
++                    if (equal(x86_64.rbegin(), x86_64.rend(), opt.rbegin())) {
++                            // We hardcode 64bit -> amd64 here
++                            arch = "amd64";
++                            // -1 -> remove the last )
++                            opt.erase(opt.end() - x86_64.length() - 1, opt.end());
++                    }
++
++                    // Replace all ")(" with "," - convert from input to serialized caps format
+                     while ((start_pos = opt.find(")(", start_pos)) != string::npos) {
+                         opt.replace(start_pos, 2, ",");
+                         start_pos++;
+@@ -107,6 +117,7 @@ GstMatcher::GstMatcher(gchar **values)
+             values.data    = data;
+             values.opt     = opt;
+             values.caps    = caps;
++            values.arch    = arch;
+ 
+             m_matches.push_back(values);
+         } else {
+@@ -123,12 +134,14 @@ GstMatcher::~GstMatcher()
+     }
+ }
+ 
+-bool GstMatcher::matches(string record)
++bool GstMatcher::matches(string record, string arch)
+ {
+     for (const Match &match : m_matches) {
+         // Tries to find "Gstreamer-version: xxx"
+         if (record.find(match.version) != string::npos) {
+             size_t found;
++            if (!match.arch.empty() && arch != match.arch)
++                    continue;
+             found = record.find(match.type);
+             // Tries to find the type "Gstreamer-Uri-Sinks: "
+             if (found != string::npos) {
+diff --git a/backends/aptcc/gst-matcher.h b/backends/aptcc/gst-matcher.h
+index f29b9f4c4..9d3615c80 100644
+--- a/backends/aptcc/gst-matcher.h
++++ b/backends/aptcc/gst-matcher.h
+@@ -34,6 +34,7 @@ typedef struct {
+     string   data;
+     string   opt;
+     void    *caps;
++    string   arch;
+ } Match;
+ 
+ class GstMatcher
+@@ -42,7 +43,7 @@ public:
+     GstMatcher(gchar **values);
+     ~GstMatcher();
+ 
+-    bool matches(string record);
++    bool matches(string record, string arch);
+     bool hasMatches() const;
+ 
+ private:
+-- 
+2.11.0
+
