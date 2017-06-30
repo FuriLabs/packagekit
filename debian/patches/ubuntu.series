@@ -1,2 +1,4 @@
 vendor-ubuntu.diff
 policy.diff
+0001-aptcc-Support-64bit.patch
+0002-aptcc-Ignore-dbg-for-codec-queries.patch
