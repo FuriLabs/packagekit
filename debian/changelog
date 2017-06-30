@@ -1,11 +1,15 @@
 packagekit (1.1.6-2) UNRELEASED; urgency=medium
 
-  * debian/patches/0001-aptcc-Support-64bit.patch: Support "()(64bit)". This
-    is sent by pk-gstreamer-install.
-  * debian/patches/0002-aptcc-Ignore-dbg-for-codec-queries.patch: Don't return
-    dbgsym or dbg packages for gstreamer queries. They aren't useful to list.
+  * Upload to unstable.
+  * Take two patches submitted upstream to improve codec installation
+    experience:
+    + debian/patches/0001-aptcc-Support-64bit.patch: Support "()(64bit)". This
+      is sent by pk-gstreamer-install.
+    + debian/patches/0002-aptcc-Ignore-dbg-for-codec-queries.patch: Don't
+      return dbgsym or dbg packages for gstreamer queries. They aren't useful
+      to list.
 
- -- Iain Lane <laney@debian.org>  Fri, 30 Jun 2017 16:22:48 +0100
+ -- Iain Lane <laney@debian.org>  Fri, 30 Jun 2017 16:26:12 +0100
 
 packagekit (1.1.6-1) experimental; urgency=medium
 
