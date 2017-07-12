@@ -8,6 +8,8 @@ packagekit (1.1.6-2) UNRELEASED; urgency=medium
     + debian/patches/0002-aptcc-Ignore-dbg-for-codec-queries.patch: Don't
       return dbgsym or dbg packages for gstreamer queries. They aren't useful
       to list.
+  * debian/packagekit-gtk3-module.install: Install the gtk-modules desktop
+    file in the right directory (Closes: #866953)
 
  -- Iain Lane <laney@debian.org>  Fri, 30 Jun 2017 16:26:12 +0100
 
