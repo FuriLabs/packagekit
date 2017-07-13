@@ -30,7 +30,7 @@ Build-Depends: autoconf-archive,
                policykit-1,
                valac,
                xmlto
-Standards-Version: 3.9.8
+Standards-Version: 4.0.0
 Homepage: https://www.freedesktop.org/software/PackageKit/
 
 Package: packagekit
