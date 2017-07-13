@@ -1,4 +1,5 @@
 vendor-ubuntu.diff
 policy.diff
-0001-aptcc-Support-64bit.patch
-0002-aptcc-Ignore-dbg-for-codec-queries.patch
+01_no-nm-connman.patch
+02_aptcc-Support-64bit.patch
+03_aptcc-Ignore-dbg-for-codec-queries.patch
