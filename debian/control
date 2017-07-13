@@ -109,7 +109,8 @@ Description: Library for accessing PackageKit using GLib
 Package: libpackagekit-glib2-dev
 Section: libdevel
 Architecture: any
-Depends: libdbus-1-dev,
+Depends: gir1.2-packagekitglib-1.0 (= ${binary:Version}),
+         libdbus-1-dev,
          libglib2.0-dev (>= 2.26),
          libpackagekit-glib2-18 (= ${binary:Version}),
          libsqlite3-dev,
