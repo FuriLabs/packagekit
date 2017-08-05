@@ -13,7 +13,8 @@ PK_CONFIGURE_FLAGS = --libexecdir=/usr/lib/packagekit \
 		--enable-introspection \
 		--enable-aptcc \
 		--enable-gtk-module \
-		--enable-gstreamer-plugin
+		--enable-gstreamer-plugin \
+		--enable-gtk-doc
 
 ifneq ($(DEB_HOST_ARCH_OS), linux)
 	PK_CONFIGURE_FLAGS += --disable-systemd
