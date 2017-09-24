@@ -1,5 +1,2 @@
 vendor-debian.diff
 policy.diff
-01_no-nm-connman.patch
-02_aptcc-Support-64bit.patch
-03_aptcc-Ignore-dbg-for-codec-queries.patch
