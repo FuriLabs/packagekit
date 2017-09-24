@@ -6,7 +6,6 @@ Uploaders: Julian Andres Klode <jak@debian.org>
 Build-Depends: autoconf-archive,
                bash-completion,
                debhelper (>= 10.4),
-               dh-autoreconf (>= 4),
                dh-systemd (>= 1.16),
                docbook-utils,
                gir1.2-glib-2.0 (>= 1.36),

@@ -85,9 +85,6 @@ override_dh_gencontrol:
 override_dh_strip:
 	dh_strip --dbgsym-migration='packagekit-dbg (<< 1.1.1-1~)'
 
-override_dh_autoreconf:
-	dh_autoreconf --as-needed
-
 override_dh_systemd_enable:
 	# the offline-updates service is enabled by tools like GNOME-Software when they need it,
 	# but we do want to clear leftover symlinks upon removal of the package.
