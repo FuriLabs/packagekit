@@ -141,11 +141,10 @@ libpk_backend_katja_la_DEPENDENCIES = $(am__DEPENDENCIES_1) \
 	$(am__DEPENDENCIES_1)
 am_libpk_backend_katja_la_OBJECTS =  \
 	libpk_backend_katja_la-pk-backend-katja.lo \
-	libpk_backend_katja_la-katja-pkgtools.lo \
-	libpk_backend_katja_la-katja-binary.lo \
-	libpk_backend_katja_la-katja-slackpkg.lo \
-	libpk_backend_katja_la-katja-dl.lo \
-	libpk_backend_katja_la-utils.lo
+	libpk_backend_katja_la-pkgtools.lo \
+	libpk_backend_katja_la-binary.lo \
+	libpk_backend_katja_la-slackpkg.lo \
+	libpk_backend_katja_la-dl.lo libpk_backend_katja_la-utils.lo
 libpk_backend_katja_la_OBJECTS = $(am_libpk_backend_katja_la_OBJECTS)
 AM_V_lt = $(am__v_lt_@AM_V@)
 am__v_lt_ = $(am__v_lt_@AM_DEFAULT_V@)
@@ -171,24 +170,6 @@ DEFAULT_INCLUDES = -I.@am__isrc@ -I$(top_builddir)
 depcomp = $(SHELL) $(top_srcdir)/build-aux/depcomp
 am__depfiles_maybe = depfiles
 am__mv = mv -f
-COMPILE = $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) \
-	$(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS)
-LTCOMPILE = $(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) \
-	$(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) \
-	$(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) \
-	$(AM_CFLAGS) $(CFLAGS)
-AM_V_CC = $(am__v_CC_@AM_V@)
-am__v_CC_ = $(am__v_CC_@AM_DEFAULT_V@)
-am__v_CC_0 = @echo "  CC      " $@;
-am__v_CC_1 = 
-CCLD = $(CC)
-LINK = $(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) \
-	$(LIBTOOLFLAGS) --mode=link $(CCLD) $(AM_CFLAGS) $(CFLAGS) \
-	$(AM_LDFLAGS) $(LDFLAGS) -o $@
-AM_V_CCLD = $(am__v_CCLD_@AM_V@)
-am__v_CCLD_ = $(am__v_CCLD_@AM_DEFAULT_V@)
-am__v_CCLD_0 = @echo "  CCLD    " $@;
-am__v_CCLD_1 = 
 CXXCOMPILE = $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) \
 	$(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS)
 LTCXXCOMPILE = $(LIBTOOL) $(AM_V_lt) --tag=CXX $(AM_LIBTOOLFLAGS) \
@@ -259,8 +240,6 @@ CATOBJEXT = @CATOBJEXT@
 CC = @CC@
 CCDEPMODE = @CCDEPMODE@
 CFLAGS = @CFLAGS@
-CONNMAN_CFLAGS = @CONNMAN_CFLAGS@
-CONNMAN_LIBS = @CONNMAN_LIBS@
 CPP = @CPP@
 CPPFLAGS = @CPPFLAGS@
 CXX = @CXX@
@@ -363,8 +342,6 @@ MKINSTALLDIRS = @MKINSTALLDIRS@
 MSGFMT = @MSGFMT@
 MSGFMT_OPTS = @MSGFMT_OPTS@
 MSGMERGE = @MSGMERGE@
-NETWORK_MANAGER_CFLAGS = @NETWORK_MANAGER_CFLAGS@
-NETWORK_MANAGER_LIBS = @NETWORK_MANAGER_LIBS@
 NIX_CFLAGS = @NIX_CFLAGS@
 NIX_LIBS = @NIX_LIBS@
 NM = @NM@
@@ -508,11 +485,11 @@ AM_CPPFLAGS = \
 plugindir = $(PK_PLUGIN_DIR)
 plugin_LTLIBRARIES = libpk_backend_katja.la
 libpk_backend_katja_la_SOURCES = \
-	pk-backend-katja.c \
-	katja-pkgtools.c \
-	katja-binary.c \
-	katja-slackpkg.c \
-	katja-dl.c \
+	pk-backend-katja.cc \
+	pkgtools.cc \
+	binary.cc \
+	slackpkg.cc \
+	dl.cc \
 	utils.cc
 
 libpk_backend_katja_la_LIBADD = -lbz2 $(PK_PLUGIN_LIBS) ${KATJA_LIBS}
@@ -531,7 +508,7 @@ EXTRA_DIST = \
 all: all-am
 
 .SUFFIXES:
-.SUFFIXES: .c .cc .lo .o .obj
+.SUFFIXES: .cc .lo .o .obj
 $(srcdir)/Makefile.in: @MAINTAINER_MODE_TRUE@ $(srcdir)/Makefile.am  $(am__configure_deps)
 	@for dep in $?; do \
 	  case '$(am__configure_deps)' in \
@@ -606,68 +583,12 @@ mostlyclean-compile:
 distclean-compile:
 	-rm -f *.tab.c
 
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libpk_backend_katja_la-katja-binary.Plo@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libpk_backend_katja_la-katja-dl.Plo@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libpk_backend_katja_la-katja-pkgtools.Plo@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libpk_backend_katja_la-katja-slackpkg.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libpk_backend_katja_la-binary.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libpk_backend_katja_la-dl.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libpk_backend_katja_la-pk-backend-katja.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libpk_backend_katja_la-pkgtools.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libpk_backend_katja_la-slackpkg.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libpk_backend_katja_la-utils.Plo@am__quote@
-
-.c.o:
-@am__fastdepCC_TRUE@	$(AM_V_CC)$(COMPILE) -MT $@ -MD -MP -MF $(DEPDIR)/$*.Tpo -c -o $@ $<
-@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/$*.Tpo $(DEPDIR)/$*.Po
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='$<' object='$@' libtool=no @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(COMPILE) -c -o $@ $<
-
-.c.obj:
-@am__fastdepCC_TRUE@	$(AM_V_CC)$(COMPILE) -MT $@ -MD -MP -MF $(DEPDIR)/$*.Tpo -c -o $@ `$(CYGPATH_W) '$<'`
-@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/$*.Tpo $(DEPDIR)/$*.Po
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='$<' object='$@' libtool=no @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(COMPILE) -c -o $@ `$(CYGPATH_W) '$<'`
-
-.c.lo:
-@am__fastdepCC_TRUE@	$(AM_V_CC)$(LTCOMPILE) -MT $@ -MD -MP -MF $(DEPDIR)/$*.Tpo -c -o $@ $<
-@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/$*.Tpo $(DEPDIR)/$*.Plo
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='$<' object='$@' libtool=yes @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(LTCOMPILE) -c -o $@ $<
-
-libpk_backend_katja_la-pk-backend-katja.lo: pk-backend-katja.c
-@am__fastdepCC_TRUE@	$(AM_V_CC)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libpk_backend_katja_la_CPPFLAGS) $(CPPFLAGS) $(libpk_backend_katja_la_CFLAGS) $(CFLAGS) -MT libpk_backend_katja_la-pk-backend-katja.lo -MD -MP -MF $(DEPDIR)/libpk_backend_katja_la-pk-backend-katja.Tpo -c -o libpk_backend_katja_la-pk-backend-katja.lo `test -f 'pk-backend-katja.c' || echo '$(srcdir)/'`pk-backend-katja.c
-@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/libpk_backend_katja_la-pk-backend-katja.Tpo $(DEPDIR)/libpk_backend_katja_la-pk-backend-katja.Plo
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='pk-backend-katja.c' object='libpk_backend_katja_la-pk-backend-katja.lo' libtool=yes @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libpk_backend_katja_la_CPPFLAGS) $(CPPFLAGS) $(libpk_backend_katja_la_CFLAGS) $(CFLAGS) -c -o libpk_backend_katja_la-pk-backend-katja.lo `test -f 'pk-backend-katja.c' || echo '$(srcdir)/'`pk-backend-katja.c
-
-libpk_backend_katja_la-katja-pkgtools.lo: katja-pkgtools.c
-@am__fastdepCC_TRUE@	$(AM_V_CC)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libpk_backend_katja_la_CPPFLAGS) $(CPPFLAGS) $(libpk_backend_katja_la_CFLAGS) $(CFLAGS) -MT libpk_backend_katja_la-katja-pkgtools.lo -MD -MP -MF $(DEPDIR)/libpk_backend_katja_la-katja-pkgtools.Tpo -c -o libpk_backend_katja_la-katja-pkgtools.lo `test -f 'katja-pkgtools.c' || echo '$(srcdir)/'`katja-pkgtools.c
-@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/libpk_backend_katja_la-katja-pkgtools.Tpo $(DEPDIR)/libpk_backend_katja_la-katja-pkgtools.Plo
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='katja-pkgtools.c' object='libpk_backend_katja_la-katja-pkgtools.lo' libtool=yes @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libpk_backend_katja_la_CPPFLAGS) $(CPPFLAGS) $(libpk_backend_katja_la_CFLAGS) $(CFLAGS) -c -o libpk_backend_katja_la-katja-pkgtools.lo `test -f 'katja-pkgtools.c' || echo '$(srcdir)/'`katja-pkgtools.c
-
-libpk_backend_katja_la-katja-binary.lo: katja-binary.c
-@am__fastdepCC_TRUE@	$(AM_V_CC)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libpk_backend_katja_la_CPPFLAGS) $(CPPFLAGS) $(libpk_backend_katja_la_CFLAGS) $(CFLAGS) -MT libpk_backend_katja_la-katja-binary.lo -MD -MP -MF $(DEPDIR)/libpk_backend_katja_la-katja-binary.Tpo -c -o libpk_backend_katja_la-katja-binary.lo `test -f 'katja-binary.c' || echo '$(srcdir)/'`katja-binary.c
-@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/libpk_backend_katja_la-katja-binary.Tpo $(DEPDIR)/libpk_backend_katja_la-katja-binary.Plo
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='katja-binary.c' object='libpk_backend_katja_la-katja-binary.lo' libtool=yes @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libpk_backend_katja_la_CPPFLAGS) $(CPPFLAGS) $(libpk_backend_katja_la_CFLAGS) $(CFLAGS) -c -o libpk_backend_katja_la-katja-binary.lo `test -f 'katja-binary.c' || echo '$(srcdir)/'`katja-binary.c
-
-libpk_backend_katja_la-katja-slackpkg.lo: katja-slackpkg.c
-@am__fastdepCC_TRUE@	$(AM_V_CC)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libpk_backend_katja_la_CPPFLAGS) $(CPPFLAGS) $(libpk_backend_katja_la_CFLAGS) $(CFLAGS) -MT libpk_backend_katja_la-katja-slackpkg.lo -MD -MP -MF $(DEPDIR)/libpk_backend_katja_la-katja-slackpkg.Tpo -c -o libpk_backend_katja_la-katja-slackpkg.lo `test -f 'katja-slackpkg.c' || echo '$(srcdir)/'`katja-slackpkg.c
-@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/libpk_backend_katja_la-katja-slackpkg.Tpo $(DEPDIR)/libpk_backend_katja_la-katja-slackpkg.Plo
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='katja-slackpkg.c' object='libpk_backend_katja_la-katja-slackpkg.lo' libtool=yes @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libpk_backend_katja_la_CPPFLAGS) $(CPPFLAGS) $(libpk_backend_katja_la_CFLAGS) $(CFLAGS) -c -o libpk_backend_katja_la-katja-slackpkg.lo `test -f 'katja-slackpkg.c' || echo '$(srcdir)/'`katja-slackpkg.c
-
-libpk_backend_katja_la-katja-dl.lo: katja-dl.c
-@am__fastdepCC_TRUE@	$(AM_V_CC)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libpk_backend_katja_la_CPPFLAGS) $(CPPFLAGS) $(libpk_backend_katja_la_CFLAGS) $(CFLAGS) -MT libpk_backend_katja_la-katja-dl.lo -MD -MP -MF $(DEPDIR)/libpk_backend_katja_la-katja-dl.Tpo -c -o libpk_backend_katja_la-katja-dl.lo `test -f 'katja-dl.c' || echo '$(srcdir)/'`katja-dl.c
-@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/libpk_backend_katja_la-katja-dl.Tpo $(DEPDIR)/libpk_backend_katja_la-katja-dl.Plo
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='katja-dl.c' object='libpk_backend_katja_la-katja-dl.lo' libtool=yes @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libpk_backend_katja_la_CPPFLAGS) $(CPPFLAGS) $(libpk_backend_katja_la_CFLAGS) $(CFLAGS) -c -o libpk_backend_katja_la-katja-dl.lo `test -f 'katja-dl.c' || echo '$(srcdir)/'`katja-dl.c
 
 .cc.o:
 @am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXXCOMPILE) -MT $@ -MD -MP -MF $(DEPDIR)/$*.Tpo -c -o $@ $<
@@ -689,6 +610,41 @@ libpk_backend_katja_la-katja-dl.lo: katja-dl.c
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='$<' object='$@' libtool=yes @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(LTCXXCOMPILE) -c -o $@ $<
+
+libpk_backend_katja_la-pk-backend-katja.lo: pk-backend-katja.cc
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(LIBTOOL) $(AM_V_lt) --tag=CXX $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libpk_backend_katja_la_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT libpk_backend_katja_la-pk-backend-katja.lo -MD -MP -MF $(DEPDIR)/libpk_backend_katja_la-pk-backend-katja.Tpo -c -o libpk_backend_katja_la-pk-backend-katja.lo `test -f 'pk-backend-katja.cc' || echo '$(srcdir)/'`pk-backend-katja.cc
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/libpk_backend_katja_la-pk-backend-katja.Tpo $(DEPDIR)/libpk_backend_katja_la-pk-backend-katja.Plo
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='pk-backend-katja.cc' object='libpk_backend_katja_la-pk-backend-katja.lo' libtool=yes @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(LIBTOOL) $(AM_V_lt) --tag=CXX $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libpk_backend_katja_la_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o libpk_backend_katja_la-pk-backend-katja.lo `test -f 'pk-backend-katja.cc' || echo '$(srcdir)/'`pk-backend-katja.cc
+
+libpk_backend_katja_la-pkgtools.lo: pkgtools.cc
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(LIBTOOL) $(AM_V_lt) --tag=CXX $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libpk_backend_katja_la_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT libpk_backend_katja_la-pkgtools.lo -MD -MP -MF $(DEPDIR)/libpk_backend_katja_la-pkgtools.Tpo -c -o libpk_backend_katja_la-pkgtools.lo `test -f 'pkgtools.cc' || echo '$(srcdir)/'`pkgtools.cc
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/libpk_backend_katja_la-pkgtools.Tpo $(DEPDIR)/libpk_backend_katja_la-pkgtools.Plo
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='pkgtools.cc' object='libpk_backend_katja_la-pkgtools.lo' libtool=yes @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(LIBTOOL) $(AM_V_lt) --tag=CXX $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libpk_backend_katja_la_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o libpk_backend_katja_la-pkgtools.lo `test -f 'pkgtools.cc' || echo '$(srcdir)/'`pkgtools.cc
+
+libpk_backend_katja_la-binary.lo: binary.cc
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(LIBTOOL) $(AM_V_lt) --tag=CXX $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libpk_backend_katja_la_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT libpk_backend_katja_la-binary.lo -MD -MP -MF $(DEPDIR)/libpk_backend_katja_la-binary.Tpo -c -o libpk_backend_katja_la-binary.lo `test -f 'binary.cc' || echo '$(srcdir)/'`binary.cc
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/libpk_backend_katja_la-binary.Tpo $(DEPDIR)/libpk_backend_katja_la-binary.Plo
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='binary.cc' object='libpk_backend_katja_la-binary.lo' libtool=yes @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(LIBTOOL) $(AM_V_lt) --tag=CXX $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libpk_backend_katja_la_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o libpk_backend_katja_la-binary.lo `test -f 'binary.cc' || echo '$(srcdir)/'`binary.cc
+
+libpk_backend_katja_la-slackpkg.lo: slackpkg.cc
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(LIBTOOL) $(AM_V_lt) --tag=CXX $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libpk_backend_katja_la_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT libpk_backend_katja_la-slackpkg.lo -MD -MP -MF $(DEPDIR)/libpk_backend_katja_la-slackpkg.Tpo -c -o libpk_backend_katja_la-slackpkg.lo `test -f 'slackpkg.cc' || echo '$(srcdir)/'`slackpkg.cc
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/libpk_backend_katja_la-slackpkg.Tpo $(DEPDIR)/libpk_backend_katja_la-slackpkg.Plo
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='slackpkg.cc' object='libpk_backend_katja_la-slackpkg.lo' libtool=yes @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(LIBTOOL) $(AM_V_lt) --tag=CXX $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libpk_backend_katja_la_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o libpk_backend_katja_la-slackpkg.lo `test -f 'slackpkg.cc' || echo '$(srcdir)/'`slackpkg.cc
+
+libpk_backend_katja_la-dl.lo: dl.cc
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(LIBTOOL) $(AM_V_lt) --tag=CXX $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libpk_backend_katja_la_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT libpk_backend_katja_la-dl.lo -MD -MP -MF $(DEPDIR)/libpk_backend_katja_la-dl.Tpo -c -o libpk_backend_katja_la-dl.lo `test -f 'dl.cc' || echo '$(srcdir)/'`dl.cc
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/libpk_backend_katja_la-dl.Tpo $(DEPDIR)/libpk_backend_katja_la-dl.Plo
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='dl.cc' object='libpk_backend_katja_la-dl.lo' libtool=yes @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(LIBTOOL) $(AM_V_lt) --tag=CXX $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libpk_backend_katja_la_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o libpk_backend_katja_la-dl.lo `test -f 'dl.cc' || echo '$(srcdir)/'`dl.cc
 
 libpk_backend_katja_la-utils.lo: utils.cc
 @am__fastdepCXX_TRUE@	$(AM_V_CXX)$(LIBTOOL) $(AM_V_lt) --tag=CXX $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libpk_backend_katja_la_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT libpk_backend_katja_la-utils.lo -MD -MP -MF $(DEPDIR)/libpk_backend_katja_la-utils.Tpo -c -o libpk_backend_katja_la-utils.lo `test -f 'utils.cc' || echo '$(srcdir)/'`utils.cc

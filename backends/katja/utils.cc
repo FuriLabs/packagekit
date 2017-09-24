@@ -1,22 +1,11 @@
-extern "C"
-{
-	#include "katja-utils.h"
-}
-
+#include "utils.h"
 #include <glibmm.h>
 
-/**
- * katja_get_file:
- * @curl: curl easy handle.
- * @source_url: source url.
- * @dest: destination.
- *
- * Download the file.
- *
- * Returns: CURLE_OK (zero) on success, non-zero otherwise.
- **/
+namespace katja
+{
+
 CURLcode
-katja_get_file(CURL **curl, gchar *source_url, gchar *dest)
+getFile(CURL** curl, gchar* source_url, gchar* dest)
 {
 	gchar *dest_dir_name;
 	FILE *fout = NULL;
@@ -66,17 +55,15 @@ katja_get_file(CURL **curl, gchar *source_url, gchar *dest)
 	return ret;
 }
 
-/**
- * katja_cut_pkg:
- *
- * Got the name of a package, without version-arch-release data.
- **/
-gchar **katja_cut_pkg(const gchar *pkg_filename) {
+gchar**
+splitPackageName(const gchar* pkg_filename)
+{
 	gchar *pkg_full_name, **pkg_tokens, **reversed_tokens;
 	gint len;
 
 	len = strlen(pkg_filename);
-	if (pkg_filename[len - 4] == '.') {
+	if (pkg_filename[len - 4] == '.')
+	{
 		pkg_tokens = static_cast<gchar **>(g_malloc_n(6, sizeof(gchar *)));
 
 		/* Full name without extension */
@@ -87,7 +74,9 @@ gchar **katja_cut_pkg(const gchar *pkg_filename) {
 		/* The last 3 characters should be the file extension */
 		pkg_tokens[4] = g_strdup(pkg_filename + len + 1);
 		pkg_tokens[5] = NULL;
-	} else {
+	}
+	else
+	{
 		pkg_tokens = static_cast<gchar **>(g_malloc_n(4, sizeof(gchar *)));
 		pkg_full_name = g_strdup(pkg_filename);
 		pkg_tokens[3] = NULL;
@@ -107,32 +96,13 @@ gchar **katja_cut_pkg(const gchar *pkg_filename) {
 	return pkg_tokens;
 }
 
-/**
- * katja_cmp_repo:
- * @a: repository pointer.
- * @b: repository pointer.
- *
- * Compare two repositories by the name.
- *
- * Returns: 0 if the names are equal, -1 or 1 otherwise.
- **/
-gint
-katja_cmp_repo(gconstpointer a, gconstpointer b)
+PkInfoEnum
+isInstalled(const std::string& pkgFullname)
 {
-	return g_strcmp0(katja_binary_get_name((KatjaBinary *) a), (gchar *) b);
-}
-
-/**
- * katja_pkg_is_installed:
- **/
-PkInfoEnum katja_pkg_is_installed(gchar *pkg_full_name) {
 	PkInfoEnum ret = PK_INFO_ENUM_INSTALLING;
-
-	g_return_val_if_fail(pkg_full_name != NULL, PK_INFO_ENUM_UNKNOWN);
 
     // We want to find the package name without version for the package we're
     // looking for.
-	const auto pkgFullname = std::string(pkg_full_name);
     g_debug("Looking if %s is installed", pkgFullname.c_str());
 
     std::string::const_iterator it;
@@ -149,12 +119,16 @@ PkInfoEnum katja_pkg_is_installed(gchar *pkg_full_name) {
             ++dashes;
         }
     }
-    const auto pkgName = std::string(pkgFullname.begin(), it);
+	if (dashes < 2)
+	{
+		return PK_INFO_ENUM_UNKNOWN;
+	}
+    const std::string pkgName(pkgFullname.begin(), it);
 
 	// Read the package metadata directory and comprare all installed packages
     // with ones in the cache.
-	auto metadataDir = new Glib::Dir("/var/log/packages");
-	for (const auto&& dir : *metadataDir)
+	Glib::Dir metadataDir("/var/log/packages");
+	for (const auto&& dir : metadataDir)
 	{
         dashes = 0;
         if (dir == pkgFullname)
@@ -181,6 +155,18 @@ PkInfoEnum katja_pkg_is_installed(gchar *pkg_full_name) {
         }
 	}
 
-	delete metadataDir;
 	return ret;
+}
+
+CompareRepo::CompareRepo(const gchar* name) noexcept
+	: name_(name)
+{
+}
+
+bool
+CompareRepo::operator()(const Pkgtools* repo) const noexcept
+{
+		return *repo == name_;
+}
+
 }

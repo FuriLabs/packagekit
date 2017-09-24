@@ -980,7 +980,7 @@ pk_info_enum_to_localised_text (PkInfoEnum info)
 		break;
 	case PK_INFO_ENUM_BUGFIX:
 		/* TRANSLATORS: The type of update */
-		text = dgettext("PackageKit", "Bug fix ");
+		text = dgettext("PackageKit", "Bug fix");
 		break;
 	case PK_INFO_ENUM_ENHANCEMENT:
 		/* TRANSLATORS: The type of update */
@@ -1194,7 +1194,7 @@ pk_role_enum_to_localised_present (PkRoleEnum role)
 		break;
 	case PK_ROLE_ENUM_REPO_ENABLE:
 		/* TRANSLATORS: The role of the transaction, in present tense */
-		text = dgettext("PackageKit", "Enabling repository");
+		text = dgettext("PackageKit", "Modifying repository");
 		break;
 	case PK_ROLE_ENUM_REPO_SET_DATA:
 		/* TRANSLATORS: The role of the transaction, in present tense */

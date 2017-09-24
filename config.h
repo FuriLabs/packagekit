@@ -24,9 +24,6 @@
 /* Define to 1 if you have the `clearenv' function. */
 #define HAVE_CLEARENV 1
 
-/* define if Connection Manager is installed */
-/* #undef HAVE_CONNMAN */
-
 /* define if the compiler supports basic C++11 syntax */
 /* #undef HAVE_CXX11 */
 
@@ -65,9 +62,6 @@
 
 /* Define to 1 if you have the <memory.h> header file. */
 #define HAVE_MEMORY_H 1
-
-/* define if NetworkManager is installed */
-/* #undef HAVE_NETWORKMANAGER */
 
 /* Define as 1 if you have polkit >= 0.114 */
 /* #undef HAVE_POLKIT_0_114 */
@@ -115,7 +109,7 @@
 #define PACKAGE_NAME "PackageKit"
 
 /* Define to the full name and version of this package. */
-#define PACKAGE_STRING "PackageKit 1.1.6"
+#define PACKAGE_STRING "PackageKit 1.1.7"
 
 /* Define to the one symbol short name of this package. */
 #define PACKAGE_TARNAME "PackageKit"
@@ -124,7 +118,7 @@
 #define PACKAGE_URL "http://www.packagekit.org/"
 
 /* Define to the version of this package. */
-#define PACKAGE_VERSION "1.1.6"
+#define PACKAGE_VERSION "1.1.7"
 
 /* Build local code */
 #define PK_BUILD_LOCAL 1
@@ -136,7 +130,7 @@
 #define STDC_HEADERS 1
 
 /* Version number of package */
-#define VERSION "1.1.6"
+#define VERSION "1.1.7"
 
 /* define if libzypp returns package size in bytes */
 /* #undef ZYPP_RETURN_BYTES */
