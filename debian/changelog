@@ -1,8 +1,18 @@
-packagekit (1.1.6-3) UNRELEASED; urgency=medium
+packagekit (1.1.7-1) unstable; urgency=medium
 
-  * Build gtk-doc documentation
+  [ Matthias Klumpp ]
+  * New upstream version: 1.1.7
+  * Drop all patches: Applied upstream
+  * Add aptcc-fix-mimetype-search.patch: Don't fail when searching for mimetypes
+    - See LP: #1719077
+  * Bump standards and dh version
+  * Fail on missing files
+  * Add missing build-dependency on libappstream-dev
 
- -- Iain Lane <laney@debian.org>  Sat, 05 Aug 2017 17:54:11 +0100
+  [ Iain Lane ]
+  * Always rebuild gtk-doc documentation
+
+ -- Matthias Klumpp <mak@debian.org>  Sun, 24 Sep 2017 19:56:12 +0200
 
 packagekit (1.1.6-2) unstable; urgency=medium
 
