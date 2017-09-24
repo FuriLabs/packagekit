@@ -3,11 +3,9 @@ Section: admin
 Priority: optional
 Maintainer: Matthias Klumpp <mak@debian.org>
 Uploaders: Julian Andres Klode <jak@debian.org>
-Vcs-Git: https://anonscm.debian.org/git/pkg-packagekit/packagekit.git
-Vcs-Browser: https://anonscm.debian.org/git/pkg-packagekit/packagekit.git
 Build-Depends: autoconf-archive,
                bash-completion,
-               debhelper (>= 9.0.0),
+               debhelper (>= 10.4),
                dh-autoreconf (>= 4),
                dh-systemd (>= 1.16),
                docbook-utils,
@@ -30,8 +28,10 @@ Build-Depends: autoconf-archive,
                policykit-1,
                valac,
                xmlto
-Standards-Version: 4.0.0
+Standards-Version: 4.1.0
 Homepage: https://www.freedesktop.org/software/PackageKit/
+Vcs-Git: https://anonscm.debian.org/git/pkg-packagekit/packagekit.git
+Vcs-Browser: https://anonscm.debian.org/git/pkg-packagekit/packagekit.git
 
 Package: packagekit
 Architecture: any
