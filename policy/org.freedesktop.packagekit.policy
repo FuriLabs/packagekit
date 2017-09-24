@@ -96,7 +96,7 @@
     <message xml:lang="pt">Autenticação é necessária para cancelar uma tarefa que não foi iniciada por si</message>
     <message xml:lang="pt_BR">É necessário autenticar para cancelar uma tarefa que não foi iniciada por você</message>
     <message xml:lang="ro">Este necesară autentificarea pentru a putea stopa o aplicaţia ce nu a fost iniţiată de dumneavoastră</message>
-    <message xml:lang="ru">Для отмены задачи, запущенной не Вами, требуется аутентификация</message>
+    <message xml:lang="ru">Для отмены задачи, запущенной не вами, требуется аутентификация</message>
     <message xml:lang="sk">Na zrušenie úlohy, ktorú ste sami nespustili, je potrebné overenie totožnosti</message>
     <message xml:lang="sl">Za preklic opravila, ki ga niste začeli sami, je zahtevana overitev.</message>
     <message xml:lang="sr">Потребно је потврђивање идентитета за отказивање посла који нисте ви покренули</message>
@@ -190,8 +190,8 @@
     <message xml:lang="pa">ਸਾਫਟਵੇਅਰ ਇੰਸਟਾਲ ਕਰਨ ਲਈ ਪਰਮਾਣਕਿਤਾ ਚਾਹੀਦੀ ਹੈ</message>
     <message xml:lang="pl">Wymagane jest uwierzytelnienie, aby zainstalować oprogramowanie</message>
     <message xml:lang="pt">Autenticação é necessária para instalar programas</message>
-    <message xml:lang="pt_BR">Autenticação é necessária para instalar programas</message>
-    <message xml:lang="ru">Для установки ПО требуется аутентификация</message>
+    <message xml:lang="pt_BR">Autenticação é necessária para instalar softwares</message>
+    <message xml:lang="ru">Для установки приложений требуется аутентификация</message>
     <message xml:lang="sk">Inštalácia softvéru vyžaduje overenie totožnosti</message>
     <message xml:lang="sl">Za namestitev programja je obvezna overitev</message>
     <message xml:lang="sr">Потребно је потврђивање идентитета за инсталирање софтвера</message>
@@ -269,6 +269,7 @@
     <message xml:lang="en_GB">Authentication is required to install untrusted software</message>
     <message xml:lang="es">Se necesita autenticación para instalar software no confiable</message>
     <message xml:lang="eu">Autentifikazioa behar da fidagarria ez den softwarea instalatzeko</message>
+    <message xml:lang="fi">Tunnistautuminen vaaditaan ei-luotettavan ohjelmiston asentamiseksi</message>
     <message xml:lang="fr">Une authentification est nécessaire pour installer un logiciel non certifié</message>
     <message xml:lang="gl">Requírese autenticación para instalar sotware non confiábel</message>
     <message xml:lang="hr">Potrebna je ovjera za instalaciju nepouzdanog softvera</message>
@@ -281,8 +282,8 @@
     <message xml:lang="pa">ਨਾ-ਭਰੋਸੇਯੋਗ ਸਾਫਟਵੇਅਰ ਇੰਸਟਾਲ ਕਰਨ ਲਈ ਪਰਮਾਣਕਿਤਾ ਚਾਹੀਦੀ ਹੈ</message>
     <message xml:lang="pl">Wymagane jest uwierzytelnienie, aby zainstalować niezaufane oprogramowanie</message>
     <message xml:lang="pt">Autenticação é necessária para instalar um pacote não confiável</message>
-    <message xml:lang="pt_BR">Autenticação é necessária para instalar programas não confiáveis</message>
-    <message xml:lang="ru">Для установки ПО из ненадёжных источников требуется аутентификация</message>
+    <message xml:lang="pt_BR">Autenticação é necessária para instalar softwares não confiáveis</message>
+    <message xml:lang="ru">Для установки приложений из ненадёжных источников требуется аутентификация</message>
     <message xml:lang="sk">Inštalácia nedôveryhodného softvéru vyžaduje overenie totožnosti</message>
     <message xml:lang="sl">Za namestitev programja, ki ni zaupanja vredno, je obvezna overitev</message>
     <message xml:lang="sr">Потребно је потврђивање идентитета за неповерљивог софтвера</message>
@@ -357,7 +358,7 @@
     <message xml:lang="pl">Wymagane jest uwierzytelnienie, aby ponownie zainstalować oprogramowanie</message>
     <message xml:lang="pt">Autenticação é necessária para reinstalar programas</message>
     <message xml:lang="pt_BR">A autenticação é necessário para reinstalar software</message>
-    <message xml:lang="ru">Для переустановки ПО требуется аутентификация</message>
+    <message xml:lang="ru">Для переустановки приложений требуется аутентификация</message>
     <message xml:lang="sk">Na reinštalácia softvéru je potrebné overenie totožnosti</message>
     <message xml:lang="sl">Za ponovno namestitev programa je potrebna overovitev</message>
     <message xml:lang="sr">Потребно је потврђивање идентитета за поновно инсталирање софтвера</message>
@@ -410,7 +411,7 @@
     <description xml:lang="zh_TW">安裝已安裝軟體包的舊版</description>
     <message>Authentication is required to downgrade software</message>
     <message xml:lang="ca">Es requereix autenticació per revertir el programari</message>
-    <message xml:lang="cs">Pro přechod softwaru na nižší verzi je vyžadován ověření</message>
+    <message xml:lang="cs">Pro přechod softwaru na nižší verzi je vyžadováno ověření</message>
     <message xml:lang="da">Godkendelse er krævet for at nedgradere programmer</message>
     <message xml:lang="de">Legitimation ist zur Herunterstufung von Software erforderlich</message>
     <message xml:lang="el">Απαιτείται πιστοποίηση για την υποβάθμιση του λογισμικού</message>
@@ -429,8 +430,8 @@
     <message xml:lang="pa">ਸਾਫਟਵੇਅਰ ਨੂੰ ਡਾਊਨਗਰੇਡ ਕਰਨ ਲਈ ਪਰਮਾਣਕਿਤਾ ਚਾਹੀਦੀ ਹੈ</message>
     <message xml:lang="pl">Wymagane jest uwierzytelnienie, aby zainstalować starszą wersję oprogramowania</message>
     <message xml:lang="pt">Autenticação é necessária para desatualizar pacotes</message>
-    <message xml:lang="pt_BR">A autenticação é necessária para desatualizar o programa</message>
-    <message xml:lang="ru">Для понижения версии ПО требуется аутентификация</message>
+    <message xml:lang="pt_BR">A autenticação é necessária para desatualizar o software</message>
+    <message xml:lang="ru">Для понижения версии приложений требуется аутентификация</message>
     <message xml:lang="sk">Na zníženie verzie softvéru je potrebné overenie totožnosti</message>
     <message xml:lang="sl">Za namestitev starejše različice je potrebna overitev</message>
     <message xml:lang="sr">Потребно је потврђивање идентитета за разграђивање софтвера</message>
@@ -471,8 +472,8 @@
     <description xml:lang="pa">ਸਾਫਟਵੇਅਰ ਸਾਈਨ ਕਰਨ ਲਈ ਵਰਤੀ ਕੁੰਜੀ ਉੱਤੇ ਭਰੋਸੇ</description>
     <description xml:lang="pl">Oznaczenie klucza używanego do podpisywania oprogramowania jako zaufanego</description>
     <description xml:lang="pt">Confiar numa chave usada para assinar pacotes</description>
-    <description xml:lang="pt_BR">Confiar em uma chave para assinar programas</description>
-    <description xml:lang="ru">Доверять ключу, используемому для подписи ПО</description>
+    <description xml:lang="pt_BR">Confiar em uma chave para assinar softwares</description>
+    <description xml:lang="ru">Доверять ключу, используемому для подписи приложений</description>
     <description xml:lang="sk">Dôverovať kľúču použitému na podpísanie softvéru</description>
     <description xml:lang="sl">Zaupaj ključu za podpisovanje programja</description>
     <description xml:lang="sr">Веруј кључу коришћеном за потписивање софтвера</description>
@@ -501,8 +502,8 @@
     <message xml:lang="pa">ਸਾਫਟਵੇਅਰ ਦਸਤਖਤ ਕਰਨ ਲਈ ਵਰਤੀ ਕੁੰਜੀ ਨੂੰ ਭਰੋਸੇਯੋਗ ਮੰਨਣ ਲਈ ਪਰਮਾਣਕਿਤਾ ਚਾਹੀਦੀ ਹੈ</message>
     <message xml:lang="pl">Wymagane jest uwierzytelnienie, aby oznaczyć klucz używany do podpisywania oprogramowania jako zaufany</message>
     <message xml:lang="pt">Autenticação é necessária para considerar segura uma chave utilizada para assinar pacotes</message>
-    <message xml:lang="pt_BR">Autenticação é necessária para considerar como confiável uma chave usada para assinar programas</message>
-    <message xml:lang="ru">Для признания ключа, используемого для подписи ПО как надёжного, требуется аутентификация</message>
+    <message xml:lang="pt_BR">Autenticação é necessária para considerar como confiável uma chave usada para assinar softwares</message>
+    <message xml:lang="ru">Для признания ключа, используемого для подписи приложений как надёжного, требуется аутентификация</message>
     <message xml:lang="sk">Označenie kľúča použitého na podpísanie softvéru za dôveryhodný vyžaduje overenie totožnosti</message>
     <message xml:lang="sl">Za upoštevanje ključa za podpisovanje programja kot zaupanja vrednega je obvezna overitev</message>
     <message xml:lang="sr">Потребно је потврђивање идентитета за сматрање кључа коришћеног за потписивање софтвера као поверљивим</message>
@@ -707,8 +708,8 @@
     <message xml:lang="pa">ਸਾਫਟਵੇਅਰ ਨੂੰ ਹਟਾਉਣ ਲਈ ਪਰਮਾਣਕਿਤਾ ਚਾਹੀਦੀ ਹੈ</message>
     <message xml:lang="pl">Wymagane jest uwierzytelnienie, aby usunąć oprogramowanie</message>
     <message xml:lang="pt">Autenticação é necessária para remover pacotes</message>
-    <message xml:lang="pt_BR">Autenticação é necessária para remover programas</message>
-    <message xml:lang="ru">Для удаления ПО требуется аутентификация</message>
+    <message xml:lang="pt_BR">Autenticação é necessária para remover softwares</message>
+    <message xml:lang="ru">Для удаления приложений требуется аутентификация</message>
     <message xml:lang="sk">Odstránenie softvéru vyžaduje overenie totožnosti</message>
     <message xml:lang="sl">Za odstranitev programja je obvezna overitev</message>
     <message xml:lang="sr">Потребно је потврђивање идентитета за уклањање софтвера</message>
@@ -750,8 +751,8 @@
     <description xml:lang="pa">ਸਾਫਟਵੇਅਰ ਅੱਪਡੇਟ</description>
     <description xml:lang="pl">Aktualizacja oprogramowania</description>
     <description xml:lang="pt">Atualizar pacotes</description>
-    <description xml:lang="pt_BR">Atualizar programas</description>
-    <description xml:lang="ru">Обновление ПО</description>
+    <description xml:lang="pt_BR">Atualizar softwares</description>
+    <description xml:lang="ru">Обновление приложений</description>
     <description xml:lang="sk">Aktualizovať softvér</description>
     <description xml:lang="sl">Posodobi program</description>
     <description xml:lang="sr">Ажурирај софтвер</description>
@@ -782,8 +783,8 @@
     <message xml:lang="pa">ਸਾਫਟਵੇਅਰ ਨੂੰ ਅੱਪਡੇਟ ਕਰਨ ਲਈ ਪਰਮਾਣਕਿਤਾ ਚਾਹੀਦੀ ਹੈ</message>
     <message xml:lang="pl">Wymagane jest uwierzytelnienie, aby zaktualizować oprogramowanie</message>
     <message xml:lang="pt">Autenticação é necessária para atualizar pacotes</message>
-    <message xml:lang="pt_BR">Autenticação é necessária para atualizar programas</message>
-    <message xml:lang="ru">Для обновления ПО требуется аутентификация</message>
+    <message xml:lang="pt_BR">Autenticação é necessária para atualizar softwares</message>
+    <message xml:lang="ru">Для обновления приложений требуется аутентификация</message>
     <message xml:lang="sk">Aktualizácia softvéru vyžaduje overenie totožnosti</message>
     <message xml:lang="sl">Za posodobitev programja je obvezna overitev</message>
     <message xml:lang="sr">Потребно је потврђивање идентитета за ажурирање софтвера</message>
@@ -838,9 +839,9 @@
     <description xml:lang="pa">ਸਾਫਟਵੇਅਰ ਸਰੋਤ ਪੈਰਾਮੀਟਰ ਬਦਲੋ</description>
     <description xml:lang="pl">Zmiana parametrów źródła oprogramowania</description>
     <description xml:lang="pt">Alterar parâmetros do código fonte</description>
-    <description xml:lang="pt_BR">Altere parâmetros das fontes de programas</description>
+    <description xml:lang="pt_BR">Altere parâmetros das fontes de softwares</description>
     <description xml:lang="ro">Se modifică parametrii sursei softwarelui</description>
-    <description xml:lang="ru">Изменить параметры источника ПО</description>
+    <description xml:lang="ru">Изменить параметры источника приложений</description>
     <description xml:lang="sk">Zmeniť parametre zdrojov softvéru</description>
     <description xml:lang="sl">Spremeni parametre programskih virov</description>
     <description xml:lang="sr">Измени параметре извора софтвера</description>
@@ -889,9 +890,9 @@
     <message xml:lang="pa">ਸਾਫਟਵੇਅਰ ਸਰੋਤ ਪੈਰਾਮੀਟਰ ਬਦਲਣ ਲਈ ਪਰਮਾਣਕਿਤਾ ਦੀ ਲੋੜ ਹੈ</message>
     <message xml:lang="pl">Wymagane jest uwierzytelnienie, aby zmienić parametry źródeł oprogramowania</message>
     <message xml:lang="pt">Autenticação é necessária para alterar parâmetros do código fonte</message>
-    <message xml:lang="pt_BR">É necessário autenticar para alterar os parâmetros das fontes de programas</message>
+    <message xml:lang="pt_BR">É necessário autenticar para alterar os parâmetros das fontes de softwares</message>
     <message xml:lang="ro">Este necesară autentificarea pentru a modifica parametrii sursei de software</message>
-    <message xml:lang="ru">Для изменения параметров источника ПО необходима аутентификация</message>
+    <message xml:lang="ru">Для изменения параметров источника приложений необходима аутентификация</message>
     <message xml:lang="sk">Na zmenu parametrov softvérového zdroja je potrebné overenie totožnosti</message>
     <message xml:lang="sl">Za spremembo parametrov programskih virov je zahtevana overitev</message>
     <message xml:lang="sr">Потребно је потврђивање идентитета за измену параметара извора софтвера</message>
@@ -1059,7 +1060,7 @@
     <description xml:lang="pt">Configurar o proxy da rede</description>
     <description xml:lang="pt_BR">Definir um proxy de rede</description>
     <description xml:lang="ro">Definiți proxy-ul conexiunii</description>
-    <description xml:lang="ru">Задать прокси-сервер</description>
+    <description xml:lang="ru">Указать прокси-сервер</description>
     <description xml:lang="sk">Nastaviť proxy server</description>
     <description xml:lang="sl">Nastavi posredniški strežnik omrežja</description>
     <description xml:lang="sr">Постави мрежног посредника</description>
@@ -1092,8 +1093,8 @@
     <message xml:lang="pa">ਸਾਫਟਵੇਅਰ ਡਾਊਨਲੋਡ ਕਰਨ ਲਈ ਨੈੱਟਵਰਕ ਪਰਾਕਸੀ ਸੈੱਟ ਕਰਨ ਲਈ ਪਰਮਾਣਕਿਤਾ ਚਾਹੀਦੀ ਹੈ</message>
     <message xml:lang="pl">Wymagane jest uwierzytelnienie, aby ustawić pośrednika sieciowego używanego do pobierania oprogramowania</message>
     <message xml:lang="pt">Autenticação é necessária para configurar o proxy de rede utilizado para transferir pacotes</message>
-    <message xml:lang="pt_BR">Autenticação é necessária para definir um proxy de rede para baixar programas</message>
-    <message xml:lang="ru">Для настройки прокси-сервера, используемого для загрузки ПО, необходима аутентификация</message>
+    <message xml:lang="pt_BR">Autenticação é necessária para definir um proxy de rede para baixar softwares</message>
+    <message xml:lang="ru">Для настройки прокси-сервера, используемого для загрузки приложений, необходима аутентификация</message>
     <message xml:lang="sk">Nastavenie sieťového proxy servera na aktualizáciu softvéru vyžaduje overenie totožnosti</message>
     <message xml:lang="sl">Za nastavitev omrežnega posredniškega strežnika, uporabljenega za prejem programja, je obvezna overitev</message>
     <message xml:lang="sr">Потребно је потврђивање идентитета за подешавање мрежног посредника коришћеног за преузимање софтвера</message>
@@ -1149,7 +1150,7 @@
     <description xml:lang="pt">Recarregar dispositivo</description>
     <description xml:lang="pt_BR">Recarregar um dispositivo</description>
     <description xml:lang="ro">Reîncărca un dispozitiv</description>
-    <description xml:lang="ru">Перезагрузка устройства</description>
+    <description xml:lang="ru">Перезагрузить устройство</description>
     <description xml:lang="sk">Obnoviť zariadenie</description>
     <description xml:lang="sl">Ponovno naloži napravo</description>
     <description xml:lang="sr">Поново учитај уређај</description>
@@ -1313,7 +1314,7 @@
     <description xml:lang="pl">Naprawienie systemu</description>
     <description xml:lang="pt">Reparar o sistema</description>
     <description xml:lang="pt_BR">Reparar o sistema</description>
-    <description xml:lang="ru">Восстановление системы</description>
+    <description xml:lang="ru">Восстановить систему</description>
     <description xml:lang="sk">Opraviť systém</description>
     <description xml:lang="sl">Popravi sistem</description>
     <description xml:lang="sr">Поправи систем</description>
@@ -1346,8 +1347,8 @@
     <message xml:lang="pa">ਇੰਸਟਾਲ ਹੋਏ ਸਾਫਟਵੇਅਰ ਨੂੰ ਰਿਪੇਅਰ ਕਰਨ ਲਈ ਪਰਮਾਣਕਿਤਾ ਚਾਹੀਦੀ ਹੈ</message>
     <message xml:lang="pl">Wymagane jest uwierzytelnienie, aby naprawić zainstalowane oprogramowanie</message>
     <message xml:lang="pt">Autenticação é necessária para reparar os programas instalados</message>
-    <message xml:lang="pt_BR">Autenticação é necessária para reparar o programa instalado</message>
-    <message xml:lang="ru">Для восстановления установленного ПО необходима аутентификация</message>
+    <message xml:lang="pt_BR">Autenticação é necessária para reparar o software instalado</message>
+    <message xml:lang="ru">Для восстановления установленных приложений необходима аутентификация</message>
     <message xml:lang="sk">Na opravenie nainštalovaného softvéru je potrebné overenie totožnosti</message>
     <message xml:lang="sl">Za popravilo nameščenega programja je obvezna overitev</message>
     <message xml:lang="sr">Потребно је потврђивање идентитета за поправку инсталираног софтвера</message>
@@ -1408,6 +1409,7 @@
     <message xml:lang="en_GB">Authentication is required to trigger offline updates</message>
     <message xml:lang="es">Se necesita autenticación para iniciar actualizaciones en modo desconectado</message>
     <message xml:lang="eu">Autentifikatzea derrigorrezkoa da lineaz kanpoko eguneraketak abiarazteko</message>
+    <message xml:lang="fi">Tunnistautuminen vaaditaan päivitysten käynnistämiseksi yhteydettömässä tilassa</message>
     <message xml:lang="fr">Il est nécessaire d'être authentifié pour lancer des mises à jour hors ligne</message>
     <message xml:lang="gl">Requírese autenticación para disparar as anovacións fóra de liña</message>
     <message xml:lang="hr">Potrebna je ovjera za pokretanje izvanmrežne nadopune</message>
@@ -1422,7 +1424,7 @@
     <message xml:lang="pa">ਆਫਲਾਈਨ ਅੱਪਡੇਟ ਬਦਲਣ ਲਈ ਪਰਮਾਣਕਿਤਾ ਚਾਹੀਦੀ ਹੈ</message>
     <message xml:lang="pl">Wymagane jest uwierzytelnienie, aby włączyć aktualizacje w trybie offline</message>
     <message xml:lang="pt">Autenticação é necessária para acionar atualizações offline</message>
-    <message xml:lang="pt_BR">Autenticação é necessária  para acionar pacotes offline</message>
+    <message xml:lang="pt_BR">Autenticação é necessária para acionar pacotes offline</message>
     <message xml:lang="ru">Для запуска автономных обновлений необходима аутентификация</message>
     <message xml:lang="sk">Aktualizácia offline vyžaduje overenie totožnosti</message>
     <message xml:lang="sl">Za proženje posodobitev v stanju nepovezanosti je potrebno overjanje</message>
@@ -1484,6 +1486,7 @@
     <message xml:lang="en_GB">Authentication is required to trigger offline updates</message>
     <message xml:lang="es">Se necesita autenticación para iniciar actualizaciones en modo desconectado</message>
     <message xml:lang="eu">Autentifikatzea derrigorrezkoa da lineaz kanpoko eguneraketak abiarazteko</message>
+    <message xml:lang="fi">Tunnistautuminen vaaditaan päivitysten käynnistämiseksi yhteydettömässä tilassa</message>
     <message xml:lang="fr">Il est nécessaire d'être authentifié pour lancer des mises à jour hors ligne</message>
     <message xml:lang="gl">Requírese autenticación para disparar as anovacións fóra de liña</message>
     <message xml:lang="hr">Potrebna je ovjera za pokretanje izvanmrežne nadopune</message>
@@ -1498,7 +1501,7 @@
     <message xml:lang="pa">ਆਫਲਾਈਨ ਅੱਪਡੇਟ ਬਦਲਣ ਲਈ ਪਰਮਾਣਕਿਤਾ ਚਾਹੀਦੀ ਹੈ</message>
     <message xml:lang="pl">Wymagane jest uwierzytelnienie, aby włączyć aktualizacje w trybie offline</message>
     <message xml:lang="pt">Autenticação é necessária para acionar atualizações offline</message>
-    <message xml:lang="pt_BR">Autenticação é necessária  para acionar pacotes offline</message>
+    <message xml:lang="pt_BR">Autenticação é necessária para acionar pacotes offline</message>
     <message xml:lang="ru">Для запуска автономных обновлений необходима аутентификация</message>
     <message xml:lang="sk">Aktualizácia offline vyžaduje overenie totožnosti</message>
     <message xml:lang="sl">Za proženje posodobitev v stanju nepovezanosti je potrebno overjanje</message>

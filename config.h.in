@@ -23,9 +23,6 @@
 /* Define to 1 if you have the `clearenv' function. */
 #undef HAVE_CLEARENV
 
-/* define if Connection Manager is installed */
-#undef HAVE_CONNMAN
-
 /* define if the compiler supports basic C++11 syntax */
 #undef HAVE_CXX11
 
@@ -64,9 +61,6 @@
 
 /* Define to 1 if you have the <memory.h> header file. */
 #undef HAVE_MEMORY_H
-
-/* define if NetworkManager is installed */
-#undef HAVE_NETWORKMANAGER
 
 /* Define as 1 if you have polkit >= 0.114 */
 #undef HAVE_POLKIT_0_114
