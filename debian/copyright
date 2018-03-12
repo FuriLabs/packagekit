@@ -1,6 +1,6 @@
-Format: http://www.debian.org/doc/packaging-manuals/copyright-format/1.0/
+Format: https://www.debian.org/doc/packaging-manuals/copyright-format/1.0/
 Upstream-Name: PackageKit
-Source: http://www.freedesktop.org/software/PackageKit/
+Source: https://www.freedesktop.org/software/PackageKit/
 
 Files: *
 Copyright: Richard Hughes <richard@hughsie.com>
