@@ -1,3 +1,14 @@
+packagekit (1.1.9-1) unstable; urgency=medium
+
+  * New upstream version: 1.1.9
+  * Drop patches: Applied upstream
+  * Adjust for dh compat level 11
+  * Update symbols file
+  * d/watch: Use https URL
+  * d/rules: Drop obsolete dh modules
+
+ -- Matthias Klumpp <mak@debian.org>  Mon, 12 Mar 2018 20:42:45 +0100
+
 packagekit (1.1.7-1) unstable; urgency=medium
 
   [ Matthias Klumpp ]
