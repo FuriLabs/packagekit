@@ -26,7 +26,7 @@ LDFLAGS += -Wl,--as-needed
 INSTALLDIR = $(CURDIR)/debian/tmp
 
 %:
-	dh $@ --with autoreconf --with systemd --with gir
+	dh $@ --with gir
 
 extrainstallfiles-stamp:
 	grep -E -v 'lib/systemd|pk-offline-update|pk-trigger-offline-update|pk-clear-offline-update' debian/packagekit.install > debian/packagekit.install.kfreebsd
