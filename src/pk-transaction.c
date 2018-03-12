@@ -1199,7 +1199,7 @@ pk_transaction_finished_cb (PkBackendJob *job, PkExitEnum exit_enum, PkTransacti
 
 	/* report to syslog */
 	if (transaction->priv->uid != PK_TRANSACTION_UID_INVALID) {
-		syslog (LOG_DAEMON | LOG_INFO,
+		syslog (LOG_DAEMON | LOG_DEBUG,
 			"%s transaction %s from uid %i finished with %s after %ims",
 			pk_role_enum_to_string (transaction->priv->role),
 			transaction->priv->tid,
@@ -1207,7 +1207,7 @@ pk_transaction_finished_cb (PkBackendJob *job, PkExitEnum exit_enum, PkTransacti
 			pk_exit_enum_to_string (exit_enum),
 			time_ms);
 	} else {
-		syslog (LOG_DAEMON | LOG_INFO,
+		syslog (LOG_DAEMON | LOG_DEBUG,
 			"%s transaction %s finished with %s after %ims",
 			pk_role_enum_to_string (transaction->priv->role),
 			transaction->priv->tid,
@@ -1411,10 +1411,10 @@ pk_transaction_eula_required_cb (PkBackend *backend,
 				 PkEulaRequired *item,
 				 PkTransaction *transaction)
 {
-	g_autofree gchar *eula_id = NULL;
-	g_autofree gchar *package_id = NULL;
-	g_autofree gchar *vendor_name = NULL;
-	g_autofree gchar *license_agreement = NULL;
+	const gchar *eula_id;
+	const gchar *package_id;
+	const gchar *vendor_name;
+	const gchar *license_agreement;
 
 	g_return_if_fail (PK_IS_TRANSACTION (transaction));
 	g_return_if_fail (transaction->priv->tid != NULL);
@@ -1423,12 +1423,10 @@ pk_transaction_eula_required_cb (PkBackend *backend,
 	pk_results_add_eula_required (transaction->priv->results, item);
 
 	/* get data */
-	g_object_get (item,
-		      "eula-id", &eula_id,
-		      "package-id", &package_id,
-		      "vendor-name", &vendor_name,
-		      "license-agreement", &license_agreement,
-		      NULL);
+	eula_id = pk_eula_required_get_eula_id (item);
+	package_id = pk_eula_required_get_package_id (item);
+	vendor_name = pk_eula_required_get_vendor_name (item);
+	license_agreement = pk_eula_required_get_license_agreement (item);
 
 	/* emit */
 	g_debug ("emitting eula-required %s, %s, %s, %s",
@@ -2389,6 +2387,7 @@ pk_transaction_authorize_actions_finished_cb (GObject *source_object,
 	}
 
 out:
+	g_ptr_array_unref (data->actions);
 	g_free (data);
 }
 
@@ -5565,7 +5564,7 @@ pk_transaction_finalize (GObject *object)
 	g_object_unref (transaction->priv->job);
 	g_object_unref (transaction->priv->transaction_db);
 	g_object_unref (transaction->priv->results);
-//	g_object_unref (transaction->priv->authority);
+	g_object_unref (transaction->priv->authority);
 	g_object_unref (transaction->priv->cancellable);
 
 	G_OBJECT_CLASS (pk_transaction_parent_class)->finalize (object);

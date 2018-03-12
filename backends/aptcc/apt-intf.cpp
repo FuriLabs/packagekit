@@ -30,6 +30,8 @@
 #include <apt-pkg/pkgsystem.h>
 #include <apt-pkg/version.h>
 
+#include <appstream.h>
+
 #include <sys/statvfs.h>
 #include <sys/statfs.h>
 #include <sys/wait.h>
@@ -61,9 +63,6 @@ AptIntf::AptIntf(PkBackendJob *job) :
     m_cache(0)
 {
     m_cancel = false;
-
-    // Make sure initial m_time is 0
-    m_restartStat.st_mtime = 0;
 }
 
 bool AptIntf::init(gchar **localDebs)
@@ -94,11 +93,6 @@ bool AptIntf::init(gchar **localDebs)
     ftp_proxy = pk_backend_job_get_proxy_ftp(m_job);
     if (ftp_proxy != NULL)
         setenv("ftp_proxy", ftp_proxy, 1);
-
-    // Prepare for the restart thing
-    if (g_file_test(REBOOT_REQUIRED, G_FILE_TEST_EXISTS)) {
-        g_stat(REBOOT_REQUIRED, &m_restartStat);
-    }
 
     // Check if we should open the Cache with lock
     bool withLock;
@@ -169,25 +163,6 @@ bool AptIntf::init(gchar **localDebs)
 
 AptIntf::~AptIntf()
 {
-    // Check the restart thing
-    if (g_file_test(REBOOT_REQUIRED, G_FILE_TEST_EXISTS)) {
-        struct stat restartStat;
-        g_stat(REBOOT_REQUIRED, &restartStat);
-
-        if (restartStat.st_mtime > m_restartStat.st_mtime) {
-            // Emit the packages that caused the restart
-            if (!m_restartPackages.empty()) {
-                emitRequireRestart(m_restartPackages);
-            } else if (!m_pkgs.empty()) {
-                // Assume all of them
-                emitRequireRestart(m_pkgs);
-            } else {
-                // Emit a foo require restart
-                pk_backend_job_require_restart(m_job, PK_RESTART_ENUM_SYSTEM, "aptcc;;;");
-            }
-        }
-    }
-
     delete m_cache;
 }
 
@@ -1285,7 +1260,7 @@ PkgList AptIntf::searchPackageFiles(gchar **values)
     return output;
 }
 
-PkgList AptIntf::getUpdates(PkgList &blocked)
+PkgList AptIntf::getUpdates(PkgList &blocked, PkgList &downgrades)
 {
     PkgList updates;
 
@@ -1308,6 +1283,11 @@ PkgList AptIntf::getUpdates(PkgList &blocked)
             if (!ver.end()) {
                 updates.push_back(ver);
             }
+        } else if (state.Downgrade() == true) {
+            const pkgCache::VerIterator &ver = m_cache->findCandidateVer(pkg);
+            if (!ver.end()) {
+                downgrades.push_back(ver);
+            }
         } else if (state.Upgradable() == true &&
                    pkg->CurrentVer != 0 &&
                    state.Delete() == false) {
@@ -1324,93 +1304,57 @@ PkgList AptIntf::getUpdates(PkgList &blocked)
 // used to return files it reads, using the info from the files in /var/lib/dpkg/info/
 void AptIntf::providesMimeType(PkgList &output, gchar **values)
 {
-    regex_t re;
-    gchar *value;
-    gchar *values_str;
-
-    values_str = g_strjoinv("|", values);
-    value = g_strdup_printf("^MimeType=\\(.*;\\)\\?\\(%s\\)\\(;.*\\)\\?$",
-                            values_str);
-    g_free(values_str);
-
-    if(regcomp(&re, value, REG_NOSUB) != 0) {
-        g_debug("Regex compilation error");
-        g_free(value);
-        return;
-    }
-    g_free(value);
-
-    DIR *dp;
-    struct dirent *dirp;
-    if (!(dp = opendir("/usr/share/app-install/desktop/"))) {
-        g_debug ("Error opening /usr/share/app-install/desktop/\n");
-        regfree(&re);
-        return;
-    }
-
+    g_autoptr(AsPool) pool = NULL;
+    g_autoptr(GError) error = NULL;
+    guint i;
     vector<string> packages;
-    string line;
-    while ((dirp = readdir(dp)) != NULL) {
-        if (m_cancel) {
+
+    pool = as_pool_new ();
+    as_pool_load (pool, NULL, &error);
+    if (error != NULL) {
+        /* we do not fail here because even with error we might still find metadata */
+        g_warning ("Issue while loading the AppStream metadata pool: %s", error->message);
+        g_error_free (error);
+        error = NULL;
+    }
+
+    for (i = 0; values[i] != NULL; i++) {
+        g_autoptr(GPtrArray) result = NULL;
+        guint j;
+        if (m_cancel)
             break;
-        }
-        if (ends_with(dirp->d_name, ".desktop")) {
-            string f = "/usr/share/app-install/desktop/" + string(dirp->d_name);
-            ifstream in(f.c_str());
-            if (!in != 0) {
-                continue;
-            }
-            bool getName = false;
-            while (!in.eof()) {
-                getline(in, line);
-                if (getName) {
-                    if (starts_with(line, "X-AppInstall-Package=")) {
-                        // Remove the X-AppInstall-Package=
-                        packages.push_back(line.substr(21));
-                        break;
-                    }
-                } else {
-                    if (regexec(&re, line.c_str(), (size_t)0, NULL, 0) == 0) {
-                        in.seekg(ios_base::beg);
-                        getName = true;
-                    }
-                }
-            }
+
+        result = as_pool_get_components_by_provided_item (pool, AS_PROVIDED_KIND_MIMETYPE, values[i]);
+        for (j = 0; j < result->len; j++) {
+            AsComponent *cpt = AS_COMPONENT (g_ptr_array_index (result, j));
+            /* we only select one package per component - on Debian systems, AppStream components never reference multiple packages */
+            packages.push_back (as_component_get_pkgname (cpt));
         }
     }
 
-    closedir(dp);
-    regfree(&re);
-
-    // resolve the package names
+    /* resolve the package names */
     for (const string &package : packages) {
-        if (m_cancel) {
+        if (m_cancel)
             break;
-        }
+
         const pkgCache::PkgIterator &pkg = (*m_cache)->FindPkg(package);
-        if (pkg.end() == true) {
+        if (pkg.end() == true)
             continue;
-        }
         const pkgCache::VerIterator &ver = m_cache->findVer(pkg);
-        if (ver.end() == true) {
+        if (ver.end() == true)
             continue;
-        }
+
         output.push_back(ver);
     }
 
-    // Check if app-install-data is installed
+    /* check if we found nothing because AppStream data is missing completely */
     if (output.empty()) {
-        // check if app-install-data is installed
-        pkgCache::PkgIterator pkg;
-        pkg = (*m_cache)->FindPkg("app-install-data");
-        if (pkg->CurrentState != pkgCache::State::Installed) {
+        g_autoptr(GPtrArray) all_cpts = as_pool_get_components (pool);
+        if (all_cpts->len <= 0) {
             pk_backend_job_error_code(m_job,
                                       PK_ERROR_ENUM_INTERNAL_ERROR,
-                                      "You need the app-install-data "
-                                      "package to be able to look for "
-                                      "applications that can handle "
-                                      "this kind of file");
-        }
+                                      "No AppStream metadata was found. This means we are unable to find any information for your request.");
+	}
     }
 }
 
@@ -1823,7 +1767,6 @@ void AptIntf::updateInterface(int fd, int writeFd)
                 int exit_code = WEXITSTATUS(exitStatus);
                 cout << filename << " " << exit_code << " ret: "<< ret << endl;
 
-                g_free(filename);
                 g_strfreev(argv);
                 g_strfreev(envp);
 
@@ -2244,9 +2187,35 @@ bool AptIntf::runTransaction(const PkgList &install, const PkgList &remove, cons
         }
     }
 
+    // Prepare for the restart thing
+    struct stat restartStatStart;
+    if (g_file_test(REBOOT_REQUIRED, G_FILE_TEST_EXISTS)) {
+        g_stat(REBOOT_REQUIRED, &restartStatStart);
+    }
+
     // If we are simulating the install packages
     // will just calculate the trusted packages
-    return installPackages(flags, autoremove);
+    const auto ret = installPackages(flags, autoremove);
+
+    if (g_file_test(REBOOT_REQUIRED, G_FILE_TEST_EXISTS)) {
+        struct stat restartStat;
+        g_stat(REBOOT_REQUIRED, &restartStat);
+
+        if (restartStat.st_mtime > restartStatStart.st_mtime) {
+            // Emit the packages that caused the restart
+            if (!m_restartPackages.empty()) {
+                emitRequireRestart(m_restartPackages);
+            } else if (!m_pkgs.empty()) {
+                // Assume all of them
+                emitRequireRestart(m_pkgs);
+            } else {
+                // Emit a foo require restart
+                pk_backend_job_require_restart(m_job, PK_RESTART_ENUM_SYSTEM, "aptcc;;;");
+            }
+        }
+    }
+
+    return ret;
 }
 
 /**

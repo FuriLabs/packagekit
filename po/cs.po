@@ -16,9 +16,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PackageKit\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-09-11 13:07+0100\n"
-"PO-Revision-Date: 2017-09-11 12:07+0000\n"
-"Last-Translator: Richard Hughes <richard@hughsie.com>\n"
+"POT-Creation-Date: 2018-02-19 12:41+0100\n"
+"PO-Revision-Date: 2018-02-19 11:42+0000\n"
+"Last-Translator: kalev <kalevlember@gmail.com>\n"
 "Language-Team: Czech (http://www.transifex.com/freedesktop/packagekit/language/cs/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -334,7 +334,7 @@ msgstr "Žádné balíčky nevyžadují aktualizaci na novější verzi."
 #. TRANSLATORS: There was an error getting the
 #. * details about the package. The detailed error follows
 #. TRANSLATORS: The package name was not found in
-#. * any software sources. The detailed error follows
+#. * any software repositories. The detailed error follows
 #, c-format
 msgid "This tool could not find all the packages: %s"
 msgstr "Tomuto nástroji se nepodařilo nalézt všechny balíčky: %s"
@@ -579,8 +579,8 @@ msgid "Installing system upgrade; this could take a while..."
 msgstr "Instaluje se povýšení systému, což může trvat delší chvíli…"
 
 #. TRANSLATORS: downloading repo data so we can search
-msgid "Downloading details about the software sources."
-msgstr "Stahují se podrobnosti ke zdrojům programů."
+msgid "Downloading details about the software repositories."
+msgstr ""
 
 #. TRANSLATORS: downloading file lists so we can search
 msgid "Downloading filelists (this may take some time to complete)."
@@ -1179,7 +1179,7 @@ msgid "Install signed package"
 msgstr "Nainstalovat podepsaný balíček"
 
 msgid "Authentication is required to install software"
-msgstr "Pro instalaci software je vyžadováno ověření"
+msgstr "Pro instalaci softwaru je vyžadováno ověření"
 
 #. SECURITY:
 #. - Normal users require admin authentication to install untrusted or
@@ -1190,7 +1190,7 @@ msgid "Install untrusted local file"
 msgstr "Nainstalovat místní nedůvěryhodný soubor"
 
 msgid "Authentication is required to install untrusted software"
-msgstr "Pro instalaci nedůvěryhodného software je vyžadováno ověření"
+msgstr "Pro instalaci nedůvěryhodného softwaru je vyžadováno ověření"
 
 #. SECURITY
 #. - Normal users require admin authentication to reinstall packages.
@@ -1222,7 +1222,7 @@ msgstr "Pro přechod softwaru na nižší verzi je vyžadováno ověření"
 #. without a secure authentication.
 #. - This is not kept as each package should be authenticated.
 msgid "Trust a key used for signing software"
-msgstr "Důvěřovat klíči použitému pro podepsání software"
+msgstr "Důvěřovat klíči použitému pro podepsání softwaru"
 
 msgid ""
 "Authentication is required to consider a key used for signing software as "
@@ -1253,7 +1253,7 @@ msgid "Remove package"
 msgstr "Odebrat balíček"
 
 msgid "Authentication is required to remove software"
-msgstr "Pro odebrání software je vyžadováno ověření"
+msgstr "Pro odebrání softwaru je vyžadováno ověření"
 
 #. SECURITY:
 #. - Normal users do not require admin authentication to update the
@@ -1262,29 +1262,29 @@ msgstr "Pro odebrání software je vyžadováno ověření"
 #. - Changing this to anything other than 'yes' will break unattended
 #. updates.
 msgid "Update software"
-msgstr "Akutalizace software"
+msgstr "Aktualizace softwaru"
 
 msgid "Authentication is required to update software"
-msgstr "Pro aktualizaci software je vyžadováno ověření"
+msgstr "Pro aktualizaci softwaru je vyžadováno ověření"
 
 #. SECURITY:
 #. - Normal users require admin authentication to enable or disable
-#. software sources as this can be used to enable new updates or
+#. software repositories as this can be used to enable new updates or
 #. install different versions of software.
-msgid "Change software source parameters"
-msgstr "Změnit parametry zdrojů softwaru"
+msgid "Change software repository parameters"
+msgstr ""
 
-msgid "Authentication is required to change software source parameters"
-msgstr "Pro změnu parametrů zdrojů softwaru je vyžádováno ověření"
+msgid "Authentication is required to change software repository parameters"
+msgstr ""
 
 #. SECURITY:
 #. - Normal users do not require admin authentication to refresh the
 #. cache, as this doesn't actually install or remove software.
-msgid "Refresh system sources"
-msgstr "Aktualizovat systémové zdroje"
+msgid "Refresh system repositories"
+msgstr ""
 
-msgid "Authentication is required to refresh the system sources"
-msgstr "Pro aktualizaci systémových zdrojů je vyžadováno ověření"
+msgid "Authentication is required to refresh the system repositories"
+msgstr ""
 
 #. SECURITY:
 #. - Normal users do not require admin authentication to set the proxy

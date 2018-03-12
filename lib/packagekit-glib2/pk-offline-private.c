@@ -31,7 +31,7 @@
 #include "pk-offline.h"
 #include "pk-offline-private.h"
 
-/**
+/*
  * pk_offline_auth_set_action:
  * @action: a #PkOfflineAction, e.g. %PK_OFFLINE_ACTION_REBOOT
  * @error: A #GError or %NULL
@@ -80,7 +80,7 @@ pk_offline_auth_set_action (PkOfflineAction action, GError **error)
 	return TRUE;
 }
 
-/**
+/*
  * pk_offline_auth_cancel:
  * @error: A #GError or %NULL
  *
@@ -126,7 +126,7 @@ pk_offline_auth_cancel (GError **error)
 	return TRUE;
 }
 
-/**
+/*
  * pk_offline_auth_clear_results:
  * @error: A #GError or %NULL
  *
@@ -162,7 +162,7 @@ pk_offline_auth_clear_results (GError **error)
 	return TRUE;
 }
 
-/**
+/*
  * pk_offline_auth_invalidate:
  * @error: A #GError or %NULL
  *
@@ -257,7 +257,7 @@ pk_offline_auth_trigger_prepared_file (PkOfflineAction action, const gchar *prep
 	return TRUE;
 }
 
-/**
+/*
  * pk_offline_auth_trigger:
  * @action: a #PkOfflineAction, e.g. %PK_OFFLINE_ACTION_REBOOT
  * @error: A #GError or %NULL
@@ -275,7 +275,7 @@ pk_offline_auth_trigger (PkOfflineAction action, GError **error)
 	return pk_offline_auth_trigger_prepared_file (action, PK_OFFLINE_PREPARED_FILENAME, error);
 }
 
-/**
+/*
  * pk_offline_auth_trigger_upgrade:
  * @action: a #PkOfflineAction, e.g. %PK_OFFLINE_ACTION_REBOOT
  * @error: A #GError or %NULL
@@ -293,7 +293,7 @@ pk_offline_auth_trigger_upgrade (PkOfflineAction action, GError **error)
 	return pk_offline_auth_trigger_prepared_file (action, PK_OFFLINE_PREPARED_UPGRADE_FILENAME, error);
 }
 
-/**
+/*
  * pk_offline_auth_set_prepared_ids:
  * @package_ids: Array of package-ids
  * @error: A #GError or %NULL
@@ -318,7 +318,7 @@ pk_offline_auth_set_prepared_ids (gchar **package_ids, GError **error)
 	return g_key_file_save_to_file (keyfile, PK_OFFLINE_PREPARED_FILENAME, error);
 }
 
-/**
+/*
  * pk_offline_auth_set_prepared_upgrade:
  * @name: Distro name to upgrade to
  * @release_ver: Distro version to upgrade to
@@ -343,7 +343,7 @@ pk_offline_auth_set_prepared_upgrade (const gchar *name, const gchar *release_ve
 	return g_key_file_save_to_file (keyfile, PK_OFFLINE_PREPARED_UPGRADE_FILENAME, error);
 }
 
-/**
+/*
  * pk_offline_get_prepared_upgrade:
  * @name: (out): Return location for the distro name
  * @release_ver: (out): Return location for the distro version
@@ -405,7 +405,7 @@ pk_offline_get_prepared_upgrade (gchar **name, gchar **release_ver, GError **err
 	return TRUE;
 }
 
-/**
+/*
  * pk_offline_auth_set_results:
  * @results: A #PkResults
  * @error: A #GError or %NULL
@@ -421,6 +421,7 @@ pk_offline_auth_set_results (PkResults *results, GError **error)
 {
 	guint i;
 	PkPackage *package;
+	PkRoleEnum role;
 	g_autoptr(GError) error_local = NULL;
 	g_autofree gchar *data = NULL;
 	g_autoptr(GKeyFile) key_file = NULL;
@@ -449,6 +450,15 @@ pk_offline_auth_set_results (PkResults *results, GError **error)
 					PK_OFFLINE_RESULTS_GROUP,
 					"Success",
 					TRUE);
+	}
+
+	/* save role */
+	role = pk_results_get_role (results);
+	if (role != PK_ROLE_ENUM_UNKNOWN) {
+		g_key_file_set_string (key_file,
+		                       PK_OFFLINE_RESULTS_GROUP,
+		                       "Role",
+		                       pk_role_enum_to_string (role));
 	}
 
 	/* save packages if any set */

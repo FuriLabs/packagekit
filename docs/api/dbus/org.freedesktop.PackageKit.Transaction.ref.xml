@@ -620,10 +620,10 @@
             power.
           </para>
           <para>
-            When fetching each software source, ensure to emit RepoDetail for the
-            current source to give the user interface some extra details. Be sure to
+            When fetching each software repository, ensure to emit RepoDetail for the
+            current repository to give the user interface some extra details. Be sure to
             have the "enabled" field set to true, otherwise you wouldn't be fetching
-            that source.
+            that repository.
           </para>
           <para>
             This method typically emits
@@ -906,7 +906,7 @@
               repo:fedora-debuginfo.
               In this instance all packages that were either installed
               from, or can be installed from the fedora-debuginfo
-              source would be returned.
+              repository would be returned.
             
           </simpara></listitem></varlistentry></variablelist><refsect2><title><anchor role="function" id="Transaction.SearchNames"/>SearchNames ()</title><indexterm><primary>SearchNames</primary><secondary>Transaction</secondary></indexterm><programlisting>SearchNames (in  't'  filter,
              in  'as' values)</programlisting></refsect2>
