@@ -21,9 +21,10 @@
 
 /**
  * SECTION:pk-enum
- * @short_description: Functions for converting strings to enum and vice-versa
+ * @title: Enumerations
+ * @short_description: Enumerations used in packagekit-glib2
  *
- * This file contains functions to convert to and from enumerated types.
+ * Enumerated values used in packagekit-glib2 and functions for using these.
  */
 
 #include "config.h"
@@ -88,6 +89,7 @@ static const PkEnumMatch enum_status[] = {
 	{PK_STATUS_ENUM_CHECK_EXECUTABLE_FILES,	"check-executable-files"},
 	{PK_STATUS_ENUM_CHECK_LIBRARIES,	"check-libraries"},
 	{PK_STATUS_ENUM_COPY_FILES,		"copy-files"},
+	{PK_STATUS_ENUM_RUN_HOOK,		"run-hook"},
 	{0, NULL}
 };
 

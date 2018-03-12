@@ -60,7 +60,6 @@ typedef struct {
 } PkBackendDnfPrivate;
 
 typedef struct {
-	GPtrArray	*repos;
 	DnfContext	*context;
 	DnfTransaction	*transaction;
 	DnfState	*state;
@@ -106,9 +105,9 @@ pk_backend_sack_cache_invalidate (PkBackend *backend, const gchar *why)
 	DnfSackCacheItem *cache_item;
 	PkBackendDnfPrivate *priv = pk_backend_get_user_data (backend);
 	g_autoptr(GList) values = NULL;
+	g_autoptr(GMutexLocker) locker = g_mutex_locker_new (&priv->sack_mutex);
 
 	/* set all the cached sacks as invalid */
-	g_mutex_lock (&priv->sack_mutex);
 	values = g_hash_table_get_values (priv->sack_cache);
 	for (l = values; l != NULL; l = l->next) {
 		cache_item = l->data;
@@ -117,15 +116,22 @@ pk_backend_sack_cache_invalidate (PkBackend *backend, const gchar *why)
 			cache_item->valid = FALSE;
 		}
 	}
-	g_mutex_unlock (&priv->sack_mutex);
 }
 
 /**
  * pk_backend_yum_repos_changed_cb:
  **/
 static void
-pk_backend_yum_repos_changed_cb (DnfRepoLoader *self, PkBackend *backend)
+pk_backend_yum_repos_changed_cb (DnfRepoLoader *repo_loader, PkBackend *backend)
 {
+	g_autoptr(GError) error_local = NULL;
+	g_autoptr(GPtrArray) repos = NULL;
+
+	/* ask the context's repo loader for new repos, forcing it to reload them */
+	repos = dnf_repo_loader_get_repos (repo_loader, &error_local);
+	if (repos == NULL)
+		g_warning ("failed to reload repos: %s", error_local->message);
+
 	pk_backend_sack_cache_invalidate (backend, "yum.repos.d changed");
 	pk_backend_repo_list_changed (backend);
 }
@@ -193,6 +199,52 @@ pk_backend_setup_dnf_context (DnfContext *context, GKeyFile *conf, const gchar *
 	return dnf_context_setup (context, NULL, error);
 }
 
+static void
+remove_old_cache_directories (PkBackend *backend, const gchar *release_ver_str)
+{
+	PkBackendDnfPrivate *priv = pk_backend_get_user_data (backend);
+	gboolean keep_cache;
+	guint64 release_ver;
+	g_autofree gchar *destdir = NULL;
+	g_autoptr(GError) error = NULL;
+
+	g_assert (priv->conf != NULL);
+
+	/* cache cleanup disabled? */
+	keep_cache = g_key_file_get_boolean (priv->conf, "Daemon", "KeepCache", NULL);
+	if (keep_cache) {
+		g_debug ("KeepCache config option set; skipping old cache directory cleanup");
+		return;
+	}
+
+	/* only do cache cleanup for regular installs */
+	destdir = g_key_file_get_string (priv->conf, "Daemon", "DestDir", NULL);
+	if (destdir != NULL) {
+		g_debug ("DestDir config option set; skipping old cache directory cleanup");
+		return;
+	}
+
+	/* parse the version, while being careful to not trip over for any
+	 * non-numeric strings that we don't know how to handle, e.g. "7.5" */
+	if (!g_ascii_string_to_unsigned (release_ver_str, 10, 1, 1000, &release_ver, &error)) {
+		g_debug ("failed to parse current release version: %s", error->message);
+		return;
+	}
+
+	/* remove any older directories */
+	for (guint i = 0; i < (guint)release_ver; i++) {
+		g_autofree gchar *dir = NULL;
+
+		dir = g_strdup_printf ("/var/cache/PackageKit/%u", i);
+		if (g_file_test (dir, G_FILE_TEST_IS_DIR)) {
+			g_debug ("removing old cache directory %s", dir);
+			pk_directory_remove_contents (dir);
+			if (g_remove (dir) != 0)
+				g_warning ("failed to remove directory %s", dir);
+		}
+	}
+}
+
 /**
  * pk_backend_initialize:
  */
@@ -211,6 +263,7 @@ pk_backend_initialize (GKeyFile *conf, PkBackend *backend)
 	/* create private area */
 	priv = g_new0 (PkBackendDnfPrivate, 1);
 	pk_backend_set_user_data (backend, priv);
+	priv->conf = g_key_file_ref (conf);
 
 	g_debug ("Using Dnf %i.%i.%i",
 		 LIBDNF_MAJOR_VERSION,
@@ -225,6 +278,9 @@ pk_backend_initialize (GKeyFile *conf, PkBackend *backend)
 	if (release_ver == NULL)
 		g_error ("Failed to parse os-release: %s", error->message);
 
+	/* clean up any cache directories left over from a distro upgrade */
+	remove_old_cache_directories (backend, release_ver);
+
 	/* a cache of DnfSacks with the key being which sacks are loaded
 	 *
 	 * notes:
@@ -237,8 +293,6 @@ pk_backend_initialize (GKeyFile *conf, PkBackend *backend)
 						  g_str_equal,
 						  g_free,
 						  (GDestroyNotify) dnf_sack_cache_item_free);
-
-	priv->conf = g_key_file_ref (conf);
 
 	/* set defaults */
 	priv->context = dnf_context_new ();
@@ -458,29 +512,10 @@ pk_backend_stop_job (PkBackend *backend, PkBackendJob *job)
 		g_object_unref (job_data->transaction);
 	if (job_data->context != NULL)
 		g_object_unref (job_data->context);
-	if (job_data->repos != NULL)
-		g_ptr_array_unref (job_data->repos);
 	if (job_data->goal != NULL)
 		hy_goal_free (job_data->goal);
 	g_free (job_data);
 	pk_backend_job_set_user_data (job, NULL);
-}
-
-/**
- * pk_backend_ensure_repos:
- */
-static gboolean
-pk_backend_ensure_repos (PkBackendDnfJobData *job_data, GError **error)
-{
-	/* already set */
-	if (job_data->repos != NULL)
-		return TRUE;
-
-	/* set the list of repos */
-	job_data->repos = dnf_repo_loader_get_repos (dnf_context_get_repo_loader (job_data->context), error);
-	if (job_data->repos == NULL)
-		return FALSE;
-	return TRUE;
 }
 
 static gboolean
@@ -516,9 +551,10 @@ dnf_utils_add_remote (PkBackendJob *job,
 		      DnfState *state,
 		      GError **error)
 {
+	PkBackendDnfJobData *job_data = pk_backend_job_get_user_data (job);
 	gboolean ret;
 	DnfState *state_local;
-	PkBackendDnfJobData *job_data = pk_backend_job_get_user_data (job);
+	GPtrArray *repos;
 
 	/* set state */
 	ret = dnf_state_set_steps (state, error,
@@ -528,18 +564,16 @@ dnf_utils_add_remote (PkBackendJob *job,
 	if (!ret)
 		return FALSE;
 
-	/* set the list of repos */
-	if (!pk_backend_ensure_repos (job_data, error))
-		return FALSE;
-
 	/* done */
 	if (!dnf_state_done (state, error))
 		return FALSE;
 
+	repos = dnf_context_get_repos (job_data->context);
+
 	/* add each repo */
 	state_local = dnf_state_get_child (state);
 	ret = dnf_sack_add_repos (sack,
-	                          job_data->repos,
+	                          repos,
 	                          pk_backend_job_get_cache_age (job),
 	                          flags,
 	                          state_local,
@@ -548,8 +582,8 @@ dnf_utils_add_remote (PkBackendJob *job,
 		return FALSE;
 
 	/* update the AppStream copies in /var */
-	for (guint i = 0; i < job_data->repos->len; i++) {
-		DnfRepo *repo = g_ptr_array_index (job_data->repos, i);
+	for (guint i = 0; i < repos->len; i++) {
+		DnfRepo *repo = g_ptr_array_index (repos, i);
 		if (!dnf_utils_refresh_repo_appstream (repo, error))
 			return FALSE;
 	}
@@ -631,13 +665,13 @@ dnf_utils_create_sack_for_filters (PkBackendJob *job,
 	DnfSackAddFlags flags = DNF_SACK_ADD_FLAG_FILELISTS;
 	DnfSackCacheItem *cache_item = NULL;
 	DnfState *state_local;
-	DnfSack *sack = NULL;
 	PkBackend *backend = pk_backend_job_get_backend (job);
 	PkBackendDnfJobData *job_data = pk_backend_job_get_user_data (job);
 	PkBackendDnfPrivate *priv = pk_backend_get_user_data (backend);
 	g_autofree gchar *cache_key = NULL;
 	g_autofree gchar *install_root = NULL;
 	g_autofree gchar *solv_dir = NULL;
+	g_autoptr(DnfSack) sack = NULL;
 
 	/* don't add if we're going to filter out anyway */
 	if (!pk_bitfield_contain (filters, PK_FILTER_ENUM_INSTALLED))
@@ -680,22 +714,20 @@ dnf_utils_create_sack_for_filters (PkBackendJob *job,
 	/* do we have anything in the cache */
 	cache_key = dnf_utils_create_cache_key (dnf_context_get_release_ver (job_data->context), flags);
 	if ((create_flags & DNF_CREATE_SACK_FLAG_USE_CACHE) > 0) {
-		g_mutex_lock (&priv->sack_mutex);
+		g_autoptr(GMutexLocker) locker = g_mutex_locker_new (&priv->sack_mutex);
 		cache_item = g_hash_table_lookup (priv->sack_cache, cache_key);
 		if (cache_item != NULL && cache_item->sack != NULL) {
 			if (cache_item->valid) {
 				ret = TRUE;
 				g_debug ("using cached sack %s", cache_key);
-				sack = cache_item->sack;
-				g_mutex_unlock (&priv->sack_mutex);
-				goto out;
+				sack = g_object_ref (cache_item->sack);
+				return g_steal_pointer (&sack);
 			} else {
 				/* we have to do this now rather than rely on the
 				 * callback of the hash table */
 				g_hash_table_remove (priv->sack_cache, cache_key);
 			}
 		}
-		g_mutex_unlock (&priv->sack_mutex);
 	}
 
 	/* update status */
@@ -708,7 +740,7 @@ dnf_utils_create_sack_for_filters (PkBackendJob *job,
 					   92, /* add remote */
 					   -1);
 		if (!ret)
-			goto out;
+			return NULL;
 	} else {
 		dnf_state_set_number_steps (state, 1);
 	}
@@ -724,20 +756,20 @@ dnf_utils_create_sack_for_filters (PkBackendJob *job,
 		g_prefix_error (error, "failed to create sack in %s for %s: ",
 				dnf_context_get_solv_dir (job_data->context),
 				dnf_context_get_install_root (job_data->context));
-		goto out;
+		return NULL;
 	}
 
 	/* add installed packages */
 	ret = dnf_sack_load_system_repo (sack, NULL, DNF_SACK_LOAD_FLAG_BUILD_CACHE, error);
 	if (!ret) {
 		g_prefix_error (error, "Failed to load system repo: ");
-		goto out;
+		return NULL;
 	}
 
 	/* done */
 	ret = dnf_state_done (state, error);
 	if (!ret)
-		goto out;
+		return NULL;
 
 	/* add remote packages */
 	if ((flags & DNF_SACK_ADD_FLAG_REMOTE) > 0) {
@@ -745,29 +777,25 @@ dnf_utils_create_sack_for_filters (PkBackendJob *job,
 		ret = dnf_utils_add_remote (job, sack, flags,
 					    state_local, error);
 		if (!ret)
-			goto out;
+			return NULL;
 
 		/* done */
 		ret = dnf_state_done (state, error);
 		if (!ret)
-			goto out;
+			return NULL;
 	}
 
 	/* save in cache */
 	g_mutex_lock (&priv->sack_mutex);
 	cache_item = g_slice_new (DnfSackCacheItem);
 	cache_item->key = g_strdup (cache_key);
-	cache_item->sack = sack;
+	cache_item->sack = g_object_ref (sack);
 	cache_item->valid = TRUE;
 	g_debug ("created cached sack %s", cache_item->key);
 	g_hash_table_insert (priv->sack_cache, g_strdup (cache_key), cache_item);
 	g_mutex_unlock (&priv->sack_mutex);
-out:
-	if (!ret && sack != NULL) {
-		g_object_unref (sack);
-		sack = NULL;
-	}
-	return sack;
+
+	return g_steal_pointer (&sack);
 }
 
 /**
@@ -915,11 +943,11 @@ pk_backend_search_thread (PkBackendJob *job, GVariant *params, gpointer user_dat
 	GPtrArray *installs = NULL;
 	GPtrArray *pkglist = NULL;
 	HyQuery query = NULL;
-	DnfSack *sack = NULL;
 	PkBackendDnfJobData *job_data = pk_backend_job_get_user_data (job);
 	PkBitfield filters = 0;
 	g_autofree gchar **search_tmp = NULL;
 	g_autoptr(GError) error = NULL;
+	g_autoptr(DnfSack) sack = NULL;
 	g_auto(GStrv) search = NULL;
 
 	/* set state */
@@ -951,13 +979,6 @@ pk_backend_search_thread (PkBackendJob *job, GVariant *params, gpointer user_dat
 	default:
 		g_variant_get (params, "(t^as)", &filters, &search);
 		break;
-	}
-
-	/* set the list of repos */
-	ret = pk_backend_ensure_repos (job_data, &error);
-	if (!ret) {
-		pk_backend_job_error_code (job, error->code, "%s", error->message);
-		goto out;
 	}
 
 	/* get sack */
@@ -1191,6 +1212,12 @@ repo_is_supported (DnfRepo *repo)
 	return dnf_validate_supported_repo (dnf_repo_get_id (repo));
 }
 
+static gboolean
+repo_is_source (DnfRepo *repo)
+{
+	return g_str_has_suffix (dnf_repo_get_id (repo), "-source");
+}
+
 /**
  * pk_backend_repo_filter:
  */
@@ -1207,10 +1234,10 @@ pk_backend_repo_filter (DnfRepo *repo, PkBitfield filters)
 
 	/* source and ~source */
 	if (pk_bitfield_contain (filters, PK_FILTER_ENUM_SOURCE) &&
-	    !dnf_repo_is_repo (repo))
+	    !repo_is_source (repo))
 		return FALSE;
 	if (pk_bitfield_contain (filters, PK_FILTER_ENUM_NOT_SOURCE) &&
-	    dnf_repo_is_repo (repo))
+	    repo_is_source (repo))
 		return FALSE;
 
 	/* installed and ~installed == enabled */
@@ -1246,24 +1273,16 @@ pk_backend_get_repo_list_thread (PkBackendJob *job,
 	DnfRepo *repo;
 	PkBackendDnfJobData *job_data = pk_backend_job_get_user_data (job);
 	PkBitfield filters;
-	g_autoptr(GPtrArray) repos = NULL;
+	GPtrArray *repos;
 	g_autoptr(GError) error = NULL;
 
 	g_variant_get (params, "(t)", &filters);
 
 	/* set the list of repos */
 	pk_backend_job_set_status (job, PK_STATUS_ENUM_QUERY);
-	repos = dnf_repo_loader_get_repos (dnf_context_get_repo_loader (job_data->context), &error);
-	if (repos == NULL) {
-		pk_backend_job_error_code (job,
-					   error->code,
-					   "failed to scan yum.repos.d: %s",
-					   error->message);
-		return;
-	}
 
-	/* none? */
-	if (repos->len == 0) {
+	repos = dnf_context_get_repos (job_data->context);
+	if (repos == NULL || repos->len == 0) {
 		pk_backend_job_error_code (job,
 					   PK_ERROR_ENUM_REPO_NOT_FOUND,
 					   "failed to find any repos");
@@ -1311,7 +1330,26 @@ pk_backend_repo_set_data_thread (PkBackendJob *job,
 	PkBackendDnfJobData *job_data = pk_backend_job_get_user_data (job);
 	g_autoptr(GError) error = NULL;
 
-	g_variant_get (params, "(&s&s&s)", &repo_id, &parameter, &value);
+	/* get arguments */
+	switch (pk_backend_job_get_role (job)) {
+	case PK_ROLE_ENUM_REPO_ENABLE:
+		{
+			gboolean enabled;
+
+		        g_variant_get (params, "(&sb)", &repo_id, &enabled);
+			if (enabled)
+				value = "1";
+			else
+				value = "0";
+
+			parameter = "enabled";
+		}
+		break;
+	default:
+		g_variant_get (params, "(&s&s&s)", &repo_id, &parameter, &value);
+		break;
+	}
+
 
 	/* take lock */
 	ret = dnf_state_take_lock (job_data->state,
@@ -1401,8 +1439,7 @@ pk_backend_repo_enable (PkBackend *backend,
 			const gchar *repo_id,
 			gboolean enabled)
 {
-	pk_backend_repo_set_data (backend, job, repo_id,
-				  "enabled", enabled ? "1" : "0");
+	pk_backend_job_thread_create (job, pk_backend_repo_set_data_thread, NULL, NULL);
 }
 
 /**
@@ -1512,15 +1549,16 @@ pk_backend_refresh_cache_thread (PkBackendJob *job,
 				 GVariant *params,
 				 gpointer user_data)
 {
+	PkBackendDnfJobData *job_data = pk_backend_job_get_user_data (job);
 	DnfRepo *repo;
 	DnfState *state_local;
 	DnfState *state_loop;
-	DnfSack *sack = NULL;
-	PkBackendDnfJobData *job_data = pk_backend_job_get_user_data (job);
+	GPtrArray *repos;
 	gboolean force;
 	gboolean ret;
 	guint cnt = 0;
 	guint i;
+	g_autoptr(DnfSack) sack = NULL;
 	g_autoptr(GError) error = NULL;
 	g_autoptr(GPtrArray) refresh_repos = NULL;
 
@@ -1533,16 +1571,10 @@ pk_backend_refresh_cache_thread (PkBackendJob *job,
 
 	g_variant_get (params, "(b)", &force);
 
-	/* set the list of repos */
-	ret = pk_backend_ensure_repos (job_data, &error);
-	if (!ret) {
-		pk_backend_job_error_code (job, error->code, "%s", error->message);
-		return;
-	}
-
 	/* count the enabled repos */
-	for (i = 0; i < job_data->repos->len; i++) {
-		repo = g_ptr_array_index (job_data->repos, i);
+	repos = dnf_context_get_repos (job_data->context);
+	for (i = 0; i < repos->len; i++) {
+		repo = g_ptr_array_index (repos, i);
 		if (dnf_repo_get_enabled (repo) == DNF_REPO_ENABLED_NONE)
 			continue;
 		if (dnf_repo_get_kind (repo) == DNF_REPO_KIND_MEDIA)
@@ -1556,10 +1588,10 @@ pk_backend_refresh_cache_thread (PkBackendJob *job,
 	refresh_repos = g_ptr_array_new ();
 	state_local = dnf_state_get_child (job_data->state);
 	dnf_state_set_number_steps (state_local, cnt);
-	for (i = 0; i < job_data->repos->len; i++) {
+	for (i = 0; i < repos->len; i++) {
 		gboolean repo_okay;
 
-		repo = g_ptr_array_index (job_data->repos, i);
+		repo = g_ptr_array_index (repos, i);
 		if (dnf_repo_get_enabled (repo) == DNF_REPO_ENABLED_NONE)
 			continue;
 		if (dnf_repo_get_kind (repo) == DNF_REPO_KIND_MEDIA)
@@ -1575,7 +1607,7 @@ pk_backend_refresh_cache_thread (PkBackendJob *job,
 		                            NULL);
 		if (!repo_okay || force)
 			g_ptr_array_add (refresh_repos,
-			                 g_ptr_array_index (job_data->repos, i));
+			                 g_ptr_array_index (repos, i));
 
 		/* done */
 		ret = dnf_state_done (state_local, &error);
@@ -1756,10 +1788,10 @@ backend_get_details_thread (PkBackendJob *job, GVariant *params, gpointer user_d
 	guint i;
 	DnfState *state_local;
 	DnfPackage *pkg;
-	DnfSack *sack;
 	PkBackendDnfJobData *job_data = pk_backend_job_get_user_data (job);
 	PkBitfield filters;
 	g_autofree gchar **package_ids = NULL;
+	g_autoptr(DnfSack) sack = NULL;
 	g_autoptr(GError) error = NULL;
 	g_autoptr(GHashTable) hash = NULL;
 
@@ -1771,10 +1803,10 @@ backend_get_details_thread (PkBackendJob *job, GVariant *params, gpointer user_d
 				   49, /* find packages */
 				   1, /* emit */
 				   -1);
+	g_assert (ret);
 
 	/* get sack */
 	filters = dnf_get_filter_for_ids (package_ids);
-	g_assert (ret);
 	state_local = dnf_state_get_child (job_data->state);
 	sack = dnf_utils_create_sack_for_filters (job,
 						  filters,
@@ -1846,10 +1878,10 @@ backend_get_details_local_thread (PkBackendJob *job, GVariant *params, gpointer 
 	guint i;
 	DnfState *state_local;
 	DnfPackage *pkg;
-	DnfSack *sack = NULL;
 	PkBackendDnfJobData *job_data = pk_backend_job_get_user_data (job);
 	PkBitfield filters;
 	g_autofree gchar **full_paths = NULL;
+	g_autoptr(DnfSack) sack = NULL;
 	g_autoptr(GError) error = NULL;
 
 	g_variant_get (params, "(^a&s)", &full_paths);
@@ -1933,10 +1965,10 @@ backend_get_files_local_thread (PkBackendJob *job, GVariant *params, gpointer us
 	guint i;
 	DnfState *state_local;
 	DnfPackage *pkg;
-	DnfSack *sack = NULL;
 	PkBackendDnfJobData *job_data = pk_backend_job_get_user_data (job);
 	PkBitfield filters;
 	g_autofree gchar **full_paths = NULL;
+	g_autoptr(DnfSack) sack = NULL;
 	g_autoptr(GError) error = NULL;
 
 	g_variant_get (params, "(^a&s)", &full_paths);
@@ -2018,10 +2050,10 @@ pk_backend_download_packages_thread (PkBackendJob *job, GVariant *params, gpoint
 	DnfState *state_local;
 	DnfState *state_loop;
 	DnfPackage *pkg;
-	DnfSack *sack;
 	PkBackendDnfJobData *job_data = pk_backend_job_get_user_data (job);
 	PkBitfield filters = pk_bitfield_value (PK_FILTER_ENUM_NOT_INSTALLED);
 	g_autofree gchar **package_ids = NULL;
+	g_autoptr(DnfSack) sack = NULL;
 	g_autoptr(GError) error = NULL;
 	g_autoptr(GHashTable) hash = NULL;
 	g_autoptr(GPtrArray) files = NULL;
@@ -2039,13 +2071,6 @@ pk_backend_download_packages_thread (PkBackendJob *job, GVariant *params, gpoint
 				   1, /* emit */
 				   -1);
 	g_assert (ret);
-
-	/* set the list of repos */
-	ret = pk_backend_ensure_repos (job_data, &error);
-	if (!ret) {
-		pk_backend_job_error_code (job, error->code, "%s", error->message);
-		return;
-	}
 
 	/* done */
 	if (!dnf_state_done (job_data->state, &error)) {
@@ -2250,11 +2275,6 @@ pk_backend_transaction_simulate (PkBackendJob *job,
 	if (!ret)
 		return FALSE;
 
-	/* set the list of repos */
-	ret = pk_backend_ensure_repos (job_data, error);
-	if (!ret)
-		return FALSE;
-
 	/* mark any explicitly-untrusted packages so that the transaction skips
 	 * straight to only_trusted=FALSE after simulate */
 	untrusted = pk_backend_transaction_check_untrusted_repos (job, error);
@@ -2452,7 +2472,6 @@ pk_backend_repo_remove_thread (PkBackendJob *job,
 	GPtrArray *pkglist_releases = NULL;
 	HyQuery query = NULL;
 	HyQuery query_release = NULL;
-	DnfSack *sack = NULL;
 	PkBackendDnfJobData *job_data = pk_backend_job_get_user_data (job);
 	PkBitfield filters = pk_bitfield_from_enums (PK_FILTER_ENUM_INSTALLED, -1);
 	const gchar *from_repo;
@@ -2465,6 +2484,7 @@ pk_backend_repo_remove_thread (PkBackendJob *job,
 	guint cnt = 0;
 	guint i;
 	guint j;
+	g_autoptr(DnfSack) sack = NULL;
 	g_autoptr(GError) error = NULL;
 	g_autoptr(GPtrArray) removed_id = NULL;
 	g_autoptr(GPtrArray) repos = NULL;
@@ -2668,7 +2688,6 @@ pk_backend_remove_packages_thread (PkBackendJob *job, GVariant *params, gpointer
 {
 	DnfState *state_local;
 	DnfPackage *pkg;
-	DnfSack *sack = NULL;
 	PkBackendDnfJobData *job_data = pk_backend_job_get_user_data (job);
 	PkBitfield filters;
 	gboolean allow_deps;
@@ -2676,6 +2695,7 @@ pk_backend_remove_packages_thread (PkBackendJob *job, GVariant *params, gpointer
 	gboolean ret;
 	guint i;
 	g_autofree gchar **package_ids = NULL;
+	g_autoptr(DnfSack) sack = NULL;
 	g_autoptr(GError) error = NULL;
 	g_autoptr(GHashTable) hash = NULL;
 
@@ -2815,13 +2835,13 @@ pk_backend_install_packages_thread (PkBackendJob *job, GVariant *params, gpointe
 {
 	DnfState *state_local;
 	DnfPackage *pkg;
-	DnfSack *sack = NULL;
 	PkBackendDnfJobData *job_data = pk_backend_job_get_user_data (job);
 	PkBitfield filters;
 	gboolean ret;
 	guint i;
 	g_autofree enum _hy_comparison_type_e *relations = NULL;
 	g_autofree gchar **package_ids = NULL;
+	g_autoptr(DnfSack) sack = NULL;
 	g_autoptr(GError) error = NULL;
 	g_autoptr(GHashTable) hash = NULL;
 
@@ -2871,10 +2891,10 @@ pk_backend_install_packages_thread (PkBackendJob *job, GVariant *params, gpointe
 	for (i = 0; package_ids[i] != NULL; i++) {
 		HyQuery query = NULL;
 		DnfPackage *inst_pkg = NULL;
-		gchar **split = NULL;
 		DnfPackage *latest = NULL;
 		GPtrArray *pkglist = NULL;
 		guint pli;
+		g_auto(GStrv) split = NULL;
 
 		split = pk_package_id_split (package_ids[i]);
 		query = hy_query_create (sack);
@@ -3005,12 +3025,12 @@ pk_backend_install_files_thread (PkBackendJob *job, GVariant *params, gpointer u
 {
 	DnfState *state_local;
 	DnfPackage *pkg;
-	DnfSack *sack = NULL;
 	PkBackendDnfJobData *job_data = pk_backend_job_get_user_data (job);
 	PkBitfield filters;
 	gboolean ret;
 	guint i;
 	g_autofree gchar **full_paths = NULL;
+	g_autoptr(DnfSack) sack = NULL;
 	g_autoptr(GError) error = NULL;
 	g_autoptr(GHashTable) hash = NULL;
 	g_autoptr(GPtrArray) array = NULL;
@@ -3114,12 +3134,12 @@ pk_backend_update_packages_thread (PkBackendJob *job, GVariant *params, gpointer
 {
 	DnfState *state_local;
 	DnfPackage *pkg;
-	DnfSack *sack = NULL;
 	PkBackendDnfJobData *job_data = pk_backend_job_get_user_data (job);
 	PkBitfield filters;
 	gboolean ret;
 	guint i;
 	g_autofree gchar **package_ids = NULL;
+	g_autoptr(DnfSack) sack = NULL;
 	g_autoptr(GError) error = NULL;
 	g_autoptr(GHashTable) hash = NULL;
 
@@ -3224,12 +3244,12 @@ static void
 pk_backend_upgrade_system_thread (PkBackendJob *job, GVariant *params, gpointer user_data)
 {
 	DnfState *state_local;
-	DnfSack *sack = NULL;
 	PkBackendDnfJobData *job_data = pk_backend_job_get_user_data (job);
 	PkBackendDnfPrivate *priv = pk_backend_get_user_data (job_data->backend);
 	PkBitfield filters;
 	gboolean ret;
 	const gchar *release_ver = NULL;
+	g_autoptr(DnfSack) sack = NULL;
 	g_autoptr(GError) error = NULL;
 
 	/* get arguments */
@@ -3371,10 +3391,10 @@ pk_backend_get_files_thread (PkBackendJob *job, GVariant *params, gpointer user_
 	guint j;
 	DnfState *state_local;
 	DnfPackage *pkg;
-	DnfSack *sack;
 	PkBackendDnfJobData *job_data = pk_backend_job_get_user_data (job);
 	PkBitfield filters;
 	g_autofree gchar **package_ids = NULL;
+	g_autoptr(DnfSack) sack = NULL;
 	g_autoptr(GError) error = NULL;
 	g_autoptr(GHashTable) hash = NULL;
 
@@ -3481,10 +3501,10 @@ pk_backend_get_update_detail_thread (PkBackendJob *job, GVariant *params, gpoint
 	DnfPackage *pkg;
 	DnfAdvisory *advisory;
 	GPtrArray *references;
-	DnfSack *sack = NULL;
 	PkBackendDnfJobData *job_data = pk_backend_job_get_user_data (job);
 	PkBitfield filters;
 	g_autofree gchar **package_ids = NULL;
+	g_autoptr(DnfSack) sack = NULL;
 	g_autoptr(GError) error = NULL;
 	g_autoptr(GHashTable) hash = NULL;
 

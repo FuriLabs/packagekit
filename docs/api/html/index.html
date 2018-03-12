@@ -6,7 +6,7 @@
 <meta name="generator" content="DocBook XSL Stylesheets Vsnapshot">
 <link rel="home" href="index.html" title="PackageKit Reference Manual">
 <link rel="next" href="specification.html" title="PackageKit Specification">
-<meta name="generator" content="GTK-Doc V1.25 (XML mode)">
+<meta name="generator" content="GTK-Doc V1.27 (XML mode)">
 <link rel="stylesheet" href="style.css" type="text/css">
 </head>
 <body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF">
@@ -23,10 +23,10 @@
           </p></div></div>
 </div></div></div>
 <div><p class="releaseinfo">
-      for PackageKit 1.1.7
+      for PackageKit 1.1.9
 
     </p></div>
-<div><p class="copyright">Copyright © 2008-2013 The PackageKit Authors</p></div>
+<div><p class="copyright">Copyright © 2008-2017 The PackageKit Authors</p></div>
 </div>
 <hr>
 </div>
@@ -77,97 +77,134 @@
 <span class="refentrytitle"><a href="Transaction.html">org.freedesktop.PackageKit.Transaction</a></span><span class="refpurpose"> — Transaction interface</span>
 </dt>
 </dl></dd>
-<dt><span class="reference"><a href="libpackagekit-gobject.html">III. libpackagekit GObjects</a></span></dt>
+<dt><span class="reference"><a href="lpackagekit-glib2.html">III. packagekit-glib2</a></span></dt>
 <dd><dl>
 <dt>
-<span class="refentrytitle"><a href="PkCategory.html">PkCategory</a></span><span class="refpurpose"> — Category object</span>
+<span class="refentrytitle"><a href="PackageKit-Common-functions.html">Common functions</a></span><span class="refpurpose"> — Common utility functions</span>
 </dt>
 <dt>
-<span class="refentrytitle"><a href="PkClient.html">PkClient</a></span><span class="refpurpose"> — For creating new transactions</span>
+<span class="refentrytitle"><a href="PackageKit-Enumerations.html">Enumerations</a></span><span class="refpurpose"> — Enumerations used in packagekit-glib2</span>
 </dt>
 <dt>
-<span class="refentrytitle"><a href="PkControl.html">PkControl</a></span><span class="refpurpose"> — For querying data about PackageKit</span>
+<span class="refentrytitle"><a href="PackageKit-PackageIDs.html">PackageIDs</a></span><span class="refpurpose"> — Functions for process PackageIDs</span>
 </dt>
 <dt>
-<span class="refentrytitle"><a href="PkDetails.html">PkDetails</a></span><span class="refpurpose"> — Details object</span>
+<span class="refentrytitle"><a href="PackageKit-Offline-Updates.html">Offline Updates</a></span><span class="refpurpose"> — Function to perform offline updates</span>
 </dt>
 <dt>
-<span class="refentrytitle"><a href="PkDistroUpgrade.html">PkDistroUpgrade</a></span><span class="refpurpose"> — DistroUpgrade object</span>
+<span class="refentrytitle"><a href="PackageKit-PkBitfield.html">PkBitfield</a></span><span class="refpurpose"> — Bitfield object</span>
 </dt>
 <dt>
-<span class="refentrytitle"><a href="PkError.html">PkError</a></span><span class="refpurpose"> — ErrorCode object</span>
+<span class="refentrytitle"><a href="PackageKit-PkCategory.html">PkCategory</a></span><span class="refpurpose"> — Category object</span>
 </dt>
 <dt>
-<span class="refentrytitle"><a href="PkEulaRequired.html">PkEulaRequired</a></span><span class="refpurpose"> — EulaRequired object</span>
+<span class="refentrytitle"><a href="PackageKit-PkClient.html">PkClient</a></span><span class="refpurpose"> — For creating new transactions</span>
 </dt>
 <dt>
-<span class="refentrytitle"><a href="PkFiles.html">PkFiles</a></span><span class="refpurpose"> — Files object</span>
+<span class="refentrytitle"><a href="PackageKit-PkClientHelper.html">PkClientHelper</a></span><span class="refpurpose"> — helper object to run a helper session process for the lifetime of a transaction</span>
 </dt>
 <dt>
-<span class="refentrytitle"><a href="PkMediaChangeRequired.html">PkMediaChangeRequired</a></span><span class="refpurpose"> — MediaChangeRequired object</span>
+<span class="refentrytitle"><a href="PackageKit-PkControl.html">PkControl</a></span><span class="refpurpose"> — For querying data about PackageKit</span>
 </dt>
 <dt>
-<span class="refentrytitle"><a href="PkPackageSack.html">PkPackageSack</a></span><span class="refpurpose"> — A sack of packages that can be manipulated</span>
+<span class="refentrytitle"><a href="PackageKit-PkDesktop.html">PkDesktop</a></span><span class="refpurpose"> — Find desktop metadata about a package</span>
 </dt>
 <dt>
-<span class="refentrytitle"><a href="PkPackage.html">PkPackage</a></span><span class="refpurpose"> — Package object</span>
+<span class="refentrytitle"><a href="PackageKit-PkDetails.html">PkDetails</a></span><span class="refpurpose"> — Details object</span>
 </dt>
 <dt>
-<span class="refentrytitle"><a href="PkProgress.html">PkProgress</a></span><span class="refpurpose"> — Transaction progress information</span>
+<span class="refentrytitle"><a href="PackageKit-PkDistroUpgrade.html">PkDistroUpgrade</a></span><span class="refpurpose"> — DistroUpgrade object</span>
 </dt>
 <dt>
-<span class="refentrytitle"><a href="PkRepoDetail.html">PkRepoDetail</a></span><span class="refpurpose"> — RepoDetail object</span>
+<span class="refentrytitle"><a href="PackageKit-PkError.html">PkError</a></span><span class="refpurpose"> — Error object</span>
 </dt>
 <dt>
-<span class="refentrytitle"><a href="PkRepoSignatureRequired.html">PkRepoSignatureRequired</a></span><span class="refpurpose"> — RepoSignatureRequired object</span>
+<span class="refentrytitle"><a href="PackageKit-PkEulaRequired.html">PkEulaRequired</a></span><span class="refpurpose"> — EulaRequired object</span>
 </dt>
 <dt>
-<span class="refentrytitle"><a href="PkRequireRestart.html">PkRequireRestart</a></span><span class="refpurpose"> — RequireRestart object</span>
+<span class="refentrytitle"><a href="PackageKit-PkFiles.html">PkFiles</a></span><span class="refpurpose"> — Files object</span>
 </dt>
 <dt>
-<span class="refentrytitle"><a href="PkResults.html">PkResults</a></span><span class="refpurpose"> — Transaction results</span>
+<span class="refentrytitle"><a href="PackageKit-PkItemProgress.html">PkItemProgress</a></span><span class="refpurpose"> — ItemProgress object</span>
 </dt>
 <dt>
-<span class="refentrytitle"><a href="PkTask.html">PkTask</a></span><span class="refpurpose"> — An abstract package task GObject, dealing with unsigned
+<span class="refentrytitle"><a href="PackageKit-PkMediaChangeRequired.html">PkMediaChangeRequired</a></span><span class="refpurpose"> — MediaChangeRequired object</span>
+</dt>
+<dt>
+<span class="refentrytitle"><a href="PackageKit-PkPackageSack.html">PkPackageSack</a></span><span class="refpurpose"> — A sack of packages that can be manipulated</span>
+</dt>
+<dt>
+<span class="refentrytitle"><a href="PackageKit-PkPackage.html">PkPackage</a></span><span class="refpurpose"> — Package object</span>
+</dt>
+<dt>
+<span class="refentrytitle"><a href="PackageKit-PkProgress.html">PkProgress</a></span><span class="refpurpose"> — Transaction progress information</span>
+</dt>
+<dt>
+<span class="refentrytitle"><a href="PackageKit-PkRepoDetail.html">PkRepoDetail</a></span><span class="refpurpose"> — RepoDetail object</span>
+</dt>
+<dt>
+<span class="refentrytitle"><a href="PackageKit-PkRepoSignatureRequired.html">PkRepoSignatureRequired</a></span><span class="refpurpose"> — RepoSignatureRequired object</span>
+</dt>
+<dt>
+<span class="refentrytitle"><a href="PackageKit-PkRequireRestart.html">PkRequireRestart</a></span><span class="refpurpose"> — RequireRestart object</span>
+</dt>
+<dt>
+<span class="refentrytitle"><a href="PackageKit-PkResults.html">PkResults</a></span><span class="refpurpose"> — Transaction results</span>
+</dt>
+<dt>
+<span class="refentrytitle"><a href="PackageKit-PkSource.html">PkSource</a></span><span class="refpurpose"> — Source object</span>
+</dt>
+<dt>
+<span class="refentrytitle"><a href="PackageKit-PkTask.html">PkTask</a></span><span class="refpurpose"> — An abstract package task GObject, dealing with unsigned
 transactions, GPG keys and EULA requests.</span>
 </dt>
 <dt>
-<span class="refentrytitle"><a href="PkTransactionPast.html">PkTransactionPast</a></span><span class="refpurpose"> — TransactionPast object</span>
+<span class="refentrytitle"><a href="PackageKit-PkTransactionList.html">PkTransactionList</a></span><span class="refpurpose"> — A nice way to keep a list of the jobs being processed</span>
 </dt>
 <dt>
-<span class="refentrytitle"><a href="PkUpdateDetail.html">PkUpdateDetail</a></span><span class="refpurpose"> — UpdateDetail object</span>
+<span class="refentrytitle"><a href="PackageKit-PkTransactionPast.html">PkTransactionPast</a></span><span class="refpurpose"> — TransactionPast object</span>
+</dt>
+<dt>
+<span class="refentrytitle"><a href="PackageKit-PkUpdateDetail.html">PkUpdateDetail</a></span><span class="refpurpose"> — UpdateDetail object</span>
 </dt>
 </dl></dd>
-<dt><span class="reference"><a href="libpackagekit-helpers.html">IV. libpackagekit glib helpers</a></span></dt>
-<dd><dl>
-<dt>
-<span class="refentrytitle"><a href="PackageKit-pk-bitfield.html">pk-bitfield</a></span><span class="refpurpose"> — Functions for converting strings to enum and vice-versa</span>
-</dt>
-<dt>
-<span class="refentrytitle"><a href="PackageKit-pk-client-sync.html">pk-client-sync</a></span><span class="refpurpose"></span>
-</dt>
-<dt>
-<span class="refentrytitle"><a href="PackageKit-pk-common.html">pk-common</a></span><span class="refpurpose"> — Common utility functions for PackageKit</span>
-</dt>
-<dt>
-<span class="refentrytitle"><a href="PackageKit-pk-control-sync.html">pk-control-sync</a></span><span class="refpurpose"></span>
-</dt>
-<dt>
-<span class="refentrytitle"><a href="PackageKit-pk-enum.html">pk-enum</a></span><span class="refpurpose"> — Functions for converting strings to enum and vice-versa</span>
-</dt>
-<dt>
-<span class="refentrytitle"><a href="PackageKit-pk-package-ids.html">pk-package-ids</a></span><span class="refpurpose"> — Functionality to modify multiple PackageIDs</span>
-</dt>
-<dt>
-<span class="refentrytitle"><a href="PackageKit-pk-package-id.html">pk-package-id</a></span><span class="refpurpose"> — Functionality to read a PackageID</span>
-</dt>
-<dt>
-<span class="refentrytitle"><a href="PackageKit-pk-task-sync.html">pk-task-sync</a></span><span class="refpurpose"></span>
-</dt>
-</dl></dd>
+<dt><span class="index"><a href="api-index-0-5-0.html">Index of new symbols in 0.5.0</a></span></dt>
+<dt><span class="index"><a href="api-index-0-5-2.html">Index of new symbols in 0.5.2</a></span></dt>
+<dt><span class="index"><a href="api-index-0-5-3.html">Index of new symbols in 0.5.3</a></span></dt>
+<dt><span class="index"><a href="api-index-0-5-4.html">Index of new symbols in 0.5.4</a></span></dt>
+<dt><span class="index"><a href="api-index-0-5-5.html">Index of new symbols in 0.5.5</a></span></dt>
+<dt><span class="index"><a href="api-index-0-6-0.html">Index of new symbols in 0.6.0</a></span></dt>
+<dt><span class="index"><a href="api-index-0-6-1.html">Index of new symbols in 0.6.1</a></span></dt>
+<dt><span class="index"><a href="api-index-0-6-2.html">Index of new symbols in 0.6.2</a></span></dt>
+<dt><span class="index"><a href="api-index-0-6-3.html">Index of new symbols in 0.6.3</a></span></dt>
+<dt><span class="index"><a href="api-index-0-6-4.html">Index of new symbols in 0.6.4</a></span></dt>
+<dt><span class="index"><a href="api-index-0-6-5.html">Index of new symbols in 0.6.5</a></span></dt>
+<dt><span class="index"><a href="api-index-0-6-10.html">Index of new symbols in 0.6.10</a></span></dt>
+<dt><span class="index"><a href="api-index-0-6-11.html">Index of new symbols in 0.6.11</a></span></dt>
+<dt><span class="index"><a href="api-index-0-6-13.html">Index of new symbols in 0.6.13</a></span></dt>
+<dt><span class="index"><a href="api-index-0-7-2.html">Index of new symbols in 0.7.2</a></span></dt>
+<dt><span class="index"><a href="api-index-0-7-5.html">Index of new symbols in 0.7.5</a></span></dt>
+<dt><span class="index"><a href="api-index-0-8-0.html">Index of new symbols in 0.8.0</a></span></dt>
+<dt><span class="index"><a href="api-index-0-8-1.html">Index of new symbols in 0.8.1</a></span></dt>
+<dt><span class="index"><a href="api-index-0-8-2.html">Index of new symbols in 0.8.2</a></span></dt>
+<dt><span class="index"><a href="api-index-0-8-6.html">Index of new symbols in 0.8.6</a></span></dt>
+<dt><span class="index"><a href="api-index-0-8-8.html">Index of new symbols in 0.8.8</a></span></dt>
+<dt><span class="index"><a href="api-index-0-8-11.html">Index of new symbols in 0.8.11</a></span></dt>
+<dt><span class="index"><a href="api-index-0-8-12.html">Index of new symbols in 0.8.12</a></span></dt>
+<dt><span class="index"><a href="api-index-0-8-14.html">Index of new symbols in 0.8.14</a></span></dt>
+<dt><span class="index"><a href="api-index-0-8-16.html">Index of new symbols in 0.8.16</a></span></dt>
+<dt><span class="index"><a href="api-index-0-8-17.html">Index of new symbols in 0.8.17</a></span></dt>
+<dt><span class="index"><a href="api-index-0-9-1.html">Index of new symbols in 0.9.1</a></span></dt>
+<dt><span class="index"><a href="api-index-0-9-5.html">Index of new symbols in 0.9.5</a></span></dt>
+<dt><span class="index"><a href="api-index-0-9-6.html">Index of new symbols in 0.9.6</a></span></dt>
+<dt><span class="index"><a href="api-index-1-0-2.html">Index of new symbols in 1.0.2</a></span></dt>
+<dt><span class="index"><a href="api-index-1-0-10.html">Index of new symbols in 1.0.10</a></span></dt>
+<dt><span class="index"><a href="api-index-1-0-12.html">Index of new symbols in 1.0.12</a></span></dt>
+<dt><span class="index"><a href="api-index-1-1-2.html">Index of new symbols in 1.1.2</a></span></dt>
+<dt><span class="index"><a href="api-index-1-1-8.html">Index of new symbols in 1.1.8</a></span></dt>
 </dl></div>
 </div>
 <div class="footer">
-<hr>Generated by GTK-Doc V1.25</div>
+<hr>Generated by GTK-Doc V1.27</div>
 </body>
 </html>

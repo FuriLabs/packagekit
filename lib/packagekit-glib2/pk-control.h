@@ -53,6 +53,7 @@ G_DEFINE_AUTOPTR_CLEANUP_FUNC(PkControl, g_object_unref)
 /**
  * PkControlError:
  * @PK_CONTROL_ERROR_FAILED: the transaction failed for an unknown reason
+ * @PK_CONTROL_ERROR_CANNOT_START_DAEMON: the PackageKit daemon failed to start
  *
  * Errors that can be thrown
  */
@@ -94,7 +95,6 @@ struct _PkControlClass
 GQuark		 pk_control_error_quark			(void);
 GType		 pk_control_get_type		  	(void);
 PkControl	*pk_control_new				(void);
-void		 pk_control_test			(gpointer		 user_data);
 
 void		 pk_control_get_tid_async		(PkControl		*control,
 							 GCancellable		*cancellable,

@@ -21,7 +21,8 @@
 
 /**
  * SECTION:pk-common
- * @short_description: Common utility functions for PackageKit
+ * @title: Common functions
+ * @short_description: Common utility functions
  *
  * This file contains functions that may be useful.
  */
@@ -41,6 +42,8 @@
 
 /**
  * pk_iso8601_present:
+ * 
+ * Get the current date / time as an ISO8601 string.
  *
  * Return value: The current iso8601 date and time
  *
@@ -61,9 +64,11 @@ pk_iso8601_present (void)
 
 /**
  * pk_iso8601_from_date:
- * @date: a %GDate to convert
+ * @date: a #GDate to convert
  *
- * Return value: If valid then a new ISO8601 date, else NULL
+ * Convert a date into an ISO8601 data string.
+ *
+ * Return value: If valid then a new ISO8601 date, else %NULL
  *
  * Since: 0.5.2
  **/
@@ -84,6 +89,8 @@ pk_iso8601_from_date (const GDate *date)
 /**
  * pk_iso8601_to_date: (skip)
  * @iso_date: The ISO8601 date to convert
+ *
+ * Convert an ISO8601 date string to a #GDate.
  *
  * Return value: If valid then a new %GDate, else NULL
  *
@@ -134,6 +141,8 @@ out:
 /**
  * pk_iso8601_to_datetime: (skip)
  * @iso_date: The ISO8601 date to convert
+ *
+ * Convert an ISO8601 date string to a #GDateTime.
  *
  * Return value: If valid then a new %GDateTime, else NULL
  *
@@ -208,8 +217,10 @@ pk_ptr_array_to_strv (GPtrArray *array)
 /**
  * pk_get_machine_type:
  *
- * Return value: The current machine ID, e.g. "i386"
+ * Get the machine type for the current host, e.g. "i386"
  * Note: Don't use this function if you can get this data from /etc/foo
+ *
+ * Return value: a machine type
  **/
 static gchar *
 pk_get_distro_id_machine_type (void)
@@ -223,7 +234,7 @@ pk_get_distro_id_machine_type (void)
 	return g_strdup (buf.machine);
 }
 
-/**
+/*
  * pk_parse_os_release:
  *
  * Internal helper to parse os-release
@@ -274,7 +285,9 @@ pk_parse_os_release (gchar **id, gchar **name, gchar **version_id, GError **erro
 /**
  * pk_get_distro_id:
  *
- * Return value: the distro-id, typically "distro;version;arch"
+ * Get the distribution ID for the current host, typically "distro;version;arch"
+ *
+ * Return value: a distribution ID
  **/
 gchar *
 pk_get_distro_id (void)
@@ -301,8 +314,11 @@ pk_get_distro_id (void)
 
 /**
  * pk_get_distro_name:
+ * @error: the #GError to store any failure, or %NULL
  *
- * Return value: the distro name, e.g. "Fedora", as specified by NAME in /etc/os-release
+ * Get the distribution name for this host as specified by NAME in /etc/os-release, e.g. "Fedora",
+ *
+ * Return value: a distro name
  **/
 gchar *
 pk_get_distro_name (GError **error)
@@ -319,8 +335,11 @@ pk_get_distro_name (GError **error)
 
 /**
  * pk_get_distro_version_id:
+ * @error: the #GError to store any failure, or %NULL
  *
- * Return value: the distro version, e.g. "23", as specified by VERSION_ID in /etc/os-release
+ * Get the distribution version ID as specified by VERSION_ID in /etc/os-release, e.g. "23"
+ *
+ * Return value: a distribution version
  **/
 gchar *
 pk_get_distro_version_id (GError **error)
