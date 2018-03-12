@@ -165,7 +165,11 @@ libpackagekit-glib2.so.18 libpackagekit-glib2-18 #MINVER#
  pk_error_get_details@Base 0.9.4
  pk_error_get_type@Base 0.9.4
  pk_error_new@Base 0.9.4
+ pk_eula_required_get_eula_id@Base 1.1.9
+ pk_eula_required_get_license_agreement@Base 1.1.9
+ pk_eula_required_get_package_id@Base 1.1.9
  pk_eula_required_get_type@Base 0.9.4
+ pk_eula_required_get_vendor_name@Base 1.1.9
  pk_eula_required_new@Base 0.9.4
  pk_exit_enum_from_string@Base 0.9.4
  pk_exit_enum_get_type@Base 0.9.4
@@ -376,6 +380,7 @@ libpackagekit-glib2.so.18 libpackagekit-glib2-18 #MINVER#
  pk_results_new@Base 0.9.4
  pk_results_set_error_code@Base 0.9.4
  pk_results_set_exit_code@Base 0.9.4
+ pk_results_set_role@Base 1.1.9
  pk_role_bitfield_from_string@Base 0.9.4
  pk_role_bitfield_to_string@Base 0.9.4
  pk_role_enum_from_string@Base 0.9.4
