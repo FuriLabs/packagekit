@@ -94,11 +94,12 @@ ACLOCAL_M4 = $(top_srcdir)/aclocal.m4
 am__aclocal_m4_deps = $(top_srcdir)/m4/as-linguas.m4 \
 	$(top_srcdir)/m4/ax_check_compile_flag.m4 \
 	$(top_srcdir)/m4/ax_check_link_flag.m4 \
-	$(top_srcdir)/m4/gtk-doc.m4 $(top_srcdir)/m4/introspection.m4 \
-	$(top_srcdir)/m4/libtool.m4 $(top_srcdir)/m4/ltoptions.m4 \
-	$(top_srcdir)/m4/ltsugar.m4 $(top_srcdir)/m4/ltversion.m4 \
-	$(top_srcdir)/m4/lt~obsolete.m4 $(top_srcdir)/m4/vapigen.m4 \
-	$(top_srcdir)/acinclude.m4 $(top_srcdir)/configure.ac
+	$(top_srcdir)/m4/gtk-doc.m4 $(top_srcdir)/m4/intltool.m4 \
+	$(top_srcdir)/m4/introspection.m4 $(top_srcdir)/m4/libtool.m4 \
+	$(top_srcdir)/m4/ltoptions.m4 $(top_srcdir)/m4/ltsugar.m4 \
+	$(top_srcdir)/m4/ltversion.m4 $(top_srcdir)/m4/lt~obsolete.m4 \
+	$(top_srcdir)/m4/vapigen.m4 $(top_srcdir)/acinclude.m4 \
+	$(top_srcdir)/configure.ac
 am__configure_deps = $(am__aclocal_m4_deps) $(CONFIGURE_DEPENDENCIES) \
 	$(ACLOCAL_M4)
 DIST_COMMON = $(srcdir)/Makefile.am $(dist_helper_DATA) \
@@ -142,7 +143,6 @@ libpk_backend_aptcc_la_DEPENDENCIES = $(am__DEPENDENCIES_1)
 am_libpk_backend_aptcc_la_OBJECTS =  \
 	libpk_backend_aptcc_la-pkg-list.lo \
 	libpk_backend_aptcc_la-acqpkitstatus.lo \
-	libpk_backend_aptcc_la-matcher.lo \
 	libpk_backend_aptcc_la-gst-matcher.lo \
 	libpk_backend_aptcc_la-apt-messages.lo \
 	libpk_backend_aptcc_la-apt-utils.lo \
@@ -491,7 +491,6 @@ plugindir = $(PK_PLUGIN_DIR)
 plugin_LTLIBRARIES = libpk_backend_aptcc.la
 libpk_backend_aptcc_la_SOURCES = pkg-list.cpp \
 				 acqpkitstatus.cpp \
-				 matcher.cpp \
 				 gst-matcher.cpp \
 				 apt-messages.cpp \
 				 apt-utils.cpp \
@@ -533,7 +532,6 @@ EXTRA_DIST = 20packagekit \
 	     apt-messages.h \
 	     apt-cache-file.h \
 	     gst-matcher.h \
-	     matcher.h \
 	     deb-file.h \
 	     acqpkitstatus.h
 
@@ -630,7 +628,6 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libpk_backend_aptcc_la-apt-utils.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libpk_backend_aptcc_la-deb-file.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libpk_backend_aptcc_la-gst-matcher.Plo@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libpk_backend_aptcc_la-matcher.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libpk_backend_aptcc_la-pk-backend-aptcc.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libpk_backend_aptcc_la-pkg-list.Plo@am__quote@
 
@@ -668,13 +665,6 @@ libpk_backend_aptcc_la-acqpkitstatus.lo: acqpkitstatus.cpp
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='acqpkitstatus.cpp' object='libpk_backend_aptcc_la-acqpkitstatus.lo' libtool=yes @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(LIBTOOL) $(AM_V_lt) --tag=CXX $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libpk_backend_aptcc_la_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o libpk_backend_aptcc_la-acqpkitstatus.lo `test -f 'acqpkitstatus.cpp' || echo '$(srcdir)/'`acqpkitstatus.cpp
-
-libpk_backend_aptcc_la-matcher.lo: matcher.cpp
-@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(LIBTOOL) $(AM_V_lt) --tag=CXX $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libpk_backend_aptcc_la_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT libpk_backend_aptcc_la-matcher.lo -MD -MP -MF $(DEPDIR)/libpk_backend_aptcc_la-matcher.Tpo -c -o libpk_backend_aptcc_la-matcher.lo `test -f 'matcher.cpp' || echo '$(srcdir)/'`matcher.cpp
-@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/libpk_backend_aptcc_la-matcher.Tpo $(DEPDIR)/libpk_backend_aptcc_la-matcher.Plo
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='matcher.cpp' object='libpk_backend_aptcc_la-matcher.lo' libtool=yes @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(LIBTOOL) $(AM_V_lt) --tag=CXX $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libpk_backend_aptcc_la_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o libpk_backend_aptcc_la-matcher.lo `test -f 'matcher.cpp' || echo '$(srcdir)/'`matcher.cpp
 
 libpk_backend_aptcc_la-gst-matcher.lo: gst-matcher.cpp
 @am__fastdepCXX_TRUE@	$(AM_V_CXX)$(LIBTOOL) $(AM_V_lt) --tag=CXX $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libpk_backend_aptcc_la_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT libpk_backend_aptcc_la-gst-matcher.lo -MD -MP -MF $(DEPDIR)/libpk_backend_aptcc_la-gst-matcher.Tpo -c -o libpk_backend_aptcc_la-gst-matcher.lo `test -f 'gst-matcher.cpp' || echo '$(srcdir)/'`gst-matcher.cpp

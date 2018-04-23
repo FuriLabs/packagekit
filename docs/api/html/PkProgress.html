@@ -6,33 +6,35 @@
 <meta name="generator" content="DocBook XSL Stylesheets Vsnapshot">
 <link rel="home" href="index.html" title="PackageKit Reference Manual">
 <link rel="up" href="lpackagekit-glib2.html" title="packagekit-glib2">
-<link rel="prev" href="PackageKit-PkPackage.html" title="PkPackage">
-<link rel="next" href="PackageKit-PkRepoDetail.html" title="PkRepoDetail">
-<meta name="generator" content="GTK-Doc V1.27 (XML mode)">
+<link rel="prev" href="PkPackage.html" title="PkPackage">
+<link rel="next" href="PkRepoDetail.html" title="PkRepoDetail">
+<meta name="generator" content="GTK-Doc V1.28 (XML mode)">
 <link rel="stylesheet" href="style.css" type="text/css">
 </head>
 <body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF">
 <table class="navigation" id="top" width="100%" summary="Navigation header" cellpadding="2" cellspacing="5"><tr valign="middle">
 <td width="100%" align="left" class="shortcuts">
 <a href="#" class="shortcut">Top</a><span id="nav_description">  <span class="dim">|</span> 
-                  <a href="#PackageKit-PkProgress.description" class="shortcut">Description</a></span>
+                  <a href="#PkProgress.description" class="shortcut">Description</a></span><span id="nav_hierarchy">  <span class="dim">|</span> 
+                  <a href="#PkProgress.object-hierarchy" class="shortcut">Object Hierarchy</a></span><span id="nav_properties">  <span class="dim">|</span> 
+                  <a href="#PkProgress.properties" class="shortcut">Properties</a></span>
 </td>
 <td><a accesskey="h" href="index.html"><img src="home.png" width="16" height="16" border="0" alt="Home"></a></td>
 <td><a accesskey="u" href="lpackagekit-glib2.html"><img src="up.png" width="16" height="16" border="0" alt="Up"></a></td>
-<td><a accesskey="p" href="PackageKit-PkPackage.html"><img src="left.png" width="16" height="16" border="0" alt="Prev"></a></td>
-<td><a accesskey="n" href="PackageKit-PkRepoDetail.html"><img src="right.png" width="16" height="16" border="0" alt="Next"></a></td>
+<td><a accesskey="p" href="PkPackage.html"><img src="left.png" width="16" height="16" border="0" alt="Prev"></a></td>
+<td><a accesskey="n" href="PkRepoDetail.html"><img src="right.png" width="16" height="16" border="0" alt="Next"></a></td>
 </tr></table>
 <div class="refentry">
-<a name="PackageKit-PkProgress"></a><div class="titlepage"></div>
+<a name="PkProgress"></a><div class="titlepage"></div>
 <div class="refnamediv"><table width="100%"><tr>
 <td valign="top">
-<h2><span class="refentrytitle"><a name="PackageKit-PkProgress.top_of_page"></a>PkProgress</span></h2>
+<h2><span class="refentrytitle"><a name="PkProgress.top_of_page"></a>PkProgress</span></h2>
 <p>PkProgress — Transaction progress information</p>
 </td>
 <td class="gallery_image" valign="top" align="right"></td>
 </tr></table></div>
 <div class="refsect1">
-<a name="PackageKit-PkProgress.functions"></a><h2>Functions</h2>
+<a name="PkProgress.functions"></a><h2>Functions</h2>
 <div class="informaltable"><table class="informaltable" width="100%" border="0">
 <colgroup>
 <col width="150px" class="functions_return">
@@ -41,10 +43,10 @@
 <tbody>
 <tr>
 <td class="function_type">
-<span class="returnvalue">PkProgress</span> *
+<a class="link" href="PkProgress.html" title="PkProgress"><span class="returnvalue">PkProgress</span></a> *
 </td>
 <td class="function_name">
-<a class="link" href="PackageKit-PkProgress.html#pk-progress-new" title="pk_progress_new ()">pk_progress_new</a> <span class="c_punctuation">()</span>
+<a class="link" href="PkProgress.html#pk-progress-new" title="pk_progress_new ()">pk_progress_new</a> <span class="c_punctuation">()</span>
 </td>
 </tr>
 <tr>
@@ -52,7 +54,7 @@
 <span class="returnvalue">void</span>
 </td>
 <td class="function_name">
-<span class="c_punctuation">(</span><a class="link" href="PackageKit-PkProgress.html#PkProgressCallback" title="PkProgressCallback ()">*PkProgressCallback</a><span class="c_punctuation">)</span> <span class="c_punctuation">()</span>
+<span class="c_punctuation">(</span><a class="link" href="PkProgress.html#PkProgressCallback" title="PkProgressCallback ()">*PkProgressCallback</a><span class="c_punctuation">)</span> <span class="c_punctuation">()</span>
 </td>
 </tr>
 <tr>
@@ -60,14 +62,14 @@
 <a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"><span class="returnvalue">gboolean</span></a>
 </td>
 <td class="function_name">
-<a class="link" href="PackageKit-PkProgress.html#pk-progress-set-package-id" title="pk_progress_set_package_id ()">pk_progress_set_package_id</a> <span class="c_punctuation">()</span>
+<a class="link" href="PkProgress.html#pk-progress-set-package-id" title="pk_progress_set_package_id ()">pk_progress_set_package_id</a> <span class="c_punctuation">()</span>
 </td>
 </tr>
 <tr>
 <td class="function_type">const <a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gchar"><span class="returnvalue">gchar</span></a> *
 </td>
 <td class="function_name">
-<a class="link" href="PackageKit-PkProgress.html#pk-progress-get-package-id" title="pk_progress_get_package_id ()">pk_progress_get_package_id</a> <span class="c_punctuation">()</span>
+<a class="link" href="PkProgress.html#pk-progress-get-package-id" title="pk_progress_get_package_id ()">pk_progress_get_package_id</a> <span class="c_punctuation">()</span>
 </td>
 </tr>
 <tr>
@@ -75,15 +77,15 @@
 <a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"><span class="returnvalue">gboolean</span></a>
 </td>
 <td class="function_name">
-<a class="link" href="PackageKit-PkProgress.html#pk-progress-set-item-progress" title="pk_progress_set_item_progress ()">pk_progress_set_item_progress</a> <span class="c_punctuation">()</span>
+<a class="link" href="PkProgress.html#pk-progress-set-item-progress" title="pk_progress_set_item_progress ()">pk_progress_set_item_progress</a> <span class="c_punctuation">()</span>
 </td>
 </tr>
 <tr>
 <td class="function_type">
-<span class="returnvalue">PkItemProgress</span> *
+<a class="link" href="PkItemProgress.html" title="PkItemProgress"><span class="returnvalue">PkItemProgress</span></a> *
 </td>
 <td class="function_name">
-<a class="link" href="PackageKit-PkProgress.html#pk-progress-get-item-progress" title="pk_progress_get_item_progress ()">pk_progress_get_item_progress</a> <span class="c_punctuation">()</span>
+<a class="link" href="PkProgress.html#pk-progress-get-item-progress" title="pk_progress_get_item_progress ()">pk_progress_get_item_progress</a> <span class="c_punctuation">()</span>
 </td>
 </tr>
 <tr>
@@ -91,14 +93,14 @@
 <a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"><span class="returnvalue">gboolean</span></a>
 </td>
 <td class="function_name">
-<a class="link" href="PackageKit-PkProgress.html#pk-progress-set-transaction-id" title="pk_progress_set_transaction_id ()">pk_progress_set_transaction_id</a> <span class="c_punctuation">()</span>
+<a class="link" href="PkProgress.html#pk-progress-set-transaction-id" title="pk_progress_set_transaction_id ()">pk_progress_set_transaction_id</a> <span class="c_punctuation">()</span>
 </td>
 </tr>
 <tr>
 <td class="function_type">const <a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gchar"><span class="returnvalue">gchar</span></a> *
 </td>
 <td class="function_name">
-<a class="link" href="PackageKit-PkProgress.html#pk-progress-get-transaction-id" title="pk_progress_get_transaction_id ()">pk_progress_get_transaction_id</a> <span class="c_punctuation">()</span>
+<a class="link" href="PkProgress.html#pk-progress-get-transaction-id" title="pk_progress_get_transaction_id ()">pk_progress_get_transaction_id</a> <span class="c_punctuation">()</span>
 </td>
 </tr>
 <tr>
@@ -106,7 +108,7 @@
 <a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"><span class="returnvalue">gboolean</span></a>
 </td>
 <td class="function_name">
-<a class="link" href="PackageKit-PkProgress.html#pk-progress-set-percentage" title="pk_progress_set_percentage ()">pk_progress_set_percentage</a> <span class="c_punctuation">()</span>
+<a class="link" href="PkProgress.html#pk-progress-set-percentage" title="pk_progress_set_percentage ()">pk_progress_set_percentage</a> <span class="c_punctuation">()</span>
 </td>
 </tr>
 <tr>
@@ -114,7 +116,7 @@
 <a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gint"><span class="returnvalue">gint</span></a>
 </td>
 <td class="function_name">
-<a class="link" href="PackageKit-PkProgress.html#pk-progress-get-percentage" title="pk_progress_get_percentage ()">pk_progress_get_percentage</a> <span class="c_punctuation">()</span>
+<a class="link" href="PkProgress.html#pk-progress-get-percentage" title="pk_progress_get_percentage ()">pk_progress_get_percentage</a> <span class="c_punctuation">()</span>
 </td>
 </tr>
 <tr>
@@ -122,7 +124,7 @@
 <a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"><span class="returnvalue">gboolean</span></a>
 </td>
 <td class="function_name">
-<a class="link" href="PackageKit-PkProgress.html#pk-progress-set-status" title="pk_progress_set_status ()">pk_progress_set_status</a> <span class="c_punctuation">()</span>
+<a class="link" href="PkProgress.html#pk-progress-set-status" title="pk_progress_set_status ()">pk_progress_set_status</a> <span class="c_punctuation">()</span>
 </td>
 </tr>
 <tr>
@@ -130,7 +132,7 @@
 <a class="link" href="PackageKit-Enumerations.html#PkStatusEnum" title="enum PkStatusEnum"><span class="returnvalue">PkStatusEnum</span></a>
 </td>
 <td class="function_name">
-<a class="link" href="PackageKit-PkProgress.html#pk-progress-get-status" title="pk_progress_get_status ()">pk_progress_get_status</a> <span class="c_punctuation">()</span>
+<a class="link" href="PkProgress.html#pk-progress-get-status" title="pk_progress_get_status ()">pk_progress_get_status</a> <span class="c_punctuation">()</span>
 </td>
 </tr>
 <tr>
@@ -138,7 +140,7 @@
 <a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"><span class="returnvalue">gboolean</span></a>
 </td>
 <td class="function_name">
-<a class="link" href="PackageKit-PkProgress.html#pk-progress-set-role" title="pk_progress_set_role ()">pk_progress_set_role</a> <span class="c_punctuation">()</span>
+<a class="link" href="PkProgress.html#pk-progress-set-role" title="pk_progress_set_role ()">pk_progress_set_role</a> <span class="c_punctuation">()</span>
 </td>
 </tr>
 <tr>
@@ -146,7 +148,7 @@
 <a class="link" href="PackageKit-Enumerations.html#PkRoleEnum" title="enum PkRoleEnum"><span class="returnvalue">PkRoleEnum</span></a>
 </td>
 <td class="function_name">
-<a class="link" href="PackageKit-PkProgress.html#pk-progress-get-role" title="pk_progress_get_role ()">pk_progress_get_role</a> <span class="c_punctuation">()</span>
+<a class="link" href="PkProgress.html#pk-progress-get-role" title="pk_progress_get_role ()">pk_progress_get_role</a> <span class="c_punctuation">()</span>
 </td>
 </tr>
 <tr>
@@ -154,7 +156,7 @@
 <a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"><span class="returnvalue">gboolean</span></a>
 </td>
 <td class="function_name">
-<a class="link" href="PackageKit-PkProgress.html#pk-progress-set-allow-cancel" title="pk_progress_set_allow_cancel ()">pk_progress_set_allow_cancel</a> <span class="c_punctuation">()</span>
+<a class="link" href="PkProgress.html#pk-progress-set-allow-cancel" title="pk_progress_set_allow_cancel ()">pk_progress_set_allow_cancel</a> <span class="c_punctuation">()</span>
 </td>
 </tr>
 <tr>
@@ -162,7 +164,7 @@
 <a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"><span class="returnvalue">gboolean</span></a>
 </td>
 <td class="function_name">
-<a class="link" href="PackageKit-PkProgress.html#pk-progress-get-allow-cancel" title="pk_progress_get_allow_cancel ()">pk_progress_get_allow_cancel</a> <span class="c_punctuation">()</span>
+<a class="link" href="PkProgress.html#pk-progress-get-allow-cancel" title="pk_progress_get_allow_cancel ()">pk_progress_get_allow_cancel</a> <span class="c_punctuation">()</span>
 </td>
 </tr>
 <tr>
@@ -170,7 +172,7 @@
 <a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"><span class="returnvalue">gboolean</span></a>
 </td>
 <td class="function_name">
-<a class="link" href="PackageKit-PkProgress.html#pk-progress-set-caller-active" title="pk_progress_set_caller_active ()">pk_progress_set_caller_active</a> <span class="c_punctuation">()</span>
+<a class="link" href="PkProgress.html#pk-progress-set-caller-active" title="pk_progress_set_caller_active ()">pk_progress_set_caller_active</a> <span class="c_punctuation">()</span>
 </td>
 </tr>
 <tr>
@@ -178,7 +180,7 @@
 <a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"><span class="returnvalue">gboolean</span></a>
 </td>
 <td class="function_name">
-<a class="link" href="PackageKit-PkProgress.html#pk-progress-get-caller-active" title="pk_progress_get_caller_active ()">pk_progress_get_caller_active</a> <span class="c_punctuation">()</span>
+<a class="link" href="PkProgress.html#pk-progress-get-caller-active" title="pk_progress_get_caller_active ()">pk_progress_get_caller_active</a> <span class="c_punctuation">()</span>
 </td>
 </tr>
 <tr>
@@ -186,7 +188,7 @@
 <a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"><span class="returnvalue">gboolean</span></a>
 </td>
 <td class="function_name">
-<a class="link" href="PackageKit-PkProgress.html#pk-progress-set-elapsed-time" title="pk_progress_set_elapsed_time ()">pk_progress_set_elapsed_time</a> <span class="c_punctuation">()</span>
+<a class="link" href="PkProgress.html#pk-progress-set-elapsed-time" title="pk_progress_set_elapsed_time ()">pk_progress_set_elapsed_time</a> <span class="c_punctuation">()</span>
 </td>
 </tr>
 <tr>
@@ -194,7 +196,7 @@
 <a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#guint"><span class="returnvalue">guint</span></a>
 </td>
 <td class="function_name">
-<a class="link" href="PackageKit-PkProgress.html#pk-progress-get-elapsed-time" title="pk_progress_get_elapsed_time ()">pk_progress_get_elapsed_time</a> <span class="c_punctuation">()</span>
+<a class="link" href="PkProgress.html#pk-progress-get-elapsed-time" title="pk_progress_get_elapsed_time ()">pk_progress_get_elapsed_time</a> <span class="c_punctuation">()</span>
 </td>
 </tr>
 <tr>
@@ -202,7 +204,7 @@
 <a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"><span class="returnvalue">gboolean</span></a>
 </td>
 <td class="function_name">
-<a class="link" href="PackageKit-PkProgress.html#pk-progress-set-remaining-time" title="pk_progress_set_remaining_time ()">pk_progress_set_remaining_time</a> <span class="c_punctuation">()</span>
+<a class="link" href="PkProgress.html#pk-progress-set-remaining-time" title="pk_progress_set_remaining_time ()">pk_progress_set_remaining_time</a> <span class="c_punctuation">()</span>
 </td>
 </tr>
 <tr>
@@ -210,7 +212,7 @@
 <a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#guint"><span class="returnvalue">guint</span></a>
 </td>
 <td class="function_name">
-<a class="link" href="PackageKit-PkProgress.html#pk-progress-get-remaining-time" title="pk_progress_get_remaining_time ()">pk_progress_get_remaining_time</a> <span class="c_punctuation">()</span>
+<a class="link" href="PkProgress.html#pk-progress-get-remaining-time" title="pk_progress_get_remaining_time ()">pk_progress_get_remaining_time</a> <span class="c_punctuation">()</span>
 </td>
 </tr>
 <tr>
@@ -218,7 +220,7 @@
 <a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"><span class="returnvalue">gboolean</span></a>
 </td>
 <td class="function_name">
-<a class="link" href="PackageKit-PkProgress.html#pk-progress-set-speed" title="pk_progress_set_speed ()">pk_progress_set_speed</a> <span class="c_punctuation">()</span>
+<a class="link" href="PkProgress.html#pk-progress-set-speed" title="pk_progress_set_speed ()">pk_progress_set_speed</a> <span class="c_punctuation">()</span>
 </td>
 </tr>
 <tr>
@@ -226,7 +228,7 @@
 <a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#guint"><span class="returnvalue">guint</span></a>
 </td>
 <td class="function_name">
-<a class="link" href="PackageKit-PkProgress.html#pk-progress-get-speed" title="pk_progress_get_speed ()">pk_progress_get_speed</a> <span class="c_punctuation">()</span>
+<a class="link" href="PkProgress.html#pk-progress-get-speed" title="pk_progress_get_speed ()">pk_progress_get_speed</a> <span class="c_punctuation">()</span>
 </td>
 </tr>
 <tr>
@@ -234,7 +236,7 @@
 <a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"><span class="returnvalue">gboolean</span></a>
 </td>
 <td class="function_name">
-<a class="link" href="PackageKit-PkProgress.html#pk-progress-set-download-size-remaining" title="pk_progress_set_download_size_remaining ()">pk_progress_set_download_size_remaining</a> <span class="c_punctuation">()</span>
+<a class="link" href="PkProgress.html#pk-progress-set-download-size-remaining" title="pk_progress_set_download_size_remaining ()">pk_progress_set_download_size_remaining</a> <span class="c_punctuation">()</span>
 </td>
 </tr>
 <tr>
@@ -242,7 +244,7 @@
 <a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#guint64"><span class="returnvalue">guint64</span></a>
 </td>
 <td class="function_name">
-<a class="link" href="PackageKit-PkProgress.html#pk-progress-get-download-size-remaining" title="pk_progress_get_download_size_remaining ()">pk_progress_get_download_size_remaining</a> <span class="c_punctuation">()</span>
+<a class="link" href="PkProgress.html#pk-progress-get-download-size-remaining" title="pk_progress_get_download_size_remaining ()">pk_progress_get_download_size_remaining</a> <span class="c_punctuation">()</span>
 </td>
 </tr>
 <tr>
@@ -250,7 +252,7 @@
 <a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"><span class="returnvalue">gboolean</span></a>
 </td>
 <td class="function_name">
-<a class="link" href="PackageKit-PkProgress.html#pk-progress-set-transaction-flags" title="pk_progress_set_transaction_flags ()">pk_progress_set_transaction_flags</a> <span class="c_punctuation">()</span>
+<a class="link" href="PkProgress.html#pk-progress-set-transaction-flags" title="pk_progress_set_transaction_flags ()">pk_progress_set_transaction_flags</a> <span class="c_punctuation">()</span>
 </td>
 </tr>
 <tr>
@@ -258,7 +260,7 @@
 <a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#guint64"><span class="returnvalue">guint64</span></a>
 </td>
 <td class="function_name">
-<a class="link" href="PackageKit-PkProgress.html#pk-progress-get-transaction-flags" title="pk_progress_get_transaction_flags ()">pk_progress_get_transaction_flags</a> <span class="c_punctuation">()</span>
+<a class="link" href="PkProgress.html#pk-progress-get-transaction-flags" title="pk_progress_get_transaction_flags ()">pk_progress_get_transaction_flags</a> <span class="c_punctuation">()</span>
 </td>
 </tr>
 <tr>
@@ -266,7 +268,7 @@
 <a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"><span class="returnvalue">gboolean</span></a>
 </td>
 <td class="function_name">
-<a class="link" href="PackageKit-PkProgress.html#pk-progress-set-uid" title="pk_progress_set_uid ()">pk_progress_set_uid</a> <span class="c_punctuation">()</span>
+<a class="link" href="PkProgress.html#pk-progress-set-uid" title="pk_progress_set_uid ()">pk_progress_set_uid</a> <span class="c_punctuation">()</span>
 </td>
 </tr>
 <tr>
@@ -274,7 +276,7 @@
 <a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#guint"><span class="returnvalue">guint</span></a>
 </td>
 <td class="function_name">
-<a class="link" href="PackageKit-PkProgress.html#pk-progress-get-uid" title="pk_progress_get_uid ()">pk_progress_get_uid</a> <span class="c_punctuation">()</span>
+<a class="link" href="PkProgress.html#pk-progress-get-uid" title="pk_progress_get_uid ()">pk_progress_get_uid</a> <span class="c_punctuation">()</span>
 </td>
 </tr>
 <tr>
@@ -282,22 +284,113 @@
 <a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"><span class="returnvalue">gboolean</span></a>
 </td>
 <td class="function_name">
-<a class="link" href="PackageKit-PkProgress.html#pk-progress-set-package" title="pk_progress_set_package ()">pk_progress_set_package</a> <span class="c_punctuation">()</span>
+<a class="link" href="PkProgress.html#pk-progress-set-package" title="pk_progress_set_package ()">pk_progress_set_package</a> <span class="c_punctuation">()</span>
 </td>
 </tr>
 <tr>
 <td class="function_type">
-<span class="returnvalue">PkPackage</span> *
+<a class="link" href="PkPackage.html" title="PkPackage"><span class="returnvalue">PkPackage</span></a> *
 </td>
 <td class="function_name">
-<a class="link" href="PackageKit-PkProgress.html#pk-progress-get-package" title="pk_progress_get_package ()">pk_progress_get_package</a> <span class="c_punctuation">()</span>
+<a class="link" href="PkProgress.html#pk-progress-get-package" title="pk_progress_get_package ()">pk_progress_get_package</a> <span class="c_punctuation">()</span>
 </td>
 </tr>
 </tbody>
 </table></div>
 </div>
 <div class="refsect1">
-<a name="PackageKit-PkProgress.other"></a><h2>Types and Values</h2>
+<a name="PkProgress.properties"></a><h2>Properties</h2>
+<div class="informaltable"><table class="informaltable" border="0">
+<colgroup>
+<col width="150px" class="properties_type">
+<col width="300px" class="properties_name">
+<col width="200px" class="properties_flags">
+</colgroup>
+<tbody>
+<tr>
+<td class="property_type"><a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"><span class="type">gboolean</span></a></td>
+<td class="property_name"><a class="link" href="PkProgress.html#PkProgress--allow-cancel" title="The “allow-cancel” property">allow-cancel</a></td>
+<td class="property_flags">Read / Write</td>
+</tr>
+<tr>
+<td class="property_type"><a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"><span class="type">gboolean</span></a></td>
+<td class="property_name"><a class="link" href="PkProgress.html#PkProgress--caller-active" title="The “caller-active” property">caller-active</a></td>
+<td class="property_flags">Read / Write</td>
+</tr>
+<tr>
+<td class="property_type"><a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#guint64"><span class="type">guint64</span></a></td>
+<td class="property_name"><a class="link" href="PkProgress.html#PkProgress--download-size-remaining" title="The “download-size-remaining” property">download-size-remaining</a></td>
+<td class="property_flags">Read / Write</td>
+</tr>
+<tr>
+<td class="property_type"><a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#guint"><span class="type">guint</span></a></td>
+<td class="property_name"><a class="link" href="PkProgress.html#PkProgress--elapsed-time" title="The “elapsed-time” property">elapsed-time</a></td>
+<td class="property_flags">Read / Write</td>
+</tr>
+<tr>
+<td class="property_type">
+<a class="link" href="PkItemProgress.html" title="PkItemProgress"><span class="type">PkItemProgress</span></a> *</td>
+<td class="property_name"><a class="link" href="PkProgress.html#PkProgress--item-progress" title="The “item-progress” property">item-progress</a></td>
+<td class="property_flags">Read / Write</td>
+</tr>
+<tr>
+<td class="property_type">
+<a class="link" href="PkPackage.html" title="PkPackage"><span class="type">PkPackage</span></a> *</td>
+<td class="property_name"><a class="link" href="PkProgress.html#PkProgress--package" title="The “package” property">package</a></td>
+<td class="property_flags">Read / Write</td>
+</tr>
+<tr>
+<td class="property_type">
+<a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a> *</td>
+<td class="property_name"><a class="link" href="PkProgress.html#PkProgress--package-id" title="The “package-id” property">package-id</a></td>
+<td class="property_flags">Read / Write</td>
+</tr>
+<tr>
+<td class="property_type"><a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gint"><span class="type">gint</span></a></td>
+<td class="property_name"><a class="link" href="PkProgress.html#PkProgress--percentage" title="The “percentage” property">percentage</a></td>
+<td class="property_flags">Read / Write</td>
+</tr>
+<tr>
+<td class="property_type"><a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#guint"><span class="type">guint</span></a></td>
+<td class="property_name"><a class="link" href="PkProgress.html#PkProgress--remaining-time" title="The “remaining-time” property">remaining-time</a></td>
+<td class="property_flags">Read / Write</td>
+</tr>
+<tr>
+<td class="property_type"><a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#guint"><span class="type">guint</span></a></td>
+<td class="property_name"><a class="link" href="PkProgress.html#PkProgress--role" title="The “role” property">role</a></td>
+<td class="property_flags">Read / Write</td>
+</tr>
+<tr>
+<td class="property_type"><a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#guint"><span class="type">guint</span></a></td>
+<td class="property_name"><a class="link" href="PkProgress.html#PkProgress--speed" title="The “speed” property">speed</a></td>
+<td class="property_flags">Read / Write</td>
+</tr>
+<tr>
+<td class="property_type"><a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#guint"><span class="type">guint</span></a></td>
+<td class="property_name"><a class="link" href="PkProgress.html#PkProgress--status" title="The “status” property">status</a></td>
+<td class="property_flags">Read / Write</td>
+</tr>
+<tr>
+<td class="property_type"><a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#guint64"><span class="type">guint64</span></a></td>
+<td class="property_name"><a class="link" href="PkProgress.html#PkProgress--transaction-flags" title="The “transaction-flags” property">transaction-flags</a></td>
+<td class="property_flags">Read / Write</td>
+</tr>
+<tr>
+<td class="property_type">
+<a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a> *</td>
+<td class="property_name"><a class="link" href="PkProgress.html#PkProgress--transaction-id" title="The “transaction-id” property">transaction-id</a></td>
+<td class="property_flags">Read / Write</td>
+</tr>
+<tr>
+<td class="property_type"><a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#guint"><span class="type">guint</span></a></td>
+<td class="property_name"><a class="link" href="PkProgress.html#PkProgress--uid" title="The “uid” property">uid</a></td>
+<td class="property_flags">Read / Write</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<div class="refsect1">
+<a name="PkProgress.other"></a><h2>Types and Values</h2>
 <div class="informaltable"><table class="informaltable" width="100%" border="0">
 <colgroup>
 <col width="150px" class="name">
@@ -306,31 +399,39 @@
 <tbody>
 <tr>
 <td class="define_keyword">#define</td>
-<td class="function_name"><a class="link" href="PackageKit-PkProgress.html#PK-PROGRESS-TYPE-ERROR:CAPS" title="PK_PROGRESS_TYPE_ERROR">PK_PROGRESS_TYPE_ERROR</a></td>
+<td class="function_name"><a class="link" href="PkProgress.html#PK-PROGRESS-TYPE-ERROR:CAPS" title="PK_PROGRESS_TYPE_ERROR">PK_PROGRESS_TYPE_ERROR</a></td>
 </tr>
 <tr>
 <td class="datatype_keyword">enum</td>
-<td class="function_name"><a class="link" href="PackageKit-PkProgress.html#PkProgressType" title="enum PkProgressType">PkProgressType</a></td>
+<td class="function_name"><a class="link" href="PkProgress.html#PkProgressType" title="enum PkProgressType">PkProgressType</a></td>
 </tr>
 </tbody>
 </table></div>
 </div>
 <div class="refsect1">
-<a name="PackageKit-PkProgress.description"></a><h2>Description</h2>
+<a name="PkProgress.object-hierarchy"></a><h2>Object Hierarchy</h2>
+<pre class="screen">    <a href="/usr/share/gtk-doc/html/gobject/gobject-Enumeration-and-Flag-Types.html">GEnum</a>
+    <span class="lineart">╰──</span> PkProgressType
+    <a href="/usr/share/gtk-doc/html/gobject/gobject-The-Base-Object-Type.html#GObject-struct">GObject</a>
+    <span class="lineart">╰──</span> PkProgress
+</pre>
+</div>
+<div class="refsect1">
+<a name="PkProgress.description"></a><h2>Description</h2>
 <p>This GObject is available to clients to be able to query details about
 the transaction. All of the details on this object are stored as properties.</p>
 </div>
 <div class="refsect1">
-<a name="PackageKit-PkProgress.functions_details"></a><h2>Functions</h2>
+<a name="PkProgress.functions_details"></a><h2>Functions</h2>
 <div class="refsect2">
 <a name="pk-progress-new"></a><h3>pk_progress_new ()</h3>
-<pre class="programlisting"><span class="returnvalue">PkProgress</span> *
+<pre class="programlisting"><a class="link" href="PkProgress.html" title="PkProgress"><span class="returnvalue">PkProgress</span></a> *
 pk_progress_new (<em class="parameter"><code><span class="type">void</span></code></em>);</pre>
-<p><span class="type">PkProgress</span> is a nice GObject wrapper for PackageKit and makes writing
+<p><a class="link" href="PkProgress.html" title="PkProgress"><span class="type">PkProgress</span></a> is a nice GObject wrapper for PackageKit and makes writing
 frontends easy.</p>
 <div class="refsect3">
 <a name="pk-progress-new.returns"></a><h4>Returns</h4>
-<p> A new <span class="type">PkProgress</span> instance</p>
+<p> A new <a class="link" href="PkProgress.html" title="PkProgress"><span class="type">PkProgress</span></a> instance</p>
 </div>
 <p class="since">Since: <a class="link" href="api-index-0-5-2.html#api-index-0.5.2">0.5.2</a></p>
 </div>
@@ -338,8 +439,8 @@ frontends easy.</p>
 <div class="refsect2">
 <a name="PkProgressCallback"></a><h3>PkProgressCallback ()</h3>
 <pre class="programlisting"><span class="returnvalue">void</span>
-<span class="c_punctuation">(</span>*PkProgressCallback<span class="c_punctuation">)</span> (<em class="parameter"><code><span class="type">PkProgress</span> *progress</code></em>,
-                       <em class="parameter"><code><a class="link" href="PackageKit-PkProgress.html#PkProgressType" title="enum PkProgressType"><span class="type">PkProgressType</span></a> type</code></em>,
+<span class="c_punctuation">(</span>*PkProgressCallback<span class="c_punctuation">)</span> (<em class="parameter"><code><a class="link" href="PkProgress.html" title="PkProgress"><span class="type">PkProgress</span></a> *progress</code></em>,
+                       <em class="parameter"><code><a class="link" href="PkProgress.html#PkProgressType" title="enum PkProgressType"><span class="type">PkProgressType</span></a> type</code></em>,
                        <em class="parameter"><code><a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gpointer"><span class="type">gpointer</span></a> user_data</code></em>);</pre>
 <p>Function that is called when progress updates are given.</p>
 <div class="refsect3">
@@ -353,7 +454,7 @@ frontends easy.</p>
 <tbody>
 <tr>
 <td class="parameter_name"><p>progress</p></td>
-<td class="parameter_description"><p>a <span class="type">PkProgress</span></p></td>
+<td class="parameter_description"><p>a <a class="link" href="PkProgress.html" title="PkProgress"><span class="type">PkProgress</span></a></p></td>
 <td class="parameter_annotations"> </td>
 </tr>
 <tr>
@@ -374,7 +475,7 @@ frontends easy.</p>
 <div class="refsect2">
 <a name="pk-progress-set-package-id"></a><h3>pk_progress_set_package_id ()</h3>
 <pre class="programlisting"><a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"><span class="returnvalue">gboolean</span></a>
-pk_progress_set_package_id (<em class="parameter"><code><span class="type">PkProgress</span> *progress</code></em>,
+pk_progress_set_package_id (<em class="parameter"><code><a class="link" href="PkProgress.html" title="PkProgress"><span class="type">PkProgress</span></a> *progress</code></em>,
                             <em class="parameter"><code>const <a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a> *package_id</code></em>);</pre>
 <p>Set the package ID this transaction is acting on.</p>
 <div class="refsect3">
@@ -388,7 +489,7 @@ pk_progress_set_package_id (<em class="parameter"><code><span class="type">PkPro
 <tbody>
 <tr>
 <td class="parameter_name"><p>progress</p></td>
-<td class="parameter_description"><p>a valid <span class="type">PkProgress</span> instance</p></td>
+<td class="parameter_description"><p>a valid <a class="link" href="PkProgress.html" title="PkProgress"><span class="type">PkProgress</span></a> instance</p></td>
 <td class="parameter_annotations"> </td>
 </tr>
 <tr>
@@ -409,7 +510,7 @@ pk_progress_set_package_id (<em class="parameter"><code><span class="type">PkPro
 <div class="refsect2">
 <a name="pk-progress-get-package-id"></a><h3>pk_progress_get_package_id ()</h3>
 <pre class="programlisting">const <a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gchar"><span class="returnvalue">gchar</span></a> *
-pk_progress_get_package_id (<em class="parameter"><code><span class="type">PkProgress</span> *progress</code></em>);</pre>
+pk_progress_get_package_id (<em class="parameter"><code><a class="link" href="PkProgress.html" title="PkProgress"><span class="type">PkProgress</span></a> *progress</code></em>);</pre>
 <p>Get the package ID this transaction is acting on.</p>
 <div class="refsect3">
 <a name="pk-progress-get-package-id.parameters"></a><h4>Parameters</h4>
@@ -421,7 +522,7 @@ pk_progress_get_package_id (<em class="parameter"><code><span class="type">PkPro
 </colgroup>
 <tbody><tr>
 <td class="parameter_name"><p>progress</p></td>
-<td class="parameter_description"><p>a valid <span class="type">PkProgress</span> instance</p></td>
+<td class="parameter_description"><p>a valid <a class="link" href="PkProgress.html" title="PkProgress"><span class="type">PkProgress</span></a> instance</p></td>
 <td class="parameter_annotations"> </td>
 </tr></tbody>
 </table></div>
@@ -436,8 +537,8 @@ pk_progress_get_package_id (<em class="parameter"><code><span class="type">PkPro
 <div class="refsect2">
 <a name="pk-progress-set-item-progress"></a><h3>pk_progress_set_item_progress ()</h3>
 <pre class="programlisting"><a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"><span class="returnvalue">gboolean</span></a>
-pk_progress_set_item_progress (<em class="parameter"><code><span class="type">PkProgress</span> *progress</code></em>,
-                               <em class="parameter"><code><span class="type">PkItemProgress</span> *item_progress</code></em>);</pre>
+pk_progress_set_item_progress (<em class="parameter"><code><a class="link" href="PkProgress.html" title="PkProgress"><span class="type">PkProgress</span></a> *progress</code></em>,
+                               <em class="parameter"><code><a class="link" href="PkItemProgress.html" title="PkItemProgress"><span class="type">PkItemProgress</span></a> *item_progress</code></em>);</pre>
 <p>Set the item progress associated with this transaction.</p>
 <div class="refsect3">
 <a name="pk-progress-set-item-progress.parameters"></a><h4>Parameters</h4>
@@ -450,12 +551,12 @@ pk_progress_set_item_progress (<em class="parameter"><code><span class="type">Pk
 <tbody>
 <tr>
 <td class="parameter_name"><p>progress</p></td>
-<td class="parameter_description"><p>a valid <span class="type">PkProgress</span> instance</p></td>
+<td class="parameter_description"><p>a valid <a class="link" href="PkProgress.html" title="PkProgress"><span class="type">PkProgress</span></a> instance</p></td>
 <td class="parameter_annotations"> </td>
 </tr>
 <tr>
 <td class="parameter_name"><p>item_progress</p></td>
-<td class="parameter_description"><p>a <span class="type">PkItemProgress</span></p></td>
+<td class="parameter_description"><p>a <a class="link" href="PkItemProgress.html" title="PkItemProgress"><span class="type">PkItemProgress</span></a></p></td>
 <td class="parameter_annotations"> </td>
 </tr>
 </tbody>
@@ -470,8 +571,8 @@ pk_progress_set_item_progress (<em class="parameter"><code><span class="type">Pk
 <hr>
 <div class="refsect2">
 <a name="pk-progress-get-item-progress"></a><h3>pk_progress_get_item_progress ()</h3>
-<pre class="programlisting"><span class="returnvalue">PkItemProgress</span> *
-pk_progress_get_item_progress (<em class="parameter"><code><span class="type">PkProgress</span> *progress</code></em>);</pre>
+<pre class="programlisting"><a class="link" href="PkItemProgress.html" title="PkItemProgress"><span class="returnvalue">PkItemProgress</span></a> *
+pk_progress_get_item_progress (<em class="parameter"><code><a class="link" href="PkProgress.html" title="PkProgress"><span class="type">PkProgress</span></a> *progress</code></em>);</pre>
 <p>Get the item progress associated with this transaction.</p>
 <div class="refsect3">
 <a name="pk-progress-get-item-progress.parameters"></a><h4>Parameters</h4>
@@ -483,14 +584,14 @@ pk_progress_get_item_progress (<em class="parameter"><code><span class="type">Pk
 </colgroup>
 <tbody><tr>
 <td class="parameter_name"><p>progress</p></td>
-<td class="parameter_description"><p>a valid <span class="type">PkProgress</span> instance</p></td>
+<td class="parameter_description"><p>a valid <a class="link" href="PkProgress.html" title="PkProgress"><span class="type">PkProgress</span></a> instance</p></td>
 <td class="parameter_annotations"> </td>
 </tr></tbody>
 </table></div>
 </div>
 <div class="refsect3">
 <a name="pk-progress-get-item-progress.returns"></a><h4>Returns</h4>
-<p>a <span class="type">PkItemProgress</span>. </p>
+<p>a <a class="link" href="PkItemProgress.html" title="PkItemProgress"><span class="type">PkItemProgress</span></a>. </p>
 <p><span class="annotation">[<acronym title="Don't free data after the code is done."><span class="acronym">transfer none</span></acronym>]</span></p>
 </div>
 <p class="since">Since: <a class="link" href="api-index-1-0-12.html#api-index-1.0.12">1.0.12</a></p>
@@ -499,7 +600,7 @@ pk_progress_get_item_progress (<em class="parameter"><code><span class="type">Pk
 <div class="refsect2">
 <a name="pk-progress-set-transaction-id"></a><h3>pk_progress_set_transaction_id ()</h3>
 <pre class="programlisting"><a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"><span class="returnvalue">gboolean</span></a>
-pk_progress_set_transaction_id (<em class="parameter"><code><span class="type">PkProgress</span> *progress</code></em>,
+pk_progress_set_transaction_id (<em class="parameter"><code><a class="link" href="PkProgress.html" title="PkProgress"><span class="type">PkProgress</span></a> *progress</code></em>,
                                 <em class="parameter"><code>const <a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a> *transaction_id</code></em>);</pre>
 <p>Set the ID used by this transaction.</p>
 <div class="refsect3">
@@ -513,7 +614,7 @@ pk_progress_set_transaction_id (<em class="parameter"><code><span class="type">P
 <tbody>
 <tr>
 <td class="parameter_name"><p>progress</p></td>
-<td class="parameter_description"><p>a valid <span class="type">PkProgress</span> instance</p></td>
+<td class="parameter_description"><p>a valid <a class="link" href="PkProgress.html" title="PkProgress"><span class="type">PkProgress</span></a> instance</p></td>
 <td class="parameter_annotations"> </td>
 </tr>
 <tr>
@@ -534,7 +635,7 @@ pk_progress_set_transaction_id (<em class="parameter"><code><span class="type">P
 <div class="refsect2">
 <a name="pk-progress-get-transaction-id"></a><h3>pk_progress_get_transaction_id ()</h3>
 <pre class="programlisting">const <a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gchar"><span class="returnvalue">gchar</span></a> *
-pk_progress_get_transaction_id (<em class="parameter"><code><span class="type">PkProgress</span> *progress</code></em>);</pre>
+pk_progress_get_transaction_id (<em class="parameter"><code><a class="link" href="PkProgress.html" title="PkProgress"><span class="type">PkProgress</span></a> *progress</code></em>);</pre>
 <p>Get the ID used by this transaction.</p>
 <div class="refsect3">
 <a name="pk-progress-get-transaction-id.parameters"></a><h4>Parameters</h4>
@@ -546,7 +647,7 @@ pk_progress_get_transaction_id (<em class="parameter"><code><span class="type">P
 </colgroup>
 <tbody><tr>
 <td class="parameter_name"><p>progress</p></td>
-<td class="parameter_description"><p>a valid <span class="type">PkProgress</span> instance</p></td>
+<td class="parameter_description"><p>a valid <a class="link" href="PkProgress.html" title="PkProgress"><span class="type">PkProgress</span></a> instance</p></td>
 <td class="parameter_annotations"> </td>
 </tr></tbody>
 </table></div>
@@ -561,7 +662,7 @@ pk_progress_get_transaction_id (<em class="parameter"><code><span class="type">P
 <div class="refsect2">
 <a name="pk-progress-set-percentage"></a><h3>pk_progress_set_percentage ()</h3>
 <pre class="programlisting"><a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"><span class="returnvalue">gboolean</span></a>
-pk_progress_set_percentage (<em class="parameter"><code><span class="type">PkProgress</span> *progress</code></em>,
+pk_progress_set_percentage (<em class="parameter"><code><a class="link" href="PkProgress.html" title="PkProgress"><span class="type">PkProgress</span></a> *progress</code></em>,
                             <em class="parameter"><code><a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gint"><span class="type">gint</span></a> percentage</code></em>);</pre>
 <p>Set the percentage complete of this transaction.</p>
 <div class="refsect3">
@@ -575,7 +676,7 @@ pk_progress_set_percentage (<em class="parameter"><code><span class="type">PkPro
 <tbody>
 <tr>
 <td class="parameter_name"><p>progress</p></td>
-<td class="parameter_description"><p>a valid <span class="type">PkProgress</span> instance</p></td>
+<td class="parameter_description"><p>a valid <a class="link" href="PkProgress.html" title="PkProgress"><span class="type">PkProgress</span></a> instance</p></td>
 <td class="parameter_annotations"> </td>
 </tr>
 <tr>
@@ -596,7 +697,7 @@ pk_progress_set_percentage (<em class="parameter"><code><span class="type">PkPro
 <div class="refsect2">
 <a name="pk-progress-get-percentage"></a><h3>pk_progress_get_percentage ()</h3>
 <pre class="programlisting"><a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gint"><span class="returnvalue">gint</span></a>
-pk_progress_get_percentage (<em class="parameter"><code><span class="type">PkProgress</span> *progress</code></em>);</pre>
+pk_progress_get_percentage (<em class="parameter"><code><a class="link" href="PkProgress.html" title="PkProgress"><span class="type">PkProgress</span></a> *progress</code></em>);</pre>
 <p>Get the percentage complete.</p>
 <div class="refsect3">
 <a name="pk-progress-get-percentage.parameters"></a><h4>Parameters</h4>
@@ -608,7 +709,7 @@ pk_progress_get_percentage (<em class="parameter"><code><span class="type">PkPro
 </colgroup>
 <tbody><tr>
 <td class="parameter_name"><p>progress</p></td>
-<td class="parameter_description"><p>a valid <span class="type">PkProgress</span> instance</p></td>
+<td class="parameter_description"><p>a valid <a class="link" href="PkProgress.html" title="PkProgress"><span class="type">PkProgress</span></a> instance</p></td>
 <td class="parameter_annotations"> </td>
 </tr></tbody>
 </table></div>
@@ -623,7 +724,7 @@ pk_progress_get_percentage (<em class="parameter"><code><span class="type">PkPro
 <div class="refsect2">
 <a name="pk-progress-set-status"></a><h3>pk_progress_set_status ()</h3>
 <pre class="programlisting"><a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"><span class="returnvalue">gboolean</span></a>
-pk_progress_set_status (<em class="parameter"><code><span class="type">PkProgress</span> *progress</code></em>,
+pk_progress_set_status (<em class="parameter"><code><a class="link" href="PkProgress.html" title="PkProgress"><span class="type">PkProgress</span></a> *progress</code></em>,
                         <em class="parameter"><code><a class="link" href="PackageKit-Enumerations.html#PkStatusEnum" title="enum PkStatusEnum"><span class="type">PkStatusEnum</span></a> status</code></em>);</pre>
 <p>Set the status of this transaction.</p>
 <div class="refsect3">
@@ -637,7 +738,7 @@ pk_progress_set_status (<em class="parameter"><code><span class="type">PkProgres
 <tbody>
 <tr>
 <td class="parameter_name"><p>progress</p></td>
-<td class="parameter_description"><p>a valid <span class="type">PkProgress</span> instance</p></td>
+<td class="parameter_description"><p>a valid <a class="link" href="PkProgress.html" title="PkProgress"><span class="type">PkProgress</span></a> instance</p></td>
 <td class="parameter_annotations"> </td>
 </tr>
 <tr>
@@ -658,7 +759,7 @@ pk_progress_set_status (<em class="parameter"><code><span class="type">PkProgres
 <div class="refsect2">
 <a name="pk-progress-get-status"></a><h3>pk_progress_get_status ()</h3>
 <pre class="programlisting"><a class="link" href="PackageKit-Enumerations.html#PkStatusEnum" title="enum PkStatusEnum"><span class="returnvalue">PkStatusEnum</span></a>
-pk_progress_get_status (<em class="parameter"><code><span class="type">PkProgress</span> *progress</code></em>);</pre>
+pk_progress_get_status (<em class="parameter"><code><a class="link" href="PkProgress.html" title="PkProgress"><span class="type">PkProgress</span></a> *progress</code></em>);</pre>
 <p>Get the status of this transaction.</p>
 <div class="refsect3">
 <a name="pk-progress-get-status.parameters"></a><h4>Parameters</h4>
@@ -670,7 +771,7 @@ pk_progress_get_status (<em class="parameter"><code><span class="type">PkProgres
 </colgroup>
 <tbody><tr>
 <td class="parameter_name"><p>progress</p></td>
-<td class="parameter_description"><p>a valid <span class="type">PkProgress</span> instance</p></td>
+<td class="parameter_description"><p>a valid <a class="link" href="PkProgress.html" title="PkProgress"><span class="type">PkProgress</span></a> instance</p></td>
 <td class="parameter_annotations"> </td>
 </tr></tbody>
 </table></div>
@@ -685,7 +786,7 @@ pk_progress_get_status (<em class="parameter"><code><span class="type">PkProgres
 <div class="refsect2">
 <a name="pk-progress-set-role"></a><h3>pk_progress_set_role ()</h3>
 <pre class="programlisting"><a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"><span class="returnvalue">gboolean</span></a>
-pk_progress_set_role (<em class="parameter"><code><span class="type">PkProgress</span> *progress</code></em>,
+pk_progress_set_role (<em class="parameter"><code><a class="link" href="PkProgress.html" title="PkProgress"><span class="type">PkProgress</span></a> *progress</code></em>,
                       <em class="parameter"><code><a class="link" href="PackageKit-Enumerations.html#PkRoleEnum" title="enum PkRoleEnum"><span class="type">PkRoleEnum</span></a> role</code></em>);</pre>
 <p>Set the role of this transaction.</p>
 <div class="refsect3">
@@ -699,7 +800,7 @@ pk_progress_set_role (<em class="parameter"><code><span class="type">PkProgress<
 <tbody>
 <tr>
 <td class="parameter_name"><p>progress</p></td>
-<td class="parameter_description"><p>a valid <span class="type">PkProgress</span> instance</p></td>
+<td class="parameter_description"><p>a valid <a class="link" href="PkProgress.html" title="PkProgress"><span class="type">PkProgress</span></a> instance</p></td>
 <td class="parameter_annotations"> </td>
 </tr>
 <tr>
@@ -720,7 +821,7 @@ pk_progress_set_role (<em class="parameter"><code><span class="type">PkProgress<
 <div class="refsect2">
 <a name="pk-progress-get-role"></a><h3>pk_progress_get_role ()</h3>
 <pre class="programlisting"><a class="link" href="PackageKit-Enumerations.html#PkRoleEnum" title="enum PkRoleEnum"><span class="returnvalue">PkRoleEnum</span></a>
-pk_progress_get_role (<em class="parameter"><code><span class="type">PkProgress</span> *progress</code></em>);</pre>
+pk_progress_get_role (<em class="parameter"><code><a class="link" href="PkProgress.html" title="PkProgress"><span class="type">PkProgress</span></a> *progress</code></em>);</pre>
 <p>Get the role of this transaction.</p>
 <div class="refsect3">
 <a name="pk-progress-get-role.parameters"></a><h4>Parameters</h4>
@@ -732,7 +833,7 @@ pk_progress_get_role (<em class="parameter"><code><span class="type">PkProgress<
 </colgroup>
 <tbody><tr>
 <td class="parameter_name"><p>progress</p></td>
-<td class="parameter_description"><p>a valid <span class="type">PkProgress</span> instance</p></td>
+<td class="parameter_description"><p>a valid <a class="link" href="PkProgress.html" title="PkProgress"><span class="type">PkProgress</span></a> instance</p></td>
 <td class="parameter_annotations"> </td>
 </tr></tbody>
 </table></div>
@@ -747,7 +848,7 @@ pk_progress_get_role (<em class="parameter"><code><span class="type">PkProgress<
 <div class="refsect2">
 <a name="pk-progress-set-allow-cancel"></a><h3>pk_progress_set_allow_cancel ()</h3>
 <pre class="programlisting"><a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"><span class="returnvalue">gboolean</span></a>
-pk_progress_set_allow_cancel (<em class="parameter"><code><span class="type">PkProgress</span> *progress</code></em>,
+pk_progress_set_allow_cancel (<em class="parameter"><code><a class="link" href="PkProgress.html" title="PkProgress"><span class="type">PkProgress</span></a> *progress</code></em>,
                               <em class="parameter"><code><a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"><span class="type">gboolean</span></a> allow_cancel</code></em>);</pre>
 <p>Set if this transaction can be cancelled.</p>
 <div class="refsect3">
@@ -761,7 +862,7 @@ pk_progress_set_allow_cancel (<em class="parameter"><code><span class="type">PkP
 <tbody>
 <tr>
 <td class="parameter_name"><p>progress</p></td>
-<td class="parameter_description"><p>a valid <span class="type">PkProgress</span> instance</p></td>
+<td class="parameter_description"><p>a valid <a class="link" href="PkProgress.html" title="PkProgress"><span class="type">PkProgress</span></a> instance</p></td>
 <td class="parameter_annotations"> </td>
 </tr>
 <tr>
@@ -782,7 +883,7 @@ pk_progress_set_allow_cancel (<em class="parameter"><code><span class="type">PkP
 <div class="refsect2">
 <a name="pk-progress-get-allow-cancel"></a><h3>pk_progress_get_allow_cancel ()</h3>
 <pre class="programlisting"><a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"><span class="returnvalue">gboolean</span></a>
-pk_progress_get_allow_cancel (<em class="parameter"><code><span class="type">PkProgress</span> *progress</code></em>);</pre>
+pk_progress_get_allow_cancel (<em class="parameter"><code><a class="link" href="PkProgress.html" title="PkProgress"><span class="type">PkProgress</span></a> *progress</code></em>);</pre>
 <p>Get if this transaction can be cancelled.</p>
 <div class="refsect3">
 <a name="pk-progress-get-allow-cancel.parameters"></a><h4>Parameters</h4>
@@ -794,7 +895,7 @@ pk_progress_get_allow_cancel (<em class="parameter"><code><span class="type">PkP
 </colgroup>
 <tbody><tr>
 <td class="parameter_name"><p>progress</p></td>
-<td class="parameter_description"><p>a valid <span class="type">PkProgress</span> instance</p></td>
+<td class="parameter_description"><p>a valid <a class="link" href="PkProgress.html" title="PkProgress"><span class="type">PkProgress</span></a> instance</p></td>
 <td class="parameter_annotations"> </td>
 </tr></tbody>
 </table></div>
@@ -809,7 +910,7 @@ pk_progress_get_allow_cancel (<em class="parameter"><code><span class="type">PkP
 <div class="refsect2">
 <a name="pk-progress-set-caller-active"></a><h3>pk_progress_set_caller_active ()</h3>
 <pre class="programlisting"><a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"><span class="returnvalue">gboolean</span></a>
-pk_progress_set_caller_active (<em class="parameter"><code><span class="type">PkProgress</span> *progress</code></em>,
+pk_progress_set_caller_active (<em class="parameter"><code><a class="link" href="PkProgress.html" title="PkProgress"><span class="type">PkProgress</span></a> *progress</code></em>,
                                <em class="parameter"><code><a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"><span class="type">gboolean</span></a> caller_active</code></em>);</pre>
 <p>Set if the transaction caller is connected.</p>
 <div class="refsect3">
@@ -823,7 +924,7 @@ pk_progress_set_caller_active (<em class="parameter"><code><span class="type">Pk
 <tbody>
 <tr>
 <td class="parameter_name"><p>progress</p></td>
-<td class="parameter_description"><p>a valid <span class="type">PkProgress</span> instance</p></td>
+<td class="parameter_description"><p>a valid <a class="link" href="PkProgress.html" title="PkProgress"><span class="type">PkProgress</span></a> instance</p></td>
 <td class="parameter_annotations"> </td>
 </tr>
 <tr>
@@ -844,7 +945,7 @@ pk_progress_set_caller_active (<em class="parameter"><code><span class="type">Pk
 <div class="refsect2">
 <a name="pk-progress-get-caller-active"></a><h3>pk_progress_get_caller_active ()</h3>
 <pre class="programlisting"><a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"><span class="returnvalue">gboolean</span></a>
-pk_progress_get_caller_active (<em class="parameter"><code><span class="type">PkProgress</span> *progress</code></em>);</pre>
+pk_progress_get_caller_active (<em class="parameter"><code><a class="link" href="PkProgress.html" title="PkProgress"><span class="type">PkProgress</span></a> *progress</code></em>);</pre>
 <p>Get if the transaction caller is connected.</p>
 <div class="refsect3">
 <a name="pk-progress-get-caller-active.parameters"></a><h4>Parameters</h4>
@@ -856,7 +957,7 @@ pk_progress_get_caller_active (<em class="parameter"><code><span class="type">Pk
 </colgroup>
 <tbody><tr>
 <td class="parameter_name"><p>progress</p></td>
-<td class="parameter_description"><p>a valid <span class="type">PkProgress</span> instance</p></td>
+<td class="parameter_description"><p>a valid <a class="link" href="PkProgress.html" title="PkProgress"><span class="type">PkProgress</span></a> instance</p></td>
 <td class="parameter_annotations"> </td>
 </tr></tbody>
 </table></div>
@@ -871,7 +972,7 @@ pk_progress_get_caller_active (<em class="parameter"><code><span class="type">Pk
 <div class="refsect2">
 <a name="pk-progress-set-elapsed-time"></a><h3>pk_progress_set_elapsed_time ()</h3>
 <pre class="programlisting"><a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"><span class="returnvalue">gboolean</span></a>
-pk_progress_set_elapsed_time (<em class="parameter"><code><span class="type">PkProgress</span> *progress</code></em>,
+pk_progress_set_elapsed_time (<em class="parameter"><code><a class="link" href="PkProgress.html" title="PkProgress"><span class="type">PkProgress</span></a> *progress</code></em>,
                               <em class="parameter"><code><a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#guint"><span class="type">guint</span></a> elapsed_time</code></em>);</pre>
 <p>Set the amount of time the transaction has taken.</p>
 <div class="refsect3">
@@ -885,7 +986,7 @@ pk_progress_set_elapsed_time (<em class="parameter"><code><span class="type">PkP
 <tbody>
 <tr>
 <td class="parameter_name"><p>progress</p></td>
-<td class="parameter_description"><p>a valid <span class="type">PkProgress</span> instance</p></td>
+<td class="parameter_description"><p>a valid <a class="link" href="PkProgress.html" title="PkProgress"><span class="type">PkProgress</span></a> instance</p></td>
 <td class="parameter_annotations"> </td>
 </tr>
 <tr>
@@ -906,7 +1007,7 @@ pk_progress_set_elapsed_time (<em class="parameter"><code><span class="type">PkP
 <div class="refsect2">
 <a name="pk-progress-get-elapsed-time"></a><h3>pk_progress_get_elapsed_time ()</h3>
 <pre class="programlisting"><a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#guint"><span class="returnvalue">guint</span></a>
-pk_progress_get_elapsed_time (<em class="parameter"><code><span class="type">PkProgress</span> *progress</code></em>);</pre>
+pk_progress_get_elapsed_time (<em class="parameter"><code><a class="link" href="PkProgress.html" title="PkProgress"><span class="type">PkProgress</span></a> *progress</code></em>);</pre>
 <p>Get the amount of time the transaction has taken.</p>
 <div class="refsect3">
 <a name="pk-progress-get-elapsed-time.parameters"></a><h4>Parameters</h4>
@@ -918,7 +1019,7 @@ pk_progress_get_elapsed_time (<em class="parameter"><code><span class="type">PkP
 </colgroup>
 <tbody><tr>
 <td class="parameter_name"><p>progress</p></td>
-<td class="parameter_description"><p>a valid <span class="type">PkProgress</span> instance</p></td>
+<td class="parameter_description"><p>a valid <a class="link" href="PkProgress.html" title="PkProgress"><span class="type">PkProgress</span></a> instance</p></td>
 <td class="parameter_annotations"> </td>
 </tr></tbody>
 </table></div>
@@ -933,7 +1034,7 @@ pk_progress_get_elapsed_time (<em class="parameter"><code><span class="type">PkP
 <div class="refsect2">
 <a name="pk-progress-set-remaining-time"></a><h3>pk_progress_set_remaining_time ()</h3>
 <pre class="programlisting"><a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"><span class="returnvalue">gboolean</span></a>
-pk_progress_set_remaining_time (<em class="parameter"><code><span class="type">PkProgress</span> *progress</code></em>,
+pk_progress_set_remaining_time (<em class="parameter"><code><a class="link" href="PkProgress.html" title="PkProgress"><span class="type">PkProgress</span></a> *progress</code></em>,
                                 <em class="parameter"><code><a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#guint"><span class="type">guint</span></a> remaining_time</code></em>);</pre>
 <p>Set the amount of time the transaction will take to complete.</p>
 <div class="refsect3">
@@ -947,7 +1048,7 @@ pk_progress_set_remaining_time (<em class="parameter"><code><span class="type">P
 <tbody>
 <tr>
 <td class="parameter_name"><p>progress</p></td>
-<td class="parameter_description"><p>a valid <span class="type">PkProgress</span> instance</p></td>
+<td class="parameter_description"><p>a valid <a class="link" href="PkProgress.html" title="PkProgress"><span class="type">PkProgress</span></a> instance</p></td>
 <td class="parameter_annotations"> </td>
 </tr>
 <tr>
@@ -968,7 +1069,7 @@ pk_progress_set_remaining_time (<em class="parameter"><code><span class="type">P
 <div class="refsect2">
 <a name="pk-progress-get-remaining-time"></a><h3>pk_progress_get_remaining_time ()</h3>
 <pre class="programlisting"><a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#guint"><span class="returnvalue">guint</span></a>
-pk_progress_get_remaining_time (<em class="parameter"><code><span class="type">PkProgress</span> *progress</code></em>);</pre>
+pk_progress_get_remaining_time (<em class="parameter"><code><a class="link" href="PkProgress.html" title="PkProgress"><span class="type">PkProgress</span></a> *progress</code></em>);</pre>
 <p>Get the amount of time the transaction will take to complete.</p>
 <div class="refsect3">
 <a name="pk-progress-get-remaining-time.parameters"></a><h4>Parameters</h4>
@@ -980,7 +1081,7 @@ pk_progress_get_remaining_time (<em class="parameter"><code><span class="type">P
 </colgroup>
 <tbody><tr>
 <td class="parameter_name"><p>progress</p></td>
-<td class="parameter_description"><p>a valid <span class="type">PkProgress</span> instance</p></td>
+<td class="parameter_description"><p>a valid <a class="link" href="PkProgress.html" title="PkProgress"><span class="type">PkProgress</span></a> instance</p></td>
 <td class="parameter_annotations"> </td>
 </tr></tbody>
 </table></div>
@@ -995,7 +1096,7 @@ pk_progress_get_remaining_time (<em class="parameter"><code><span class="type">P
 <div class="refsect2">
 <a name="pk-progress-set-speed"></a><h3>pk_progress_set_speed ()</h3>
 <pre class="programlisting"><a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"><span class="returnvalue">gboolean</span></a>
-pk_progress_set_speed (<em class="parameter"><code><span class="type">PkProgress</span> *progress</code></em>,
+pk_progress_set_speed (<em class="parameter"><code><a class="link" href="PkProgress.html" title="PkProgress"><span class="type">PkProgress</span></a> *progress</code></em>,
                        <em class="parameter"><code><a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#guint"><span class="type">guint</span></a> speed</code></em>);</pre>
 <p>Set the speed of this transaction.</p>
 <div class="refsect3">
@@ -1009,7 +1110,7 @@ pk_progress_set_speed (<em class="parameter"><code><span class="type">PkProgress
 <tbody>
 <tr>
 <td class="parameter_name"><p>progress</p></td>
-<td class="parameter_description"><p>a valid <span class="type">PkProgress</span> instance</p></td>
+<td class="parameter_description"><p>a valid <a class="link" href="PkProgress.html" title="PkProgress"><span class="type">PkProgress</span></a> instance</p></td>
 <td class="parameter_annotations"> </td>
 </tr>
 <tr>
@@ -1030,7 +1131,7 @@ pk_progress_set_speed (<em class="parameter"><code><span class="type">PkProgress
 <div class="refsect2">
 <a name="pk-progress-get-speed"></a><h3>pk_progress_get_speed ()</h3>
 <pre class="programlisting"><a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#guint"><span class="returnvalue">guint</span></a>
-pk_progress_get_speed (<em class="parameter"><code><span class="type">PkProgress</span> *progress</code></em>);</pre>
+pk_progress_get_speed (<em class="parameter"><code><a class="link" href="PkProgress.html" title="PkProgress"><span class="type">PkProgress</span></a> *progress</code></em>);</pre>
 <p>Get the speed of this transaction.</p>
 <div class="refsect3">
 <a name="pk-progress-get-speed.parameters"></a><h4>Parameters</h4>
@@ -1042,7 +1143,7 @@ pk_progress_get_speed (<em class="parameter"><code><span class="type">PkProgress
 </colgroup>
 <tbody><tr>
 <td class="parameter_name"><p>progress</p></td>
-<td class="parameter_description"><p>a valid <span class="type">PkProgress</span> instance</p></td>
+<td class="parameter_description"><p>a valid <a class="link" href="PkProgress.html" title="PkProgress"><span class="type">PkProgress</span></a> instance</p></td>
 <td class="parameter_annotations"> </td>
 </tr></tbody>
 </table></div>
@@ -1058,7 +1159,7 @@ pk_progress_get_speed (<em class="parameter"><code><span class="type">PkProgress
 <a name="pk-progress-set-download-size-remaining"></a><h3>pk_progress_set_download_size_remaining ()</h3>
 <pre class="programlisting"><a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"><span class="returnvalue">gboolean</span></a>
 pk_progress_set_download_size_remaining
-                               (<em class="parameter"><code><span class="type">PkProgress</span> *progress</code></em>,
+                               (<em class="parameter"><code><a class="link" href="PkProgress.html" title="PkProgress"><span class="type">PkProgress</span></a> *progress</code></em>,
                                 <em class="parameter"><code><a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#guint64"><span class="type">guint64</span></a> download_size_remaining</code></em>);</pre>
 <p>Set the number of bytes remaining to download.</p>
 <div class="refsect3">
@@ -1072,7 +1173,7 @@ pk_progress_set_download_size_remaining
 <tbody>
 <tr>
 <td class="parameter_name"><p>progress</p></td>
-<td class="parameter_description"><p>a valid <span class="type">PkProgress</span> instance</p></td>
+<td class="parameter_description"><p>a valid <a class="link" href="PkProgress.html" title="PkProgress"><span class="type">PkProgress</span></a> instance</p></td>
 <td class="parameter_annotations"> </td>
 </tr>
 <tr>
@@ -1094,7 +1195,7 @@ pk_progress_set_download_size_remaining
 <a name="pk-progress-get-download-size-remaining"></a><h3>pk_progress_get_download_size_remaining ()</h3>
 <pre class="programlisting"><a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#guint64"><span class="returnvalue">guint64</span></a>
 pk_progress_get_download_size_remaining
-                               (<em class="parameter"><code><span class="type">PkProgress</span> *progress</code></em>);</pre>
+                               (<em class="parameter"><code><a class="link" href="PkProgress.html" title="PkProgress"><span class="type">PkProgress</span></a> *progress</code></em>);</pre>
 <p>Get the number of bytes remaining to download.</p>
 <div class="refsect3">
 <a name="pk-progress-get-download-size-remaining.parameters"></a><h4>Parameters</h4>
@@ -1106,7 +1207,7 @@ pk_progress_get_download_size_remaining
 </colgroup>
 <tbody><tr>
 <td class="parameter_name"><p>progress</p></td>
-<td class="parameter_description"><p>a valid <span class="type">PkProgress</span> instance</p></td>
+<td class="parameter_description"><p>a valid <a class="link" href="PkProgress.html" title="PkProgress"><span class="type">PkProgress</span></a> instance</p></td>
 <td class="parameter_annotations"> </td>
 </tr></tbody>
 </table></div>
@@ -1121,7 +1222,7 @@ pk_progress_get_download_size_remaining
 <div class="refsect2">
 <a name="pk-progress-set-transaction-flags"></a><h3>pk_progress_set_transaction_flags ()</h3>
 <pre class="programlisting"><a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"><span class="returnvalue">gboolean</span></a>
-pk_progress_set_transaction_flags (<em class="parameter"><code><span class="type">PkProgress</span> *progress</code></em>,
+pk_progress_set_transaction_flags (<em class="parameter"><code><a class="link" href="PkProgress.html" title="PkProgress"><span class="type">PkProgress</span></a> *progress</code></em>,
                                    <em class="parameter"><code><a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#guint64"><span class="type">guint64</span></a> transaction_flags</code></em>);</pre>
 <p>Set the flags associated with this transaction.</p>
 <div class="refsect3">
@@ -1135,7 +1236,7 @@ pk_progress_set_transaction_flags (<em class="parameter"><code><span class="type
 <tbody>
 <tr>
 <td class="parameter_name"><p>progress</p></td>
-<td class="parameter_description"><p>a valid <span class="type">PkProgress</span> instance</p></td>
+<td class="parameter_description"><p>a valid <a class="link" href="PkProgress.html" title="PkProgress"><span class="type">PkProgress</span></a> instance</p></td>
 <td class="parameter_annotations"> </td>
 </tr>
 <tr>
@@ -1156,7 +1257,7 @@ pk_progress_set_transaction_flags (<em class="parameter"><code><span class="type
 <div class="refsect2">
 <a name="pk-progress-get-transaction-flags"></a><h3>pk_progress_get_transaction_flags ()</h3>
 <pre class="programlisting"><a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#guint64"><span class="returnvalue">guint64</span></a>
-pk_progress_get_transaction_flags (<em class="parameter"><code><span class="type">PkProgress</span> *progress</code></em>);</pre>
+pk_progress_get_transaction_flags (<em class="parameter"><code><a class="link" href="PkProgress.html" title="PkProgress"><span class="type">PkProgress</span></a> *progress</code></em>);</pre>
 <p>Get the flags associated with this transaction.</p>
 <div class="refsect3">
 <a name="pk-progress-get-transaction-flags.parameters"></a><h4>Parameters</h4>
@@ -1168,7 +1269,7 @@ pk_progress_get_transaction_flags (<em class="parameter"><code><span class="type
 </colgroup>
 <tbody><tr>
 <td class="parameter_name"><p>progress</p></td>
-<td class="parameter_description"><p>a valid <span class="type">PkProgress</span> instance</p></td>
+<td class="parameter_description"><p>a valid <a class="link" href="PkProgress.html" title="PkProgress"><span class="type">PkProgress</span></a> instance</p></td>
 <td class="parameter_annotations"> </td>
 </tr></tbody>
 </table></div>
@@ -1183,7 +1284,7 @@ pk_progress_get_transaction_flags (<em class="parameter"><code><span class="type
 <div class="refsect2">
 <a name="pk-progress-set-uid"></a><h3>pk_progress_set_uid ()</h3>
 <pre class="programlisting"><a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"><span class="returnvalue">gboolean</span></a>
-pk_progress_set_uid (<em class="parameter"><code><span class="type">PkProgress</span> *progress</code></em>,
+pk_progress_set_uid (<em class="parameter"><code><a class="link" href="PkProgress.html" title="PkProgress"><span class="type">PkProgress</span></a> *progress</code></em>,
                      <em class="parameter"><code><a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#guint"><span class="type">guint</span></a> uid</code></em>);</pre>
 <p>Set the UID that started this transaction.</p>
 <div class="refsect3">
@@ -1197,7 +1298,7 @@ pk_progress_set_uid (<em class="parameter"><code><span class="type">PkProgress</
 <tbody>
 <tr>
 <td class="parameter_name"><p>progress</p></td>
-<td class="parameter_description"><p>a valid <span class="type">PkProgress</span> instance</p></td>
+<td class="parameter_description"><p>a valid <a class="link" href="PkProgress.html" title="PkProgress"><span class="type">PkProgress</span></a> instance</p></td>
 <td class="parameter_annotations"> </td>
 </tr>
 <tr>
@@ -1218,7 +1319,7 @@ pk_progress_set_uid (<em class="parameter"><code><span class="type">PkProgress</
 <div class="refsect2">
 <a name="pk-progress-get-uid"></a><h3>pk_progress_get_uid ()</h3>
 <pre class="programlisting"><a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#guint"><span class="returnvalue">guint</span></a>
-pk_progress_get_uid (<em class="parameter"><code><span class="type">PkProgress</span> *progress</code></em>);</pre>
+pk_progress_get_uid (<em class="parameter"><code><a class="link" href="PkProgress.html" title="PkProgress"><span class="type">PkProgress</span></a> *progress</code></em>);</pre>
 <p>Get the UID that started this transaction.</p>
 <div class="refsect3">
 <a name="pk-progress-get-uid.parameters"></a><h4>Parameters</h4>
@@ -1230,7 +1331,7 @@ pk_progress_get_uid (<em class="parameter"><code><span class="type">PkProgress</
 </colgroup>
 <tbody><tr>
 <td class="parameter_name"><p>progress</p></td>
-<td class="parameter_description"><p>a valid <span class="type">PkProgress</span> instance</p></td>
+<td class="parameter_description"><p>a valid <a class="link" href="PkProgress.html" title="PkProgress"><span class="type">PkProgress</span></a> instance</p></td>
 <td class="parameter_annotations"> </td>
 </tr></tbody>
 </table></div>
@@ -1245,8 +1346,8 @@ pk_progress_get_uid (<em class="parameter"><code><span class="type">PkProgress</
 <div class="refsect2">
 <a name="pk-progress-set-package"></a><h3>pk_progress_set_package ()</h3>
 <pre class="programlisting"><a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"><span class="returnvalue">gboolean</span></a>
-pk_progress_set_package (<em class="parameter"><code><span class="type">PkProgress</span> *progress</code></em>,
-                         <em class="parameter"><code><span class="type">PkPackage</span> *package</code></em>);</pre>
+pk_progress_set_package (<em class="parameter"><code><a class="link" href="PkProgress.html" title="PkProgress"><span class="type">PkProgress</span></a> *progress</code></em>,
+                         <em class="parameter"><code><a class="link" href="PkPackage.html" title="PkPackage"><span class="type">PkPackage</span></a> *package</code></em>);</pre>
 <p>Set the package this transaction is acting on.</p>
 <div class="refsect3">
 <a name="pk-progress-set-package.parameters"></a><h4>Parameters</h4>
@@ -1259,12 +1360,12 @@ pk_progress_set_package (<em class="parameter"><code><span class="type">PkProgre
 <tbody>
 <tr>
 <td class="parameter_name"><p>progress</p></td>
-<td class="parameter_description"><p>a valid <span class="type">PkProgress</span> instance</p></td>
+<td class="parameter_description"><p>a valid <a class="link" href="PkProgress.html" title="PkProgress"><span class="type">PkProgress</span></a> instance</p></td>
 <td class="parameter_annotations"> </td>
 </tr>
 <tr>
 <td class="parameter_name"><p>package</p></td>
-<td class="parameter_description"><p>a <span class="type">PkPackage</span></p></td>
+<td class="parameter_description"><p>a <a class="link" href="PkPackage.html" title="PkPackage"><span class="type">PkPackage</span></a></p></td>
 <td class="parameter_annotations"> </td>
 </tr>
 </tbody>
@@ -1279,8 +1380,8 @@ pk_progress_set_package (<em class="parameter"><code><span class="type">PkProgre
 <hr>
 <div class="refsect2">
 <a name="pk-progress-get-package"></a><h3>pk_progress_get_package ()</h3>
-<pre class="programlisting"><span class="returnvalue">PkPackage</span> *
-pk_progress_get_package (<em class="parameter"><code><span class="type">PkProgress</span> *progress</code></em>);</pre>
+<pre class="programlisting"><a class="link" href="PkPackage.html" title="PkPackage"><span class="returnvalue">PkPackage</span></a> *
+pk_progress_get_package (<em class="parameter"><code><a class="link" href="PkProgress.html" title="PkProgress"><span class="type">PkProgress</span></a> *progress</code></em>);</pre>
 <p>Get the package this transaction is acting on.</p>
 <div class="refsect3">
 <a name="pk-progress-get-package.parameters"></a><h4>Parameters</h4>
@@ -1292,21 +1393,21 @@ pk_progress_get_package (<em class="parameter"><code><span class="type">PkProgre
 </colgroup>
 <tbody><tr>
 <td class="parameter_name"><p>progress</p></td>
-<td class="parameter_description"><p>a valid <span class="type">PkProgress</span> instance</p></td>
+<td class="parameter_description"><p>a valid <a class="link" href="PkProgress.html" title="PkProgress"><span class="type">PkProgress</span></a> instance</p></td>
 <td class="parameter_annotations"> </td>
 </tr></tbody>
 </table></div>
 </div>
 <div class="refsect3">
 <a name="pk-progress-get-package.returns"></a><h4>Returns</h4>
-<p>a <span class="type">PkPackage</span>. </p>
+<p>a <a class="link" href="PkPackage.html" title="PkPackage"><span class="type">PkPackage</span></a>. </p>
 <p><span class="annotation">[<acronym title="Don't free data after the code is done."><span class="acronym">transfer none</span></acronym>]</span></p>
 </div>
 <p class="since">Since: <a class="link" href="api-index-1-0-12.html#api-index-1.0.12">1.0.12</a></p>
 </div>
 </div>
 <div class="refsect1">
-<a name="PackageKit-PkProgress.other_details"></a><h2>Types and Values</h2>
+<a name="PkProgress.other_details"></a><h2>Types and Values</h2>
 <div class="refsect2">
 <a name="PK-PROGRESS-TYPE-ERROR:CAPS"></a><h3>PK_PROGRESS_TYPE_ERROR</h3>
 <pre class="programlisting">#define PK_PROGRESS_TYPE_ERROR		(pk_progress_error_get_type ())
@@ -1440,8 +1541,146 @@ pk_progress_get_package (<em class="parameter"><code><span class="type">PkProgre
 </div>
 </div>
 </div>
+<div class="refsect1">
+<a name="PkProgress.property-details"></a><h2>Property Details</h2>
+<div class="refsect2">
+<a name="PkProgress--allow-cancel"></a><h3>The <code class="literal">“allow-cancel”</code> property</h3>
+<pre class="programlisting">  “allow-cancel”             <a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"><span class="type">gboolean</span></a></pre>
+<p><a href="/usr/share/gtk-doc/html/glib/glib-Standard-Macros.html#TRUE:CAPS"><code class="literal">TRUE</code></a> if this transaction can be cancelled.</p>
+<p>Flags: Read / Write</p>
+<p>Default value: FALSE</p>
+<p class="since">Since: <a class="link" href="api-index-0-5-2.html#api-index-0.5.2">0.5.2</a></p>
+</div>
+<hr>
+<div class="refsect2">
+<a name="PkProgress--caller-active"></a><h3>The <code class="literal">“caller-active”</code> property</h3>
+<pre class="programlisting">  “caller-active”            <a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"><span class="type">gboolean</span></a></pre>
+<p><a href="/usr/share/gtk-doc/html/glib/glib-Standard-Macros.html#TRUE:CAPS"><code class="literal">TRUE</code></a> if the transaction caller is still connected.</p>
+<p>Flags: Read / Write</p>
+<p>Default value: FALSE</p>
+<p class="since">Since: <a class="link" href="api-index-0-5-2.html#api-index-0.5.2">0.5.2</a></p>
+</div>
+<hr>
+<div class="refsect2">
+<a name="PkProgress--download-size-remaining"></a><h3>The <code class="literal">“download-size-remaining”</code> property</h3>
+<pre class="programlisting">  “download-size-remaining”  <a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#guint64"><span class="type">guint64</span></a></pre>
+<p>Number of bytes remaining to download.</p>
+<p>Flags: Read / Write</p>
+<p>Default value: 0</p>
+<p class="since">Since: <a class="link" href="api-index-0-8-0.html#api-index-0.8.0">0.8.0</a></p>
+</div>
+<hr>
+<div class="refsect2">
+<a name="PkProgress--elapsed-time"></a><h3>The <code class="literal">“elapsed-time”</code> property</h3>
+<pre class="programlisting">  “elapsed-time”             <a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#guint"><span class="type">guint</span></a></pre>
+<p>Amount of time the transaction has taken in seconds.</p>
+<p>Flags: Read / Write</p>
+<p>Default value: 0</p>
+<p class="since">Since: <a class="link" href="api-index-0-5-2.html#api-index-0.5.2">0.5.2</a></p>
+</div>
+<hr>
+<div class="refsect2">
+<a name="PkProgress--item-progress"></a><h3>The <code class="literal">“item-progress”</code> property</h3>
+<pre class="programlisting">  “item-progress”            <a class="link" href="PkItemProgress.html" title="PkItemProgress"><span class="type">PkItemProgress</span></a> *</pre>
+<p>Item progress associated with this transaction.</p>
+<p>Flags: Read / Write</p>
+<p class="since">Since: <a class="link" href="api-index-0-8-1.html#api-index-0.8.1">0.8.1</a></p>
+</div>
+<hr>
+<div class="refsect2">
+<a name="PkProgress--package"></a><h3>The <code class="literal">“package”</code> property</h3>
+<pre class="programlisting">  “package”                  <a class="link" href="PkPackage.html" title="PkPackage"><span class="type">PkPackage</span></a> *</pre>
+<p>The package this transaction is acting on.</p>
+<p>Flags: Read / Write</p>
+<p class="since">Since: <a class="link" href="api-index-0-5-3.html#api-index-0.5.3">0.5.3</a></p>
+</div>
+<hr>
+<div class="refsect2">
+<a name="PkProgress--package-id"></a><h3>The <code class="literal">“package-id”</code> property</h3>
+<pre class="programlisting">  “package-id”               <a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a> *</pre>
+<p>Package ID this transaction is acting on.</p>
+<p>Flags: Read / Write</p>
+<p>Default value: NULL</p>
+<p class="since">Since: <a class="link" href="api-index-0-5-2.html#api-index-0.5.2">0.5.2</a></p>
+</div>
+<hr>
+<div class="refsect2">
+<a name="PkProgress--percentage"></a><h3>The <code class="literal">“percentage”</code> property</h3>
+<pre class="programlisting">  “percentage”               <a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gint"><span class="type">gint</span></a></pre>
+<p>Percentage complete of this transaction.</p>
+<p>Flags: Read / Write</p>
+<p>Allowed values: &gt;= -1</p>
+<p>Default value: -1</p>
+<p class="since">Since: <a class="link" href="api-index-0-5-2.html#api-index-0.5.2">0.5.2</a></p>
+</div>
+<hr>
+<div class="refsect2">
+<a name="PkProgress--remaining-time"></a><h3>The <code class="literal">“remaining-time”</code> property</h3>
+<pre class="programlisting">  “remaining-time”           <a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#guint"><span class="type">guint</span></a></pre>
+<p>Amount of time the transaction will take to complete in seconds or 0 if unknown.</p>
+<p>Flags: Read / Write</p>
+<p>Default value: 0</p>
+<p class="since">Since: <a class="link" href="api-index-0-5-2.html#api-index-0.5.2">0.5.2</a></p>
+</div>
+<hr>
+<div class="refsect2">
+<a name="PkProgress--role"></a><h3>The <code class="literal">“role”</code> property</h3>
+<pre class="programlisting">  “role”                     <a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#guint"><span class="type">guint</span></a></pre>
+<p>Role of this transaction.</p>
+<p>Flags: Read / Write</p>
+<p>Allowed values: &lt;= 34</p>
+<p>Default value: 0</p>
+<p class="since">Since: <a class="link" href="api-index-0-5-2.html#api-index-0.5.2">0.5.2</a></p>
+</div>
+<hr>
+<div class="refsect2">
+<a name="PkProgress--speed"></a><h3>The <code class="literal">“speed”</code> property</h3>
+<pre class="programlisting">  “speed”                    <a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#guint"><span class="type">guint</span></a></pre>
+<p>Transaction speed in bits per second or 0 if unknown.</p>
+<p>Flags: Read / Write</p>
+<p>Default value: 0</p>
+<p class="since">Since: <a class="link" href="api-index-0-5-2.html#api-index-0.5.2">0.5.2</a></p>
+</div>
+<hr>
+<div class="refsect2">
+<a name="PkProgress--status"></a><h3>The <code class="literal">“status”</code> property</h3>
+<pre class="programlisting">  “status”                   <a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#guint"><span class="type">guint</span></a></pre>
+<p>Status of this transaction.</p>
+<p>Flags: Read / Write</p>
+<p>Allowed values: &lt;= 37</p>
+<p>Default value: 0</p>
+<p class="since">Since: <a class="link" href="api-index-0-5-2.html#api-index-0.5.2">0.5.2</a></p>
+</div>
+<hr>
+<div class="refsect2">
+<a name="PkProgress--transaction-flags"></a><h3>The <code class="literal">“transaction-flags”</code> property</h3>
+<pre class="programlisting">  “transaction-flags”        <a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#guint64"><span class="type">guint64</span></a></pre>
+<p>A <a class="link" href="PackageKit-PkBitfield.html#PkBitfield" title="PkBitfield"><span class="type">PkBitfield</span></a> containing <a class="link" href="PackageKit-Enumerations.html#PkTransactionFlagEnum" title="enum PkTransactionFlagEnum"><span class="type">PkTransactionFlagEnum</span></a> associated with this transaction.</p>
+<p>Flags: Read / Write</p>
+<p>Default value: 0</p>
+<p class="since">Since: <a class="link" href="api-index-0-8-8.html#api-index-0.8.8">0.8.8</a></p>
+</div>
+<hr>
+<div class="refsect2">
+<a name="PkProgress--transaction-id"></a><h3>The <code class="literal">“transaction-id”</code> property</h3>
+<pre class="programlisting">  “transaction-id”           <a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a> *</pre>
+<p>ID used by this transaction.</p>
+<p>Flags: Read / Write</p>
+<p>Default value: NULL</p>
+<p class="since">Since: <a class="link" href="api-index-0-5-2.html#api-index-0.5.2">0.5.2</a></p>
+</div>
+<hr>
+<div class="refsect2">
+<a name="PkProgress--uid"></a><h3>The <code class="literal">“uid”</code> property</h3>
+<pre class="programlisting">  “uid”                      <a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#guint"><span class="type">guint</span></a></pre>
+<p>The UID that started this transaction.</p>
+<p>Flags: Read / Write</p>
+<p>Default value: 0</p>
+<p class="since">Since: <a class="link" href="api-index-0-5-2.html#api-index-0.5.2">0.5.2</a></p>
+</div>
+</div>
 </div>
 <div class="footer">
-<hr>Generated by GTK-Doc V1.27</div>
+<hr>Generated by GTK-Doc V1.28</div>
 </body>
 </html>

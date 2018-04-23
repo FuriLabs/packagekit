@@ -45,7 +45,6 @@
 
 #include "apt-cache-file.h"
 #include "apt-utils.h"
-#include "matcher.h"
 #include "gst-matcher.h"
 #include "apt-messages.h"
 #include "acqpkitstatus.h"
@@ -363,7 +362,10 @@ PkgList AptIntf::filterPackages(const PkgList &packages, PkBitfield filters)
             for (const pkgCache::VerIterator &verIt : ret) {
                 bool found = false;
                 for (pkgAcquire::ItemIterator it = fetcher.ItemsBegin(); it < fetcher.ItemsEnd(); ++it) {
-                    pkgAcqArchiveSane *archive = static_cast<pkgAcqArchiveSane*>(*it);
+                    pkgAcqArchiveSane *archive = static_cast<pkgAcqArchiveSane*>(dynamic_cast<pkgAcqArchive*>(*it));
+                    if (archive == nullptr) {
+                        continue;
+                    }
                     const pkgCache::VerIterator ver = archive->version();
                     if ((*it)->Local && verIt == ver) {
                         found = true;
@@ -1068,16 +1070,27 @@ PkgList AptIntf::getPackagesFromGroup(gchar **values)
     return output;
 }
 
-PkgList AptIntf::searchPackageName(gchar *search)
+bool AptIntf::matchesQueries(const vector<string> &queries, string s) {
+    for (string query : queries) {
+        // Case insensitive "string.contains"
+        auto it = std::search(
+            s.begin(), s.end(),
+            query.begin(), query.end(),
+            [](unsigned char ch1, unsigned char ch2) {
+                return std::tolower(ch1) == std::tolower(ch2);
+            }
+        );
+
+        if (it != s.end()) {
+            return true;
+        }
+    }
+    return false;
+}
+
+PkgList AptIntf::searchPackageName(const vector<string> &queries)
 {
     PkgList output;
-
-    Matcher *matcher = new Matcher(search);
-    if (matcher->hasError()) {
-        g_debug("Regex compilation error");
-        delete matcher;
-        return output;
-    }
 
     for (pkgCache::PkgIterator pkg = m_cache->GetPkgCache()->PkgBegin(); !pkg.end(); ++pkg) {
         if (m_cancel) {
@@ -1088,7 +1101,7 @@ PkgList AptIntf::searchPackageName(gchar *search)
             continue;
         }
 
-        if (matcher->matches(pkg.Name())) {
+        if (matchesQueries(queries, pkg.Name())) {
             // Don't insert virtual packages instead add what it provides
             const pkgCache::VerIterator &ver = m_cache->findVer(pkg);
             if (ver.end() == false) {
@@ -1111,16 +1124,9 @@ PkgList AptIntf::searchPackageName(gchar *search)
     return output;
 }
 
-PkgList AptIntf::searchPackageDetails(gchar *search)
+PkgList AptIntf::searchPackageDetails(const vector<string> &queries)
 {
     PkgList output;
-
-    Matcher *matcher = new Matcher(search);
-    if (matcher->hasError()) {
-        g_debug("Regex compilation error");
-        delete matcher;
-        return output;
-    }
 
     for (pkgCache::PkgIterator pkg = m_cache->GetPkgCache()->PkgBegin(); !pkg.end(); ++pkg) {
         if (m_cancel) {
@@ -1133,12 +1139,12 @@ PkgList AptIntf::searchPackageDetails(gchar *search)
 
         const pkgCache::VerIterator &ver = m_cache->findVer(pkg);
         if (ver.end() == false) {
-            if (matcher->matches(pkg.Name()) ||
-                    matcher->matches((*m_cache).getLongDescription(ver))) {
+            if (matchesQueries(queries, pkg.Name()) ||
+                    matchesQueries(queries, (*m_cache).getLongDescription(ver))) {
                 // The package matched
                 output.push_back(ver);
             }
-        } else if (matcher->matches(pkg.Name())) {
+        } else if (matchesQueries(queries, pkg.Name())) {
             // The package is virtual and MATCHED the name
             // Don't insert virtual packages instead add what it provides
 
@@ -1516,7 +1522,10 @@ bool AptIntf::checkTrusted(pkgAcquire &fetcher, PkBitfield flags)
         if (!(*I)->IsTrusted()) {
             // The pkgAcquire::Item had a version hiden on it's subclass
             // pkgAcqArchive but it was protected our subclass exposes that
-            pkgAcqArchiveSane *archive = static_cast<pkgAcqArchiveSane*>(*I);
+            pkgAcqArchiveSane *archive = static_cast<pkgAcqArchiveSane*>(dynamic_cast<pkgAcqArchive*>(*I));
+            if (archive == nullptr) {
+                continue;
+            }
             untrusted.push_back(archive->version());
 
             UntrustedList += string((*I)->ShortDesc()) + " ";
