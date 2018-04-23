@@ -29,8 +29,8 @@ Build-Depends: autoconf-archive,
                xmlto
 Standards-Version: 4.1.4
 Homepage: https://www.freedesktop.org/software/PackageKit/
-Vcs-Git: https://anonscm.debian.org/git/pkg-packagekit/packagekit.git
-Vcs-Browser: https://anonscm.debian.org/git/pkg-packagekit/packagekit.git
+Vcs-Git: https://salsa.debian.org/pkgutopia-team/packagekit.git
+Vcs-Browser: https://salsa.debian.org/pkgutopia-team/packagekit
 
 Package: packagekit
 Architecture: any
