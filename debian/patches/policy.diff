@@ -4,7 +4,29 @@ Author: Matthias Klumpp <matthias@tenstral.net>
 Last-Update: 2012-08-14
 --- a/policy/org.freedesktop.packagekit.policy.in
 +++ b/policy/org.freedesktop.packagekit.policy.in
-@@ -131,7 +131,7 @@
+@@ -31,10 +31,8 @@
+ 
+   <action id="org.freedesktop.packagekit.package-install">
+     <!-- SECURITY:
+-          - Normal users do not need authentication to install signed packages
+-            from signed repositories, as this cannot exploit a system.
+-          - Paranoid users (or parents!) can change this to 'auth_admin' or
+-            'auth_admin_keep'.
++          - Users need authentication to install packages
++            from signed repositories.
+      -->
+     <_description>Install signed package</_description>
+     <_message>Authentication is required to install software</_message>
+@@ -96,7 +94,7 @@
+     <defaults>
+       <allow_any>auth_admin</allow_any>
+       <allow_inactive>auth_admin</allow_inactive>
+-      <allow_active>auth_admin_keep</allow_active>
++      <allow_active>auth_admin</allow_active>
+     </defaults>
+     <annotate key="org.freedesktop.policykit.imply">org.freedesktop.packagekit.package-install</annotate>
+   </action>
+@@ -131,7 +129,7 @@
      <defaults>
        <allow_any>auth_admin</allow_any>
        <allow_inactive>auth_admin</allow_inactive>
@@ -13,7 +35,16 @@ Last-Update: 2012-08-14
      </defaults>
    </action>
  
-@@ -170,7 +170,7 @@
+@@ -151,7 +149,7 @@
+     <defaults>
+       <allow_any>auth_admin</allow_any>
+       <allow_inactive>auth_admin</allow_inactive>
+-      <allow_active>auth_admin_keep</allow_active>
++      <allow_active>auth_admin</allow_active>
+     </defaults>
+     <annotate key="org.freedesktop.policykit.imply">org.freedesktop.packagekit.package-install</annotate>
+   </action>
+@@ -170,7 +168,7 @@
      <defaults>
        <allow_any>auth_admin</allow_any>
        <allow_inactive>auth_admin</allow_inactive>
@@ -22,7 +53,7 @@ Last-Update: 2012-08-14
      </defaults>
    </action>
  
-@@ -273,7 +273,7 @@
+@@ -273,7 +271,7 @@
  
    <action id="org.freedesktop.packagekit.trigger-offline-update">
      <!-- SECURITY:
@@ -31,7 +62,7 @@ Last-Update: 2012-08-14
              early boot time without a password.
       -->
      <_description>Trigger offline updates</_description>
-@@ -282,7 +282,7 @@
+@@ -282,7 +280,7 @@
      <defaults>
        <allow_any>auth_admin</allow_any>
        <allow_inactive>auth_admin</allow_inactive>
