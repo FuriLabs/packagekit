@@ -1,3 +1,17 @@
+packagekit (1.1.10-1) unstable; urgency=high
+
+  * New upstream release: 1.1.10
+    - This release fixes CVE-2018-1106 (Closes: #896703)
+    - aptcc: Not all downloads have to be packages
+    - aptcc: Return multiple packages when using '|' operator
+    - aptcc: Simplify search methods
+  * Bump standards version: No changes needed
+  * Update Vcs-* URLs to point to Salsa
+  * Use auth_admin instead of auth_admin_keep as default authorization
+    for downgrades and package removals.
+
+ -- Matthias Klumpp <mak@debian.org>  Mon, 23 Apr 2018 23:14:46 +0200
+
 packagekit (1.1.9-1) unstable; urgency=medium
 
   * New upstream version: 1.1.9
