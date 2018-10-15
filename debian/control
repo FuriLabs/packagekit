@@ -27,7 +27,7 @@ Build-Depends: autoconf-archive,
                policykit-1,
                valac,
                xmlto
-Standards-Version: 4.1.4
+Standards-Version: 4.2.0
 Homepage: https://www.freedesktop.org/software/PackageKit/
 Vcs-Git: https://salsa.debian.org/pkgutopia-team/packagekit.git
 Vcs-Browser: https://salsa.debian.org/pkgutopia-team/packagekit
