@@ -77,6 +77,7 @@ Description: Provides PackageKit command-line tools
 
 Package: packagekit-docs
 Architecture: all
+Multi-Arch: foreign
 Section: doc
 Depends: ${misc:Depends}
 Description: Documentation for PackageKit
