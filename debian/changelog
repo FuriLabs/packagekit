@@ -1,3 +1,13 @@
+packagekit (1.1.11-1) UNRELEASED; urgency=medium
+
+  * New upstream version: 1.1.11
+  * Never restart packagekitd via systemd after an upgrade of the daemon
+  * Add aptcc-always-do-multiarch-lookups.patch
+    - Always check multi-arch paths for .list files, as dpkg always adds the
+      architecture, even on non-multiarch systems.
+
+ -- Matthias Klumpp <mak@debian.org>  Mon, 15 Oct 2018 18:46:06 +0200
+
 packagekit (1.1.10-1) unstable; urgency=high
 
   * New upstream release: 1.1.10
