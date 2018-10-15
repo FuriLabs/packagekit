@@ -88,4 +88,4 @@ override_dh_strip:
 override_dh_installsystemd:
 	# the offline-updates service is enabled by tools like GNOME-Software when they need it,
 	# but we do want to clear leftover symlinks upon removal of the package.
-	dh_installsystemd --no-enable --no-start
+	dh_installsystemd --no-enable --no-start --no-restart-after-upgrade
