@@ -64,7 +64,7 @@
 #define HAVE_MEMORY_H 1
 
 /* Define as 1 if you have polkit >= 0.114 */
-/* #undef HAVE_POLKIT_0_114 */
+#define HAVE_POLKIT_0_114 1
 
 /* Define to 1 if you have the `setpriority' function. */
 #define HAVE_SETPRIORITY 1
@@ -109,7 +109,7 @@
 #define PACKAGE_NAME "PackageKit"
 
 /* Define to the full name and version of this package. */
-#define PACKAGE_STRING "PackageKit 1.1.10"
+#define PACKAGE_STRING "PackageKit 1.1.11"
 
 /* Define to the one symbol short name of this package. */
 #define PACKAGE_TARNAME "PackageKit"
@@ -118,7 +118,7 @@
 #define PACKAGE_URL "http://www.packagekit.org/"
 
 /* Define to the version of this package. */
-#define PACKAGE_VERSION "1.1.10"
+#define PACKAGE_VERSION "1.1.11"
 
 /* Build local code */
 #define PK_BUILD_LOCAL 1
@@ -130,7 +130,7 @@
 #define STDC_HEADERS 1
 
 /* Version number of package */
-#define VERSION "1.1.10"
+#define VERSION "1.1.11"
 
 /* define if libzypp returns package size in bytes */
 /* #undef ZYPP_RETURN_BYTES */

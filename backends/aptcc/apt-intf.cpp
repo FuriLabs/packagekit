@@ -2,7 +2,7 @@
  *
  * Copyright (c) 1999-2008 Daniel Burrows
  * Copyright (c) 2004 Michael Vogt <mvo@debian.org>
- *               2009-2016 Daniel Nicoletti <dantti12@gmail.com>
+ *               2009-2018 Daniel Nicoletti <dantti12@gmail.com>
  *               2012-2015 Matthias Klumpp <matthias@tenstral.net>
  *               2016 Harald Sitter <sitter@kde.org>
  *
@@ -499,14 +499,13 @@ void AptIntf::emitUpdates(PkgList &output, PkBitfield filters)
 void AptIntf::providesCodec(PkgList &output, gchar **values)
 {
     string arch;
-    GstMatcher *matcher = new GstMatcher(values);
-    if (!matcher->hasMatches()) {
+    GstMatcher matcher(values);
+    if (!matcher.hasMatches()) {
         return;
     }
 
     for (pkgCache::PkgIterator pkg = m_cache->GetPkgCache()->PkgBegin(); !pkg.end(); ++pkg) {
         if (m_cancel) {
-            delete matcher;
             break;
         }
 
@@ -524,25 +523,24 @@ void AptIntf::providesCodec(PkgList &output, gchar **values)
         // TODO search in updates packages
         // Ignore virtual packages
         pkgCache::VerIterator ver = m_cache->findVer(pkg);
-        arch = string(ver.Arch());
         if (ver.end() == true) {
             ver = m_cache->findCandidateVer(pkg);
-            if (ver.end() == true) {
-                continue;
-            }
         }
+        if (ver.end() == true) {
+            continue;
+        }
+
+        arch = string(ver.Arch());
 
         pkgCache::VerFileIterator vf = ver.FileList();
         pkgRecords::Parser &rec = m_cache->GetPkgRecords()->Lookup(vf);
         const char *start, *stop;
         rec.GetRec(start, stop);
         string record(start, stop - start);
-        if (matcher->matches(record, arch)) {
+        if (matcher.matches(record, arch)) {
             output.push_back(ver);
         }
     }
-
-    delete matcher;
 }
 
 // search packages which provide the libraries specified in "values"
@@ -2156,6 +2154,16 @@ bool AptIntf::runTransaction(const PkgList &install, const PkgList &remove, cons
         const bool preserveAuto;
     };
 
+    // Calculate existing garbage before the transaction
+    PkgList initial_garbage;
+    if (autoremove) {
+        for (pkgCache::PkgIterator pkg = (*m_cache)->PkgBegin(); ! pkg.end(); ++pkg) {
+            const pkgCache::VerIterator &ver = pkg.CurrentVer();
+            if (!ver.end() && m_cache->isGarbage(pkg))
+                initial_garbage.push_back(ver);
+        }
+    }
+
     // new scope for the ActionGroup
     {
         pkgDepCache::ActionGroup group(*m_cache);
@@ -2189,10 +2197,19 @@ bool AptIntf::runTransaction(const PkgList &install, const PkgList &remove, cons
         // Now we check the state of the packages,
         if ((*m_cache)->BrokenCount() != 0) {
             // if the problem resolver could not fix all broken things
-            // suggest to run RepairSystem by saing that the last transaction
+            // suggest to run RepairSystem by saying that the last transaction
             // did not finish well
             m_cache->ShowBroken(false, PK_ERROR_ENUM_DEP_RESOLUTION_FAILED);
             return false;
+        }
+    }
+
+    // Remove new garbage that is created
+    if (autoremove) {
+        for (pkgCache::PkgIterator pkg = (*m_cache)->PkgBegin(); ! pkg.end(); ++pkg) {
+            const pkgCache::VerIterator &ver = pkg.CurrentVer();
+            if (!ver.end() && !initial_garbage.contains(pkg) && m_cache->isGarbage(pkg))
+                m_cache->tryToRemove (Fix, ver);
         }
     }
 
@@ -2204,7 +2221,7 @@ bool AptIntf::runTransaction(const PkgList &install, const PkgList &remove, cons
 
     // If we are simulating the install packages
     // will just calculate the trusted packages
-    const auto ret = installPackages(flags, autoremove);
+    const auto ret = installPackages(flags);
 
     if (g_file_test(REBOOT_REQUIRED, G_FILE_TEST_EXISTS)) {
         struct stat restartStat;
@@ -2233,17 +2250,12 @@ bool AptIntf::runTransaction(const PkgList &install, const PkgList &remove, cons
  * This displays the informative messages describing what is going to
  * happen and then calls the download routines
  */
-bool AptIntf::installPackages(PkBitfield flags, bool autoremove)
+bool AptIntf::installPackages(PkBitfield flags)
 {
     bool simulate = pk_bitfield_contain(flags, PK_TRANSACTION_FLAG_ENUM_SIMULATE);
     PkBackend *backend = PK_BACKEND(pk_backend_job_get_backend(m_job));
 
     //cout << "installPackages() called" << endl;
-    // Try to auto-remove packages
-    if (autoremove && !m_cache->doAutomaticRemove()) {
-        // TODO
-        return false;
-    }
 
     // check for essential packages!!!
     if (m_cache->isRemovingEssentialPackages()) {
