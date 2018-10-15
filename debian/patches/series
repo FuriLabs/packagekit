@@ -1,3 +1,4 @@
 vendor-debian.diff
 policy.diff
 01_aptcc-always-do-multiarch-lookups.patch
+02_aptcc-update-section-mappings.patch
