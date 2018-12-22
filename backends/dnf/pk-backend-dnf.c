@@ -43,6 +43,7 @@
 #include <libdnf/dnf-sack.h>
 #include <libdnf/hy-util.h>
 #include <librepo/librepo.h>
+#include <rpm/rpmlib.h>
 
 #include "dnf-backend-vendor.h"
 #include "dnf-backend.h"
@@ -112,14 +113,6 @@ pk_backend_sack_cache_invalidate (PkBackend *backend, const gchar *why)
 static void
 pk_backend_yum_repos_changed_cb (DnfRepoLoader *repo_loader, PkBackend *backend)
 {
-	g_autoptr(GError) error_local = NULL;
-	g_autoptr(GPtrArray) repos = NULL;
-
-	/* ask the context's repo loader for new repos, forcing it to reload them */
-	repos = dnf_repo_loader_get_repos (repo_loader, &error_local);
-	if (repos == NULL)
-		g_warning ("failed to reload repos: %s", error_local->message);
-
 	pk_backend_sack_cache_invalidate (backend, "yum.repos.d changed");
 	pk_backend_repo_list_changed (backend);
 }
@@ -179,12 +172,13 @@ pk_backend_setup_dnf_context (DnfContext *context, GKeyFile *conf, const gchar *
 }
 
 static void
-remove_old_cache_directories (PkBackend *backend, const gchar *release_ver_str)
+remove_old_cache_directories (PkBackend *backend, const gchar *release_ver)
 {
 	PkBackendDnfPrivate *priv = pk_backend_get_user_data (backend);
 	gboolean keep_cache;
-	guint64 release_ver;
+	const gchar *filename;
 	g_autofree gchar *destdir = NULL;
+	g_autoptr(GDir) cache_dir = NULL;
 	g_autoptr(GError) error = NULL;
 
 	g_assert (priv->conf != NULL);
@@ -203,19 +197,22 @@ remove_old_cache_directories (PkBackend *backend, const gchar *release_ver_str)
 		return;
 	}
 
-	/* parse the version, while being careful to not trip over for any
-	 * non-numeric strings that we don't know how to handle, e.g. "7.5" */
-	if (!g_ascii_string_to_unsigned (release_ver_str, 10, 1, 1000, &release_ver, &error)) {
-		g_debug ("failed to parse current release version: %s", error->message);
+	/* open directory */
+	cache_dir = g_dir_open ("/var/cache/PackageKit", 0, &error);
+	if (cache_dir == NULL) {
+		g_warning ("cannot open directory: %s", error->message);
 		return;
 	}
 
-	/* remove any older directories */
-	for (guint i = 0; i < (guint)release_ver; i++) {
-		g_autofree gchar *dir = NULL;
+	/* look at each subdirectory */
+	while ((filename = g_dir_read_name (cache_dir))) {
+		g_autofree gchar *dir = g_build_filename ("/var/cache/PackageKit", filename, NULL);
 
-		dir = g_strdup_printf ("/var/cache/PackageKit/%u", i);
-		if (g_file_test (dir, G_FILE_TEST_IS_DIR)) {
+		if (!g_file_test (dir, G_FILE_TEST_IS_DIR))
+			continue;
+
+		/* is the version older than the current release ver? */
+		if (rpmvercmp (filename, release_ver) < 0) {
 			g_debug ("removing old cache directory %s", dir);
 			pk_directory_remove_contents (dir);
 			if (g_remove (dir) != 0)
@@ -322,6 +319,26 @@ pk_backend_state_percentage_changed_cb (DnfState *state,
 					PkBackendJob *job)
 {
 	pk_backend_job_set_percentage (job, percentage);
+}
+
+static void
+pk_backend_download_percentage_changed_cb (DnfState *state,
+                                           guint percentage,
+                                           PkBackendJob *job)
+{
+	PkBackendDnfJobData *job_data = pk_backend_job_get_user_data (job);
+	GPtrArray *remote_pkgs;
+	guint64 download_size;
+	guint64 download_size_remaining;
+
+	remote_pkgs = dnf_transaction_get_remote_pkgs (job_data->transaction);
+	download_size = dnf_package_array_get_download_size (remote_pkgs);
+
+	if (download_size == 0)
+		return;
+
+	download_size_remaining = download_size - (download_size / 100.0f * percentage);
+	pk_backend_job_set_download_size_remaining (job, download_size_remaining);
 }
 
 static void
@@ -519,7 +536,7 @@ dnf_utils_add_remote (PkBackendJob *job,
 	PkBackendDnfJobData *job_data = pk_backend_job_get_user_data (job);
 	gboolean ret;
 	DnfState *state_local;
-	GPtrArray *repos;
+	g_autoptr(GPtrArray) repos = NULL;
 
 	/* set state */
 	ret = dnf_state_set_steps (state, error,
@@ -529,11 +546,14 @@ dnf_utils_add_remote (PkBackendJob *job,
 	if (!ret)
 		return FALSE;
 
+	/* ask the context's repo loader for new repos, forcing it to reload them */
+	repos = dnf_repo_loader_get_repos (dnf_context_get_repo_loader (job_data->context), error);
+	if (repos == NULL)
+		return FALSE;
+
 	/* done */
 	if (!dnf_state_done (state, error))
 		return FALSE;
-
-	repos = dnf_context_get_repos (job_data->context);
 
 	/* add each repo */
 	state_local = dnf_state_get_child (state);
@@ -672,10 +692,8 @@ dnf_utils_create_sack_for_filters (PkBackendJob *job,
 		cache_item = g_hash_table_lookup (priv->sack_cache, cache_key);
 		if (cache_item != NULL && cache_item->sack != NULL) {
 			if (cache_item->valid) {
-				ret = TRUE;
 				g_debug ("using cached sack %s", cache_key);
-				sack = g_object_ref (cache_item->sack);
-				return g_steal_pointer (&sack);
+				return g_object_ref (cache_item->sack);
 			} else {
 				/* we have to do this now rather than rely on the
 				 * callback of the hash table */
@@ -1196,12 +1214,6 @@ repo_is_supported (DnfRepo *repo)
 }
 
 static gboolean
-repo_is_source (DnfRepo *repo)
-{
-	return g_str_has_suffix (dnf_repo_get_id (repo), "-source");
-}
-
-static gboolean
 pk_backend_repo_filter (DnfRepo *repo, PkBitfield filters)
 {
 	/* devel and ~devel */
@@ -1214,10 +1226,10 @@ pk_backend_repo_filter (DnfRepo *repo, PkBitfield filters)
 
 	/* source and ~source */
 	if (pk_bitfield_contain (filters, PK_FILTER_ENUM_SOURCE) &&
-	    !repo_is_source (repo))
+	    !dnf_repo_is_source (repo))
 		return FALSE;
 	if (pk_bitfield_contain (filters, PK_FILTER_ENUM_NOT_SOURCE) &&
-	    repo_is_source (repo))
+	    dnf_repo_is_source (repo))
 		return FALSE;
 
 	/* installed and ~installed == enabled */
@@ -1250,19 +1262,20 @@ pk_backend_get_repo_list_thread (PkBackendJob *job,
 	DnfRepo *repo;
 	PkBackendDnfJobData *job_data = pk_backend_job_get_user_data (job);
 	PkBitfield filters;
-	GPtrArray *repos;
 	g_autoptr(GError) error = NULL;
+	g_autoptr(GPtrArray) repos = NULL;
 
 	g_variant_get (params, "(t)", &filters);
 
 	/* set the list of repos */
 	pk_backend_job_set_status (job, PK_STATUS_ENUM_QUERY);
 
-	repos = dnf_context_get_repos (job_data->context);
-	if (repos == NULL || repos->len == 0) {
+	/* ask the context's repo loader for new repos, forcing it to reload them */
+	repos = dnf_repo_loader_get_repos (dnf_context_get_repo_loader (job_data->context), &error);
+	if (repos == NULL) {
 		pk_backend_job_error_code (job,
-					   PK_ERROR_ENUM_REPO_NOT_FOUND,
-					   "failed to find any repos");
+		                           error->code,
+		                           "failed to load repos: %s", error->message);
 		return;
 	}
 
@@ -1502,7 +1515,7 @@ pk_backend_refresh_repo (PkBackendJob *job,
 		if (!ret) {
 			if (g_error_matches (error_local,
 					     DNF_ERROR,
-					     PK_ERROR_ENUM_CANNOT_FETCH_SOURCES)) {
+					     DNF_ERROR_CANNOT_FETCH_SOURCE)) {
 				g_warning ("Skipping refresh of %s: %s",
 					   dnf_repo_get_id (repo),
 					   error_local->message);
@@ -1525,6 +1538,31 @@ pk_backend_refresh_repo (PkBackendJob *job,
 }
 
 static void
+pk_backend_refresh_subman (PkBackendJob *job)
+{
+	PkBackend *backend = pk_backend_job_get_backend (job);
+	const gchar *argv[] = { "/usr/sbin/subscription-manager", "sync", NULL };
+	g_autofree gchar *err = NULL;
+	g_autofree gchar *out = NULL;
+	g_autoptr(GError) error_local = NULL;
+
+	if (!g_file_test (argv[0], G_FILE_TEST_EXISTS))
+		return;
+	if (!g_spawn_sync (NULL, (gchar **) argv, NULL, G_SPAWN_DEFAULT,
+			   NULL, NULL,
+			   &out, &err, NULL,
+			   &error_local)) {
+		g_autofree gchar *cmd = g_strjoinv ("  ", (gchar **) argv);
+		g_warning ("failed to run '%s': %s [stdout:%s, stderr:%s]",
+			   cmd, error_local->message, out, err);
+		return;
+	}
+
+	pk_backend_sack_cache_invalidate (backend, "subscription-manager ran");
+	pk_backend_repo_list_changed (backend);
+}
+
+static void
 pk_backend_refresh_cache_thread (PkBackendJob *job,
 				 GVariant *params,
 				 gpointer user_data)
@@ -1533,7 +1571,6 @@ pk_backend_refresh_cache_thread (PkBackendJob *job,
 	DnfRepo *repo;
 	DnfState *state_local;
 	DnfState *state_loop;
-	GPtrArray *repos;
 	gboolean force;
 	gboolean ret;
 	guint cnt = 0;
@@ -1541,6 +1578,7 @@ pk_backend_refresh_cache_thread (PkBackendJob *job,
 	g_autoptr(DnfSack) sack = NULL;
 	g_autoptr(GError) error = NULL;
 	g_autoptr(GPtrArray) refresh_repos = NULL;
+	g_autoptr(GPtrArray) repos = NULL;
 
 	/* set state */
 	dnf_state_set_steps (job_data->state, NULL,
@@ -1551,8 +1589,19 @@ pk_backend_refresh_cache_thread (PkBackendJob *job,
 
 	g_variant_get (params, "(b)", &force);
 
+	/* kick subscription-manager if it exists */
+	pk_backend_refresh_subman (job);
+
+	/* ask the context's repo loader for new repos, forcing it to reload them */
+	repos = dnf_repo_loader_get_repos (dnf_context_get_repo_loader (job_data->context), &error);
+	if (repos == NULL) {
+		pk_backend_job_error_code (job,
+		                           error->code,
+		                           "failed to load repos: %s", error->message);
+		return;
+	}
+
 	/* count the enabled repos */
-	repos = dnf_context_get_repos (job_data->context);
 	for (i = 0; i < repos->len; i++) {
 		repo = g_ptr_array_index (repos, i);
 		if (dnf_repo_get_enabled (repo) == DNF_REPO_ENABLED_NONE)
@@ -2347,11 +2396,16 @@ pk_backend_transaction_download_commit (PkBackendJob *job,
 
 	/* download */
 	state_local = dnf_state_get_child (state);
+	g_signal_connect (state_local, "percentage-changed",
+	                  G_CALLBACK (pk_backend_download_percentage_changed_cb),
+	                  job);
+	pk_backend_download_percentage_changed_cb (state, 0, job);
 	ret = dnf_transaction_download (job_data->transaction,
 					state_local,
 					error);
 	if (!ret)
 		return FALSE;
+	pk_backend_download_percentage_changed_cb (state, 100, job);
 
 	/* done */
 	if (!dnf_state_done (state, error))
@@ -2370,6 +2424,74 @@ pk_backend_transaction_download_commit (PkBackendJob *job,
 
 	/* done */
 	return dnf_state_done (state, error);
+}
+
+static void
+pk_backend_clean_cached_rpms (PkBackendJob *job, GPtrArray *keep_rpms)
+{
+	PkBackendDnfJobData *job_data = pk_backend_job_get_user_data (job);
+	const gchar *cache_dir;
+	g_autoptr(GHashTable) keep_rpms_hash = NULL;
+	g_autoptr(GPtrArray) found_rpms = NULL;
+
+	/* cache cleanup disabled? */
+	if (dnf_context_get_keep_cache (job_data->context)) {
+		g_debug ("KeepCache config option set; skipping cached rpms cleanup");
+		return;
+	}
+
+	/* create a hash table for fast lookup */
+	keep_rpms_hash = g_hash_table_new (g_str_hash, g_str_equal);
+	for (guint i = 0; i < keep_rpms->len; i++) {
+		g_hash_table_insert (keep_rpms_hash,
+		                     g_ptr_array_index (keep_rpms, i),
+		                     GINT_TO_POINTER (1));
+	}
+
+	cache_dir = dnf_context_get_cache_dir (job_data->context);
+	g_assert (cache_dir != NULL);
+
+	/* find all the rpms in the cache directory */
+	found_rpms = pk_directory_find_files_with_suffix (cache_dir, ".rpm");
+
+	/* remove all cached rpms, except for those in the keep_rpms_hash */
+	for (guint i = 0; i < found_rpms->len; i++) {
+		const gchar *fn = g_ptr_array_index (found_rpms, i);
+		g_autofree gchar *basename = NULL;
+
+		basename = g_path_get_basename (fn);
+		if (g_hash_table_contains (keep_rpms_hash, basename))
+			continue;
+
+		g_debug ("removing cached rpm: %s", fn);
+		g_assert (g_str_has_prefix (fn, cache_dir));
+		if (g_unlink (fn) != 0)
+			g_warning ("failed to remove %s", fn);
+	}
+}
+
+static GPtrArray *
+pk_backend_get_download_rpms (HyGoal goal)
+{
+	g_autoptr(GPtrArray) download_rpms = g_ptr_array_new_with_free_func (g_free);
+	g_autoptr(GPtrArray) packages = NULL;
+
+	packages = dnf_goal_get_packages (goal,
+	                                  DNF_PACKAGE_INFO_INSTALL,
+	                                  DNF_PACKAGE_INFO_REINSTALL,
+	                                  DNF_PACKAGE_INFO_DOWNGRADE,
+	                                  DNF_PACKAGE_INFO_UPDATE,
+	                                  -1);
+
+	for (guint i = 0; i < packages->len; i++) {
+		DnfPackage *pkg = g_ptr_array_index (packages, i);
+		g_autofree gchar *basename = NULL;
+
+		basename = g_path_get_basename (dnf_package_get_location (pkg));
+		g_ptr_array_add (download_rpms, g_steal_pointer (&basename));
+	}
+
+	return g_steal_pointer (&download_rpms);
 }
 
 static gboolean
@@ -2435,6 +2557,16 @@ pk_backend_transaction_run (PkBackendJob *job,
 	if (!ret)
 		return FALSE;
 
+	if (pk_bitfield_contain (job_data->transaction_flags,
+	                         PK_TRANSACTION_FLAG_ENUM_ONLY_DOWNLOAD)) {
+		g_autoptr(GPtrArray) keep_rpms = NULL;
+
+		/* now that an offline update has been fully downloaded, clean up any leftover
+		 * rpms from a previously downloaded (but not installed) offline update */
+		keep_rpms = pk_backend_get_download_rpms (job_data->goal);
+		pk_backend_clean_cached_rpms (job, keep_rpms);
+	}
+
 	/* done */
 	return dnf_state_done (state, error);
 }
@@ -2493,6 +2625,7 @@ pk_backend_repo_remove_thread (PkBackendJob *job,
 					   "%s", error->message);
 		goto out;
 	}
+	repo_filename = dnf_repo_get_filename (repo);
 
 	/* done */
 	if (!dnf_state_done (job_data->state, &error)) {
@@ -2500,11 +2633,18 @@ pk_backend_repo_remove_thread (PkBackendJob *job,
 		goto out;
 	}
 
-	/* find all the .repo files the repo-release package installed */
+	/* ask the context's repo loader for new repos, forcing it to reload them */
 	repos = dnf_repo_loader_get_repos (dnf_context_get_repo_loader (job_data->context), &error);
+	if (repos == NULL) {
+		pk_backend_job_error_code (job,
+		                           error->code,
+		                           "failed to load repos: %s", error->message);
+		goto out;
+	}
+
+	/* find all the .repo files the repo-release package installed */
 	search = g_new0 (gchar *, repos->len + 0);
 	removed_id = g_ptr_array_new_with_free_func (g_free);
-	repo_filename = dnf_repo_get_filename (repo);
 	for (i = 0; i < repos->len; i++) {
 		repo = g_ptr_array_index (repos, i);
 		if (g_strcmp0 (dnf_repo_get_filename (repo), repo_filename) != 0)

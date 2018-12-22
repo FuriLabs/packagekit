@@ -3,15 +3,15 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
-# Cheng-Chia Tseng <pswo10680@gmail.com>, 2011-2015,2017
+# Cheng-Chia Tseng <pswo10680@gmail.com>, 2011-2015,2017-2018
 # Richard Hughes <richard@hughsie.com>, 2011
 # Terry Chuang <tchuang@redhat.com>, 2008-2009
 msgid ""
 msgstr ""
 "Project-Id-Version: PackageKit\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-02-19 12:41+0100\n"
-"PO-Revision-Date: 2018-03-04 12:25+0000\n"
+"POT-Creation-Date: 2018-11-28 08:40+0100\n"
+"PO-Revision-Date: 2018-10-04 13:45+0000\n"
 "Last-Translator: Cheng-Chia Tseng <pswo10680@gmail.com>\n"
 "Language-Team: Chinese (Taiwan) (http://www.transifex.com/freedesktop/packagekit/language/zh_TW/)\n"
 "MIME-Version: 1.0\n"
@@ -386,6 +386,9 @@ msgstr "允許軟體包可透過處理事項降級"
 
 msgid "Allow packages to be reinstalled during transaction"
 msgstr "允許軟體包可透過處理事項重新安裝"
+
+msgid "Automatically remove unused dependencies"
+msgstr "自動移除沒有用到的依賴關係"
 
 #. TRANSLATORS: command line argument, this command is not a priority
 msgid "Run the command using idle network bandwidth and also using less power"
