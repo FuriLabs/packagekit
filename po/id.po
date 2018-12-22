@@ -11,8 +11,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PackageKit\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-02-19 12:41+0100\n"
-"PO-Revision-Date: 2018-03-04 13:23+0000\n"
+"POT-Creation-Date: 2018-11-28 08:40+0100\n"
+"PO-Revision-Date: 2018-10-13 16:14+0000\n"
 "Last-Translator: Andika Triwidada <andika@gmail.com>\n"
 "Language-Team: Indonesian (http://www.transifex.com/freedesktop/packagekit/language/id/)\n"
 "MIME-Version: 1.0\n"
@@ -387,6 +387,9 @@ msgstr "Izinkan paket dituruntingkatkan selama transaksi "
 
 msgid "Allow packages to be reinstalled during transaction"
 msgstr "Izinkan paket dipasang ulang selama transaksi"
+
+msgid "Automatically remove unused dependencies"
+msgstr "Secara otomatis hapus dependensi yang tidak dipakai"
 
 #. TRANSLATORS: command line argument, this command is not a priority
 msgid "Run the command using idle network bandwidth and also using less power"
