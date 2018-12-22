@@ -1,3 +1,13 @@
+packagekit (1.1.12-1) unstable; urgency=medium
+
+  * New upstream version: 1.1.12
+    - Applied aptcc patches carried in Debian
+    - common: Handle quoted strings in /etc/os-release
+    - offline update: Fix translations to show up
+  * Drop aptcc patches: Applied upstream
+
+ -- Matthias Klumpp <mak@debian.org>  Sat, 22 Dec 2018 18:11:20 +0100
+
 packagekit (1.1.11-1) unstable; urgency=medium
 
   * New upstream version: 1.1.11
