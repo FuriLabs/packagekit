@@ -1,11 +1,21 @@
-packagekit (1.1.12-2) UNRELEASED; urgency=medium
+packagekit (1.1.12-2) unstable; urgency=medium
 
-  * debian/patch/Use-correct-return-type-in-function.patch
-    - Use correct return type, which fixes packagekitd crashing
-      when gnome-software launches - causing gnome-software to hang
+  [ Matthias Klumpp ]
+  * Remove Ubuntu-specific patch series, handle vendor config by
+    conditionally installing it in d/rules (Closes: #915352)
+  * Add no-distupgrade.patch:
+    - Disable GetDistroUpgrades() completely, it was partially
+      disabled before but still caused problems.
+  * Add keep-ref-on-transaction-while-doing-polkit-call.patch
+    - Avoids some log spam
+
+  [ Andrew Hayzen ]
+  * Add aptcc-use-correct-return-type-in-function.patch:
+    - Fix function return type, which resolves packagekitd crash
+      when gnome-software launches, causing gnome-software to hang
       (Closes: #917812, #922236)
 
- -- Andrew Hayzen <ahayzen@gmail.com>  Sun, 24 Feb 2019 12:13:25 +0000
+ -- Matthias Klumpp <mak@debian.org>  Tue, 26 Feb 2019 21:56:06 +0100
 
 packagekit (1.1.12-1) unstable; urgency=medium
 
