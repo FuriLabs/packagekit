@@ -55,11 +55,11 @@ override_dh_auto_install:
 	rm -f $(INSTALLDIR)/usr/bin/packagekit-bugreport.sh
 	rm -f $(INSTALLDIR)/var/lib/PackageKit/transactions.db
 
-	rm -f $(INSTALLDIR)/etc/Vendor.conf
+	rm $(INSTALLDIR)/etc/PackageKit/Vendor.conf
 ifeq ($(shell dpkg-vendor --query vendor),Ubuntu)
-	cp $(CURDIR)/debian/vendor/Vendor.ubuntu.conf $(INSTALLDIR)/etc/Vendor.conf
+	cp $(CURDIR)/debian/vendor/Vendor.ubuntu.conf $(INSTALLDIR)/etc/PackageKit/Vendor.conf
 else
-	cp $(CURDIR)/debian/vendor/Vendor.debian.conf $(INSTALLDIR)/etc/Vendor.conf
+	cp $(CURDIR)/debian/vendor/Vendor.debian.conf $(INSTALLDIR)/etc/PackageKit/Vendor.conf
 endif
 
 override_dh_install: extrainstallfiles-stamp

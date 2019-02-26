@@ -16,11 +16,9 @@ shown weird errors.
  backends/aptcc/pk-backend-aptcc.cpp | 5 -----
  2 files changed, 1 insertion(+), 6 deletions(-)
 
-diff --git a/backends/aptcc/Makefile.am b/backends/aptcc/Makefile.am
-index 52a62e459..a74f56adb 100644
 --- a/backends/aptcc/Makefile.am
 +++ b/backends/aptcc/Makefile.am
-@@ -37,6 +37,7 @@ aptconfdir = ${SYSCONFDIR}/apt/apt.conf.d
+@@ -37,6 +37,7 @@
  aptconf_DATA = 20packagekit
  
  EXTRA_DIST = 20packagekit \
@@ -28,7 +26,7 @@ index 52a62e459..a74f56adb 100644
  	     pkg-list.h \
  	     apt-intf.h \
  	     apt-utils.h \
-@@ -49,7 +50,6 @@ EXTRA_DIST = 20packagekit \
+@@ -49,13 +50,12 @@
  
  helperdir = $(datadir)/PackageKit/helpers/aptcc
  dist_helper_DATA =					\
@@ -36,11 +34,16 @@ index 52a62e459..a74f56adb 100644
  	pkconffile					\
  	pkconffile.nodiff				\
  	$(NULL)
-diff --git a/backends/aptcc/pk-backend-aptcc.cpp b/backends/aptcc/pk-backend-aptcc.cpp
-index e38376ab9..f25e43401 100644
+ 
+ install-data-hook:
+-	chmod +x $(DESTDIR)$(helperdir)/*.py $(DESTDIR)$(helperdir)/pkconffile
++	chmod +x $(DESTDIR)$(helperdir)/pkconffile
+ 
+ clean-local :
+ 	rm -f *~
 --- a/backends/aptcc/pk-backend-aptcc.cpp
 +++ b/backends/aptcc/pk-backend-aptcc.cpp
-@@ -245,11 +245,6 @@ void pk_backend_required_by(PkBackend *backend,
+@@ -245,11 +245,6 @@
      pk_backend_job_thread_create(job, backend_depends_on_or_requires_thread, NULL, NULL);
  }
  
