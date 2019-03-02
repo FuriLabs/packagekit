@@ -1,3 +1,10 @@
+packagekit (1.1.12-5) unstable; urgency=medium
+
+  * Fix FTBFS on !amd64 architectures by removing the
+    GTK+2 plugin properly.
+
+ -- Matthias Klumpp <mak@debian.org>  Sat, 02 Mar 2019 22:02:38 +0100
+
 packagekit (1.1.12-4) unstable; urgency=medium
 
   * Add aptcc-frontend-locking.patch
