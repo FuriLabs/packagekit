@@ -54,7 +54,7 @@ override_dh_auto_install:
 	rm -f $(INSTALLDIR)/usr/share/PackageKit/pk-upgrade-distro.sh
 	rm -f $(INSTALLDIR)/usr/bin/packagekit-bugreport.sh
 	rm -f $(INSTALLDIR)/var/lib/PackageKit/transactions.db
-	rm -rf $(INSTALLDIR)/usr/lib/x86_64-linux-gnu/gtk-2.0/
+	rm -rf $(INSTALLDIR)/usr/lib/*/gtk-2.0/
 
 	rm $(INSTALLDIR)/etc/PackageKit/Vendor.conf
 ifeq ($(shell dpkg-vendor --query vendor),Ubuntu)
