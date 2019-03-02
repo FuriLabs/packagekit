@@ -1,3 +1,12 @@
+packagekit (1.1.12-4) unstable; urgency=medium
+
+  * Add aptcc-frontend-locking.patch
+    - This implements APT frontend locking, which prevents other programs
+      from stealing the dpkg lock in race conditions where apt(cc) has to
+      release the lock in order to run dpkg.
+
+ -- Matthias Klumpp <mak@debian.org>  Sat, 02 Mar 2019 16:46:16 +0100
+
 packagekit (1.1.12-3) unstable; urgency=medium
 
   * Do not ship the GTK+2 plugin (Closes: #922118)
