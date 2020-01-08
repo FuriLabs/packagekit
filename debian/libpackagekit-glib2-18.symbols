@@ -20,6 +20,7 @@ libpackagekit-glib2.so.18 libpackagekit-glib2-18 #MINVER#
  pk_client_accept_eula_async@Base 0.9.4
  pk_client_adopt@Base 0.9.4
  pk_client_adopt_async@Base 0.9.4
+ pk_client_create_helper_argv_envp@Base 1.1.13
  pk_client_depends_on@Base 0.9.4
  pk_client_depends_on_async@Base 0.9.4
  pk_client_download_packages@Base 0.9.4
@@ -59,8 +60,10 @@ libpackagekit-glib2.so.18 libpackagekit-glib2-18 #MINVER#
  pk_client_get_updates@Base 0.9.4
  pk_client_get_updates_async@Base 0.9.4
  pk_client_helper_get_type@Base 0.9.4
+ pk_client_helper_is_active@Base 1.1.13
  pk_client_helper_new@Base 0.9.4
  pk_client_helper_start@Base 0.9.4
+ pk_client_helper_start_with_socket@Base 1.1.13
  pk_client_helper_stop@Base 0.9.4
  pk_client_install_files@Base 0.9.4
  pk_client_install_files_async@Base 0.9.4
