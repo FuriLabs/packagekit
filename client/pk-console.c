@@ -32,6 +32,8 @@
 #include <sys/types.h>
 #include <pwd.h>
 #include <locale.h>
+#include <sys/ioctl.h>
+#include <sys/param.h>
 
 #define PK_EXIT_CODE_SYNTAX_INVALID	3
 #define PK_EXIT_CODE_FILE_NOT_FOUND	4
@@ -1112,6 +1114,13 @@ pk_console_update_packages (PkConsoleCtx *ctx, gchar **packages, GError **error)
 }
 
 static gboolean
+pk_console_update_system_filter_helper (PkPackage *package, gpointer user_data)
+{
+	PkInfoEnum package_enum = pk_package_get_info (package);
+	return (package_enum != PK_INFO_ENUM_OBSOLETING && package_enum != PK_INFO_ENUM_REMOVING);
+}
+
+static gboolean
 pk_console_update_system (PkConsoleCtx *ctx, GError **error)
 {
 	g_autoptr(PkPackageSack) sack = NULL;
@@ -1130,6 +1139,7 @@ pk_console_update_system (PkConsoleCtx *ctx, GError **error)
 
 	/* do the async action */
 	sack = pk_results_get_package_sack (results);
+	pk_package_sack_remove_by_filter (sack, &pk_console_update_system_filter_helper, NULL);
 	package_ids = pk_package_sack_get_ids (sack);
 	if (g_strv_length (package_ids) == 0) {
 		pk_progress_bar_end (ctx->progressbar);
@@ -1593,6 +1603,9 @@ main (int argc, char *argv[])
 	g_autofree gchar *filter = NULL;
 	g_autofree gchar *options_help = NULL;
 	g_autofree gchar *summary = NULL;
+	guint bar_padding = 30;
+	guint bar_size = 25;
+	struct winsize w;
 
 	const GOptionEntry options[] = {
 		{ "version", '\0', 0, G_OPTION_ARG_NONE, &program_version,
@@ -1644,9 +1657,16 @@ main (int argc, char *argv[])
 				ctx,
 				NULL);
 
+	/* Shrink the progresbar to fit in small spaces i.e. termux, small tmux panes, large font terminals */
+	/* If ioctl reports back and the terminal is small, shrink to fit as best we can */
+	if (!ioctl (STDOUT_FILENO, TIOCGWINSZ, &w)) {
+		bar_padding = MAX (1, MIN ( (w.ws_col / 2), bar_padding));
+		bar_size = MAX (0, MIN (w.ws_col - (bar_padding + 11), bar_size));
+	}
+
 	ctx->progressbar = pk_progress_bar_new ();
-	pk_progress_bar_set_size (ctx->progressbar, 25);
-	pk_progress_bar_set_padding (ctx->progressbar, 30);
+	pk_progress_bar_set_size (ctx->progressbar, bar_size);
+	pk_progress_bar_set_padding (ctx->progressbar, bar_padding);
 
 	ctx->cancellable = g_cancellable_new ();
 	context = g_option_context_new ("PackageKit Console Program");

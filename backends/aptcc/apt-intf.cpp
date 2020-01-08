@@ -24,8 +24,13 @@
 
 #include "apt-intf.h"
 
+#include <apt-pkg/aptconfiguration.h>
 #include <apt-pkg/init.h>
 #include <apt-pkg/error.h>
+#include <apt-pkg/fileutl.h>
+#include <apt-pkg/install-progress.h>
+#include <apt-pkg/sourcelist.h>
+#include <apt-pkg/update.h>
 #include <apt-pkg/algorithms.h>
 #include <apt-pkg/pkgsystem.h>
 #include <apt-pkg/version.h>
@@ -847,10 +852,23 @@ void AptIntf::emitUpdateDetail(const pkgCache::VerIterator &candver)
     bugzilla_urls = getBugzillaUrls(changelog);
     cve_urls = getCVEUrls(changelog);
 
+    GPtrArray *obsoletes = g_ptr_array_new();
+
+    for (auto deps = candver.DependsList(); not deps.end(); ++deps)
+    {
+        if (deps->Type == pkgCache::Dep::Obsoletes)
+        {
+            g_ptr_array_add(obsoletes, (void*) deps.TargetPkg().Name());
+        }
+    }
+
+    // NULL terminate
+    g_ptr_array_add(obsoletes, NULL);
+
     pk_backend_job_update_detail(m_job,
                                  package_id,
                                  updates,//const gchar *updates
-                                 NULL,//const gchar *obsoletes
+                                 (gchar **) obsoletes->pdata,//const gchar *obsoletes
                                  NULL,//const gchar *vendor_url
                                  (gchar **) bugzilla_urls->pdata,// gchar **bugzilla_urls
                                  (gchar **) cve_urls->pdata,// gchar **cve_urls
@@ -864,6 +882,7 @@ void AptIntf::emitUpdateDetail(const pkgCache::VerIterator &candver)
 
     g_free(package_id);
     g_strfreev(updates);
+    g_ptr_array_unref(obsoletes);
     g_ptr_array_unref(bugzilla_urls);
     g_ptr_array_unref(cve_urls);
 }
@@ -1264,7 +1283,7 @@ PkgList AptIntf::searchPackageFiles(gchar **values)
     return output;
 }
 
-PkgList AptIntf::getUpdates(PkgList &blocked, PkgList &downgrades)
+PkgList AptIntf::getUpdates(PkgList &blocked, PkgList &downgrades, PkgList &installs, PkgList &removals, PkgList &obsoleted)
 {
     PkgList updates;
 
@@ -1298,6 +1317,41 @@ PkgList AptIntf::getUpdates(PkgList &blocked, PkgList &downgrades)
             const pkgCache::VerIterator &ver = m_cache->findCandidateVer(pkg);
             if (!ver.end()) {
                 blocked.push_back(ver);
+            }
+        } else if (state.NewInstall()) {
+            const pkgCache::VerIterator &ver = m_cache->findCandidateVer(pkg);
+            if (!ver.end()) {
+                installs.push_back(ver);
+            }
+        } else if (state.Delete()) {
+            const pkgCache::VerIterator &ver = m_cache->findCandidateVer(pkg);
+            if (!ver.end()) {
+                bool is_obsoleted = false;
+
+                for (pkgCache::DepIterator D = pkg.RevDependsList(); not D.end(); ++D)
+                {
+                    if ((D->Type == pkgCache::Dep::Obsoletes)
+                        && ((*m_cache)[D.ParentPkg()].CandidateVer != nullptr)
+                        && (*m_cache)[D.ParentPkg()].CandidateVerIter(*m_cache).Downloadable()
+                        && ((pkgCache::Version*)D.ParentVer() == (*m_cache)[D.ParentPkg()].CandidateVer)
+                        && (*m_cache)->VS().CheckDep(pkg.CurrentVer().VerStr(), D->CompareOp, D.TargetVer())
+                        && ((*m_cache)->GetPolicy().GetPriority(D.ParentPkg()) >= (*m_cache)->GetPolicy().GetPriority(pkg)))
+                    {
+                        is_obsoleted = true;
+                        break;
+                    }
+                }
+
+                if( is_obsoleted )
+                {
+                    /* Obsoleted packages */
+                    obsoleted.push_back(ver);
+                }
+                else
+                {
+                    /* Removed packages */
+                    removals.push_back(ver);
+                }
             }
         }
     }
@@ -1555,6 +1609,7 @@ PkgList AptIntf::checkChangedPackages(bool emitChanged)
     PkgList removing;
     PkgList updating;
     PkgList downgrading;
+    PkgList obsoleting;
 
     for (pkgCache::PkgIterator pkg = (*m_cache)->PkgBegin(); ! pkg.end(); ++pkg) {
         if ((*m_cache)[pkg].NewInstall() == true) {
@@ -1574,7 +1629,28 @@ PkgList AptIntf::checkChangedPackages(bool emitChanged)
             const pkgCache::VerIterator &ver = m_cache->findVer(pkg);
             if (!ver.end()) {
                 ret.push_back(ver);
-                removing.push_back(ver);
+
+                bool is_obsoleted = false;
+
+                for (pkgCache::DepIterator D = pkg.RevDependsList(); not D.end(); ++D)
+                {
+                    if ((D->Type == pkgCache::Dep::Obsoletes)
+                            && ((*m_cache)[D.ParentPkg()].CandidateVer != nullptr)
+                            && (*m_cache)[D.ParentPkg()].CandidateVerIter(*m_cache).Downloadable()
+                            && ((pkgCache::Version*)D.ParentVer() == (*m_cache)[D.ParentPkg()].CandidateVer)
+                            && (*m_cache)->VS().CheckDep(pkg.CurrentVer().VerStr(), D->CompareOp, D.TargetVer())
+                            && ((*m_cache)->GetPolicy().GetPriority(D.ParentPkg()) >= (*m_cache)->GetPolicy().GetPriority(pkg)))
+                    {
+                        is_obsoleted = true;
+                        break;
+                    }
+                }
+
+                if (!is_obsoleted) {
+                    removing.push_back(ver);
+                } else {
+                    obsoleting.push_back(ver);
+                }
 
                 // append to the restart required list
                 if (utilRestartRequired(pkg.Name())) {
@@ -1610,6 +1686,7 @@ PkgList AptIntf::checkChangedPackages(bool emitChanged)
 
     if (emitChanged) {
         // emit packages that have changes
+        emitPackages(obsoleting,  PK_FILTER_ENUM_NONE, PK_INFO_ENUM_OBSOLETING);
         emitPackages(removing,    PK_FILTER_ENUM_NONE, PK_INFO_ENUM_REMOVING);
         emitPackages(downgrading, PK_FILTER_ENUM_NONE, PK_INFO_ENUM_DOWNGRADING);
         emitPackages(installing,  PK_FILTER_ENUM_NONE, PK_INFO_ENUM_INSTALLING);
@@ -2384,7 +2461,7 @@ bool AptIntf::installPackages(PkBitfield flags)
 
     // we could try to see if this is the case
     setenv("PATH", "/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin", 1);
-    _system->UnLock();
+    _system->UnLockInner();
 
     pkgPackageManager::OrderResult res;
     res = PM->DoInstallPreFork();
@@ -2482,6 +2559,7 @@ bool AptIntf::installPackages(PkBitfield flags)
     close(readFromChildFD[0]);
     close(readFromChildFD[1]);
     close(pty_master);
+    _system->LockInner();
 
     cout << "Parent finished..." << endl;
     return true;

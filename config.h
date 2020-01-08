@@ -51,9 +51,6 @@
 /* Define if your <locale.h> file defines LC_MESSAGES. */
 #define HAVE_LC_MESSAGES 1
 
-/* Define to 1 if you have the `apt-inst' library (-lapt-inst). */
-/* #undef HAVE_LIBAPT_INST */
-
 /* Define to 1 if you have the `apt-pkg' library (-lapt-pkg). */
 /* #undef HAVE_LIBAPT_PKG */
 
@@ -84,6 +81,9 @@
 /* Build systemd code */
 #define HAVE_SYSTEMD 1
 
+/* Build systemd-login code */
+#define HAVE_SYSTEMD_SD_LOGIN_H 1
+
 /* Define to 1 if you have the <sys/stat.h> header file. */
 #define HAVE_SYS_STAT_H 1
 
@@ -109,7 +109,7 @@
 #define PACKAGE_NAME "PackageKit"
 
 /* Define to the full name and version of this package. */
-#define PACKAGE_STRING "PackageKit 1.1.12"
+#define PACKAGE_STRING "PackageKit 1.1.13"
 
 /* Define to the one symbol short name of this package. */
 #define PACKAGE_TARNAME "PackageKit"
@@ -118,7 +118,7 @@
 #define PACKAGE_URL "http://www.packagekit.org/"
 
 /* Define to the version of this package. */
-#define PACKAGE_VERSION "1.1.12"
+#define PACKAGE_VERSION "1.1.13"
 
 /* Build local code */
 /* #undef PK_BUILD_LOCAL */
@@ -126,11 +126,14 @@
 /* Enable the daemon tests */
 #define PK_ENABLE_DAEMON_TESTS 1
 
+/* Define as 1 if you have plymouth >= 0.9.5 */
+/* #undef PLYMOUTH_0_9_5 */
+
 /* Define to 1 if you have the ANSI C header files. */
 #define STDC_HEADERS 1
 
 /* Version number of package */
-#define VERSION "1.1.12"
+#define VERSION "1.1.13"
 
 /* define if libzypp returns package size in bytes */
 /* #undef ZYPP_RETURN_BYTES */

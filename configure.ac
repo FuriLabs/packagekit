@@ -2,7 +2,7 @@
 
 m4_define([pk_major_version], [1])
 m4_define([pk_minor_version], [1])
-m4_define([pk_micro_version], [12])
+m4_define([pk_micro_version], [13])
 m4_define([pk_version],
           [pk_major_version.pk_minor_version.pk_micro_version])
 
@@ -190,6 +190,14 @@ AS_IF([test "$have_polkit_0_114" = "yes"], [
 	          [Define as 1 if you have polkit >= 0.114])
 ])
 
+# 0.9.5 introduced new boot splash modes
+PKG_CHECK_MODULES([PLYMOUTH_0_9_5], [ply-boot-client >= 0.9.5],
+                  [have_plymouth_0_9_5=yes], [have_plymouth_0_9_5=no])
+AS_IF([test "$have_plymouth_0_9_5" = "yes"], [
+	AC_DEFINE([PLYMOUTH_0_9_5],[1],
+	          [Define as 1 if you have plymouth >= 0.9.5])
+])
+
 # Avoid g_simple_async_result deprecation warnings in glib 2.46+
 AC_DEFINE(GLIB_VERSION_MIN_REQUIRED, GLIB_VERSION_2_44, [minimum glib version])
 
@@ -216,10 +224,16 @@ if test x$enable_systemd = xyes; then
 		    AS_HELP_STRING([--with-systemdsystemunitdir=DIR], [Directory for systemd service files]),
 		    [has_systemdsystemunitdir=$with_systemdsystemunitdir],
 		    [has_systemdsystemunitdir=$($PKG_CONFIG --variable=systemdsystemunitdir systemd)])
-	AC_DEFINE(HAVE_SYSTEMD,1,[Build systemd code])
 	AC_SUBST([systemdsystemunitdir], [$has_systemdsystemunitdir])
+	AC_ARG_WITH([systemduserunitdir],
+		    AS_HELP_STRING([--with-systemduserunitdir=DIR], [Directory for systemd user service files]),
+		    [has_systemduserunitdir=$with_systemduserunitdir],
+		    [has_systemduserunitdir=$($PKG_CONFIG --variable=systemduserunitdir systemd)])
+	AC_SUBST([systemduserunitdir], [$has_systemduserunitdir])
+	AC_DEFINE(HAVE_SYSTEMD,1,[Build systemd code])
 fi
 AM_CONDITIONAL(HAVE_SYSTEMD, [test -n "$has_systemdsystemunitdir"])
+AM_CONDITIONAL(HAVE_SYSTEMD, [test -n "$has_systemduserunitdir"])
 
 dnl ---------------------------------------------------------------------------
 dnl - Use systemd offline update
@@ -227,6 +241,24 @@ dnl ---------------------------------------------------------------------------
 AC_ARG_ENABLE(offline-update, AS_HELP_STRING([--enable-offline-update],[enable offline update via systemd]),
 	      enable_offline_update=$enableval,enable_offline_update=yes)
 AM_CONDITIONAL(ENABLE_OFFLINE_UPDATE, [test x$enable_systemd = xyes -a x$enable_offline_update = xyes])
+
+dnl ---------------------------------------------------------------------------
+dnl - Use elogind instead of systemd-login
+dnl ---------------------------------------------------------------------------
+AC_ARG_ENABLE(elogind, AS_HELP_STRING([--enable-elogind],[enable elogind session tracker]),
+	      enable_elogind=$enableval,enable_elogind=no)
+if test x$enable_elogind = xyes; then
+	PKG_CHECK_MODULES(ELOGIND, [libelogind >= 229.4], [have_elogind=yes], [have_elogind=no])
+else
+	have_elogind=no
+fi
+
+dnl ---------------------------------------------------------------------------
+dnl --- Is systemd/sd-login.h, either from systemd or elogind, available?
+dnl ---------------------------------------------------------------------------
+if test -n "$has_systemdsystemunitdir" -o "x$have_elogind" != "xno" ; then
+		AC_DEFINE(HAVE_SYSTEMD_SD_LOGIN_H,1,[Build systemd-login code])
+fi
 
 dnl ---------------------------------------------------------------------------
 dnl - Generate man pages ? (default enabled)
@@ -394,8 +426,8 @@ AC_SUBST(DBUS_SERVICES_DIR)
 if test x$enable_dnf = xyes; then
 	PKG_CHECK_MODULES(DNF, appstream-glib libdnf >= 0.22.0 rpm)
 	AC_ARG_WITH(dnf-vendor,
-			[AS_HELP_STRING([--with-dnf-vendor=<vendor>],[select a vendor configuration (fedora, mageia, openmandriva; default is fedora)])])
-	if test "$with_dnf_vendor" = "fedora" -o "$with_dnf_vendor" = "mageia" -o "$with_dnf_vendor" = "openmandriva"; then
+			[AS_HELP_STRING([--with-dnf-vendor=<vendor>],[select a vendor configuration (fedora, mageia, openmandriva, rosa; default is fedora)])])
+	if test "$with_dnf_vendor" = "fedora" -o "$with_dnf_vendor" = "mageia" -o "$with_dnf_vendor" = "openmandriva" -o "$with_dnf_vendor" = "rosa"; then
 		with_dnf_vendor="$with_dnf_vendor"
 	else
 		with_dnf_vendor="fedora"
@@ -428,9 +460,10 @@ if test x$enable_aptcc = xyes; then
 	AC_SUBST(APTCC_CFLAGS)
 	AC_SUBST(APTCC_LIBS)
 
-	AC_CHECK_LIB(apt-inst, main, , [AC_MSG_ERROR([Can't find the APT libraries -- please install libapt-pkg-dev])])
+	AC_CHECK_LIB(apt-inst, main, [APTINST_LIBS=-lapt-inst], [APTINST_LIBS=])
 	AC_SUBST(APTCC_CFLAGS)
 	AC_SUBST(APTCC_LIBS)
+	AC_SUBST(APTINST_LIBS)
 
 	PKG_CHECK_MODULES(GSTREAMER, gstreamer-1.0 gstreamer-base-1.0 gstreamer-plugins-base-1.0,,
 					[AC_MSG_ERROR([Can't find the gstreamer libraries -- please install libgstreamer-plugins-base1.0-dev])])
@@ -444,6 +477,12 @@ if test x$enable_aptcc = xyes; then
 					  [[_system->ArchitecturesSupported();]])],
 			  AC_MSG_RESULT([yes]),
 			  AC_MSG_FAILURE([need libapt-pkg 1.1 or later]))
+
+	AC_MSG_CHECKING([whether apt has frontend locking / is at least version 1.7])
+	AC_COMPILE_IFELSE([AC_LANG_PROGRAM([[#include <apt-pkg/pkgsystem.h>]],
+					  [[_system->LockInner();]])],
+			  AC_MSG_RESULT([yes]),
+			  AC_MSG_FAILURE([need libapt-pkg 1.7 or later - or backported frontend locking]))
 
 	AC_MSG_CHECKING([whether apt supports ddtp])
 	AC_COMPILE_IFELSE([AC_LANG_PROGRAM([[#include <apt-pkg/pkgcache.h>]],
@@ -459,7 +498,7 @@ if test x$enable_aptcc = xyes; then
 fi
 
 if test x$enable_alpm = xyes; then
-	PKG_CHECK_MODULES(ALPM, libalpm >= 10.0.0)
+	PKG_CHECK_MODULES(ALPM, libalpm >= 12.0.0)
 fi
 
 if test x$enable_poldek = xyes; then
@@ -590,6 +629,7 @@ echo "
         cflags:                    ${CFLAGS}
         cppflags:                  ${CPPFLAGS}
         Able to run locally:       ${enable_local}
+        Use elogind:               ${enable_elogind}
         Use systemd:               ${enable_systemd}
         Enable offline update:     ${enable_offline_update}
         GStreamer plugin:          ${build_gstreamer_plugin}
@@ -599,6 +639,7 @@ echo "
         Cron scripts:              ${build_cron}
         python3:                   ${enable_python3}
         systemd system unit dir:   ${has_systemdsystemunitdir}
+        systemd user unit dir:     ${has_systemduserunitdir}
         Installing python backend: ${have_python_backend}
         python package dir:        ${with_python_package_dir}
 

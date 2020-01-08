@@ -122,7 +122,7 @@ am__DEPENDENCIES_1 =
 packagekit_direct_DEPENDENCIES = $(am__DEPENDENCIES_1) \
 	$(am__DEPENDENCIES_1) $(am__DEPENDENCIES_1) $(PK_GLIB2_LIBS) \
 	$(am__DEPENDENCIES_1) $(am__DEPENDENCIES_1) \
-	$(am__DEPENDENCIES_1)
+	$(am__DEPENDENCIES_1) $(am__DEPENDENCIES_1)
 AM_V_lt = $(am__v_lt_@AM_V@)
 am__v_lt_ = $(am__v_lt_@AM_DEFAULT_V@)
 am__v_lt_0 = --silent
@@ -146,7 +146,8 @@ am_packagekitd_OBJECTS = packagekitd-pk-main.$(OBJEXT) \
 packagekitd_OBJECTS = $(am_packagekitd_OBJECTS)
 packagekitd_DEPENDENCIES = $(am__DEPENDENCIES_1) $(am__DEPENDENCIES_1) \
 	$(am__DEPENDENCIES_1) $(PK_GLIB2_LIBS) $(am__DEPENDENCIES_1) \
-	$(am__DEPENDENCIES_1) $(am__DEPENDENCIES_1)
+	$(am__DEPENDENCIES_1) $(am__DEPENDENCIES_1) \
+	$(am__DEPENDENCIES_1)
 packagekitd_LINK = $(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) \
 	$(LIBTOOLFLAGS) --mode=link $(CCLD) $(packagekitd_CFLAGS) \
 	$(CFLAGS) $(packagekitd_LDFLAGS) $(LDFLAGS) -o $@
@@ -167,7 +168,7 @@ pk_self_test_OBJECTS = $(am_pk_self_test_OBJECTS)
 pk_self_test_DEPENDENCIES = $(am__DEPENDENCIES_1) \
 	$(am__DEPENDENCIES_1) $(am__DEPENDENCIES_1) $(PK_GLIB2_LIBS) \
 	$(am__DEPENDENCIES_1) $(am__DEPENDENCIES_1) \
-	$(am__DEPENDENCIES_1)
+	$(am__DEPENDENCIES_1) $(am__DEPENDENCIES_1)
 pk_self_test_LINK = $(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) \
 	$(LIBTOOLFLAGS) --mode=link $(CCLD) $(pk_self_test_CFLAGS) \
 	$(CFLAGS) $(AM_LDFLAGS) $(LDFLAGS) -o $@
@@ -480,6 +481,7 @@ APPSTREAM_CFLAGS = @APPSTREAM_CFLAGS@
 APPSTREAM_LIBS = @APPSTREAM_LIBS@
 APTCC_CFLAGS = @APTCC_CFLAGS@
 APTCC_LIBS = @APTCC_LIBS@
+APTINST_LIBS = @APTINST_LIBS@
 AR = @AR@
 AUTOCONF = @AUTOCONF@
 AUTOHEADER = @AUTOHEADER@
@@ -517,6 +519,8 @@ ECHO_C = @ECHO_C@
 ECHO_N = @ECHO_N@
 ECHO_T = @ECHO_T@
 EGREP = @EGREP@
+ELOGIND_CFLAGS = @ELOGIND_CFLAGS@
+ELOGIND_LIBS = @ELOGIND_LIBS@
 EXEEXT = @EXEEXT@
 FGREP = @FGREP@
 GETTEXT_PACKAGE = @GETTEXT_PACKAGE@
@@ -626,6 +630,8 @@ PK_PLUGIN_CFLAGS = @PK_PLUGIN_CFLAGS@
 PK_PLUGIN_DIR = @PK_PLUGIN_DIR@
 PK_PLUGIN_LIBS = @PK_PLUGIN_LIBS@
 PK_VERSION = @PK_VERSION@
+PLYMOUTH_0_9_5_CFLAGS = @PLYMOUTH_0_9_5_CFLAGS@
+PLYMOUTH_0_9_5_LIBS = @PLYMOUTH_0_9_5_LIBS@
 POFILES = @POFILES@
 POLDEK_CFLAGS = @POLDEK_CFLAGS@
 POLDEK_LIBS = @POLDEK_LIBS@
@@ -725,6 +731,7 @@ sharedstatedir = @sharedstatedir@
 srcdir = @srcdir@
 sysconfdir = @sysconfdir@
 systemdsystemunitdir = @systemdsystemunitdir@
+systemduserunitdir = @systemduserunitdir@
 target_alias = @target_alias@
 top_build_prefix = @top_build_prefix@
 top_builddir = @top_builddir@
@@ -737,6 +744,7 @@ AM_CPPFLAGS = \
 	$(SQLITE_CFLAGS)				\
 	$(POLKIT_CFLAGS)				\
 	$(PYTHON_CFLAGS)				\
+	$(ELOGIND_CFLAGS)				\
 	$(SYSTEMD_CFLAGS)				\
 	-DPACKAGE_LOCALE_DIR=\"$(localedir)\"		\
 	-DBINDIR=\"$(bindir)\"				\
@@ -807,6 +815,7 @@ packagekit_direct_LDADD = \
 	$(POLKIT_LIBS)					\
 	$(GIO_LIBS)					\
 	$(ARCHIVE_LIBS)					\
+	$(ELOGIND_LIBS)					\
 	$(SYSTEMD_LIBS)
 
 packagekit_direct_LDFLAGS = \
@@ -835,6 +844,7 @@ packagekitd_LDADD = \
 	$(POLKIT_LIBS)					\
 	$(GIO_LIBS)					\
 	$(ARCHIVE_LIBS)					\
+	$(ELOGIND_LIBS)					\
 	$(SYSTEMD_LIBS)
 
 packagekitd_LDFLAGS = \
@@ -857,6 +867,7 @@ pk_self_test_LDADD = \
 	$(POLKIT_LIBS)					\
 	$(GIO_LIBS)					\
 	$(ARCHIVE_LIBS)					\
+	$(ELOGIND_LIBS)					\
 	$(SYSTEMD_LIBS)
 
 pk_self_test_CPPFLAGS = \

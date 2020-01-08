@@ -15,6 +15,7 @@
 @SET_MAKE@
 
 
+
 VPATH = @srcdir@
 am__is_gnu_make = { \
   if test -z '$(MAKELEVEL)'; then \
@@ -89,6 +90,7 @@ PRE_UNINSTALL = :
 POST_UNINSTALL = :
 build_triplet = @build@
 host_triplet = @host@
+@HAVE_SYSTEMD_TRUE@libexec_PROGRAMS = pk-debconf-helper$(EXEEXT)
 subdir = backends/aptcc
 ACLOCAL_M4 = $(top_srcdir)/aclocal.m4
 am__aclocal_m4_deps = $(top_srcdir)/m4/as-linguas.m4 \
@@ -107,6 +109,10 @@ mkinstalldirs = $(install_sh) -d
 CONFIG_HEADER = $(top_builddir)/config.h
 CONFIG_CLEAN_FILES =
 CONFIG_CLEAN_VPATH_FILES =
+am__installdirs = "$(DESTDIR)$(libexecdir)" "$(DESTDIR)$(plugindir)" \
+	"$(DESTDIR)$(aptconfdir)" "$(DESTDIR)$(helperdir)" \
+	"$(DESTDIR)$(systemduserservicedir)"
+PROGRAMS = $(libexec_PROGRAMS)
 am__vpath_adj_setup = srcdirstrip=`echo "$(srcdir)" | sed 's|.|.|g'`;
 am__vpath_adj = case $$p in \
     $(srcdir)/*) f=`echo "$$p" | sed "s|^$$srcdirstrip/||"`;; \
@@ -134,11 +140,10 @@ am__uninstall_files_from_dir = { \
     || { echo " ( cd '$$dir' && rm -f" $$files ")"; \
          $(am__cd) "$$dir" && rm -f $$files; }; \
   }
-am__installdirs = "$(DESTDIR)$(plugindir)" "$(DESTDIR)$(aptconfdir)" \
-	"$(DESTDIR)$(helperdir)"
 LTLIBRARIES = $(plugin_LTLIBRARIES)
 am__DEPENDENCIES_1 =
-libpk_backend_aptcc_la_DEPENDENCIES = $(am__DEPENDENCIES_1)
+libpk_backend_aptcc_la_DEPENDENCIES = $(am__DEPENDENCIES_1) \
+	$(am__DEPENDENCIES_1)
 am_libpk_backend_aptcc_la_OBJECTS =  \
 	libpk_backend_aptcc_la-pkg-list.lo \
 	libpk_backend_aptcc_la-acqpkitstatus.lo \
@@ -159,6 +164,16 @@ libpk_backend_aptcc_la_LINK = $(LIBTOOL) $(AM_V_lt) --tag=CXX \
 	$(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=link $(CXXLD) \
 	$(AM_CXXFLAGS) $(CXXFLAGS) $(libpk_backend_aptcc_la_LDFLAGS) \
 	$(LDFLAGS) -o $@
+am__pk_debconf_helper_SOURCES_DIST = pk-debconf-helper.c
+@HAVE_SYSTEMD_TRUE@am_pk_debconf_helper_OBJECTS = pk_debconf_helper-pk-debconf-helper.$(OBJEXT)
+pk_debconf_helper_OBJECTS = $(am_pk_debconf_helper_OBJECTS)
+@HAVE_SYSTEMD_TRUE@pk_debconf_helper_DEPENDENCIES =  \
+@HAVE_SYSTEMD_TRUE@	$(am__DEPENDENCIES_1) $(am__DEPENDENCIES_1) \
+@HAVE_SYSTEMD_TRUE@	$(am__DEPENDENCIES_1) $(PK_GLIB2_LIBS)
+pk_debconf_helper_LINK = $(LIBTOOL) $(AM_V_lt) --tag=CC \
+	$(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=link $(CCLD) \
+	$(pk_debconf_helper_CFLAGS) $(CFLAGS) \
+	$(pk_debconf_helper_LDFLAGS) $(LDFLAGS) -o $@
 AM_V_P = $(am__v_P_@AM_V@)
 am__v_P_ = $(am__v_P_@AM_DEFAULT_V@)
 am__v_P_0 = false
@@ -184,8 +199,27 @@ am__depfiles_remade =  \
 	./$(DEPDIR)/libpk_backend_aptcc_la-deb-file.Plo \
 	./$(DEPDIR)/libpk_backend_aptcc_la-gst-matcher.Plo \
 	./$(DEPDIR)/libpk_backend_aptcc_la-pk-backend-aptcc.Plo \
-	./$(DEPDIR)/libpk_backend_aptcc_la-pkg-list.Plo
+	./$(DEPDIR)/libpk_backend_aptcc_la-pkg-list.Plo \
+	./$(DEPDIR)/pk_debconf_helper-pk-debconf-helper.Po
 am__mv = mv -f
+COMPILE = $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) \
+	$(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS)
+LTCOMPILE = $(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) \
+	$(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) \
+	$(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) \
+	$(AM_CFLAGS) $(CFLAGS)
+AM_V_CC = $(am__v_CC_@AM_V@)
+am__v_CC_ = $(am__v_CC_@AM_DEFAULT_V@)
+am__v_CC_0 = @echo "  CC      " $@;
+am__v_CC_1 = 
+CCLD = $(CC)
+LINK = $(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) \
+	$(LIBTOOLFLAGS) --mode=link $(CCLD) $(AM_CFLAGS) $(CFLAGS) \
+	$(AM_LDFLAGS) $(LDFLAGS) -o $@
+AM_V_CCLD = $(am__v_CCLD_@AM_V@)
+am__v_CCLD_ = $(am__v_CCLD_@AM_DEFAULT_V@)
+am__v_CCLD_0 = @echo "  CCLD    " $@;
+am__v_CCLD_1 = 
 CXXCOMPILE = $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) \
 	$(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS)
 LTCXXCOMPILE = $(LIBTOOL) $(AM_V_lt) --tag=CXX $(AM_LIBTOOLFLAGS) \
@@ -204,14 +238,16 @@ AM_V_CXXLD = $(am__v_CXXLD_@AM_V@)
 am__v_CXXLD_ = $(am__v_CXXLD_@AM_DEFAULT_V@)
 am__v_CXXLD_0 = @echo "  CXXLD   " $@;
 am__v_CXXLD_1 = 
-SOURCES = $(libpk_backend_aptcc_la_SOURCES)
-DIST_SOURCES = $(libpk_backend_aptcc_la_SOURCES)
+SOURCES = $(libpk_backend_aptcc_la_SOURCES) \
+	$(pk_debconf_helper_SOURCES)
+DIST_SOURCES = $(libpk_backend_aptcc_la_SOURCES) \
+	$(am__pk_debconf_helper_SOURCES_DIST)
 am__can_run_installinfo = \
   case $$AM_UPDATE_INFO_DIR in \
     n|no|NO) false;; \
     *) (install-info --version) >/dev/null 2>&1;; \
   esac
-DATA = $(aptconf_DATA) $(dist_helper_DATA)
+DATA = $(aptconf_DATA) $(dist_helper_DATA) $(systemduserservice_DATA)
 am__tagged_files = $(HEADERS) $(SOURCES) $(TAGS_FILES) $(LISP)
 # Read a list of newline-separated strings from the standard input,
 # and print each of them once, without duplicates.  Input order is
@@ -244,6 +280,7 @@ APPSTREAM_CFLAGS = @APPSTREAM_CFLAGS@
 APPSTREAM_LIBS = @APPSTREAM_LIBS@
 APTCC_CFLAGS = @APTCC_CFLAGS@
 APTCC_LIBS = @APTCC_LIBS@
+APTINST_LIBS = @APTINST_LIBS@
 AR = @AR@
 AUTOCONF = @AUTOCONF@
 AUTOHEADER = @AUTOHEADER@
@@ -281,6 +318,8 @@ ECHO_C = @ECHO_C@
 ECHO_N = @ECHO_N@
 ECHO_T = @ECHO_T@
 EGREP = @EGREP@
+ELOGIND_CFLAGS = @ELOGIND_CFLAGS@
+ELOGIND_LIBS = @ELOGIND_LIBS@
 EXEEXT = @EXEEXT@
 FGREP = @FGREP@
 GETTEXT_PACKAGE = @GETTEXT_PACKAGE@
@@ -390,6 +429,8 @@ PK_PLUGIN_CFLAGS = @PK_PLUGIN_CFLAGS@
 PK_PLUGIN_DIR = @PK_PLUGIN_DIR@
 PK_PLUGIN_LIBS = @PK_PLUGIN_LIBS@
 PK_VERSION = @PK_VERSION@
+PLYMOUTH_0_9_5_CFLAGS = @PLYMOUTH_0_9_5_CFLAGS@
+PLYMOUTH_0_9_5_LIBS = @PLYMOUTH_0_9_5_LIBS@
 POFILES = @POFILES@
 POLDEK_CFLAGS = @POLDEK_CFLAGS@
 POLDEK_LIBS = @POLDEK_LIBS@
@@ -489,6 +530,7 @@ sharedstatedir = @sharedstatedir@
 srcdir = @srcdir@
 sysconfdir = @sysconfdir@
 systemdsystemunitdir = @systemdsystemunitdir@
+systemduserunitdir = @systemduserunitdir@
 target_alias = @target_alias@
 top_build_prefix = @top_build_prefix@
 top_builddir = @top_builddir@
@@ -496,6 +538,10 @@ top_srcdir = @top_srcdir@
 AM_CPPFLAGS = \
 	-DDATADIR=\"$(datadir)\"		\
 	-DG_LOG_DOMAIN=\"PackageKit-APTcc\"
+
+PK_GLIB2_LIBS = \
+	$(top_builddir)/lib/packagekit-glib2/libpackagekit-glib2.la	\
+	$(top_builddir)/lib/packagekit-glib2/libpackagekitprivate.a
 
 plugindir = $(PK_PLUGIN_DIR)
 plugin_LTLIBRARIES = libpk_backend_aptcc.la
@@ -512,7 +558,7 @@ libpk_backend_aptcc_la_SOURCES = pkg-list.cpp \
 
 libpk_backend_aptcc_la_LIBADD = -lcrypt \
 				-lapt-pkg \
-				-lapt-inst \
+				$(APTINST_LIBS) \
 				-lutil \
 				$(PK_PLUGIN_LIBS)
 
@@ -534,6 +580,41 @@ libpk_backend_aptcc_la_CPPFLAGS = $(PK_PLUGIN_CFLAGS) \
 
 aptconfdir = ${SYSCONFDIR}/apt/apt.conf.d
 aptconf_DATA = 20packagekit
+@HAVE_SYSTEMD_TRUE@pk_debconf_helper_SOURCES = \
+@HAVE_SYSTEMD_TRUE@	pk-debconf-helper.c
+
+@HAVE_SYSTEMD_TRUE@pk_debconf_helper_LDADD = \
+@HAVE_SYSTEMD_TRUE@	$(GLIB_LIBS)					\
+@HAVE_SYSTEMD_TRUE@	$(GIO_LIBS)					\
+@HAVE_SYSTEMD_TRUE@	$(SYSTEMD_LIBS)					\
+@HAVE_SYSTEMD_TRUE@	$(PK_GLIB2_LIBS)
+
+@HAVE_SYSTEMD_TRUE@pk_debconf_helper_LDFLAGS = \
+@HAVE_SYSTEMD_TRUE@	$(PIE_LDFLAGS)
+
+@HAVE_SYSTEMD_TRUE@pk_debconf_helper_CFLAGS = \
+@HAVE_SYSTEMD_TRUE@	$(WARNINGFLAGS_C)
+
+@HAVE_SYSTEMD_TRUE@pk_debconf_helper_CPPFLAGS = \
+@HAVE_SYSTEMD_TRUE@	$(PIE_CFLAGS)					\
+@HAVE_SYSTEMD_TRUE@	$(GLIB_CFLAGS)					\
+@HAVE_SYSTEMD_TRUE@	$(GIO_CFLAGS)					\
+@HAVE_SYSTEMD_TRUE@	$(SYSTEMD_CFLAGS)				\
+@HAVE_SYSTEMD_TRUE@	-DI_KNOW_THE_PACKAGEKIT_GLIB2_API_IS_SUBJECT_TO_CHANGE	\
+@HAVE_SYSTEMD_TRUE@	-DPK_COMPILATION				\
+@HAVE_SYSTEMD_TRUE@	-DG_LOG_DOMAIN=\"PackageKit\"			\
+@HAVE_SYSTEMD_TRUE@	-I$(top_builddir)/lib				\
+@HAVE_SYSTEMD_TRUE@	-I$(top_srcdir)					\
+@HAVE_SYSTEMD_TRUE@	-I$(top_srcdir)/lib
+
+@HAVE_SYSTEMD_TRUE@systemdservice_in_files = \
+@HAVE_SYSTEMD_TRUE@	pk-debconf-helper.service.in				\
+@HAVE_SYSTEMD_TRUE@	pk-debconf-helper.socket.in
+
+@HAVE_SYSTEMD_TRUE@systemduserservicedir = $(systemduserunitdir)
+@HAVE_SYSTEMD_TRUE@systemduserservice_DATA = pk-debconf-helper.socket \
+@HAVE_SYSTEMD_TRUE@			  pk-debconf-helper.service
+
 EXTRA_DIST = 20packagekit \
 	     pkg-list.h \
 	     apt-intf.h \
@@ -547,7 +628,6 @@ EXTRA_DIST = 20packagekit \
 
 helperdir = $(datadir)/PackageKit/helpers/aptcc
 dist_helper_DATA = \
-	get-distro-upgrade.py				\
 	pkconffile					\
 	pkconffile.nodiff				\
 	$(NULL)
@@ -555,7 +635,7 @@ dist_helper_DATA = \
 all: all-am
 
 .SUFFIXES:
-.SUFFIXES: .cpp .lo .o .obj
+.SUFFIXES: .c .cpp .lo .o .obj
 $(srcdir)/Makefile.in: @MAINTAINER_MODE_TRUE@ $(srcdir)/Makefile.am  $(am__configure_deps)
 	@for dep in $?; do \
 	  case '$(am__configure_deps)' in \
@@ -585,6 +665,55 @@ $(top_srcdir)/configure: @MAINTAINER_MODE_TRUE@ $(am__configure_deps)
 $(ACLOCAL_M4): @MAINTAINER_MODE_TRUE@ $(am__aclocal_m4_deps)
 	cd $(top_builddir) && $(MAKE) $(AM_MAKEFLAGS) am--refresh
 $(am__aclocal_m4_deps):
+install-libexecPROGRAMS: $(libexec_PROGRAMS)
+	@$(NORMAL_INSTALL)
+	@list='$(libexec_PROGRAMS)'; test -n "$(libexecdir)" || list=; \
+	if test -n "$$list"; then \
+	  echo " $(MKDIR_P) '$(DESTDIR)$(libexecdir)'"; \
+	  $(MKDIR_P) "$(DESTDIR)$(libexecdir)" || exit 1; \
+	fi; \
+	for p in $$list; do echo "$$p $$p"; done | \
+	sed 's/$(EXEEXT)$$//' | \
+	while read p p1; do if test -f $$p \
+	 || test -f $$p1 \
+	  ; then echo "$$p"; echo "$$p"; else :; fi; \
+	done | \
+	sed -e 'p;s,.*/,,;n;h' \
+	    -e 's|.*|.|' \
+	    -e 'p;x;s,.*/,,;s/$(EXEEXT)$$//;$(transform);s/$$/$(EXEEXT)/' | \
+	sed 'N;N;N;s,\n, ,g' | \
+	$(AWK) 'BEGIN { files["."] = ""; dirs["."] = 1 } \
+	  { d=$$3; if (dirs[d] != 1) { print "d", d; dirs[d] = 1 } \
+	    if ($$2 == $$4) files[d] = files[d] " " $$1; \
+	    else { print "f", $$3 "/" $$4, $$1; } } \
+	  END { for (d in files) print "f", d, files[d] }' | \
+	while read type dir files; do \
+	    if test "$$dir" = .; then dir=; else dir=/$$dir; fi; \
+	    test -z "$$files" || { \
+	    echo " $(INSTALL_PROGRAM_ENV) $(LIBTOOL) $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=install $(INSTALL_PROGRAM) $$files '$(DESTDIR)$(libexecdir)$$dir'"; \
+	    $(INSTALL_PROGRAM_ENV) $(LIBTOOL) $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=install $(INSTALL_PROGRAM) $$files "$(DESTDIR)$(libexecdir)$$dir" || exit $$?; \
+	    } \
+	; done
+
+uninstall-libexecPROGRAMS:
+	@$(NORMAL_UNINSTALL)
+	@list='$(libexec_PROGRAMS)'; test -n "$(libexecdir)" || list=; \
+	files=`for p in $$list; do echo "$$p"; done | \
+	  sed -e 'h;s,^.*/,,;s/$(EXEEXT)$$//;$(transform)' \
+	      -e 's/$$/$(EXEEXT)/' \
+	`; \
+	test -n "$$list" || exit 0; \
+	echo " ( cd '$(DESTDIR)$(libexecdir)' && rm -f" $$files ")"; \
+	cd "$(DESTDIR)$(libexecdir)" && rm -f $$files
+
+clean-libexecPROGRAMS:
+	@list='$(libexec_PROGRAMS)'; test -n "$$list" || exit 0; \
+	echo " rm -f" $$list; \
+	rm -f $$list || exit $$?; \
+	test -n "$(EXEEXT)" || exit 0; \
+	list=`for p in $$list; do echo "$$p"; done | sed 's/$(EXEEXT)$$//'`; \
+	echo " rm -f" $$list; \
+	rm -f $$list
 
 install-pluginLTLIBRARIES: $(plugin_LTLIBRARIES)
 	@$(NORMAL_INSTALL)
@@ -624,6 +753,10 @@ clean-pluginLTLIBRARIES:
 libpk_backend_aptcc.la: $(libpk_backend_aptcc_la_OBJECTS) $(libpk_backend_aptcc_la_DEPENDENCIES) $(EXTRA_libpk_backend_aptcc_la_DEPENDENCIES) 
 	$(AM_V_CXXLD)$(libpk_backend_aptcc_la_LINK) -rpath $(plugindir) $(libpk_backend_aptcc_la_OBJECTS) $(libpk_backend_aptcc_la_LIBADD) $(LIBS)
 
+pk-debconf-helper$(EXEEXT): $(pk_debconf_helper_OBJECTS) $(pk_debconf_helper_DEPENDENCIES) $(EXTRA_pk_debconf_helper_DEPENDENCIES) 
+	@rm -f pk-debconf-helper$(EXEEXT)
+	$(AM_V_CCLD)$(pk_debconf_helper_LINK) $(pk_debconf_helper_OBJECTS) $(pk_debconf_helper_LDADD) $(LIBS)
+
 mostlyclean-compile:
 	-rm -f *.$(OBJEXT)
 
@@ -640,12 +773,48 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libpk_backend_aptcc_la-gst-matcher.Plo@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libpk_backend_aptcc_la-pk-backend-aptcc.Plo@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libpk_backend_aptcc_la-pkg-list.Plo@am__quote@ # am--include-marker
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/pk_debconf_helper-pk-debconf-helper.Po@am__quote@ # am--include-marker
 
 $(am__depfiles_remade):
 	@$(MKDIR_P) $(@D)
 	@echo '# dummy' >$@-t && $(am__mv) $@-t $@
 
 am--depfiles: $(am__depfiles_remade)
+
+.c.o:
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(COMPILE) -MT $@ -MD -MP -MF $(DEPDIR)/$*.Tpo -c -o $@ $<
+@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/$*.Tpo $(DEPDIR)/$*.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='$<' object='$@' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(COMPILE) -c -o $@ $<
+
+.c.obj:
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(COMPILE) -MT $@ -MD -MP -MF $(DEPDIR)/$*.Tpo -c -o $@ `$(CYGPATH_W) '$<'`
+@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/$*.Tpo $(DEPDIR)/$*.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='$<' object='$@' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(COMPILE) -c -o $@ `$(CYGPATH_W) '$<'`
+
+.c.lo:
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(LTCOMPILE) -MT $@ -MD -MP -MF $(DEPDIR)/$*.Tpo -c -o $@ $<
+@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/$*.Tpo $(DEPDIR)/$*.Plo
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='$<' object='$@' libtool=yes @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(LTCOMPILE) -c -o $@ $<
+
+pk_debconf_helper-pk-debconf-helper.o: pk-debconf-helper.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(pk_debconf_helper_CPPFLAGS) $(CPPFLAGS) $(pk_debconf_helper_CFLAGS) $(CFLAGS) -MT pk_debconf_helper-pk-debconf-helper.o -MD -MP -MF $(DEPDIR)/pk_debconf_helper-pk-debconf-helper.Tpo -c -o pk_debconf_helper-pk-debconf-helper.o `test -f 'pk-debconf-helper.c' || echo '$(srcdir)/'`pk-debconf-helper.c
+@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/pk_debconf_helper-pk-debconf-helper.Tpo $(DEPDIR)/pk_debconf_helper-pk-debconf-helper.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='pk-debconf-helper.c' object='pk_debconf_helper-pk-debconf-helper.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(pk_debconf_helper_CPPFLAGS) $(CPPFLAGS) $(pk_debconf_helper_CFLAGS) $(CFLAGS) -c -o pk_debconf_helper-pk-debconf-helper.o `test -f 'pk-debconf-helper.c' || echo '$(srcdir)/'`pk-debconf-helper.c
+
+pk_debconf_helper-pk-debconf-helper.obj: pk-debconf-helper.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(pk_debconf_helper_CPPFLAGS) $(CPPFLAGS) $(pk_debconf_helper_CFLAGS) $(CFLAGS) -MT pk_debconf_helper-pk-debconf-helper.obj -MD -MP -MF $(DEPDIR)/pk_debconf_helper-pk-debconf-helper.Tpo -c -o pk_debconf_helper-pk-debconf-helper.obj `if test -f 'pk-debconf-helper.c'; then $(CYGPATH_W) 'pk-debconf-helper.c'; else $(CYGPATH_W) '$(srcdir)/pk-debconf-helper.c'; fi`
+@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/pk_debconf_helper-pk-debconf-helper.Tpo $(DEPDIR)/pk_debconf_helper-pk-debconf-helper.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='pk-debconf-helper.c' object='pk_debconf_helper-pk-debconf-helper.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(pk_debconf_helper_CPPFLAGS) $(CPPFLAGS) $(pk_debconf_helper_CFLAGS) $(CFLAGS) -c -o pk_debconf_helper-pk-debconf-helper.obj `if test -f 'pk-debconf-helper.c'; then $(CYGPATH_W) 'pk-debconf-helper.c'; else $(CYGPATH_W) '$(srcdir)/pk-debconf-helper.c'; fi`
 
 .cpp.o:
 @am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXXCOMPILE) -MT $@ -MD -MP -MF $(DEPDIR)/$*.Tpo -c -o $@ $<
@@ -785,6 +954,27 @@ uninstall-dist_helperDATA:
 	@list='$(dist_helper_DATA)'; test -n "$(helperdir)" || list=; \
 	files=`for p in $$list; do echo $$p; done | sed -e 's|^.*/||'`; \
 	dir='$(DESTDIR)$(helperdir)'; $(am__uninstall_files_from_dir)
+install-systemduserserviceDATA: $(systemduserservice_DATA)
+	@$(NORMAL_INSTALL)
+	@list='$(systemduserservice_DATA)'; test -n "$(systemduserservicedir)" || list=; \
+	if test -n "$$list"; then \
+	  echo " $(MKDIR_P) '$(DESTDIR)$(systemduserservicedir)'"; \
+	  $(MKDIR_P) "$(DESTDIR)$(systemduserservicedir)" || exit 1; \
+	fi; \
+	for p in $$list; do \
+	  if test -f "$$p"; then d=; else d="$(srcdir)/"; fi; \
+	  echo "$$d$$p"; \
+	done | $(am__base_list) | \
+	while read files; do \
+	  echo " $(INSTALL_DATA) $$files '$(DESTDIR)$(systemduserservicedir)'"; \
+	  $(INSTALL_DATA) $$files "$(DESTDIR)$(systemduserservicedir)" || exit $$?; \
+	done
+
+uninstall-systemduserserviceDATA:
+	@$(NORMAL_UNINSTALL)
+	@list='$(systemduserservice_DATA)'; test -n "$(systemduserservicedir)" || list=; \
+	files=`for p in $$list; do echo $$p; done | sed -e 's|^.*/||'`; \
+	dir='$(DESTDIR)$(systemduserservicedir)'; $(am__uninstall_files_from_dir)
 
 ID: $(am__tagged_files)
 	$(am__define_uniq_tagged_files); mkid -fID $$unique
@@ -873,9 +1063,9 @@ distdir-am: $(DISTFILES)
 	done
 check-am: all-am
 check: check-am
-all-am: Makefile $(LTLIBRARIES) $(DATA)
+all-am: Makefile $(PROGRAMS) $(LTLIBRARIES) $(DATA)
 installdirs:
-	for dir in "$(DESTDIR)$(plugindir)" "$(DESTDIR)$(aptconfdir)" "$(DESTDIR)$(helperdir)"; do \
+	for dir in "$(DESTDIR)$(libexecdir)" "$(DESTDIR)$(plugindir)" "$(DESTDIR)$(aptconfdir)" "$(DESTDIR)$(helperdir)" "$(DESTDIR)$(systemduserservicedir)"; do \
 	  test -z "$$dir" || $(MKDIR_P) "$$dir"; \
 	done
 install: install-am
@@ -910,8 +1100,8 @@ maintainer-clean-generic:
 	@echo "it deletes files that may require special tools to rebuild."
 clean: clean-am
 
-clean-am: clean-generic clean-libtool clean-local \
-	clean-pluginLTLIBRARIES mostlyclean-am
+clean-am: clean-generic clean-libexecPROGRAMS clean-libtool \
+	clean-local clean-pluginLTLIBRARIES mostlyclean-am
 
 distclean: distclean-am
 		-rm -f ./$(DEPDIR)/libpk_backend_aptcc_la-acqpkitstatus.Plo
@@ -924,6 +1114,7 @@ distclean: distclean-am
 	-rm -f ./$(DEPDIR)/libpk_backend_aptcc_la-gst-matcher.Plo
 	-rm -f ./$(DEPDIR)/libpk_backend_aptcc_la-pk-backend-aptcc.Plo
 	-rm -f ./$(DEPDIR)/libpk_backend_aptcc_la-pkg-list.Plo
+	-rm -f ./$(DEPDIR)/pk_debconf_helper-pk-debconf-helper.Po
 	-rm -f Makefile
 distclean-am: clean-am distclean-compile distclean-generic \
 	distclean-tags
@@ -941,14 +1132,14 @@ info: info-am
 info-am:
 
 install-data-am: install-aptconfDATA install-dist_helperDATA \
-	install-pluginLTLIBRARIES
+	install-pluginLTLIBRARIES install-systemduserserviceDATA
 	@$(NORMAL_INSTALL)
 	$(MAKE) $(AM_MAKEFLAGS) install-data-hook
 install-dvi: install-dvi-am
 
 install-dvi-am:
 
-install-exec-am:
+install-exec-am: install-libexecPROGRAMS
 
 install-html: install-html-am
 
@@ -981,6 +1172,7 @@ maintainer-clean: maintainer-clean-am
 	-rm -f ./$(DEPDIR)/libpk_backend_aptcc_la-gst-matcher.Plo
 	-rm -f ./$(DEPDIR)/libpk_backend_aptcc_la-pk-backend-aptcc.Plo
 	-rm -f ./$(DEPDIR)/libpk_backend_aptcc_la-pkg-list.Plo
+	-rm -f ./$(DEPDIR)/pk_debconf_helper-pk-debconf-helper.Po
 	-rm -f Makefile
 maintainer-clean-am: distclean-am maintainer-clean-generic
 
@@ -998,12 +1190,13 @@ ps: ps-am
 ps-am:
 
 uninstall-am: uninstall-aptconfDATA uninstall-dist_helperDATA \
-	uninstall-pluginLTLIBRARIES
+	uninstall-libexecPROGRAMS uninstall-pluginLTLIBRARIES \
+	uninstall-systemduserserviceDATA
 
 .MAKE: install-am install-data-am install-strip
 
 .PHONY: CTAGS GTAGS TAGS all all-am am--depfiles check check-am clean \
-	clean-generic clean-libtool clean-local \
+	clean-generic clean-libexecPROGRAMS clean-libtool clean-local \
 	clean-pluginLTLIBRARIES cscopelist-am ctags ctags-am distclean \
 	distclean-compile distclean-generic distclean-libtool \
 	distclean-tags distdir dvi dvi-am html html-am info info-am \
@@ -1011,24 +1204,28 @@ uninstall-am: uninstall-aptconfDATA uninstall-dist_helperDATA \
 	install-data-am install-data-hook install-dist_helperDATA \
 	install-dvi install-dvi-am install-exec install-exec-am \
 	install-html install-html-am install-info install-info-am \
-	install-man install-pdf install-pdf-am \
+	install-libexecPROGRAMS install-man install-pdf install-pdf-am \
 	install-pluginLTLIBRARIES install-ps install-ps-am \
-	install-strip installcheck installcheck-am installdirs \
-	maintainer-clean maintainer-clean-generic mostlyclean \
-	mostlyclean-compile mostlyclean-generic mostlyclean-libtool \
-	pdf pdf-am ps ps-am tags tags-am uninstall uninstall-am \
-	uninstall-aptconfDATA uninstall-dist_helperDATA \
-	uninstall-pluginLTLIBRARIES
+	install-strip install-systemduserserviceDATA installcheck \
+	installcheck-am installdirs maintainer-clean \
+	maintainer-clean-generic mostlyclean mostlyclean-compile \
+	mostlyclean-generic mostlyclean-libtool pdf pdf-am ps ps-am \
+	tags tags-am uninstall uninstall-am uninstall-aptconfDATA \
+	uninstall-dist_helperDATA uninstall-libexecPROGRAMS \
+	uninstall-pluginLTLIBRARIES uninstall-systemduserserviceDATA
 
 .PRECIOUS: Makefile
 
 
+%: %.in Makefile
+	$(AM_V_GEN)sed -e 's|\@libexecdir\@|$(libexecdir)|' \
+	               -e 's|\@PACKAGEKIT_USER\@|$(PACKAGEKIT_USER)|' $< > $@.tmp && mv $@.tmp $@
+
 install-data-hook:
-	chmod +x $(DESTDIR)$(helperdir)/*.py $(DESTDIR)$(helperdir)/pkconffile
+	chmod +x $(DESTDIR)$(helperdir)/pkconffile
 
 clean-local :
 	rm -f *~
-	rm -f *.pyc
 
 -include $(top_srcdir)/git.mk
 

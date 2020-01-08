@@ -156,7 +156,7 @@ am__uninstall_files_from_dir = { \
 am__py_compile = PYTHON=$(PYTHON) $(SHELL) $(py_compile)
 am__installdirs = "$(DESTDIR)$(packagekitpythondir)"
 am__pep3147_tweak = \
-  sed -e 's|\.py$$||' -e 's|[^/]*$$|&.*.pyc\n&.*.pyo|'
+  sed -e 's|\.py$$||' -e 's|[^/]*$$|__pycache__/&.*.py|'
 py_compile = $(top_srcdir)/build-aux/py-compile
 am__tagged_files = $(HEADERS) $(SOURCES) $(TAGS_FILES) $(LISP)
 am__DIST_COMMON = $(srcdir)/Makefile.in \
@@ -172,6 +172,7 @@ APPSTREAM_CFLAGS = @APPSTREAM_CFLAGS@
 APPSTREAM_LIBS = @APPSTREAM_LIBS@
 APTCC_CFLAGS = @APTCC_CFLAGS@
 APTCC_LIBS = @APTCC_LIBS@
+APTINST_LIBS = @APTINST_LIBS@
 AR = @AR@
 AUTOCONF = @AUTOCONF@
 AUTOHEADER = @AUTOHEADER@
@@ -209,6 +210,8 @@ ECHO_C = @ECHO_C@
 ECHO_N = @ECHO_N@
 ECHO_T = @ECHO_T@
 EGREP = @EGREP@
+ELOGIND_CFLAGS = @ELOGIND_CFLAGS@
+ELOGIND_LIBS = @ELOGIND_LIBS@
 EXEEXT = @EXEEXT@
 FGREP = @FGREP@
 GETTEXT_PACKAGE = @GETTEXT_PACKAGE@
@@ -318,6 +321,8 @@ PK_PLUGIN_CFLAGS = @PK_PLUGIN_CFLAGS@
 PK_PLUGIN_DIR = @PK_PLUGIN_DIR@
 PK_PLUGIN_LIBS = @PK_PLUGIN_LIBS@
 PK_VERSION = @PK_VERSION@
+PLYMOUTH_0_9_5_CFLAGS = @PLYMOUTH_0_9_5_CFLAGS@
+PLYMOUTH_0_9_5_LIBS = @PLYMOUTH_0_9_5_LIBS@
 POFILES = @POFILES@
 POLDEK_CFLAGS = @POLDEK_CFLAGS@
 POLDEK_LIBS = @POLDEK_LIBS@
@@ -417,6 +422,7 @@ sharedstatedir = @sharedstatedir@
 srcdir = @srcdir@
 sysconfdir = @sysconfdir@
 systemdsystemunitdir = @systemdsystemunitdir@
+systemduserunitdir = @systemduserunitdir@
 target_alias = @target_alias@
 top_build_prefix = @top_build_prefix@
 top_builddir = @top_builddir@
@@ -507,15 +513,20 @@ uninstall-packagekitpythonPYTHON:
 	dir='$(DESTDIR)$(packagekitpythondir)'; \
 	pyc_files=`echo "$$py_files" | sed 's|$$|c|'`; \
 	pyo_files=`echo "$$py_files" | sed 's|$$|o|'`; \
+	py_files_pep3147=`echo "$$py_files" | $(am__pep3147_tweak)`; \
+	echo "$$py_files_pep3147";\
+	pyc_files_pep3147=`echo "$$py_files_pep3147" | sed 's|$$|c|'`; \
+	pyo_files_pep3147=`echo "$$py_files_pep3147" | sed 's|$$|o|'`; \
 	st=0; \
-	for files in "$$py_files" "$$pyc_files" "$$pyo_files"; do \
+	for files in \
+	  "$$py_files" \
+	  "$$pyc_files" \
+	  "$$pyo_files" \
+	  "$$pyc_files_pep3147" \
+	  "$$pyo_files_pep3147" \
+	; do \
 	  $(am__uninstall_files_from_dir) || st=$$?; \
 	done; \
-	dir='$(DESTDIR)$(packagekitpythondir)/__pycache__'; \
-	echo "$$py_files" | $(am__pep3147_tweak) | $(am__base_list) | \
-	  while read files; do \
-	    $(am__uninstall_files_from_dir) || st=$$?; \
-	  done || exit $$?; \
 	exit $$st
 tags TAGS:
 
@@ -683,7 +694,7 @@ uninstall-am: uninstall-packagekitpythonPYTHON
 
 
 enums.py: $(top_srcdir)/lib/python/enum-convertor.py $(top_srcdir)/lib/packagekit-glib2/pk-enum.c
-	python $(top_srcdir)/lib/python/enum-convertor.py $(top_srcdir)/lib/packagekit-glib2/pk-enum.c > enums.py
+	$(PYTHON) $(top_srcdir)/lib/python/enum-convertor.py $(top_srcdir)/lib/packagekit-glib2/pk-enum.c > enums.py
 
 clean-local :
 	rm -f *.pyc

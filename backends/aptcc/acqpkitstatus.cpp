@@ -23,6 +23,7 @@
 #include "apt-intf.h"
 
 #include <apt-pkg/acquire-worker.h>
+#include <apt-pkg/error.h>
 
 // AcqPackageKitStatus::AcqPackageKitStatus - Constructor
 // ---------------------------------------------------------------------
@@ -79,6 +80,13 @@ void AcqPackageKitStatus::Fetch(pkgAcquire::ItemDesc &Itm)
 /* We don't display anything... */
 void AcqPackageKitStatus::Done(pkgAcquire::ItemDesc &Itm)
 {
+    PkRoleEnum role = pk_backend_job_get_role(m_job);
+    if (role == PK_ROLE_ENUM_REFRESH_CACHE) {
+        pk_backend_job_repo_detail(m_job,
+                                   "",
+                                   Itm.Description.c_str(),
+                                   true);
+    }
     // Download completed
     updateStatus(Itm, 100);
 }
@@ -146,9 +154,15 @@ bool AcqPackageKitStatus::Pulse(pkgAcquire *Owner)
             continue;
         }
 
+#if APT_PKG_ABI >= 590
+        if (I->CurrentItem->TotalSize > 0) {
+            updateStatus(*I->CurrentItem,
+                         long(double(I->CurrentItem->CurrentSize * 100.0) / double(I->CurrentItem->TotalSize)));
+#else
         if (I->TotalSize > 0) {
             updateStatus(*I->CurrentItem,
                          long(double(I->CurrentSize * 100.0) / double(I->TotalSize)));
+#endif
         } else {
             updateStatus(*I->CurrentItem, 100);
         }

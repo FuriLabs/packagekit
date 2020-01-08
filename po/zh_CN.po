@@ -3,9 +3,9 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
-# Boyuan Yang <073plan@gmail.com>, 2015
-# Christopher Meng <i@cicku.me>, 2013
-# Dz Chen <wsxy162@gmail.com>, 2017
+# Boyuan Yang <073plan@gmail.com>, 2015,2019
+# Christopher M <i@cicku.me>, 2013
+# Dingzhong Chen <wsxy162@gmail.com>, 2017
 # Leah Liu <lliu@redhat.com>, 2009
 # Tommy He <lovenemesis@gmail.com>, 2011, 2012
 # Michael Jay Tong <michaeljayt@gmail.com>, 2014
@@ -17,9 +17,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PackageKit\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-11-28 08:40+0100\n"
-"PO-Revision-Date: 2018-09-25 08:54+0000\n"
-"Last-Translator: Richard Hughes <richard@hughsie.com>\n"
+"POT-Creation-Date: 2020-01-08 14:29+0000\n"
+"PO-Revision-Date: 2019-01-13 16:17+0000\n"
+"Last-Translator: Boyuan Yang <073plan@gmail.com>\n"
 "Language-Team: Chinese (China) (http://www.transifex.com/freedesktop/packagekit/language/zh_CN/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -126,7 +126,7 @@ msgstr "更新细节："
 #. TRANSLATORS: the package that is not signed by a known key
 #. TRANSLATORS: the package name that was trying to be installed
 msgid "Package"
-msgstr ""
+msgstr "软件包"
 
 #. TRANSLATORS: details about the update, any packages that
 #. * this update updates
@@ -395,7 +395,7 @@ msgid "Allow packages to be reinstalled during transaction"
 msgstr "允许事务进行中重新安装软件包"
 
 msgid "Automatically remove unused dependencies"
-msgstr ""
+msgstr "自动卸载未使用的依赖"
 
 #. TRANSLATORS: command line argument, this command is not a priority
 msgid "Run the command using idle network bandwidth and also using less power"

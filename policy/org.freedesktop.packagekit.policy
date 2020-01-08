@@ -26,6 +26,7 @@
     <description xml:lang="eu">Utzi zeregin arrotza</description>
     <description xml:lang="fi">Peru tuntematon tehtävä</description>
     <description xml:lang="fr">Annulation de la tâche externe</description>
+    <description xml:lang="fur">Anule ativitât di altris</description>
     <description xml:lang="gl">Cancelar tarefa externa</description>
     <description xml:lang="gu">પરદેશા ક્રિયાને રદ કરો</description>
     <description xml:lang="he">בטל משימה זרה</description>
@@ -70,10 +71,11 @@
     <message xml:lang="de">Legitimation ist zum Abbrechen einer Aufgabe erforderlich, die nicht von Ihnen initiiert wurde</message>
     <message xml:lang="el">Απαιτείται πιστοποίηση για την ακύρωση ενέργειας που δεν είχατε εκκινήσει εσείς</message>
     <message xml:lang="en_GB">Authentication is required to cancel a task that was not started by yourself</message>
-    <message xml:lang="es">Se necesita autenticación para cancelar una tarea que no ha iniciado</message>
+    <message xml:lang="es">Necesita autenticarse para cancelar una tarea que no ha iniciado</message>
     <message xml:lang="eu">Autentifikazioa behar da zerorrek abiarazi ez duzun zeregin bat bertan behera uzteko</message>
     <message xml:lang="fi">Tunnistautuminen vaaditaan, jotta voit perua tehtävän, jota et aloittanut</message>
     <message xml:lang="fr">Authentification requise pour annuler une tâche non initiée par vos soins</message>
+    <message xml:lang="fur">La autenticazion e je necessarie par anulâ une ativitât inviade di altris</message>
     <message xml:lang="gl">Requírese a autenticación para cancelar unha tarefa que non foi iniciada por vostede.</message>
     <message xml:lang="gu">કાર્યને રદ કરવા માટે સત્તાધિકરણ જરૂરી છે કે જે તમારીજાતે શરૂ થયેલ ન હતુ</message>
     <message xml:lang="he">אימות נדרש כדי לבטל משימה שלא התחלת בעצמך</message>
@@ -119,6 +121,7 @@
   <action id="org.freedesktop.packagekit.package-install">
     
     <description>Install signed package</description>
+    <description xml:lang="af">Installeer getekende pakket</description>
     <description xml:lang="as">চহি কৰা সৰঞ্জাম সংস্থাপন কৰক</description>
     <description xml:lang="bg">Инсталиране на подписан пакет</description>
     <description xml:lang="bn_IN">স্বাক্ষরিত প্যাকেজ ইনস্টল করুন</description>
@@ -129,10 +132,12 @@
     <description xml:lang="de">Signierte Pakete installieren</description>
     <description xml:lang="el">Εγκατάσταση υπογεγραμμένου πακέτου</description>
     <description xml:lang="en_GB">Install signed package</description>
+    <description xml:lang="eo">Instali subskribitan pakon</description>
     <description xml:lang="es">Instalar paquete firmado</description>
     <description xml:lang="eu">Instalatu sinatutako paketea</description>
     <description xml:lang="fi">Asenna allekirjoitettu paketti</description>
     <description xml:lang="fr">Installer un paquet signé</description>
+    <description xml:lang="fur">Instale pachet firmât</description>
     <description xml:lang="gl">Instalar paquete asinado</description>
     <description xml:lang="gu">હસ્તાક્ષર થયેલ પેકેજને સ્થાપિત કરો</description>
     <description xml:lang="he">התקן חבילה חתומה</description>
@@ -171,14 +176,16 @@
     <message>Authentication is required to install software</message>
     <message xml:lang="ca">Es requereix autenticació per instal·lar programari</message>
     <message xml:lang="cs">Pro instalaci softwaru je vyžadováno ověření</message>
-    <message xml:lang="da">Godkendelse er krævet for at installere programmer</message>
+    <message xml:lang="da">Godkendelse kræves for at installere programmer</message>
     <message xml:lang="de">Legitimation ist zur Installation von Software erforderlich</message>
     <message xml:lang="el">Απαιτείται πιστοποίηση για την εγκατάσταση του λογισμικού</message>
     <message xml:lang="en_GB">Authentication is required to install software</message>
-    <message xml:lang="es">Se necesita autenticación para instalar software</message>
+    <message xml:lang="eo">Necesas aŭtentigo por instali programaron</message>
+    <message xml:lang="es">Necesita autenticarse para instalar software</message>
     <message xml:lang="eu">Autentifikazioa behar da softwarea instalatzeko</message>
     <message xml:lang="fi">Ohjelmistojen asennus vaatii tunnistautumisen</message>
     <message xml:lang="fr">Une authentification est nécessaire pour installer un logiciel</message>
+    <message xml:lang="fur">La autenticazion e je necessarie par instalâ software</message>
     <message xml:lang="gl">Requírese autenticación para instalar o software</message>
     <message xml:lang="hr">Potrebna je ovjera za instalaciju softvera</message>
     <message xml:lang="hu">Hitelesítés szükséges a szoftver telepítéséhez</message>
@@ -211,6 +218,7 @@
   <action id="org.freedesktop.packagekit.package-install-untrusted">
     
     <description>Install untrusted local file</description>
+    <description xml:lang="af">Installeer onvertroude plaaslike lêer</description>
     <description xml:lang="as">2    </description>
     <description xml:lang="bg">Инсталиране на недоверен локален файл</description>
     <description xml:lang="bn_IN">অবিশ্বস্ত স্থানীয় ফাইল ইনস্টল করুন</description>
@@ -224,6 +232,7 @@
     <description xml:lang="eu">Instalatu fidagarria ez den fitxategi lokala</description>
     <description xml:lang="fi">Asenna paikallinen tiedosto, johon ei luoteta</description>
     <description xml:lang="fr">Installer un fichier local non signé</description>
+    <description xml:lang="fur">Instale il file locâl no fidât</description>
     <description xml:lang="gl">Instalar un ficheiro local sen confianza</description>
     <description xml:lang="gu">વિશ્ર્વાસ ન રખાતી સ્થાનિક ફાઇલને સ્થાપિત કરો</description>
     <description xml:lang="he">התקן קובץ מקומי לא מהימן</description>
@@ -263,14 +272,16 @@
     <message>Authentication is required to install untrusted software</message>
     <message xml:lang="ca">Es requereix autenticació per instal·lar programari sense confiança</message>
     <message xml:lang="cs">Pro instalaci nedůvěryhodného softwaru je vyžadováno ověření</message>
-    <message xml:lang="da">Godkendelse er krævet for at installere upålidelige pakker</message>
+    <message xml:lang="da">Godkendelse kræves for at installere upålidelige programmer</message>
     <message xml:lang="de">Legitimation ist zum Installieren von nicht vertrauenswürdiger Software erforderlich</message>
     <message xml:lang="el">Απαιτείται πιστοποίηση για την εγκατάσταση αναξιόπιστου λογισμικού</message>
     <message xml:lang="en_GB">Authentication is required to install untrusted software</message>
-    <message xml:lang="es">Se necesita autenticación para instalar software no confiable</message>
+    <message xml:lang="eo">Necesas aŭtentigo por instali programaron</message>
+    <message xml:lang="es">Necesita autenticarse para instalar software no confiable</message>
     <message xml:lang="eu">Autentifikazioa behar da fidagarria ez den softwarea instalatzeko</message>
     <message xml:lang="fi">Tunnistautuminen vaaditaan ei-luotettavan ohjelmiston asentamiseksi</message>
     <message xml:lang="fr">Une authentification est nécessaire pour installer un logiciel non certifié</message>
+    <message xml:lang="fur">La autenticazion e je necessarie par instalâ software no fidât</message>
     <message xml:lang="gl">Requírese autenticación para instalar sotware non confiábel</message>
     <message xml:lang="hr">Potrebna je ovjera za instalaciju nepouzdanog softvera</message>
     <message xml:lang="hu">Hitelesítés szükséges a nem megbízható szoftver telepítéséhez</message>
@@ -304,6 +315,7 @@
   <action id="org.freedesktop.packagekit.package-reinstall">
     
     <description>Install already installed package again</description>
+    <description xml:lang="af">Installeer reeds geïnstalleerde pakket weer</description>
     <description xml:lang="ca">Torna a instal·lar els paquets ja instal·lats</description>
     <description xml:lang="cs">Opětovně nainstalovat již nainstalovaný balíček</description>
     <description xml:lang="da">Installer allerede installeret pakke igen</description>
@@ -314,6 +326,7 @@
     <description xml:lang="eu">Instalatu berriro lehendik instalatuta dagoen paketea</description>
     <description xml:lang="fi">Asenna aiemmin asennettu paketti uudelleen</description>
     <description xml:lang="fr">Installer une nouvelle fois un paquet déjà installé</description>
+    <description xml:lang="fur">Torne instale il pachet za instalât</description>
     <description xml:lang="gl">Instalar un paquete xa instalado de novo</description>
     <description xml:lang="hr">Ponovno instaliraj već instalirane pakete</description>
     <description xml:lang="hu">A már telepített csomag újratelepítése</description>
@@ -338,14 +351,16 @@
     <message>Authentication is required to reinstall software</message>
     <message xml:lang="ca">Es requereix autenticació per reinstal·lar programari</message>
     <message xml:lang="cs">Reinstalace vyžaduje ověření</message>
-    <message xml:lang="da">Godkendelse er krævet for at geninstallere programmer</message>
+    <message xml:lang="da">Godkendelse kræves for at geninstallere programmer</message>
     <message xml:lang="de">Legitimation ist zum erneuten Installieren der Software erforderlich</message>
     <message xml:lang="el">Απαιτείται πιστοποίηση για την επανεγκατάσταση του λογισμικού</message>
     <message xml:lang="en_GB">Authentication is required to reinstall software</message>
-    <message xml:lang="es">Se necesita autenticación para reinstalar software</message>
+    <message xml:lang="eo">Necesas aŭtentigo por reinstali programaron</message>
+    <message xml:lang="es">Necesita autenticarse para reinstalar software</message>
     <message xml:lang="eu">Autentifikazioa behar da softwarea berrinstalatzeko</message>
     <message xml:lang="fi">Ohjelmistojen asennus uudelleen vaatii tunnistautumisen</message>
     <message xml:lang="fr">Une authentification est nécessaire pour réinstaller un logiciel</message>
+    <message xml:lang="fur">La autenticazion e je necessarie par tornâ a instalâ software</message>
     <message xml:lang="gl">Requírese autenticación para reinstalar software</message>
     <message xml:lang="hr">Potrebna je ovjera za ponovnu instalaciju softvera</message>
     <message xml:lang="hu">Hitelesítés szükséges a szoftver újratelepítéséhez</message>
@@ -378,6 +393,7 @@
   <action id="org.freedesktop.packagekit.package-downgrade">
     
     <description>Install older version of installed package</description>
+    <description xml:lang="af">Installeer ouer weergawe van geïnstalleerde pakket</description>
     <description xml:lang="ca">Instal·la una versió més antiga del paquet instal·lat</description>
     <description xml:lang="cs">Nainstalovat starší verzi již nainstalovaného balíčku</description>
     <description xml:lang="da">Installer ældre version af installeret pakke</description>
@@ -388,6 +404,7 @@
     <description xml:lang="eu">Instalatu lehendik instalatuta dagoen paketearen bertsio zaharragoa</description>
     <description xml:lang="fi">Asenna vanhempi versio asennetusta paketista</description>
     <description xml:lang="fr">Installer une version plus ancienne du paquet installé</description>
+    <description xml:lang="fur">Instale une version plui vecje dal pachet instalât</description>
     <description xml:lang="gl">Instalar unha versión antiga do paquete instalado</description>
     <description xml:lang="hr">Instaliraj stariju inačicu instaliranog softvera</description>
     <description xml:lang="hu">A telepített csomag régebbi verziójának telepítése</description>
@@ -412,13 +429,16 @@
     <message>Authentication is required to downgrade software</message>
     <message xml:lang="ca">Es requereix autenticació per revertir el programari</message>
     <message xml:lang="cs">Pro přechod softwaru na nižší verzi je vyžadováno ověření</message>
-    <message xml:lang="da">Godkendelse er krævet for at nedgradere programmer</message>
+    <message xml:lang="da">Godkendelse kræves for at nedgradere programmer</message>
     <message xml:lang="de">Legitimation ist zur Herunterstufung von Software erforderlich</message>
     <message xml:lang="el">Απαιτείται πιστοποίηση για την υποβάθμιση του λογισμικού</message>
     <message xml:lang="en_GB">Authentication is required to downgrade software</message>
-    <message xml:lang="es">Se necesita autenticación para desactualizar software</message>
+    <message xml:lang="eo">Necesas aŭtentigo por malaltgradigi programaron</message>
+    <message xml:lang="es">Necesita autenticarse para desactualizar software</message>
     <message xml:lang="eu">Autentifikazioa behar da softwarearen bertsio zaharrak instalatzeko</message>
+    <message xml:lang="fi">Todennus vaaditaan aiemman version asentamiseksi</message>
     <message xml:lang="fr">Une authentification est nécessaire pour rétrograder un logiciel</message>
+    <message xml:lang="fur">La autenticazion e je necessarie par regredî software</message>
     <message xml:lang="gl">Requírese autenticación para desactualizar software</message>
     <message xml:lang="hr">Potrebna je ovjera za instalaciju starije inačice softvera</message>
     <message xml:lang="hu">Hitelesítés szükséges a szoftver visszafejlesztéséhez</message>
@@ -452,6 +472,7 @@
   <action id="org.freedesktop.packagekit.system-trust-signing-key">
     
     <description>Trust a key used for signing software</description>
+    <description xml:lang="af">Vertrou ’n handtekeningsleutel vir sagteware</description>
     <description xml:lang="ca">Confia en una clau que s'utilitzi per a la signatura de paquets</description>
     <description xml:lang="cs">Důvěřovat klíči použitému pro podepsání softwaru</description>
     <description xml:lang="da">Betro en nøgle brugt til signering af programmer</description>
@@ -462,6 +483,7 @@
     <description xml:lang="eu">Fidatu softwarea sinatzeko erabili den gako batez</description>
     <description xml:lang="fi">Luota ohjelmiston allekirjoittamiseen käytettyyn avaimeen</description>
     <description xml:lang="fr">Faire confiance à une clé utilisée pour la signature de logiciel</description>
+    <description xml:lang="fur">Fidâsi di une clâf doprade par firmâ il software</description>
     <description xml:lang="gl">Confiar nunha chave usada para asinar softare</description>
     <description xml:lang="hr">Vjeruj ključu korištenom za potpisivanje softvera</description>
     <description xml:lang="hu">Szoftver aláírására használt kulcs megbízhatóvá nyilvánítása</description>
@@ -485,14 +507,15 @@
     <message>Authentication is required to consider a key used for signing software as trusted</message>
     <message xml:lang="ca">Es requereix autenticació per tenir en consideració una clau utilitzada per signar els paquets com de confiança</message>
     <message xml:lang="cs">Pro zvážení důvěryhodnosti klíče použitého k podepsání softwaru je vyžadováno ověření</message>
-    <message xml:lang="da">Godkendelse er krævet for at overveje en nøgle brugt for signering af programmer som pålidelig</message>
+    <message xml:lang="da">Godkendelse kræves for at overveje en nøgle brugt for signering af programmer som pålidelig</message>
     <message xml:lang="de">Legitimation ist zum Vertrauen eines Softwaresignaturschlüssels erforderlich</message>
     <message xml:lang="el">Απαιτείται πιστοποίηση για να θεωρήσετε ένα κλειδί που χρησιμοποιείται για την υπογραφή λογισμικού ως έμπιστο</message>
     <message xml:lang="en_GB">Authentication is required to consider a key used for signing software as trusted</message>
-    <message xml:lang="es">Se necesita autenticación para considerar que una clave de firma de software es confiable</message>
+    <message xml:lang="es">Necesita autenticarse para considerar que una clave de firma de software es confiable</message>
     <message xml:lang="eu">Autentifikazioa behar da softwarea sinatzeko erabilitako gakoa fidagarrizat hartzeko</message>
     <message xml:lang="fi">Ohjelmistojen allekirjoittamiseen tarkoitetun avaimen mieltäminen luotetuksi vaatii tunnistautumisen</message>
     <message xml:lang="fr">Une authentification est nécessaire pour considérer une clé utilisée pour la signature de logiciel comme fiable</message>
+    <message xml:lang="fur">La autenticazion e je necessarie par considerâ fidade une clâf doprade par firmâ software</message>
     <message xml:lang="gl">Requírese autenticaión para considerar unha chave usada para asinar software como confiábel</message>
     <message xml:lang="hr">Potrebna je ovjera za uzimanje u obzir ključa korištenog za potpisivanje softvera kao pouzdanog</message>
     <message xml:lang="hu">Hitelesítés szükséges a szoftver aláírásához használt kulcs megbízhatóvá nyilvánításához</message>
@@ -524,6 +547,7 @@
   <action id="org.freedesktop.packagekit.package-eula-accept">
     
     <description>Accept EULA</description>
+    <description xml:lang="af">Aanvaar eindgebruikerlisensieooreenkoms</description>
     <description xml:lang="as">EULA গ্ৰহণ কৰক</description>
     <description xml:lang="bg">Приемане на EULA</description>
     <description xml:lang="bn_IN">EULA-র শর্তাবলী গ্রহণ করুন</description>
@@ -533,10 +557,12 @@
     <description xml:lang="de">EULA annehmen</description>
     <description xml:lang="el">Αποδοχή άδειας χρήσης (EULA)</description>
     <description xml:lang="en_GB">Accept EULA</description>
+    <description xml:lang="eo">Konsenti EULA-on</description>
     <description xml:lang="es">Aceptar CLUF</description>
     <description xml:lang="eu">Onartu EULA</description>
     <description xml:lang="fi">Hyväksytään käyttöoikeussopimusta</description>
     <description xml:lang="fr">Accepter la licence du logiciel</description>
+    <description xml:lang="fur">Acete EULA</description>
     <description xml:lang="gl">Aceptar a EULA</description>
     <description xml:lang="gu">EULA ને સ્વીકારો</description>
     <description xml:lang="he">קבל רשיון משתמש הקצה (EULA)</description>
@@ -584,10 +610,12 @@
     <message xml:lang="de">Legitimation ist zum Annehmen der EULA erforderlich</message>
     <message xml:lang="el">Απαιτείται πιστοποίηση για την αποδοχή της άδειας χρήσης (EULA)</message>
     <message xml:lang="en_GB">Authentication is required to accept a EULA</message>
-    <message xml:lang="es">Se necesita autenticación para aceptar un CLUF</message>
+    <message xml:lang="eo">Necesas aŭtentigo por konsenti EULA-on</message>
+    <message xml:lang="es">Necesita autenticarse para aceptar un CLUF</message>
     <message xml:lang="eu">Autentifikazioa behar da EULA bat onartzeko</message>
     <message xml:lang="fi">Käyttöoikeussopimuksen hyväksyminen vaatii tunnistautumisen</message>
     <message xml:lang="fr">Authentification requise pour accepter une licence</message>
+    <message xml:lang="fur">La autenticazion e je necessarie par acetâ une EULA</message>
     <message xml:lang="gl">Requírese a autenticación para aceptar unha EULA</message>
     <message xml:lang="gu">EULA ને સ્વીકારવા માટે સત્તાધિકરણ જરૂરી છે</message>
     <message xml:lang="he">אימות נדרש כדי לקבל רשיון משתמש הקצה (EULA)</message>
@@ -636,6 +664,7 @@
   <action id="org.freedesktop.packagekit.package-remove">
     
     <description>Remove package</description>
+    <description xml:lang="af">Verwyder pakket</description>
     <description xml:lang="as">সৰঞ্জাম আঁতৰাওঁক</description>
     <description xml:lang="bg">Деинсталиране на пакeт</description>
     <description xml:lang="bn_IN">প্যাকেজ মুছে ফেলুন</description>
@@ -645,11 +674,12 @@
     <description xml:lang="de">Paket entfernen</description>
     <description xml:lang="el">Αφαίρεση πακέτου</description>
     <description xml:lang="en_GB">Remove package</description>
-    <description xml:lang="eo">Forigi pakaĵon</description>
+    <description xml:lang="eo">Forigi pakon</description>
     <description xml:lang="es">Eliminar paquete</description>
     <description xml:lang="eu">Kendu paketea</description>
     <description xml:lang="fi">Poista paketti</description>
     <description xml:lang="fr">Supprimer un paquet</description>
+    <description xml:lang="fur">Gjave pachet</description>
     <description xml:lang="gl">Retirar paquete</description>
     <description xml:lang="gu">પેકેજ ને દૂર કરો</description>
     <description xml:lang="he">הסר חבילה</description>
@@ -690,14 +720,16 @@
     <message>Authentication is required to remove software</message>
     <message xml:lang="ca">Es requereix autenticació per eliminar programari</message>
     <message xml:lang="cs">Pro odebrání softwaru je vyžadováno ověření</message>
-    <message xml:lang="da">Godkendelse er krævet for at fjerne programmer</message>
+    <message xml:lang="da">Godkendelse kræves for at fjerne programmer</message>
     <message xml:lang="de">Legitimation ist zum Entfernen von Software erforderlich</message>
     <message xml:lang="el">Απαιτείται πιστοποίηση για την αφαίρεση του λογισμικού</message>
     <message xml:lang="en_GB">Authentication is required to remove software</message>
-    <message xml:lang="es">Se necesita autenticación para desinstalar software</message>
+    <message xml:lang="eo">Necesas aŭtentigo por forigi programaron</message>
+    <message xml:lang="es">Necesita autenticarse para desinstalar software</message>
     <message xml:lang="eu">Autentifikazioa behar da softwarea kentzeko</message>
     <message xml:lang="fi">Ohjelmistojen poistaminen vaatii tunnistautumisen</message>
     <message xml:lang="fr">Une authentification est nécessaire pour désinstaller un logiciel</message>
+    <message xml:lang="fur">La autenticazion e je necessarie par gjavâ software</message>
     <message xml:lang="gl">Requírese autenticación para quitar software</message>
     <message xml:lang="hr">Potrebna je ovjera za uklanjanje softvera</message>
     <message xml:lang="hu">Hitelesítés szükséges a szoftver eltávolításához</message>
@@ -731,16 +763,19 @@
   <action id="org.freedesktop.packagekit.system-update">
     
     <description>Update software</description>
+    <description xml:lang="af">Werk sagteware by</description>
     <description xml:lang="ca">Actualitza el programari</description>
     <description xml:lang="cs">Aktualizovat softwar</description>
     <description xml:lang="da">Opdater programmer</description>
     <description xml:lang="de">Software aktualisieren</description>
     <description xml:lang="el">Ενημέρωση λογισμικού</description>
     <description xml:lang="en_GB">Update software</description>
+    <description xml:lang="eo">Ĝisdatigi programaron</description>
     <description xml:lang="es">Actualizar software</description>
     <description xml:lang="eu">Eguneratu softwarea</description>
     <description xml:lang="fi">Päivitä ohjelmisto</description>
     <description xml:lang="fr">Mettre à jour le logiciel</description>
+    <description xml:lang="fur">Inzorne software</description>
     <description xml:lang="gl">Anovar software</description>
     <description xml:lang="hr">Nadopuni softver</description>
     <description xml:lang="hu">Szoftver frissítése</description>
@@ -765,14 +800,16 @@
     <message>Authentication is required to update software</message>
     <message xml:lang="ca">Es requereix autenticació per actualitzar programari</message>
     <message xml:lang="cs">Pro aktualizaci softwaru je vyžadováno ověření</message>
-    <message xml:lang="da">Godkendelse er krævet for at opdatere programmer</message>
+    <message xml:lang="da">Godkendelse kræves for at opdatere programmer</message>
     <message xml:lang="de">Legitimation ist zum Aktualisieren von Software erforderlich</message>
     <message xml:lang="el">Απαιτείται πιστοποίηση για την ενημέρωση του λογισμικού</message>
     <message xml:lang="en_GB">Authentication is required to update software</message>
-    <message xml:lang="es">Se necesita autenticación para actualizar software</message>
+    <message xml:lang="eo">Necesas aŭtentigo por ĝisdatigi programaron</message>
+    <message xml:lang="es">Necesita autenticarse para actualizar software</message>
     <message xml:lang="eu">Autentifikazioa behar da softwarea eguneratzeko</message>
     <message xml:lang="fi">Ohjelmistojen päivittäminen vaatii tunnistautumisen</message>
     <message xml:lang="fr">Une authentification est nécessaire pour mettre à jour un logiciel</message>
+    <message xml:lang="fur">La autenticazion e je necessarie par inzornâ software</message>
     <message xml:lang="gl">Requírese autenticación para anovar software</message>
     <message xml:lang="hr">Potrebna je ovjera za nadopunu softvera</message>
     <message xml:lang="hu">Hitelesítés szükséges a szoftver frissítéséhez</message>
@@ -807,8 +844,13 @@
     <description>Change software repository parameters</description>
     <description xml:lang="ca">Canvia els paràmetres del dipòsit de sistema</description>
     <description xml:lang="cs">Změnit parametry repozitáře softwaru</description>
+    <description xml:lang="da">Skift parametre for programpakkearkiv</description>
     <description xml:lang="de">Parameter des Software-Repositoriums ändern</description>
     <description xml:lang="en_GB">Change software repository parameters</description>
+    <description xml:lang="es">Cambiar parámetros de repositorio de software</description>
+    <description xml:lang="eu">Aldatu software-biltegien parametroak</description>
+    <description xml:lang="fi">Muuta ohjelmistolähteen parametrit</description>
+    <description xml:lang="fur">Cambie i parametris dal dipuesit software</description>
     <description xml:lang="hr">Promijeni parametre repozitorija softvera</description>
     <description xml:lang="hu">Szoftvertároló-paraméterek módosítása</description>
     <description xml:lang="id">Ubah parameter repositori perangkat lunak</description>
@@ -825,8 +867,13 @@
     <message>Authentication is required to change software repository parameters</message>
     <message xml:lang="ca">Es requereix autenticació per canviar els paràmetres del dipòsit de programari</message>
     <message xml:lang="cs">Pro změnu parametrů repozitáře softwaru je vyžádováno ověření</message>
+    <message xml:lang="da">Godkendelse kræves for at skifte parametre for programpakkearkiv</message>
     <message xml:lang="de">Legitimation ist zur Änderung der Parameter zu den Software-Repositorien erforderlich</message>
     <message xml:lang="en_GB">Authentication is required to change software repository parameters</message>
+    <message xml:lang="es">Necesita autenticarse para cambiar los parámetros del repositorio de software</message>
+    <message xml:lang="eu">Autentifikazioa behar da software-biltegien parametroak aldatzeko</message>
+    <message xml:lang="fi">Todennus vaaditaan muuttaaksesi ohjelmiston parametreja</message>
+    <message xml:lang="fur">La autenticazion e je necessarie par cambiâ i parametris di un dipuesit software</message>
     <message xml:lang="hr">Potrebna je ovjera za promjenu parametara repozitorija softvera</message>
     <message xml:lang="hu">Hitelesítés szükséges a szoftvertároló-paraméterek módosításához</message>
     <message xml:lang="id">Otentikasi diperlukan untuk mengubah parameter repositori perangkat lunak</message>
@@ -853,8 +900,14 @@
     <description>Refresh system repositories</description>
     <description xml:lang="ca">Refresca els dipòsits del sistema</description>
     <description xml:lang="cs">Aktualizovat systémové repozitáře</description>
+    <description xml:lang="da">Opdater systempakkearkiver</description>
     <description xml:lang="de">System-Repositorien aktualisieren</description>
     <description xml:lang="en_GB">Refresh system repositories</description>
+    <description xml:lang="eo">Aktualigi sistem-deponejojn</description>
+    <description xml:lang="es">Actualizar repositorios del sistema</description>
+    <description xml:lang="eu">Freskatu sistemaren biltegiak</description>
+    <description xml:lang="fi">Päivitä järjestelmän ohjelmistolähteet</description>
+    <description xml:lang="fur">Inzorne i dipuesits di sisteme</description>
     <description xml:lang="hr">Osvježi repozitorije sustava</description>
     <description xml:lang="hu">Rendszertárolók frissítése</description>
     <description xml:lang="id">Segarkan repositori sistem</description>
@@ -871,8 +924,14 @@
     <message>Authentication is required to refresh the system repositories</message>
     <message xml:lang="ca">Es requereix autenticació per refrescar els dipòsits de sistema</message>
     <message xml:lang="cs">Pro aktualizaci systémových repozitářů je vyžadováno ověření</message>
+    <message xml:lang="da">Godkendelse kræves for at opdatere systempakkearkiverne</message>
     <message xml:lang="de">Legitimation ist zum Aktualisieren der System-Repositorien erforderlich</message>
     <message xml:lang="en_GB">Authentication is required to refresh the system repositories</message>
+    <message xml:lang="eo">Necesas aŭtentigo por aktualigi la sistem-deponejojn</message>
+    <message xml:lang="es">Necesita autenticarse para actualizar los repositorios del sistema</message>
+    <message xml:lang="eu">Autentifikazioa behar da sistemaren biltegiak freskatzeko</message>
+    <message xml:lang="fi">Ohjelmistolähteiden päivittäminen vaatii tunnistautumisen</message>
+    <message xml:lang="fur">La autenticazion e je necessarie par inzornâ i dipuesits di sisteme</message>
     <message xml:lang="hr">Potrebna je ovjera za osvježavanje repozitorija sustava</message>
     <message xml:lang="hu">Hitelesítés szükséges a rendszertárolók frissítéséhez</message>
     <message xml:lang="id">Otentikasi diperlukan untuk menyegarkan repositori sistem</message>
@@ -910,6 +969,7 @@
     <description xml:lang="eu">Ezarri sarearen proxy-a</description>
     <description xml:lang="fi">Aseta välipalvelin</description>
     <description xml:lang="fr">Configurer le proxy réseau</description>
+    <description xml:lang="fur">Stabilìs proxy di rêt</description>
     <description xml:lang="gl">Estabelecer o proxy da rede</description>
     <description xml:lang="gu">નેટવર્ક પ્રોક્સીને સુયોજિત કરો</description>
     <description xml:lang="he">הגדר שרת proxy</description>
@@ -948,14 +1008,15 @@
     <message>Authentication is required to set the network proxy used for downloading software</message>
     <message xml:lang="ca">Es requereix autenticació per establir el servidor intermediari de xarxa que s'utilitza per baixar el programari</message>
     <message xml:lang="cs">Pro nastavení síťové proxy, které se použije ke stažení softwaru, je vyžadováno ověření</message>
-    <message xml:lang="da">Godkendelse er krævet for at angive netværksproxy anvendt for overførsel af programmer</message>
+    <message xml:lang="da">Godkendelse kræves for at angive netværksproxy anvendt for overførsel af programmer</message>
     <message xml:lang="de">Legitimation ist zum Festlegen eines Netzwerk-Proxys zum Herunterladen von Software erforderlich</message>
     <message xml:lang="el">Απαιτείται πιστοποίηση για τον ορισμό του διαμεσολαβητή δικτύου που χρησιμοποιείται για τη λήψη λογισμικού</message>
     <message xml:lang="en_GB">Authentication is required to set the network proxy used for downloading software</message>
-    <message xml:lang="es">Se necesita autenticación para definir el proxy de red usado para descargar software</message>
+    <message xml:lang="es">Necesita autenticarse para definir el proxy de red usado para descargar software</message>
     <message xml:lang="eu">Autentifikazioa behar da softwarea deskargatzeko erabiliko den sare-proxya ezartzeko</message>
     <message xml:lang="fi">Verkon välityspalvelimen asettaminen ohjelmistojen latausta varten vaatii tunnistautumisen</message>
     <message xml:lang="fr">Une authentification est nécessaire pour configurer le serveur mandataire utilisé pour le téléchargement de logiciels</message>
+    <message xml:lang="fur">La autenticazion e je necessarie par stabilî il proxy di rêt doprât par discjariâ software</message>
     <message xml:lang="gl">Requírese autenticación para estabelecer un proxy de rede para usar para desactualizar software</message>
     <message xml:lang="hr">Potrebna je ovjera za postavljanje mrežnog proxya preuzimanja softvera</message>
     <message xml:lang="hu">Hitelesítés szükséges a szoftver letöltéséhez használt hálózati proxy beállításához</message>
@@ -997,10 +1058,12 @@
     <description xml:lang="de">Ein Gerät neu laden</description>
     <description xml:lang="el">Επαναφόρτωση μιας συσκευής</description>
     <description xml:lang="en_GB">Reload a device</description>
+    <description xml:lang="eo">Reŝargi aparaton</description>
     <description xml:lang="es">Recargar un dispositivo</description>
     <description xml:lang="eu">Birkargatu gailu bat</description>
     <description xml:lang="fi">Lataa laite uudelleen</description>
     <description xml:lang="fr">Recharger un périphérique</description>
+    <description xml:lang="fur">Torne cjarie un dispositîf</description>
     <description xml:lang="gl">Recargar un dispositivo</description>
     <description xml:lang="gu">ઉપકરણને પુન:લોડ કરો</description>
     <description xml:lang="he">טען התקן מחדש</description>
@@ -1045,10 +1108,11 @@
     <message xml:lang="de">Legitimation ist zum Laden des Geräts mit einem neuen Treiber erforderlich</message>
     <message xml:lang="el">Απαιτείται πιστοποίηση για την επαναφόρτωση της συσκευής με έναν νέο οδηγό</message>
     <message xml:lang="en_GB">Authentication is required to reload the device with a new driver</message>
-    <message xml:lang="es">Se necesita autenticación para recargar el dispositivo con un controlador nuevo</message>
+    <message xml:lang="es">Necesita autenticarse para recargar el dispositivo con un controlador nuevo</message>
     <message xml:lang="eu">Autentifikazioa behar da gailua kontrolagailu berri batekin birkargatzeko</message>
     <message xml:lang="fi">Laitteen liittäminen uudelleen uudella ajurilla vaatii tunnistautumisen</message>
     <message xml:lang="fr">Authentification requise pour redémarrer le périphérique avec un nouveau pilote</message>
+    <message xml:lang="fur">La autenticazion e je necessarie par tornâ a cjariâ il dispositîf cuntun gnûf driver</message>
     <message xml:lang="gl">Requírese a autenticación para recargar o dispositivo cun controlador novo</message>
     <message xml:lang="gu">નવા ડ્રાઇવર સાથે ઉપકરણને પુન:લોડ કરવા માટે તાજુ કરવા માટે સત્તાધિકરણ જરૂરી છે</message>
     <message xml:lang="he">אימות נדרש כדי לטעון מחדש התקן עם מנהל התקן חדש</message>
@@ -1095,15 +1159,19 @@
   <action id="org.freedesktop.packagekit.upgrade-system">
     
     <description>Upgrade System</description>
+    <description xml:lang="af">Gradeer stelsel op</description>
     <description xml:lang="br">Bremanaat ar reizhiad</description>
     <description xml:lang="ca">Actualització del sistema</description>
     <description xml:lang="cs">Povýšení systému</description>
     <description xml:lang="da">Opgrader system</description>
     <description xml:lang="de">System aktualisieren</description>
     <description xml:lang="en_GB">Upgrade System</description>
+    <description xml:lang="eo">Altgradigi sistemon</description>
+    <description xml:lang="es">Actualizar versión del sistema</description>
     <description xml:lang="eu">Eguneratu sistema</description>
     <description xml:lang="fi">Tee käyttöjärjestelmäpäivitys</description>
     <description xml:lang="fr">Mettre le système à niveau</description>
+    <description xml:lang="fur">Avanze di version il sisteme</description>
     <description xml:lang="hr">Nadogradi sustav</description>
     <description xml:lang="hu">Rendszer frissítése</description>
     <description xml:lang="id">Tingkatkan Sistem</description>
@@ -1125,12 +1193,14 @@
     <message>Authentication is required to upgrade the operating system</message>
     <message xml:lang="ca">Es requereix autenticació per actualitzar el sistema operatiu</message>
     <message xml:lang="cs">Pro povýšení operačního systému je vyžadováno ověření</message>
-    <message xml:lang="da">Godkendelse er krævet for at opgradere operativsystemet</message>
+    <message xml:lang="da">Godkendelse kræves for at opgradere operativsystemet</message>
     <message xml:lang="de">Legitimierung ist zum Aktualisieren des Betriebssystems notwendig</message>
     <message xml:lang="en_GB">Authentication is required to upgrade the operating system</message>
+    <message xml:lang="es">Necesita autenticarse para actualizar el sistema operativo</message>
     <message xml:lang="eu">Autentifikazioa behar da sistema eragilea bertsioz berritzeko</message>
     <message xml:lang="fi">Käyttöjärjestelmäpäivityksen tekeminen vaatii tunnistautumisen</message>
     <message xml:lang="fr">Une authentification est nécessaire pour mettre à niveau le système d'exploitation</message>
+    <message xml:lang="fur">La autenticazion e je necessarie par avanzâ di version il sisteme operatîf</message>
     <message xml:lang="hr">Potrebna je ovjera za nadogradnju operativnog sustava</message>
     <message xml:lang="hu">Hitelesítés szükséges az operációs rendszer frissítéséhez</message>
     <message xml:lang="id">Otentikasi diperlukan untuk meningkatkan sistem operasi</message>
@@ -1160,6 +1230,7 @@
   <action id="org.freedesktop.packagekit.repair-system">
     
     <description>Repair System</description>
+    <description xml:lang="af">Herstel stelsel</description>
     <description xml:lang="br">Pareañ ar reizhiad</description>
     <description xml:lang="ca">Repara el sistema</description>
     <description xml:lang="cs">Opravit systém</description>
@@ -1172,6 +1243,7 @@
     <description xml:lang="eu">Konpondu sistema</description>
     <description xml:lang="fi">Korjaa järjestelmä</description>
     <description xml:lang="fr">Réparer le système</description>
+    <description xml:lang="fur">Comede il sisteme</description>
     <description xml:lang="gl">Reparar o sistema</description>
     <description xml:lang="he">תיקון המערכת</description>
     <description xml:lang="hr">Popravi sustav</description>
@@ -1199,14 +1271,15 @@
     <message>Authentication is required to repair the installed software</message>
     <message xml:lang="ca">Es requereix autenticació per reparar el programari instal·lat</message>
     <message xml:lang="cs">Pro opravu nainstalovaného softwaru je vyžadováno ověření</message>
-    <message xml:lang="da">Godkendelse er krævet for at reparere det installerede software</message>
+    <message xml:lang="da">Godkendelse kræves for at reparere det installerede software</message>
     <message xml:lang="de">Legitimation ist zum Reparieren der installierten Software erforderlich</message>
     <message xml:lang="el">Απαιτείται πιστοποίηση για την επιδιόρθωση του εγκατεστημένου λογισμικού</message>
     <message xml:lang="en_GB">Authentication is required to repair the installed software</message>
-    <message xml:lang="es">Se necesita autenticación para reparar el software instalado</message>
+    <message xml:lang="es">Necesita autenticarse para reparar el software instalado</message>
     <message xml:lang="eu">Autentifikatzea derrigorrezkoa da instalatutako softwarea konpontzeko</message>
     <message xml:lang="fi">Asennettujen ohjelmistojen korjaus vaatii tunnistautumisen</message>
     <message xml:lang="fr">Il est nécessaire d'être authentifié pour réparer les logiciels installés</message>
+    <message xml:lang="fur">La autenticazion e je necessarie par comedâ il software instalât</message>
     <message xml:lang="gl">É preciso autenticarse para reparar o software instalado</message>
     <message xml:lang="hr">Potrebna je ovjera za popravak instaliranog softvera</message>
     <message xml:lang="hu">Hitelesítés szükséges a telepített szoftverek javításához</message>
@@ -1249,7 +1322,9 @@
     <description xml:lang="en_GB">Trigger offline updates</description>
     <description xml:lang="es">Iniciar actualizaciones en modo desconectado</description>
     <description xml:lang="eu">Abiarazi lineaz kanpoko eguneraketak</description>
+    <description xml:lang="fi">Käynnistä offline-päivitykset</description>
     <description xml:lang="fr">Lancer des mises à jour hors ligne</description>
+    <description xml:lang="fur">Fâs tacâ i inzornaments fûr rêt</description>
     <description xml:lang="gl">Disparar anovacións fóra de liña</description>
     <description xml:lang="hr">Pokreni izvanmrežnu nadopunu</description>
     <description xml:lang="hu">Kapcsolat nélküli frissítés kezdeményezése</description>
@@ -1276,14 +1351,15 @@
     <message>Authentication is required to trigger offline updates</message>
     <message xml:lang="ca">Es requereix autenticació per disparar les actualitzacions sense connexió</message>
     <message xml:lang="cs">Pro spuštění aktualizací bez připojení k síti je vyžadováno ověření</message>
-    <message xml:lang="da">Godkendelse er krævet for at udløse offline-opdateringer</message>
+    <message xml:lang="da">Godkendelse kræves for at udløse offline-opdateringer</message>
     <message xml:lang="de">Legitimation ist zum Anstoßen von Offline-Aktualisierungen erforderlich</message>
     <message xml:lang="el">Απαιτείται πιστοποίηση για την ενεργοποίηση ενημερώσεων εκτός σύνδεσης</message>
     <message xml:lang="en_GB">Authentication is required to trigger offline updates</message>
-    <message xml:lang="es">Se necesita autenticación para iniciar actualizaciones en modo desconectado</message>
+    <message xml:lang="es">Necesita autenticarse para iniciar actualizaciones en modo sin conexión</message>
     <message xml:lang="eu">Autentifikatzea derrigorrezkoa da lineaz kanpoko eguneraketak abiarazteko</message>
     <message xml:lang="fi">Tunnistautuminen vaaditaan päivitysten käynnistämiseksi yhteydettömässä tilassa</message>
     <message xml:lang="fr">Il est nécessaire d'être authentifié pour lancer des mises à jour hors ligne</message>
+    <message xml:lang="fur">La autenticazion e je necessarie par fâ partî i inzornaments fûr rêt</message>
     <message xml:lang="gl">Requírese autenticación para disparar as anovacións fóra de liña</message>
     <message xml:lang="hr">Potrebna je ovjera za pokretanje izvanmrežne nadopune</message>
     <message xml:lang="hu">Hitelesítés szükséges a kapcsolat nélküli frissítés kezdeményezéséhez</message>
@@ -1326,7 +1402,9 @@
     <description xml:lang="en_GB">Trigger offline updates</description>
     <description xml:lang="es">Iniciar actualizaciones en modo desconectado</description>
     <description xml:lang="eu">Abiarazi lineaz kanpoko eguneraketak</description>
+    <description xml:lang="fi">Käynnistä offline-päivitykset</description>
     <description xml:lang="fr">Lancer des mises à jour hors ligne</description>
+    <description xml:lang="fur">Fâs tacâ i inzornaments fûr rêt</description>
     <description xml:lang="gl">Disparar anovacións fóra de liña</description>
     <description xml:lang="hr">Pokreni izvanmrežnu nadopunu</description>
     <description xml:lang="hu">Kapcsolat nélküli frissítés kezdeményezése</description>
@@ -1353,14 +1431,15 @@
     <message>Authentication is required to trigger offline updates</message>
     <message xml:lang="ca">Es requereix autenticació per disparar les actualitzacions sense connexió</message>
     <message xml:lang="cs">Pro spuštění aktualizací bez připojení k síti je vyžadováno ověření</message>
-    <message xml:lang="da">Godkendelse er krævet for at udløse offline-opdateringer</message>
+    <message xml:lang="da">Godkendelse kræves for at udløse offline-opdateringer</message>
     <message xml:lang="de">Legitimation ist zum Anstoßen von Offline-Aktualisierungen erforderlich</message>
     <message xml:lang="el">Απαιτείται πιστοποίηση για την ενεργοποίηση ενημερώσεων εκτός σύνδεσης</message>
     <message xml:lang="en_GB">Authentication is required to trigger offline updates</message>
-    <message xml:lang="es">Se necesita autenticación para iniciar actualizaciones en modo desconectado</message>
+    <message xml:lang="es">Necesita autenticarse para iniciar actualizaciones en modo sin conexión</message>
     <message xml:lang="eu">Autentifikatzea derrigorrezkoa da lineaz kanpoko eguneraketak abiarazteko</message>
     <message xml:lang="fi">Tunnistautuminen vaaditaan päivitysten käynnistämiseksi yhteydettömässä tilassa</message>
     <message xml:lang="fr">Il est nécessaire d'être authentifié pour lancer des mises à jour hors ligne</message>
+    <message xml:lang="fur">La autenticazion e je necessarie par fâ partî i inzornaments fûr rêt</message>
     <message xml:lang="gl">Requírese autenticación para disparar as anovacións fóra de liña</message>
     <message xml:lang="hr">Potrebna je ovjera za pokretanje izvanmrežne nadopune</message>
     <message xml:lang="hu">Hitelesítés szükséges a kapcsolat nélküli frissítés kezdeményezéséhez</message>
@@ -1403,7 +1482,9 @@
     <description xml:lang="en_GB">Clear offline update message</description>
     <description xml:lang="es">Limpiar el mensaje de actualización en modo desconectado</description>
     <description xml:lang="eu">Garbitu lineaz kanpoko eguneraketa-mezua</description>
+    <description xml:lang="fi">Poista offline-päivitysviesti</description>
     <description xml:lang="fr">Effacer le message de mise à jour hors ligne</description>
+    <description xml:lang="fur">Nete il messaç di inzornament fûr rêt</description>
     <description xml:lang="gl">Limpar mensaxe de anovacións fóra de liña</description>
     <description xml:lang="hr">Ukloni poruku izvanmrežne nadopune</description>
     <description xml:lang="hu">Kapcsolat nélküli frissítés üzenet törlése</description>
@@ -1430,13 +1511,15 @@
     <message>Authentication is required to clear the offline updates message</message>
     <message xml:lang="ca">Es requereix autenticació per netejar els missatges de les actualitzacions sense connexió</message>
     <message xml:lang="cs">Pro vymazání zprávy o aktualizaci provedené bez připojení k síti je vyžadováno ověření</message>
-    <message xml:lang="da">Godkendelse er krævet for at rydde den offline-opdateringsbesked</message>
+    <message xml:lang="da">Godkendelse kræves for at rydde den offline-opdateringsbesked</message>
     <message xml:lang="de">Legitimation ist zum Löschen der Nachricht für Offline-Aktualisierungen notwendig</message>
     <message xml:lang="el">Απαιτείται πιστοποίηση για την εκκαθάριση μηνύματος ενημερώσεων εκτός σύνδεσης</message>
     <message xml:lang="en_GB">Authentication is required to clear the offline updates message</message>
-    <message xml:lang="es">Se necesita autenticación para limpiar el mensaje de actualizaciones en modo desconectado</message>
+    <message xml:lang="es">Necesita autenticarse para vaciar el mensaje de actualizaciones en modo sin conexión</message>
     <message xml:lang="eu">Autentifikatzea derrigorrezkoa da lineaz kanpoko eguneraketa-mezuak garbitzeko</message>
+    <message xml:lang="fi">Todennus vaaditaan offline-päivitysten poistamiseksi</message>
     <message xml:lang="fr">Il est nécessaire d'être authentifié pour effacer le message de mise à jour hors ligne</message>
+    <message xml:lang="fur">La autenticazion e je necessarie par netâ il messaç di inzornament fûr rêt</message>
     <message xml:lang="gl">Requírese autenticación para limpar a mensaxe de anovacións fóra de liña</message>
     <message xml:lang="hr">Potrebna je ovjera za uklanjanje poruke izvanmrežne nadopune</message>
     <message xml:lang="hu">Hitelesítés szükséges a kapcsolat nélküli frissítés üzenet törléséhez</message>
