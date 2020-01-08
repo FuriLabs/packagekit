@@ -1,3 +1,26 @@
+packagekit (1.1.13-1) unstable; urgency=medium
+
+  * New upstream version 1.1.13
+    - also generate a repo detail when a download happened
+    - Completely remove distro-upgrade support for now
+    - Disable distro-upgrade functionality (for now)
+    - Introduce socket-activated pk-debconf-helper
+    - Add support for user services
+    - Use new plymouth "system-upgrade" and "reboot" modes
+    - Do not dereference pk-client-helper argument before checking it
+    - List installed, removed and obsoleted packages in pkcon get-updates
+    - Properly mark obsoleted packages when simulating upgrade
+    - Support non-x86 arches in gstreamer helper
+    - Don't use a bash regex to fix command not found on other shells
+  * Switch to dh compat level 12
+  * Remove debug symbol migration: No longer needed
+  * Drop all bugfix patches: Applied upstream
+  * add-missing-pk-debconf-service-files.patch: Add missing service files
+  * Update install file for new release
+  * Update symbols
+
+ -- Matthias Klumpp <mak@debian.org>  Wed, 08 Jan 2020 22:34:06 +0100
+
 packagekit (1.1.12-5) unstable; urgency=medium
 
   * Fix FTBFS on !amd64 architectures by removing the
