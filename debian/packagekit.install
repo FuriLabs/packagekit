@@ -7,7 +7,9 @@ lib/systemd/system/*
 usr/lib/*/packagekit-backend/*
 usr/lib/packagekit/packagekit-direct
 usr/lib/packagekit/packagekitd
+usr/lib/packagekit/pk-debconf-helper
 usr/lib/packagekit/pk-offline-update
+usr/lib/systemd/user/pk-debconf-helper.*
 usr/share/PackageKit/helpers/aptcc/*
 usr/share/PackageKit/helpers/test_spawn/*
 usr/share/dbus-1/interfaces

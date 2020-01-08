@@ -46,7 +46,8 @@ Breaks: libpackagekit-glib2-14 (<= 0.7.6-4),
         packagekit-backend-smart (<< 1.0),
         packagekit-offline-update (<< 1.0),
         packagekit-plugin-click (<= 0.3.1)
-Recommends: packagekit-tools
+Recommends: packagekit-tools,
+            systemd
 Suggests: appstream
 Description: Provides a package management service
  PackageKit allows performing simple software management tasks over a DBus
