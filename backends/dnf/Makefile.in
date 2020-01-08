@@ -228,6 +228,7 @@ APPSTREAM_CFLAGS = @APPSTREAM_CFLAGS@
 APPSTREAM_LIBS = @APPSTREAM_LIBS@
 APTCC_CFLAGS = @APTCC_CFLAGS@
 APTCC_LIBS = @APTCC_LIBS@
+APTINST_LIBS = @APTINST_LIBS@
 AR = @AR@
 AUTOCONF = @AUTOCONF@
 AUTOHEADER = @AUTOHEADER@
@@ -265,6 +266,8 @@ ECHO_C = @ECHO_C@
 ECHO_N = @ECHO_N@
 ECHO_T = @ECHO_T@
 EGREP = @EGREP@
+ELOGIND_CFLAGS = @ELOGIND_CFLAGS@
+ELOGIND_LIBS = @ELOGIND_LIBS@
 EXEEXT = @EXEEXT@
 FGREP = @FGREP@
 GETTEXT_PACKAGE = @GETTEXT_PACKAGE@
@@ -374,6 +377,8 @@ PK_PLUGIN_CFLAGS = @PK_PLUGIN_CFLAGS@
 PK_PLUGIN_DIR = @PK_PLUGIN_DIR@
 PK_PLUGIN_LIBS = @PK_PLUGIN_LIBS@
 PK_VERSION = @PK_VERSION@
+PLYMOUTH_0_9_5_CFLAGS = @PLYMOUTH_0_9_5_CFLAGS@
+PLYMOUTH_0_9_5_LIBS = @PLYMOUTH_0_9_5_LIBS@
 POFILES = @POFILES@
 POLDEK_CFLAGS = @POLDEK_CFLAGS@
 POLDEK_LIBS = @POLDEK_LIBS@
@@ -473,6 +478,7 @@ sharedstatedir = @sharedstatedir@
 srcdir = @srcdir@
 sysconfdir = @sysconfdir@
 systemdsystemunitdir = @systemdsystemunitdir@
+systemduserunitdir = @systemduserunitdir@
 target_alias = @target_alias@
 top_build_prefix = @top_build_prefix@
 top_builddir = @top_builddir@
@@ -482,7 +488,8 @@ plugin_LTLIBRARIES = libpk_backend_dnf.la
 EXTRA_DIST = \
 	dnf-backend-vendor-fedora.c					\
 	dnf-backend-vendor-mageia.c					\
-	dnf-backend-vendor-openmandriva.c
+	dnf-backend-vendor-openmandriva.c				\
+	dnf-backend-vendor-rosa.c
 
 libpk_backend_dnf_la_SOURCES = \
 	dnf-backend-vendor.h						\

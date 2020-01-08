@@ -35,7 +35,6 @@
 #include "pkg-list.h"
 #include "apt-sourceslist.h"
 
-#define PREUPGRADE_BINARY    "/usr/bin/do-release-upgrade"
 #define REBOOT_REQUIRED      "/var/run/reboot-required"
 
 class pkgProblemResolver;
@@ -147,7 +146,7 @@ public:
       * Returns a list of all packages that can be updated
       * Pass a PkgList to get the blocked updates as well
       */
-    PkgList getUpdates(PkgList &blocked, PkgList &downgrades);
+    PkgList getUpdates(PkgList &blocked, PkgList &downgrades, PkgList &installs, PkgList &removals, PkgList &obsoleted);
 
     /**
      *  Emits a package with the given state

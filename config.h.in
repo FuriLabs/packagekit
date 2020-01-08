@@ -50,9 +50,6 @@
 /* Define if your <locale.h> file defines LC_MESSAGES. */
 #undef HAVE_LC_MESSAGES
 
-/* Define to 1 if you have the `apt-inst' library (-lapt-inst). */
-#undef HAVE_LIBAPT_INST
-
 /* Define to 1 if you have the `apt-pkg' library (-lapt-pkg). */
 #undef HAVE_LIBAPT_PKG
 
@@ -82,6 +79,9 @@
 
 /* Build systemd code */
 #undef HAVE_SYSTEMD
+
+/* Build systemd-login code */
+#undef HAVE_SYSTEMD_SD_LOGIN_H
 
 /* Define to 1 if you have the <sys/stat.h> header file. */
 #undef HAVE_SYS_STAT_H
@@ -124,6 +124,9 @@
 
 /* Enable the daemon tests */
 #undef PK_ENABLE_DAEMON_TESTS
+
+/* Define as 1 if you have plymouth >= 0.9.5 */
+#undef PLYMOUTH_0_9_5
 
 /* Define to 1 if you have the ANSI C header files. */
 #undef STDC_HEADERS

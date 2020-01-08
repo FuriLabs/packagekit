@@ -11,23 +11,23 @@ command_not_found_handle () {
 	local retval=127
 
 	# only search for the command if we're interactive
-	[[ $- =~ i ]] || runcnf=0
+	[[ $- == *"i"* ]] || runcnf=0
 
 	# don't run if DBus isn't running
 	[[ ! -S /run/dbus/system_bus_socket ]] && runcnf=0
 
 	# don't run if packagekitd doesn't exist in the _system_ root
-	[[ ! -x '/usr/local/libexec/packagekitd' ]] && runcnf=0
+	[[ ! -x '/home/hughsie/.root/libexec/packagekitd' ]] && runcnf=0
 
 	# don't run if bash command completion is being run
 	[[ -n ${COMP_CWORD-} ]] && runcnf=0
 	
 	# don't run if we've been uninstalled since the shell was launched
-	[[ ! -x '/usr/local/libexec/pk-command-not-found' ]] && runcnf=0
+	[[ ! -x '/home/hughsie/.root/libexec/pk-command-not-found' ]] && runcnf=0
 
 	# run the command, or just print a warning
 	if [ $runcnf -eq 1 ]; then
-		'/usr/local/libexec/pk-command-not-found' "$@"
+		'/home/hughsie/.root/libexec/pk-command-not-found' "$@"
 		retval=$?
 	elif [[ -n "${BASH_VERSION-}" ]]; then
 		printf >&2 'bash: %scommand not found\n' "${1:+$1: }"
@@ -39,6 +39,6 @@ command_not_found_handle () {
 
 if [[ -n "${ZSH_VERSION-}" ]]; then
 	command_not_found_handler () {
-		command_not_found_handle "$@" && return 127
+		command_not_found_handle "$@"
 	}
 fi

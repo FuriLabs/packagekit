@@ -30,7 +30,7 @@
  */
 #define PK_MAJOR_VERSION				(1)
 #define PK_MINOR_VERSION				(1)
-#define PK_MICRO_VERSION				(12)
+#define PK_MICRO_VERSION				(13)
 
 /* check whether a PackageKit version equal to or greater than
  * major.minor.micro.
