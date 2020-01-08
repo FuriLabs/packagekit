@@ -1,1 +1,2 @@
 policy.diff
+01_add-missing-pk-debconf-service-files.patch
