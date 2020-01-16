@@ -1,2 +1,3 @@
 policy.diff
 01_add-missing-pk-debconf-service-files.patch
+02_aptcc-fix-locale-set.patch
