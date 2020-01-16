@@ -1,3 +1,9 @@
+packagekit (1.1.13-2) unstable; urgency=medium
+
+  * aptcc-fix-locale-set.patch: Set locale properly when performing requests
+
+ -- Matthias Klumpp <mak@debian.org>  Thu, 16 Jan 2020 21:51:56 +0100
+
 packagekit (1.1.13-1) unstable; urgency=medium
 
   * New upstream version 1.1.13
