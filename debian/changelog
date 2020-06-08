@@ -1,3 +1,10 @@
+packagekit (1.1.13-3) UNRELEASED; urgency=medium
+
+  * Do not try to install pk-debconf-helper on non-linux architectures
+    (Closes: #952872)
+
+ -- Laurent Bigonville <bigon@debian.org>  Mon, 08 Jun 2020 13:44:59 +0200
+
 packagekit (1.1.13-2) unstable; urgency=medium
 
   * aptcc-fix-locale-set.patch: Set locale properly when performing requests
