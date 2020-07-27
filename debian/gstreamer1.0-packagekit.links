@@ -1,1 +1,1 @@
-usr/lib/packagekit/pk-gstreamer-install usr/lib/gst-install-plugins-helper
+usr/libexec/pk-gstreamer-install usr/libexec/gst-install-plugins-helper

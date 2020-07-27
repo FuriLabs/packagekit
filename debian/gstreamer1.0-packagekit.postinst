@@ -4,7 +4,7 @@ set -e
 
 update-alternatives --install /usr/bin/gstreamer-codec-install \
 		    gstreamer-codec-install \
-		    /usr/lib/packagekit/pk-gstreamer-install 80 || true
+		    /usr/libexec/pk-gstreamer-install 80 || true
 
 #DEBHELPER#
 

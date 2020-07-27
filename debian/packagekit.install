@@ -5,10 +5,10 @@ etc/apt/apt.conf.d/20packagekit
 etc/dbus-1/system.d/org.freedesktop.PackageKit.conf
 lib/systemd/system/*
 usr/lib/*/packagekit-backend/*
-usr/lib/packagekit/packagekit-direct
-usr/lib/packagekit/packagekitd
-usr/lib/packagekit/pk-debconf-helper
-usr/lib/packagekit/pk-offline-update
+usr/libexec/packagekit-direct
+usr/libexec/packagekitd
+usr/libexec/pk-debconf-helper
+usr/libexec/pk-offline-update
 usr/lib/systemd/user/pk-debconf-helper.*
 usr/share/PackageKit/helpers/aptcc/*
 usr/share/PackageKit/helpers/test_spawn/*

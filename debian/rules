@@ -5,8 +5,7 @@ DEB_HOST_ARCH_OS ?= $(shell dpkg-architecture -qDEB_HOST_ARCH_OS)
 DEB_HOST_MULTIARCH ?= $(shell dpkg-architecture -qDEB_HOST_MULTIARCH)
 
 # Use this variable to set the PackageKit configure flags
-PK_CONFIGURE_FLAGS = --libexecdir=/usr/lib/packagekit \
-		--disable-static \
+PK_CONFIGURE_FLAGS = --disable-static \
 		--disable-local \
 		--disable-silent-rules \
 		--disable-cron \
