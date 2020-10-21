@@ -43,7 +43,6 @@
 #include <gmodule.h>
 #include <pk-backend.h>
 #include <pk-shared.h>
-#define I_KNOW_THE_PACKAGEKIT_GLIB2_API_IS_SUBJECT_TO_CHANGE
 #include <packagekit-glib2/packagekit.h>
 #include <packagekit-glib2/pk-enum.h>
 
@@ -1838,6 +1837,8 @@ pk_backend_destroy (PkBackend *backend)
 {
 	g_debug ("zypp_backend_destroy");
 
+	filesystem::recursive_rmdir (zypp::myTmpDir ());
+
 	g_free (_repoName);
 	delete priv;
 }
@@ -2786,12 +2787,7 @@ backend_install_packages_thread (PkBackendJob *job, GVariant *params, gpointer u
 			if (relations[i] == EQUAL_VERSION &&
 			    !pk_bitfield_contain (transaction_flags,
 						  PK_TRANSACTION_FLAG_ENUM_ALLOW_REINSTALL)) {
-				g_autofree gchar *printable_tmp = pk_package_id_to_printable (package_ids[i]);
-				pk_backend_job_error_code (job,
-							   PK_ERROR_ENUM_PACKAGE_ALREADY_INSTALLED,
-							   "%s is already installed",
-							   printable_tmp);
-				return;
+				continue;
 			}
 
 			if (relations[i] == OLDER_VERSION &&
@@ -3417,6 +3413,33 @@ pk_backend_get_packages (PkBackend *backend, PkBackendJob *job, PkBitfield filte
 }
 
 static void
+upgrade_system (PkBackendJob *job,
+		ZYpp::Ptr zypp,
+		PkBitfield transaction_flags)
+{
+	set<PoolItem> candidates;
+
+	/* refresh the repos before checking for updates. */
+	if (!zypp_refresh_cache (job, zypp, FALSE)) {
+		return;
+	}
+	zypp_get_updates (job, zypp, candidates);
+	if (candidates.empty ()) {
+		pk_backend_job_error_code (job, PK_ERROR_ENUM_NO_DISTRO_UPGRADE_DATA,
+					   "No Distribution Upgrade Available.");
+
+		return;
+	}
+
+	zypp->resolver ()->dupSetAllowVendorChange (ZConfig::instance ().solver_dupAllowVendorChange ());
+	zypp->resolver ()->doUpgrade ();
+
+	zypp_perform_execution (job, zypp, UPGRADE_SYSTEM, FALSE, transaction_flags);
+
+	zypp->resolver ()->setUpgradeMode (FALSE);
+}
+
+static void
 backend_update_packages_thread (PkBackendJob *job, GVariant *params, gpointer user_data)
 {
 	MIL << endl;
@@ -3433,17 +3456,14 @@ backend_update_packages_thread (PkBackendJob *job, GVariant *params, gpointer us
 		return;
 	}
 
-	if (is_tumbleweed ()) {
-		zypp_backend_finished_error (job,
-					     PK_ERROR_ENUM_NOT_SUPPORTED,
-					     "This product requires to be updated by calling 'pkcon upgrade-system'");
-		return;
-	}
-
 	ResPool pool = zypp_build_pool (zypp, TRUE);
 	PkRestartEnum restart = PK_RESTART_ENUM_NONE;
-
 	PoolStatusSaver saver;
+
+	if (is_tumbleweed ()) {
+		upgrade_system (job, zypp, transaction_flags);
+		return;
+	}
 
 	for (guint i = 0; package_ids[i]; i++) {
 		sat::Solvable solvable = zypp_get_package_by_id (package_ids[i]);
@@ -3482,12 +3502,6 @@ backend_update_packages_thread (PkBackendJob *job, GVariant *params, gpointer us
 	}
 
 	zypp_perform_execution (job, zypp, UPDATE, FALSE, transaction_flags);
-
-	/* Don't reset upgrade mode if we're simulating the changes. Only reset
-	 * it after the real actions has been done. */
-	if (!pk_bitfield_contain (transaction_flags, PK_TRANSACTION_FLAG_ENUM_SIMULATE)) {
-		zypp->resolver()->setUpgradeMode(FALSE);
-	}
 }
 
 /**
@@ -3497,61 +3511,6 @@ void
 pk_backend_update_packages (PkBackend *backend, PkBackendJob *job, PkBitfield transaction_flags, gchar **package_ids)
 {
 	pk_backend_job_thread_create (job, backend_update_packages_thread, NULL, NULL);
-}
-
-static void
-backend_upgrade_system_thread (PkBackendJob *job,
-			       GVariant *params,
-			       gpointer user_data)
-{
-	PkBitfield transaction_flags = 0;
-	ZyppJob zjob (job);
-	set<PoolItem> candidates;
-
-	g_variant_get (params, "(t&su)",
-		       &transaction_flags,
-		       NULL,
-		       NULL);
-
-	ZYpp::Ptr zypp = zjob.get_zypp ();
-	if (zypp == NULL) {
-		return;
-	}
-
-	/* refresh the repos before checking for updates. */
-	if (!zypp_refresh_cache (job, zypp, FALSE)) {
-		return;
-	}
-	zypp_build_pool (zypp, TRUE);
-	zypp_get_updates (job, zypp, candidates);
-	if (candidates.empty ()) {
-		pk_backend_job_error_code (job, PK_ERROR_ENUM_NO_DISTRO_UPGRADE_DATA,
-					   "No Distribution Upgrade Available.");
-
-		return;
-	}
-
-	zypp->resolver ()->dupSetAllowVendorChange (ZConfig::instance ().solver_dupAllowVendorChange ());
-	zypp->resolver ()->doUpgrade ();
-
-	PoolStatusSaver saver;
-
-	zypp_perform_execution (job, zypp, UPGRADE_SYSTEM, FALSE, transaction_flags);
-
-	zypp->resolver ()->setUpgradeMode (FALSE);
-}
-
-/**
-  * pk_backend_upgrade_system
-  */
-void
-pk_backend_upgrade_system (PkBackend *backend,
-			   PkBackendJob *job,
-			   PkBitfield transaction_flags,
-			   const gchar *distro_id,
-			   PkUpgradeKindEnum upgrade_kind)
-{
-   pk_backend_job_thread_create (job, backend_upgrade_system_thread, NULL, NULL);
 }
 
 static void
