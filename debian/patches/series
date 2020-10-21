@@ -3,3 +3,4 @@ policy.diff
 02_aptcc-build-debconfhelper.patch
 03_aptcc-CVE-2020-16122.patch
 04_fix-CVE-2020-16121.patch
+05_test-install-missing-files.patch
