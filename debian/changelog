@@ -1,10 +1,31 @@
-packagekit (1.1.13-3) UNRELEASED; urgency=medium
+packagekit (1.2.1-1) unstable; urgency=medium
 
+  [ Matthias Klumpp ]
+  * New upstream version: 1.2.1
+  * Drop all previous patches: Applied upstream.
+  * Add aptcc-use-pkgconfig.patch: Fix build with newer APT versions,
+    and simplify dependency on apt-pkg .
+  * Add aptcc-build-debconfhelper.patch: Build debconf socket-activated
+    helper again now that PK builds with Meson.
+  * Add aptcc-CVE-2020-16122.patch: Always distrust local .deb packages
+  * Add fix-CVE-2020-16121.patch: Resolve information disclosure in
+    InstallFiles, GetFilesLocal and GetDetailsLocal (Closes: #972229)
+  * Add test-install-missing-files.patch: Install some missing files used
+    by the test backend that have been forgotten in the Meson transition.
+  * Adjust packaging for using the Meson build system
+  * Cleanup d/rules, a lot of files we previously removed are gone now
+    by upstream default
+  * d/control: Update dependencies for new release
+  * Drop build-dep on xmlto and docbook-utils (no longer needed)
+  * Remove last remnants of the GTK+2 plugin (Closes: #967678)
+  * Update .symbols file
+
+  [ Laurent Bigonville ]
   * Do not try to install pk-debconf-helper on non-linux architectures
     (Closes: #952872)
-  * Move the daemons to /usr/libexec
+  * Move daemon and helper binaries to /usr/libexec
 
- -- Laurent Bigonville <bigon@debian.org>  Mon, 27 Jul 2020 13:07:30 +0200
+ -- Matthias Klumpp <mak@debian.org>  Wed, 21 Oct 2020 18:26:38 +0200
 
 packagekit (1.1.13-2) unstable; urgency=medium
 
