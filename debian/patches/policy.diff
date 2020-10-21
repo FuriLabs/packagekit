@@ -15,8 +15,8 @@ Last-Update: 2012-08-14
 +          - Users need authentication to install packages
 +            from signed repositories.
       -->
-     <_description>Install signed package</_description>
-     <_message>Authentication is required to install software</_message>
+     <description>Install signed package</description>
+     <message>Authentication is required to install software</message>
 @@ -96,7 +94,7 @@
      <defaults>
        <allow_any>auth_admin</allow_any>
@@ -61,7 +61,7 @@ Last-Update: 2012-08-14
 +          - Administrators are able to ask updates to be installed at
              early boot time without a password.
       -->
-     <_description>Trigger offline updates</_description>
+     <description>Trigger offline updates</description>
 @@ -282,7 +280,7 @@
      <defaults>
        <allow_any>auth_admin</allow_any>
