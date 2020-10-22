@@ -19,7 +19,7 @@ PK_CONFIGURE_FLAGS = -Dpackaging_backend=aptcc \
 			-Dpython_backend=false
 
 ifneq ($(DEB_HOST_ARCH_OS), linux)
-	PK_CONFIGURE_FLAGS += -Dsystemd=false
+	PK_CONFIGURE_FLAGS += -Dsystemd=false -Doffline_update=false
 endif
 
 LDFLAGS += -Wl,--as-needed
