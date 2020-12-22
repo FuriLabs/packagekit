@@ -1,3 +1,13 @@
+packagekit (1.2.2-1) unstable; urgency=medium
+
+  * New upstream version: 1.2.2
+  * Unconditionally disable offline-updates on non-Linux architectures
+  * Drop all patches: Applied upstream
+  * Add no-crash-pk_dbus_get_uid.patch: Don't crash when calling
+    pk_dbus_get_uid() before D-Bus is set up (Closes: #974826).
+
+ -- Matthias Klumpp <mak@debian.org>  Tue, 22 Dec 2020 12:48:56 +0100
+
 packagekit (1.2.1-1) unstable; urgency=medium
 
   [ Matthias Klumpp ]
