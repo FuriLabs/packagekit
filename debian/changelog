@@ -1,11 +1,12 @@
-packagekit (1.2.2-2) UNRELEASED; urgency=medium
+packagekit (1.2.2-2) unstable; urgency=medium
 
-  * debian/control: Build-Dependis against libplymouth-dev (>= 0.9.5) and
+  [ Laurent Bigonville ]
+  * debian/control: Build-Depend on libplymouth-dev (>= 0.9.5) and
     Breaks against previous version of the plymouth package
   * debian/packagekit.links: Ensure that the packagekit-offline-update service
     is started in the system-update.target.wants target (Closes: #977876)
 
- -- Laurent Bigonville <bigon@debian.org>  Tue, 22 Dec 2020 11:05:01 +0100
+ -- Matthias Klumpp <mak@debian.org>  Tue, 22 Dec 2020 22:14:10 +0100
 
 packagekit (1.2.2-1) unstable; urgency=medium
 
