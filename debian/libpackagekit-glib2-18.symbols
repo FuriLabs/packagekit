@@ -100,6 +100,7 @@ libpackagekit-glib2.so.18 libpackagekit-glib2-18 #MINVER#
  pk_client_set_cache_age@Base 0.9.4
  pk_client_set_interactive@Base 0.9.4
  pk_client_set_locale@Base 0.9.4
+ pk_client_state_get_type@Base 1.2.4
  pk_client_update_packages@Base 0.9.4
  pk_client_update_packages_async@Base 0.9.4
  pk_client_upgrade_system@Base 1.0.11
@@ -145,6 +146,7 @@ libpackagekit-glib2.so.18 libpackagekit-glib2-18 #MINVER#
  pk_desktop_new@Base 0.9.4
  pk_desktop_open_database@Base 0.9.4
  pk_details_get_description@Base 0.9.4
+ pk_details_get_download_size@Base 1.2.4
  pk_details_get_group@Base 0.9.4
  pk_details_get_license@Base 0.9.4
  pk_details_get_package_id@Base 0.9.4
@@ -256,6 +258,7 @@ libpackagekit-glib2.so.18 libpackagekit-glib2-18 #MINVER#
  pk_package_get_name@Base 0.9.4
  pk_package_get_summary@Base 0.9.4
  pk_package_get_type@Base 0.9.4
+ pk_package_get_update_severity@Base 1.2.4
  pk_package_get_version@Base 0.9.4
  pk_package_id_build@Base 0.9.4
  pk_package_id_check@Base 0.9.4
@@ -303,6 +306,7 @@ libpackagekit-glib2.so.18 libpackagekit-glib2-18 #MINVER#
  pk_package_set_id@Base 0.9.4
  pk_package_set_info@Base 0.9.4
  pk_package_set_summary@Base 0.9.4
+ pk_package_set_update_severity@Base 1.2.4
  pk_polkit_agent_close@Base 0.9.4
  pk_polkit_agent_open@Base 0.9.4
  pk_progress_bar_end@Base 1.2.1
