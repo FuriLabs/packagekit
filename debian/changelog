@@ -1,3 +1,12 @@
+packagekit (1.2.4-1) unstable; urgency=medium
+
+  * New upstream version: 1.2.4
+    - Resolves FTBFS with newer Meson versions (Closes: #998578)
+  * Drop no-crash-pk_dbus_get_uid.patch: Applied upstream
+  * Update symbols file
+
+ -- Matthias Klumpp <mak@debian.org>  Sun, 07 Nov 2021 20:04:15 +0100
+
 packagekit (1.2.2-2) unstable; urgency=medium
 
   [ Laurent Bigonville ]
