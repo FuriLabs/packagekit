@@ -4,7 +4,7 @@ Priority: optional
 Maintainer: Matthias Klumpp <mak@debian.org>
 Uploaders: Julian Andres Klode <jak@debian.org>
 Build-Depends: bash-completion,
-               debhelper-compat (= 12),
+               debhelper-compat (= 13),
                gir1.2-glib-2.0 (>= 1.36),
                gobject-introspection (>= 1.36),
                gtk-doc-tools,
