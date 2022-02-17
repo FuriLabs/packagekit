@@ -233,9 +233,12 @@ libpackagekit-glib2.so.18 libpackagekit-glib2-18 #MINVER#
  pk_offline_auth_trigger@Base 1.0.0
  pk_offline_auth_trigger_upgrade@Base 1.1.0
  pk_offline_cancel@Base 1.0.0
+ pk_offline_cancel_with_flags@Base 1.2.5
  pk_offline_clear_results@Base 1.0.0
+ pk_offline_clear_results_with_flags@Base 1.2.5
  pk_offline_error_get_type@Base 1.0.0
  pk_offline_error_quark@Base 1.0.0
+ pk_offline_flags_get_type@Base 1.2.5
  pk_offline_get_action@Base 1.0.0
  pk_offline_get_action_monitor@Base 1.0.0
  pk_offline_get_prepared_ids@Base 1.0.0
@@ -249,6 +252,8 @@ libpackagekit-glib2.so.18 libpackagekit-glib2-18 #MINVER#
  pk_offline_get_results_mtime@Base 1.0.0
  pk_offline_trigger@Base 1.0.0
  pk_offline_trigger_upgrade@Base 1.1.0
+ pk_offline_trigger_upgrade_with_flags@Base 1.2.5
+ pk_offline_trigger_with_flags@Base 1.2.5
  pk_package_equal@Base 0.9.4
  pk_package_equal_id@Base 0.9.4
  pk_package_get_arch@Base 0.9.4
