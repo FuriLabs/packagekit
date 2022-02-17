@@ -36,14 +36,7 @@ Depends: libglib2.0-bin,
          policykit-1,
          ${misc:Depends},
          ${shlibs:Depends}
-Breaks: libpackagekit-glib2-14 (<= 0.7.6-4),
-        libpackagekit-qt2-2 (<= 0.7.6-4),
-        packagekit-backend-apt (<< 1.0),
-        packagekit-backend-aptcc (<< 1.0),
-        packagekit-backend-smart (<< 1.0),
-        packagekit-offline-update (<< 1.0),
-        packagekit-plugin-click (<= 0.3.1),
-        plymouth (<< 0.9.5)
+Breaks: plymouth (<< 0.9.5)
 Recommends: packagekit-tools,
             systemd
 Suggests: appstream
@@ -108,7 +101,7 @@ Section: libdevel
 Architecture: any
 Depends: gir1.2-packagekitglib-1.0 (= ${binary:Version}),
          libdbus-1-dev,
-         libglib2.0-dev (>= 2.26),
+         libglib2.0-dev,
          libpackagekit-glib2-18 (= ${binary:Version}),
          libsqlite3-dev,
          ${misc:Depends}
@@ -143,7 +136,6 @@ Section: libs
 Depends: ${misc:Depends},
          ${shlibs:Depends}
 Recommends: gnome-software | apper
-Breaks: gnome-packagekit (<< 3.2.1-1)
 Description: Install fonts automatically using PackageKit
  PackageKit allows performing simple software management tasks over a DBus
  interface e.g. refreshing the cache, updating, installing and removing
