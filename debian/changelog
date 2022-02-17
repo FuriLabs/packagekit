@@ -599,7 +599,7 @@ packagekit (0.8.6-1) experimental; urgency=low
   * Don't create extra package for offline-updates
   * Make PackageKit work on non-Linux archs again
 
- -- Matthias Klumpp <matthias@tenstral.net>  Tue, 28 Nov 2012 14:12:40 +0100
+ -- Matthias Klumpp <matthias@tenstral.net>  Wed, 28 Nov 2012 14:12:40 +0100
 
 packagekit (0.8.4-1) experimental; urgency=low
 
