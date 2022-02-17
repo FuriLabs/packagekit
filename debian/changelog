@@ -1,3 +1,35 @@
+packagekit (1.2.5-1) unstable; urgency=medium
+
+  * New upstream version: 1.2.5
+    Notable changes:
+    - aptcc: Do not mark all updates as manually installed
+    - aptcc: Apply auto/manual state from previously resolved pkgids
+      when needed
+    - aptcc: Attempt to fix broken packages again when system
+      repair is requested
+    - aptcc: Correctly list all the available package versions
+    - aptcc: Display an excerpt of dpkg's log on error instead of not
+      failing at all
+    - aptcc: Emit only the first, likely highest-quality error when dpkg fails
+    - aptcc: Make package downgrades work again
+    - aptcc: Return local file listings in the same format as installed ones
+    - Add flags to D-Bus offline invoking methods
+    - Properly handle allow-reinstall flag for installations
+    - Provide better error message if trying to install an installed package
+    - Wait until online to activate systemd service
+  * policy: Allow any inactive user to refresh the package cache
+    as well (Closes: #965030)
+  * Update symbols file
+  * Mark d/rules as not requiring root
+  * Bump dh compat level to 13
+  * Drop some no longer needed breaks constraints
+  * policy: Allow any user to trigger offline updates
+    by default (Closes: #1003141)
+  * Remove 2 obsolete maintscript entries in 1 files (thanks, Janitor!)
+  * Set upstream metadata fields: Bug-Database, Contact (thanks, Janitor!)
+
+ -- Matthias Klumpp <mak@debian.org>  Thu, 17 Feb 2022 21:40:18 +0100
+
 packagekit (1.2.4-1) unstable; urgency=medium
 
   * New upstream version: 1.2.4
