@@ -1,3 +1,11 @@
+packagekit (1.2.5-2) unstable; urgency=medium
+
+  * Add fix-single-candidate-pkgid-emission.patch
+    - Unblock updates by emitting package-IDs again even if there
+      is just one candidate available.
+
+ -- Matthias Klumpp <mak@debian.org>  Tue, 22 Feb 2022 23:48:44 +0100
+
 packagekit (1.2.5-1) unstable; urgency=medium
 
   * New upstream version: 1.2.5
