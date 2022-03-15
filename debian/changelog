@@ -1,3 +1,11 @@
+packagekit (1.2.5-3) unstable; urgency=medium
+
+  * fix-single-candidate-pkgid-emission.patch: Handle case when there
+    is no candidate at all (LP: #1963904)
+  * Add aptcc_more-smartpointers.patch: Use smartpointers in more places
+
+ -- Matthias Klumpp <mak@debian.org>  Tue, 15 Mar 2022 14:36:34 +0100
+
 packagekit (1.2.5-2) unstable; urgency=medium
 
   * Add fix-single-candidate-pkgid-emission.patch
