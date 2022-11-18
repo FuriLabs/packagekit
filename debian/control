@@ -137,6 +137,7 @@ Section: libs
 Depends: ${misc:Depends},
          ${shlibs:Depends}
 Recommends: gnome-software | apper | packagekit-installer
+Multi-Arch: same
 Description: Install fonts automatically using PackageKit
  PackageKit allows performing simple software management tasks over a DBus
  interface e.g. refreshing the cache, updating, installing and removing
