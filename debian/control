@@ -84,7 +84,6 @@ Package: libpackagekit-glib2-18
 Architecture: any
 Section: libs
 Multi-Arch: same
-Pre-Depends: ${misc:Pre-Depends}
 Depends: ${misc:Depends},
          ${shlibs:Depends}
 Recommends: packagekit (= ${binary:Version})
