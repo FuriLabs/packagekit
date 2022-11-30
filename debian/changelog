@@ -1,3 +1,13 @@
+packagekit (1.2.5-4) unstable; urgency=medium
+
+  [ Ken VanDine ]
+  * Add alternate recommends for packagekit-installer
+
+  [ Debian Janitor ]
+  * Apply multi-arch hints. + packagekit-gtk3-module: Add Multi-Arch: same.
+
+ -- Jeremy Bicha <jbicha@ubuntu.com>  Wed, 30 Nov 2022 15:25:46 -0500
+
 packagekit (1.2.5-3) unstable; urgency=medium
 
   * fix-single-candidate-pkgid-emission.patch: Handle case when there
