@@ -1,8 +1,7 @@
 Source: packagekit
 Section: admin
 Priority: optional
-Maintainer: Ubuntu Developers <ubuntu-devel-discuss@lists.ubuntu.com>
-XSBC-Original-Maintainer: Matthias Klumpp <mak@debian.org>
+Maintainer: Matthias Klumpp <mak@debian.org>
 Uploaders: Julian Andres Klode <jak@debian.org>
 Build-Depends: bash-completion,
                debhelper-compat (= 13),
@@ -133,10 +132,10 @@ Description: GObject introspection data for the PackageKit GLib library
 Package: packagekit-gtk3-module
 Architecture: any
 Section: libs
+Multi-Arch: same
 Depends: ${misc:Depends},
          ${shlibs:Depends}
-Recommends: gnome-software | apper | packagekit-installer
-Multi-Arch: same
+Recommends: gnome-software | apper
 Description: Install fonts automatically using PackageKit
  PackageKit allows performing simple software management tasks over a DBus
  interface e.g. refreshing the cache, updating, installing and removing
@@ -153,7 +152,7 @@ Depends: packagekit (= ${binary:Version}),
          ${shlibs:Depends}
 Conflicts: gstreamer0.10-packagekit
 Replaces: gstreamer0.10-packagekit
-Recommends: gnome-software | apper | packagekit-installer
+Recommends: gnome-software | apper
 Description: GStreamer plugin to install codecs using PackageKit
  PackageKit allows performing simple software management tasks over a DBus
  interface e.g refreshing the cache, updating, installing and removing
