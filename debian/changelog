@@ -1,3 +1,21 @@
+packagekit (1.2.6-1) unstable; urgency=medium
+
+  * New upstream version: 1.2.6
+    - New plural signals for improved performance
+    - Large APT backend refactoring
+    - Changelogs from APT are emitted correctly now
+  * Drop patches: Applied upstream
+  * Adjust rules for aptcc rename
+  * Refresh policy patch
+  * Update symbols file
+  * Depend on polkitd instead of policykit-1 (Closes: #1022071)
+  * Revert "Add alternate recommends for packagekit-installer"
+    - This patch changed the maintainer to Ubuntu, so was likely added
+      by mistake. Dropped the maintainer change, re-added the
+      "packagekit-installer" recommendation, as it is inert on Debian.
+
+ -- Matthias Klumpp <mak@debian.org>  Thu, 01 Dec 2022 20:42:52 +0100
+
 packagekit (1.2.5-4) unstable; urgency=medium
 
   [ Ken VanDine ]
