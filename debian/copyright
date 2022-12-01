@@ -81,9 +81,11 @@ Copyright: 1999, Patrick Cole <z@amused.net>
   2002, Synaptic development team
 License: GPL-2+
 
-Files: backends/apt/apt-intf.cpp
+Files: backends/apt/apt-job.cpp
 Copyright: 1999-2008, Daniel Burrows
   2004, Michael Vogt <mvo@debian.org>
+  2011-2017, Daniel Nicoletti <dantti12@gmail.com>
+  2015-2022, Matthias Klumpp <matthias@tenstral.net>
 License: GPL-2+
 
 Files: backends/apt/apt-utils.h
@@ -91,7 +93,7 @@ Copyright: 2001, 2005 Daniel Burrows (aptitude)
   2009, Daniel Nicoletti <dantti12@gmail.com>
 License: GPL-2+
 
-Files: backends/apt/pk-backend-aptcc.cpp
+Files: backends/apt/pk-backend-apt.cpp
 Copyright: 2007-2008, Richard Hughes <richard@hughsie.com>
   2009-2012, Daniel Nicoletti <dantti12@gmail.com>
 License: GPL-2+
