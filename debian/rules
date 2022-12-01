@@ -5,7 +5,7 @@ DEB_HOST_ARCH_OS ?= $(shell dpkg-architecture -qDEB_HOST_ARCH_OS)
 DEB_HOST_MULTIARCH ?= $(shell dpkg-architecture -qDEB_HOST_MULTIARCH)
 
 # Use this variable to set the PackageKit configure flags
-PK_CONFIGURE_FLAGS = -Dpackaging_backend=aptcc \
+PK_CONFIGURE_FLAGS = -Dpackaging_backend=apt \
 			-Dsystemd=true \
 			-Doffline_update=true \
 			-Dgobject_introspection=true \
