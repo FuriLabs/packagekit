@@ -21,7 +21,7 @@ Build-Depends: bash-completion,
                libsystemd-dev (>= 214) [linux-any],
                meson (>= 0.50),
                pkg-config,
-               policykit-1,
+               polkitd,
                valac
 Standards-Version: 4.6.0
 Rules-Requires-Root: no
@@ -33,7 +33,7 @@ Package: packagekit
 Architecture: any
 Multi-Arch: foreign
 Depends: libglib2.0-bin,
-         policykit-1,
+         polkitd,
          ${misc:Depends},
          ${shlibs:Depends}
 Breaks: plymouth (<< 0.9.5)
