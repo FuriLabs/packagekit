@@ -1,4 +1,4 @@
-/* apt-intf.cpp
+/* apt-job.cpp
  *
  * Copyright (c) 1999-2008 Daniel Burrows
  * Copyright (c) 2004 Michael Vogt <mvo@debian.org>
@@ -22,7 +22,7 @@
  * Boston, MA 02111-1307, USA.
  */
 
-#include "apt-intf.h"
+#include "apt-job.h"
 
 #include <apt-pkg/aptconfiguration.h>
 #include <apt-pkg/init.h>
@@ -61,22 +61,15 @@ using namespace APT;
 
 #define RAMFS_MAGIC     0x858458f6
 
-AptIntf::AptIntf(PkBackendJob *job) :
-    m_cache(0),
+AptJob::AptJob(PkBackendJob *job) :
+    m_cache(nullptr),
     m_job(job),
     m_cancel(false),
     m_lastSubProgress(0),
     m_terminalTimeout(120)
 {
-    m_cancel = false;
-}
-
-bool AptIntf::init(gchar **localDebs)
-{
     const gchar *http_proxy;
     const gchar *ftp_proxy;
-
-    m_isMultiArch = APT::Configuration::getArchitectures(false).size() > 1;
 
     // set locale
     setEnvLocaleFromJob();
@@ -94,6 +87,19 @@ bool AptIntf::init(gchar **localDebs)
         g_autofree gchar *uri = pk_backend_convert_uri(ftp_proxy);
         g_setenv("ftp_proxy", uri, TRUE);
     }
+
+    // default settings
+    _config->CndSet("APT::Get::AutomaticRemove::Kernels", _config->FindB("APT::Get::AutomaticRemove", true));
+}
+
+AptJob::~AptJob()
+{
+    delete m_cache;
+}
+
+bool AptJob::init(gchar **localDebs)
+{
+    m_isMultiArch = APT::Configuration::getArchitectures(false).size() > 1;
 
     // Check if we should open the Cache with lock
     bool withLock = false;
@@ -157,14 +163,16 @@ bool AptIntf::init(gchar **localDebs)
         m_cache->Close();
     }
 
-    // default settings
-    _config->CndSet("APT::Get::AutomaticRemove::Kernels", _config->FindB("APT::Get::AutomaticRemove", true));
-
     m_interactive = pk_backend_job_get_interactive(m_job);
     if (!m_interactive) {
         // Do not ask about config updates if we are not interactive
-        _config->Set("Dpkg::Options::", "--force-confdef");
-        _config->Set("Dpkg::Options::", "--force-confold");
+        if (!dpkgHasForceConfFileSet()) {
+            _config->Set("Dpkg::Options::", "--force-confdef");
+            _config->Set("Dpkg::Options::", "--force-confold");
+        } else {
+            // If any option is set we should not change anything
+            g_debug("Using system settings for --force-conf*");
+        }
         // Ensure nothing interferes with questions
         g_setenv("APT_LISTCHANGES_FRONTEND", "none", TRUE);
         g_setenv("APT_LISTBUGS_FRONTEND", "none", TRUE);
@@ -174,12 +182,7 @@ bool AptIntf::init(gchar **localDebs)
     return m_cache->CheckDeps(AllowBroken);
 }
 
-AptIntf::~AptIntf()
-{
-    delete m_cache;
-}
-
-void AptIntf::setEnvLocaleFromJob()
+void AptJob::setEnvLocaleFromJob()
 {
     const gchar *locale = pk_backend_job_get_locale(m_job);
     if (locale == NULL)
@@ -193,7 +196,23 @@ void AptIntf::setEnvLocaleFromJob()
     g_setenv("LANGUAGE", locale, TRUE);
 }
 
-void AptIntf::cancel()
+bool AptJob::dpkgHasForceConfFileSet() {
+    std::vector<std::string> dpkg_options = _config->FindVector("Dpkg::Options");
+
+    bool is_set = false;
+    const std::string forced_options[]{"--force-confdef", "--force-confold", "--force-confnew"};
+
+    for (auto setting : forced_options) {
+        if (std::find(dpkg_options.begin(), dpkg_options.end(), setting) != dpkg_options.end()) {
+            is_set = true;
+            break;
+        }
+    }
+
+    return is_set;
+}
+
+void AptJob::cancel()
 {
     if (!m_cancel) {
         m_cancel = true;
@@ -205,12 +224,17 @@ void AptIntf::cancel()
     }
 }
 
-bool AptIntf::cancelled() const
+bool AptJob::cancelled() const
 {
     return m_cancel;
 }
 
-bool AptIntf::matchPackage(const pkgCache::VerIterator &ver, PkBitfield filters)
+PkBackendJob *AptJob::pkJob() const
+{
+    return m_job;
+}
+
+bool AptJob::matchPackage(const pkgCache::VerIterator &ver, PkBitfield filters)
 {
     if (filters != 0) {
         const pkgCache::PkgIterator &pkg = ver.ParentPkg();
@@ -340,7 +364,7 @@ bool AptIntf::matchPackage(const pkgCache::VerIterator &ver, PkBitfield filters)
     return true;
 }
 
-PkgList AptIntf::filterPackages(const PkgList &packages, PkBitfield filters)
+PkgList AptJob::filterPackages(const PkgList &packages, PkBitfield filters)
 {
     if (filters == 0)
         return packages;
@@ -410,39 +434,61 @@ PkgList AptIntf::filterPackages(const PkgList &packages, PkBitfield filters)
     return ret;
 }
 
-// used to emit packages it collects all the needed info
-void AptIntf::emitPackage(const pkgCache::VerIterator &ver, PkInfoEnum state)
+PkInfoEnum AptJob::packageStateFromVer(const pkgCache::VerIterator &ver) const
 {
-    // check the state enum to see if it was not set.
-    if (state == PK_INFO_ENUM_UNKNOWN) {
-        const pkgCache::PkgIterator &pkg = ver.ParentPkg();
-
-        if (pkg->CurrentState == pkgCache::State::Installed &&
-                pkg.CurrentVer() == ver) {
-            state = PK_INFO_ENUM_INSTALLED;
-        } else {
-            state = PK_INFO_ENUM_AVAILABLE;
-        }
+    const pkgCache::PkgIterator &pkg = ver.ParentPkg();
+    if (pkg->CurrentState == pkgCache::State::Installed &&
+            pkg.CurrentVer() == ver) {
+        return PK_INFO_ENUM_INSTALLED;
+    } else {
+        return PK_INFO_ENUM_AVAILABLE;
     }
+}
 
-    gchar *package_id;
-    package_id = m_cache->buildPackageId(ver);
+void AptJob::emitPackage(const pkgCache::VerIterator &ver, PkInfoEnum state)
+{
+    // get state from the cache if it was not set explicitly
+    if (state == PK_INFO_ENUM_UNKNOWN)
+        state = packageStateFromVer(ver);
+
+    g_autofree gchar *package_id = m_cache->buildPackageId(ver);
     pk_backend_job_package(m_job,
                            state,
                            package_id,
                            m_cache->getShortDescription(ver).c_str());
-    g_free(package_id);
 }
 
-void AptIntf::emitPackageProgress(const pkgCache::VerIterator &ver, PkStatusEnum status, uint percentage)
+void AptJob::emitPackageProgress(const pkgCache::VerIterator &ver, PkStatusEnum status, uint percentage)
 {
-    gchar *package_id;
-    package_id = m_cache->buildPackageId(ver);
+    g_autofree gchar *package_id = m_cache->buildPackageId(ver);
     pk_backend_job_set_item_progress(m_job, package_id, status, percentage);
-    g_free(package_id);
 }
 
-void AptIntf::emitPackages(PkgList &output, PkBitfield filters, PkInfoEnum state, bool multiversion)
+void AptJob::stagePackageForEmit(GPtrArray *array, const pkgCache::VerIterator &ver, PkInfoEnum state, PkInfoEnum updateSeverity) const
+{
+    g_autoptr(PkPackage) pk_package = pk_package_new ();
+    g_autofree gchar *package_id = m_cache->buildPackageId(ver);
+    g_autoptr(GError) local_error = NULL;
+
+    if (!pk_package_set_id (pk_package, package_id, &local_error)) {
+        g_warning ("package_id %s invalid and cannot be processed: %s",
+               package_id, local_error->message);
+        return;
+    }
+
+    // get state from the cache if it was not set explicitly
+    if (state == PK_INFO_ENUM_UNKNOWN)
+        state = packageStateFromVer(ver);
+    pk_package_set_info (pk_package, state);
+
+    if (updateSeverity != PK_INFO_ENUM_UNKNOWN)
+        pk_package_set_update_severity (pk_package, updateSeverity);
+
+    pk_package_set_summary (pk_package, m_cache->getShortDescription(ver).c_str());
+    g_ptr_array_add (array, g_steal_pointer (&pk_package));
+}
+
+void AptJob::emitPackages(PkgList &output, PkBitfield filters, PkInfoEnum state, bool multiversion)
 {
     // Sort so we can remove the duplicated entries
     output.sort();
@@ -450,7 +496,12 @@ void AptIntf::emitPackages(PkgList &output, PkBitfield filters, PkInfoEnum state
     // Remove the duplicated entries
     output.removeDuplicates();
 
+    // apply filter
     output = filterPackages(output, filters);
+
+    // create array of PK package data to emit
+    g_autoptr(GPtrArray) pkgArray = g_ptr_array_new_full (output.size(), (GDestroyNotify) g_object_unref);
+
     for (const PkgInfo &info : output) {
         if (m_cancel)
             break;
@@ -458,19 +509,23 @@ void AptIntf::emitPackages(PkgList &output, PkBitfield filters, PkInfoEnum state
         auto ver = info.ver;
         // emit only the latest/chosen version if newest is requested
         if (!multiversion || pk_bitfield_contain(filters, PK_FILTER_ENUM_NEWEST)) {
-            emitPackage(info.ver, state);
+            stagePackageForEmit(pkgArray, info.ver, state);
             continue;
         } else if (pk_bitfield_contain(filters, PK_FILTER_ENUM_NOT_NEWEST) && !ver.end()) {
             ver++;
         }
 
         for (; !ver.end(); ver++) {
-            emitPackage(ver, state);
+            stagePackageForEmit(pkgArray, info.ver, state);
         }
     }
+
+    // emit
+    if (pkgArray->len > 0)
+        pk_backend_job_packages(m_job, pkgArray);
 }
 
-void AptIntf::emitRequireRestart(PkgList &output)
+void AptJob::emitRequireRestart(PkgList &output)
 {
     // Sort so we can remove the duplicated entries
     output.sort();
@@ -479,13 +534,12 @@ void AptIntf::emitRequireRestart(PkgList &output)
     output.removeDuplicates();
 
     for (const PkgInfo &info : output) {
-        g_autofree gchar *package_id = nullptr;
-        package_id = m_cache->buildPackageId(info.ver);
+        g_autofree gchar *package_id = m_cache->buildPackageId(info.ver);
         pk_backend_job_require_restart(m_job, PK_RESTART_ENUM_SYSTEM, package_id);
     }
 }
 
-void AptIntf::emitUpdates(PkgList &output, PkBitfield filters)
+void AptJob::emitUpdates(PkgList &output, PkBitfield filters)
 {
     PkInfoEnum state;
     // Sort so we can remove the duplicated entries
@@ -494,11 +548,15 @@ void AptIntf::emitUpdates(PkgList &output, PkBitfield filters)
     // Remove the duplicated entries
     output.removeDuplicates();
 
+    // filter
     output = filterPackages(output, filters);
+
+    // create array of PK package data to emit
+    g_autoptr(GPtrArray) pkgArray = g_ptr_array_new_full (output.size(), (GDestroyNotify) g_object_unref);
+
     for (const PkgInfo &pkgInfo : output) {
-        if (m_cancel) {
+        if (m_cancel)
             break;
-        }
 
         // the default update info
         state = PK_INFO_ENUM_NORMAL;
@@ -523,12 +581,16 @@ void AptIntf::emitUpdates(PkgList &output, PkBitfield filters)
             state = PK_INFO_ENUM_ENHANCEMENT;
         }
 
-        emitPackage(pkgInfo.ver, state);
+        stagePackageForEmit(pkgArray, pkgInfo.ver, PK_INFO_ENUM_UNKNOWN, state);
     }
+
+    // emit
+    if (pkgArray->len > 0)
+        pk_backend_job_packages(m_job, pkgArray);
 }
 
 // search packages which provide a codec (specified in "values")
-void AptIntf::providesCodec(PkgList &output, gchar **values)
+void AptJob::providesCodec(PkgList &output, gchar **values)
 {
     string arch;
     GstMatcher matcher(values);
@@ -576,7 +638,7 @@ void AptIntf::providesCodec(PkgList &output, gchar **values)
 }
 
 // search packages which provide the libraries specified in "values"
-void AptIntf::providesLibrary(PkgList &output, gchar **values)
+void AptJob::providesLibrary(PkgList &output, gchar **values)
 {
     bool ret = false;
     // Quick-check for library names
@@ -648,7 +710,7 @@ void AptIntf::providesLibrary(PkgList &output, gchar **values)
 }
 
 // Mostly copied from pkgAcqArchive.
-bool AptIntf::getArchive(pkgAcquire *Owner,
+bool AptJob::getArchive(pkgAcquire *Owner,
                          const pkgCache::VerIterator &Version,
                          std::string directory,
                          std::string &StoreFilename)
@@ -731,13 +793,13 @@ bool AptIntf::getArchive(pkgAcquire *Owner,
     return false;
 }
 
-AptCacheFile* AptIntf::aptCacheFile() const
+AptCacheFile* AptJob::aptCacheFile() const
 {
     return m_cache;
 }
 
 // used to emit packages it collects all the needed info
-void AptIntf::emitPackageDetail(const pkgCache::VerIterator &ver)
+void AptJob::emitPackageDetail(const pkgCache::VerIterator &ver)
 {
     if (ver.end() == true) {
         return;
@@ -761,8 +823,7 @@ void AptIntf::emitPackageDetail(const pkgCache::VerIterator &ver)
         size = ver->Size;
     }
 
-    gchar *package_id;
-    package_id = m_cache->buildPackageId(ver);
+    g_autofree gchar *package_id = m_cache->buildPackageId(ver);
     pk_backend_job_details(m_job,
                            package_id,
                            m_cache->getShortDescription(ver).c_str(),
@@ -771,11 +832,9 @@ void AptIntf::emitPackageDetail(const pkgCache::VerIterator &ver)
                            m_cache->getLongDescriptionParsed(ver).c_str(),
                            rec.Homepage().c_str(),
                            size);
-
-    g_free(package_id);
 }
 
-void AptIntf::emitDetails(PkgList &pkgs)
+void AptJob::emitDetails(PkgList &pkgs)
 {
     // Sort so we can remove the duplicated entries
     pkgs.sort();
@@ -791,8 +850,8 @@ void AptIntf::emitDetails(PkgList &pkgs)
     }
 }
 
-// used to emit packages it collects all the needed info
-void AptIntf::emitUpdateDetail(const pkgCache::VerIterator &candver)
+// helper for emitUpdateDetails() to create update items and add them to the final array for emission
+void AptJob::stageUpdateDetail(GPtrArray *updateArray, const pkgCache::VerIterator &candver)
 {
     // Verify if our update version is valid
     if (candver.end()) {
@@ -826,7 +885,7 @@ void AptIntf::emitUpdateDetail(const pkgCache::VerIterator &candver)
     PkBackend *backend = PK_BACKEND(pk_backend_job_get_backend(m_job));
     if (pk_backend_is_online(backend)) {
         // Create the download object
-        AcqPackageKitStatus Stat(this, m_job);
+        AcqPackageKitStatus Stat(this);
 
         // get a fetcher
         pkgAcquire fetcher;
@@ -850,8 +909,7 @@ void AptIntf::emitUpdateDetail(const pkgCache::VerIterator &candver)
 
     // Build a package_id from the update version
     string archive = vf.File().Archive() == NULL ? "" : vf.File().Archive();
-    gchar *package_id;
-    package_id = m_cache->buildPackageId(candver);
+    g_autofree gchar *package_id = m_cache->buildPackageId(candver);
 
     PkUpdateStateEnum updateState = PK_UPDATE_STATE_ENUM_UNKNOWN;
     if (archive.compare("stable") == 0) {
@@ -868,17 +926,13 @@ void AptIntf::emitUpdateDetail(const pkgCache::VerIterator &candver)
         restart = PK_RESTART_ENUM_SYSTEM;
     }
 
-    gchar **updates;
-    updates = (gchar **) g_malloc(2 * sizeof(gchar *));
+    g_auto(GStrv) updates = (gchar **) g_malloc(2 * sizeof(gchar *));
     updates[0] = current_package_id;
     updates[1] = NULL;
 
-    GPtrArray *bugzilla_urls;
-    GPtrArray *cve_urls;
-    bugzilla_urls = getBugzillaUrls(changelog);
-    cve_urls = getCVEUrls(changelog);
-
-    GPtrArray *obsoletes = g_ptr_array_new();
+    g_autoptr(GPtrArray) bugzilla_urls = getBugzillaUrls(changelog);
+    g_autoptr(GPtrArray) cve_urls = getCVEUrls(changelog);
+    g_autoptr(GPtrArray) obsoletes = g_ptr_array_new();
 
     for (auto deps = candver.DependsList(); not deps.end(); ++deps)
     {
@@ -891,38 +945,40 @@ void AptIntf::emitUpdateDetail(const pkgCache::VerIterator &candver)
     // NULL terminate
     g_ptr_array_add(obsoletes, NULL);
 
-    pk_backend_job_update_detail(m_job,
-                                 package_id,
-                                 updates,//const gchar *updates
-                                 (gchar **) obsoletes->pdata,//const gchar *obsoletes
-                                 NULL,//const gchar *vendor_url
-                                 (gchar **) bugzilla_urls->pdata,// gchar **bugzilla_urls
-                                 (gchar **) cve_urls->pdata,// gchar **cve_urls
-                                 restart,//PkRestartEnum restart
-                                 update_text.c_str(),//const gchar *update_text
-                                 changelog.c_str(),//const gchar *changelog
-                                 updateState,//PkUpdateStateEnum state
-                                 issued.c_str(), //const gchar *issued_text
-                                 updated.c_str() //const gchar *updated_text
-                                 );
-
-    g_free(package_id);
-    g_strfreev(updates);
-    g_ptr_array_unref(obsoletes);
-    g_ptr_array_unref(bugzilla_urls);
-    g_ptr_array_unref(cve_urls);
+    // construct the update item with out newly gathered data
+    PkUpdateDetail *item = pk_update_detail_new ();
+    g_object_set(item,
+              "package-id", package_id,
+              "updates", updates, //const gchar *updates
+              "obsoletes", (gchar **) obsoletes->pdata, //const gchar *obsoletes
+              "vendor-urls", NULL, //const gchar *vendor_url
+              "bugzilla-urls", (gchar **) bugzilla_urls->pdata, // gchar **bugzilla_urls
+              "cve-urls", (gchar **) cve_urls->pdata, // gchar **cve_urls
+              "restart", restart, //PkRestartEnum restart
+              "update-text", update_text.c_str(), //const gchar *update_text
+              "changelog", changelog.c_str(), //const gchar *changelog
+              "state", updateState, //PkUpdateStateEnum state
+              "issued", issued.c_str(), //const gchar *issued_text
+              "updated", updated.c_str(), //const gchar *updated_text
+              NULL);
+    g_ptr_array_add(updateArray, item);
 }
 
-void AptIntf::emitUpdateDetails(const PkgList &pkgs)
+void AptJob::emitUpdateDetails(const PkgList &pkgs)
 {
+    g_autoptr(GPtrArray) updateDetailsArray = g_ptr_array_new_with_free_func ((GDestroyNotify) g_object_unref);
+
     for (const PkgInfo &pi : pkgs) {
         if (m_cancel)
             break;
-        emitUpdateDetail(pi.ver);
+        stageUpdateDetail(updateDetailsArray, pi.ver);
     }
+
+    // emit all data that we've just collected
+    pk_backend_job_update_details(m_job, updateDetailsArray);
 }
 
-void AptIntf::getDepends(PkgList &output,
+void AptJob::getDepends(PkgList &output,
                          const pkgCache::VerIterator &ver,
                          bool recursive)
 {
@@ -951,7 +1007,7 @@ void AptIntf::getDepends(PkgList &output,
     }
 }
 
-void AptIntf::getRequires(PkgList &output,
+void AptJob::getRequires(PkgList &output,
                           const pkgCache::VerIterator &ver,
                           bool recursive)
 {
@@ -987,7 +1043,7 @@ void AptIntf::getRequires(PkgList &output,
     }
 }
 
-PkgList AptIntf::getPackages()
+PkgList AptJob::getPackages()
 {
     pk_backend_job_set_status(m_job, PK_STATUS_ENUM_QUERY);
 
@@ -1011,7 +1067,7 @@ PkgList AptIntf::getPackages()
     return output;
 }
 
-PkgList AptIntf::getPackagesFromRepo(SourcesList::SourceRecord *&rec)
+PkgList AptJob::getPackagesFromRepo(SourcesList::SourceRecord *&rec)
 {
     pk_backend_job_set_status(m_job, PK_STATUS_ENUM_QUERY);
 
@@ -1059,7 +1115,7 @@ PkgList AptIntf::getPackagesFromRepo(SourcesList::SourceRecord *&rec)
     return output;
 }
 
-PkgList AptIntf::getPackagesFromGroup(gchar **values)
+PkgList AptJob::getPackagesFromGroup(gchar **values)
 {
     pk_backend_job_set_status(m_job, PK_STATUS_ENUM_QUERY);
 
@@ -1110,7 +1166,7 @@ PkgList AptIntf::getPackagesFromGroup(gchar **values)
     return output;
 }
 
-bool AptIntf::matchesQueries(const vector<string> &queries, string s) {
+bool AptJob::matchesQueries(const vector<string> &queries, string s) {
     for (string query : queries) {
         // Case insensitive "string.contains"
         auto it = std::search(
@@ -1128,7 +1184,7 @@ bool AptIntf::matchesQueries(const vector<string> &queries, string s) {
     return false;
 }
 
-PkgList AptIntf::searchPackageName(const vector<string> &queries)
+PkgList AptJob::searchPackageName(const vector<string> &queries)
 {
     PkgList output;
 
@@ -1164,7 +1220,7 @@ PkgList AptIntf::searchPackageName(const vector<string> &queries)
     return output;
 }
 
-PkgList AptIntf::searchPackageDetails(const vector<string> &queries)
+PkgList AptJob::searchPackageDetails(const vector<string> &queries)
 {
     PkgList output;
 
@@ -1205,7 +1261,7 @@ PkgList AptIntf::searchPackageDetails(const vector<string> &queries)
 }
 
 // used to return files it reads, using the info from the files in /var/lib/dpkg/info/
-PkgList AptIntf::searchPackageFiles(gchar **values)
+PkgList AptJob::searchPackageFiles(gchar **values)
 {
     PkgList output;
     vector<string> packages;
@@ -1306,14 +1362,13 @@ PkgList AptIntf::searchPackageFiles(gchar **values)
     return output;
 }
 
-PkgList AptIntf::getUpdates(PkgList &blocked, PkgList &downgrades, PkgList &installs, PkgList &removals, PkgList &obsoleted)
+PkgList AptJob::getUpdates(PkgList &blocked, PkgList &downgrades, PkgList &installs, PkgList &removals, PkgList &obsoleted)
 {
     PkgList updates;
 
     if (m_cache->DistUpgrade() == false) {
         m_cache->ShowBroken(false);
         g_debug("Internal error, DistUpgrade broke stuff");
-        cout << "Internal error, DistUpgrade broke stuff" << endl;
         return updates;
     }
 
@@ -1380,7 +1435,7 @@ PkgList AptIntf::getUpdates(PkgList &blocked, PkgList &downgrades, PkgList &inst
 }
 
 // used to return files it reads, using the info from the files in /var/lib/dpkg/info/
-void AptIntf::providesMimeType(PkgList &output, gchar **values)
+void AptJob::providesMimeType(PkgList &output, gchar **values)
 {
     g_autoptr(AsPool) pool = NULL;
     g_autoptr(GError) error = NULL;
@@ -1436,7 +1491,7 @@ void AptIntf::providesMimeType(PkgList &output, gchar **values)
     }
 }
 
-bool AptIntf::isApplication(const pkgCache::VerIterator &ver)
+bool AptJob::isApplication(const pkgCache::VerIterator &ver)
 {
     bool ret = false;
     gchar *fileName;
@@ -1473,14 +1528,12 @@ bool AptIntf::isApplication(const pkgCache::VerIterator &ver)
 }
 
 // used to emit files it reads the info directly from the files
-void AptIntf::emitPackageFiles(const gchar *pi)
+void AptJob::emitPackageFiles(const gchar *pi)
 {
     GPtrArray *files;
     string line;
-    gchar **parts;
 
-    parts = pk_package_id_split(pi);
-
+    g_auto(GStrv) parts = pk_package_id_split(pi);
     string fName;
     fName = "/var/lib/dpkg/info/" +
             string(parts[PK_PACKAGE_ID_NAME]) +
@@ -1493,7 +1546,6 @@ void AptIntf::emitPackageFiles(const gchar *pi)
                 string(parts[PK_PACKAGE_ID_NAME]) +
                 ".list";
     }
-    g_strfreev (parts);
 
     if (FileExists(fName)) {
         ifstream in(fName.c_str());
@@ -1517,33 +1569,30 @@ void AptIntf::emitPackageFiles(const gchar *pi)
     }
 }
 
-void AptIntf::emitPackageFilesLocal(const gchar *file)
+void AptJob::emitPackageFilesLocal(const gchar *file)
 {
     DebFile deb(file);
     if (!deb.isValid()){
         return;
     }
 
-    gchar *package_id;
-    package_id = pk_package_id_build(deb.packageName().c_str(),
-                                     deb.version().c_str(),
-                                     deb.architecture().c_str(),
-                                     file);
+    g_autofree gchar *package_id = pk_package_id_build(deb.packageName().c_str(),
+                                                       deb.version().c_str(),
+                                                       deb.architecture().c_str(),
+                                                       file);
 
-    GPtrArray *files = g_ptr_array_new_with_free_func(g_free);
+    g_autoptr(GPtrArray) files = g_ptr_array_new_with_free_func(g_free);
     for (auto file : deb.files()) {
         g_ptr_array_add(files, g_canonicalize_filename(file.c_str(), "/"));
     }
     g_ptr_array_add(files, NULL);
     pk_backend_job_files(m_job, package_id, (gchar **) files->pdata);
-
-    g_ptr_array_unref(files);
 }
 
 /**
   * Check if package is officially supported by the current distribution
   */
-bool AptIntf::packageIsSupported(const pkgCache::VerIterator &verIter, string component)
+bool AptJob::packageIsSupported(const pkgCache::VerIterator &verIter, string component)
 {
     string origin;
     if (!verIter.end()) {
@@ -1556,7 +1605,7 @@ bool AptIntf::packageIsSupported(const pkgCache::VerIterator &verIter, string co
     }
 
     // Get a fetcher
-    AcqPackageKitStatus Stat(this, m_job);
+    AcqPackageKitStatus Stat(this);
     pkgAcquire fetcher;
     fetcher.SetLog(&Stat);
 
@@ -1575,7 +1624,7 @@ bool AptIntf::packageIsSupported(const pkgCache::VerIterator &verIter, string co
     return false;
 }
 
-bool AptIntf::checkTrusted(pkgAcquire &fetcher, PkBitfield flags)
+bool AptJob::checkTrusted(pkgAcquire &fetcher, PkBitfield flags)
 {
     string UntrustedList;
     PkgList untrusted;
@@ -1622,7 +1671,7 @@ bool AptIntf::checkTrusted(pkgAcquire &fetcher, PkBitfield flags)
 /**
  * checkChangedPackages - Check whas is goind to happen to the packages
  */
-PkgList AptIntf::checkChangedPackages(bool emitChanged)
+PkgList AptJob::checkChangedPackages(bool emitChanged)
 {
     PkgList ret;
     PkgList installing;
@@ -1715,7 +1764,7 @@ PkgList AptIntf::checkChangedPackages(bool emitChanged)
     return ret;
 }
 
-pkgCache::VerIterator AptIntf::findTransactionPackage(const std::string &name)
+pkgCache::VerIterator AptJob::findTransactionPackage(const std::string &name)
 {
     for (const PkgInfo &pkInfo : m_pkgs) {
         if (pkInfo.ver.ParentPkg().Name() == name) {
@@ -1742,7 +1791,7 @@ pkgCache::VerIterator AptIntf::findTransactionPackage(const std::string &name)
     return candidateVer;
 }
 
-void AptIntf::updateInterface(int fd, int writeFd, bool *errorEmitted)
+void AptJob::updateInterface(int fd, int writeFd, bool *errorEmitted)
 {
     char buf[2];
     static char line[1024] = "";
@@ -1768,7 +1817,7 @@ void AptIntf::updateInterface(int fd, int writeFd, bool *errorEmitted)
             const gchar *status   = g_strstrip(split[0]);
             const gchar *pkg      = g_strstrip(split[1]);
             const gchar *percent  = g_strstrip(split[2]);
-            g_autofree gchar *str = g_strdup(g_strstrip(split[3]));
+            const std::string str = g_strstrip(split[3]);
 
             // major problem here, we got unexpected input. should _never_ happen
             if(pkg == nullptr && status == nullptr)
@@ -1791,7 +1840,7 @@ void AptIntf::updateInterface(int fd, int writeFd, bool *errorEmitted)
                 pk_backend_job_error_code(m_job,
                                           PK_ERROR_ENUM_PACKAGE_FAILED_TO_INSTALL,
                                           "Error while installing package: %s",
-                                          str);
+                                          str.c_str());
                 if (errorEmitted != nullptr)
                     *errorEmitted = true;
             } else if (strstr(status, "pmconffile") != NULL) {
@@ -1818,7 +1867,7 @@ void AptIntf::updateInterface(int fd, int writeFd, bool *errorEmitted)
                 i++;
 
                 gchar *filename;
-                filename = g_build_filename(DATADIR, "PackageKit", "helpers", "aptcc", "pkconffile", NULL);
+                filename = g_build_filename(DATADIR, "PackageKit", "helpers", "apt", "pkconffile", NULL);
                 gchar **argv;
                 gchar **envp;
                 GError *error = NULL;
@@ -2017,7 +2066,7 @@ void AptIntf::updateInterface(int fd, int writeFd, bool *errorEmitted)
                         //                         emitPackageProgress(ver, m_lastSubProgress);
                     }
                 } else {
-                    std::cout << "aptcc: >>>Unmaped dpkg status value: " << line << std::endl;
+                    g_debug("apt-backend: >>>Unmaped dpkg status value: %s", line);
                 }
 
                 if (!starts_with(str, "Running")) {
@@ -2059,21 +2108,19 @@ void AptIntf::updateInterface(int fd, int writeFd, bool *errorEmitted)
     usleep(5000);
 }
 
-PkgList AptIntf::resolvePackageIds(gchar **package_ids, PkBitfield filters)
+PkgList AptJob::resolvePackageIds(gchar **package_ids, PkBitfield filters)
 {
     PkgList ret;
 
     pk_backend_job_set_status (m_job, PK_STATUS_ENUM_QUERY);
 
     // Don't fail if package list is empty
-    if (package_ids == NULL) {
+    if (package_ids == NULL)
         return ret;
-    }
 
     for (uint i = 0; i < g_strv_length(package_ids); ++i) {
-        if (m_cancel) {
+        if (m_cancel)
             break;
-        }
 
         const gchar *pkgid = package_ids[i];
 
@@ -2139,7 +2186,7 @@ PkgList AptIntf::resolvePackageIds(gchar **package_ids, PkBitfield filters)
     return filterPackages(ret, filters);
 }
 
-void AptIntf::refreshCache()
+void AptJob::refreshCache()
 {
     pk_backend_job_set_status(m_job, PK_STATUS_ENUM_REFRESH_CACHE);
 
@@ -2148,7 +2195,7 @@ void AptIntf::refreshCache()
     }
 
     // Create the progress
-    AcqPackageKitStatus Stat(this, m_job);
+    AcqPackageKitStatus Stat(this);
 
     // do the work
     ListUpdate(Stat, *m_cache->GetSourceList());
@@ -2160,7 +2207,7 @@ void AptIntf::refreshCache()
     }
 }
 
-void AptIntf::markAutoInstalled(const PkgList &pkgs)
+void AptJob::markAutoInstalled(const PkgList &pkgs)
 {
     for (const PkgInfo &pkInfo : pkgs) {
         if (m_cancel)
@@ -2171,12 +2218,12 @@ void AptIntf::markAutoInstalled(const PkgList &pkgs)
     }
 }
 
-bool AptIntf::markFileForInstall(std::string const &file)
+bool AptJob::markFileForInstall(std::string const &file)
 {
     return m_cache->GetSourceList()->AddVolatileFile(file);
 }
 
-PkgList AptIntf::resolveLocalFiles(gchar **localDebs)
+PkgList AptJob::resolveLocalFiles(gchar **localDebs)
 {
     PkgList ret;
     for (guint i = 0; i < g_strv_length(localDebs); ++i) {
@@ -2196,7 +2243,7 @@ PkgList AptIntf::resolveLocalFiles(gchar **localDebs)
     return ret;
 }
 
-bool AptIntf::runTransaction(const PkgList &install, const PkgList &remove, const PkgList &update,
+bool AptJob::runTransaction(const PkgList &install, const PkgList &remove, const PkgList &update,
                              bool fixBroken, PkBitfield flags, bool autoremove)
 {
     pk_backend_job_set_status (m_job, PK_STATUS_ENUM_RUNNING);
@@ -2289,17 +2336,17 @@ bool AptIntf::runTransaction(const PkgList &install, const PkgList &remove, cons
 
     // Prepare for the restart thing
     struct stat restartStatStart;
-    if (g_file_test(REBOOT_REQUIRED, G_FILE_TEST_EXISTS)) {
-        g_stat(REBOOT_REQUIRED, &restartStatStart);
+    if (g_file_test(REBOOT_REQUIRED_FILE, G_FILE_TEST_EXISTS)) {
+        g_stat(REBOOT_REQUIRED_FILE, &restartStatStart);
     }
 
     // If we are simulating the install packages
     // will just calculate the trusted packages
     const auto ret = installPackages(flags);
 
-    if (g_file_test(REBOOT_REQUIRED, G_FILE_TEST_EXISTS)) {
+    if (g_file_test(REBOOT_REQUIRED_FILE, G_FILE_TEST_EXISTS)) {
         struct stat restartStat;
-        g_stat(REBOOT_REQUIRED, &restartStat);
+        g_stat(REBOOT_REQUIRED_FILE, &restartStat);
 
         if (restartStat.st_mtime > restartStatStart.st_mtime) {
             // Emit the packages that caused the restart
@@ -2310,7 +2357,7 @@ bool AptIntf::runTransaction(const PkgList &install, const PkgList &remove, cons
                 emitRequireRestart(m_pkgs);
             } else {
                 // Emit a foo require restart
-                pk_backend_job_require_restart(m_job, PK_RESTART_ENUM_SYSTEM, "aptcc;;;");
+                pk_backend_job_require_restart(m_job, PK_RESTART_ENUM_SYSTEM, "apt-backend;;;");
             }
         }
     }
@@ -2324,7 +2371,7 @@ bool AptIntf::runTransaction(const PkgList &install, const PkgList &remove, cons
  * This displays the informative messages describing what is going to
  * happen and then calls the download routines
  */
-bool AptIntf::installPackages(PkBitfield flags)
+bool AptJob::installPackages(PkBitfield flags)
 {
     bool simulate = pk_bitfield_contain(flags, PK_TRANSACTION_FLAG_ENUM_SIMULATE);
     PkBackend *backend = PK_BACKEND(pk_backend_job_get_backend(m_job));
@@ -2350,7 +2397,7 @@ bool AptIntf::installPackages(PkBitfield flags)
     }
 
     // Create the download object
-    AcqPackageKitStatus Stat(this, m_job);
+    AcqPackageKitStatus Stat(this);
 
     // get a fetcher
     pkgAcquire fetcher(&Stat);
@@ -2378,8 +2425,8 @@ bool AptIntf::installPackages(PkBitfield flags)
     unsigned long long FetchPBytes = fetcher.PartialPresent();
     unsigned long long DebBytes = fetcher.TotalNeeded();
     if (DebBytes != (*m_cache)->DebSize()) {
-        cout << DebBytes << ',' << (*m_cache)->DebSize() << endl;
-        cout << "How odd.. The sizes didn't match, email apt@packages.debian.org";
+        g_debug ("%lld, %lld: How odd.. The sizes didn't match, email apt@packages.debian.org",
+                 DebBytes, (*m_cache)->DebSize());
     }
 
     // Number of bytes
@@ -2418,7 +2465,7 @@ bool AptIntf::installPackages(PkBitfield flags)
     }
 
     if (_error->PendingError() == true) {
-        cout << "PendingError " << endl;
+        g_debug("PendingError");
         return false;
     }
 
@@ -2447,7 +2494,7 @@ bool AptIntf::installPackages(PkBitfield flags)
     }
 
     if (_error->PendingError() == true) {
-        cout << "PendingError download" << endl;
+        g_debug("PendingError download");
         return false;
     }
 
@@ -2482,7 +2529,7 @@ bool AptIntf::installPackages(PkBitfield flags)
     // File descriptors for reading dpkg --status-fd
     int readFromChildFD[2];
     if (pipe(readFromChildFD) < 0) {
-        cout << "Failed to create a pipe" << endl;
+        g_warning("Failed to create a pipe");
         return false;
     }
 
@@ -2513,7 +2560,7 @@ bool AptIntf::installPackages(PkBitfield flags)
             g_setenv("DEBCONF_PIPE", socket, TRUE);
 
             // Set the LANGUAGE so debconf messages get localization
-            // NOTE: This will cause dpkg messages to be localized and APTcc's string matching
+            // NOTE: This will cause dpkg messages to be localized and the APT backend's string matching
             // to fail, so progress information may no longer be accurate in these cases.
             setEnvLocaleFromJob();
         } else {
@@ -2547,7 +2594,7 @@ bool AptIntf::installPackages(PkBitfield flags)
         _exit(res);
     }
 
-    cout << "APTcc parent process running..." << endl;
+    g_debug("apt-backend parent process running...");
 
     // make it nonblocking, very important otherwise
     // when the child finish we stay stuck.
@@ -2592,7 +2639,7 @@ bool AptIntf::installPackages(PkBitfield flags)
     close(pty_master);
     _system->LockInner();
 
-    cout << "APTcc parent process finished: " << ret << endl;
+    g_debug("apt-backend parent process finished: %d", ret);
 
     if (ret != 0 && !m_cancel && !errorEmitted) {
         // If the child died with a non-zero exit code, and we didn't deliberately
