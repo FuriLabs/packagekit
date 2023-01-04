@@ -1,3 +1,14 @@
+packagekit (1.2.6-2) unstable; urgency=high
+
+  * Ensure PackageKit services aren't stopped or restarted during
+    package upgrade, as PackageKit might be performing an upgrade
+    of itself, and killing an ongoing APT transaction will break
+    the package manager and require manual repair.
+    This is an especially big problem when performing offline upgrades.
+    (Closes: #880712)
+
+ -- Matthias Klumpp <mak@debian.org>  Wed, 04 Jan 2023 18:40:38 +0100
+
 packagekit (1.2.6-1) unstable; urgency=medium
 
   * New upstream version: 1.2.6
