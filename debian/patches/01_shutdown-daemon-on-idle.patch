@@ -1,0 +1,57 @@
+From e4528053849b61c6ba0473379fd68c76994019f5 Mon Sep 17 00:00:00 2001
+From: Russell Haley <yumpusamongus@gmail.com>
+Date: Mon, 12 Sep 2022 12:36:10 -0500
+Subject: [PATCH] Shutdown daemon on idle again
+
+This reverts commit dca1f5b2508a4632d0b9fefab771a5a9caf83a5c.
+
+Which reverted commit 0c84d71509e851db20445c747529bd7d3724f081,
+which reverted commit c6eb3555ec5b41e988c111d276764d55fb83bda3.
+
+Fixes #460.
+
+The memory usage of packagekitd has been observed growing well beyond
+half a GiB.  See:
+
+https://bugzilla.redhat.com/show_bug.cgi?id=1354074
+https://bugzilla.redhat.com/show_bug.cgi?id=1854875
+https://bugzilla.redhat.com/show_bug.cgi?id=1896964
+
+As I understand it, this timeout causes some slightly surprising
+behavior when users mix command line dnf upgades with GUI PackageKit
+upgrades, and do not manually run an update check before rebooting for
+update. But that is an edge case, and the price of not having it is too
+high.
+---
+ src/pk-main.c | 15 +++++++++++++--
+ 1 file changed, 13 insertions(+), 2 deletions(-)
+
+diff --git a/src/pk-main.c b/src/pk-main.c
+index d372a7456..64d34bc91 100644
+--- a/src/pk-main.c
++++ b/src/pk-main.c
+@@ -182,8 +182,19 @@ main (int argc, char *argv[])
+ 	syslog (LOG_DAEMON | LOG_DEBUG, "daemon start");
+ 
+ 	/* after how long do we timeout? */
+-	exit_idle_time = g_key_file_get_integer (conf, "Daemon", "ShutdownTimeout", NULL);
+-	g_debug ("daemon shutdown set to %i seconds", exit_idle_time);
++	exit_idle_time = g_key_file_get_integer (conf, "Daemon", "ShutdownTimeout", &error);
++	/* THIS COMMENT IS A TSUNAMI STONE
++	 * The automatic shutdown is useful to prevent memory leaks in some backends
++	 * from getting out of hand. If you want to remove the timeout, please ensure
++	 * you are not regressing Red Hat bugzilla #1354074. */
++	if (error != NULL) {
++		exit_idle_time = 300;
++		g_clear_error (&error);
++	}
++	if (exit_idle_time > 0)
++		g_debug ("daemon shutdown set to %i seconds", exit_idle_time);
++	else
++		g_debug ("daemon will not shut down on idle");
+ 
+ 	/* override the backend name */
+ 	if (backend_name != NULL) {
+-- 
+2.39.1
+

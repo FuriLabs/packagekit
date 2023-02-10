@@ -1,3 +1,5 @@
 policy.diff
-01_apt-better-repo-names.patch
-02_pkcon-fix-progressbar-padding.patch
+01_shutdown-daemon-on-idle.patch
+02_apt-better-repo-names.patch
+03_pkcon-fix-progressbar-padding.patch
+04_fix-uninitialized-timer.patch
