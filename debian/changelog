@@ -1,3 +1,22 @@
+packagekit (1.2.6-3) unstable; urgency=medium
+
+  * Add apt-better-repo-names.patch:
+    - Display meaningful repository names instead of just suite names.
+  * Add pkcon-fix-progressbar-padding.patch:
+    - Fix layout when progress is shown.
+  * Add shutdown-daemon-on-idle.patch:
+    - Shut down daemon when it is not used again. This functionality
+      was originally removed to work around a bug in DNF which does
+      not affect us in Debian (Closes: #802306).
+  * Add fix-uninitialized-timer.patch:
+    - Fix potential crash that may occur on daemon shutdown.
+  * Add apt-update-urgency-as-status.patch:
+    - Send update urgencies as package status again, as this behavior
+      seems to be expected by frontends and did not cause any problems
+      in the past (Closes: #1030179).
+
+ -- Matthias Klumpp <mak@debian.org>  Fri, 10 Feb 2023 22:48:36 +0100
+
 packagekit (1.2.6-2) unstable; urgency=high
 
   * Ensure PackageKit services aren't stopped or restarted during
