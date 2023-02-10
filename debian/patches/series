@@ -1,2 +1,3 @@
 policy.diff
 01_apt-better-repo-names.patch
+02_pkcon-fix-progressbar-padding.patch
