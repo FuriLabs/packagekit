@@ -4,3 +4,4 @@ policy.diff
 03_apt-update-urgency-as-status.patch
 04_pkcon-fix-progressbar-padding.patch
 05_fix-uninitialized-timer.patch
+06_apt-fix-mimetype-search-crash.patch
