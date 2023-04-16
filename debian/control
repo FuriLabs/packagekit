@@ -37,8 +37,8 @@ Depends: libglib2.0-bin,
          ${misc:Depends},
          ${shlibs:Depends}
 Breaks: plymouth (<< 0.9.5)
-Recommends: systemd,
-            appstream
+Recommends: appstream,
+            systemd
 Suggests: packagekit-tools
 Description: Provides a package management service
  PackageKit allows performing simple software management tasks over a DBus
@@ -85,7 +85,6 @@ Section: libs
 Multi-Arch: same
 Depends: ${misc:Depends},
          ${shlibs:Depends}
-Recommends: packagekit (= ${binary:Version})
 Description: Library for accessing PackageKit using GLib
  PackageKit allows performing simple software management tasks over a DBus
  interface e.g. refreshing the cache, updating, installing and removing
