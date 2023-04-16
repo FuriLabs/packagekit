@@ -23,7 +23,7 @@ Build-Depends: bash-completion,
                pkg-config,
                polkitd,
                valac
-Standards-Version: 4.6.0
+Standards-Version: 4.6.2
 Rules-Requires-Root: no
 Homepage: https://www.freedesktop.org/software/PackageKit/
 Vcs-Git: https://salsa.debian.org/pkgutopia-team/packagekit.git
