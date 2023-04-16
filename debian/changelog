@@ -1,3 +1,15 @@
+packagekit (1.2.6-4) unstable; urgency=medium
+
+  * Add apt-fix-mimetype-search-crash.patch (Closes: #1032510)
+    - Fixes a daemon crash when searching for provided mediatypes
+  * packagekit: Recommend, instead of suggest appstream
+    - It is needed for many operations, and quite odd for users if data
+      is randomly missing with no explanation.
+  * Don't have the library recommend the daemon package (Closes: #1012175)
+  * Bump standards version (no changes needed)
+
+ -- Matthias Klumpp <mak@debian.org>  Sun, 16 Apr 2023 18:58:34 +0200
+
 packagekit (1.2.6-3) unstable; urgency=medium
 
   * Add apt-better-repo-names.patch:
