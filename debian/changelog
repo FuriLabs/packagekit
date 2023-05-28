@@ -1,3 +1,19 @@
+packagekit (1.2.6-5) unstable; urgency=medium
+
+  * Add fix-tiny-memleak.patch:
+    - Free transaction property when progress is done.
+  * Add remove-references-to-packagekit.org.patch:
+    - The packagekit.org domain was taken over by an actor who is
+      serving potentially malicious ads on it, and no longer redirects
+      to the proper pages. To ensure nobody lands there accidentally,
+      replace all links to pk.org with the proper ones pointing at
+      freedesktop.org.
+  * Make the daemon package recommend packagekit-tools again
+    - This change was not intended for bookworm and may
+      be re-applied after its release (Closes: #1036153).
+
+ -- Matthias Klumpp <mak@debian.org>  Sun, 28 May 2023 19:00:10 +0200
+
 packagekit (1.2.6-4) unstable; urgency=medium
 
   * Add apt-fix-mimetype-search-crash.patch (Closes: #1032510)
