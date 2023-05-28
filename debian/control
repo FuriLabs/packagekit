@@ -38,8 +38,8 @@ Depends: libglib2.0-bin,
          ${shlibs:Depends}
 Breaks: plymouth (<< 0.9.5)
 Recommends: appstream,
+            packagekit-tools,
             systemd
-Suggests: packagekit-tools
 Description: Provides a package management service
  PackageKit allows performing simple software management tasks over a DBus
  interface e.g. refreshing the cache, updating, installing and removing
