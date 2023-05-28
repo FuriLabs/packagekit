@@ -5,3 +5,5 @@ policy.diff
 04_pkcon-fix-progressbar-padding.patch
 05_fix-uninitialized-timer.patch
 06_apt-fix-mimetype-search-crash.patch
+07_fix-tiny-memleak.patch
+08_remove-references-to-packagekit.org.patch
