@@ -1,5 +1,5 @@
 project('PackageKit', 'c',
-  version : '1.2.6',
+  version : '1.2.7',
   license : 'LGPL-2.1+',
   meson_version : '>=0.50',
   default_options : ['warning_level=2', 'c_std=c99'],
@@ -68,7 +68,7 @@ add_project_arguments ('-D_DEFAULT_SOURCE', language: 'c')
 add_project_arguments ('-DGLIB_VERSION_MIN_REQUIRED=GLIB_VERSION_2_44', language: 'c')
 
 # allow the daemon to include library files directly
-add_project_arguments ('-DPK_COMPILATION', language: 'c')
+add_project_arguments ('-DPK_COMPILATION', language: ['c', 'cpp'])
 
 conf = configuration_data()
 conf.set_quoted('DATADIR', join_paths(get_option('prefix'), get_option('datadir')))

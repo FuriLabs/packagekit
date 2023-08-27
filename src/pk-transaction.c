@@ -90,6 +90,7 @@ struct PkTransactionPrivate
 	guint			 speed;
 	guint			 download_size_remaining;
 	gboolean		 finished;
+	gboolean		 emitted_finished;
 	gboolean		 allow_cancel;
 	gboolean		 waiting_for_auth;
 	gboolean		 emit_eula_required;
@@ -510,6 +511,9 @@ pk_transaction_finished_emit (PkTransaction *transaction,
 			      PkExitEnum exit_enum,
 			      guint time_ms)
 {
+	g_assert (!transaction->priv->emitted_finished);
+	transaction->priv->emitted_finished = TRUE;
+
 	g_debug ("emitting finished '%s', %i",
 		 pk_exit_enum_to_string (exit_enum),
 		 time_ms);
@@ -4878,6 +4882,22 @@ pk_transaction_set_hint (PkTransaction *transaction,
 		return TRUE;
 	}
 
+	/* details-with-deps-size=true */
+	if (g_strcmp0 (key, "details-with-deps-size") == 0) {
+		if (g_strcmp0 (value, "true") == 0) {
+			pk_backend_job_set_details_with_deps_size (priv->job, TRUE);
+		} else if (g_strcmp0 (value, "false") == 0) {
+			pk_backend_job_set_details_with_deps_size (priv->job, FALSE);
+		} else {
+			g_set_error (error,
+				     PK_TRANSACTION_ERROR,
+				     PK_TRANSACTION_ERROR_NOT_SUPPORTED,
+				      "details-with-deps-size hint expects true or false, not %s", value);
+			return FALSE;
+		}
+		return TRUE;
+	}
+
 	/* Is the plural Packages signal supported? The key’s value is ignored,
 	 * as clients will only send it if it’s true. */
 	if (g_strcmp0 (key, "supports-plural-signals") == 0) {
@@ -5212,6 +5232,11 @@ pk_transaction_get_property (GDBusConnection *connection_, const gchar *sender,
 		return g_variant_new_uint64 (priv->download_size_remaining);
 	if (g_strcmp0 (property_name, "TransactionFlags") == 0)
 		return g_variant_new_uint64 (priv->cached_transaction_flags);
+	if (g_strcmp0 (property_name, "RemainingTime") == 0)
+		return g_variant_new_uint32 (priv->remaining_time);
+
+	g_set_error (error, G_DBUS_ERROR, G_DBUS_ERROR_UNKNOWN_PROPERTY,
+		     "Unknown transaction property ‘%s’", property_name);
 	return NULL;
 }
 
@@ -5499,6 +5524,9 @@ pk_transaction_dispose (GObject *object)
 	}
 
 	if (transaction->priv->registration_id > 0) {
+		/* We should have emitted ::Finished if the object was ever registered */
+		g_assert (transaction->priv->emitted_finished);
+
 		g_dbus_connection_unregister_object (transaction->priv->connection,
 						     transaction->priv->registration_id);
 		transaction->priv->registration_id = 0;
