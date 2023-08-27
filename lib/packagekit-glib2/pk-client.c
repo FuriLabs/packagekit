@@ -26,7 +26,7 @@
  * A GObject to use for accessing PackageKit asynchronously. If you're
  * using #PkClient to install, remove, or update packages, be prepared that
  * the eula, gpg and trusted callbacks need to be rescheduled manually, as in
- * http://www.packagekit.org/gtk-doc/introduction-ideas-transactions.html
+ * https://www.freedesktop.org/software/PackageKit/gtk-doc/introduction-ideas-transactions.html
  */
 
 #include "config.h"
@@ -65,6 +65,7 @@ struct _PkClientPrivate
 	gboolean		 background;
 	gboolean		 interactive;
 	gboolean		 idle;
+	gboolean		 details_with_deps_size;
 	guint			 cache_age;
 };
 
@@ -75,6 +76,7 @@ enum {
 	PROP_INTERACTIVE,
 	PROP_IDLE,
 	PROP_CACHE_AGE,
+	PROP_DETAILS_WITH_DEPS_SIZE,
 	PROP_LAST
 };
 
@@ -349,7 +351,12 @@ pk_client_cancellable_cancel_cb (GCancellable *cancellable,
 
 	/* dbus method has not yet fired */
 	if (state->proxy == NULL) {
+		g_autoptr(GError) local_error = NULL;
+
 		g_debug ("Cancelled, but no proxy, not sure what to do here");
+		local_error = g_error_new_literal (PK_CLIENT_ERROR, PK_CLIENT_ERROR_FAILED,
+						   "PackageKit transaction disappeared");
+		pk_client_state_finish (state, local_error);
 		return;
 	}
 
@@ -426,6 +433,9 @@ pk_client_get_property (GObject *object, guint prop_id, GValue *value, GParamSpe
 	case PROP_CACHE_AGE:
 		g_value_set_uint (value, priv->cache_age);
 		break;
+	case PROP_DETAILS_WITH_DEPS_SIZE:
+		g_value_set_boolean (value, priv->details_with_deps_size);
+		break;
 	default:
 		G_OBJECT_WARN_INVALID_PROPERTY_ID (object, prop_id, pspec);
 		break;
@@ -454,6 +464,9 @@ pk_client_set_property (GObject *object, guint prop_id, const GValue *value, GPa
 		break;
 	case PROP_CACHE_AGE:
 		priv->cache_age = g_value_get_uint (value);
+		break;
+	case PROP_DETAILS_WITH_DEPS_SIZE:
+		priv->details_with_deps_size = g_value_get_boolean (value);
 		break;
 	default:
 		G_OBJECT_WARN_INVALID_PROPERTY_ID (object, prop_id, pspec);
@@ -1582,8 +1595,16 @@ pk_client_signal_cb (GDBusProxy *proxy,
 		}
 		return;
 	}
-	if (g_strcmp0 (signal_name, "Destroy") == 0)
+	if (g_strcmp0 (signal_name, "Destroy") == 0) {
+		g_autoptr(GError) local_error = NULL;
+
+		if (state->waiting_for_finished)
+			local_error = g_error_new_literal (PK_CLIENT_ERROR, PK_CLIENT_ERROR_FAILED,
+							   "PackageKit transaction disappeared");
+
+		pk_client_state_finish (state, local_error);
 		return;
+	}
 }
 
 static void
@@ -2263,6 +2284,10 @@ pk_client_get_proxy_cb (GObject *object,
 	hint = g_strdup_printf ("interactive=%s",
 				pk_client_bool_to_string (state->client->priv->interactive));
 	g_ptr_array_add (array, hint);
+
+	if (state->client->priv->details_with_deps_size &&
+	    state->role == PK_ROLE_ENUM_GET_DETAILS)
+		g_ptr_array_add (array, g_strdup ("details-with-deps-size=true"));
 
 	/* cache-age */
 	if (state->client->priv->cache_age > 0) {
@@ -4615,6 +4640,46 @@ pk_client_get_cache_age (PkClient *client)
 	return client->priv->cache_age;
 }
 
+/**
+ * pk_client_set_details_with_deps_size:
+ * @client: a valid #PkClient instance
+ * @details_with_deps_size: the value to set
+ *
+ * Sets whether the pk_client_get_details_async() should include dependencies
+ * download sizes for packages, which are not installed.
+ *
+ * Since: 1.2.7
+ **/
+void
+pk_client_set_details_with_deps_size (PkClient *client, gboolean details_with_deps_size)
+{
+	g_return_if_fail (PK_IS_CLIENT (client));
+
+	if (client->priv->details_with_deps_size == details_with_deps_size)
+		return;
+
+	client->priv->details_with_deps_size = details_with_deps_size;
+	g_object_notify (G_OBJECT (client), "details-with-deps-size");
+}
+
+/**
+ * pk_client_get_details_with_deps_size:
+ * @client: a valid #PkClient instance
+ *
+ * Gets the client details-with-deps-size value.
+ *
+ * Returns: whether the pk_client_get_details_async() should include dependencies
+ *    download sizes for packages, which are not installed.
+ *
+ * Since: 1.2.7
+ **/
+gboolean
+pk_client_get_details_with_deps_size (PkClient *client)
+{
+	g_return_val_if_fail (PK_IS_CLIENT (client), FALSE);
+	return client->priv->details_with_deps_size;
+}
+
 /*
  * pk_client_class_init:
  **/
@@ -4634,7 +4699,7 @@ pk_client_class_init (PkClientClass *klass)
 	 */
 	pspec = g_param_spec_string ("locale", NULL, NULL,
 				     NULL,
-				     G_PARAM_READWRITE);
+				     G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS);
 	g_object_class_install_property (object_class, PROP_LOCALE, pspec);
 
 	/**
@@ -4644,7 +4709,7 @@ pk_client_class_init (PkClientClass *klass)
 	 */
 	pspec = g_param_spec_boolean ("background", NULL, NULL,
 				      FALSE,
-				      G_PARAM_READWRITE);
+				      G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS);
 	g_object_class_install_property (object_class, PROP_BACKGROUND, pspec);
 
 	/**
@@ -4654,7 +4719,7 @@ pk_client_class_init (PkClientClass *klass)
 	 */
 	pspec = g_param_spec_boolean ("interactive", NULL, NULL,
 				      TRUE,
-				      G_PARAM_READWRITE);
+				      G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS);
 	g_object_class_install_property (object_class, PROP_INTERACTIVE, pspec);
 
 	/**
@@ -4664,7 +4729,7 @@ pk_client_class_init (PkClientClass *klass)
 	 */
 	pspec = g_param_spec_boolean ("idle", NULL, "if there are no transactions in progress on this client",
 				      TRUE,
-				      G_PARAM_READABLE);
+				      G_PARAM_READABLE | G_PARAM_STATIC_STRINGS);
 	g_object_class_install_property (object_class, PROP_IDLE, pspec);
 
 	g_type_class_add_private (klass, sizeof (PkClientPrivate));
@@ -4676,8 +4741,18 @@ pk_client_class_init (PkClientClass *klass)
 	 */
 	pspec = g_param_spec_uint ("cache-age", NULL, NULL,
 				   0, G_MAXUINT, G_MAXUINT,
-				   G_PARAM_READWRITE);
+				   G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS);
 	g_object_class_install_property (object_class, PROP_CACHE_AGE, pspec);
+
+	/**
+	 * PkClient:details-with-deps-size:
+	 *
+	 * Since: 1.2.7
+	 */
+	pspec = g_param_spec_boolean ("details-with-deps-size", NULL, NULL,
+				      FALSE,
+				      G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS);
+	g_object_class_install_property (object_class, PROP_DETAILS_WITH_DEPS_SIZE, pspec);
 }
 
 /*
@@ -4692,6 +4767,7 @@ pk_client_init (PkClient *client)
 	client->priv->interactive = TRUE;
 	client->priv->idle = TRUE;
 	client->priv->cache_age = G_MAXUINT;
+	client->priv->details_with_deps_size = FALSE;
 
 	/* use a control object */
 	client->priv->control = pk_control_new ();

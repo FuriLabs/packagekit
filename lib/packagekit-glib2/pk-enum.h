@@ -553,6 +553,7 @@ typedef enum {
  * @PK_GROUP_ENUM_COLLECTIONS:
  * @PK_GROUP_ENUM_VENDOR: Vendor defined group
  * @PK_GROUP_ENUM_NEWEST: Special group for recently updated packages
+ * @PK_GROUP_ENUM_DESKTOP_DDE: DDE packages
  * @PK_GROUP_ENUM_LAST:
  *
  * The group type
@@ -593,6 +594,7 @@ typedef enum {
 	PK_GROUP_ENUM_COLLECTIONS,
 	PK_GROUP_ENUM_VENDOR,
 	PK_GROUP_ENUM_NEWEST,
+	PK_GROUP_ENUM_DESKTOP_DDE,
 	PK_GROUP_ENUM_LAST
 } PkGroupEnum;
 

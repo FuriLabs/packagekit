@@ -1450,7 +1450,7 @@ pk_console_get_summary (PkConsoleCtx *ctx)
 	if (pk_bitfield_contain (ctx->roles, PK_ROLE_ENUM_REMOVE_PACKAGES))
 		g_string_append_printf (string, "  %s\n", "remove [package]");
 	if (pk_bitfield_contain (ctx->roles, PK_ROLE_ENUM_UPDATE_PACKAGES))
-		g_string_append_printf (string, "  %s\n", "update <package>");
+		g_string_append_printf (string, "  %s\n", "update [package]");
 	if (pk_bitfield_contain (ctx->roles, PK_ROLE_ENUM_REFRESH_CACHE))
 		g_string_append_printf (string, "  %s\n", "refresh [force]");
 	if (pk_bitfield_contain (ctx->roles, PK_ROLE_ENUM_RESOLVE))
@@ -1639,7 +1639,7 @@ main (int argc, char *argv[])
 	g_autofree gchar *filter = NULL;
 	g_autofree gchar *options_help = NULL;
 	g_autofree gchar *summary = NULL;
-	guint bar_padding = 30;
+	guint bar_padding = 40;
 	guint bar_size = 25;
 	struct winsize w;
 
