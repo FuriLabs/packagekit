@@ -1,3 +1,14 @@
+packagekit (1.2.7-1) unstable; urgency=medium
+
+  * New upstream version 1.2.7
+  * Drop all patches: Applied upstream
+  * Enable all tests except for the daemon tests
+    - The daemon tests need special configuration and
+      root access, so we still can not run them.
+  * Update symbols file
+
+ -- Matthias Klumpp <mak@debian.org>  Sun, 27 Aug 2023 15:46:54 +0200
+
 packagekit (1.2.6-5) unstable; urgency=medium
 
   * Add fix-tiny-memleak.patch:
