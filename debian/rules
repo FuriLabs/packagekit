@@ -5,7 +5,9 @@ DEB_HOST_ARCH_OS ?= $(shell dpkg-architecture -qDEB_HOST_ARCH_OS)
 DEB_HOST_MULTIARCH ?= $(shell dpkg-architecture -qDEB_HOST_MULTIARCH)
 
 # Use this variable to set the PackageKit configure flags
-PK_CONFIGURE_FLAGS = -Dpackaging_backend=apt \
+PK_CONFIGURE_FLAGS = \
+			-Ddaemon_tests=false \
+			-Dpackaging_backend=apt \
 			-Dsystemd=true \
 			-Doffline_update=true \
 			-Dgobject_introspection=true \
@@ -38,10 +40,6 @@ extrainstallfiles-stamp:
 override_dh_auto_configure:
 	cp -dpr $(CURDIR)/docs/api $(CURDIR)/docs/api.orig
 	dh_auto_configure -- $(PK_CONFIGURE_FLAGS)
-
-# The testsuite needs some manual interaction and a special
-# setup for the daemon to work, so we don't run it during build.
-override_dh_auto_test:
 
 override_dh_auto_install:
 	dh_auto_install --destdir=$(INSTALLDIR)
