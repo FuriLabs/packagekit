@@ -1,8 +1,8 @@
+${env:deb_systemdsystemunitdir}
 debian/org.freedesktop.packagekit.pkla var/lib/polkit-1/localauthority/10-vendor.d/
 etc/PackageKit/PackageKit.conf
 etc/PackageKit/Vendor.conf
 etc/apt/apt.conf.d/20packagekit
-${env:deb_systemdsystemunitdir}
 usr/lib/*/packagekit-backend/*
 usr/lib/systemd/user/pk-debconf-helper.*
 usr/libexec/packagekit-direct
