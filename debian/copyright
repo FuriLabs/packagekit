@@ -52,10 +52,10 @@ Files: backends/dummy/*
  client/*
  contrib/command-not-found/pk-command-not-found.c
  data/pk-upgrade-distro.sh
- data/tests/pk-spawn-proxy.sh
- data/tests/pk-spawn-test-profiling.sh
- data/tests/pk-spawn-test-sigquit.sh
- data/tests/pk-spawn-test.sh
+ tests/data/pk-spawn-proxy.sh
+ tests/data/pk-spawn-test-profiling.sh
+ tests/data/pk-spawn-test-sigquit.sh
+ tests/data/pk-spawn-test.sh
  src/*
 Copyright: 2007-2014, Richard Hughes <richard@hughsie.com>
 License: GPL-2+
