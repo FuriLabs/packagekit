@@ -1,3 +1,17 @@
+packagekit (1.2.8-1) unstable; urgency=medium
+
+  [ Matthias Klumpp ]
+  * New upstream version: 1.2.8
+    - Removes bashisms (Closes: #772289)
+    - Fixes crash when finishing a uncommitted transaction (Closes: #1054026)
+    - Deduplicates offline-update entries (Closes: #910365)
+  * Slightly tweak description text
+
+  [ Helmut Grohne ]
+  * Fix FTBFS when systemd.pc changes systemdsystemunitdir (Closes: #1052982)
+
+ -- Matthias Klumpp <mak@debian.org>  Wed, 08 Nov 2023 22:28:00 +0100
+
 packagekit (1.2.7-1) unstable; urgency=medium
 
   * New upstream version 1.2.7
