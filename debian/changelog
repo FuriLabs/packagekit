@@ -1,3 +1,16 @@
+packagekit (1.2.8-2) unstable; urgency=medium
+
+  * Add strlen-cmp-memfix.patch:
+    - Check string length correctly to prevent memory
+      over-consumption.
+  * Add identify-ubuntu.patch:
+    - Do not incorrectly identify Ubuntu sources as coming
+      from Debian.
+  * Switch build dependency from pkg-config -> pkgconf,
+    add gobject-introspection-bin.
+
+ -- Matthias Klumpp <mak@debian.org>  Tue, 20 Feb 2024 22:20:42 +0100
+
 packagekit (1.2.8-1) unstable; urgency=medium
 
   [ Matthias Klumpp ]
