@@ -47,8 +47,6 @@
 
 static void     pk_client_finalize	(GObject     *object);
 
-#define PK_CLIENT_GET_PRIVATE(o) (G_TYPE_INSTANCE_GET_PRIVATE ((o), PK_TYPE_CLIENT, PkClientPrivate))
-
 #define PK_CLIENT_DBUS_METHOD_TIMEOUT	G_MAXINT /* ms */
 
 /**
@@ -80,7 +78,9 @@ enum {
 	PROP_LAST
 };
 
-G_DEFINE_TYPE (PkClient, pk_client, G_TYPE_OBJECT)
+static GParamSpec *obj_properties[PROP_LAST] = { NULL, };
+
+G_DEFINE_TYPE_WITH_PRIVATE (PkClient, pk_client, G_TYPE_OBJECT)
 
 #define PK_TYPE_CLIENT_STATE (pk_client_state_get_type ())
 
@@ -199,14 +199,16 @@ pk_client_state_unset_proxy (PkClientState *state)
 static void
 pk_client_state_remove (PkClient *client, PkClientState *state)
 {
+	PkClientPrivate *priv = pk_client_get_instance_private (client);
 	gboolean is_idle;
-	g_ptr_array_remove (client->priv->calls, state);
+
+	g_ptr_array_remove (priv->calls, state);
 
 	/* has the idle state changed? */
-	is_idle = (client->priv->calls->len == 0);
-	if (is_idle != client->priv->idle) {
-		client->priv->idle = is_idle;
-		g_object_notify (G_OBJECT(client), "idle");
+	is_idle = (priv->calls->len == 0);
+	if (is_idle != priv->idle) {
+		priv->idle = is_idle;
+		g_object_notify_by_pspec (G_OBJECT (client), obj_properties[PROP_IDLE]);
 	}
 }
 
@@ -430,7 +432,7 @@ static void
 pk_client_get_property (GObject *object, guint prop_id, GValue *value, GParamSpec *pspec)
 {
 	PkClient *client = PK_CLIENT (object);
-	PkClientPrivate *priv = client->priv;
+	PkClientPrivate *priv = pk_client_get_instance_private (client);
 
 	switch (prop_id) {
 	case PROP_LOCALE:
@@ -464,7 +466,7 @@ static void
 pk_client_set_property (GObject *object, guint prop_id, const GValue *value, GParamSpec *pspec)
 {
 	PkClient *client = PK_CLIENT (object);
-	PkClientPrivate *priv = client->priv;
+	PkClientPrivate *priv = pk_client_get_instance_private (client);
 
 	switch (prop_id) {
 	case PROP_LOCALE:
@@ -855,15 +857,16 @@ pk_client_set_property_value (PkClientState *state,
 static void
 pk_client_state_add (PkClient *client, PkClientState *state)
 {
+	PkClientPrivate *priv = pk_client_get_instance_private (client);
 	gboolean is_idle;
 
-	g_ptr_array_add (client->priv->calls, state);
+	g_ptr_array_add (priv->calls, state);
 
 	/* has the idle state changed? */
-	is_idle = (client->priv->calls->len == 0);
-	if (is_idle != client->priv->idle) {
-		client->priv->idle = is_idle;
-		g_object_notify (G_OBJECT(client), "idle");
+	is_idle = (priv->calls->len == 0);
+	if (is_idle != priv->idle) {
+		priv->idle = is_idle;
+		g_object_notify_by_pspec (G_OBJECT (client), obj_properties[PROP_IDLE]);
 	}
 }
 
@@ -2274,6 +2277,7 @@ pk_client_get_proxy_cb (GObject *object,
 	g_autoptr(PkClientState) state = PK_CLIENT_STATE (g_steal_pointer (&user_data));
 	g_autoptr(GError) error = NULL;
 	g_autoptr(GPtrArray) array = NULL;
+	PkClientPrivate *priv = pk_client_get_instance_private (state->client);
 
 	state->proxy = g_dbus_proxy_new_for_bus_finish (res, &error);
 	if (state->proxy == NULL)
@@ -2286,29 +2290,28 @@ pk_client_get_proxy_cb (GObject *object,
 	array = g_ptr_array_new_with_free_func (g_free);
 
 	/* locale */
-	if (state->client->priv->locale != NULL) {
-		hint = g_strdup_printf ("locale=%s", state->client->priv->locale);
+	if (priv->locale != NULL) {
+		hint = g_strdup_printf ("locale=%s", priv->locale);
 		g_ptr_array_add (array, hint);
 	}
 
 	/* background */
 	hint = g_strdup_printf ("background=%s",
-				pk_client_bool_to_string (state->client->priv->background));
+				pk_client_bool_to_string (priv->background));
 	g_ptr_array_add (array, hint);
 
 	/* interactive */
 	hint = g_strdup_printf ("interactive=%s",
-				pk_client_bool_to_string (state->client->priv->interactive));
+				pk_client_bool_to_string (priv->interactive));
 	g_ptr_array_add (array, hint);
 
-	if (state->client->priv->details_with_deps_size &&
+	if (priv->details_with_deps_size &&
 	    state->role == PK_ROLE_ENUM_GET_DETAILS)
 		g_ptr_array_add (array, g_strdup ("details-with-deps-size=true"));
 
 	/* cache-age */
-	if (state->client->priv->cache_age > 0) {
-		hint = g_strdup_printf ("cache-age=%u",
-					state->client->priv->cache_age);
+	if (priv->cache_age > 0) {
+		hint = g_strdup_printf ("cache-age=%u", priv->cache_age);
 		g_ptr_array_add (array, hint);
 	}
 
@@ -2337,7 +2340,7 @@ pk_client_get_proxy_cb (GObject *object,
 			   g_object_ref (state));
 
 	/* track state */
-	g_ptr_array_add (state->client->priv->calls, state);
+	g_ptr_array_add (priv->calls, state);
 }
 
 /*
@@ -2393,7 +2396,7 @@ pk_client_generic_finish (PkClient *client, GAsyncResult *res, GError **error)
 }
 
 /**
- * pk_client_resolve_async:
+ * pk_client_resolve_async: (finish-func pk_client_generic_finish):
  * @client: a valid #PkClient instance
  * @filters: a #PkBitfield such as %PK_FILTER_ENUM_GUI | %PK_FILTER_ENUM_FREE or %PK_FILTER_ENUM_NONE
  * @packages: (array zero-terminated=1): an array of package names to resolve, e.g. "gnome-system-tools"
@@ -2414,6 +2417,7 @@ pk_client_resolve_async (PkClient *client, PkBitfield filters, gchar **packages,
 			 PkProgressCallback progress_callback, gpointer progress_user_data,
 			 GAsyncReadyCallback callback_ready, gpointer user_data)
 {
+	PkClientPrivate *priv = pk_client_get_instance_private (client);
 	g_autoptr(PkClientState) state = NULL;
 	g_autoptr(GError) error = NULL;
 
@@ -2440,14 +2444,14 @@ pk_client_resolve_async (PkClient *client, PkBitfield filters, gchar **packages,
 	pk_client_set_role (state, state->role);
 
 	/* get tid */
-	pk_control_get_tid_async (client->priv->control,
+	pk_control_get_tid_async (priv->control,
 				  cancellable,
 				  (GAsyncReadyCallback) pk_client_get_tid_cb,
 				  g_steal_pointer (&state));
 }
 
 /**
- * pk_client_search_names_async:
+ * pk_client_search_names_async: (finish-func pk_client_generic_finish):
  * @client: a valid #PkClient instance
  * @filters: a #PkBitfield such as %PK_FILTER_ENUM_GUI | %PK_FILTER_ENUM_FREE or %PK_FILTER_ENUM_NONE
  * @values: (array zero-terminated=1): free text to search for, for instance, "power"
@@ -2467,6 +2471,7 @@ pk_client_search_names_async (PkClient *client, PkBitfield filters, gchar **valu
 			     PkProgressCallback progress_callback, gpointer progress_user_data,
 			     GAsyncReadyCallback callback_ready, gpointer user_data)
 {
+	PkClientPrivate *priv = pk_client_get_instance_private (client);
 	g_autoptr(PkClientState) state = NULL;
 	g_autoptr(GError) error = NULL;
 
@@ -2493,14 +2498,14 @@ pk_client_search_names_async (PkClient *client, PkBitfield filters, gchar **valu
 	pk_client_set_role (state, state->role);
 
 	/* get tid */
-	pk_control_get_tid_async (client->priv->control,
+	pk_control_get_tid_async (priv->control,
 				  cancellable,
 				  (GAsyncReadyCallback) pk_client_get_tid_cb,
 				  g_steal_pointer (&state));
 }
 
 /**
- * pk_client_search_details_async:
+ * pk_client_search_details_async: (finish-func pk_client_generic_finish):
  * @client: a valid #PkClient instance
  * @filters: a #PkBitfield such as %PK_FILTER_ENUM_GUI | %PK_FILTER_ENUM_FREE or %PK_FILTER_ENUM_NONE
  * @values: (array zero-terminated=1): free text to search for, for instance, "power"
@@ -2521,6 +2526,7 @@ pk_client_search_details_async (PkClient *client, PkBitfield filters, gchar **va
 				PkProgressCallback progress_callback, gpointer progress_user_data,
 				GAsyncReadyCallback callback_ready, gpointer user_data)
 {
+	PkClientPrivate *priv = pk_client_get_instance_private (client);
 	g_autoptr(PkClientState) state = NULL;
 	g_autoptr(GError) error = NULL;
 
@@ -2547,14 +2553,14 @@ pk_client_search_details_async (PkClient *client, PkBitfield filters, gchar **va
 	pk_client_set_role (state, state->role);
 
 	/* get tid */
-	pk_control_get_tid_async (client->priv->control,
+	pk_control_get_tid_async (priv->control,
 				  cancellable,
 				  (GAsyncReadyCallback) pk_client_get_tid_cb,
 				  g_steal_pointer (&state));
 }
 
 /**
- * pk_client_search_groups_async:
+ * pk_client_search_groups_async: (finish-func pk_client_generic_finish):
  * @client: a valid #PkClient instance
  * @filters: a #PkBitfield such as %PK_FILTER_ENUM_GUI | %PK_FILTER_ENUM_FREE or %PK_FILTER_ENUM_NONE
  * @values: (array zero-terminated=1): a group enum to search for, for instance, "system-tools"
@@ -2573,6 +2579,7 @@ pk_client_search_groups_async (PkClient *client, PkBitfield filters, gchar **val
 			      PkProgressCallback progress_callback, gpointer progress_user_data,
 			      GAsyncReadyCallback callback_ready, gpointer user_data)
 {
+	PkClientPrivate *priv = pk_client_get_instance_private (client);
 	g_autoptr(PkClientState) state = NULL;
 	g_autoptr(GError) error = NULL;
 
@@ -2599,14 +2606,14 @@ pk_client_search_groups_async (PkClient *client, PkBitfield filters, gchar **val
 	pk_client_set_role (state, state->role);
 
 	/* get tid */
-	pk_control_get_tid_async (client->priv->control,
+	pk_control_get_tid_async (priv->control,
 				  cancellable,
 				  (GAsyncReadyCallback) pk_client_get_tid_cb,
 				  g_steal_pointer (&state));
 }
 
 /**
- * pk_client_search_files_async:
+ * pk_client_search_files_async: (finish-func pk_client_generic_finish):
  * @client: a valid #PkClient instance
  * @filters: a #PkBitfield such as %PK_FILTER_ENUM_GUI | %PK_FILTER_ENUM_FREE or %PK_FILTER_ENUM_NONE
  * @values: (array zero-terminated=1): file to search for, for instance, "/sbin/service"
@@ -2625,6 +2632,7 @@ pk_client_search_files_async (PkClient *client, PkBitfield filters, gchar **valu
 			     PkProgressCallback progress_callback, gpointer progress_user_data,
 			     GAsyncReadyCallback callback_ready, gpointer user_data)
 {
+	PkClientPrivate *priv = pk_client_get_instance_private (client);
 	g_autoptr(PkClientState) state = NULL;
 	g_autoptr(GError) error = NULL;
 
@@ -2651,14 +2659,14 @@ pk_client_search_files_async (PkClient *client, PkBitfield filters, gchar **valu
 	pk_client_set_role (state, state->role);
 
 	/* get tid */
-	pk_control_get_tid_async (client->priv->control,
+	pk_control_get_tid_async (priv->control,
 				  cancellable,
 				  (GAsyncReadyCallback) pk_client_get_tid_cb,
 				  g_steal_pointer (&state));
 }
 
 /**
- * pk_client_get_details_async:
+ * pk_client_get_details_async: (finish-func pk_client_generic_finish):
  * @client: a valid #PkClient instance
  * @package_ids: (array zero-terminated=1): a null terminated array of package_id structures such as "hal;0.0.1;i386;fedora"
  * @cancellable: a #GCancellable or %NULL
@@ -2677,6 +2685,7 @@ pk_client_get_details_async (PkClient *client, gchar **package_ids, GCancellable
 			     PkProgressCallback progress_callback, gpointer progress_user_data,
 			     GAsyncReadyCallback callback_ready, gpointer user_data)
 {
+	PkClientPrivate *priv = pk_client_get_instance_private (client);
 	g_autoptr(PkClientState) state = NULL;
 	g_autoptr(GError) error = NULL;
 
@@ -2703,14 +2712,14 @@ pk_client_get_details_async (PkClient *client, gchar **package_ids, GCancellable
 	pk_client_set_role (state, state->role);
 
 	/* get tid */
-	pk_control_get_tid_async (client->priv->control,
+	pk_control_get_tid_async (priv->control,
 				  cancellable,
 				  (GAsyncReadyCallback) pk_client_get_tid_cb,
 				  g_steal_pointer (&state));
 }
 
 /**
- * pk_client_get_details_local_async:
+ * pk_client_get_details_local_async: (finish-func pk_client_generic_finish):
  * @client: a valid #PkClient instance
  * @files: (array zero-terminated=1): a null terminated array of filenames
  * @cancellable: a #GCancellable or %NULL
@@ -2729,6 +2738,7 @@ pk_client_get_details_local_async (PkClient *client, gchar **files, GCancellable
 				   PkProgressCallback progress_callback, gpointer progress_user_data,
 				   GAsyncReadyCallback callback_ready, gpointer user_data)
 {
+	PkClientPrivate *priv = pk_client_get_instance_private (client);
 	g_autoptr(PkClientState) state = NULL;
 	g_autoptr(GError) error = NULL;
 
@@ -2759,14 +2769,14 @@ pk_client_get_details_local_async (PkClient *client, gchar **files, GCancellable
 	pk_client_set_role (state, state->role);
 
 	/* get tid */
-	pk_control_get_tid_async (client->priv->control,
+	pk_control_get_tid_async (priv->control,
 				  cancellable,
 				  (GAsyncReadyCallback) pk_client_get_tid_cb,
 				  g_steal_pointer (&state));
 }
 
 /**
- * pk_client_get_files_local_async:
+ * pk_client_get_files_local_async: (finish-func pk_client_generic_finish):
  * @client: a valid #PkClient instance
  * @files: (array zero-terminated=1): a null terminated array of filenames
  * @cancellable: a #GCancellable or %NULL
@@ -2785,6 +2795,7 @@ pk_client_get_files_local_async (PkClient *client, gchar **files, GCancellable *
 				 PkProgressCallback progress_callback, gpointer progress_user_data,
 				 GAsyncReadyCallback callback_ready, gpointer user_data)
 {
+	PkClientPrivate *priv = pk_client_get_instance_private (client);
 	g_autoptr(PkClientState) state = NULL;
 	g_autoptr(GError) error = NULL;
 
@@ -2815,14 +2826,14 @@ pk_client_get_files_local_async (PkClient *client, gchar **files, GCancellable *
 	pk_client_set_role (state, state->role);
 
 	/* get tid */
-	pk_control_get_tid_async (client->priv->control,
+	pk_control_get_tid_async (priv->control,
 				  cancellable,
 				  (GAsyncReadyCallback) pk_client_get_tid_cb,
 				  g_steal_pointer (&state));
 }
 
 /**
- * pk_client_get_update_detail_async:
+ * pk_client_get_update_detail_async: (finish-func pk_client_generic_finish):
  * @client: a valid #PkClient instance
  * @package_ids: (array zero-terminated=1): a null terminated array of package_id structures such as "hal;0.0.1;i386;fedora"
  * @cancellable: a #GCancellable or %NULL
@@ -2841,6 +2852,7 @@ pk_client_get_update_detail_async (PkClient *client, gchar **package_ids, GCance
 				   PkProgressCallback progress_callback, gpointer progress_user_data,
 				   GAsyncReadyCallback callback_ready, gpointer user_data)
 {
+	PkClientPrivate *priv = pk_client_get_instance_private (client);
 	g_autoptr(PkClientState) state = NULL;
 	g_autoptr(GError) error = NULL;
 
@@ -2867,14 +2879,14 @@ pk_client_get_update_detail_async (PkClient *client, gchar **package_ids, GCance
 	pk_client_set_role (state, state->role);
 
 	/* get tid */
-	pk_control_get_tid_async (client->priv->control,
+	pk_control_get_tid_async (priv->control,
 				  cancellable,
 				  (GAsyncReadyCallback) pk_client_get_tid_cb,
 				  g_steal_pointer (&state));
 }
 
 /**
- * pk_client_download_packages_async:
+ * pk_client_download_packages_async: (finish-func pk_client_generic_finish):
  * @client: a valid #PkClient instance
  * @package_ids: (array zero-terminated=1): a null terminated array of package_id structures such as "hal;0.0.1;i386;fedora"
  * @directory: the location where packages are to be downloaded
@@ -2893,6 +2905,7 @@ pk_client_download_packages_async (PkClient *client, gchar **package_ids, const 
 				   PkProgressCallback progress_callback, gpointer progress_user_data,
 				   GAsyncReadyCallback callback_ready, gpointer user_data)
 {
+	PkClientPrivate *priv = pk_client_get_instance_private (client);
 	g_autoptr(PkClientState) state = NULL;
 	g_autoptr(GError) error = NULL;
 
@@ -2920,14 +2933,14 @@ pk_client_download_packages_async (PkClient *client, gchar **package_ids, const 
 	pk_client_set_role (state, state->role);
 
 	/* get tid */
-	pk_control_get_tid_async (client->priv->control,
+	pk_control_get_tid_async (priv->control,
 				  cancellable,
 				  (GAsyncReadyCallback) pk_client_get_tid_cb,
 				  g_steal_pointer (&state));
 }
 
 /**
- * pk_client_get_updates_async:
+ * pk_client_get_updates_async: (finish-func pk_client_generic_finish):
  * @client: a valid #PkClient instance
  * @filters: a #PkBitfield such as %PK_FILTER_ENUM_DEVELOPMENT or %PK_FILTER_ENUM_NONE
  * @cancellable: a #GCancellable or %NULL
@@ -2945,6 +2958,7 @@ pk_client_get_updates_async (PkClient *client, PkBitfield filters, GCancellable 
 			     PkProgressCallback progress_callback, gpointer progress_user_data,
 			     GAsyncReadyCallback callback_ready, gpointer user_data)
 {
+	PkClientPrivate *priv = pk_client_get_instance_private (client);
 	g_autoptr(PkClientState) state = NULL;
 	g_autoptr(GError) error = NULL;
 
@@ -2970,14 +2984,14 @@ pk_client_get_updates_async (PkClient *client, PkBitfield filters, GCancellable 
 	pk_client_set_role (state, state->role);
 
 	/* get tid */
-	pk_control_get_tid_async (client->priv->control,
+	pk_control_get_tid_async (priv->control,
 				  cancellable,
 				  (GAsyncReadyCallback) pk_client_get_tid_cb,
 				  g_steal_pointer (&state));
 }
 
 /**
- * pk_client_get_old_transactions_async:
+ * pk_client_get_old_transactions_async: (finish-func pk_client_generic_finish):
  * @client: a valid #PkClient instance
  * @number: the number of past transactions to return, or 0 for all
  * @cancellable: a #GCancellable or %NULL
@@ -2995,6 +3009,7 @@ pk_client_get_old_transactions_async (PkClient *client, guint number, GCancellab
 			     PkProgressCallback progress_callback, gpointer progress_user_data,
 			     GAsyncReadyCallback callback_ready, gpointer user_data)
 {
+	PkClientPrivate *priv = pk_client_get_instance_private (client);
 	g_autoptr(PkClientState) state = NULL;
 	g_autoptr(GError) error = NULL;
 
@@ -3020,14 +3035,14 @@ pk_client_get_old_transactions_async (PkClient *client, guint number, GCancellab
 	pk_client_set_role (state, state->role);
 
 	/* get tid */
-	pk_control_get_tid_async (client->priv->control,
+	pk_control_get_tid_async (priv->control,
 				  cancellable,
 				  (GAsyncReadyCallback) pk_client_get_tid_cb,
 				  g_steal_pointer (&state));
 }
 
 /**
- * pk_client_depends_on_async:
+ * pk_client_depends_on_async: (finish-func pk_client_generic_finish):
  * @client: a valid #PkClient instance
  * @filters: a #PkBitfield such as %PK_FILTER_ENUM_GUI | %PK_FILTER_ENUM_FREE or %PK_FILTER_ENUM_NONE
  * @package_ids: (array zero-terminated=1): a null terminated array of package_id structures such as "hal;0.0.1;i386;fedora"
@@ -3047,6 +3062,7 @@ pk_client_depends_on_async (PkClient *client, PkBitfield filters, gchar **packag
 			     PkProgressCallback progress_callback, gpointer progress_user_data,
 			     GAsyncReadyCallback callback_ready, gpointer user_data)
 {
+	PkClientPrivate *priv = pk_client_get_instance_private (client);
 	g_autoptr(PkClientState) state = NULL;
 	g_autoptr(GError) error = NULL;
 
@@ -3075,14 +3091,14 @@ pk_client_depends_on_async (PkClient *client, PkBitfield filters, gchar **packag
 	pk_client_set_role (state, state->role);
 
 	/* get tid */
-	pk_control_get_tid_async (client->priv->control,
+	pk_control_get_tid_async (priv->control,
 				  cancellable,
 				  (GAsyncReadyCallback) pk_client_get_tid_cb,
 				  g_steal_pointer (&state));
 }
 
 /**
- * pk_client_get_packages_async:
+ * pk_client_get_packages_async: (finish-func pk_client_generic_finish):
  * @client: a valid #PkClient instance
  * @filters: a #PkBitfield such as %PK_FILTER_ENUM_GUI | %PK_FILTER_ENUM_FREE or %PK_FILTER_ENUM_NONE
  * @cancellable: a #GCancellable or %NULL
@@ -3100,6 +3116,7 @@ pk_client_get_packages_async (PkClient *client, PkBitfield filters, GCancellable
 			      PkProgressCallback progress_callback, gpointer progress_user_data,
 			      GAsyncReadyCallback callback_ready, gpointer user_data)
 {
+	PkClientPrivate *priv = pk_client_get_instance_private (client);
 	g_autoptr(PkClientState) state = NULL;
 	g_autoptr(GError) error = NULL;
 
@@ -3125,14 +3142,14 @@ pk_client_get_packages_async (PkClient *client, PkBitfield filters, GCancellable
 	pk_client_set_role (state, state->role);
 
 	/* get tid */
-	pk_control_get_tid_async (client->priv->control,
+	pk_control_get_tid_async (priv->control,
 				  cancellable,
 				  (GAsyncReadyCallback) pk_client_get_tid_cb,
 				  g_steal_pointer (&state));
 }
 
 /**
- * pk_client_required_by_async:
+ * pk_client_required_by_async: (finish-func pk_client_generic_finish):
  * @client: a valid #PkClient instance
  * @filters: a #PkBitfield such as %PK_FILTER_ENUM_GUI | %PK_FILTER_ENUM_FREE or %PK_FILTER_ENUM_NONE
  * @package_ids: (array zero-terminated=1): a null terminated array of package_id structures such as "hal;0.0.1;i386;fedora"
@@ -3152,6 +3169,7 @@ pk_client_required_by_async (PkClient *client, PkBitfield filters, gchar **packa
 			      PkProgressCallback progress_callback, gpointer progress_user_data,
 			      GAsyncReadyCallback callback_ready, gpointer user_data)
 {
+	PkClientPrivate *priv = pk_client_get_instance_private (client);
 	g_autoptr(PkClientState) state = NULL;
 	g_autoptr(GError) error = NULL;
 
@@ -3180,14 +3198,14 @@ pk_client_required_by_async (PkClient *client, PkBitfield filters, gchar **packa
 	pk_client_set_role (state, state->role);
 
 	/* get tid */
-	pk_control_get_tid_async (client->priv->control,
+	pk_control_get_tid_async (priv->control,
 				  cancellable,
 				  (GAsyncReadyCallback) pk_client_get_tid_cb,
 				  g_steal_pointer (&state));
 }
 
 /**
- * pk_client_what_provides_async:
+ * pk_client_what_provides_async: (finish-func pk_client_generic_finish):
  * @client: a valid #PkClient instance
  * @filters: a #PkBitfield such as %PK_FILTER_ENUM_GUI | %PK_FILTER_ENUM_FREE or %PK_FILTER_ENUM_NONE
  * @values: (array zero-terminated=1): a search term such as "sound/mp3"
@@ -3211,6 +3229,7 @@ pk_client_what_provides_async (PkClient *client,
 			       PkProgressCallback progress_callback, gpointer progress_user_data,
 			       GAsyncReadyCallback callback_ready, gpointer user_data)
 {
+	PkClientPrivate *priv = pk_client_get_instance_private (client);
 	g_autoptr(PkClientState) state = NULL;
 	g_autoptr(GError) error = NULL;
 
@@ -3237,14 +3256,14 @@ pk_client_what_provides_async (PkClient *client,
 	pk_client_set_role (state, state->role);
 
 	/* get tid */
-	pk_control_get_tid_async (client->priv->control,
+	pk_control_get_tid_async (priv->control,
 				  cancellable,
 				  (GAsyncReadyCallback) pk_client_get_tid_cb,
 				  g_steal_pointer (&state));
 }
 
 /**
- * pk_client_get_distro_upgrades_async:
+ * pk_client_get_distro_upgrades_async: (finish-func pk_client_generic_finish):
  * @client: a valid #PkClient instance
  * @cancellable: a #GCancellable or %NULL
  * @progress_callback: (scope notified): the function to run when the progress changes
@@ -3262,6 +3281,7 @@ pk_client_get_distro_upgrades_async (PkClient *client, GCancellable *cancellable
 				     PkProgressCallback progress_callback, gpointer progress_user_data,
 				     GAsyncReadyCallback callback_ready, gpointer user_data)
 {
+	PkClientPrivate *priv = pk_client_get_instance_private (client);
 	g_autoptr(PkClientState) state = NULL;
 	g_autoptr(GError) error = NULL;
 
@@ -3286,14 +3306,14 @@ pk_client_get_distro_upgrades_async (PkClient *client, GCancellable *cancellable
 	pk_client_set_role (state, state->role);
 
 	/* get tid */
-	pk_control_get_tid_async (client->priv->control,
+	pk_control_get_tid_async (priv->control,
 				  cancellable,
 				  (GAsyncReadyCallback) pk_client_get_tid_cb,
 				  g_steal_pointer (&state));
 }
 
 /**
- * pk_client_get_files_async:
+ * pk_client_get_files_async: (finish-func pk_client_generic_finish):
  * @client: a valid #PkClient instance
  * @package_ids: (array zero-terminated=1): a null terminated array of package_id structures such as "hal;0.0.1;i386;fedora"
  * @cancellable: a #GCancellable or %NULL
@@ -3311,6 +3331,7 @@ pk_client_get_files_async (PkClient *client, gchar **package_ids, GCancellable *
 			   PkProgressCallback progress_callback, gpointer progress_user_data,
 			   GAsyncReadyCallback callback_ready, gpointer user_data)
 {
+	PkClientPrivate *priv = pk_client_get_instance_private (client);
 	g_autoptr(PkClientState) state = NULL;
 	g_autoptr(GError) error = NULL;
 
@@ -3337,14 +3358,14 @@ pk_client_get_files_async (PkClient *client, gchar **package_ids, GCancellable *
 	pk_client_set_role (state, state->role);
 
 	/* get tid */
-	pk_control_get_tid_async (client->priv->control,
+	pk_control_get_tid_async (priv->control,
 				  cancellable,
 				  (GAsyncReadyCallback) pk_client_get_tid_cb,
 				  g_steal_pointer (&state));
 }
 
 /**
- * pk_client_get_categories_async:
+ * pk_client_get_categories_async: (finish-func pk_client_generic_finish):
  * @client: a valid #PkClient instance
  * @cancellable: a #GCancellable or %NULL
  * @progress_callback: (scope notified): the function to run when the progress changes
@@ -3361,6 +3382,7 @@ pk_client_get_categories_async (PkClient *client, GCancellable *cancellable,
 				PkProgressCallback progress_callback, gpointer progress_user_data,
 				GAsyncReadyCallback callback_ready, gpointer user_data)
 {
+	PkClientPrivate *priv = pk_client_get_instance_private (client);
 	g_autoptr(PkClientState) state = NULL;
 	g_autoptr(GError) error = NULL;
 
@@ -3385,14 +3407,14 @@ pk_client_get_categories_async (PkClient *client, GCancellable *cancellable,
 	pk_client_set_role (state, state->role);
 
 	/* get tid */
-	pk_control_get_tid_async (client->priv->control,
+	pk_control_get_tid_async (priv->control,
 				  cancellable,
 				  (GAsyncReadyCallback) pk_client_get_tid_cb,
 				  g_steal_pointer (&state));
 }
 
 /**
- * pk_client_remove_packages_async:
+ * pk_client_remove_packages_async: (finish-func pk_client_generic_finish):
  * @client: a valid #PkClient instance
  * @transaction_flags: a transaction type bitfield
  * @package_ids: (array zero-terminated=1): a null terminated array of package_id structures such as "hal;0.0.1;i386;fedora"
@@ -3422,6 +3444,7 @@ pk_client_remove_packages_async (PkClient *client,
 				 GAsyncReadyCallback callback_ready,
 				 gpointer user_data)
 {
+	PkClientPrivate *priv = pk_client_get_instance_private (client);
 	g_autoptr(PkClientState) state = NULL;
 	g_autoptr(GError) error = NULL;
 
@@ -3451,14 +3474,14 @@ pk_client_remove_packages_async (PkClient *client,
 	pk_client_set_role (state, state->role);
 
 	/* get tid */
-	pk_control_get_tid_async (client->priv->control,
+	pk_control_get_tid_async (priv->control,
 				  cancellable,
 				  (GAsyncReadyCallback) pk_client_get_tid_cb,
 				  g_steal_pointer (&state));
 }
 
 /**
- * pk_client_refresh_cache_async:
+ * pk_client_refresh_cache_async: (finish-func pk_client_generic_finish):
  * @client: a valid #PkClient instance
  * @force: if we should aggressively drop caches
  * @cancellable: a #GCancellable or %NULL
@@ -3479,6 +3502,7 @@ pk_client_refresh_cache_async (PkClient *client, gboolean force, GCancellable *c
 			       PkProgressCallback progress_callback, gpointer progress_user_data,
 			       GAsyncReadyCallback callback_ready, gpointer user_data)
 {
+	PkClientPrivate *priv = pk_client_get_instance_private (client);
 	g_autoptr(PkClientState) state = NULL;
 	g_autoptr(GError) error = NULL;
 
@@ -3504,14 +3528,14 @@ pk_client_refresh_cache_async (PkClient *client, gboolean force, GCancellable *c
 	pk_client_set_role (state, state->role);
 
 	/* get tid */
-	pk_control_get_tid_async (client->priv->control,
+	pk_control_get_tid_async (priv->control,
 				  cancellable,
 				  (GAsyncReadyCallback) pk_client_get_tid_cb,
 				  g_steal_pointer (&state));
 }
 
 /**
- * pk_client_install_packages_async:
+ * pk_client_install_packages_async: (finish-func pk_client_generic_finish):
  * @client: a valid #PkClient instance
  * @transaction_flags: a transaction type bitfield
  * @package_ids: (array zero-terminated=1): a null terminated array of package_id structures such as "hal;0.0.1;i386;fedora"
@@ -3530,6 +3554,7 @@ pk_client_install_packages_async (PkClient *client, PkBitfield transaction_flags
 				  PkProgressCallback progress_callback, gpointer progress_user_data,
 				  GAsyncReadyCallback callback_ready, gpointer user_data)
 {
+	PkClientPrivate *priv = pk_client_get_instance_private (client);
 	g_autoptr(PkClientState) state = NULL;
 	g_autoptr(GError) error = NULL;
 
@@ -3557,14 +3582,14 @@ pk_client_install_packages_async (PkClient *client, PkBitfield transaction_flags
 	pk_client_set_role (state, state->role);
 
 	/* get tid */
-	pk_control_get_tid_async (client->priv->control,
+	pk_control_get_tid_async (priv->control,
 				  cancellable,
 				  (GAsyncReadyCallback) pk_client_get_tid_cb,
 				  g_steal_pointer (&state));
 }
 
 /**
- * pk_client_install_signature_async:
+ * pk_client_install_signature_async: (finish-func pk_client_generic_finish):
  * @client: a valid #PkClient instance
  * @type: the signature type, e.g. %PK_SIGTYPE_ENUM_GPG
  * @key_id: a key ID such as "0df23df"
@@ -3584,6 +3609,7 @@ pk_client_install_signature_async (PkClient *client, PkSigTypeEnum type, const g
 				   PkProgressCallback progress_callback, gpointer progress_user_data,
 				   GAsyncReadyCallback callback_ready, gpointer user_data)
 {
+	PkClientPrivate *priv = pk_client_get_instance_private (client);
 	g_autoptr(PkClientState) state = NULL;
 	g_autoptr(GError) error = NULL;
 
@@ -3611,14 +3637,14 @@ pk_client_install_signature_async (PkClient *client, PkSigTypeEnum type, const g
 	pk_client_set_role (state, state->role);
 
 	/* get tid */
-	pk_control_get_tid_async (client->priv->control,
+	pk_control_get_tid_async (priv->control,
 				  cancellable,
 				  (GAsyncReadyCallback) pk_client_get_tid_cb,
 				  g_steal_pointer (&state));
 }
 
 /**
- * pk_client_update_packages_async:
+ * pk_client_update_packages_async: (finish-func pk_client_generic_finish):
  * @client: a valid #PkClient instance
  * @transaction_flags: a transaction type bitfield
  * @package_ids: (array zero-terminated=1): a null terminated array of package_id structures such as "hal;0.0.1;i386;fedora"
@@ -3642,6 +3668,7 @@ pk_client_update_packages_async (PkClient *client,
 				 GAsyncReadyCallback callback_ready,
 				 gpointer user_data)
 {
+	PkClientPrivate *priv = pk_client_get_instance_private (client);
 	g_autoptr(PkClientState) state = NULL;
 	g_autoptr(GError) error = NULL;
 
@@ -3669,7 +3696,7 @@ pk_client_update_packages_async (PkClient *client,
 	pk_client_set_role (state, state->role);
 
 	/* get tid */
-	pk_control_get_tid_async (client->priv->control,
+	pk_control_get_tid_async (priv->control,
 				  cancellable,
 				  (GAsyncReadyCallback) pk_client_get_tid_cb,
 				  g_steal_pointer (&state));
@@ -3692,8 +3719,9 @@ pk_client_copy_native_finished_cb (GFile *file, GAsyncResult *res, gpointer user
 
 	/* no more copies pending? */
 	if (--state->refcount == 0) {
+		PkClientPrivate *client_priv = pk_client_get_instance_private (state->client);
 		/* now get tid and continue on our merry way */
-		pk_control_get_tid_async (state->client->priv->control,
+		pk_control_get_tid_async (client_priv->control,
 					  state->cancellable,
 					  (GAsyncReadyCallback) pk_client_get_tid_cb,
 					  g_object_ref (state));
@@ -3752,7 +3780,7 @@ pk_client_copy_non_native_then_get_tid (PkClientState *state)
 }
 
 /**
- * pk_client_install_files_async:
+ * pk_client_install_files_async: (finish-func pk_client_generic_finish):
  * @client: a valid #PkClient instance
  * @transaction_flags: a transaction type bitfield
  * @files: (array zero-terminated=1): a file such as "/home/hughsie/Desktop/hal-devel-0.10.0.rpm"
@@ -3777,6 +3805,7 @@ pk_client_install_files_async (PkClient *client,
 			       GAsyncReadyCallback callback_ready,
 			       gpointer user_data)
 {
+	PkClientPrivate *priv = pk_client_get_instance_private (client);
 	g_autoptr(PkClientState) state = NULL;
 	gboolean ret;
 	guint i;
@@ -3822,7 +3851,7 @@ pk_client_install_files_async (PkClient *client,
 	/* nothing to copy, common case */
 	if (state->refcount == 0) {
 		/* just get tid */
-		pk_control_get_tid_async (client->priv->control,
+		pk_control_get_tid_async (priv->control,
 					  cancellable,
 					  (GAsyncReadyCallback) pk_client_get_tid_cb,
 					  g_object_ref (state));
@@ -3834,7 +3863,7 @@ pk_client_install_files_async (PkClient *client,
 }
 
 /**
- * pk_client_accept_eula_async:
+ * pk_client_accept_eula_async: (finish-func pk_client_generic_finish):
  * @client: a valid #PkClient instance
  * @eula_id: the <literal>eula_id</literal> we are agreeing to
  * @cancellable: a #GCancellable or %NULL
@@ -3852,6 +3881,7 @@ pk_client_accept_eula_async (PkClient *client, const gchar *eula_id, GCancellabl
 			     PkProgressCallback progress_callback, gpointer progress_user_data,
 			     GAsyncReadyCallback callback_ready, gpointer user_data)
 {
+	PkClientPrivate *priv = pk_client_get_instance_private (client);
 	g_autoptr(PkClientState) state = NULL;
 	g_autoptr(GError) error = NULL;
 
@@ -3877,14 +3907,14 @@ pk_client_accept_eula_async (PkClient *client, const gchar *eula_id, GCancellabl
 	pk_client_set_role (state, state->role);
 
 	/* get tid */
-	pk_control_get_tid_async (client->priv->control,
+	pk_control_get_tid_async (priv->control,
 				  cancellable,
 				  (GAsyncReadyCallback) pk_client_get_tid_cb,
 				  g_steal_pointer (&state));
 }
 
 /**
- * pk_client_get_repo_list_async:
+ * pk_client_get_repo_list_async: (finish-func pk_client_generic_finish):
  * @client: a valid #PkClient instance
  * @filters: a #PkBitfield such as %PK_FILTER_ENUM_DEVELOPMENT or %PK_FILTER_ENUM_NONE
  * @cancellable: a #GCancellable or %NULL
@@ -3902,6 +3932,7 @@ pk_client_get_repo_list_async (PkClient *client, PkBitfield filters, GCancellabl
 			       PkProgressCallback progress_callback, gpointer progress_user_data,
 			       GAsyncReadyCallback callback_ready, gpointer user_data)
 {
+	PkClientPrivate *priv = pk_client_get_instance_private (client);
 	g_autoptr(PkClientState) state = NULL;
 	g_autoptr(GError) error = NULL;
 
@@ -3927,14 +3958,14 @@ pk_client_get_repo_list_async (PkClient *client, PkBitfield filters, GCancellabl
 	pk_client_set_role (state, state->role);
 
 	/* get tid */
-	pk_control_get_tid_async (client->priv->control,
+	pk_control_get_tid_async (priv->control,
 				  cancellable,
 				  (GAsyncReadyCallback) pk_client_get_tid_cb,
 				  g_steal_pointer (&state));
 }
 
 /**
- * pk_client_repo_enable_async:
+ * pk_client_repo_enable_async: (finish-func pk_client_generic_finish):
  * @client: a valid #PkClient instance
  * @repo_id: a repo_id structure such as "livna-devel"
  * @enabled: if we should enable the repository
@@ -3953,6 +3984,7 @@ pk_client_repo_enable_async (PkClient *client, const gchar *repo_id, gboolean en
 			     PkProgressCallback progress_callback,
 			     gpointer progress_user_data, GAsyncReadyCallback callback_ready, gpointer user_data)
 {
+	PkClientPrivate *priv = pk_client_get_instance_private (client);
 	g_autoptr(PkClientState) state = NULL;
 	g_autoptr(GError) error = NULL;
 
@@ -3979,14 +4011,14 @@ pk_client_repo_enable_async (PkClient *client, const gchar *repo_id, gboolean en
 	pk_client_set_role (state, state->role);
 
 	/* get tid */
-	pk_control_get_tid_async (client->priv->control,
+	pk_control_get_tid_async (priv->control,
 				  cancellable,
 				  (GAsyncReadyCallback) pk_client_get_tid_cb,
 				  g_steal_pointer (&state));
 }
 
 /**
- * pk_client_repo_set_data_async:
+ * pk_client_repo_set_data_async: (finish-func pk_client_generic_finish):
  * @client: a valid #PkClient instance
  * @repo_id: a repo_id structure such as "livna-devel"
  * @parameter: the parameter to change
@@ -4007,6 +4039,7 @@ pk_client_repo_set_data_async (PkClient *client, const gchar *repo_id, const gch
 			       PkProgressCallback progress_callback,
 			       gpointer progress_user_data, GAsyncReadyCallback callback_ready, gpointer user_data)
 {
+	PkClientPrivate *priv = pk_client_get_instance_private (client);
 	g_autoptr(PkClientState) state = NULL;
 	g_autoptr(GError) error = NULL;
 
@@ -4034,14 +4067,14 @@ pk_client_repo_set_data_async (PkClient *client, const gchar *repo_id, const gch
 	pk_client_set_role (state, state->role);
 
 	/* get tid */
-	pk_control_get_tid_async (client->priv->control,
+	pk_control_get_tid_async (priv->control,
 				  cancellable,
 				  (GAsyncReadyCallback) pk_client_get_tid_cb,
 				  g_steal_pointer (&state));
 }
 
 /**
- * pk_client_repo_remove_async:
+ * pk_client_repo_remove_async: (finish-func pk_client_generic_finish):
  * @client: a valid #PkClient instance
  * @transaction_flags: transaction flags
  * @repo_id: a repo_id structure such as "livna-devel"
@@ -4067,6 +4100,7 @@ pk_client_repo_remove_async (PkClient *client,
 			     GAsyncReadyCallback callback_ready,
 			     gpointer user_data)
 {
+	PkClientPrivate *priv = pk_client_get_instance_private (client);
 	g_autoptr(PkClientState) state = NULL;
 	g_autoptr(GError) error = NULL;
 
@@ -4094,14 +4128,14 @@ pk_client_repo_remove_async (PkClient *client,
 	pk_client_set_role (state, state->role);
 
 	/* get tid */
-	pk_control_get_tid_async (client->priv->control,
+	pk_control_get_tid_async (priv->control,
 				  cancellable,
 				  (GAsyncReadyCallback) pk_client_get_tid_cb,
 				  g_steal_pointer (&state));
 }
 
 /**
- * pk_client_upgrade_system_async:
+ * pk_client_upgrade_system_async: (finish-func pk_client_generic_finish):
  * @client: a valid #PkClient instance
  * @transaction_flags: a transaction type bitfield
  * @distro_id: a distro ID such as "fedora-14"
@@ -4128,6 +4162,7 @@ pk_client_upgrade_system_async (PkClient *client,
 				PkProgressCallback progress_callback, gpointer progress_user_data,
 				GAsyncReadyCallback callback_ready, gpointer user_data)
 {
+	PkClientPrivate *priv = pk_client_get_instance_private (client);
 	g_autoptr(PkClientState) state = NULL;
 	g_autoptr(GError) error = NULL;
 
@@ -4155,14 +4190,14 @@ pk_client_upgrade_system_async (PkClient *client,
 	pk_client_set_role (state, state->role);
 
 	/* get tid */
-	pk_control_get_tid_async (client->priv->control,
+	pk_control_get_tid_async (priv->control,
 				  cancellable,
 				  (GAsyncReadyCallback) pk_client_get_tid_cb,
 				  g_steal_pointer (&state));
 }
 
 /**
- * pk_client_repair_system_async:
+ * pk_client_repair_system_async: (finish-func pk_client_generic_finish):
  * @client: a valid #PkClient instance
  * @transaction_flags: a transaction type bitfield
  * @cancellable: a #GCancellable or %NULL
@@ -4189,6 +4224,7 @@ pk_client_repair_system_async (PkClient *client,
 			       GAsyncReadyCallback callback_ready,
 			       gpointer user_data)
 {
+	PkClientPrivate *priv = pk_client_get_instance_private (client);
 	g_autoptr(PkClientState) state = NULL;
 	g_autoptr(GError) error = NULL;
 
@@ -4213,7 +4249,7 @@ pk_client_repair_system_async (PkClient *client,
 	pk_client_set_role (state, state->role);
 
 	/* get tid */
-	pk_control_get_tid_async (client->priv->control,
+	pk_control_get_tid_async (priv->control,
 				  cancellable,
 				  (GAsyncReadyCallback) pk_client_get_tid_cb,
 				  g_steal_pointer (&state));
@@ -4243,7 +4279,7 @@ pk_client_adopt_get_proxy_cb (GObject *object,
 }
 
 /**
- * pk_client_adopt_async:
+ * pk_client_adopt_async: (finish-func pk_client_generic_finish):
  * @client: a valid #PkClient instance
  * @transaction_id: a transaction ID such as "/21_ebcbdaae_data"
  * @cancellable: a #GCancellable or %NULL
@@ -4455,12 +4491,13 @@ pk_client_get_progress_async (PkClient *client,
 static gboolean
 pk_client_cancel_all_dbus_methods (PkClient *client)
 {
+	PkClientPrivate *priv = pk_client_get_instance_private (client);
 	const PkClientState *state;
 	guint i;
 	GPtrArray *array;
 
 	/* just cancel the call */
-	array = client->priv->calls;
+	array = priv->calls;
 	for (i = 0; i < array->len; i++) {
 		state = g_ptr_array_index (array, i);
 		if (state->proxy == NULL)
@@ -4485,14 +4522,16 @@ pk_client_cancel_all_dbus_methods (PkClient *client)
 void
 pk_client_set_locale (PkClient *client, const gchar *locale)
 {
+	PkClientPrivate *priv = pk_client_get_instance_private (client);
+
 	g_return_if_fail (PK_IS_CLIENT (client));
 
-	if (g_strcmp0 (client->priv->locale, locale) == 0)
+	if (g_strcmp0 (priv->locale, locale) == 0)
 		return;
 
-	g_free (client->priv->locale);
-	client->priv->locale = g_strdup (locale);
-	g_object_notify (G_OBJECT (client), "locale");
+	g_free (priv->locale);
+	priv->locale = g_strdup (locale);
+	g_object_notify_by_pspec (G_OBJECT (client), obj_properties[PROP_LOCALE]);
 }
 
 /**
@@ -4508,8 +4547,11 @@ pk_client_set_locale (PkClient *client, const gchar *locale)
 const gchar *
 pk_client_get_locale (PkClient *client)
 {
+	PkClientPrivate *priv = pk_client_get_instance_private (client);
+
 	g_return_val_if_fail (PK_IS_CLIENT (client), NULL);
-	return client->priv->locale;
+
+	return priv->locale;
 }
 
 /**
@@ -4526,13 +4568,15 @@ pk_client_get_locale (PkClient *client)
 void
 pk_client_set_background (PkClient *client, gboolean background)
 {
+	PkClientPrivate *priv = pk_client_get_instance_private (client);
+
 	g_return_if_fail (PK_IS_CLIENT (client));
 
-	if (client->priv->background == background)
+	if (priv->background == background)
 		return;
 
-	client->priv->background = background;
-	g_object_notify (G_OBJECT (client), "background");
+	priv->background = background;
+	g_object_notify_by_pspec (G_OBJECT (client), obj_properties[PROP_BACKGROUND]);
 }
 
 /**
@@ -4548,8 +4592,11 @@ pk_client_set_background (PkClient *client, gboolean background)
 gboolean
 pk_client_get_background (PkClient *client)
 {
+	PkClientPrivate *priv = pk_client_get_instance_private (client);
+
 	g_return_val_if_fail (PK_IS_CLIENT (client), FALSE);
-	return client->priv->background;
+
+	return priv->background;
 }
 
 /**
@@ -4565,13 +4612,15 @@ pk_client_get_background (PkClient *client)
 void
 pk_client_set_interactive (PkClient *client, gboolean interactive)
 {
+	PkClientPrivate *priv = pk_client_get_instance_private (client);
+
 	g_return_if_fail (PK_IS_CLIENT (client));
 
-	if (client->priv->interactive == interactive)
+	if (priv->interactive == interactive)
 		return;
 
-	client->priv->interactive = interactive;
-	g_object_notify (G_OBJECT (client), "interactive");
+	priv->interactive = interactive;
+	g_object_notify_by_pspec (G_OBJECT (client), obj_properties[PROP_INTERACTIVE]);
 }
 
 /**
@@ -4587,8 +4636,11 @@ pk_client_set_interactive (PkClient *client, gboolean interactive)
 gboolean
 pk_client_get_interactive (PkClient *client)
 {
+	PkClientPrivate *priv = pk_client_get_instance_private (client);
+
 	g_return_val_if_fail (PK_IS_CLIENT (client), FALSE);
-	return client->priv->interactive;
+
+	return priv->interactive;
 }
 
 /**
@@ -4604,8 +4656,11 @@ pk_client_get_interactive (PkClient *client)
 gboolean
 pk_client_get_idle (PkClient *client)
 {
+	PkClientPrivate *priv = pk_client_get_instance_private (client);
+
 	g_return_val_if_fail (PK_IS_CLIENT (client), FALSE);
-	return client->priv->idle;
+
+	return priv->idle;
 }
 
 /**
@@ -4621,13 +4676,15 @@ pk_client_get_idle (PkClient *client)
 void
 pk_client_set_cache_age (PkClient *client, guint cache_age)
 {
+	PkClientPrivate *priv = pk_client_get_instance_private (client);
+
 	g_return_if_fail (PK_IS_CLIENT (client));
 
-	if (client->priv->cache_age == cache_age)
+	if (priv->cache_age == cache_age)
 		return;
 
-	client->priv->cache_age = cache_age;
-	g_object_notify (G_OBJECT (client), "cache-age");
+	priv->cache_age = cache_age;
+	g_object_notify_by_pspec (G_OBJECT (client), obj_properties[PROP_CACHE_AGE]);
 }
 
 /**
@@ -4643,8 +4700,11 @@ pk_client_set_cache_age (PkClient *client, guint cache_age)
 guint
 pk_client_get_cache_age (PkClient *client)
 {
+	PkClientPrivate *priv = pk_client_get_instance_private (client);
+
 	g_return_val_if_fail (PK_IS_CLIENT (client), FALSE);
-	return client->priv->cache_age;
+
+	return priv->cache_age;
 }
 
 /**
@@ -4660,13 +4720,15 @@ pk_client_get_cache_age (PkClient *client)
 void
 pk_client_set_details_with_deps_size (PkClient *client, gboolean details_with_deps_size)
 {
+	PkClientPrivate *priv = pk_client_get_instance_private (client);
+
 	g_return_if_fail (PK_IS_CLIENT (client));
 
-	if (client->priv->details_with_deps_size == details_with_deps_size)
+	if (priv->details_with_deps_size == details_with_deps_size)
 		return;
 
-	client->priv->details_with_deps_size = details_with_deps_size;
-	g_object_notify (G_OBJECT (client), "details-with-deps-size");
+	priv->details_with_deps_size = details_with_deps_size;
+	g_object_notify_by_pspec (G_OBJECT (client), obj_properties[PROP_DETAILS_WITH_DEPS_SIZE]);
 }
 
 /**
@@ -4683,8 +4745,11 @@ pk_client_set_details_with_deps_size (PkClient *client, gboolean details_with_de
 gboolean
 pk_client_get_details_with_deps_size (PkClient *client)
 {
+	PkClientPrivate *priv = pk_client_get_instance_private (client);
+
 	g_return_val_if_fail (PK_IS_CLIENT (client), FALSE);
-	return client->priv->details_with_deps_size;
+
+	return priv->details_with_deps_size;
 }
 
 /*
@@ -4693,8 +4758,8 @@ pk_client_get_details_with_deps_size (PkClient *client)
 static void
 pk_client_class_init (PkClientClass *klass)
 {
-	GParamSpec *pspec;
 	GObjectClass *object_class = G_OBJECT_CLASS (klass);
+
 	object_class->finalize = pk_client_finalize;
 	object_class->get_property = pk_client_get_property;
 	object_class->set_property = pk_client_set_property;
@@ -4704,42 +4769,42 @@ pk_client_class_init (PkClientClass *klass)
 	 *
 	 * Since: 0.5.3
 	 */
-	pspec = g_param_spec_string ("locale", NULL, NULL,
+	obj_properties[PROP_LOCALE] =
+		g_param_spec_string ("locale", NULL, NULL,
 				     NULL,
 				     G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS);
-	g_object_class_install_property (object_class, PROP_LOCALE, pspec);
 
 	/**
 	 * PkClient:background:
 	 *
 	 * Since: 0.5.3
 	 */
-	pspec = g_param_spec_boolean ("background", NULL, NULL,
+	obj_properties[PROP_BACKGROUND] =
+		g_param_spec_boolean ("background", NULL, NULL,
 				      FALSE,
 				      G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS);
-	g_object_class_install_property (object_class, PROP_BACKGROUND, pspec);
 
 	/**
 	 * PkClient:interactive:
 	 *
 	 * Since: 0.5.4
 	 */
-	pspec = g_param_spec_boolean ("interactive", NULL, NULL,
+	obj_properties[PROP_INTERACTIVE] =
+		g_param_spec_boolean ("interactive", NULL, NULL,
 				      TRUE,
 				      G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS);
-	g_object_class_install_property (object_class, PROP_INTERACTIVE, pspec);
 
 	/**
 	 * PkClient:idle:
 	 *
+	 * Whether there are transactions in progress on this client or not
+	 *
 	 * Since: 0.5.4
 	 */
-	pspec = g_param_spec_boolean ("idle", NULL, "if there are no transactions in progress on this client",
+	obj_properties[PROP_IDLE] =
+		g_param_spec_boolean ("idle", NULL, NULL,
 				      TRUE,
 				      G_PARAM_READABLE | G_PARAM_STATIC_STRINGS);
-	g_object_class_install_property (object_class, PROP_IDLE, pspec);
-
-	g_type_class_add_private (klass, sizeof (PkClientPrivate));
 
 	/**
 	 * PkClient:cache-age:
@@ -4749,20 +4814,22 @@ pk_client_class_init (PkClientClass *klass)
 	 *
 	 * Since: 0.6.10
 	 */
-	pspec = g_param_spec_uint ("cache-age", NULL, NULL,
+	obj_properties[PROP_CACHE_AGE] =
+		g_param_spec_uint ("cache-age", NULL, NULL,
 				   0, G_MAXUINT, G_MAXUINT,
 				   G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS);
-	g_object_class_install_property (object_class, PROP_CACHE_AGE, pspec);
 
 	/**
 	 * PkClient:details-with-deps-size:
 	 *
 	 * Since: 1.2.7
 	 */
-	pspec = g_param_spec_boolean ("details-with-deps-size", NULL, NULL,
+	obj_properties[PROP_DETAILS_WITH_DEPS_SIZE] =
+		g_param_spec_boolean ("details-with-deps-size", NULL, NULL,
 				      FALSE,
 				      G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS);
-	g_object_class_install_property (object_class, PROP_DETAILS_WITH_DEPS_SIZE, pspec);
+
+	g_object_class_install_properties (object_class, PROP_LAST, obj_properties);
 }
 
 /*
@@ -4771,19 +4838,21 @@ pk_client_class_init (PkClientClass *klass)
 static void
 pk_client_init (PkClient *client)
 {
-	client->priv = PK_CLIENT_GET_PRIVATE (client);
-	client->priv->calls = g_ptr_array_new ();
-	client->priv->background = FALSE;
-	client->priv->interactive = TRUE;
-	client->priv->idle = TRUE;
-	client->priv->cache_age = G_MAXUINT;
-	client->priv->details_with_deps_size = FALSE;
+	PkClientPrivate *priv = pk_client_get_instance_private (client);
+
+	client->priv = priv;
+	priv->calls = g_ptr_array_new ();
+	priv->background = FALSE;
+	priv->interactive = TRUE;
+	priv->idle = TRUE;
+	priv->cache_age = G_MAXUINT;
+	priv->details_with_deps_size = FALSE;
 
 	/* use a control object */
-	client->priv->control = pk_control_new ();
+	priv->control = pk_control_new ();
 
 	/* cache locale */
-	client->priv->locale = 	g_strdup (setlocale (LC_MESSAGES, NULL));
+	priv->locale = 	g_strdup (setlocale (LC_MESSAGES, NULL));
 }
 
 /*
@@ -4793,14 +4862,14 @@ static void
 pk_client_finalize (GObject *object)
 {
 	PkClient *client = PK_CLIENT (object);
-	PkClientPrivate *priv = client->priv;
+	PkClientPrivate *priv = pk_client_get_instance_private (client);
 
 	/* ensure we cancel any in-flight DBus calls */
 	pk_client_cancel_all_dbus_methods (client);
 
-	g_free (client->priv->locale);
-	g_object_unref (priv->control);
-	g_ptr_array_unref (priv->calls);
+	g_clear_pointer (&priv->locale, g_free);
+	g_clear_object (&priv->control);
+	g_clear_pointer (&priv->calls, g_ptr_array_unref);
 
 	G_OBJECT_CLASS (pk_client_parent_class)->finalize (object);
 }
