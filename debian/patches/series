@@ -1,2 +1,3 @@
 policy.diff
 pk-task-pk_task_user_accepted-declined_idle_cb-actua.patch
+pk-client-Allow-debconf-helper-to-display-Wayland-wi.patch
