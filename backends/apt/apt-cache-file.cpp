@@ -115,7 +115,7 @@ bool AptCacheFile::CheckDeps(bool AllowBroken)
 bool AptCacheFile::DistUpgrade()
 {
     OpPackageKitProgress progress(m_job);
-    return Upgrade::Upgrade(*this, Upgrade::ALLOW_EVERYTHING, &progress);
+    return Upgrade::Upgrade(*this, Upgrade::FORBID_REMOVE_PACKAGES | Upgrade::FORBID_INSTALL_NEW_PACKAGES, &progress);
 }
 
 void AptCacheFile::ShowBroken(bool Now, PkErrorEnum error)
