@@ -18,3 +18,6 @@ usr/share/locale/*/LC_MESSAGES/PackageKit.mo
 usr/share/metainfo/org.freedesktop.packagekit.metainfo.xml
 usr/share/polkit-1/actions/org.freedesktop.packagekit.policy
 usr/share/polkit-1/rules.d/*
+
+# FuriOS APT user agent
+debian/99custom-user-agent etc/apt/apt.conf.d/
