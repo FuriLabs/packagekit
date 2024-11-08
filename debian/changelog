@@ -1,3 +1,13 @@
+packagekit (1.3.0-2) unstable; urgency=medium
+
+  * Team upload
+  * Backport patch to fix pkcon crashing in transactions with user prompt
+    (LP: #2086771)
+  * Backport patch to fix showing the GTK debconf helper on Wayland
+    (LP: #2086773)
+
+ -- Alessandro Astone <alessandro.astone@canonical.com>  Fri, 08 Nov 2024 15:56:31 -0500
+
 packagekit (1.3.0-1) unstable; urgency=medium
 
   * New upstream version: 1.3.0
